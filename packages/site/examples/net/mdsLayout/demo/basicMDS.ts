@@ -1,10 +1,4 @@
-import { Graph, Extensions, extend } from '@antv/g6';
-
-const ExtGraph = extend(Graph, {
-  behaviors: {
-    'brush-select': Extensions.BrushSelect,
-  },
-});
+import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -12,598 +6,564 @@ const data = {
       id: '0',
       data: {
         label: '0',
-        cluster: '0',
       },
     },
     {
       id: '1',
       data: {
         label: '1',
-        cluster: '0',
       },
     },
     {
       id: '2',
       data: {
         label: '2',
-        cluster: '0',
       },
     },
     {
       id: '3',
       data: {
         label: '3',
-        cluster: '0',
       },
     },
     {
       id: '4',
       data: {
         label: '4',
-        cluster: '0',
       },
     },
     {
       id: '5',
       data: {
         label: '5',
-        cluster: '3',
       },
     },
     {
       id: '6',
       data: {
         label: '6',
-        cluster: '0',
       },
     },
     {
       id: '7',
       data: {
         label: '7',
-        cluster: '0',
       },
     },
     {
       id: '8',
       data: {
         label: '8',
-        cluster: '0',
       },
     },
     {
       id: '9',
       data: {
         label: '9',
-        cluster: '3',
       },
     },
     {
       id: '10',
       data: {
         label: '10',
-        cluster: '3',
       },
     },
     {
       id: '11',
       data: {
         label: '11',
-        cluster: '2',
       },
     },
     {
       id: '12',
       data: {
         label: '12',
-        cluster: '2',
       },
     },
     {
       id: '13',
       data: {
         label: '13',
-        cluster: '4',
       },
     },
     {
       id: '14',
       data: {
         label: '14',
-        cluster: '2',
       },
     },
     {
       id: '15',
       data: {
         label: '15',
-        cluster: '2',
       },
     },
     {
       id: '16',
       data: {
         label: '16',
-        cluster: '2',
       },
     },
     {
       id: '17',
       data: {
         label: '17',
-        cluster: '1',
       },
     },
     {
       id: '18',
       data: {
         label: '18',
-        cluster: '4',
       },
     },
     {
       id: '19',
       data: {
         label: '19',
-        cluster: '4',
       },
     },
     {
       id: '20',
       data: {
         label: '20',
-        cluster: '4',
       },
     },
     {
       id: '21',
       data: {
         label: '21',
-        cluster: '0',
       },
     },
     {
       id: '22',
       data: {
         label: '22',
-        cluster: '2',
       },
     },
     {
       id: '23',
       data: {
         label: '23',
-        cluster: '2',
       },
     },
     {
       id: '24',
       data: {
         label: '24',
-        cluster: '2',
       },
     },
     {
       id: '25',
       data: {
         label: '25',
-        cluster: '3',
       },
     },
     {
       id: '26',
       data: {
         label: '26',
-        cluster: '4',
       },
     },
     {
       id: '27',
       data: {
         label: '27',
-        cluster: '4',
       },
     },
     {
       id: '28',
       data: {
         label: '28',
-        cluster: '1',
       },
     },
     {
       id: '29',
       data: {
         label: '29',
-        cluster: '1',
       },
     },
     {
       id: '30',
       data: {
         label: '30',
-        cluster: '4',
       },
     },
     {
       id: '31',
       data: {
         label: '31',
-        cluster: '4',
       },
     },
     {
       id: '32',
       data: {
         label: '32',
-        cluster: '1',
       },
     },
     {
       id: '33',
       data: {
         label: '33',
-        cluster: '2',
       },
     },
   ],
   edges: [
     {
-      id: 'edge-0',
+      id: 'edge-667',
       source: '0',
       target: '1',
       data: {},
     },
     {
-      id: 'edge-1',
+      id: 'edge-997',
       source: '0',
       target: '2',
       data: {},
     },
     {
-      id: 'edge-2',
+      id: 'edge-422',
       source: '0',
       target: '3',
       data: {},
     },
     {
-      id: 'edge-3',
+      id: 'edge-188',
       source: '0',
       target: '4',
       data: {},
     },
     {
-      id: 'edge-4',
+      id: 'edge-332',
       source: '0',
       target: '5',
       data: {},
     },
     {
-      id: 'edge-5',
+      id: 'edge-148',
       source: '0',
       target: '7',
       data: {},
     },
     {
-      id: 'edge-6',
+      id: 'edge-883',
       source: '0',
       target: '8',
       data: {},
     },
     {
-      id: 'edge-7',
+      id: 'edge-532',
       source: '0',
       target: '9',
       data: {},
     },
     {
-      id: 'edge-8',
+      id: 'edge-968',
       source: '0',
       target: '10',
       data: {},
     },
     {
-      id: 'edge-9',
+      id: 'edge-965',
       source: '0',
       target: '11',
       data: {},
     },
     {
-      id: 'edge-10',
+      id: 'edge-285',
       source: '0',
       target: '13',
       data: {},
     },
     {
-      id: 'edge-11',
+      id: 'edge-320',
       source: '0',
       target: '14',
       data: {},
     },
     {
-      id: 'edge-12',
+      id: 'edge-644',
       source: '0',
       target: '15',
       data: {},
     },
     {
-      id: 'edge-13',
+      id: 'edge-208',
       source: '0',
       target: '16',
       data: {},
     },
     {
-      id: 'edge-14',
+      id: 'edge-690',
       source: '2',
       target: '3',
       data: {},
     },
     {
-      id: 'edge-15',
+      id: 'edge-481',
       source: '4',
       target: '5',
       data: {},
     },
     {
-      id: 'edge-16',
+      id: 'edge-956',
       source: '4',
       target: '6',
       data: {},
     },
     {
-      id: 'edge-17',
+      id: 'edge-344',
       source: '5',
       target: '6',
       data: {},
     },
     {
-      id: 'edge-18',
+      id: 'edge-618',
       source: '7',
       target: '13',
       data: {},
     },
     {
-      id: 'edge-19',
+      id: 'edge-793',
       source: '8',
       target: '14',
       data: {},
     },
     {
-      id: 'edge-20',
+      id: 'edge-330',
       source: '9',
       target: '10',
       data: {},
     },
     {
-      id: 'edge-21',
+      id: 'edge-977',
       source: '10',
       target: '22',
       data: {},
     },
     {
-      id: 'edge-22',
+      id: 'edge-633',
       source: '10',
       target: '14',
       data: {},
     },
     {
-      id: 'edge-23',
+      id: 'edge-809',
       source: '10',
       target: '12',
       data: {},
     },
     {
-      id: 'edge-24',
+      id: 'edge-535',
       source: '10',
       target: '24',
       data: {},
     },
     {
-      id: 'edge-25',
+      id: 'edge-665',
       source: '10',
       target: '21',
       data: {},
     },
     {
-      id: 'edge-26',
+      id: 'edge-202',
       source: '10',
       target: '20',
       data: {},
     },
     {
-      id: 'edge-27',
+      id: 'edge-803',
       source: '11',
       target: '24',
       data: {},
     },
     {
-      id: 'edge-28',
+      id: 'edge-276',
       source: '11',
       target: '22',
       data: {},
     },
     {
-      id: 'edge-29',
+      id: 'edge-588',
       source: '11',
       target: '14',
       data: {},
     },
     {
-      id: 'edge-30',
+      id: 'edge-709',
       source: '12',
       target: '13',
       data: {},
     },
     {
-      id: 'edge-31',
+      id: 'edge-207',
       source: '16',
       target: '17',
       data: {},
     },
     {
-      id: 'edge-32',
+      id: 'edge-795',
       source: '16',
       target: '18',
       data: {},
     },
     {
-      id: 'edge-33',
+      id: 'edge-321',
       source: '16',
       target: '21',
       data: {},
     },
     {
-      id: 'edge-34',
+      id: 'edge-97',
       source: '16',
       target: '22',
       data: {},
     },
     {
-      id: 'edge-35',
+      id: 'edge-522',
       source: '17',
       target: '18',
       data: {},
     },
     {
-      id: 'edge-36',
+      id: 'edge-368',
       source: '17',
       target: '20',
       data: {},
     },
     {
-      id: 'edge-37',
+      id: 'edge-769',
       source: '18',
       target: '19',
       data: {},
     },
     {
-      id: 'edge-38',
+      id: 'edge-673',
       source: '19',
       target: '20',
       data: {},
     },
     {
-      id: 'edge-39',
+      id: 'edge-589',
       source: '19',
       target: '33',
       data: {},
     },
     {
-      id: 'edge-40',
+      id: 'edge-574',
       source: '19',
       target: '22',
       data: {},
     },
     {
-      id: 'edge-41',
+      id: 'edge-466',
       source: '19',
       target: '23',
       data: {},
     },
     {
-      id: 'edge-42',
+      id: 'edge-400',
       source: '20',
       target: '21',
       data: {},
     },
     {
-      id: 'edge-43',
+      id: 'edge-552',
       source: '21',
       target: '22',
       data: {},
     },
     {
-      id: 'edge-44',
+      id: 'edge-192',
       source: '22',
       target: '24',
       data: {},
     },
     {
-      id: 'edge-45',
+      id: 'edge-119',
       source: '22',
       target: '25',
       data: {},
     },
     {
-      id: 'edge-46',
+      id: 'edge-305',
       source: '22',
       target: '26',
       data: {},
     },
     {
-      id: 'edge-47',
+      id: 'edge-518',
       source: '22',
       target: '23',
       data: {},
     },
     {
-      id: 'edge-48',
+      id: 'edge-950',
       source: '22',
       target: '28',
       data: {},
     },
     {
-      id: 'edge-49',
+      id: 'edge-57',
       source: '22',
       target: '30',
       data: {},
     },
     {
-      id: 'edge-50',
+      id: 'edge-634',
       source: '22',
       target: '31',
       data: {},
     },
     {
-      id: 'edge-51',
+      id: 'edge-875',
       source: '22',
       target: '32',
       data: {},
     },
     {
-      id: 'edge-52',
+      id: 'edge-559',
       source: '22',
       target: '33',
       data: {},
     },
     {
-      id: 'edge-53',
+      id: 'edge-894',
       source: '23',
       target: '28',
       data: {},
     },
     {
-      id: 'edge-54',
+      id: 'edge-831',
       source: '23',
       target: '27',
       data: {},
     },
     {
-      id: 'edge-55',
+      id: 'edge-172',
       source: '23',
       target: '29',
       data: {},
     },
     {
-      id: 'edge-56',
+      id: 'edge-137',
       source: '23',
       target: '30',
       data: {},
     },
     {
-      id: 'edge-57',
+      id: 'edge-136',
       source: '23',
       target: '31',
       data: {},
     },
     {
-      id: 'edge-58',
+      id: 'edge-878',
       source: '23',
       target: '33',
       data: {},
     },
     {
-      id: 'edge-59',
+      id: 'edge-121',
       source: '32',
       target: '33',
       data: {},
@@ -611,100 +571,29 @@ const data = {
   ],
 };
 
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-const graph = new ExtGraph({
+const graph = new Graph({
   container: 'container',
-  width,
-  height,
-  modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select', 'brush-select'],
-  },
-  plugins: [
-    {
-      type: 'lod-controller',
-      disableLod: true,
-    },
-  ],
-  layout: {
-    type: 'grid',
-    begin: [20, 20],
-    width: width - 20,
-    height: height - 20,
-  },
-  theme: {
-    type: 'spec',
-    base: 'light',
-    specification: {
-      node: {
-        dataTypeField: 'cluster',
-      },
-    },
-  },
-  node: (model) => {
-    return {
-      id: model.id,
-      data: {
-        ...model.data,
-        labelShape: {
-          text: model.data.label,
-        },
-        animates: {
-          update: [
-            {
-              fields: ['x', 'y'],
-              duration: 500,
-            },
-            {
-              fields: ['opacity'],
-              shapeId: 'haloShape',
-            },
-            {
-              fields: ['lineWidth'],
-              shapeId: 'keyShape',
-            },
-          ],
-        },
-      },
-    };
-  },
+  padding: 20,
+  autoFit: 'view',
   data,
+  layout: {
+    type: 'mds',
+    linkDistance: 100,
+  },
+  node: {
+    style: {
+      size: 20,
+      stroke: '#9ec9ff',
+      fill: '#eee',
+      lineWidth: 1,
+      labelText: (d) => d.id,
+      labelFontSize: 12,
+      labelPlacement: 'center',
+      labelBackground: false,
+    },
+  },
+  behaviors: ['drag-node', 'drag-canvas', 'zoom-canvas', 'click-select'],
+  animation: true,
 });
 
-window.graph = graph;
-const configs = {
-  Default: {
-    type: 'grid',
-    begin: [20, 20],
-    width: width - 20,
-    height: height - 20,
-    sortBy: 'data',
-  },
-  Clustering: {
-    type: 'grid',
-    begin: [20, 20],
-    width: width - 20,
-    height: height - 20,
-    sortBy: 'cluster',
-  },
-};
-
-const btnContainer = document.createElement('div');
-btnContainer.style.position = 'absolute';
-container.appendChild(btnContainer);
-const tip = document.createElement('span');
-tip.innerHTML = '👉 Change configs:';
-btnContainer.appendChild(tip);
-
-Object.keys(configs).forEach((name, i) => {
-  const btn = document.createElement('a');
-  btn.innerHTML = name;
-  btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-  btn.style.padding = '4px';
-  btn.style.marginLeft = i > 0 ? '24px' : '8px';
-  btnContainer.appendChild(btn);
-  btn.addEventListener('click', () => {
-    graph.layout(configs[name]);
-  });
-});
+graph.render();

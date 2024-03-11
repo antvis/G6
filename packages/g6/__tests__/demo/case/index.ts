@@ -5,5 +5,7 @@ export * from './combo';
 export * from './common-graph';
 export * from './element-change-type';
 export * from './graph-event';
+export * from './layout-grid';
+export * from './layout-mds';
 export * from './plugin-grid-line';
 export * from './viewport-fit';
