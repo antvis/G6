@@ -13,4 +13,4 @@ export type AnimationOptions =
  *
  * <en/> Animation stage
  */
-export type AnimationStage = 'add' | 'update' | 'remove' | 'visibility';
+export type AnimationStage = 'enter' | 'update' | 'exit' | 'visibility';

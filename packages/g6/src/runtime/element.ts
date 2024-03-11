@@ -491,7 +491,7 @@ export class ElementController {
     const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
       if (elementData.size === 0) return;
-      const animator = this.getAnimationExecutor(elementType, 'add');
+      const animator = this.getAnimationExecutor(elementType, 'enter');
       elementData.forEach((datum) =>
         tasks.push(() => this.createElement(elementType, datum, { ...context, animator })),
       );
@@ -617,7 +617,7 @@ export class ElementController {
     const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
       if (elementData.size === 0) return [];
-      const animator = this.getAnimationExecutor(elementType, 'remove');
+      const animator = this.getAnimationExecutor(elementType, 'exit');
       elementData.forEach((datum) => tasks.push(() => this.destroyElement(datum, { ...context, animator })));
     });
 

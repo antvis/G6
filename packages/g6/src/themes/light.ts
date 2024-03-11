@@ -74,8 +74,8 @@ export const light: Theme = {
       },
     },
     animation: {
-      add: 'fade',
-      remove: 'fade',
+      enter: 'fade',
+      exit: 'fade',
       visibility: 'fade',
       update: [{ fields: ['x', 'y', 'fill', 'stroke'] }],
     },
@@ -123,8 +123,8 @@ export const light: Theme = {
       },
     },
     animation: {
-      add: 'fade',
-      remove: 'fade',
+      enter: 'fade',
+      exit: 'fade',
       visibility: 'fade',
       update: [{ fields: ['stroke'] }, { fields: ['path'], shape: 'key' }],
     },
@@ -176,8 +176,8 @@ export const light: Theme = {
       },
     },
     animation: {
-      add: 'fade',
-      remove: 'fade',
+      enter: 'fade',
+      exit: 'fade',
       visibility: 'fade',
       update: [{ fields: ['x', 'y'] }, { fields: ['r', 'width', 'height'], shape: 'key' }],
     },
