@@ -14,13 +14,13 @@ describe('element z-index', () => {
   });
 
   it('front', async () => {
-    graph.setElementZIndex({ 'node-2': 'front' });
+    graph.frontElement('node-2');
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__front');
   });
 
   it('back', async () => {
-    graph.setElementZIndex({ 'node-2': 'back' });
+    graph.backElement('node-2');
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__back');
   });

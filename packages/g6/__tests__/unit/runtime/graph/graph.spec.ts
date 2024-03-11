@@ -184,7 +184,7 @@ describe('Graph', () => {
   });
 
   it('setElementZIndex/getElementZIndex', () => {
-    graph.setElementZIndex({ 'node-1': 'front' });
+    graph.frontElement('node-1');
     expect(graph.getElementZIndex('node-1')).toBe(1);
     expect(graph.getElementZIndex('node-2')).toBe(0);
   });

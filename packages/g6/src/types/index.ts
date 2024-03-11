@@ -22,4 +22,3 @@ export type * from './style';
 export type * from './tree';
 export type * from './vector';
 export type * from './viewport';
-export type * from './z-index';

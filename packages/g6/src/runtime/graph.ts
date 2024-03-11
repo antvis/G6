@@ -33,7 +33,6 @@ import type {
   State,
   Vector2,
   ViewportAnimationEffectTiming,
-  ZIndex,
 } from '../types';
 import { sizeOf } from '../utils/dom';
 import { ElementStateChangeEvent, GraphLifeCycleEvent, emit } from '../utils/event';
@@ -717,32 +716,68 @@ export class Graph extends EventEmitter {
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @param zIndex - <zh/> 层级 | <en/> z-index
    */
-  public async setElementZIndex(id: ID, zIndex: ZIndex): Promise<void>;
+  public async setElementZIndex(id: ID, zIndex: number): Promise<void>;
   /**
    * <zh/> 批量设置元素层级
    *
    * <en/> Batch set element z-index
    * @param zIndex - <zh/> 层级配置 | <en/> z-index configuration
    */
-  public async setElementZIndex(zIndex: Record<ID, ZIndex>): Promise<void>;
-  public async setElementZIndex(args1: ID | Record<ID, ZIndex>, args2?: ZIndex): Promise<void> {
+  public async setElementZIndex(zIndex: Record<ID, number>): Promise<void>;
+  public async setElementZIndex(args1: ID | Record<ID, number>, args2?: number): Promise<void> {
     const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
-    const config = isObject(args1) ? args1 : { [args1 as ID]: args2 as ZIndex };
+    const config = isObject(args1) ? args1 : { [args1 as ID]: args2 as number };
 
     Object.entries(config).forEach(([id, value]) => {
       const elementType = this.getElementType(id);
-      if (isNumber(value)) {
-        dataToUpdate[`${elementType}s`].push({ id, style: { zIndex: value } });
-      } else {
-        const [min, max] = this.context.element!.getElementZIndexRange(elementType);
-        const parsedZIndex = value === 'front' ? max + 1 : min - 1;
-        dataToUpdate[`${elementType}s`].push({ id, style: { zIndex: parsedZIndex } });
-      }
+      dataToUpdate[`${elementType}s`].push({ id, style: { zIndex: value } });
     });
 
     this.updateData(dataToUpdate);
 
     await this.context.element!.draw();
+  }
+
+  /**
+   * <zh/> 将元素置于最顶层
+   *
+   * <en/> Bring the element to the front
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   */
+  public async frontElement(id: ID | ID[]): Promise<void> {
+    const ids = Array.isArray(id) ? id : [id];
+
+    await this.setElementZIndex(
+      Object.fromEntries(
+        ids.map((_id) => {
+          const elementType = this.getElementType(_id);
+          const [, max] = this.context.element!.getElementZIndexRange(elementType);
+          const parsedZIndex = max + 1;
+          return [_id, parsedZIndex];
+        }),
+      ),
+    );
+  }
+
+  /**
+   * <zh/> 将元素置于最底层
+   *
+   * <en/> Send the element to the back
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   */
+  public async backElement(id: ID | ID[]): Promise<void> {
+    const ids = Array.isArray(id) ? id : [id];
+
+    await this.setElementZIndex(
+      Object.fromEntries(
+        ids.map((_id) => {
+          const elementType = this.getElementType(_id);
+          const [min] = this.context.element!.getElementZIndexRange(elementType);
+          const parsedZIndex = min - 1;
+          return [_id, parsedZIndex];
+        }),
+      ),
+    );
   }
 
   /**
@@ -765,7 +800,7 @@ export class Graph extends EventEmitter {
    * @param state - <zh/> 状态 | <en/> state
    * @param animation - <zh/> 动画配置 | <en/> animation configuration
    */
-  public async setElementState(id: ID, state: State[], animation?: boolean): Promise<void>;
+  public async setElementState(id: ID, state: State | State[], animation?: boolean): Promise<void>;
   /**
    * <zh/> 批量设置元素状态
    *
@@ -776,12 +811,12 @@ export class Graph extends EventEmitter {
   public async setElementState(state: Record<ID, State | State[]>, animation?: boolean): Promise<void>;
   public async setElementState(
     args1: ID | Record<ID, State | State[]>,
-    args2?: boolean | State[],
+    args2?: boolean | State | State[],
     args3: boolean = true,
   ): Promise<void> {
     const [config, animation] = isObject(args1)
       ? [args1, (args2 as boolean) ?? true]
-      : [{ [args1]: args2 as State[] }, args3];
+      : [{ [args1]: args2 as State | State[] }, args3];
 
     emit(this, new ElementStateChangeEvent(GraphEvent.BEFORE_ELEMENT_STATE_CHANGE, config));
 
