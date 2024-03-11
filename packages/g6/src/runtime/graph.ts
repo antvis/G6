@@ -579,7 +579,7 @@ export class Graph extends EventEmitter {
     return subtract([0, 0], this.getCanvasByViewport([0, 0]));
   }
 
-  public translateElementBy(offsets: Record<ID, Position>, animation?: boolean): void {
+  public async translateElementBy(offsets: Record<ID, Position>, animation?: boolean): Promise<void> {
     const positions = Object.entries(offsets).reduce(
       (acc, [id, offset]) => {
         const curr = this.getElementPosition(id);
@@ -590,7 +590,7 @@ export class Graph extends EventEmitter {
       {} as Record<ID, Position>,
     );
 
-    this.translateElementTo(positions, animation);
+    await this.translateElementTo(positions, animation);
   }
 
   public async translateElementTo(positions: Record<ID, Position>, animation: boolean = true): Promise<void> {
