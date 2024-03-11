@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps, DataURLOptions } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { debounce, isEqual, isFunction, isNumber, isString, omit } from '@antv/util';
+import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type {
   BehaviorOptions,
@@ -306,8 +306,6 @@ export class Graph extends EventEmitter {
     return this.context.model.getElementDataByState(elementType, state);
   }
 
-  // ---------- end core API ----------
-
   private createCanvas() {
     if (this.context.canvas) return this.context.canvas;
 
@@ -404,7 +402,6 @@ export class Graph extends EventEmitter {
     this.destroyed = true;
   }
 
-  // ---------- Runtime API ----------
   public getCanvas(): Canvas {
     return this.context.canvas;
   }
@@ -579,8 +576,33 @@ export class Graph extends EventEmitter {
     return subtract([0, 0], this.getCanvasByViewport([0, 0]));
   }
 
-  public async translateElementBy(offsets: Record<ID, Position>, animation?: boolean): Promise<void> {
-    const positions = Object.entries(offsets).reduce(
+  /**
+   * <zh/> 将元素平移指定距离
+   *
+   * <en/> Translate the element by the specified distance
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param offset - <zh/> 偏移量 | <en/> offset
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async translateElementBy(id: ID, offset: Position, animation?: boolean): Promise<void>;
+  /**
+   * <zh/> 批量将元素平移指定距离
+   *
+   * <en/> Batch translate elements by the specified distance
+   * @param offsets - <zh/> 偏移量配置 | <en/> offset configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async translateElementBy(offsets: Record<ID, Position>, animation?: boolean): Promise<void>;
+  public async translateElementBy(
+    args1: ID | Record<ID, Position>,
+    args2?: Position | boolean,
+    args3: boolean = true,
+  ): Promise<void> {
+    const [config, animation] = isObject(args1)
+      ? [args1, (args2 as boolean) ?? true]
+      : [{ [args1 as ID]: args2 as Position }, args3];
+
+    const positions = Object.entries(config).reduce(
       (acc, [id, offset]) => {
         const curr = this.getElementPosition(id);
         const next = add(curr, [...offset, 0].slice(0, 3) as Point);
@@ -593,9 +615,34 @@ export class Graph extends EventEmitter {
     await this.translateElementTo(positions, animation);
   }
 
-  public async translateElementTo(positions: Record<ID, Position>, animation: boolean = true): Promise<void> {
+  /**
+   * <zh/> 将元素平移至指定位置
+   *
+   * <en/> Translate the element to the specified position
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param position - <zh/> 指定位置 | <en/> specified position
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async translateElementTo(id: ID, position: Position, animation?: boolean): Promise<void>;
+  /**
+   * <zh/> 批量将元素平移至指定位置
+   *
+   * <en/> Batch translate elements to the specified position
+   * @param positions - <zh/> 位置配置 | <en/> position configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async translateElementTo(positions: Record<ID, Position>, animation?: boolean): Promise<void>;
+  public async translateElementTo(
+    args1: ID | Record<ID, Position>,
+    args2?: boolean | Position,
+    args3: boolean = true,
+  ): Promise<void> {
     const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
-    Object.entries(positions).forEach(([id, [x, y, z = 0]]) => {
+    const [config, animation] = isObject(args1)
+      ? [args1, (args2 as boolean) ?? true]
+      : [{ [args1 as ID]: args2 as Position }, args3];
+
+    Object.entries(config).forEach(([id, [x, y, z = 0]]) => {
       const elementType = this.getElementType(id);
       dataToUpdate[`${elementType}s`].push({ id, style: { x, y, z } });
     });
@@ -619,15 +666,37 @@ export class Graph extends EventEmitter {
    * <zh/> 设置元素可见性
    *
    * <en/> Set element visibility
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param visibility - <zh/> 可见性 | <en/> visibility
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async setElementVisibility(
+    id: ID,
+    visibility: BaseStyleProps['visibility'],
+    animation?: boolean,
+  ): Promise<void>;
+  /**
+   * <zh/> 批量设置元素可见性
+   *
+   * <en/> Batch set element visibility
    * @param visibility - <zh/> 可见性配置 | <en/> visibility configuration
    * @param animation - <zh/> 动画配置 | <en/> animation configuration
    */
   public async setElementVisibility(
     visibility: Record<ID, BaseStyleProps['visibility']>,
-    animation: boolean = true,
+    animation?: boolean,
+  ): Promise<void>;
+  public async setElementVisibility(
+    args1: ID | Record<ID, BaseStyleProps['visibility']>,
+    args2?: boolean | BaseStyleProps['visibility'],
+    args3: boolean = true,
   ): Promise<void> {
+    const [config, animation] = isObject(args1)
+      ? [args1, (args2 as boolean) ?? true]
+      : [{ [args1]: args2 as BaseStyleProps['visibility'] }, args3];
+
     const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
-    Object.entries(visibility).forEach(([id, value]) => {
+    Object.entries(config).forEach(([id, value]) => {
       const elementType = this.getElementType(id);
       dataToUpdate[`${elementType}s`].push({ id, style: { visibility: value } });
     });
@@ -645,12 +714,22 @@ export class Graph extends EventEmitter {
    * <zh/> 设置元素层级
    *
    * <en/> Set element z-index
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param zIndex - <zh/> 层级 | <en/> z-index
+   */
+  public async setElementZIndex(id: ID, zIndex: ZIndex): Promise<void>;
+  /**
+   * <zh/> 批量设置元素层级
+   *
+   * <en/> Batch set element z-index
    * @param zIndex - <zh/> 层级配置 | <en/> z-index configuration
    */
-  public async setElementZIndex(zIndex: Record<ID, ZIndex>): Promise<void> {
+  public async setElementZIndex(zIndex: Record<ID, ZIndex>): Promise<void>;
+  public async setElementZIndex(args1: ID | Record<ID, ZIndex>, args2?: ZIndex): Promise<void> {
     const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
+    const config = isObject(args1) ? args1 : { [args1 as ID]: args2 as ZIndex };
 
-    Object.entries(zIndex).forEach(([id, value]) => {
+    Object.entries(config).forEach(([id, value]) => {
       const elementType = this.getElementType(id);
       if (isNumber(value)) {
         dataToUpdate[`${elementType}s`].push({ id, style: { zIndex: value } });
@@ -682,21 +761,39 @@ export class Graph extends EventEmitter {
    * <zh/> 设置元素状态
    *
    * <en/> Set element state
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param state - <zh/> 状态 | <en/> state
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async setElementState(id: ID, state: State[], animation?: boolean): Promise<void>;
+  /**
+   * <zh/> 批量设置元素状态
+   *
+   * <en/> Batch set element state
    * @param state - <zh/> 状态配置 | <en/> state configuration
    * @param animation - <zh/> 动画配置 | <en/> animation configuration
    */
-  public async setElementState(state: Record<ID, State | State[]>, animation: boolean = true): Promise<void> {
-    emit(this, new ElementStateChangeEvent(GraphEvent.BEFORE_ELEMENT_STATE_CHANGE, state));
+  public async setElementState(state: Record<ID, State | State[]>, animation?: boolean): Promise<void>;
+  public async setElementState(
+    args1: ID | Record<ID, State | State[]>,
+    args2?: boolean | State[],
+    args3: boolean = true,
+  ): Promise<void> {
+    const [config, animation] = isObject(args1)
+      ? [args1, (args2 as boolean) ?? true]
+      : [{ [args1]: args2 as State[] }, args3];
+
+    emit(this, new ElementStateChangeEvent(GraphEvent.BEFORE_ELEMENT_STATE_CHANGE, config));
 
     const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
-    Object.entries(state).forEach(([id, value]) => {
+    Object.entries(config).forEach(([id, value]) => {
       const elementType = this.getElementType(id);
       dataToUpdate[`${elementType}s`].push({ id, style: { states: Array.isArray(value) ? value : [value] } });
     });
     this.updateData(dataToUpdate);
 
     await this.context.element!.draw({ animation });
-    emit(this, new ElementStateChangeEvent(GraphEvent.AFTER_ELEMENT_STATE_CHANGE, state));
+    emit(this, new ElementStateChangeEvent(GraphEvent.AFTER_ELEMENT_STATE_CHANGE, config));
   }
 
   /**

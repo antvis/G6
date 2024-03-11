@@ -22,9 +22,9 @@ export const controllerElementZIndex: STDTestCase = async (context) => {
 
   const graph = new Graph(options);
   await graph.render();
-  const front = () => graph.setElementZIndex({ 'node-2': 'front' });
-  const back = () => graph.setElementZIndex({ 'node-2': 'back' });
-  const to = (zIndex: number) => graph.setElementZIndex({ 'node-2': zIndex });
+  const front = () => graph.setElementZIndex('node-2', 'front');
+  const back = () => graph.setElementZIndex('node-2', 'back');
+  const to = (zIndex: number) => graph.setElementZIndex('node-2', zIndex);
 
   controllerElementZIndex.form = (panel) => [
     panel.add({ front }, 'front'),

@@ -23,4 +23,12 @@ describe('element state', () => {
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__setState');
   });
+
+  it('set state single api', async () => {
+    graph.setElementState('node-1', ['selected']);
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__setState-single');
+
+    graph.setElementState('node-1', []);
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__setState-single-default');
+  });
 });

@@ -35,7 +35,7 @@ export const elementVisibility: STDTestCase = async (context) => {
         visible.setValue(graph.getElementVisibility(id) !== 'hidden');
       });
     const visible = panel.add(config, 'visible').onChange((value: boolean) => {
-      graph.setElementVisibility({ [config.element]: value ? 'visible' : 'hidden' });
+      graph.setElementVisibility(config.element, value ? 'visible' : 'hidden');
     });
     return [element, visible];
   };

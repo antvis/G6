@@ -30,4 +30,14 @@ describe('element position', () => {
     });
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translateElementBy');
   });
+
+  it('translateElementTo single api', async () => {
+    graph.translateElementTo('node-1', [50, 50]);
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translateElementTo-single');
+  });
+
+  it('translateElementBy single api', async () => {
+    graph.translateElementBy('node-1', [50, 50]);
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translateElementBy-single');
+  });
 });

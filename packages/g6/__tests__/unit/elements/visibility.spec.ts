@@ -46,4 +46,12 @@ describe('element visibility', () => {
 
     await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__show-and-hide');
   });
+
+  it('show and hide single api', async () => {
+    graph.setElementVisibility('node-1', 'visible');
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__show-single');
+
+    graph.setElementVisibility('node-1', 'hidden');
+    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__hide-single');
+  });
 });
