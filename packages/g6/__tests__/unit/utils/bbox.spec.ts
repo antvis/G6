@@ -58,6 +58,7 @@ describe('bbox', () => {
     const bbox3 = new AABB();
     bbox3.setMinMax([0, 0, 0], [3, 3, 3]);
     expect(getCombinedBBox([bbox1, bbox2])).toEqual(bbox3);
+    expect(getCombinedBBox([])).toEqual(new AABB());
   });
 
   it('isPointInBBox', () => {

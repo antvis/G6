@@ -36,6 +36,7 @@ describe('prefix', () => {
     expect(subStyleProps({ prefixAbc: 1, prefixDef: 2, Abc: 3 }, 'prefix')).toEqual({ abc: 1, def: 2 });
     expect(subStyleProps({ Abc: 1, Def: 2 }, 'prefix')).toEqual({});
     expect(subStyleProps({}, 'prefix')).toEqual({});
+    expect(subStyleProps({ prefixAbc: 1, className: 3, class: 2 }, 'prefix')).toEqual({ abc: 1 });
   });
 
   it('subObject', () => {
