@@ -38,7 +38,7 @@ graph.render();
 graph.on('node:click', (e) => {
   const id = e.target.id;
   const node = graph.getNodeData(id);
-  const label = node?.data?.label;
+  const label = node?.data?.label as string;
 
   navigator.clipboard.writeText(label as string);
   alert('copied to clipboard!');
