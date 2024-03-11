@@ -1,4 +1,4 @@
-import { cacheStyle, getCachedStyle, setCacheStyle } from '@/src/utils/cache';
+import { cacheStyle, getCachedStyle, hasCachedStyle, setCacheStyle } from '@/src/utils/cache';
 import { Circle } from '@antv/g';
 
 describe('cache', () => {
@@ -11,9 +11,13 @@ describe('cache', () => {
       },
     });
 
+    expect(hasCachedStyle(circle, 'fill')).toBe(false);
+
     cacheStyle(circle, ['fill', 'stroke']);
 
     circle.style.fill = 'green';
+
+    expect(hasCachedStyle(circle, 'fill')).toBe(true);
 
     expect(getCachedStyle(circle, 'fill')).toBe('red');
 

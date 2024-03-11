@@ -4,6 +4,7 @@ import { deepMix } from '@antv/util';
 import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
 import { updateStyle } from '../../utils/element';
+import { setVisibility } from '../../utils/visibility';
 
 export interface BaseShapeStyleProps extends BaseStyleProps {
   x?: number | string;
@@ -15,6 +16,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     super(options);
 
     this.render(this.attributes as Required<StyleProps>, this);
+    this.setVisibility();
     this.bindEvents();
   }
 
@@ -80,7 +82,8 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
 
   public update(attr: Partial<StyleProps> = {}): void {
     this.attr(deepMix({}, this.attributes, attr));
-    return this.render(this.attributes as Required<StyleProps>, this);
+    this.render(this.attributes as Required<StyleProps>, this);
+    this.setVisibility();
   }
 
   /**
@@ -139,5 +142,10 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     }
 
     return createAnimationsProxy(animationMap);
+  }
+
+  private setVisibility() {
+    const { visibility } = this.attributes;
+    setVisibility(this, visibility);
   }
 }

@@ -1,5 +1,8 @@
 import type { BaseStyleProps, DisplayObject } from '@antv/g';
+import { cacheStyle, getCachedStyle, hasCachedStyle } from './cache';
 import { getDescendantShapes } from './shape';
+
+const PropertyKey = 'visibility';
 
 /**
  * <zh/> 设置图形实例的可见性
@@ -13,9 +16,16 @@ import { getDescendantShapes } from './shape';
  * <en/> After setting enableCSSParsing to false, the compound shape cannot inherit the parent attribute, so the same visibility needs to be applied to all child shapes
  */
 export function setVisibility(shape: DisplayObject, visibility: BaseStyleProps['visibility']) {
-  shape.style.visibility = visibility;
-  const descendants = getDescendantShapes(shape);
-  descendants.forEach((descendant) => {
-    descendant.style.visibility = visibility;
+  const shapes = [shape, ...getDescendantShapes(shape)];
+
+  shapes.forEach((sp) => {
+    if (!hasCachedStyle(sp, PropertyKey)) cacheStyle(sp, PropertyKey);
+    const cachedVisibility = getCachedStyle(sp, PropertyKey);
+
+    // 如果子图形为隐藏状态，始终保持隐藏状态
+    // If the child shape is hidden, keep it hidden
+    if (shape !== sp && cachedVisibility === 'hidden') return;
+
+    sp.style.visibility = visibility;
   });
 }
