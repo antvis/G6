@@ -45,9 +45,11 @@ const graph = new Graph({
 graph.render();
 
 graph.on(GraphEvent.AFTER_RENDER, () => {
-  graph.setElementState('triangle-active', 'active');
-  graph.setElementState('triangle-selected', 'selected');
-  graph.setElementState('triangle-highlight', 'highlight');
-  graph.setElementState('triangle-inactive', 'inactive');
-  graph.setElementState('triangle-disabled', 'disabled');
+  graph.setElementState({
+    'triangle-active': 'active',
+    'triangle-selected': 'selected',
+    'triangle-highlight': 'highlight',
+    'triangle-inactive': 'inactive',
+    'triangle-disabled': 'disabled',
+  });
 });

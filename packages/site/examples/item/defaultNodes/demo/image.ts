@@ -53,9 +53,11 @@ const graph = new Graph({
 graph.render();
 
 graph.on(GraphEvent.AFTER_RENDER, () => {
-  graph.setElementState('image-active', 'active');
-  graph.setElementState('image-selected', 'selected');
-  graph.setElementState('image-highlight', 'highlight');
-  graph.setElementState('image-inactive', 'inactive');
-  graph.setElementState('image-disabled', 'disabled');
+  graph.setElementState({
+    'image-active': 'active',
+    'image-selected': 'selected',
+    'image-highlight': 'highlight',
+    'image-inactive': 'inactive',
+    'image-disabled': 'disabled',
+  });
 });

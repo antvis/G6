@@ -58,9 +58,11 @@ export const nodeRect: StaticTestCase = async (context) => {
 
   await graph.render();
 
-  graph.setElementState('rect-active', 'active');
-  graph.setElementState('rect-selected', 'selected');
-  graph.setElementState('rect-highlight', 'highlight');
-  graph.setElementState('rect-inactive', 'inactive');
-  graph.setElementState('rect-disabled', 'disabled');
+  graph.setElementState({
+    'rect-active': 'active',
+    'rect-selected': 'selected',
+    'rect-highlight': 'highlight',
+    'rect-inactive': 'inactive',
+    'rect-disabled': 'disabled',
+  });
 };

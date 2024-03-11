@@ -40,14 +40,14 @@ graph.on('node:click', (e) => {
   const node = graph.getNodeData(id);
   const label = node?.data?.label;
 
-  navigator.clipboard.writeText(label);
+  navigator.clipboard.writeText(label as string);
   alert('copied to clipboard!');
 });
 
 graph.on('node:pointerenter', (e) => {
-  graph.setElementState(e.target.id, 'active');
+  graph.setElementState({ [e.target.id]: 'active' });
 });
 
 graph.on('node:pointerout', (e) => {
-  graph.setElementState(e.target.id, '');
+  graph.setElementState({ [e.target.id]: [] });
 });

@@ -50,9 +50,11 @@ const graph = new Graph({
 graph.render();
 
 graph.on(GraphEvent.AFTER_RENDER, () => {
-  graph.setElementState('diamond-active', 'active');
-  graph.setElementState('diamond-selected', 'selected');
-  graph.setElementState('diamond-highlight', 'highlight');
-  graph.setElementState('diamond-inactive', 'inactive');
-  graph.setElementState('diamond-disabled', 'disabled');
+  graph.setElementState({
+    'diamond-active': 'active',
+    'diamond-selected': 'selected',
+    'diamond-highlight': 'highlight',
+    'diamond-inactive': 'inactive',
+    'diamond-disabled': 'disabled',
+  });
 });

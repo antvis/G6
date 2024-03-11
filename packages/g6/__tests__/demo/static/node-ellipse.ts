@@ -57,9 +57,11 @@ export const nodeEllipse: StaticTestCase = async (context) => {
 
   await graph.render();
 
-  graph.setElementState('ellipse-active', 'active');
-  graph.setElementState('ellipse-selected', 'selected');
-  graph.setElementState('ellipse-highlight', 'highlight');
-  graph.setElementState('ellipse-inactive', 'inactive');
-  graph.setElementState('ellipse-disabled', 'disabled');
+  graph.setElementState({
+    'ellipse-active': 'active',
+    'ellipse-selected': 'selected',
+    'ellipse-highlight': 'highlight',
+    'ellipse-inactive': 'inactive',
+    'ellipse-disabled': 'disabled',
+  });
 };

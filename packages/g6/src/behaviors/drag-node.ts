@@ -196,7 +196,7 @@ export class DragNode extends BaseBehavior<DragNodeOptions> {
 
   private showEdges() {
     if (this.options.shadow || this.hiddenEdges.length === 0) return;
-    this.context.graph.setElementVisibility(this.hiddenEdges, 'visible');
+    this.context.graph.setElementVisibility(Object.fromEntries(this.hiddenEdges.map((id) => [id, 'visible'])));
     this.hiddenEdges = [];
   }
 
@@ -215,7 +215,7 @@ export class DragNode extends BaseBehavior<DragNodeOptions> {
       hiddenEdges = Array.from(edgeSet);
     }
     this.hiddenEdges = hiddenEdges;
-    graph.setElementVisibility(hiddenEdges, 'hidden');
+    graph.setElementVisibility(Object.fromEntries(this.hiddenEdges.map((id) => [id, 'hidden'])));
   }
 
   public destroy() {

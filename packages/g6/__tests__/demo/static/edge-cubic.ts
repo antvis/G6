@@ -56,8 +56,10 @@ export const edgeCubic: StaticTestCase = async (context) => {
 
   await graph.render();
 
-  graph.setElementState('line-active', 'active');
-  graph.setElementState('line-selected', 'selected');
-  graph.setElementState('line-highlight', 'highlight');
-  graph.setElementState('line-inactive', 'inactive');
+  graph.setElementState({
+    'line-active': 'active',
+    'line-selected': 'selected',
+    'line-highlight': 'highlight',
+    'line-inactive': 'inactive',
+  });
 };

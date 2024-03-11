@@ -47,9 +47,11 @@ const graph = new Graph({
 graph.render();
 
 graph.on(GraphEvent.AFTER_RENDER, () => {
-  graph.setElementState('star-active', 'active');
-  graph.setElementState('star-selected', 'selected');
-  graph.setElementState('star-highlight', 'highlight');
-  graph.setElementState('star-inactive', 'inactive');
-  graph.setElementState('star-disabled', 'disabled');
+  graph.setElementState({
+    'star-active': 'active',
+    'star-selected': 'selected',
+    'star-highlight': 'highlight',
+    'star-inactive': 'inactive',
+    'star-disabled': 'disabled',
+  });
 });

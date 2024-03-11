@@ -50,9 +50,11 @@ const graph = new Graph({
 graph.render();
 
 graph.on(GraphEvent.AFTER_RENDER, () => {
-  graph.setElementState('rect-active', 'active');
-  graph.setElementState('rect-selected', 'selected');
-  graph.setElementState('rect-highlight', 'highlight');
-  graph.setElementState('rect-inactive', 'inactive');
-  graph.setElementState('rect-disabled', 'disabled');
+  graph.setElementState({
+    'rect-active': 'active',
+    'rect-selected': 'selected',
+    'rect-highlight': 'highlight',
+    'rect-inactive': 'inactive',
+    'rect-disabled': 'disabled',
+  });
 });
