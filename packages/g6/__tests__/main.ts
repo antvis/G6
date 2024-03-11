@@ -82,7 +82,9 @@ async function render() {
   if (result?.totalDuration) {
     const formatCurrentTime = (time: number) => time.toFixed(2);
     const setTimer = (time: any) => panels.Timer.setValue(`${formatCurrentTime(time)}ms`);
-    result.onframe = (frame) => {
+    const onframe = result.onframe;
+    result.onframe = function (frame) {
+      onframe?.call(this, frame);
       setTimer(frame.currentTime);
     };
     result.finished.then(() => setTimer(result.currentTime));

@@ -116,12 +116,13 @@ export function getCurveControlPoint(
   curvePosition: number,
   curveOffset: number,
 ): Point {
+  if (isEqual(sourcePoint, targetPoint)) return sourcePoint;
   const lineVector = subtract(targetPoint, sourcePoint);
   const controlPoint: Point = [
     sourcePoint[0] + curvePosition * lineVector[0],
     sourcePoint[1] + curvePosition * lineVector[1],
   ];
-  const perpVector = normalize(perpendicular(lineVector as Vector2));
+  const perpVector = normalize(perpendicular(lineVector as Vector2, false));
   controlPoint[0] += curveOffset * perpVector[0];
   controlPoint[1] += curveOffset * perpVector[1];
   return controlPoint;
