@@ -9,12 +9,13 @@ import type { BaseLayoutOptions } from '../layouts/types';
 import { getExtension } from '../registry';
 import type { EdgeData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
-import type { NodeLikeData, Point, TreeData } from '../types';
+import type { NodeLikeData, PartialGraphData, Point, TreeData } from '../types';
 import { getAnimation } from '../utils/animation';
 import { isVisible } from '../utils/element';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
-import { isComboLayout, isPositionSpecified, isTreeLayout, pickLayoutResult } from '../utils/layout';
+import { isComboLayout, isPositionSpecified, isTreeLayout } from '../utils/layout';
+import { parsePoint } from '../utils/point';
 import { parseSize } from '../utils/size';
 import { dfs } from '../utils/traverse';
 import { add } from '../utils/vector';
@@ -88,7 +89,7 @@ export class LayoutController {
       [] as LayoutMapping['nodes'],
     );
 
-    this.updateElement({ nodes: positions, edges: [] }, false);
+    this.updateElementPosition({ nodes: positions, edges: [] }, false);
   }
 
   public async layout() {
@@ -103,7 +104,7 @@ export class LayoutController {
       const result = await this.stepLayout(model, { ...this.presetOptions, ...options });
 
       if (!options.animation) {
-        this.updateElement(result, false);
+        this.updateElementPosition(result, false);
       }
     }
     emit(graph, new GraphLifeCycleEvent(GraphEvent.AFTER_LAYOUT));
@@ -132,7 +133,7 @@ export class LayoutController {
       if (animation) {
         return await layout.execute(model, {
           onTick: (tickData: LayoutMapping) => {
-            this.updateElement(tickData, false);
+            this.updateElementPosition(tickData, false);
           },
         });
       }
@@ -146,7 +147,7 @@ export class LayoutController {
     // 无迭代的布局，直接返回终态位置 / Layout without iteration, return final position directly
     const layoutResult = await layout.execute(model);
     if (animation) {
-      this.updateElement(layoutResult, animation);
+      this.updateElementPosition(layoutResult, animation);
     }
     return layoutResult;
   }
@@ -186,7 +187,7 @@ export class LayoutController {
     });
 
     if (animation) {
-      this.updateElement(layoutResult, animation);
+      this.updateElementPosition(layoutResult, animation);
     }
 
     return layoutResult;
@@ -347,10 +348,24 @@ export class LayoutController {
     return new Ctor(config);
   }
 
-  private updateElement(layoutData: LayoutMapping, animation: boolean) {
-    const { element } = this.context;
+  private updateElementPosition(layoutData: LayoutMapping, animation: boolean) {
+    const { model, element } = this.context;
     if (!element) return null;
-    element.updateByLayoutResult(pickLayoutResult(layoutData), animation);
+
+    const { nodes, edges } = layoutData;
+    const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
+    nodes.forEach(({ id, data: { x, y, z = 0 } }) => {
+      dataToUpdate.nodes.push({ id, style: { x, y, z } });
+    });
+
+    edges.forEach(({ id, data: { controlPoints } }) => {
+      if (controlPoints?.length) {
+        dataToUpdate.edges.push({ id, style: { controlPoints: controlPoints.map(parsePoint) } });
+      }
+    });
+
+    model.updateData(dataToUpdate);
+    return element.draw({ animation, silence: true });
   }
 
   public destroy() {

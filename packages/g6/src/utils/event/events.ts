@@ -1,8 +1,8 @@
-import type { BaseStyleProps, IAnimation } from '@antv/g';
+import type { IAnimation } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import type { AnimationType, GraphEvent } from '../../constants';
 import type { GraphData } from '../../spec';
-import type { Positions, States, TransformOptions, ZIndex } from '../../types';
+import type { State, TransformOptions } from '../../types';
 
 export class BaseEvent {
   constructor(public type: string) {}
@@ -63,36 +63,7 @@ export class ViewportEvent extends BaseEvent {
 export class ElementStateChangeEvent extends BaseEvent {
   constructor(
     type: GraphEvent.BEFORE_ELEMENT_STATE_CHANGE | GraphEvent.AFTER_ELEMENT_STATE_CHANGE,
-    public states: States,
-  ) {
-    super(type);
-  }
-}
-
-export class ElementTranslateEvent extends BaseEvent {
-  constructor(
-    type: GraphEvent.BEFORE_ELEMENT_TRANSLATE | GraphEvent.AFTER_ELEMENT_TRANSLATE,
-    public positions: Positions,
-  ) {
-    super(type);
-  }
-}
-
-export class ElementVisibilityChangeEvent extends BaseEvent {
-  constructor(
-    type: GraphEvent.BEFORE_ELEMENT_VISIBILITY_CHANGE | GraphEvent.AFTER_ELEMENT_VISIBILITY_CHANGE,
-    public ids: ID[],
-    public visibility: BaseStyleProps['visibility'],
-  ) {
-    super(type);
-  }
-}
-
-export class ElementZIndexChangeEvent extends BaseEvent {
-  constructor(
-    type: GraphEvent.BEFORE_ELEMENT_Z_INDEX_CHANGE | GraphEvent.AFTER_ELEMENT_Z_INDEX_CHANGE,
-    public id: ID,
-    public zIndex: ZIndex,
+    public states: Record<ID, State | State[]>,
   ) {
     super(type);
   }

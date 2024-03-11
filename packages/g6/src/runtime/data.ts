@@ -14,6 +14,7 @@ import type {
   PartialEdgeData,
   PartialGraphData,
   PartialNodeLikeData,
+  State,
 } from '../types';
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
@@ -180,6 +181,20 @@ export class DataController {
   }
 
   /**
+   * <zh/> 获取指定类型元素的数据
+   *
+   * <en/> Get the data of the specified type of element
+   * @param elementType - <zh/> 元素类型 | <en/> element type
+   * @returns <zh/> 元素数据 | <en/> element data
+   */
+  public getElementData(elementType: ElementType) {
+    if (elementType === 'node') return this.getNodeData();
+    if (elementType === 'edge') return this.getEdgeData();
+    if (elementType === 'combo') return this.getComboData();
+    return [];
+  }
+
+  /**
    * <zh/> 根据 ID 获取元素的数据，不用关心元素的类型
    *
    * <en/> Get the data of the element by ID, no need to care about the type of the element
@@ -189,7 +204,6 @@ export class DataController {
   public getElementsData(ids: ID[]): ElementDatum[] {
     return ids.map((id) => {
       const type = this.getElementType(id);
-
       if (type === 'node') return this.getNodeData([id])[0];
       else if (type === 'edge') return this.getEdgeData([id])[0];
       return this.getComboData([id])[0];
@@ -209,6 +223,15 @@ export class DataController {
       else acc.push(node.data);
       return acc;
     }, [] as NodeLikeData[]);
+  }
+
+  public getElementDataByState(elementType: ElementType, state: string) {
+    const elementData = this.getElementData(elementType);
+    return elementData.filter((datum) => datum.style?.states?.includes(state));
+  }
+
+  public getElementState(id: ID): State[] {
+    return this.getElementsData([id])?.[0]?.style?.states || [];
   }
 
   public hasNode(id: ID) {
