@@ -5,6 +5,7 @@ export * from './combo';
 export * from './common-graph';
 export * from './edge-polyline';
 export * from './element-change-type';
+export * from './element-port';
 export * from './element-position';
 export * from './element-state';
 export * from './element-visibility';
