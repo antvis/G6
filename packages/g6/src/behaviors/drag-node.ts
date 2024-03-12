@@ -196,7 +196,7 @@ export class DragNode extends BaseBehavior<DragNodeOptions> {
 
   private showEdges() {
     if (this.options.shadow || this.hiddenEdges.length === 0) return;
-    this.context.graph.setElementVisibility(Object.fromEntries(this.hiddenEdges.map((id) => [id, 'visible'])));
+    this.context.graph.showElement(this.hiddenEdges);
     this.hiddenEdges = [];
   }
 
@@ -204,18 +204,13 @@ export class DragNode extends BaseBehavior<DragNodeOptions> {
     const { hideEdges, shadow } = this.options;
     if (hideEdges === 'none' || shadow) return;
     const { graph } = this.context;
-    let hiddenEdges: ID[] = [];
-    if (hideEdges === 'all') {
-      hiddenEdges = graph.getEdgeData().map((edge) => idOf(edge));
-    } else {
-      const edgeSet = new Set<ID>();
-      this.target.forEach((id) => {
-        graph.getRelatedEdgesData(id, hideEdges).forEach((edge) => edgeSet.add(idOf(edge)));
-      });
-      hiddenEdges = Array.from(edgeSet);
+    if (hideEdges === 'all') this.hiddenEdges = graph.getEdgeData().map(idOf);
+    else {
+      this.hiddenEdges = Array.from(
+        new Set(this.target.map((id) => graph.getRelatedEdgesData(id, hideEdges).map(idOf)).flat()),
+      );
     }
-    this.hiddenEdges = hiddenEdges;
-    graph.setElementVisibility(Object.fromEntries(this.hiddenEdges.map((id) => [id, 'hidden'])));
+    graph.hideElement(this.hiddenEdges);
   }
 
   public destroy() {
