@@ -10,7 +10,7 @@ describe('element state', () => {
   });
 
   it('default status', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename);
+    await expect(graph).toMatchSnapshot(__filename);
   });
 
   it('set state', async () => {
@@ -21,14 +21,14 @@ describe('element state', () => {
       'edge-2': ['active'],
     });
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__setState');
+    await expect(graph).toMatchSnapshot(__filename, 'setState');
   });
 
   it('set state single api', async () => {
     graph.setElementState('node-1', ['selected']);
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__setState-single');
+    await expect(graph).toMatchSnapshot(__filename, 'setState-single');
 
     graph.setElementState('node-1', []);
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__setState-single-default');
+    await expect(graph).toMatchSnapshot(__filename, 'setState-single-default');
   });
 });

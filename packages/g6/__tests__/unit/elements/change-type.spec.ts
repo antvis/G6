@@ -10,7 +10,7 @@ describe('element change type', () => {
   });
 
   it('default status', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename);
+    await expect(graph).toMatchSnapshot(__filename);
   });
 
   it('change type', async () => {
@@ -21,6 +21,6 @@ describe('element change type', () => {
 
     await graph.draw();
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__change_type');
+    await expect(graph).toMatchSnapshot(__filename, 'change_type');
   });
 });

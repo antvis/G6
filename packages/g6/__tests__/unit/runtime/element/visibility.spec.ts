@@ -20,7 +20,7 @@ describe('element visibility', () => {
     expect(graph.getElementVisibility('node-2-node-3')).toBe('hidden');
     expect(graph.getElementVisibility('node-3-node-1')).toBe('hidden');
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__hidden');
+    await expect(graph).toMatchSnapshot(__filename, 'hidden');
   });
 
   it('show', async () => {
@@ -30,6 +30,6 @@ describe('element visibility', () => {
     expect(graph.getElementVisibility('node-2-node-3')).toBe('visible');
     expect(graph.getElementVisibility('node-3-node-1')).toBe('visible');
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__visible');
+    await expect(graph).toMatchSnapshot(__filename, 'visible');
   });
 });

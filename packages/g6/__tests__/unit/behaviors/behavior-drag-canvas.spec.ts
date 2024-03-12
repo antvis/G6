@@ -76,7 +76,7 @@ describe('behavior drag canvas', () => {
     graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
     expect(graph.getPosition()).toBeCloseTo([x + 20, y]);
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename);
+    await expect(graph).toMatchSnapshot(__filename);
   });
 
   it('destroy', () => {

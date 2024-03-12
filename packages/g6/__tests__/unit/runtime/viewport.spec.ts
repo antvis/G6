@@ -25,12 +25,12 @@ describe('ViewportController', () => {
     await graph.zoomBy(0.5);
     expect(graph.getZoom()).toBe(0.5);
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__zoom-0.5');
+    await expect(graph).toMatchSnapshot(__filename, 'zoom-0.5');
 
     await graph.zoomBy(4, { duration: 100 });
     expect(graph.getZoom()).toBe(2);
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__zoom-2');
+    await expect(graph).toMatchSnapshot(__filename, 'zoom-2');
 
     await graph.zoomTo(1);
     expect(graph.getZoom()).toBe(1);
@@ -48,7 +48,7 @@ describe('ViewportController', () => {
 
     expect(graph.getPosition()).toBeCloseTo([200, 200]);
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translate');
+    await expect(graph).toMatchSnapshot(__filename, 'translate');
 
     await graph.translateTo([0, 0], { duration: 100 });
   });
@@ -59,12 +59,12 @@ describe('ViewportController', () => {
 
     await graph.rotateBy(90);
     expect(graph.getRotation()).toBe(45 + 90);
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__rotate-135');
+    await expect(graph).toMatchSnapshot(__filename, 'rotate-135');
 
     await graph.rotateTo(90, { duration: 100 });
     expect(graph.getRotation()).toBe(90);
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__rotate-90');
+    await expect(graph).toMatchSnapshot(__filename, 'rotate-90');
 
     await graph.rotateTo(0);
   });
@@ -117,32 +117,32 @@ describe('Viewport Fit without Animation', () => {
   });
 
   it('default', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__before-fit');
+    await expect(graph).toMatchSnapshot(__filename, 'before-fit');
   });
 
   it('focusElement', async () => {
     await graph.focusElement('1');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__focusElement');
+    await expect(graph).toMatchSnapshot(__filename, 'focusElement');
   });
 
   it('fitCenter', async () => {
     await graph.fitCenter();
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__fitCenter');
+    await expect(graph).toMatchSnapshot(__filename, 'fitCenter');
   });
 
   it('fitView', async () => {
     await graph.fitView();
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__fitView');
+    await expect(graph).toMatchSnapshot(__filename, 'fitView');
   });
 
   it('re focusElement', async () => {
     await graph.focusElement('1');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__re-focusElement');
+    await expect(graph).toMatchSnapshot(__filename, 're-focusElement');
   });
 
   it('re fitCenter', async () => {
     await graph.fitCenter();
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__re-fitCenter');
+    await expect(graph).toMatchSnapshot(__filename, 're-fitCenter');
   });
 
   afterAll(() => {
@@ -157,32 +157,32 @@ describe('Viewport Fit with Animation', () => {
   });
 
   it('default', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__before-fit-animation');
+    await expect(graph).toMatchSnapshot(__filename, 'before-fit-animation');
   });
 
   it('focusElement', async () => {
     await graph.focusElement('1');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__focusElement-animation');
+    await expect(graph).toMatchSnapshot(__filename, 'focusElement-animation');
   });
 
   it('fitCenter', async () => {
     await graph.fitCenter();
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__fitCenter-animation');
+    await expect(graph).toMatchSnapshot(__filename, 'fitCenter-animation');
   });
 
   it('fitView', async () => {
     await graph.fitView();
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__fitView-animation');
+    await expect(graph).toMatchSnapshot(__filename, 'fitView-animation');
   });
 
   it('re focusElement', async () => {
     await graph.focusElement('1');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__re-focusElement-animation');
+    await expect(graph).toMatchSnapshot(__filename, 're-focusElement-animation');
   });
 
   it('re fitCenter', async () => {
     await graph.fitCenter();
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__re-fitCenter-animation');
+    await expect(graph).toMatchSnapshot(__filename, 're-fitCenter-animation');
   });
 
   afterAll(() => {
@@ -200,7 +200,7 @@ describe('Viewport Fit with AutoFit and Padding without Animation', () => {
   });
 
   it('default', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__auto-fit-with-padding');
+    await expect(graph).toMatchSnapshot(__filename, 'auto-fit-with-padding');
   });
 });
 
@@ -215,6 +215,6 @@ describe('Viewport Fit with AutoFit and Padding with Animation', () => {
   });
 
   it('default', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__auto-fit-with-padding-animation');
+    await expect(graph).toMatchSnapshot(__filename, 'auto-fit-with-padding-animation');
   });
 });

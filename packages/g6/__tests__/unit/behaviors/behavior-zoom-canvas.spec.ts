@@ -21,7 +21,7 @@ describe('behavior zoom canvas', () => {
 
     expect(graph.getZoom()).toBe(2);
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename);
+    await expect(graph).toMatchSnapshot(__filename);
   });
 
   it('zoom out', () => {

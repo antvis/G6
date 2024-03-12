@@ -10,7 +10,7 @@ describe('combo', () => {
   });
 
   it('default status', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename);
+    await expect(graph).toMatchSnapshot(__filename);
   });
 
   it('collapse circle combo', async () => {
@@ -41,30 +41,30 @@ describe('combo', () => {
       graph.render();
     };
     collapseCombo('top');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__collapse_top');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-top');
     expandCombo();
     collapseCombo('right');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__collapse_right');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-right');
     collapseCombo('left');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__collapse_left');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-left');
     expandCombo();
     collapseCombo('bottom');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__collapse_bottom');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-bottom');
     expandCombo();
     collapseCombo('center');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__collapse_center');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-center');
     expandCombo();
     collapseCombo('top-left');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__collapse_topLeft');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-topLeft');
     expandCombo();
     collapseCombo('top-right');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__collapse_topRight');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-topRight');
     expandCombo();
     collapseCombo('bottom-left');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__collapse_bottomLeft');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-bottomLeft');
     expandCombo();
     collapseCombo('bottom-right');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__collapse_bottomRight');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-bottomRight');
     expandCombo();
   });
 
@@ -98,30 +98,30 @@ describe('combo', () => {
       graph.render();
     };
     collapseCombo('top');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_rect__collapse_top');
+    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-top');
     expandCombo();
     collapseCombo('right');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_rect__collapse_right');
+    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-right');
     collapseCombo('left');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_rect__collapse_left');
+    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-left');
     expandCombo();
     collapseCombo('bottom');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_rect__collapse_bottom');
+    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-bottom');
     expandCombo();
     collapseCombo('center');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_rect__collapse_center');
+    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-center');
     expandCombo();
     collapseCombo('top-left');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_rect__collapse_topLeft');
+    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-topLeft');
     expandCombo();
     collapseCombo('top-right');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_rect__collapse_topRight');
+    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-topRight');
     expandCombo();
     collapseCombo('bottom-left');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_rect__collapse_bottomLeft');
+    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-bottomLeft');
     expandCombo();
     collapseCombo('bottom-right');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_rect__collapse_bottomRight');
+    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-bottomRight');
     expandCombo();
   });
 
@@ -154,15 +154,15 @@ describe('combo', () => {
       graph.render();
     };
     collapseCombo('child-count');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__marker_childCount');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-marker-childCount');
     expandCombo();
     collapseCombo('descendant-count');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__marker_descendantCount');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-marker-descendantCount');
     expandCombo();
     collapseCombo('node-count');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__marker_nodeCount');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-marker-nodeCount');
     expandCombo();
     collapseCombo((children: any) => children.length.toString() + 'nodes');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}_circle__marker_custom');
+    await expect(graph).toMatchSnapshot(__filename, 'circle-marker-custom');
   });
 });

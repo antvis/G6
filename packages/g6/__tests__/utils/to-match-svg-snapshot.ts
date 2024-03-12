@@ -1,4 +1,4 @@
-import { Canvas as LayeredCanvas } from '@/src/runtime/canvas';
+import type { Graph } from '@/src';
 import { Canvas } from '@antv/g';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -98,10 +98,10 @@ export async function toMatchSVGSnapshot(
 }
 
 export async function toMatchSnapshot(
-  canvas: LayeredCanvas,
+  graph: Graph,
   dir: string,
-  format: string = '{name}',
+  detail?: string,
   options: ToMatchSVGSnapshotOptions = {},
 ) {
-  return await toMatchSVGSnapshot(Object.values(canvas.canvas), ...getSnapshotDir(dir, format), options);
+  return await toMatchSVGSnapshot(Object.values(graph.getCanvas().canvas), ...getSnapshotDir(dir, detail), options);
 }
