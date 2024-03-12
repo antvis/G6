@@ -2,6 +2,22 @@ import type { Graph } from '@/src';
 import { elementPort } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
+const updatePort = (graph: Graph, attr: string, value: string | boolean | number) => {
+  graph.updateNodeData((prev) => {
+    const node2Data = prev.find((node: any) => node.id === 'node-2')!;
+    return [
+      ...prev.filter((node: any) => node.id !== 'node-2'),
+      {
+        ...node2Data,
+        style: {
+          ...node2Data!.style,
+          [attr]: value,
+        },
+      },
+    ];
+  });
+};
+
 describe('element port', () => {
   let graph: Graph;
 
@@ -13,32 +29,16 @@ describe('element port', () => {
     await expect(graph).toMatchSnapshot(__filename, 'port_hidden');
   });
 
-  const updatePort = (attr: string, value: string | boolean | number) => {
-    graph.updateNodeData((prev) => {
-      const node2Data = prev.find((node: any) => node.id === 'node-2')!;
-      return [
-        ...prev.filter((node: any) => node.id !== 'node-2'),
-        {
-          ...node2Data,
-          style: {
-            ...node2Data!.style,
-            [attr]: value,
-          },
-        },
-      ];
-    });
-  };
-
   it('hide port', async () => {
-    updatePort('portR', 3);
+    updatePort(graph, 'portR', 3);
     await graph.draw();
 
     await expect(graph).toMatchSnapshot(__filename, 'port_show');
   });
 
   it('endArrow link to port center', async () => {
-    updatePort('portR', 3);
-    updatePort('portLinkToCenter', true);
+    updatePort(graph, 'portR', 3);
+    updatePort(graph, 'portLinkToCenter', true);
     await graph.draw();
 
     await expect(graph).toMatchSnapshot(__filename, 'port_linkToCenter');
