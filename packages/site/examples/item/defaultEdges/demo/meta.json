@@ -13,28 +13,12 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*hi4cS7buP60AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "polyline1.js",
+      "filename": "loopPolyline.ts",
       "title": {
-        "zh": "折线",
-        "en": "Polyline"
+        "zh": "折线自环边",
+        "en": "Polyline Loop"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*snNhSbjzg9EAAAAAAAAAAAAADmJ7AQ/original"
-    },
-    {
-      "filename": "polyline2.js",
-      "title": {
-        "zh": "折线（设置控制点）",
-        "en": "Polyline 2"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*mxXeT7xiFVQAAAAAAAAAAAAADmJ7AQ/original"
-    },
-    {
-      "filename": "polyline3.js",
-      "title": {
-        "zh": "折线（智能寻径）",
-        "en": "Polyline with Router and Obstacles"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gIZGQ4PokaMAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "quadratic.ts",
@@ -69,12 +53,12 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WsRIRL8f64sAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "loop.js",
+      "filename": "loopCurve.ts",
       "title": {
-        "zh": "自环边",
-        "en": "Loop"
+        "zh": "曲线自环边",
+        "en": "Curve Loop"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dU0LRoKrqEIAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*snNhSbjzg9EAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

@@ -1,0 +1,687 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g
+          id="loop-1"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="loop-1"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,103.463470,60.684464)">
+            <path
+              id="key"
+              fill="none"
+              d="M 11.141521586992127,49.31553705333752 C -34.42606543401598 -16.438512351112507,77.49912265294097 -16.438512351112507,31.93153563193286 49.31553705333752 L 35.349104658508466,44.38398334800377"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 11.14152158699211,49.31553705333751 C -34.42606543401601 -16.438512351112507,77.49912265294097 -16.438512351112507,31.931535631932853 49.31553705333751 L 35.34910465850846,44.38398334800376"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(0.569595,-0.821926,0.821926,0.569595,35.349106,44.383984)">
+              <path
+                id="g-svg-23"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-23"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="loop-2"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="loop-2"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,165,114.803833)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,2.9427866643670626 C 78.71628400922481 -11.33119777513187,78.71628400922481 31.723537645666767,0 17.449553206167877 L 5.903721300691862,18.520102039130293"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,2.942786664367068 C 78.71628400922481 -11.331197775131862,78.71628400922481 31.72353764566683,0 17.4495532061679 L 5.903721300691861,18.520102039130318"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(0.983954,0.178425,-0.178425,0.983954,5.903721,18.520102)">
+              <path
+                id="g-svg-27"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-27"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="loop-3"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="loop-3"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,103.463470,140)">
+            <path
+              id="key"
+              fill="none"
+              d="M 31.931535631932846,0 C 77.49912265294095 65.75404940445003,-34.426065434015996 65.75404940445003,11.141521586992113 0 L 7.723952560416505,4.9315537053337515"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 31.931535631932853,0 C 77.49912265294098 65.75404940445002,-34.42606543401601 65.75404940445002,11.141521586992113 0 L 7.723952560416503,4.93155370533375"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(-0.569595,0.821926,-0.821926,-0.569595,7.723953,4.931554)">
+              <path
+                id="g-svg-31"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-31"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="loop-4"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="loop-4"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,25.962788,114.803833)">
+            <path
+              id="key"
+              fill="none"
+              d="M 59.037213006918606,17.44955320616792 C -19.679071002306202 31.723537645666866,-19.679071002306202 -11.331197775131855,59.037213006918606 2.942786664367077 L 53.13349170622674,1.8722378314046566"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 59.037213006918606,17.449553206167895 C -19.679071002306202 31.72353764566683,-19.679071002306202 -11.331197775131852,59.037213006918606 2.9427866643670635 L 53.13349170622674,1.8722378314046457"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(-0.983954,-0.178425,0.178425,-0.983954,53.133492,1.872238)">
+              <path
+                id="g-svg-35"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-35"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="loop-5"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="loop-5"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,385.395020,79.593231)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,30.4067705946306 C 45.567587021008194 -35.34727880981936,108.32127698675441 23.879402884231254,29.604992977529605 38.153387323730186 L 35.50871427822147,37.08283849076776"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,30.406770594630622 C 45.56758702100812 -35.34727880981939,108.32127698675444 23.879402884231276,29.604992977529626 38.15338732373021 L 35.50871427822149,37.082838490767784"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(0.983954,-0.178425,0.178425,0.983954,35.508713,37.082840)">
+              <path
+                id="g-svg-39"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-39"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="loop-6"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="loop-6"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,385.395020,132.253387)">
+            <path
+              id="key"
+              fill="none"
+              d="M 29.604992977529605,0 C 108.32127698675441 14.27398443949889,45.567587021008194 73.50066613354957,0 7.7466167290996 L 3.417569026575614,12.678170434433348"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 29.604992977529626,0 C 108.32127698675444 14.27398443949893,45.56758702100812 73.5006661335496,0 7.746616729099582 L 3.4175690265756087,12.678170434433333"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(0.569595,0.821926,-0.821926,0.569595,3.417569,12.678170)">
+              <path
+                id="g-svg-43"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-43"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="loop-7"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="loop-7"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,297.529053,132.253387)">
+            <path
+              id="key"
+              fill="none"
+              d="M 67.07595130128988,7.746616729099571 C 21.508364280281853 73.50066613354966,-41.24532568546459 14.273984439498946,37.470958323760215 0 L 31.567237023068355,1.0705488329624202"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 67.07595130128992,7.7466167290995775 C 21.508364280281796 73.5006661335496,-41.24532568546452 14.273984439498935,37.470958323760286 0 L 31.567237023068426,1.0705488329624202"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(-0.983954,0.178425,-0.178425,-0.983954,31.567238,1.070549)">
+              <path
+                id="g-svg-47"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-47"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="loop-8"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="loop-8"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,297.529053,79.593231)">
+            <path
+              id="key"
+              fill="none"
+              d="M 37.47095832376027,38.15338732373023 C -41.245325685464536 23.879402884231297,21.50836428028191 -35.34727880981944,67.07595130128993 30.406770594630643 L 63.658382274714334,25.475216889296888"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 37.47095832376027,38.15338732373021 C -41.245325685464536 23.87940288423129,21.508364280281782 -35.3472788098194,67.0759513012899 30.406770594630615 L 63.65838227471429,25.475216889296867"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(-0.569595,-0.821926,0.821926,-0.569595,63.658382,25.475218)">
+              <path
+                id="g-svg-51"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-51"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="loop-9"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="loop-9"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,143.188614,338.270386)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,19.677784920117233 C 56.17436471878656 -32.985682003745126,101.81138838757974 36.729608306761236,24.81138838757974 36.729608306761236"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,19.677784920117283 C 56.17436471878656 -32.98568200374512,101.81138838757974 36.72960830676127,24.811388387579743 36.72960830676127"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(1,0,0,1,30.811388,36.729607)">
+              <path
+                id="g-svg-55"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-55"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+        <g
+          id="loop-10"
+          fill="none"
+          marker-start="false"
+          marker-end="true"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="loop-10"
+            fill="none"
+            marker-start="false"
+            marker-end="true"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,417.683289,362.798798)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,10.859555072381283 C 77.31671842700024 -27.798804141118865,77.31671842700024 52.201195858881135,0 13.542836645380987 L 5.3665631459994945,16.226118218380737"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,10.859555072381296 C 77.31671842700025 -27.79880414111883,77.31671842700025 52.20119585888117,0 13.542836645381042 L 5.366563145999495,16.22611821838079"
+              stroke-width="3"
+              stroke="transparent"
+            />
+            <g transform="matrix(0.894427,0.447214,-0.447214,0.894427,5.366563,16.226118)">
+              <path
+                id="g-svg-59"
+                fill="rgba(153,173,209,1)"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="1"
+                stroke="rgba(153,173,209,1)"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+              <path
+                id="g-svg-59"
+                fill="transparent"
+                d="M 0,5 L 10,0 L 10,10 Z"
+                transform="translate(-5,-5)"
+                stroke-width="3"
+                stroke="transparent"
+                width="10"
+                height="10"
+                stroke-dasharray="0,0"
+              />
+            </g>
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="node1" fill="none" transform="matrix(1,0,0,1,125,125)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path
+              id="key"
+              fill="rgba(34,126,255,1)"
+              d="M 0,0 l 80,0 l 0,30 l-80 0 z"
+              transform="translate(-40,-15)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              width="80"
+              height="30"
+            />
+          </g>
+        </g>
+        <g id="node2" fill="none" transform="matrix(1,0,0,1,375,125)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path
+              id="key"
+              fill="rgba(34,126,255,1)"
+              d="M 0,0 l 80,0 l 0,30 l-80 0 z"
+              transform="translate(-40,-15)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              width="80"
+              height="30"
+            />
+          </g>
+        </g>
+        <g id="node3-ports" fill="none" transform="matrix(1,0,0,1,125,375)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path
+              id="key"
+              fill="rgba(34,126,255,1)"
+              d="M 0,0 l 80,0 l 0,30 l-80 0 z"
+              transform="translate(-40,-15)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              width="80"
+              height="30"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,16,-15)">
+            <circle
+              id="port-port-top"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
+              stroke-width="1"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
+              r="3"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,40,0)">
+            <circle
+              id="port-port-right"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
+              stroke-width="1"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
+              r="3"
+            />
+          </g>
+        </g>
+        <g id="node4-ports" fill="none" transform="matrix(1,0,0,1,375,375)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path
+              id="key"
+              fill="rgba(34,126,255,1)"
+              d="M 0,0 l 80,0 l 0,30 l-80 0 z"
+              transform="translate(-40,-15)"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              width="80"
+              height="30"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,16,-15)">
+            <circle
+              id="port-port-top"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
+              stroke-width="1"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
+              r="3"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,40,0)">
+            <circle
+              id="port-port-right"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-3,-3)"
+              cx="3"
+              cy="3"
+              stroke-width="1"
+              stroke="rgba(0,0,0,1)"
+              stroke-opacity="0.65"
+              r="3"
+            />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
