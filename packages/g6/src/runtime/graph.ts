@@ -38,7 +38,7 @@ import type {
 import { sizeOf } from '../utils/dom';
 import { ElementStateChangeEvent, GraphLifeCycleEvent, emit } from '../utils/event';
 import { parsePoint, toPointObject } from '../utils/point';
-import { add, subtract } from '../utils/vector';
+import { subtract } from '../utils/vector';
 import { BehaviorController } from './behavior';
 import { Canvas } from './canvas';
 import type { HierarchyKey } from './data';
@@ -656,17 +656,9 @@ export class Graph extends EventEmitter {
       ? [args1, (args2 as boolean) ?? true]
       : [{ [args1 as ID]: args2 as Position }, args3];
 
-    const positions = Object.entries(config).reduce(
-      (acc, [id, offset]) => {
-        const curr = this.getElementPosition(id);
-        const next = add(curr, [...offset, 0].slice(0, 3) as Point);
-        acc[id] = next;
-        return acc;
-      },
-      {} as Record<ID, Position>,
-    );
+    this.context.model.translateNodeBy(config);
 
-    await this.translateElementTo(positions, animation);
+    await this.context.element!.draw({ animation });
   }
 
   /**
@@ -691,25 +683,16 @@ export class Graph extends EventEmitter {
     args2?: boolean | Position,
     args3: boolean = true,
   ): Promise<void> {
-    const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
     const [config, animation] = isObject(args1)
       ? [args1, (args2 as boolean) ?? true]
       : [{ [args1 as ID]: args2 as Position }, args3];
 
-    Object.entries(config).forEach(([id, [x, y, z = 0]]) => {
-      const elementType = this.getElementType(id);
-      dataToUpdate[`${elementType}s`].push({ id, style: { x, y, z } });
-    });
-
-    this.updateData(dataToUpdate);
-
+    this.context.model.translateNodeTo(config);
     await this.context.element!.draw({ animation });
   }
 
   public getElementPosition(id: ID): Position {
-    const element = this.context.element!.getElement(id)!;
-    const { x = 0, y = 0, z = 0 } = element.style;
-    return [x, y, z];
+    return this.context.model.getElementPosition(id);
   }
 
   public getElementRenderStyle(id: ID) {

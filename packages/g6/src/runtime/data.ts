@@ -13,6 +13,7 @@ import type {
   PartialEdgeData,
   PartialGraphData,
   PartialNodeLikeData,
+  Position,
   State,
 } from '../types';
 import type { EdgeDirection } from '../types/edge';
@@ -23,6 +24,7 @@ import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf, parentIdOf } from '../utils/id';
 import { dfs } from '../utils/traverse';
+import { add } from '../utils/vector';
 
 export class DataController {
   public model: GraphLib<NodeLikeData, EdgeData>;
@@ -442,8 +444,39 @@ export class DataController {
     });
   }
 
-  public translateComboBy(ids: ID[], delta: Point) {
-    const [dx = 0, dy = 0, dz = 0] = delta;
+  public getElementPosition(id: ID): Position {
+    const datum = this.getElementsData([id])[0];
+    const { x = 0, y = 0, z = 0 } = datum.style || {};
+    return [x, y, z] as Position;
+  }
+
+  public translateNodeBy(offsets: Record<ID, Position>) {
+    const positions = Object.entries(offsets).reduce(
+      (acc, [id, offset]) => {
+        const curr = this.getElementPosition(id);
+        const next = add(curr, [...offset, 0].slice(0, 3) as Point);
+        acc[id] = next;
+        return acc;
+      },
+      {} as Record<ID, Position>,
+    );
+
+    this.translateNodeTo(positions);
+  }
+
+  public translateNodeTo(positions: Record<ID, Position>) {
+    const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
+
+    Object.entries(positions).forEach(([id, [x, y, z = 0]]) => {
+      const elementType = this.getElementType(id);
+      dataToUpdate[`${elementType}s`].push({ id, style: { x, y, z } });
+    });
+
+    this.updateData(dataToUpdate);
+  }
+
+  public translateComboBy(ids: ID[], offset: Point) {
+    const [dx = 0, dy = 0, dz = 0] = offset;
     if ([dx, dy, dz].some(isNaN) || [dx, dy, dz].every((o) => o === 0)) return;
 
     const { model } = this;
@@ -476,7 +509,7 @@ export class DataController {
     if (point.some(isNaN)) return;
 
     const { model } = this;
-    model.batch(() => {
+    this.batch(() => {
       this.getComboData(ids).forEach((combo) => {
         const { x: comboX = 0, y: comboY = 0, z: comboZ = 0 } = combo.style || {};
         const dx = x - +comboX;
