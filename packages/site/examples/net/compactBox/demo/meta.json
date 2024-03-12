@@ -13,12 +13,12 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-FgIT7w4OXwAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "graphWithCompactBox.js",
+      "filename": "topToBottomCompactBox.js",
       "title": {
-        "zh": "图数据使用紧凑树",
-        "en": "CompactBox Layout on Graph Data"
+        "zh": "从上向下布局",
+        "en": "Top to Bottom CompactBox"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dfI9RL0lBmMAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KrAqTrFbNjMAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "compactBoxLeftAlign.js",

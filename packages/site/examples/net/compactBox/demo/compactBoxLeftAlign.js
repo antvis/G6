@@ -1,153 +1,37 @@
-import { Graph, Extensions, extend } from '@antv/g6';
-
-const container = document.getElementById('container');
-const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'The nodes of a subtree is aligned to the left.';
-container.appendChild(descriptionDiv);
-
-const fontSize = 15;
-
-class CustomNode extends Extensions.CircleNode {
-  defaultStyles = {
-    keyShape: {},
-  };
-  drawKeyShape(model, shapeMap, diffData, diffState) {
-    const { keyShape: keyShapeStyle } = model.data;
-    const width = model.id.length * 9;
-    return this.upsertShape(
-      'rect',
-      'keyShape',
-      {
-        ...this.defaultStyles.keyShape,
-        ...keyShapeStyle,
-        x: 0,
-        y: -10,
-        width,
-        height: 20,
-        lineWidth: 0,
-        opacity: 0,
-      },
-      {
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      },
-    );
-  }
-  drawLabelShape(model, shapeMap, diffData, diffState) {
-    const { labelShape: propsLabelStyle } = model.data;
-    return this.upsertShape(
-      'text',
-      'labelShape',
-      {
-        ...this.defaultStyles.labelShape,
-        ...propsLabelStyle,
-        text: model.id,
-        fill: 'rgba(0,0,0,0.85)',
-        fontSize,
-        x: 0,
-        y: 0,
-      },
-      {
-        model,
-        shapeMap,
-        diffData,
-        diffState,
-      },
-    );
-  }
-  drawOtherShapes(model, shapeMap, diffData, diffState) {
-    const labelBBox = shapeMap.labelShape?.getRenderBounds();
-    const bboxWidth = labelBBox.max[0] - labelBBox.min[0];
-    shapeMap.keyShape.style.width = bboxWidth;
-    return {
-      extraShape: this.upsertShape(
-        'circle',
-        'extraShape',
-        {
-          cx: labelBBox.min[0] - 8,
-          cy: labelBBox.center[1],
-          r: 3,
-          stroke: '#637088',
-        },
-        {
-          model,
-          shapeMap,
-          diffData,
-          diffState,
-        },
-      ),
-      bottomLineShape: this.upsertShape(
-        'path',
-        'bottomLineShape',
-        {
-          lineWidth: 1,
-          stroke: '#637088',
-          path: [
-            ['M', 0, 0],
-            ['L', bboxWidth, 0],
-          ],
-        },
-        {
-          model,
-          shapeMap,
-          diffData,
-          diffState,
-        },
-      ),
-    };
-  }
-}
-
-const ExtGraph = extend(Graph, {
-  nodes: {
-    'crect-node': CustomNode,
-  },
-  edges: {
-    'cubic-horizontal-edge': Extensions.CubicHorizontalEdge,
-  },
-});
+import { Graph, Utils } from '@antv/g6';
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
   .then((res) => res.json())
   .then((data) => {
-    const width = container.scrollWidth;
-    const height = container.scrollHeight || 500;
-    const graph = new ExtGraph({
+    const graph = new Graph({
       container: 'container',
-      width,
-      height,
-      transforms: [
-        {
-          type: 'transform-v4-data',
-          activeLifecycle: ['read'],
-        },
-      ],
-      modes: {
-        default: ['collapse-expand-tree', 'drag-canvas', 'zoom-canvas'],
-      },
-      plugins: [
-        {
-          type: 'lod-controller',
-          disableLod: true,
-        },
-      ],
+      data: Utils.treeToGraphData(data),
+      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
       node: {
-        type: 'crect-node',
-        anchorPoints: [
-          [0, 0.5],
-          [1, 0.5],
-        ],
-        otherShapes: {},
+        style: {
+          labelText: (data) => data.id,
+          labelPlacement: 'right',
+          labelMaxWidth: 200,
+          size: 12,
+          lineWidth: 1,
+          fill: '#fff',
+          ports: [
+            {
+              placement: 'right',
+            },
+            {
+              placement: 'left',
+            },
+          ],
+        },
       },
       edge: {
-        type: 'cubic-horizontal-edge',
-        sourceAnchor: 1,
-        targetAnchor: 0,
+        style: {
+          type: 'cubic-horizontal',
+        },
       },
       layout: {
-        type: 'compactBox',
+        type: 'compact-box',
         direction: 'LR',
         getId: function getId(d) {
           return d.id;
@@ -165,12 +49,9 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           return d.id.length + 20;
         },
       },
+      animation: false,
       autoFit: 'view',
-      data: {
-        type: 'treeData',
-        value: data,
-      },
     });
 
-window.graph = graph;
+    graph.render();
   });

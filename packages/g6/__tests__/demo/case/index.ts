@@ -1,8 +1,10 @@
+export * from './basic-compact-box';
 export * from './behavior-drag-canvas';
 export * from './behavior-drag-node';
 export * from './behavior-zoom-canvas';
 export * from './combo';
 export * from './common-graph';
+export * from './compact-box-left-align';
 export * from './element-change-type';
 export * from './element-position';
 export * from './element-state';
@@ -11,4 +13,5 @@ export * from './graph-event';
 export * from './layout-grid';
 export * from './layout-mds';
 export * from './plugin-grid-line';
+export * from './top-to-bottom-compact-box';
 export * from './viewport-fit';
