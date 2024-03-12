@@ -10,19 +10,19 @@ describe('element visibility', () => {
   });
 
   it('default status', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename);
+    await expect(graph).toMatchSnapshot(__filename);
   });
 
   it('hide', async () => {
     await graph.hideElement(['node-1', 'node-2', 'node-3', 'edge-1', 'edge-2', 'edge-3']);
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__hide');
+    await expect(graph).toMatchSnapshot(__filename, 'hide');
   });
 
   it('show', async () => {
     await graph.showElement(['node-1', 'node-2', 'edge-1']);
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__show');
+    await expect(graph).toMatchSnapshot(__filename, 'show');
   });
 
   it('show and hide', async () => {
@@ -33,14 +33,14 @@ describe('element visibility', () => {
       'edge-2': 'visible',
     });
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__show-and-hide');
+    await expect(graph).toMatchSnapshot(__filename, 'show-and-hide');
   });
 
   it('show and hide single api', async () => {
     graph.setElementVisibility('node-1', 'visible');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__show-single');
+    await expect(graph).toMatchSnapshot(__filename, 'show-single');
 
     graph.setElementVisibility('node-1', 'hidden');
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__hide-single');
+    await expect(graph).toMatchSnapshot(__filename, 'hide-single');
   });
 });

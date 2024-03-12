@@ -5,7 +5,7 @@ declare global {
   namespace jest {
     interface Matchers<R> {
       toMatchSVGSnapshot(dir: string, name: string, options?: ToMatchSVGSnapshotOptions): Promise<R>;
-      toMatchSnapshot(dir: string, format?: string, options?: ToMatchSVGSnapshotOptions): Promise<R>;
+      toMatchSnapshot(dir: string, detail?: string, options?: ToMatchSVGSnapshotOptions): Promise<R>;
     }
   }
 }

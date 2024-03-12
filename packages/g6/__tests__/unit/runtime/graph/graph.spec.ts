@@ -140,9 +140,9 @@ describe('Graph', () => {
   });
 
   it('draw', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__before-draw');
+    await expect(graph).toMatchSnapshot(__filename, 'before-draw');
     await graph.draw();
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__after-draw');
+    await expect(graph).toMatchSnapshot(__filename, 'after-draw');
     expect(graph.getElementRenderStyle('node-1')).toBeDefined();
   });
 
@@ -213,9 +213,9 @@ describe('Graph', () => {
   });
 
   it('layout', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__before-layout');
+    await expect(graph).toMatchSnapshot(__filename, 'before-layout');
     await graph.layout();
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__after-layout');
+    await expect(graph).toMatchSnapshot(__filename, 'after-layout');
     expect(graph.getElementPosition('node-1')).toBeDefined();
   });
 
@@ -223,7 +223,7 @@ describe('Graph', () => {
     const [px, py] = graph.getPosition();
     graph.translateBy([100, 100]);
     expect(graph.getPosition()).toBeCloseTo([px + 100, py + 100]);
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__after-translate');
+    await expect(graph).toMatchSnapshot(__filename, 'after-translate');
     graph.translateTo([0, 0]);
     expect(graph.getPosition()).toBeCloseTo([px, py]);
   });
@@ -233,7 +233,7 @@ describe('Graph', () => {
     expect(zoom).toBeCloseTo(1);
     graph.zoomTo(2);
     expect(graph.getZoom()).toBeCloseTo(2);
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__after-zoom-2');
+    await expect(graph).toMatchSnapshot(__filename, 'after-zoom-2');
     graph.zoomBy(0.5);
     expect(graph.getZoom()).toBeCloseTo(1);
   });
@@ -243,7 +243,7 @@ describe('Graph', () => {
     expect(rotate).toBeCloseTo(0);
     graph.rotateTo(90);
     expect(graph.getRotation()).toBeCloseTo(90);
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__after-rotate-90');
+    await expect(graph).toMatchSnapshot(__filename, 'after-rotate-90');
     graph.rotateBy(-90);
     expect(graph.getRotation()).toBeCloseTo(0);
   });
@@ -251,7 +251,7 @@ describe('Graph', () => {
   it('translateElementTo/translateElementBy', async () => {
     const [px, py] = graph.getElementPosition('node-1');
     graph.translateElementBy({ 'node-1': [100, 100] }, false);
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__after-translate-node-1');
+    await expect(graph).toMatchSnapshot(__filename, 'after-translate-node-1');
     expect(graph.getElementPosition('node-1')).toBeCloseTo([px + 100, py + 100, 0]);
     graph.translateElementTo({ 'node-1': [px, py] }, false);
     expect(graph.getElementPosition('node-1')).toBeCloseTo([px, py, 0]);

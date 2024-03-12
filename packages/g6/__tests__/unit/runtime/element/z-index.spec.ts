@@ -16,18 +16,18 @@ describe('element z-index', () => {
   it('front', async () => {
     graph.frontElement('node-2');
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__front');
+    await expect(graph).toMatchSnapshot(__filename, 'front');
   });
 
   it('back', async () => {
     graph.backElement('node-2');
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__back');
+    await expect(graph).toMatchSnapshot(__filename, 'back');
   });
 
   it('to', async () => {
     graph.setElementZIndex({ 'node-2': 0 });
 
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename);
+    await expect(graph).toMatchSnapshot(__filename);
   });
 });

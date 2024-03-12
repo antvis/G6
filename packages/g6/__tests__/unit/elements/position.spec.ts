@@ -10,7 +10,7 @@ describe('element position', () => {
   });
 
   it('default status', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename);
+    await expect(graph).toMatchSnapshot(__filename);
   });
 
   it('translateElementTo', async () => {
@@ -19,7 +19,7 @@ describe('element position', () => {
       'node-2': [125, 100],
       'node-3': [125, 100],
     });
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translateElementTo');
+    await expect(graph).toMatchSnapshot(__filename, 'translateElementTo');
   });
 
   it('translateElementBy', async () => {
@@ -28,16 +28,16 @@ describe('element position', () => {
       'node-2': [+50, -50],
       'node-3': [0, +50],
     });
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translateElementBy');
+    await expect(graph).toMatchSnapshot(__filename, 'translateElementBy');
   });
 
   it('translateElementTo single api', async () => {
     graph.translateElementTo('node-1', [50, 50]);
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translateElementTo-single');
+    await expect(graph).toMatchSnapshot(__filename, 'translateElementTo-single');
   });
 
   it('translateElementBy single api', async () => {
     graph.translateElementBy('node-1', [50, 50]);
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__translateElementBy-single');
+    await expect(graph).toMatchSnapshot(__filename, 'translateElementBy-single');
   });
 });

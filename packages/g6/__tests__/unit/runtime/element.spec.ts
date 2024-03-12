@@ -13,7 +13,7 @@ describe('ElementController', () => {
   });
 
   it('static', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename);
+    await expect(graph).toMatchSnapshot(__filename);
 
     // @ts-expect-error context is private.
     const elementController = graph.context.element!;

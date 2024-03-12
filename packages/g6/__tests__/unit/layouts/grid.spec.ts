@@ -14,11 +14,11 @@ describe('grid', () => {
   });
 
   it('sortBy default', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__sortby_default');
+    await expect(graph).toMatchSnapshot(__filename, 'sortby_default');
   });
 
   it('sortBy id', async () => {
     graph.setLayout({ type: 'grid', sortBy: 'id' }), await graph.layout();
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__sortby_id');
+    await expect(graph).toMatchSnapshot(__filename, 'sortby_id');
   });
 });

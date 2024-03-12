@@ -14,6 +14,6 @@ describe('mds', () => {
   });
 
   it('mds linkDistance = 100', async () => {
-    await expect(graph.getCanvas()).toMatchSnapshot(__filename, '{name}__ld100');
+    await expect(graph).toMatchSnapshot(__filename, 'ld100');
   });
 });
