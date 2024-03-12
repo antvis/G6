@@ -4,6 +4,7 @@ export * from './behavior-zoom-canvas';
 export * from './combo';
 export * from './common-graph';
 export * from './element-change-type';
+export * from './element-port';
 export * from './element-position';
 export * from './element-state';
 export * from './element-visibility';

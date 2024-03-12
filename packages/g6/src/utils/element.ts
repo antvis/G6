@@ -89,7 +89,7 @@ export function getAllPorts(node: Node): Record<string, Port> {
   const ports = node.getPorts();
 
   // 2. 不需要额外绘制的连接桩 | Get the ports that do not need to be drawn
-  const portsStyle = node.attributes.ports;
+  const portsStyle = node.attributes.ports || [];
   portsStyle.forEach((portStyle: NodePortStyleProps, i: number) => {
     const { key, placement } = portStyle;
     if (isSimplePort(portStyle)) {
