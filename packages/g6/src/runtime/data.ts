@@ -14,6 +14,7 @@ import type {
   PartialEdgeData,
   PartialGraphData,
   PartialNodeLikeData,
+  State,
 } from '../types';
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
@@ -21,7 +22,7 @@ import type { Point } from '../types/point';
 import { cloneElementData, mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
-import { idOf } from '../utils/id';
+import { idOf, parentIdOf } from '../utils/id';
 import { dfs } from '../utils/traverse';
 
 export class DataController {
@@ -180,6 +181,20 @@ export class DataController {
   }
 
   /**
+   * <zh/> 获取指定类型元素的数据
+   *
+   * <en/> Get the data of the specified type of element
+   * @param elementType - <zh/> 元素类型 | <en/> element type
+   * @returns <zh/> 元素数据 | <en/> element data
+   */
+  public getElementData(elementType: ElementType) {
+    if (elementType === 'node') return this.getNodeData();
+    if (elementType === 'edge') return this.getEdgeData();
+    if (elementType === 'combo') return this.getComboData();
+    return [];
+  }
+
+  /**
    * <zh/> 根据 ID 获取元素的数据，不用关心元素的类型
    *
    * <en/> Get the data of the element by ID, no need to care about the type of the element
@@ -189,7 +204,6 @@ export class DataController {
   public getElementsData(ids: ID[]): ElementDatum[] {
     return ids.map((id) => {
       const type = this.getElementType(id);
-
       if (type === 'node') return this.getNodeData([id])[0];
       else if (type === 'edge') return this.getEdgeData([id])[0];
       return this.getComboData([id])[0];
@@ -209,6 +223,15 @@ export class DataController {
       else acc.push(node.data);
       return acc;
     }, [] as NodeLikeData[]);
+  }
+
+  public getElementDataByState(elementType: ElementType, state: string) {
+    const elementData = this.getElementData(elementType);
+    return elementData.filter((datum) => datum.style?.states?.includes(state));
+  }
+
+  public getElementState(id: ID): State[] {
+    return this.getElementsData([id])?.[0]?.style?.states || [];
   }
 
   public hasNode(id: ID) {
@@ -327,7 +350,7 @@ export class DataController {
     data.forEach((datum) => {
       const id = idOf(datum);
 
-      const parentId = datum?.style?.parentId;
+      const parentId = parentIdOf(datum);
       if (parentId !== undefined) {
         model.attachTreeStructure(COMBO_KEY);
         model.setParent(id, parentId, COMBO_KEY);
@@ -541,10 +564,10 @@ export class DataController {
       this.model.getChildren(id, COMBO_KEY).forEach((child) => {
         const childData = child.data;
         const childId = idOf(childData);
-        this.model.setParent(idOf(childData), data?.style?.parentId, COMBO_KEY);
+        this.model.setParent(idOf(childData), parentIdOf(data), COMBO_KEY);
         const value = mergeElementsData(childData, {
           id: idOf(childData),
-          style: { parentId: data?.style?.parentId },
+          style: { parentId: parentIdOf(data) },
         });
         this.pushChange({
           value,

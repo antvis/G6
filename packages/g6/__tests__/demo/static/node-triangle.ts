@@ -52,8 +52,11 @@ export const nodeTriangle: StaticTestCase = async (context) => {
   });
 
   await graph.render();
-  graph.setElementState('triangle-active', 'active');
-  graph.setElementState('triangle-selected', 'selected');
-  graph.setElementState('triangle-highlight', 'highlight');
-  graph.setElementState('triangle-inactive', 'inactive');
+
+  graph.setElementState({
+    'triangle-active': 'active',
+    'triangle-selected': 'selected',
+    'triangle-highlight': 'highlight',
+    'triangle-inactive': 'inactive',
+  });
 };

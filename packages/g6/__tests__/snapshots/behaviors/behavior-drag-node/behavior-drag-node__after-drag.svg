@@ -10,18 +10,18 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="combo-1" fill="none" transform="matrix(1,0,0,1,200,150)">
+        <g id="combo-1" fill="none" transform="matrix(1,0,0,1,210,160)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
               fill="rgba(253,253,253,1)"
-              transform="translate(-72.80109889280519,-72.80109889280519)"
-              cx="72.80109889280519"
-              cy="72.80109889280519"
+              transform="translate(-85.44003745317531,-85.44003745317531)"
+              cx="85.44003745317531"
+              cy="85.44003745317531"
               stroke-dasharray="0,0"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              r="72.80109889280519"
+              r="85.44003745317531"
             />
           </g>
         </g>

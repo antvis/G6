@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps, DataURLOptions } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { debounce, isEqual, isFunction, isNumber, isString, omit } from '@antv/util';
+import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type {
   BehaviorOptions,
@@ -29,14 +29,13 @@ import type {
   PartialGraphData,
   PartialNodeLikeData,
   Point,
-  Positions,
+  Position,
   State,
   Vector2,
   ViewportAnimationEffectTiming,
-  ZIndex,
 } from '../types';
 import { sizeOf } from '../utils/dom';
-import { GraphLifeCycleEvent, emit } from '../utils/event';
+import { ElementStateChangeEvent, GraphLifeCycleEvent, emit } from '../utils/event';
 import { parsePoint, toPointObject } from '../utils/point';
 import { add, subtract } from '../utils/vector';
 import { BehaviorController } from './behavior';
@@ -303,13 +302,8 @@ export class Graph extends EventEmitter {
   public getElementDataByState(elementType: 'edge', state: State): EdgeData[];
   public getElementDataByState(elementType: 'combo', state: State): ComboData[];
   public getElementDataByState(elementType: ElementType, state: State): ElementDatum[] {
-    const ids = Object.entries(this.context.element!.elementState)
-      .filter(([id, states]) => this.context.model.getElementType(id) === elementType && states.includes(state))
-      .map(([id]) => id);
-    return this.context.model.getElementsData(ids);
+    return this.context.model.getElementDataByState(elementType, state);
   }
-
-  // ---------- end core API ----------
 
   private createCanvas() {
     if (this.context.canvas) return this.context.canvas;
@@ -407,7 +401,6 @@ export class Graph extends EventEmitter {
     this.destroyed = true;
   }
 
-  // ---------- Runtime API ----------
   public getCanvas(): Canvas {
     return this.context.canvas;
   }
@@ -582,22 +575,83 @@ export class Graph extends EventEmitter {
     return subtract([0, 0], this.getCanvasByViewport([0, 0]));
   }
 
-  public translateElementBy(offsets: Positions, animation?: boolean): void {
-    const positions = Object.entries(offsets).reduce((acc, [id, offset]) => {
-      const curr = this.getElementPosition(id);
-      const next = add(curr, [...offset, 0].slice(0, 3) as Point);
-      acc[id] = next;
-      return acc;
-    }, {} as Positions);
+  /**
+   * <zh/> 将元素平移指定距离
+   *
+   * <en/> Translate the element by the specified distance
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param offset - <zh/> 偏移量 | <en/> offset
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async translateElementBy(id: ID, offset: Position, animation?: boolean): Promise<void>;
+  /**
+   * <zh/> 批量将元素平移指定距离
+   *
+   * <en/> Batch translate elements by the specified distance
+   * @param offsets - <zh/> 偏移量配置 | <en/> offset configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async translateElementBy(offsets: Record<ID, Position>, animation?: boolean): Promise<void>;
+  public async translateElementBy(
+    args1: ID | Record<ID, Position>,
+    args2?: Position | boolean,
+    args3: boolean = true,
+  ): Promise<void> {
+    const [config, animation] = isObject(args1)
+      ? [args1, (args2 as boolean) ?? true]
+      : [{ [args1 as ID]: args2 as Position }, args3];
 
-    this.translateElementTo(positions, animation);
+    const positions = Object.entries(config).reduce(
+      (acc, [id, offset]) => {
+        const curr = this.getElementPosition(id);
+        const next = add(curr, [...offset, 0].slice(0, 3) as Point);
+        acc[id] = next;
+        return acc;
+      },
+      {} as Record<ID, Position>,
+    );
+
+    await this.translateElementTo(positions, animation);
   }
 
-  public translateElementTo(positions: Positions, animation?: boolean): void {
-    this.context.element!.updateNodeLikePosition(positions, animation);
+  /**
+   * <zh/> 将元素平移至指定位置
+   *
+   * <en/> Translate the element to the specified position
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param position - <zh/> 指定位置 | <en/> specified position
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async translateElementTo(id: ID, position: Position, animation?: boolean): Promise<void>;
+  /**
+   * <zh/> 批量将元素平移至指定位置
+   *
+   * <en/> Batch translate elements to the specified position
+   * @param positions - <zh/> 位置配置 | <en/> position configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async translateElementTo(positions: Record<ID, Position>, animation?: boolean): Promise<void>;
+  public async translateElementTo(
+    args1: ID | Record<ID, Position>,
+    args2?: boolean | Position,
+    args3: boolean = true,
+  ): Promise<void> {
+    const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
+    const [config, animation] = isObject(args1)
+      ? [args1, (args2 as boolean) ?? true]
+      : [{ [args1 as ID]: args2 as Position }, args3];
+
+    Object.entries(config).forEach(([id, [x, y, z = 0]]) => {
+      const elementType = this.getElementType(id);
+      dataToUpdate[`${elementType}s`].push({ id, style: { x, y, z } });
+    });
+
+    this.updateData(dataToUpdate);
+
+    await this.context.element!.draw({ animation });
   }
 
-  public getElementPosition(id: ID): Point {
+  public getElementPosition(id: ID): Position {
     const element = this.context.element!.getElement(id)!;
     const { x = 0, y = 0, z = 0 } = element.style;
     return [x, y, z];
@@ -607,45 +661,222 @@ export class Graph extends EventEmitter {
     return omit(this.context.element!.getElement(id)!.attributes, ['context']);
   }
 
+  /**
+   * <zh/> 设置元素可见性
+   *
+   * <en/> Set element visibility
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param visibility - <zh/> 可见性 | <en/> visibility
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
   public async setElementVisibility(
-    id: ID | ID[],
+    id: ID,
     visibility: BaseStyleProps['visibility'],
     animation?: boolean,
+  ): Promise<void>;
+  /**
+   * <zh/> 批量设置元素可见性
+   *
+   * <en/> Batch set element visibility
+   * @param visibility - <zh/> 可见性配置 | <en/> visibility configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async setElementVisibility(
+    visibility: Record<ID, BaseStyleProps['visibility']>,
+    animation?: boolean,
+  ): Promise<void>;
+  public async setElementVisibility(
+    args1: ID | Record<ID, BaseStyleProps['visibility']>,
+    args2?: boolean | BaseStyleProps['visibility'],
+    args3: boolean = true,
   ): Promise<void> {
-    await this.context.element!.setElementsVisibility(Array.isArray(id) ? id : [id], visibility, animation);
+    const [config, animation] = isObject(args1)
+      ? [args1, (args2 as boolean) ?? true]
+      : [{ [args1]: args2 as BaseStyleProps['visibility'] }, args3];
+
+    const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
+    Object.entries(config).forEach(([id, value]) => {
+      const elementType = this.getElementType(id);
+      dataToUpdate[`${elementType}s`].push({ id, style: { visibility: value } });
+    });
+    this.updateData(dataToUpdate);
+
+    await this.context.element!.draw({ animation, stage: 'visibility' });
   }
 
+  /**
+   * <zh/> 显示元素
+   *
+   * <en/> Show element
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async showElement(id: ID | ID[], animation?: boolean): Promise<void> {
+    const ids = Array.isArray(id) ? id : [id];
+    await this.setElementVisibility(
+      Object.fromEntries(ids.map((_id) => [_id, 'visible'] as [ID, BaseStyleProps['visibility']])),
+      animation,
+    );
+  }
+
+  /**
+   * <zh/> 隐藏元素
+   *
+   * <en/> Hide element
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async hideElement(id: ID | ID[], animation?: boolean): Promise<void> {
+    const ids = Array.isArray(id) ? id : [id];
+    await this.setElementVisibility(
+      Object.fromEntries(ids.map((_id) => [_id, 'hidden'] as [ID, BaseStyleProps['visibility']])),
+      animation,
+    );
+  }
+
+  /**
+   * <zh/> 获取元素可见性
+   *
+   * <en/> Get element visibility
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @returns <zh/> 元素可见性 | <en/> element visibility
+   */
   public getElementVisibility(id: ID): BaseStyleProps['visibility'] {
     const element = this.context.element!.getElement(id)!;
-    return element.style.visibility ?? 'visible';
+    return element?.style?.visibility ?? 'visible';
   }
 
-  public setElementZIndex(id: ID | ID[], zIndex: ZIndex): void {
-    const ids = Array.isArray(id) ? id : [id];
-    ids.forEach((id) => {
-      this.context.element!.setElementZIndex(id, zIndex);
+  /**
+   * <zh/> 设置元素层级
+   *
+   * <en/> Set element z-index
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param zIndex - <zh/> 层级 | <en/> z-index
+   */
+  public async setElementZIndex(id: ID, zIndex: number): Promise<void>;
+  /**
+   * <zh/> 批量设置元素层级
+   *
+   * <en/> Batch set element z-index
+   * @param zIndex - <zh/> 层级配置 | <en/> z-index configuration
+   */
+  public async setElementZIndex(zIndex: Record<ID, number>): Promise<void>;
+  public async setElementZIndex(args1: ID | Record<ID, number>, args2?: number): Promise<void> {
+    const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
+    const config = isObject(args1) ? args1 : { [args1 as ID]: args2 as number };
+
+    Object.entries(config).forEach(([id, value]) => {
+      const elementType = this.getElementType(id);
+      dataToUpdate[`${elementType}s`].push({ id, style: { zIndex: value } });
     });
+
+    this.updateData(dataToUpdate);
+
+    await this.context.element!.draw();
   }
 
+  /**
+   * <zh/> 将元素置于最顶层
+   *
+   * <en/> Bring the element to the front
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   */
+  public async frontElement(id: ID | ID[]): Promise<void> {
+    const ids = Array.isArray(id) ? id : [id];
+
+    await this.setElementZIndex(
+      Object.fromEntries(
+        ids.map((_id) => {
+          const elementType = this.getElementType(_id);
+          const [, max] = this.context.element!.getElementZIndexRange(elementType);
+          const parsedZIndex = max + 1;
+          return [_id, parsedZIndex];
+        }),
+      ),
+    );
+  }
+
+  /**
+   * <zh/> 将元素置于最底层
+   *
+   * <en/> Send the element to the back
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   */
+  public async backElement(id: ID | ID[]): Promise<void> {
+    const ids = Array.isArray(id) ? id : [id];
+
+    await this.setElementZIndex(
+      Object.fromEntries(
+        ids.map((_id) => {
+          const elementType = this.getElementType(_id);
+          const [min] = this.context.element!.getElementZIndexRange(elementType);
+          const parsedZIndex = min - 1;
+          return [_id, parsedZIndex];
+        }),
+      ),
+    );
+  }
+
+  /**
+   * <zh/> 获取元素层级
+   *
+   * <en/> Get element z-index
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @returns <zh/> 元素层级 | <en/> element z-index
+   */
   public getElementZIndex(id: ID): BaseStyleProps['zIndex'] {
     const element = this.context.element!.getElement(id)!;
     return element.style.zIndex ?? 0;
   }
 
-  public setElementState(id: ID | ID[], state: CallableValue<State | State[]>): void {
-    const states = (Array.isArray(id) ? id : [id]).reduce(
-      (acc, i) => {
-        const staticState = isFunction(state) ? state(this.getElementState(i)) : state;
-        acc[i] = Array.isArray(staticState) ? staticState : [staticState];
-        return acc;
-      },
-      {} as Record<ID, State[]>,
-    );
-    this.context.element!.setElementsState(states);
+  /**
+   * <zh/> 设置元素状态
+   *
+   * <en/> Set element state
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param state - <zh/> 状态 | <en/> state
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async setElementState(id: ID, state: State | State[], animation?: boolean): Promise<void>;
+  /**
+   * <zh/> 批量设置元素状态
+   *
+   * <en/> Batch set element state
+   * @param state - <zh/> 状态配置 | <en/> state configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   */
+  public async setElementState(state: Record<ID, State | State[]>, animation?: boolean): Promise<void>;
+  public async setElementState(
+    args1: ID | Record<ID, State | State[]>,
+    args2?: boolean | State | State[],
+    args3: boolean = true,
+  ): Promise<void> {
+    const [config, animation] = isObject(args1)
+      ? [args1, (args2 as boolean) ?? true]
+      : [{ [args1]: args2 as State | State[] }, args3];
+
+    emit(this, new ElementStateChangeEvent(GraphEvent.BEFORE_ELEMENT_STATE_CHANGE, config));
+
+    const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
+    Object.entries(config).forEach(([id, value]) => {
+      const elementType = this.getElementType(id);
+      dataToUpdate[`${elementType}s`].push({ id, style: { states: Array.isArray(value) ? value : [value] } });
+    });
+    this.updateData(dataToUpdate);
+
+    await this.context.element!.draw({ animation });
+    emit(this, new ElementStateChangeEvent(GraphEvent.AFTER_ELEMENT_STATE_CHANGE, config));
   }
 
+  /**
+   * <zh/> 获取元素状态
+   *
+   * <en/> Get element state
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @returns <zh/> 元素状态 | <en/> element state
+   */
   public getElementState(id: ID): State[] {
-    return this.context.element!.getElementStates(id);
+    return this.context.model.getElementState(id);
   }
 
   public getElementRenderBounds(id: ID): AABB {

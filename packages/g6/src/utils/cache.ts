@@ -1,4 +1,7 @@
 import type { DisplayObject } from '@antv/g';
+import { get, set } from '@antv/util';
+
+const CacheTargetKey = 'cachedStyle';
 
 const getStyleCacheKey = (name: string) => `__${name}__`;
 
@@ -11,12 +14,9 @@ const getStyleCacheKey = (name: string) => `__${name}__`;
  */
 export function cacheStyle(element: DisplayObject, name: string | string[]) {
   const names = Array.isArray(name) ? name : [name];
+  if (!get(element, CacheTargetKey)) set(element, CacheTargetKey, {});
   names.forEach((n) => {
-    if (n in element.attributes) {
-      Object.assign(element.attributes, {
-        [getStyleCacheKey(n)]: element.attributes[n],
-      });
-    }
+    set(get(element, CacheTargetKey), getStyleCacheKey(n), element.attributes[n]);
   });
 }
 
@@ -29,7 +29,19 @@ export function cacheStyle(element: DisplayObject, name: string | string[]) {
  * @returns <zh/> 样式值 | <en/> style value
  */
 export function getCachedStyle(element: DisplayObject, name: string) {
-  return element.attributes[getStyleCacheKey(name)];
+  return get(element, [CacheTargetKey, getStyleCacheKey(name)]);
+}
+
+/**
+ * <zh/> 是否有缓存的样式
+ *
+ * <en/> Whether there is a cached style
+ * @param element - <zh/> 图形元素 | <en/> graphic element
+ * @param name - <zh/> 样式名 | <en/> style name
+ * @returns <zh/> 是否有缓存的样式 | <en/> Whether there is a cached style
+ */
+export function hasCachedStyle(element: DisplayObject, name: string) {
+  return getStyleCacheKey(name) in (get(element, CacheTargetKey) || {});
 }
 
 /**
@@ -41,5 +53,6 @@ export function getCachedStyle(element: DisplayObject, name: string) {
  * @param value - <zh/> 样式值 | <en/> style value
  */
 export function setCacheStyle(element: DisplayObject, name: string, value: any) {
-  element.attributes[getStyleCacheKey(name)] = value;
+  // element.attributes[getStyleCacheKey(name)] = value;
+  set(element, [CacheTargetKey, getStyleCacheKey(name)], value);
 }

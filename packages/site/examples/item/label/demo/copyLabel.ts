@@ -38,16 +38,16 @@ graph.render();
 graph.on('node:click', (e) => {
   const id = e.target.id;
   const node = graph.getNodeData(id);
-  const label = node?.data?.label;
+  const label = node?.data?.label as string;
 
-  navigator.clipboard.writeText(label);
+  navigator.clipboard.writeText(label as string);
   alert('copied to clipboard!');
 });
 
 graph.on('node:pointerenter', (e) => {
-  graph.setElementState(e.target.id, 'active');
+  graph.setElementState({ [e.target.id]: 'active' });
 });
 
 graph.on('node:pointerout', (e) => {
-  graph.setElementState(e.target.id, '');
+  graph.setElementState({ [e.target.id]: [] });
 });

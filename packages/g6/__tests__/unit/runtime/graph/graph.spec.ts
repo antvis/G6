@@ -6,7 +6,7 @@ import { createDemoGraph } from '@@/utils';
 describe('Graph', () => {
   let graph: Graph;
   beforeAll(async () => {
-    graph = await createDemoGraph(commonGraph);
+    graph = await createDemoGraph(commonGraph, { animation: false });
   });
   const idOf = (d: any) => d.id;
 
@@ -70,22 +70,32 @@ describe('Graph', () => {
   });
 
   it('updateData/getData/setData', () => {
-    expect(graph.getData()).toEqual({ combos: [], ...data });
+    // 调整之后，getData 获取的为当前 graph 最新的数据，而不是初始化时的数据
+    // After adjustment, the data obtained by getData is the latest data of the graph, not the data when it is initialized
+    const currData = graph.getData();
+    expect(currData.nodes?.map(idOf)).toEqual(data.nodes.map(idOf));
+    expect(currData.edges?.map(idOf)).toEqual(data.edges.map(idOf));
 
     graph.setData({
       nodes: [{ id: 'node-1' }, { id: 'node-2' }],
       edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2' }],
     });
     expect(graph.getData()).toEqual({
-      nodes: [{ id: 'node-1' }, { id: 'node-2' }],
-      edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2' }],
+      nodes: [
+        { id: 'node-1', data: {}, style: {} },
+        { id: 'node-2', data: {}, style: {} },
+      ],
+      edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: {} }],
       combos: [],
     });
 
     graph.updateData({ edges: [{ id: 'edge-1', style: { lineWidth: 5 } }] });
     expect(graph.getData()).toEqual({
-      nodes: [{ id: 'node-1' }, { id: 'node-2' }],
-      edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', style: { lineWidth: 5 } }],
+      nodes: [
+        { id: 'node-1', data: {}, style: {} },
+        { id: 'node-2', data: {}, style: {} },
+      ],
+      edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { lineWidth: 5 } }],
       combos: [],
     });
   });
@@ -115,13 +125,13 @@ describe('Graph', () => {
     graph.updateEdgeData([{ id: 'edge-2', style: { lineWidth: 10 } }]);
     graph.updateComboData([{ id: 'combo-1', style: { stroke: 'red' } }]);
     expect(graph.getNodeData()).toEqual([
-      { id: 'node-1' },
-      { id: 'node-2' },
-      { id: 'node-3', style: { x: 100, y: 100, parentId: 'combo-1' } },
-      { id: 'node-4', style: { parentId: 'combo-1' } },
+      { id: 'node-1', data: {}, style: {} },
+      { id: 'node-2', data: {}, style: {} },
+      { id: 'node-3', data: {}, style: { x: 100, y: 100, parentId: 'combo-1' } },
+      { id: 'node-4', data: {}, style: { parentId: 'combo-1' } },
     ]);
     expect(graph.getEdgeData().map(idOf)).toEqual(['edge-1', 'edge-2']);
-    expect(graph.getComboData()).toEqual([{ id: 'combo-1', style: { stroke: 'red' } }]);
+    expect(graph.getComboData()).toEqual([{ id: 'combo-1', data: {}, style: { stroke: 'red' } }]);
     graph.removeComboData(['combo-1']);
     graph.removeNodeData(['node-3', 'node-4']);
     expect(graph.getNodeData().map(idOf)).toEqual(['node-1', 'node-2']);
@@ -150,7 +160,7 @@ describe('Graph', () => {
   });
 
   it('getNeighborNodesData', () => {
-    expect(graph.getNeighborNodesData('node-1')).toEqual([{ id: 'node-2' }]);
+    expect(graph.getNeighborNodesData('node-1')).toEqual([{ id: 'node-2', data: {}, style: {} }]);
   });
 
   it('getParentData', () => {
@@ -164,24 +174,41 @@ describe('Graph', () => {
     expect(renderBounds.max).toEqual([16, 16, 0]);
   });
 
-  it('setElementState/getElementState/getElementDataByState', () => {
-    graph.setElementState('node-1', ['selected']);
+  it('setElementState/getElementState/getElementDataByState', async () => {
+    await graph.setElementState('node-2', 'selected');
+    expect(graph.getElementState('node-2')).toEqual(['selected']);
+    await graph.setElementState('node-2', []);
+    expect(graph.getElementState('node-2')).toEqual([]);
+
+    await graph.setElementState({ 'node-1': 'selected' });
     expect(graph.getElementState('node-1')).toEqual(['selected']);
     expect(graph.getElementState('node-2')).toEqual([]);
-    expect(graph.getElementDataByState('node', 'selected')).toEqual([{ id: 'node-1' }]);
+    expect(graph.getElementDataByState('node', 'selected')).toEqual([
+      { id: 'node-1', data: {}, style: { states: ['selected'] } },
+    ]);
   });
 
-  it('setElementZIndex/getElementZIndex', () => {
-    graph.setElementZIndex('node-1', 'front');
+  it('setElementZIndex/getElementZIndex', async () => {
+    await graph.setElementZIndex('node-1', 2);
+    expect(graph.getElementZIndex('node-1')).toBe(2);
+    await graph.setElementZIndex({ 'node-1': 0 });
+    expect(graph.getElementZIndex('node-1')).toBe(0);
+
+    await graph.frontElement('node-1');
     expect(graph.getElementZIndex('node-1')).toBe(1);
     expect(graph.getElementZIndex('node-2')).toBe(0);
   });
 
-  it('setElementVisibility/getElementVisibility', () => {
-    graph.setElementVisibility('node-1', 'hidden');
+  it('setElementVisibility/getElementVisibility', async () => {
+    await graph.hideElement('node-1');
+    expect(graph.getElementVisibility('node-1')).toBe('hidden');
+    await graph.showElement('node-1');
+    expect(graph.getElementVisibility('node-1')).toBe('visible');
+
+    await graph.setElementVisibility({ 'node-1': 'hidden' });
     expect(graph.getElementVisibility('node-1')).toBe('hidden');
     expect(graph.getElementVisibility('node-2')).toBe('visible');
-    graph.setElementVisibility('node-1', 'visible');
+    await graph.setElementVisibility({ 'node-1': 'visible' });
     expect(graph.getElementVisibility('node-1')).toBe('visible');
   });
 

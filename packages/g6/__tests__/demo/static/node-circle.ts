@@ -57,9 +57,11 @@ export const nodeCircle: StaticTestCase = async (context) => {
 
   await graph.render();
 
-  graph.setElementState('circle-active', 'active');
-  graph.setElementState('circle-selected', 'selected');
-  graph.setElementState('circle-highlight', 'highlight');
-  graph.setElementState('circle-inactive', 'inactive');
-  graph.setElementState('circle-disabled', 'disabled');
+  graph.setElementState({
+    'circle-active': 'active',
+    'circle-selected': 'selected',
+    'circle-highlight': 'highlight',
+    'circle-inactive': 'inactive',
+    'circle-disabled': 'disabled',
+  });
 };

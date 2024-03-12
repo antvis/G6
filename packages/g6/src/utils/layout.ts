@@ -1,9 +1,5 @@
-import type { LayoutMapping } from '@antv/layout';
 import { isNumber } from '@antv/util';
 import type { STDLayoutOptions } from '../spec/layout';
-import type { LayoutResult } from '../types';
-import { idOf } from './id';
-import { parsePoint } from './point';
 
 /**
  * <zh/> 判断是否是 combo 布局
@@ -29,40 +25,6 @@ export function isComboLayout(options: STDLayoutOptions) {
 export function isTreeLayout(options: STDLayoutOptions) {
   const { type } = options;
   return ['compact-box', 'mindmap', 'dendrogram', 'indented'].includes(type);
-}
-
-/**
- * <zh/> 从布局算法的结果抽取应用到元素中的样式
- *
- * <en/> Extract the style applied to the element from the result of the layout algorithm
- * @param result - <zh/> 布局算法的结果 | <en/> The result of the layout algorithm
- * @returns <zh/> 应用到元素中的样式 | <en/> Style applied to the element
- */
-export function pickLayoutResult(result: LayoutMapping): LayoutResult {
-  const { nodes = [], edges = [] } = result;
-
-  return {
-    nodes: Object.fromEntries(
-      nodes.map((node) => {
-        const {
-          id,
-          data: { x, y, z },
-        } = node;
-        if (isNumber(z)) return [id, [x, y, z]];
-        return [id, [x, y]];
-      }),
-    ),
-    edges: Object.fromEntries(
-      edges.map((edge) => {
-        const id = idOf(edge);
-        const { data } = edge;
-        const result: Record<string, unknown> = {};
-        if ('controlPoints' in data) result.controlPoints = data.controlPoints!.map(parsePoint);
-        // if ('points' in data) result.points = data.points!.map(parsePoint);
-        return [id, result];
-      }),
-    ),
-  };
 }
 
 /**
