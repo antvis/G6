@@ -1,7 +1,19 @@
 import type { AABB } from '@antv/g';
-import type { Anchor, Placement, Position, RelativePlacement } from '../types';
+import type { Anchor, NodeLikeData, Placement, Position, RelativePlacement } from '../types';
 import { parseAnchor } from './anchor';
 import { parsePlacement } from './placement';
+
+/**
+ * <zh/> 获取节点/ combo 的位置坐标
+ *
+ * <en/> Get the position of node/combo
+ * @param datum - <zh/> 节点/ combo 的数据 | <en/> data of node/combo
+ * @returns - <zh/> 坐标 | <en/> position
+ */
+export function positionOf(datum: NodeLikeData): Position {
+  const { x = 0, y = 0, z = 0 } = datum.style || {};
+  return [x, y, z];
+}
 
 /**
  * <zh/> 获取相对位置坐标

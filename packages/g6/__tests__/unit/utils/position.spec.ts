@@ -1,4 +1,4 @@
-import { getXYByAnchor, getXYByPlacement, getXYByRelativePlacement } from '@/src/utils/position';
+import { getXYByAnchor, getXYByPlacement, getXYByRelativePlacement, positionOf } from '@/src/utils/position';
 import { AABB } from '@antv/g';
 
 describe('position', () => {
@@ -28,5 +28,12 @@ describe('position', () => {
     expect(getXYByAnchor(bbox, [0, 0])).toEqual([0, 0]);
     expect(getXYByAnchor(bbox, [1, 1])).toEqual([100, 100]);
     expect(getXYByAnchor(bbox, [0.2, 0.2])).toEqual([20, 20]);
+  });
+
+  it('positionOf', () => {
+    expect(positionOf({ id: 'node' })).toEqual([0, 0, 0]);
+    expect(positionOf({ id: 'node', style: { x: 10 } })).toEqual([10, 0, 0]);
+    expect(positionOf({ id: 'node', style: { x: 10, y: 20 } })).toEqual([10, 20, 0]);
+    expect(positionOf({ id: 'node', style: { x: 10, y: 20, z: 30 } })).toEqual([10, 20, 30]);
   });
 });
