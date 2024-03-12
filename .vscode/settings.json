@@ -42,6 +42,7 @@
     "GSHAPE",
     "mindmap",
     "onframe",
+    "Polyline",
     "ranksep"
   ],
   "javascript.preferences.importModuleSpecifier": "relative",

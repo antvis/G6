@@ -27,5 +27,15 @@ describe('style', () => {
       size: 50,
       fill: 'red',
     });
+
+    const style1 = (data: any) => {
+      return {
+        fill: data.data.type === 'B' ? 'green' : 'red',
+      };
+    };
+
+    expect(computeElementCallbackStyle(style1, { datum, index: 0, elementData: [datum] })).toEqual({
+      fill: 'red',
+    });
   });
 });
