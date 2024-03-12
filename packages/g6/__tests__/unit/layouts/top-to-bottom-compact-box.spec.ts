@@ -1,12 +1,12 @@
 import type { Graph } from '@/src';
-import { topToBottomCompactBox } from '@@/demo/case';
+import { layoutTopToBottomCompactBox } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
 describe('topToBottomCompactBox', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createDemoGraph(topToBottomCompactBox);
+    graph = await createDemoGraph(layoutTopToBottomCompactBox);
   });
 
   afterAll(() => {

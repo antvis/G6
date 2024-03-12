@@ -6,7 +6,7 @@ type NodeData = {
   id: string;
 };
 
-export const compactBoxLeftAlign: STDTestCase = async (context) => {
+export const layoutCompactBoxLeftAlign: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: Utils.treeToGraphData(data),

@@ -1,12 +1,12 @@
 import type { Graph } from '@/src';
-import { compactBoxLeftAlign } from '@@/demo/case';
+import { layoutCompactBoxLeftAlign } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
 describe('compactBoxLeftAlign', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createDemoGraph(compactBoxLeftAlign);
+    graph = await createDemoGraph(layoutCompactBoxLeftAlign);
   });
 
   afterAll(() => {
