@@ -24,6 +24,8 @@ import type {
   ElementDatum,
   ElementType,
   Node,
+  NodeLike,
+  NodeLikeData,
   State,
   StyleIterationContext,
 } from '../types';
@@ -33,7 +35,7 @@ import { reduceDataChanges } from '../utils/change';
 import { updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import { AnimateEvent, GraphLifeCycleEvent } from '../utils/event';
-import { idOf, parentIdOf } from '../utils/id';
+import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
 import { computeElementCallbackStyle } from '../utils/style';
 import type { RuntimeContext } from './types';
@@ -303,12 +305,6 @@ export class ElementController {
     };
   }
 
-  private getComboChildren(id: ID) {
-    const { model } = this.context;
-
-    return model.getChildrenData(id).map((datum) => this.getElement(idOf(datum))!);
-  }
-
   public getElementComputedStyle(elementType: ElementType, id: ID) {
     // 优先级(从低到高) Priority (from low to high):
     const themeStyle = this.getThemeStyle(elementType);
@@ -323,9 +319,9 @@ export class ElementController {
     if (elementType === 'edge') {
       Object.assign(style, this.getEdgeEndsContext(id));
     } else if (elementType === 'combo') {
-      Object.assign(style, {
-        childrenNode: this.getComboChildren(id),
-      });
+      const childrenData = this.context.model.getChildrenData(id);
+      const childrenNode = childrenData.map((child) => this.getElement(idOf(child))).filter(Boolean) as NodeLike[];
+      Object.assign(style, { childrenNode, childrenData });
     }
 
     if (!style.type) {
@@ -413,49 +409,57 @@ export class ElementController {
       },
     };
 
-    const output = [this.updateRelatedEdgeFlow, this.updateRelatedComboFlow].reduce((data, flow) => flow(data), input);
+    const flows: Flow[] = [this.updateRelatedEdgeFlow, this.arrangeDrawOrderFlow];
 
-    return output;
+    return flows.reduce((data, flow) => flow(data), input);
   }
 
   /**
-   * 如果更新了节点，需要更新连接的边
-   * If the node is updated, the connected edge and the combo it is in need to be updated
+   * 如果更新了节点 / combo，需要更新连接的边
+   * If the node / combo is updated, the connected edge and the combo it is in need to be updated
    */
   private updateRelatedEdgeFlow: Flow = (input) => {
     const { model } = this.context;
     const {
-      update: { nodes, edges },
+      update: { nodes, edges, combos },
     } = input;
 
-    nodes.forEach((_, id) => {
+    const addRelatedEdges = (_: NodeLikeData, id: ID) => {
       const relatedEdgesData = model.getRelatedEdgesData(id);
       relatedEdgesData.forEach((edge) => edges.set(idOf(edge), edge));
-    });
+    };
+
+    nodes.forEach(addRelatedEdges);
+    combos.forEach(addRelatedEdges);
 
     return input;
   };
 
   /**
-   * 如果操作（新增/更新/移除）了节点或 combo，需要更新相对应的 combo
-   * If nodes or combos are operated (added/updated/removed), the related combo needs to be updated
+   * <zh/> 调整元素绘制顺序
+   *
+   * <en/> Adjust the drawing order of elements
    */
-  private updateRelatedComboFlow: Flow = (input) => {
-    const { add, update, remove } = input;
+  public arrangeDrawOrderFlow: Flow = (input) => {
     const { model } = this.context;
 
-    const comboIds = [add.nodes, update.nodes, remove.nodes, add.combos, update.combos, remove.combos].reduce(
-      (acc, data) => {
-        data.forEach((datum) => {
-          const parentId = parentIdOf(datum);
-          if (parentId !== undefined) acc.push(parentId);
-        });
-        return acc;
-      },
-      [] as ID[],
-    );
+    const combosToAdd = input.add.combos;
 
-    model.getComboData(comboIds).forEach((combo, index) => update.combos.set(comboIds[index], combo));
+    const order: [ID, ComboData, number][] = [];
+    combosToAdd.forEach((combo, id) => {
+      const ancestors = model.getAncestorsData(id, 'combo');
+      const path = ancestors.map((ancestor) => idOf(ancestor)).reverse();
+      // combo 的 zIndex 为距离根 combo 的深度
+      // The zIndex of the combo is the depth from the root combo
+      order.push([id, combo, path.length]);
+    });
+
+    input.add.combos = new Map(
+      order
+        // 基于 zIndex 降序排序，优先绘制子 combo / Sort based on zIndex in descending order, draw child combo first
+        .sort(([, , zIndex1], [, , zIndex2]) => zIndex2 - zIndex1)
+        .map(([id, datum]) => [id, datum]),
+    );
 
     return input;
   };
@@ -681,11 +685,11 @@ type DrawContext = {
  *
  * <en/> In Element Controller, in order to improve query performance, use Map to store data uniformly
  */
-type ProcedureData = {
-  nodes: Map<ID, NodeData>;
-  edges: Map<ID, EdgeData>;
-  combos: Map<ID, ComboData>;
-};
+class ProcedureData {
+  nodes: Map<ID, NodeData> = new Map();
+  edges: Map<ID, EdgeData> = new Map();
+  combos: Map<ID, ComboData> = new Map();
+}
 
 type FlowData = {
   add: ProcedureData;

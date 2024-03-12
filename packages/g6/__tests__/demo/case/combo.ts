@@ -19,9 +19,6 @@ export const combo: STDTestCase = async (context) => {
       },
       {
         id: 'combo-2',
-        style: {
-          zIndex: -10, // TODO: zIndex?
-        },
       },
     ],
   };

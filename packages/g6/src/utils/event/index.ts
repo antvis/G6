@@ -2,7 +2,7 @@ import type EventEmitter from '@antv/event-emitter';
 import type { DisplayObject } from '@antv/g';
 import { Document } from '@antv/g';
 import { Target } from '../../types';
-import { isEdge, isNode } from '../element';
+import { isCombo, isEdge, isNode } from '../element';
 import type { BaseEvent } from './events';
 
 export * from './events';
@@ -42,8 +42,7 @@ export function eventTargetOf(shape?: DisplayObject | Document): { type: string;
     // This condition is not applicable to the case where the label and node are rendered separately
     if (isNode(element)) return { type: 'node', element };
     if (isEdge(element)) return { type: 'edge', element };
-    // TODO is not combo
-    // if (isCombo(element)) return { type: 'combo', element };
+    if (isCombo(element)) return { type: 'combo', element };
     element = element.parentElement as DisplayObject | null;
   }
 

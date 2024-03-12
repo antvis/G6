@@ -1,3 +1,4 @@
+import type { ID } from '@antv/graphlib';
 import { isNumber, isString } from '@antv/util';
 import type { ComboData, EdgeData, NodeData } from '../spec';
 import { isEdgeData } from './is';
@@ -9,7 +10,7 @@ import { isEdgeData } from './is';
  * @param data - <zh/> 节点/边/Combo 的数据 | <en/> data of node/edge/combo
  * @returns <zh/> 节点/边/Combo 的 ID | <en/> ID of node/edge/combo
  */
-export function idOf(data: Partial<NodeData | EdgeData | ComboData>) {
+export function idOf(data: Partial<NodeData | EdgeData | ComboData>): ID {
   if (isString(data.id) || isNumber(data.id)) return data.id;
   if (isEdgeData(data)) return `${data.source}-${data.target}`;
 
