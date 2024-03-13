@@ -1,0 +1,79 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g
+          id="edge-1"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="edge-1"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,215.920593,133.019730)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,65.38820495635625 L 84.07940495664016,56.98026446069224 L 124.77959385713464,0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,64.94117647058823 L 121.76470588235293,0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="node-1" fill="none" transform="matrix(1,0,0,1,200,200)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-16,-16)"
+              cx="16"
+              cy="16"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              r="16"
+            />
+          </g>
+        </g>
+        <g id="node-2" fill="none" transform="matrix(1,0,0,1,350,120)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(34,126,255,1)"
+              transform="translate(-16,-16)"
+              cx="16"
+              cy="16"
+              stroke-width="0"
+              stroke="rgba(0,0,0,1)"
+              r="16"
+            />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
