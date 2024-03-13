@@ -10,7 +10,31 @@
         "zh": "直线",
         "en": "Line"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*hi4cS7buP60AAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ax2RRKUqXlcAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "polyline.ts",
+      "title": {
+        "zh": "折线-带控制点",
+        "en": "Polyline with Control Points"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*zw8VRou1mRAAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "polylineOrth.ts",
+      "title": {
+        "zh": "正交线",
+        "en": "Orthogonal Line"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ldO6S4NOfKQAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "polylineOrthHasCPs.ts",
+      "title": {
+        "zh": "正交线-带控制点",
+        "en": "Orthogonal Line with Control Points"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*C9apQa9NioMAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "loopPolyline.ts",
@@ -18,7 +42,7 @@
         "zh": "折线自环边",
         "en": "Polyline Loop"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*snNhSbjzg9EAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*OReBSqIkp_cAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "quadratic.ts",
@@ -26,7 +50,7 @@
         "zh": "二次贝塞尔曲线",
         "en": "Quadratic"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YMZ0SbHABJ4AAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*RRelQ7VrFc4AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "cubic.ts",
@@ -34,7 +58,7 @@
         "zh": "三次贝塞尔曲线",
         "en": "Cubic"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*NBvARqo-yacAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cVd-TLQWujYAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "verticalCubic.ts",
@@ -42,7 +66,7 @@
         "zh": "三次贝塞尔曲线-垂直",
         "en": "Vertical Cubic"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*iDM2TJJmOWwAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wrDlQKxNHNEAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "horizontalCubic.ts",
@@ -50,7 +74,7 @@
         "zh": "三次贝塞尔曲线-水平",
         "en": "Horizontal Cubic"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WsRIRL8f64sAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6Gj2R50AJ8AAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "loopCurve.ts",
@@ -58,7 +82,7 @@
         "zh": "曲线自环边",
         "en": "Curve Loop"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*snNhSbjzg9EAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6Gj2R50AJ8AAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
