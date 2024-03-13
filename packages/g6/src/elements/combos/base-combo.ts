@@ -1,11 +1,13 @@
 import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
-import type { BaseComboProps, Combo, Node, Position, PrefixObject, STDSize } from '../../types';
+import type { BaseComboProps, NodeLike, Position, PrefixObject, STDSize } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getCombinedBBox, getExpandedBBox } from '../../utils/bbox';
 import { getCollapsedMarkerText, getXYByCollapsedOrigin } from '../../utils/combo';
-import { getXYByPlacement } from '../../utils/position';
+import { parsePadding } from '../../utils/padding';
+import { getXYByPlacement, positionOf } from '../../utils/position';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
+import { add, divide } from '../../utils/vector';
 import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
 import { Icon, IconStyleProps } from '../shapes';
@@ -18,9 +20,9 @@ export type CollapsedMarkerStyleProps = IconStyleProps & {
    * - 'child-count': Number of child elements
    * - 'descendant-count': Number of descendant elements (including Nodes and Combos)
    * - 'node-count': Number of descendant elements (only Nodes)
-   * - (children: (Node | Combo)[]) => string: Custom function
+   * - (children: NodeLike[]) => string: Custom function
    */
-  type?: 'child-count' | 'descendant-count' | 'node-count' | ((children: (Node | Combo)[]) => string);
+  type?: 'child-count' | 'descendant-count' | 'node-count' | ((children: NodeLike[]) => string);
 };
 export type BaseComboStyleProps<KeyStyleProps extends BaseStyleProps = BaseStyleProps> = BaseComboProps &
   PrefixObject<KeyStyleProps, 'collapsed'> & {
@@ -34,9 +36,7 @@ export type ParsedBaseComboStyleProps<KeyStyleProps extends BaseStyleProps> = Re
 export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStyleProps> extends BaseNode<S> {
   public type = 'combo';
 
-  static defaultStyleProps: BaseComboStyleProps = {
-    size: 0,
-    padding: 0,
+  static defaultStyleProps: Partial<BaseComboStyleProps> = {
     childrenNode: [],
     droppable: true,
     draggable: true,
@@ -59,10 +59,21 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   protected abstract drawKeyShape(attributes: Required<S>, container: Group): DisplayObject | undefined;
 
   protected calculatePosition(attributes: Required<S>): Position {
-    const { x: comboX, y: comboY, collapsed } = attributes;
+    const { x = 0, y = 0, collapsed, childrenNode = [], childrenData = [] } = attributes;
 
-    if (!isEmpty(comboX) && !isEmpty(comboY)) return [comboX, comboY, 0] as Position;
+    if (childrenNode.length < childrenData.length) {
+      if (childrenData.length > 0) {
+        // combo 被收起，返回平均中心位置 / combo is collapsed, return the average center position
+        if (collapsed) {
+          const totalPosition = childrenData.reduce((acc, datum) => add(acc, positionOf(datum)), [0, 0, 0] as Position);
+          return divide(totalPosition, childrenData.length);
+        }
+      }
+      return [+x, +y, 0];
+    }
 
+    // empty combo
+    if (!childrenData.length) return [+x, +y, 0];
     return !collapsed ? this.getContentBBox(attributes).center : this.getCollapsedOriginPosition(attributes);
   }
 
@@ -76,13 +87,15 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   }
 
   protected getKeySize(attributes: Required<S>): STDSize {
-    const { size, collapsed, collapsedSize } = attributes;
-
-    if (collapsed && !isEmpty(collapsedSize)) return parseSize(collapsedSize);
-
-    if (!collapsed && !isEmpty(size)) return parseSize(size);
-
+    const { collapsed, childrenNode = [] } = attributes;
+    if (childrenNode.length === 0) return this.getEmptyKeySize(attributes);
     return collapsed ? this.getCollapsedKeySize(attributes) : this.getExpandedKeySize(attributes);
+  }
+
+  protected getEmptyKeySize(attributes: Required<S>): STDSize {
+    const { padding, collapsedSize } = attributes;
+    const [top, right, bottom, left] = parsePadding(padding);
+    return add(parseSize(collapsedSize), [left + right, top + bottom, 0]) as STDSize;
   }
 
   protected getCollapsedKeySize(attributes: Required<S>): STDSize {
@@ -129,10 +142,12 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
 
   public render(attributes: Required<S>, container: Group = this) {
     super.render(attributes, container);
-
+    const { model } = attributes.context;
     const [x, y] = this.calculatePosition(attributes);
-    this.style.x = x;
-    this.style.y = y;
+    Object.assign(this.style, { x, y, zIndex: model.getAncestorsData(this.id).length });
+
+    // Sync combo position to model
+    model.syncComboPosition(this.id, [x, y]);
 
     // collapsed marker
     this.drawCollapsedMarkerShape(attributes, container);
