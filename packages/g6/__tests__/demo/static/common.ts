@@ -41,6 +41,7 @@ export * from './node-image';
 export * from './node-rect';
 export * from './node-star';
 export * from './node-triangle';
+export * from './node-hexagon';
 export * from './shape-badge';
 export * from './shape-icon';
 export * from './shape-label';

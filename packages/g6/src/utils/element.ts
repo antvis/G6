@@ -461,3 +461,23 @@ export function updateStyle<T extends DisplayObject>(shape: T, style: Record<str
   if ('update' in shape) (shape.update as (style: Record<string, unknown>) => void)(style);
   else shape.attr(style);
 }
+
+
+
+
+/**
+ * Get Hexagon PathArray
+ * @param outerR - <zh/> 外接圆半径 | <en/> the  radius of circumscribed circle
+ *  @returns The PathArray for G
+ */
+export function getHexagonPoints(outerR: number): Point[] {
+
+  return [
+    [0, outerR],
+    [outerR * Math.sqrt(3) / 2, outerR / 2],
+    [outerR * Math.sqrt(3) / 2, - outerR / 2],
+    [0, - outerR],
+    [- outerR * Math.sqrt(3) / 2, - outerR / 2],
+    [- outerR * Math.sqrt(3) / 2, outerR / 2],
+  ];
+}
