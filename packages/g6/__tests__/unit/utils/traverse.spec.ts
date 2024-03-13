@@ -39,4 +39,34 @@ describe('traverse', () => {
 
     expect(result).toEqual([4, 3, 2, 6, 5, 1]);
   });
+
+  it('validate depth TB', () => {
+    const result: Record<number, number> = {};
+
+    dfs(
+      tree,
+      (node, depth) => {
+        result[node.value] = depth;
+      },
+      (node) => node.children,
+      'TB',
+    );
+
+    expect(result).toEqual({ 1: 0, 2: 1, 3: 2, 4: 3, 5: 1, 6: 2 });
+  });
+
+  it('validate depth BT', () => {
+    const result: Record<number, number> = {};
+
+    dfs(
+      tree,
+      (node, depth) => {
+        result[node.value] = depth;
+      },
+      (node) => node.children,
+      'BT',
+    );
+
+    expect(result).toEqual({ 1: 0, 2: 1, 3: 2, 4: 3, 5: 1, 6: 2 });
+  });
 });
