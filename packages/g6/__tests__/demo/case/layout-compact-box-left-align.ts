@@ -53,7 +53,6 @@ export const layoutCompactBoxLeftAlign: STDTestCase = async (context) => {
         return d.id.length + 20;
       },
     },
-    animation: false,
     autoFit: 'view',
   });
 

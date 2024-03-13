@@ -2,56 +2,47 @@ import { Graph, Utils } from '@/src';
 import data from '@@/dataset/algorithm-category.json';
 import type { STDTestCase } from '../types';
 
-export const layoutTopToBottomCompactBox: STDTestCase = async (context) => {
+export const layoutCompactBoxBasic: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: Utils.treeToGraphData(data),
+    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
     node: {
       style: {
         labelText: (data: { id: string }) => data.id,
         labelPlacement: 'right',
         labelMaxWidth: 200,
-        transform: 'rotate(90deg)',
-        size: 26,
-        fill: '#EFF4FF',
-        lineWidth: 1,
-        stroke: '#5F95FF',
         ports: [
           {
-            placement: 'bottom',
+            placement: 'right',
           },
           {
-            placement: 'top',
+            placement: 'left',
           },
         ],
       },
     },
     edge: {
       style: {
-        type: 'cubic-vertical',
+        type: 'cubic-horizontal',
       },
     },
     layout: {
       type: 'compact-box',
-      direction: 'TB',
-      getId: function getId(d: { id: string }) {
-        return d.id;
-      },
+      direction: 'LR',
       getHeight: function getHeight() {
-        return 16;
+        return 32;
       },
       getWidth: function getWidth() {
-        return 16;
+        return 32;
       },
       getVGap: function getVGap() {
-        return 80;
+        return 10;
       },
       getHGap: function getHGap() {
-        return 20;
+        return 100;
       },
     },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
-    animation: false,
     autoFit: 'view',
   });
 

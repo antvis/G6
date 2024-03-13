@@ -1,12 +1,12 @@
 import type { Graph } from '@/src';
-import { layoutTopToBottomCompactBox } from '@@/demo/case';
+import { layoutCompactBoxTopToBottom } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
-describe('topToBottomCompactBox', () => {
+describe('compactBoxTopToBottom', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createDemoGraph(layoutTopToBottomCompactBox);
+    graph = await createDemoGraph(layoutCompactBoxTopToBottom);
   });
 
   afterAll(() => {
@@ -14,6 +14,6 @@ describe('topToBottomCompactBox', () => {
   });
 
   it('render with top to bottom compact box layout', async () => {
-    await expect(graph).toMatchSnapshot(__filename, 'top_to_bottom_compact_box');
+    await expect(graph).toMatchSnapshot(__filename, 'compact-box-top-to-bottom');
   });
 });

@@ -1,12 +1,12 @@
 import type { Graph } from '@/src';
-import { layoutBasicCompactBox } from '@@/demo/case';
+import { layoutCompactBoxBasic } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
-describe('basicCompactBox', () => {
+describe('compactBoxBasic', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createDemoGraph(layoutBasicCompactBox);
+    graph = await createDemoGraph(layoutCompactBoxBasic);
   });
 
   afterAll(() => {
@@ -14,6 +14,6 @@ describe('basicCompactBox', () => {
   });
 
   it('render with compact box layout', async () => {
-    await expect(graph).toMatchSnapshot(__filename, 'basic_compact_box');
+    await expect(graph).toMatchSnapshot(__filename, 'compact-box-basic');
   });
 });
