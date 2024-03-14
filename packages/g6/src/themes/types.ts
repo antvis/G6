@@ -8,4 +8,5 @@ export type Theme = {
   node?: StaticNodeOptions;
   edge?: StaticEdgeOptions;
   combo?: StaticComboOptions;
+  background?: string;
 };

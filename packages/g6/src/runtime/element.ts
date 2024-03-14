@@ -111,9 +111,10 @@ export class ElementController {
   }
 
   public getPaletteStyle(id: ID) {
-    return {
-      color: this.paletteStyle[id],
-    };
+    const color = this.paletteStyle[id];
+    if (!color) return {};
+
+    return { color };
   }
 
   public getDataStyle(id: ID): NodeLikeStyle | EdgeStyle {

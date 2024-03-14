@@ -1,0 +1,205 @@
+import type { Theme } from './types';
+
+const BADGE_PALETTE = ['#7E92B5', '#f5222d', '#faad14'];
+
+type ThemeTokens = {
+  bgColor: string;
+  textColor: string;
+  nodeColor: string;
+  nodeColorDisabled: string;
+  nodeStroke: string;
+  nodeBadgePalette?: string[];
+  edgeColor: string;
+  edgeColorDisabled: string;
+  comboColor: string;
+  comboColorDisabled: string;
+  comboStroke: string;
+  comboStrokeDisabled: string;
+};
+
+/**
+ * <zh/> 创建主题
+ *
+ * <en/> Create a theme based on the given tokens
+ * @param tokens - <zh/> 主题配置项 <en/> Theme tokens
+ * @returns <zh/> 主题 <en/> Theme
+ */
+export function create(tokens: ThemeTokens): Theme {
+  const {
+    bgColor,
+    textColor,
+    nodeColor,
+    nodeColorDisabled,
+    nodeStroke,
+    nodeBadgePalette = BADGE_PALETTE,
+    edgeColor,
+    edgeColorDisabled,
+    comboColor,
+    comboColorDisabled,
+    comboStroke,
+    comboStrokeDisabled,
+  } = tokens;
+
+  return {
+    background: bgColor,
+    node: {
+      style: {
+        badgeFill: bgColor,
+        badgeFontSize: 8,
+        badgePadding: [1, 4],
+        badgePalette: nodeBadgePalette,
+        color: nodeColor,
+        halo: false,
+        haloLineWidth: 12,
+        haloStrokeOpacity: 0.25,
+        iconFill: bgColor,
+        iconFontSize: 16,
+        labelBackground: false,
+        labelBackgroundFill: bgColor,
+        labelBackgroundLineWidth: 0,
+        labelBackgroundOpacity: 0.5,
+        labelBackgroundPadding: [0, 2],
+        labelFill: textColor,
+        labelFontSize: 12,
+        portFill: nodeColor,
+        portLineWidth: 1,
+        portStroke: nodeStroke,
+        portStrokeOpacity: 0.65,
+      },
+      state: {
+        selected: {
+          halo: true,
+          labelFontSize: 14,
+          labelFontWeight: 700,
+          lineWidth: 3,
+          stroke: nodeStroke,
+        },
+        active: {
+          halo: true,
+        },
+        highlight: {
+          labelFontWeight: 700,
+          lineWidth: 3,
+          stroke: nodeStroke,
+          strokeOpacity: 0.85,
+        },
+        inactive: {
+          iconOpacity: 0.25,
+          labelOpacity: 0.25,
+          opacity: 0.25,
+        },
+        disabled: {
+          color: nodeColorDisabled,
+          labelOpacity: 0.25,
+        },
+      },
+      animation: {
+        enter: 'fade',
+        exit: 'fade',
+        visibility: 'fade',
+        update: [{ fields: ['x', 'y', 'fill', 'stroke'] }],
+      },
+    },
+    edge: {
+      style: {
+        halo: false,
+        haloLineWidth: 12,
+        haloStrokeOpacity: 0.25,
+        increasedLineWidthForHitTesting: 2,
+        labelBackground: false,
+        labelBackgroundFill: bgColor,
+        labelBackgroundLineWidth: 0,
+        labelBackgroundOpacity: 0.75,
+        labelBackgroundPadding: [4, 4, 4, 4],
+        labelFill: textColor,
+        labelFontSize: 12,
+        labelPlacement: 'middle',
+        labelTextBaseline: 'middle',
+        lineWidth: 1,
+        color: edgeColor,
+      },
+      state: {
+        selected: {
+          halo: true,
+          labelFontSize: 14,
+          labelFontWeight: 700,
+          lineWidth: 2,
+        },
+        active: {
+          halo: true,
+        },
+        highlight: {
+          labelFontWeight: 700,
+          lineWidth: 2,
+        },
+        inactive: {
+          labelOpacity: 0.25,
+          opacity: 0.25,
+        },
+        disabled: {
+          labelOpacity: 0.25,
+          color: edgeColorDisabled,
+        },
+      },
+      animation: {
+        enter: 'fade',
+        exit: 'fade',
+        visibility: 'fade',
+        update: [{ fields: ['stroke'] }, { fields: ['path'], shape: 'key' }],
+      },
+    },
+    combo: {
+      style: {
+        collapsedMaskFill: comboColor,
+        collapsedMaskFontSize: 12,
+        collapsedSize: 32,
+        color: comboColor,
+        haloLineWidth: 12,
+        haloStrokeOpacity: 0.25,
+        labelBackground: false,
+        labelBackgroundFill: bgColor,
+        labelBackgroundLineWidth: 0,
+        labelBackgroundOpacity: 0.75,
+        labelBackgroundPadding: [2, 4, 2, 4],
+        labelFill: textColor,
+        labelFontSize: 12,
+        lineDash: 0,
+        lineWidth: 1,
+        padding: 10,
+        size: 0,
+        stroke: comboStroke,
+      },
+      state: {
+        selected: {
+          halo: true,
+          labelFontSize: 14,
+          labelFontWeight: 700,
+          lineWidth: 4,
+        },
+        active: {
+          halo: true,
+        },
+        highlight: {
+          labelFontWeight: 700,
+          lineWidth: 4,
+        },
+        inactive: {
+          labelOpacity: 0.25,
+          opacity: 0.65,
+        },
+        disabled: {
+          color: comboColorDisabled,
+          labelOpacity: 0.25,
+          opacity: 0.25,
+          stroke: comboStrokeDisabled,
+        },
+      },
+      animation: {
+        enter: 'fade',
+        exit: 'fade',
+        visibility: 'fade',
+        update: [{ fields: ['x', 'y'] }, { fields: ['r', 'width', 'height'], shape: 'key' }],
+      },
+    },
+  };
+}

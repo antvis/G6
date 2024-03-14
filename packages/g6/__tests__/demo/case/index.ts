@@ -18,4 +18,5 @@ export * from './layout-circular-spiral';
 export * from './layout-grid';
 export * from './layout-mds';
 export * from './plugin-grid-line';
+export * from './theme';
 export * from './viewport-fit';

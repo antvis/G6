@@ -3,6 +3,7 @@ import type { AABB, BaseStyleProps, DataURLOptions } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
 import { GraphEvent } from '../constants';
+import { getExtension } from '../registry';
 import type {
   BehaviorOptions,
   ComboData,
@@ -99,6 +100,7 @@ export class Graph extends EventEmitter {
    */
   public setOptions(options: G6Spec): void {
     const {
+      background,
       behaviors,
       combo,
       container,
@@ -115,6 +117,7 @@ export class Graph extends EventEmitter {
       zoom,
     } = options;
 
+    if (background) this.setBackground(background);
     if (behaviors) this.setBehaviors(behaviors);
     if (combo) this.setCombo(combo);
     if (data) this.setData(data);
@@ -129,6 +132,15 @@ export class Graph extends EventEmitter {
     if (zoomRange) this.options.zoomRange = zoomRange;
     if (isNumber(zoom)) this.options.zoom = zoom;
     if (isNumber(padding)) this.options.padding = padding;
+  }
+
+  public setBackground(background: G6Spec['background']): void {
+    this.options.background = background;
+    this.context.canvas?.setBackground(background);
+  }
+
+  public getBackground(): G6Spec['background'] {
+    return this.options.background;
   }
 
   public getSize(): [number, number] {
@@ -167,6 +179,11 @@ export class Graph extends EventEmitter {
 
   public setTheme(theme: CallableValue<ThemeOptions>): void {
     this.options.theme = isFunction(theme) ? theme(this.getTheme()) : theme;
+
+    const { background } = getExtension('theme', this.options.theme) || {};
+    if (background && !this.options.background) {
+      this.setBackground(background);
+    }
   }
 
   public setLayout(layout: CallableValue<LayoutOptions>): void {
@@ -308,10 +325,11 @@ export class Graph extends EventEmitter {
   private createCanvas() {
     if (this.context.canvas) return this.context.canvas;
 
-    const { container = 'container', width, height, renderer } = this.options;
+    const { container = 'container', width, height, renderer, background } = this.options;
 
     if (container instanceof Canvas) {
       this.context.canvas = container;
+      container.setBackground(background);
     } else {
       const $container = isString(container) ? document.getElementById(container!) : container;
 

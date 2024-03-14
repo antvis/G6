@@ -15,6 +15,7 @@
     "aftersizechange",
     "aftertransform",
     "afterviewportanimate",
+    "antv",
     "bbox",
     "beforeanimate",
     "beforedraw",
