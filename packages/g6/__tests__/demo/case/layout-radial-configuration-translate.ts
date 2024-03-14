@@ -29,7 +29,6 @@ export const layoutRadialConfigurationTranslate: STDTestCase = async (context) =
       },
     },
     behaviors: ['drag-canvas', 'drag-node'],
-    animation: true,
   });
 
   await graph.render();

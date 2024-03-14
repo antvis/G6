@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "comboCombined.js",
+      "filename": "comboCombined.ts",
       "title": {
         "zh": "ComboCombined 组合布局",
         "en": "Combo Combined Layout"
