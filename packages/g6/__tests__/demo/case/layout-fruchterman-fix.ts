@@ -38,9 +38,5 @@ export const layoutFruchtermanFix: STDTestCase = async (context) => {
 
   await graph.render();
 
-  layoutFruchtermanFix.form = () => {
-    return [];
-  };
-
   return graph;
 };

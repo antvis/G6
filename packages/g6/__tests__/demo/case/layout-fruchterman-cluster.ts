@@ -35,9 +35,5 @@ export const layoutFruchtermanCluster: STDTestCase = async (context) => {
 
   await graph.render();
 
-  layoutFruchtermanCluster.form = () => {
-    return [];
-  };
-
   return graph;
 };
