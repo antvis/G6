@@ -1,10 +1,10 @@
-const specTemplate = ({ imported, content }) => {
+const specTemplate = ({ imported, content, describe }) => {
   return `import {
     ${imported}
   } from '@@/demo/case';
   import { createDemoGraph } from '@@/utils';
 
-  describe('layout circular', () => {
+  describe('${describe}', () => {
     ${content}
   })`;
 };
