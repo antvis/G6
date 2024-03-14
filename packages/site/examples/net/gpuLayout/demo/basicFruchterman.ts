@@ -1,12 +1,8 @@
-import { Graph, extend } from '@antv/g6';
-import * as layoutGPU from '@antv/layout-gpu';
+import { Graph, register } from '@antv/g6';
+import { FruchtermanLayout } from '@antv/layout-gpu';
 
-// GPU layout is not built-in G6 stbLib, you need to extend G6 with it.
-const ExtGraph = extend(Graph, {
-  layouts: {
-    'fruchterman-gpu': layoutGPU.FruchtermanLayout,
-  },
-});
+// Resister the layout into G6.
+register('layout', 'fruchterman-gpu', FruchtermanLayout);
 
 const data = {
   nodes: [
@@ -553,36 +549,21 @@ const data = {
   ],
 };
 
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-const graph = new ExtGraph({
+const graph = new Graph({
   container: 'container',
-  width,
-  height,
-  modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
-  },
-  theme: {
-    type: 'spec',
-    specification: {
-      node: {
-        dataTypeField: 'cluster',
-      },
-    },
-  },
+  data,
+
   edge: {
-    keyShape: {
+    style: {
       startArrow: true,
     },
   },
   layout: {
     type: 'fruchterman-gpu',
     speed: 10,
-    // gpuEnabled: true,
     maxIteration: 2000,
   },
-  data,
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
 });
 
-window.graph = graph;
+graph.render();
