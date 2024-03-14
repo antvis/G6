@@ -45,7 +45,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*NUFVRqAJv6QAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "themeSwitch.js",
+      "filename": "themeSwitch.ts",
       "title": {
         "zh": "主题切换",
         "en": "Theme Switch"

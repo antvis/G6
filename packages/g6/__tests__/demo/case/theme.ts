@@ -17,7 +17,7 @@ export const theme: STDTestCase = async (context) => {
       type: 'radial',
       unitRadius: 80,
     },
-    autoFit: 'center',
+    autoFit: 'view',
   });
 
   await graph.render();
@@ -28,10 +28,10 @@ export const theme: STDTestCase = async (context) => {
     };
     const options = { Light: 'light', Dark: 'dark', Blue: 'blue' };
 
-    const themeOptions = {
+    const themeOptions: { [key: string]: any } = {
       light: {
-        theme: 'light',
         background: '#fff',
+        theme: 'light',
         node: {
           palette: {
             type: 'group',
@@ -41,19 +41,19 @@ export const theme: STDTestCase = async (context) => {
         },
       },
       dark: {
-        theme: 'dark',
         background: '#000',
+        theme: 'dark',
         node: {
           palette: {
             type: 'group',
             field: 'cluster',
-            color: 'spectral',
+            color: 'antv',
           },
         },
       },
       blue: {
-        theme: 'light',
         background: '#f3faff',
+        theme: 'light',
         node: {
           palette: {
             type: 'group',
@@ -63,9 +63,20 @@ export const theme: STDTestCase = async (context) => {
           },
         },
       },
+      yellow: {
+        background: '#fcf9f1',
+        theme: 'light',
+        node: {
+          palette: {
+            type: 'group',
+            field: 'cluster',
+            color: ['#ffe7ba', '#ffd591', '#ffc069', '#ffa940', '#fa8c16', '#d46b08', '#ad4e00', '#873800', '#612500'],
+          },
+        },
+      },
     };
 
-    const changeTheme = (theme: 'light' | 'dark' | 'blue') => {
+    const changeTheme = (theme: string) => {
       graph.setOptions(themeOptions[theme]);
       graph.render();
     };
