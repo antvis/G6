@@ -374,6 +374,10 @@ export class Graph extends EventEmitter {
     return this.context.layout!.layout();
   }
 
+  public stopLayout() {
+    return this.context.layout!.stopLayout();
+  }
+
   /**
    * <zh/> 清空画布元素
    *

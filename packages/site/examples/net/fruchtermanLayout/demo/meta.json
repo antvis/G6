@@ -5,7 +5,15 @@
   },
   "demos": [
     {
-      "filename": "basicFruchterman.js",
+      "filename": "basicFruchterman.ts",
+      "title": {
+        "zh": "基本 Fruchterman 布局",
+        "en": "Basic Fruchterman Layout"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1KY7SLEXxqMAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "fruchtermanCluster.ts",
       "title": {
         "zh": "基本 Fruchterman 布局",
         "en": "Basic Fruchterman Layout"
@@ -13,7 +21,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-s9CTphuwgcAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "fruchtermanWebWorker.js",
+      "filename": "fruchtermanWebWorker.ts",
       "title": {
         "zh": "Fruchterman 使用 Web-worker",
         "en": "Fruchterman with Web-worker"
@@ -21,7 +29,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*3gn9TZ3oUoIAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "fruchtermanFix.js",
+      "filename": "fruchtermanFix.ts",
       "title": {
         "zh": "Fruchterman 固定被拖拽的节点",
         "en": "Fruchterman with Fixing Dragged Nodes"
