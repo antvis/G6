@@ -1,9 +1,10 @@
 import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
-import { deepMix, isEmpty } from '@antv/util';
+import { deepMix, isEmpty, isFunction } from '@antv/util';
 import { COMBO_KEY } from '../../constants';
-import type { BaseComboProps, NodeLike, Position, PrefixObject, STDSize } from '../../types';
+import type { BaseComboProps, NodeLikeData, Position, PrefixObject, STDSize } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getCombinedBBox, getExpandedBBox } from '../../utils/bbox';
-import { getCollapsedMarkerText, getXYByCollapsedOrigin } from '../../utils/combo';
+import { getXYByCollapsedOrigin } from '../../utils/combo';
+import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
 import { getXYByPlacement, positionOf } from '../../utils/position';
 import { subStyleProps } from '../../utils/prefix';
@@ -21,9 +22,9 @@ export type CollapsedMarkerStyleProps = IconStyleProps & {
    * - 'child-count': Number of child elements
    * - 'descendant-count': Number of descendant elements (including Nodes and Combos)
    * - 'node-count': Number of descendant elements (only Nodes)
-   * - (children: NodeLike[]) => string: Custom function
+   * - (children: NodeLikeData[]) => string: Custom function
    */
-  type?: 'child-count' | 'descendant-count' | 'node-count' | ((children: NodeLike[]) => string);
+  type?: 'child-count' | 'descendant-count' | 'node-count' | ((children: NodeLikeData[]) => string);
 };
 export type BaseComboStyleProps<KeyStyleProps extends BaseStyleProps = BaseStyleProps> = BaseComboProps &
   PrefixObject<KeyStyleProps, 'collapsed'> & {
@@ -45,6 +46,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     collapsedSize: 32,
     collapsedOrigin: [0.5, 0.5],
     collapsedMarker: true,
+    collapsedMarkerZIndex: 1,
     collapsedMarkerFontSize: 12,
     collapsedMarkerTextAlign: 'center',
     collapsedMarkerTextBaseline: 'middle',
@@ -133,12 +135,30 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     const keyShape = this.getKey();
     const [x, y] = getXYByPlacement(keyShape.getLocalBounds(), 'center');
 
+    const style = { ...collapsedMarkerStyle, x, y };
+
     if (type) {
-      const text = getCollapsedMarkerText(type, attributes.childrenNode || []);
-      return { ...collapsedMarkerStyle, x, y, text };
+      const text = this.getCollapsedMarkerText(type, attributes);
+      Object.assign(style, { text });
     }
 
-    return { ...collapsedMarkerStyle, x, y };
+    return style;
+  }
+
+  protected getCollapsedMarkerText(type: CollapsedMarkerStyleProps['type'], attributes: Required<S>): string {
+    const { context, childrenData = [] } = attributes;
+    if (!context) return '';
+    const { model } = context;
+
+    if (type === 'descendant-count') return model.getDescendantsData(this.id).toString();
+    if (type === 'child-count') return childrenData.length.toString();
+    if (type === 'node-count')
+      return model
+        .getDescendantsData(this.id)
+        .filter((datum) => model.getElementType(idOf(datum)) === 'node')
+        .toString();
+    if (isFunction(type)) return type(childrenData);
+    return '';
   }
 
   protected getComboZIndex(attributes: Required<S>): number {
