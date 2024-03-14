@@ -1,14 +1,14 @@
 import { layoutFruchtermanBasic, layoutFruchtermanCluster } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
-import { clear, mock } from 'jest-random-mock';
+import { clear as clearMochRandom, mock as mockRandom } from 'jest-random-mock';
 
 describe('layout fruchterman', () => {
   beforeAll(() => {
-    mock();
+    mockRandom();
   });
 
   afterAll(() => {
-    clear();
+    clearMochRandom();
   });
 
   it('basic', async () => {
