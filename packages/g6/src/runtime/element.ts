@@ -12,9 +12,6 @@ import type { BaseShape } from '../elements/shapes';
 import { getExtension } from '../registry';
 import type { ComboData, EdgeData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
-import { ComboStyle } from '../spec/element/combo';
-import type { EdgeStyle } from '../spec/element/edge';
-import type { NodeStyle } from '../spec/element/node';
 import type {
   AnimatableTask,
   Combo,
@@ -32,6 +29,7 @@ import type {
 import { executeAnimatableTasks, inferDefaultValue, withAnimationCallbacks } from '../utils/animation';
 import { cacheStyle, getCachedStyle, hasCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
+import { getSubgraphRelatedEdges } from '../utils/edge';
 import { updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import { AnimateEvent, GraphLifeCycleEvent } from '../utils/event';
@@ -122,11 +120,6 @@ export class ElementController {
     if (!color) return {};
 
     return { color };
-  }
-
-  public getDataStyle(id: ID): NodeStyle | EdgeStyle | ComboStyle {
-    const datum = this.context.model.getElementsData([id])?.[0];
-    return datum?.style || {};
   }
 
   private defaultStyle: Record<ID, Record<string, unknown>> = {};
@@ -289,27 +282,20 @@ export class ElementController {
    *
    * <en/> Only the most basic node instances and connection point position information are provided, and more context information needs to be calculated in the edge element
    */
-  private getEdgeEndsContext(id: ID) {
-    const { model } = this.context;
-
-    const data = model.getEdgeData([id])?.[0];
-    if (!data) return {};
-
-    const { source, target } = data;
+  private getEdgeEndsContext(datum: EdgeData) {
+    const { source, target } = datum;
     const sourceNode = this.getElement<BaseNode>(source);
     const targetNode = this.getElement<BaseNode>(target);
 
-    return {
-      sourceNode,
-      targetNode,
-    };
+    return { sourceNode, targetNode };
   }
 
-  public getElementComputedStyle(elementType: ElementType, id: ID) {
+  public getElementComputedStyle(elementType: ElementType, datum: ElementDatum) {
+    const id = idOf(datum);
     // 优先级(从低到高) Priority (from low to high):
     const themeStyle = this.getThemeStyle(elementType);
     const paletteStyle = this.getPaletteStyle(id);
-    const dataStyle = this.getDataStyle(id);
+    const dataStyle = datum.style || {};
     const defaultStyle = this.getDefaultStyle(id);
     const themeStateStyle = this.getThemeStateStyle(elementType, this.getElementState(id));
     const stateStyle = this.getStateStyle(id);
@@ -317,10 +303,13 @@ export class ElementController {
     const style = Object.assign({}, themeStyle, paletteStyle, dataStyle, defaultStyle, themeStateStyle, stateStyle);
 
     if (elementType === 'edge') {
-      Object.assign(style, this.getEdgeEndsContext(id));
+      Object.assign(style, this.getEdgeEndsContext(datum as EdgeData));
     } else if (elementType === 'combo') {
       const childrenData = this.context.model.getChildrenData(id);
-      const childrenNode = childrenData.map((child) => this.getElement(idOf(child))).filter(Boolean) as NodeLike[];
+      const isCollapsed = !!style.collapsed;
+      const childrenNode = isCollapsed
+        ? []
+        : (childrenData.map((child) => this.getElement(idOf(child))).filter(Boolean) as NodeLike[]);
       Object.assign(style, { childrenNode, childrenData });
     }
 
@@ -409,9 +398,9 @@ export class ElementController {
       },
     };
 
-    const flows: Flow[] = [this.updateRelatedEdgeFlow, this.arrangeDrawOrderFlow];
-
-    return flows.reduce((data, flow) => flow(data), input);
+    const flows: Flow[] = [this.updateRelatedEdgeFlow, this.arrangeDrawOrderFlow, this.collapseExpandFlow];
+    const output = flows.reduce((data, flow) => flow(data), input);
+    return output;
   }
 
   /**
@@ -440,7 +429,7 @@ export class ElementController {
    *
    * <en/> Adjust the drawing order of elements
    */
-  public arrangeDrawOrderFlow: Flow = (input) => {
+  private arrangeDrawOrderFlow: Flow = (input) => {
     const { model } = this.context;
 
     const combosToAdd = input.add.combos;
@@ -464,12 +453,94 @@ export class ElementController {
     return input;
   };
 
+  /**
+   * <zh/> 处理元素的收起和展开
+   *
+   * <en/> Process the collapse and expand of elements
+   */
+  private collapseExpandFlow: Flow = (input) => {
+    const { model } = this.context;
+    const { add, update } = input;
+    /**
+     * <zh/> 重新分配绘制任务
+     *
+     * <en/> Reassign drawing tasks
+     */
+    const reassignTo = (type: 'add' | 'update' | 'remove', elementType: ElementType, datum: ElementDatum) => {
+      const typeName = `${elementType}s` as keyof ProcedureData;
+      Object.entries(input).forEach(([_type, value]) => {
+        if (type === _type) value[typeName].set(idOf(datum), datum as any);
+        else value[typeName].delete(idOf(datum));
+      });
+    };
+
+    // combo 添加和更新的顺序为先子后父，因此采用倒序遍历
+    // The order of adding and updating combos is first child and then parent, so reverse traversal is used
+    const combos = [...input.update.combos.entries(), ...input.add.combos.entries()];
+    while (combos.length) {
+      const [id, combo] = combos.pop()!;
+
+      const isCollapsed = !!combo.style?.collapsed;
+      if (isCollapsed) {
+        const descendants = model.getDescendantsData(id);
+        const descendantIds = descendants.map(idOf);
+        const { internal, external } = getSubgraphRelatedEdges(descendantIds, (id) => model.getRelatedEdgesData(id));
+
+        // 移除所有后代元素 / Remove all descendant elements
+        descendants.forEach((descendant) => {
+          const descendantId = idOf(descendant);
+          // 不再处理当前 combo 的后代 combo
+          // No longer process the descendant combo of the current combo
+          const comboIndex = combos.findIndex(([id]) => id === descendantId);
+          if (comboIndex !== -1) combos.splice(comboIndex, 1);
+
+          const elementType = model.getElementType(descendantId);
+          reassignTo('remove', elementType, descendant);
+        });
+
+        // 如果是内部边/节点 销毁
+        // If it is an internal edge/node, destroy it
+        internal.forEach((edge) => reassignTo('remove', 'edge', edge));
+
+        // 如果是外部边，连接到收起对象上
+        // If it is an external edge, connect to the collapsed object
+        external.forEach((edge) => {
+          const id = idOf(edge);
+          const type = descendantIds.includes(edge.source) ? 'source' : 'target';
+          const datum = { ...edge, [type]: idOf(combo) };
+          if (add.edges.has(id)) add.edges.set(id, datum);
+          if (update.edges.has(id)) update.edges.set(id, datum);
+        });
+      } else {
+        const children = model.getChildrenData(id);
+        const childrenIds = children.map(idOf);
+        const { edges } = getSubgraphRelatedEdges(childrenIds, (id) => model.getRelatedEdgesData(id));
+
+        [...children, ...edges].forEach((descendant) => {
+          const id = idOf(descendant);
+          const elementType = model.getElementType(id);
+
+          const element = this.getElement(id);
+          // 如果节点不存在，则添加到新增列表，如果存在，添加到更新列表
+          // If the node does not exist, add it to the new list, if it exists, add it to the update list
+          if (element) reassignTo('update', elementType, descendant);
+          else reassignTo('add', elementType, descendant);
+
+          // 继续展开子节点 / Continue to expand child nodes
+          if (elementType === 'combo') combos.push([id, descendant as ComboData]);
+        });
+      }
+    }
+
+    return input;
+  };
+
   private createElement(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
     const { animator } = context;
     const id = idOf(datum);
     const currentShape = this.getElement(id);
     if (currentShape) return () => null;
-    const { type, ...style } = this.getElementComputedStyle(elementType, id);
+    const { type, ...style } = this.getElementComputedStyle(elementType, datum);
 
     // get shape constructor
     const Ctor = getExtension(elementType, type);
@@ -494,8 +565,8 @@ export class ElementController {
     const { nodes, edges, combos } = data;
     const iteration: [ElementType, Map<ID, ElementDatum>][] = [
       ['node', nodes],
-      ['edge', edges],
       ['combo', combos],
+      ['edge', edges],
     ];
 
     const tasks: AnimatableTask[] = [];
@@ -535,7 +606,7 @@ export class ElementController {
     const id = idOf(datum);
     const shape = this.getElement(id);
     if (!shape) return () => null;
-    const { type, ...style } = this.getElementComputedStyle(elementType, id);
+    const { type, ...style } = this.getElementComputedStyle(elementType, datum);
 
     // 如果类型不同，需要先销毁原有元素，再创建新元素
     // If the type is different, you need to destroy the original element first, and then create a new element
@@ -582,15 +653,15 @@ export class ElementController {
     const { nodes, edges, combos } = data;
     const iteration: [ElementType, Map<ID, ElementDatum>][] = [
       ['node', nodes],
-      ['edge', edges],
       ['combo', combos],
+      ['edge', edges],
     ];
 
-    const { animation } = context;
+    const { animation, stage } = context;
     const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
       if (elementData.size === 0) return [];
-      const animator = this.getAnimationExecutor(elementType, context.stage || 'update', animation);
+      const animator = this.getAnimationExecutor(elementType, stage || 'update', animation);
       elementData.forEach((datum) =>
         tasks.push(() => this.updateElement(elementType, datum, { ...context, animator })),
       );
@@ -625,10 +696,11 @@ export class ElementController {
       ['node', nodes],
     ];
 
+    const { animation, stage } = context;
     const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
       if (elementData.size === 0) return [];
-      const animator = this.getAnimationExecutor(elementType, 'exit');
+      const animator = this.getAnimationExecutor(elementType, stage || 'exit', animation);
       elementData.forEach((datum) => tasks.push(() => this.destroyElement(datum, { ...context, animator })));
     });
 

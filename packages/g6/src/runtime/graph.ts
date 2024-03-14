@@ -906,14 +906,14 @@ export class Graph extends EventEmitter {
     return this.context.element!.getElement(id)!.getRenderBounds();
   }
 
-  public async collapse(id: ID): Promise<void> {
+  public async collapse(id: ID, animation: boolean = true): Promise<void> {
     this.setElementCollapsibility(id, true);
-    await this.draw();
+    await this.context.element!.draw({ animation, stage: 'collapse' });
   }
 
-  public async expand(id: ID): Promise<void> {
+  public async expand(id: ID, animation: boolean = true): Promise<void> {
     this.setElementCollapsibility(id, false);
-    await this.draw();
+    await this.context.element!.draw({ animation, stage: 'expand' });
   }
 
   private setElementCollapsibility(id: ID, collapsed: boolean) {

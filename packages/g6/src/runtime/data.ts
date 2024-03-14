@@ -174,7 +174,9 @@ export class DataController {
     const data: NodeLikeData[] = [];
     dfs(
       root,
-      (node) => data.push(node),
+      (node) => {
+        if (node !== root) data.push(node);
+      },
       (node) => this.getChildrenData(idOf(node)),
       'TB',
     );
@@ -484,8 +486,6 @@ export class DataController {
    */
   public setParent(id: ID, parentId: ID | undefined, hierarchy: HierarchyKey) {
     if (id === parentId) return;
-    console.log('setParent', id, parentId);
-
     const originalParentId = parentIdOf(this.getNodeLikeData([id])[0]);
 
     // Sync data
@@ -721,10 +721,21 @@ export class DataController {
 
     if (elementType === 'combo') {
       const ancestors = [id, ...this.getAncestorsData(id, COMBO_KEY).map(idOf)];
+      // 过滤掉以下 combo 不参与 zIndex 计算
+      // - 未展开的 combo
+      // - 当前 combo 及其祖先和后代
+      // The following combos do not participate in zIndex calculation
+      // - collapsed combo
+      // - current combo and its ancestors and descendants
       elementsToCompare = this.getComboData().filter((combo) => {
         const comboId = idOf(combo);
-        const comboAncestors = this.getAncestorsData(comboId, COMBO_KEY).map(idOf);
-        return !ancestors.includes(comboId) && !comboAncestors.includes(comboId);
+        const comboAncestors = this.getAncestorsData(comboId, COMBO_KEY);
+        const comboAncestorIds = comboAncestors.map(idOf);
+        return (
+          !comboAncestors.some((combo) => !!combo.style?.collapsed) &&
+          !ancestors.includes(comboId) &&
+          !comboAncestorIds.includes(comboId)
+        );
       });
     } else elementsToCompare = this.getNodeData().filter((node) => idOf(node) !== id);
 
