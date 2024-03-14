@@ -438,10 +438,10 @@ const time = setInterval(function () {
  * @param layoutConfig
  */
 function updateLayout(layoutConfig) {
-  graph.setLayout({
-    type: 'circular',
+  graph.setLayout((current) => ({
+    ...current,
     ...layoutConfig,
-  });
+  }));
   graph.render();
 }
 
