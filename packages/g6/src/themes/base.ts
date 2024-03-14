@@ -196,7 +196,6 @@ export function create(tokens: ThemeTokens): Theme {
         lineDash: 0,
         lineWidth: 1,
         padding: 10,
-        size: 0,
         stroke: comboStroke,
       },
       state: {

@@ -645,12 +645,6 @@ export class ElementController {
     delete this.shapeTypeMap[id];
   }
 
-  public getElementZIndexRange(elementType: ElementType) {
-    const childNodes = this.container[elementType].childNodes as DisplayObject[];
-    const zIndexes = childNodes.map((node) => node.attributes.zIndex ?? inferDefaultValue('zIndex')).sort();
-    return [zIndexes.at(0), zIndexes.at(-1)] as [number, number];
-  }
-
   public destroy() {
     Object.values(this.container).forEach((container) => container.destroy());
     this.elementMap = {};

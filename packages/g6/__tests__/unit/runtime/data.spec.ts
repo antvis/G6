@@ -214,8 +214,8 @@ describe('DataController', () => {
 
     expect(controller.getData()).toEqual({
       nodes: [
-        { id: 'node-1', data: {}, style: { x: 150, y: 150, z: 0, parentId: 'combo-1' } },
-        { id: 'node-2', data: {}, style: { x: 200, y: 200, z: 0, parentId: 'combo-1' } },
+        { id: 'node-1', data: {}, style: { x: 50, y: 50, parentId: 'combo-1' } },
+        { id: 'node-2', data: {}, style: { x: 100, y: 100, parentId: 'combo-1' } },
       ],
       edges: [],
       combos: [
@@ -228,8 +228,8 @@ describe('DataController', () => {
 
     expect(controller.getData()).toEqual({
       nodes: [
-        { id: 'node-1', data: {}, style: { x: 150, y: 150, z: 0, parentId: 'combo-1' } },
-        { id: 'node-2', data: {}, style: { x: 200, y: 200, z: 0, parentId: 'combo-1' } },
+        { id: 'node-1', data: {}, style: { x: 50, y: 50, parentId: 'combo-1' } },
+        { id: 'node-2', data: {}, style: { x: 100, y: 100, parentId: 'combo-1' } },
       ],
       edges: [],
       combos: [
@@ -249,7 +249,7 @@ describe('DataController', () => {
       combos: [{ id: 'combo-1' }],
     });
 
-    controller.translateComboBy(['combo-1'], [100, 100]);
+    controller.translateComboBy('combo-1', [100, 100]);
 
     expect(controller.getData()).toEqual({
       nodes: [{ id: 'node-1', data: {}, style: { parentId: 'combo-1', x: 100, y: 100, z: 0 } }],
@@ -270,7 +270,7 @@ describe('DataController', () => {
       combos: [{ id: 'combo-1' }],
     });
 
-    controller.translateComboBy(['combo-1'], [66, 67]);
+    controller.translateComboBy('combo-1', [66, 67]);
 
     expect(controller.getNodeData()).toEqual([
       { id: 'node-1', data: {}, style: {} },
@@ -286,7 +286,7 @@ describe('DataController', () => {
       combos: [{ id: 'combo-1' }],
     });
 
-    controller.translateComboBy(['combo-1'], [100, 100]);
+    controller.translateComboBy('combo-1', [100, 100]);
 
     expect(controller.getData()).toEqual({
       nodes: [],
@@ -306,7 +306,7 @@ describe('DataController', () => {
       combos: [{ id: 'combo-1' }],
     });
 
-    controller.translateComboTo(['combo-1'], [100, 100]);
+    controller.translateComboTo('combo-1', [100, 100]);
 
     expect(controller.getData()).toEqual({
       nodes: [

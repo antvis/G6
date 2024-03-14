@@ -2,7 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps, DataURLOptions } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
-import { GraphEvent } from '../constants';
+import { COMBO_KEY, GraphEvent } from '../constants';
 import { getExtension } from '../registry';
 import type {
   BehaviorOptions,
@@ -37,7 +37,9 @@ import type {
 } from '../types';
 import { sizeOf } from '../utils/dom';
 import { ElementStateChangeEvent, GraphLifeCycleEvent, emit } from '../utils/event';
+import { idOf } from '../utils/id';
 import { parsePoint, toPointObject } from '../utils/point';
+import { zIndexOf } from '../utils/style';
 import { subtract } from '../utils/vector';
 import { BehaviorController } from './behavior';
 import { Canvas } from './canvas';
@@ -656,8 +658,7 @@ export class Graph extends EventEmitter {
       ? [args1, (args2 as boolean) ?? true]
       : [{ [args1 as ID]: args2 as Position }, args3];
 
-    this.context.model.translateNodeBy(config);
-
+    Object.entries(config).forEach(([id, offset]) => this.context.model.translateNodeBy(id, offset));
     await this.context.element!.draw({ animation });
   }
 
@@ -687,7 +688,7 @@ export class Graph extends EventEmitter {
       ? [args1, (args2 as boolean) ?? true]
       : [{ [args1 as ID]: args2 as Position }, args3];
 
-    this.context.model.translateNodeTo(config);
+    Object.entries(config).forEach(([id, position]) => this.context.model.translateNodeTo(id, position));
     await this.context.element!.draw({ animation });
   }
 
@@ -808,9 +809,9 @@ export class Graph extends EventEmitter {
       dataToUpdate[`${elementType}s`].push({ id, style: { zIndex: value } });
     });
 
-    this.updateData(dataToUpdate);
-
-    await this.context.element!.draw();
+    const { model, element } = this.context;
+    model.preventUpdateNodeLikeHierarchy(() => model.updateData(dataToUpdate));
+    await element!.draw({ animation: false });
   }
 
   /**
@@ -821,38 +822,23 @@ export class Graph extends EventEmitter {
    */
   public async frontElement(id: ID | ID[]): Promise<void> {
     const ids = Array.isArray(id) ? id : [id];
+    const { model } = this.context;
+    const config: Record<ID, number> = {};
 
-    await this.setElementZIndex(
-      Object.fromEntries(
-        ids.map((_id) => {
-          const elementType = this.getElementType(_id);
-          const [, max] = this.context.element!.getElementZIndexRange(elementType);
-          const parsedZIndex = max + 1;
-          return [_id, parsedZIndex];
-        }),
-      ),
-    );
-  }
+    ids.map((_id) => {
+      const zIndex = model.getFrontZIndex(_id);
+      const elementType = model.getElementType(_id);
+      if (elementType === 'combo') {
+        const ancestor = model.getAncestorsData(_id, COMBO_KEY).at(-1) || this.getComboData(_id);
+        const combos = model.getDescendantsData(idOf(ancestor)).filter((datum) => model.isCombo(idOf(datum)));
+        const delta = zIndex - zIndexOf(ancestor);
+        combos.forEach((combo) => {
+          config[idOf(combo)] = zIndexOf(combo) + delta;
+        });
+      } else config[_id] = zIndex;
+    });
 
-  /**
-   * <zh/> 将元素置于最底层
-   *
-   * <en/> Send the element to the back
-   * @param id - <zh/> 元素 ID | <en/> element ID
-   */
-  public async backElement(id: ID | ID[]): Promise<void> {
-    const ids = Array.isArray(id) ? id : [id];
-
-    await this.setElementZIndex(
-      Object.fromEntries(
-        ids.map((_id) => {
-          const elementType = this.getElementType(_id);
-          const [min] = this.context.element!.getElementZIndexRange(elementType);
-          const parsedZIndex = min - 1;
-          return [_id, parsedZIndex];
-        }),
-      ),
-    );
+    await this.setElementZIndex(config);
   }
 
   /**
@@ -862,9 +848,8 @@ export class Graph extends EventEmitter {
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @returns <zh/> 元素层级 | <en/> element z-index
    */
-  public getElementZIndex(id: ID): BaseStyleProps['zIndex'] {
-    const element = this.context.element!.getElement(id)!;
-    return element.style.zIndex ?? 0;
+  public getElementZIndex(id: ID): number {
+    return zIndexOf(this.context.model.getElementsData([id])[0]);
   }
 
   /**

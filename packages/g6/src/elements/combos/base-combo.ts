@@ -154,12 +154,11 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
 
   public render(attributes: Required<S>, container: Group = this) {
     super.render(attributes, container);
-    const { model } = attributes.context;
     const comboStyle = this.getComboStyle(attributes);
     Object.assign(this.style, comboStyle);
 
     // Sync combo position to model
-    model.syncComboData([{ id: this.id, style: comboStyle }]);
+    attributes.context?.model.syncComboDatum({ id: this.id, style: comboStyle });
 
     // collapsed marker
     this.drawCollapsedMarkerShape(attributes, container);

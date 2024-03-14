@@ -34,7 +34,8 @@ describe('ElementController', () => {
       states: ['selected'],
     });
     expect(elementController.getDataStyle(edge1Id)).toEqual(options.data!.edges![0].style || {});
-    expect(elementController.getDataStyle('combo-1')).toEqual({});
+    // combo style 基于子节点更新 / Combo style is updated based on child nodes
+    expect(elementController.getDataStyle('combo-1')).toEqual({ x: 125, y: 150, zIndex: 0 });
 
     // ref light theme
     expect(elementController.getThemeStyle('node')).toEqual(LIGHT_THEME.node!.style);
@@ -147,8 +148,11 @@ describe('ElementController', () => {
 
     expect(comboStyle.childrenNode[0].id).toEqual('node-3');
 
-    expect(omit(comboStyle, ['childrenNode'])).toEqual({
+    expect(omit(comboStyle, ['childrenNode', 'childrenData'])).toEqual({
       ...LIGHT_THEME.combo?.style,
+      x: 125,
+      y: 150,
+      zIndex: 0,
       type: 'circle',
       color: BUILT_IN_PALETTES.blues[0],
     });

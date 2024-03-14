@@ -23,12 +23,10 @@ export const controllerElementZIndex: STDTestCase = async (context) => {
   const graph = new Graph(options);
   await graph.render();
   const front = () => graph.frontElement('node-2');
-  const back = () => graph.backElement('node-2');
   const to = (zIndex: number) => graph.setElementZIndex('node-2', zIndex);
 
   controllerElementZIndex.form = (panel) => [
     panel.add({ front }, 'front').name('Bring Element To Front'),
-    panel.add({ back }, 'back').name('Send Element To Back'),
     panel.add({ to: 0 }, 'to', -10, 10, 1).onChange((zIndex: number) => to(zIndex)),
   ];
 

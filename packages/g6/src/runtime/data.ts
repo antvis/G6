@@ -23,6 +23,8 @@ import { cloneElementData, mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf, parentIdOf } from '../utils/id';
+import { positionOf } from '../utils/position';
+import { zIndexOf } from '../utils/style';
 import { dfs } from '../utils/traverse';
 import { add } from '../utils/vector';
 
@@ -161,14 +163,22 @@ export class DataController {
     }, [] as ComboData[]);
   }
 
-  public getAncestorsData(id: ID, hierarchy: HierarchyKey | undefined = this.inferStructureKey(id)): NodeLikeData[] {
+  public getAncestorsData(id: ID, hierarchy: HierarchyKey): NodeLikeData[] {
     const { model } = this;
-    if (!hierarchy) {
-      console.error('The hierarchy structure key is not specified');
-      return [];
-    }
     if (!model.hasNode(id) || !model.hasTreeStructure(hierarchy)) return [];
     return model.getAncestors(id, hierarchy).map(toG6Data);
+  }
+
+  public getDescendantsData(id: ID): NodeLikeData[] {
+    const root = this.getElementsData([id])[0] as NodeLikeData;
+    const data: NodeLikeData[] = [];
+    dfs(
+      root,
+      (node) => data.push(node),
+      (node) => this.getChildrenData(idOf(node)),
+      'TB',
+    );
+    return data;
   }
 
   public getParentData(
@@ -351,25 +361,37 @@ export class DataController {
   }
 
   protected updateNodeLikeHierarchy(data: NodeLikeData[]) {
+    if (!this.enableUpdateNodeLikeHierarchy) return;
     const { model } = this;
 
     data.forEach((datum) => {
       const id = idOf(datum);
 
-      const parentId = parentIdOf(datum);
-      if (parentId !== undefined) {
-        model.attachTreeStructure(COMBO_KEY);
-        model.setParent(id, parentId, COMBO_KEY);
-      }
+      model.attachTreeStructure(COMBO_KEY);
+      this.setParent(id, parentIdOf(datum), COMBO_KEY);
 
       const children = datum?.style?.children;
       if (children !== undefined) {
         model.attachTreeStructure(TREE_KEY);
         children.forEach((child) => {
-          model.setParent(child, id, TREE_KEY);
+          this.setParent(child, id, TREE_KEY);
         });
       }
     });
+  }
+
+  private enableUpdateNodeLikeHierarchy = true;
+
+  /**
+   * <zh/> 执行变更时不要更新节点层次结构
+   *
+   * <en/> Do not update the node hierarchy when executing changes
+   * @param callback - <zh/> 变更函数 | <en/> change function
+   */
+  public preventUpdateNodeLikeHierarchy(callback: () => void) {
+    this.enableUpdateNodeLikeHierarchy = false;
+    callback();
+    this.enableUpdateNodeLikeHierarchy = true;
   }
 
   public updateData(data: PartialGraphData) {
@@ -383,37 +405,50 @@ export class DataController {
 
   public updateNodeData(nodes: PartialNodeLikeData<NodeData>[] = []) {
     if (!nodes.length) return;
-
+    const { model } = this;
     this.batch(() => {
+      const modifiedNodes: NodeData[] = [];
       nodes.forEach((modifiedNode) => {
-        const originalNode = toG6Data(this.model.getNode(idOf(modifiedNode)));
+        const id = idOf(modifiedNode);
+        const originalNode = toG6Data(model.getNode(id));
         if (isEqual(originalNode, modifiedNode)) return;
 
         const value = mergeElementsData(originalNode, modifiedNode);
         this.pushChange({ value, original: originalNode, type: ChangeTypeEnum.NodeUpdated });
-        this.model.mergeNodeData(idOf(modifiedNode), value);
+        model.mergeNodeData(id, value);
+        modifiedNodes.push(value);
       });
 
-      this.updateNodeLikeHierarchy(nodes);
+      this.updateNodeLikeHierarchy(modifiedNodes);
     });
+  }
+
+  public syncNodeDatum(datum: PartialNodeLikeData<NodeData>) {
+    const { model } = this;
+
+    const id = idOf(datum);
+    const original = toG6Data(model.getNode(id));
+    const value = mergeElementsData(original, datum);
+    model.mergeNodeData(id, value);
   }
 
   public updateEdgeData(edges: PartialEdgeData<EdgeData>[] = []) {
     if (!edges.length) return;
-
+    const { model } = this;
     this.batch(() => {
       edges.forEach((modifiedEdge) => {
-        const originalEdge = toG6Data(this.model.getEdge(idOf(modifiedEdge)));
+        const id = idOf(modifiedEdge);
+        const originalEdge = toG6Data(model.getEdge(id));
         if (isEqual(originalEdge, modifiedEdge)) return;
 
         if (modifiedEdge.source && originalEdge.source !== modifiedEdge.source) {
-          this.model.updateEdgeSource(idOf(modifiedEdge), modifiedEdge.source);
+          model.updateEdgeSource(id, modifiedEdge.source);
         }
         if (modifiedEdge.target && originalEdge.target !== modifiedEdge.target) {
-          this.model.updateEdgeTarget(idOf(modifiedEdge), modifiedEdge.target);
+          model.updateEdgeTarget(id, modifiedEdge.target);
         }
         const updatedData = mergeElementsData(originalEdge, modifiedEdge);
-        this.model.mergeEdgeData(idOf(modifiedEdge), updatedData);
+        model.mergeEdgeData(id, updatedData);
         this.pushChange({ value: updatedData, original: originalEdge, type: ChangeTypeEnum.EdgeUpdated });
       });
     });
@@ -423,119 +458,158 @@ export class DataController {
     if (!combos.length) return;
     const { model } = this;
     model.batch(() => {
+      const modifiedCombos: ComboData[] = [];
       combos.forEach((modifiedCombo) => {
-        const modifiedComboId = idOf(modifiedCombo);
-        const originalCombo = toG6Data(model.getNode(modifiedComboId));
+        const id = idOf(modifiedCombo);
+        const originalCombo = toG6Data(model.getNode(id));
         if (isEqual(originalCombo, modifiedCombo)) return;
-
-        // 如果 combo 的位置发生了变化，需要更新其子节点的位置
-        // If the position of the combo has changed, the position of its child nodes needs to be updated
-        if (Object.keys(modifiedCombo.style || {}).some((key) => ['x', 'y', 'z'].includes(key))) {
-          const { x = 0, y = 0, z = 0 } = modifiedCombo.style || {};
-          this.translateComboTo([modifiedComboId], [+x, +y, +z]);
-        }
 
         const value = mergeElementsData(originalCombo, modifiedCombo);
         this.pushChange({ value, original: originalCombo, type: ChangeTypeEnum.ComboUpdated });
-        model.mergeNodeData(modifiedComboId, value);
+        model.mergeNodeData(id, value);
+        modifiedCombos.push(value);
       });
 
-      this.updateNodeLikeHierarchy(combos);
+      this.updateNodeLikeHierarchy(modifiedCombos);
     });
+  }
+
+  /**
+   * <zh/> 设置节点的父节点
+   *
+   * <en/> Set the parent node of the node
+   * @param id - <zh/> 节点 ID | <en/> node ID
+   * @param parentId - <zh/> 父节点 ID | <en/> parent node ID
+   * @param hierarchy - <zh/> 层次结构类型 | <en/> hierarchy type
+   */
+  public setParent(id: ID, parentId: ID | undefined, hierarchy: HierarchyKey) {
+    if (id === parentId) return;
+    console.log('setParent', id, parentId);
+
+    const originalParentId = parentIdOf(this.getNodeLikeData([id])[0]);
+
+    // Sync data
+    if (originalParentId !== parentId) {
+      const modifiedDatum = { id, style: { parentId } };
+      if (this.isCombo(id)) this.syncComboDatum(modifiedDatum);
+      else this.syncNodeDatum(modifiedDatum);
+    }
+
+    this.model.setParent(id, parentId, hierarchy);
+
+    new Set([originalParentId, parentId]).forEach((pId) => {
+      if (pId !== undefined) this.refreshComboData(pId);
+    });
+  }
+
+  /**
+   * <zh/> 刷新 combo 数据
+   *
+   * <en/> Refresh combo data
+   * @param id - <zh/> combo ID | <en/> combo ID
+   * @description
+   * <zh/> 不会更改数据，但会触发数据变更事件
+   *
+   * <en/> Will not change the data, but will trigger data change events
+   */
+  public refreshComboData(id: ID) {
+    const combo = this.getComboData([id])[0];
+    const ancestors = this.getAncestorsData(id, COMBO_KEY);
+
+    if (combo) this.pushChange({ value: combo, original: combo, type: ChangeTypeEnum.ComboUpdated });
+
+    ancestors.forEach((value) => {
+      this.pushChange({ value: value, original: value, type: ChangeTypeEnum.ComboUpdated });
+    });
+  }
+
+  /**
+   * <zh/> 将 combo 数据同步到 model 中
+   *
+   * <en/> Synchronize combo data to the model
+   * @param datum - <zh/> combo 数据 | <en/> combo data
+   */
+  public syncComboDatum(datum: PartialNodeLikeData<ComboData>) {
+    const { model } = this;
+
+    const id = idOf(datum);
+    const original = toG6Data(model.getNode(id));
+    const value = mergeElementsData(original, datum);
+    model.mergeNodeData(id, value);
   }
 
   public getElementPosition(id: ID): Position {
-    const datum = this.getElementsData([id])[0];
-    const { x = 0, y = 0, z = 0 } = datum.style || {};
-    return [x, y, z] as Position;
+    const datum = this.getElementsData([id])[0] as NodeLikeData;
+    return positionOf(datum);
   }
 
-  public translateNodeBy(offsets: Record<ID, Position>) {
-    const positions = Object.entries(offsets).reduce(
-      (acc, [id, offset]) => {
-        const curr = this.getElementPosition(id);
-        const next = add(curr, [...offset, 0].slice(0, 3) as Point);
-        acc[id] = next;
-        return acc;
-      },
-      {} as Record<ID, Position>,
-    );
-
-    this.translateNodeTo(positions);
+  public translateNodeBy(id: ID, offset: Position) {
+    const curr = this.getElementPosition(id);
+    const position = add(curr, [...offset, 0].slice(0, 3) as Point);
+    this.translateNodeTo(id, position);
   }
 
-  public translateNodeTo(positions: Record<ID, Position>) {
-    const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
-
-    Object.entries(positions).forEach(([id, [x, y, z = 0]]) => {
-      const elementType = this.getElementType(id);
-      dataToUpdate[`${elementType}s`].push({ id, style: { x, y, z } });
+  public translateNodeTo(id: ID, position: Position) {
+    const [x = 0, y = 0, z = 0] = position;
+    this.preventUpdateNodeLikeHierarchy(() => {
+      this.updateNodeData([{ id, style: { x, y, z } }]);
     });
-
-    this.updateData(dataToUpdate);
   }
 
-  public translateComboBy(ids: ID[], offset: Point) {
+  public translateComboBy(id: ID, offset: Position) {
     const [dx = 0, dy = 0, dz = 0] = offset;
     if ([dx, dy, dz].some(isNaN) || [dx, dy, dz].every((o) => o === 0)) return;
-
-    const { model } = this;
-    model.batch(() => {
-      this.getComboData(ids).forEach((combo) => {
-        dfs(
-          combo,
-          (succeed) => {
-            const succeedID = idOf(succeed);
-            const { x = 0, y = 0, z = 0 } = succeed.style || {};
-            const value = mergeElementsData(succeed, {
-              style: { x: +x + dx, y: +y + dy, z: z + dz },
-            });
-            this.pushChange({
-              value,
-              original: succeed,
-              type: this.isCombo(succeedID) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
-            });
-            model.mergeNodeData(succeedID, value);
-          },
-          (node) => this.getChildrenData(idOf(node)),
-          'BT',
-        );
-      });
-    });
+    const combo = this.getComboData([id])[0];
+    if (!combo) return;
+    dfs(
+      combo,
+      (succeed) => {
+        const succeedID = idOf(succeed);
+        const [x, y, z] = positionOf(succeed);
+        const value = mergeElementsData(succeed, {
+          style: { x: x + dx, y: y + dy, z: z + dz },
+        });
+        this.pushChange({
+          value,
+          original: succeed,
+          type: this.isCombo(succeedID) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
+        });
+        this.model.mergeNodeData(succeedID, value);
+      },
+      (node) => this.getChildrenData(idOf(node)),
+      'BT',
+    );
   }
 
-  public translateComboTo(ids: ID[], point: Point) {
-    const [x = 0, y = 0, z = 0] = point;
-    if (point.some(isNaN)) return;
+  public translateComboTo(id: ID, position: Position) {
+    if (position.some(isNaN)) return;
+    const [tx = 0, ty = 0, tz = 0] = position;
+    const combo = this.getComboData([id])?.[0];
+    if (!combo) return;
 
-    const { model } = this;
-    this.batch(() => {
-      this.getComboData(ids).forEach((combo) => {
-        const { x: comboX = 0, y: comboY = 0, z: comboZ = 0 } = combo.style || {};
-        const dx = x - +comboX;
-        const dy = y - +comboY;
-        const dz = z - +comboZ;
+    const [comboX, comboY, comboZ] = positionOf(combo);
+    const dx = tx - comboX;
+    const dy = ty - comboY;
+    const dz = tz - comboZ;
 
-        dfs(
-          combo,
-          (succeed) => {
-            const succeedID = idOf(succeed);
-            const { x = 0, y = 0, z = 0 } = succeed.style || {};
-            const value = mergeElementsData(succeed, {
-              style: { x: +x + dx, y: +y + dy, z: +z + dz },
-            });
-            this.pushChange({
-              value,
-              original: succeed,
-              type: this.isCombo(succeedID) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
-            });
-            model.mergeNodeData(succeedID, value);
-          },
-          (node) => this.getChildrenData(idOf(node)),
-          'BT',
-        );
-      });
-    });
+    dfs(
+      combo,
+      (succeed) => {
+        const succeedId = idOf(succeed);
+        const [x, y, z] = positionOf(succeed);
+        const value = mergeElementsData(succeed, {
+          style: { x: x + dx, y: y + dy, z: z + dz },
+        });
+        this.pushChange({
+          value,
+          original: succeed,
+          type: this.isCombo(succeedId) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
+        });
+        this.model.mergeNodeData(succeedId, value);
+      },
+      (node) => this.getChildrenData(idOf(node)),
+      'BT',
+    );
   }
 
   public removeData(data: DataID) {
@@ -593,7 +667,7 @@ export class DataController {
     if (this.model.hasTreeStructure(COMBO_KEY)) {
       // 从父节点的 children 列表中移除
       // remove from its parent's children list
-      this.model.setParent(id, undefined, COMBO_KEY);
+      this.setParent(id, undefined, COMBO_KEY);
       // 将子节点移动到父节点的 children 列表中
       // move the children to the grandparent's children list
       const [data] = this.getNodeLikeData([id]);
@@ -601,7 +675,7 @@ export class DataController {
       this.model.getChildren(id, COMBO_KEY).forEach((child) => {
         const childData = toG6Data(child);
         const childId = idOf(childData);
-        this.model.setParent(idOf(childData), parentIdOf(data), COMBO_KEY);
+        this.setParent(idOf(childData), parentIdOf(data), COMBO_KEY);
         const value = mergeElementsData(childData, {
           id: idOf(childData),
           style: { parentId: parentIdOf(data) },
@@ -632,6 +706,29 @@ export class DataController {
     if (this.model.hasEdge(id)) return 'edge';
 
     throw new Error(`Unknown element type of id: ${id}`);
+  }
+
+  /**
+   * <zh/> 计算元素置顶后的 zIndex
+   *
+   * <en/> Calculate the zIndex after the element is placed on top
+   * @param id - <zh/> 元素 ID | <en/> ID of the element
+   * @returns <zh/> zIndex | <en/> zIndex
+   */
+  public getFrontZIndex(id: ID) {
+    const elementType = this.getElementType(id);
+    let elementsToCompare: NodeLikeData[] = [];
+
+    if (elementType === 'combo') {
+      const ancestors = [id, ...this.getAncestorsData(id, COMBO_KEY).map(idOf)];
+      elementsToCompare = this.getComboData().filter((combo) => {
+        const comboId = idOf(combo);
+        const comboAncestors = this.getAncestorsData(comboId, COMBO_KEY).map(idOf);
+        return !ancestors.includes(comboId) && !comboAncestors.includes(comboId);
+      });
+    } else elementsToCompare = this.getNodeData().filter((node) => idOf(node) !== id);
+
+    return Math.max(0, ...elementsToCompare.map(zIndexOf)) + 1;
   }
 
   public destroy() {

@@ -19,12 +19,6 @@ describe('element z-index', () => {
     await expect(graph).toMatchSnapshot(__filename, 'front');
   });
 
-  it('back', async () => {
-    graph.backElement('node-2');
-
-    await expect(graph).toMatchSnapshot(__filename, 'back');
-  });
-
   it('to', async () => {
     graph.setElementZIndex({ 'node-2': 0 });
 
