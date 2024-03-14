@@ -1,5 +1,6 @@
 import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
+import { COMBO_KEY } from '../../constants';
 import type { BaseComboProps, NodeLike, Position, PrefixObject, STDSize } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getCombinedBBox, getExpandedBBox } from '../../utils/bbox';
 import { getCollapsedMarkerText, getXYByCollapsedOrigin } from '../../utils/combo';
@@ -140,14 +141,25 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     return { ...collapsedMarkerStyle, x, y };
   }
 
+  protected getComboZIndex(attributes: Required<S>): number {
+    const ancestors = attributes.context?.model.getAncestorsData(this.id, COMBO_KEY) || [];
+    return ancestors.length;
+  }
+
+  protected getComboStyle(attributes: Required<S>) {
+    const { zIndex = this.getComboZIndex(attributes) } = attributes;
+    const [x, y] = this.calculatePosition(attributes);
+    return { x, y, zIndex };
+  }
+
   public render(attributes: Required<S>, container: Group = this) {
     super.render(attributes, container);
     const { model } = attributes.context;
-    const [x, y] = this.calculatePosition(attributes);
-    Object.assign(this.style, { x, y, zIndex: model.getAncestorsData(this.id).length });
+    const comboStyle = this.getComboStyle(attributes);
+    Object.assign(this.style, comboStyle);
 
     // Sync combo position to model
-    model.syncComboPosition(this.id, [x, y]);
+    model.syncComboData([{ id: this.id, style: comboStyle }]);
 
     // collapsed marker
     this.drawCollapsedMarkerShape(attributes, container);
