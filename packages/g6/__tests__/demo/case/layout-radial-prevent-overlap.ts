@@ -14,7 +14,7 @@ export const layoutRadialPreventOverlap: STDTestCase = async (context) => {
     },
     node: {
       style: {
-        labelText: (d) => d.id,
+        labelText: (d: { id: string }) => d.id,
         labelPlacement: 'center',
         size: 20,
         fill: '#EFF4FF',
