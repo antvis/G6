@@ -227,6 +227,8 @@ export function create(tokens: ThemeTokens): Theme {
         enter: 'fade',
         exit: 'fade',
         visibility: 'fade',
+        expand: 'combo-collapse-expand',
+        collapse: 'combo-collapse-expand',
         update: [{ fields: ['x', 'y'] }, { fields: ['size', 'color', 'stroke'], shape: 'key' }],
       },
     },
