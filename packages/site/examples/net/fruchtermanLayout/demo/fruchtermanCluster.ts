@@ -106,10 +106,10 @@ const graph = new Graph({
   data,
   layout: {
     type: 'fruchterman',
-    gravity: 5,
+    gravity: 10,
     speed: 5,
-    animated: true,
-    clustering: false,
+    clustering: true,
+    nodeClusterBy: 'cluster',
   },
   node: {
     style: {
@@ -122,8 +122,14 @@ const graph = new Graph({
       labelBackground: false,
     },
   },
-  animation: true,
+  edge: {
+    style: {
+      endArrow: true,
+      endArrowPath: 'M 0,0 L 4,2 L 4,-2 Z',
+    },
+  },
   behaviors: ['drag-canvas', 'drag-node'],
+  animation: true,
 });
 
 graph.render();

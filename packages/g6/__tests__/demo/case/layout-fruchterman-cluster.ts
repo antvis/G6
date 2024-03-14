@@ -27,10 +27,8 @@ export const layoutFruchtermanCluster: STDTestCase = async (context) => {
     },
     edge: {
       style: {
-        endArrow: {
-          path: 'M 0,0 L 2,1 L 2,-1 Z',
-          fill: '#e2e2e2',
-        },
+        endArrow: true,
+        endArrowPath: 'M 0,0 L 4,2 L 4,-2 Z',
       },
     },
   });

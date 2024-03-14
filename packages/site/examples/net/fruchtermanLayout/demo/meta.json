@@ -10,6 +10,14 @@
         "zh": "基本 Fruchterman 布局",
         "en": "Basic Fruchterman Layout"
       },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1KY7SLEXxqMAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "fruchtermanCluster.ts",
+      "title": {
+        "zh": "基本 Fruchterman 布局",
+        "en": "Basic Fruchterman Layout"
+      },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-s9CTphuwgcAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
