@@ -1,0 +1,1382 @@
+{
+  "nodes": [
+    {
+      "id": "HIRA",
+      "data": {
+        "rank": 148
+      }
+    },
+    {
+      "id": "SERPINE1",
+      "data": {
+        "rank": 5
+      }
+    },
+    {
+      "id": "FAS",
+      "data": {
+        "rank": 38
+      }
+    },
+    {
+      "id": "H1F0",
+      "data": {
+        "rank": 179
+      }
+    },
+    {
+      "id": "CHEK2",
+      "data": {
+        "rank": 42
+      }
+    },
+    {
+      "id": "COL18A1",
+      "data": {
+        "rank": 157
+      }
+    },
+    {
+      "id": "CREBBP",
+      "data": {
+        "rank": 24
+      }
+    },
+    {
+      "id": "FDXR",
+      "data": {
+        "rank": 147
+      }
+    },
+    {
+      "id": "SMYD2",
+      "data": {
+        "rank": 175
+      }
+    },
+    {
+      "id": "ATR",
+      "data": {
+        "rank": 52
+      }
+    },
+    {
+      "id": "HGF",
+      "data": {
+        "rank": 4
+      }
+    },
+    {
+      "id": "ATM",
+      "data": {
+        "rank": 25
+      }
+    },
+    {
+      "id": "TP63",
+      "data": {
+        "rank": 37
+      }
+    },
+    {
+      "id": "GPX1",
+      "data": {
+        "rank": 13
+      }
+    },
+    {
+      "id": "TRIAP1",
+      "data": {
+        "rank": 183
+      }
+    },
+    {
+      "id": "HIST1H1E",
+      "data": {
+        "rank": 167
+      }
+    },
+    {
+      "id": "HIST1H1D",
+      "data": {
+        "rank": 184
+      }
+    },
+    {
+      "id": "HIST1H1C",
+      "data": {
+        "rank": 174
+      }
+    },
+    {
+      "id": "HIST1H1B",
+      "data": {
+        "rank": 96
+      }
+    },
+    {
+      "id": "HIST1H1A",
+      "data": {
+        "rank": 173
+      }
+    },
+    {
+      "id": "TP53",
+      "data": {
+        "rank": 0
+      }
+    },
+    {
+      "id": "GADD45A",
+      "data": {
+        "rank": 98
+      }
+    },
+    {
+      "id": "PML",
+      "data": {
+        "rank": 35
+      }
+    },
+    {
+      "id": "SUMO1",
+      "data": {
+        "rank": 36
+      }
+    },
+    {
+      "id": "PPP2CA",
+      "data": {
+        "rank": 146
+      }
+    },
+    {
+      "id": "PPP2CB",
+      "data": {
+        "rank": 185
+      }
+    },
+    {
+      "id": "PRKAA1",
+      "data": {
+        "rank": 78
+      }
+    },
+    {
+      "id": "PRKAA2",
+      "data": {
+        "rank": 29
+      }
+    },
+    {
+      "id": "MAPK11",
+      "data": {
+        "rank": 127
+      }
+    },
+    {
+      "id": "TP73",
+      "data": {
+        "rank": 116
+      }
+    },
+    {
+      "id": "CCNB1",
+      "data": {
+        "rank": 62
+      }
+    },
+    {
+      "id": "MAPK12",
+      "data": {
+        "rank": 131
+      }
+    },
+    {
+      "id": "MAPK13",
+      "data": {
+        "rank": 126
+      }
+    },
+    {
+      "id": "MAPK14",
+      "data": {
+        "rank": 23
+      }
+    },
+    {
+      "id": "PRKAB2",
+      "data": {
+        "rank": 189
+      }
+    },
+    {
+      "id": "PRKAB1",
+      "data": {
+        "rank": 73
+      }
+    },
+    {
+      "id": "EP300",
+      "data": {
+        "rank": 19
+      }
+    },
+    {
+      "id": "IGBP1",
+      "data": {
+        "rank": 125
+      }
+    },
+    {
+      "id": "FBXO11",
+      "data": {
+        "rank": 188
+      }
+    },
+    {
+      "id": "HMGB1",
+      "data": {
+        "rank": 54
+      }
+    },
+    {
+      "id": "NEDD8",
+      "data": {
+        "rank": 205
+      }
+    },
+    {
+      "id": "ASF1A",
+      "data": {
+        "rank": 161
+      }
+    },
+    {
+      "id": "KAT8",
+      "data": {
+        "rank": 199
+      }
+    },
+    {
+      "id": "HTT",
+      "data": {
+        "rank": 43
+      }
+    },
+    {
+      "id": "WRN",
+      "data": {
+        "rank": 53
+      }
+    },
+    {
+      "id": "CDKN1A",
+      "data": {
+        "rank": 9
+      }
+    },
+    {
+      "id": "PLK3",
+      "data": {
+        "rank": 115
+      }
+    },
+    {
+      "id": "DYRK1A",
+      "data": {
+        "rank": 128
+      }
+    },
+    {
+      "id": "PRKAG1",
+      "data": {
+        "rank": 177
+      }
+    },
+    {
+      "id": "CASP6",
+      "data": {
+        "rank": 104
+      }
+    },
+    {
+      "id": "MAX",
+      "data": {
+        "rank": 158
+      }
+    },
+    {
+      "id": "FOS",
+      "data": {
+        "rank": 61
+      }
+    },
+    {
+      "id": "TP53I3",
+      "data": {
+        "rank": 152
+      }
+    },
+    {
+      "id": "PRMT1",
+      "data": {
+        "rank": 206
+      }
+    },
+    {
+      "id": "PCBP4",
+      "data": {
+        "rank": 165
+      }
+    },
+    {
+      "id": "PRMT5",
+      "data": {
+        "rank": 118
+      }
+    },
+    {
+      "id": "E4F1",
+      "data": {
+        "rank": 150
+      }
+    },
+    {
+      "id": "CASP1",
+      "data": {
+        "rank": 64
+      }
+    },
+    {
+      "id": "PRKCA",
+      "data": {
+        "rank": 84
+      }
+    },
+    {
+      "id": "CDK1",
+      "data": {
+        "rank": 27
+      }
+    },
+    {
+      "id": "CDK9",
+      "data": {
+        "rank": 66
+      }
+    },
+    {
+      "id": "RB1",
+      "data": {
+        "rank": 15
+      }
+    },
+    {
+      "id": "CDK7",
+      "data": {
+        "rank": 72
+      }
+    },
+    {
+      "id": "HMGA2",
+      "data": {
+        "rank": 82
+      }
+    },
+    {
+      "id": "DAPK3",
+      "data": {
+        "rank": 112
+      }
+    },
+    {
+      "id": "HMGA1",
+      "data": {
+        "rank": 111
+      }
+    },
+    {
+      "id": "PRKCD",
+      "data": {
+        "rank": 122
+      }
+    },
+    {
+      "id": "UBN1",
+      "data": {
+        "rank": 180
+      }
+    },
+    {
+      "id": "CDK5",
+      "data": {
+        "rank": 44
+      }
+    },
+    {
+      "id": "CDK2",
+      "data": {
+        "rank": 34
+      }
+    },
+    {
+      "id": "DAPK1",
+      "data": {
+        "rank": 49
+      }
+    },
+    {
+      "id": "RFWD2",
+      "data": {
+        "rank": 143
+      }
+    },
+    {
+      "id": "PPM1J",
+      "data": {
+        "rank": 191
+      }
+    },
+    {
+      "id": "BTG2",
+      "data": {
+        "rank": 97
+      }
+    },
+    {
+      "id": "CD82",
+      "data": {
+        "rank": 69
+      }
+    },
+    {
+      "id": "HIPK2",
+      "data": {
+        "rank": 70
+      }
+    },
+    {
+      "id": "DDB2",
+      "data": {
+        "rank": 102
+      }
+    },
+    {
+      "id": "MDM2",
+      "data": {
+        "rank": 7
+      }
+    },
+    {
+      "id": "CTSD",
+      "data": {
+        "rank": 85
+      }
+    },
+    {
+      "id": "NGFR",
+      "data": {
+        "rank": 80
+      }
+    },
+    {
+      "id": "CARM1",
+      "data": {
+        "rank": 207
+      }
+    },
+    {
+      "id": "TYRP1",
+      "data": {
+        "rank": 87
+      }
+    },
+    {
+      "id": "PRKDC",
+      "data": {
+        "rank": 74
+      }
+    },
+    {
+      "id": "HIC1",
+      "data": {
+        "rank": 99
+      }
+    },
+    {
+      "id": "TAP1",
+      "data": {
+        "rank": 63
+      }
+    },
+    {
+      "id": "PYCARD",
+      "data": {
+        "rank": 89
+      }
+    },
+    {
+      "id": "APC",
+      "data": {
+        "rank": 22
+      }
+    },
+    {
+      "id": "RNF144B",
+      "data": {
+        "rank": 190
+      }
+    },
+    {
+      "id": "KAT2B",
+      "data": {
+        "rank": 55
+      }
+    },
+    {
+      "id": "MSH2",
+      "data": {
+        "rank": 21
+      }
+    },
+    {
+      "id": "PPP1R13L",
+      "data": {
+        "rank": 140
+      }
+    },
+    {
+      "id": "SIRT1",
+      "data": {
+        "rank": 46
+      }
+    },
+    {
+      "id": "CASP10",
+      "data": {
+        "rank": 100
+      }
+    },
+    {
+      "id": "SP1",
+      "data": {
+        "rank": 204
+      }
+    },
+    {
+      "id": "IRF5",
+      "data": {
+        "rank": 101
+      }
+    },
+    {
+      "id": "BAX",
+      "data": {
+        "rank": 51
+      }
+    },
+    {
+      "id": "CABIN1",
+      "data": {
+        "rank": 132
+      }
+    },
+    {
+      "id": "SETD7",
+      "data": {
+        "rank": 156
+      }
+    },
+    {
+      "id": "SETD8",
+      "data": {
+        "rank": 164
+      }
+    },
+    {
+      "id": "APAF1",
+      "data": {
+        "rank": 83
+      }
+    },
+    {
+      "id": "GDF15",
+      "data": {
+        "rank": 91
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "TP53-controls-state-change-of-H1F0",
+      "source": "TP53",
+      "target": "H1F0"
+    },
+    {
+      "id": "TP53-controls-expression-of-IRF5",
+      "source": "TP53",
+      "target": "IRF5"
+    },
+    {
+      "id": "KAT8-controls-state-change-of-TP53",
+      "source": "KAT8",
+      "target": "TP53"
+    },
+    {
+      "id": "FBXO11-controls-state-change-of-TP53",
+      "source": "FBXO11",
+      "target": "TP53"
+    },
+    {
+      "id": "ATR-controls-state-change-of-TP53",
+      "source": "ATR",
+      "target": "TP53"
+    },
+    {
+      "id": "FBXO11-controls-state-change-of-NEDD8",
+      "source": "FBXO11",
+      "target": "NEDD8"
+    },
+    {
+      "id": "ATM-controls-state-change-of-TP53",
+      "source": "ATM",
+      "target": "TP53"
+    },
+    {
+      "id": "SMYD2-controls-state-change-of-TP53",
+      "source": "SMYD2",
+      "target": "TP53"
+    },
+    {
+      "id": "NGFR-controls-state-change-of-TP53",
+      "source": "NGFR",
+      "target": "TP53"
+    },
+    {
+      "id": "MAX-controls-expression-of-TP53",
+      "source": "MAX",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-PRKAB1",
+      "source": "TP53",
+      "target": "PRKAB1"
+    },
+    {
+      "id": "MDM2-controls-state-change-of-TP53",
+      "source": "MDM2",
+      "target": "TP53"
+    },
+    {
+      "id": "SETD8-controls-state-change-of-TP53",
+      "source": "SETD8",
+      "target": "TP53"
+    },
+    {
+      "id": "SETD7-controls-state-change-of-TP53",
+      "source": "SETD7",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-TYRP1",
+      "source": "TP53",
+      "target": "TYRP1"
+    },
+    {
+      "id": "ATR-controls-state-change-of-TP63",
+      "source": "ATR",
+      "target": "TP63"
+    },
+    {
+      "id": "PRKCA-controls-state-change-of-TP53",
+      "source": "PRKCA",
+      "target": "TP53"
+    },
+    {
+      "id": "ATM-controls-state-change-of-TP63",
+      "source": "ATM",
+      "target": "TP63"
+    },
+    {
+      "id": "CHEK2-controls-state-change-of-TP73",
+      "source": "CHEK2",
+      "target": "TP73"
+    },
+    {
+      "id": "TP53-controls-expression-of-DDB2",
+      "source": "TP53",
+      "target": "DDB2"
+    },
+    {
+      "id": "PRKCD-controls-state-change-of-TP53",
+      "source": "PRKCD",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-TP63",
+      "source": "TP53",
+      "target": "TP63"
+    },
+    {
+      "id": "TP53-controls-expression-of-PML",
+      "source": "TP53",
+      "target": "PML"
+    },
+    {
+      "id": "ATM-controls-state-change-of-TP73",
+      "source": "ATM",
+      "target": "TP73"
+    },
+    {
+      "id": "WRN-controls-state-change-of-TP63",
+      "source": "WRN",
+      "target": "TP63"
+    },
+    {
+      "id": "ATR-controls-state-change-of-TP73",
+      "source": "ATR",
+      "target": "TP73"
+    },
+    {
+      "id": "TP53-controls-expression-of-PCBP4",
+      "source": "TP53",
+      "target": "PCBP4"
+    },
+    {
+      "id": "TP53-controls-expression-of-GADD45A",
+      "source": "TP53",
+      "target": "GADD45A"
+    },
+    {
+      "id": "PRKDC-controls-state-change-of-TP53",
+      "source": "PRKDC",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-GDF15",
+      "source": "TP53",
+      "target": "GDF15"
+    },
+    {
+      "id": "WRN-controls-state-change-of-TP73",
+      "source": "WRN",
+      "target": "TP73"
+    },
+    {
+      "id": "TP53-controls-expression-of-SERPINE1",
+      "source": "TP53",
+      "target": "SERPINE1"
+    },
+    {
+      "id": "TP53-controls-expression-of-PPM1J",
+      "source": "TP53",
+      "target": "PPM1J"
+    },
+    {
+      "id": "HTT-controls-state-change-of-TP63",
+      "source": "HTT",
+      "target": "TP63"
+    },
+    {
+      "id": "TP53-controls-expression-of-CASP1",
+      "source": "TP53",
+      "target": "CASP1"
+    },
+    {
+      "id": "MAPK14-controls-state-change-of-TP63",
+      "source": "MAPK14",
+      "target": "TP63"
+    },
+    {
+      "id": "HMGB1-controls-state-change-of-TP73",
+      "source": "HMGB1",
+      "target": "TP73"
+    },
+    {
+      "id": "TP53-controls-expression-of-CASP6",
+      "source": "TP53",
+      "target": "CASP6"
+    },
+    {
+      "id": "MAPK13-controls-state-change-of-TP63",
+      "source": "MAPK13",
+      "target": "TP63"
+    },
+    {
+      "id": "HTT-controls-state-change-of-TP53",
+      "source": "HTT",
+      "target": "TP53"
+    },
+    {
+      "id": "MAPK12-controls-state-change-of-TP63",
+      "source": "MAPK12",
+      "target": "TP63"
+    },
+    {
+      "id": "MAPK11-controls-state-change-of-TP63",
+      "source": "MAPK11",
+      "target": "TP63"
+    },
+    {
+      "id": "SIRT1-controls-expression-of-CDKN1A",
+      "source": "SIRT1",
+      "target": "CDKN1A"
+    },
+    {
+      "id": "PML-controls-state-change-of-TP53",
+      "source": "PML",
+      "target": "TP53"
+    },
+    {
+      "id": "CREBBP-controls-state-change-of-TP53",
+      "source": "CREBBP",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-TAP1",
+      "source": "TP53",
+      "target": "TAP1"
+    },
+    {
+      "id": "MAPK13-controls-state-change-of-TP53",
+      "source": "MAPK13",
+      "target": "TP53"
+    },
+    {
+      "id": "MAPK12-controls-state-change-of-TP53",
+      "source": "MAPK12",
+      "target": "TP53"
+    },
+    {
+      "id": "MAPK14-controls-state-change-of-TP53",
+      "source": "MAPK14",
+      "target": "TP53"
+    },
+    {
+      "id": "MAPK11-controls-state-change-of-TP53",
+      "source": "MAPK11",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-state-change-of-BAX",
+      "source": "TP53",
+      "target": "BAX"
+    },
+    {
+      "id": "HMGB1-controls-state-change-of-TP63",
+      "source": "HMGB1",
+      "target": "TP63"
+    },
+    {
+      "id": "TP53-controls-expression-of-TP73",
+      "source": "TP53",
+      "target": "TP73"
+    },
+    {
+      "id": "PML-controls-state-change-of-TP63",
+      "source": "PML",
+      "target": "TP63"
+    },
+    {
+      "id": "PPP2CA-controls-state-change-of-TP73",
+      "source": "PPP2CA",
+      "target": "TP73"
+    },
+    {
+      "id": "PPP2CB-controls-state-change-of-TP73",
+      "source": "PPP2CB",
+      "target": "TP73"
+    },
+    {
+      "id": "FOS-controls-expression-of-TP53",
+      "source": "FOS",
+      "target": "TP53"
+    },
+    {
+      "id": "CREBBP-controls-expression-of-GADD45A",
+      "source": "CREBBP",
+      "target": "GADD45A"
+    },
+    {
+      "id": "TP53-controls-expression-of-CDKN1A",
+      "source": "TP53",
+      "target": "CDKN1A"
+    },
+    {
+      "id": "PML-controls-state-change-of-TP73",
+      "source": "PML",
+      "target": "TP73"
+    },
+    {
+      "id": "HMGB1-controls-state-change-of-TP53",
+      "source": "HMGB1",
+      "target": "TP53"
+    },
+    {
+      "id": "IGBP1-controls-state-change-of-TP73",
+      "source": "IGBP1",
+      "target": "TP73"
+    },
+    {
+      "id": "HIPK2-controls-state-change-of-TP53",
+      "source": "HIPK2",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-RNF144B",
+      "source": "TP53",
+      "target": "RNF144B"
+    },
+    {
+      "id": "TP53-controls-expression-of-HIC1",
+      "source": "TP53",
+      "target": "HIC1"
+    },
+    {
+      "id": "TP53-controls-state-change-of-HIRA",
+      "source": "TP53",
+      "target": "HIRA"
+    },
+    {
+      "id": "MAPK14-controls-state-change-of-TP73",
+      "source": "MAPK14",
+      "target": "TP73"
+    },
+    {
+      "id": "TP53-controls-state-change-of-UBN1",
+      "source": "TP53",
+      "target": "UBN1"
+    },
+    {
+      "id": "TP53-controls-expression-of-RB1",
+      "source": "TP53",
+      "target": "RB1"
+    },
+    {
+      "id": "MAPK11-controls-state-change-of-TP73",
+      "source": "MAPK11",
+      "target": "TP73"
+    },
+    {
+      "id": "TP53-controls-state-change-of-HMGA2",
+      "source": "TP53",
+      "target": "HMGA2"
+    },
+    {
+      "id": "TP53-controls-state-change-of-HMGA1",
+      "source": "TP53",
+      "target": "HMGA1"
+    },
+    {
+      "id": "MAPK13-controls-state-change-of-TP73",
+      "source": "MAPK13",
+      "target": "TP73"
+    },
+    {
+      "id": "MAPK12-controls-state-change-of-TP73",
+      "source": "MAPK12",
+      "target": "TP73"
+    },
+    {
+      "id": "IGBP1-controls-state-change-of-TP63",
+      "source": "IGBP1",
+      "target": "TP63"
+    },
+    {
+      "id": "TP53-controls-expression-of-TP53I3",
+      "source": "TP53",
+      "target": "TP53I3"
+    },
+    {
+      "id": "DYRK1A-controls-state-change-of-TP53",
+      "source": "DYRK1A",
+      "target": "TP53"
+    },
+    {
+      "id": "SUMO1-controls-state-change-of-TP73",
+      "source": "SUMO1",
+      "target": "TP73"
+    },
+    {
+      "id": "PRKAG1-controls-state-change-of-TP63",
+      "source": "PRKAG1",
+      "target": "TP63"
+    },
+    {
+      "id": "SIRT1-controls-state-change-of-TP73",
+      "source": "SIRT1",
+      "target": "TP73"
+    },
+    {
+      "id": "PPP2CB-controls-state-change-of-TP63",
+      "source": "PPP2CB",
+      "target": "TP63"
+    },
+    {
+      "id": "CHEK2-controls-state-change-of-TP53",
+      "source": "CHEK2",
+      "target": "TP53"
+    },
+    {
+      "id": "PPP2CA-controls-state-change-of-TP63",
+      "source": "PPP2CA",
+      "target": "TP63"
+    },
+    {
+      "id": "CDK7-controls-state-change-of-TP53",
+      "source": "CDK7",
+      "target": "TP53"
+    },
+    {
+      "id": "CDK9-controls-state-change-of-TP53",
+      "source": "CDK9",
+      "target": "TP53"
+    },
+    {
+      "id": "CDK2-controls-state-change-of-TP53",
+      "source": "CDK2",
+      "target": "TP53"
+    },
+    {
+      "id": "CDK5-controls-state-change-of-TP53",
+      "source": "CDK5",
+      "target": "TP53"
+    },
+    {
+      "id": "IGBP1-controls-state-change-of-TP53",
+      "source": "IGBP1",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-BAX",
+      "source": "TP53",
+      "target": "BAX"
+    },
+    {
+      "id": "TP53-controls-expression-of-CCNB1",
+      "source": "TP53",
+      "target": "CCNB1"
+    },
+    {
+      "id": "SIRT1-controls-state-change-of-TP63",
+      "source": "SIRT1",
+      "target": "TP63"
+    },
+    {
+      "id": "PRKAG1-controls-state-change-of-TP73",
+      "source": "PRKAG1",
+      "target": "TP73"
+    },
+    {
+      "id": "TP53-controls-expression-of-MDM2",
+      "source": "TP53",
+      "target": "MDM2"
+    },
+    {
+      "id": "PPP2CB-controls-state-change-of-TP53",
+      "source": "PPP2CB",
+      "target": "TP53"
+    },
+    {
+      "id": "PPP2CA-controls-state-change-of-TP53",
+      "source": "PPP2CA",
+      "target": "TP53"
+    },
+    {
+      "id": "CHEK2-controls-state-change-of-TP63",
+      "source": "CHEK2",
+      "target": "TP63"
+    },
+    {
+      "id": "TP53-controls-expression-of-CD82",
+      "source": "TP53",
+      "target": "CD82"
+    },
+    {
+      "id": "TP53-controls-expression-of-FDXR",
+      "source": "TP53",
+      "target": "FDXR"
+    },
+    {
+      "id": "TP53-controls-expression-of-HTT",
+      "source": "TP53",
+      "target": "HTT"
+    },
+    {
+      "id": "TP53-controls-expression-of-CTSD",
+      "source": "TP53",
+      "target": "CTSD"
+    },
+    {
+      "id": "SIRT1-controls-state-change-of-TP53",
+      "source": "SIRT1",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-CASP10",
+      "source": "TP53",
+      "target": "CASP10"
+    },
+    {
+      "id": "TP53-controls-expression-of-APAF1",
+      "source": "TP53",
+      "target": "APAF1"
+    },
+    {
+      "id": "TP53-controls-expression-of-HGF",
+      "source": "TP53",
+      "target": "HGF"
+    },
+    {
+      "id": "PRMT5-controls-state-change-of-TP53",
+      "source": "PRMT5",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-APC",
+      "source": "TP53",
+      "target": "APC"
+    },
+    {
+      "id": "TP53-controls-expression-of-BTG2",
+      "source": "TP53",
+      "target": "BTG2"
+    },
+    {
+      "id": "PRMT1-controls-expression-of-GADD45A",
+      "source": "PRMT1",
+      "target": "GADD45A"
+    },
+    {
+      "id": "TP53-controls-state-change-of-ASF1A",
+      "source": "TP53",
+      "target": "ASF1A"
+    },
+    {
+      "id": "TP53-controls-expression-of-FAS",
+      "source": "TP53",
+      "target": "FAS"
+    },
+    {
+      "id": "HTT-controls-state-change-of-TP73",
+      "source": "HTT",
+      "target": "TP73"
+    },
+    {
+      "id": "PRKAG1-controls-state-change-of-TP53",
+      "source": "PRKAG1",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-TRIAP1",
+      "source": "TP53",
+      "target": "TRIAP1"
+    },
+    {
+      "id": "TP53-controls-expression-of-RFWD2",
+      "source": "TP53",
+      "target": "RFWD2"
+    },
+    {
+      "id": "EP300-controls-state-change-of-TP63",
+      "source": "EP300",
+      "target": "TP63"
+    },
+    {
+      "id": "TP53-controls-expression-of-COL18A1",
+      "source": "TP53",
+      "target": "COL18A1"
+    },
+    {
+      "id": "EP300-controls-expression-of-GADD45A",
+      "source": "EP300",
+      "target": "GADD45A"
+    },
+    {
+      "id": "PRKAB2-controls-state-change-of-TP73",
+      "source": "PRKAB2",
+      "target": "TP73"
+    },
+    {
+      "id": "EP300-controls-state-change-of-TP53",
+      "source": "EP300",
+      "target": "TP53"
+    },
+    {
+      "id": "PRKAB1-controls-state-change-of-TP73",
+      "source": "PRKAB1",
+      "target": "TP73"
+    },
+    {
+      "id": "TP53-controls-state-change-of-HIST1H1B",
+      "source": "TP53",
+      "target": "HIST1H1B"
+    },
+    {
+      "id": "EP300-controls-state-change-of-TP73",
+      "source": "EP300",
+      "target": "TP73"
+    },
+    {
+      "id": "TP53-controls-state-change-of-HIST1H1C",
+      "source": "TP53",
+      "target": "HIST1H1C"
+    },
+    {
+      "id": "TP53-controls-state-change-of-HIST1H1A",
+      "source": "TP53",
+      "target": "HIST1H1A"
+    },
+    {
+      "id": "CARM1-controls-expression-of-GADD45A",
+      "source": "CARM1",
+      "target": "GADD45A"
+    },
+    {
+      "id": "TP53-controls-state-change-of-HIST1H1D",
+      "source": "TP53",
+      "target": "HIST1H1D"
+    },
+    {
+      "id": "TP53-controls-state-change-of-HIST1H1E",
+      "source": "TP53",
+      "target": "HIST1H1E"
+    },
+    {
+      "id": "WRN-controls-state-change-of-TP53",
+      "source": "WRN",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-MSH2",
+      "source": "TP53",
+      "target": "MSH2"
+    },
+    {
+      "id": "KAT2B-controls-state-change-of-TP53",
+      "source": "KAT2B",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-PYCARD",
+      "source": "TP53",
+      "target": "PYCARD"
+    },
+    {
+      "id": "PRKAA2-controls-state-change-of-TP53",
+      "source": "PRKAA2",
+      "target": "TP53"
+    },
+    {
+      "id": "SP1-controls-expression-of-CCNB1",
+      "source": "SP1",
+      "target": "CCNB1"
+    },
+    {
+      "id": "PRKAA1-controls-state-change-of-TP53",
+      "source": "PRKAA1",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-GPX1",
+      "source": "TP53",
+      "target": "GPX1"
+    },
+    {
+      "id": "TP53-controls-state-change-of-CABIN1",
+      "source": "TP53",
+      "target": "CABIN1"
+    },
+    {
+      "id": "MDM2-controls-state-change-of-NEDD8",
+      "source": "MDM2",
+      "target": "NEDD8"
+    },
+    {
+      "id": "PLK3-controls-state-change-of-TP53",
+      "source": "PLK3",
+      "target": "TP53"
+    },
+    {
+      "id": "PRKAB1-controls-state-change-of-TP53",
+      "source": "PRKAB1",
+      "target": "TP53"
+    },
+    {
+      "id": "SUMO1-controls-state-change-of-TP53",
+      "source": "SUMO1",
+      "target": "TP53"
+    },
+    {
+      "id": "PRKAA1-controls-state-change-of-TP63",
+      "source": "PRKAA1",
+      "target": "TP63"
+    },
+    {
+      "id": "PPP1R13L-controls-state-change-of-TP53",
+      "source": "PPP1R13L",
+      "target": "TP53"
+    },
+    {
+      "id": "TP53-controls-expression-of-PLK3",
+      "source": "TP53",
+      "target": "PLK3"
+    },
+    {
+      "id": "PRKAA2-controls-state-change-of-TP63",
+      "source": "PRKAA2",
+      "target": "TP63"
+    },
+    {
+      "id": "PRKAB2-controls-state-change-of-TP53",
+      "source": "PRKAB2",
+      "target": "TP53"
+    },
+    {
+      "id": "DAPK1-controls-state-change-of-TP53",
+      "source": "DAPK1",
+      "target": "TP53"
+    },
+    {
+      "id": "CDK1-controls-state-change-of-TP53",
+      "source": "CDK1",
+      "target": "TP53"
+    },
+    {
+      "id": "DAPK3-controls-state-change-of-TP53",
+      "source": "DAPK3",
+      "target": "TP53"
+    },
+    {
+      "id": "PRKAB1-controls-state-change-of-TP63",
+      "source": "PRKAB1",
+      "target": "TP63"
+    },
+    {
+      "id": "SUMO1-controls-state-change-of-TP63",
+      "source": "SUMO1",
+      "target": "TP63"
+    },
+    {
+      "id": "PRKAA1-controls-state-change-of-TP73",
+      "source": "PRKAA1",
+      "target": "TP73"
+    },
+    {
+      "id": "E4F1-controls-state-change-of-TP53",
+      "source": "E4F1",
+      "target": "TP53"
+    },
+    {
+      "id": "PRKAA2-controls-state-change-of-TP73",
+      "source": "PRKAA2",
+      "target": "TP73"
+    },
+    {
+      "id": "PRKAB2-controls-state-change-of-TP63",
+      "source": "PRKAB2",
+      "target": "TP63"
+    }
+  ]
+}
