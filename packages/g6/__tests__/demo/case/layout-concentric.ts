@@ -30,9 +30,4 @@ export const layoutConcentric: STDTestCase = async (context) => {
   });
 
   await graph.render();
-
-  layoutConcentric.form = () => {
-    return [];
-  };
-  return graph;
 };
