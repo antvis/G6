@@ -80,7 +80,7 @@ const initUnit = async () => {
 const initTest = async (dir) => {
   const files = await fs.readdirSync(dir);
   const testFiles = fs.readdirSync(testDir);
-  await files.forEach(async (file, index) => {
+  files.forEach(async (file, index) => {
     const filePath = path.resolve(dir, file);
     const stats = fs.statSync(filePath);
     const kebabName = uniq(`${prefix}-${name}-${kebabCase(file.replace('.ts', ''))}`.split('-')).join('-');

@@ -16,6 +16,8 @@ export * from './layout-circular-degree';
 export * from './layout-circular-division';
 export * from './layout-circular-spiral';
 export * from './layout-concentric';
+export * from './layout-dagre-flow';
+export * from './layout-dagre-flow-combo';
 export * from './layout-fruchterman-basic';
 export * from './layout-fruchterman-cluster';
 export * from './layout-fruchterman-fix';
