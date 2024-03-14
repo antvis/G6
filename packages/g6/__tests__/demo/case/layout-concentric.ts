@@ -30,4 +30,6 @@ export const layoutConcentric: STDTestCase = async (context) => {
   });
 
   await graph.render();
+
+  return graph;
 };
