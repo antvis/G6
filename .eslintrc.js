@@ -56,5 +56,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 1,
     '@typescript-eslint/ban-types': 1,
     '@typescript-eslint/ban-ts-comment': 1,
+    '@typescript-eslint/no-var-requires': 'off',
   },
 };
