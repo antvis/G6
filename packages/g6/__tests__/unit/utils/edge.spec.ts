@@ -7,10 +7,12 @@ import {
   getPolylinePath,
   getQuadraticPath,
   getRadians,
+  getSubgraphRelatedEdges,
   parseCurveOffset,
   parseCurvePosition,
 } from '@/src/utils/edge';
 import { AABB, Line } from '@antv/g';
+import type { ID } from '@antv/graphlib';
 
 describe('edge', () => {
   describe('getLabelPositionStyle', () => {
@@ -223,5 +225,65 @@ describe('edge', () => {
       [40, 120],
       [40, 140],
     ]);
+  });
+
+  it('getSubgraphRelatedEdges', () => {
+    /**
+     *    1 - 2
+     *   /     \
+     *  3 - - - 4
+     *   \  |   /
+     *      5
+     */
+    const data = {
+      nodes: [
+        { id: 'node-1', style: { parentId: 'combo-1' } },
+        { id: 'node-2', style: { parentId: 'combo-1' } },
+        { id: 'node-3' },
+        { id: 'node-4' },
+        { id: 'node-5' },
+      ],
+      edges: [
+        { id: 'node-1-node-2', source: 'node-1', target: 'node-2' },
+        { id: 'node-1-node-3', source: 'node-1', target: 'node-3' },
+        { id: 'node-2-node-4', source: 'node-2', target: 'node-4' },
+        { id: 'node-3-node-5', source: 'node-3', target: 'node-5' },
+        { id: 'node-4-node-5', source: 'node-4', target: 'node-5' },
+        { id: 'combo-1-node-5', source: 'combo-1', target: 'node-5' },
+      ],
+      combos: [{ id: 'combo-1' }],
+    };
+
+    const getRelatedEdges = (id: ID) => data.edges.filter((edge) => edge.id.includes(id as string));
+
+    expect(getSubgraphRelatedEdges(['node-1', 'node-2', 'combo-1'], getRelatedEdges)).toEqual({
+      edges: [
+        { id: 'node-1-node-2', source: 'node-1', target: 'node-2' },
+        { id: 'node-1-node-3', source: 'node-1', target: 'node-3' },
+        { id: 'node-2-node-4', source: 'node-2', target: 'node-4' },
+        { id: 'combo-1-node-5', source: 'combo-1', target: 'node-5' },
+      ],
+      external: [
+        { id: 'node-1-node-3', source: 'node-1', target: 'node-3' },
+        { id: 'node-2-node-4', source: 'node-2', target: 'node-4' },
+        { id: 'combo-1-node-5', source: 'combo-1', target: 'node-5' },
+      ],
+      internal: [{ id: 'node-1-node-2', source: 'node-1', target: 'node-2' }],
+    });
+
+    expect(getSubgraphRelatedEdges(['node-3', 'node-5'], getRelatedEdges)).toEqual({
+      edges: [
+        { id: 'node-1-node-3', source: 'node-1', target: 'node-3' },
+        { id: 'node-3-node-5', source: 'node-3', target: 'node-5' },
+        { id: 'node-4-node-5', source: 'node-4', target: 'node-5' },
+        { id: 'combo-1-node-5', source: 'combo-1', target: 'node-5' },
+      ],
+      external: [
+        { id: 'node-1-node-3', source: 'node-1', target: 'node-3' },
+        { id: 'node-4-node-5', source: 'node-4', target: 'node-5' },
+        { id: 'combo-1-node-5', source: 'combo-1', target: 'node-5' },
+      ],
+      internal: [{ id: 'node-3-node-5', source: 'node-3', target: 'node-5' }],
+    });
   });
 });
