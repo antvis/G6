@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "basicConcentric.js",
+      "filename": "basicConcentric.ts",
       "title": {
         "zh": "基本 Concentric 同心圆布局",
         "en": "Basic Concentric Layout"

@@ -18,6 +18,7 @@ export * from './layout-circular-spiral';
 export * from './layout-fruchterman-basic';
 export * from './layout-fruchterman-cluster';
 export * from './layout-fruchterman-fix';
+export * from './layout-concentric';
 export * from './layout-grid';
 export * from './layout-mds';
 export * from './layout-radial-basic';
