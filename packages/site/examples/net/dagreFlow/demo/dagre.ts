@@ -1,88 +1,36 @@
-import { Graph, Extensions, extend } from '@antv/g6';
-
-const ExtGraph = extend(Graph, {
-  layouts: {
-    dagre: Extensions.DagreLayout,
-  },
-  edges: {
-    'polyline-edge': Extensions.PolylineEdge,
-  },
-});
-
-import insertCss from 'insert-css';
-
-insertCss(`
-  .g6-tooltip {
-    border-radius: 6px;
-    font-size: 12px;
-    color: #fff;
-    background-color: #000;
-    padding: 2px 8px;
-    text-align: center;
-  }
-`);
+import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
     {
       id: '0',
-      data: {
-        label: '0',
-      },
     },
     {
       id: '1',
-      data: {
-        label: '1',
-      },
     },
     {
       id: '2',
-      data: {
-        label: '2',
-      },
     },
     {
       id: '3',
-      data: {
-        label: '3',
-      },
     },
     {
       id: '4',
-      data: {
-        label: '4',
-      },
     },
     {
       id: '5',
-      data: {
-        label: '5',
-      },
     },
     {
       id: '6',
-      data: {
-        label: '6',
-      },
     },
     {
       id: '7',
-      data: {
-        label: '7',
-      },
     },
     {
       id: '8',
-      data: {
-        label: '8',
-      },
     },
     {
       id: '9',
-      data: {
-        label: '9',
-      },
     },
   ],
   edges: [
@@ -188,63 +136,37 @@ const layoutConfigs = {
 };
 
 const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-const graph = new ExtGraph({
+
+const graph = new Graph({
   container: 'container',
-  width,
-  height,
+  data,
   layout: layoutConfigs.Default,
-  node: (node) => {
-    return {
-      id: node.id,
-      data: {
-        ...node.data,
-        type: 'rect-node',
-        lodLevels: [],
-        keyShape: {
-          width: 60,
-          height: 30,
-          radius: 8,
-        },
-        labelShape: {
-          position: 'center',
-          maxWidth: '80%',
-          text: `node-${node.data.label}`,
-        },
-        animates: {
-          update: [
-            {
-              fields: ['x', 'y'],
-            },
-          ],
-        },
-      },
-    };
+  node: {
+    style: {
+      type: 'rect',
+      size: [60, 30],
+      radius: 8,
+      labelPlacement: 'center',
+      labelText: (d) => d.id,
+    },
   },
   edge: {
-    type: 'polyline-edge',
-    keyShape: {
-      radius: 20,
-      offset: 45,
+    style: {
+      type: 'polyline',
       endArrow: true,
       lineWidth: 2,
       stroke: '#C2C8D5',
-      routeCfg: {
-        enableObstacleAvoidance: true,
-      },
     },
   },
-  modes: {
-    default: ['drag-node', 'drag-canvas', 'zoom-canvas', 'click-select'],
-  },
   autoFit: 'view',
-  data,
+  behaviors: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas'],
 });
 
-window.graph = graph;
+graph.render();
+
 const btnContainer = document.createElement('div');
 btnContainer.style.position = 'absolute';
+btnContainer.style.zIndex = '10';
 container.appendChild(btnContainer);
 const tip = document.createElement('span');
 tip.innerHTML = '👉 Change configs:';
@@ -258,6 +180,7 @@ Object.keys(layoutConfigs).forEach((name, i) => {
   btn.style.marginLeft = i > 0 ? '24px' : '8px';
   btnContainer.appendChild(btn);
   btn.addEventListener('click', () => {
-    graph.layout(layoutConfigs[name]);
+    graph.setLayout(layoutConfigs[name]);
+    graph.layout();
   });
 });
