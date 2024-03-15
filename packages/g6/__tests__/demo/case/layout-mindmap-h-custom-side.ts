@@ -1,3 +1,4 @@
+import type { NodeData } from '@/src';
 import { Graph, Utils } from '@/src';
 import data from '@@/dataset/algorithm-category.json';
 import type { STDTestCase } from '../types';
@@ -8,11 +9,8 @@ export const layoutMindmapHCustomSide: STDTestCase = async (context) => {
     data: Utils.treeToGraphData(data),
     autoFit: 'view',
     node: {
-      // @ts-expect-error
-      style: (model: any) => {
-        const {
-          style: { x },
-        } = model;
+      style: (model) => {
+        const x = +model.style!.x!;
         return {
           labelText: model.id,
           size: 26,
@@ -46,7 +44,7 @@ export const layoutMindmapHCustomSide: STDTestCase = async (context) => {
       getHGap: () => {
         return 50;
       },
-      getSide: (d: Model) => {
+      getSide: (d: NodeData) => {
         if (d.id === 'Classification') {
           return 'left';
         }

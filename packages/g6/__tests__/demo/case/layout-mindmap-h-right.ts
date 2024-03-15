@@ -8,11 +8,7 @@ export const layoutMindmapHRight: STDTestCase = async (context) => {
     data: Utils.treeToGraphData(data),
     autoFit: 'view',
     node: {
-      // @ts-expect-error
       style: (model) => {
-        const {
-          style: { x },
-        } = model;
         return {
           labelText: model.id,
           size: 26,

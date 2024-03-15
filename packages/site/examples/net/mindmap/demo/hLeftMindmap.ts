@@ -9,9 +9,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       data: Utils.treeToGraphData(data),
       node: {
         style: (model) => {
-          const {
-            style: { x },
-          } = model;
           return {
             labelText: model.id,
             size: 26,
