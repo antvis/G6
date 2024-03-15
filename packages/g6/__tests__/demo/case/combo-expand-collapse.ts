@@ -25,12 +25,12 @@ export const comboExpandCollapse: STDTestCase = async (context) => {
     },
     node: {
       style: {
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
       },
     },
     combo: {
       style: {
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
         lineDash: 0,
         collapsedLineDash: [5, 5],
       },

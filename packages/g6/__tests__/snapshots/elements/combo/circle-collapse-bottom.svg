@@ -3,7 +3,7 @@
   width="500"
   height="500"
   style="background: transparent; position: absolute; outline: none;"
-  color-interpolation-filters="sRGB"≈≈
+  color-interpolation-filters="sRGB"
   tabindex="1"
 >
   <defs />
@@ -29,17 +29,6 @@
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,26)">
-            <g transform="matrix(1,0,0,1,-26.280001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 53.56,0 l 0,23 l-53.56 0 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="53.56"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"

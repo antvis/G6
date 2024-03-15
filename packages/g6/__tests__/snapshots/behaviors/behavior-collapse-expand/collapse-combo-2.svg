@@ -25,21 +25,10 @@
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,26)">
-            <g transform="matrix(1,0,0,1,-26.280001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 53.56,0 l 0,23 l-53.56 0 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="53.56"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
-                fill="rgba(0,0,0,1)"
+                fill="rgba(0,0,0,0.8509803921568627)"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"

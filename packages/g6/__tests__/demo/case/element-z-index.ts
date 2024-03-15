@@ -25,15 +25,15 @@ export const elementZIndex: STDTestCase = async (context) => {
     node: {
       style: {
         size: 40,
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
         labelWordWrapWidth: 200,
-        fill: (d: any, index: number) => ['red', 'green', 'blue'][index],
+        color: (d, index) => ['red', 'green', 'blue'][index],
       },
     },
     combo: {
       style: {
-        labelText: (d: any) => d.id,
-        fill: (d: any, index: number) => ['pink', 'cyan', 'purple', 'orange'][index],
+        labelText: (d) => d.id,
+        color: (d, index: number) => ['pink', 'cyan', 'purple', 'orange'][index],
       },
     },
     behaviors: ['drag-element'],

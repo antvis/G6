@@ -21,12 +21,12 @@ export const elementPositionCombo: STDTestCase = async (context) => {
       style: {
         size: 20,
         labelWordWrapWidth: 200,
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
       },
     },
     combo: {
       style: {
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
       },
     },
     padding: 20,
