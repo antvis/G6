@@ -76,7 +76,7 @@
               cx="12"
               cy="12"
               stroke-width="12"
-              stroke="rgba(23,131,255,1)"
+              stroke="rgba(255,192,203,1)"
               r="12"
               stroke-dasharray="0,0"
               stroke-opacity="0.25"
@@ -87,7 +87,7 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(255,192,203,1)"
               transform="translate(-12,-12)"
               cx="12"
               cy="12"
