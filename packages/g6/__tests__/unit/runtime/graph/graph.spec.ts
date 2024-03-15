@@ -44,8 +44,17 @@ describe('Graph', () => {
     });
   });
 
+  it('setBackground/getBackground', () => {
+    expect(graph.getBackground()).toEqual('#fff');
+  });
+
   it('getSize', () => {
     expect(graph.getSize()).toEqual([500, 500]);
+  });
+
+  it('setTheme', () => {
+    graph.setTheme('light');
+    expect(graph.getTheme()).toEqual('light');
   });
 
   it('getTheme', () => {

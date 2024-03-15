@@ -1,5 +1,5 @@
 import { Graph } from '@/src';
-import data from '@@/dataset/dagreCombo.json';
+import data from '@@/dataset/dagre-combo.json';
 import type { STDTestCase } from '../types';
 
 type Item = {
