@@ -394,7 +394,7 @@ const graph = new Graph({
   node: {
     style: {
       size: 20,
-      labelText: (d: { id: string }) => d.id,
+      labelText: (d) => d.id,
       fill: '#EFF4FF',
       lineWidth: 1,
       stroke: '#5F95FF',

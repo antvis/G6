@@ -12,8 +12,8 @@ describe('data', () => {
       style: {
         fill: 'red',
         badges: [
-          { label: 'badge1', color: 'red' },
-          { label: 'badge2', color: 'blue' },
+          { text: 'badge1', stroke: 'red' },
+          { text: 'badge2', stroke: 'blue' },
         ],
       },
     };
@@ -26,8 +26,8 @@ describe('data', () => {
       },
       style: {
         badges: [
-          { label: 'badge2', color: 'blue' },
-          { label: 'badge3', color: 'green' },
+          { text: 'badge2', stroke: 'blue' },
+          { text: 'badge3', stroke: 'green' },
         ],
         stroke: 'pink',
       },
@@ -42,8 +42,8 @@ describe('data', () => {
       style: {
         fill: 'red',
         badges: [
-          { label: 'badge2', color: 'blue' },
-          { label: 'badge3', color: 'green' },
+          { text: 'badge2', stroke: 'blue' },
+          { text: 'badge3', stroke: 'green' },
         ],
         stroke: 'pink',
       },

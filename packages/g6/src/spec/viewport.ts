@@ -7,7 +7,7 @@ import type { Padding, STDPadding } from '../types/padding';
  * <en/> Viewport
  * @public
  */
-export type ViewportOptions = {
+export interface ViewportOptions {
   /**
    * <zh/> 视口 x 坐标
    *
@@ -54,17 +54,17 @@ export type ViewportOptions = {
    * <en/> zoom range
    */
   zoomRange?: [number, number];
-};
+}
 
 /**
  * @internal
  */
-export type STDViewportOptions = {
+export interface STDViewportOptions {
   autoFit?: STDAutoFit;
   padding?: STDPadding;
   zoom?: number;
   zoomRange?: [number, number];
-};
+}
 
 /**
  * <zh/> 视口自适应规则

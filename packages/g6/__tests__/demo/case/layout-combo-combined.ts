@@ -2,14 +2,6 @@ import { Graph } from '@/src';
 import data from '@@/dataset/combo.json';
 import type { STDTestCase } from '../types';
 
-type Item = {
-  id: string;
-  data: {
-    size?: number;
-    color?: string;
-  };
-};
-
 export const layoutComboCombined: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
@@ -21,13 +13,12 @@ export const layoutComboCombined: STDTestCase = async (context) => {
     node: {
       style: {
         size: 20,
-        labelText: (d: Item) => d.id,
+        labelText: (d) => d.id,
       },
     },
     edge: {
-      // @ts-expect-error
-      style: (model: Item) => {
-        const { size, color } = model.data;
+      style: (model) => {
+        const { size, color } = model.data as { size: number; color: string };
         return { stroke: color || '#99ADD1', lineWidth: size || 1 };
       },
     },

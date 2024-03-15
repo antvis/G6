@@ -1,5 +1,6 @@
 import type { G6Spec } from '@/src';
 import { Graph } from '@/src';
+import { idOf } from '../../../src/utils/id';
 import type { STDTestCase } from '../types';
 
 export const graphElement: STDTestCase = async (context) => {
@@ -25,12 +26,12 @@ export const graphElement: STDTestCase = async (context) => {
     },
     node: {
       style: {
-        fill: (datum: any) => (datum?.data?.value > 100 ? 'red' : 'blue'),
-        border: (datum: any, index: number, data: any) => (index % 2 === 0 ? 0 : 10),
+        fill: (datum) => ((datum?.data?.value as number) > 100 ? 'red' : 'blue'),
+        border: (datum: any, index: number) => (index % 2 === 0 ? 0 : 10),
       },
       state: {
         selected: {
-          fill: (datum: any) => (datum?.data?.value > 100 ? 'purple' : 'cyan'),
+          fill: (datum) => ((datum?.data?.value as number) > 100 ? 'purple' : 'cyan'),
         },
       },
       palette: 'spectral',
@@ -46,7 +47,7 @@ export const graphElement: STDTestCase = async (context) => {
           lineWidth: 4,
         },
       },
-      palette: { type: 'group', color: 'oranges', field: (d: any) => d.id, invert: true },
+      palette: { type: 'group', color: 'oranges', field: (d) => idOf(d).toString(), invert: true },
     },
     combo: {
       style: {},

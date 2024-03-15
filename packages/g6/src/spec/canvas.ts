@@ -8,7 +8,7 @@ import type { CanvasLayer } from '../types/canvas';
  * <en/> Canvas spec
  * @public
  */
-export type CanvasOptions = Pick<CanvasConfig, 'devicePixelRatio'> & {
+export interface CanvasOptions extends Pick<CanvasConfig, 'devicePixelRatio'> {
   container?: string | HTMLElement | Canvas;
   /**
    * <zh/> 画布宽度
@@ -40,4 +40,4 @@ export type CanvasOptions = Pick<CanvasConfig, 'devicePixelRatio'> & {
    * <en/> canvas background color
    */
   background?: string;
-};
+}

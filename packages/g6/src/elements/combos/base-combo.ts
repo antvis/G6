@@ -37,7 +37,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   static defaultStyleProps: BaseComboStyleProps = {
     size: 0,
     padding: 0,
-    children: [],
+    childrenNode: [],
     droppable: true,
     draggable: true,
     collapsed: false,
@@ -97,7 +97,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   }
 
   protected getContentBBox(attributes: Required<S>): AABB {
-    const { children = [], padding } = attributes;
+    const { childrenNode: children = [], padding } = attributes;
     const childrenBBox = getCombinedBBox(children.map((child) => child.getBounds()));
 
     if (!padding) return childrenBBox;
@@ -120,7 +120,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     const [x, y] = getXYByPlacement(keyShape.getLocalBounds(), 'center');
 
     if (type) {
-      const text = getCollapsedMarkerText(type, attributes.children!);
+      const text = getCollapsedMarkerText(type, attributes.childrenNode || []);
       return { ...collapsedMarkerStyle, x, y, text };
     }
 

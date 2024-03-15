@@ -15,8 +15,7 @@ describe('combo', () => {
 
   it('collapse circle combo', async () => {
     const expandCombo = () => {
-      graph.updateComboData((data) => [
-        ...data,
+      graph.updateComboData([
         {
           id: 'combo-2',
           style: {
@@ -26,9 +25,8 @@ describe('combo', () => {
       ]);
       graph.render();
     };
-    const collapseCombo = (collapsedOrigin: string) => {
-      graph.updateComboData((data) => [
-        ...data,
+    const collapseCombo = (collapsedOrigin: any) => {
+      graph.updateComboData([
         {
           id: 'combo-2',
           style: {
@@ -70,8 +68,7 @@ describe('combo', () => {
 
   it('collapse rect combo', async () => {
     const expandCombo = () => {
-      graph.updateComboData((data) => [
-        ...data,
+      graph.updateComboData([
         {
           id: 'combo-1',
           style: {
@@ -82,9 +79,8 @@ describe('combo', () => {
       ]);
       graph.render();
     };
-    const collapseCombo = (collapsedOrigin: string) => {
-      graph.updateComboData((data) => [
-        ...data,
+    const collapseCombo = (collapsedOrigin: any) => {
+      graph.updateComboData([
         {
           id: 'combo-1',
           style: {
@@ -138,9 +134,8 @@ describe('combo', () => {
       ]);
       graph.render();
     };
-    const collapseCombo = (type: string | ((children: any) => string)) => {
-      graph.updateComboData((data) => [
-        ...data,
+    const collapseCombo = (type: any | ((children: any[]) => string)) => {
+      graph.updateComboData([
         {
           id: 'combo-2',
           style: {
@@ -162,7 +157,7 @@ describe('combo', () => {
     collapseCombo('node-count');
     await expect(graph).toMatchSnapshot(__filename, 'circle-marker-nodeCount');
     expandCombo();
-    collapseCombo((children: any) => children.length.toString() + 'nodes');
+    collapseCombo((children: any[]) => children.length.toString() + 'nodes');
     await expect(graph).toMatchSnapshot(__filename, 'circle-marker-custom');
   });
 });

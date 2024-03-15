@@ -131,6 +131,7 @@ export class LayoutController {
     if (isLayoutWithIterations(layout)) {
       // 有动画，基于布局迭代 tick 更新位置 / Update position based on layout iteration tick
       if (animation) {
+        // @ts-expect-error size is incompatible, but it's okay
         return await layout.execute(model, {
           onTick: (tickData: LayoutMapping) => {
             this.updateElementPosition(tickData, false);
@@ -139,12 +140,14 @@ export class LayoutController {
       }
 
       // 无动画，直接返回终态位置 / No animation, return final position directly
+      // @ts-expect-error size is incompatible, but it's okay
       layout.execute(model);
       layout.stop();
       return layout.tick(iterations);
     }
 
     // 无迭代的布局，直接返回终态位置 / Layout without iteration, return final position directly
+    // @ts-expect-error size is incompatible, but it's okay
     const layoutResult = await layout.execute(model);
     if (animation) {
       this.updateElementPosition(layoutResult, animation);
@@ -227,7 +230,7 @@ export class LayoutController {
     const comboElementMap = Object.fromEntries(element.getCombos().map((combo) => [combo.id, combo]));
     const edgeElementMap = Object.fromEntries(element.getEdges().map((edge) => [edge.id, edge]));
 
-    const nodes = model.model.getAllNodes().filter((node) => nodesFilter(node));
+    const nodes = model.model.getAllNodes().filter((node) => nodesFilter(node.data));
     const edges = model.model.getAllEdges();
 
     const nodesToLayout = (
@@ -329,6 +332,7 @@ export class LayoutController {
           const { id } = node;
           // 此处 node 是经过 converter 转化的 / Here node is converted
           const { getMass } = options as ForceLayoutOptions;
+          // @ts-expect-error size is incompatible, but it's okay
           if (getMass) return getMass(node);
           const { mass } = node.data;
           if (isNumber(mass)) return mass;

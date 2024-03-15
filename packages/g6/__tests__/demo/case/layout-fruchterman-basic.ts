@@ -9,7 +9,7 @@ export const layoutFruchtermanBasic: STDTestCase = async (context) => {
     node: {
       style: {
         labelPlacement: 'center',
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
       },
     },
     layout: {

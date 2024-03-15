@@ -1,4 +1,5 @@
 import { Graph } from '@/src';
+import { idOf } from '@/src/utils/id';
 import type { StaticTestCase } from '../types';
 
 export const edgeArrow: StaticTestCase = async (context) => {
@@ -28,10 +29,10 @@ export const edgeArrow: StaticTestCase = async (context) => {
     edge: {
       style: {
         type: 'line', // 👈🏻 Edge shape type.
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id!,
         labelBackground: true,
         endArrow: true,
-        endArrowType: (d: any) => d.id.split('-')[0],
+        endArrowType: (d: any) => idOf(d).toString().split('-')[0] as any,
       },
     },
     layout: {

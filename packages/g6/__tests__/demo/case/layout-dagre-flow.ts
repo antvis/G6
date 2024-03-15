@@ -13,7 +13,7 @@ export const layoutDagreFlow: STDTestCase = async (context) => {
         size: [60, 30],
         radius: 8,
         labelPlacement: 'center',
-        labelText: (d: { id: string }) => d.id,
+        labelText: (d) => d.id,
       },
     },
     edge: {

@@ -8,7 +8,7 @@ export const commonGraph: STDTestCase = async (context) => {
     data,
     node: {
       style: {
-        fill: (d: any) => (d.id === '33' ? '#d4414c' : '#2f363d'),
+        fill: (d) => (d.id === '33' ? '#d4414c' : '#2f363d'),
       },
     },
     layout: { type: 'd3force' },

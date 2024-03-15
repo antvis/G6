@@ -8,14 +8,14 @@ import type { AnimationTestCase } from '../types';
 type ShapeStyleProps = BaseShapeStyleProps & { size: number; color: string; outline: number; outlineOpacity: number };
 
 class Shape extends BaseShape<ShapeStyleProps> {
-  private getKeyStyle({ size, color }: any = this.attributes) {
+  private getKeyStyle({ size, color } = this.attributes) {
     return {
       r: size / 2,
       fill: color,
     };
   }
 
-  private getHaloStyle({ size, color, outline, outlineOpacity }: any = this.attributes) {
+  private getHaloStyle({ size, color, outline, outlineOpacity } = this.attributes) {
     return {
       r: size / 2,
       fill: 'transparent',

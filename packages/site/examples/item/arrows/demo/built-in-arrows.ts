@@ -25,9 +25,9 @@ const graph = new Graph({
   edge: {
     style: {
       type: 'line', // 👈🏻 Edge shape type.
-      labelText: (d: any) => d.id,
+      labelText: (d) => d.id!,
       endArrow: true,
-      endArrowType: (d: any) => d.id.split('-')[0],
+      endArrowType: (d) => d.id.split('-')[0],
     },
   },
   layout: {

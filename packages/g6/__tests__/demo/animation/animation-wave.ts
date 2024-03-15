@@ -8,7 +8,7 @@ import type { AnimationTestCase } from '../types';
 type ShapeStyleProps = BaseShapeStyleProps & { size: number; color: string };
 
 class Shape extends BaseShape<ShapeStyleProps> {
-  private getInnerStyle({ size, color, opacity }: any = this.attributes) {
+  private getInnerStyle({ size, color, opacity } = this.attributes) {
     return {
       r: size / 2,
       fill: color,
@@ -16,7 +16,7 @@ class Shape extends BaseShape<ShapeStyleProps> {
     };
   }
 
-  private getMiddleStyle({ size, color, opacity }: any = this.attributes) {
+  private getMiddleStyle({ size, color, opacity } = this.attributes) {
     return {
       r: size / 2,
       fill: color,
@@ -24,7 +24,7 @@ class Shape extends BaseShape<ShapeStyleProps> {
     };
   }
 
-  private getOuterStyle({ size, color, opacity }: any = this.attributes) {
+  private getOuterStyle({ size, color, opacity } = this.attributes) {
     return {
       r: size / 2,
       fill: color,

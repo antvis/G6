@@ -31,12 +31,12 @@ export const combo: STDTestCase = async (context) => {
     data,
     node: {
       style: {
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
       },
     },
     combo: {
       style: {
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
         lineDash: 0,
         collapsedLineDash: [5, 5],
       },
@@ -60,14 +60,13 @@ export const combo: STDTestCase = async (context) => {
   const COLLAPSED_MARKER_TYPE = ['child-count', 'descendant-count', 'node-count', 'custom'];
 
   combo.form = (panel) => {
-    const config = {
+    const config: Record<string, any> = {
       combo2Type: 'circle',
       collapsedOrigin: 'top',
       collapsedMarker: true,
       collapsedMarkerType: 'child-count',
       collapseCombo1: () => {
-        graph.updateComboData((data) => [
-          ...data,
+        graph.updateComboData([
           {
             id: 'combo-1',
             style: {
@@ -76,7 +75,7 @@ export const combo: STDTestCase = async (context) => {
               collapsedMarker: config.collapsedMarker,
               collapsedMarkerType:
                 config.collapsedMarkerType === 'custom'
-                  ? (children: any) => children.length.toString() + 'nodes'
+                  ? (children) => children.length.toString() + 'nodes'
                   : config.collapsedMarkerType,
             },
           },
@@ -84,8 +83,7 @@ export const combo: STDTestCase = async (context) => {
         graph.render();
       },
       expandCombo1: () => {
-        graph.updateComboData((data) => [
-          ...data,
+        graph.updateComboData([
           {
             id: 'combo-1',
             style: {
@@ -108,7 +106,7 @@ export const combo: STDTestCase = async (context) => {
               collapsedMarker: config.collapsedMarker,
               collapsedMarkerType:
                 config.collapsedMarkerType === 'custom'
-                  ? (children: any) => children.length.toString() + 'nodes'
+                  ? (children) => children.length.toString() + 'nodes'
                   : config.collapsedMarkerType,
             },
           },
@@ -116,8 +114,7 @@ export const combo: STDTestCase = async (context) => {
         graph.render();
       },
       expandCombo2: () => {
-        graph.updateComboData((data) => [
-          ...data,
+        graph.updateComboData([
           {
             id: 'combo-2',
             style: {
@@ -151,21 +148,12 @@ export const combo: STDTestCase = async (context) => {
       panel.add(config, 'combo2Type', COMBO_TYPE).onChange((type: string) => {
         config.combo2Type = type;
         const combo2Data = graph.getComboData('combo-2');
-        graph.updateComboData((data) => [
-          ...data,
-          { ...combo2Data, style: { ...combo2Data.style, type: config.combo2Type } },
-        ]);
+        graph.updateComboData([{ ...combo2Data, style: { ...combo2Data.style, type: config.combo2Type } }]);
         graph.render();
       }),
-      panel.add(config, 'collapsedOrigin', COLLAPSED_ORIGIN).onChange((collapsedOrigin: string) => {
-        config.collapsedOrigin = collapsedOrigin;
-      }),
-      panel.add(config, 'collapsedMarker').onChange((collapsedMarker: boolean) => {
-        config.collapsedMarker = collapsedMarker;
-      }),
-      panel.add(config, 'collapsedMarkerType', COLLAPSED_MARKER_TYPE).onChange((collapsedMarkerType: string) => {
-        config.collapsedMarkerType = collapsedMarkerType;
-      }),
+      panel.add(config, 'collapsedOrigin', COLLAPSED_ORIGIN),
+      panel.add(config, 'collapsedMarker'),
+      panel.add(config, 'collapsedMarkerType', COLLAPSED_MARKER_TYPE),
       panel.add(config, 'collapseCombo1'),
       panel.add(config, 'expandCombo1'),
       panel.add(config, 'collapseCombo2'),

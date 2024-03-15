@@ -18,8 +18,8 @@ export const elementVisibility: STDTestCase = async (context) => {
       ],
     },
     theme: 'light',
-    node: { style: { size: 20, labelText: (d: any) => d.id.at(-1) } },
-    edge: { style: { endArrow: true, labelText: (d: any) => d.id } },
+    node: { style: { size: 20, labelText: (d) => d.id!.toString().at(-1)! } },
+    edge: { style: { endArrow: true, labelText: (d) => d.id! } },
   });
 
   await graph.render();

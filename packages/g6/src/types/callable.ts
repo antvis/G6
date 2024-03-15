@@ -26,6 +26,8 @@ export type CallableValue<Returns, Param = Returns> = Returns | ((args: Param) =
  *  fill: ({ model }) => model.value,
  * }
  */
-export type CallableObject<Obj extends Record<string, unknown>, Param = never> = {
-  [K in keyof Obj]: CallableValue<Obj[K], Param>;
-};
+export type CallableObject<Obj extends Record<string, unknown>, T> =
+  | ((datum: T, index: number, data: T[]) => Obj)
+  | {
+      [K in keyof Obj]: Obj[K] | ((datum: T, index: number, data: T[]) => NonNullable<Obj[K]>);
+    };

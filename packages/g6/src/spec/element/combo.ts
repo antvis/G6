@@ -1,7 +1,9 @@
+import type { ID } from '@antv/graphlib';
+import type { BaseComboStyleProps } from '../../elements/combos';
 import type { CallableObject } from '../../types/callable';
 import type { NodeData } from '../data';
 import type { AnimationOptions } from './animation';
-import type { NodeLikeStyle } from './node';
+import type { BaseElementStyle } from './base';
 import type { PaletteOptions } from './palette';
 
 /**
@@ -9,19 +11,19 @@ import type { PaletteOptions } from './palette';
  *
  * <en/> Combo spec
  */
-export type ComboOptions = {
+export interface ComboOptions {
   /**
    * <zh/> Combo 样式
    *
    * <en/> Combo style
    */
-  style?: CallableObject<NodeLikeStyle, NodeData>;
+  style?: CallableObject<ComboStyle, NodeData>;
   /**
    * <zh/> Combo 状态样式
    *
    * <en/> Combo state style
    */
-  state?: Record<string, CallableObject<NodeLikeStyle, NodeData>>;
+  state?: Record<string, CallableObject<ComboStyle, NodeData>>;
   /**
    * <zh/> Combo 动画
    *
@@ -34,11 +36,16 @@ export type ComboOptions = {
    * <en/> Palette
    */
   palette?: PaletteOptions;
-};
+}
 
-export type StaticComboOptions = {
-  style?: NodeLikeStyle;
-  state?: Record<string, NodeLikeStyle>;
+export interface StaticComboOptions {
+  style?: ComboStyle;
+  state?: Record<string, ComboStyle>;
   animation?: AnimationOptions;
   palette?: PaletteOptions;
-};
+}
+
+export interface ComboStyle extends BaseElementStyle, Partial<BaseComboStyleProps> {
+  children?: ID[];
+  [key: string]: any;
+}

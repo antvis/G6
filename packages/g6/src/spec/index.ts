@@ -5,7 +5,6 @@ export type { ComboOptions } from './element/combo';
 export type { EdgeOptions } from './element/edge';
 export type { NodeOptions } from './element/node';
 export type { LayoutOptions } from './layout';
-export type { OptimizeOptions } from './optimize';
 export type { PluginOptions } from './plugin';
 export type { G6Spec } from './spec';
 export type { ThemeOptions } from './theme';

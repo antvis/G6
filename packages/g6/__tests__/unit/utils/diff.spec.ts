@@ -1,10 +1,11 @@
 import { arrayDiff } from '@/src/utils/diff';
 
 describe('diff', () => {
+  const key = (d: { id: string }) => d.id;
+
   it('array diff simple', () => {
     const original = [{ id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }];
     const modified = [{ id: 'node-1' }, { id: 'node-2' }, { id: 'node-4' }];
-    const key = (d: { id: string }) => d.id;
 
     const { enter, update, exit, keep } = arrayDiff(original, modified, key);
 
@@ -26,7 +27,6 @@ describe('diff', () => {
       { id: 'node-2', data: { value: 2 } },
       { id: 'node-4', data: { value: 3 }, style: { fill: 'red' } },
     ];
-    const key = (d: { id: string }) => d.id;
 
     const { enter, update, exit, keep } = arrayDiff(original, modified, key);
 

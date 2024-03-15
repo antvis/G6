@@ -1,69 +1,68 @@
-import { Graph } from '@antv/g6';
+import type { GraphData } from '@antv/g6';
+import { Graph, Utils } from '@antv/g6';
 
-const data = {
+const data: GraphData = {
   nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3-ports' }, { id: 'node4-ports' }],
   edges: [
     {
       id: 'loop-1',
       source: 'node1',
       target: 'node1',
-      placement: 'top',
+      style: { placement: 'top' },
     },
     {
       id: 'loop-2',
       source: 'node1',
       target: 'node1',
-      placement: 'right',
+      style: { placement: 'right' },
     },
     {
       id: 'loop-3',
       source: 'node1',
       target: 'node1',
-      placement: 'bottom',
+      style: { placement: 'bottom' },
     },
     {
       id: 'loop-4',
       source: 'node1',
       target: 'node1',
-      placement: 'left',
+      style: { placement: 'left' },
     },
     {
       id: 'loop-5',
       source: 'node2',
       target: 'node2',
-      placement: 'top-right',
+      style: { placement: 'top-right' },
     },
     {
       id: 'loop-6',
       source: 'node2',
       target: 'node2',
-      placement: 'bottom-right',
+      style: { placement: 'bottom-right' },
     },
     {
       id: 'loop-7',
       source: 'node2',
       target: 'node2',
-      placement: 'bottom-left',
+      style: { placement: 'bottom-left' },
     },
     {
       id: 'loop-8',
       source: 'node2',
       target: 'node2',
-      placement: 'top-left',
+      style: { placement: 'top-left' },
     },
     {
       id: 'loop-9',
       source: 'node3-ports',
       target: 'node3-ports',
-      sourcePort: 'port1',
-      targetPort: 'port2',
+      style: { sourcePort: 'port1', targetPort: 'port2' },
     },
     {
       id: 'loop-10',
       source: 'node4-ports',
       target: 'node4-ports',
-      sourcePort: 'port2',
-      targetPort: 'port2',
+      style: { sourcePort: 'port2', targetPort: 'port2' },
     },
   ],
 };
@@ -75,7 +74,7 @@ const graph = new Graph({
     style: {
       type: 'rect',
       size: [80, 30],
-      port: (d: any) => d.id.includes('ports'),
+      port: (d) => Utils.idOf(d).toString().includes('ports'),
       portR: 3,
       ports: [
         {
@@ -92,10 +91,10 @@ const graph = new Graph({
   edge: {
     style: {
       type: 'line',
-      sourcePort: (d: any) => d.sourcePort,
-      targetPort: (d: any) => d.targetPort,
+      sourcePort: (d) => d.style!.sourcePort,
+      targetPort: (d) => d.style!.targetPort,
       endArrow: true,
-      loopPlacement: (d: any) => d.placement,
+      loopPlacement: (d) => d.style!.placement,
     },
   },
   layout: {

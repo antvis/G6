@@ -14,7 +14,7 @@ export const layoutForce: STDTestCase = async (context) => {
     },
     node: {
       style: {
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
         labelMaxWidth: '300%',
       },
       palette: {

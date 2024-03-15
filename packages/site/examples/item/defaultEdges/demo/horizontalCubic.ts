@@ -43,7 +43,7 @@ const graph = new Graph({
   edge: {
     style: {
       type: 'cubic-horizontal', // 👈🏻 Edge shape type.
-      labelText: (d: any) => d.id,
+      labelText: (d) => d.id!,
       endArrow: true,
     },
   },

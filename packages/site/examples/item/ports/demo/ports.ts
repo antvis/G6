@@ -1,4 +1,4 @@
-import { Graph } from '@antv/g6';
+import { Graph, Utils } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -24,10 +24,10 @@ const graph = new Graph({
   data,
   node: {
     style: {
-      type: (d: any) => (d.id === 'node-1' ? 'circle' : 'rect'),
-      size: (d: any) => (d.id === 'node-1' ? 30 : [50, 150]),
+      type: (d) => (d.id === 'node-1' ? 'circle' : 'rect'),
+      size: (d) => (d.id === 'node-1' ? 30 : [50, 150]),
       port: true,
-      ports: (d: any) =>
+      ports: (d) =>
         d.id === 'node-2'
           ? [
               { key: 'port-1', placement: [0, 0.15] },
@@ -39,7 +39,7 @@ const graph = new Graph({
   },
   edge: {
     style: {
-      targetPort: (d: any) => `port-${d.id.split('-')[1]}`,
+      targetPort: (d) => `port-${Utils.idOf(d).toString().split('-')[1]}`,
       endArrow: true,
     },
   },

@@ -42,7 +42,7 @@ export const edgeQuadratic: StaticTestCase = async (context) => {
     edge: {
       style: {
         type: 'quadratic', // 👈🏻 Edge shape type.
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id!,
         labelBackground: true,
         endArrow: true,
       },

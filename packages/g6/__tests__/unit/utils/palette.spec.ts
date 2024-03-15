@@ -1,4 +1,5 @@
 import { register } from '@/src/registry';
+import { idOf } from '@/src/utils/id';
 import { assignColorByPalette, getPaletteColors, parsePalette } from '@/src/utils/palette';
 
 describe('palette', () => {
@@ -91,7 +92,7 @@ describe('palette', () => {
     expect(
       assignColorByPalette(data5, {
         type: 'group',
-        field: (d: any) => d.id,
+        field: (d) => idOf(d).toString(),
         color: 'category3',
       }),
     ).toEqual({
@@ -105,7 +106,7 @@ describe('palette', () => {
     expect(
       assignColorByPalette(data5, {
         type: 'group',
-        field: (d: any) => d.id,
+        field: (d) => idOf(d).toString(),
         color: 'spectral',
       }),
     ).toEqual({

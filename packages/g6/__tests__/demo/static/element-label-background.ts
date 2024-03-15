@@ -43,7 +43,7 @@ export const elementLabelBackground: StaticTestCase = async (context) => {
     data,
     node: {
       style: {
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
         labelPlacement: 'bottom',
         labelFill: '#e66465',
         labelFontSize: 12,
@@ -56,7 +56,7 @@ export const elementLabelBackground: StaticTestCase = async (context) => {
     },
     edge: {
       style: {
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id!,
         labelPlacement: 'center',
         labelTextBaseline: 'top',
         labelDy: 5,

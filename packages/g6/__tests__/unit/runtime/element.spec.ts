@@ -145,9 +145,9 @@ describe('ElementController', () => {
 
     const comboStyle = elementController.getElementComputedStyle('combo', 'combo-1');
 
-    expect(comboStyle.children[0].id).toEqual('node-3');
+    expect(comboStyle.childrenNode[0].id).toEqual('node-3');
 
-    expect(omit(comboStyle, ['children'])).toEqual({
+    expect(omit(comboStyle, ['childrenNode'])).toEqual({
       ...LIGHT_THEME.combo?.style,
       type: 'circle',
       color: BUILT_IN_PALETTES.blues[0],
