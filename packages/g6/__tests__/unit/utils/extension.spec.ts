@@ -6,7 +6,7 @@ describe('extension', () => {
     expect(parseExtensions('behavior', [])).toEqual([]);
 
     const options: BehaviorOptions = [
-      'drag-node',
+      'drag-element',
       { type: 'drag-canvas' },
       { type: 'shortcut', key: 'shortcut-zoom-in' },
       { type: 'shortcut', key: 'shortcut-zoom-out' },
@@ -15,7 +15,7 @@ describe('extension', () => {
     ];
 
     expect(parseExtensions('behavior', options)).toEqual([
-      { type: 'drag-node', key: 'behavior-drag-node-0' },
+      { type: 'drag-element', key: 'behavior-drag-element-0' },
       { type: 'drag-canvas', key: 'behavior-drag-canvas-0' },
       { type: 'shortcut', key: 'shortcut-zoom-in' },
       { type: 'shortcut', key: 'shortcut-zoom-out' },

@@ -26,7 +26,7 @@ const graph = new Graph({
       controlPoints: (d) => d.style.controlPoints,
     },
   },
-  behaviors: [{ type: 'drag-node' }],
+  behaviors: [{ type: 'drag-element' }],
 });
 
 graph.render();

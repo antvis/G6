@@ -128,7 +128,7 @@ const graph = new Graph({
       endArrowPath: 'M 0,0 L 4,2 L 4,-2 Z',
     },
   },
-  behaviors: ['drag-canvas', 'drag-node'],
+  behaviors: ['drag-canvas', 'drag-element'],
   animation: true,
 });
 

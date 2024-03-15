@@ -26,7 +26,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/8dacf27e-e1bc-4522-b6d3-4b6
           stroke: '#E2E2E2',
         },
       },
-      behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node'],
+      behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
       animation: false,
     });
 

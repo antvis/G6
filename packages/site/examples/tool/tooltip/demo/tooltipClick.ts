@@ -18,7 +18,7 @@ const graph = new Graph({
   height,
   data,
   modes: {
-    default: ['drag-node'],
+    default: ['drag-element'],
   },
 });
 

@@ -592,7 +592,7 @@ const graph = new Graph({
       labelBackground: false,
     },
   },
-  behaviors: ['drag-node', 'drag-canvas', 'zoom-canvas', 'click-select'],
+  behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas', 'click-select'],
   animation: true,
 });
 

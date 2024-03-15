@@ -38,7 +38,7 @@ export const combo: STDTestCase = async (context) => {
         collapsedLineDash: [5, 5],
       },
     },
-    behaviors: ['drag-node'],
+    behaviors: ['drag-element'],
   });
 
   await graph.render();

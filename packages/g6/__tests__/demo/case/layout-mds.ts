@@ -18,7 +18,7 @@ export const layoutMDS: STDTestCase = async (context) => {
       type: 'mds',
       linkDistance: 100,
     },
-    behaviors: ['drag-node', 'drag-canvas', 'zoom-canvas', 'click-select'],
+    behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas', 'click-select'],
   });
 
   await graph.render();

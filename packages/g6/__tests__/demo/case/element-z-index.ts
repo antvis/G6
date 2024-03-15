@@ -36,7 +36,7 @@ export const elementZIndex: STDTestCase = async (context) => {
         fill: (d: any, index: number) => ['pink', 'cyan', 'purple', 'orange'][index],
       },
     },
-    behaviors: ['drag-node'],
+    behaviors: ['drag-element'],
   });
 
   await graph.render();

@@ -18,7 +18,7 @@ export const edgePolyline: STDTestCase = async (context) => {
         type: 'polyline',
       },
     },
-    behaviors: [{ type: 'drag-node' }],
+    behaviors: [{ type: 'drag-element' }],
   });
 
   await graph.render();

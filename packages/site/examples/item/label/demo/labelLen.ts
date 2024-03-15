@@ -60,7 +60,7 @@ const graph = new Graph({
       labelBackgroundRadius: 4,
     },
   },
-  behaviors: ['drag-node'],
+  behaviors: ['drag-element'],
 });
 
 graph.render();

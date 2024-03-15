@@ -31,7 +31,7 @@ export const layoutDagreFlow: STDTestCase = async (context) => {
       ranksep: 70,
       controlPoints: true,
     },
-    behaviors: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas'],
+    behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
   });
 
   await graph.render();

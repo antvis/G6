@@ -52,7 +52,7 @@ describe('spec', () => {
         },
       },
       theme: 'light',
-      behaviors: ['drag-canvas', 'my-behavior', { type: 'drag-node' }],
+      behaviors: ['drag-canvas', 'my-behavior', { type: 'drag-element' }],
       plugins: ['my-plugin', { type: 'another-plugin', text: 'text', value: 1 }],
     };
 

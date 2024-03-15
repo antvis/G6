@@ -53,7 +53,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   behavior: {
     'zoom-canvas': ZoomCanvas,
     'drag-canvas': DragCanvas,
-    'drag-node': DragElement,
+    'drag-element': DragElement,
     'collapse-expand': CollapseExpand,
   },
   combo: {

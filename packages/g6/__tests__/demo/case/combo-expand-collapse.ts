@@ -35,7 +35,7 @@ export const comboExpandCollapse: STDTestCase = async (context) => {
         collapsedLineDash: [5, 5],
       },
     },
-    behaviors: [{ type: 'drag-node' }, 'collapse-expand'],
+    behaviors: [{ type: 'drag-element' }, 'collapse-expand'],
   });
 
   await graph.render();
@@ -62,7 +62,7 @@ export const comboExpandCollapse: STDTestCase = async (context) => {
       panel.add(config, 'dropEffect', ['link', 'move', 'none']).onChange((value: string) => {
         graph.setBehaviors((behaviors) => {
           return behaviors.map((behavior) => {
-            if (isObject(behavior) && behavior.type === 'drag-node') {
+            if (isObject(behavior) && behavior.type === 'drag-element') {
               return {
                 ...behavior,
                 dropEffect: value,

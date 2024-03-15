@@ -68,7 +68,7 @@ export const elementLabelBackground: StaticTestCase = async (context) => {
         labelBackgroundRadius: 2,
       },
     },
-    behaviors: ['drag-canvas', 'drag-node'],
+    behaviors: ['drag-canvas', 'drag-element'],
     animation,
     theme,
   });

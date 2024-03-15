@@ -563,7 +563,7 @@ const graph = new Graph({
     speed: 10,
     maxIteration: 2000,
   },
-  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element', 'click-select'],
 });
 
 graph.render();

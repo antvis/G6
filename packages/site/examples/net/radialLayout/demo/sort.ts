@@ -460,7 +460,7 @@ const graph = new Graph({
       },
     },
   },
-  behaviors: ['drag-canvas', 'drag-node'],
+  behaviors: ['drag-canvas', 'drag-element'],
 });
 
 graph.render();

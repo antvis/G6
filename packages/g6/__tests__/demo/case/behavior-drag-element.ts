@@ -23,7 +23,7 @@ export const behaviorDragNode: STDTestCase = async (context) => {
     edge: {
       style: { endArrow: true },
     },
-    behaviors: [{ type: 'drag-node' }],
+    behaviors: [{ type: 'drag-element' }],
   });
 
   await graph.render();
@@ -35,7 +35,7 @@ export const behaviorDragNode: STDTestCase = async (context) => {
       shadow: false,
     };
     const handleChange = () => {
-      graph.setBehaviors([{ type: 'drag-node', ...config }]);
+      graph.setBehaviors([{ type: 'drag-element', ...config }]);
     };
     return [
       panel.add(config, 'enable').onChange(handleChange),

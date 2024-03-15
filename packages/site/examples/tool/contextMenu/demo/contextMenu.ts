@@ -17,7 +17,7 @@ const graph = new Graph({
   height,
   data,
   modes: {
-    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-node'],
+    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-element'],
   },
 });
 
@@ -25,7 +25,10 @@ const contextMenu = {
   type: 'menu',
   key: 'my-context-menu',
   trigger: 'contextmenu',
-  /** async string menu */
+  /**
+   * async string menu
+   * @param e
+   */
   getContent: (e) => {
     return `
     <ul class='g6-contextmenu-ul'>

@@ -17,7 +17,7 @@ export const layoutFruchtermanBasic: STDTestCase = async (context) => {
       gravity: 5,
       speed: 5,
     },
-    behaviors: ['drag-canvas', 'drag-node'],
+    behaviors: ['drag-canvas', 'drag-element'],
   });
 
   await graph.render();

@@ -22,7 +22,7 @@ export const layoutComboCombined: STDTestCase = async (context) => {
         return { stroke: color || '#99ADD1', lineWidth: size || 1 };
       },
     },
-    behaviors: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas'],
+    behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
     autoFit: 'view',
   });
 

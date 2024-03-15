@@ -27,8 +27,8 @@ new Graph({
       'zoom-canvas',
       'drag-canvas',
       {
-        type: 'drag-node',
-        // TODO: snapline with drag-node enableTransient: true (default) has bug now, use enableTransient: false instead temporary
+        type: 'drag-element',
+        // TODO: snapline with drag-element enableTransient: true (default) has bug now, use enableTransient: false instead temporary
         enableTransient: false,
       },
     ],

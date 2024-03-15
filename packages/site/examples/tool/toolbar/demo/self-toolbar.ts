@@ -20,7 +20,7 @@ const graph = new Graph({
     type: 'grid',
   },
   modes: {
-    default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+    default: ['drag-canvas', 'drag-element', 'zoom-canvas'],
   },
   node: {
     labelShape: {

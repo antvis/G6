@@ -12,7 +12,7 @@ export const layoutConcentric: STDTestCase = async (context) => {
       maxLevelDiff: 0.5,
       preventOverlap: true,
     },
-    behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node'],
+    behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
     animation: false,
   });
 

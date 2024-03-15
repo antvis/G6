@@ -625,7 +625,7 @@ const graph = new Graph({
       color: 'antv',
     },
   },
-  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element', 'click-select'],
   animation: true,
 });
 

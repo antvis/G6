@@ -23,7 +23,7 @@ const graph = new Graph({
       router: true,
     },
   },
-  behaviors: [{ type: 'drag-node' }],
+  behaviors: [{ type: 'drag-element' }],
 });
 
 graph.render();

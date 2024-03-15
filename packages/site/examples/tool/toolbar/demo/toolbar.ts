@@ -21,7 +21,7 @@ new Graph({
   data,
   layout,
   modes: {
-    default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+    default: ['drag-canvas', 'drag-element', 'zoom-canvas'],
   },
   plugins: [{ type: 'toolbar', key: 'toolbar-1' }],
 });
