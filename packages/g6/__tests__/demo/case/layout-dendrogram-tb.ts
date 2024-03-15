@@ -32,7 +32,7 @@ export const layoutDendrogramTb: STDTestCase = async (context) => {
       nodeSep: 40,
       rankSep: 100,
     },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree'],
+    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand-tree'],
   });
 
   await graph.render();

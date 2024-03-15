@@ -25,7 +25,7 @@ export const layoutDendrogramBasic: STDTestCase = async (context) => {
       nodeSep: 36,
       rankSep: 250,
     },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree'],
+    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand-tree'],
   });
 
   await graph.render();
