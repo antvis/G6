@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "basicFruchterman.js",
+      "filename": "basicFruchterman.ts",
       "title": {
         "zh": "GPU Fruchterman 小数据",
         "en": "GPU Fruchterman Small Data"
@@ -13,7 +13,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SmXBQ6fv8PoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "fruchtermanComplexData.js",
+      "filename": "fruchtermanComplexData.ts",
       "title": {
         "zh": "GPU Fruchterman 复杂数据",
         "en": "GPU Fruchterman with Complex Data"

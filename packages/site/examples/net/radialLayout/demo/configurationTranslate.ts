@@ -384,17 +384,20 @@ const data = {
 };
 
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Circular layout with radius: take full use of the canvas, ordering: topology';
+descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: false';
 const container = document.getElementById('container') as HTMLDivElement;
 container.appendChild(descriptionDiv);
 const graph = new Graph({
   container: 'container',
   layout: {
-    type: 'circular',
+    type: 'radial',
+    unitRadius: 50,
   },
   data,
   node: {
     style: {
+      labelText: (d) => d.id,
+      labelPlacement: 'center',
       size: 20,
       fill: '#EFF4FF',
       lineWidth: 1,
@@ -450,68 +453,40 @@ function updateLayout(layoutConfig) {
  */
 function layoutConfigTranslation() {
   setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 5, ordering: degree';
+    descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: true';
     updateLayout({
-      radius: 200,
-      startAngle: Math.PI / 4,
-      endAngle: Math.PI,
-      divisions: 5,
-      ordering: 'degree',
+      preventOverlap: true,
+      nodeSize: 20,
     });
   }, 1000);
 
   setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 3, ordering: degree';
+    descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 0, unitRadius = 80, preventOverlap: true';
     updateLayout({
-      startAngle: Math.PI / 4,
-      endAngle: Math.PI,
-      divisions: 3,
+      unitRadius: 80,
     });
   }, 2500);
 
   setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 8, ordering: degree';
+    descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 10, unitRadius = 80, preventOverlap: true';
     updateLayout({
-      radius: 200,
-      startAngle: 0,
-      endAngle: Math.PI / 2,
-      divisions: 8,
+      focusNode: '10',
     });
   }, 4000);
 
   setTimeout(function () {
-    descriptionDiv.innerHTML =
-      'Circular layout, radius = 10～300(spiral), endAngle: PI, divisions = 1, ordering: degree';
+    descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 20, unitRadius = 80, preventOverlap: true';
     updateLayout({
-      radius: null,
-      startRadius: 10,
-      endRadius: 300,
-      divisions: 1,
-      startAngle: 0,
-      endAngle: Math.PI,
+      focusNode: '20',
     });
   }, 5500);
 
   setTimeout(function () {
-    descriptionDiv.innerHTML =
-      'Circular layout, radius = 10～300(spiral),endAngle: 2 * PI, divisions= 1, ordering: degree';
+    descriptionDiv.innerHTML = 'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: false';
     updateLayout({
-      endAngle: 2 * Math.PI,
+      focusNode: '0',
+      preventOverlap: false,
+      unitRadius: 50,
     });
-  }, 7000);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, ordering: degree';
-    updateLayout({
-      radius: 200,
-    });
-  }, 8500);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, ordering: topology';
-    updateLayout({
-      radius: 200,
-      ordering: 'topology',
-    });
-  }, 10000);
+  }, 5500);
 }

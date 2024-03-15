@@ -4,139 +4,173 @@ const data = {
   nodes: [
     {
       id: '0',
-      label: '0',
+      sortAttr: 0,
+      sortAttr2: 'a',
     },
     {
       id: '1',
-      label: '1',
+      sortAttr: 0,
+      sortAttr2: 'a',
     },
     {
       id: '2',
-      label: '2',
+      sortAttr: 0,
+      sortAttr2: 'a',
     },
     {
       id: '3',
-      label: '3',
+      sortAttr: 0,
+      sortAttr2: 'a',
     },
     {
       id: '4',
-      label: '4',
+      sortAttr: 2,
+      sortAttr2: 'c',
     },
     {
       id: '5',
-      label: '5',
+      sortAttr: 0,
+      sortAttr2: 'a',
     },
     {
       id: '6',
-      label: '6',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '7',
-      label: '7',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '8',
-      label: '8',
+      sortAttr: 2,
+      sortAttr2: 'c',
     },
     {
       id: '9',
-      label: '9',
+      sortAttr: 3,
+      sortAttr2: 'd',
     },
     {
       id: '10',
-      label: '10',
+      sortAttr: 3,
+      sortAttr2: 'd',
     },
     {
       id: '11',
-      label: '11',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '12',
-      label: '12',
+      sortAttr: 2,
+      sortAttr2: 'c',
     },
     {
       id: '13',
-      label: '13',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '14',
-      label: '14',
+      sortAttr: 3,
+      sortAttr2: 'd',
     },
     {
       id: '15',
-      label: '15',
+      sortAttr: 3,
+      sortAttr2: 'd',
     },
     {
       id: '16',
-      label: '16',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '17',
-      label: '17',
+      sortAttr: 2,
+      sortAttr2: 'c',
     },
     {
       id: '18',
-      label: '18',
+      sortAttr: 2,
+      sortAttr2: 'c',
     },
     {
       id: '19',
-      label: '19',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '20',
-      label: '20',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '21',
-      label: '21',
+      sortAttr: 3,
+      sortAttr2: 'd',
     },
     {
       id: '22',
-      label: '22',
+      sortAttr: 3,
+      sortAttr2: 'd',
     },
     {
       id: '23',
-      label: '23',
+      sortAttr: 3,
+      sortAttr2: 'd',
     },
     {
       id: '24',
-      label: '24',
+      sortAttr: 0,
+      sortAttr2: 'a',
     },
     {
       id: '25',
-      label: '25',
+      sortAttr: 0,
+      sortAttr2: 'a',
     },
     {
       id: '26',
-      label: '26',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '27',
-      label: '27',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '28',
-      label: '28',
+      sortAttr: 3,
+      sortAttr2: 'd',
     },
     {
       id: '29',
-      label: '29',
+      sortAttr: 2,
+      sortAttr2: 'c',
     },
     {
       id: '30',
-      label: '30',
+      sortAttr: 2,
+      sortAttr2: 'c',
     },
     {
       id: '31',
-      label: '31',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '32',
-      label: '32',
+      sortAttr: 1,
+      sortAttr2: 'b',
     },
     {
       id: '33',
-      label: '33',
+      sortAttr: 0,
+      sortAttr2: 'a',
     },
   ],
   edges: [
@@ -383,18 +417,35 @@ const data = {
   ],
 };
 
-const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Circular layout with radius: take full use of the canvas, ordering: topology';
-const container = document.getElementById('container') as HTMLDivElement;
-container.appendChild(descriptionDiv);
+const colors = ['steelblue', 'green', 'pink', 'grey'];
+const colorsObj = { a: 'steelblue', b: 'green', c: 'pink', d: 'grey' };
+
+const { nodes, edges } = data;
 const graph = new Graph({
   container: 'container',
-  layout: {
-    type: 'circular',
+  data: {
+    nodes: nodes.map((item) => ({
+      ...item,
+      lineWidth: 4,
+      fill: '#fff',
+      stroke: colors[item.sortAttr2] || colorsObj[item.sortAttr2],
+    })),
+    edges,
   },
-  data,
+  layout: {
+    type: 'radial',
+    unitRadius: 70,
+    maxIteration: 1000,
+    linkDistance: 10,
+    preventOverlap: true,
+    nodeSize: 30,
+    sortBy: 'sortAttr2',
+    sortStrength: 50,
+  },
   node: {
     style: {
+      labelText: (d) => d.id,
+      labelPlacement: 'center',
       size: 20,
       fill: '#EFF4FF',
       lineWidth: 1,
@@ -410,108 +461,6 @@ const graph = new Graph({
     },
   },
   behaviors: ['drag-canvas', 'drag-node'],
-  animation: true,
 });
+
 graph.render();
-
-if (typeof window !== 'undefined') {
-  window.addEventListener('error', () => {
-    if (time) {
-      clearInterval(time);
-    }
-  });
-  window.onresize = () => {
-    if (!graph || graph.destroyed) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.resize(container.scrollWidth, container.scrollHeight - 30);
-  };
-}
-
-layoutConfigTranslation();
-
-const time = setInterval(function () {
-  layoutConfigTranslation();
-}, 11500);
-
-/**
- *
- * @param layoutConfig
- */
-function updateLayout(layoutConfig) {
-  graph.setLayout((current) => ({
-    ...current,
-    ...layoutConfig,
-  }));
-  graph.render();
-}
-
-/**
- *
- */
-function layoutConfigTranslation() {
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 5, ordering: degree';
-    updateLayout({
-      radius: 200,
-      startAngle: Math.PI / 4,
-      endAngle: Math.PI,
-      divisions: 5,
-      ordering: 'degree',
-    });
-  }, 1000);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 3, ordering: degree';
-    updateLayout({
-      startAngle: Math.PI / 4,
-      endAngle: Math.PI,
-      divisions: 3,
-    });
-  }, 2500);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, divisions = 8, ordering: degree';
-    updateLayout({
-      radius: 200,
-      startAngle: 0,
-      endAngle: Math.PI / 2,
-      divisions: 8,
-    });
-  }, 4000);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML =
-      'Circular layout, radius = 10～300(spiral), endAngle: PI, divisions = 1, ordering: degree';
-    updateLayout({
-      radius: null,
-      startRadius: 10,
-      endRadius: 300,
-      divisions: 1,
-      startAngle: 0,
-      endAngle: Math.PI,
-    });
-  }, 5500);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML =
-      'Circular layout, radius = 10～300(spiral),endAngle: 2 * PI, divisions= 1, ordering: degree';
-    updateLayout({
-      endAngle: 2 * Math.PI,
-    });
-  }, 7000);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, ordering: degree';
-    updateLayout({
-      radius: 200,
-    });
-  }, 8500);
-
-  setTimeout(function () {
-    descriptionDiv.innerHTML = 'Circular layout, radius = 200, ordering: topology';
-    updateLayout({
-      radius: 200,
-      ordering: 'topology',
-    });
-  }, 10000);
-}
