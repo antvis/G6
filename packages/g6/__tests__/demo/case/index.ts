@@ -19,6 +19,8 @@ export * from './layout-combo-combined';
 export * from './layout-concentric';
 export * from './layout-dagre-flow';
 export * from './layout-dagre-flow-combo';
+export * from './layout-dendrogram-basic';
+export * from './layout-dendrogram-tb';
 export * from './layout-force';
 export * from './layout-fruchterman-basic';
 export * from './layout-fruchterman-cluster';
