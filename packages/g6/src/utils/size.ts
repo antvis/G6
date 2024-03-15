@@ -8,5 +8,6 @@ import type { STDSize, Size } from '../types';
  */
 export function parseSize(size: Size = 0): STDSize {
   if (isNumber(size)) return Array(3).fill(size) as STDSize;
-  return [...size, 0, 0, 0].slice(0, 3) as STDSize;
+  const [x, y = x, z = x] = size;
+  return [x, y, z];
 }

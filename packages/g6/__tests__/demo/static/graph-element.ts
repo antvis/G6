@@ -12,8 +12,9 @@ export const graphElement: STDTestCase = async (context) => {
         { id: 'node-3', style: { x: 125, y: 150, parentId: 'combo-1', states: ['selected'] }, data: { value: 150 } },
       ],
       edges: [
-        { source: 'node-1', target: 'node-2', data: { weight: 250 } },
+        { id: 'edge-1', source: 'node-1', target: 'node-2', data: { weight: 250 } },
         {
+          id: 'edge-2',
           source: 'node-2',
           target: 'node-3',
           style: { lineWidth: 5, states: ['active', 'selected'] },
@@ -45,7 +46,7 @@ export const graphElement: STDTestCase = async (context) => {
           lineWidth: 4,
         },
       },
-      palette: { type: 'group', color: 'oranges', invert: true },
+      palette: { type: 'group', color: 'oranges', field: (d: any) => d.id, invert: true },
     },
     combo: {
       style: {},

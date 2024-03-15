@@ -20,8 +20,6 @@
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="25"
             />
           </g>
@@ -34,8 +32,6 @@
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="25"
             />
           </g>
@@ -48,8 +44,6 @@
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="25"
             />
           </g>
@@ -62,8 +56,6 @@
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="25"
             />
           </g>

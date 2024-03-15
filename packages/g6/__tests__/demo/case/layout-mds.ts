@@ -8,21 +8,15 @@ export const layoutMDS: STDTestCase = async (context) => {
     padding: 20,
     autoFit: 'view',
     data,
+    node: {
+      style: {
+        labelText: (d: any) => d.id,
+        labelPlacement: 'center',
+      },
+    },
     layout: {
       type: 'mds',
       linkDistance: 100,
-    },
-    node: {
-      style: {
-        size: 20,
-        stroke: '#9ec9ff',
-        fill: '#eee',
-        lineWidth: 1,
-        labelText: (d: any) => d.id,
-        labelFontSize: 12,
-        labelPlacement: 'center',
-        labelBackground: false,
-      },
     },
     behaviors: ['drag-node', 'drag-canvas', 'zoom-canvas', 'click-select'],
   });

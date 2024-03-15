@@ -34,4 +34,10 @@ export type CanvasOptions = Pick<CanvasConfig, 'devicePixelRatio'> & {
    * <en/> whether to auto resize canvas
    */
   autoResize?: boolean;
+  /**
+   * <zh/> 画布背景色
+   *
+   * <en/> canvas background color
+   */
+  background?: string;
 };

@@ -29,11 +29,11 @@ export const controllerElementState: AnimationTestCase = async (context) => {
           lineWidth: 2,
         },
         selected: {
-          fill: 'pink',
+          color: 'pink',
         },
       },
       animation: {
-        update: [{ fields: ['lineWidth', 'fill'] }],
+        update: [{ fields: ['lineWidth', 'color'] }],
       },
     },
     edge: {
@@ -43,13 +43,13 @@ export const controllerElementState: AnimationTestCase = async (context) => {
       state: {
         active: {
           lineWidth: 2,
-          stroke: 'pink',
+          color: 'pink',
         },
       },
       animation: {
         update: [
           {
-            fields: ['lineWidth', 'stroke'],
+            fields: ['lineWidth', 'color'],
           },
         ],
       },

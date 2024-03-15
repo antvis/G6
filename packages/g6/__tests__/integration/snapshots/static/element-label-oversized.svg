@@ -80,11 +80,9 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               transform="translate(-50,-50)"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               width="100"
               height="100"
             />
@@ -128,11 +126,9 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               d="M 0,0 l 150,0 l 0,150 l-150 0 z"
               transform="translate(-75,-75)"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               width="150"
               height="150"
             />

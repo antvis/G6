@@ -15,8 +15,9 @@ import type { CanvasLayer } from '../types/canvas';
 import { getCombinedBBox } from '../utils/bbox';
 
 export interface CanvasConfig
-  extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'background' | 'cursor'> {
+  extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'cursor'> {
   renderer?: CanvasOptions['renderer'];
+  background?: string;
 }
 
 /**
@@ -55,7 +56,7 @@ export class Canvas {
     const allCanvas = Object.entries(this.canvas);
 
     if (allCanvas.every(([, canvas]) => !canvas)) {
-      const { renderer: getRenderer, ...restConfig } = this.config;
+      const { renderer: getRenderer, background, ...restConfig } = this.config;
       const names: CanvasLayer[] = ['main', 'label', 'transient', 'transientLabel', 'background'];
 
       const { renderers, canvas } = names.reduce(
@@ -106,6 +107,8 @@ export class Canvas {
       });
     }
 
+    this.setBackground();
+
     return Promise.all(Object.values(this.canvas).map((canvas) => canvas.ready));
   }
 
@@ -132,6 +135,14 @@ export class Canvas {
 
   public getConfig() {
     return this.config;
+  }
+
+  public setBackground(background = this.config.background) {
+    const container = this.getContainer();
+    if (container && background) {
+      container.style.background = background;
+      container.style.transition = 'background 0.5s';
+    }
   }
 
   public setCursor(cursor: Cursor) {

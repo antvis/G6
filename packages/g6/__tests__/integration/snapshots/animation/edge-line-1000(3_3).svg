@@ -33,35 +33,35 @@
           <path
             id="key"
             fill="none"
-            d="M 5.209458852746755,2.9768336301410026 L 0,0 L 344.79054114725324,197.02316636985898"
+            d="M 4.341215710622296,2.480694691784169 L 0,0 L 345.6587842893777,197.51930530821582"
             stroke-width="2"
             stroke-dasharray="10,10"
             stroke="rgba(24,144,255,1)"
           />
-          <g transform="matrix(0.868243,0.496139,-0.496139,0.868243,5.209459,2.976834)">
+          <g transform="matrix(0.868243,0.496139,-0.496139,0.868243,4.341216,2.480695)">
             <path
               id="g-svg-12"
               fill="rgba(24,144,255,1)"
-              d="M 0,5 A 5 5 0 1 0 10 5 A 5 5 0 1 0 0 5 Z"
-              transform="translate(-5,-5)"
+              d="M 0,4 A 4 4 0 1 0 8 4 A 4 4 0 1 0 0 4 Z"
+              transform="translate(-4,-4)"
               stroke-width="1"
               stroke-dasharray="0,0"
               stroke="rgba(24,144,255,1)"
-              width="10"
-              height="10"
+              width="8"
+              height="8"
             />
           </g>
-          <g transform="matrix(-0.868243,-0.496139,0.496139,-0.868243,344.790527,197.023163)">
+          <g transform="matrix(-0.868243,-0.496139,0.496139,-0.868243,345.658783,197.519302)">
             <path
               id="g-svg-14"
               fill="rgba(255,0,0,1)"
-              d="M 0,5 L 10,0 L 10,10 Z"
-              transform="translate(-5,-5)"
+              d="M 0,4 L 8,0 L 8,8 Z"
+              transform="translate(-4,-4)"
               stroke-width="1"
               stroke-dasharray="0,0"
               stroke="rgba(24,144,255,1)"
-              width="10"
-              height="10"
+              width="8"
+              height="8"
             />
           </g>
         </g>

@@ -20,27 +20,14 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-15.780000,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 32.56,0 l 0,23 l-32.56 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="32.56"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -91,10 +78,10 @@
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke-width="12"
-              stroke="rgba(34,126,255,1)"
               r="20"
+              stroke="rgba(23,131,255,1)"
               stroke-dasharray="0,0"
+              stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
             />
@@ -102,27 +89,14 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-30.780001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 62.56,0 l 0,23 l-62.56 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="62.56"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -169,27 +143,14 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-40.020000,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 81.04,0 l 0,23 l-81.04 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="81.04"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -260,7 +221,7 @@
               <g transform="matrix(1,0,0,1,-4,-9.500000)">
                 <path
                   id="background"
-                  fill="rgba(248,98,84,1)"
+                  fill="rgba(245,34,45,1)"
                   d="M 9.5,0 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z"
                   stroke-width="0"
                   width="46.52"
@@ -287,7 +248,7 @@
               <g transform="matrix(1,0,0,1,-4,-18)">
                 <path
                   id="background"
-                  fill="rgba(237,183,75,1)"
+                  fill="rgba(250,173,20,1)"
                   d="M 9.5,0 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z"
                   stroke-width="0"
                   width="34.120000000000005"
@@ -319,27 +280,14 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-33.840000,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 68.68,0 l 0,23 l-68.68 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="68.68"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -380,7 +328,7 @@
           <g transform="matrix(1,0,0,1,-20,0)">
             <circle
               id="port-0"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -393,7 +341,7 @@
           <g transform="matrix(1,0,0,1,20,0)">
             <circle
               id="port-1"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -406,7 +354,7 @@
           <g transform="matrix(1,0,0,1,0,-20)">
             <circle
               id="port-2"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -419,7 +367,7 @@
           <g transform="matrix(1,0,0,1,0,20)">
             <circle
               id="port-3"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -438,10 +386,10 @@
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke-width="12"
-              stroke="rgba(34,126,255,1)"
               r="20"
+              stroke="rgba(23,131,255,1)"
               stroke-dasharray="0,0"
+              stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
             />
@@ -449,27 +397,14 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-36.060001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 73.11999999999999,0 l 0,23 l-73.11999999999999 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="73.11999999999999"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -521,7 +456,7 @@
               cx="20"
               cy="20"
               stroke-width="12"
-              stroke="rgba(34,126,255,1)"
+              stroke="rgba(23,131,255,1)"
               r="20"
               stroke-dasharray="0,0"
               stroke-opacity="0.25"
@@ -531,27 +466,16 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
+              r="20"
               stroke-width="3"
               stroke="rgba(0,0,0,1)"
-              r="20"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-50.610001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 102.22,0 l 0,27 l-102.22 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="102.22"
-                height="27"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -599,28 +523,17 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
+              r="20"
               stroke-width="3"
               stroke="rgba(0,0,0,1)"
-              r="20"
               stroke-opacity="0.85"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-43.860001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 88.72000000000001,0 l 0,23 l-88.72000000000001 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="88.72000000000001"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -668,28 +581,15 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="20"
               opacity="0.25"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-41.220001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 83.44,0 l 0,23 l-83.44 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="83.44"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -742,23 +642,10 @@
               transform="translate(-20,-20)"
               cx="20"
               cy="20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="20"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-43.200001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 87.4,0 l 0,23 l-87.4 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="87.4"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -769,6 +656,7 @@
                 dy="11.5px"
                 font-size="12"
                 text-anchor="middle"
+                opacity="0.25"
               >
                 circle-disabled
               </text>

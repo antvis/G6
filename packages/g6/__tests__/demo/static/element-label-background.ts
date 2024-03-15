@@ -48,6 +48,7 @@ export const elementLabelBackground: StaticTestCase = async (context) => {
         labelFill: '#e66465',
         labelFontSize: 12,
         labelFontStyle: 'italic',
+        labelBackground: true,
         labelBackgroundFill: '#eee',
         labelBackgroundStroke: '#9ec9ff',
         labelBackgroundRadius: 2,

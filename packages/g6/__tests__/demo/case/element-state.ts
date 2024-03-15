@@ -27,7 +27,7 @@ export const elementState: STDTestCase = async (context) => {
           lineWidth: 2,
         },
         selected: {
-          fill: 'pink',
+          color: 'pink',
         },
       },
       animation: {
@@ -41,7 +41,7 @@ export const elementState: STDTestCase = async (context) => {
       state: {
         active: {
           lineWidth: 2,
-          stroke: 'pink',
+          color: 'pink',
         },
       },
       animation: {

@@ -24,11 +24,13 @@ export function parsePalette(palette?: PaletteOptions): STDPaletteOptions | unde
     // 颜色数组 color array
     Array.isArray(palette)
   ) {
-    // 默认为离散色板，默认分组字段为 id
+    // 默认为离散色板
     // Default to discrete palette, default group field is id
     return {
       type: 'group',
+      field: (d: any) => d.id,
       color: palette,
+      invert: false,
     };
   }
   return palette;
@@ -65,13 +67,14 @@ export function assignColorByPalette(data: ElementData, palette?: STDPaletteOpti
     return {};
   };
 
+  const parseField = (field: STDPaletteOptions['field'], datum: ElementDatum) =>
+    isString(field) ? datum.data?.[field] : field?.(datum);
+
   if (type === 'group') {
-    // @ts-expect-error @antv/util groupBy condition 参数应当支持返回 string 或者 number / groupBy condition parameter should support return string or number
     const groupData = groupBy<ElementDatum>(data, (datum) => {
-      if (!datum.data || !field) {
-        return idOf(datum);
-      }
-      return String(datum.data[field]);
+      if (!field) return 'default';
+      const key = parseField(field, datum);
+      return key ? String(key) : 'default';
     });
 
     const groupKeys = Object.keys(groupData);
@@ -84,10 +87,10 @@ export function assignColorByPalette(data: ElementData, palette?: STDPaletteOpti
       });
     });
     return result;
-  } else {
+  } else if (type === 'value') {
     const [min, max] = data.reduce(
       ([min, max], datum) => {
-        const value = datum?.data?.[field];
+        const value = parseField(field, datum);
         if (!isNumber(value)) throw new Error(`Palette field ${field} is not a number`);
         return [Math.min(min, value), Math.max(max, value)];
       },
@@ -96,7 +99,7 @@ export function assignColorByPalette(data: ElementData, palette?: STDPaletteOpti
     const range = max - min;
 
     return assignColor(
-      data.map((datum) => [datum.id, ((datum?.data?.[field] as number) - min) / range]) as [ID, number][],
+      data.map((datum) => [datum.id, ((parseField(field, datum) as number) - min) / range]) as [ID, number][],
     );
   }
 }

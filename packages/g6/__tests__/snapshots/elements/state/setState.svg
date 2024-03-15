@@ -140,7 +140,7 @@
               cx="10"
               cy="10"
               stroke-width="12"
-              stroke="rgba(34,126,255,1)"
+              stroke="rgba(23,131,255,1)"
               r="10"
               stroke-dasharray="0,0"
               stroke-opacity="0.25"
@@ -150,7 +150,7 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
@@ -184,8 +184,8 @@
               cx="10"
               cy="10"
               stroke-width="3"
-              stroke="rgba(0,0,0,1)"
               r="10"
+              stroke="rgba(0,0,0,1)"
             />
           </g>
         </g>
@@ -198,8 +198,8 @@
               cx="10"
               cy="10"
               stroke-width="12"
-              stroke="rgba(34,126,255,1)"
               r="10"
+              stroke="rgba(23,131,255,1)"
               stroke-dasharray="0,0"
               stroke-opacity="0.25"
               pointer-events="none"
@@ -208,12 +208,11 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
               stroke-width="2"
-              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>

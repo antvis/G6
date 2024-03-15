@@ -26,11 +26,11 @@
             stroke="transparent"
             stroke-width="7"
           />
-          <g transform="matrix(1,0,0,1,241.407944,269.143616)">
+          <g transform="matrix(1,0,0,1,237.868729,267.279755)">
             <path
               id="key"
               fill="none"
-              d="M 117.1841429584747,61.71278609508602 L 0,0"
+              d="M 124.26256934654157,65.44050387795517 L 0,0"
               stroke-width="5"
               stroke="rgba(153,173,209,1)"
             />
@@ -53,13 +53,13 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(47,54,61,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
-              stroke-width="0"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+              stroke-width="3"
               stroke="rgba(0,0,0,1)"
-              r="16"
             />
           </g>
         </g>
@@ -72,12 +72,12 @@
             <circle
               id="halo"
               fill="none"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
               stroke-width="12"
               stroke="rgba(255,192,203,1)"
-              r="16"
+              r="12"
               stroke-dasharray="0,0"
               stroke-opacity="0.25"
               pointer-events="none"
@@ -88,12 +88,12 @@
             <circle
               id="key"
               fill="rgba(255,192,203,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
               stroke-width="3"
               stroke="rgba(0,0,0,1)"
-              r="16"
               visibility="visible"
             />
           </g>

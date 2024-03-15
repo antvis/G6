@@ -5,6 +5,7 @@ import type { STDTestCase } from '../types';
 export const layoutDagreFlow: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
+    autoFit: 'view',
     data,
     node: {
       style: {
@@ -18,12 +19,18 @@ export const layoutDagreFlow: STDTestCase = async (context) => {
     edge: {
       style: {
         type: 'polyline',
+        radius: 20,
         endArrow: true,
         lineWidth: 2,
-        stroke: '#C2C8D5',
+        color: '#C2C8D5',
       },
     },
-    autoFit: 'view',
+    layout: {
+      type: 'dagre',
+      nodesep: 100,
+      ranksep: 70,
+      controlPoints: true,
+    },
     behaviors: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas'],
   });
 

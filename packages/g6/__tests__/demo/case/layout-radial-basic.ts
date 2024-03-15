@@ -6,19 +6,15 @@ export const layoutRadialBasic: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
-    layout: {
-      type: 'radial',
-      unitRadius: 50,
-    },
     node: {
       style: {
         labelText: (d: { id: string }) => d.id,
         labelPlacement: 'center',
-        size: 20,
-        fill: '#EFF4FF',
-        lineWidth: 1,
-        stroke: '#5F95FF',
       },
+    },
+    layout: {
+      type: 'radial',
+      unitRadius: 50,
     },
     behaviors: ['drag-canvas', 'drag-node'],
   });

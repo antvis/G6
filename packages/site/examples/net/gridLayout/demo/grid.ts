@@ -619,6 +619,11 @@ const graph = new Graph({
       lineWidth: 1,
       labelText: (d) => d.id,
     },
+    palette: {
+      type: 'group',
+      field: 'cluster',
+      color: 'antv',
+    },
   },
   behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   animation: true,

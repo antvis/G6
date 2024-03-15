@@ -15,7 +15,7 @@ type KeyStyleProps = GRectStyleProps;
  */
 export class Rect extends BaseNode<RectStyleProps> {
   static defaultStyleProps: Partial<RectStyleProps> = {
-    size: [100, 30],
+    size: [48, 24],
     anchor: [0.5, 0.5],
   };
 

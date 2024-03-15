@@ -29,6 +29,7 @@ export const edgeArrow: StaticTestCase = async (context) => {
       style: {
         type: 'line', // 👈🏻 Edge shape type.
         labelText: (d: any) => d.id,
+        labelBackground: true,
         endArrow: true,
         endArrowType: (d: any) => d.id.split('-')[0],
       },

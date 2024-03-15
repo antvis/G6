@@ -6,13 +6,8 @@ import type { STDTestCase } from '../types';
 export const pluginGridLine: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
-    data,
-    node: {
-      style: {
-        size: 20,
-      },
-    },
     autoResize: true,
+    data,
     layout: { type: 'd3force' },
     behaviors: ['drag-canvas'],
     plugins: [{ type: 'grid-line', follow: false }],

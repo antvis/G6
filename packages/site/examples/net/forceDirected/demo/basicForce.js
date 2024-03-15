@@ -513,13 +513,6 @@ const data = {
 
 data.nodes.forEach((node) => (node.data.size = Math.random() * 30 + 5));
 
-const COLORS = {
-  a: '#4087FF',
-  b: '#CD74FE',
-  c: '#05B8A7',
-  d: '#FE8834',
-};
-
 const graph = new Graph({
   container: 'container',
   data,
@@ -529,7 +522,11 @@ const graph = new Graph({
       size: (d) => d.data.size,
       labelText: (d) => d.id,
       ports: [],
-      fill: (d) => COLORS[d.data.cluster],
+    },
+    palette: {
+      type: 'group',
+      field: 'cluster',
+      color: 'antv',
     },
   },
   layout: {
@@ -540,6 +537,7 @@ const graph = new Graph({
     nodeClusterBy: 'cluster',
     clusterNodeStrength: 70,
   },
+
   behaviors: ['zoom-canvas', 'drag-canvas'],
   zoomRange: [0.1, 5],
   autoResize: true,

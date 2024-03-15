@@ -22,30 +22,39 @@ describe('Graph', () => {
 
   it('setNode/getNode', () => {
     const options = graph.getOptions();
-    graph.setNode(Object.assign({}, options.node, { state: { selected: { fill: 'pink' } } }));
+    graph.setNode(Object.assign({}, options.node, { state: { selected: { color: 'pink' } } }));
     expect(graph.getOptions().node!.state!.selected).toEqual({
-      fill: 'pink',
+      color: 'pink',
     });
   });
 
   it('setEdge/getEdge', () => {
     const options = graph.getOptions();
-    graph.setEdge(Object.assign({}, options.edge, { state: { selected: { stroke: 'pink' } } }));
+    graph.setEdge(Object.assign({}, options.edge, { state: { selected: { color: 'pink' } } }));
     expect(graph.getOptions().edge!.state!.selected).toEqual({
-      stroke: 'pink',
+      color: 'pink',
     });
   });
 
   it('setCombo/getCombo', () => {
     const options = graph.getOptions();
-    graph.setCombo(Object.assign({}, options.combo, { state: { selected: { fill: 'pink' } } }));
+    graph.setCombo(Object.assign({}, options.combo, { state: { selected: { color: 'pink' } } }));
     expect(graph.getOptions().combo!.state!.selected).toEqual({
-      fill: 'pink',
+      color: 'pink',
     });
+  });
+
+  it('setBackground/getBackground', () => {
+    expect(graph.getBackground()).toEqual('#fff');
   });
 
   it('getSize', () => {
     expect(graph.getSize()).toEqual([500, 500]);
+  });
+
+  it('setTheme', () => {
+    graph.setTheme('light');
+    expect(graph.getTheme()).toEqual('light');
   });
 
   it('getTheme', () => {
@@ -169,9 +178,9 @@ describe('Graph', () => {
 
   it('getElementRenderBounds', () => {
     const renderBounds = graph.getElementRenderBounds('node-1');
-    // the default size of the node is 32
-    expect(renderBounds.min).toEqual([-16, -16, 0]);
-    expect(renderBounds.max).toEqual([16, 16, 0]);
+    // the default size of the node is 24
+    expect(renderBounds.min).toEqual([-12, -12, 0]);
+    expect(renderBounds.max).toEqual([12, 12, 0]);
   });
 
   it('setElementState/getElementState/getElementDataByState', async () => {

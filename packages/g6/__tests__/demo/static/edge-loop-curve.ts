@@ -81,6 +81,7 @@ export const edgeLoopCurve: StaticTestCase = async (context) => {
       style: {
         type: 'rect',
         size: [80, 30],
+        labelBackground: true,
         port: (d: any) => d.id.includes('ports'),
         portR: 3,
         ports: [
