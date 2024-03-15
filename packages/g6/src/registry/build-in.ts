@@ -35,7 +35,7 @@ import {
   indented,
   mindmap,
 } from '../layouts';
-import { antv, blues, greens, oranges, spectral } from '../palettes';
+import { blues, greens, oranges, spectral } from '../palettes';
 import { GridLine } from '../plugins';
 import { dark, light } from '../themes';
 import type { ExtensionRegistry } from './types';
@@ -94,7 +94,6 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     diamond: Diamond,
   },
   palette: {
-    antv,
     spectral,
     oranges,
     greens,

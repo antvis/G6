@@ -1,6 +1,30 @@
+import type { Palette } from '../palettes/types';
+import type { PaletteOptions } from '../spec/element/palette';
 import type { Theme } from './types';
 
-const BADGE_PALETTE = ['#7E92B5', '#f5222d', '#faad14'];
+const BADGE_PALETTE: Palette = ['#7E92B5', '#f5222d', '#faad14'];
+
+const NODE_PALETTE_OPTIONS: PaletteOptions = {
+  type: 'group',
+  color: ['#1783FF', '#00C9C9', '#F08F56', '#D580FF', '#7863FF', '#DB9D0D', '#60C42D', '#FF80CA', '#2491B3', '#17C76F'],
+};
+
+const EDGE_PALETTE_OPTIONS: PaletteOptions = {
+  type: 'group',
+  color: [
+    '#637088',
+    '#0F55A6',
+    '#008383',
+    '#9C5D38',
+    '#8B53A6',
+    '#4E40A6',
+    '#8F6608',
+    '#3E801D',
+    '#A65383',
+    '#175E75',
+    '#0F8248',
+  ],
+};
 
 type ThemeTokens = {
   bgColor: string;
@@ -9,8 +33,10 @@ type ThemeTokens = {
   nodeColorDisabled: string;
   nodeStroke: string;
   nodeBadgePalette?: string[];
+  nodePaletteOptions?: PaletteOptions;
   edgeColor: string;
   edgeColorDisabled: string;
+  edgePaletteOptions?: PaletteOptions;
   comboColor: string;
   comboColorDisabled: string;
   comboStroke: string;
@@ -32,8 +58,10 @@ export function create(tokens: ThemeTokens): Theme {
     nodeColorDisabled,
     nodeStroke,
     nodeBadgePalette = BADGE_PALETTE,
+    nodePaletteOptions = NODE_PALETTE_OPTIONS,
     edgeColor,
     edgeColorDisabled,
+    edgePaletteOptions = EDGE_PALETTE_OPTIONS,
     comboColor,
     comboColorDisabled,
     comboStroke,
@@ -43,6 +71,7 @@ export function create(tokens: ThemeTokens): Theme {
   return {
     background: bgColor,
     node: {
+      palette: nodePaletteOptions,
       style: {
         badgeFill: bgColor,
         badgeFontSize: 8,
@@ -101,6 +130,7 @@ export function create(tokens: ThemeTokens): Theme {
       },
     },
     edge: {
+      palette: edgePaletteOptions,
       style: {
         color: edgeColor,
         halo: false,

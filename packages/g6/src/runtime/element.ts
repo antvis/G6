@@ -103,7 +103,9 @@ export class ElementController {
     this.paletteStyle = {};
 
     this.forEachElementData((elementType, elementData) => {
-      const palette = parsePalette(this.getTheme(elementType)?.palette || options[elementType]?.palette);
+      const palette = parsePalette(
+        Object.assign({}, this.getTheme(elementType)?.palette, options[elementType]?.palette),
+      );
       if (palette) {
         Object.assign(this.paletteStyle, assignColorByPalette(elementData, palette));
       }

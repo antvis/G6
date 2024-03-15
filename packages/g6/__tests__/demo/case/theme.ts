@@ -8,9 +8,7 @@ export const theme: STDTestCase = async (context) => {
     data,
     node: {
       palette: {
-        type: 'group',
-        field: 'cluster',
-        color: 'antv',
+        field: (d: any) => (d.data.cluster === 'a' ? 'a' : 'b'),
       },
     },
     layout: {
@@ -34,9 +32,7 @@ export const theme: STDTestCase = async (context) => {
         theme: 'light',
         node: {
           palette: {
-            type: 'group',
             field: 'cluster',
-            color: 'antv',
           },
         },
       },
@@ -45,9 +41,7 @@ export const theme: STDTestCase = async (context) => {
         theme: 'dark',
         node: {
           palette: {
-            type: 'group',
             field: 'cluster',
-            color: 'antv',
           },
         },
       },

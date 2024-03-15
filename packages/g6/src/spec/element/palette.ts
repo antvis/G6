@@ -1,4 +1,5 @@
 import type { Palette } from '../../palettes/types';
+import type { ElementDatum } from '../../types';
 
 /**
  * <zh/> 色板配置项
@@ -16,13 +17,13 @@ interface CategoricalPaletteOptions extends BasePaletteOptions {
    *
    * <en/> Coloring by group
    */
-  type: 'group';
+  type?: 'group';
   /**
-   * <zh/> 分组字段，未指定时基于节点 id 分组
+   * <zh/> 分组字段，未指定时不分组
    *
-   * <en/> Group field, when not specified, group by node id
+   * <en/> Group field, no grouping when not specified
    */
-  field?: string;
+  field?: string | ((datum: ElementDatum) => string);
 }
 
 interface ContinuousPaletteOptions extends BasePaletteOptions {
@@ -31,13 +32,13 @@ interface ContinuousPaletteOptions extends BasePaletteOptions {
    *
    * <en/> Coloring based on field value
    */
-  type: 'value';
+  type?: 'value';
   /**
    * <zh/> 取值字段
    *
    * <en/> Value field
    */
-  field: string;
+  field?: string | ((datum: ElementDatum) => string);
 }
 
 export interface BasePaletteOptions {
@@ -46,7 +47,7 @@ export interface BasePaletteOptions {
    *
    * <en/> Palette color
    */
-  color: Palette;
+  color?: Palette;
   /**
    * <zh/> 倒序取色
    *

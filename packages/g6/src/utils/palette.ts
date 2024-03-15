@@ -66,11 +66,10 @@ export function assignColorByPalette(data: ElementData, palette?: STDPaletteOpti
   };
 
   if (type === 'group') {
-    // @ts-expect-error @antv/util groupBy condition 参数应当支持返回 string 或者 number / groupBy condition parameter should support return string or number
     const groupData = groupBy<ElementDatum>(data, (datum) => {
-      if (!datum.data || !field) {
-        return idOf(datum);
-      }
+      if (!field) return 'default';
+      if (isFunction(field)) return String(field(datum));
+      if (!datum.data) return 'default';
       return String(datum.data[field]);
     });
 
