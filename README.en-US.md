@@ -1,4 +1,8 @@
-# G6: A Graph Visualization Framework in TypeScript
+<img src="https://gw.alipayobjects.com/zos/antfincdn/R8sN%24GNdh6/language.svg" width="18"> English | [简体中文](./README.zh-CN.md)
+
+<h1 align="center">
+<b>G6: A Graph Visualization Framework in TypeScript</b>
+</h1>
 
 > The 5.0 beta version is currently undergoing rapid iteration, with the stable release expected on June 6, 2024. There may be changes to the API during this period, so please exercise caution when using it in stable online product.
 
@@ -11,8 +15,6 @@
 [![npm Download](https://img.shields.io/npm/dm/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 [![npm License](https://img.shields.io/npm/l/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6)
-
-[中文 README](README.md)
 
 ## What is G6
 
