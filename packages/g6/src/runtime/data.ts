@@ -1,5 +1,5 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
-import { isEqual } from '@antv/util';
+import { isEqual, isUndefined } from '@antv/util';
 import { COMBO_KEY, ChangeTypeEnum, TREE_KEY } from '../constants';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type {
@@ -483,8 +483,9 @@ export class DataController {
    * @param id - <zh/> 节点 ID | <en/> node ID
    * @param parentId - <zh/> 父节点 ID | <en/> parent node ID
    * @param hierarchy - <zh/> 层次结构类型 | <en/> hierarchy type
+   * @param update - <zh/> 添加新/旧父节点数据更新记录 | <en/> add new/old parent node data update record
    */
-  public setParent(id: ID, parentId: ID | undefined, hierarchy: HierarchyKey) {
+  public setParent(id: ID, parentId: ID | undefined, hierarchy: HierarchyKey, update: boolean = true) {
     if (id === parentId) return;
     const originalParentId = parentIdOf(this.getNodeLikeData([id])[0]);
 
@@ -497,9 +498,11 @@ export class DataController {
 
     this.model.setParent(id, parentId, hierarchy);
 
-    new Set([originalParentId, parentId]).forEach((pId) => {
-      if (pId !== undefined) this.refreshComboData(pId);
-    });
+    if (update) {
+      new Set([originalParentId, parentId]).forEach((pId) => {
+        if (pId !== undefined) this.refreshComboData(pId);
+      });
+    }
   }
 
   /**
@@ -652,6 +655,7 @@ export class DataController {
       ids.forEach((id) => {
         this.pushChange({ value: this.getComboData([id])[0], type: ChangeTypeEnum.ComboRemoved });
         this.removeNodeLikeHierarchy(id);
+        this.comboIds.delete(id);
       });
       this.model.removeNodes(ids);
     });
@@ -665,20 +669,22 @@ export class DataController {
    */
   protected removeNodeLikeHierarchy(id: ID) {
     if (this.model.hasTreeStructure(COMBO_KEY)) {
+      const grandParentId = parentIdOf(this.getNodeLikeData([id])[0]);
+
       // 从父节点的 children 列表中移除
       // remove from its parent's children list
-      this.setParent(id, undefined, COMBO_KEY);
+      // 调用 graphlib.setParent，不需要更新数据
+      this.setParent(id, undefined, COMBO_KEY, false);
       // 将子节点移动到父节点的 children 列表中
       // move the children to the grandparent's children list
-      const [data] = this.getNodeLikeData([id]);
 
       this.model.getChildren(id, COMBO_KEY).forEach((child) => {
         const childData = toG6Data(child);
         const childId = idOf(childData);
-        this.setParent(idOf(childData), parentIdOf(data), COMBO_KEY);
+        this.setParent(idOf(childData), grandParentId, COMBO_KEY, false);
         const value = mergeElementsData(childData, {
           id: idOf(childData),
-          style: { parentId: parentIdOf(data) },
+          style: { parentId: grandParentId },
         });
         this.pushChange({
           value,
@@ -687,6 +693,8 @@ export class DataController {
         });
         this.model.mergeNodeData(idOf(childData), value);
       });
+
+      if (!isUndefined(grandParentId)) this.refreshComboData(grandParentId);
     }
   }
 

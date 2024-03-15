@@ -150,13 +150,13 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     if (!context) return '';
     const { model } = context;
 
-    if (type === 'descendant-count') return model.getDescendantsData(this.id).toString();
+    if (type === 'descendant-count') return model.getDescendantsData(this.id).length.toString();
     if (type === 'child-count') return childrenData.length.toString();
     if (type === 'node-count')
       return model
         .getDescendantsData(this.id)
         .filter((datum) => model.getElementType(idOf(datum)) === 'node')
-        .toString();
+        .length.toString();
     if (isFunction(type)) return type(childrenData);
     return '';
   }
