@@ -194,7 +194,16 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   private onDrop = async (event: DragEvent) => {
     if (this.options.dropEffect !== 'link') return;
     const { model, element } = this.context;
-    this.target.forEach((id) => model.setParent(id, event.target.id, COMBO_KEY));
+    const modifiedParentId = event.target.id;
+    this.target.forEach((id) => {
+      const originalParent = model.getParentData(id, COMBO_KEY);
+      // 如果是在原父 combo 内部拖拽，需要刷新 combo 数据
+      // If it is a drag and drop within the original parent combo, you need to refresh the combo data
+      if (originalParent && idOf(originalParent) === modifiedParentId) {
+        model.refreshComboData(modifiedParentId);
+      }
+      model.setParent(id, modifiedParentId, COMBO_KEY);
+    });
     await element?.draw({ animation: true });
   };
 
