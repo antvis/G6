@@ -15,6 +15,7 @@ export * from './layout-circular-configuration-translate';
 export * from './layout-circular-degree';
 export * from './layout-circular-division';
 export * from './layout-circular-spiral';
+export * from './layout-combo-combined';
 export * from './layout-concentric';
 export * from './layout-dagre-flow';
 export * from './layout-dagre-flow-combo';
