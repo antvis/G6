@@ -34,3 +34,4 @@ packages/site/support
 
 # Tools
 .turbo
+**/tmp/

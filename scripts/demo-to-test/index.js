@@ -57,7 +57,7 @@ const initUnit = async () => {
   let imported = '';
   unitMeta.forEach(async (kebabName) => {
     const camelName = camelCase(kebabName);
-    const sampleKebabName = kebabName.split('-').slice(2).join('-');
+    const sampleKebabName = kebabName.replace(`${prefix}-${name}-`, '');
     const config = { camelName, sampleKebabName, sampleKebabNameWithSpace: sampleKebabName.replace(/-/g, ' ') };
     let exist = !!imported;
     content += exist ? '\n\n' + itTemplate(config) : itTemplate(config);
