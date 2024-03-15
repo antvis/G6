@@ -26,11 +26,11 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,49.868023,253.100952)">
+          <g transform="matrix(1,0,0,1,46.434387,252.422623)">
             <path
               id="key"
               fill="none"
-              d="M 184.43535068392123,0 Q 98.03197310047064 47.64930594849599,0 36.43626598467259 L 5.961131623097586,37.11810890801046"
+              d="M 191.3026243736918,0 Q 101.46560994535594 48.327640686988815,0 37.79293546165829 L 5.967920001198061,38.41255700687774"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
@@ -41,7 +41,7 @@
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(0.993522,0.113640,-0.113640,0.993522,5.961132,37.118111)">
+            <g transform="matrix(0.994653,0.103270,-0.103270,0.994653,5.967920,38.412556)">
               <path
                 id="g-svg-23"
                 fill="rgba(153,173,209,1)"
@@ -69,19 +69,8 @@
           <g
             id="label"
             fill="none"
-            transform="matrix(0.986723,-0.162414,0.162414,0.986723,141.045959,286.684326)"
+            transform="matrix(0.986534,-0.163557,0.163557,0.986534,141.046722,286.688904)"
           >
-            <g transform="matrix(1,0,0,1,-33.360001,-11.500000)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 67.72,0 l 0,23 l-67.72 0 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="67.72"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -112,11 +101,11 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,260.876526,100.383797)">
+          <g transform="matrix(1,0,0,1,258.497284,97.816849)">
             <path
               id="halo"
               fill="none"
-              d="M 0,137.88159958233672 Q 41.89727945222688 48.54729149779831,127.79932316871259 0"
+              d="M 0,143.01548874650024 Q 44.27652208645338 51.11423607988007,132.5578084371656 0"
               stroke-width="12"
               stroke="rgba(153,173,209,1)"
               stroke-dasharray="0,0"
@@ -126,7 +115,7 @@
             <path
               id="halo"
               fill="none"
-              d="M 0,137.88159958233672 Q 41.89727945222688 48.54729149779831,127.79932316871259 0"
+              d="M 0,143.01548874650024 Q 44.27652208645338 51.11423607988007,132.5578084371656 0"
               stroke-width="14"
               stroke="transparent"
               stroke-dasharray="0,0"
@@ -134,11 +123,11 @@
               stroke-opacity="0.25"
             />
           </g>
-          <g transform="matrix(1,0,0,1,260.876526,100.383797)">
+          <g transform="matrix(1,0,0,1,258.497284,97.816849)">
             <path
               id="key"
               fill="none"
-              d="M 0,137.88159958233672 Q 41.89727945222688 48.54729149779831,127.79932316871259 0 L 122.5757888766107,2.9520652938638867"
+              d="M 0,143.01548874650024 Q 44.27652208645338 51.11423607988007,132.5578084371656 0 L 127.36535319269049,3.0063946071869907"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
@@ -149,9 +138,9 @@
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(-0.870589,0.492011,-0.492011,-0.870589,122.575790,2.952065)">
+            <g transform="matrix(-0.865409,0.501066,-0.501066,-0.865409,127.365356,3.006395)">
               <path
-                id="g-svg-30"
+                id="g-svg-29"
                 fill="rgba(153,173,209,1)"
                 d="M 0,5 L 10,0 L 10,10 Z"
                 transform="translate(-5,-5)"
@@ -162,7 +151,7 @@
                 stroke-dasharray="0,0"
               />
               <path
-                id="g-svg-30"
+                id="g-svg-29"
                 fill="transparent"
                 d="M 0,5 L 10,0 L 10,10 Z"
                 transform="translate(-5,-5)"
@@ -177,19 +166,8 @@
           <g
             id="label"
             fill="none"
-            transform="matrix(0.702830,-0.711357,0.711357,0.702830,316.586304,156.282410)"
+            transform="matrix(0.702022,-0.712155,0.712155,0.702022,316.583069,156.279221)"
           >
-            <g transform="matrix(1,0,0,1,-30.480000,-11.500000)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 61.96,0 l 0,23 l-61.96 0 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="61.96"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -220,11 +198,11 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,225.757263,265.886627)">
+          <g transform="matrix(1,0,0,1,225.341324,262.411407)">
             <path
               id="halo"
               fill="none"
-              d="M 22.341351465411776,0 Q 40.9580891316175 96.89900865517978,0 186.6677990802234"
+              d="M 23.173210258927668,0 Q 41.374018528375444 100.37420688505284,0 193.61819553996952"
               stroke-width="12"
               stroke="rgba(153,173,209,1)"
               stroke-dasharray="0,0"
@@ -234,7 +212,7 @@
             <path
               id="halo"
               fill="none"
-              d="M 22.341351465411776,0 Q 40.9580891316175 96.89900865517978,0 186.6677990802234"
+              d="M 23.173210258927668,0 Q 41.374018528375444 100.37420688505284,0 193.61819553996952"
               stroke-width="14"
               stroke="transparent"
               stroke-dasharray="0,0"
@@ -242,11 +220,11 @@
               stroke-opacity="0.25"
             />
           </g>
-          <g transform="matrix(1,0,0,1,225.757263,265.886627)">
+          <g transform="matrix(1,0,0,1,225.341324,262.411407)">
             <path
               id="key"
               fill="none"
-              d="M 22.341351465411776,0 Q 40.9580891316175 96.89900865517978,0 186.6677990802234 L 2.4905808052780323,181.20913557599633"
+              d="M 23.173210258927668,0 Q 41.374018528375444 100.37420688505284,0 193.61819553996952 L 2.433502574762155,188.13384824802802"
               stroke-width="2"
               stroke="rgba(153,173,209,1)"
             />
@@ -257,9 +235,9 @@
               stroke-width="2"
               stroke="transparent"
             />
-            <g transform="matrix(0.415097,-0.909777,0.909777,0.415097,2.490581,181.209137)">
+            <g transform="matrix(0.405584,-0.914058,0.914058,0.405584,2.433503,188.133850)">
               <path
-                id="g-svg-37"
+                id="g-svg-35"
                 fill="rgba(153,173,209,1)"
                 d="M 0,5 L 10,0 L 10,10 Z"
                 transform="translate(-5,-5)"
@@ -270,7 +248,7 @@
                 stroke-dasharray="0,0"
               />
               <path
-                id="g-svg-37"
+                id="g-svg-35"
                 fill="transparent"
                 d="M 0,5 L 10,0 L 10,10 Z"
                 transform="translate(-5,-5)"
@@ -285,19 +263,8 @@
           <g
             id="label"
             fill="none"
-            transform="matrix(0.150446,-0.988618,0.988618,0.150446,251.219849,364.957550)"
+            transform="matrix(0.149316,-0.988789,0.988789,0.149316,251.224380,364.958221)"
           >
-            <g transform="matrix(1,0,0,1,-44.099998,-13.500000)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 89.19999999999999,0 l 0,27 l-89.19999999999999 0 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="89.19999999999999"
-                height="27"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -329,11 +296,11 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,150.559753,71.877472)">
+          <g transform="matrix(1,0,0,1,148.853668,68.821442)">
             <path
               id="key"
               fill="none"
-              d="M 91.64101585980438,164.15213670897606 Q 19.62601794576352 96.69963476186136,0 0 L 1.193419584883427,5.880114768813332"
+              d="M 95.05318135485817,170.26418437194172 Q 21.332100693290414 99.75565859334421,0 0 L 1.2546937915086749,5.867345523279636"
               stroke-width="2"
               stroke="rgba(153,173,209,1)"
             />
@@ -344,9 +311,9 @@
               stroke-width="2"
               stroke="transparent"
             />
-            <g transform="matrix(0.198903,0.980019,-0.980019,0.198903,1.193420,5.880115)">
+            <g transform="matrix(0.209116,0.977891,-0.977891,0.209116,1.254694,5.867345)">
               <path
-                id="g-svg-44"
+                id="g-svg-41"
                 fill="rgba(153,173,209,1)"
                 d="M 0,5 L 10,0 L 10,10 Z"
                 transform="translate(-5,-5)"
@@ -357,7 +324,7 @@
                 stroke-dasharray="0,0"
               />
               <path
-                id="g-svg-44"
+                id="g-svg-41"
                 fill="transparent"
                 d="M 0,5 L 10,0 L 10,10 Z"
                 transform="translate(-5,-5)"
@@ -372,19 +339,8 @@
           <g
             id="label"
             fill="none"
-            transform="matrix(0.459353,0.888254,-0.888254,0.459353,181.445602,157.712311)"
+            transform="matrix(0.460370,0.887727,-0.887727,0.460370,181.441544,157.714417)"
           >
-            <g transform="matrix(1,0,0,1,-38.279999,-11.500000)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 77.56,0 l 0,23 l-77.56 0 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="77.56"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -416,13 +372,14 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,264.521545,256.717529)">
+          <g transform="matrix(1,0,0,1,261.344940,255.248062)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 Q 97.9093493727816 12.237573084088638,170.62798749859712 78.93089028091504 L 166.20610977167962,74.87540049937311"
+              d="M 0,0 Q 101.08593444602462 13.707031240161626,176.98115764508316 81.86980659306104 L 172.51721517060872,77.86066484144101"
               stroke-width="1"
-              stroke="rgba(210,218,233,1)"
+              stroke="rgba(153,173,209,1)"
+              opacity="0.25"
             />
             <path
               id="key"
@@ -430,10 +387,11 @@
               d="M 0,0 Q 0 0,0 0"
               stroke-width="3"
               stroke="transparent"
+              opacity="0.25"
             />
-            <g transform="matrix(-0.736980,-0.675915,0.675915,-0.736980,166.206116,74.875397)">
+            <g transform="matrix(-0.743990,-0.668190,0.668190,-0.743990,172.517212,77.860664)">
               <path
-                id="g-svg-51"
+                id="g-svg-47"
                 fill="rgba(153,173,209,1)"
                 d="M 0,5 L 10,0 L 10,10 Z"
                 transform="translate(-5,-5)"
@@ -444,7 +402,7 @@
                 stroke-dasharray="0,0"
               />
               <path
-                id="g-svg-51"
+                id="g-svg-47"
                 fill="transparent"
                 d="M 0,5 L 10,0 L 10,10 Z"
                 transform="translate(-5,-5)"
@@ -459,19 +417,8 @@
           <g
             id="label"
             fill="none"
-            transform="matrix(0.893743,0.448580,-0.448580,0.893743,359.708191,284.363342)"
+            transform="matrix(0.894255,0.447559,-0.447559,0.894255,359.710205,284.359253)"
           >
-            <g transform="matrix(1,0,0,1,-35.639999,-11.500000)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 72.28,0 l 0,23 l-72.28 0 z"
-                opacity="0.75"
-                stroke-width="0"
-                width="72.28"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -481,6 +428,7 @@
                 dx="0.5"
                 font-size="12"
                 text-anchor="middle"
+                opacity="0.25"
               >
                 line-inactive
               </text>
@@ -493,13 +441,11 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
-              r="16"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12.5,-12.5)"
+              cx="12.5"
+              cy="12.5"
+              r="12.5"
             />
           </g>
         </g>
@@ -511,13 +457,11 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
-              r="16"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12.5,-12.5)"
+              cx="12.5"
+              cy="12.5"
+              r="12.5"
             />
           </g>
         </g>
@@ -529,13 +473,11 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
-              r="16"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12.5,-12.5)"
+              cx="12.5"
+              cy="12.5"
+              r="12.5"
             />
           </g>
         </g>
@@ -547,13 +489,11 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
-              r="16"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12.5,-12.5)"
+              cx="12.5"
+              cy="12.5"
+              r="12.5"
             />
           </g>
         </g>
@@ -565,13 +505,11 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
-              r="16"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12.5,-12.5)"
+              cx="12.5"
+              cy="12.5"
+              r="12.5"
             />
           </g>
         </g>
@@ -583,13 +521,11 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
-              r="16"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12.5,-12.5)"
+              cx="12.5"
+              cy="12.5"
+              r="12.5"
             />
           </g>
         </g>

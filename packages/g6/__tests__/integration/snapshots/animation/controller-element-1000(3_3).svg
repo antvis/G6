@@ -49,13 +49,12 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke-width="0"
-              stroke="rgba(0,128,0,1)"
               r="10"
+              stroke="rgba(0,128,0,1)"
             />
           </g>
         </g>
@@ -63,12 +62,10 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -77,12 +74,10 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(255,165,0,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -91,12 +86,10 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(128,0,128,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>
@@ -105,12 +98,10 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(0,255,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-10,-10)"
               cx="10"
               cy="10"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="10"
             />
           </g>

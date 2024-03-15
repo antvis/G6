@@ -16,12 +16,10 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(255,0,0,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="25"
             />
           </g>
@@ -30,12 +28,10 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(0,128,0,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="25"
             />
           </g>
@@ -44,12 +40,10 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(0,0,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               r="25"
             />
           </g>

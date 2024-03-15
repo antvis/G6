@@ -577,11 +577,9 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               d="M 0,0 l 80,0 l 0,30 l-80 0 z"
               transform="translate(-40,-15)"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               width="80"
               height="30"
             />
@@ -591,11 +589,9 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               d="M 0,0 l 80,0 l 0,30 l-80 0 z"
               transform="translate(-40,-15)"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               width="80"
               height="30"
             />
@@ -605,11 +601,9 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               d="M 0,0 l 80,0 l 0,30 l-80 0 z"
               transform="translate(-40,-15)"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               width="80"
               height="30"
             />
@@ -617,7 +611,7 @@
           <g transform="matrix(1,0,0,1,16,-15)">
             <circle
               id="port-port-top"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -630,7 +624,7 @@
           <g transform="matrix(1,0,0,1,40,0)">
             <circle
               id="port-port-right"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -645,11 +639,9 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               d="M 0,0 l 80,0 l 0,30 l-80 0 z"
               transform="translate(-40,-15)"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               width="80"
               height="30"
             />
@@ -657,7 +649,7 @@
           <g transform="matrix(1,0,0,1,16,-15)">
             <circle
               id="port-port-top"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -670,7 +662,7 @@
           <g transform="matrix(1,0,0,1,40,0)">
             <circle
               id="port-port-right"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"

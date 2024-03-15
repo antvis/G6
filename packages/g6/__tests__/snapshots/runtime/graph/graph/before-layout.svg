@@ -26,7 +26,7 @@
             stroke="transparent"
             stroke-width="7"
           />
-          <g transform="matrix(1,0,0,1,16,0)">
+          <g transform="matrix(1,0,0,1,12.500000,0)">
             <path
               id="key"
               fill="none"
@@ -49,13 +49,13 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(47,54,61,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
-              stroke-width="0"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12.5,-12.5)"
+              cx="12.5"
+              cy="12.5"
+              r="12.5"
+              stroke-width="3"
               stroke="rgba(0,0,0,1)"
-              r="16"
             />
           </g>
         </g>
@@ -64,12 +64,12 @@
             <circle
               id="halo"
               fill="none"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
+              transform="translate(-12.5,-12.5)"
+              cx="12.5"
+              cy="12.5"
               stroke-width="12"
-              stroke="rgba(255,192,203,1)"
-              r="16"
+              stroke="rgba(23,131,255,1)"
+              r="12.5"
               stroke-dasharray="0,0"
               stroke-opacity="0.25"
               pointer-events="none"
@@ -79,13 +79,13 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(255,192,203,1)"
-              transform="translate(-16,-16)"
-              cx="16"
-              cy="16"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12.5,-12.5)"
+              cx="12.5"
+              cy="12.5"
+              r="12.5"
               stroke-width="3"
               stroke="rgba(0,0,0,1)"
-              r="16"
               visibility="visible"
             />
           </g>

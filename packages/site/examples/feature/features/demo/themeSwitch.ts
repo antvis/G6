@@ -151,6 +151,7 @@ const themes = {
 
 const graph = new Graph({
   container: 'container',
+  autoFit: 'view',
   background: '#fff',
   theme: 'light',
   data,
@@ -164,7 +165,6 @@ const graph = new Graph({
   layout: {
     type: 'circular',
   },
-  autoFit: 'view',
 });
 
 graph.render();

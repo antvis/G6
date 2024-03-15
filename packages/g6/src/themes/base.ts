@@ -102,6 +102,7 @@ export function create(tokens: ThemeTokens): Theme {
     },
     edge: {
       style: {
+        color: edgeColor,
         halo: false,
         haloLineWidth: 12,
         haloStrokeOpacity: 0.25,
@@ -116,7 +117,6 @@ export function create(tokens: ThemeTokens): Theme {
         labelPlacement: 'middle',
         labelTextBaseline: 'middle',
         lineWidth: 1,
-        color: edgeColor,
       },
       state: {
         selected: {

@@ -20,24 +20,11 @@
           <g transform="matrix(1,0,0,1,-20,-20)">
             <polygon
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               points="20,0 40,20 20,40 0,20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-24.959999,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 50.92000000000001,0 l 0,23 l-50.92000000000001 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="50.92000000000001"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -86,9 +73,9 @@
               id="halo"
               fill="none"
               points="20,0 40,20 20,40 0,20"
-              stroke-width="12"
-              stroke="rgba(34,126,255,1)"
+              stroke="rgba(23,131,255,1)"
               stroke-dasharray="0,0"
+              stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
             />
@@ -96,24 +83,11 @@
           <g transform="matrix(1,0,0,1,-20,-20)">
             <polygon
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               points="20,0 40,20 20,40 0,20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-39.959999,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 80.92000000000002,0 l 0,23 l-80.92000000000002 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="80.92000000000002"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -160,24 +134,11 @@
           <g transform="matrix(1,0,0,1,-20,-20)">
             <polygon
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               points="20,0 40,20 20,40 0,20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-49.200001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 99.4,0 l 0,23 l-99.4 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="99.4"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -248,7 +209,7 @@
               <g transform="matrix(1,0,0,1,-4,-9.500000)">
                 <path
                   id="background"
-                  fill="rgba(248,98,84,1)"
+                  fill="rgba(245,34,45,1)"
                   d="M 9.5,0 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z"
                   stroke-width="0"
                   width="46.52"
@@ -275,7 +236,7 @@
               <g transform="matrix(1,0,0,1,-4,-18)">
                 <path
                   id="background"
-                  fill="rgba(237,183,75,1)"
+                  fill="rgba(250,173,20,1)"
                   d="M 9.5,0 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z"
                   stroke-width="0"
                   width="34.120000000000005"
@@ -307,24 +268,11 @@
           <g transform="matrix(1,0,0,1,-20,-20)">
             <polygon
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               points="20,0 40,20 20,40 0,20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-43.020000,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 87.04,0 l 0,23 l-87.04 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="87.04"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -365,7 +313,7 @@
           <g transform="matrix(1,0,0,1,-20,0)">
             <circle
               id="port-0"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -378,7 +326,7 @@
           <g transform="matrix(1,0,0,1,20,0)">
             <circle
               id="port-1"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -391,7 +339,7 @@
           <g transform="matrix(1,0,0,1,0,-20)">
             <circle
               id="port-2"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -404,7 +352,7 @@
           <g transform="matrix(1,0,0,1,0,20)">
             <circle
               id="port-3"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               transform="translate(-3,-3)"
               cx="3"
               cy="3"
@@ -421,9 +369,9 @@
               id="halo"
               fill="none"
               points="20,0 40,20 20,40 0,20"
-              stroke-width="12"
-              stroke="rgba(34,126,255,1)"
+              stroke="rgba(23,131,255,1)"
               stroke-dasharray="0,0"
+              stroke-width="12"
               stroke-opacity="0.25"
               pointer-events="none"
             />
@@ -431,24 +379,11 @@
           <g transform="matrix(1,0,0,1,-20,-20)">
             <polygon
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               points="20,0 40,20 20,40 0,20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-45.240002,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 91.48,0 l 0,23 l-91.48 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="91.48"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -498,7 +433,7 @@
               fill="none"
               points="20,0 40,20 20,40 0,20"
               stroke-width="12"
-              stroke="rgba(34,126,255,1)"
+              stroke="rgba(23,131,255,1)"
               stroke-dasharray="0,0"
               stroke-opacity="0.25"
               pointer-events="none"
@@ -507,24 +442,13 @@
           <g transform="matrix(1,0,0,1,-20,-20)">
             <polygon
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               points="20,0 40,20 20,40 0,20"
               stroke-width="3"
               stroke="rgba(0,0,0,1)"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-59.360001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 119.72000000000003,0 l 0,27 l-119.72000000000003 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="119.72000000000003"
-                height="27"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -572,7 +496,7 @@
           <g transform="matrix(1,0,0,1,-20,-20)">
             <polygon
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               points="20,0 40,20 20,40 0,20"
               stroke-width="3"
               stroke="rgba(0,0,0,1)"
@@ -580,17 +504,6 @@
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-53.040001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 107.08000000000003,0 l 0,23 l-107.08000000000003 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="107.08000000000003"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -638,25 +551,12 @@
           <g transform="matrix(1,0,0,1,-20,-20)">
             <polygon
               id="key"
-              fill="rgba(34,126,255,1)"
+              fill="rgba(23,131,255,1)"
               points="20,0 40,20 20,40 0,20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
               opacity="0.25"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-50.400002,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 101.8,0 l 0,23 l-101.8 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="101.8"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -707,22 +607,9 @@
               id="key"
               fill="rgba(240,240,240,1)"
               points="20,0 40,20 20,40 0,20"
-              stroke-width="0"
-              stroke="rgba(0,0,0,1)"
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
-            <g transform="matrix(1,0,0,1,-52.380001,0)">
-              <path
-                id="background"
-                fill="rgba(255,255,255,1)"
-                d="M 0,0 l 105.76000000000002,0 l 0,23 l-105.76000000000002 0 z"
-                opacity="0.5"
-                stroke-width="0"
-                width="105.76000000000002"
-                height="23"
-              />
-            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
@@ -733,6 +620,7 @@
                 dy="11.5px"
                 font-size="12"
                 text-anchor="middle"
+                opacity="0.25"
               >
                 diamond-disabled
               </text>
