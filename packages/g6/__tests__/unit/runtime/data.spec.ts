@@ -3,6 +3,7 @@ import { DataController } from '@/src/runtime/data';
 import { reduceDataChanges } from '@/src/utils/change';
 import tree from '@@/dataset/algorithm-category.json';
 import { clone } from '@antv/util';
+import { idOf } from '../../../src/utils/id';
 
 const data = {
   nodes: [
@@ -108,6 +109,10 @@ describe('DataController', () => {
     expect(controller.getEdgeData(['edge-1'])).toEqual(data.edges.slice(0, 1));
 
     expect(controller.getComboData(['combo-1'])).toEqual(data.combos.slice(0, 1));
+
+    expect(controller.getChildrenData('combo-1').map(idOf)).toEqual(['node-2', 'node-3']);
+
+    expect(controller.getAncestorsData('node-2', 'combo').map(idOf)).toEqual(['combo-1']);
   });
 
   it('updateData', () => {
@@ -209,8 +214,8 @@ describe('DataController', () => {
 
     expect(controller.getData()).toEqual({
       nodes: [
-        { id: 'node-1', data: {}, style: { x: 150, y: 150, z: 0, parentId: 'combo-1' } },
-        { id: 'node-2', data: {}, style: { x: 200, y: 200, z: 0, parentId: 'combo-1' } },
+        { id: 'node-1', data: {}, style: { x: 50, y: 50, parentId: 'combo-1' } },
+        { id: 'node-2', data: {}, style: { x: 100, y: 100, parentId: 'combo-1' } },
       ],
       edges: [],
       combos: [
@@ -223,8 +228,8 @@ describe('DataController', () => {
 
     expect(controller.getData()).toEqual({
       nodes: [
-        { id: 'node-1', data: {}, style: { x: 150, y: 150, z: 0, parentId: 'combo-1' } },
-        { id: 'node-2', data: {}, style: { x: 200, y: 200, z: 0, parentId: 'combo-1' } },
+        { id: 'node-1', data: {}, style: { x: 50, y: 50, parentId: 'combo-1' } },
+        { id: 'node-2', data: {}, style: { x: 100, y: 100, parentId: 'combo-1' } },
       ],
       edges: [],
       combos: [
@@ -244,7 +249,7 @@ describe('DataController', () => {
       combos: [{ id: 'combo-1' }],
     });
 
-    controller.translateComboBy(['combo-1'], [100, 100]);
+    controller.translateComboBy('combo-1', [100, 100]);
 
     expect(controller.getData()).toEqual({
       nodes: [{ id: 'node-1', data: {}, style: { parentId: 'combo-1', x: 100, y: 100, z: 0 } }],
@@ -265,7 +270,7 @@ describe('DataController', () => {
       combos: [{ id: 'combo-1' }],
     });
 
-    controller.translateComboBy(['combo-1'], [66, 67]);
+    controller.translateComboBy('combo-1', [66, 67]);
 
     expect(controller.getNodeData()).toEqual([
       { id: 'node-1', data: {}, style: {} },
@@ -281,7 +286,7 @@ describe('DataController', () => {
       combos: [{ id: 'combo-1' }],
     });
 
-    controller.translateComboBy(['combo-1'], [100, 100]);
+    controller.translateComboBy('combo-1', [100, 100]);
 
     expect(controller.getData()).toEqual({
       nodes: [],
@@ -301,7 +306,7 @@ describe('DataController', () => {
       combos: [{ id: 'combo-1' }],
     });
 
-    controller.translateComboTo(['combo-1'], [100, 100]);
+    controller.translateComboTo('combo-1', [100, 100]);
 
     expect(controller.getData()).toEqual({
       nodes: [
@@ -373,7 +378,7 @@ describe('DataController', () => {
 
     controller.addData(clone(data));
 
-    expect(controller.getParentComboData('node-2')).toEqual(data.combos[0]);
+    expect(controller.getParentData('node-2', 'combo')).toEqual(data.combos[0]);
 
     controller.removeComboData(['combo-1']);
 
@@ -390,7 +395,7 @@ describe('DataController', () => {
       combos: [],
     });
 
-    expect(controller.getParentComboData('node-2')).toEqual(undefined);
+    expect(controller.getParentData('node-2', 'combo')).toEqual(undefined);
   });
 
   it('removeComboData with children', () => {
@@ -410,12 +415,12 @@ describe('DataController', () => {
 
     controller.addData(data);
 
-    expect(controller.getParentComboData('node-1')).toEqual(data.combos[0]);
-    expect(controller.getParentComboData('combo-1')).toEqual(data.combos[1]);
+    expect(controller.getParentData('node-1', 'combo')?.id).toEqual('combo-1');
+    expect(controller.getParentData('combo-1', 'combo')?.id).toEqual('combo-2');
 
     controller.removeComboData(['combo-1']);
 
-    expect(controller.getParentComboData('node-1')).toEqual(data.combos[1]);
+    expect(controller.getParentData('node-1', 'combo')?.id).toEqual('combo-2');
 
     expect(controller.getData()).toEqual({
       nodes: [
@@ -448,6 +453,17 @@ describe('DataController', () => {
       { value: { id: 'node-1', data: { value: 1 }, style: { fill: 'red' } }, type: 'NodeAdded' },
       { value: { id: 'node-2', data: { value: 2 }, style: { fill: 'green', parentId: 'combo-1' } }, type: 'NodeAdded' },
       { value: { id: 'node-3', data: { value: 3 }, style: { fill: 'blue', parentId: 'combo-1' } }, type: 'NodeAdded' },
+      // 新增子元素后更新 combo / update combo after add child
+      {
+        value: { id: 'combo-1', data: {}, style: {} },
+        original: { id: 'combo-1', data: {}, style: {} },
+        type: 'ComboUpdated',
+      },
+      {
+        value: { id: 'combo-1', data: {}, style: {} },
+        original: { id: 'combo-1', data: {}, style: {} },
+        type: 'ComboUpdated',
+      },
       {
         value: { id: 'edge-1', source: 'node-1', target: 'node-2', data: { weight: 1 }, style: {} },
         type: 'EdgeAdded',
@@ -463,6 +479,12 @@ describe('DataController', () => {
         original: { id: 'node-3', data: { value: 3 }, style: { fill: 'blue', parentId: 'combo-1' } },
         type: 'NodeUpdated',
       },
+      // 移动节点后更新 combo / update combo after move node
+      {
+        value: { id: 'combo-2', data: {}, style: {} },
+        original: { id: 'combo-2', data: {}, style: {} },
+        type: 'ComboUpdated',
+      },
       {
         value: { id: 'edge-1', source: 'node-1', target: 'node-2', data: { weight: 1 }, style: {} },
         type: 'EdgeRemoved',
@@ -476,6 +498,12 @@ describe('DataController', () => {
         value: { id: 'node-2', data: { value: 2 }, style: { fill: 'green', parentId: 'combo-1' } },
         type: 'NodeRemoved',
       },
+      // 移除节点后更新 combo / update combo after remove node
+      {
+        value: { id: 'combo-1', data: {}, style: {} },
+        original: { id: 'combo-1', data: {}, style: {} },
+        type: 'ComboUpdated',
+      },
       { value: { id: 'combo-1', data: {}, style: {} }, type: 'ComboRemoved' },
     ]);
 
@@ -484,7 +512,7 @@ describe('DataController', () => {
         type: 'NodeAdded',
         value: { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
       },
-      { value: { id: 'combo-2' }, type: 'ComboAdded' },
+      { value: { id: 'combo-2', data: {}, style: {} }, type: 'ComboAdded' },
       { value: { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } }, type: 'NodeAdded' },
     ]);
 
@@ -506,7 +534,7 @@ describe('DataController', () => {
     const changes = controller.getChanges();
 
     expect(reduceDataChanges(changes)).toEqual([
-      { value: { id: 'combo-2' }, type: 'ComboAdded' },
+      { value: { id: 'combo-2', data: {}, style: {} }, type: 'ComboAdded' },
       {
         type: 'NodeAdded',
         value: { id: 'node-3', data: { value: 3 }, style: { fill: 'pink', parentId: 'combo-2' } },
@@ -565,12 +593,17 @@ describe('DataController', () => {
     expect(controller.getNodeLikeData()).toEqual([...data.combos, ...data.nodes]);
   });
 
-  it('getParentData getChildrenData', () => {
+  it('getAncestorsData getParentData getChildrenData', () => {
     const controller = new DataController();
 
     controller.addData(Utils.treeToGraphData(tree));
 
-    expect(controller.getParentData('Classification')?.id).toBe(tree.id);
+    expect(controller.getAncestorsData('Logistic regression', 'tree').map(idOf)).toEqual([
+      'Classification',
+      'Modeling Methods',
+    ]);
+
+    expect(controller.getParentData('Classification', 'tree')?.id).toBe(tree.id);
 
     expect(controller.getChildrenData('Modeling Methods').map((child) => child.id)).toEqual(
       tree.children.map((child) => child.id),
@@ -609,13 +642,11 @@ describe('DataController', () => {
 
     controller.addData(clone(data));
 
-    expect(controller.getComboChildrenData('combo-undefined')).toEqual([]);
-
-    expect(controller.getComboChildrenData('combo-1')).toEqual(data.nodes.slice(1));
+    expect(controller.getChildrenData('combo-1')).toEqual(data.nodes.slice(1));
 
     controller.updateNodeData([{ id: 'node-1', style: { parentId: 'combo-1' } }]);
 
-    expect(controller.getComboChildrenData('combo-1')?.sort((a, b) => (a.id < b.id ? -1 : 1))).toEqual([
+    expect(controller.getChildrenData('combo-1')?.sort((a, b) => (a.id < b.id ? -1 : 1))).toEqual([
       { id: 'node-1', data: { value: 1 }, style: { fill: 'red', parentId: 'combo-1' } },
       { id: 'node-2', data: { value: 2 }, style: { fill: 'green', parentId: 'combo-1' } },
       { id: 'node-3', data: { value: 3 }, style: { fill: 'blue', parentId: 'combo-1' } },
@@ -628,11 +659,11 @@ describe('DataController', () => {
       { id: 'node-3', style: { parentId: 'combo-2' } },
     ]);
 
-    expect(controller.getComboChildrenData('combo-1')).toEqual([
+    expect(controller.getChildrenData('combo-1')).toEqual([
       { id: 'node-1', data: { value: 1 }, style: { fill: 'red', parentId: 'combo-1' } },
     ]);
 
-    expect(controller.getComboChildrenData('combo-2')).toEqual([
+    expect(controller.getChildrenData('combo-2')).toEqual([
       { id: 'node-2', data: { value: 2 }, style: { fill: 'green', parentId: 'combo-2' } },
       { id: 'node-3', data: { value: 3 }, style: { fill: 'blue', parentId: 'combo-2' } },
     ]);
@@ -643,13 +674,13 @@ describe('DataController', () => {
 
     controller.addData(clone(data));
 
-    expect(controller.getParentComboData('node-1')).toEqual(undefined);
+    expect(controller.getParentData('node-1', 'combo')).toEqual(undefined);
 
     controller.updateNodeData([{ id: 'node-1', style: { parentId: 'combo-1' } }]);
 
-    expect(controller.getParentComboData('node-1')).toEqual(data.combos[0]);
+    expect(controller.getParentData('node-1', 'combo')).toEqual(data.combos[0]);
 
-    expect(controller.getParentComboData('combo-3')).toEqual(undefined);
+    expect(controller.getParentData('combo-3', 'combo')).toEqual(undefined);
   });
 
   it('getRelatedEdgesData', () => {

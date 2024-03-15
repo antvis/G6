@@ -69,7 +69,7 @@ const graph = new Graph({
   layout: {
     type: 'force',
   },
-  behaviors: ['drag-canvas', 'drag-node'],
+  behaviors: ['drag-canvas', 'drag-element'],
 });
 
 graph.render();

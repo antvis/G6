@@ -10,22 +10,24 @@ export type HierarchyStructure<T> = T & {
  * @param visitor - <zh/> 访问节点函数 | <en/> visitor function
  * @param navigator - <zh/> 获取子节点函数 | <en/> get children function
  * @param mode - <zh/> 访问模式，BT: 自底向上访问，TB: 自顶向下访问 | <en/> traverse mode, BT: bottom to top, TB: top to bottom
+ * @param depth - <zh/> 当前深度 | <en/> current depth
  */
-export function dfs<Node>(
-  node: Node,
-  visitor: (node: Node) => void,
-  navigator: (node: Node) => Node[] | undefined,
+export function dfs<N>(
+  node: N,
+  visitor: (node: N, depth: number) => void,
+  navigator: (node: N) => N[] | undefined,
   mode: 'BT' | 'TB',
+  depth: number = 0,
 ) {
-  if (mode === 'TB') visitor(node);
+  if (mode === 'TB') visitor(node, depth);
 
   const children = navigator(node);
 
   if (children) {
     for (const child of children) {
-      dfs(child, visitor, navigator, mode);
+      dfs(child, visitor, navigator, mode, depth + 1);
     }
   }
 
-  if (mode === 'BT') visitor(node);
+  if (mode === 'BT') visitor(node, depth);
 }

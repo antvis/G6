@@ -53,12 +53,12 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
         CanvasEvent.DROP,
         CanvasEvent.WHEEL,
       ].forEach((name) => {
-        canvas.addEventListener(name, this.forwardCanvasEvents.bind(this));
+        canvas.addEventListener(name, this.forwardCanvasEvents);
       });
     }
   }
 
-  private forwardCanvasEvents(event: FederatedPointerEvent | FederatedWheelEvent) {
+  private forwardCanvasEvents = (event: FederatedPointerEvent | FederatedWheelEvent) => {
     const target = eventTargetOf(event.target as DisplayObject);
     if (!target) return;
     const { graph, canvas } = this.context;
@@ -103,7 +103,7 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
       graph.emit(`${targetType}:${CanvasEvent.CONTEXT_MENU}`, contextMenuEvent);
       graph.emit(CanvasEvent.CONTEXT_MENU, contextMenuEvent);
     }
-  }
+  };
 
   private forwardContainerEvents(event: FocusEvent | KeyboardEvent) {
     this.context.graph.emit(event.type, event);

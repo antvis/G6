@@ -3,6 +3,7 @@ import type { ID } from '@antv/graphlib';
 import type { BaseCombo } from '../elements/combos';
 import type { BaseEdge } from '../elements/edges';
 import type { BaseNode } from '../elements/nodes';
+import type { RuntimeContext } from '../runtime/types';
 import type { ComboOptions, EdgeOptions, NodeData, NodeOptions } from '../spec';
 import type { NodeLikeData } from './data';
 import type { Padding } from './padding';
@@ -23,7 +24,11 @@ export type NodeLike = Node | Combo;
 
 export type Element = Node | Edge | Combo;
 
-export type BaseNodeProps = BaseStyleProps & {
+type BaseElementStyleProps = BaseStyleProps & {
+  context?: RuntimeContext;
+};
+
+export type BaseNodeProps = BaseElementStyleProps & {
   /**
    * <zh/> x 坐标
    *
@@ -84,7 +89,7 @@ export type BaseNodeProps = BaseStyleProps & {
   childrenData?: NodeData[];
 };
 
-export type BaseEdgeProps = BaseStyleProps &
+export type BaseEdgeProps = BaseElementStyleProps &
   Pick<
     PathStyleProps,
     'isBillboard' | 'markerStart' | 'markerStartOffset' | 'markerEnd' | 'markerEndOffset' | 'markerMid'
@@ -116,7 +121,7 @@ export type BaseEdgeProps = BaseStyleProps &
     targetPort?: string;
   };
 
-export type BaseComboProps = BaseNodeProps & {
+export type BaseComboProps = BaseElementStyleProps & {
   /**
    * <zh/> Combo 展开后的默认大小
    *
@@ -141,9 +146,13 @@ export type BaseComboProps = BaseNodeProps & {
    */
   childrenNode?: NodeLike[];
   /**
-   * <zh/> Combo 的子元素数据，可以是节点或者 Combo
+   * <zh/> Combo 的子元素数据
    *
-   * <en/> The data of the children of combo, which can be nodes or combos
+   * <en/> The data of the children of combo
+   * @description
+   * <zh/> 如果 combo 是收起状态，children 可能为空，通过 childrenData 能够获取完整的子元素数据
+   *
+   * <en/> If the combo is collapsed, children may be empty, and the complete child element data can be obtained through childrenData
    */
   childrenData?: NodeLikeData[];
   /**

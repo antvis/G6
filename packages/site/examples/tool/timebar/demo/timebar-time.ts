@@ -1,4 +1,4 @@
-import { Graph as BaseGraph, Extensions, Util, extend } from '@antv/g6';
+import { Graph as BaseGraph, Extensions, extend } from '@antv/g6';
 
 const Graph = extend(BaseGraph, {
   plugins: {
@@ -43,7 +43,7 @@ new Graph({
   height,
   data: graphData,
   modes: {
-    default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+    default: ['drag-canvas', 'drag-element', 'zoom-canvas'],
   },
   plugins: [
     {

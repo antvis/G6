@@ -56,7 +56,7 @@ export type BaseNodeStyleProps<H extends BaseStyleProps = BaseNodeProps> = BaseN
 export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseShape<S> {
   public type = 'node';
 
-  static defaultStyleProps: BaseNodeStyleProps = {
+  static defaultStyleProps: Partial<BaseNodeStyleProps> = {
     x: 0,
     y: 0,
     size: 24,

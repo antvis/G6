@@ -1,10 +1,9 @@
 import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isString } from '@antv/util';
-import { BaseEdge } from '../elements/edges/base-edge';
-import { BaseNode } from '../elements/nodes';
+import { BaseCombo, BaseEdge, BaseNode } from '../elements';
 import { NodePortStyleProps } from '../elements/nodes/base-node';
 import type { TriangleDirection } from '../elements/nodes/triangle';
-import type { Edge, Node, Placement, Point, Position } from '../types';
+import type { Combo, Edge, Node, Placement, Point, Position } from '../types';
 import type { LabelPlacement, Port } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { isPoint } from './is';
@@ -31,6 +30,17 @@ export function isNode(shape: DisplayObject | Port): shape is Node {
  */
 export function isEdge(shape: DisplayObject): shape is Edge {
   return shape instanceof BaseEdge;
+}
+
+/**
+ * <zh/> 判断是否是 BaseCombo 的实例
+ *
+ * <en/> Judge whether the instance is BaseCombo
+ * @param shape - <zh/> 实例 | <en/> instance
+ * @returns <zh/> 是否是 BaseCombo 的实例 | <en/> whether the instance is BaseCombo
+ */
+export function isCombo(shape: DisplayObject): shape is Combo {
+  return shape instanceof BaseCombo;
 }
 
 /**

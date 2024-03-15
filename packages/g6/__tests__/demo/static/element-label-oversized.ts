@@ -72,7 +72,7 @@ export const elementLabelOversized: StaticTestCase = async (context) => {
         labelMaxLines: 4,
       },
     },
-    behaviors: ['drag-node'],
+    behaviors: ['drag-element'],
     animation,
   });
 

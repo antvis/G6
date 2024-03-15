@@ -129,7 +129,7 @@ describe('Graph', () => {
     expect(graph.getComboData('combo-1').id).toEqual('combo-1');
     expect(graph.getComboData(['combo-1']).map(idOf)).toEqual(['combo-1']);
     expect(graph.getComboData().map(idOf)).toEqual(['combo-1']);
-    expect(graph.getComboChildrenData('combo-1').map(idOf)).toEqual(['node-3', 'node-4']);
+    expect(graph.getChildrenData('combo-1').map(idOf)).toEqual(['node-3', 'node-4']);
     graph.updateNodeData([{ id: 'node-3', style: { x: 100, y: 100 } }]);
     graph.updateEdgeData([{ id: 'edge-2', style: { lineWidth: 10 } }]);
     graph.updateComboData([{ id: 'combo-1', style: { stroke: 'red' } }]);
@@ -173,7 +173,7 @@ describe('Graph', () => {
   });
 
   it('getParentData', () => {
-    expect(graph.getParentData('node-1')).toBeUndefined();
+    expect(graph.getParentData('node-1', 'combo')).toBeUndefined();
   });
 
   it('getElementRenderBounds', () => {

@@ -8,7 +8,7 @@ export const layoutForce: STDTestCase = async (context) => {
     data,
     padding: 20,
     autoFit: 'view',
-    behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
+    behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element', 'click-select'],
     layout: {
       type: 'force',
     },

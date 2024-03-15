@@ -51,7 +51,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           return 20;
         },
       },
-      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
+      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
       animation: false,
     });
 

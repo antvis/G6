@@ -23,7 +23,7 @@ new Graph({
   height,
   data,
   modes: {
-    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-node'],
+    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-element'],
   },
   plugins: [
     'toolbar',

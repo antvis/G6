@@ -25,7 +25,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
       layout: {
         type: 'fruchterman-gpu',
       },
-      behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
+      behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element', 'click-select'],
     });
 
     graph.render();

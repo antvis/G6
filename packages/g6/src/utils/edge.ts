@@ -1,6 +1,8 @@
 import type { AABB } from '@antv/g';
+import type { ID } from '@antv/graphlib';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
+import type { EdgeData } from '../spec';
 import type {
   EdgeKey,
   EdgeLabelPlacement,
@@ -518,4 +520,29 @@ export function getPolylineLoopControlPoints(node: Node, sourcePoint: Point, tar
   }
 
   return controlPoints;
+}
+
+/**
+ * <zh/> 获取子图内的所有边，并按照内部边和外部边分组
+ *
+ * <en/> Get all the edges in the subgraph and group them into internal and external edges
+ * @param ids - <zh/> 节点 ID 数组 | <en/> Node ID array
+ * @param getRelatedEdges - <zh/> 获取节点邻边 | <en/> Get node edges
+ * @returns <zh/> 子图边 | <en/> Subgraph edges
+ */
+export function getSubgraphRelatedEdges(ids: ID[], getRelatedEdges: (id: ID) => EdgeData[]) {
+  const edges = new Set<EdgeData>();
+  const internal = new Set<EdgeData>();
+  const external = new Set<EdgeData>();
+
+  ids.forEach((id) => {
+    const relatedEdges = getRelatedEdges(id);
+    relatedEdges.forEach((edge) => {
+      edges.add(edge);
+      if (ids.includes(edge.source) && ids.includes(edge.target)) internal.add(edge);
+      else external.add(edge);
+    });
+  });
+
+  return { edges: Array.from(edges), internal: Array.from(internal), external: Array.from(external) };
 }

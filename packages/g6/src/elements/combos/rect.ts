@@ -11,8 +11,7 @@ type ParsedRectComboStyleProps = ParsedBaseComboStyleProps<KeyStyleProps>;
 type RectComboOptions = DisplayObjectConfig<RectComboStyleProps>;
 
 export class RectCombo extends BaseCombo<RectComboStyleProps> {
-  static defaultStyleProps: RectComboStyleProps = {
-    size: [100, 30],
+  static defaultStyleProps: Partial<RectComboStyleProps> = {
     anchor: [0.5, 0.5],
   };
 

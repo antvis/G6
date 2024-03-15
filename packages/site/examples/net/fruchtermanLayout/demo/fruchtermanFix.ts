@@ -26,7 +26,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
         animated: true,
         maxIteration: 500,
       },
-      behaviors: ['drag-canvas', 'drag-node'],
+      behaviors: ['drag-canvas', 'drag-element'],
       animation: true,
     });
 

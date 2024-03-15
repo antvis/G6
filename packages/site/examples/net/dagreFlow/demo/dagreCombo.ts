@@ -188,6 +188,6 @@ const graph = new Graph({
     },
   },
   autoFit: 'view',
-  behaviors: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas'],
+  behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
 });
 graph.render();

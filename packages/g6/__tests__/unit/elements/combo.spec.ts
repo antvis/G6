@@ -14,7 +14,7 @@ describe('combo', () => {
   });
 
   it('collapse circle combo', async () => {
-    const expandCombo = () => {
+    const expandCombo = async () => {
       graph.updateComboData([
         {
           id: 'combo-2',
@@ -23,9 +23,9 @@ describe('combo', () => {
           },
         },
       ]);
-      graph.render();
+      await graph.render();
     };
-    const collapseCombo = (collapsedOrigin: any) => {
+    const collapseCombo = async (collapsedOrigin: any) => {
       graph.updateComboData([
         {
           id: 'combo-2',
@@ -36,38 +36,38 @@ describe('combo', () => {
           },
         },
       ]);
-      graph.render();
+      await graph.render();
     };
-    collapseCombo('top');
+    await collapseCombo('top');
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-top');
-    expandCombo();
-    collapseCombo('right');
+    await expandCombo();
+    await collapseCombo('right');
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-right');
-    collapseCombo('left');
+    await collapseCombo('left');
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-left');
-    expandCombo();
-    collapseCombo('bottom');
+    await expandCombo();
+    await collapseCombo('bottom');
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-bottom');
-    expandCombo();
-    collapseCombo('center');
+    await expandCombo();
+    await collapseCombo('center');
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-center');
-    expandCombo();
-    collapseCombo('top-left');
+    await expandCombo();
+    await collapseCombo('top-left');
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-topLeft');
-    expandCombo();
-    collapseCombo('top-right');
+    await expandCombo();
+    await collapseCombo('top-right');
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-topRight');
-    expandCombo();
-    collapseCombo('bottom-left');
+    await expandCombo();
+    await collapseCombo('bottom-left');
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-bottomLeft');
-    expandCombo();
-    collapseCombo('bottom-right');
+    await expandCombo();
+    await collapseCombo('bottom-right');
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-bottomRight');
-    expandCombo();
+    await expandCombo();
   });
 
   it('collapse rect combo', async () => {
-    const expandCombo = () => {
+    const expandCombo = async () => {
       graph.updateComboData([
         {
           id: 'combo-1',
@@ -77,9 +77,9 @@ describe('combo', () => {
           },
         },
       ]);
-      graph.render();
+      await graph.render();
     };
-    const collapseCombo = (collapsedOrigin: any) => {
+    const collapseCombo = async (collapsedOrigin: any) => {
       graph.updateComboData([
         {
           id: 'combo-1',
@@ -91,40 +91,39 @@ describe('combo', () => {
           },
         },
       ]);
-      graph.render();
+      await graph.render();
     };
-    collapseCombo('top');
+    await collapseCombo('top');
     await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-top');
-    expandCombo();
-    collapseCombo('right');
+    await expandCombo();
+    await collapseCombo('right');
     await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-right');
-    collapseCombo('left');
+    await collapseCombo('left');
     await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-left');
-    expandCombo();
-    collapseCombo('bottom');
+    await expandCombo();
+    await collapseCombo('bottom');
     await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-bottom');
-    expandCombo();
-    collapseCombo('center');
+    await expandCombo();
+    await collapseCombo('center');
     await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-center');
-    expandCombo();
-    collapseCombo('top-left');
+    await expandCombo();
+    await collapseCombo('top-left');
     await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-topLeft');
-    expandCombo();
-    collapseCombo('top-right');
+    await expandCombo();
+    await collapseCombo('top-right');
     await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-topRight');
-    expandCombo();
-    collapseCombo('bottom-left');
+    await expandCombo();
+    await collapseCombo('bottom-left');
     await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-bottomLeft');
-    expandCombo();
-    collapseCombo('bottom-right');
+    await expandCombo();
+    await collapseCombo('bottom-right');
     await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-bottomRight');
-    expandCombo();
+    await expandCombo();
   });
 
   it('collapse combo with collapsed marker', async () => {
-    const expandCombo = () => {
-      graph.updateComboData((data) => [
-        ...data,
+    const expandCombo = async () => {
+      graph.updateComboData([
         {
           id: 'combo-2',
           style: {
@@ -132,9 +131,9 @@ describe('combo', () => {
           },
         },
       ]);
-      graph.render();
+      await graph.render();
     };
-    const collapseCombo = (type: any | ((children: any[]) => string)) => {
+    const collapseCombo = async (type: any | ((children: any) => string)) => {
       graph.updateComboData([
         {
           id: 'combo-2',
@@ -148,16 +147,16 @@ describe('combo', () => {
       ]);
       graph.render();
     };
-    collapseCombo('child-count');
+    await collapseCombo('child-count');
     await expect(graph).toMatchSnapshot(__filename, 'circle-marker-childCount');
-    expandCombo();
-    collapseCombo('descendant-count');
+    await expandCombo();
+    await collapseCombo('descendant-count');
     await expect(graph).toMatchSnapshot(__filename, 'circle-marker-descendantCount');
-    expandCombo();
-    collapseCombo('node-count');
+    await expandCombo();
+    await collapseCombo('node-count');
     await expect(graph).toMatchSnapshot(__filename, 'circle-marker-nodeCount');
-    expandCombo();
-    collapseCombo((children: any[]) => children.length.toString() + 'nodes');
+    await expandCombo();
+    await collapseCombo((children: any) => children.length.toString() + 'nodes');
     await expect(graph).toMatchSnapshot(__filename, 'circle-marker-custom');
   });
 });

@@ -400,7 +400,7 @@ const graph = new Graph({
       stroke: '#5F95FF',
     },
   },
-  behaviors: ['drag-canvas', 'drag-node'],
+  behaviors: ['drag-canvas', 'drag-element'],
 });
 
 graph.render();

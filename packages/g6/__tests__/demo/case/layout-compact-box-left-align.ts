@@ -8,7 +8,7 @@ export const layoutCompactBoxTopToBottom: STDTestCase = async (context) => {
     ...context,
     autoFit: 'view',
     data: Utils.treeToGraphData(data),
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
+    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
     node: {
       style: {
         labelText: (data) => data.id,

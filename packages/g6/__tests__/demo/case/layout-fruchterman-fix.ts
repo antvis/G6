@@ -11,7 +11,7 @@ export const layoutFruchtermanFix: STDTestCase = async (context) => {
       speed: 10,
       maxIteration: 500,
     },
-    behaviors: ['drag-canvas', 'drag-node'],
+    behaviors: ['drag-canvas', 'drag-element'],
   });
 
   graph.on('node:dragstart', function () {

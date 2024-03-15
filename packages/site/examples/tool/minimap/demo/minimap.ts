@@ -55,7 +55,7 @@ new Graph({
     },
   },
   modes: {
-    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-node'],
+    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-element'],
   },
   plugins: [minimap1, minimap2, minimap3],
 });

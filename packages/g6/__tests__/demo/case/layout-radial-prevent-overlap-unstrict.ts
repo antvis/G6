@@ -24,7 +24,7 @@ export const layoutRadialPreventOverlapUnstrict: STDTestCase = async (context) =
       preventOverlap: true,
       strictRadial: false,
     },
-    behaviors: ['drag-canvas', 'drag-node'],
+    behaviors: ['drag-canvas', 'drag-element'],
   });
 
   await graph.render();

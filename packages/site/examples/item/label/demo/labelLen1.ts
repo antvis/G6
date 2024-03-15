@@ -66,7 +66,7 @@ const graph = new Graph({
       labelMaxLines: 4,
     },
   },
-  behaviors: ['drag-node'],
+  behaviors: ['drag-element'],
 });
 
 graph.render();

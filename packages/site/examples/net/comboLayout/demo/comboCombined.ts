@@ -558,14 +558,14 @@ const graph = new Graph({
   },
   edge: {
     style: (model) => {
-      const { size, color } = model.data;
+      const { size, color } = model.data as { size: number; color: string };
       return {
         stroke: color || '#99ADD1',
         lineWidth: size || 1,
       };
     },
   },
-  behaviors: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas'],
+  behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
   autoFit: 'view',
 });
 

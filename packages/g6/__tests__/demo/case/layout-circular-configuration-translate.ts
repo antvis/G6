@@ -16,7 +16,7 @@ export const layoutCircularConfigurationTranslate: STDTestCase = async (context)
     layout: {
       type: 'circular',
     },
-    behaviors: ['drag-canvas', 'drag-node'],
+    behaviors: ['drag-canvas', 'drag-element'],
   });
 
   await graph.render();

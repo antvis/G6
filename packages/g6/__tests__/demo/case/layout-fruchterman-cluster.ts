@@ -22,7 +22,7 @@ export const layoutFruchtermanCluster: STDTestCase = async (context) => {
       clustering: true,
       nodeClusterBy: 'cluster',
     },
-    behaviors: ['drag-canvas', 'drag-node'],
+    behaviors: ['drag-canvas', 'drag-element'],
   });
 
   await graph.render();

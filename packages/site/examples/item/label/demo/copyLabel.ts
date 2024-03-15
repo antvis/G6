@@ -30,7 +30,7 @@ const graph = new Graph({
       labelBackgroundPointerEvents: 'none',
     },
   },
-  behaviors: ['drag-node'],
+  behaviors: ['drag-element'],
 });
 
 graph.render();

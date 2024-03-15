@@ -2,16 +2,17 @@ import type { BaseStyleProps, FederatedMouseEvent } from '@antv/g';
 import { Rect } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { isFunction } from '@antv/util';
-import { CommonEvent } from '../constants';
+import { COMBO_KEY, CommonEvent } from '../constants';
 import { RuntimeContext } from '../runtime/types';
 import type { BehaviorEvent, EdgeDirection, Point, PrefixObject } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { idOf } from '../utils/id';
 import { subStyleProps } from '../utils/prefix';
 import { subtract } from '../utils/vector';
-import { BaseBehavior, BaseBehaviorOptions } from './base-behavior';
+import type { BaseBehaviorOptions } from './base-behavior';
+import { BaseBehavior } from './base-behavior';
 
-export interface DragNodeOptions extends BaseBehaviorOptions, PrefixObject<BaseStyleProps, 'shadow'> {
+export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<BaseStyleProps, 'shadow'> {
   /**
    * <zh/> 是否启用拖拽动画
    *
@@ -24,6 +25,28 @@ export interface DragNodeOptions extends BaseBehaviorOptions, PrefixObject<BaseS
    * <en/> Whether to enable the function of dragging the node
    */
   enable?: boolean | ((event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
+  /**
+   * <zh/> 支持拖拽的元素类型
+   *
+   * <en/> Supported element types for dragging
+   */
+  draggableElement: ('node' | 'combo')[];
+  /**
+   * <zh/> 拖拽操作效果
+   * - link: 将拖拽元素置入为目标元素的子元素
+   * - move: 移动元素并更新父元素尺寸
+   * - none: 仅更新拖拽目标位置，不做任何额外操作
+   *
+   * <en/> Drag operation effect
+   * - link: Place the drag element as a child element of the target element
+   * - move: Move the element and update the parent element size
+   * - none: Only update the drag target position, no additional operations
+   * @description
+   * <zh/> combo 元素可作为元素容器置入 node 或 combo 元素
+   *
+   * <en/> The combo element can be placed as an element container into the node or combo element
+   */
+  dropEffect: 'link' | 'move' | 'none';
   /**
    * <zh/> 节点选中的状态，启用多选时会基于该状态查找选中的节点
    *
@@ -64,10 +87,12 @@ export interface DragNodeOptions extends BaseBehaviorOptions, PrefixObject<BaseS
   onfinish?: (ids: ID[]) => void;
 }
 
-export class DragNode extends BaseBehavior<DragNodeOptions> {
-  static defaultOptions: Partial<DragNodeOptions> = {
+export class DragElement extends BaseBehavior<DragElementOptions> {
+  static defaultOptions: Partial<DragElementOptions> = {
     animation: true,
     enable: true,
+    draggableElement: ['node', 'combo'],
+    dropEffect: 'move',
     state: 'selected',
     hideEdges: 'none',
     shadowZIndex: 100,
@@ -93,16 +118,34 @@ export class DragNode extends BaseBehavior<DragNodeOptions> {
     return this.options.animation;
   }
 
-  constructor(context: RuntimeContext, options: DragNodeOptions) {
-    super(context, Object.assign({}, DragNode.defaultOptions, options));
+  private get element() {
+    return new Set<string>(this.options.draggableElement);
+  }
+
+  constructor(context: RuntimeContext, options: DragElementOptions) {
+    super(context, Object.assign({}, DragElement.defaultOptions, options));
+    this.bindEvents();
+  }
+
+  public update(options: Partial<DragElementOptions>): void {
+    super.update(options);
     this.bindEvents();
   }
 
   private bindEvents() {
     const { graph } = this.context;
-    graph.on(`node:${CommonEvent.DRAG_START}`, this.onDragStart);
-    graph.on(`node:${CommonEvent.DRAG}`, this.onDrag);
-    graph.on(`node:${CommonEvent.DRAG_END}`, this.onDragEnd);
+    this.unbindEvents();
+
+    this.element.forEach((type) => {
+      graph.on(`${type}:${CommonEvent.DRAG_START}`, this.onDragStart);
+      graph.on(`${type}:${CommonEvent.DRAG}`, this.onDrag);
+      graph.on(`${type}:${CommonEvent.DRAG_END}`, this.onDragEnd);
+    });
+
+    if (['link'].includes(this.options.dropEffect)) {
+      graph.on(`combo:${CommonEvent.DROP}`, this.onDrop);
+      graph.on(`canvas:${CommonEvent.DROP}`, this.onDrop);
+    }
   }
 
   private getSelectedNodeIDs(currTarget: ID[]) {
@@ -122,6 +165,7 @@ export class DragNode extends BaseBehavior<DragNodeOptions> {
 
     this.target = this.getSelectedNodeIDs([event.target.id]);
     this.hideEdges();
+    this.context.graph.frontElement(this.target);
     if (this.options.shadow) this.createShadow(this.target);
   };
 
@@ -130,7 +174,7 @@ export class DragNode extends BaseBehavior<DragNodeOptions> {
     const { dx, dy } = event;
 
     if (this.options.shadow) this.moveShadow([dx, dy]);
-    else this.moveNode(this.target, [dx, dy]);
+    else this.moveElement(this.target, [dx, dy]);
   };
 
   private onDragEnd = () => {
@@ -140,22 +184,48 @@ export class DragNode extends BaseBehavior<DragNodeOptions> {
       this.shadow.style.visibility = 'hidden';
       const { x = 0, y = 0 } = this.shadow.attributes;
       const [dx, dy] = subtract([+x, +y], this.shadowOrigin);
-      this.moveNode(this.target, [dx, dy]);
+      this.moveElement(this.target, [dx, dy]);
     }
     this.showEdges();
     this.options.onfinish?.(this.target);
     this.target = [];
   };
 
+  private onDrop = async (event: DragEvent) => {
+    if (this.options.dropEffect !== 'link') return;
+    const { model, element } = this.context;
+    const modifiedParentId = event.target.id;
+    this.target.forEach((id) => {
+      const originalParent = model.getParentData(id, COMBO_KEY);
+      // 如果是在原父 combo 内部拖拽，需要刷新 combo 数据
+      // If it is a drag and drop within the original parent combo, you need to refresh the combo data
+      if (originalParent && idOf(originalParent) === modifiedParentId) {
+        model.refreshComboData(modifiedParentId);
+      }
+      model.setParent(id, modifiedParentId, COMBO_KEY);
+    });
+    await element?.draw({ animation: true });
+  };
+
   private validate(event: DragEvent) {
     if (this.destroyed) return false;
+    if (!this.element.has(event.targetType)) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
   }
 
-  private moveNode(ids: ID[], offset: Point) {
-    this.context.graph.translateElementBy(Object.fromEntries(ids.map((id) => [id, offset])), this.animation);
+  private async moveElement(ids: ID[], offset: Point) {
+    const { model, element } = this.context;
+    const { dropEffect } = this.options;
+    ids.forEach((id) => {
+      const elementType = model.getElementType(id);
+      if (elementType === 'node') model.translateNodeBy(id, offset);
+      else if (elementType === 'combo') model.translateComboBy(id, offset);
+    });
+
+    if (dropEffect === 'move') ids.forEach((id) => model.refreshComboData(id));
+    await element!.draw({ animation: this.animation });
   }
 
   private moveShadow(offset: Point) {
@@ -213,10 +283,21 @@ export class DragNode extends BaseBehavior<DragNodeOptions> {
     graph.hideElement(this.hiddenEdges);
   }
 
+  private unbindEvents() {
+    const { graph } = this.context;
+
+    this.element.forEach((type) => {
+      graph.off(`${type}:${CommonEvent.DRAG_START}`, this.onDragStart);
+      graph.off(`${type}:${CommonEvent.DRAG}`, this.onDrag);
+      graph.off(`${type}:${CommonEvent.DRAG_END}`, this.onDragEnd);
+    });
+
+    graph.off(`combo:${CommonEvent.DROP}`, this.onDrop);
+    graph.off(`canvas:${CommonEvent.DROP}`, this.onDrop);
+  }
+
   public destroy() {
-    this.context.graph.off(`node:${CommonEvent.DRAG_START}`, this.onDragStart);
-    this.context.graph.off(`node:${CommonEvent.DRAG}`, this.onDrag);
-    this.context.graph.off(`node:${CommonEvent.DRAG_END}`, this.onDragEnd);
+    this.unbindEvents();
     this.shadow?.destroy();
     super.destroy();
   }

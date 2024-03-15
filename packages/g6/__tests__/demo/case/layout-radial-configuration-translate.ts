@@ -22,7 +22,7 @@ export const layoutRadialConfigurationTranslate: STDTestCase = async (context) =
       type: 'radial',
       unitRadius: 50,
     },
-    behaviors: ['drag-canvas', 'drag-node'],
+    behaviors: ['drag-canvas', 'drag-element'],
   });
 
   await graph.render();

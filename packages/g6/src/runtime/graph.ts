@@ -2,7 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps, DataURLOptions } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
-import { GraphEvent } from '../constants';
+import { COMBO_KEY, GraphEvent } from '../constants';
 import { getExtension } from '../registry';
 import type {
   BehaviorOptions,
@@ -37,10 +37,13 @@ import type {
 } from '../types';
 import { sizeOf } from '../utils/dom';
 import { ElementStateChangeEvent, GraphLifeCycleEvent, emit } from '../utils/event';
+import { idOf } from '../utils/id';
 import { parsePoint, toPointObject } from '../utils/point';
-import { add, subtract } from '../utils/vector';
+import { zIndexOf } from '../utils/style';
+import { subtract } from '../utils/vector';
 import { BehaviorController } from './behavior';
 import { Canvas } from './canvas';
+import type { HierarchyKey } from './data';
 import { DataController } from './data';
 import { ElementController } from './element';
 import { LayoutController } from './layout';
@@ -244,10 +247,6 @@ export class Graph extends EventEmitter {
     return this.context.model.getComboData([id])?.[0];
   }
 
-  public getComboChildrenData(id: ID): NodeLikeData[] {
-    return this.context.model.getComboChildrenData(id);
-  }
-
   public setData(data: CallableValue<GraphData>): void {
     this.context.model.setData(isFunction(data) ? data(this.getData()) : data);
   }
@@ -312,8 +311,43 @@ export class Graph extends EventEmitter {
     return this.context.model.getNeighborNodesData(id);
   }
 
-  public getParentData(id: ID): NodeData | undefined {
-    return this.context.model.getParentData(id);
+  /**
+   * <zh/> 获取节点或 combo 的祖先元素数据
+   *
+   * <en/> Get the ancestor element data of the node or combo
+   * @param id - <zh/> 节点或 combo ID | <en/> node or combo ID
+   * @param hierarchy - <zh/> 指定树图层级关系还是 combo 层级关系 | <en/> specify tree or combo hierarchy relationship
+   * @returns <zh/> 祖先元素数据 | <en/> ancestor element data
+   * @description
+   * <zh/> 数组中的顺序是从父节点到祖先节点
+   *
+   * <en/> The order in the array is from the parent node to the ancestor node
+   */
+  public getAncestorsData(id: ID, hierarchy: HierarchyKey): NodeLikeData[] {
+    return this.context.model.getAncestorsData(id, hierarchy);
+  }
+
+  /**
+   * <zh/> 获取节点或 combo 的父元素数据
+   *
+   * <en/> Get the parent element data of the node or combo
+   * @param id - <zh/> 节点或 combo ID | <en/> node or combo ID
+   * @param hierarchy - <zh/> 指定树图层级关系还是 combo 层级关系 | <en/> specify tree or combo hierarchy relationship
+   * @returns <zh/> 父元素数据 | <en/> parent element data
+   */
+  public getParentData(id: ID, hierarchy: HierarchyKey): NodeLikeData | undefined {
+    return this.context.model.getParentData(id, hierarchy);
+  }
+
+  /**
+   * <zh/> 获取节点或 combo 的子元素数据
+   *
+   * <en/> Get the child element data of the node or combo
+   * @param id - <zh/> 节点或 combo ID | <en/> node or combo ID
+   * @returns <zh/> 子元素数据 | <en/> child element data
+   */
+  public getChildrenData(id: ID): NodeLikeData[] {
+    return this.context.model.getChildrenData(id);
   }
 
   public getElementDataByState(elementType: 'node', state: State): NodeData[];
@@ -624,17 +658,8 @@ export class Graph extends EventEmitter {
       ? [args1, (args2 as boolean) ?? true]
       : [{ [args1 as ID]: args2 as Position }, args3];
 
-    const positions = Object.entries(config).reduce(
-      (acc, [id, offset]) => {
-        const curr = this.getElementPosition(id);
-        const next = add(curr, [...offset, 0].slice(0, 3) as Point);
-        acc[id] = next;
-        return acc;
-      },
-      {} as Record<ID, Position>,
-    );
-
-    await this.translateElementTo(positions, animation);
+    Object.entries(config).forEach(([id, offset]) => this.context.model.translateNodeBy(id, offset));
+    await this.context.element!.draw({ animation });
   }
 
   /**
@@ -659,25 +684,16 @@ export class Graph extends EventEmitter {
     args2?: boolean | Position,
     args3: boolean = true,
   ): Promise<void> {
-    const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
     const [config, animation] = isObject(args1)
       ? [args1, (args2 as boolean) ?? true]
       : [{ [args1 as ID]: args2 as Position }, args3];
 
-    Object.entries(config).forEach(([id, [x, y, z = 0]]) => {
-      const elementType = this.getElementType(id);
-      dataToUpdate[`${elementType}s`].push({ id, style: { x, y, z } });
-    });
-
-    this.updateData(dataToUpdate);
-
+    Object.entries(config).forEach(([id, position]) => this.context.model.translateNodeTo(id, position));
     await this.context.element!.draw({ animation });
   }
 
   public getElementPosition(id: ID): Position {
-    const element = this.context.element!.getElement(id)!;
-    const { x = 0, y = 0, z = 0 } = element.style;
-    return [x, y, z];
+    return this.context.model.getElementPosition(id);
   }
 
   public getElementRenderStyle(id: ID) {
@@ -793,9 +809,9 @@ export class Graph extends EventEmitter {
       dataToUpdate[`${elementType}s`].push({ id, style: { zIndex: value } });
     });
 
-    this.updateData(dataToUpdate);
-
-    await this.context.element!.draw();
+    const { model, element } = this.context;
+    model.preventUpdateNodeLikeHierarchy(() => model.updateData(dataToUpdate));
+    await element!.draw({ animation: false });
   }
 
   /**
@@ -806,38 +822,25 @@ export class Graph extends EventEmitter {
    */
   public async frontElement(id: ID | ID[]): Promise<void> {
     const ids = Array.isArray(id) ? id : [id];
+    const { model } = this.context;
+    const config: Record<ID, number> = {};
 
-    await this.setElementZIndex(
-      Object.fromEntries(
-        ids.map((_id) => {
-          const elementType = this.getElementType(_id);
-          const [, max] = this.context.element!.getElementZIndexRange(elementType);
-          const parsedZIndex = max + 1;
-          return [_id, parsedZIndex];
-        }),
-      ),
-    );
-  }
+    ids.map((_id) => {
+      const zIndex = model.getFrontZIndex(_id);
+      const elementType = model.getElementType(_id);
+      if (elementType === 'combo') {
+        const ancestor = model.getAncestorsData(_id, COMBO_KEY).at(-1) || this.getComboData(_id);
+        const combos = [ancestor, ...model.getDescendantsData(idOf(ancestor))].filter((datum) =>
+          model.isCombo(idOf(datum)),
+        );
+        const delta = zIndex - zIndexOf(ancestor);
+        combos.forEach((combo) => {
+          config[idOf(combo)] = zIndexOf(combo) + delta;
+        });
+      } else config[_id] = zIndex;
+    });
 
-  /**
-   * <zh/> 将元素置于最底层
-   *
-   * <en/> Send the element to the back
-   * @param id - <zh/> 元素 ID | <en/> element ID
-   */
-  public async backElement(id: ID | ID[]): Promise<void> {
-    const ids = Array.isArray(id) ? id : [id];
-
-    await this.setElementZIndex(
-      Object.fromEntries(
-        ids.map((_id) => {
-          const elementType = this.getElementType(_id);
-          const [min] = this.context.element!.getElementZIndexRange(elementType);
-          const parsedZIndex = min - 1;
-          return [_id, parsedZIndex];
-        }),
-      ),
-    );
+    await this.setElementZIndex(config);
   }
 
   /**
@@ -847,9 +850,8 @@ export class Graph extends EventEmitter {
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @returns <zh/> 元素层级 | <en/> element z-index
    */
-  public getElementZIndex(id: ID): BaseStyleProps['zIndex'] {
-    const element = this.context.element!.getElement(id)!;
-    return element.style.zIndex ?? 0;
+  public getElementZIndex(id: ID): number {
+    return zIndexOf(this.context.model.getElementsData([id])[0]);
   }
 
   /**
@@ -906,11 +908,21 @@ export class Graph extends EventEmitter {
     return this.context.element!.getElement(id)!.getRenderBounds();
   }
 
-  // TODO
-  public async collapse(id: ID | ID[], options?: unknown): Promise<void> {}
+  public async collapse(id: ID, animation: boolean = true): Promise<void> {
+    this.setElementCollapsibility(id, true);
+    await this.context.element!.draw({ animation, stage: 'collapse' });
+  }
 
-  // TODO
-  public async expand(id: ID | ID[], options?: unknown): Promise<void> {}
+  public async expand(id: ID, animation: boolean = true): Promise<void> {
+    this.setElementCollapsibility(id, false);
+    await this.context.element!.draw({ animation, stage: 'expand' });
+  }
+
+  private setElementCollapsibility(id: ID, collapsed: boolean) {
+    const elementType = this.getElementType(id);
+    if (elementType === 'node') this.updateNodeData([{ id, style: { collapsed } }]);
+    else if (elementType === 'combo') this.updateComboData([{ id, style: { collapsed } }]);
+  }
 
   public async toDataURL(options: Partial<DataURLOptions> = {}): Promise<string> {
     return this.context.canvas!.toDataURL(options);

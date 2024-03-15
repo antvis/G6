@@ -15,7 +15,7 @@ export const layoutGrid: STDTestCase = async (context) => {
       type: 'grid',
       sortBy: 'cluster',
     },
-    behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
+    behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element', 'click-select'],
   });
 
   await graph.render();

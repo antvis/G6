@@ -19,9 +19,6 @@ export const combo: STDTestCase = async (context) => {
       },
       {
         id: 'combo-2',
-        style: {
-          zIndex: -10, // TODO: zIndex?
-        },
       },
     ],
   };
@@ -41,6 +38,7 @@ export const combo: STDTestCase = async (context) => {
         collapsedLineDash: [5, 5],
       },
     },
+    behaviors: ['drag-element'],
   });
 
   await graph.render();
@@ -96,8 +94,7 @@ export const combo: STDTestCase = async (context) => {
         graph.render();
       },
       collapseCombo2: () => {
-        graph.updateComboData((data) => [
-          ...data,
+        graph.updateComboData([
           {
             id: 'combo-2',
             style: {

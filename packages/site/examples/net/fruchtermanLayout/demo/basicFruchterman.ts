@@ -123,7 +123,7 @@ const graph = new Graph({
     },
   },
   animation: true,
-  behaviors: ['drag-canvas', 'drag-node'],
+  behaviors: ['drag-canvas', 'drag-element'],
 });
 
 graph.render();

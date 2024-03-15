@@ -77,6 +77,8 @@ async function render() {
 
   const result = await testCase({ container: canvas, animation: Animation, theme: Theme });
 
+  Object.assign(window, { graph: result });
+
   renderForm(panels.panel, testCase.form);
 
   if (result?.totalDuration) {

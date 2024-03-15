@@ -28,7 +28,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
           stroke: '#ddd',
         },
       },
-      behaviors: ['drag-canvas', 'drag-node'],
+      behaviors: ['drag-canvas', 'drag-element'],
     });
 
     graph.render();

@@ -1,4 +1,4 @@
-import { Graph, Extensions, extend } from '@antv/g6';
+import { Extensions, Graph, extend } from '@antv/g6';
 import Stats from 'stats.js';
 
 const dataFormat = (dataAUR, options = {}, graphCore) => {
@@ -76,7 +76,7 @@ const graph = new ExtGraph({
     },
   ],
   modes: {
-    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-node'],
+    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-element'],
   },
   node: (model) => {
     const { id, data } = model;

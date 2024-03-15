@@ -28,7 +28,7 @@ export const layoutRadialSort: STDTestCase = async (context) => {
       sortBy: 'sortAttr2',
       sortStrength: 50,
     },
-    behaviors: ['drag-canvas', 'drag-node'],
+    behaviors: ['drag-canvas', 'drag-element'],
   });
 
   await graph.render();
