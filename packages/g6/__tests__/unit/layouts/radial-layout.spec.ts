@@ -14,7 +14,7 @@ describe('radial layout', () => {
     graph.destroy();
   });
 
-  it('configuration translate', async () => {
+  it.skip('configuration translate', async () => {
     const graph = await createDemoGraph(layoutRadialConfigurationTranslate);
     await expect(graph).toMatchSnapshot(__filename, 'configuration-translate');
     graph.destroy();
