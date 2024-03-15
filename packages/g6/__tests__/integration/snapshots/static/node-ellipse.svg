@@ -505,7 +505,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                ellipse-selected
+                ellipse-sel...
               </text>
             </g>
           </g>
@@ -564,7 +564,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                ellipse-highlight
+                ellipse-highli...
               </text>
             </g>
           </g>
@@ -678,7 +678,7 @@
                 text-anchor="middle"
                 opacity="0.25"
               >
-                ellipse-disabled
+                ellipse-disabl...
               </text>
             </g>
           </g>

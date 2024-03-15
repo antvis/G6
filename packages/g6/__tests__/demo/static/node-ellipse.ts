@@ -26,7 +26,6 @@ export const nodeEllipse: StaticTestCase = async (context) => {
       style: {
         type: 'ellipse', // 👈🏻 Node shape type.
         size: [45, 35],
-        labelMaxWidth: 120,
         labelText: (d: any) => d.id,
         iconHeight: 20,
         iconWidth: 20,

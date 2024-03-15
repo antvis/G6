@@ -6,25 +6,12 @@ export const layoutFruchtermanFix: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
-    behaviors: ['drag-canvas', 'drag-node'],
     layout: {
       type: 'fruchterman',
       speed: 10,
       maxIteration: 500,
     },
-    node: {
-      style: {
-        size: 15,
-        stroke: '#5B8FF9',
-        fill: '#C6E5FF',
-        lineWidth: 1,
-      },
-    },
-    edge: {
-      style: {
-        stroke: '#E2E2E2',
-      },
-    },
+    behaviors: ['drag-canvas', 'drag-node'],
   });
 
   graph.on('node:dragstart', function () {

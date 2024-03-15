@@ -5,20 +5,12 @@ import type { STDTestCase } from '../types';
 export const layoutCircularBasic: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
+    autoFit: 'view',
     data,
     layout: {
       type: 'circular',
     },
-    node: {
-      style: {
-        size: 20,
-        fill: '#EFF4FF',
-        lineWidth: 1,
-        stroke: '#5F95FF',
-      },
-    },
     behaviors: ['zoom-canvas', 'drag-canvas'],
-    autoFit: 'view',
   });
 
   await graph.render();

@@ -25,7 +25,6 @@ export const nodeDiamond: StaticTestCase = async (context) => {
       style: {
         type: 'diamond', // 👈🏻 Node shape type.
         size: 40,
-        labelMaxWidth: 120,
         labelText: (d: any) => d.id,
         iconWidth: 20,
         iconHeight: 20,

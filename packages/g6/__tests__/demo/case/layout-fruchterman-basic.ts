@@ -6,23 +6,18 @@ export const layoutFruchtermanBasic: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
-    behaviors: ['drag-canvas', 'drag-node'],
+    node: {
+      style: {
+        labelPlacement: 'center',
+        labelText: (d: any) => d.id,
+      },
+    },
     layout: {
       type: 'fruchterman',
       gravity: 5,
       speed: 5,
     },
-    node: {
-      style: {
-        size: 30,
-        stroke: '#5B8FF9',
-        fill: '#C6E5FF',
-        lineWidth: 1,
-        labelPlacement: 'center',
-        labelText: (d: any) => d.id,
-        labelBackground: false,
-      },
-    },
+    behaviors: ['drag-canvas', 'drag-node'],
   });
 
   await graph.render();

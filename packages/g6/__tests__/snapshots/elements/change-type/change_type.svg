@@ -26,18 +26,18 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,150,100)">
+          <g transform="matrix(1,0,0,1,124,100)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 37.5,0"
+              d="M 0,0 L 64,0"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 37.5,0"
+              d="M 0,0 L 64,0"
               stroke-width="3"
               stroke="transparent"
             />
@@ -49,20 +49,21 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12.5,-12.5)"
-              cx="12.5"
-              cy="12.5"
-              r="12.5"
+              fill="rgba(0,0,0,0)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              stroke="rgba(23,131,255,1)"
+              r="12"
             />
           </g>
         </g>
         <g id="node-2" fill="none" transform="matrix(1,0,0,1,200,100)">
-          <g transform="matrix(1,0,0,1,-16,-16)">
+          <g transform="matrix(1,0,0,1,-12,-12)">
             <polygon
               id="key"
               fill="rgba(23,131,255,1)"
-              points="16,0 32,16 16,32 0,16"
+              points="12,0 24,12 12,24 0,12"
             />
           </g>
         </g>

@@ -44,6 +44,7 @@ export const edgeCustomArrow: StaticTestCase = async (context) => {
         type: 'line', // 👈🏻 Edge shape type.
         color: '#F6BD16',
         labelText: (d: any) => d.id,
+        labelBackground: true,
         endArrow: true,
       },
     },

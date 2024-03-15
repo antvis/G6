@@ -15,13 +15,13 @@
             <circle
               id="key"
               fill="rgba(247,251,255,1)"
-              transform="translate(-31.81980515339464,-31.81980515339464)"
-              cx="31.81980515339464"
-              cy="31.81980515339464"
+              transform="translate(-31.11269837220809,-31.11269837220809)"
+              cx="31.11269837220809"
+              cy="31.11269837220809"
               stroke-dasharray="0,0"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              r="31.81980515339464"
+              r="31.11269837220809"
             />
           </g>
         </g>
@@ -42,18 +42,18 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,112.500000,100)">
+          <g transform="matrix(1,0,0,1,112,100)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 25,0"
+              d="M 0,0 L 26,0"
               stroke-width="1"
-              stroke="rgba(127,39,4,1)"
+              stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 25,0"
+              d="M 0,0 L 26,0"
               stroke-width="3"
               stroke="transparent"
             />
@@ -74,13 +74,13 @@
             stroke="transparent"
             stroke-width="6"
           />
-          <g transform="matrix(1,0,0,1,130.590164,111.180344)">
+          <g transform="matrix(1,0,0,1,130.366562,110.733124)">
             <path
               id="halo"
               fill="none"
-              d="M 13.819660112501026,0 L 0,27.63932022500211"
+              d="M 14.266873708001015,0 L 0,28.53374741600203"
               stroke-width="12"
-              stroke="rgba(166,54,3,1)"
+              stroke="rgba(153,173,209,1)"
               stroke-dasharray="0,0"
               pointer-events="none"
               stroke-opacity="0.25"
@@ -88,7 +88,7 @@
             <path
               id="halo"
               fill="none"
-              d="M 13.819660112501026,0 L 0,27.63932022500211"
+              d="M 14.266873708001015,0 L 0,28.53374741600203"
               stroke-width="14"
               stroke="transparent"
               stroke-dasharray="0,0"
@@ -96,18 +96,18 @@
               stroke-opacity="0.25"
             />
           </g>
-          <g transform="matrix(1,0,0,1,130.590164,111.180344)">
+          <g transform="matrix(1,0,0,1,130.366562,110.733124)">
             <path
               id="key"
               fill="none"
-              d="M 13.819660112501026,0 L 0,27.63932022500211"
+              d="M 14.266873708001015,0 L 0,28.53374741600203"
               stroke-width="4"
-              stroke="rgba(166,54,3,1)"
+              stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 13.819660112501026,0 L 0,27.63932022500211"
+              d="M 14.266873708001015,0 L 0,28.53374741600203"
               stroke-width="6"
               stroke="transparent"
             />
@@ -120,12 +120,12 @@
             <circle
               id="key"
               fill="rgba(158,1,66,1)"
-              transform="translate(-12.5,-12.5)"
-              cx="12.5"
-              cy="12.5"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
               stroke="rgba(255,192,203,1)"
               stroke-width="1"
-              r="12.5"
+              r="12"
             />
           </g>
         </g>
@@ -134,10 +134,10 @@
             <circle
               id="key"
               fill="rgba(213,62,79,1)"
-              transform="translate(-12.5,-12.5)"
-              cx="12.5"
-              cy="12.5"
-              r="12.5"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
             />
           </g>
         </g>
@@ -146,12 +146,12 @@
             <circle
               id="halo"
               fill="none"
-              transform="translate(-12.5,-12.5)"
-              cx="12.5"
-              cy="12.5"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
               stroke-width="12"
               stroke="rgba(244,109,67,1)"
-              r="12.5"
+              r="12"
               stroke-dasharray="0,0"
               stroke-opacity="0.25"
               pointer-events="none"
@@ -161,12 +161,12 @@
             <circle
               id="key"
               fill="rgba(244,109,67,1)"
-              transform="translate(-12.5,-12.5)"
-              cx="12.5"
-              cy="12.5"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
               stroke-width="3"
               stroke="rgba(0,0,0,1)"
-              r="12.5"
+              r="12"
             />
           </g>
         </g>

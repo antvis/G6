@@ -100,6 +100,7 @@ export class Graph extends EventEmitter {
    */
   public setOptions(options: G6Spec): void {
     const {
+      animation,
       background,
       behaviors,
       combo,

@@ -27,7 +27,6 @@ export const nodeRect: StaticTestCase = async (context) => {
         type: 'rect', // 👈🏻 Node shape type.
         radius: 4, // 👈🏻 Set the radius.
         size: 40,
-        labelMaxWidth: 120,
         labelText: (d: any) => d.id,
         iconWidth: 20,
         iconHeight: 20,

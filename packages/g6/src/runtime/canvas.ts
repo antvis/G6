@@ -141,6 +141,7 @@ export class Canvas {
     const container = this.getContainer();
     if (container && background) {
       container.style.background = background;
+      container.style.transition = 'background 0.5s';
     }
   }
 

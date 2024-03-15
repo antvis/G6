@@ -12,17 +12,17 @@ const NODE_PALETTE_OPTIONS: PaletteOptions = {
 const EDGE_PALETTE_OPTIONS: PaletteOptions = {
   type: 'group',
   color: [
-    '#637088',
-    '#0F55A6',
-    '#008383',
-    '#9C5D38',
-    '#8B53A6',
-    '#4E40A6',
-    '#8F6608',
-    '#3E801D',
-    '#A65383',
-    '#175E75',
-    '#0F8248',
+    '#99ADD1',
+    '#1783FF',
+    '#00C9C9',
+    '#F08F56',
+    '#D580FF',
+    '#7863FF',
+    '#DB9D0D',
+    '#60C42D',
+    '#FF80CA',
+    '#2491B3',
+    '#17C76F',
   ],
 };
 
@@ -126,7 +126,13 @@ export function create(tokens: ThemeTokens): Theme {
         enter: 'fade',
         exit: 'fade',
         visibility: 'fade',
-        update: [{ fields: ['x', 'y', 'fill', 'stroke'] }],
+        update: [
+          { fields: ['x', 'y', 'fill', 'stroke'] },
+          {
+            fields: ['fill', 'stroke'],
+            shape: 'key',
+          },
+        ],
       },
     },
     edge: {
@@ -175,7 +181,7 @@ export function create(tokens: ThemeTokens): Theme {
         enter: 'fade',
         exit: 'fade',
         visibility: 'fade',
-        update: [{ fields: ['stroke'] }, { fields: ['path'], shape: 'key' }],
+        update: [{ fields: ['stroke'] }, { fields: ['path', 'stroke'], shape: 'key' }],
       },
     },
     combo: {
@@ -228,7 +234,7 @@ export function create(tokens: ThemeTokens): Theme {
         enter: 'fade',
         exit: 'fade',
         visibility: 'fade',
-        update: [{ fields: ['x', 'y'] }, { fields: ['r', 'width', 'height'], shape: 'key' }],
+        update: [{ fields: ['x', 'y'] }, { fields: ['r', 'width', 'height', 'fill'], shape: 'key' }],
       },
     },
   };

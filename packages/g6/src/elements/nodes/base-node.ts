@@ -59,7 +59,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
   static defaultStyleProps: BaseNodeStyleProps = {
     x: 0,
     y: 0,
-    size: 32,
+    size: 24,
     droppable: true,
     draggable: true,
     port: true,

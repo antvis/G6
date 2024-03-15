@@ -6,6 +6,18 @@ export const layoutRadialSort: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
+    node: {
+      style: {
+        labelText: (d: { id: string }) => d.id,
+        labelPlacement: 'center',
+      },
+    },
+    edge: {
+      style: {
+        endArrow: true,
+        endArrowType: 'vee',
+      },
+    },
     layout: {
       type: 'radial',
       unitRadius: 70,
@@ -15,24 +27,6 @@ export const layoutRadialSort: STDTestCase = async (context) => {
       nodeSize: 30,
       sortBy: 'sortAttr2',
       sortStrength: 50,
-    },
-    node: {
-      style: {
-        labelText: (d: { id: string }) => d.id,
-        labelPlacement: 'center',
-        size: 20,
-        fill: '#EFF4FF',
-        lineWidth: 1,
-        stroke: '#5F95FF',
-      },
-    },
-    edge: {
-      style: {
-        endArrow: {
-          path: 'M 0,0 L 8,4 L 8,-4 Z',
-          fill: '#e2e2e2',
-        },
-      },
     },
     behaviors: ['drag-canvas', 'drag-node'],
   });

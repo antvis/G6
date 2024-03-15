@@ -5,17 +5,17 @@ import type { STDTestCase } from '../types';
 export const theme: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
+    autoFit: 'view',
     data,
     node: {
       palette: {
-        field: (d: any) => (d.data.cluster === 'a' ? 'a' : 'b'),
+        field: 'cluster',
       },
     },
     layout: {
       type: 'radial',
       unitRadius: 80,
     },
-    autoFit: 'view',
   });
 
   await graph.render();

@@ -18,7 +18,7 @@ describe('spec element node', () => {
         x: 1,
         y: 1,
       },
-      palette: 'category10',
+      palette: 'spectral',
       state: {
         selected: {
           any: 1,

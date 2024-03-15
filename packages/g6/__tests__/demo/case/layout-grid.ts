@@ -6,19 +6,16 @@ export const layoutGrid: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
-    behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
+    node: {
+      style: {
+        labelText: (d: any) => d.id,
+      },
+    },
     layout: {
       type: 'grid',
       sortBy: 'cluster',
     },
-    node: {
-      style: {
-        size: 20,
-        stroke: '#ccc',
-        lineWidth: 1,
-        labelText: (d: any) => d.id,
-      },
-    },
+    behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
   });
 
   await graph.render();

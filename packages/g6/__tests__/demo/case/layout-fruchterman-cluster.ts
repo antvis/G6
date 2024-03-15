@@ -6,31 +6,23 @@ export const layoutFruchtermanCluster: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: { ...data, nodes: data.nodes.map((n) => ({ ...n, cluster: n.data.cluster })) },
-    behaviors: ['drag-canvas', 'drag-node'],
+    node: {
+      style: {
+        labelPlacement: 'center',
+        labelText: (d: any) => d.id,
+      },
+      palette: {
+        field: 'cluster',
+      },
+    },
     layout: {
       type: 'fruchterman',
-      gravity: 10,
+      gravity: 5,
       speed: 5,
       clustering: true,
       nodeClusterBy: 'cluster',
     },
-    node: {
-      style: {
-        size: 20,
-        stroke: '#5B8FF9',
-        fill: '#C6E5FF',
-        lineWidth: 1,
-        labelPlacement: 'center',
-        labelText: (d: any) => d.id,
-        labelBackground: false,
-      },
-    },
-    edge: {
-      style: {
-        endArrow: true,
-        endArrowPath: 'M 0,0 L 4,2 L 4,-2 Z',
-      },
-    },
+    behaviors: ['drag-canvas', 'drag-node'],
   });
 
   await graph.render();

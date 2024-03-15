@@ -3,7 +3,7 @@
 import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { groupBy } from '@antv/util';
+import { groupBy, isEmpty } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
 import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
@@ -103,10 +103,12 @@ export class ElementController {
     this.paletteStyle = {};
 
     this.forEachElementData((elementType, elementData) => {
-      const palette = parsePalette(
-        Object.assign({}, this.getTheme(elementType)?.palette, options[elementType]?.palette),
+      const palette = Object.assign(
+        {},
+        parsePalette(this.getTheme(elementType)?.palette),
+        parsePalette(options[elementType]?.palette),
       );
-      if (palette) {
+      if (!isEmpty(palette) && palette?.field) {
         Object.assign(this.paletteStyle, assignColorByPalette(elementData, palette));
       }
     });

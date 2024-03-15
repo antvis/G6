@@ -169,9 +169,9 @@ describe('Graph', () => {
 
   it('getElementRenderBounds', () => {
     const renderBounds = graph.getElementRenderBounds('node-1');
-    // the default size of the node is 25
-    expect(renderBounds.min).toEqual([-12.5, -12.5, 0]);
-    expect(renderBounds.max).toEqual([12.5, 12.5, 0]);
+    // the default size of the node is 24
+    expect(renderBounds.min).toEqual([-12, -12, 0]);
+    expect(renderBounds.max).toEqual([12, 12, 0]);
   });
 
   it('setElementState/getElementState/getElementDataByState', async () => {

@@ -43,6 +43,7 @@ export const edgeCubic: StaticTestCase = async (context) => {
       style: {
         type: 'cubic', // 👈🏻 Edge shape type.
         labelText: (d: any) => d.id,
+        labelBackground: true,
         endArrow: true,
       },
     },

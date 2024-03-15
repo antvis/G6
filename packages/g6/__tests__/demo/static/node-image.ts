@@ -26,7 +26,6 @@ export const nodeImage: StaticTestCase = async (context) => {
       style: {
         type: 'image', // 👈🏻 Node shape type.
         size: 40,
-        labelMaxWidth: 120,
         labelText: (d: any) => d.id,
         src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
         halo: (d: any) => d.id.includes('halo'),

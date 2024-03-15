@@ -49,6 +49,7 @@ export const elementLabelOversized: StaticTestCase = async (context) => {
         labelPlacement: 'bottom',
         labelText: (d: any) => d.data.label,
         labelMaxWidth: '90%',
+        labelBackground: true,
         labelBackgroundFill: '#eee',
         labelBackgroundFillOpacity: 0.5,
         labelBackgroundRadius: 4,

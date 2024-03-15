@@ -26,18 +26,18 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,208.838837,208.838837)">
+          <g transform="matrix(1,0,0,1,208.485275,208.485275)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 82.32233047033628,82.32233047033631"
+              d="M 0,0 L 83.02943725152284,83.02943725152284"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 82.32233047033628,82.32233047033631"
+              d="M 0,0 L 83.02943725152284,83.02943725152284"
               stroke-width="3"
               stroke="transparent"
             />
@@ -50,10 +50,10 @@
             <circle
               id="key"
               fill="rgba(23,131,255,1)"
-              transform="translate(-12.5,-12.5)"
-              cx="12.5"
-              cy="12.5"
-              r="12.5"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
             />
           </g>
         </g>
@@ -62,10 +62,10 @@
             <circle
               id="key"
               fill="rgba(23,131,255,1)"
-              transform="translate(-12.5,-12.5)"
-              cx="12.5"
-              cy="12.5"
-              r="12.5"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
             />
           </g>
         </g>

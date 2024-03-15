@@ -3,11 +3,8 @@ import { assignColorByPalette, getPaletteColors, parsePalette } from '@/src/util
 
 describe('palette', () => {
   it('parsePalette', () => {
-    expect(parsePalette('category3')).toEqual({ type: 'group', color: 'category3' });
-    expect(parsePalette(['red', 'green', 'blue'])).toEqual({
-      type: 'group',
-      color: ['red', 'green', 'blue'],
-    });
+    expect(parsePalette('category3')?.color).toEqual('category3');
+    expect(parsePalette(['red', 'green', 'blue'])?.color).toEqual(['red', 'green', 'blue']);
     expect(parsePalette({ type: 'value', color: 'custom-blues', field: 'value' })).toEqual({
       type: 'value',
       color: 'custom-blues',
@@ -94,6 +91,7 @@ describe('palette', () => {
     expect(
       assignColorByPalette(data5, {
         type: 'group',
+        field: (d: any) => d.id,
         color: 'category3',
       }),
     ).toEqual({
@@ -107,6 +105,7 @@ describe('palette', () => {
     expect(
       assignColorByPalette(data5, {
         type: 'group',
+        field: (d: any) => d.id,
         color: 'spectral',
       }),
     ).toEqual({

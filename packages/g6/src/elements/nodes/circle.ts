@@ -17,7 +17,7 @@ type KeyStyleProps = GCircleStyleProps;
  */
 export class Circle extends BaseNode<CircleStyleProps> {
   static defaultStyleProps: Partial<CircleStyleProps> = {
-    size: 25,
+    size: 24,
   };
 
   constructor(options: DisplayObjectConfig<CircleStyleProps>) {

@@ -5,31 +5,25 @@ import type { STDTestCase } from '../types';
 export const layoutCircularSpiral: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
+    autoFit: 'view',
     data,
+    node: {
+      style: {
+        labelText: (d: { id: string }) => d.id,
+      },
+    },
+    edge: {
+      style: {
+        endArrow: true,
+        endArrowType: 'vee',
+      },
+    },
     layout: {
       type: 'circular',
       startRadius: 10,
       endRadius: 300,
     },
-    node: {
-      style: {
-        size: 20,
-        labelText: (d: { id: string }) => d.id,
-        fill: '#EFF4FF',
-        lineWidth: 1,
-        stroke: '#5F95FF',
-      },
-    },
-    edge: {
-      style: {
-        endArrow: {
-          path: 'M 0,0 L 8,4 L 8,-4 Z',
-          fill: '#e2e2e2',
-        },
-      },
-    },
-    behaviors: ['drag-canvas', 'drag-node'],
-    autoFit: 'view',
+    behaviors: ['zoom-canvas', 'drag-canvas'],
   });
 
   await graph.render();

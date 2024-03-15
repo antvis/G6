@@ -33,35 +33,35 @@
           <path
             id="key"
             fill="none"
-            d="M 5.462198864775629,2.482817665807104 L 0,0 C 137.5 62.5,275 125,275 125 L 269.53780113522436,122.5171823341929"
+            d="M 4.5518323873130235,2.06901472150592 L 0,0 C 137.5 62.5,275 125,275 125 L 270.448167612687,122.93098527849408"
             stroke-width="2"
             stroke-dasharray="10,10"
             stroke="rgba(24,144,255,1)"
           />
-          <g transform="matrix(0.910366,0.413803,-0.413803,0.910366,5.462199,2.482818)">
+          <g transform="matrix(0.910366,0.413803,-0.413803,0.910366,4.551832,2.069015)">
             <path
               id="g-svg-12"
               fill="rgba(24,144,255,1)"
-              d="M 0,5 A 5 5 0 1 0 10 5 A 5 5 0 1 0 0 5 Z"
-              transform="translate(-5,-5)"
+              d="M 0,4 A 4 4 0 1 0 8 4 A 4 4 0 1 0 0 4 Z"
+              transform="translate(-4,-4)"
               stroke-width="1"
               stroke-dasharray="0,0"
               stroke="rgba(24,144,255,1)"
-              width="10"
-              height="10"
+              width="8"
+              height="8"
             />
           </g>
-          <g transform="matrix(-0.910366,-0.413803,0.413803,-0.910366,269.537811,122.517181)">
+          <g transform="matrix(-0.910366,-0.413803,0.413803,-0.910366,270.448181,122.930984)">
             <path
               id="g-svg-14"
               fill="rgba(255,0,0,1)"
-              d="M 0,5 L 10,0 L 10,10 Z"
-              transform="translate(-5,-5)"
+              d="M 0,4 L 8,0 L 8,8 Z"
+              transform="translate(-4,-4)"
               stroke-width="1"
               stroke-dasharray="0,0"
               stroke="rgba(24,144,255,1)"
-              width="10"
-              height="10"
+              width="8"
+              height="8"
             />
           </g>
         </g>
