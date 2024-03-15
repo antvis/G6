@@ -150,7 +150,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                diamond-b...
+                diamond-badges
               </text>
             </g>
           </g>
@@ -284,7 +284,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                diamond-p...
+                diamond-ports
               </text>
             </g>
           </g>
@@ -395,7 +395,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                diamond-a...
+                diamond-active
               </text>
             </g>
           </g>
@@ -461,7 +461,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                diamond-...
+                diamond-selected
               </text>
             </g>
           </g>
@@ -516,7 +516,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                diamond-hi...
+                diamond-highlight
               </text>
             </g>
           </g>
@@ -569,7 +569,7 @@
                 text-anchor="middle"
                 opacity="0.25"
               >
-                diamond-in...
+                diamond-inactive
               </text>
             </g>
           </g>
@@ -622,7 +622,7 @@
                 text-anchor="middle"
                 opacity="0.25"
               >
-                diamond-di...
+                diamond-disabled
               </text>
             </g>
           </g>

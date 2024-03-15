@@ -2,7 +2,7 @@ export type Palette = string | BuiltInPalette | CategoricalPalette | ContinuousP
 
 export type STDPalette = CategoricalPalette | ContinuousPalette;
 
-export type BuiltInPalette = 'antv' | 'spectral' | 'oranges' | 'greens' | 'blues';
+export type BuiltInPalette = 'spectral' | 'oranges' | 'greens' | 'blues';
 
 export type CategoricalPalette = string[];
 

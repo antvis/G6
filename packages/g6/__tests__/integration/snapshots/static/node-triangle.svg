@@ -150,7 +150,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                triangle-ba...
+                triangle-badges
               </text>
             </g>
           </g>
@@ -382,7 +382,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                triangle-act...
+                triangle-active
               </text>
             </g>
           </g>
@@ -448,7 +448,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                triangle-s...
+                triangle-selected
               </text>
             </g>
           </g>
@@ -503,7 +503,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                triangle-hig...
+                triangle-highlight
               </text>
             </g>
           </g>
@@ -556,7 +556,7 @@
                 text-anchor="middle"
                 opacity="0.25"
               >
-                triangle-ina...
+                triangle-inactive
               </text>
             </g>
           </g>

@@ -162,7 +162,7 @@
                 font-size="12"
                 text-anchor="middle"
               >
-                circle-badg...
+                circle-badges
               </text>
             </g>
           </g>
@@ -488,7 +488,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                circle-sel...
+                circle-selected
               </text>
             </g>
           </g>
@@ -546,7 +546,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                circle-highli...
+                circle-highlight
               </text>
             </g>
           </g>
@@ -602,7 +602,7 @@
                 text-anchor="middle"
                 opacity="0.25"
               >
-                circle-inact...
+                circle-inactive
               </text>
             </g>
           </g>
@@ -658,7 +658,7 @@
                 text-anchor="middle"
                 opacity="0.25"
               >
-                circle-disab...
+                circle-disabled
               </text>
             </g>
           </g>

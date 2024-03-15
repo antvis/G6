@@ -82,6 +82,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
     labelIsBillboard: true,
     labelMaxWidth: '200%',
     labelPlacement: 'bottom',
+    labelWordWrap: false,
     labelZIndex: 0,
   };
 

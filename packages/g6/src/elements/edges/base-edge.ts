@@ -54,6 +54,7 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     labelOffsetY: 0,
     labelPlacement: 'center',
     labelTextBaseline: 'middle',
+    labelWordWrap: false,
     halo: false,
     haloDroppable: false,
     haloLineDash: 0,

@@ -489,7 +489,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                star-sele...
+                star-selected
               </text>
             </g>
           </g>
@@ -548,7 +548,7 @@
                 text-anchor="middle"
                 font-weight="700"
               >
-                star-highli...
+                star-highlight
               </text>
             </g>
           </g>
@@ -662,7 +662,7 @@
                 text-anchor="middle"
                 opacity="0.25"
               >
-                star-disabl...
+                star-disabled
               </text>
             </g>
           </g>

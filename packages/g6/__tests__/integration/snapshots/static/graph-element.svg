@@ -28,14 +28,14 @@
       </g>
       <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g
-          id="node-1-node-2"
+          id="edge-1"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
           <g
-            id="node-1-node-2"
+            id="edge-1"
             fill="none"
             marker-start="false"
             marker-end="false"
@@ -48,7 +48,7 @@
               fill="none"
               d="M 0,0 L 26,0"
               stroke-width="1"
-              stroke="rgba(153,173,209,1)"
+              stroke="rgba(127,39,4,1)"
             />
             <path
               id="key"
@@ -60,14 +60,14 @@
           </g>
         </g>
         <g
-          id="node-2-node-3"
+          id="edge-2"
           fill="none"
           marker-start="false"
           marker-end="false"
           transform="matrix(1,0,0,1,0,0)"
         >
           <g
-            id="node-2-node-3"
+            id="edge-2"
             fill="none"
             marker-start="false"
             marker-end="false"
@@ -80,7 +80,7 @@
               fill="none"
               d="M 14.266873708001015,0 L 0,28.53374741600203"
               stroke-width="12"
-              stroke="rgba(153,173,209,1)"
+              stroke="rgba(166,54,3,1)"
               stroke-dasharray="0,0"
               pointer-events="none"
               stroke-opacity="0.25"
@@ -102,7 +102,7 @@
               fill="none"
               d="M 14.266873708001015,0 L 0,28.53374741600203"
               stroke-width="4"
-              stroke="rgba(153,173,209,1)"
+              stroke="rgba(166,54,3,1)"
             />
             <path
               id="key"

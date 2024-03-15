@@ -43,6 +43,18 @@
             />
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,241.500000,146)">
+            <g transform="matrix(1,0,0,1,-67.379997,-46)">
+              <path
+                id="background"
+                fill="rgba(255,0,0,1)"
+                d="M 4,0 l 127.76000000000002,0 a 4,4,0,0,1,4,4 l 0,38 a 4,4,0,0,1,-4,4 l -127.76000000000002,0 a 4,4,0,0,1,-4,-4 l 0,-38 a 4,4,0,0,1,4,-4 z"
+                opacity="0.75"
+                stroke-width="0"
+                fill-opacity="0.5"
+                width="135.76000000000002"
+                height="46"
+              />
+            </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="text"
