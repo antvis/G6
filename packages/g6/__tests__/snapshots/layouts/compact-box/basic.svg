@@ -1,0 +1,1899 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="500"
+  height="500"
+  style="background: transparent; position: absolute; outline: none;"
+  color-interpolation-filters="sRGB"
+  tabindex="1"
+>
+  <defs />
+  <g
+    id="g-svg-camera"
+    transform="matrix(0.481696,0,0,0.481696,147.129105,286.127167)"
+  >
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g
+          id="Modeling Methods-Classification"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Modeling Methods-Classification"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,-204,-400)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,364 C 104 364,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Modeling Methods-Consensus"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Modeling Methods-Consensus"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,-204,-36)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 39,208 39"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Modeling Methods-Regression"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Modeling Methods-Regression"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,-204,-36)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 364,208 364"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Classification-Logistic regression"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Classification-Logistic regression"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,-582)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,182 C 104 182,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Classification-Linear discriminant analysis"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Classification-Linear discriminant analysis"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,-530)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,130 C 104 130,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Classification-Rules"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Classification-Rules"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,-478)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,78 C 104 78,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Classification-Decision trees"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Classification-Decision trees"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,-426)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,26 C 104 26,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Classification-Naive Bayes"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Classification-Naive Bayes"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,-400)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 26,208 26"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Classification-K nearest neighbor"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Classification-K nearest neighbor"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,-400)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 78,208 78"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Classification-Probabilistic neural network"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Classification-Probabilistic neural network"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,-400)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 130,208 130"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Classification-Support vector machine"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Classification-Support vector machine"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,-400)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 182,208 182"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Consensus-Models diversity"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Consensus-Models diversity"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,-166)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,169 C 104 169,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Consensus-Methods"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Consensus-Methods"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,3)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 39,208 39"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Consensus-Common"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Consensus-Common"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,3)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 169,208 169"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Models diversity-Different initializations"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Models diversity-Different initializations"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,-296)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,130 C 104 130,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Models diversity-Different parameter choices"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Models diversity-Different parameter choices"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,-244)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,78 C 104 78,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Models diversity-Different architectures"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Models diversity-Different architectures"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,-192)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,26 C 104 26,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Models diversity-Different modeling methods"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Models diversity-Different modeling methods"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,-166)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 26,208 26"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Models diversity-Different training sets"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Models diversity-Different training sets"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,-166)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 78,208 78"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Models diversity-Different feature sets"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Models diversity-Different feature sets"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,-166)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 130,208 130"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Methods-Classifier selection"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Methods-Classifier selection"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,16)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,26 C 104 26,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Methods-Classifier fusion"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Methods-Classifier fusion"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,42)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 26,208 26"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Common-Bagging"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Common-Bagging"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,120)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,52 C 104 52,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Common-Boosting"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Common-Boosting"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,172)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Common-AdaBoost"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Common-AdaBoost"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,260,172)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 52,208 52"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Regression-Multiple linear regression"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Regression-Multiple linear regression"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,224)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,104 C 104 104,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Regression-Partial least squares"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Regression-Partial least squares"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,276)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,52 C 104 52,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Regression-Multi-layer feed forward neural network"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Regression-Multi-layer feed forward neural network"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,328)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 0,208 0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Regression-General regression neural network"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Regression-General regression neural network"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,328)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 52,208 52"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+        <g
+          id="Regression-Support vector regression"
+          fill="none"
+          marker-start="false"
+          marker-end="false"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="Regression-Support vector regression"
+            fill="none"
+            marker-start="false"
+            marker-end="false"
+            stroke="transparent"
+            stroke-width="3"
+          />
+          <g transform="matrix(1,0,0,1,28,328)">
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 104 0,104 104,208 104"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+            />
+            <path
+              id="key"
+              fill="none"
+              d="M 0,0 C 0 0,0 0,0 0"
+              stroke-width="3"
+              stroke="transparent"
+            />
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g
+          id="Modeling Methods"
+          fill="none"
+          transform="matrix(1,0,0,1,-216,-36)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Modeling Methods
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Classification" fill="none" transform="matrix(1,0,0,1,16,-400)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Classification
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Logistic regression"
+          fill="none"
+          transform="matrix(1,0,0,1,248,-582)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Logistic regression
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Linear discriminant analysis"
+          fill="none"
+          transform="matrix(1,0,0,1,248,-530)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Linear discriminant analysis
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Rules" fill="none" transform="matrix(1,0,0,1,248,-478)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Rules
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Decision trees" fill="none" transform="matrix(1,0,0,1,248,-426)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Decision trees
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Naive Bayes" fill="none" transform="matrix(1,0,0,1,248,-374)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Naive Bayes
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="K nearest neighbor"
+          fill="none"
+          transform="matrix(1,0,0,1,248,-322)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                K nearest neighbor
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Probabilistic neural network"
+          fill="none"
+          transform="matrix(1,0,0,1,248,-270)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Probabilistic neural network
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Support vector machine"
+          fill="none"
+          transform="matrix(1,0,0,1,248,-218)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Support vector machine
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Consensus" fill="none" transform="matrix(1,0,0,1,16,3)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Consensus
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Models diversity"
+          fill="none"
+          transform="matrix(1,0,0,1,248,-166)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Models diversity
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Different initializations"
+          fill="none"
+          transform="matrix(1,0,0,1,480,-296)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Different initializations
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Different parameter choices"
+          fill="none"
+          transform="matrix(1,0,0,1,480,-244)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Different parameter choices
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Different architectures"
+          fill="none"
+          transform="matrix(1,0,0,1,480,-192)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Different architectures
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Different modeling methods"
+          fill="none"
+          transform="matrix(1,0,0,1,480,-140)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Different modeling methods
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Different training sets"
+          fill="none"
+          transform="matrix(1,0,0,1,480,-88)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Different training sets
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Different feature sets"
+          fill="none"
+          transform="matrix(1,0,0,1,480,-36)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Different feature sets
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Methods" fill="none" transform="matrix(1,0,0,1,248,42)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Methods
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Classifier selection"
+          fill="none"
+          transform="matrix(1,0,0,1,480,16)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Classifier selection
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Classifier fusion"
+          fill="none"
+          transform="matrix(1,0,0,1,480,68)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Classifier fusion
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Common" fill="none" transform="matrix(1,0,0,1,248,172)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Common
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Bagging" fill="none" transform="matrix(1,0,0,1,480,120)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Bagging
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Boosting" fill="none" transform="matrix(1,0,0,1,480,172)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Boosting
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="AdaBoost" fill="none" transform="matrix(1,0,0,1,480,224)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                AdaBoost
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Regression" fill="none" transform="matrix(1,0,0,1,16,328)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Regression
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Multiple linear regression"
+          fill="none"
+          transform="matrix(1,0,0,1,248,224)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Multiple linear regression
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Partial least squares"
+          fill="none"
+          transform="matrix(1,0,0,1,248,276)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Partial least squares
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Multi-layer feed forward neural network"
+          fill="none"
+          transform="matrix(1,0,0,1,248,328)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Multi-layer feed forward neural network
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="General regression neural network"
+          fill="none"
+          transform="matrix(1,0,0,1,248,380)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                General regression neural network
+              </text>
+            </g>
+          </g>
+        </g>
+        <g
+          id="Support vector regression"
+          fill="none"
+          transform="matrix(1,0,0,1,248,432)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(23,131,255,1)"
+              transform="translate(-12,-12)"
+              cx="12"
+              cy="12"
+              r="12"
+            />
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="text"
+                fill="rgba(0,0,0,0.8509803921568627)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="left"
+              >
+                Support vector regression
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
