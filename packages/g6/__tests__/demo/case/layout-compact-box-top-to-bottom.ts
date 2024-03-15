@@ -6,6 +6,7 @@ import type { STDTestCase } from '../types';
 export const layoutCompactBoxLeftAlign: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
+    autoFit: 'view',
     data: Utils.treeToGraphData(data),
     node: {
       style: {
@@ -46,7 +47,6 @@ export const layoutCompactBoxLeftAlign: STDTestCase = async (context) => {
     },
     behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
     animation: false,
-    autoFit: 'view',
   });
 
   await graph.render();

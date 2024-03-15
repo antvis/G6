@@ -5,6 +5,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
   .then((data) => {
     const graph = new Graph({
       container: 'container',
+      autoFit: 'view',
       data: Utils.treeToGraphData(data),
       behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
       node: {
@@ -44,7 +45,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         },
       },
       animation: false,
-      autoFit: 'view',
     });
 
     graph.render();
