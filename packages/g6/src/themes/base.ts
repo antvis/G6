@@ -126,13 +126,7 @@ export function create(tokens: ThemeTokens): Theme {
         enter: 'fade',
         exit: 'fade',
         visibility: 'fade',
-        update: [
-          { fields: ['x', 'y', 'fill', 'stroke'] },
-          {
-            fields: ['fill', 'stroke'],
-            shape: 'key',
-          },
-        ],
+        update: [{ fields: ['x', 'y', 'color', 'stroke'] }],
       },
     },
     edge: {
@@ -181,7 +175,7 @@ export function create(tokens: ThemeTokens): Theme {
         enter: 'fade',
         exit: 'fade',
         visibility: 'fade',
-        update: [{ fields: ['stroke'] }, { fields: ['path', 'stroke'], shape: 'key' }],
+        update: [{ fields: ['color'] }, { fields: ['path'], shape: 'key' }],
       },
     },
     combo: {
@@ -234,7 +228,7 @@ export function create(tokens: ThemeTokens): Theme {
         enter: 'fade',
         exit: 'fade',
         visibility: 'fade',
-        update: [{ fields: ['x', 'y'] }, { fields: ['r', 'width', 'height', 'fill'], shape: 'key' }],
+        update: [{ fields: ['x', 'y'] }, { fields: ['size', 'color', 'stroke'], shape: 'key' }],
       },
     },
   };

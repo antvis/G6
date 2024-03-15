@@ -33,7 +33,7 @@ export const controllerElementState: AnimationTestCase = async (context) => {
         },
       },
       animation: {
-        update: [{ fields: ['lineWidth', 'fill'] }],
+        update: [{ fields: ['lineWidth', 'color'] }],
       },
     },
     edge: {
@@ -49,7 +49,7 @@ export const controllerElementState: AnimationTestCase = async (context) => {
       animation: {
         update: [
           {
-            fields: ['lineWidth', 'stroke'],
+            fields: ['lineWidth', 'color'],
           },
         ],
       },

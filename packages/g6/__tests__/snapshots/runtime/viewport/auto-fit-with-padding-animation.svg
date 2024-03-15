@@ -19,7 +19,7 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(212,65,76,1)"
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
@@ -31,7 +31,7 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(47,54,61,1)"
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
@@ -43,7 +43,7 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(47,54,61,1)"
               transform="translate(-25,-25)"
               cx="25"
               cy="25"
@@ -55,7 +55,7 @@
           <g transform="matrix(1,0,0,1,0,0)">
             <circle
               id="key"
-              fill="rgba(23,131,255,1)"
+              fill="rgba(47,54,61,1)"
               transform="translate(-25,-25)"
               cx="25"
               cy="25"

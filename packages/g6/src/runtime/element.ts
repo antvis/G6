@@ -569,6 +569,7 @@ export class ElementController {
 
     const originalStyle = { ...shape.attributes };
     updateStyle(shape, style);
+
     return () => animator?.(id, shape, originalStyle) || null;
   }
 
