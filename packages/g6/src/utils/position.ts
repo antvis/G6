@@ -12,7 +12,7 @@ import { parsePlacement } from './placement';
  */
 export function positionOf(datum: NodeLikeData): Position {
   const { x = 0, y = 0, z = 0 } = datum.style || {};
-  return [x, y, z];
+  return [+x, +y, +z];
 }
 
 /**

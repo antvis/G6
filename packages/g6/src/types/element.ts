@@ -24,7 +24,6 @@ export type NodeLike = Node | Combo;
 
 export type Element = Node | Edge | Combo;
 
-
 type BaseElementStyleProps = BaseStyleProps & {
   context?: RuntimeContext;
 };
