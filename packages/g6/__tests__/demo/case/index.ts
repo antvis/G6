@@ -19,6 +19,7 @@ export * from './layout-combo-combined';
 export * from './layout-concentric';
 export * from './layout-dagre-flow';
 export * from './layout-dagre-flow-combo';
+export * from './layout-force';
 export * from './layout-fruchterman-basic';
 export * from './layout-fruchterman-cluster';
 export * from './layout-fruchterman-fix';
