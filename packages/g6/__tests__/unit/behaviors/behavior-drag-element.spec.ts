@@ -2,7 +2,7 @@ import { CommonEvent, type Graph } from '@/src';
 import { behaviorDragNode } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
-describe('behavior drag node', () => {
+describe('behavior drag element', () => {
   let graph: Graph;
 
   beforeAll(async () => {
