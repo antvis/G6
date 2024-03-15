@@ -67,24 +67,40 @@ The `Graph` object then can be imported from G6.
 <div id="container"></div>
 ```
 
+
 ```ts
 import { Graph } from '@antv/g6';
 
-// 准备数据
+// Get the Data.
+const data = {
+  nodes: [/* your nodes data */],
+  edges: [/* your edges data */],
+};
 
-
-// 初始化图表实例
+// Create the Graph instance.
 const graph = new Graph({
   container: 'container',
+  autoFit: 'view',
+  data,
+  node: {
+    palette: {
+      type: 'group',
+      field: 'cluster',
+    }
+  },
+  layout: {
+    type: 'force',
+  },
+  behaviors: ['drag-canvas', 'drag-node'],
 });
 
-// 渲染可视化
+// Render the Graph.
 graph.render();
 ```
 
 All goes well, you can get the following lovely graph!
 
-图
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ue4iTYurc6sAAAAAAAAAAAAADmJ7AQ/fmt.webp" height="300" />
 
 
 ## 🌍 Ecosystem
@@ -101,7 +117,10 @@ For more ecosystem open-source projects, contributions are welcome. Please feel 
 - **Contribution Guide**: Information on how to get involved in the development and contribution to G6.
 - **Ideas Discussion**: Discuss your ideas on GitHub Discussions or in the DingTalk group.
 
-qrcode
+<div align="center">
+  <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CQoGSoFBzaUAAAAAAAAAAAAADmJ7AQ/fmt.webp" height="256" />
+  <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yXJGSY8RC68AAAAAAAAAAAAADmJ7AQ/fmt.webp" height="256" />
+</div>
 
 ## 📄 License
 

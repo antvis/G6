@@ -71,11 +71,26 @@ $ yarn add @antv/g6@next
 import { Graph } from '@antv/g6';
 
 // 准备数据
-
+const data = {
+  nodes: [/* your nodes data */],
+  edges: [/* your edges data */],
+};
 
 // 初始化图表实例
 const graph = new Graph({
   container: 'container',
+  autoFit: 'view',
+  data,
+  node: {
+    palette: {
+      type: 'group',
+      field: 'cluster',
+    }
+  },
+  layout: {
+    type: 'force',
+  },
+  behaviors: ['drag-canvas', 'drag-node'],
 });
 
 // 渲染可视化
@@ -84,7 +99,8 @@ graph.render();
 
 一切顺利，你可以得到下面的力导图!
 
-图
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ue4iTYurc6sAAAAAAAAAAAAADmJ7AQ/fmt.webp" height="300" />
+
 
 ## 🌍 生态
 
@@ -100,7 +116,11 @@ graph.render();
 - **贡献指南**：如何参与到 G6 的开发和贡献。
 - **想法讨论**：在 GitHub Discussion 上或者钉钉群里面讨论。
 
-二维码
+<div align="center">
+  <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CQoGSoFBzaUAAAAAAAAAAAAADmJ7AQ/fmt.webp" height="256" />
+  <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yXJGSY8RC68AAAAAAAAAAAAADmJ7AQ/fmt.webp" height="256" />
+</div>
+
 
 ## 📄 License
 
