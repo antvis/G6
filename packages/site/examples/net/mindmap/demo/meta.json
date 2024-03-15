@@ -5,20 +5,36 @@
   },
   "demos": [
     {
-      "filename": "hMindmap.js",
+      "filename": "hMindmap.ts",
       "title": {
         "zh": "脑图树-子节点自动两侧分布",
         "en": "Two Side Mindmap Layout"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*noXTS5TOPdwAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wRZjTL3fCbEAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "graphWithMindmap.js",
+      "filename": "hRightMindmap.ts",
       "title": {
-        "zh": "图数据使用脑图树",
-        "en": "Mindmap Layout with Graph Data"
+        "zh": "脑图树-子节点右侧分布",
+        "en": "Right Side Mindmap Layout"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VzdkSbUVWfoAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W6OGRLg2UJcAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "hLeftMindmap.ts",
+      "title": {
+        "zh": "脑图树-子节点左侧分布",
+        "en": "Left Side Mindmap Layout"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NNUaTaN9yIgAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "hCustomSideMindmap.ts",
+      "title": {
+        "zh": "脑图树-自定义子节点分布",
+        "en": "Custom Mindmap Layout"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Su39QqQr9PYAAAAAAAAAAABkARQnAQ"
     }
   ]
 }
