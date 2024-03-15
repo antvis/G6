@@ -39,12 +39,29 @@ describe('behavior drag node', () => {
     graph.emit(`node:${CommonEvent.DRAG_END}`);
   });
 
-  it('shadow', async () => {
+  it('drag node shadow', async () => {
     graph.setBehaviors([{ type: 'drag-node', shadow: true, shadowStroke: 'red', shadowStrokeOpacity: 1 }]);
     graph.emit(`node:${CommonEvent.DRAG_START}`, { target: { id: 'node-4' }, targetType: 'node' });
     graph.emit(`node:${CommonEvent.DRAG}`, { dx: 20, dy: 20 });
     await expect(graph).toMatchSnapshot(__filename, 'shadow');
     graph.emit(`node:${CommonEvent.DRAG_END}`);
     await expect(graph).toMatchSnapshot(__filename, 'shadow-after-drag');
+  });
+
+  it('drag combo', async () => {
+    graph.setBehaviors(['drag-node']);
+    graph.emit(`combo:${CommonEvent.DRAG_START}`, { target: { id: 'combo-1' }, targetType: 'combo' });
+    graph.emit(`combo:${CommonEvent.DRAG}`, { dx: 20, dy: 20 });
+    graph.emit(`combo:${CommonEvent.DRAG_END}`);
+    await expect(graph).toMatchSnapshot(__filename, 'drag-combo');
+  });
+
+  it('drag combo shadow', async () => {
+    graph.setBehaviors([{ type: 'drag-node', shadow: true, shadowStroke: 'red', shadowStrokeOpacity: 1 }]);
+    graph.emit(`combo:${CommonEvent.DRAG_START}`, { target: { id: 'combo-1' }, targetType: 'combo' });
+    graph.emit(`combo:${CommonEvent.DRAG}`, { dx: 20, dy: 20 });
+    await expect(graph).toMatchSnapshot(__filename, 'drag-combo-shadow');
+    graph.emit(`combo:${CommonEvent.DRAG_END}`);
+    await expect(graph).toMatchSnapshot(__filename, 'drag-combo-shadow-after-drag');
   });
 });
