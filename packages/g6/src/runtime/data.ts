@@ -9,7 +9,6 @@ import type {
   DataRemoved,
   DataUpdated,
   ElementDatum,
-  GraphlibModel,
   NodeLikeData,
   PartialEdgeData,
   PartialGraphData,
@@ -26,7 +25,7 @@ import { idOf, parentIdOf } from '../utils/id';
 import { dfs } from '../utils/traverse';
 
 export class DataController {
-  public model: GraphlibModel;
+  public model: GraphLib<NodeLikeData, EdgeData>;
 
   /**
    * <zh/> 最近一次删除的 combo 的 id
@@ -132,28 +131,30 @@ export class DataController {
 
   public getNodeData(ids?: ID[]) {
     return this.model.getAllNodes().reduce((acc, node) => {
-      if (this.isCombo(idOf(node))) return acc;
+      const data = node.data;
+      if (this.isCombo(idOf(data))) return acc;
 
       if (ids === undefined) acc.push(toG6Data(node));
-      else ids.includes(idOf(node)) && acc.push(node.data);
+      else ids.includes(idOf(data)) && acc.push(data);
       return acc;
     }, [] as NodeData[]);
   }
 
   public getEdgeData(ids?: ID[]) {
     return this.model.getAllEdges().reduce((acc, edge) => {
-      if (ids === undefined) acc.push(edge.data);
-      else ids.includes(idOf(edge)) && acc.push(edge.data);
+      const data = edge.data;
+      if (ids === undefined) acc.push(data);
+      else ids.includes(idOf(data)) && acc.push(data);
       return acc;
     }, [] as EdgeData[]);
   }
 
   public getComboData(ids?: ID[]) {
     return this.model.getAllNodes().reduce((acc, node) => {
-      if (!this.isCombo(idOf(node))) return acc;
+      if (!this.isCombo(idOf(node.data))) return acc;
 
       if (ids === undefined) acc.push(node.data);
-      else ids.includes(idOf(node)) && acc.push(node.data);
+      else ids.includes(idOf(node.data)) && acc.push(node.data);
       return acc;
     }, [] as ComboData[]);
   }
@@ -219,8 +220,9 @@ export class DataController {
    */
   public getNodeLikeData(ids?: ID[]) {
     return this.model.getAllNodes().reduce((acc, node) => {
-      if (ids) ids.includes(idOf(node)) && acc.push(node.data);
-      else acc.push(node.data);
+      const data = node.data;
+      if (ids) ids.includes(idOf(data)) && acc.push(data);
+      else acc.push(data);
       return acc;
     }, [] as NodeLikeData[]);
   }

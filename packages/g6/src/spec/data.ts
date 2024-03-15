@@ -28,12 +28,14 @@ export interface NodeData {
   id: ID;
   data?: Record<string, unknown>;
   style?: NodeStyle;
+  [key: string]: unknown;
 }
 
 export interface ComboData {
   id: ID;
   data?: Record<string, unknown>;
   style?: ComboStyle;
+  [key: string]: unknown;
 }
 
 export interface EdgeData {
@@ -42,4 +44,5 @@ export interface EdgeData {
   target: ID;
   data?: Record<string, unknown>;
   style?: EdgeStyle;
+  [key: string]: unknown;
 }

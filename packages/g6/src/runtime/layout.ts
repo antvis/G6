@@ -230,7 +230,7 @@ export class LayoutController {
     const comboElementMap = Object.fromEntries(element.getCombos().map((combo) => [combo.id, combo]));
     const edgeElementMap = Object.fromEntries(element.getEdges().map((edge) => [edge.id, edge]));
 
-    const nodes = model.model.getAllNodes().filter((node) => nodesFilter(node));
+    const nodes = model.model.getAllNodes().filter((node) => nodesFilter(node.data));
     const edges = model.model.getAllEdges();
 
     const nodesToLayout = (

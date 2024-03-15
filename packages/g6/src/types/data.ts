@@ -1,12 +1,5 @@
-import type { Edge as EdgeGraphlib, Graph as Graphlib, Node as GraphlibNode, ID } from '@antv/graphlib';
+import type { ID } from '@antv/graphlib';
 import type { ComboData, EdgeData, NodeData } from '../spec/data';
-
-export type GraphlibModel = Graphlib<NodeData, EdgeData>;
-
-export type GraphlibData = {
-  nodes: GraphlibNode<NodeLikeData>[];
-  edges: EdgeGraphlib<EdgeData>[];
-};
 
 export type DataID = {
   nodes?: ID[];
