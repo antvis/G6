@@ -1,5 +1,5 @@
 
-<img src="https://gw.alipayobjects.com/zos/antfincdn/R8sN%24GNdh6/language.svg" width="18"> [English](./README.md) | 简体中文
+<img src="https://gw.alipayobjects.com/zos/antfincdn/R8sN%24GNdh6/language.svg" width="18"> [English](./README.en-US.md) | 简体中文
 
 <h1 align="center">
 <b>G6：图可视分析引擎</b>
@@ -16,9 +16,6 @@
 ![typescript](https://img.shields.io/badge/language-typescript-blue.svg)
 [![npm License](https://img.shields.io/npm/l/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 
-
-[G6](https://github.com/antvis/g6) 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画、主题、插件等图可视化和分析的基础能力。基于 G6，用户可以快速搭建自己的图可视化分析应用，让关系数据变得简单，透明，有意义。
-
 <p align="center">
   <a href="https://g6-next.antv.antgroup.com/">介绍</a> •
   <a href="https://g6-next.antv.antgroup.com/examples">案例</a> •
@@ -26,6 +23,7 @@
   <a href="https://g6-next.antv.antgroup.com/">API</a>
 </p>
 
+[G6](https://github.com/antvis/g6) 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画、主题、插件等图可视化和分析的基础能力。基于 G6，用户可以快速搭建自己的图可视化分析应用，让关系数据变得简单，透明，有意义。
 
 <img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_PJ5SZELwq0AAAAAAAAAAAAADmJ7AQ/original' width=550 alt='' />
 
@@ -90,7 +88,7 @@ graph.render();
 
 ## 🌍 生态
 
- - **Ant Design Charts**： React 图表库，基于 G2, G6, X6, L7。
+ - **Ant Design Charts**： React 图表库，基于 G2、G6、X6、L7。
  - **Graphin**：基于 G6 的 React 简单封装，以及图可视化应用研发的 SDK。
 
 更多生态开源项目，欢迎 PR 收录进来。
@@ -100,8 +98,9 @@ graph.render();
 
 - **问题反馈**：使用过程遇到的 G6 的问题，欢迎提交 Issue，并附上可以复现问题的最小案例代码。
 - **贡献指南**：如何参与到 G6 的开发和贡献。
-- **想法讨论**：在 GitHub discussion 上或者钉钉群里面讨论。
+- **想法讨论**：在 GitHub Discussion 上或者钉钉群里面讨论。
 
+二维码
 
 ## 📄 License
 
