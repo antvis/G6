@@ -64,6 +64,19 @@
           fill="none"
           transform="matrix(1,0,0,1,150.919998,259.630188)"
         >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(253,253,253,1)"
+              transform="translate(-152.93032172597734,-152.93032172597734)"
+              cx="152.93032172597734"
+              cy="152.93032172597734"
+              stroke-dasharray="0,0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+              r="152.93032172597734"
+            />
+          </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,152.930328)">
             <g transform="matrix(1,0,0,1,-25.440001,0)">
               <path
@@ -91,25 +104,25 @@
               </text>
             </g>
           </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(253,253,253,1)"
-              transform="translate(-152.93032172597734,-152.93032172597734)"
-              cx="152.93032172597734"
-              cy="152.93032172597734"
-              stroke-dasharray="0,0"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-              r="152.93032172597734"
-            />
-          </g>
         </g>
         <g
           id="combo-3"
           fill="none"
           transform="matrix(1,0,0,1,150.500000,311.500000)"
         >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle
+              id="key"
+              fill="rgba(253,253,253,1)"
+              transform="translate(-44.76036219984682,-44.76036219984682)"
+              cx="44.76036219984682"
+              cy="44.76036219984682"
+              stroke-dasharray="0,0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+              r="44.76036219984682"
+            />
+          </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,44.760361)">
             <g transform="matrix(1,0,0,1,-26.400000,0)">
               <path
@@ -136,19 +149,6 @@
                 combo-3
               </text>
             </g>
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(253,253,253,1)"
-              transform="translate(-44.76036219984682,-44.76036219984682)"
-              cx="44.76036219984682"
-              cy="44.76036219984682"
-              stroke-dasharray="0,0"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-              r="44.76036219984682"
-            />
           </g>
         </g>
       </g>

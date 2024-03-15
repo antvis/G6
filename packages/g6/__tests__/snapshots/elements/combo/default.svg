@@ -46,6 +46,19 @@
           fill="none"
           transform="matrix(1,0,0,1,250.440002,261.500000)"
         >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path
+              id="key"
+              fill="rgba(253,253,253,1)"
+              d="M 0,0 l 163.2400008392334,0 l 0,175 l-163.2400008392334 0 z"
+              transform="translate(-81.6200004196167,-87.5)"
+              stroke-dasharray="0,0"
+              stroke-width="1"
+              stroke="rgba(153,173,209,1)"
+              width="163.2400008392334"
+              height="175"
+            />
+          </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,87.500000)">
             <g transform="matrix(1,0,0,1,-25.440001,0)">
               <path
@@ -72,19 +85,6 @@
                 combo-1
               </text>
             </g>
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <path
-              id="key"
-              fill="rgba(253,253,253,1)"
-              d="M 0,0 l 163.2400008392334,0 l 0,175 l-163.2400008392334 0 z"
-              transform="translate(-81.6200004196167,-87.5)"
-              stroke-dasharray="0,0"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-              width="163.2400008392334"
-              height="175"
-            />
           </g>
         </g>
       </g>

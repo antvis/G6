@@ -20,22 +20,15 @@ describe('ElementController', () => {
 
     const options = graph.getOptions();
 
-    const edge1Id = idOf(options.data!.edges![0]);
-    const edge2Id = idOf(options.data!.edges![1]);
+    const node1 = options.data!.nodes![0];
+    const node2 = options.data!.nodes![1];
+    const node3 = options.data!.nodes![2];
+    const edge1 = options.data!.edges![0];
+    const edge2 = options.data!.edges![1];
+    const combo1 = options.data!.combos![0];
 
-    expect(elementController.getDataStyle('node-1')).toEqual(options.data!.nodes![0].style || {});
-    // 没有属性 / no style
-    expect(elementController.getDataStyle('node-2')).toEqual({ x: 150, y: 100 });
-    // 没有样式属性 / No style attribute
-    expect(elementController.getDataStyle('node-3')).toEqual({
-      x: 125,
-      y: 150,
-      parentId: 'combo-1',
-      states: ['selected'],
-    });
-    expect(elementController.getDataStyle(edge1Id)).toEqual(options.data!.edges![0].style || {});
-    // combo style 基于子节点更新 / Combo style is updated based on child nodes
-    expect(elementController.getDataStyle('combo-1')).toEqual({ x: 125, y: 150, zIndex: 0 });
+    const edge1Id = idOf(edge1);
+    const edge2Id = idOf(edge2);
 
     // ref light theme
     expect(elementController.getThemeStyle('node')).toEqual(LIGHT_THEME.node!.style);
@@ -73,22 +66,7 @@ describe('ElementController', () => {
     });
     expect(elementController.getStateStyle('combo-1')).toEqual({});
 
-    // expect(Object.keys(elementController.getElementsByState('selected'))).toEqual([
-    //   'node-3',
-    //   idOf(options.data!.edges![1]),
-    // ]);
-
-    // elementController.setElementsState({ 'node-1': ['active'] });
-    // expect(elementController.getElementStates('node-1')).toEqual(['active']);
-    // elementController.setElementsState({ 'node-1': [] });
-    // expect(elementController.getElementStates('node-1')).toEqual([]);
-
-    // expect(elementController.getElementStates('node-2')).toEqual([]);
-    // expect(elementController.getElementStates('node-3')).toEqual(['selected']);
-    // expect(elementController.getElementStates('edge-1')).toEqual([]);
-    // expect(elementController.getElementStates(idOf(options.data!.edges![1]))).toEqual(['active', 'selected']);
-
-    expect(elementController.getElementComputedStyle('node', 'node-1')).toEqual({
+    expect(elementController.getElementComputedStyle('node', node1)).toEqual({
       ...LIGHT_THEME.node?.style,
       type: 'circle',
       fill: 'blue',
@@ -101,7 +79,7 @@ describe('ElementController', () => {
       y: 100,
     });
 
-    expect(elementController.getElementComputedStyle('node', 'node-2')).toEqual({
+    expect(elementController.getElementComputedStyle('node', node2)).toEqual({
       ...LIGHT_THEME.node?.style,
       type: 'circle',
       fill: 'red',
@@ -112,7 +90,7 @@ describe('ElementController', () => {
       y: 100,
     });
 
-    expect(elementController.getElementComputedStyle('node', 'node-3')).toEqual({
+    expect(elementController.getElementComputedStyle('node', node3)).toEqual({
       ...LIGHT_THEME.node?.style,
       ...LIGHT_THEME.node?.state?.selected,
       type: 'circle',
@@ -127,13 +105,13 @@ describe('ElementController', () => {
       y: 150,
     });
 
-    expect(omit(elementController.getElementComputedStyle('edge', edge1Id), ['sourceNode', 'targetNode'])).toEqual({
+    expect(omit(elementController.getElementComputedStyle('edge', edge1), ['sourceNode', 'targetNode'])).toEqual({
       ...LIGHT_THEME.edge?.style,
       type: 'line',
       color: BUILT_IN_PALETTES.oranges.at(-1),
     });
 
-    expect(omit(elementController.getElementComputedStyle('edge', edge2Id), ['sourceNode', 'targetNode'])).toEqual({
+    expect(omit(elementController.getElementComputedStyle('edge', edge2), ['sourceNode', 'targetNode'])).toEqual({
       ...LIGHT_THEME.edge?.style,
       ...LIGHT_THEME.edge?.state?.active,
       ...LIGHT_THEME.edge?.state?.selected,
@@ -144,15 +122,12 @@ describe('ElementController', () => {
       color: BUILT_IN_PALETTES.oranges.at(-2),
     });
 
-    const comboStyle = elementController.getElementComputedStyle('combo', 'combo-1');
+    const comboStyle = elementController.getElementComputedStyle('combo', combo1);
 
     expect(comboStyle.childrenNode[0].id).toEqual('node-3');
 
     expect(omit(comboStyle, ['childrenNode', 'childrenData'])).toEqual({
       ...LIGHT_THEME.combo?.style,
-      x: 125,
-      y: 150,
-      zIndex: 0,
       type: 'circle',
       color: BUILT_IN_PALETTES.blues[0],
     });
