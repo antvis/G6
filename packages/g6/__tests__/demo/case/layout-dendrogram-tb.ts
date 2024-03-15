@@ -5,6 +5,7 @@ import type { STDTestCase } from '../types';
 export const layoutDendrogramTb: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
+    autoFit: 'view',
     data: Utils.treeToGraphData(data),
     node: {
       style: (model) => {
@@ -31,7 +32,6 @@ export const layoutDendrogramTb: STDTestCase = async (context) => {
       nodeSep: 40,
       rankSep: 100,
     },
-    autoFit: 'view',
     behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node', 'collapse-expand-tree'],
   });
 
