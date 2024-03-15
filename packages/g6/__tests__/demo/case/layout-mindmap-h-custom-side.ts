@@ -2,13 +2,6 @@ import { Graph, Utils } from '@/src';
 import data from '@@/dataset/algorithm-category.json';
 import type { STDTestCase } from '../types';
 
-type Model = {
-  id: string;
-  style: {
-    x: number;
-  };
-};
-
 export const layoutMindmapHCustomSide: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
@@ -16,7 +9,7 @@ export const layoutMindmapHCustomSide: STDTestCase = async (context) => {
     autoFit: 'view',
     node: {
       // @ts-expect-error
-      style: (model: Model) => {
+      style: (model: any) => {
         const {
           style: { x },
         } = model;
