@@ -10,7 +10,7 @@ export const layoutMDS: STDTestCase = async (context) => {
     data,
     node: {
       style: {
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
         labelPlacement: 'center',
       },
     },

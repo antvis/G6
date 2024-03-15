@@ -426,7 +426,7 @@ export class DataController {
         // If the position of the combo has changed, the position of its child nodes needs to be updated
         if (Object.keys(modifiedCombo.style || {}).some((key) => ['x', 'y', 'z'].includes(key))) {
           const { x = 0, y = 0, z = 0 } = modifiedCombo.style || {};
-          this.translateComboTo([modifiedComboId], [x, y, z]);
+          this.translateComboTo([modifiedComboId], [+x, +y, +z]);
         }
 
         const value = mergeElementsData(originalCombo, modifiedCombo);
@@ -451,7 +451,7 @@ export class DataController {
             const succeedID = idOf(succeed);
             const { x = 0, y = 0, z = 0 } = succeed.style || {};
             const value = mergeElementsData(succeed, {
-              style: { x: x + dx, y: y + dy, z: z + dz },
+              style: { x: +x + dx, y: +y + dy, z: z + dz },
             });
             this.pushChange({
               value,
@@ -475,9 +475,9 @@ export class DataController {
     model.batch(() => {
       this.getComboData(ids).forEach((combo) => {
         const { x: comboX = 0, y: comboY = 0, z: comboZ = 0 } = combo.style || {};
-        const dx = x - comboX;
-        const dy = y - comboY;
-        const dz = z - comboZ;
+        const dx = x - +comboX;
+        const dy = y - +comboY;
+        const dz = z - +comboZ;
 
         dfs(
           combo,
@@ -485,7 +485,7 @@ export class DataController {
             const succeedID = idOf(succeed);
             const { x = 0, y = 0, z = 0 } = succeed.style || {};
             const value = mergeElementsData(succeed, {
-              style: { x: x + dx, y: y + dy, z: z + dz },
+              style: { x: +x + dx, y: +y + dy, z: +z + dz },
             });
             this.pushChange({
               value,

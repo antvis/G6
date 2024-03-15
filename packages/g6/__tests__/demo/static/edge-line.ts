@@ -42,7 +42,7 @@ export const edgeLine: StaticTestCase = async (context) => {
     edge: {
       style: {
         type: 'line', // 👈🏻 Edge shape type.
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id!,
         labelBackground: true,
         endArrow: true,
       },

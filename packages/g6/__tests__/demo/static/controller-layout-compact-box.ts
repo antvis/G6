@@ -1,4 +1,4 @@
-import type { G6Spec } from '@/src';
+import type { G6Spec, NodeData } from '@/src';
 import { Graph, Utils } from '@/src';
 import tree from '@@/dataset/algorithm-category.json';
 import type { STDTestCase } from '../types';
@@ -14,7 +14,7 @@ export const controllerLayoutCompactBox: STDTestCase = async (context) => {
     layout: {
       type: 'compact-box',
       direction: 'LR',
-      getId: function getId(d: any) {
+      getId: function getId(d: NodeData) {
         return d.id;
       },
       getHeight: function getHeight() {
@@ -26,14 +26,14 @@ export const controllerLayoutCompactBox: STDTestCase = async (context) => {
       getHGap: function getHGap() {
         return 100;
       },
-      getWidth: function getWidth(d: any) {
-        return d.id.length + 20;
+      getWidth: function getWidth(d: NodeData) {
+        return d.id.toString().length + 20;
       },
     },
     node: {
       style: {
         size: 20,
-        labelText: (data: any) => data.id,
+        labelText: (data) => data.id,
         labelMaxWidth: 250,
         labelPlacement: 'right',
         labelOffsetX: 10,

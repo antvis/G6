@@ -1,3 +1,4 @@
+import type { NodeData } from '@/src';
 import { toG6Data, toGraphlibData } from '@/src/utils/graphlib';
 
 describe('graphlib', () => {
@@ -36,7 +37,7 @@ describe('graphlib', () => {
   });
 
   it('data isolation', () => {
-    const raw = {
+    const raw: NodeData = {
       id: 'node-3',
       data: { basic: 2, array: [1, 2, 3], object: { a: 1 } },
       style: { x: 100, y: 100, opacity: 0.5, size: [100, 100] },

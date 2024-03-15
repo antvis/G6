@@ -1,5 +1,5 @@
 import { isFunction } from '@antv/util';
-import type { CallableObject, ElementData, ElementDatum, StyleIterationContext } from '../types';
+import type { CallableObject, ElementDatum, StyleIterationContext } from '../types';
 
 /**
  * <zh/> 计算支持回调的动态样式
@@ -10,9 +10,7 @@ import type { CallableObject, ElementData, ElementDatum, StyleIterationContext }
  * @returns <zh/> 静态样式 | <en/> static style
  */
 export function computeElementCallbackStyle(
-  callableStyle:
-    | CallableObject<Record<string, unknown>, [ElementDatum, number, ElementData]>
-    | ((...params: [ElementDatum, number, ElementData]) => Record<string, unknown>),
+  callableStyle: CallableObject<Record<string, unknown>, ElementDatum>,
   context: StyleIterationContext,
 ) {
   const { datum, index, elementData } = context;

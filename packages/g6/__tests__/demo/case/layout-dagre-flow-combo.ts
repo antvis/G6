@@ -2,13 +2,6 @@ import { Graph } from '@/src';
 import data from '@@/dataset/dagre-combo.json';
 import type { STDTestCase } from '../types';
 
-type Item = {
-  id: string;
-  style: {
-    parentId: string;
-  };
-};
-
 export const layoutDagreFlowCombo: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
@@ -19,11 +12,11 @@ export const layoutDagreFlowCombo: STDTestCase = async (context) => {
         type: 'rect',
         size: [60, 30],
         radius: 8,
-        labelText: (d: Item) => d.id,
+        labelText: (d) => d.id,
         labelPlacement: 'center',
       },
       palette: {
-        field: (d: any) => d.style?.parentId,
+        field: (d) => d.style?.parentId,
       },
     },
     edge: {
@@ -36,7 +29,7 @@ export const layoutDagreFlowCombo: STDTestCase = async (context) => {
       style: {
         type: 'rect',
         radius: 8,
-        labelText: (d: Item) => d.id,
+        labelText: (d) => d.id,
         lineDash: 0,
         collapsedLineDash: [5, 5],
       },

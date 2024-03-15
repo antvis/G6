@@ -8,7 +8,7 @@ export const layoutGrid: STDTestCase = async (context) => {
     data,
     node: {
       style: {
-        labelText: (d: any) => d.id,
+        labelText: (d) => d.id,
       },
     },
     layout: {

@@ -1,8 +1,8 @@
-import type { Palette } from '../palettes/types';
+import type { CategoricalPalette } from '../palettes/types';
 import type { PaletteOptions } from '../spec/element/palette';
 import type { Theme } from './types';
 
-const BADGE_PALETTE: Palette = ['#7E92B5', '#f5222d', '#faad14'];
+const BADGE_PALETTE: CategoricalPalette = ['#7E92B5', '#f5222d', '#faad14'];
 
 const NODE_PALETTE_OPTIONS: PaletteOptions = {
   type: 'group',
@@ -144,7 +144,7 @@ export function create(tokens: ThemeTokens): Theme {
         labelBackgroundPadding: [4, 4, 4, 4],
         labelFill: textColor,
         labelFontSize: 12,
-        labelPlacement: 'middle',
+        labelPlacement: 'center',
         labelTextBaseline: 'middle',
         lineWidth: 1,
       },

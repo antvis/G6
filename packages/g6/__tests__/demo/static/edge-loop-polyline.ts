@@ -1,4 +1,5 @@
 import { Graph } from '@/src';
+import { idOf } from '@/src/utils/id';
 import type { StaticTestCase } from '../types';
 
 export const edgeLoopPolyline: StaticTestCase = async (context) => {
@@ -9,49 +10,49 @@ export const edgeLoopPolyline: StaticTestCase = async (context) => {
         id: 'loop-1',
         source: 'node1',
         target: 'node1',
-        placement: 'top',
+        style: { placement: 'top' },
       },
       {
         id: 'loop-2',
         source: 'node1',
         target: 'node1',
-        placement: 'right',
+        style: { placement: 'right' },
       },
       {
         id: 'loop-3',
         source: 'node1',
         target: 'node1',
-        placement: 'bottom',
+        style: { placement: 'bottom' },
       },
       {
         id: 'loop-4',
         source: 'node1',
         target: 'node1',
-        placement: 'left',
+        style: { placement: 'left' },
       },
       {
         id: 'loop-5',
         source: 'node2',
         target: 'node2',
-        placement: 'top-right',
+        style: { placement: 'top-right' },
       },
       {
         id: 'loop-6',
         source: 'node2',
         target: 'node2',
-        placement: 'bottom-right',
+        style: { placement: 'bottom-right' },
       },
       {
         id: 'loop-7',
         source: 'node2',
         target: 'node2',
-        placement: 'bottom-left',
+        style: { placement: 'bottom-left' },
       },
       {
         id: 'loop-8',
         source: 'node2',
         target: 'node2',
-        placement: 'top-left',
+        style: { placement: 'top-left' },
       },
       {
         id: 'loop-9',
@@ -81,7 +82,7 @@ export const edgeLoopPolyline: StaticTestCase = async (context) => {
       style: {
         type: 'rect',
         size: [80, 30],
-        port: (d: any) => d.id.includes('ports'),
+        port: (d) => idOf(d).toString().includes('ports'),
         portR: 3,
         ports: [
           {
@@ -99,7 +100,7 @@ export const edgeLoopPolyline: StaticTestCase = async (context) => {
       style: {
         type: 'polyline',
         endArrow: true,
-        loopPlacement: (d: any) => d.placement,
+        loopPlacement: (d) => d.style!.placement,
       },
     },
     layout: {

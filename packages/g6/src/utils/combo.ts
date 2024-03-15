@@ -170,8 +170,8 @@ export function getDescendantCount(children: (Node | Combo)[], onlyNode = false)
     if (!onlyNode || isNode(child)) {
       count += 1;
     }
-    if ('children' in child.attributes) {
-      count += getDescendantCount(child.attributes.children as (Node | Combo)[], onlyNode);
+    if ('childrenNode' in child.attributes) {
+      count += getDescendantCount(child.attributes.childrenNode as (Node | Combo)[], onlyNode);
     }
   }
   return count;

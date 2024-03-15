@@ -1,7 +1,8 @@
-import type { BaseStyleProps } from '@antv/g';
+import type { BaseEdgeStyleProps } from '../../elements/edges';
 import type { CallableObject } from '../../types/callable';
 import type { EdgeData } from '../data';
 import type { AnimationOptions } from './animation';
+import type { BaseElementStyle } from './base';
 import type { PaletteOptions } from './palette';
 
 /**
@@ -9,7 +10,7 @@ import type { PaletteOptions } from './palette';
  *
  * <en/> Edge spec
  */
-export type EdgeOptions = {
+export interface EdgeOptions {
   /**
    * <zh/> 边样式
    *
@@ -34,21 +35,15 @@ export type EdgeOptions = {
    * <en/> Palette
    */
   palette?: PaletteOptions;
-};
+}
 
-export type StaticEdgeOptions = {
+export interface StaticEdgeOptions {
   style?: EdgeStyle;
   state?: Record<string, EdgeStyle>;
   animation?: AnimationOptions;
   palette?: PaletteOptions;
-};
+}
 
-/**
- * <zh/> 边样式
- *
- * <en/> Edge style
- */
-export type EdgeStyle = Pick<BaseStyleProps, 'cursor' | 'opacity' | 'pointerEvents' | 'visibility' | 'zIndex'> & {
-  states?: string[];
-  type?: string;
-} & Record<string, unknown>;
+export interface EdgeStyle extends BaseElementStyle, Partial<BaseEdgeStyleProps> {
+  [key: string]: any;
+}

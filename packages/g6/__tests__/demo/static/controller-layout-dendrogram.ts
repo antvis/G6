@@ -20,7 +20,7 @@ export const controllerLayoutDendrogram: STDTestCase = async (context) => {
     node: {
       style: {
         size: 20,
-        labelText: (data: any) => data.id,
+        labelText: (data) => data.id,
         labelPlacement: 'right',
         labelMaxWidth: 200,
         ports: [

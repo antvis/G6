@@ -11,7 +11,7 @@ const data = {
       id: 'edge-1',
       source: 'node-1',
       target: 'node-2',
-      controlPoints: [[300, 190]],
+      style: { controlPoints: [[300, 190]] },
     },
   ],
 };
@@ -23,7 +23,7 @@ const graph = new Graph({
     style: {
       type: 'polyline', // 👈🏻 Edge shape type.
       router: true,
-      controlPoints: (d: any) => d.controlPoints,
+      controlPoints: (d) => d.style.controlPoints,
     },
   },
   behaviors: [{ type: 'drag-node' }],

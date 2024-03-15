@@ -3,6 +3,7 @@ import type { StaticTestCase } from '../types';
 
 export const elementLabelOversized: StaticTestCase = async (context) => {
   const { container, animation, theme } = context;
+
   const data = {
     nodes: [
       {
@@ -43,11 +44,11 @@ export const elementLabelOversized: StaticTestCase = async (context) => {
     node: {
       style: {
         type: 'rect',
-        x: (d: any) => d.data.x,
-        y: (d: any) => d.data.y,
-        size: (d: any) => d.data.size,
+        x: (d) => d.data!.x as number,
+        y: (d) => d.data!.y as number,
+        size: (d) => d.data!.size as number,
         labelPlacement: 'bottom',
-        labelText: (d: any) => d.data.label,
+        labelText: (d) => d.data!.label as string,
         labelMaxWidth: '90%',
         labelBackground: true,
         labelBackgroundFill: '#eee',
@@ -61,7 +62,7 @@ export const elementLabelOversized: StaticTestCase = async (context) => {
       style: {
         labelOffsetY: -4,
         labelTextBaseline: 'bottom',
-        labelText: (d: any) => d.data.label,
+        labelText: (d) => d.data!.label as string,
         labelMaxWidth: '80%',
         labelBackground: true,
         labelBackgroundFill: 'red',

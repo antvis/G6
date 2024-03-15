@@ -12,8 +12,9 @@ import type { BaseShape } from '../elements/shapes';
 import { getExtension } from '../registry';
 import type { ComboData, EdgeData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
+import { ComboStyle } from '../spec/element/combo';
 import type { EdgeStyle } from '../spec/element/edge';
-import type { NodeLikeStyle } from '../spec/element/node';
+import type { NodeStyle } from '../spec/element/node';
 import type {
   AnimatableTask,
   Combo,
@@ -121,7 +122,7 @@ export class ElementController {
     return { color };
   }
 
-  public getDataStyle(id: ID): NodeLikeStyle | EdgeStyle {
+  public getDataStyle(id: ID): NodeStyle | EdgeStyle | ComboStyle {
     const datum = this.context.model.getElementsData([id])?.[0];
     return datum?.style || {};
   }
@@ -136,7 +137,7 @@ export class ElementController {
   private computedElementDefaultStyle(elementType: ElementType, context: StyleIterationContext) {
     const { options } = this.context;
     const defaultStyle = options[elementType]?.style || {};
-    this.defaultStyle[idOf(context.datum)] = computeElementCallbackStyle(defaultStyle, context);
+    this.defaultStyle[idOf(context.datum)] = computeElementCallbackStyle(defaultStyle as any, context);
   }
 
   private computeElementsDefaultStyle(ids?: ID[]) {
@@ -172,7 +173,7 @@ export class ElementController {
   private getElementStateStyle(elementType: ElementType, state: State, context: StyleIterationContext) {
     const { options } = this.context;
     const stateStyle = options[elementType]?.state?.[state] || {};
-    return computeElementCallbackStyle(stateStyle, context);
+    return computeElementCallbackStyle(stateStyle as any, context);
   }
 
   /**
@@ -323,7 +324,7 @@ export class ElementController {
       Object.assign(style, this.getEdgeEndsContext(id));
     } else if (elementType === 'combo') {
       Object.assign(style, {
-        children: this.getComboChildren(id),
+        childrenNode: this.getComboChildren(id),
       });
     }
 

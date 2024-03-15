@@ -40,7 +40,7 @@ describe('combo', () => {
   });
 
   it('getCollapsedMarkerText', () => {
-    const children = [new CircleCombo({ style: { children: [new Circle({})] } })];
+    const children = [new CircleCombo({ style: { childrenNode: [new Circle({})] } })];
     expect(getCollapsedMarkerText('child-count', children)).toEqual('1');
     expect(getCollapsedMarkerText('descendant-count', children)).toEqual('2');
     expect(getCollapsedMarkerText('node-count', children)).toEqual('1');
@@ -49,7 +49,7 @@ describe('combo', () => {
 
   it('getDescendantCount', () => {
     expect(getDescendantCount([new Circle({}), new Circle({})])).toEqual(2);
-    expect(getDescendantCount([new CircleCombo({ style: { children: [new Circle({})] } })])).toEqual(2);
-    expect(getDescendantCount([new CircleCombo({ style: { children: [new Circle({})] } })], true)).toEqual(1);
+    expect(getDescendantCount([new CircleCombo({ style: { childrenNode: [new Circle({})] } })])).toEqual(2);
+    expect(getDescendantCount([new CircleCombo({ style: { childrenNode: [new Circle({})] } })], true)).toEqual(1);
   });
 });

@@ -75,7 +75,7 @@ const graph = new Graph({
     style: {
       type: 'rect',
       size: [80, 30],
-      port: (d: any) => d.id.includes('ports'),
+      port: (d) => d.id.includes('ports'),
       portR: 3,
       ports: [
         {
@@ -92,10 +92,10 @@ const graph = new Graph({
   edge: {
     style: {
       type: 'polyline',
-      sourcePort: (d: any) => d.sourcePort,
-      targetPort: (d: any) => d.targetPort,
+      sourcePort: (d) => d.sourcePort,
+      targetPort: (d) => d.targetPort,
       endArrow: true,
-      loopPlacement: (d: any) => d.placement,
+      loopPlacement: (d) => d.placement,
     },
   },
   layout: {

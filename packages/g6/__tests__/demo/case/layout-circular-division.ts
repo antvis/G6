@@ -9,7 +9,7 @@ export const layoutCircularDivision: STDTestCase = async (context) => {
     data,
     node: {
       style: {
-        labelText: (d: { id: string }) => d.id,
+        labelText: (d) => d.id,
       },
     },
     edge: {

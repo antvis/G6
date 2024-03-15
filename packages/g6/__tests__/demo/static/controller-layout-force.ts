@@ -4,6 +4,7 @@ import data from '@@/dataset/cluster.json';
 import type { STDTestCase } from '../types';
 
 export const controllerLayoutForce: STDTestCase = async (context) => {
+  const colors = { a: '#cd2f3b', b: '#005cc5', c: '#1e7834', d: '#ff9f45' };
   const options: G6Spec = {
     ...context,
     data,
@@ -20,8 +21,7 @@ export const controllerLayoutForce: STDTestCase = async (context) => {
       style: {
         size: 20,
         lineWidth: 0,
-        fill: (data: { style: { cluster: string } }) =>
-          ({ a: '#cd2f3b', b: '#005cc5', c: '#1e7834', d: '#ff9f45' })[data.style.cluster],
+        fill: (data) => colors[data.style!.cluster as keyof typeof colors],
       },
     },
   };
