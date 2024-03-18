@@ -462,9 +462,6 @@ export function updateStyle<T extends DisplayObject>(shape: T, style: Record<str
   else shape.attr(style);
 }
 
-
-
-
 /**
  * Get Hexagon PathArray
  * @param outerR - <zh/> 外接圆半径 | <en/> the  radius of circumscribed circle

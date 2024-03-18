@@ -17,6 +17,7 @@ import {
   isSimplePort,
   isVisible,
   updateStyle,
+  getHexagonPoints,
 } from '@/src/utils/element';
 import { getXYByPlacement } from '@/src/utils/position';
 import { AABB, DisplayObject, Line, Rect } from '@antv/g';
@@ -278,5 +279,9 @@ describe('element', () => {
     const circle = new Circle({ style: { size: 50 } });
     updateStyle(circle, { size: 100 });
     expect(circle.style.size).toBe(100);
+  });
+
+  it('getHexagonPoints', () => {
+    expect(getHexagonPoints(32).length).toBe(6);
   });
 });

@@ -13,6 +13,7 @@ import {
   Rect,
   Star,
   Triangle,
+  Hexagon,
 } from '@/src/elements';
 import { getExtension, getExtensions, register } from '@/src/registry';
 import { dark, light } from '@/src/themes';
@@ -29,6 +30,7 @@ describe('registry', () => {
       star: Star,
       triangle: Triangle,
       diamond: Diamond,
+      hexagon: Hexagon,
     });
     expect(getExtensions('edge')).toEqual({
       cubic: Cubic,
