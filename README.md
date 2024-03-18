@@ -61,7 +61,7 @@ $ npm install @antv/g6@next
 $ yarn add @antv/g6@next
 ```
 
-成功安装之后，可以通过 import 导入 Chart 对象。
+成功安装之后，可以通过 import 导入 `Graph` 对象。
 
 ```html
 <div id="container"></div>
@@ -113,10 +113,10 @@ graph.render();
 ## 📮 贡献
 
 - **问题反馈**：使用过程遇到的 G6 的问题，欢迎提交 Issue，并附上可以复现问题的最小案例代码。
-- **贡献指南**：如何参与到 G6 的开发和贡献。
+- **贡献指南**：如何参与到 G6 的[开发和贡献](./CONTRIBUTING.md)。
 - **想法讨论**：在 GitHub Discussion 上或者钉钉群里面讨论。
 
-<div align="center">
+<div>
   <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CQoGSoFBzaUAAAAAAAAAAAAADmJ7AQ/fmt.webp" height="256" />
   <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yXJGSY8RC68AAAAAAAAAAAAADmJ7AQ/fmt.webp" height="256" />
 </div>
