@@ -468,13 +468,12 @@ export function updateStyle<T extends DisplayObject>(shape: T, style: Record<str
  *  @returns The PathArray for G
  */
 export function getHexagonPoints(outerR: number): Point[] {
-
   return [
     [0, outerR],
-    [outerR * Math.sqrt(3) / 2, outerR / 2],
-    [outerR * Math.sqrt(3) / 2, - outerR / 2],
-    [0, - outerR],
-    [- outerR * Math.sqrt(3) / 2, - outerR / 2],
-    [- outerR * Math.sqrt(3) / 2, outerR / 2],
+    [(outerR * Math.sqrt(3)) / 2, outerR / 2],
+    [(outerR * Math.sqrt(3)) / 2, -outerR / 2],
+    [0, -outerR],
+    [(-outerR * Math.sqrt(3)) / 2, -outerR / 2],
+    [(-outerR * Math.sqrt(3)) / 2, outerR / 2],
   ];
 }

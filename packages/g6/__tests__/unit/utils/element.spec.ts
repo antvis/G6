@@ -3,6 +3,7 @@ import { Circle } from '@/src/elements/nodes';
 import {
   findPorts,
   getAllPorts,
+  getHexagonPoints,
   getPortConnectionPoint,
   getPortXYByPlacement,
   getRectPoints,
@@ -17,7 +18,6 @@ import {
   isSimplePort,
   isVisible,
   updateStyle,
-  getHexagonPoints,
 } from '@/src/utils/element';
 import { getXYByPlacement } from '@/src/utils/position';
 import { AABB, DisplayObject, Line, Rect } from '@antv/g';

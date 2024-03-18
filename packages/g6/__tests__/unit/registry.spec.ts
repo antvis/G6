@@ -6,6 +6,7 @@ import {
   CubicVertical,
   Diamond,
   Ellipse,
+  Hexagon,
   Image,
   Line,
   Polyline,
@@ -13,7 +14,6 @@ import {
   Rect,
   Star,
   Triangle,
-  Hexagon,
 } from '@/src/elements';
 import { getExtension, getExtensions, register } from '@/src/registry';
 import { dark, light } from '@/src/themes';

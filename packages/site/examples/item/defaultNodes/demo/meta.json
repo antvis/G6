@@ -37,7 +37,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*oUSlSZt6rCoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "hexagon.js",
+      "filename": "hexagon.ts",
       "title": {
         "zh": "六边形",
         "en": "Hexagon"

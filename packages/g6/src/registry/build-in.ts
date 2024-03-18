@@ -8,6 +8,7 @@ import {
   CubicVertical,
   Diamond,
   Ellipse,
+  Hexagon,
   Image,
   Line,
   Polyline,
@@ -16,7 +17,6 @@ import {
   RectCombo,
   Star,
   Triangle,
-  Hexagon,
 } from '../elements';
 import {
   CircularLayout,
