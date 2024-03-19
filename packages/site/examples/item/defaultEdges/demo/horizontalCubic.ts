@@ -44,6 +44,7 @@ const graph = new Graph({
     style: {
       type: 'cubic-horizontal', // 👈🏻 Edge shape type.
       labelText: (d) => d.id!,
+      labelBackground: true,
       endArrow: true,
     },
   },
