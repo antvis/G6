@@ -36,7 +36,7 @@ import {
   mindmap,
 } from '../layouts';
 import { blues, greens, oranges, spectral } from '../palettes';
-import { GridLine } from '../plugins';
+import { GridLine, Watermark } from '../plugins';
 import { dark, light } from '../themes';
 import type { ExtensionRegistry } from './types';
 
@@ -107,5 +107,6 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   },
   plugin: {
     'grid-line': GridLine,
+    watermark: Watermark,
   },
 };
