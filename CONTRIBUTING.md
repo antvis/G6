@@ -42,7 +42,7 @@ $ pnpm install
 - 调试 DEMO
 
 ```bash
-$ cd packasges/g6
+$ cd packages/g6
 
 $ npm run dev
 ```
@@ -50,7 +50,7 @@ $ npm run dev
 - 运行单元测试
 
 ```bash
-$ cd packasges/g6
+$ cd packages/g6
 
 $ npm run test
 ```
@@ -58,7 +58,7 @@ $ npm run test
 - 启动本地官网
 
 ```bash
-$ cd packasges/site
+$ cd packages/site
 
 $ npm run dev
 ```
