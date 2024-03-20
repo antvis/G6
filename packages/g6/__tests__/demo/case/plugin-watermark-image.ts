@@ -2,7 +2,7 @@ import { Graph } from '@/src';
 import data from '@@/dataset/cluster.json';
 import type { STDTestCase } from '../types';
 
-export const pluginWatermark: STDTestCase = async (context) => {
+export const pluginWatermarkImage: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     autoResize: true,
@@ -11,19 +11,21 @@ export const pluginWatermark: STDTestCase = async (context) => {
     plugins: [
       {
         type: 'watermark',
-        text: 'hello, \na watermark.',
-        textFontSize: 12,
+        width: 100,
+        height: 100,
+        imageURL: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original',
       },
     ],
   });
 
   await graph.render();
 
-  pluginWatermark.form = (panel) => {
+  pluginWatermarkImage.form = (panel) => {
     const config = {
       width: 200,
       height: 100,
-      textFontSize: 12,
+      fontSize: 20,
+      textFill: 'red',
     };
     return [
       panel
@@ -35,7 +37,7 @@ export const pluginWatermark: STDTestCase = async (context) => {
         .name('Width')
         .onChange(() => {}),
       panel
-        .add(config, 'textFontSize', 10, 32, 1)
+        .add(config, 'fontSize', 10, 32, 1)
         .name('FontSize')
         .onChange(() => {}),
     ];

@@ -44,5 +44,6 @@ export * from './layout-radial-prevent-overlap-unstrict';
 export * from './layout-radial-sort';
 export * from './plugin-grid-line';
 export * from './plugin-watermark';
+export * from './plugin-watermark-image';
 export * from './theme';
 export * from './viewport-fit';

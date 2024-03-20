@@ -1,47 +1,41 @@
 import type { RuntimeContext } from '../runtime/types';
-import { PrefixObject } from '../types';
-import { TextStyle, getTextWateramrk } from '../utils/canvas';
-import { subStyleProps } from '../utils/prefix';
+import { getImageWatermark, getTextWateramrk } from '../utils/watermark';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
-
-type CSSBackground = {
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-attachment) */
-  backgroundAttachment: string;
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-blend-mode) */
-  backgroundBlendMode: string;
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-clip) */
-  backgroundClip: string;
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-color) */
-  backgroundColor: string;
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-image) */
-  backgroundImage: string;
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-origin) */
-  backgroundOrigin: string;
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-position) */
-  backgroundPosition: string;
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-position-x) */
-  backgroundPositionX: string;
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-position-y) */
-  backgroundPositionY: string;
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-repeat) */
-  backgroundRepeat: string;
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/background-size) */
-  backgroundSize: string;
-};
 
 export type WatermarkOptions = BasePluginOptions & {
   // 单独一个水印的大小，这个水印最终会用来填充整个大小，所以 repeat 后的间距大小，通过这个 width height 设置
   width?: number;
   height?: number;
+  /** 透明度 */
+  opacity?: number;
+  /** 旋转角度 */
+  rotate?: number;
   // 图片地址，如果有值，则使用，否则使用文本
   imageURL?: string;
   /** 水印文本 */
   text?: string;
   // 文本水印的文本样式
-} & PrefixObject<Partial<TextStyle>, 'text'> &
-  // 水印作为 CSS background 的配置
-  CSSBackground;
+  textFill: string;
+  textFontSize: number;
+  textFontFamily: string;
+  textFontWeight: string;
+  textFontVariant: string;
+  textAlign: CanvasTextAlign;
+  textBaseline: CanvasTextBaseline;
+  // 背景的 CSS 样式
+  backgroundAttachment: string;
+  backgroundBlendMode: string;
+  backgroundClip: string;
+  backgroundColor: string;
+  backgroundImage: string;
+  backgroundOrigin: string;
+  backgroundPosition: string;
+  backgroundPositionX: string;
+  backgroundPositionY: string;
+  backgroundRepeat: string;
+  backgroundSize: string;
+};
 
 /**
  * <zh/> 支持使用文本和图片作为水印，实现原理是在 Graph 容器的 div 上加上 background-image 属性，然后就可以通过 css 来控制水印的位置和样式。对于文本，会使用隐藏 canvas 转成图片的方式来实现。
@@ -51,12 +45,13 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
   static defaultOptions: Partial<WatermarkOptions> = {
     width: 200,
     height: 100,
-    textRotate: -Math.PI / 12,
-    textFontSize: 16,
+    opacity: 0.2,
+    rotate: Math.PI / 12,
     textFill: '#000',
-    textOpacity: 0.2,
+    textFontSize: 16,
     textAlign: 'center',
     textBaseline: 'middle',
+    backgroundRepeat: 'repeat',
   };
 
   constructor(context: RuntimeContext, options: WatermarkOptions) {
@@ -65,30 +60,27 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
     this.update(options);
   }
 
-  public update(options: Partial<WatermarkOptions>) {
+  public async update(options: Partial<WatermarkOptions>) {
     super.update(options);
+
     const { graph } = this.context;
     const container = graph.getCanvas().getContainer()!;
 
-    const { width, height, imageURL, ...rest } = options;
+    const { width, height, text, imageURL, ...rest } = this.options;
 
     // Set the background style.
     Object.keys(rest).forEach((key) => {
       if (key.startsWith('background')) {
-        container.style[key as keyof CSSBackground] = options[key];
+        // @ts-expect-error ignore
+        container.style[key] = options[key];
       }
     });
 
     // Set the background image.
-    container.style.backgroundImage = `url(${this.getImageURL()})`;
-  }
-
-  private getImageURL() {
-    const { width, height, imageURL, text, ...rest } = this.options;
-
-    console.log({ ...subStyleProps(rest, 'text'), text });
-
-    return imageURL ? imageURL : getTextWateramrk(width, height, { ...subStyleProps(rest, 'text'), text });
+    const base64 = imageURL
+      ? await getImageWatermark(width, height, imageURL, rest)
+      : await getTextWateramrk(width, height, text, rest);
+    container.style.backgroundImage = `url(${base64})`;
   }
 
   public destroy(): void {
