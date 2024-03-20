@@ -18,8 +18,8 @@ export const pluginTooltip: STDTestCase = async (context) => {
     plugins: [
       {
         type: 'tooltip',
-        getContent: (evt: any, { items }: { items: any[] }) => {
-          return `<div>${items[0].id}</div>`;
+        getContent: (evt: any, items: any[]) => {
+          return `<div>${items[0].id || items[0].source + ' --> ' + items[0].target}</div>`;
         },
       },
     ],
@@ -29,11 +29,11 @@ export const pluginTooltip: STDTestCase = async (context) => {
 
   pluginTooltip.form = (panel) => {
     const config = {
-      trigger: 'pointerenter',
+      trigger: 'hover',
     };
     return [
       panel
-        .add(config, 'trigger', ['pointerenter', 'click'])
+        .add(config, 'trigger', ['hover', 'click'])
         .name('Change Trigger Method')
         .onChange((trigger: string) => {
           graph.setPlugins((plugins) =>

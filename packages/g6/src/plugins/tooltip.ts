@@ -1,36 +1,27 @@
 import type { TooltipStyleProps } from '@antv/component';
 import { Tooltip as TooltipComponent } from '@antv/component';
-import type { FederatedMouseEvent } from '@antv/g';
 import type { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent } from '../types';
+import type { ElementDatum, ElementType, IG6ElementEvent } from '../types';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
-
-export interface IG6GraphEvent extends BehaviorEvent<FederatedMouseEvent> {
-  targetType: 'node' | 'edge' | 'combo';
-}
-
-export type ContentModel = {
-  items?: { [key: string]: unknown }[];
-};
 
 export interface TooltipOptions
   extends BasePluginOptions,
     Pick<TooltipStyleProps, 'position' | 'offset' | 'enterable' | 'style' | 'container'> {
   /** <zh/> 触发方式 | <en/> Event type that triggers display of tooltip */
-  trigger?: 'pointerenter' | 'click';
+  trigger?: 'hover' | 'click';
   /** <zh/> 自定义内容 | <en/> Function for getting tooltip content  */
-  getContent?: (evt: IG6GraphEvent, item: ContentModel) => HTMLElement | string;
+  getContent?: (evt: IG6ElementEvent, items: ElementDatum[]) => HTMLElement | string;
   /** <zh/> 触发类型 | <en/> Types of items for which tooltip is allowed to be displayed  */
-  itemTypes?: ('node' | 'edge' | 'combo')[];
+  enableElements?: ElementType[];
 }
 
 export class Tooltip extends BasePlugin<TooltipOptions> {
   static defaultOptions: Partial<TooltipOptions> = {
-    trigger: 'pointerenter',
+    trigger: 'hover',
     position: 'top-right',
     enterable: false,
-    itemTypes: ['node', 'edge', 'combo'],
+    enableElements: ['node', 'edge', 'combo'],
     style: {
       '.tooltip': {
         visibility: 'hidden',
@@ -47,8 +38,8 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.bindEvents();
   }
 
-  public getEvents(trigger: 'pointerenter' | 'click'): { [key: string]: Function } {
-    if (trigger === 'click') {
+  public getEvents(): { [key: string]: Function } {
+    if (this.options.trigger === 'click') {
       return {
         'node:click': this.onClick,
         'edge:click': this.onClick,
@@ -74,12 +65,13 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
   }
 
   public update(options: Partial<TooltipOptions>) {
+    this.unbundEvents();
     super.update(options);
-    this.unbundEvents(true);
     if (this.tooltipElement) {
       this.container?.removeChild(this.tooltipElement.HTMLTooltipElement);
     }
     this.tooltipElement = this.initTooltip();
+    this.bindEvents();
   }
 
   private render() {
@@ -90,11 +82,10 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.tooltipElement = this.initTooltip();
   }
 
-  private unbundEvents(isUpdate?: boolean) {
+  private unbundEvents() {
     const { graph } = this.context;
-    const { trigger } = this.options;
     /** The previous event binding needs to be removed when updating the trigger. */
-    const events = this.getEvents(!isUpdate ? trigger : trigger === 'click' ? 'pointerenter' : 'click');
+    const events = this.getEvents();
     Object.keys(events).forEach((eventName) => {
       graph.off(eventName, events[eventName]);
     });
@@ -102,19 +93,18 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
 
   private bindEvents() {
     const { graph } = this.context;
-    const { trigger } = this.options;
-    const events = this.getEvents(trigger);
+    const events = this.getEvents();
     Object.keys(events).forEach((eventName) => {
       graph.on(eventName, events[eventName]);
     });
   }
 
-  public onClick = (e: IG6GraphEvent) => {
+  public onClick = (e: IG6ElementEvent) => {
     const {
       targetType,
       target: { id },
     } = e;
-    if (this.options.itemTypes.indexOf(targetType) === -1) return;
+    if (this.options.enableElements.indexOf(targetType) === -1) return;
     // click the same item twice, tooltip will be hidden
     if (this.currentTarget === id) {
       this.currentTarget = null;
@@ -125,32 +115,32 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
   };
 
-  public onPointerMove = (e: IG6GraphEvent) => {
+  public onPointerMove = (e: IG6ElementEvent) => {
     const { targetType, target } = e;
-    if (this.options.itemTypes.indexOf(targetType) === -1) return;
+    if (this.options.enableElements.indexOf(targetType) === -1) return;
     if (!this.currentTarget || target.id === this.currentTarget) {
       return;
     }
     this.showTooltip(e);
   };
 
-  public onPointerLeave = (e: IG6GraphEvent) => {
+  public onPointerLeave = (e: IG6ElementEvent) => {
     this.hideTooltip(e);
     this.currentTarget = null;
   };
 
-  public onCanvasMove = (e: IG6GraphEvent) => {
+  public onCanvasMove = (e: IG6ElementEvent) => {
     this.hideTooltip(e);
     this.currentTarget = null;
   };
 
-  private onPointerEnter = (e: IG6GraphEvent) => {
+  private onPointerEnter = (e: IG6ElementEvent) => {
     const { targetType } = e;
-    if (this.options.itemTypes.indexOf(targetType) === -1) return;
+    if (this.options.enableElements.indexOf(targetType) === -1) return;
     this.showTooltip(e);
   };
 
-  public showTooltip(e: IG6GraphEvent) {
+  public showTooltip(e: IG6ElementEvent) {
     const {
       targetType,
       client: { x, y },
@@ -161,7 +151,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     const { model } = this.context;
     const { color, stroke } = attributes;
     this.currentTarget = id;
-    let items: { [key: string]: unknown }[] = [];
+    let items: ElementDatum[] = [];
     switch (targetType) {
       case 'node':
         items = model.getNodeData([id]);
@@ -177,7 +167,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
     let tooltipContent: { [key: string]: unknown } = {};
     if (getContent) {
-      tooltipContent.content = getContent(e, { items });
+      tooltipContent.content = getContent(e, items);
     } else {
       tooltipContent = {
         title: targetType,
@@ -202,7 +192,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     });
   }
 
-  public hideTooltip(e: IG6GraphEvent) {
+  public hideTooltip(e: IG6ElementEvent) {
     const {
       client: { x, y },
     } = e;

@@ -93,7 +93,7 @@ const data = {
 
 const tooltip = {
   type: 'tooltip',
-  getContent: (e, { items }) => {
+  getContent: (e, items) => {
     let result = `<h4>Custom Content</h4>`;
     items.forEach((item) => {
       result += `<p>Type: ${item.style.description}</p>`;
