@@ -19,6 +19,14 @@
         "en": "Image Watermark"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_FYsQ7SYtcAAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "background.ts",
+      "title": {
+        "zh": "背景图片",
+        "en": "Background Image"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_FYsQ7SYtcAAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

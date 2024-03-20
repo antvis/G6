@@ -1,5 +1,4 @@
-import { Graph, Utils } from '@antv/g6';
-console.log(Utils.mock(6).circle());
+import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -64,6 +63,8 @@ const data = {
 
 const graph = new Graph({
   container: 'container',
+  width: 800,
+  height: 600,
   data,
   layout: {
     type: 'force',
@@ -72,11 +73,13 @@ const graph = new Graph({
   plugins: [
     {
       type: 'watermark',
-      text: 'G6: Graph Visualization',
-      textFontSize: 14,
-      textFontFamily: 'Microsoft YaHei',
-      fill: 'rgba(0, 0, 0, 0.1)',
-      rotate: Math.PI / 12,
+      // 保持和下面图片大小一致，显示更清晰
+      width: 1280,
+      height: 830,
+      rotate: 0,
+      opacity: 0.7,
+      imageURL: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0Qq0ToQm1rEAAAAAAAAAAAAADmJ7AQ/original',
+      backgroundSize: 'cover',
     },
   ],
 });

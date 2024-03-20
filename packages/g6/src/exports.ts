@@ -1,6 +1,5 @@
 import { dark, light } from './themes';
 import { idOf } from './utils/id';
-import { mock } from './utils/mock';
 import { treeToGraphData } from './utils/tree';
 
 export { BaseBehavior } from './behaviors';
@@ -35,7 +34,6 @@ export type { Point, Vector2, Vector3 } from './types';
 
 const Utils = {
   idOf,
-  mock,
   treeToGraphData,
 };
 
