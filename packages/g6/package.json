@@ -44,12 +44,13 @@
     "prepublishOnly": "npm run ci",
     "size": "limit-size",
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
-    "test": "npm run jest __tests__",
+    "test": "npm run jest __tests__/unit/plugins/tooltip.spec.ts",
     "test:integration": "npm run jest __tests__/integration",
     "test:unit": "npm run jest __tests__/unit",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@antv/component": "^1.0.2",
     "@antv/event-emitter": "latest",
     "@antv/g": "^5.18.25",
     "@antv/g-canvas": "^1.11.27",
