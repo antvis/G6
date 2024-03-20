@@ -41,6 +41,7 @@ const graph = new Graph({
       type: 'line', // 👈🏻 Edge shape type.
       color: '#F6BD16',
       labelText: (d) => d.id!,
+      labelBackground: true,
       endArrow: true,
     },
   },

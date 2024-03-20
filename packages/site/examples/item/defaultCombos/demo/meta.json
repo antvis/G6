@@ -5,12 +5,12 @@
   },
   "demos": [
     {
-      "filename": "circle.js",
+      "filename": "circle.ts",
       "title": "圆形",
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Kbk1S5pzSY0AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "rect.js",
+      "filename": "rect.ts",
       "title": "矩形",
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*PKtgSZzmb3YAAAAAAAAAAAAADmJ7AQ/original"
     }

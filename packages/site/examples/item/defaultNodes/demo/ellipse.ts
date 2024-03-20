@@ -21,7 +21,6 @@ const graph = new Graph({
     style: {
       type: 'ellipse', // 👈🏻 Node shape type.
       size: [45, 35],
-      labelMaxWidth: 120,
       labelText: (d) => d.id,
       iconHeight: 20,
       iconWidth: 20,

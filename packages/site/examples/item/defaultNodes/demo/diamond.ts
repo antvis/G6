@@ -21,7 +21,6 @@ const graph = new Graph({
     style: {
       type: 'diamond',
       size: 40,
-      labelMaxWidth: 120,
       labelText: (d) => d.id,
       iconWidth: 20,
       iconHeight: 20,

@@ -38,6 +38,7 @@ const graph = new Graph({
     style: {
       type: 'line', // 👈🏻 Edge shape type.
       labelText: (d) => d.id!,
+      labelBackground: true,
       endArrow: true,
     },
   },

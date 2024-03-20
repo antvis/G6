@@ -22,7 +22,6 @@ const graph = new Graph({
       type: 'image',
       src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
       size: 40,
-      labelMaxWidth: 120,
       labelText: (d) => d.id,
       halo: (d) => d.id.includes('halo'),
       portR: 3,
