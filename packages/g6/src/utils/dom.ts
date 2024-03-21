@@ -42,3 +42,24 @@ export function sizeOf(container: HTMLElement): [number, number] {
     Math.max(isNumber(effectiveHeight) ? effectiveHeight : MIN_CHART_HEIGHT, MIN_CHART_HEIGHT),
   ];
 }
+
+/**
+ * Create a plugin DOM element.
+ * @param type - plugin type
+ * @returns plugin DOM element
+ */
+export function createPluginContainer(type: string) {
+  const el = document.createElement('div');
+
+  el.style.position = 'absolute';
+  el.style.display = 'block';
+  el.style.top = '0px';
+  el.style.left = '0px';
+  el.style.height = '100%';
+  el.style.width = '100%';
+  el.style.overflow = 'hidden';
+  el.style.pointerEvents = 'none';
+  el.setAttribute('class', `g6-${type}`);
+
+  return el;
+}

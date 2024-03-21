@@ -5,18 +5,26 @@
   },
   "demos": [
     {
-      "filename": "textWaterMarker.ts",
+      "filename": "textWatermark.ts",
       "title": {
         "zh": "文本水印",
-        "en": "Text WaterMarker"
+        "en": "Text Watermark"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GPRuRqBUIsoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "imgWaterMarker.ts",
+      "filename": "imgWatermark.ts",
       "title": {
         "zh": "图片水印",
-        "en": "Image WaterMarker"
+        "en": "Image Watermark"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_FYsQ7SYtcAAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "background.ts",
+      "title": {
+        "zh": "背景图片",
+        "en": "Background Image"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_FYsQ7SYtcAAAAAAAAAAAAAADmJ7AQ/original"
     }
