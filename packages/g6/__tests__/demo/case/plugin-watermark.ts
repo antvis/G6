@@ -1,5 +1,6 @@
-import { Graph } from '@/src';
+import { Graph, PluginOptions } from '@/src';
 import data from '@@/dataset/cluster.json';
+import { isObject } from '@antv/util';
 import type { STDTestCase } from '../types';
 
 export const pluginWatermark: STDTestCase = async (context) => {
@@ -19,6 +20,14 @@ export const pluginWatermark: STDTestCase = async (context) => {
 
   await graph.render();
 
+  function updatePlugin(type: string, config: object) {
+    return (plugins: PluginOptions) => {
+      return plugins.map((plugin) => {
+        if (isObject(plugin) && plugin.type === type) return { ...plugin, ...config };
+        return plugin;
+      });
+    };
+  }
   pluginWatermark.form = (panel) => {
     const config = {
       width: 200,
@@ -29,15 +38,21 @@ export const pluginWatermark: STDTestCase = async (context) => {
       panel
         .add(config, 'width', 150, 400, 10)
         .name('Width')
-        .onChange(() => {}),
+        .onChange((width: number) => {
+          graph.setPlugins(updatePlugin('watermark', { width }));
+        }),
       panel
         .add(config, 'height', 100, 200, 10)
-        .name('Width')
-        .onChange(() => {}),
+        .name('Height')
+        .onChange((height: number) => {
+          graph.setPlugins(updatePlugin('watermark', { height }));
+        }),
       panel
         .add(config, 'textFontSize', 10, 32, 1)
-        .name('FontSize')
-        .onChange(() => {}),
+        .name('TextFontSize')
+        .onChange((textFontSize: number) => {
+          graph.setPlugins(updatePlugin('watermark', { textFontSize }));
+        }),
     ];
   };
 
