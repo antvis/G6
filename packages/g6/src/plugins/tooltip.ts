@@ -1,7 +1,7 @@
 import type { TooltipStyleProps } from '@antv/component';
 import { Tooltip as TooltipComponent } from '@antv/component';
 import type { RuntimeContext } from '../runtime/types';
-import type { ElementDatum, ElementType, IG6ElementEvent } from '../types';
+import type { ElementDatum, ElementType, G6ElementEvent } from '../types';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
@@ -11,7 +11,7 @@ export interface TooltipOptions
   /** <zh/> 触发方式 | <en/> Event type that triggers display of tooltip */
   trigger?: 'hover' | 'click';
   /** <zh/> 自定义内容 | <en/> Function for getting tooltip content  */
-  getContent?: (evt: IG6ElementEvent, items: ElementDatum[]) => HTMLElement | string;
+  getContent?: (evt: G6ElementEvent, items: ElementDatum[]) => HTMLElement | string;
   /** <zh/> 触发类型 | <en/> Types of items for which tooltip is allowed to be displayed  */
   enableElements?: ElementType[];
 }
@@ -99,7 +99,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     });
   }
 
-  public onClick = (e: IG6ElementEvent) => {
+  public onClick = (e: G6ElementEvent) => {
     const {
       targetType,
       target: { id },
@@ -115,7 +115,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
   };
 
-  public onPointerMove = (e: IG6ElementEvent) => {
+  public onPointerMove = (e: G6ElementEvent) => {
     const { targetType, target } = e;
     if (this.options.enableElements.indexOf(targetType) === -1) return;
     if (!this.currentTarget || target.id === this.currentTarget) {
@@ -124,23 +124,23 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.showTooltip(e);
   };
 
-  public onPointerLeave = (e: IG6ElementEvent) => {
+  public onPointerLeave = (e: G6ElementEvent) => {
     this.hideTooltip(e);
     this.currentTarget = null;
   };
 
-  public onCanvasMove = (e: IG6ElementEvent) => {
+  public onCanvasMove = (e: G6ElementEvent) => {
     this.hideTooltip(e);
     this.currentTarget = null;
   };
 
-  private onPointerEnter = (e: IG6ElementEvent) => {
+  private onPointerEnter = (e: G6ElementEvent) => {
     const { targetType } = e;
     if (this.options.enableElements.indexOf(targetType) === -1) return;
     this.showTooltip(e);
   };
 
-  public showTooltip(e: IG6ElementEvent) {
+  public showTooltip(e: G6ElementEvent) {
     const {
       targetType,
       client: { x, y },
@@ -192,7 +192,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     });
   }
 
-  public hideTooltip(e: IG6ElementEvent) {
+  public hideTooltip(e: G6ElementEvent) {
     const {
       client: { x, y },
     } = e;
