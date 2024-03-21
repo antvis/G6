@@ -28,7 +28,7 @@
     "build": "npm run doc && dumi build",
     "deploy": "npm run build && gh-pages -d dist",
     "dev": "dumi dev",
-    "doc": "npm run doc:prepare && tsx ./scripts/generate-api.ts && tsx ./scripts/generate-intl.ts",
+    "doc": "npm run doc:prepare && ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-intl.ts",
     "doc:prepare": "node ./scripts/env-setup.cjs USE_TS_NODE true",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
     "preview": "dumi preview",
