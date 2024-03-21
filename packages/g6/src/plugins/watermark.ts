@@ -91,9 +91,8 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
   }
 
   public destroy(): void {
+    super.destroy();
     // Remove the background dom.
     this.$element.remove();
-
-    super.destroy();
   }
 }
