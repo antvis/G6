@@ -4,18 +4,18 @@ import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
 export type WatermarkOptions = BasePluginOptions & {
-  // 单独一个水印的大小，这个水印最终会用来填充整个大小，所以 repeat 后的间距大小，通过这个 width height 设置
+  /** 单独一个水印的大小，这个水印最终会用来填充整个大小，所以 repeat 后的间距大小，通过这个 width height 设置 */
   width?: number;
   height?: number;
   /** 透明度 */
   opacity?: number;
   /** 旋转角度 */
   rotate?: number;
-  // 图片地址，如果有值，则使用，否则使用文本
+  /** 图片地址，如果有值，则使用，否则使用文本 */
   imageURL?: string;
   /** 水印文本 */
   text?: string;
-  // 文本水印的文本样式
+  /** 文本水印的文本样式 */
   textFill: string;
   textFontSize: number;
   textFontFamily: string;
@@ -23,7 +23,7 @@ export type WatermarkOptions = BasePluginOptions & {
   textFontVariant: string;
   textAlign: CanvasTextAlign;
   textBaseline: CanvasTextBaseline;
-  // 背景的 CSS 样式
+  /** 背景的 CSS 样式 */
   backgroundAttachment: string;
   backgroundBlendMode: string;
   backgroundClip: string;
@@ -38,8 +38,12 @@ export type WatermarkOptions = BasePluginOptions & {
 };
 
 /**
- * <zh/> 支持使用文本和图片作为水印，实现原理是在 Graph 容器的 div 上加上 background-image 属性，然后就可以通过 css 来控制水印的位置和样式。对于文本，会使用隐藏 canvas 转成图片的方式来实现。
- * <en/> Support using text and images as watermarks. The principle is to add the background-image property to the div of the Graph container, and then you can control the position and style of the watermark through css. For text, it will be converted to an image using a hidden canvas.
+ * <zh/> 支持使用文本和图片作为水印，实现原理是在 Graph 容器的 div 上加上 background-image 属性，然后就可以通过 css 来控制水印的位置和样式。
+ *        对于文本，会使用隐藏 canvas 转成图片的方式来实现。
+ * <en/> Support using text and images as watermarks.
+ *       The principle is to add the background-image property to the div of the Graph container,
+ *       and then you can control the position and style of the watermark through css. For text,
+ *       it will be converted to an image using a hidden canvas.
  */
 export class Watermark extends BasePlugin<WatermarkOptions> {
   static defaultOptions: Partial<WatermarkOptions> = {
@@ -84,12 +88,12 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
   }
 
   public destroy(): void {
-    super.destroy();
-
     const { graph } = this.context;
     const container = graph.getCanvas().getContainer()!;
 
     // Remove the background image.
     container.style.backgroundImage = '';
+
+    super.destroy();
   }
 }

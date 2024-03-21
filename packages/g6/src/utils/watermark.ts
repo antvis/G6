@@ -86,9 +86,7 @@ export async function getImageWatermark(width: number, height: number, imageURL:
     img.onload = function () {
       const sepX = width > img.width ? (width - img.width) / 2 : 0;
       const sepY = height > img.height ? (height - img.height) / 2 : 0;
-
       ctx.drawImage(img, 0, 0, img.width, img.height, sepX, sepY, width - sepX * 2, height - sepY * 2);
-      ctx.restore();
       resolve(canvas.toDataURL());
     };
   });

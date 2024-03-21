@@ -1,19 +1,23 @@
 import { pluginWatermark, pluginWatermarkImage } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
-// Skip it because it's not working in the test environment.
-describe.skip('plugin watermark', () => {
+// the test case for watermark need `canvas` environment.
+describe('plugin watermark', () => {
   it('watermark text', async () => {
     const graph = await createDemoGraph(pluginWatermark);
-    expect(graph.getPlugins()).toEqual([{ type: 'watermark', text: 'hello, \na watermark.', textFontSize: 12 }]);
-    expect(graph.getCanvas().getContainer()?.style.backgroundImage).toContain('data:image/png;base64');
+    const container = graph.getCanvas().getContainer();
 
-    graph.destroy();
-    expect(graph.getCanvas().getContainer()?.style.backgroundImage).toBeFalsy();
+    expect(graph.getPlugins()).toEqual([{ type: 'watermark', text: 'hello, \na watermark.', textFontSize: 12 }]);
+    expect(container?.style.backgroundImage).toContain('data:image/png;base64');
+
+    await graph.destroy();
+    expect(container?.style.backgroundImage).toBeFalsy();
   });
 
   it('watermark image', async () => {
     const graph = await createDemoGraph(pluginWatermarkImage);
+    const container = graph.getCanvas().getContainer();
+
     expect(graph.getPlugins()).toEqual([
       {
         type: 'watermark',
@@ -22,9 +26,7 @@ describe.skip('plugin watermark', () => {
         imageURL: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original',
       },
     ]);
-    expect(graph.getCanvas().getContainer()?.style.backgroundImage).toContain('data:image/png;base64');
-
-    graph.destroy();
-    expect(graph.getCanvas().getContainer()?.style.backgroundImage).toBeFalsy();
+    await graph.destroy();
+    expect(container?.style.backgroundImage).toBeFalsy();
   });
 });

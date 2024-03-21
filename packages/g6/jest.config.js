@@ -6,6 +6,9 @@ module.exports = {
   testTimeout: 100000,
   preset: 'ts-jest/presets/js-with-ts',
   testEnvironment: 'jsdom',
+  testEnvironmentOptions: {
+    resources: 'usable',
+  },
   setupFilesAfterEnv: ['./__tests__/setup.ts'],
   transform: {
     '^.+\\.[tj]s$': [
