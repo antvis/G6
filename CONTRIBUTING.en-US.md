@@ -42,7 +42,7 @@ $ pnpm install
 - Debugger with live demo:
 
 ```bash
-$ cd packasges/g6
+$ cd packages/g6
 
 $ npm run dev
 ```
@@ -50,7 +50,7 @@ $ npm run dev
 - Run test cases:
 
 ```bash
-$ cd packasges/g6
+$ cd packages/g6
 
 $ npm run test
 ```
@@ -58,7 +58,7 @@ $ npm run test
 - Preview locale website:
 
 ```bash
-$ cd packasges/site
+$ cd packages/site
 
 $ npm run dev
 ```
