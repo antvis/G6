@@ -18,11 +18,11 @@ import {
   Triangle,
 } from '../elements';
 import {
+  AntVDagreLayout,
   CircularLayout,
   ComboCombinedLayout,
   ConcentricLayout,
   D3ForceLayout,
-  DagreLayout,
   ForceAtlas2Layout,
   ForceLayout,
   FruchtermanLayout,
@@ -75,7 +75,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     circular: CircularLayout,
     concentric: ConcentricLayout,
     d3force: D3ForceLayout,
-    dagre: DagreLayout,
+    'antv-dagre': AntVDagreLayout,
     dendrogram,
     force: ForceLayout,
     fruchterman: FruchtermanLayout,

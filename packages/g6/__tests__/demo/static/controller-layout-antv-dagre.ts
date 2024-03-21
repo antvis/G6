@@ -3,13 +3,13 @@ import { Graph } from '@/src';
 import data from '@@/dataset/dagre.json';
 import type { STDTestCase } from '../types';
 
-export const controllerLayoutDagre: STDTestCase = async (context) => {
+export const controllerLayoutAntVDagre: STDTestCase = async (context) => {
   const options: G6Spec = {
     ...context,
     data,
     theme: 'light',
     layout: {
-      type: 'dagre',
+      type: 'antv-dagre',
       nodeSize: 10,
       ranksep: 20,
       controlPoints: true,

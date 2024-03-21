@@ -151,7 +151,7 @@ const graph = new Graph({
   container: 'container',
   data,
   layout: {
-    type: 'dagre',
+    type: 'antv-dagre',
     ranksep: 50,
     nodesep: 5,
   },

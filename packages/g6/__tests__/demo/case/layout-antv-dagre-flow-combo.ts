@@ -14,6 +14,7 @@ export const layoutDagreFlowCombo: STDTestCase = async (context) => {
         radius: 8,
         labelText: (d) => d.id,
         labelPlacement: 'center',
+        ports: [{ placement: 'top' }, { placement: 'bottom' }],
       },
       palette: {
         field: (d) => d.style?.parentId,
@@ -21,7 +22,7 @@ export const layoutDagreFlowCombo: STDTestCase = async (context) => {
     },
     edge: {
       style: {
-        type: 'polyline',
+        type: 'cubic-vertical',
         endArrow: true,
       },
     },
@@ -35,9 +36,10 @@ export const layoutDagreFlowCombo: STDTestCase = async (context) => {
       },
     },
     layout: {
-      type: 'dagre',
+      type: 'antv-dagre',
       ranksep: 50,
       nodesep: 5,
+      sortByCombo: true,
     },
     behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
   });

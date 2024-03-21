@@ -4,8 +4,8 @@ describe('layout', () => {
   it('isComboLayout', () => {
     expect(isComboLayout({ type: 'force' })).toBe(false);
     expect(isComboLayout({ type: 'comboCombined' })).toBe(true);
-    expect(isComboLayout({ type: 'dagre', sortByCombo: true })).toBe(true);
-    expect(isComboLayout({ type: 'dagre' })).toBe(false);
+    expect(isComboLayout({ type: 'antv-dagre', sortByCombo: true })).toBe(true);
+    expect(isComboLayout({ type: 'antv-dagre' })).toBe(false);
   });
 
   it('isTreeLayout', () => {

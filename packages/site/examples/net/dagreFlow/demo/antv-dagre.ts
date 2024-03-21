@@ -111,14 +111,14 @@ const data = {
 
 const layoutConfigs = {
   Default: {
-    type: 'dagre',
+    type: 'antv-dagre',
     nodesep: 100,
     ranksep: 70,
     controlPoints: true,
   },
   // TODO: 换个数据
   LR: {
-    type: 'dagre',
+    type: 'antv-dagre',
     rankdir: 'LR',
     align: 'DL',
     nodesep: 50,
@@ -126,7 +126,7 @@ const layoutConfigs = {
     controlPoints: true,
   },
   'LR&UL': {
-    type: 'dagre',
+    type: 'antv-dagre',
     rankdir: 'LR',
     align: 'UL',
     controlPoints: true,

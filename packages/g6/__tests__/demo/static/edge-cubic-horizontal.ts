@@ -54,7 +54,7 @@ export const edgeCubicHorizontal: StaticTestCase = async (context) => {
       },
     },
     layout: {
-      type: 'dagre',
+      type: 'antv-dagre',
       begin: [50, 50],
       rankdir: 'LR',
       nodesep: 30,

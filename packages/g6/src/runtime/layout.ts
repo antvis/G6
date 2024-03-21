@@ -362,8 +362,14 @@ export class LayoutController {
       dataToUpdate.nodes.push({ id, style: { x, y, z } });
     });
 
-    edges.forEach(({ id, data: { controlPoints } }) => {
+    edges.forEach(({ id, data: { points = [], controlPoints = points.slice(1, points.length - 1) } }) => {
+      /**
+       * antv-dagre 返回 controlPoints，dagre 返回 points
+       * antv-dagre returns controlPoints, dagre returns points
+       */
       if (controlPoints?.length) {
+        // points 的第一个点是起点，最后一个点是终点，中间的点是控制点
+        // The first point of points is the starting point, and the last point is the end point, and the middle point is the control point
         dataToUpdate.edges.push({ id, style: { controlPoints: controlPoints.map(parsePoint) } });
       }
     });

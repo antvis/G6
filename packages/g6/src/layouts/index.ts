@@ -1,10 +1,10 @@
 export { compactBox, dendrogram, indented, mindmap } from '@antv/hierarchy';
 export {
+  AntVDagreLayout,
   CircularLayout,
   ComboCombinedLayout,
   ConcentricLayout,
   D3ForceLayout,
-  DagreLayout,
   ForceAtlas2Layout,
   ForceLayout,
   FruchtermanLayout,
