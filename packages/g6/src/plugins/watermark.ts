@@ -1,4 +1,5 @@
 import type { RuntimeContext } from '../runtime/types';
+import { createPluginContainer } from '../utils/dom';
 import { getImageWatermark, getTextWateramrk } from '../utils/watermark';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
@@ -58,8 +59,13 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
     backgroundRepeat: 'repeat',
   };
 
+  private $element: HTMLElement = createPluginContainer('watermark');
+
   constructor(context: RuntimeContext, options: WatermarkOptions) {
     super(context, Object.assign({}, Watermark.defaultOptions, options));
+
+    const $container = this.context.canvas.getContainer();
+    $container!.appendChild(this.$element);
 
     this.update(options);
   }
@@ -67,16 +73,13 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
   public async update(options: Partial<WatermarkOptions>) {
     super.update(options);
 
-    const { graph } = this.context;
-    const container = graph.getCanvas().getContainer()!;
-
     const { width, height, text, imageURL, ...rest } = this.options;
 
     // Set the background style.
     Object.keys(rest).forEach((key) => {
       if (key.startsWith('background')) {
         // @ts-expect-error ignore
-        container.style[key] = options[key];
+        this.$element.style[key] = options[key];
       }
     });
 
@@ -84,15 +87,12 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
     const base64 = imageURL
       ? await getImageWatermark(width, height, imageURL, rest)
       : await getTextWateramrk(width, height, text, rest);
-    container.style.backgroundImage = `url(${base64})`;
+    this.$element.style.backgroundImage = `url(${base64})`;
   }
 
   public destroy(): void {
-    const { graph } = this.context;
-    const container = graph.getCanvas().getContainer()!;
-
-    // Remove the background image.
-    container.style.backgroundImage = '';
+    // Remove the background dom.
+    this.$element.remove();
 
     super.destroy();
   }

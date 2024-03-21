@@ -2,6 +2,7 @@ import { BaseStyleProps } from '@antv/g';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import { Point } from '../types';
+import { createPluginContainer } from '../utils/dom';
 import { ViewportEvent } from '../utils/event';
 import { add, mod } from '../utils/vector';
 import type { BasePluginOptions } from './base-plugin';
@@ -35,13 +36,17 @@ export class GridLine extends BasePlugin<GridLineOptions> {
     tickStrokeOpacity: 0.5,
   };
 
-  private $element: HTMLElement = document.createElement('div');
+  private $element: HTMLElement = createPluginContainer('grid-line');
 
   private offset: Point = [0, 0];
 
   constructor(context: RuntimeContext, options: GridLineOptions) {
     super(context, Object.assign({}, GridLine.defaultOptions, options));
-    this.render();
+
+    const $container = this.context.canvas.getContainer()!;
+    $container.appendChild(this.$element);
+
+    this.updateStyle();
     this.bindEvents();
   }
 
@@ -55,22 +60,10 @@ export class GridLine extends BasePlugin<GridLineOptions> {
     graph.on(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
-  private render() {
-    const { canvas } = this.context;
-    const $container = canvas.getContainer();
-    if (!$container) return;
-
-    this.$element.className = 'g6-grid-line';
-    this.updateStyle();
-    $container.appendChild(this.$element);
-  }
-
   private updateStyle() {
     const { size, stroke, lineWidth, border, borderLineWidth, borderStroke, borderStyle } = this.options;
 
     Object.assign(this.$element.style, {
-      width: '100%',
-      height: '100%',
       border: border ? `${borderLineWidth}px ${borderStyle} ${borderStroke}` : 'none',
       backgroundImage: `linear-gradient(${stroke} ${lineWidth}px, transparent ${lineWidth}px), linear-gradient(90deg, ${stroke} ${lineWidth}px, transparent ${lineWidth}px)`,
       backgroundSize: `${size}px ${size}px`,

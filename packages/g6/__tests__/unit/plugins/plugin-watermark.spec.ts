@@ -1,22 +1,23 @@
 import { pluginWatermark, pluginWatermarkImage } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
-// the test case for watermark need `canvas` environment.
 describe('plugin watermark', () => {
   it('watermark text', async () => {
     const graph = await createDemoGraph(pluginWatermark);
-    const container = graph.getCanvas().getContainer();
+    const container = graph.getCanvas().getContainer()!;
+
+    const el = container.querySelector('.g6-watermark') as HTMLDivElement;
 
     expect(graph.getPlugins()).toEqual([{ type: 'watermark', text: 'hello, \na watermark.', textFontSize: 12 }]);
-    expect(container?.style.backgroundImage).toContain('data:image/png;base64');
+    expect(el.style.backgroundImage).toContain('data:image/png;base64');
 
     await graph.destroy();
-    expect(container?.style.backgroundImage).toBeFalsy();
+    expect(container.querySelector('.g6-watermark')).toBeFalsy();
   });
 
   it('watermark image', async () => {
     const graph = await createDemoGraph(pluginWatermarkImage);
-    const container = graph.getCanvas().getContainer();
+    const container = graph.getCanvas().getContainer()!;
 
     expect(graph.getPlugins()).toEqual([
       {
@@ -27,6 +28,6 @@ describe('plugin watermark', () => {
       },
     ]);
     await graph.destroy();
-    expect(container?.style.backgroundImage).toBeFalsy();
+    expect(container.querySelector('.g6-watermark')).toBeFalsy();
   });
 });
