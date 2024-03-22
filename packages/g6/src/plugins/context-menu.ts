@@ -1,8 +1,31 @@
+import { FederatedMouseEvent } from '@antv/g';
 import type { RuntimeContext } from '../runtime/types';
+import { PluginEvent } from '../types/plugin';
 import { createPluginContainer } from '../utils/dom';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
+/**
+ * <zh/> 右键菜单显示项目。
+ * <en/> The item of the right-click menu.
+ */
+type Item = {
+  /**
+   * <zh/> 菜单项显示的名字。
+   * <en/> The name of the menu item.
+   */
+  name: string;
+  /**
+   * <zh/> 菜单项对应的值。
+   * <en/> The value corresponding to the menu item.
+   */
+  value: string;
+};
+
+/**
+ * <zh/> 右键菜单插件的配置项。
+ * <en/> The configuration item of the right-click menu plugin.
+ */
 export type ContextMenuOptions = BasePluginOptions & {
   /**
    * <zh/> 给菜单的 DOM 追加的 classname，便于自定义样式。默认是包含 `g6-contextmenu`。
@@ -15,25 +38,25 @@ export type ContextMenuOptions = BasePluginOptions & {
    */
   trigger?: 'click' | 'contextmenu';
   /**
-   * <zh/> 菜单显式 X 方向的偏移量，默认是 4。
-   * <en/> The offset X direction of the menu, default is 4.
+   * <zh/> 菜单显式 X、Y 方向的偏移量，默认是 [4, 4]。
+   * <en/> The offset X, y direction of the menu, default is [4, 4].
    */
-  offsetX?: number;
-  /**
-   * <zh/> 菜单显式 Y 方向的偏移量，默认是 4。
-   * <en/> The offset Y direction of the menu, default is 4.
-   */
-  offsetY?: number;
+  offset?: [number, number];
   /**
    * <zh/> 当菜单被点击后，出发的回调方法。
    * <en/> The callback method triggered when the menu is clicked.
    */
-  onClick?: (target: HTMLElement, item: any) => void;
+  onClick?: (item: Item, target: HTMLElement) => void;
   /**
-   * <zh/> 返回菜单的内容，支持 `Promise` 类型的返回值。
-   * <en/> Return the content of menu, support the `Promise` type return value.
+   * <zh/> 返回菜单的内容，支持 `Promise` 类型的返回值，也可以使用 `getContextMeunItems` 来快捷配置。
+   * <en/> Return the content of menu, support the `Promise` type return value, you can also use `getContextMeunItems` for shortcut configuration.
    */
-  getContent?: () => HTMLElement | string | Promise<HTMLElement | string>;
+  getContextMeunElement?: () => HTMLElement | string | Promise<HTMLElement | string>;
+  /**
+   * <zh/> 返回菜单的项目列表，支持 `Promise` 类型的返回值。是 `getContextMeunElement` 的快捷配置。
+   * <en/> Return the list of menu items, support the `Promise` type return value. It is a shortcut configuration of `getContextMeunElement`.
+   */
+  getContextMeunItems?: (event: PluginEvent<FederatedMouseEvent>) => Item[] | Promise<Item[]>;
   /**
    * <zh/> Loading 时候的菜单内容，用于 getContent 返回 Promise 的时候。
    * <en/> The menu content when loading is used when getContent returns a Promise.
@@ -43,7 +66,7 @@ export type ContextMenuOptions = BasePluginOptions & {
    * <zh/> 插件是否可用，通过参数来判断是否支持右键菜单，默认全部可用。
    * <en/> Whether the plugin is available, determine whether the right-click menu is supported through parameters, The default is all available.
    */
-  enable?: (itemType: 'node' | 'edge' | 'combo', evt: any) => boolean;
+  enable?: boolean | ((event: PluginEvent<FederatedMouseEvent>) => boolean);
 };
 
 /**
@@ -54,8 +77,7 @@ export type ContextMenuOptions = BasePluginOptions & {
 export class ContextMenu extends BasePlugin<ContextMenuOptions> {
   static defaultOptions: Partial<ContextMenuOptions> = {
     trigger: 'contextmenu',
-    offsetX: 4,
-    offsetY: 4,
+    offset: [4, 4],
     loadingContent: '<div class="g6-contextmenu-loading">Loading...</div>',
     enable: () => true,
   };
