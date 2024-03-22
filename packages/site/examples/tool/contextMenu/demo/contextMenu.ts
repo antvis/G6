@@ -29,7 +29,7 @@ const graph = new Graph({
       onClick: (v) => {
         alert('You have clicked the「' + v + '」item');
       },
-      getContextmenuItems: () => {
+      getItems: () => {
         return [
           { name: '展开一度关系', value: 'spread' },
           { name: '查看详情', value: 'detail' },

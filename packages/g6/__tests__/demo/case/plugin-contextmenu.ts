@@ -12,7 +12,7 @@ export const pluginContextmenu: STDTestCase = async (context) => {
       {
         type: 'contextmenu',
         trigger: 'contextmenu',
-        getContextmenuItems: () => {
+        getItems: () => {
           return [
             { name: '展开一度关系', value: 'spread' },
             { name: '查看详情', value: 'detail' },

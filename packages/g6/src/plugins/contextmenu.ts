@@ -33,15 +33,15 @@ export type ContextmenuOptions = BasePluginOptions & {
    */
   onClick?: (v: string, target: HTMLElement) => void;
   /**
-   * <zh/> 返回菜单的项目列表，支持 `Promise` 类型的返回值。是 `getContextMeunElement` 的快捷配置。
-   * <en/> Return the list of menu items, support the `Promise` type return value. It is a shortcut configuration of `getContextMeunElement`.
+   * <zh/> 返回菜单的项目列表，支持 `Promise` 类型的返回值。是 `getContent` 的快捷配置。
+   * <en/> Return the list of menu items, support the `Promise` type return value. It is a shortcut configuration of `getContent`.
    */
-  getContextmenuItems?: (event: ElementEvent) => Item[] | Promise<Item[]>;
+  getItems?: (event: ElementEvent) => Item[] | Promise<Item[]>;
   /**
-   * <zh/> 返回菜单的内容，支持 `Promise` 类型的返回值，也可以使用 `getContextMeunItems` 来快捷配置。
-   * <en/> Return the content of menu, support the `Promise` type return value, you can also use `getContextMeunItems` for shortcut configuration.
+   * <zh/> 返回菜单的内容，支持 `Promise` 类型的返回值，也可以使用 `getItems` 来快捷配置。
+   * <en/> Return the content of menu, support the `Promise` type return value, you can also use `getItems` for shortcut configuration.
    */
-  getContextmenuContent?: (event: ElementEvent) => HTMLElement | string | Promise<HTMLElement | string>;
+  getContent?: (event: ElementEvent) => HTMLElement | string | Promise<HTMLElement | string>;
   /**
    * <zh/> Loading 时候的菜单内容，用于 getContent 返回 Promise 的时候。
    * <en/> The menu content when loading is used when getContent returns a Promise.
@@ -64,7 +64,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     trigger: 'contextmenu',
     offset: [4, 4],
     loadingContent: '<div class="g6-contextmenu-loading">Loading...</div>',
-    getContextMeunContent: () => 'It is a empty context menu.',
+    getContent: () => 'It is a empty context menu.',
     enable: () => true,
   };
 
@@ -95,7 +95,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
       return;
     }
 
-    const content = await this.getContent(e);
+    const content = await this.getDOMContent(e);
 
     if (content instanceof HTMLElement) {
       this.$element.appendChild(content);
@@ -140,13 +140,13 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     this.$element.remove();
   }
 
-  private async getContent(e: ElementEvent) {
-    const { getContextmenuContent, getContextmenuItems } = this.options;
+  private async getDOMContent(e: ElementEvent) {
+    const { getContent, getItems } = this.options;
 
-    if (getContextmenuItems) {
-      return getContentFromItems(await getContextmenuItems(e));
+    if (getItems) {
+      return getContentFromItems(await getItems(e));
     }
-    return await getContextmenuContent(e);
+    return await getContent(e);
   }
 
   private bindEvents() {
