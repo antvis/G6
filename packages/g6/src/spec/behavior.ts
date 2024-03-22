@@ -1,6 +1,15 @@
 import type { BuiltInBehaviorOptions } from '../behaviors/types';
-import type { ExtensionOptions, LooselyExtensionOption } from '../registry/extension/types';
+import type { ExtensionOptions } from '../registry/extension/types';
 
 export type BehaviorOptions = ExtensionOptions<BuiltInBehaviorOptions>;
 
-export type CustomBehaviorOption = LooselyExtensionOption;
+export interface UpdateBehaviorOption {
+  key: string;
+  [key: string]: any;
+}
+
+export interface CustomBehaviorOption {
+  type?: string;
+  key?: string;
+  [key: string]: any;
+}

@@ -1,9 +1,11 @@
-type ExtensionMetaOptions = {
+interface ExtensionMetaOptions {
   type: string;
   key: string;
-};
+}
 
-type CustomExtensionOptions = Record<string, any>;
+interface CustomExtensionOptions {
+  [key: string]: any;
+}
 
 /**
  * <zh/> 扩展配置项
