@@ -37,7 +37,7 @@ import {
   mindmap,
 } from '../layouts';
 import { blues, greens, oranges, spectral } from '../palettes';
-import { ContextMenu, GridLine, Tooltip, Watermark } from '../plugins';
+import { Contextmenu, GridLine, Tooltip, Watermark } from '../plugins';
 import { dark, light } from '../themes';
 import type { ExtensionRegistry } from './types';
 
@@ -111,6 +111,6 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'grid-line': GridLine,
     watermark: Watermark,
     tooltip: Tooltip,
-    'context-menu': ContextMenu,
+    contextmenu: Contextmenu,
   },
 };

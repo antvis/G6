@@ -2,8 +2,8 @@ import { FederatedMouseEvent } from '@antv/g';
 import insertCss from 'insert-css';
 import type { RuntimeContext } from '../runtime/types';
 import { PluginEvent } from '../types/plugin';
-import type { Item } from '../utils/context-menu';
-import { ContextMenuCSS, getContentFromItems } from '../utils/context-menu';
+import type { Item } from '../utils/contextmenu';
+import { ContextmenuCSS, getContentFromItems } from '../utils/contextmenu';
 import { createPluginContainer } from '../utils/dom';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
@@ -12,7 +12,7 @@ import { BasePlugin } from './base-plugin';
  * <zh/> 右键菜单插件的配置项。
  * <en/> The configuration item of the right-click menu plugin.
  */
-export type ContextMenuOptions = BasePluginOptions & {
+export type ContextmenuOptions = BasePluginOptions & {
   /**
    * <zh/> 给菜单的 DOM 追加的 classname，便于自定义样式。默认是包含 `g6-contextmenu`。
    * <en/> The classname appended to the menu DOM for custom styles. The default is `g6-contextmenu`.
@@ -37,12 +37,12 @@ export type ContextMenuOptions = BasePluginOptions & {
    * <zh/> 返回菜单的项目列表，支持 `Promise` 类型的返回值。是 `getContextMeunElement` 的快捷配置。
    * <en/> Return the list of menu items, support the `Promise` type return value. It is a shortcut configuration of `getContextMeunElement`.
    */
-  getContextMenuItems?: (event: PluginEvent<FederatedMouseEvent>) => Item[] | Promise<Item[]>;
+  getContextmenuItems?: (event: PluginEvent<FederatedMouseEvent>) => Item[] | Promise<Item[]>;
   /**
    * <zh/> 返回菜单的内容，支持 `Promise` 类型的返回值，也可以使用 `getContextMeunItems` 来快捷配置。
    * <en/> Return the content of menu, support the `Promise` type return value, you can also use `getContextMeunItems` for shortcut configuration.
    */
-  getContextMenuContent?: (
+  getContextmenuContent?: (
     event: PluginEvent<FederatedMouseEvent>,
   ) => HTMLElement | string | Promise<HTMLElement | string>;
   /**
@@ -62,8 +62,8 @@ export type ContextMenuOptions = BasePluginOptions & {
  * <en/> Support processing events and displaying right-click menus.
  *       After clicking the menu, you can trigger the corresponding event.
  */
-export class ContextMenu extends BasePlugin<ContextMenuOptions> {
-  static defaultOptions: Partial<ContextMenuOptions> = {
+export class Contextmenu extends BasePlugin<ContextmenuOptions> {
+  static defaultOptions: Partial<ContextmenuOptions> = {
     trigger: 'contextmenu',
     offset: [4, 4],
     loadingContent: '<div class="g6-contextmenu-loading">Loading...</div>',
@@ -73,14 +73,14 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
 
   private $element: HTMLElement = createPluginContainer('contextmenu', false);
 
-  constructor(context: RuntimeContext, options: ContextMenuOptions) {
-    super(context, Object.assign({}, ContextMenu.defaultOptions, options));
+  constructor(context: RuntimeContext, options: ContextmenuOptions) {
+    super(context, Object.assign({}, Contextmenu.defaultOptions, options));
 
     const $container = this.context.canvas.getContainer();
     $container!.appendChild(this.$element);
 
     // 设置样式
-    insertCss(ContextMenuCSS);
+    insertCss(ContextmenuCSS);
 
     this.update(options);
   }
@@ -90,11 +90,11 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
    * <en/> Display the right-click menu based on the incoming element.
    * @param e - 事件
    */
-  public async showContextMenu(e: PluginEvent<FederatedMouseEvent>) {
+  public async showContextmenu(e: PluginEvent<FederatedMouseEvent>) {
     const { enable, offset } = this.options;
 
     if ((typeof enable === 'function' && !enable(e)) || !enable) {
-      this.hideContextMenu();
+      this.hideContextmenu();
       return;
     }
 
@@ -115,7 +115,7 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
    * <zh/> 隐藏右键菜单。
    * <en/> Hide the right-click menu.
    */
-  public hideContextMenu() {
+  public hideContextmenu() {
     this.$element.style.display = 'none';
   }
 
@@ -124,7 +124,7 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
    * <en/> Update the configuration of the right-click menu.
    * @param options - 配置项
    */
-  public update(options: Partial<ContextMenuOptions>) {
+  public update(options: Partial<ContextmenuOptions>) {
     this.unbindEvents();
     super.update(options);
     this.bindEvents();
@@ -141,12 +141,12 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
   }
 
   private async getContent(e: PluginEvent<FederatedMouseEvent>) {
-    const { getContextMenuContent, getContextMenuItems } = this.options;
+    const { getContextmenuContent, getContextmenuItems } = this.options;
 
-    if (getContextMenuItems) {
-      return getContentFromItems(await getContextMenuItems(e));
+    if (getContextmenuItems) {
+      return getContentFromItems(await getContextmenuItems(e));
     }
-    return await getContextMenuContent(e);
+    return await getContextmenuContent(e);
   }
 
   private bindEvents() {
@@ -175,7 +175,7 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
 
   private onTriggerEvent = (e: PluginEvent<FederatedMouseEvent>) => {
     e.preventDefault?.();
-    this.showContextMenu(e);
+    this.showContextmenu(e);
   };
 
   private onMenuItemClick = (e: MouseEvent) => {
@@ -185,12 +185,12 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
         const v = e.target.getAttribute('value') as string;
         onClick && onClick(v, e.target);
 
-        this.hideContextMenu();
+        this.hideContextmenu();
       }
 
       // 点击其他地方，隐藏菜单
       if (!this.context.graph.getCanvas().getContainer()!.contains(e.target)) {
-        this.hideContextMenu();
+        this.hideContextmenu();
       }
     }
   };

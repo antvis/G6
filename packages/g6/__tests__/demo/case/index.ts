@@ -43,7 +43,7 @@ export * from './layout-radial-configuration-translate';
 export * from './layout-radial-prevent-overlap';
 export * from './layout-radial-prevent-overlap-unstrict';
 export * from './layout-radial-sort';
-export * from './plugin-context-menu';
+export * from './plugin-contextmenu';
 export * from './plugin-grid-line';
 export * from './plugin-tooltip';
 export * from './plugin-watermark';

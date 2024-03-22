@@ -2,7 +2,7 @@ import { Graph } from '@/src';
 import data from '@@/dataset/cluster.json';
 import type { STDTestCase } from '../types';
 
-export const pluginContextMenu: STDTestCase = async (context) => {
+export const pluginContextmenu: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     autoResize: true,
@@ -10,9 +10,9 @@ export const pluginContextMenu: STDTestCase = async (context) => {
     layout: { type: 'd3force' },
     plugins: [
       {
-        type: 'context-menu',
+        type: 'contextmenu',
         trigger: 'contextmenu',
-        getContextMenuItems: () => {
+        getContextmenuItems: () => {
           return [
             { name: '展开一度关系', value: 'spread' },
             { name: '查看详情', value: 'detail' },
@@ -25,7 +25,7 @@ export const pluginContextMenu: STDTestCase = async (context) => {
 
   await graph.render();
 
-  pluginContextMenu.form = (panel) => {
+  pluginContextmenu.form = (panel) => {
     const config = {
       trigger: 'contextmenu',
     };
@@ -39,9 +39,9 @@ export const pluginContextMenu: STDTestCase = async (context) => {
         .onChange((trigger: string) => {
           graph.setPlugins([
             {
-              type: 'context-menu',
+              type: 'contextmenu',
               trigger,
-              getContextMenuItems: () => {
+              getContextmenuItems: () => {
                 return [
                   { name: '展开一度关系', value: 'spread' },
                   { name: '查看详情', value: 'detail' },

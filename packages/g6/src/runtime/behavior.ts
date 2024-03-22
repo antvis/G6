@@ -90,7 +90,7 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
       graph.emit(CanvasEvent.DBLCLICK, stdEvent);
     }
 
-    // 右键菜单 / ContextMenu
+    // 右键菜单 / Contextmenu
     if (type === CanvasEvent.POINTER_DOWN && button === 2) {
       const contextMenuEvent = {
         ...stdEvent,

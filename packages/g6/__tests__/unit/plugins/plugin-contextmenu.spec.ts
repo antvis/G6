@@ -1,9 +1,9 @@
-import { pluginContextMenu } from '@@/demo/case';
+import { pluginContextmenu } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin contextmenu', () => {
   it('contextmenu', async () => {
-    const graph = await createDemoGraph(pluginContextMenu);
+    const graph = await createDemoGraph(pluginContextmenu);
     const container = graph.getCanvas().getContainer()!;
 
     const el = container.querySelector('.g6-contextmenu') as HTMLDivElement;
