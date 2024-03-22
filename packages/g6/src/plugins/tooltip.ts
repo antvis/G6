@@ -13,8 +13,8 @@ export interface TooltipOptions
   trigger?: 'hover' | 'click';
   /** <zh/> 自定义内容 | <en/> Function for getting tooltip content  */
   getContent?: (evt: G6ElementEvent, items: ElementDatum[]) => HTMLElement | string;
-  /** <zh/> 触发类型 | <en/> Types of items for which tooltip is allowed to be displayed  */
-  enableElements?: ElementType[];
+  /** <zh/> 是否启用 | <en/> Is enable */
+  enable?: boolean | ((evt: G6ElementEvent) => boolean);
 }
 
 export class Tooltip extends BasePlugin<TooltipOptions> {
@@ -22,7 +22,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     trigger: 'hover',
     position: 'top-right',
     enterable: false,
-    enableElements: ['node', 'edge', 'combo'],
+    enable: true,
     style: {
       '.tooltip': {
         visibility: 'hidden',
@@ -100,12 +100,18 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     });
   }
 
+  private isEnable = (e: G6ElementEvent) => {
+    const { enable } = this.options;
+    if (typeof enable === 'function') {
+      return enable(e);
+    }
+    return enable;
+  };
+
   public onClick = (e: G6ElementEvent) => {
     const {
-      targetType,
       target: { id },
     } = e;
-    if (this.options.enableElements.indexOf(targetType) === -1) return;
     // click the same item twice, tooltip will be hidden
     if (this.currentTarget === id) {
       this.currentTarget = null;
@@ -117,8 +123,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
   };
 
   public onPointerMove = (e: G6ElementEvent) => {
-    const { targetType, target } = e;
-    if (this.options.enableElements.indexOf(targetType) === -1) return;
+    const { target } = e;
     if (!this.currentTarget || target.id === this.currentTarget) {
       return;
     }
@@ -136,8 +141,6 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
   };
 
   private onPointerEnter = (e: G6ElementEvent) => {
-    const { targetType } = e;
-    if (this.options.enableElements.indexOf(targetType) === -1) return;
     this.showTooltip(e);
   };
 
@@ -169,7 +172,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
       client,
       target: { id, attributes = { color: '#1883FF' } },
     } = e;
-    if (!this.tooltipElement) return;
+    if (!this.tooltipElement || !this.isEnable(e)) return;
     const { getContent } = this.options;
     const { color, stroke } = attributes;
     this.currentTarget = id;
@@ -212,14 +215,15 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
   };
 
   public hideTooltip = (e?: G6ElementEvent) => {
+    // if e is undefined, hide the tooltip， external call
     if (!e) {
       this.tooltipElement?.hide();
       return;
     }
+    if (!this.tooltipElement || !this.isEnable(e)) return;
     const {
       client: { x, y },
     } = e;
-    if (!this.tooltipElement) return;
     this.tooltipElement.hide(x, y);
   };
 
