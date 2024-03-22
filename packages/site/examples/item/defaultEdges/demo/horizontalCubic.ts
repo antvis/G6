@@ -49,7 +49,7 @@ const graph = new Graph({
     },
   },
   layout: {
-    type: 'dagre',
+    type: 'antv-dagre',
     rankdir: 'LR',
     nodesep: 30,
     ranksep: 150,

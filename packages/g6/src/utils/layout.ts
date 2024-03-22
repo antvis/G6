@@ -11,7 +11,7 @@ import type { STDLayoutOptions } from '../spec/layout';
 export function isComboLayout(options: STDLayoutOptions) {
   const { type } = options;
   if (['comboCombined', 'comboForce'].includes(type)) return true;
-  if (type === 'dagre' && options.sortByCombo) return true;
+  if (type === 'antv-dagre' && options.sortByCombo) return true;
   return false;
 }
 

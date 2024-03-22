@@ -9,21 +9,21 @@
   <defs />
   <g
     id="g-svg-camera"
-    transform="matrix(0.920810,0,0,0.920810,23.250469,-59.852638)"
+    transform="matrix(0.819672,0,0,0.819672,-6.147559,-25.819664)"
   >
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="A" fill="none" transform="matrix(1,0,0,1,307.500000,400)">
+        <g id="A" fill="none" transform="matrix(1,0,0,1,122.500000,400)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
               fill="rgba(253,253,253,1)"
-              d="M 8,0 l 364,0 a 8,8,0,0,1,8,8 l 0,34 a 8,8,0,0,1,-8,8 l -364,0 a 8,8,0,0,1,-8,-8 l 0,-34 a 8,8,0,0,1,8,-8 z"
-              transform="translate(-190,-25)"
+              d="M 8,0 l 214,0 a 8,8,0,0,1,8,8 l 0,34 a 8,8,0,0,1,-8,8 l -214,0 a 8,8,0,0,1,-8,-8 l 0,-34 a 8,8,0,0,1,8,-8 z"
+              transform="translate(-115,-25)"
               stroke-dasharray="0,0"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
-              width="380"
+              width="230"
               height="50"
             />
           </g>
@@ -44,7 +44,7 @@
             </g>
           </g>
         </g>
-        <g id="B" fill="none" transform="matrix(1,0,0,1,72.500000,480)">
+        <g id="B" fill="none" transform="matrix(1,0,0,1,540,480)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -75,7 +75,7 @@
             </g>
           </g>
         </g>
-        <g id="C" fill="none" transform="matrix(1,0,0,1,345,400)">
+        <g id="C" fill="none" transform="matrix(1,0,0,1,350,400)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -123,22 +123,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,226.015625,95)">
+          <g transform="matrix(1,0,0,1,180,95)">
             <path
               id="key"
               fill="none"
-              d="M 30.46875,0 L 1.1409566139466412,125.131918447161"
+              d="M 132.5,0 C 132.5 65,0 65,0 130 L 3.061616997868383e-16,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(0.228191,-0.973616,0.973616,0.228191,1.140957,125.131920)">
+            <g transform="matrix(0,-1,1,0,0,125)">
               <path
                 id="g-svg-71"
                 fill="rgba(153,173,209,1)"
@@ -179,22 +179,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,90.078125,95)">
+          <g transform="matrix(1,0,0,1,312.500000,95)">
             <path
               id="key"
               fill="none"
-              d="M 152.34375,0 L 3.803433226738199,126.75440364651674"
+              d="M 0,0 C 0 65,227.5 65,227.5 130 L 227.5,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(0.760687,-0.649119,0.649119,0.760687,3.803433,126.754402)">
+            <g transform="matrix(0,-1,1,0,227.500000,125)">
               <path
                 id="g-svg-75"
                 fill="rgba(153,173,209,1)"
@@ -235,22 +235,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,223.437500,255)">
+          <g transform="matrix(1,0,0,1,47.500000,255)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 7.813108569224097,125.00973710758555"
+              d="M 132.5,0 C 132.5 65,0 65,0 130 L 3.061616997868383e-16,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(-0.062378,-0.998053,0.998053,-0.062378,7.813108,125.009735)">
+            <g transform="matrix(0,-1,1,0,0,125)">
               <path
                 id="g-svg-79"
                 fill="rgba(153,173,209,1)"
@@ -291,22 +291,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,267.968750,95)">
+          <g transform="matrix(1,0,0,1,282.500000,95)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 66.71672387019125,125.58442140271295"
+              d="M 30,0 C 30 65,0 65,0 130 L 3.061616997868383e-16,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(-0.469155,-0.883116,0.883116,-0.469155,66.716721,125.584419)">
+            <g transform="matrix(0,-1,1,0,0,125)">
               <path
                 id="g-svg-83"
                 fill="rgba(153,173,209,1)"
@@ -347,22 +347,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,243.046875,255)">
+          <g transform="matrix(1,0,0,1,47.500000,255)">
             <path
               id="key"
               fill="none"
-              d="M 91.40625,0 L 2.8758837599512797,125.90985420806929"
+              d="M 235,0 C 235 65,0 65,0 130 L 3.061616997868383e-16,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(0.575177,-0.818029,0.818029,0.575177,2.875884,125.909851)">
+            <g transform="matrix(0,-1,1,0,0,125)">
               <path
                 id="g-svg-87"
                 fill="rgba(153,173,209,1)"
@@ -403,18 +403,18 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,72.500000,255)">
+          <g transform="matrix(1,0,0,1,540,255)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 3.061616997868383e-16,125"
+              d="M 0,0 C 0 65,0 65,0 130 L 3.061616997868383e-16,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
@@ -459,22 +459,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,163.593750,255)">
+          <g transform="matrix(1,0,0,1,122.500000,255)">
             <path
               id="key"
               fill="none"
-              d="M 52.8125,0 L 1.8818852347796902,125.36766711438845"
+              d="M 57.5,0 C 57.5 65,0 65,0 130 L 3.061616997868383e-16,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(0.376377,-0.926467,0.926467,0.376377,1.881885,125.367668)">
+            <g transform="matrix(0,-1,1,0,0,125)">
               <path
                 id="g-svg-95"
                 fill="rgba(153,173,209,1)"
@@ -515,22 +515,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,230.468750,255)">
+          <g transform="matrix(1,0,0,1,180,255)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 66.71672387019125,125.58442140271295"
+              d="M 0,0 C 0 65,132.5 65,132.5 130 L 132.5,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(-0.469155,-0.883116,0.883116,-0.469155,66.716721,125.584419)">
+            <g transform="matrix(0,-1,1,0,132.500000,125)">
               <path
                 id="g-svg-99"
                 fill="rgba(153,173,209,1)"
@@ -571,22 +571,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,348.515625,255)">
+          <g transform="matrix(1,0,0,1,282.500000,255)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 29.327793386053358,125.131918447161"
+              d="M 0,0 C 0 65,105 65,105 130 L 105,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(-0.228191,-0.973616,0.973616,-0.228191,29.327793,125.131920)">
+            <g transform="matrix(0,-1,1,0,105,125)">
               <path
                 id="g-svg-103"
                 fill="rgba(153,173,209,1)"
@@ -627,22 +627,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,355.546875,255)">
+          <g transform="matrix(1,0,0,1,197.500000,255)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 88.53036624004872,125.90985420806929"
+              d="M 85,0 C 85 65,0 65,0 130 L 3.061616997868383e-16,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(-0.575177,-0.818029,0.818029,-0.575177,88.530365,125.909851)">
+            <g transform="matrix(0,-1,1,0,0,125)">
               <path
                 id="g-svg-107"
                 fill="rgba(153,173,209,1)"
@@ -683,22 +683,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,38.515625,415)">
+          <g transform="matrix(1,0,0,1,502.500000,415)">
             <path
               id="key"
               fill="none"
-              d="M 30.46875,0 L 1.1409566139466412,125.131918447161"
+              d="M 37.5,0 C 37.5 65,0 65,0 130 L 3.061616997868383e-16,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(0.228191,-0.973616,0.973616,0.228191,1.140957,125.131920)">
+            <g transform="matrix(0,-1,1,0,0,125)">
               <path
                 id="g-svg-111"
                 fill="rgba(153,173,209,1)"
@@ -739,22 +739,22 @@
             stroke="transparent"
             stroke-width="3"
           />
-          <g transform="matrix(1,0,0,1,76.015625,415)">
+          <g transform="matrix(1,0,0,1,540,415)">
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 29.327793386053358,125.131918447161"
+              d="M 0,0 C 0 65,37.5 65,37.5 130 L 37.5,125"
               stroke-width="1"
               stroke="rgba(153,173,209,1)"
             />
             <path
               id="key"
               fill="none"
-              d="M 0,0 L 0,0"
+              d="M 0,0 C 0 0,0 0,0 0"
               stroke-width="3"
               stroke="transparent"
             />
-            <g transform="matrix(-0.228191,-0.973616,0.973616,-0.228191,29.327793,125.131920)">
+            <g transform="matrix(0,-1,1,0,37.500000,125)">
               <path
                 id="g-svg-115"
                 fill="rgba(153,173,209,1)"
@@ -782,7 +782,7 @@
         </g>
       </g>
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="0" fill="none" transform="matrix(1,0,0,1,260,80)">
+        <g id="0" fill="none" transform="matrix(1,0,0,1,312.500000,80)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -809,7 +809,7 @@
             </g>
           </g>
         </g>
-        <g id="1" fill="none" transform="matrix(1,0,0,1,222.500000,240)">
+        <g id="1" fill="none" transform="matrix(1,0,0,1,180,240)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -836,7 +836,7 @@
             </g>
           </g>
         </g>
-        <g id="2" fill="none" transform="matrix(1,0,0,1,72.500000,240)">
+        <g id="2" fill="none" transform="matrix(1,0,0,1,540,240)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -863,7 +863,7 @@
             </g>
           </g>
         </g>
-        <g id="3" fill="none" transform="matrix(1,0,0,1,345,240)">
+        <g id="3" fill="none" transform="matrix(1,0,0,1,282.500000,240)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -890,7 +890,7 @@
             </g>
           </g>
         </g>
-        <g id="4" fill="none" transform="matrix(1,0,0,1,232.500000,400)">
+        <g id="4" fill="none" transform="matrix(1,0,0,1,47.500000,400)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -917,7 +917,7 @@
             </g>
           </g>
         </g>
-        <g id="5" fill="none" transform="matrix(1,0,0,1,72.500000,400)">
+        <g id="5" fill="none" transform="matrix(1,0,0,1,540,400)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -944,7 +944,7 @@
             </g>
           </g>
         </g>
-        <g id="6" fill="none" transform="matrix(1,0,0,1,157.500000,400)">
+        <g id="6" fill="none" transform="matrix(1,0,0,1,122.500000,400)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -971,7 +971,7 @@
             </g>
           </g>
         </g>
-        <g id="7" fill="none" transform="matrix(1,0,0,1,307.500000,400)">
+        <g id="7" fill="none" transform="matrix(1,0,0,1,312.500000,400)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -998,7 +998,7 @@
             </g>
           </g>
         </g>
-        <g id="8" fill="none" transform="matrix(1,0,0,1,382.500000,400)">
+        <g id="8" fill="none" transform="matrix(1,0,0,1,387.500000,400)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -1025,7 +1025,7 @@
             </g>
           </g>
         </g>
-        <g id="9" fill="none" transform="matrix(1,0,0,1,457.500000,400)">
+        <g id="9" fill="none" transform="matrix(1,0,0,1,197.500000,400)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -1052,7 +1052,7 @@
             </g>
           </g>
         </g>
-        <g id="10" fill="none" transform="matrix(1,0,0,1,35,560)">
+        <g id="10" fill="none" transform="matrix(1,0,0,1,502.500000,560)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"
@@ -1079,7 +1079,7 @@
             </g>
           </g>
         </g>
-        <g id="11" fill="none" transform="matrix(1,0,0,1,110,560)">
+        <g id="11" fill="none" transform="matrix(1,0,0,1,577.500000,560)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="key"

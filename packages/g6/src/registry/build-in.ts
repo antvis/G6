@@ -18,6 +18,7 @@ import {
   Triangle,
 } from '../elements';
 import {
+  AntVDagreLayout,
   CircularLayout,
   ComboCombinedLayout,
   ConcentricLayout,
@@ -69,6 +70,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'cubic-vertical': CubicVertical,
   },
   layout: {
+    'antv-dagre': AntVDagreLayout,
     'combo-combined': ComboCombinedLayout,
     'compact-box': compactBox,
     'force-atlas2': ForceAtlas2Layout,

@@ -1,7 +1,9 @@
 import type {
+  AntVDagreLayoutOptions,
   CircularLayoutOptions,
   ConcentricLayoutOptions,
   D3ForceLayoutOptions,
+  DagreLayoutOptions,
   ForceAtlas2LayoutOptions,
   ForceLayoutOptions,
   FruchtermanLayoutOptions,
@@ -13,16 +15,18 @@ import type {
 import type { NodeData } from '../spec/data';
 
 export type BuiltInLayoutOptions =
+  | AntVDagreLayout
   | CircularLayout
-  | RandomLayout
   | ConcentricLayout
+  | D3ForceLayout
+  | DagreLayout
+  | ForceAtlas2
+  | ForceLayout
+  | FruchtermanLayout
   | GridLayout
   | MDSLayout
   | RadialLayout
-  | FruchtermanLayout
-  | D3ForceLayout
-  | ForceLayout
-  | ForceAtlas2;
+  | RandomLayout;
 
 export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
   type: string;
@@ -75,6 +79,14 @@ interface ForceLayout extends BaseLayoutOptions, ForceLayoutOptions {
 
 interface ForceAtlas2 extends BaseLayoutOptions, ForceAtlas2LayoutOptions {
   type: 'forceAtlas2';
+}
+
+interface AntVDagreLayout extends BaseLayoutOptions, AntVDagreLayoutOptions {
+  type: 'antv-dagre';
+}
+
+interface DagreLayout extends BaseLayoutOptions, DagreLayoutOptions {
+  type: 'dagre';
 }
 
 export interface PresetLayoutOptions {

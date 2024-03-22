@@ -17,7 +17,7 @@ describe('spec layout', () => {
 
   it('layout 2', () => {
     const layout: LayoutOptions = {
-      type: 'dagre',
+      type: 'antv-dagre',
       nodesep: 100,
       ranksep: 70,
       controlPoints: true,

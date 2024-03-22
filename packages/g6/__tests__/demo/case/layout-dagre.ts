@@ -1,8 +1,8 @@
-import { Graph } from '@antv/g6';
+import { Graph } from '@/src';
+import type { STDTestCase } from '../types';
 
-const graph = new Graph({
-  zoom: 0.8,
-  data: {
+export const layoutDagre: STDTestCase = async (context) => {
+  const data = {
     nodes: [
       { id: 'kspacey', data: { label: 'Kevin Spacey', width: 144, height: 100 } },
       { id: 'swilliams', data: { label: 'Saul Williams', width: 160, height: 100 } },
@@ -18,29 +18,24 @@ const graph = new Graph({
       { id: 'hford->lwilson', source: 'hford', target: 'lwilson' },
       { id: 'lwilson->kbacon', source: 'lwilson', target: 'kbacon' },
     ],
-  },
-  node: {
-    style: {
-      type: 'rect',
-      radius: 10,
-      iconText: (d) => d.data.label,
-      size: (d) => [d.data.width, d.data.height],
-    },
-    palette: {
-      type: 'group',
-      field: 'label',
-    },
-  },
-  edge: {
-    style: {
-      type: 'polyline',
-      router: true,
-    },
-  },
-  layout: {
-    type: 'dagre',
-  },
-  behaviors: ['drag-element'],
-});
+  };
 
-graph.render();
+  const graph = new Graph({
+    ...context,
+    data,
+    layout: {
+      type: 'dagre',
+    },
+    zoom: 0.8,
+    node: {
+      style: {
+        type: 'rect',
+        labelText: (d) => d.data!.label as string,
+        size: (d) => [d.data!.width, d.data!.height] as [number, number],
+      },
+    },
+  });
+
+  await graph.render();
+  return graph;
+};
