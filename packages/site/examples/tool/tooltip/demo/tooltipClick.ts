@@ -94,7 +94,7 @@ const data = {
 const tooltip = {
   type: 'tooltip',
   trigger: 'click',
-  itemTypes: ['node'],
+  enable: (e) => e.targetType === 'node',
   getContent: (e) => {
     const {
       target: { id },
