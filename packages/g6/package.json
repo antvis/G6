@@ -50,6 +50,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@antv/component": "^1.0.2",
     "@antv/event-emitter": "latest",
     "@antv/g": "^5.18.25",
     "@antv/g-canvas": "^1.11.27",
