@@ -1,5 +1,5 @@
 import type { PointLike } from '@antv/g';
-import { isArray, isFunction, isObject } from '@antv/util';
+import { clamp, isArray, isFunction, isObject } from '@antv/util';
 import { CanvasEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { BehaviorEvent, Point, ViewportAnimationEffectTiming } from '../types';
@@ -87,14 +87,14 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
       this.preventDefault(CanvasEvent.WHEEL);
       this.shortcut.bind([...trigger, CanvasEvent.WHEEL], (event) => {
         const { deltaX, deltaY } = event;
-        this.zoom(-(deltaY ?? deltaX), event);
+        this.zoom(-(deltaY ?? deltaX), event, false);
       });
     }
 
     if (isObject(trigger)) {
       const { zoomIn = [], zoomOut = [], reset = [] } = trigger as CombinationKey;
-      this.shortcut.bind(zoomIn, (event) => this.zoom(1, event));
-      this.shortcut.bind(zoomOut, (event) => this.zoom(-1, event));
+      this.shortcut.bind(zoomIn, (event) => this.zoom(10, event, this.options.animation));
+      this.shortcut.bind(zoomOut, (event) => this.zoom(-10, event, this.options.animation));
       this.shortcut.bind(reset, this.onReset);
     }
   }
@@ -105,8 +105,13 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    * <en/> Zoom canvas
    * @param value - <zh/> 缩放值， > 0 放大， < 0 缩小 | <en/> Zoom value, > 0 zoom in, < 0 zoom out
    * @param event - <zh/> 事件对象 | <en/> Event object
+   * @param animation - <zh/> 缩放动画配置 | <en/> Zoom animation configuration
    */
-  private zoom = async (value: number, event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) => {
+  private zoom = async (
+    value: number,
+    event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>,
+    animation: ZoomCanvasOptions['animation'],
+  ) => {
     if (!this.validate(event)) return;
     const { graph } = this.context;
 
@@ -116,9 +121,9 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     }
 
     const { sensitivity, onfinish } = this.options;
-    const diff = (value * sensitivity) / 10;
+    const ratio = 1 + (clamp(value, -50, 50) * sensitivity) / 100;
     const zoom = graph.getZoom();
-    await graph.zoomTo(zoom + diff, this.options.animation, origin);
+    await graph.zoomTo(zoom * ratio, animation, origin);
 
     onfinish?.();
   };
