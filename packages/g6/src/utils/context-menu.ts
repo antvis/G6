@@ -36,13 +36,14 @@ export const ContextMenuCSS = `
     font-size: 12px;
     background-color: rgba(255, 255, 255, 0.96);
     border-radius: 4px;
+    overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 12px 0px;
     transition: visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
   }
 
   .g6-contextmenu-ul {
     max-width: 256px;
-    min-width: 128px;
+    min-width: 96px;
     list-style: none;
     padding: 0;
     margin: 0;

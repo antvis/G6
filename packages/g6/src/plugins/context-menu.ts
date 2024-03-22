@@ -32,7 +32,7 @@ export type ContextMenuOptions = BasePluginOptions & {
    * <zh/> 当菜单被点击后，出发的回调方法。
    * <en/> The callback method triggered when the menu is clicked.
    */
-  onClick?: (item: Item, target: HTMLElement) => void;
+  onClick?: (v: string, target: HTMLElement) => void;
   /**
    * <zh/> 返回菜单的项目列表，支持 `Promise` 类型的返回值。是 `getContextMeunElement` 的快捷配置。
    * <en/> Return the list of menu items, support the `Promise` type return value. It is a shortcut configuration of `getContextMeunElement`.
@@ -67,7 +67,7 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
     trigger: 'contextmenu',
     offset: [4, 4],
     loadingContent: '<div class="g6-contextmenu-loading">Loading...</div>',
-    getContextMeunContent: () => 'This is a context menu.',
+    getContextMeunContent: () => 'It is a empty context menu.',
     enable: () => true,
   };
 
@@ -78,12 +78,9 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
 
     const $container = this.context.canvas.getContainer();
     $container!.appendChild(this.$element);
+
     // 设置样式
     insertCss(ContextMenuCSS);
-
-    const { trigger } = this.options;
-
-    this.context.graph.on(trigger, this.onTriggerEvent);
 
     this.update(options);
   }
@@ -97,6 +94,7 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
     const { enable, offset } = this.options;
 
     if ((typeof enable === 'function' && !enable(e)) || !enable) {
+      this.hideContextMenu();
       return;
     }
 
@@ -127,7 +125,9 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
    * @param options - 配置项
    */
   public update(options: Partial<ContextMenuOptions>) {
+    this.unbindEvents();
     super.update(options);
+    this.bindEvents();
   }
 
   /**
@@ -135,6 +135,7 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
    * <en/> Destroy the right-click menu.
    */
   public destroy(): void {
+    this.unbindEvents();
     super.destroy();
     this.$element.remove();
   }
@@ -148,9 +149,49 @@ export class ContextMenu extends BasePlugin<ContextMenuOptions> {
     return await getContextMenuContent(e);
   }
 
-  private onTriggerEvent = (e: any) => {
-    // todo
-    console.log(e);
+  private bindEvents() {
+    const { graph } = this.context;
+    const { trigger } = this.options;
+
+    graph.on(`canvas:${trigger}`, this.onTriggerEvent);
+    graph.on(`node:${trigger}`, this.onTriggerEvent);
+    graph.on(`edge:${trigger}`, this.onTriggerEvent);
+    graph.on(`combo:${trigger}`, this.onTriggerEvent);
+
+    document.addEventListener('click', this.onMenuItemClick);
+  }
+
+  private unbindEvents() {
+    const { graph } = this.context;
+    const { trigger } = this.options;
+
+    graph.off(`canvas:${trigger}`, this.onTriggerEvent);
+    graph.off(`node:${trigger}`, this.onTriggerEvent);
+    graph.off(`edge:${trigger}`, this.onTriggerEvent);
+    graph.off(`combo:${trigger}`, this.onTriggerEvent);
+
+    document.removeEventListener('click', this.onMenuItemClick);
+  }
+
+  private onTriggerEvent = (e: PluginEvent<FederatedMouseEvent>) => {
+    e.preventDefault?.();
     this.showContextMenu(e);
+  };
+
+  private onMenuItemClick = (e: MouseEvent) => {
+    const { onClick } = this.options;
+    if (e.target instanceof HTMLElement) {
+      if (e.target.className.includes('g6-contextmenu-li')) {
+        const v = e.target.getAttribute('value') as string;
+        onClick && onClick(v, e.target);
+
+        this.hideContextMenu();
+      }
+
+      // 点击其他地方，隐藏菜单
+      if (!this.context.graph.getCanvas().getContainer()!.contains(e.target)) {
+        this.hideContextMenu();
+      }
+    }
   };
 }
