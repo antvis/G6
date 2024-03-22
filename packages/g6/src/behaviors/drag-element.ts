@@ -26,12 +26,6 @@ export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<Ba
    */
   enable?: boolean | ((event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
   /**
-   * <zh/> 支持拖拽的元素类型
-   *
-   * <en/> Supported element types for dragging
-   */
-  draggableElement: ('node' | 'combo')[];
-  /**
    * <zh/> 拖拽操作效果
    * - link: 将拖拽元素置入为目标元素的子元素
    * - move: 移动元素并更新父元素尺寸
@@ -72,7 +66,7 @@ export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<Ba
    *
    * <en/> Edges will not be hidden when using the drag shadow
    */
-  hideEdges?: 'none' | 'all' | EdgeDirection;
+  hideEdge?: 'none' | 'all' | EdgeDirection;
   /**
    * <zh/> 是否启用幽灵节点，即用一个图形代替节点跟随鼠标移动
    *
@@ -84,17 +78,16 @@ export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<Ba
    *
    * <en/> Callback when dragging is completed
    */
-  onfinish?: (ids: ID[]) => void;
+  onFinish?: (ids: ID[]) => void;
 }
 
 export class DragElement extends BaseBehavior<DragElementOptions> {
   static defaultOptions: Partial<DragElementOptions> = {
     animation: true,
-    enable: true,
-    draggableElement: ['node', 'combo'],
+    enable: (event) => ['node', 'combo'].includes(event.targetType),
     dropEffect: 'move',
     state: 'selected',
-    hideEdges: 'none',
+    hideEdge: 'none',
     shadowZIndex: 100,
     shadowFill: '#F3F9FF',
     shadowFillOpacity: 0.5,
@@ -104,6 +97,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   };
 
   private enable: boolean = false;
+
+  private enableElements = ['node', 'combo'];
 
   private target: ID[] = [];
 
@@ -116,10 +111,6 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   private get animation() {
     if (!this.options.shadow) return false;
     return this.options.animation;
-  }
-
-  private get element() {
-    return new Set<string>(this.options.draggableElement);
   }
 
   constructor(context: RuntimeContext, options: DragElementOptions) {
@@ -136,7 +127,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     const { graph } = this.context;
     this.unbindEvents();
 
-    this.element.forEach((type) => {
+    this.enableElements.forEach((type) => {
       graph.on(`${type}:${CommonEvent.DRAG_START}`, this.onDragStart);
       graph.on(`${type}:${CommonEvent.DRAG}`, this.onDrag);
       graph.on(`${type}:${CommonEvent.DRAG_END}`, this.onDragEnd);
@@ -164,7 +155,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     if (!this.enable) return;
 
     this.target = this.getSelectedNodeIDs([event.target.id]);
-    this.hideEdges();
+    this.hideEdge();
     this.context.graph.frontElement(this.target);
     if (this.options.shadow) this.createShadow(this.target);
   };
@@ -187,7 +178,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
       this.moveElement(this.target, [dx, dy]);
     }
     this.showEdges();
-    this.options.onfinish?.(this.target);
+    this.options.onFinish?.(this.target);
     this.target = [];
   };
 
@@ -209,7 +200,6 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
 
   private validate(event: DragEvent) {
     if (this.destroyed) return false;
-    if (!this.element.has(event.targetType)) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
@@ -270,14 +260,14 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     this.hiddenEdges = [];
   }
 
-  private hideEdges() {
-    const { hideEdges, shadow } = this.options;
-    if (hideEdges === 'none' || shadow) return;
+  private hideEdge() {
+    const { hideEdge, shadow } = this.options;
+    if (hideEdge === 'none' || shadow) return;
     const { graph } = this.context;
-    if (hideEdges === 'all') this.hiddenEdges = graph.getEdgeData().map(idOf);
+    if (hideEdge === 'all') this.hiddenEdges = graph.getEdgeData().map(idOf);
     else {
       this.hiddenEdges = Array.from(
-        new Set(this.target.map((id) => graph.getRelatedEdgesData(id, hideEdges).map(idOf)).flat()),
+        new Set(this.target.map((id) => graph.getRelatedEdgesData(id, hideEdge).map(idOf)).flat()),
       );
     }
     graph.hideElement(this.hiddenEdges);
@@ -286,7 +276,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   private unbindEvents() {
     const { graph } = this.context;
 
-    this.element.forEach((type) => {
+    this.enableElements.forEach((type) => {
       graph.off(`${type}:${CommonEvent.DRAG_START}`, this.onDragStart);
       graph.off(`${type}:${CommonEvent.DRAG}`, this.onDrag);
       graph.off(`${type}:${CommonEvent.DRAG_END}`, this.onDragEnd);

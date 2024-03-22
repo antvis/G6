@@ -31,7 +31,7 @@ export const behaviorDragNode: STDTestCase = async (context) => {
   behaviorDragNode.form = (panel) => {
     const config = {
       enable: true,
-      hideEdges: 'none',
+      hideEdge: 'none',
       shadow: false,
     };
     const handleChange = () => {
@@ -39,7 +39,7 @@ export const behaviorDragNode: STDTestCase = async (context) => {
     };
     return [
       panel.add(config, 'enable').onChange(handleChange),
-      panel.add(config, 'hideEdges', ['none', 'in', 'out', 'both']).onChange(handleChange),
+      panel.add(config, 'hideEdge', ['none', 'in', 'out', 'both']).onChange(handleChange),
       panel.add(config, 'shadow').onChange(handleChange),
     ];
   };
