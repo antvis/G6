@@ -19,6 +19,14 @@
         "en": "Dagre with Combos"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*h60aQKusJRcAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "dagre.ts",
+      "title": {
+        "zh": "Dagre.js 布局",
+        "en": "Dagre.js Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WqTVSZKaJIYAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
