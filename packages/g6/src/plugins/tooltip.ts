@@ -1,5 +1,6 @@
 import type { TooltipStyleProps } from '@antv/component';
 import { Tooltip as TooltipComponent } from '@antv/component';
+import { get } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { ElementDatum, ElementType, G6ElementEvent } from '../types';
 import type { BasePluginOptions } from './base-plugin';
@@ -140,30 +141,48 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.showTooltip(e);
   };
 
-  public showTooltip(e: G6ElementEvent) {
+  public showTooltipById = (id: string, elementType: ElementType = 'node') => {
+    const e = {
+      targetType: elementType,
+      target: { id },
+    } as G6ElementEvent;
+    this.showTooltip(e);
+  };
+
+  private getItems = (id: string, targetType: ElementType) => {
+    const { model } = this.context;
+    switch (targetType) {
+      case 'node':
+        return model.getNodeData([id]);
+      case 'edge':
+        return model.getEdgeData([id]);
+      case 'combo':
+        return model.getComboData([id]);
+      default:
+        return [];
+    }
+  };
+
+  public showTooltip = (e: G6ElementEvent) => {
     const {
       targetType,
-      client: { x, y },
-      target: { id, attributes },
+      client,
+      target: { id, attributes = { color: '#1883FF' } },
     } = e;
     if (!this.tooltipElement) return;
     const { getContent } = this.options;
-    const { model } = this.context;
     const { color, stroke } = attributes;
     this.currentTarget = id;
-    let items: ElementDatum[] = [];
-    switch (targetType) {
-      case 'node':
-        items = model.getNodeData([id]);
-        break;
-      case 'edge':
-        items = model.getEdgeData([id]);
-        break;
-      case 'combo':
-        items = model.getComboData([id]);
-        break;
-      default:
-        break;
+    const items: ElementDatum[] = this.getItems(id, targetType);
+    let x;
+    let y;
+    if (client) {
+      x = client.x;
+      y = client.y;
+    } else {
+      const style = get(items, '0.style', { x: 0, y: 0 });
+      x = style.x;
+      y = style.y;
     }
     let tooltipContent: { [key: string]: unknown } = {};
     if (getContent) {
@@ -190,15 +209,19 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
       },
       ...tooltipContent,
     });
-  }
+  };
 
-  public hideTooltip(e: G6ElementEvent) {
+  public hideTooltip = (e?: G6ElementEvent) => {
+    if (!e) {
+      this.tooltipElement?.hide();
+      return;
+    }
     const {
       client: { x, y },
     } = e;
     if (!this.tooltipElement) return;
     this.tooltipElement.hide(x, y);
-  }
+  };
 
   private initTooltip = () => {
     const { canvas } = this.context;

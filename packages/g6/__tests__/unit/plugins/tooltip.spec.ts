@@ -1,37 +1,53 @@
-import type { Graph } from '@/src';
 import { pluginTooltip } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin tooltip', () => {
-  let graph: Graph;
-  let tooltipElement: HTMLCollectionOf<HTMLElement>;
-
-  beforeAll(async () => {
-    graph = await createDemoGraph(pluginTooltip, { animation: false });
-    tooltipElement = graph
-      .getCanvas()
-      .getContainer()!
-      .getElementsByClassName('tooltip')! as HTMLCollectionOf<HTMLElement>;
+  it('node', async () => {
+    const graph = await createDemoGraph(pluginTooltip);
+    graph.emit('node:click', { targetType: 'node', target: { id: '6' } });
+    await expect(graph).toMatchSnapshot(__filename, 'node');
+    graph.destroy();
   });
 
-  it('default status', () => {
-    expect(graph.getPlugins().filter((item: any) => item.type === 'tooltip').length).toEqual(1);
-    expect(tooltipElement.length).toBe(1);
+  it.skip('combo', async () => {
+    const graph = await createDemoGraph(pluginTooltip);
+    graph.emit('combo:click', { targetType: 'combo', target: { id: 'a' } });
+    await expect(graph).toMatchSnapshot(__filename, 'combo');
+    graph.destroy();
   });
 
-  it('update tooltip', () => {
+  it('edge', async () => {
+    const graph = await createDemoGraph(pluginTooltip);
+    graph.emit('edge:click', { targetType: 'egde', target: { id: 'edge-444' } });
+    await expect(graph).toMatchSnapshot(__filename, 'edge');
+    graph.destroy();
+  });
+
+  it('update trigger to hover', async () => {
+    const graph = await createDemoGraph(pluginTooltip);
     graph.setPlugins((plugins) =>
       plugins.map((plugin) => {
         if (typeof plugin === 'object') {
           return {
             ...plugin,
-            trigger: 'click',
+            trigger: 'hover',
           };
         }
         return plugin;
       }),
     );
+    graph.emit('node:pointerenter', { targetType: 'node', target: { id: '6' } });
+    await expect(graph).toMatchSnapshot(__filename, 'hover');
+    graph.destroy();
+  });
 
-    expect(graph.getPlugins().filter((item: any) => item.trigger === 'click').length).toEqual(1);
+  it('show tooltip by id', async () => {
+    const graph = await createDemoGraph(pluginTooltip);
+    // @ts-expect-error
+    const tooltip = graph.context.plugin.extensionMap['tooltip'];
+    // @ts-expect-error
+    tooltip.showTooltipById('6', 'node');
+    await expect(graph).toMatchSnapshot(__filename, 'show-tooltip-by-id');
+    graph.destroy();
   });
 });

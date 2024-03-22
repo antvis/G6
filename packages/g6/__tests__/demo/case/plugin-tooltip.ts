@@ -1,14 +1,16 @@
 import { Graph } from '@/src';
-import data from '@@/dataset/cluster.json';
+import data from '@@/dataset/combo.json';
 import { isObject } from '@antv/util';
 import type { STDTestCase } from '../types';
 
 export const pluginTooltip: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
-    autoResize: true,
     data,
-    layout: { type: 'd3force' },
+    layout: {
+      type: 'combo-combined',
+      comboPadding: 2,
+    },
     behaviors: ['drag-canvas', 'drag-element'],
     node: {
       style: {
@@ -17,19 +19,22 @@ export const pluginTooltip: STDTestCase = async (context) => {
     },
     plugins: [
       {
+        key: 'tooltip',
         type: 'tooltip',
+        trigger: 'click',
         getContent: (evt: any, items: any[]) => {
           return `<div>${items[0].id || items[0].source + ' --> ' + items[0].target}</div>`;
         },
       },
     ],
+    autoFit: 'view',
   });
 
   await graph.render();
 
   pluginTooltip.form = (panel) => {
     const config = {
-      trigger: 'hover',
+      trigger: 'click',
     };
     return [
       panel
