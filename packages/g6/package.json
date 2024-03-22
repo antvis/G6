@@ -58,7 +58,8 @@
     "@antv/graphlib": "^2.0.2",
     "@antv/hierarchy": "latest",
     "@antv/layout": "^1.2.14-beta.1",
-    "@antv/util": "^3.3.7"
+    "@antv/util": "^3.3.7",
+    "insert-css": "^2.0.0"
   },
   "devDependencies": {
     "@antv/g-plugin-3d": "^1.9.34",

@@ -46,20 +46,25 @@ export function sizeOf(container: HTMLElement): [number, number] {
 /**
  * Create a plugin DOM element.
  * @param type - plugin type
+ * @param cover - cover the container
  * @returns plugin DOM element
  */
-export function createPluginContainer(type: string) {
+export function createPluginContainer(type: string, cover = true) {
   const el = document.createElement('div');
+
+  el.setAttribute('class', `g6-${type}`);
 
   el.style.position = 'absolute';
   el.style.display = 'block';
-  el.style.top = '0px';
-  el.style.left = '0px';
-  el.style.height = '100%';
-  el.style.width = '100%';
-  el.style.overflow = 'hidden';
-  el.style.pointerEvents = 'none';
-  el.setAttribute('class', `g6-${type}`);
+
+  if (cover) {
+    el.style.top = '0px';
+    el.style.left = '0px';
+    el.style.height = '100%';
+    el.style.width = '100%';
+    el.style.overflow = 'hidden';
+    el.style.pointerEvents = 'none';
+  }
 
   return el;
 }
