@@ -6,6 +6,6 @@ export type Listener = (event: any) => void;
 
 export type Target = Document | Node | Edge | null;
 
-export interface G6ElementEvent extends BehaviorEvent<FederatedMouseEvent> {
+export interface ElementEvent extends BehaviorEvent<FederatedMouseEvent> {
   targetType: ElementType;
 }

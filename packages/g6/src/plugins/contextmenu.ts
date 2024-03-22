@@ -1,7 +1,6 @@
-import type { FederatedMouseEvent } from '@antv/g';
 import { insertCss } from 'insert-css';
 import type { RuntimeContext } from '../runtime/types';
-import { PluginEvent } from '../types/plugin';
+import type { ElementEvent } from '../types/event';
 import type { Item } from '../utils/contextmenu';
 import { CONTEXTMENU_CSS, getContentFromItems } from '../utils/contextmenu';
 import { createPluginContainer } from '../utils/dom';
@@ -37,14 +36,12 @@ export type ContextmenuOptions = BasePluginOptions & {
    * <zh/> 返回菜单的项目列表，支持 `Promise` 类型的返回值。是 `getContextMeunElement` 的快捷配置。
    * <en/> Return the list of menu items, support the `Promise` type return value. It is a shortcut configuration of `getContextMeunElement`.
    */
-  getContextmenuItems?: (event: PluginEvent<FederatedMouseEvent>) => Item[] | Promise<Item[]>;
+  getContextmenuItems?: (event: ElementEvent) => Item[] | Promise<Item[]>;
   /**
    * <zh/> 返回菜单的内容，支持 `Promise` 类型的返回值，也可以使用 `getContextMeunItems` 来快捷配置。
    * <en/> Return the content of menu, support the `Promise` type return value, you can also use `getContextMeunItems` for shortcut configuration.
    */
-  getContextmenuContent?: (
-    event: PluginEvent<FederatedMouseEvent>,
-  ) => HTMLElement | string | Promise<HTMLElement | string>;
+  getContextmenuContent?: (event: ElementEvent) => HTMLElement | string | Promise<HTMLElement | string>;
   /**
    * <zh/> Loading 时候的菜单内容，用于 getContent 返回 Promise 的时候。
    * <en/> The menu content when loading is used when getContent returns a Promise.
@@ -54,7 +51,7 @@ export type ContextmenuOptions = BasePluginOptions & {
    * <zh/> 插件是否可用，通过参数来判断是否支持右键菜单，默认全部可用。
    * <en/> Whether the plugin is available, determine whether the right-click menu is supported through parameters, The default is all available.
    */
-  enable?: boolean | ((event: PluginEvent<FederatedMouseEvent>) => boolean);
+  enable?: boolean | ((event: ElementEvent) => boolean);
 };
 
 /**
@@ -90,7 +87,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
    * <en/> Display the right-click menu based on the incoming element.
    * @param e - 事件
    */
-  public async showContextmenu(e: PluginEvent<FederatedMouseEvent>) {
+  public async showContextmenu(e: ElementEvent) {
     const { enable, offset } = this.options;
 
     if ((typeof enable === 'function' && !enable(e)) || !enable) {
@@ -143,7 +140,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     this.$element.remove();
   }
 
-  private async getContent(e: PluginEvent<FederatedMouseEvent>) {
+  private async getContent(e: ElementEvent) {
     const { getContextmenuContent, getContextmenuItems } = this.options;
 
     if (getContextmenuItems) {
@@ -176,7 +173,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     document.removeEventListener('click', this.onMenuItemClick);
   }
 
-  private onTriggerEvent = (e: PluginEvent<FederatedMouseEvent>) => {
+  private onTriggerEvent = (e: ElementEvent) => {
     // `contextmenu` 事件默认会触发浏览器的右键菜单，需要阻止默认事件
     // `click` 事件不需要阻止默认事件
     e.preventDefault?.();
