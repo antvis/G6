@@ -18,7 +18,7 @@ describe('plugin tooltip', () => {
 
   it('edge', async () => {
     const graph = await createDemoGraph(pluginTooltip);
-    graph.emit('edge:click', { targetType: 'egde', target: { id: 'edge-444' } });
+    graph.emit('edge:click', { targetType: 'edge', target: { id: 'edge-444' } });
     await expect(graph).toMatchSnapshot(__filename, 'edge');
     graph.destroy();
   });
