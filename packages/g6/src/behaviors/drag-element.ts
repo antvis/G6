@@ -8,7 +8,7 @@ import type { BehaviorEvent, EdgeDirection, Point, PrefixObject } from '../types
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { idOf } from '../utils/id';
 import { subStyleProps } from '../utils/prefix';
-import { subtract } from '../utils/vector';
+import { divide, subtract } from '../utils/vector';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -162,10 +162,12 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
 
   private onDrag = (event: DragEvent) => {
     if (!this.enable) return;
+    const zoom = this.context.graph.getZoom();
     const { dx, dy } = event;
+    const delta = divide([dx, dy], zoom);
 
-    if (this.options.shadow) this.moveShadow([dx, dy]);
-    else this.moveElement(this.target, [dx, dy]);
+    if (this.options.shadow) this.moveShadow(delta);
+    else this.moveElement(this.target, delta);
   };
 
   private onDragEnd = () => {
