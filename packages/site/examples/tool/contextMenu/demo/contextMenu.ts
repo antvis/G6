@@ -1,47 +1,43 @@
-import { Graph as BaseGraph, Extensions, Util, extend } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
-const Graph = extend(BaseGraph, {
-  plugins: {
-    menu: Extensions.Menu,
-  },
-});
-
-const container = document.getElementById('container') as HTMLElement;
-const width = container.scrollWidth;
-const height = (container.scrollHeight || 500) - 110;
-const data = Util.mock(6).circle();
-
-const graph = new Graph({
-  container,
-  width,
-  height,
-  data,
-  modes: {
-    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-element'],
-  },
-});
-
-const contextMenu = {
-  type: 'menu',
-  key: 'my-context-menu',
-  trigger: 'contextmenu',
-  /**
-   * async string menu
-   * @param e
-   */
-  getContent: (e) => {
-    return `
-    <ul class='g6-contextmenu-ul'>
-      <li class='g6-contextmenu-li' code='delete'> Delete </li>
-      <li class='g6-contextmenu-li' code='add' > Add </li>
-    </ul>
-  `;
-  },
-  handleMenuClick: (target: HTMLLIElement, itemId, graph) => {
-    //@ts-ignore
-    const { value } = Object.values(target.attributes).find((item) => item.name === 'code');
-    alert(`Item ID: ${itemId} \n Code: ${value}`);
-  },
+const data = {
+  nodes: [{ id: 'node-0' }, { id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }, { id: 'node-4' }, { id: 'node-5' }],
+  edges: [
+    { source: 'node-0', target: 'node-1' },
+    { source: 'node-0', target: 'node-2' },
+    { source: 'node-0', target: 'node-3' },
+    { source: 'node-0', target: 'node-4' },
+    { source: 'node-1', target: 'node-0' },
+    { source: 'node-2', target: 'node-0' },
+    { source: 'node-3', target: 'node-0' },
+    { source: 'node-4', target: 'node-0' },
+    { source: 'node-5', target: 'node-0' },
+  ],
 };
 
-graph.addPlugins([contextMenu]);
+const graph = new Graph({
+  container: 'container',
+  data,
+  layout: {
+    type: 'grid',
+  },
+  behaviors: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-element'],
+  plugins: [
+    {
+      type: 'contextmenu',
+      trigger: 'contextmenu', // 'click' or 'contextmenu'
+      onClick: (v) => {
+        alert('You have clicked the「' + v + '」item');
+      },
+      getItems: () => {
+        return [
+          { name: '展开一度关系', value: 'spread' },
+          { name: '查看详情', value: 'detail' },
+        ];
+      },
+      enable: (e) => e.targetType === 'node',
+    },
+  ],
+});
+
+graph.render();

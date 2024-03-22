@@ -58,7 +58,8 @@
     "@antv/graphlib": "^2.0.2",
     "@antv/hierarchy": "latest",
     "@antv/layout": "^1.2.14-beta.1",
-    "@antv/util": "^3.3.7"
+    "@antv/util": "^3.3.7",
+    "insert-css": "^2.0.0"
   },
   "devDependencies": {
     "@antv/g-plugin-3d": "^1.9.34",
@@ -67,6 +68,7 @@
     "@antv/g-webgl": "^1.9.37",
     "@antv/layout-gpu": "^1.1.5",
     "@antv/layout-wasm": "^1.4.0",
+    "@types/insert-css": "^2.0.1",
     "@types/xmlserializer": "^0.6.6",
     "jest-canvas-mock": "^2.5.1",
     "jest-random-mock": "^1.0.0",

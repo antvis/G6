@@ -2,7 +2,7 @@ import type { TooltipStyleProps } from '@antv/component';
 import { Tooltip as TooltipComponent } from '@antv/component';
 import { get } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
-import type { ElementDatum, ElementType, G6ElementEvent } from '../types';
+import type { ElementDatum, ElementEvent, ElementType } from '../types';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
@@ -12,9 +12,9 @@ export interface TooltipOptions
   /** <zh/> 触发方式 | <en/> Event type that triggers display of tooltip */
   trigger?: 'hover' | 'click';
   /** <zh/> 自定义内容 | <en/> Function for getting tooltip content  */
-  getContent?: (evt: G6ElementEvent, items: ElementDatum[]) => HTMLElement | string;
+  getContent?: (evt: ElementEvent, items: ElementDatum[]) => HTMLElement | string;
   /** <zh/> 是否启用 | <en/> Is enable */
-  enable?: boolean | ((evt: G6ElementEvent) => boolean);
+  enable?: boolean | ((evt: ElementEvent) => boolean);
 }
 
 export class Tooltip extends BasePlugin<TooltipOptions> {
@@ -100,7 +100,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     });
   }
 
-  private isEnable = (e: G6ElementEvent) => {
+  private isEnable = (e: ElementEvent) => {
     const { enable } = this.options;
     if (typeof enable === 'function') {
       return enable(e);
@@ -108,7 +108,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     return enable;
   };
 
-  public onClick = (e: G6ElementEvent) => {
+  public onClick = (e: ElementEvent) => {
     const {
       target: { id },
     } = e;
@@ -122,7 +122,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
   };
 
-  public onPointerMove = (e: G6ElementEvent) => {
+  public onPointerMove = (e: ElementEvent) => {
     const { target } = e;
     if (!this.currentTarget || target.id === this.currentTarget) {
       return;
@@ -130,17 +130,17 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.showTooltip(e);
   };
 
-  public onPointerLeave = (e: G6ElementEvent) => {
+  public onPointerLeave = (e: ElementEvent) => {
     this.hideTooltip(e);
     this.currentTarget = null;
   };
 
-  public onCanvasMove = (e: G6ElementEvent) => {
+  public onCanvasMove = (e: ElementEvent) => {
     this.hideTooltip(e);
     this.currentTarget = null;
   };
 
-  private onPointerEnter = (e: G6ElementEvent) => {
+  private onPointerEnter = (e: ElementEvent) => {
     this.showTooltip(e);
   };
 
@@ -148,7 +148,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     const e = {
       targetType: elementType,
       target: { id },
-    } as G6ElementEvent;
+    } as ElementEvent;
     this.showTooltip(e);
   };
 
@@ -166,7 +166,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
   };
 
-  public showTooltip = (e: G6ElementEvent) => {
+  public showTooltip = (e: ElementEvent) => {
     const {
       targetType,
       client,
@@ -214,7 +214,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     });
   };
 
-  public hideTooltip = (e?: G6ElementEvent) => {
+  public hideTooltip = (e?: ElementEvent) => {
     // if e is undefined, hide the tooltip， external call
     if (!e) {
       this.tooltipElement?.hide();

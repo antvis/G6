@@ -32,8 +32,8 @@ describe('extension', () => {
       { key: 'my-tooltip', type: 'tooltip' },
       { type: 'tooltip' },
       {
-        type: 'menu',
-        key: 'my-context-menu',
+        type: 'contextmenu',
+        key: 'my-contextmenu',
         trigger: 'contextmenu',
       },
       'minimap',
@@ -44,8 +44,8 @@ describe('extension', () => {
       { type: 'tooltip', key: 'my-tooltip' },
       { type: 'tooltip', key: 'plugin-tooltip-0' },
       {
-        type: 'menu',
-        key: 'my-context-menu',
+        type: 'contextmenu',
+        key: 'my-contextmenu',
         trigger: 'contextmenu',
       },
       { type: 'minimap', key: 'plugin-minimap-1' },
