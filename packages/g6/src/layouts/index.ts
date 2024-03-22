@@ -5,6 +5,7 @@ export {
   ComboCombinedLayout,
   ConcentricLayout,
   D3ForceLayout,
+  DagreLayout,
   ForceAtlas2Layout,
   ForceLayout,
   FruchtermanLayout,

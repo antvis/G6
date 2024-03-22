@@ -2,7 +2,7 @@ import { Graph } from '@/src';
 import data from '@@/dataset/dagre-combo.json';
 import type { STDTestCase } from '../types';
 
-export const layoutDagreFlowCombo: STDTestCase = async (context) => {
+export const layoutAntVDagreFlowCombo: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     autoFit: 'view',

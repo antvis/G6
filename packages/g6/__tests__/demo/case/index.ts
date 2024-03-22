@@ -25,6 +25,7 @@ export * from './layout-compact-box-basic';
 export * from './layout-compact-box-left-align';
 export * from './layout-compact-box-top-to-bottom';
 export * from './layout-concentric';
+export * from './layout-dagre';
 export * from './layout-dendrogram-basic';
 export * from './layout-dendrogram-tb';
 export * from './layout-force';
