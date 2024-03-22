@@ -18,6 +18,8 @@ import type {
   PluginOptions,
   ThemeOptions,
 } from '../spec';
+import { UpdateBehaviorOption } from '../spec/behavior';
+import { UpdatePluginOption } from '../spec/plugin';
 import type {
   CallableValue,
   DataID,
@@ -198,20 +200,78 @@ export class Graph extends EventEmitter {
     return this.options.layout!;
   }
 
+  /**
+   * <zh/> 设置交互
+   *
+   * <en/> Set behaviors
+   * @param behaviors - <zh/> 交互配置 | <en/> behavior configuration
+   */
   public setBehaviors(behaviors: CallableValue<BehaviorOptions>): void {
     this.options.behaviors = isFunction(behaviors) ? behaviors(this.getBehaviors()) : behaviors;
     this.context.behavior?.setBehaviors(this.options.behaviors);
   }
 
+  /**
+   * <zh/> 更新交互
+   *
+   * <en/> Update behavior
+   * @param behavior - <zh/> 交互配置 | <en/> behavior configuration
+   */
+  public updateBehavior(behavior: UpdateBehaviorOption): void {
+    this.setBehaviors((behaviors) =>
+      behaviors.map((_behavior) => {
+        if (isObject(_behavior) && _behavior.key === behavior.key) {
+          return { ..._behavior, ...behavior };
+        }
+        return _behavior;
+      }),
+    );
+  }
+
+  /**
+   * <zh/> 获取交互
+   *
+   * <en/> Get behaviors
+   * @returns <zh/> 交互配置 | <en/> behavior configuration
+   */
   public getBehaviors(): BehaviorOptions {
     return this.options.behaviors || [];
   }
 
+  /**
+   * <zh/> 设置插件
+   *
+   * <en/> Set plugins
+   * @param plugins - <zh/> 插件配置 | <en/> plugin configuration
+   */
   public setPlugins(plugins: CallableValue<PluginOptions>): void {
     this.options.plugins = isFunction(plugins) ? plugins(this.getPlugins()) : plugins;
     this.context.plugin?.setPlugins(this.options.plugins);
   }
 
+  /**
+   * <zh/> 更新插件
+   *
+   * <en/> Update plugin
+   * @param plugin - <zh/> 插件配置 | <en/> plugin configuration
+   */
+  public updatePlugin(plugin: UpdatePluginOption): void {
+    this.setPlugins((plugins) =>
+      plugins.map((_plugin) => {
+        if (isObject(_plugin) && _plugin.key === plugin.key) {
+          return { ..._plugin, ...plugin };
+        }
+        return _plugin;
+      }),
+    );
+  }
+
+  /**
+   * <zh/> 获取插件
+   *
+   * <en/> Get plugins
+   * @returns <zh/> 插件配置 | <en/> plugin configuration
+   */
   public getPlugins(): PluginOptions {
     return this.options.plugins || [];
   }

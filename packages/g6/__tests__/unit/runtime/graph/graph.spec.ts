@@ -65,16 +65,24 @@ describe('Graph', () => {
     expect(graph.getLayout()).toEqual({ type: 'd3force' });
   });
 
-  it('getBehaviors/setBehaviors', () => {
+  it('getBehaviors/setBehaviors/updateBehavior', () => {
     expect(graph.getBehaviors()).toEqual(['zoom-canvas', 'drag-canvas']);
     graph.setBehaviors(['drag-canvas']);
     expect(graph.getBehaviors()).toEqual(['drag-canvas']);
+    graph.setBehaviors([{ key: 'behavior-1', type: 'zoom-canvas', enable: false }]);
+    expect(graph.getBehaviors()).toEqual([{ key: 'behavior-1', type: 'zoom-canvas', enable: false }]);
+    graph.updateBehavior({ key: 'behavior-1', enable: true });
+    expect(graph.getBehaviors()).toEqual([{ key: 'behavior-1', type: 'zoom-canvas', enable: true }]);
   });
 
-  it('getPlugins/setPlugins', () => {
+  it('getPlugins/setPlugins/updatePlugin', () => {
     expect(graph.getPlugins()).toEqual([]);
     graph.setPlugins([{ type: 'test' }]);
     expect(graph.getPlugins()).toEqual([{ type: 'test' }]);
+    graph.setPlugins([{ key: 'plugin-1', type: 'test' }]);
+    expect(graph.getPlugins()).toEqual([{ key: 'plugin-1', type: 'test' }]);
+    graph.updatePlugin({ key: 'plugin-1', enable: false });
+    expect(graph.getPlugins()).toEqual([{ key: 'plugin-1', type: 'test', enable: false }]);
     graph.setPlugins([]);
   });
 
