@@ -19,7 +19,7 @@ describe('behavior zoom canvas', () => {
   it('zoom in', async () => {
     graph.emit(CommonEvent.WHEEL, { deltaY: -10 });
 
-    expect(graph.getZoom()).toBe(2);
+    expect(graph.getZoom()).toBe(1.1);
 
     await expect(graph).toMatchSnapshot(__filename);
   });
@@ -29,11 +29,11 @@ describe('behavior zoom canvas', () => {
 
     graph.emit(CommonEvent.WHEEL, { deltaY: 5 });
 
-    expect(graph.getZoom()).toBe(currentZoom - 0.5);
+    expect(graph.getZoom()).toBe(currentZoom * 0.95);
 
     graph.emit(CommonEvent.WHEEL, { deltaY: 5 });
 
-    expect(graph.getZoom()).toBe(currentZoom - 1);
+    expect(graph.getZoom()).toBeCloseTo(currentZoom * 0.95 ** 2);
   });
 
   const shortcutZoomCanvasOptions: ZoomCanvasOptions = {
@@ -59,7 +59,7 @@ describe('behavior zoom canvas', () => {
     graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
     graph.emit(CommonEvent.KEY_DOWN, { key: '=' });
 
-    expect(graph.getZoom()).toBe(currentZoom + 0.1);
+    expect(graph.getZoom()).toBe(currentZoom * 1.1);
 
     graph.emit(CommonEvent.KEY_UP, { key: 'Control' });
     graph.emit(CommonEvent.KEY_UP, { key: '=' });
@@ -68,7 +68,7 @@ describe('behavior zoom canvas', () => {
     graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
     graph.emit(CommonEvent.KEY_DOWN, { key: '0' });
 
-    expect(graph.getZoom()).toBe(currentZoom);
+    expect(graph.getZoom()).toBe(1);
 
     graph.emit(CommonEvent.KEY_UP, { key: 'Control' });
     graph.emit(CommonEvent.KEY_UP, { key: '0' });
@@ -77,7 +77,7 @@ describe('behavior zoom canvas', () => {
     graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
     graph.emit(CommonEvent.KEY_DOWN, { key: '-' });
 
-    expect(graph.getZoom()).toBe(currentZoom - 0.1);
+    expect(graph.getZoom()).toBe(0.9);
 
     graph.emit(CommonEvent.KEY_UP, { key: 'Control' });
     graph.emit(CommonEvent.KEY_UP, { key: '-' });
@@ -134,7 +134,7 @@ describe('behavior zoom canvas', () => {
     graph.emit(CommonEvent.KEY_UP, { key: 'Control' });
     graph.emit(CommonEvent.KEY_UP, { key: '=' });
 
-    expect(graph.getZoom()).toBe(currentZoom + 0.1);
+    expect(graph.getZoom()).toBe(currentZoom * 1.1);
   });
 
   it('preconditionKey', () => {
@@ -147,7 +147,7 @@ describe('behavior zoom canvas', () => {
 
     graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
     graph.emit(CommonEvent.WHEEL, { deltaY: -10 });
-    expect(graph.getZoom()).toBe(currentZoom + 1);
+    expect(graph.getZoom()).toBe(currentZoom * 1.1);
   });
 
   it('canvas event', () => {
