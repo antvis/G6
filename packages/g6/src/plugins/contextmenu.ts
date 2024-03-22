@@ -1,9 +1,9 @@
-import { FederatedMouseEvent } from '@antv/g';
-import insertCss from 'insert-css';
+import type { FederatedMouseEvent } from '@antv/g';
+import { insertCss } from 'insert-css';
 import type { RuntimeContext } from '../runtime/types';
 import { PluginEvent } from '../types/plugin';
 import type { Item } from '../utils/contextmenu';
-import { ContextmenuCSS, getContentFromItems } from '../utils/contextmenu';
+import { CONTEXTMENU_CSS, getContentFromItems } from '../utils/contextmenu';
 import { createPluginContainer } from '../utils/dom';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
@@ -80,7 +80,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     $container!.appendChild(this.$element);
 
     // 设置样式
-    insertCss(ContextmenuCSS);
+    insertCss(CONTEXTMENU_CSS);
 
     this.update(options);
   }
@@ -106,8 +106,11 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
       this.$element.innerHTML = content;
     }
 
-    this.$element.style.left = `${e.client.x + offset[0]}px`;
-    this.$element.style.top = `${e.client.y + offset[1]}px`;
+    // NOTICE: 为什么事件中的 client 是相对浏览器，而不是画布容器？
+    const clientRect = this.context.graph.getCanvas().getContainer()!.getBoundingClientRect();
+
+    this.$element.style.left = `${e.client.x - clientRect.left + offset[0]}px`;
+    this.$element.style.top = `${e.client.y - clientRect.top + offset[1]}px`;
     this.$element.style.display = 'block';
   }
 
@@ -174,6 +177,8 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
   }
 
   private onTriggerEvent = (e: PluginEvent<FederatedMouseEvent>) => {
+    // `contextmenu` 事件默认会触发浏览器的右键菜单，需要阻止默认事件
+    // `click` 事件不需要阻止默认事件
     e.preventDefault?.();
     this.showContextmenu(e);
   };

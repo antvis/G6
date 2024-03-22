@@ -31,7 +31,7 @@ export function getContentFromItems(items: Item[]) {
 /**
  * Style of the right-click menu, same with `tooltip`.
  */
-export const ContextmenuCSS = `
+export const CONTEXTMENU_CSS = `
   .g6-contextmenu {
     font-size: 12px;
     background-color: rgba(255, 255, 255, 0.96);
