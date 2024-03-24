@@ -1,6 +1,6 @@
 import type { ID } from '@antv/graphlib';
 import { isNumber, isString } from '@antv/util';
-import type { ComboData, EdgeData, NodeData } from '../spec';
+import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import { isEdgeData } from './is';
 
 /**
@@ -26,4 +26,15 @@ export function idOf(data: Partial<NodeData | EdgeData | ComboData>): ID {
  */
 export function parentIdOf(data: Partial<NodeData | ComboData>) {
   return data.style?.parentId;
+}
+
+/**
+ * <zh/> 获取图数据中所有节点/边/Combo 的 ID
+ *
+ * <en/> Get the IDs of all nodes/edges/combos in the graph data
+ * @param data - <zh/> 图数据 | <en/> graph data
+ * @returns - <zh/> 返回元素 ID 数组 | <en/> Returns an array of element IDs
+ */
+export function getIds(data: GraphData): ID[] {
+  return Object.values(data).flatMap((elements: NodeData[] | EdgeData[] | ComboData[]) => elements.map(idOf));
 }
