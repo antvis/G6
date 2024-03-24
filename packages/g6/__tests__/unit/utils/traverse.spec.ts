@@ -1,5 +1,5 @@
 import type { HierarchyStructure } from '@/src/utils/traverse';
-import { dfs } from '@/src/utils/traverse';
+import { bfs, dfs } from '@/src/utils/traverse';
 
 const tree: HierarchyStructure<{ value: number }> = {
   value: 1,
@@ -68,5 +68,19 @@ describe('traverse', () => {
     );
 
     expect(result).toEqual({ 1: 0, 2: 1, 3: 2, 4: 3, 5: 1, 6: 2 });
+  });
+
+  it('bfs', () => {
+    const result: Record<number, number> = {};
+
+    bfs(
+      tree,
+      (node, depth) => {
+        result[node.value] = depth;
+      },
+      (node) => node.children,
+    );
+
+    expect(result).toEqual({ 1: 0, 2: 1, 5: 1, 3: 2, 6: 2, 4: 3 });
   });
 });

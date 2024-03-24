@@ -1,11 +1,11 @@
 import { Graph } from '@/src';
-import data from '@@/dataset/cluster.json';
+import data from '@@/dataset/dagre.json';
 import type { STDTestCase } from '../types';
 
 export const behaviorHoverElement: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
-    data,
+    data: data,
     layout: {
       type: 'fruchterman',
       gravity: 5,
