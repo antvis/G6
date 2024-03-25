@@ -718,14 +718,19 @@ export class ElementController {
   }
 
   public destroy() {
+    Object.values(this.elementMap).forEach((element) => element.destroy());
     Object.values(this.container).forEach((container) => container.destroy());
+    // @ts-expect-error force delete
+    this.container = {};
     this.elementMap = {};
     this.shapeTypeMap = {};
     this.defaultStyle = {};
     this.stateStyle = {};
     this.paletteStyle = {};
     // @ts-expect-error force delete
-    delete this.context;
+    this.context = {};
+    // @ts-expect-error force delete
+    this.latestElementVisibilityMap = undefined;
   }
 }
 

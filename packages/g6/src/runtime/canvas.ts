@@ -253,7 +253,10 @@ export class Canvas {
   }
 
   public destroy() {
-    Object.values(this.canvas).forEach((canvas) => {
+    this.config = {};
+    // @ts-expect-error force delete
+    this.renderers = {};
+    Object.entries(this.canvas).forEach(([name, canvas]) => {
       const camera = canvas.getCamera();
       // @ts-expect-error landmark is private
       if (camera.landmarks?.length) {
@@ -261,6 +264,8 @@ export class Canvas {
       }
 
       canvas.destroy();
+      // @ts-expect-error force delete
+      this[name] = undefined;
     });
   }
 }

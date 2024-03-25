@@ -503,16 +503,17 @@ export class Graph extends EventEmitter {
 
   public destroy(): void {
     const { layout, element, model, canvas, behavior, plugin } = this.context;
+    plugin?.destroy();
+    behavior?.destroy();
     layout?.destroy();
     element?.destroy();
     model.destroy();
     canvas?.destroy();
-    behavior?.destroy();
-    plugin?.destroy();
     this.options = {};
     // @ts-expect-error force delete
-    delete this.context;
+    this.context = {};
 
+    this.off();
     window.removeEventListener('resize', this.onResize);
 
     this.destroyed = true;
