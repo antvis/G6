@@ -34,10 +34,10 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
           degree: 1, // 👈🏻 Activate relations.
           activeState: 'highlight',
           inactiveState: 'unhighlight',
-          onhover: (event) => {
+          onHover: (event) => {
             event.view.setCursor('pointer');
           },
-          onhoverend: (event) => {
+          onHoverEnd: (event) => {
             event.view.setCursor('default');
           },
         },

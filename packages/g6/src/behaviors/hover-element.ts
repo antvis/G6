@@ -24,7 +24,7 @@ export interface HoverElementOptions extends BaseBehaviorOptions {
    */
   enable?: boolean | ((event: BehaviorEvent<FederatedMouseEvent>) => boolean);
   /**
-   * <zh/> 激活悬停元素的n度关系，默认为0，表示只激活当前节点，1表示激活当前节点及其直接相邻的节点和边，以此类推
+   * <zh/> 激活元素的n度关系，默认为0，表示只激活当前节点，1表示激活当前节点及其直接相邻的节点和边，以此类推
    *
    * <en/> N-degree relationship of the hovered element, default to 0, which means only the current node is activated, 1 means the current node and its directly adjacent nodes and edges are activated, etc
    */
@@ -46,13 +46,13 @@ export interface HoverElementOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when the element is hovered
    */
-  onhover?: (event: BehaviorEvent<FederatedMouseEvent>) => void;
+  onHover?: (event: BehaviorEvent<FederatedMouseEvent>) => void;
   /**
    * <zh/> 当悬停结束时的回调
    *
    * <en/> Callback when the hover ends
    */
-  onhoverend?: (event: BehaviorEvent<FederatedMouseEvent>) => void;
+  onHoverEnd?: (event: BehaviorEvent<FederatedMouseEvent>) => void;
 }
 
 export class HoverElement extends BaseBehavior<HoverElementOptions> {
@@ -82,13 +82,13 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
   private hoverElement = (event: BehaviorEvent<FederatedMouseEvent>) => {
     if (!this.validate(event)) return;
     this.updateElementsState(event, true);
-    this.options.onhover?.(event);
+    this.options.onHover?.(event);
   };
 
   private hoverEndElement = (event: BehaviorEvent<FederatedMouseEvent>) => {
     if (!this.validate(event)) return;
     this.updateElementsState(event, false);
-    this.options.onhoverend?.(event);
+    this.options.onHoverEnd?.(event);
   };
 
   private updateElementsState = (event: BehaviorEvent<FederatedMouseEvent>, add: boolean) => {
