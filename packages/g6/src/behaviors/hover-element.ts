@@ -80,42 +80,48 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
   }
 
   private hoverElement = (event: BehaviorEvent<FederatedMouseEvent>) => {
-    this.handleElementsState(event, true);
+    if (!this.validate(event)) return;
+    this.updateElementsState(event, true);
     this.options.onhover?.(event);
   };
 
   private hoverEndElement = (event: BehaviorEvent<FederatedMouseEvent>) => {
-    this.handleElementsState(event, false);
+    if (!this.validate(event)) return;
+    this.updateElementsState(event, false);
     this.options.onhoverend?.(event);
   };
 
-  private handleElementsState = (event: BehaviorEvent<FederatedMouseEvent>, add: boolean) => {
-    if (!this.validate(event) || (!this.options.activeState && !this.options.inactiveState)) {
-      return;
-    }
+  private updateElementsState = (event: BehaviorEvent<FederatedMouseEvent>, add: boolean) => {
+    if (!this.options.activeState && !this.options.inactiveState) return;
 
     const { graph } = this.context;
     const { targetType, target } = event;
 
     const activeIds = getElementNthDegreeIDs(graph, targetType as ElementType, target.id, this.options.degree);
 
+    const states: Record<ID, State[]> = {};
+
     if (this.options.activeState) {
-      this.updateElementsState(activeIds, this.options.activeState, add);
+      Object.assign(states, this.getElementsState(activeIds, this.options.activeState, add));
     }
 
     if (this.options.inactiveState) {
       const inactiveIds = getIds(graph.getData()).filter((id) => !activeIds.includes(id));
-      this.updateElementsState(inactiveIds, this.options.inactiveState, add);
+      Object.assign(states, this.getElementsState(inactiveIds, this.options.inactiveState, add));
     }
+
+    graph.setElementState(states);
   };
 
-  private updateElementsState = (ids: ID[], state: State, add: boolean) => {
+  private getElementsState = (ids: ID[], state: State, add: boolean) => {
     const { graph } = this.context;
+    const states: Record<ID, State[]> = {};
     ids.forEach((id) => {
       const currentState = graph.getElementState(id);
       const updatedState = add ? [...currentState, state] : currentState.filter((s) => s !== state);
-      graph.setElementState(id, updatedState, this.options.animation);
+      states[id] = updatedState;
     });
+    return states;
   };
 
   private validate(event: BehaviorEvent<FederatedMouseEvent>) {
