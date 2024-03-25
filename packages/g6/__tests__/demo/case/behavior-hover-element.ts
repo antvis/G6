@@ -1,5 +1,5 @@
 import { Graph } from '@/src';
-import data from '@@/dataset/dagre.json';
+import data from '@@/dataset/cluster.json';
 import type { STDTestCase } from '../types';
 
 export const behaviorHoverElement: STDTestCase = async (context) => {
@@ -7,9 +7,8 @@ export const behaviorHoverElement: STDTestCase = async (context) => {
     ...context,
     data: data,
     layout: {
-      type: 'fruchterman',
-      gravity: 5,
-      speed: 5,
+      type: 'd3force',
+      linkDistance: 150,
     },
     node: {
       style: {
