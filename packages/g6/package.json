@@ -40,6 +40,7 @@
     "dev": "vite",
     "fix": "eslint ./src ./__tests__ --fix && prettier ./src __tests__ --write ",
     "jest": "node --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles",
+    "jest:inspect": "node --inspect --expose-gc --max-old-space-size=4096 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles --runInBand",
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
     "prepublishOnly": "npm run ci",
     "size": "limit-size",

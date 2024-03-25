@@ -150,8 +150,6 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
   }
 
   public destroy(): void {
-    Object.values(this.shapeMap).forEach((shape) => shape.destroy());
-    Object.values(this.animateMap).forEach((animation) => animation.cancel());
     this.shapeMap = {};
     this.animateMap = {};
     super.destroy();

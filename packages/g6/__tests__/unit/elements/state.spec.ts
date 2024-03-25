@@ -9,6 +9,10 @@ describe('element state', () => {
     graph = await createDemoGraph(elementState, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename);
   });

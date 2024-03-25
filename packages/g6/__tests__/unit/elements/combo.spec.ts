@@ -9,6 +9,10 @@ describe('combo', () => {
     graph = await createDemoGraph(combo, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename);
   });

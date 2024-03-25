@@ -11,6 +11,10 @@ describe('behavior zoom canvas', () => {
     graph = await createDemoGraph(behaviorZoomCanvas, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', () => {
     expect(graph.getZoom()).toBe(1);
     expect(graph.getBehaviors()).toEqual([{ type: 'zoom-canvas' }]);
@@ -190,9 +194,5 @@ describe('behavior zoom canvas', () => {
     graph.once(ContainerEvent.KEY_DOWN, keydownListener);
     container?.dispatchEvent(new Event(ContainerEvent.KEY_DOWN));
     expect(keydownListener).toHaveBeenCalledTimes(1);
-  });
-
-  it('destroy', () => {
-    graph.destroy();
   });
 });
