@@ -15,7 +15,10 @@
   "bugs": {
     "url": "https://github.com/antvis/g6/issues"
   },
-  "repository": "git@github.com/antvis/g6.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antvis/g6"
+  },
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "main": "lib/index.js",
@@ -44,6 +47,7 @@
     "prepublishOnly": "npm run ci",
     "size": "limit-size",
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
+    "tag": "node ./scripts/tag.mjs",
     "test": "npm run jest __tests__",
     "test:integration": "npm run jest __tests__/integration",
     "test:unit": "npm run jest __tests__/unit",
@@ -83,13 +87,13 @@
   },
   "limit-size": [
     {
-      "path": "dist/g6.min.js",
+      "gzip": true,
       "limit": "750 Kb",
-      "gzip": true
+      "path": "dist/g6.min.js"
     },
     {
-      "path": "dist/g6.min.js",
-      "limit": "2 Mb"
+      "limit": "2 Mb",
+      "path": "dist/g6.min.js"
     }
   ]
 }
