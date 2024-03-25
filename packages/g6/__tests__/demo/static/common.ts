@@ -37,6 +37,7 @@ export * from './layered-canvas';
 export * from './node-circle';
 export * from './node-diamond';
 export * from './node-ellipse';
+export * from './node-hexagon';
 export * from './node-image';
 export * from './node-rect';
 export * from './node-star';

@@ -8,6 +8,7 @@ import {
   CubicVertical,
   Diamond,
   Ellipse,
+  Hexagon,
   Image,
   Line,
   Polyline,
@@ -96,6 +97,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     star: Star,
     triangle: Triangle,
     diamond: Diamond,
+    hexagon: Hexagon,
   },
   palette: {
     spectral,

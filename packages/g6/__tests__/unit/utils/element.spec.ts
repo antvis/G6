@@ -3,6 +3,7 @@ import { Circle } from '@/src/elements/nodes';
 import {
   findPorts,
   getAllPorts,
+  getHexagonPoints,
   getPortConnectionPoint,
   getPortXYByPlacement,
   getRectPoints,
@@ -278,5 +279,9 @@ describe('element', () => {
     const circle = new Circle({ style: { size: 50 } });
     updateStyle(circle, { size: 100 });
     expect(circle.style.size).toBe(100);
+  });
+
+  it('getHexagonPoints', () => {
+    expect(getHexagonPoints(32).length).toBe(6);
   });
 });

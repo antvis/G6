@@ -6,6 +6,7 @@ import {
   CubicVertical,
   Diamond,
   Ellipse,
+  Hexagon,
   Image,
   Line,
   Polyline,
@@ -29,6 +30,7 @@ describe('registry', () => {
       star: Star,
       triangle: Triangle,
       diamond: Diamond,
+      hexagon: Hexagon,
     });
     expect(getExtensions('edge')).toEqual({
       cubic: Cubic,
