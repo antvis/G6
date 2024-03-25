@@ -1,4 +1,4 @@
-import { getElementNthDegreeIDs, getNodeNthDegreeIDs } from '@/src/utils/relation';
+import { getElementNthDegreeIds, getNodeNthDegreeIds } from '@/src/utils/relation';
 import { Graph } from '../../../src';
 
 describe('relation', () => {
@@ -23,18 +23,18 @@ describe('relation', () => {
       combos: [{ id: 'combo1' }],
     },
   });
-  it('getElementNthDegreeIDs', () => {
-    expect(getElementNthDegreeIDs(graph, 'node', '1', 0)).toEqual(['1']);
-    expect(getElementNthDegreeIDs(graph, 'node', '1', 1)).toEqual(['1', '1-2', '1-3', '2', '3']);
-    expect(getElementNthDegreeIDs(graph, 'edge', '1-2', 0)).toEqual(['1-2']);
-    expect(getElementNthDegreeIDs(graph, 'edge', '1-2', 1)).toEqual(['1', '2', '1-2']);
-    expect(getElementNthDegreeIDs(graph, 'edge', '1-2', 2)).toEqual(['1', '1-2', '1-3', '2', '3', '2-4', '4']);
-    expect(getElementNthDegreeIDs(graph, 'combo', 'combo1', 1)).toEqual(['combo1', 'combo1-6', '6']);
+  it('getElementNthDegreeIds', () => {
+    expect(getElementNthDegreeIds(graph, 'node', '1', 0)).toEqual(['1']);
+    expect(getElementNthDegreeIds(graph, 'node', '1', 1)).toEqual(['1', '1-2', '1-3', '2', '3']);
+    expect(getElementNthDegreeIds(graph, 'edge', '1-2', 0)).toEqual(['1-2']);
+    expect(getElementNthDegreeIds(graph, 'edge', '1-2', 1)).toEqual(['1', '2', '1-2']);
+    expect(getElementNthDegreeIds(graph, 'edge', '1-2', 2)).toEqual(['1', '1-2', '1-3', '2', '3', '2-4', '4']);
+    expect(getElementNthDegreeIds(graph, 'combo', 'combo1', 1)).toEqual(['combo1', 'combo1-6', '6']);
   });
 
-  it('getNodeNthDegreeIDs', () => {
-    expect(getNodeNthDegreeIDs(graph, '1', 0)).toEqual(['1']);
-    expect(getNodeNthDegreeIDs(graph, '1', 1)).toEqual(['1', '1-2', '1-3', '2', '3']);
-    expect(getNodeNthDegreeIDs(graph, '1', 2)).toEqual(['1', '1-2', '1-3', '2', '2-4', '3', '3-5', '4', '5']);
+  it('getNodeNthDegreeIds', () => {
+    expect(getNodeNthDegreeIds(graph, '1', 0)).toEqual(['1']);
+    expect(getNodeNthDegreeIds(graph, '1', 1)).toEqual(['1', '1-2', '1-3', '2', '3']);
+    expect(getNodeNthDegreeIds(graph, '1', 2)).toEqual(['1', '1-2', '1-3', '2', '2-4', '3', '3-5', '4', '5']);
   });
 });

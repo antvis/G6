@@ -20,16 +20,16 @@ import { bfs } from './traverse';
  * @param degree - <zh/> 指定的度数 | <en/> the specified degree
  * @returns - <zh/> 返回节点和边的 ID 数组 | <en/> Returns an array of node and edge IDs
  */
-export function getElementNthDegreeIDs(graph: Graph, elementType: ElementType, elementId: ID, degree: number): ID[] {
+export function getElementNthDegreeIds(graph: Graph, elementType: ElementType, elementId: ID, degree: number): ID[] {
   if (elementType === 'combo' || elementType === 'node') {
-    return getNodeNthDegreeIDs(graph, elementId, degree);
+    return getNodeNthDegreeIds(graph, elementId, degree);
   }
 
   const edgeData = graph.getEdgeData(elementId);
   if (!edgeData) return [];
 
-  const sourceRelations = getNodeNthDegreeIDs(graph, edgeData.source, degree - 1);
-  const targetRelations = getNodeNthDegreeIDs(graph, edgeData.target, degree - 1);
+  const sourceRelations = getNodeNthDegreeIds(graph, edgeData.source, degree - 1);
+  const targetRelations = getNodeNthDegreeIds(graph, edgeData.target, degree - 1);
 
   return Array.from(new Set<ID>([...sourceRelations, ...targetRelations, elementId]));
 }
@@ -47,7 +47,7 @@ export function getElementNthDegreeIDs(graph: Graph, elementType: ElementType, e
  * @param degree - <zh/> 指定的度数 | <en/> The specified degree
  * @returns - <zh/> 返回节点和边的 ID 数组 | <en/> Returns an array of node and edge IDs
  */
-export function getNodeNthDegreeIDs(graph: Graph, startNodeId: ID, degree: number): ID[] {
+export function getNodeNthDegreeIds(graph: Graph, startNodeId: ID, degree: number): ID[] {
   const visitedNodes = new Set<ID>();
   const visitedEdges = new Set<ID>();
   const relations = new Set<ID>();

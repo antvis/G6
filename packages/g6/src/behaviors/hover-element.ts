@@ -1,12 +1,12 @@
-import { FederatedMouseEvent } from '@antv/g';
-import { ID } from '@antv/graphlib';
+import type { FederatedMouseEvent } from '@antv/g';
+import type { ID } from '@antv/graphlib';
 import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
 import type { BehaviorEvent, ElementType, State } from '../types';
 import { getIds } from '../utils/id';
-import { getElementNthDegreeIDs } from '../utils/relation';
+import { getElementNthDegreeIds } from '../utils/relation';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -97,7 +97,7 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
     const { graph } = this.context;
     const { targetType, target } = event;
 
-    const activeIds = getElementNthDegreeIDs(graph, targetType as ElementType, target.id, this.options.degree);
+    const activeIds = getElementNthDegreeIds(graph, targetType as ElementType, target.id, this.options.degree);
 
     const states: Record<ID, State[]> = {};
 
