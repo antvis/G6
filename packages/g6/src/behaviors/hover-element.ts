@@ -34,13 +34,13 @@ export interface HoverElementOptions extends BaseBehaviorOptions {
    *
    * <en/> Active element state, default to active
    */
-  activeState?: false | State;
+  activeState?: State;
   /**
    * <zh/> 非激活元素的状态，默认为 default
    *
    * <en/> Inactive element state, default to default
    */
-  inactiveState?: false | State;
+  inactiveState?: State;
   /**
    * <zh/> 当元素被悬停时的回调
    *
@@ -61,7 +61,7 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
     enable: true,
     degree: 0,
     activeState: 'active',
-    inactiveState: false,
+    inactiveState: undefined,
   };
 
   constructor(context: RuntimeContext, options: HoverElementOptions) {
@@ -110,7 +110,7 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
       Object.assign(states, this.getElementsState(inactiveIds, this.options.inactiveState, add));
     }
 
-    graph.setElementState(states);
+    graph.setElementState(states, this.options.animation);
   };
 
   private getElementsState = (ids: ID[], state: State, add: boolean) => {
