@@ -7,6 +7,7 @@ import { groupBy, isEmpty } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
 import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
+import { ELEMENT_TYPES } from '../constants/element';
 import type { BaseNode } from '../elements/nodes';
 import type { BaseShape } from '../elements/shapes';
 import { getExtension } from '../registry';
@@ -72,8 +73,7 @@ export class ElementController {
   }
 
   private forEachElementData(callback: (elementType: ElementType, elementData: ElementData) => void) {
-    const elementTypes: ElementType[] = ['node', 'edge', 'combo'];
-    elementTypes.forEach((elementType) => {
+    ELEMENT_TYPES.forEach((elementType) => {
       const elementData = this.context.model.getElementData(elementType);
       callback(elementType, elementData);
     });

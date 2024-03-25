@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.ts",
+      "title": {
+        "zh": "高亮元素",
+        "en": "Hover Element"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7cgmToibajkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "activateRelations.ts",
+      "title": {
+        "zh": "高亮相邻节点",
+        "en": "Activate Relations"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7cgmToibajkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "activateRelations2.ts",
+      "title": {
+        "zh": "定制高亮节点参数",
+        "en": "Different Configurations for Activate Relations"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*AdibQby3Ma0AAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
