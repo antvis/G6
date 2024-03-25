@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "5.0.0-beta.29",
+  "version": "5.0.0-beta.30",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -76,6 +76,10 @@
     "stats.js": "^0.17.0",
     "vite": "^5.1.5",
     "xmlserializer": "^0.6.1"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "tag": "beta"
   },
   "limit-size": [
     {
