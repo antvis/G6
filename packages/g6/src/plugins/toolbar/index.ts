@@ -20,7 +20,7 @@ export type ToolbarOptions = BasePluginOptions & {
    * <zh/> Toolbar 的位置，相对于画布，默认为 `top-left`，最终会影响 DOM 的 style 样式。
    * <en/> The position of the Toolbar relative to the canvas, default is `top-left`, which will ultimately affect the style of the DOM.
    */
-  position: Position;
+  position?: Position;
   /**
    * <zh/> 工具栏显式的 style 样式，可以用来设置它相对于画布的位置、背景容器样式等。
    * <en/> The style style of the Toolbar, which can be used to set its position relative to the canvas.
@@ -35,7 +35,7 @@ export type ToolbarOptions = BasePluginOptions & {
    * <zh/> 返回工具栏的项目列表，支持 `Promise` 类型的返回值。
    * <en/> Return the list of toolbar items, support return a `Promise` as items.
    */
-  getItems?: () => ToolbarItem[] | Promise<ToolbarItem[]>;
+  getItems: () => ToolbarItem[] | Promise<ToolbarItem[]>;
   /**
    * <zh/> 插件是否可用，通过参数来判断是否支持右键菜单，默认全部可用。
    * <en/> Whether the plugin is available, determine whether the right-click menu is supported through parameters, The default is all available.
@@ -51,11 +51,6 @@ export type ToolbarOptions = BasePluginOptions & {
 export class Toolbar extends BasePlugin<ToolbarOptions> {
   static defaultOptions: Partial<ToolbarOptions> = {
     position: 'top-left',
-    onClick: () => {},
-    getItems: () => [
-      { id: 'zoom-in', value: 'zoom-in' },
-      { id: 'zoom-out', value: 'zoom-out' },
-    ],
     enable: true,
   };
 
@@ -127,7 +122,7 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
     if (e.target instanceof Element) {
       if (e.target.className.includes('g6-toolbar-item')) {
         const v = e.target.getAttribute('value') as string;
-        onClick(v, e.target);
+        onClick && onClick(v, e.target);
       }
     }
   };
