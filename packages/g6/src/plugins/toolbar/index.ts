@@ -1,11 +1,10 @@
 import { insertCss } from 'insert-css';
 import type { RuntimeContext } from '../../runtime/types';
-import type { ElementEvent } from '../../types/event';
 import { createPluginContainer } from '../../utils/dom';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 import type { Position, ToolbarItem } from './util';
-import { TOOLBAR_CSS } from './util';
+import { BUILDIN_SVG_ICON, TOOLBAR_CSS, parsePositionToStyle } from './util';
 
 /**
  * <zh/> Toolbar 工具栏的配置项。
@@ -31,7 +30,7 @@ export type ToolbarOptions = BasePluginOptions & {
    * <zh/> 当工具栏被点击后，触发的回调方法。
    * <en/> The callback method triggered when the toolbar item is clicked.
    */
-  onClick?: (v: string, target: HTMLElement) => void;
+  onClick?: (v: string, target: Element) => void;
   /**
    * <zh/> 返回工具栏的项目列表，支持 `Promise` 类型的返回值。
    * <en/> Return the list of toolbar items, support return a `Promise` as items.
@@ -41,7 +40,7 @@ export type ToolbarOptions = BasePluginOptions & {
    * <zh/> 插件是否可用，通过参数来判断是否支持右键菜单，默认全部可用。
    * <en/> Whether the plugin is available, determine whether the right-click menu is supported through parameters, The default is all available.
    */
-  enable?: boolean | ((event: ElementEvent) => boolean);
+  enable?: boolean;
 };
 
 /**
@@ -52,15 +51,12 @@ export type ToolbarOptions = BasePluginOptions & {
 export class Toolbar extends BasePlugin<ToolbarOptions> {
   static defaultOptions: Partial<ToolbarOptions> = {
     position: 'top-left',
-    style: {
-      top: '8px',
-      left: '8px',
-    },
+    onClick: () => {},
     getItems: () => [
       { id: 'zoom-in', value: 'zoom-in' },
       { id: 'zoom-out', value: 'zoom-out' },
     ],
-    enable: () => true,
+    enable: true,
   };
 
   private $element: HTMLElement = createPluginContainer('toolbar', false);
@@ -69,10 +65,14 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
     super(context, Object.assign({}, Toolbar.defaultOptions, options));
 
     const $container = this.context.canvas.getContainer();
+    this.$element.style.display = 'flex';
     $container!.appendChild(this.$element);
 
     // 设置样式
     insertCss(TOOLBAR_CSS);
+    const div = document.createElement('div');
+    div.innerHTML = BUILDIN_SVG_ICON;
+    document.head.appendChild(div);
 
     this.$element.addEventListener('click', this.onToolbarItemClick);
 
@@ -84,12 +84,17 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
    * <en/> Update the configuration of the right-click menu.
    * @param options - 配置项
    */
-  public update(options: Partial<ToolbarOptions>) {
+  public async update(options: Partial<ToolbarOptions>) {
     super.update(options);
 
     const { className, position, style } = this.options;
 
     this.$element.className = `g6-toolbar ${className || ''}`;
+
+    // 设置容器的样式，主要是位置，背景之类的
+    Object.assign(this.$element.style, style, parsePositionToStyle(position));
+
+    this.$element.innerHTML = await this.getDOMContent();
   }
 
   /**
@@ -104,19 +109,25 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
   }
 
   private async getDOMContent() {
-    return await this.options.getItems();
-  }
-
-  private unbindEvents() {
-    this.$element.removeEventListener('click', this.onToolbarItemClick);
+    const items = await this.options.getItems();
+    return items
+      .map(
+        (item) => `
+          <div class="g6-toolbar-item" value="${item.value}">
+            <svg aria-hidden="true" focusable="false">
+              <use xlink:href="#${item.id}"></use>
+            </svg>
+          </div>`,
+      )
+      .join('');
   }
 
   private onToolbarItemClick = (e: MouseEvent) => {
     const { onClick } = this.options;
-    if (e.target instanceof HTMLElement) {
-      if (e.target.className.includes('g6-toolbar-li')) {
+    if (e.target instanceof Element) {
+      if (e.target.className.includes('g6-toolbar-item')) {
         const v = e.target.getAttribute('value') as string;
-        onClick && onClick(v, e.target);
+        onClick(v, e.target);
       }
     }
   };
