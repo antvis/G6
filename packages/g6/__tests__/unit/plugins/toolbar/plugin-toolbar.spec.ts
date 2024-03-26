@@ -1,10 +1,10 @@
-import { pluginToolbarBuildin } from '@@/demo/case';
+import { pluginToolbarBuildIn } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 import { get } from '@antv/util';
 
 describe('plugin toolbar', () => {
   it('toolbar', async () => {
-    const graph = await createDemoGraph(pluginToolbarBuildin);
+    const graph = await createDemoGraph(pluginToolbarBuildIn);
     const container = graph.getCanvas().getContainer()!;
 
     const el = container.querySelector('.g6-toolbar') as HTMLDivElement;

@@ -3,7 +3,7 @@ import { createPluginContainer, insertDOM } from '../../utils/dom';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 import type { Position, ToolbarItem } from './util';
-import { BUILDIN_SVG_ICON, TOOLBAR_CSS, parsePositionToStyle } from './util';
+import { BUILD_IN_SVG_ICON, TOOLBAR_CSS, parsePositionToStyle } from './util';
 
 /**
  * <zh/> Toolbar 工具栏的配置项。
@@ -29,23 +29,22 @@ export type ToolbarOptions = BasePluginOptions & {
    * <zh/> 当工具栏被点击后，触发的回调方法。
    * <en/> The callback method triggered when the toolbar item is clicked.
    */
-  onClick?: (v: string, target: Element) => void;
+  onClick?: (value: string, target: Element) => void;
   /**
    * <zh/> 返回工具栏的项目列表，支持 `Promise` 类型的返回值。
    * <en/> Return the list of toolbar items, support return a `Promise` as items.
    */
   getItems: () => ToolbarItem[] | Promise<ToolbarItem[]>;
   /**
-   * <zh/> 插件是否可用，通过参数来判断是否支持右键菜单，默认全部可用。
-   * <en/> Whether the plugin is available, determine whether the right-click menu is supported through parameters, The default is all available.
+   * <zh/> 插件是否可用，默认 `true`。
+   * <en/> Whether the plugin is available, default is `true`.
    */
   enable?: boolean;
 };
 
 /**
- * <zh/> 支持处理事件，并显示右键菜单，在菜单点击之后，可以触发相应的事件。
- * <en/> Support processing events and displaying right-click menus.
- *       After clicking the menu, you can trigger the corresponding event.
+ * <zh/> 工具栏，支持配置工具栏项目，以及点击之后的回调方法。
+ * <en/> Toolbar, support configuration of toolbar items, and callback methods after clicking.
  */
 export class Toolbar extends BasePlugin<ToolbarOptions> {
   static defaultOptions: Partial<ToolbarOptions> = {
@@ -64,7 +63,7 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
 
     // 设置样式
     insertDOM('g6-toolbar-css', 'style', {}, TOOLBAR_CSS, document.head);
-    insertDOM('g6-toolbar-svgicon', 'div', { display: 'none' }, BUILDIN_SVG_ICON);
+    insertDOM('g6-toolbar-svgicon', 'div', { display: 'none' }, BUILD_IN_SVG_ICON);
 
     this.$element.addEventListener('click', this.onToolbarItemClick);
 
@@ -72,8 +71,8 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
   }
 
   /**
-   * <zh/> 更新右键菜单的配置项。
-   * <en/> Update the configuration of the right-click menu.
+   * <zh/> 更新工具栏的配置项。
+   * <en/> Update the configuration of the toolbar.
    * @param options - 配置项
    */
   public async update(options: Partial<ToolbarOptions>) {
@@ -90,8 +89,8 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
   }
 
   /**
-   * <zh/> 销毁右键菜单。
-   * <en/> Destroy the right-click menu.
+   * <zh/> 销毁工具栏。
+   * <en/> Destroy the toolbar.
    */
   public destroy(): void {
     this.$element.removeEventListener('click', this.onToolbarItemClick);
@@ -119,7 +118,7 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
     if (e.target instanceof Element) {
       if (e.target.className.includes('g6-toolbar-item')) {
         const v = e.target.getAttribute('value') as string;
-        onClick && onClick(v, e.target);
+        onClick?.(v, e.target);
       }
     }
   };

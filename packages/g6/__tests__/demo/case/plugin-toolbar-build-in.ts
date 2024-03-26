@@ -2,7 +2,7 @@ import { Graph } from '@/src';
 import data from '@@/dataset/cluster.json';
 import type { STDTestCase } from '../types';
 
-export const pluginToolbarBuildin: STDTestCase = async (context) => {
+export const pluginToolbarBuildIn: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     autoResize: true,
@@ -34,7 +34,7 @@ export const pluginToolbarBuildin: STDTestCase = async (context) => {
 
   await graph.render();
 
-  pluginToolbarBuildin.form = (panel) => {
+  pluginToolbarBuildIn.form = (panel) => {
     const config = {
       position: 'top-left',
     };

@@ -1,3 +1,5 @@
+import { CornerPlacement } from '../../types';
+
 /**
  * <zh/> 工具栏显示项目。
  * <en/> The item of the toolbar.
@@ -19,15 +21,7 @@ export type ToolbarItem = {
  * <zh/> Toolbar 的位置，相对于画布，默认为 `top-left`，最终会影响 DOM 的 style 样式。
  * <en/> The position of the Toolbar relative to the canvas, default is `top-left`, which will ultimately affect the style of the DOM.
  */
-export type Position =
-  | 'top-right'
-  | 'top-left'
-  | 'bottom-right'
-  | 'bottom-left'
-  | 'left-top'
-  | 'left-bottom'
-  | 'right-top'
-  | 'right-bottom';
+export type Position = CornerPlacement;
 
 /**
  * <zh/> 解析 toolbar 的 position 为位置样式。
@@ -89,7 +83,7 @@ export const TOOLBAR_CSS = `
   }
 `;
 
-export const BUILDIN_SVG_ICON = `
+export const BUILD_IN_SVG_ICON = `
   <svg>
     <symbol id="zoom-in" viewBox="64 64 896 896">
       <path d="M637 443H519V309c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v134H325c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h118v134c0 4.4 3.6 8 8 8h60c4.4 0 8-3.6 8-8V519h118c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8zm284 424L775 721c122.1-148.9 113.6-369.5-26-509-148-148.1-388.4-148.1-537 0-148.1 148.6-148.1 389 0 537 139.5 139.6 360.1 148.1 509 26l146 146c3.2 2.8 8.3 2.8 11 0l43-43c2.8-2.7 2.8-7.8 0-11zM696 696c-118.8 118.7-311.2 118.7-430 0-118.7-118.8-118.7-311.2 0-430 118.8-118.7 311.2-118.7 430 0 118.7 118.8 118.7 311.2 0 430z"></path>
