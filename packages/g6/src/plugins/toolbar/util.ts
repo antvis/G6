@@ -66,12 +66,13 @@ export const TOOLBAR_CSS = `
     justify-content: center;
     border-radius: 4px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0.7;
   }  
   .g6-toolbar .g6-toolbar-item {
     display: inline-block;
     width: 16px;
     height: 16px;
-    padding: 4px;
+    margin: 4px;
     cursor: pointer;
   }
 

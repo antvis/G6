@@ -13,7 +13,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*e5BYT75a3rgAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "self-toolbar.ts",
+      "filename": "customized-toolbar.ts",
       "title": {
         "zh": "自定义工具栏",
         "en": "ToolBar"
