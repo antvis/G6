@@ -50,5 +50,10 @@ describe('sizeOf', () => {
 
     el = document.getElementById('g6-test')!;
     expect(el.innerHTML).toBe('new html');
+
+    el = insertDOM('g6-test');
+    expect(el.tagName.toLowerCase()).toBe('div');
+    expect(el.innerHTML).toBe('');
+    expect(el.parentNode).toBe(document.body);
   });
 });
