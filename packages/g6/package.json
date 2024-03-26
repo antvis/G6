@@ -33,8 +33,8 @@
   "scripts": {
     "build": "run-p build:*",
     "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib -p tsconfig.build.json",
+    "build:dev:watch": "npm run build:esm -- --watch",
     "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm -p tsconfig.build.json",
-    "build:esm:watch": "rimraf ./esm && tsc --module ESNext --outDir esm --watch -p tsconfig.build.json",
     "build:umd": "rimraf ./dist && rollup -c && npm run size",
     "bundle-vis": "cross-env BUNDLE_VIS=1 npm run build:umd",
     "ci": "run-s lint type-check build test",
@@ -78,7 +78,6 @@
     "jest-random-mock": "^1.0.0",
     "lil-gui": "^0.19.2",
     "stats.js": "^0.17.0",
-    "vite": "^5.1.5",
     "xmlserializer": "^0.6.1"
   },
   "publishConfig": {
