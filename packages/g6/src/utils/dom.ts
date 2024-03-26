@@ -68,3 +68,35 @@ export function createPluginContainer(type: string, cover = true) {
 
   return el;
 }
+
+/**
+ * Create a DOM element, if exists, remove it and create a new one.
+ * @param id - id
+ * @param tag - tag
+ * @param style - style
+ * @param innerHTML - innerHTML
+ * @param container - container
+ * @returns new DOM element
+ */
+export function insertDOM(
+  id: string,
+  tag = 'div',
+  style: Partial<CSSStyleDeclaration> = {},
+  innerHTML = '',
+  container: HTMLElement = document.body,
+) {
+  // 如果存在则删除
+  const dom = document.getElementById(id);
+  if (dom) dom.remove();
+
+  // 重新创建
+  const div = document.createElement(tag);
+  div.innerHTML = innerHTML;
+  div.id = id;
+
+  Object.assign(div.style, style);
+
+  container.appendChild(div);
+
+  return div;
+}

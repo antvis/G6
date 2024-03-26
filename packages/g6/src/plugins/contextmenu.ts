@@ -1,9 +1,8 @@
-import { insertCss } from 'insert-css';
 import type { RuntimeContext } from '../runtime/types';
 import type { ElementEvent } from '../types/event';
 import type { Item } from '../utils/contextmenu';
 import { CONTEXTMENU_CSS, getContentFromItems } from '../utils/contextmenu';
-import { createPluginContainer } from '../utils/dom';
+import { createPluginContainer, insertDOM } from '../utils/dom';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
@@ -77,7 +76,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     $container!.appendChild(this.$element);
 
     // 设置样式
-    insertCss(CONTEXTMENU_CSS);
+    insertDOM('g6-contextmenu-css', 'style', {}, CONTEXTMENU_CSS, document.head);
 
     this.update(options);
   }

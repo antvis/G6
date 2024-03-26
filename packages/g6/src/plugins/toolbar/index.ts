@@ -1,6 +1,5 @@
-import { insertCss } from 'insert-css';
 import type { RuntimeContext } from '../../runtime/types';
-import { createPluginContainer } from '../../utils/dom';
+import { createPluginContainer, insertDOM } from '../../utils/dom';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 import type { Position, ToolbarItem } from './util';
@@ -64,10 +63,8 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
     $container!.appendChild(this.$element);
 
     // 设置样式
-    insertCss(TOOLBAR_CSS);
-    const div = document.createElement('div');
-    div.innerHTML = BUILDIN_SVG_ICON;
-    document.head.appendChild(div);
+    insertDOM('g6-toolbar-css', 'style', {}, TOOLBAR_CSS, document.head);
+    insertDOM('g6-toolbar-svgicon', 'div', { display: 'none' }, BUILDIN_SVG_ICON);
 
     this.$element.addEventListener('click', this.onToolbarItemClick);
 
