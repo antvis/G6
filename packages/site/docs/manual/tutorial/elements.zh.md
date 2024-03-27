@@ -171,7 +171,7 @@ const degreeCalculator = (data, options, userGraphCore) => {
 };
 ```
 
-另外，我们希望可以用颜色表示节点的类别，如果数据中有表示节点类别的字段，后续可以直击诶使用。在这个例子中，我们利用 @antv/algorithm 提供的聚类算法，根据图结构计算节点聚类。同样把它写成一个数据处理器：
+另外，我们希望可以用颜色表示节点的类别，如果数据中有表示节点类别的字段，后续可以直接使用。在这个例子中，我们利用 @antv/algorithm 提供的聚类算法，根据图结构计算节点聚类。同样把它写成一个数据处理器：
 
 ```javascript
 const clusteringNodes = (data, options = {}, userGraphCore) => {
@@ -355,7 +355,7 @@ const graph = new Graph({
 <summary style="color: #873bf4; cursor: pointer;">点击展开完整代码</summary>
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
