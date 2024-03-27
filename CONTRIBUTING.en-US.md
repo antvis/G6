@@ -17,7 +17,7 @@ There are many ways you can contribute to G6:
 
 Before starting to contribute, make sure to:
 
-1. Fork the repository and create your branch from `v5s`.
+1. Fork the repository and create your branch from `v5`.
 2. If you're adding code, add tests that cover the new functionality/bug fix.
 3. Ensure the test suite passes locally.
 4. If you've changed APIs, update the documentation.
