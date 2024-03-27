@@ -7,11 +7,11 @@ import type { BehaviorEvent, ViewportAnimationEffectTiming } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
-const FOUSE_ELEMENT_TYPES = ['node', 'combo'];
+const FOCUS_ELEMENT_TYPES = ['node', 'combo'];
 
-export interface FouseElementOptions extends BaseBehaviorOptions {
+export interface FocusElementOptions extends BaseBehaviorOptions {
   /**
-   * <zh/> 是否启用动画
+   * <zh/> 是否启用动画以及动画配置
    *
    * <en/> Whether to enable animation
    */
@@ -24,8 +24,8 @@ export interface FouseElementOptions extends BaseBehaviorOptions {
   enable?: boolean | ((event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
 }
 
-export class FouseElement extends BaseBehavior<FouseElementOptions> {
-  static defaultOptions: Partial<FouseElementOptions> = {
+export class FocusElement extends BaseBehavior<FocusElementOptions> {
+  static defaultOptions: Partial<FocusElementOptions> = {
     animation: {
       easing: 'ease-in',
       duration: 500,
@@ -33,8 +33,8 @@ export class FouseElement extends BaseBehavior<FouseElementOptions> {
     enable: true,
   };
 
-  constructor(context: RuntimeContext, options: FouseElementOptions) {
-    super(context, Object.assign({}, FouseElement.defaultOptions, options));
+  constructor(context: RuntimeContext, options: FocusElementOptions) {
+    super(context, Object.assign({}, FocusElement.defaultOptions, options));
     this.bindEvents();
   }
 
@@ -42,8 +42,8 @@ export class FouseElement extends BaseBehavior<FouseElementOptions> {
     const { graph } = this.context;
     this.unbindEvents();
 
-    FOUSE_ELEMENT_TYPES.forEach((type) => {
-      graph.on(`${type}:${CommonEvent.CLICK}`, this.clickFouseElement);
+    FOCUS_ELEMENT_TYPES.forEach((type) => {
+      graph.on(`${type}:${CommonEvent.CLICK}`, this.clickFocusElement);
     });
   }
 
@@ -58,24 +58,13 @@ export class FouseElement extends BaseBehavior<FouseElementOptions> {
     );
   }
 
-  private clickFouseElement = (event: BehaviorEvent<FederatedMouseEvent>) => {
+  private clickFocusElement = async (event: BehaviorEvent<FederatedMouseEvent>) => {
     if (!this.validate(event)) return;
-
     const { animation } = this.options;
+    const { graph } = this.context;
+    const id = this.getSelectedNodeIDs([event.target.id]);
 
-    const { graph, canvas } = this.context;
-    const id = this.getSelectedNodeIDs([event.target.id])[0];
-    const [x, y] = graph.getElementRenderBounds(id).center;
-
-    const [centerX, centerY] = graph.getViewportCenter();
-    const camera = canvas.getCamera();
-
-    const currentZoom = camera.getZoom();
-
-    const dx = (centerX - x) * currentZoom;
-    const dy = (centerY - y) * currentZoom;
-
-    graph.translateBy([dx, dy], animation);
+    await graph.focusElement(id, animation);
   };
 
   private validate(event: BehaviorEvent<FederatedMouseEvent>) {
@@ -88,8 +77,8 @@ export class FouseElement extends BaseBehavior<FouseElementOptions> {
   private unbindEvents() {
     const { graph } = this.context;
 
-    FOUSE_ELEMENT_TYPES.forEach((type) => {
-      graph.off(`${type}:${CommonEvent.CLICK}`, this.clickFouseElement);
+    FOCUS_ELEMENT_TYPES.forEach((type) => {
+      graph.off(`${type}:${CommonEvent.CLICK}`, this.clickFocusElement);
     });
   }
 

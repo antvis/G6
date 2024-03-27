@@ -39,8 +39,8 @@ const data = {
 
 const graph = new Graph({
   container: 'container',
-  width: 600,
-  height: 400,
+  width: 500,
+  height: 500,
   data,
   node: {
     style: {
@@ -56,7 +56,7 @@ const graph = new Graph({
   },
   animation: true,
   behaviors: ['drag-element', {
-    type: 'fouse-element',
+    type: 'focus-element',
     animation: {
       easing: 'ease-out',
       duration: 3500,

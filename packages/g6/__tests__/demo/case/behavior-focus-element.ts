@@ -1,7 +1,7 @@
 import { Graph } from '@/src';
 import type { STDTestCase } from '../types';
 
-export const behaviorFouseElement: STDTestCase = async (context) => {
+export const behaviorFocusElement: STDTestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: {
@@ -23,7 +23,7 @@ export const behaviorFouseElement: STDTestCase = async (context) => {
     edge: {
       style: { endArrow: true },
     },
-    behaviors: [{ type: 'fouse-element' }],
+    behaviors: [{ type: 'focus-element' }],
   });
 
   await graph.render();
