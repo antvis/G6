@@ -3,7 +3,6 @@ import { Category, Layout, Selection } from '@antv/component';
 import type { ID } from '@antv/graphlib';
 import { get, isFunction } from '@antv/util';
 import { GraphEvent } from '../constants';
-import { Theme } from '../index';
 import type { RuntimeContext } from '../runtime/types';
 import type { ElementDatum, ElementType, State } from '../types';
 import type { CardinalPlacement } from '../types/placement';
@@ -56,7 +55,6 @@ export class Legend extends BasePlugin<LegendOptions> {
   private selectedItems: string[] = [];
   constructor(context: RuntimeContext, options: LegendOptions) {
     super(context, Object.assign({}, Legend.defaultOptions, options));
-    this.render();
     this.bindEvents();
   }
 
@@ -70,12 +68,6 @@ export class Legend extends BasePlugin<LegendOptions> {
     this.element?.destroy();
     this.element = null;
     this.draw = false;
-  }
-
-  private render() {
-    const { canvas } = this.context;
-    const $container = canvas.getContainer();
-    if (!$container) return;
   }
 
   private bindEvents = () => {
@@ -125,25 +117,9 @@ export class Legend extends BasePlugin<LegendOptions> {
 
   public updateElement() {
     if (!this.element) return;
-    const { graph } = this.context;
-    const theme = graph.getOptions().theme as 'light' | 'dark';
-    const selectedStyle = Theme[`${theme}`];
     const category = this.element.getChildByIndex(0) as Category;
 
-    const getActiveStyle = (id: string, type: ElementType = 'node', field: string) => {
-      if (this.selectedItems.includes(id)) {
-        return get(selectedStyle, [type, 'state', 'selected', field]);
-      }
-      return null;
-    };
-
     category.update({
-      itemMarkerLineWidth: ({ lineWidth = 0, id, elementType }) => {
-        return getActiveStyle(id, elementType, 'lineWidth') || lineWidth;
-      },
-      itemMarkerStroke: ({ stroke, id, elementType }) => {
-        return getActiveStyle(id, elementType, 'stroke') || stroke;
-      },
       itemMarkerOpacity: ({ id }) => {
         if (!this.selectedItems.length || this.selectedItems.includes(id)) return 1;
         return 0.5;
@@ -198,7 +174,7 @@ export class Legend extends BasePlugin<LegendOptions> {
     /** 用于将 G6 element 转换为 componets 支持的类型 */
     const markerMapping: { [key: string]: string } = {
       circle: 'circle',
-      ellipse: 'hexagon',
+      ellipse: 'circle', // 待 components 支持 ellipse
       image: 'bowtie',
       rect: 'square',
       star: 'cross',
@@ -222,7 +198,7 @@ export class Legend extends BasePlugin<LegendOptions> {
         const { id } = item;
         const value = get(item, ['data', getField(item)]);
         const { color = '#1783ff', type: marker = 'circle' } = getElementStyle(type, item);
-        if (id && value) {
+        if ((id || id === 0) && value && value.replace(/\s+/g, '')) {
           this.setFieldMap(value, id, type);
           if (!items[value]) {
             items[value] = {
