@@ -2,7 +2,7 @@ import { getCacheKey } from '../../../src/utils/cache';
 
 describe('cache', () => {
   it('getCacheKey plain', () => {
-    const key = 'latitudeBands:16 longitudeBands:16 radius:10';
+    const key = Symbol.for('latitudeBands:16 longitudeBands:16 radius:10');
 
     expect(
       getCacheKey({
