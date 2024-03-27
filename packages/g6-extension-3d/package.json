@@ -1,5 +1,5 @@
 {
-  "name": "g6-extension-3d",
+  "name": "@antv/g6-extension-3d",
   "version": "1.0.0",
   "description": "",
   "keywords": [
@@ -9,7 +9,7 @@
     "3d"
   ],
   "license": "MIT",
-  "author": "",
+  "author": "Aarebecca",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
@@ -23,9 +23,9 @@
     "build": "run-p build:*",
     "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
     "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
-    "build:esm:watch": "rimraf ./esm && tsc --module ESNext --outDir esm --watch",
     "build:umd": "rimraf ./dist && rollup -c",
     "ci": "run-s lint type-check build test",
+    "dev": "vite",
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
     "prepublishOnly": "npm run ci",
     "test": "jest",
@@ -37,7 +37,10 @@
     "@antv/g-device-api": "^1.6.4",
     "@antv/g-plugin-3d": "^1.9.34",
     "@antv/g-plugin-control": "^1.9.22",
-    "@antv/g-webgl": "^1.9.37"
+    "@antv/g-plugin-device-renderer": "^2.0.0",
+    "@antv/g-plugin-dragndrop": "^1.8.22",
+    "@antv/g-webgl": "^1.9.37",
+    "@antv/util": "^3.3.7"
   },
   "devDependencies": {
     "@antv/g6": "workspace:*"
