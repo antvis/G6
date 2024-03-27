@@ -1,3 +1,4 @@
+import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -7,7 +8,9 @@ export default defineConfig({
     open: '/',
   },
   plugins: [{ name: 'isolation' }],
-  optimizeDeps: {
-    exclude: ['@antv/g6'],
+  resolve: {
+    alias: {
+      '@antv/g6': path.resolve(__dirname, '../g6/src'),
+    },
   },
 });

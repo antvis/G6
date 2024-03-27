@@ -76,8 +76,6 @@
     "@types/xmlserializer": "^0.6.6",
     "jest-canvas-mock": "^2.5.1",
     "jest-random-mock": "^1.0.0",
-    "lil-gui": "^0.19.2",
-    "stats.js": "^0.17.0",
     "xmlserializer": "^0.6.1"
   },
   "publishConfig": {
