@@ -1,8 +1,8 @@
-import type { GraphData } from '@antv/g6';
+import type { G6Spec, GraphData } from '@antv/g6';
 import { Graph, register } from '@antv/g6';
 import { Light, Line3D, Plane, Sphere, renderer } from '../../src';
 
-export const layerTop = async (context) => {
+export const layerTop = async (context: G6Spec) => {
   register('plugin', '3d-light', Light);
   register('node', 'sphere', Sphere);
   register('node', 'plane', Plane);
@@ -13,7 +13,7 @@ export const layerTop = async (context) => {
 
   const colors = ['rgb(240, 134, 82)', 'rgb(30, 160, 230)', 'rgb(122, 225, 116)'];
   const data: GraphData = {};
-  data.nodes = nodes.map(({ name, pos, layer }) => ({
+  data.nodes = nodes.map(({ name, pos, layer }: any) => ({
     id: name,
     data: { layer },
     style: {
@@ -37,7 +37,7 @@ export const layerTop = async (context) => {
     });
   });
 
-  data.edges = edges.map(({ source, target }) => ({
+  data.edges = edges.map(({ source, target }: any) => ({
     source,
     target,
   }));

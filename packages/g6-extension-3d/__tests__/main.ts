@@ -19,7 +19,7 @@ const save = () => {
 panel
   .add(options, 'demo', demoNames)
   .name('Demo')
-  .onChange((name) => {
+  .onChange((name: string) => {
     render(name);
     save();
   });
@@ -38,6 +38,6 @@ function initContext() {
 
 function render(name: string) {
   const context = initContext();
-  const demo = demos[name];
+  const demo = demos[name as keyof typeof demos];
   demo(context);
 }

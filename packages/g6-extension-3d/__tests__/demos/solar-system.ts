@@ -1,7 +1,9 @@
+import type { DisplayObject } from '@antv/g';
+import type { G6Spec, Vector3 } from '@antv/g6';
 import { Graph, register } from '@antv/g6';
 import { Light, Sphere, renderer } from '../../src';
 
-export const solarSystem = async (context) => {
+export const solarSystem = async (context: G6Spec) => {
   register('plugin', '3d-light', Light);
   register('node', 'sphere', Sphere);
 
@@ -72,14 +74,14 @@ export const solarSystem = async (context) => {
   await graph.render();
 
   // @ts-expect-error graph is private
-  const element = graph.context.element;
+  const element = graph.context.element!;
 
-  const sum = element.getElement('sum');
-  const mars = element.getElement('mars');
-  const earth = element.getElement('earth');
-  const jupiter = element.getElement('jupiter');
+  const sum = element.getElement('sum')!;
+  const mars = element.getElement('mars')!;
+  const earth = element.getElement('earth')!;
+  const jupiter = element.getElement('jupiter')!;
 
-  const setRotation = (element, speed) => {
+  const setRotation = (element: DisplayObject, speed: number) => {
     setInterval(() => {
       element.rotate(0, -speed, 0);
     }, 30);
@@ -89,7 +91,7 @@ export const solarSystem = async (context) => {
   setRotation(earth, 1);
   setRotation(jupiter, 0.5);
 
-  const setRevolution = (element, center, speed) => {
+  const setRevolution = (element: DisplayObject, center: Vector3, speed: number) => {
     setInterval(() => {
       const [x, y, z] = element.getPosition();
       const [cx, cy, cz] = center;

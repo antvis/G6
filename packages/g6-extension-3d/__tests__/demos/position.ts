@@ -1,7 +1,8 @@
+import type { G6Spec } from '@antv/g6';
 import { Graph, register } from '@antv/g6';
 import { Light, Line3D, Sphere, renderer } from '../../src';
 
-export const positionValidate = async (context) => {
+export const positionValidate = async (context: G6Spec) => {
   register('plugin', '3d-light', Light);
   register('node', 'sphere', Sphere);
   register('edge', 'line3d', Line3D);
