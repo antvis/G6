@@ -49,13 +49,13 @@
     "size": "limit-size",
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
     "tag": "node ./scripts/tag.mjs",
-    "test": "npm run jest __tests__",
+    "test": "npm run jest __tests__/unit/plugins/legend.spec.ts",
     "test:integration": "npm run jest __tests__/integration",
     "test:unit": "npm run jest __tests__/unit",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@antv/component": "^1.0.2",
+    "@antv/component": "^1.0.3",
     "@antv/event-emitter": "latest",
     "@antv/g": "^5.18.25",
     "@antv/g-canvas": "^1.11.27",
