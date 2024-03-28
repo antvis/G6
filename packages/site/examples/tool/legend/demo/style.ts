@@ -37,20 +37,28 @@ const data = {
   ],
   edges: [
     {
+      id: '1-2',
       source: '1',
       target: '2',
+      style: {
+        type: 'quadratic',
+        color: '#F6BD16',
+      },
       data: { cluster: 'edge-type1' },
     },
     {
+      id: '1-4',
       source: '1',
       target: '4',
       data: { cluster: 'edge-type2' },
     },
     {
+      id: '3-4',
       source: '3',
       target: '4',
     },
     {
+      id: '2-4',
       source: '2',
       target: '4',
       data: { cluster: 'edge-type3' },
@@ -81,6 +89,11 @@ const graph = new Graph({
     {
       type: 'legend',
       nodeField: 'cluster',
+      edgeField: 'cluster',
+      titleText: 'Legend Title',
+      trigger: 'click',
+      position: 'top',
+      gridCol: 3,
     },
   ],
 });
