@@ -48,20 +48,21 @@ const graph = new Graph({
       labelPosition: 'bottom',
     },
   },
-  edge: {
-
-  },
+  edge: {},
   layout: {
     type: 'force',
   },
   animation: true,
-  behaviors: ['drag-element', {
-    type: 'focus-element',
-    animation: {
-      easing: 'ease-out',
-      duration: 3500,
+  behaviors: [
+    'drag-element',
+    {
+      type: 'focus-element',
+      animation: {
+        easing: 'ease-out',
+        duration: 3500,
+      },
     },
-  }],
+  ],
 });
 
 graph.render();

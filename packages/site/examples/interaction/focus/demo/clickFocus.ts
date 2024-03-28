@@ -28,7 +28,7 @@ const graph = new Graph({
     },
   },
   data,
-  behaviors: ['drag-canvas', 'collapse-expand', 'focus-element' , 'zoom-canvas'],
+  behaviors: ['drag-canvas', 'collapse-expand', 'focus-element', 'zoom-canvas'],
 });
 
 graph.render();
