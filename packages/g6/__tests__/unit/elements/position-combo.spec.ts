@@ -9,6 +9,10 @@ describe('element position combo', () => {
     graph = await createDemoGraph(elementPositionCombo, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename);
   });

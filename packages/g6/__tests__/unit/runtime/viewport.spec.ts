@@ -6,8 +6,13 @@ import { AABB } from '@antv/g';
 
 describe('ViewportController', () => {
   let graph: Graph;
+
   beforeAll(async () => {
     graph = await createDemoGraph(controllerViewport);
+  });
+
+  afterAll(() => {
+    graph.destroy();
   });
 
   it('viewport center', () => {
@@ -104,16 +109,17 @@ describe('ViewportController', () => {
     // @ts-expect-error
     expect(graph.context.viewport.getBBoxInViewport(bbox).halfExtents).toBeCloseTo([100, 100, 0]);
   });
-
-  afterAll(() => {
-    graph.destroy();
-  });
 });
 
 describe('Viewport Fit without Animation', () => {
   let graph: Graph;
+
   beforeAll(async () => {
     graph = await createDemoGraph(viewportFit);
+  });
+
+  afterAll(() => {
+    graph.destroy();
   });
 
   it('default', async () => {
@@ -144,16 +150,17 @@ describe('Viewport Fit without Animation', () => {
     await graph.fitCenter();
     await expect(graph).toMatchSnapshot(__filename, 're-fitCenter');
   });
-
-  afterAll(() => {
-    graph.destroy();
-  });
 });
 
 describe('Viewport Fit with Animation', () => {
   let graph: Graph;
+
   beforeAll(async () => {
     graph = await createDemoGraph(viewportFit, { animation: true });
+  });
+
+  afterAll(() => {
+    graph.destroy();
   });
 
   it('default', async () => {
@@ -184,10 +191,6 @@ describe('Viewport Fit with Animation', () => {
     await graph.fitCenter();
     await expect(graph).toMatchSnapshot(__filename, 're-fitCenter-animation');
   });
-
-  afterAll(() => {
-    graph.destroy();
-  });
 });
 
 describe('Viewport Fit with AutoFit and Padding without Animation', () => {
@@ -197,6 +200,10 @@ describe('Viewport Fit with AutoFit and Padding without Animation', () => {
       padding: [100, 0, 0, 100],
       autoFit: 'view',
     });
+  });
+
+  afterAll(() => {
+    graph.destroy();
   });
 
   it('default', async () => {
@@ -212,6 +219,10 @@ describe('Viewport Fit with AutoFit and Padding with Animation', () => {
       autoFit: 'view',
       animation: true,
     });
+  });
+
+  afterAll(() => {
+    graph.destroy();
   });
 
   it('default', async () => {

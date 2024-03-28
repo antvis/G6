@@ -14,6 +14,10 @@ describe('plugin grid line', () => {
       .getElementsByClassName('g6-grid-line')! as HTMLCollectionOf<HTMLElement>;
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', () => {
     expect(graph.getPlugins()).toEqual([{ type: 'grid-line', follow: false }]);
     expect(gridLineElement.length).toBe(1);

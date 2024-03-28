@@ -9,6 +9,10 @@ describe('spec theme', () => {
     graph = await createDemoGraph(theme, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('theme', async () => {
     const theme: ThemeOptions = 'light';
 

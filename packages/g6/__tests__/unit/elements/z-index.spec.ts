@@ -9,6 +9,10 @@ describe('element zIndex', () => {
     graph = await createDemoGraph(elementZIndex, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename);
   });

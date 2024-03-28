@@ -8,8 +8,13 @@ import { omit } from '@antv/util';
 
 describe('ElementController', () => {
   let graph: Graph;
+
   beforeAll(async () => {
     graph = await createDemoGraph(graphElement);
+  });
+
+  afterAll(() => {
+    graph.destroy();
   });
 
   it('static', async () => {

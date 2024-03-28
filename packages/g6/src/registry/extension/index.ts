@@ -72,11 +72,9 @@ export abstract class ExtensionController<Extension extends BaseExtension<Loosel
   public destroy() {
     Object.values(this.extensionMap).forEach((extension) => extension.destroy());
     // @ts-expect-error force delete
-    delete this.context;
-    // @ts-expect-error force delete
-    delete this.extensions;
-    // @ts-expect-error force delete
-    delete this.extensionMap;
+    this.context = {};
+    this.extensions = [];
+    this.extensionMap = {};
   }
 }
 
@@ -105,9 +103,9 @@ export class BaseExtension<T extends LooselyExtensionOption> {
 
   public destroy() {
     // @ts-expect-error force delete
-    delete this.context;
+    this.context = {};
     // @ts-expect-error force delete
-    delete this.options;
+    this.options = {};
 
     this.destroyed = true;
   }

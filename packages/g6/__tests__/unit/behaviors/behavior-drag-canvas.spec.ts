@@ -11,6 +11,10 @@ describe('behavior drag canvas', () => {
     graph = await createDemoGraph(behaviorDragCanvas, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', () => {
     expect(graph.getBehaviors()).toEqual([
       'drag-canvas',
@@ -77,9 +81,5 @@ describe('behavior drag canvas', () => {
     expect(graph.getPosition()).toBeCloseTo([x + 20, y]);
 
     await expect(graph).toMatchSnapshot(__filename);
-  });
-
-  it('destroy', () => {
-    graph.destroy();
   });
 });

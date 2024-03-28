@@ -66,7 +66,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
   }
 
   public update(options: Partial<TooltipOptions>) {
-    this.unbundEvents();
+    this.unbindEvents();
     super.update(options);
     if (this.tooltipElement) {
       this.container?.removeChild(this.tooltipElement.HTMLTooltipElement);
@@ -83,7 +83,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.tooltipElement = this.initTooltip();
   }
 
-  private unbundEvents() {
+  private unbindEvents() {
     const { graph } = this.context;
     /** The previous event binding needs to be removed when updating the trigger. */
     const events = this.getEvents();
@@ -259,7 +259,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
   };
 
   public destroy(): void {
-    this.unbundEvents();
+    this.unbindEvents();
     if (this.tooltipElement) {
       this.container?.removeChild(this.tooltipElement.HTMLTooltipElement);
     }

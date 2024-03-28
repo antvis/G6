@@ -9,6 +9,10 @@ describe('behavior combo expand collapse', () => {
     graph = await createDemoGraph(comboExpandCollapse, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename);
   });
