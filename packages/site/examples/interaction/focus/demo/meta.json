@@ -1,0 +1,18 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "clickFocus.ts",
+      "title": "节点聚焦",
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ph6tS4k6S-oAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "clickFocusAnimate.ts",
+      "title": "节点聚焦自定义动画",
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Fs_DT6n11zMAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
