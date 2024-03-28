@@ -21,8 +21,8 @@
   ],
   "scripts": {
     "build": "run-p build:*",
-    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
-    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
+    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib -p tsconfig.build.json",
+    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm -p tsconfig.build.json",
     "build:umd": "rimraf ./dist && rollup -c",
     "ci": "run-s lint type-check build test",
     "dev": "vite",
