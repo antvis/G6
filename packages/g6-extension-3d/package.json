@@ -29,7 +29,7 @@
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
     "prepublishOnly": "npm run ci",
     "test": "jest",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
     "@antv/g": "^5.18.25",
