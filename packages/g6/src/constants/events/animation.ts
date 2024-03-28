@@ -1,4 +1,4 @@
-export const enum AnimationType {
+export enum AnimationType {
   DRAW = 'draw',
   TRANSFORM = 'transform',
   // LAYOUT = 'layout', // 布局没有统一的动画对象，因此不抛出动画事件 | There is no unified animation object for layout, so no animation event is thrown

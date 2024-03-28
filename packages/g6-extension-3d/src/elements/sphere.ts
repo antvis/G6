@@ -1,21 +1,27 @@
-import type { Group } from '@antv/g';
-import { Mesh } from '@antv/g-plugin-3d';
-import type { BaseNode3DStyleProps, MeshStyleProps } from './base-node-3d';
+import type { DisplayObjectConfig } from '@antv/g';
+import type { ProceduralGeometry as GGeometry, SphereGeometryProps } from '@antv/g-plugin-3d';
+import { SphereGeometry } from '@antv/g-plugin-3d';
+import { deepMix } from '@antv/util';
+import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
-export interface SphereStyleProps extends BaseNode3DStyleProps {}
+export type SphereStyleProps = BaseNode3DStyleProps & SphereGeometryProps;
 
-type ParsedSphereStyleProps = Required<SphereStyleProps>;
+export class Sphere extends BaseNode3D<SphereStyleProps> {
+  static defaultStyleProps: Partial<SphereStyleProps> = {
+    // radius
+    size: 24,
+    latitudeBands: 16,
+    longitudeBands: 16,
+  };
 
-export class Sphere extends BaseNode3D {
-  protected drawKeyShape(attributes = this.parsedAttributes, container: Group = this) {
-    return this.upsert('key', Mesh, this.getKeyStyle(attributes), container);
+  constructor(options: DisplayObjectConfig<SphereStyleProps>) {
+    super(deepMix({}, { style: Sphere.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedSphereStyleProps): MeshStyleProps {
-    return {
-      ...super.getKeyStyle(attributes),
-      z: attributes.z || 0,
-    };
+  protected getGeometry(attributes: Required<SphereStyleProps>): GGeometry<any> | undefined {
+    const size = this.getSize();
+    const { radius = size[0] / 2, latitudeBands, longitudeBands } = attributes;
+    return new SphereGeometry(this.device, { radius, latitudeBands, longitudeBands });
   }
 }

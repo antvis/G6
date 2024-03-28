@@ -1,0 +1,33 @@
+import type { DisplayObjectConfig } from '@antv/g';
+import type { CubeGeometryProps, ProceduralGeometry as GGeometry } from '@antv/g-plugin-3d';
+import { CubeGeometry } from '@antv/g-plugin-3d';
+import { deepMix } from '@antv/util';
+import type { BaseNode3DStyleProps } from './base-node-3d';
+import { BaseNode3D } from './base-node-3d';
+
+export type CubeStyleProps = BaseNode3DStyleProps & CubeGeometryProps;
+
+export class Cube extends BaseNode3D<CubeStyleProps> {
+  static defaultStyleProps: Partial<CubeStyleProps> = {
+    widthSegments: 1,
+    heightSegments: 1,
+    depthSegments: 1,
+  };
+
+  constructor(options: DisplayObjectConfig<CubeStyleProps>) {
+    super(deepMix({}, { style: Cube.defaultStyleProps }, options));
+  }
+
+  protected getGeometry(attributes: Required<CubeStyleProps>): GGeometry<any> | undefined {
+    const size = this.getSize();
+    const {
+      width = size[0],
+      height = size[1],
+      depth = size[2],
+      widthSegments,
+      heightSegments,
+      depthSegments,
+    } = attributes;
+    return new CubeGeometry(this.device, { width, height, depth, widthSegments, heightSegments, depthSegments });
+  }
+}

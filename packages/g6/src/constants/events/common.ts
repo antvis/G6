@@ -1,4 +1,4 @@
-export const enum CommonEvent {
+export enum CommonEvent {
   /** <zh/> 点击时触发 | <en/> Triggered when click */
   CLICK = 'click',
   /** <zh/> 双击时触发 | <en/> Triggered when double click */

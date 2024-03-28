@@ -42,6 +42,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^23.2.0",
+    "lil-gui": "^0.19.2",
     "limit-size": "^0.1.4",
     "lint-staged": "^15.2.2",
     "lodash": "^4.17.21",
@@ -54,8 +55,10 @@
     "rollup": "^4.12.0",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-visualizer": "^5.12.0",
+    "stats.js": "^0.17.0",
     "ts-jest": "^29.1.2",
     "turbo": "^1.12.4",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vite": "^5.1.5"
   }
 }
