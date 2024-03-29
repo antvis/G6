@@ -26,6 +26,10 @@ describe('edge polyline', () => {
     graph = await createDemoGraph(edgePolyline, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('Control Points', async () => {
     updateEdgeStyle(graph, 'edge-1', 'controlPoints', [[300, 190]]);
 

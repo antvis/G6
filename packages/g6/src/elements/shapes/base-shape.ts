@@ -148,4 +148,10 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     const { visibility } = this.attributes;
     setVisibility(this, visibility);
   }
+
+  public destroy(): void {
+    this.shapeMap = {};
+    this.animateMap = {};
+    super.destroy();
+  }
 }

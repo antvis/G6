@@ -381,7 +381,11 @@ export class LayoutController {
   public destroy() {
     this.stopLayout();
     // @ts-expect-error force delete
-    delete this.context;
+    this.context = {};
+    this.supervisor?.kill();
+    this.supervisor = undefined;
+    this.instance = undefined;
+    this.animationResult = undefined;
   }
 }
 

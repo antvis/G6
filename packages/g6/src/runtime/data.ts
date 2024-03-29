@@ -759,7 +759,7 @@ export class DataController {
     model.removeNodes(nodes.map((node) => node.id));
 
     // @ts-expect-error force delete
-    delete this.context;
+    this.context = {};
   }
 }
 

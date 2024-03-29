@@ -27,7 +27,7 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
     const container = this.context.canvas.getContainer();
     if (container) {
       [ContainerEvent.KEY_DOWN, ContainerEvent.KEY_UP].forEach((name) => {
-        container.addEventListener(name, this.forwardContainerEvents.bind(this));
+        container.addEventListener(name, this.forwardContainerEvents);
       });
     }
 
@@ -105,7 +105,18 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
     }
   };
 
-  private forwardContainerEvents(event: FocusEvent | KeyboardEvent) {
+  private forwardContainerEvents = (event: FocusEvent | KeyboardEvent) => {
     this.context.graph.emit(event.type, event);
+  };
+
+  public destroy(): void {
+    const container = this.context.canvas.getContainer();
+    if (container) {
+      [ContainerEvent.KEY_DOWN, ContainerEvent.KEY_UP].forEach((name) => {
+        container.removeEventListener(name, this.forwardContainerEvents);
+      });
+    }
+    this.context.canvas.document.removeAllEventListeners();
+    super.destroy();
   }
 }

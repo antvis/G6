@@ -25,6 +25,10 @@ describe('element port', () => {
     graph = await createDemoGraph(elementPort, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename, 'port_hidden');
   });

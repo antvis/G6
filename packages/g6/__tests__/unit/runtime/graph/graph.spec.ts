@@ -316,7 +316,7 @@ describe('Graph', () => {
   it('destroy', () => {
     graph.destroy();
     // @ts-expect-error context is private.
-    expect(graph.context).toBeUndefined();
+    expect(graph.context).toEqual({});
     expect(graph.destroyed).toBe(true);
   });
 });

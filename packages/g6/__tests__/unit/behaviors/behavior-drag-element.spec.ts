@@ -10,6 +10,10 @@ describe('behavior drag element', () => {
     graph = await createDemoGraph(behaviorDragNode, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename);
 

@@ -9,6 +9,10 @@ describe('element visibility', () => {
     graph = await createDemoGraph(elementVisibility, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename);
   });

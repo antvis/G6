@@ -9,6 +9,10 @@ describe('behavior drag combo', () => {
     graph = await createDemoGraph(comboExpandCollapse, { animation: false });
   });
 
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('default status', async () => {
     graph.setBehaviors([{ type: 'drag-element', dropEffect: 'link' }]);
     graph.expand('combo-1');
