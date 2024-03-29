@@ -34,9 +34,9 @@ export interface CreateEdgeOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 成功创建边回调
    *
-   * <en/> Callback when dragging is completed
+   * <en/> Callback when create is completed.
    */
-  onfinish?: (edgeId: ID, targetId: ID, sourceId: ID) => void;
+  onFinish?: (edgeId: ID, targetId: ID, sourceId: ID) => void;
 }
 
 export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
@@ -45,7 +45,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     enable: true,
     edgeConfig: {},
     trigger: 'drag',
-    onfinish: () => {},
+    onFinish: () => {},
   };
 
   public source: ID | null = null;
@@ -136,7 +136,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
   private createEdge = (event: BehaviorEvent<FederatedMouseEvent>) => {
     const { graph } = this.context;
-    const { edgeConfig, onfinish } = this.options;
+    const { edgeConfig, onFinish } = this.options;
     const targetId = event.target?.id;
 
     if (!targetId || !this.source) return;
@@ -155,7 +155,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
       },
     ]);
 
-    onfinish(id, this.source, target);
+    onFinish(id, this.source, target);
   };
 
   private cancelEdge = async () => {
