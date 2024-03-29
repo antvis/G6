@@ -1,16 +1,11 @@
-import { Graph, extend, Extensions } from '@antv/g6';
-
-const ExtGraph = extend(Graph, {
-  behaviors: {
-    'create-edge': Extensions.CreateEdge,
-  },
-});
+import { Graph } from '@antv/g6';
 
 const container = document.getElementById('container');
 
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 30;
-const graph = new ExtGraph({
+
+const graph = new Graph({
   container: 'container',
   width,
   height,
@@ -54,39 +49,16 @@ const graph = new ExtGraph({
       { id: 'edge6', source: 'node4', target: 'node5', data: {} },
     ],
   },
-  modes: {
-    default: [
-      {
-        key: 'create-edge-behavior-key',
-        type: 'create-edge',
-        trigger: 'click',
-        edgeConfig: { keyShape: { lineDash: [5, 5] } },
-        createVirtualEventName: 'begincreate',
-        createActualEventName: 'aftercreate',
-        cancelCreateEventName: 'cancelcreate',
-      },
-    ],
-  },
+  behaviors: [{
+    type: 'create-edge',
+    trigger: 'click',
+    edgeConfig: {
+      color: 'red',
+      lineWidth: 2,
+    },
+  }],
 });
 
-graph.on('begincreate', (e) => {
-  console.log('bgin');
-  graph.setCursor('crosshair');
-});
-graph.on('aftercreate', (e) => {
-  const { edge } = e;
-  console.log('finish', edge.id, graph.getEdgeData(edge.id));
-  graph.updateData('edge', {
-    id: edge.id,
-    data: {
-      keyShape: {
-        lineDash: ['100%', 0],
-      },
-    },
-  });
-});
-graph.on('cancelcreate', (e) => {
-  graph.setCursor('default');
-});
+graph.render();
 
 window.graph = graph;

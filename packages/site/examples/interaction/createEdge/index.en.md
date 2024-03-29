@@ -3,8 +3,9 @@ title: Create Edge
 order: 8
 ---
 
-G6 provides create-edge interactions that support creating edges using either click or drag actions.
+G6 provides built-in node node, combo group click or drag to create edge function, you can `edgeConfig` edge configuration.
 
-## Usage
+## 如何使用
 
-The create-edge interaction is provided by the official G6 library, but it is not registered by default. It needs to be imported into the code and registered with the `extend` method, and then you could configured it to the graph instance.
+- click create: Built-in interaction `create-element`, configure `trigger: click` to use.
+- drag creation: Built-in interaction `create-element`, configuration `trigger: drag` to use.

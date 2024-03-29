@@ -3,8 +3,9 @@ title: 创建边
 order: 8
 ---
 
-G6 提供了创建边交互，支持使用点击或拖拽的方式创建边。
+G6 提供内置的 node 节点、combo 群组的点击或拖拽创建边功能，可以通过 `edgeConfig` 进行边的配置。
 
-## 使用指南
+## 如何使用
 
-创建边交互是官方提供的，但不是默认被注册的，需要引用到代码中后使用 `extend` 注册到 Graph 中后方可配置到图实例中。在此 demo 中。
+- 点击创建：内置交互 `'create-element'` ,配置 `trigger: click` 使用。
+- 拖拽创建：内置交互 `'create-element'` ,配置 `trigger: drag` 使用。

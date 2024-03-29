@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="combo1" fill="none" transform="matrix(1,0,0,1,300,150)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(253,253,253,1)" transform="translate(-72.80109889280519,-72.80109889280519)" cx="72.80109889280519" cy="72.80109889280519" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="72.80109889280519"/>
+          </g>
+        </g>
+        <g id="combo2" fill="none" transform="matrix(1,0,0,1,250,300)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(253,253,253,1)" transform="translate(-28.284271247461902,-28.284271247461902)" cx="28.284271247461902" cy="28.284271247461902" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="28.284271247461902"/>
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)"/>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="node1" fill="none" transform="matrix(1,0,0,1,250,150)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" r="10"/>
+          </g>
+        </g>
+        <g id="node2" fill="none" transform="matrix(1,0,0,1,350,150)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" r="10"/>
+          </g>
+        </g>
+        <g id="node3" fill="none" transform="matrix(1,0,0,1,250,300)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" r="10"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
