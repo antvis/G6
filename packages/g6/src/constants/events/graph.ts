@@ -1,4 +1,4 @@
-export const enum GraphEvent {
+export enum GraphEvent {
   /** <zh/> 视口尺寸变更之前 | <en/> Before the viewport size changes */
   BEFORE_SIZE_CHANGE = 'beforesizechange',
   /** <zh/> 视口尺寸变更之后 | <en/> After the viewport size changes */

@@ -1,4 +1,4 @@
-export const enum NodeEvent {
+export enum NodeEvent {
   /** <zh/> 点击时触发 | <en/> Triggered when click */
   CLICK = 'click',
   /** <zh/> 双击时触发 | <en/> Triggered when double click */

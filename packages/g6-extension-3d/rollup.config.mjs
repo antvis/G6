@@ -7,7 +7,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 
 const isBundleVis = !!process.env.BUNDLE_VIS;
 
-export default[
+export default [
   {
     input: 'src/index.ts',
     output: {
@@ -16,6 +16,15 @@ export default[
       format: 'umd',
       sourcemap: false,
     },
-    plugins: [nodePolyfills(), resolve(), commonjs(), typescript(), terser(), ...(isBundleVis ? [visualizer()] : [])],
+    plugins: [
+      nodePolyfills(),
+      resolve(),
+      commonjs(),
+      typescript({
+        tsconfig: 'tsconfig.build.json',
+      }),
+      terser(),
+      ...(isBundleVis ? [visualizer()] : []),
+    ],
   },
 ];
