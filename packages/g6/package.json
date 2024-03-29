@@ -49,7 +49,7 @@
     "size": "limit-size",
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
     "tag": "node ./scripts/tag.mjs",
-    "test": "npm run jest __tests__/unit/plugins/legend.spec.ts",
+    "test": "npm run jest __tests__",
     "test:integration": "npm run jest __tests__/integration",
     "test:unit": "npm run jest __tests__/unit",
     "type-check": "tsc --noEmit"

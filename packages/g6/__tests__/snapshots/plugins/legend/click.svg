@@ -133,7 +133,7 @@
                         <g
                           id="g-svg-276"
                           fill="none"
-                          transform="matrix(0.734835,0,0,0.734835,8,15.500000)"
+                          transform="matrix(0.911612,0,0,0.911612,8,15.500000)"
                           class="legend-category-item-marker-group"
                         >
                           <g
@@ -148,8 +148,8 @@
                                 fill="rgba(255,0,0,1)"
                                 class="marker path-marker"
                                 d="M 0,8 L 8,0 L 16,8 L 8,16 Z"
-                                stroke-width="3"
-                                stroke="rgba(0,0,0,1)"
+                                stroke-width="1"
+                                stroke="rgba(255,0,0,1)"
                                 visibility="visible"
                               />
                             </g>
