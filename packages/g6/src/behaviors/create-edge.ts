@@ -1,10 +1,9 @@
 import type { FederatedMouseEvent } from '@antv/g';
-
-import { ID } from '@antv/graphlib';
+import type { ID } from '@antv/graphlib';
 import { isFunction, uniqueId } from '@antv/util';
 import { CommonEvent } from '../constants';
-
 import type { RuntimeContext } from '../runtime/types';
+import type { EdgeStyle } from '../spec/element/edge';
 import type { BehaviorEvent } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
@@ -24,7 +23,7 @@ export interface CreateEdgeOptions extends BaseBehaviorOptions {
    *
    * <en/> edge config.
    */
-  edgeConfig?: any;
+  edgeConfig?: EdgeStyle;
   /**
    * <zh/> 交互配置 点击 或 拖拽
    *
@@ -118,8 +117,8 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
         source: this.source,
         target: ASSIST_NODE_ID,
         style: {
+          pointerEvents: 'none',
           ...edgeConfig,
-          pointerEvents: false,
         },
       },
     ]);
@@ -131,7 +130,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
     model.translateNodeTo(ASSIST_NODE_ID, [event.canvas.x, event.canvas.y]);
 
-    await element!.draw({ animation: false });
+    await element!.draw({ animation: false, silence: true });
   };
 
   private createEdge = (event: BehaviorEvent<FederatedMouseEvent>) => {
@@ -167,7 +166,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
     this.source = null;
 
-    await element!.draw({ animation: false });
+    await element!.draw({ animation: false, silence: true });
   };
 
   private getSelectedNodeIDs(currTarget: ID[]) {

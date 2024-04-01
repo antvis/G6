@@ -35,4 +35,8 @@ describe('behavior create edge click', () => {
     graph.emit(`combo:${CommonEvent.CLICK}`, { target: { id: 'combo2' }, targetType: 'combo' });
     await expect(graph).toMatchSnapshot(__filename, 'click-edge4-combo');
   });
+
+  afterAll(() => {
+    graph.destroy();
+  });
 });

@@ -35,4 +35,8 @@ describe('behavior create edge drag', () => {
     graph.emit(CommonEvent.POINTER_UP, { target: { id: 'combo2' }, targetType: 'combo' });
     await expect(graph).toMatchSnapshot(__filename, 'drag-edge4-combo');
   });
+
+  afterAll(() => {
+    graph.destroy();
+  });
 });
