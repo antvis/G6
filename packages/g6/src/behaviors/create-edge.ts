@@ -55,6 +55,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   }
 
   public update(options: Partial<CreateEdgeOptions>): void {
+    this.unbindEvents();
     super.update(options);
     this.bindEvents();
   }
