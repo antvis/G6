@@ -47,7 +47,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when zooming is completed
    */
-  onfinish?: () => void;
+  onFinish?: () => void;
 }
 
 type CombinationKey = {
@@ -107,7 +107,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    * @param event - <zh/> 事件对象 | <en/> Event object
    * @param animation - <zh/> 缩放动画配置 | <en/> Zoom animation configuration
    */
-  private zoom = async (
+  protected zoom = async (
     value: number,
     event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>,
     animation: ZoomCanvasOptions['animation'],
@@ -120,19 +120,19 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
       origin = parsePoint(event.viewport as PointLike);
     }
 
-    const { sensitivity, onfinish } = this.options;
+    const { sensitivity, onFinish } = this.options;
     const ratio = 1 + (clamp(value, -50, 50) * sensitivity) / 100;
     const zoom = graph.getZoom();
     await graph.zoomTo(zoom * ratio, animation, origin);
 
-    onfinish?.();
+    onFinish?.();
   };
 
-  private onReset = async () => {
+  protected onReset = async () => {
     await this.context.graph.zoomTo(1, this.options.animation);
   };
 
-  private validate(event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) {
+  protected validate(event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
