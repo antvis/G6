@@ -47,6 +47,7 @@ export * from './layout-radial-prevent-overlap-unstrict';
 export * from './layout-radial-sort';
 export * from './plugin-contextmenu';
 export * from './plugin-grid-line';
+export * from './plugin-minimap';
 export * from './plugin-toolbar-build-in';
 export * from './plugin-toolbar-iconfont';
 export * from './plugin-tooltip';

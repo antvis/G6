@@ -167,6 +167,10 @@ export class Canvas {
     return this.main.getCamera();
   }
 
+  public getRoot() {
+    return this.document.documentElement;
+  }
+
   public getBounds() {
     return getCombinedBBox(
       Object.values(this.canvas)

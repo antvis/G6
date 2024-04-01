@@ -1,5 +1,6 @@
 import type {
   BaseStyleProps,
+  DisplayObject,
   DisplayObjectConfig,
   Group,
   ImageStyleProps,
@@ -237,6 +238,14 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     }
 
     return result;
+  }
+
+  /**
+   * Get the key shape for the node.
+   * @returns Key shape.
+   */
+  public getKey(): DisplayObject {
+    return this.shapeMap.key;
   }
 }
 

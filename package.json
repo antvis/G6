@@ -3,6 +3,7 @@
   "private": true,
   "repository": "https://github.com/antvis/G6.git",
   "scripts": {
+    "dev": "pnpm --stream --filter=@antv/g6 run dev ",
     "site": "pnpm -r --stream --filter=./packages/site run dev",
     "watch": "pnpm -r --stream --filter=!./site run start",
     "postinstall": "husky install",
