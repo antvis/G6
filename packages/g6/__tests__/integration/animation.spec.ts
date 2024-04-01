@@ -1,3 +1,4 @@
+import '@/src/preset';
 import { createGraphCanvas, getCases, sleep } from '@@/utils';
 import * as animationCases from '../demo/animation';
 

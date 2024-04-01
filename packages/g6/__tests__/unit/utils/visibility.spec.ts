@@ -1,4 +1,4 @@
-import { BaseShape } from '@/src/elements/shapes/base-shape';
+import { BaseShape } from '@/src';
 import { Circle } from '@antv/g';
 
 class Shape extends BaseShape<{ visibility: 'visible' | 'hidden' }> {
