@@ -1,5 +1,7 @@
+import { ExtensionCategory } from '../constants';
+import type { Loosen } from '../types';
 import { BUILT_IN_EXTENSIONS } from './build-in';
-import type { ExtensionCategory, ExtensionRegistry } from './types';
+import type { ExtensionRegistry } from './types';
 
 /**
  * <zh/> 扩展注册表
@@ -48,7 +50,11 @@ const EXTENSION_REGISTRY: ExtensionRegistry = {
  * ```
  * @public
  */
-export function register<T extends ExtensionCategory>(category: T, type: string, Ctor: ExtensionRegistry[T][string]) {
+export function register<T extends ExtensionCategory>(
+  category: Loosen<T>,
+  type: string,
+  Ctor: ExtensionRegistry[T][string],
+) {
   if (EXTENSION_REGISTRY[category]![type]) {
     console.error(`The extension ${type} of ${category} has been registered before.`);
     return;
@@ -66,7 +72,7 @@ export function register<T extends ExtensionCategory>(category: T, type: string,
  * @internal
  */
 export function getExtension<T extends ExtensionCategory>(
-  category: T,
+  category: Loosen<T>,
   type: string,
 ): ExtensionRegistry[T][string] | undefined {
   const extension = EXTENSION_REGISTRY[category]?.[type];

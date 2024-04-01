@@ -22,10 +22,3 @@ export interface ExtensionRegistry {
   plugin: Record<string, { new (...args: any[]): Plugin }>;
   animation: Record<string, STDAnimation>; // animation spec
 }
-
-/**
- * <zh/> 扩展分类
- *
- * <en/> Extension category
- */
-export type ExtensionCategory = keyof ExtensionRegistry;
