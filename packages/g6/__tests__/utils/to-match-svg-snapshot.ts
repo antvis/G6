@@ -2,7 +2,6 @@ import type { Graph } from '@/src';
 import { Canvas } from '@antv/g';
 import * as fs from 'fs';
 import * as path from 'path';
-import { format } from 'prettier';
 import xmlserializer from 'xmlserializer';
 import { getSnapshotDir } from './dir';
 import { sleep } from './sleep';
@@ -45,14 +44,7 @@ export async function toMatchSVGSnapshot(
     gRoot?.append(...(dom.querySelector('#g-root')?.childNodes || []));
   });
 
-  actual += svg
-    ? formatSVG(
-        await format(xmlserializer.serializeToString(svg as any), {
-          parser: 'babel',
-        }),
-        keepSVGElementId,
-      )
-    : 'null';
+  actual += svg ? formatSVG(xmlserializer.serializeToString(svg as any), keepSVGElementId) : 'null';
 
   // Remove ';' after format by babel.
   if (actual !== 'null') actual = actual.slice(0, -2);
