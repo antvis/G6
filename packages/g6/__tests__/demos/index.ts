@@ -14,6 +14,7 @@ export * from './behavior-focus-element';
 export * from './behavior-hover-element';
 export * from './behavior-lasso-select';
 export * from './behavior-zoom-canvas';
+export * from './behavior-scroll-canvas';
 export * from './combo';
 export * from './combo-expand-collapse';
 export * from './common-graph';

@@ -10,6 +10,7 @@ export { FocusElement } from './focus-element';
 export { HoverElement } from './hover-element';
 export { LassoSelect } from './lasso-select';
 export { ZoomCanvas } from './zoom-canvas';
+export { ScrollCanvas } from './scroll-canvas';
 
 export type { BaseBehaviorOptions } from './base-behavior';
 export type { BrushSelectOptions } from './brush-select';
@@ -23,3 +24,4 @@ export type { FocusElementOptions } from './focus-element';
 export type { HoverElementOptions } from './hover-element';
 export type { LassoSelectOptions } from './lasso-select';
 export type { ZoomCanvasOptions } from './zoom-canvas';
+export type { ScrollCanvasOptions } from './scroll-canvas';
