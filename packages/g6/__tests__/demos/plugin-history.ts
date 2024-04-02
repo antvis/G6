@@ -46,15 +46,30 @@ export const pluginHistory: STDTestCase = async (context) => {
       element: 'node-1',
       visible: true,
       add: () => {
-        graph.addNodeData([{ id: 'node-5', style: { x: 200, y: 200 } }]);
+        graph.addData({
+          nodes: [{ id: 'node-5', style: { x: 200, y: 100, color: 'pink' } }],
+          edges: [{ source: 'node-1', target: 'node-5', style: { color: 'brown' } }],
+        });
+        graph.draw();
+      },
+      update: () => {
+        graph.updateData({
+          nodes: [{ id: 'node-1', style: { x: 150, y: 100, color: 'red' } }],
+          edges: [{ id: 'edge-1', style: { color: 'green' } }],
+        });
         graph.draw();
       },
       remove: () => {
-        // graph.removeComboData(['combo-1', 'combo-2']);
-        graph.removeNodeData(['node-5']);
-
+        graph.removeData({
+          nodes: ['node-1'],
+          edges: ['edge-1'],
+        });
         graph.draw();
       },
+      collapse: () => graph.collapse('combo-2'),
+      expand: () => graph.expand('combo-1'),
+      state: () => graph.setElementState('node-1', 'selected', true),
+      zIndex: () => graph.setElementZIndex('combo-2', 100),
       undo: () => (graph as IGraphWithHistory).undo(),
       redo: () => (graph as IGraphWithHistory).redo(),
     };
@@ -66,8 +81,13 @@ export const pluginHistory: STDTestCase = async (context) => {
       });
     return [
       visible,
-      panel.add(config, 'add').name('add node-5'),
-      panel.add(config, 'remove').name('remove node-5'),
+      panel.add(config, 'add').name('add'),
+      panel.add(config, 'update').name('update'),
+      panel.add(config, 'remove').name('remove'),
+      panel.add(config, 'collapse').name('collapse combo2'),
+      panel.add(config, 'expand').name('expand combo1'),
+      panel.add(config, 'state').name('set node1 selected'),
+      panel.add(config, 'zIndex').name('front combo2'),
       panel.add(config, 'undo'),
       panel.add(config, 'redo'),
     ];

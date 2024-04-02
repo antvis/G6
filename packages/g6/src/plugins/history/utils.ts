@@ -1,8 +1,10 @@
 import { isObject } from '@antv/util';
+import { RuntimeContext } from '../../runtime/types';
 import type { GraphData } from '../../spec';
 import type { DataChange, DataChanges, ElementDatum } from '../../types';
 import { inferDefaultValue } from '../../utils/animation';
 import { groupByChangeType, reduceDataChanges } from '../../utils/change';
+import { idOf } from '../../utils/id';
 
 export type Command = {
   current: CommandData;
@@ -40,13 +42,14 @@ export function alignFields(refObject: Record<string, any>, targetObject: Record
  * <en/> Parse data changes into history commands
  * @param changes - <zh/> 数据变更 ｜ <en/> Data changes
  * @param animation - <zh/> 是否开启动画 ｜ <en/> Whether to enable animation
+ * @param context - <zh/> 运行时上下文 ｜ <en/> Runtime context
  * @returns <zh/> 历史记录命令 ｜ <en/> History command
  */
-export function parseCommand(changes: DataChange[], animation = false): Command {
+export function parseCommand(changes: DataChange[], animation = false, context?: RuntimeContext): Command {
   const cmd = {
     animation,
-    current: { add: [], update: [], remove: [] },
-    original: { add: [], update: [], remove: [] },
+    current: { add: {}, update: {}, remove: {} },
+    original: { add: {}, update: {}, remove: {} },
   } as Command;
 
   const { add, update, remove } = groupByChangeType(reduceDataChanges(changes));
@@ -55,7 +58,13 @@ export function parseCommand(changes: DataChange[], animation = false): Command 
     if (update[category]) {
       update[category].forEach((item: DataChanges['update'][typeof category][number]) => {
         const newValue = { ...item.value };
-        const newOriginal = { ...item.original };
+        let newOriginal = { ...item.original };
+        if (context) {
+          // 特殊处理：获取元素原始 color
+          const itemType = context.graph.getElementType(idOf(item.original));
+          const { color } = context.element!.getElementComputedStyle(itemType, item.original);
+          newOriginal = { ...item.original, style: { color, ...item.original.style } } as ElementDatum;
+        }
         alignFields(newValue, newOriginal);
         cmd.current.update[category] ||= [];
         (cmd.current.update[category] as ElementDatum[]).push(newValue);

@@ -454,8 +454,8 @@ export class DataController {
           model.updateEdgeTarget(id, modifiedEdge.target);
         }
         const updatedData = mergeElementsData(originalEdge, modifiedEdge);
-        model.mergeEdgeData(id, updatedData);
         this.pushChange({ value: updatedData, original: originalEdge, type: ChangeTypeEnum.EdgeUpdated });
+        model.mergeEdgeData(id, updatedData);
       });
     });
   }
