@@ -23,7 +23,7 @@ export interface CreateEdgeOptions extends BaseBehaviorOptions {
    *
    * <en/> edge config.
    */
-  edgeConfig?: EdgeStyle;
+  edgeStyle?: EdgeStyle;
   /**
    * <zh/> 交互配置 点击 或 拖拽
    *
@@ -42,7 +42,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   static defaultOptions: Partial<CreateEdgeOptions> = {
     animation: true,
     enable: true,
-    edgeConfig: {},
+    edgeStyle: {},
     trigger: 'drag',
     onFinish: () => {},
   };
@@ -63,7 +63,6 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   private bindEvents() {
     const { graph } = this.context;
     const { trigger } = this.options;
-    this.unbindEvents();
 
     if (trigger === 'click') {
       graph.on(`node:${CommonEvent.CLICK}`, this.handleCreateEdge);
@@ -91,7 +90,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   private handleCreateEdge = async (event: BehaviorEvent<FederatedMouseEvent>) => {
     if (!this.validate(event)) return;
     const { graph, canvas } = this.context;
-    const { edgeConfig } = this.options;
+    const { edgeStyle } = this.options;
 
     if (this.source) {
       this.createEdge(event);
@@ -119,7 +118,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
         target: ASSIST_NODE_ID,
         style: {
           pointerEvents: 'none',
-          ...edgeConfig,
+          ...edgeStyle,
         },
       },
     ]);
@@ -136,7 +135,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
   private createEdge = (event: BehaviorEvent<FederatedMouseEvent>) => {
     const { graph } = this.context;
-    const { edgeConfig, onFinish } = this.options;
+    const { edgeStyle, onFinish } = this.options;
     const targetId = event.target?.id;
 
     if (!targetId || !this.source) return;
@@ -150,7 +149,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
         source: this.source,
         target,
         style: {
-          ...edgeConfig,
+          ...edgeStyle,
         },
       },
     ]);
