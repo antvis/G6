@@ -27,6 +27,7 @@ export const pluginLegend: TestCase = async (context) => {
     node: {
       style: {
         labelText: (d) => d.id,
+        lineWidth: 0,
         type: (item: any) => {
           if (item.data.cluster === 'a') return 'diamond';
           if (item.data.cluster === 'b') return 'rect';

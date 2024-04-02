@@ -36,7 +36,7 @@ export class Legend extends BasePlugin<LegendOptions> {
   static defaultOptions: Partial<LegendOptions> = {
     position: 'bottom',
     trigger: 'hover',
-    orientaion: 'horizontal',
+    orientation: 'horizontal',
     layout: 'flex',
     itemSpacing: 4,
     rowPadding: 10,
@@ -53,6 +53,7 @@ export class Legend extends BasePlugin<LegendOptions> {
     combo: new Map<string, ID[]>(),
   };
   private selectedItems: string[] = [];
+
   constructor(context: RuntimeContext, options: LegendOptions) {
     super(context, Object.assign({}, Legend.defaultOptions, options));
     this.bindEvents();

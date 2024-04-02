@@ -1,8 +1,8 @@
-// @ts-nocheck
-import { pluginLegend } from '@@/demo/case';
+import { Legend } from '@/src/plugins/legend';
+import { pluginLegend } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
-const mockEvent = {
+const mockEvent: any = {
   __data__: {
     id: 'node__0',
     index: 0,
@@ -31,7 +31,9 @@ describe('plugin legend', () => {
 
   it('click', async () => {
     const graph = await createDemoGraph(pluginLegend);
-    const legend = graph.context.plugin.extensionMap['legend'];
+
+    const legend = graph.getPluginInstance<Legend>('legend');
+
     legend.click(mockEvent);
     await expect(graph).toMatchSnapshot(__filename, 'click');
     legend.click(mockEvent);
@@ -53,7 +55,9 @@ describe('plugin legend', () => {
         return plugin;
       }),
     );
-    const legend = graph.context.plugin.extensionMap['legend'];
+
+    const legend = graph.getPluginInstance<Legend>('legend');
+
     legend.mouseenter(mockEvent);
     await expect(graph).toMatchSnapshot(__filename, 'mouseenter');
     legend.mouseleave(mockEvent);
