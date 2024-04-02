@@ -4,19 +4,19 @@ import {
   layoutCircularDegree,
   layoutCircularDivision,
   layoutCircularSpiral,
-} from '@@/demo/case';
+} from '@/__tests__/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('layout circular', () => {
   it('layoutCircularBasic', async () => {
     const graph = await createDemoGraph(layoutCircularBasic);
-    await expect(graph).toMatchSnapshot(__filename, 'layout-circular-basic');
+    await expect(graph).toMatchSnapshot(__filename, 'basic');
     graph.destroy();
   });
 
   it('layoutCircularConfigurationTranslate', async () => {
     const graph = await createDemoGraph(layoutCircularConfigurationTranslate);
-    await expect(graph).toMatchSnapshot(__filename, 'layout-circular-configuration-translate');
+    await expect(graph).toMatchSnapshot(__filename, 'configuration-translate');
 
     graph.setLayout({
       type: 'circular',
@@ -28,25 +28,25 @@ describe('layout circular', () => {
     }),
       await graph.layout();
 
-    await expect(graph).toMatchSnapshot(__filename, 'layout-circular-configuration-translate-division');
+    await expect(graph).toMatchSnapshot(__filename, 'configuration-translate-division');
     graph.destroy();
   });
 
   it('layoutCircularDegree', async () => {
     const graph = await createDemoGraph(layoutCircularDegree);
-    await expect(graph).toMatchSnapshot(__filename, 'layout-circular-degree');
+    await expect(graph).toMatchSnapshot(__filename, 'degree');
     graph.destroy();
   });
 
   it('layoutCircularDivision', async () => {
     const graph = await createDemoGraph(layoutCircularDivision);
-    await expect(graph).toMatchSnapshot(__filename, 'layout-circular-division');
+    await expect(graph).toMatchSnapshot(__filename, 'division');
     graph.destroy();
   });
 
   it('layoutCircularSpiral', async () => {
     const graph = await createDemoGraph(layoutCircularSpiral);
-    await expect(graph).toMatchSnapshot(__filename, 'layout-circular-spiral');
+    await expect(graph).toMatchSnapshot(__filename, 'spiral');
     graph.destroy();
   });
 });

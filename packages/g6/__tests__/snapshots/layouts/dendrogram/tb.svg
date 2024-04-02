@@ -1,1007 +1,228 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="500"
-  height="500"
-  style="background: transparent; position: absolute; outline: none;"
-  color-interpolation-filters="sRGB"
-  tabindex="1"
->
-  <defs />
-  <g
-    id="g-svg-camera"
-    transform="matrix(0.508130,0,0,0.508130,274.390228,145.660583)"
-  >
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g id="g-svg-camera" transform="matrix(0.508130,0,0,0.508130,274.390228,145.660583)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)"/>
       <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="Modeling Methods-Classification"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Modeling Methods-Classification"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Modeling Methods-Classification" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Modeling Methods-Classification" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-388,-42)">
-            <path
-              id="key"
-              fill="none"
-              d="M 370,0 C 370 88,0 88,0 176"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 370,0 C 370 88,0 88,0 176" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Modeling Methods-Consensus"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Modeling Methods-Consensus"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Modeling Methods-Consensus" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Modeling Methods-Consensus" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-18,-42)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,60 38,60 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,60 38,60 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Modeling Methods-Regression"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Modeling Methods-Regression"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Modeling Methods-Regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Modeling Methods-Regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-18,-42)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 88,370 88,370 176"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 88,370 88,370 176" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Classification-Logistic regression"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Classification-Logistic regression"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Classification-Logistic regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Logistic regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-528,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 140,0 C 140 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 140,0 C 140 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Classification-Linear discriminant analysis"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Classification-Linear discriminant analysis"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Classification-Linear discriminant analysis" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Linear discriminant analysis" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-488,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 100,0 C 100 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 100,0 C 100 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Classification-Rules"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Classification-Rules"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Classification-Rules" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Rules" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-448,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 60,0 C 60 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 60,0 C 60 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Classification-Decision trees"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Classification-Decision trees"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Classification-Decision trees" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Decision trees" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-408,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 20,0 C 20 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 20,0 C 20 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Classification-Naive Bayes"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Classification-Naive Bayes"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Classification-Naive Bayes" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Naive Bayes" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-388,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,20 38,20 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,20 38,20 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Classification-K nearest neighbor"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Classification-K nearest neighbor"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Classification-K nearest neighbor" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-K nearest neighbor" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-388,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,60 38,60 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,60 38,60 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Classification-Probabilistic neural network"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Classification-Probabilistic neural network"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Classification-Probabilistic neural network" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Probabilistic neural network" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-388,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,100 38,100 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,100 38,100 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Classification-Support vector machine"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Classification-Support vector machine"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Classification-Support vector machine" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Support vector machine" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-388,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,140 38,140 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,140 38,140 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Consensus-Models diversity"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Consensus-Models diversity"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Consensus-Models diversity" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Consensus-Models diversity" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-98,58)">
-            <path
-              id="key"
-              fill="none"
-              d="M 140,0 C 140 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 140,0 C 140 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Consensus-Methods"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Consensus-Methods"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Consensus-Methods" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Consensus-Methods" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,42,58)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,30 38,30 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,30 38,30 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Consensus-Common"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Consensus-Common"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Consensus-Common" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Consensus-Common" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,42,58)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,140 38,140 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,140 38,140 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Models diversity-Different initializations"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Models diversity-Different initializations"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Models diversity-Different initializations" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different initializations" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-198,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 100,0 C 100 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 100,0 C 100 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Models diversity-Different parameter choices"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Models diversity-Different parameter choices"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Models diversity-Different parameter choices" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different parameter choices" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-158,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 60,0 C 60 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 60,0 C 60 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Models diversity-Different architectures"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Models diversity-Different architectures"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Models diversity-Different architectures" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different architectures" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-118,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 20,0 C 20 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 20,0 C 20 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Models diversity-Different modeling methods"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Models diversity-Different modeling methods"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Models diversity-Different modeling methods" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different modeling methods" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-98,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,20 38,20 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,20 38,20 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Models diversity-Different training sets"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Models diversity-Different training sets"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Models diversity-Different training sets" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different training sets" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-98,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,60 38,60 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,60 38,60 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Models diversity-Different feature sets"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Models diversity-Different feature sets"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Models diversity-Different feature sets" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different feature sets" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,-98,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,100 38,100 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,100 38,100 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Methods-Classifier selection"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Methods-Classifier selection"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Methods-Classifier selection" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Methods-Classifier selection" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,52,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 20,0 C 20 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 20,0 C 20 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Methods-Classifier fusion"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Methods-Classifier fusion"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Methods-Classifier fusion" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Methods-Classifier fusion" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,72,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,20 38,20 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,20 38,20 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Common-Bagging"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Common-Bagging"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Common-Bagging" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Common-Bagging" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,142,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 40,0 C 40 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 40,0 C 40 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Common-Boosting"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Common-Boosting"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Common-Boosting" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Common-Boosting" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,182,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Common-AdaBoost"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Common-AdaBoost"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Common-AdaBoost" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Common-AdaBoost" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,182,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,40 38,40 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,40 38,40 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Regression-Multiple linear regression"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Regression-Multiple linear regression"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Regression-Multiple linear regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Regression-Multiple linear regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,272,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 80,0 C 80 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 80,0 C 80 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Regression-Partial least squares"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Regression-Partial least squares"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Regression-Partial least squares" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Regression-Partial least squares" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,312,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 40,0 C 40 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 40,0 C 40 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Regression-Multi-layer feed forward neural network"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Regression-Multi-layer feed forward neural network"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Regression-Multi-layer feed forward neural network" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Regression-Multi-layer feed forward neural network" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,352,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,0 38,0 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,0 38,0 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Regression-General regression neural network"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Regression-General regression neural network"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Regression-General regression neural network" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Regression-General regression neural network" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,352,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,40 38,40 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,40 38,40 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g
-          id="Regression-Support vector regression"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="Regression-Support vector regression"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="3"
-          />
+        <g id="Regression-Support vector regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Regression-Support vector regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,352,158)">
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 38,80 38,80 76"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 C 0 0,0 0,0 0"
-              stroke-width="3"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 0,0 C 0 38,80 38,80 76" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
       </g>
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="Modeling Methods"
-          fill="none"
-          transform="matrix(1,0,0,1,-18,-54)"
-        >
+        <g id="Modeling Methods" fill="none" transform="matrix(1,0,0,1,-18,-54)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
                 Modeling Methods
               </text>
             </g>
@@ -1009,94 +230,35 @@
         </g>
         <g id="Classification" fill="none" transform="matrix(1,0,0,1,-388,146)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
                 Classification
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Logistic regression"
-          fill="none"
-          transform="matrix(0,1,-1,0,-528,246)"
-        >
+        <g id="Logistic regression" fill="none" transform="matrix(0,1,-1,0,-528,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000003,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Logistic regression
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Linear discriminant analysis"
-          fill="none"
-          transform="matrix(0,1,-1,0,-488,246)"
-        >
+        <g id="Linear discriminant analysis" fill="none" transform="matrix(0,1,-1,0,-488,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
-          <g
-            id="label"
-            fill="none"
-            transform="matrix(1,0,0,1,-0.000001,11.999978)"
-          >
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000001,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Linear discriminant analysis
               </text>
             </g>
@@ -1104,67 +266,23 @@
         </g>
         <g id="Rules" fill="none" transform="matrix(0,1,-1,0,-448,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
-          <g
-            id="label"
-            fill="none"
-            transform="matrix(1,0,0,1,-0.000015,11.999978)"
-          >
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000015,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Rules
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Decision trees"
-          fill="none"
-          transform="matrix(0,1,-1,0,-408,246)"
-        >
+        <g id="Decision trees" fill="none" transform="matrix(0,1,-1,0,-408,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
-          <g
-            id="label"
-            fill="none"
-            transform="matrix(1,0,0,1,-0.000014,11.999978)"
-          >
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000014,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Decision trees
               </text>
             </g>
@@ -1172,135 +290,47 @@
         </g>
         <g id="Naive Bayes" fill="none" transform="matrix(0,1,-1,0,-368,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
-          <g
-            id="label"
-            fill="none"
-            transform="matrix(1,0,0,1,-0.000013,11.999978)"
-          >
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000013,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Naive Bayes
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="K nearest neighbor"
-          fill="none"
-          transform="matrix(0,1,-1,0,-328,246)"
-        >
+        <g id="K nearest neighbor" fill="none" transform="matrix(0,1,-1,0,-328,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
-          <g
-            id="label"
-            fill="none"
-            transform="matrix(1,0,0,1,-0.000011,11.999978)"
-          >
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000011,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 K nearest neighbor
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Probabilistic neural network"
-          fill="none"
-          transform="matrix(0,1,-1,0,-288,246)"
-        >
+        <g id="Probabilistic neural network" fill="none" transform="matrix(0,1,-1,0,-288,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
-          <g
-            id="label"
-            fill="none"
-            transform="matrix(1,0,0,1,-0.000010,11.999978)"
-          >
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000010,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Probabilistic neural network
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Support vector machine"
-          fill="none"
-          transform="matrix(0,1,-1,0,-248,246)"
-        >
+        <g id="Support vector machine" fill="none" transform="matrix(0,1,-1,0,-248,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000008,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Support vector machine
               </text>
             </g>
@@ -1308,249 +338,95 @@
         </g>
         <g id="Consensus" fill="none" transform="matrix(1,0,0,1,42,46)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
                 Consensus
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Models diversity"
-          fill="none"
-          transform="matrix(1,0,0,1,-98,146)"
-        >
+        <g id="Models diversity" fill="none" transform="matrix(1,0,0,1,-98,146)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
                 Models diversity
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Different initializations"
-          fill="none"
-          transform="matrix(0,1,-1,0,-198,246)"
-        >
+        <g id="Different initializations" fill="none" transform="matrix(0,1,-1,0,-198,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000007,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Different initializations
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Different parameter choices"
-          fill="none"
-          transform="matrix(0,1,-1,0,-158,246)"
-        >
+        <g id="Different parameter choices" fill="none" transform="matrix(0,1,-1,0,-158,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000005,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Different parameter choices
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Different architectures"
-          fill="none"
-          transform="matrix(0,1,-1,0,-118,246)"
-        >
+        <g id="Different architectures" fill="none" transform="matrix(0,1,-1,0,-118,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000004,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Different architectures
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Different modeling methods"
-          fill="none"
-          transform="matrix(0,1,-1,0,-78,246)"
-        >
+        <g id="Different modeling methods" fill="none" transform="matrix(0,1,-1,0,-78,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000003,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Different modeling methods
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Different training sets"
-          fill="none"
-          transform="matrix(0,1,-1,0,-38,246)"
-        >
+        <g id="Different training sets" fill="none" transform="matrix(0,1,-1,0,-38,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000001,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Different training sets
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Different feature sets"
-          fill="none"
-          transform="matrix(0,1,-1,0,2,246)"
-        >
+        <g id="Different feature sets" fill="none" transform="matrix(0,1,-1,0,2,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000015,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Different feature sets
               </text>
             </g>
@@ -1558,90 +434,35 @@
         </g>
         <g id="Methods" fill="none" transform="matrix(1,0,0,1,72,146)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
                 Methods
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Classifier selection"
-          fill="none"
-          transform="matrix(0,1,-1,0,52,246)"
-        >
+        <g id="Classifier selection" fill="none" transform="matrix(0,1,-1,0,52,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000013,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Classifier selection
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Classifier fusion"
-          fill="none"
-          transform="matrix(0,1,-1,0,92,246)"
-        >
+        <g id="Classifier fusion" fill="none" transform="matrix(0,1,-1,0,92,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000012,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Classifier fusion
               </text>
             </g>
@@ -1649,26 +470,11 @@
         </g>
         <g id="Common" fill="none" transform="matrix(1,0,0,1,182,146)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
                 Common
               </text>
             </g>
@@ -1676,27 +482,11 @@
         </g>
         <g id="Bagging" fill="none" transform="matrix(0,1,-1,0,142,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000010,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Bagging
               </text>
             </g>
@@ -1704,27 +494,11 @@
         </g>
         <g id="Boosting" fill="none" transform="matrix(0,1,-1,0,182,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000009,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Boosting
               </text>
             </g>
@@ -1732,27 +506,11 @@
         </g>
         <g id="AdaBoost" fill="none" transform="matrix(0,1,-1,0,222,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000008,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 AdaBoost
               </text>
             </g>
@@ -1760,186 +518,71 @@
         </g>
         <g id="Regression" fill="none" transform="matrix(1,0,0,1,352,146)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
                 Regression
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Multiple linear regression"
-          fill="none"
-          transform="matrix(0,1,-1,0,272,246)"
-        >
+        <g id="Multiple linear regression" fill="none" transform="matrix(0,1,-1,0,272,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000006,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Multiple linear regression
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Partial least squares"
-          fill="none"
-          transform="matrix(0,1,-1,0,312,246)"
-        >
+        <g id="Partial least squares" fill="none" transform="matrix(0,1,-1,0,312,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000005,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Partial least squares
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Multi-layer feed forward neural network"
-          fill="none"
-          transform="matrix(0,1,-1,0,352,246)"
-        >
+        <g id="Multi-layer feed forward neural network" fill="none" transform="matrix(0,1,-1,0,352,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000003,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Multi-layer feed forward neural network
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="General regression neural network"
-          fill="none"
-          transform="matrix(0,1,-1,0,392,246)"
-        >
+        <g id="General regression neural network" fill="none" transform="matrix(0,1,-1,0,392,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000002,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 General regression neural network
               </text>
             </g>
           </g>
         </g>
-        <g
-          id="Support vector regression"
-          fill="none"
-          transform="matrix(0,1,-1,0,432,246)"
-        >
+        <g id="Support vector regression" fill="none" transform="matrix(0,1,-1,0,432,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000016,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="-11.5px"
-                font-size="12"
-                text-anchor="left"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" font-size="12" text-anchor="left">
                 Support vector regression
               </text>
             </g>

@@ -1,53 +1,23 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="500"
-  height="500"
-  style="background: transparent; position: absolute; outline: none;"
-  color-interpolation-filters="sRGB"
-  tabindex="1"
->
-  <defs />
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="combo-2"
-          fill="none"
-          transform="matrix(1,0,0,1,185.220001,180.750000)"
-        >
+        <g id="combo-2" fill="none" transform="matrix(1,0,0,1,185.220001,180.750000)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(253,253,253,1)"
-              transform="translate(-26,-26)"
-              cx="26"
-              cy="26"
-              stroke-dasharray="5,5"
-              stroke-width="1"
-              stroke="rgba(153,173,209,1)"
-              r="26"
-            />
+            <circle id="key" fill="rgba(253,253,253,1)" transform="translate(-26,-26)" cx="26" cy="26" stroke-dasharray="5,5" stroke-width="1" stroke="rgba(153,173,209,1)" r="26"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,26)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text
-                id="text"
-                fill="rgba(0,0,0,0.8509803921568627)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                dy="11.5px"
-                font-size="12"
-                text-anchor="middle"
-              >
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
                 combo-2
               </text>
             </g>
           </g>
         </g>
       </g>
-      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)" />
-      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)"/>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)"/>
     </g>
   </g>
 </svg>

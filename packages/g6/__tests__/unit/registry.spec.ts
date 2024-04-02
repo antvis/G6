@@ -1,3 +1,4 @@
+import { getExtension, getExtensions, register } from '@/src';
 import {
   Circle,
   CircleCombo,
@@ -15,10 +16,9 @@ import {
   Star,
   Triangle,
 } from '@/src/elements';
-import { getExtension, getExtensions, register } from '@/src/registry';
+import { RectCombo } from '@/src/elements/combos/rect';
 import { dark, light } from '@/src/themes';
 import { pick } from '@antv/util';
-import { RectCombo } from '../../src/elements/combos/rect';
 
 describe('registry', () => {
   it('registerBuiltInPlugins', () => {

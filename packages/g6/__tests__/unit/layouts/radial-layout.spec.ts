@@ -4,7 +4,7 @@ import {
   layoutRadialPreventOverlap,
   layoutRadialPreventOverlapUnstrict,
   layoutRadialSort,
-} from '@@/demo/case';
+} from '@/__tests__/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('radial layout', () => {

@@ -1,6 +1,6 @@
 import { AABB } from '@antv/g';
 import { clone } from '@antv/util';
-import { TriangleDirection } from '../elements/nodes/triangle';
+import type { TriangleDirection } from '../elements/nodes/triangle';
 import type { Node, Padding, Point } from '../types';
 import { isPoint } from './is';
 import { isBetween } from './math';

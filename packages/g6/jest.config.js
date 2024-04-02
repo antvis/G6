@@ -4,23 +4,10 @@ const esm = ['internmap', 'd3-*', 'lodash-es'].map((d) => `_${d}|${d}`).join('|'
 
 module.exports = {
   testTimeout: 100000,
-  preset: 'ts-jest/presets/js-with-ts',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['./__tests__/setup.ts'],
   transform: {
-    '^.+\\.[tj]s$': [
-      'ts-jest',
-      {
-        diagnostics: {
-          exclude: ['**'],
-        },
-        tsconfig: {
-          allowJs: true,
-          target: 'esnext',
-          esModuleInterop: true,
-        },
-      },
-    ],
+    '^.+\\.[tj]s$': ['@swc/jest'],
   },
   collectCoverageFrom: ['src/**/*.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],

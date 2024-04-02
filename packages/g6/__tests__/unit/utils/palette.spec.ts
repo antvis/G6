@@ -1,4 +1,4 @@
-import { register } from '@/src/registry';
+import { register } from '@/src';
 import { idOf } from '@/src/utils/id';
 import { assignColorByPalette, getPaletteColors, parsePalette } from '@/src/utils/palette';
 

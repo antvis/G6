@@ -18,8 +18,8 @@ import type {
   PluginOptions,
   ThemeOptions,
 } from '../spec';
-import { UpdateBehaviorOption } from '../spec/behavior';
-import { UpdatePluginOption } from '../spec/plugin';
+import type { UpdateBehaviorOption } from '../spec/behavior';
+import type { UpdatePluginOption } from '../spec/plugin';
 import type {
   CallableValue,
   DataID,

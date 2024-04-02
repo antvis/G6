@@ -1,4 +1,4 @@
-import { layoutMindmapH, layoutMindmapHCustomSide, layoutMindmapHLeft, layoutMindmapHRight } from '@@/demo/case';
+import { layoutMindmapH, layoutMindmapHCustomSide, layoutMindmapHLeft, layoutMindmapHRight } from '@/__tests__/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('mindmap', () => {

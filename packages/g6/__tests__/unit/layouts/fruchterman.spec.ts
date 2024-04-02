@@ -1,6 +1,6 @@
-import { layoutFruchtermanBasic, layoutFruchtermanCluster } from '@@/demo/case';
+import { layoutFruchtermanBasic, layoutFruchtermanCluster } from '@/__tests__/demos';
 import { createDemoGraph } from '@@/utils';
-import { clear as clearMochRandom, mock as mockRandom } from 'jest-random-mock';
+import { clear as clearMockRandom, mock as mockRandom } from 'jest-random-mock';
 
 describe('layout fruchterman', () => {
   beforeAll(() => {
@@ -8,19 +8,19 @@ describe('layout fruchterman', () => {
   });
 
   afterAll(() => {
-    clearMochRandom();
+    clearMockRandom();
   });
 
   it('basic', async () => {
     const graph = await createDemoGraph(layoutFruchtermanBasic);
-    await expect(graph).toMatchSnapshot(__filename, 'layout-fruchterman-basic');
+    await expect(graph).toMatchSnapshot(__filename, 'basic');
 
     graph.destroy();
   });
 
   it('cluster', async () => {
     const graph = await createDemoGraph(layoutFruchtermanCluster);
-    await expect(graph).toMatchSnapshot(__filename, 'layout-fruchterman-cluster');
+    await expect(graph).toMatchSnapshot(__filename, 'cluster');
     graph.destroy();
   });
 });
