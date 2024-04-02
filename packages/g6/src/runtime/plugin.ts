@@ -14,4 +14,8 @@ export class PluginController extends ExtensionController<BasePlugin<CustomPlugi
   public setPlugins(plugins: PluginOptions) {
     this.setExtensions(plugins);
   }
+
+  public getPluginInstance(key: string) {
+    return this.extensionMap[key];
+  }
 }
