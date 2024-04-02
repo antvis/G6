@@ -60,6 +60,7 @@
     "stats.js": "^0.17.0",
     "turbo": "^1.12.4",
     "typescript": "^5.3.3",
-    "vite": "^5.1.5"
+    "vite": "^5.1.5",
+    "xml-formatter": "^3.6.2"
   }
 }

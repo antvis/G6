@@ -1,1 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1"><defs/><g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)"><g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,50,50)"><circle id="g-svg-5" fill="rgba(255,192,203,1)" transform="translate(-25,-25)" cx="25" cy="25" r="25"/></g><g transform="matrix(1,0,0,1,100,100)"><path id="g-svg-6" fill="rgba(128,0,128,1)" d="M 0,0 l 50,0 l 0,50 l-50 0 z" width="50" height="50"/></g></g></g></sv
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g transform="matrix(1,0,0,1,50,50)">
+        <circle id="g-svg-5" fill="rgba(255,192,203,1)" transform="translate(-25,-25)" cx="25" cy="25" r="25"/>
+      </g>
+      <g transform="matrix(1,0,0,1,100,100)">
+        <path id="g-svg-6" fill="rgba(128,0,128,1)" d="M 0,0 l 50,0 l 0,50 l-50 0 z" width="50" height="50"/>
+      </g>
+    </g>
+  </g>
+</svg>

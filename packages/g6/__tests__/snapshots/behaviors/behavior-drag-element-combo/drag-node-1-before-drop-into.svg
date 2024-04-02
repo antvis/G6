@@ -1,1 +1,87 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1"><defs/><g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)"><g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="combo-2" fill="none" transform="matrix(1,0,0,1,285.440002,308)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(253,253,253,1)" transform="translate(-144.68111279638404,-144.68111279638404)" cx="144.68111279638404" cy="144.68111279638404" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="144.68111279638404"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,144.681107)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">combo-2</text></g></g></g><g id="combo-1" fill="none" transform="matrix(1,0,0,1,200.500000,311.500000)"><g transform="matrix(1,0,0,1,0,0)"><path id="key" fill="rgba(253,253,253,1)" d="M 0,0 l 63.360000000000014,0 l 0,67 l-63.360000000000014 0 z" transform="translate(-31.680000000000007,-33.5)" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" width="63.360000000000014" height="67"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,33.500000)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">combo-1</text></g></g></g></g><g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="edge-1" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="edge-1" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,311.641724,262.910431)"><path id="key" fill="none" d="M 0,14.17914499912797 L 56.716579996511996,0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 L 105.90284415909258,123.23930461750719" stroke-width="3" stroke="transparent"/></g></g><g id="edge-2" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="edge-2" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,211.714249,262.603180)"><path id="key" fill="none" d="M 156.57151055558515,0 L 0,34.79366901235221" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 83.02943725152284,0 L 0,83.02943725152284" stroke-width="3" stroke="transparent"/></g></g></g><g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="node-3" fill="none" transform="matrix(1,0,0,1,200,300)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,12)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">node-3</text></g></g></g><g id="node-2" fill="none" transform="matrix(1,0,0,1,380,260)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,12)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">node-2</text></g></g></g><g id="node-1" fill="none" transform="matrix(1,0,0,1,300,280)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,12)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">node-1</text></g></g></g></g></g></g></sv
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="combo-2" fill="none" transform="matrix(1,0,0,1,285.440002,308)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(253,253,253,1)" transform="translate(-144.68111279638404,-144.68111279638404)" cx="144.68111279638404" cy="144.68111279638404" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="144.68111279638404"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,144.681107)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
+                combo-2
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="combo-1" fill="none" transform="matrix(1,0,0,1,200.500000,311.500000)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="key" fill="rgba(253,253,253,1)" d="M 0,0 l 63.360000000000014,0 l 0,67 l-63.360000000000014 0 z" transform="translate(-31.680000000000007,-33.5)" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" width="63.360000000000014" height="67"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,33.500000)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
+                combo-1
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="edge-1" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="edge-1" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,311.641724,262.910431)">
+            <path id="key" fill="none" d="M 0,14.17914499912797 L 56.716579996511996,0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 L 105.90284415909258,123.23930461750719" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="edge-2" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="edge-2" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,211.714249,262.603180)">
+            <path id="key" fill="none" d="M 156.57151055558515,0 L 0,34.79366901235221" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 83.02943725152284,0 L 0,83.02943725152284" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="node-3" fill="none" transform="matrix(1,0,0,1,200,300)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
+                node-3
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="node-2" fill="none" transform="matrix(1,0,0,1,380,260)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
+                node-2
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="node-1" fill="none" transform="matrix(1,0,0,1,300,280)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
+                node-1
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

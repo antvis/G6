@@ -1,1 +1,594 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1"><defs/><g id="g-svg-camera" transform="matrix(0.449608,0,0,0.449608,61.776154,286.418243)"><g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)"/><g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="Modeling Methods-Classification" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Modeling Methods-Classification" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,-6,-389)"><path id="key" fill="none" d="M 0,335 C 238 335,238 0,476 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Modeling Methods-Consensus" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Modeling Methods-Consensus" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,-6,-54)"><path id="key" fill="none" d="M 0,0 C 113 0,113 54,226 54" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Modeling Methods-Regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Modeling Methods-Regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,-6,-54)"><path id="key" fill="none" d="M 0,0 C 238 0,238 335,476 335" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Classification-Logistic regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Classification-Logistic regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-515)"><path id="key" fill="none" d="M 0,126 C 113 126,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Classification-Linear discriminant analysis" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Classification-Linear discriminant analysis" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-479)"><path id="key" fill="none" d="M 0,90 C 113 90,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Classification-Rules" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Classification-Rules" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-443)"><path id="key" fill="none" d="M 0,54 C 113 54,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Classification-Decision trees" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Classification-Decision trees" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-407)"><path id="key" fill="none" d="M 0,18 C 113 18,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Classification-Naive Bayes" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Classification-Naive Bayes" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-389)"><path id="key" fill="none" d="M 0,0 C 113 0,113 18,226 18" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Classification-K nearest neighbor" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Classification-K nearest neighbor" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-389)"><path id="key" fill="none" d="M 0,0 C 113 0,113 54,226 54" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Classification-Probabilistic neural network" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Classification-Probabilistic neural network" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-389)"><path id="key" fill="none" d="M 0,0 C 113 0,113 90,226 90" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Classification-Support vector machine" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Classification-Support vector machine" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-389)"><path id="key" fill="none" d="M 0,0 C 113 0,113 126,226 126" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Consensus-Models diversity" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Consensus-Models diversity" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,244,-127)"><path id="key" fill="none" d="M 0,127 C 113 127,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Consensus-Methods" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Consensus-Methods" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,244,0)"><path id="key" fill="none" d="M 0,0 C 113 0,113 27,226 27" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Consensus-Common" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Consensus-Common" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,244,0)"><path id="key" fill="none" d="M 0,0 C 113 0,113 127,226 127" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Models diversity-Different initializations" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Models diversity-Different initializations" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-217)"><path id="key" fill="none" d="M 0,90 C 113 90,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Models diversity-Different parameter choices" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Models diversity-Different parameter choices" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-181)"><path id="key" fill="none" d="M 0,54 C 113 54,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Models diversity-Different architectures" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Models diversity-Different architectures" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-145)"><path id="key" fill="none" d="M 0,18 C 113 18,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Models diversity-Different modeling methods" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Models diversity-Different modeling methods" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-127)"><path id="key" fill="none" d="M 0,0 C 113 0,113 18,226 18" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Models diversity-Different training sets" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Models diversity-Different training sets" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-127)"><path id="key" fill="none" d="M 0,0 C 113 0,113 54,226 54" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Models diversity-Different feature sets" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Models diversity-Different feature sets" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,-127)"><path id="key" fill="none" d="M 0,0 C 113 0,113 90,226 90" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Methods-Classifier selection" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Methods-Classifier selection" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,9)"><path id="key" fill="none" d="M 0,18 C 113 18,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Methods-Classifier fusion" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Methods-Classifier fusion" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,27)"><path id="key" fill="none" d="M 0,0 C 113 0,113 18,226 18" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Common-Bagging" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Common-Bagging" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,91)"><path id="key" fill="none" d="M 0,36 C 113 36,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Common-Boosting" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Common-Boosting" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,127)"><path id="key" fill="none" d="M 0,0 C 113 0,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Common-AdaBoost" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Common-AdaBoost" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,127)"><path id="key" fill="none" d="M 0,0 C 113 0,113 36,226 36" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Regression-Multiple linear regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Regression-Multiple linear regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,209)"><path id="key" fill="none" d="M 0,72 C 113 72,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Regression-Partial least squares" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Regression-Partial least squares" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,245)"><path id="key" fill="none" d="M 0,36 C 113 36,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Regression-Multi-layer feed forward neural network" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Regression-Multi-layer feed forward neural network" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,281)"><path id="key" fill="none" d="M 0,0 C 113 0,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Regression-General regression neural network" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Regression-General regression neural network" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,281)"><path id="key" fill="none" d="M 0,0 C 113 0,113 36,226 36" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g><g id="Regression-Support vector regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)"><g id="Regression-Support vector regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/><g transform="matrix(1,0,0,1,494,281)"><path id="key" fill="none" d="M 0,0 C 113 0,113 72,226 72" stroke-width="1" stroke="rgba(153,173,209,1)"/><path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/></g></g></g><g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="Modeling Methods" fill="none" transform="matrix(1,0,0,1,-18,-54)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">Modeling Methods</text></g></g></g><g id="Classification" fill="none" transform="matrix(1,0,0,1,482,-389)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">Classification</text></g></g></g><g id="Logistic regression" fill="none" transform="matrix(1,0,0,1,732,-515)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Logistic regression</text></g></g></g><g id="Linear discriminant analysis" fill="none" transform="matrix(1,0,0,1,732,-479)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Linear discriminant analysis</text></g></g></g><g id="Rules" fill="none" transform="matrix(1,0,0,1,732,-443)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Rules</text></g></g></g><g id="Decision trees" fill="none" transform="matrix(1,0,0,1,732,-407)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Decision trees</text></g></g></g><g id="Naive Bayes" fill="none" transform="matrix(1,0,0,1,732,-371)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Naive Bayes</text></g></g></g><g id="K nearest neighbor" fill="none" transform="matrix(1,0,0,1,732,-335)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">K nearest neighbor</text></g></g></g><g id="Probabilistic neural network" fill="none" transform="matrix(1,0,0,1,732,-299)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Probabilistic neural network</text></g></g></g><g id="Support vector machine" fill="none" transform="matrix(1,0,0,1,732,-263)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Support vector machine</text></g></g></g><g id="Consensus" fill="none" transform="matrix(1,0,0,1,232,0)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">Consensus</text></g></g></g><g id="Models diversity" fill="none" transform="matrix(1,0,0,1,482,-127)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">Models diversity</text></g></g></g><g id="Different initializations" fill="none" transform="matrix(1,0,0,1,732,-217)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Different initializations</text></g></g></g><g id="Different parameter choices" fill="none" transform="matrix(1,0,0,1,732,-181)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Different parameter choices</text></g></g></g><g id="Different architectures" fill="none" transform="matrix(1,0,0,1,732,-145)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Different architectures</text></g></g></g><g id="Different modeling methods" fill="none" transform="matrix(1,0,0,1,732,-109)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Different modeling methods</text></g></g></g><g id="Different training sets" fill="none" transform="matrix(1,0,0,1,732,-73)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Different training sets</text></g></g></g><g id="Different feature sets" fill="none" transform="matrix(1,0,0,1,732,-37)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Different feature sets</text></g></g></g><g id="Methods" fill="none" transform="matrix(1,0,0,1,482,27)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">Methods</text></g></g></g><g id="Classifier selection" fill="none" transform="matrix(1,0,0,1,732,9)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Classifier selection</text></g></g></g><g id="Classifier fusion" fill="none" transform="matrix(1,0,0,1,732,45)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Classifier fusion</text></g></g></g><g id="Common" fill="none" transform="matrix(1,0,0,1,482,127)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">Common</text></g></g></g><g id="Bagging" fill="none" transform="matrix(1,0,0,1,732,91)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Bagging</text></g></g></g><g id="Boosting" fill="none" transform="matrix(1,0,0,1,732,127)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Boosting</text></g></g></g><g id="AdaBoost" fill="none" transform="matrix(1,0,0,1,732,163)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">AdaBoost</text></g></g></g><g id="Regression" fill="none" transform="matrix(1,0,0,1,482,281)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">Regression</text></g></g></g><g id="Multiple linear regression" fill="none" transform="matrix(1,0,0,1,732,209)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Multiple linear regression</text></g></g></g><g id="Partial least squares" fill="none" transform="matrix(1,0,0,1,732,245)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Partial least squares</text></g></g></g><g id="Multi-layer feed forward neural network" fill="none" transform="matrix(1,0,0,1,732,281)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Multi-layer feed forward neural network</text></g></g></g><g id="General regression neural network" fill="none" transform="matrix(1,0,0,1,732,317)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">General regression neural network</text></g></g></g><g id="Support vector regression" fill="none" transform="matrix(1,0,0,1,732,353)"><g transform="matrix(1,0,0,1,0,0)"><circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,12,0)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">Support vector regression</text></g></g></g></g></g></g></sv
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g id="g-svg-camera" transform="matrix(0.449608,0,0,0.449608,61.776154,286.418243)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)"/>
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="Modeling Methods-Classification" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Modeling Methods-Classification" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,-6,-389)">
+            <path id="key" fill="none" d="M 0,335 C 238 335,238 0,476 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Modeling Methods-Consensus" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Modeling Methods-Consensus" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,-6,-54)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 54,226 54" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Modeling Methods-Regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Modeling Methods-Regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,-6,-54)">
+            <path id="key" fill="none" d="M 0,0 C 238 0,238 335,476 335" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Classification-Logistic regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Logistic regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-515)">
+            <path id="key" fill="none" d="M 0,126 C 113 126,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Classification-Linear discriminant analysis" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Linear discriminant analysis" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-479)">
+            <path id="key" fill="none" d="M 0,90 C 113 90,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Classification-Rules" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Rules" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-443)">
+            <path id="key" fill="none" d="M 0,54 C 113 54,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Classification-Decision trees" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Decision trees" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-407)">
+            <path id="key" fill="none" d="M 0,18 C 113 18,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Classification-Naive Bayes" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Naive Bayes" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-389)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 18,226 18" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Classification-K nearest neighbor" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-K nearest neighbor" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-389)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 54,226 54" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Classification-Probabilistic neural network" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Probabilistic neural network" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-389)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 90,226 90" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Classification-Support vector machine" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Classification-Support vector machine" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-389)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 126,226 126" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Consensus-Models diversity" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Consensus-Models diversity" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,244,-127)">
+            <path id="key" fill="none" d="M 0,127 C 113 127,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Consensus-Methods" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Consensus-Methods" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,244,0)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 27,226 27" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Consensus-Common" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Consensus-Common" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,244,0)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 127,226 127" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Models diversity-Different initializations" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different initializations" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-217)">
+            <path id="key" fill="none" d="M 0,90 C 113 90,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Models diversity-Different parameter choices" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different parameter choices" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-181)">
+            <path id="key" fill="none" d="M 0,54 C 113 54,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Models diversity-Different architectures" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different architectures" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-145)">
+            <path id="key" fill="none" d="M 0,18 C 113 18,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Models diversity-Different modeling methods" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different modeling methods" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-127)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 18,226 18" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Models diversity-Different training sets" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different training sets" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-127)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 54,226 54" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Models diversity-Different feature sets" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Models diversity-Different feature sets" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,-127)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 90,226 90" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Methods-Classifier selection" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Methods-Classifier selection" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,9)">
+            <path id="key" fill="none" d="M 0,18 C 113 18,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Methods-Classifier fusion" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Methods-Classifier fusion" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,27)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 18,226 18" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Common-Bagging" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Common-Bagging" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,91)">
+            <path id="key" fill="none" d="M 0,36 C 113 36,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Common-Boosting" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Common-Boosting" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,127)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Common-AdaBoost" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Common-AdaBoost" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,127)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 36,226 36" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Regression-Multiple linear regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Regression-Multiple linear regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,209)">
+            <path id="key" fill="none" d="M 0,72 C 113 72,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Regression-Partial least squares" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Regression-Partial least squares" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,245)">
+            <path id="key" fill="none" d="M 0,36 C 113 36,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Regression-Multi-layer feed forward neural network" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Regression-Multi-layer feed forward neural network" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,281)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 0,226 0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Regression-General regression neural network" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Regression-General regression neural network" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,281)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 36,226 36" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="Regression-Support vector regression" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="Regression-Support vector regression" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,494,281)">
+            <path id="key" fill="none" d="M 0,0 C 113 0,113 72,226 72" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 C 0 0,0 0,0 0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="Modeling Methods" fill="none" transform="matrix(1,0,0,1,-18,-54)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">
+                Modeling Methods
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Classification" fill="none" transform="matrix(1,0,0,1,482,-389)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">
+                Classification
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Logistic regression" fill="none" transform="matrix(1,0,0,1,732,-515)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Logistic regression
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Linear discriminant analysis" fill="none" transform="matrix(1,0,0,1,732,-479)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Linear discriminant analysis
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Rules" fill="none" transform="matrix(1,0,0,1,732,-443)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Rules
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Decision trees" fill="none" transform="matrix(1,0,0,1,732,-407)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Decision trees
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Naive Bayes" fill="none" transform="matrix(1,0,0,1,732,-371)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Naive Bayes
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="K nearest neighbor" fill="none" transform="matrix(1,0,0,1,732,-335)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                K nearest neighbor
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Probabilistic neural network" fill="none" transform="matrix(1,0,0,1,732,-299)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Probabilistic neural network
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Support vector machine" fill="none" transform="matrix(1,0,0,1,732,-263)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Support vector machine
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Consensus" fill="none" transform="matrix(1,0,0,1,232,0)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">
+                Consensus
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Models diversity" fill="none" transform="matrix(1,0,0,1,482,-127)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">
+                Models diversity
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Different initializations" fill="none" transform="matrix(1,0,0,1,732,-217)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Different initializations
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Different parameter choices" fill="none" transform="matrix(1,0,0,1,732,-181)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Different parameter choices
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Different architectures" fill="none" transform="matrix(1,0,0,1,732,-145)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Different architectures
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Different modeling methods" fill="none" transform="matrix(1,0,0,1,732,-109)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Different modeling methods
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Different training sets" fill="none" transform="matrix(1,0,0,1,732,-73)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Different training sets
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Different feature sets" fill="none" transform="matrix(1,0,0,1,732,-37)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Different feature sets
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Methods" fill="none" transform="matrix(1,0,0,1,482,27)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">
+                Methods
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Classifier selection" fill="none" transform="matrix(1,0,0,1,732,9)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Classifier selection
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Classifier fusion" fill="none" transform="matrix(1,0,0,1,732,45)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Classifier fusion
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Common" fill="none" transform="matrix(1,0,0,1,482,127)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">
+                Common
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Bagging" fill="none" transform="matrix(1,0,0,1,732,91)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Bagging
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Boosting" fill="none" transform="matrix(1,0,0,1,732,127)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Boosting
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="AdaBoost" fill="none" transform="matrix(1,0,0,1,732,163)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                AdaBoost
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Regression" fill="none" transform="matrix(1,0,0,1,482,281)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,-12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="end">
+                Regression
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Multiple linear regression" fill="none" transform="matrix(1,0,0,1,732,209)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Multiple linear regression
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Partial least squares" fill="none" transform="matrix(1,0,0,1,732,245)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Partial least squares
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Multi-layer feed forward neural network" fill="none" transform="matrix(1,0,0,1,732,281)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Multi-layer feed forward neural network
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="General regression neural network" fill="none" transform="matrix(1,0,0,1,732,317)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                General regression neural network
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="Support vector regression" fill="none" transform="matrix(1,0,0,1,732,353)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="left">
+                Support vector regression
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

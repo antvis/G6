@@ -1,1 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1"><defs/><g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)"><g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="g-svg-9" fill="none" marker-start="true" marker-end="true" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,100,150)"><path id="halo" fill="none" d="M 0,0 L 200,50" stroke-width="12" stroke-dasharray="0,0" stroke="rgba(24,144,255,1)" pointer-events="none" stroke-opacity="0.25" opacity="0"/></g><g transform="matrix(1,0,0,1,100,150)"><path id="key" fill="none" d="M 4.85071250072666,1.212678125181665 L 0,0 L 195.14928749927333,48.78732187481833" stroke-width="2" stroke-dasharray="10,10" stroke="rgba(24,144,255,1)"/><g transform="matrix(0.970143,0.242536,-0.242536,0.970143,4.850712,1.212678)"><path id="g-svg-12" fill="rgba(24,144,255,1)" d="M 0,4 A 4 4 0 1 0 8 4 A 4 4 0 1 0 0 4 Z" transform="translate(-4,-4)" stroke-width="1" stroke-dasharray="0,0" stroke="rgba(24,144,255,1)" width="8" height="8"/></g><g transform="matrix(-0.970143,-0.242536,0.242536,-0.970143,195.149292,48.787323)"><path id="g-svg-14" fill="rgba(255,0,0,1)" d="M 0,4 L 8,0 L 8,8 Z" transform="translate(-4,-4)" stroke-width="1" stroke-dasharray="0,0" stroke="rgba(24,144,255,1)" width="8" height="8"/></g></g><g id="label" fill="none" transform="matrix(1,0,0,1,204,50)"><g transform="matrix(1,0,0,1,-27.540001,-11.500000)"><path id="background" fill="none" d="M 0,0 l 56.080000000000005,0 l 0,23 l-56.080000000000005 0 z" opacity="0.75" stroke-width="0" width="56.080000000000005" height="23"/></g><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle">line-edge</text></g></g></g></g></g></sv
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-9" fill="none" marker-start="true" marker-end="true" transform="matrix(1,0,0,1,0,0)">
+        <g transform="matrix(1,0,0,1,100,150)">
+          <path id="halo" fill="none" d="M 0,0 L 200,50" stroke-width="12" stroke-dasharray="0,0" stroke="rgba(24,144,255,1)" pointer-events="none" stroke-opacity="0.25" opacity="0"/>
+        </g>
+        <g transform="matrix(1,0,0,1,100,150)">
+          <path id="key" fill="none" d="M 4.85071250072666,1.212678125181665 L 0,0 L 195.14928749927333,48.78732187481833" stroke-width="2" stroke-dasharray="10,10" stroke="rgba(24,144,255,1)"/>
+          <g transform="matrix(0.970143,0.242536,-0.242536,0.970143,4.850712,1.212678)">
+            <path id="g-svg-12" fill="rgba(24,144,255,1)" d="M 0,4 A 4 4 0 1 0 8 4 A 4 4 0 1 0 0 4 Z" transform="translate(-4,-4)" stroke-width="1" stroke-dasharray="0,0" stroke="rgba(24,144,255,1)" width="8" height="8"/>
+          </g>
+          <g transform="matrix(-0.970143,-0.242536,0.242536,-0.970143,195.149292,48.787323)">
+            <path id="g-svg-14" fill="rgba(255,0,0,1)" d="M 0,4 L 8,0 L 8,8 Z" transform="translate(-4,-4)" stroke-width="1" stroke-dasharray="0,0" stroke="rgba(24,144,255,1)" width="8" height="8"/>
+          </g>
+        </g>
+        <g id="label" fill="none" transform="matrix(1,0,0,1,204,50)">
+          <g transform="matrix(1,0,0,1,-27.540001,-11.500000)">
+            <path id="background" fill="none" d="M 0,0 l 56.080000000000005,0 l 0,23 l-56.080000000000005 0 z" opacity="0.75" stroke-width="0" width="56.080000000000005" height="23"/>
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text id="text" fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle">
+              line-edge
+            </text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,1 +1,221 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1"><defs/><g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)"><g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)"/><g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)"/><g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="rect" fill="none" transform="matrix(1,0,0,1,83.333336,83.333336)"><g transform="matrix(1,0,0,1,0,0)"><path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,20)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">rect</text></g></g><g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,0,0)"><image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/></g></g></g><g id="rect-halo" fill="none" transform="matrix(1,0,0,1,250,83.333336)"><g transform="matrix(1,0,0,1,0,0)"><path id="halo" fill="none" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-width="12" stroke-opacity="0.25" pointer-events="none"/></g><g transform="matrix(1,0,0,1,0,0)"><path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,20)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">rect-halo</text></g></g><g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,0,0)"><image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/></g></g></g><g id="rect-badges" fill="none" transform="matrix(1,0,0,1,416.666656,83.333336)"><g transform="matrix(1,0,0,1,0,0)"><path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,20)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">rect-badges</text></g></g><g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,0,0)"><image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/></g></g><g id="badge-0" fill="none" transform="matrix(1,0,0,1,20,-20)"><g id="label" fill="none" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,-4,-1)"><path id="background" fill="rgba(126,146,181,1)" d="M 7.26,0 l 0,0 a 7.26,7.26,0,0,1,7.26,7.26 l 0,4.48 a 7.26,7.26,0,0,1,-7.26,7.26 l 0,0 a 7.26,7.26,0,0,1,-7.26,-7.26 l 0,-4.48 a 7.26,7.26,0,0,1,7.26,-7.26 z" stroke-width="0" width="14.52" height="19"/></g><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="8.5px" font-size="8" text-anchor="left">A</text></g></g></g><g id="badge-1" fill="none" transform="matrix(1,0,0,1,20,0)"><g id="label" fill="none" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,-4,-9.500000)"><path id="background" fill="rgba(245,34,45,1)" d="M 9.5,0 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" stroke-width="0" width="46.52" height="19"/></g><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="8" text-anchor="left">Important</text></g></g></g><g id="badge-2" fill="none" transform="matrix(1,0,0,1,20,20)"><g id="label" fill="none" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,-4,-18)"><path id="background" fill="rgba(250,173,20,1)" d="M 9.5,0 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" stroke-width="0" width="34.120000000000005" height="19"/></g><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-8.5px" font-size="8" text-anchor="left">Notice</text></g></g></g></g><g id="rect-ports" fill="none" transform="matrix(1,0,0,1,83.333336,250)"><g transform="matrix(1,0,0,1,0,0)"><path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,20)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">rect-ports</text></g></g><g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,0,0)"><image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/></g></g><g transform="matrix(1,0,0,1,-20,0)"><circle id="port-0" fill="rgba(23,131,255,1)" transform="translate(-3,-3)" cx="3" cy="3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/></g><g transform="matrix(1,0,0,1,20,0)"><circle id="port-1" fill="rgba(23,131,255,1)" transform="translate(-3,-3)" cx="3" cy="3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/></g><g transform="matrix(1,0,0,1,0,-20)"><circle id="port-2" fill="rgba(23,131,255,1)" transform="translate(-3,-3)" cx="3" cy="3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/></g><g transform="matrix(1,0,0,1,0,20)"><circle id="port-3" fill="rgba(23,131,255,1)" transform="translate(-3,-3)" cx="3" cy="3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/></g></g><g id="rect-active" fill="none" transform="matrix(1,0,0,1,250,250)"><g transform="matrix(1,0,0,1,0,0)"><path id="halo" fill="none" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-width="12" stroke-opacity="0.25" pointer-events="none"/></g><g transform="matrix(1,0,0,1,0,0)"><path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,20)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">rect-active</text></g></g><g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,0,0)"><image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/></g></g></g><g id="rect-selected" fill="none" transform="matrix(1,0,0,1,416.666656,250)"><g transform="matrix(1,0,0,1,0,0)"><path id="halo" fill="none" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" stroke-width="12" stroke="rgba(23,131,255,1)" width="40" height="40" stroke-dasharray="0,0" stroke-opacity="0.25" pointer-events="none"/></g><g transform="matrix(1,0,0,1,0,0)"><path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40" stroke-width="3" stroke="rgba(0,0,0,1)"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,20)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="13.5px" font-size="14" text-anchor="middle" font-weight="700">rect-selected</text></g></g><g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,0,0)"><image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/></g></g></g><g id="rect-highlight" fill="none" transform="matrix(1,0,0,1,83.333336,416.666656)"><g transform="matrix(1,0,0,1,0,0)"><path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40" stroke-width="3" stroke="rgba(0,0,0,1)" stroke-opacity="0.85"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,20)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="700">rect-highlight</text></g></g><g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,0,0)"><image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/></g></g></g><g id="rect-inactive" fill="none" transform="matrix(1,0,0,1,250,416.666656)"><g transform="matrix(1,0,0,1,0,0)"><path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40" opacity="0.25"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,20)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" opacity="0.25">rect-inactive</text></g></g><g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,0,0)"><image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16" opacity="0.25"/></g></g></g><g id="rect-disabled" fill="none" transform="matrix(1,0,0,1,416.666656,416.666656)"><g transform="matrix(1,0,0,1,0,0)"><path id="key" fill="rgba(240,240,240,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/></g><g id="label" fill="none" transform="matrix(1,0,0,1,0,20)"><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" opacity="0.25">rect-disabled</text></g></g><g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,0,0)"><image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/></g></g></g></g></g></g></sv
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)"/>
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)"/>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="rect" fill="none" transform="matrix(1,0,0,1,83.333336,83.333336)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
+                rect
+              </text>
+            </g>
+          </g>
+          <g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/>
+            </g>
+          </g>
+        </g>
+        <g id="rect-halo" fill="none" transform="matrix(1,0,0,1,250,83.333336)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="halo" fill="none" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-width="12" stroke-opacity="0.25" pointer-events="none"/>
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
+                rect-halo
+              </text>
+            </g>
+          </g>
+          <g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/>
+            </g>
+          </g>
+        </g>
+        <g id="rect-badges" fill="none" transform="matrix(1,0,0,1,416.666656,83.333336)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
+                rect-badges
+              </text>
+            </g>
+          </g>
+          <g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/>
+            </g>
+          </g>
+          <g id="badge-0" fill="none" transform="matrix(1,0,0,1,20,-20)">
+            <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
+              <g transform="matrix(1,0,0,1,-4,-1)">
+                <path id="background" fill="rgba(126,146,181,1)" d="M 7.26,0 l 0,0 a 7.26,7.26,0,0,1,7.26,7.26 l 0,4.48 a 7.26,7.26,0,0,1,-7.26,7.26 l 0,0 a 7.26,7.26,0,0,1,-7.26,-7.26 l 0,-4.48 a 7.26,7.26,0,0,1,7.26,-7.26 z" stroke-width="0" width="14.52" height="19"/>
+              </g>
+              <g transform="matrix(1,0,0,1,0,0)">
+                <text id="text" fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="8.5px" font-size="8" text-anchor="left">
+                  A
+                </text>
+              </g>
+            </g>
+          </g>
+          <g id="badge-1" fill="none" transform="matrix(1,0,0,1,20,0)">
+            <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
+              <g transform="matrix(1,0,0,1,-4,-9.500000)">
+                <path id="background" fill="rgba(245,34,45,1)" d="M 9.5,0 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" stroke-width="0" width="46.52" height="19"/>
+              </g>
+              <g transform="matrix(1,0,0,1,0,0)">
+                <text id="text" fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="8" text-anchor="left">
+                  Important
+                </text>
+              </g>
+            </g>
+          </g>
+          <g id="badge-2" fill="none" transform="matrix(1,0,0,1,20,20)">
+            <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
+              <g transform="matrix(1,0,0,1,-4,-18)">
+                <path id="background" fill="rgba(250,173,20,1)" d="M 9.5,0 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" stroke-width="0" width="34.120000000000005" height="19"/>
+              </g>
+              <g transform="matrix(1,0,0,1,0,0)">
+                <text id="text" fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-8.5px" font-size="8" text-anchor="left">
+                  Notice
+                </text>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="rect-ports" fill="none" transform="matrix(1,0,0,1,83.333336,250)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
+                rect-ports
+              </text>
+            </g>
+          </g>
+          <g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/>
+            </g>
+          </g>
+          <g transform="matrix(1,0,0,1,-20,0)">
+            <circle id="port-0" fill="rgba(23,131,255,1)" transform="translate(-3,-3)" cx="3" cy="3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          </g>
+          <g transform="matrix(1,0,0,1,20,0)">
+            <circle id="port-1" fill="rgba(23,131,255,1)" transform="translate(-3,-3)" cx="3" cy="3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          </g>
+          <g transform="matrix(1,0,0,1,0,-20)">
+            <circle id="port-2" fill="rgba(23,131,255,1)" transform="translate(-3,-3)" cx="3" cy="3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          </g>
+          <g transform="matrix(1,0,0,1,0,20)">
+            <circle id="port-3" fill="rgba(23,131,255,1)" transform="translate(-3,-3)" cx="3" cy="3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          </g>
+        </g>
+        <g id="rect-active" fill="none" transform="matrix(1,0,0,1,250,250)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="halo" fill="none" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-width="12" stroke-opacity="0.25" pointer-events="none"/>
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle">
+                rect-active
+              </text>
+            </g>
+          </g>
+          <g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/>
+            </g>
+          </g>
+        </g>
+        <g id="rect-selected" fill="none" transform="matrix(1,0,0,1,416.666656,250)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="halo" fill="none" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" stroke-width="12" stroke="rgba(23,131,255,1)" width="40" height="40" stroke-dasharray="0,0" stroke-opacity="0.25" pointer-events="none"/>
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40" stroke-width="3" stroke="rgba(0,0,0,1)"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="13.5px" font-size="14" text-anchor="middle" font-weight="700">
+                rect-selected
+              </text>
+            </g>
+          </g>
+          <g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/>
+            </g>
+          </g>
+        </g>
+        <g id="rect-highlight" fill="none" transform="matrix(1,0,0,1,83.333336,416.666656)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40" stroke-width="3" stroke="rgba(0,0,0,1)" stroke-opacity="0.85"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="700">
+                rect-highlight
+              </text>
+            </g>
+          </g>
+          <g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/>
+            </g>
+          </g>
+        </g>
+        <g id="rect-inactive" fill="none" transform="matrix(1,0,0,1,250,416.666656)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="key" fill="rgba(23,131,255,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40" opacity="0.25"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" opacity="0.25">
+                rect-inactive
+              </text>
+            </g>
+          </g>
+          <g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16" opacity="0.25"/>
+            </g>
+          </g>
+        </g>
+        <g id="rect-disabled" fill="none" transform="matrix(1,0,0,1,416.666656,416.666656)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="key" fill="rgba(240,240,240,1)" d="M 4,0 l 32,0 a 4,4,0,0,1,4,4 l 0,32 a 4,4,0,0,1,-4,4 l -32,0 a 4,4,0,0,1,-4,-4 l 0,-32 a 4,4,0,0,1,4,-4 z" transform="translate(-20,-20)" width="40" height="40"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" opacity="0.25">
+                rect-disabled
+              </text>
+            </g>
+          </g>
+          <g id="icon" fill="none" width="20" height="20" transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image id="icon" fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-10,-10)" width="20" height="20" font-size="16"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

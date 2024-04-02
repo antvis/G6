@@ -1,1 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1"><defs/><g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)"><g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)"><g id="g-svg-9" fill="none" marker-start="false" marker-end="true" transform="matrix(1,0,0,1,0,0)"><g transform="matrix(1,0,0,1,100,150)"><path id="key" fill="none" d="M 0,0 C 99.05341230059832 23.282810243968754,190.72007896726495 64.94947691063538,275 125 L 270.9279208619134,122.09859146393347" stroke-width="2" stroke="rgba(24,144,255,1)"/><g transform="matrix(-0.814416,-0.580282,0.580282,-0.814416,270.927917,122.098595)"><path id="g-svg-12" fill="rgba(24,144,255,1)" d="M 0,4 L 8,0 L 8,8 Z" transform="translate(-4,-4)" stroke-width="1" stroke="rgba(24,144,255,1)" width="8" height="8" stroke-dasharray="0,0"/></g></g><g id="label" fill="none" transform="matrix(0.999550,0.029986,-0.029986,0.999550,203.998199,35.119946)"><g transform="matrix(1,0,0,1,-44.759998,-11.500000)"><path id="background" fill="none" d="M 0,0 l 90.51999999999998,0 l 0,23 l-90.51999999999998 0 z" opacity="0.75" stroke-width="0" width="90.51999999999998" height="23"/></g><g transform="matrix(1,0,0,1,0,0)"><text id="text" fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle">quadratic-edge</text></g></g></g></g></g></sv
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-9" fill="none" marker-start="false" marker-end="true" transform="matrix(1,0,0,1,0,0)">
+        <g transform="matrix(1,0,0,1,100,150)">
+          <path id="key" fill="none" d="M 0,0 C 99.05341230059832 23.282810243968754,190.72007896726495 64.94947691063538,275 125 L 270.9279208619134,122.09859146393347" stroke-width="2" stroke="rgba(24,144,255,1)"/>
+          <g transform="matrix(-0.814416,-0.580282,0.580282,-0.814416,270.927917,122.098595)">
+            <path id="g-svg-12" fill="rgba(24,144,255,1)" d="M 0,4 L 8,0 L 8,8 Z" transform="translate(-4,-4)" stroke-width="1" stroke="rgba(24,144,255,1)" width="8" height="8" stroke-dasharray="0,0"/>
+          </g>
+        </g>
+        <g id="label" fill="none" transform="matrix(0.999550,0.029986,-0.029986,0.999550,203.998199,35.119946)">
+          <g transform="matrix(1,0,0,1,-44.759998,-11.500000)">
+            <path id="background" fill="none" d="M 0,0 l 90.51999999999998,0 l 0,23 l-90.51999999999998 0 z" opacity="0.75" stroke-width="0" width="90.51999999999998" height="23"/>
+          </g>
+          <g transform="matrix(1,0,0,1,0,0)">
+            <text id="text" fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle">
+              quadratic-edge
+            </text>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
