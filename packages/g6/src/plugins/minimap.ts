@@ -183,6 +183,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const moveableRef = new Moveable(this.minimapContainerDom, {
       target: this.viewportDom,
       draggable: true,
+      origin: false,
       snappable: true, // 搭配bounds使用
       // scalable: true, // 暂不支持
       bounds: {
@@ -261,7 +262,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     this.canvas.appendChild(group);
     const minimapBBox = this.canvas.getRoot().getRenderBounds();
 
-    const graphBBox = this.context.canvas.document.documentElement.getRenderBounds();
+    const graphBBox = this.context.canvas.getBounds(); //  能够获取画布内元素的总体包围盒
 
     const width = graphBBox.max[0] - graphBBox.min[0];
     const height = graphBBox.max[1] - graphBBox.min[1];
@@ -312,7 +313,6 @@ export class Minimap extends BasePlugin<MinimapOptions> {
   private cloneKeyShapes(shapes: (Node | Edge | Combo)[], group: Group = new Group()) {
     // 建立 minimap shape 到 main shape 的映射关系到实例, 后面走入更新流程就不需要再clone了
     shapes.forEach((shape) => {
-      // graphItem 存的是引用? 原图上消失,这里就会是空?
       let { minimapItem, graphItem } = this.itemMap.get(shape.id) || {};
       if (!minimapItem) {
         minimapItem = shape.getKey().cloneNode(true);
@@ -430,8 +430,8 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       Object.assign(viewportDom.style, {
         left: `${left}px`,
         top: `${top}px`,
-        width: `100px` || `${width}px`,
-        height: `100px` || `${height}px`,
+        width: `${width}px`,
+        height: `${height}px`,
       });
     }
   }
