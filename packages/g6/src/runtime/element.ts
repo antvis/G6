@@ -3,10 +3,10 @@
 import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { isEmpty } from '@antv/util';
+import { groupBy, isEmpty } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
-import { AnimationType, GraphEvent } from '../constants';
+import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry';
 import type { ComboData, EdgeData, NodeData } from '../spec';
@@ -28,7 +28,7 @@ import type {
 } from '../types';
 import { executeAnimatableTasks, inferDefaultValue, withAnimationCallbacks } from '../utils/animation';
 import { cacheStyle, getCachedStyle, hasCachedStyle } from '../utils/cache';
-import { groupByChangeType, reduceDataChanges } from '../utils/change';
+import { reduceDataChanges } from '../utils/change';
 import { getSubgraphRelatedEdges } from '../utils/edge';
 import { updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
@@ -366,7 +366,17 @@ export class ElementController {
     const tasks = reduceDataChanges(dataChanges);
     if (tasks.length === 0) return null;
 
-    const groupedChanges = groupByChangeType(tasks);
+    const {
+      NodeAdded = [],
+      NodeUpdated = [],
+      NodeRemoved = [],
+      EdgeAdded = [],
+      EdgeUpdated = [],
+      EdgeRemoved = [],
+      ComboAdded = [],
+      ComboUpdated = [],
+      ComboRemoved = [],
+    } = groupBy(tasks, (change) => change.type) as unknown as Record<`${ChangeTypeEnum}`, DataChange[]>;
 
     const dataOf = <T extends DataChange['value']>(data: DataChange[]) =>
       new Map(
@@ -376,23 +386,21 @@ export class ElementController {
         }),
       );
 
-    const { add, remove, update } = groupedChanges;
-
     const input: FlowData = {
       add: {
-        nodes: dataOf<NodeData>(add.nodes),
-        edges: dataOf<EdgeData>(add.edges),
-        combos: dataOf<ComboData>(add.combos),
+        nodes: dataOf<NodeData>(NodeAdded),
+        edges: dataOf<EdgeData>(EdgeAdded),
+        combos: dataOf<ComboData>(ComboAdded),
       },
       update: {
-        nodes: dataOf<NodeData>(update.nodes),
-        edges: dataOf<EdgeData>(update.edges),
-        combos: dataOf<ComboData>(update.combos),
+        nodes: dataOf<NodeData>(NodeUpdated),
+        edges: dataOf<EdgeData>(EdgeUpdated),
+        combos: dataOf<ComboData>(ComboUpdated),
       },
       remove: {
-        nodes: dataOf<NodeData>(remove.nodes),
-        edges: dataOf<EdgeData>(remove.edges),
-        combos: dataOf<ComboData>(remove.combos),
+        nodes: dataOf<NodeData>(NodeRemoved),
+        edges: dataOf<EdgeData>(EdgeRemoved),
+        combos: dataOf<ComboData>(ComboRemoved),
       },
     };
 
