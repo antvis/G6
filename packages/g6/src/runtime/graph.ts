@@ -3,6 +3,7 @@ import type { AABB, BaseStyleProps, DataURLOptions } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
 import { COMBO_KEY, GraphEvent } from '../constants';
+import type { Plugin } from '../plugins/types';
 import { getExtension } from '../registry';
 import type {
   BehaviorOptions,
@@ -274,6 +275,17 @@ export class Graph extends EventEmitter {
    */
   public getPlugins(): PluginOptions {
     return this.options.plugins || [];
+  }
+
+  /**
+   * <zh/> 获取插件实例
+   *
+   * <en/> Get plugin instance
+   * @param key - <zh/> 插件 key | <en/> plugin key
+   * @returns <zh/> 插件实例 | <en/> plugin instance
+   */
+  public getPluginInstance<T extends Plugin>(key: string) {
+    return this.context.plugin!.getPluginInstance(key) as unknown as T;
   }
 
   public getData(): GraphData {
