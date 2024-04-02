@@ -3,6 +3,7 @@ import type {
   DataURLOptions,
   DisplayObject,
   CanvasConfig as GCanvasConfig,
+  IAnimation,
   IRenderer,
   PointLike,
 } from '@antv/g';
@@ -263,9 +264,46 @@ export class Canvas {
         camera.cancelLandmarkAnimation();
       }
 
-      canvas.destroy();
+      destroyCanvas(canvas);
       // @ts-expect-error force delete
       this[name] = undefined;
     });
   }
+}
+
+/**
+ * <zh/> G Canvas destroy 未处理动画对象，导致内存泄漏
+ *
+ * <en/> G Canvas destroy does not handle animation objects, causing memory leaks
+ * @param canvas GCanvas
+ * @description
+ * <zh/> 这些操作都应该在 G 中完成，这里只是一个临时的解决方案
+ * 此操作大概能在测试环节降低 10～20% 的内存占用（从 2800MB 降低到 2200MB）
+ *
+ * <en/> These operations should be completed in G, this is just a temporary solution
+ * This operation can reduce memory usage by 10-20% in the test environment (from 2800MB to 2200MB)
+ */
+function destroyCanvas(canvas: GCanvas) {
+  canvas.destroy();
+
+  // 移除相机事件 / Remove camera events
+  const camera = canvas.getCamera();
+  camera.eventEmitter.removeAllListeners();
+
+  canvas.document.timeline.destroy();
+  // @ts-expect-error private property
+  const { animationsWithPromises } = canvas.document.timeline;
+  // 释放 target 对象图形 / Release target object graphics
+  animationsWithPromises.forEach((animation: IAnimation) => {
+    if (animation.effect.target) animation.effect.target = null;
+    // @ts-expect-error private property
+    if (animation.effect.computedTiming) animation.effect.computedTiming = null;
+  });
+
+  // @ts-expect-error private property
+  canvas.document.timeline.animationsWithPromises = [];
+  // @ts-expect-error private property
+  canvas.document.timeline.rafCallbacks = [];
+  // @ts-expect-error private property
+  canvas.document.timeline = null;
 }

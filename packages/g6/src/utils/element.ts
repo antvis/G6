@@ -1,7 +1,7 @@
 import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isString } from '@antv/util';
 import { BaseCombo, BaseEdge, BaseNode } from '../elements';
-import { NodePortStyleProps } from '../elements/nodes/base-node';
+import type { NodePortStyleProps } from '../elements/nodes/base-node';
 import type { TriangleDirection } from '../elements/nodes/triangle';
 import type { Combo, Edge, Node, Placement, Point, Position } from '../types';
 import type { LabelPlacement, Port } from '../types/node';
