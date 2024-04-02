@@ -3,11 +3,42 @@ import { Graph } from '../../../src';
 import type { Command } from './utils';
 
 export interface IGraphWithHistory extends Graph {
+  /**
+   * <zh/> 撤销上一步操作
+   *
+   * <en/> Undo
+   */
   undo: () => Graph;
+  /**
+   * <zh/> 同 `undo()`，但不会将撤销的命令存储到 `redoStack` 中。因此取消的命令无法被重做。
+   *
+   * <en/> Same as `undo()` but does not store the undo-ed command to the
+   * `redoStack`. Canceled command therefore cannot be redo-ed.
+   */
   undoAndCancel: () => Graph;
+  /**
+   * <zh/> 重做上一步操作
+   *
+   * <en/> Redo
+   */
   redo: () => Graph;
+  /**
+   * <zh/> 获取撤销栈
+   *
+   * <en/> Get undo stack
+   */
   getUndoStack: () => Command[];
+  /**
+   * <zh/> 获取重做栈
+   *
+   * <en/> Get redo stack
+   */
   getRedoStack: () => Command[];
+  /**
+   * <zh/> 清空历史记录
+   *
+   * <en/> Clean history
+   */
   cleanHistory: () => Graph;
 }
 

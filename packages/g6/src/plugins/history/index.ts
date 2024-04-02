@@ -122,8 +122,6 @@ export class History extends BasePlugin<HistoryOptions> {
     }
 
     this.undoStackPush(parseCommand(this.batchChanges!.flat(), this.batchAnimation, this.context));
-
-    console.log('undoStack', this.undoStack);
   };
 
   private initBatchCommand = (event: BatchEvent) => {
