@@ -16,9 +16,9 @@ import {
   Star,
   Triangle,
 } from '@/src/elements';
+import { RectCombo } from '@/src/elements/combos/rect';
 import { dark, light } from '@/src/themes';
 import { pick } from '@antv/util';
-import { RectCombo } from '../../src/elements/combos/rect';
 
 describe('registry', () => {
   it('registerBuiltInPlugins', () => {

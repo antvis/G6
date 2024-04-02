@@ -1,5 +1,6 @@
 import { Polyline } from '@/src/elements/edges';
 import { Circle } from '@/src/elements/nodes';
+import { PortStyleProps } from '@/src/types';
 import {
   findPorts,
   getAllPorts,
@@ -21,7 +22,6 @@ import {
 } from '@/src/utils/element';
 import { getXYByPlacement } from '@/src/utils/position';
 import { AABB, DisplayObject, Line, Rect } from '@antv/g';
-import { PortStyleProps } from '../../../src/types';
 
 describe('element', () => {
   const bbox = new AABB();
