@@ -1,6 +1,6 @@
+import { controllerViewport } from '@/__tests__/demos/controller-viewport';
+import { viewportFit } from '@/__tests__/demos/viewport-fit';
 import { Graph } from '@/src';
-import { viewportFit } from '@@/demo/case/viewport-fit';
-import { controllerViewport } from '@@/demo/static/controller-viewport';
 import { createDemoGraph } from '@@/utils';
 import { AABB } from '@antv/g';
 

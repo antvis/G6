@@ -1,9 +1,9 @@
 import { Utils } from '@/src';
 import { DataController } from '@/src/runtime/data';
 import { reduceDataChanges } from '@/src/utils/change';
+import { idOf } from '@/src/utils/id';
 import tree from '@@/dataset/algorithm-category.json';
 import { clone } from '@antv/util';
-import { idOf } from '../../../src/utils/id';
 
 const data = {
   nodes: [

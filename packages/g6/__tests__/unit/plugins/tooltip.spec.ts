@@ -1,4 +1,4 @@
-import { pluginTooltip } from '@@/demo/case';
+import { pluginTooltip } from '@/__tests__/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin tooltip', () => {

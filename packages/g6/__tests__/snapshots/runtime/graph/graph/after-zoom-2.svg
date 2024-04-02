@@ -1,101 +1,29 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="500"
-  height="500"
-  style="background: transparent; position: absolute; outline: none;"
-  color-interpolation-filters="sRGB"
-  tabindex="1"
->
-  <defs />
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
   <g id="g-svg-camera" transform="matrix(2,0,0,2,-250.000031,-250.000031)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)"/>
       <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="edge-1"
-          fill="none"
-          marker-start="false"
-          marker-end="false"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="edge-1"
-            fill="none"
-            marker-start="false"
-            marker-end="false"
-            stroke="transparent"
-            stroke-width="7"
-          />
+        <g id="edge-1" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="edge-1" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="7"/>
           <g transform="matrix(1,0,0,1,237.924683,243.795807)">
-            <path
-              id="key"
-              fill="none"
-              d="M 24.150642518696372,0 L 0,12.408368410916552"
-              stroke-width="5"
-              stroke="rgba(153,173,209,1)"
-            />
-            <path
-              id="key"
-              fill="none"
-              d="M 0,0 L 0,0"
-              stroke-width="7"
-              stroke="transparent"
-            />
+            <path id="key" fill="none" d="M 24.150642518696372,0 L 0,12.408368410916552" stroke-width="5" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 L 0,0" stroke-width="7" stroke="transparent"/>
           </g>
         </g>
       </g>
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="node-2"
-          fill="none"
-          transform="matrix(1,0,0,1,227.251083,261.688171)"
-        >
+        <g id="node-2" fill="none" transform="matrix(1,0,0,1,227.251083,261.688171)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(23,131,255,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-              stroke-width="3"
-              stroke="rgba(0,0,0,1)"
-            />
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12" stroke-width="3" stroke="rgba(0,0,0,1)"/>
           </g>
         </g>
-        <g
-          id="node-1"
-          fill="none"
-          transform="matrix(1,0,0,1,272.748932,238.311813)"
-        >
+        <g id="node-1" fill="none" transform="matrix(1,0,0,1,272.748932,238.311813)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="halo"
-              fill="none"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              stroke-width="12"
-              stroke="rgba(255,192,203,1)"
-              r="12"
-              stroke-dasharray="0,0"
-              stroke-opacity="0.25"
-              pointer-events="none"
-              visibility="visible"
-            />
+            <circle id="halo" fill="none" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="12" stroke="rgba(255,192,203,1)" r="12" stroke-dasharray="0,0" stroke-opacity="0.25" pointer-events="none" visibility="visible"/>
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle
-              id="key"
-              fill="rgba(255,192,203,1)"
-              transform="translate(-12,-12)"
-              cx="12"
-              cy="12"
-              r="12"
-              stroke-width="3"
-              stroke="rgba(0,0,0,1)"
-              visibility="visible"
-            />
+            <circle id="key" fill="rgba(255,192,203,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12" stroke-width="3" stroke="rgba(0,0,0,1)" visibility="visible"/>
           </g>
         </g>
       </g>

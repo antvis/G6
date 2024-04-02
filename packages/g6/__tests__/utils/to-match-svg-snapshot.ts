@@ -1,8 +1,9 @@
 import type { Graph } from '@/src';
-import { Canvas } from '@antv/g';
+import type { AnimateEvent } from '@/src/utils/event';
+import type { Canvas, IAnimation } from '@antv/g';
 import * as fs from 'fs';
 import * as path from 'path';
-import { format } from 'prettier';
+import format from 'xml-formatter';
 import xmlserializer from 'xmlserializer';
 import { getSnapshotDir } from './dir';
 import { sleep } from './sleep';
@@ -46,16 +47,8 @@ export async function toMatchSVGSnapshot(
   });
 
   actual += svg
-    ? formatSVG(
-        await format(xmlserializer.serializeToString(svg as any), {
-          parser: 'babel',
-        }),
-        keepSVGElementId,
-      )
-    : 'null';
-
-  // Remove ';' after format by babel.
-  if (actual !== 'null') actual = actual.slice(0, -2);
+    ? formatSVG(format(xmlserializer.serializeToString(svg as any), { indentation: '  ' }), keepSVGElementId)
+    : '';
 
   try {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -104,4 +97,44 @@ export async function toMatchSnapshot(
   options: ToMatchSVGSnapshotOptions = {},
 ) {
   return await toMatchSVGSnapshot(Object.values(graph.getCanvas().canvas), ...getSnapshotDir(dir, detail), options);
+}
+
+export async function toMatchAnimation(
+  graph: Graph,
+  dir: string,
+  frames: number[],
+  operation: () => void | Promise<void>,
+  detail = 'default',
+  options: ToMatchSVGSnapshotOptions = {},
+) {
+  const animationPromise = new Promise<IAnimation>((resolve) => {
+    graph.once('beforeanimate', (e: AnimateEvent) => {
+      resolve(e.animation!);
+    });
+  });
+
+  await operation();
+
+  const animation = await animationPromise;
+
+  animation.pause();
+
+  for (const frame of frames) {
+    animation.currentTime = frame;
+    await sleep(32);
+    const result = await toMatchSVGSnapshot(
+      Object.values(graph.getCanvas().canvas),
+      ...getSnapshotDir(dir, `${detail}-${frame}`),
+      options,
+    );
+
+    if (!result.pass) {
+      return result;
+    }
+  }
+
+  return {
+    message: () => `match ${detail}`,
+    pass: true,
+  };
 }

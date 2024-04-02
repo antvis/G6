@@ -1,28 +1,37 @@
+import { Graph } from '@/src';
 import { getElementNthDegreeIds, getNodeNthDegreeIds } from '@/src/utils/relation';
-import { Graph } from '../../../src';
 
 describe('relation', () => {
-  const graph = new Graph({
-    data: {
-      nodes: [
-        { id: '1', style: { parentId: 'combo1' } },
-        { id: '2' },
-        { id: '3' },
-        { id: '4' },
-        { id: '5' },
-        { id: '6' },
-      ],
-      edges: [
-        { source: '1', target: '2' },
-        { source: '1', target: '3' },
-        { source: '2', target: '4' },
-        { source: '3', target: '5' },
-        { source: '5', target: '6' },
-        { source: 'combo1', target: '6' },
-      ],
-      combos: [{ id: 'combo1' }],
-    },
+  let graph: Graph;
+
+  beforeAll(() => {
+    graph = new Graph({
+      data: {
+        nodes: [
+          { id: '1', style: { parentId: 'combo1' } },
+          { id: '2' },
+          { id: '3' },
+          { id: '4' },
+          { id: '5' },
+          { id: '6' },
+        ],
+        edges: [
+          { source: '1', target: '2' },
+          { source: '1', target: '3' },
+          { source: '2', target: '4' },
+          { source: '3', target: '5' },
+          { source: '5', target: '6' },
+          { source: 'combo1', target: '6' },
+        ],
+        combos: [{ id: 'combo1' }],
+      },
+    });
   });
+
+  afterAll(() => {
+    graph.destroy();
+  });
+
   it('getElementNthDegreeIds', () => {
     expect(getElementNthDegreeIds(graph, 'node', '1', 0)).toEqual(['1']);
     expect(getElementNthDegreeIds(graph, 'node', '1', 1)).toEqual(['1', '1-2', '1-3', '2', '3']);

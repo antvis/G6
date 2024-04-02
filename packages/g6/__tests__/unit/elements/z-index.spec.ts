@@ -1,5 +1,5 @@
+import { elementZIndex } from '@/__tests__/demos';
 import { CommonEvent, type Graph } from '@/src';
-import { elementZIndex } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
 describe('element zIndex', () => {

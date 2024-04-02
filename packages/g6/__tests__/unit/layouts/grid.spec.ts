@@ -1,5 +1,5 @@
+import { layoutGrid } from '@/__tests__/demos/layout-grid';
 import type { Graph } from '@/src';
-import { layoutGrid } from '@@/demo/case/layout-grid';
 import { createDemoGraph } from '@@/utils';
 
 describe('grid', () => {
@@ -14,11 +14,11 @@ describe('grid', () => {
   });
 
   it('sortBy default', async () => {
-    await expect(graph).toMatchSnapshot(__filename, 'sortby_default');
+    await expect(graph).toMatchSnapshot(__filename, 'sortby-default');
   });
 
   it('sortBy id', async () => {
     graph.setLayout({ type: 'grid', sortBy: 'id' }), await graph.layout();
-    await expect(graph).toMatchSnapshot(__filename, 'sortby_id');
+    await expect(graph).toMatchSnapshot(__filename, 'sortby-id');
   });
 });

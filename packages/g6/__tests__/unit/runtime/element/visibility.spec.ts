@@ -1,12 +1,32 @@
 import type { Graph } from '@/src';
-import { controllerElementVisibility } from '@@/demo/static/controller-element-visibility';
-import { createDemoGraph } from '@@/utils';
+import { createGraph } from '@@/utils';
 
 describe('element visibility', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createDemoGraph(controllerElementVisibility);
+    graph = await createGraph({
+      data: {
+        nodes: [
+          { id: 'node-1', style: { x: 50, y: 50 } },
+          { id: 'node-2', style: { x: 200, y: 50 } },
+          { id: 'node-3', style: { x: 125, y: 150, opacity: 0.5 } },
+        ],
+        edges: [
+          { source: 'node-1', target: 'node-2' },
+          { source: 'node-2', target: 'node-3', style: { opacity: 0.5 } },
+          { source: 'node-3', target: 'node-1' },
+        ],
+      },
+      theme: 'light',
+      node: {
+        style: {
+          size: 20,
+        },
+      },
+    });
+
+    await graph.render();
   });
 
   afterAll(() => {

@@ -30,6 +30,8 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@swc/core": "^1.4.11",
+    "@swc/jest": "^0.2.36",
     "@types/jest": "^29.5.12",
     "@types/jsdom": "^21.1.6",
     "@types/node": "^20.11.24",
@@ -56,9 +58,9 @@
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-visualizer": "^5.12.0",
     "stats.js": "^0.17.0",
-    "ts-jest": "^29.1.2",
     "turbo": "^1.12.4",
     "typescript": "^5.3.3",
-    "vite": "^5.1.5"
+    "vite": "^5.1.5",
+    "xml-formatter": "^3.6.2"
   }
 }

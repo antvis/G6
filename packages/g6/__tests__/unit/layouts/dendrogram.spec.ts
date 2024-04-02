@@ -1,4 +1,4 @@
-import { layoutDendrogramBasic, layoutDendrogramTb } from '@@/demo/case';
+import { layoutDendrogramBasic, layoutDendrogramTb } from '@/__tests__/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('dendrogram', () => {

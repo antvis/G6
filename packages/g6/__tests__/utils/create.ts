@@ -1,3 +1,4 @@
+import type { G6Spec } from '@/src';
 import { Graph } from '@/src';
 import { Circle } from '@/src/elements';
 import { Canvas } from '@/src/runtime/canvas';
@@ -9,7 +10,6 @@ import { Plugin as Plugin3D } from '@antv/g-plugin-3d';
 import { Plugin as PluginControl } from '@antv/g-plugin-control';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
-import type { STDTestCase, STDTestCaseContext } from '../demo/types';
 import { OffscreenCanvasContext } from './offscreen-canvas-context';
 
 function getRenderer(renderer: string) {
@@ -86,7 +86,17 @@ export function createEdgeNode(point: Point): Node {
   });
 }
 
-export async function createDemoGraph(demo: STDTestCase, context?: Partial<STDTestCaseContext>): Promise<Graph> {
+export async function createDemoGraph(demo: TestCase, context?: Partial<TestContext>): Promise<Graph> {
   const container = createGraphCanvas(document.getElementById('container'));
   return demo({ animation: false, container, theme: 'light', ...context });
+}
+
+export async function createGraph(options: G6Spec) {
+  const container = createGraphCanvas(document.getElementById('container'));
+  return new Graph({
+    container,
+    animation: false,
+    theme: 'light',
+    ...options,
+  });
 }

@@ -1,4 +1,3 @@
-export { createDemoGraph, createEdgeNode, createGraphCanvas } from './create';
-export { getCases } from './get-cases';
+export { createDemoGraph, createEdgeNode, createGraph, createGraphCanvas } from './create';
 export { createDeterministicRandom } from './random';
 export { sleep } from './sleep';

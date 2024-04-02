@@ -1,3 +1,4 @@
+import { getDiamondPoints } from '@/src/utils/element';
 import {
   findNearestPoints,
   getEllipseIntersectPoint,
@@ -15,7 +16,6 @@ import {
   toPointObject,
 } from '@/src/utils/point';
 import { Circle, Rect } from '@antv/g';
-import { getDiamondPoints } from '../../../src/utils/element';
 
 describe('Point Functions', () => {
   it('parsePoint', () => {

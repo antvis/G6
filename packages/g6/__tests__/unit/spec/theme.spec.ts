@@ -1,5 +1,5 @@
+import { theme } from '@/__tests__/demos';
 import type { Graph, ThemeOptions } from '@/src';
-import { theme } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
 describe('spec theme', () => {

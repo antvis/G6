@@ -1,5 +1,5 @@
+import { elementVisibility } from '@/__tests__/demos';
 import type { Graph } from '@/src';
-import { elementVisibility } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
 describe('element visibility', () => {

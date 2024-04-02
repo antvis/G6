@@ -1,5 +1,5 @@
+import { layoutMDS } from '@/__tests__/demos/layout-mds';
 import type { Graph } from '@/src';
-import { layoutMDS } from '@@/demo/case/layout-mds';
 import { createDemoGraph } from '@@/utils';
 
 describe('mds', () => {

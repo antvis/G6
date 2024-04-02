@@ -1,5 +1,5 @@
+import { elementChangeType } from '@/__tests__/demos';
 import type { Graph } from '@/src';
-import { elementChangeType } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 
 describe('element change type', () => {
@@ -25,6 +25,6 @@ describe('element change type', () => {
 
     await graph.draw();
 
-    await expect(graph).toMatchSnapshot(__filename, 'change_type');
+    await expect(graph).toMatchSnapshot(__filename, 'change-type');
   });
 });

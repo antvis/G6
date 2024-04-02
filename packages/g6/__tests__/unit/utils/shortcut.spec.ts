@@ -7,6 +7,10 @@ describe('shortcut', () => {
 
   const shortcut = new Shortcut(emitter);
 
+  afterAll(() => {
+    emitter.off();
+  });
+
   it('bind and unbind', () => {
     const controlEqual = jest.fn();
     const controlMinus = jest.fn();

@@ -1,4 +1,4 @@
-import { pluginToolbarBuildIn } from '@@/demo/case';
+import { pluginToolbarBuildIn } from '@/__tests__/demos';
 import { createDemoGraph } from '@@/utils';
 import { get } from '@antv/util';
 
@@ -14,7 +14,7 @@ describe('plugin toolbar', () => {
 
     expect(el.querySelectorAll('.g6-toolbar-item').length).toBe(9);
 
-    await graph.destroy();
+    graph.destroy();
     expect(container.querySelector('.g6-toolbar-item')).toBeFalsy();
   });
 });
