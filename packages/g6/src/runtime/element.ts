@@ -3,10 +3,10 @@
 import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { groupBy, isEmpty } from '@antv/util';
+import { isEmpty } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
-import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
+import { AnimationType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry';
 import type { ComboData, EdgeData, NodeData } from '../spec';
@@ -28,7 +28,7 @@ import type {
 } from '../types';
 import { executeAnimatableTasks, inferDefaultValue, withAnimationCallbacks } from '../utils/animation';
 import { cacheStyle, getCachedStyle, hasCachedStyle } from '../utils/cache';
-import { reduceDataChanges } from '../utils/change';
+import { groupByChangeType, reduceDataChanges } from '../utils/change';
 import { getSubgraphRelatedEdges } from '../utils/edge';
 import { updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
@@ -326,9 +326,9 @@ export class ElementController {
   public async draw(drawContext: DrawContext = { animation: true }) {
     this.init();
 
-    const drawData = this.computeDrawData();
-    if (!drawData) return;
-
+    const data = this.computeChangesAndDrawData();
+    if (!data) return;
+    const { changes, drawData } = data;
     // 计算样式 / Calculate style
     this.computeStyle();
 
@@ -340,36 +340,27 @@ export class ElementController {
 
     await executeAnimatableTasks(
       [...destroyTasks, ...createTasks, ...updateTasks],
+      // this.context.silence || drawContext.silence
       drawContext.silence
         ? {}
         : {
-            before: () => this.emit(new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW)),
+            before: () => this.emit(new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, changes, drawContext.animation)),
             beforeAnimate: (animation) =>
               this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, drawData)),
             afterAnimate: (animation) =>
               this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData)),
-            after: () => this.emit(new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW)),
+            after: () => this.emit(new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, changes, drawContext.animation)),
           },
     )?.finished;
   }
 
-  private computeDrawData() {
+  private computeChangesAndDrawData() {
     const { model } = this.context;
-
-    const tasks = reduceDataChanges(model.getChanges());
+    const changes = model.getChanges();
+    const tasks = reduceDataChanges(changes);
     if (tasks.length === 0) return null;
 
-    const {
-      NodeAdded = [],
-      NodeUpdated = [],
-      NodeRemoved = [],
-      EdgeAdded = [],
-      EdgeUpdated = [],
-      EdgeRemoved = [],
-      ComboAdded = [],
-      ComboUpdated = [],
-      ComboRemoved = [],
-    } = groupBy(tasks, (change) => change.type) as unknown as Record<`${ChangeTypeEnum}`, DataChange[]>;
+    const groupedChanges = groupByChangeType(tasks);
 
     const dataOf = <T extends DataChange['value']>(data: DataChange[]) =>
       new Map(
@@ -379,27 +370,30 @@ export class ElementController {
         }),
       );
 
+    const { add, remove, update } = groupedChanges;
+
     const input: FlowData = {
       add: {
-        nodes: dataOf<NodeData>(NodeAdded),
-        edges: dataOf<EdgeData>(EdgeAdded),
-        combos: dataOf<ComboData>(ComboAdded),
+        nodes: dataOf<NodeData>(add.nodes),
+        edges: dataOf<EdgeData>(add.edges),
+        combos: dataOf<ComboData>(add.combos),
       },
       update: {
-        nodes: dataOf<NodeData>(NodeUpdated),
-        edges: dataOf<EdgeData>(EdgeUpdated),
-        combos: dataOf<ComboData>(ComboUpdated),
+        nodes: dataOf<NodeData>(update.nodes),
+        edges: dataOf<EdgeData>(update.edges),
+        combos: dataOf<ComboData>(update.combos),
       },
       remove: {
-        nodes: dataOf<NodeData>(NodeRemoved),
-        edges: dataOf<EdgeData>(EdgeRemoved),
-        combos: dataOf<ComboData>(ComboRemoved),
+        nodes: dataOf<NodeData>(remove.nodes),
+        edges: dataOf<EdgeData>(remove.edges),
+        combos: dataOf<ComboData>(remove.combos),
       },
     };
 
     const flows: Flow[] = [this.updateRelatedEdgeFlow, this.arrangeDrawOrderFlow, this.collapseExpandFlow];
     const output = flows.reduce((data, flow) => flow(data), input);
-    return output;
+
+    return { changes, drawData: output };
   }
 
   /**

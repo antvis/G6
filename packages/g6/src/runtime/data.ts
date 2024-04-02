@@ -66,6 +66,10 @@ export class DataController {
    * <en/> Whether it is in traceless mode
    */
   private isTraceless = false;
+  /**
+   *
+   */
+  private resetOnRender = true;
 
   constructor() {
     this.model = new GraphLib();

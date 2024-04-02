@@ -1,4 +1,4 @@
-import { getIds, idOf, parentIdOf } from '@/src/utils/id';
+import { idOf, idsOf, parentIdOf } from '@/src/utils/id';
 
 describe('id', () => {
   it('idOf', () => {
@@ -13,12 +13,18 @@ describe('id', () => {
     expect(parentIdOf({})).toBeUndefined();
   });
 
-  it('getIds', () => {
-    expect(getIds({ nodes: [{ id: '1' }, { id: '2' }], edges: [{ source: '1', target: '2' }] })).toEqual([
+  it('idsOf', () => {
+    expect(idsOf({ nodes: [{ id: '1' }, { id: '2' }], edges: [{ source: '1', target: '2' }] }, true)).toEqual([
       '1',
       '2',
       '1-2',
     ]);
-    expect(getIds({})).toEqual([]);
+    expect(idsOf({}, true)).toEqual([]);
+    expect(idsOf({ nodes: [{ id: '1' }, { id: '2' }], edges: [{ source: '1', target: '2' }] }, false)).toEqual({
+      nodes: ['1', '2'],
+      edges: ['1-2'],
+      combos: [],
+    });
+    expect(idsOf({}, false)).toEqual({ nodes: [], edges: [], combos: [] });
   });
 });

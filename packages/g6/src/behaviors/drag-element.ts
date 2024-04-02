@@ -154,6 +154,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     this.enable = this.validate(event);
     if (!this.enable) return;
 
+    this.context.batch?.startBatch();
     this.target = this.getSelectedNodeIDs([event.target.id]);
     this.hideEdge();
     this.context.graph.frontElement(this.target);
@@ -181,6 +182,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     }
     this.showEdges();
     this.options.onFinish?.(this.target);
+    this.context.batch?.endBatch();
     this.target = [];
   };
 

@@ -4,7 +4,7 @@ import { CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
 import type { Element, ElementType, IPointerEvent, State } from '../types';
-import { getIds } from '../utils/id';
+import { idsOf } from '../utils/id';
 import { getElementNthDegreeIds } from '../utils/relation';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
@@ -110,10 +110,9 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
     }
 
     if (this.options.inactiveState) {
-      const inactiveIds = getIds(graph.getData()).filter((id) => !activeIds.includes(id));
+      const inactiveIds = idsOf(graph.getData(), true).filter((id) => !activeIds.includes(id));
       Object.assign(states, this.getElementsState(inactiveIds, this.options.inactiveState, add));
     }
-
     graph.setElementState(states, this.options.animation);
   };
 
