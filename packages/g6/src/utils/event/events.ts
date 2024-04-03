@@ -1,8 +1,7 @@
 import type { IAnimation } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import type { AnimationType, GraphEvent } from '../../constants';
-import type { GraphData } from '../../spec';
-import type { State, TransformOptions } from '../../types';
+import type { ElementDatum, ElementType, State, TransformOptions } from '../../types';
 
 export class BaseEvent {
   constructor(public type: string) {}
@@ -45,7 +44,8 @@ export class ElementLifeCycleEvent extends BaseEvent {
       | GraphEvent.AFTER_ELEMENT_UPDATE
       | GraphEvent.BEFORE_ELEMENT_DESTROY
       | GraphEvent.AFTER_ELEMENT_DESTROY,
-    public data: GraphData,
+    public elementType: ElementType,
+    public data: ElementDatum,
   ) {
     super(type);
   }

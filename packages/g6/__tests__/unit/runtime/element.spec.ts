@@ -9,7 +9,7 @@ describe('ElementController', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createGraph({
+    graph = createGraph({
       data: {
         nodes: [
           { id: 'node-1', style: { x: 100, y: 100, fill: 'red', stroke: 'pink', lineWidth: 1 }, data: { value: 100 } },
