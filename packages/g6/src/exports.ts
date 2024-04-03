@@ -3,7 +3,7 @@ import { idOf } from './utils/id';
 import { omitStyleProps, subStyleProps } from './utils/prefix';
 import { treeToGraphData } from './utils/tree';
 
-export { BaseBehavior } from './behaviors';
+export { BaseBehavior, DragCanvas, ZoomCanvas } from './behaviors';
 export {
   CanvasEvent,
   ComboEvent,
@@ -21,8 +21,9 @@ export { BaseShape } from './elements/shapes';
 export { BasePlugin, CameraSetting } from './plugins';
 export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
+export { Shortcut } from './utils/shortcut';
 
-export type { BaseBehaviorOptions } from './behaviors';
+export type { BaseBehaviorOptions, DragCanvasOptions, ZoomCanvasOptions } from './behaviors';
 export type { BaseComboStyleProps } from './elements/combos';
 export type { BaseEdgeStyleProps } from './elements/edges';
 export type { BaseNodeStyleProps } from './elements/nodes';
@@ -45,7 +46,18 @@ export type {
   ThemeOptions,
   ViewportOptions,
 } from './spec';
-export type { Point, Vector2, Vector3 } from './types';
+export type {
+  IDragEvent,
+  IElementEvent,
+  IKeyboardEvent,
+  IPointerEvent,
+  IWheelEvent,
+  Point,
+  Vector2,
+  Vector3,
+  ViewportAnimationEffectTiming,
+} from './types';
+export type { ShortcutKey } from './utils/shortcut';
 
 const Utils = {
   idOf,
