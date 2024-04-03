@@ -2,7 +2,7 @@ import type { Cursor, FederatedMouseEvent } from '@antv/g';
 import { isFunction, isObject } from '@antv/util';
 import { CanvasEvent } from '../constants';
 import { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, Point, Vector2, ViewportAnimationEffectTiming } from '../types';
+import type { BehaviorEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
 import { multiply } from '../utils/vector';
@@ -95,7 +95,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     }
   };
 
-  private async onTranslate(value: Point, event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {
+  private async onTranslate(value: Vector2, event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {
     if (!this.validate(event)) return;
     const { sensitivity } = this.options;
     const delta = sensitivity * -1;
@@ -115,6 +115,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   }
 
   public destroy(): void {
+    this.shortcut.destroy();
     this.context.canvas.setCursor(this.defaultCursor);
     super.destroy();
   }

@@ -145,4 +145,9 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     if (!container) return;
     container.addEventListener(eventName, listener);
   }
+
+  public destroy() {
+    this.shortcut.destroy();
+    super.destroy();
+  }
 }
