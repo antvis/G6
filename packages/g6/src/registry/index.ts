@@ -91,7 +91,7 @@ export function getExtension<T extends ExtensionCategory>(
  * @returns <zh/> 注册的扩展 | <en/> Registered extension
  * @internal
  */
-export function getExtensions<T extends ExtensionCategory>(category: T): ExtensionRegistry[T] {
+export function getExtensions<T extends Loosen<ExtensionCategory>>(category: T): ExtensionRegistry[T] {
   return EXTENSION_REGISTRY[category];
 }
 
