@@ -1,3 +1,4 @@
+import type { Controller } from 'lil-gui';
 import GUI from 'lil-gui';
 import * as demos from './demos';
 
@@ -6,6 +7,8 @@ const demoNames = Object.keys(demos);
 const options = {
   demo: '',
 };
+
+const customForm: Controller[] = [];
 
 const panel = new GUI({ autoPlace: true });
 const __STORAGE__ = '__G6_EXTENSION_3D_DEMO__';
@@ -33,11 +36,19 @@ function initContainer() {
 
 function initContext() {
   const container = initContainer();
-  return { container };
+  return { container, width: 500, height: 500 };
 }
 
-function render(name: string) {
+async function render(name: string) {
+  destroyForm();
   const context = initContext();
   const demo = demos[name as keyof typeof demos];
-  demo(context);
+  const graph = await demo(context);
+  customForm.push(...(demo?.form?.(panel) || []));
+  Object.assign(window, { graph });
+}
+
+function destroyForm() {
+  customForm.forEach((controller) => controller.destroy());
+  customForm.length = 0;
 }
