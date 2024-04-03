@@ -5,7 +5,7 @@ describe('element z-index', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createGraph({
+    graph = createGraph({
       data: {
         nodes: [
           { id: 'node-1', style: { x: 150, y: 150, color: 'red' } },

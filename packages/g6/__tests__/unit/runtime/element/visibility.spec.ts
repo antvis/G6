@@ -5,7 +5,7 @@ describe('element visibility', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createGraph({
+    graph = createGraph({
       data: {
         nodes: [
           { id: 'node-1', style: { x: 50, y: 50 } },
