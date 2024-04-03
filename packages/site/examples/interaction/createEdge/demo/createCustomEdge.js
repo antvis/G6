@@ -51,12 +51,19 @@ const graph = new Graph({
   },
   behaviors: [{
     type: 'create-edge',
-    trigger: 'drag',
-    edgeStyle: {
-      color: '#fff',
-      lineWidth: 2,
-      lineDash: [2, 3],
-    },
+    trigger: 'click',
+    onCreate: (target, source, createEdgeId) => {
+      return {
+        id: createEdgeId + 'custom',
+        target: source,
+        source: target,
+        style: {
+          color: 'red',
+          lineWidth: 2,
+          endArrow: true,
+        },
+      };
+    }
   }],
 });
 

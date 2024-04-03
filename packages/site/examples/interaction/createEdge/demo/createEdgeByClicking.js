@@ -52,7 +52,7 @@ const graph = new Graph({
   behaviors: [{
     type: 'create-edge',
     trigger: 'click',
-    edgeConfig: {
+    edgeStyle: {
       color: 'red',
       lineWidth: 2,
     },

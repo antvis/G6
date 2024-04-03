@@ -38,7 +38,7 @@ const graph = new Graph({
   behaviors: [{
     type: 'create-edge',
     trigger: 'drag',
-    edgeConfig: {
+    edgeStyle: {
       lineWidth: 2,
       lineDash: [2, 3],
     },

@@ -27,6 +27,14 @@
         "en": "Create Edge by Clicking Combo"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Uwn-RZXSXLQAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "createCustomEdge.js",
+      "title": {
+        "zh": "点击自定义创建边",
+        "en": "Create custom Edge by Clicking"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ccvHTKQ19oMAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

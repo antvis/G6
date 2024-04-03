@@ -25,7 +25,7 @@ describe('behavior create edge click', () => {
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node3' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'click-edge2');
 
-    graph.setBehaviors([{ type: 'create-edge', trigger: 'click', edgeConfig: { color: 'red', lineWidth: 2 } }]);
+    graph.setBehaviors([{ type: 'create-edge', trigger: 'click', edgeStyle: { color: 'red', lineWidth: 2 } }]);
 
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node2' }, targetType: 'node' });
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node3' }, targetType: 'node' });
@@ -34,6 +34,24 @@ describe('behavior create edge click', () => {
     graph.emit(`combo:${CommonEvent.CLICK}`, { target: { id: 'combo1' }, targetType: 'combo' });
     graph.emit(`combo:${CommonEvent.CLICK}`, { target: { id: 'combo2' }, targetType: 'combo' });
     await expect(graph).toMatchSnapshot(__filename, 'click-edge4-combo');
+
+    graph.setBehaviors([
+      {
+        type: 'create-edge',
+        trigger: 'click',
+        edgeStyle: { color: 'red', lineWidth: 2 },
+        onCreate: (target: string, source: string) => {
+          return {
+            target: source,
+            source: target,
+          };
+        },
+      },
+    ]);
+
+    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node2' }, targetType: 'node' });
+    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node3' }, targetType: 'node' });
+    await expect(graph).toMatchSnapshot(__filename, 'click-custom-edge4');
   });
 
   afterAll(() => {

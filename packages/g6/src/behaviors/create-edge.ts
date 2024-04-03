@@ -1,8 +1,9 @@
 import type { FederatedMouseEvent } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { isFunction, uniqueId } from '@antv/util';
+import { deepMix, isFunction, uniqueId } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
+import type { EdgeData } from '../spec';
 import type { EdgeStyle } from '../spec/element/edge';
 import type { BehaviorEvent } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
@@ -35,7 +36,13 @@ export interface CreateEdgeOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when create is completed.
    */
-  onFinish?: (edgeId: ID, targetId: ID, sourceId: ID) => void;
+  onFinish?: (targetId: ID, sourceId: ID, createEdgeId: ID) => void;
+  /**
+   * <zh/> 创建边回调, 返回 edgeData.
+   *
+   * <en/> Callback when create edge, return edgeData.
+   */
+  onCreate?: (targetId: ID, sourceId: ID, createEdgeId: ID) => Partial<EdgeData>;
 }
 
 export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
@@ -135,7 +142,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
   private createEdge = (event: BehaviorEvent<FederatedMouseEvent>) => {
     const { graph } = this.context;
-    const { edgeStyle, onFinish } = this.options;
+    const { edgeStyle, onFinish, onCreate } = this.options;
     const targetId = event.target?.id;
 
     if (!targetId || !this.source) return;
@@ -143,18 +150,23 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     const target = this.getSelectedNodeIDs([event.target.id])?.[0];
     const id = `${this.source}-${uniqueId()}-${target}`;
 
+    const edgeOptions = isFunction(onCreate) ? onCreate(target, this.source, id) : {};
+
     graph.addEdgeData([
-      {
-        id,
-        source: this.source,
-        target,
-        style: {
-          ...edgeStyle,
+      deepMix(
+        {
+          id,
+          source: this.source,
+          target,
+          style: {
+            ...edgeStyle,
+          },
         },
-      },
+        edgeOptions,
+      ),
     ]);
 
-    onFinish(id, this.source, target);
+    onFinish(this.source, target, id);
   };
 
   private cancelEdge = async () => {
