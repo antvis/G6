@@ -1,9 +1,8 @@
-import type { FederatedMouseEvent } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import { BehaviorEvent } from '../types';
+import type { IPointerEvent } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -19,7 +18,7 @@ export interface CollapseExpandOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the expand/collapse function
    */
-  enable?: boolean | ((event: BehaviorEvent<FederatedMouseEvent>) => boolean);
+  enable?: boolean | ((event: IPointerEvent) => boolean);
   /**
    * <zh/> 完成收起时的回调
    *
@@ -58,7 +57,7 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
     graph.off(`combo:${CommonEvent.DBLCLICK}`, this.onCollapseExpand);
   }
 
-  private onCollapseExpand = async (event: BehaviorEvent<FederatedMouseEvent>) => {
+  private onCollapseExpand = async (event: IPointerEvent) => {
     if (!this.validate(event)) return;
 
     const id = event?.target?.id;
@@ -77,7 +76,7 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
     }
   };
 
-  private validate(event: BehaviorEvent<FederatedMouseEvent>): boolean {
+  private validate(event: IPointerEvent): boolean {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);

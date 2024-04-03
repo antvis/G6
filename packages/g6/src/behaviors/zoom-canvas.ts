@@ -2,7 +2,7 @@ import type { PointLike } from '@antv/g';
 import { clamp, isArray, isFunction, isObject } from '@antv/util';
 import { CanvasEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, Point, ViewportAnimationEffectTiming } from '../types';
+import type { IKeyboardEvent, IWheelEvent, Point, ViewportAnimationEffectTiming } from '../types';
 import { parsePoint } from '../utils/point';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
@@ -21,7 +21,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the function of zooming the canvas
    */
-  enable?: boolean | ((event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
+  enable?: boolean | ((event: IWheelEvent | IKeyboardEvent) => boolean);
   /**
    * <zh/> 触发缩放的方式
    *
@@ -109,7 +109,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    */
   protected zoom = async (
     value: number,
-    event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>,
+    event: IWheelEvent | IKeyboardEvent,
     animation: ZoomCanvasOptions['animation'],
   ) => {
     if (!this.validate(event)) return;
@@ -132,7 +132,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     await this.context.graph.zoomTo(1, this.options.animation);
   };
 
-  protected validate(event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) {
+  protected validate(event: IWheelEvent | IKeyboardEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);

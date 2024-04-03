@@ -1,5 +1,5 @@
 import type { RuntimeContext } from '../runtime/types';
-import type { ElementEvent } from '../types/event';
+import type { IElementEvent } from '../types/event';
 import type { Item } from '../utils/contextmenu';
 import { CONTEXTMENU_CSS, getContentFromItems } from '../utils/contextmenu';
 import { createPluginContainer, insertDOM } from '../utils/dom';
@@ -35,12 +35,12 @@ export type ContextmenuOptions = BasePluginOptions & {
    * <zh/> 返回菜单的项目列表，支持 `Promise` 类型的返回值。是 `getContent` 的快捷配置。
    * <en/> Return the list of menu items, support the `Promise` type return value. It is a shortcut configuration of `getContent`.
    */
-  getItems?: (event: ElementEvent) => Item[] | Promise<Item[]>;
+  getItems?: (event: IElementEvent) => Item[] | Promise<Item[]>;
   /**
    * <zh/> 返回菜单的内容，支持 `Promise` 类型的返回值，也可以使用 `getItems` 来快捷配置。
    * <en/> Return the content of menu, support the `Promise` type return value, you can also use `getItems` for shortcut configuration.
    */
-  getContent?: (event: ElementEvent) => HTMLElement | string | Promise<HTMLElement | string>;
+  getContent?: (event: IElementEvent) => HTMLElement | string | Promise<HTMLElement | string>;
   /**
    * <zh/> Loading 时候的菜单内容，用于 getContent 返回 Promise 的时候。
    * <en/> The menu content when loading is used when getContent returns a Promise.
@@ -50,7 +50,7 @@ export type ContextmenuOptions = BasePluginOptions & {
    * <zh/> 插件是否可用，通过参数来判断是否支持右键菜单，默认全部可用。
    * <en/> Whether the plugin is available, determine whether the right-click menu is supported through parameters, The default is all available.
    */
-  enable?: boolean | ((event: ElementEvent) => boolean);
+  enable?: boolean | ((event: IElementEvent) => boolean);
 };
 
 /**
@@ -86,7 +86,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
    * <en/> Display the right-click menu based on the incoming element.
    * @param e - 事件
    */
-  public async showContextmenu(e: ElementEvent) {
+  public async showContextmenu(e: IElementEvent) {
     const { enable, offset } = this.options;
 
     if ((typeof enable === 'function' && !enable(e)) || !enable) {
@@ -139,7 +139,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     this.$element.remove();
   }
 
-  private async getDOMContent(e: ElementEvent) {
+  private async getDOMContent(e: IElementEvent) {
     const { getContent, getItems } = this.options;
 
     if (getItems) {
@@ -172,7 +172,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     document.removeEventListener('click', this.onMenuItemClick);
   }
 
-  private onTriggerEvent = (e: ElementEvent) => {
+  private onTriggerEvent = (e: IElementEvent) => {
     // `contextmenu` 事件默认会触发浏览器的右键菜单，需要阻止默认事件
     // `click` 事件不需要阻止默认事件
     e.preventDefault?.();
