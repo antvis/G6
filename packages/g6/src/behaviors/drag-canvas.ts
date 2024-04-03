@@ -1,8 +1,8 @@
-import type { Cursor, FederatedMouseEvent } from '@antv/g';
+import type { Cursor } from '@antv/g';
 import { isFunction, isObject } from '@antv/util';
 import { CanvasEvent } from '../constants';
-import { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, Point, Vector2, ViewportAnimationEffectTiming } from '../types';
+import type { RuntimeContext } from '../runtime/types';
+import type { IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
 import { multiply } from '../utils/vector';
@@ -21,7 +21,7 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the function of dragging the canvas
    */
-  enable?: boolean | ((event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
+  enable?: boolean | ((event: IPointerEvent | IKeyboardEvent) => boolean);
   /**
    * <zh/> 触发拖拽的方式，默认使用指针按下拖拽
    *
@@ -87,7 +87,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     }
   }
 
-  private onDrag = (event: BehaviorEvent<FederatedMouseEvent>) => {
+  private onDrag = (event: IPointerEvent) => {
     if (!this.validate(event)) return;
     if (event.targetType === 'canvas') {
       this.translate([event.movement.x, event.movement.y], false);
@@ -95,7 +95,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     }
   };
 
-  private async onTranslate(value: Point, event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {
+  private async onTranslate(value: Vector2, event: IPointerEvent | IKeyboardEvent) {
     if (!this.validate(event)) return;
     const { sensitivity } = this.options;
     const delta = sensitivity * -1;
@@ -107,7 +107,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     await this.context.graph.translateBy(offset, animation);
   }
 
-  private validate(event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {
+  private validate(event: IPointerEvent | IKeyboardEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
@@ -115,6 +115,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   }
 
   public destroy(): void {
+    this.shortcut.destroy();
     this.context.canvas.setCursor(this.defaultCursor);
     super.destroy();
   }

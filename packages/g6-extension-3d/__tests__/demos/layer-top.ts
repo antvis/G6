@@ -1,12 +1,13 @@
-import type { G6Spec, GraphData } from '@antv/g6';
-import { Graph, register } from '@antv/g6';
-import { Light, Line3D, Plane, Sphere, renderer } from '../../src';
+import type { GraphData } from '@antv/g6';
+import { ExtensionCategory, Graph, register } from '@antv/g6';
+import { Light, Line3D, ObserveCanvas3D, Plane, Sphere, renderer } from '../../src';
 
-export const layerTop = async (context: G6Spec) => {
-  register('plugin', '3d-light', Light);
-  register('node', 'sphere', Sphere);
-  register('node', 'plane', Plane);
-  register('edge', 'line3d', Line3D);
+export const layerTop: TestCase = async (context) => {
+  register(ExtensionCategory.PLUGIN, '3d-light', Light);
+  register(ExtensionCategory.NODE, 'sphere', Sphere);
+  register(ExtensionCategory.NODE, 'plane', Plane);
+  register(ExtensionCategory.EDGE, 'line3d', Line3D);
+  register(ExtensionCategory.BEHAVIOR, 'observe-canvas-3d', ObserveCanvas3D);
 
   const result = await fetch('https://assets.antv.antgroup.com/g6/3-layer-top.json');
   const { nodes, edges } = await result.json();
@@ -45,7 +46,10 @@ export const layerTop = async (context: G6Spec) => {
   const graph = new Graph({
     ...context,
     renderer,
+    x: 100,
+    y: 100,
     data,
+    zoom: 0.4,
     node: {
       style: {},
     },
@@ -55,7 +59,16 @@ export const layerTop = async (context: G6Spec) => {
         lineWidth: 5,
       },
     },
+    behaviors: ['observe-canvas-3d'],
     plugins: [
+      {
+        type: 'camera-setting',
+        projectionMode: 'perspective',
+        near: 0.1,
+        far: 50000,
+        fov: 45,
+        aspect: 1,
+      },
       {
         type: '3d-light',
         directional: {

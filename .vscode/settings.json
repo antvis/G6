@@ -2,6 +2,7 @@
   "cSpell.words": [
     "AABB",
     "afteranimate",
+    "aftercanvasinit",
     "afterdraw",
     "afterelementcreate",
     "afterelementdestroy",
@@ -16,6 +17,7 @@
     "antv",
     "bbox",
     "beforeanimate",
+    "beforecanvasinit",
     "beforedraw",
     "beforeelementcreate",
     "beforeelementdestroy",

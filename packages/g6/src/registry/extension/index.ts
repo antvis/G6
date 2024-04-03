@@ -34,11 +34,11 @@ export abstract class ExtensionController<Extension extends BaseExtension<Loosel
     const { category } = this;
 
     const { key, type } = extension;
-    const Ctor = getExtension(category as any, type);
+    const Ctor = getExtension(category, type);
     if (!Ctor) return;
 
     const instance = new Ctor(this.context, extension);
-    this.extensionMap[key] = instance;
+    this.extensionMap[key] = instance as Extension;
   }
 
   protected createExtensions(extensions: STDExtensionOption[]) {

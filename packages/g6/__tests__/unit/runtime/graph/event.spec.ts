@@ -2,6 +2,22 @@ import { GraphEvent } from '@/src';
 import { createGraph } from '@@/utils';
 
 describe('event', () => {
+  it('canvas ready', async () => {
+    const graph = createGraph({
+      container: document.createElement('div'),
+    });
+
+    const ready = jest.fn();
+    graph.on(GraphEvent.BEFORE_CANVAS_INIT, ready);
+    graph.on(GraphEvent.AFTER_CANVAS_INIT, ready);
+
+    await graph.draw();
+
+    expect(ready).toHaveBeenCalledTimes(2);
+
+    graph.destroy();
+  });
+
   it('graph lifecycle event', async () => {
     const graph = createGraph({
       data: {

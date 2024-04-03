@@ -1,9 +1,8 @@
-import type { FederatedMouseEvent } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, ViewportAnimationEffectTiming } from '../types';
+import type { IKeyboardEvent, IPointerEvent, ViewportAnimationEffectTiming } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -21,7 +20,7 @@ export interface FocusElementOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the function of dragging the node
    */
-  enable?: boolean | ((event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
+  enable?: boolean | ((event: IPointerEvent | IKeyboardEvent) => boolean);
 }
 
 export class FocusElement extends BaseBehavior<FocusElementOptions> {
@@ -58,7 +57,7 @@ export class FocusElement extends BaseBehavior<FocusElementOptions> {
     );
   }
 
-  private clickFocusElement = async (event: BehaviorEvent<FederatedMouseEvent>) => {
+  private clickFocusElement = async (event: IPointerEvent) => {
     if (!this.validate(event)) return;
     const { animation } = this.options;
     const { graph } = this.context;
@@ -67,7 +66,7 @@ export class FocusElement extends BaseBehavior<FocusElementOptions> {
     await graph.focusElement(id, animation);
   };
 
-  private validate(event: BehaviorEvent<FederatedMouseEvent>) {
+  private validate(event: IPointerEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);

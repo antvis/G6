@@ -1,10 +1,9 @@
-import type { FederatedMouseEvent } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, ElementType, State } from '../types';
+import type { ElementType, IPointerEvent, State } from '../types';
 import { getIds } from '../utils/id';
 import { getElementNthDegreeIds } from '../utils/relation';
 import type { BaseBehaviorOptions } from './base-behavior';
@@ -22,7 +21,7 @@ export interface HoverElementOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable hover element function
    */
-  enable?: boolean | ((event: BehaviorEvent<FederatedMouseEvent>) => boolean);
+  enable?: boolean | ((event: IPointerEvent) => boolean);
   /**
    * <zh/> 激活元素的n度关系，默认为0，表示只激活当前节点，1表示激活当前节点及其直接相邻的节点和边，以此类推
    *
@@ -46,13 +45,13 @@ export interface HoverElementOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when the element is hovered
    */
-  onHover?: (event: BehaviorEvent<FederatedMouseEvent>) => void;
+  onHover?: (event: IPointerEvent) => void;
   /**
    * <zh/> 当悬停结束时的回调
    *
    * <en/> Callback when the hover ends
    */
-  onHoverEnd?: (event: BehaviorEvent<FederatedMouseEvent>) => void;
+  onHoverEnd?: (event: IPointerEvent) => void;
 }
 
 export class HoverElement extends BaseBehavior<HoverElementOptions> {
@@ -79,19 +78,19 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
     });
   }
 
-  private hoverElement = (event: BehaviorEvent<FederatedMouseEvent>) => {
+  private hoverElement = (event: IPointerEvent) => {
     if (!this.validate(event)) return;
     this.updateElementsState(event, true);
     this.options.onHover?.(event);
   };
 
-  private hoverEndElement = (event: BehaviorEvent<FederatedMouseEvent>) => {
+  private hoverEndElement = (event: IPointerEvent) => {
     if (!this.validate(event)) return;
     this.updateElementsState(event, false);
     this.options.onHoverEnd?.(event);
   };
 
-  private updateElementsState = (event: BehaviorEvent<FederatedMouseEvent>, add: boolean) => {
+  private updateElementsState = (event: IPointerEvent, add: boolean) => {
     if (!this.options.activeState && !this.options.inactiveState) return;
 
     const { graph } = this.context;
@@ -124,7 +123,7 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
     return states;
   };
 
-  private validate(event: BehaviorEvent<FederatedMouseEvent>) {
+  private validate(event: IPointerEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);

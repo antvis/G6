@@ -1,4 +1,8 @@
 export enum GraphEvent {
+  /** <zh/> 画布初始化之前 | <en/> Before the canvas is initialized */
+  BEFORE_CANVAS_INIT = 'beforecanvasinit',
+  /** <zh/> 画布初始化之后 | <en/> After the canvas is initialized */
+  AFTER_CANVAS_INIT = 'aftercanvasinit',
   /** <zh/> 视口尺寸变更之前 | <en/> Before the viewport size changes */
   BEFORE_SIZE_CHANGE = 'beforesizechange',
   /** <zh/> 视口尺寸变更之后 | <en/> After the viewport size changes */
