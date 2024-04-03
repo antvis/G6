@@ -25,13 +25,13 @@ export interface CollapseExpandOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when collapse is completed
    */
-  oncollapse?: (id: ID) => void;
+  onCollapse?: (id: ID) => void;
   /**
    * <zh/> 完成展开时的回调
    *
    * <en/> Callback when expand is completed
    */
-  onexpand?: (id: ID) => void;
+  onExpand?: (id: ID) => void;
 }
 
 export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
@@ -66,14 +66,14 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
     const data = model.getComboData([id])[0];
     if (!data) return false;
 
-    const { oncollapse, onexpand, animation } = this.options;
+    const { onCollapse, onExpand, animation } = this.options;
     const isCollapse = data.style?.collapsed;
     if (isCollapse) {
       await graph.expand(id, animation);
-      onexpand?.(id);
+      onExpand?.(id);
     } else {
       await graph.collapse(id, animation);
-      oncollapse?.(id);
+      onCollapse?.(id);
     }
   };
 

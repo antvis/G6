@@ -2,7 +2,7 @@ import type { Cursor, FederatedMouseEvent } from '@antv/g';
 import { isFunction, isObject } from '@antv/util';
 import { CanvasEvent } from '../constants';
 import { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, Point, ViewportAnimationEffectTiming } from '../types';
+import type { BehaviorEvent, Point, Vector2, ViewportAnimationEffectTiming } from '../types';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
 import { multiply } from '../utils/vector';
@@ -39,7 +39,7 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when dragging is completed
    */
-  onfinish?: () => void;
+  onFinish?: () => void;
 }
 
 type CombinationKey = {
@@ -78,26 +78,33 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
       graph.off(CanvasEvent.DRAG, this.onDrag);
       const { up = [], down = [], left = [], right = [] } = trigger;
 
-      this.shortcut.bind(up, (event) => this.translate([0, 1], event));
-      this.shortcut.bind(down, (event) => this.translate([0, -1], event));
-      this.shortcut.bind(left, (event) => this.translate([1, 0], event));
-      this.shortcut.bind(right, (event) => this.translate([-1, 0], event));
+      this.shortcut.bind(up, (event) => this.onTranslate([0, 1], event));
+      this.shortcut.bind(down, (event) => this.onTranslate([0, -1], event));
+      this.shortcut.bind(left, (event) => this.onTranslate([1, 0], event));
+      this.shortcut.bind(right, (event) => this.onTranslate([-1, 0], event));
     } else {
       graph.on(CanvasEvent.DRAG, this.onDrag);
     }
   }
 
   private onDrag = (event: BehaviorEvent<FederatedMouseEvent>) => {
+    if (!this.validate(event)) return;
     if (event.targetType === 'canvas') {
-      this.context.graph.translateBy([event.movement.x, event.movement.y], false);
+      this.translate([event.movement.x, event.movement.y], false);
+      this.options.onFinish?.();
     }
   };
 
-  private translate(value: Point, event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {
+  private async onTranslate(value: Point, event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {
     if (!this.validate(event)) return;
     const { sensitivity } = this.options;
     const delta = sensitivity * -1;
-    this.context.graph.translateBy(multiply(value, delta), this.options.animation);
+    await this.translate(multiply(value, delta) as Vector2, this.options.animation);
+    this.options.onFinish?.();
+  }
+
+  protected async translate(offset: Vector2, animation?: ViewportAnimationEffectTiming) {
+    await this.context.graph.translateBy(offset, animation);
   }
 
   private validate(event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {

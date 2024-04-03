@@ -24,7 +24,7 @@ export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<Ba
    *
    * <en/> Whether to enable the function of dragging the node
    */
-  enable?: boolean | ((event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
+  enable?: boolean | ((event: DragEvent) => boolean);
   /**
    * <zh/> 拖拽操作效果
    * - link: 将拖拽元素置入为目标元素的子元素
