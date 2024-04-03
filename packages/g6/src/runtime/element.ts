@@ -57,8 +57,8 @@ export class ElementController {
   }
 
   public init() {
-    const { canvas } = this.context;
     if (!this.container) {
+      const { canvas } = this.context;
       this.container = {
         node: canvas.appendChild(new Group({ style: { zIndex: 2 } })),
         edge: canvas.appendChild(new Group({ style: { zIndex: 1 } })),
@@ -325,9 +325,10 @@ export class ElementController {
    * <en/> start render process
    */
   public async draw(drawContext: DrawContext = { animation: true }) {
+    this.init();
+
     const drawData = this.computeDrawData();
     if (!drawData) return;
-    this.init();
 
     // 计算样式 / Calculate style
     this.computeStyle();
