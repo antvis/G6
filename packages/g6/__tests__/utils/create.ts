@@ -91,7 +91,7 @@ export async function createDemoGraph(demo: TestCase, context?: Partial<TestCont
   return demo({ animation: false, container, theme: 'light', ...context });
 }
 
-export async function createGraph(options: G6Spec) {
+export function createGraph(options: G6Spec) {
   const container = createGraphCanvas(document.getElementById('container'));
   return new Graph({
     container,

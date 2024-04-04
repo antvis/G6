@@ -3,6 +3,7 @@ import type { AABB, BaseStyleProps, DataURLOptions } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
 import { COMBO_KEY, GraphEvent } from '../constants';
+import type { Plugin } from '../plugins/types';
 import { getExtension } from '../registry';
 import type {
   BehaviorOptions,
@@ -276,6 +277,17 @@ export class Graph extends EventEmitter {
     return this.options.plugins || [];
   }
 
+  /**
+   * <zh/> 获取插件实例
+   *
+   * <en/> Get plugin instance
+   * @param key - <zh/> 插件 key | <en/> plugin key
+   * @returns <zh/> 插件实例 | <en/> plugin instance
+   */
+  public getPluginInstance<T extends Plugin>(key: string) {
+    return this.context.plugin!.getPluginInstance(key) as unknown as T;
+  }
+
   public getData(): GraphData {
     return this.context.model.getData();
   }
@@ -417,26 +429,31 @@ export class Graph extends EventEmitter {
     return this.context.model.getElementDataByState(elementType, state);
   }
 
-  private createCanvas() {
-    if (this.context.canvas) return this.context.canvas;
+  private async initCanvas() {
+    if (this.context.canvas) return await this.context.canvas.init();
 
     const { container = 'container', width, height, renderer, background } = this.options;
 
     if (container instanceof Canvas) {
       this.context.canvas = container;
       container.setBackground(background);
+      await container.init();
     } else {
       const $container = isString(container) ? document.getElementById(container!) : container;
 
-      this.context.canvas = new Canvas({
+      this.emit(GraphEvent.BEFORE_CANVAS_INIT, { container: $container, width, height });
+
+      const canvas = new Canvas({
         container: $container!,
         width,
         height,
         renderer,
       });
-    }
 
-    return this.context.canvas;
+      this.context.canvas = canvas;
+      await canvas.init();
+      this.emit(GraphEvent.AFTER_CANVAS_INIT, { canvas });
+    }
   }
 
   private createRuntime() {
@@ -451,7 +468,7 @@ export class Graph extends EventEmitter {
   private async prepare(): Promise<void> {
     if (this.destroyed) throw new Error('Graph has been destroyed');
 
-    await this.createCanvas().init();
+    await this.initCanvas();
     this.createRuntime();
   }
 

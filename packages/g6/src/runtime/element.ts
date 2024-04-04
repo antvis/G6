@@ -33,7 +33,7 @@ import { reduceDataChanges } from '../utils/change';
 import { getSubgraphRelatedEdges } from '../utils/edge';
 import { updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
-import { AnimateEvent, GraphLifeCycleEvent } from '../utils/event';
+import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
 import { computeElementCallbackStyle } from '../utils/style';
@@ -57,8 +57,8 @@ export class ElementController {
   }
 
   public init() {
-    const { canvas } = this.context;
     if (!this.container) {
+      const { canvas } = this.context;
       this.container = {
         node: canvas.appendChild(new Group({ style: { zIndex: 2 } })),
         edge: canvas.appendChild(new Group({ style: { zIndex: 1 } })),
@@ -68,8 +68,7 @@ export class ElementController {
   }
 
   private emit(event: BaseEvent) {
-    const { graph } = this.context;
-    graph.emit(event.type, event);
+    emit(this.context.graph, event);
   }
 
   private forEachElementData(callback: (elementType: ElementType, elementData: ElementData) => void) {
@@ -326,9 +325,10 @@ export class ElementController {
    * <en/> start render process
    */
   public async draw(drawContext: DrawContext = { animation: true }) {
+    this.init();
+
     const drawData = this.computeDrawData();
     if (!drawData) return;
-    this.init();
 
     // 计算样式 / Calculate style
     this.computeStyle();
@@ -545,6 +545,9 @@ export class ElementController {
     // get shape constructor
     const Ctor = getExtension(elementType, type);
     if (!Ctor) return () => null;
+
+    this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum));
+
     const shape = this.container[elementType].appendChild(
       new Ctor({
         id,
@@ -558,7 +561,12 @@ export class ElementController {
     this.shapeTypeMap[id] = type;
     this.elementMap[id] = shape;
 
-    return () => animator?.(id, shape, { ...shape.attributes, opacity: 0 }) || null;
+    return () =>
+      withAnimationCallbacks(animator?.(id, shape, { ...shape.attributes, opacity: 0 }) || null, {
+        after: () => {
+          this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_CREATE, elementType, datum));
+        },
+      });
   }
 
   private getCreateTasks(data: ProcedureData, context: Omit<DrawContext, 'animator'>): AnimatableTask[] {
@@ -606,14 +614,20 @@ export class ElementController {
     const id = idOf(datum);
     const shape = this.getElement(id);
     if (!shape) return () => null;
+
+    this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_UPDATE, elementType, datum));
+    const emitAfterUpdate = () =>
+      this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum));
+
     const { type, ...style } = this.getElementComputedStyle(elementType, datum);
 
     // 如果类型不同，需要先销毁原有元素，再创建新元素
     // If the type is different, you need to destroy the original element first, and then create a new element
     if (this.shapeTypeMap[id] !== type) {
       return () => {
-        this.destroyElement(datum, { ...context, animation: false })();
+        this.destroyElement(elementType, datum, { ...context, animation: false })();
         this.createElement(elementType, datum, { ...context, animation: false })();
+        emitAfterUpdate();
         return null;
       };
     }
@@ -629,7 +643,11 @@ export class ElementController {
       // show
       if (style.visibility !== 'hidden') {
         updateStyle(shape, { visibility: 'visible' });
-        return () => animator?.(id, shape, { ...shape.attributes, opacity: 0 }, { opacity: originalOpacity }) || null;
+        return () =>
+          withAnimationCallbacks(
+            animator?.(id, shape, { ...shape.attributes, opacity: 0 }, { opacity: originalOpacity }) || null,
+            { after: emitAfterUpdate },
+          );
       }
       // hide
       else if (style.visibility === 'hidden') {
@@ -637,7 +655,10 @@ export class ElementController {
           withAnimationCallbacks(
             animator?.(id, shape, { ...shape.attributes, opacity: originalOpacity }, { opacity: 0 }) || null,
             {
-              after: () => updateStyle(shape, { visibility: this.latestElementVisibilityMap.get(shape) }),
+              after: () => {
+                updateStyle(shape, { visibility: this.latestElementVisibilityMap.get(shape) });
+                emitAfterUpdate();
+              },
             },
           );
       }
@@ -646,7 +667,10 @@ export class ElementController {
     const originalStyle = { ...shape.attributes };
     updateStyle(shape, style);
 
-    return () => animator?.(id, shape, originalStyle) || null;
+    return () =>
+      withAnimationCallbacks(animator?.(id, shape, originalStyle) || null, {
+        after: emitAfterUpdate,
+      });
   }
 
   private getUpdateTasks(data: ProcedureData, context: Omit<DrawContext, 'animator'>): AnimatableTask[] {
@@ -670,11 +694,13 @@ export class ElementController {
     return tasks;
   }
 
-  private destroyElement(datum: ElementDatum, context: DrawContext) {
+  private destroyElement(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
     const { animator } = context;
     const id = idOf(datum);
     const element = this.elementMap[id];
     if (!element) return () => null;
+
+    this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_DESTROY, elementType, datum));
 
     return () => {
       const result = animator?.(id, element, { ...element.attributes }, { opacity: 0 }) || null;
@@ -682,6 +708,7 @@ export class ElementController {
         after: () => {
           this.clearElement(id);
           element.destroy();
+          this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_DESTROY, elementType, datum));
         },
       });
       return result;
@@ -701,7 +728,9 @@ export class ElementController {
     iteration.forEach(([elementType, elementData]) => {
       if (elementData.size === 0) return [];
       const animator = this.getAnimationExecutor(elementType, stage || 'exit', animation);
-      elementData.forEach((datum) => tasks.push(() => this.destroyElement(datum, { ...context, animator })));
+      elementData.forEach((datum) =>
+        tasks.push(() => this.destroyElement(elementType, datum, { ...context, animator })),
+      );
     });
 
     // TODO 重新计算色板样式，如果是分组色板，则不需要重新计算
