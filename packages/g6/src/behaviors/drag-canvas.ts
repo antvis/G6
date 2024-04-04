@@ -1,8 +1,8 @@
-import type { Cursor, FederatedMouseEvent } from '@antv/g';
+import type { Cursor } from '@antv/g';
 import { isFunction, isObject } from '@antv/util';
 import { CanvasEvent } from '../constants';
-import { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, Point, ViewportAnimationEffectTiming } from '../types';
+import type { RuntimeContext } from '../runtime/types';
+import type { IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
 import { multiply } from '../utils/vector';
@@ -21,7 +21,7 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the function of dragging the canvas
    */
-  enable?: boolean | ((event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
+  enable?: boolean | ((event: IPointerEvent | IKeyboardEvent) => boolean);
   /**
    * <zh/> 触发拖拽的方式，默认使用指针按下拖拽
    *
@@ -39,7 +39,7 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when dragging is completed
    */
-  onfinish?: () => void;
+  onFinish?: () => void;
 }
 
 type CombinationKey = {
@@ -78,29 +78,36 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
       graph.off(CanvasEvent.DRAG, this.onDrag);
       const { up = [], down = [], left = [], right = [] } = trigger;
 
-      this.shortcut.bind(up, (event) => this.translate([0, 1], event));
-      this.shortcut.bind(down, (event) => this.translate([0, -1], event));
-      this.shortcut.bind(left, (event) => this.translate([1, 0], event));
-      this.shortcut.bind(right, (event) => this.translate([-1, 0], event));
+      this.shortcut.bind(up, (event) => this.onTranslate([0, 1], event));
+      this.shortcut.bind(down, (event) => this.onTranslate([0, -1], event));
+      this.shortcut.bind(left, (event) => this.onTranslate([1, 0], event));
+      this.shortcut.bind(right, (event) => this.onTranslate([-1, 0], event));
     } else {
       graph.on(CanvasEvent.DRAG, this.onDrag);
     }
   }
 
-  private onDrag = (event: BehaviorEvent<FederatedMouseEvent>) => {
+  private onDrag = (event: IPointerEvent) => {
+    if (!this.validate(event)) return;
     if (event.targetType === 'canvas') {
-      this.context.graph.translateBy([event.movement.x, event.movement.y], false);
+      this.translate([event.movement.x, event.movement.y], false);
+      this.options.onFinish?.();
     }
   };
 
-  private translate(value: Point, event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {
+  private async onTranslate(value: Vector2, event: IPointerEvent | IKeyboardEvent) {
     if (!this.validate(event)) return;
     const { sensitivity } = this.options;
     const delta = sensitivity * -1;
-    this.context.graph.translateBy(multiply(value, delta), this.options.animation);
+    await this.translate(multiply(value, delta) as Vector2, this.options.animation);
+    this.options.onFinish?.();
   }
 
-  private validate(event: BehaviorEvent<FederatedMouseEvent> | BehaviorEvent<KeyboardEvent>) {
+  protected async translate(offset: Vector2, animation?: ViewportAnimationEffectTiming) {
+    await this.context.graph.translateBy(offset, animation);
+  }
+
+  private validate(event: IPointerEvent | IKeyboardEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
@@ -108,6 +115,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   }
 
   public destroy(): void {
+    this.shortcut.destroy();
     this.context.canvas.setCursor(this.defaultCursor);
     super.destroy();
   }

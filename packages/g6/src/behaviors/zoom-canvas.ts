@@ -2,7 +2,7 @@ import type { PointLike } from '@antv/g';
 import { clamp, isArray, isFunction, isObject } from '@antv/util';
 import { CanvasEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { BehaviorEvent, Point, ViewportAnimationEffectTiming } from '../types';
+import type { IKeyboardEvent, IWheelEvent, Point, ViewportAnimationEffectTiming } from '../types';
 import { parsePoint } from '../utils/point';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
@@ -21,7 +21,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the function of zooming the canvas
    */
-  enable?: boolean | ((event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
+  enable?: boolean | ((event: IWheelEvent | IKeyboardEvent) => boolean);
   /**
    * <zh/> 触发缩放的方式
    *
@@ -47,7 +47,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when zooming is completed
    */
-  onfinish?: () => void;
+  onFinish?: () => void;
 }
 
 type CombinationKey = {
@@ -107,9 +107,9 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    * @param event - <zh/> 事件对象 | <en/> Event object
    * @param animation - <zh/> 缩放动画配置 | <en/> Zoom animation configuration
    */
-  private zoom = async (
+  protected zoom = async (
     value: number,
-    event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>,
+    event: IWheelEvent | IKeyboardEvent,
     animation: ZoomCanvasOptions['animation'],
   ) => {
     if (!this.validate(event)) return;
@@ -120,19 +120,19 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
       origin = parsePoint(event.viewport as PointLike);
     }
 
-    const { sensitivity, onfinish } = this.options;
+    const { sensitivity, onFinish } = this.options;
     const ratio = 1 + (clamp(value, -50, 50) * sensitivity) / 100;
     const zoom = graph.getZoom();
     await graph.zoomTo(zoom * ratio, animation, origin);
 
-    onfinish?.();
+    onFinish?.();
   };
 
-  private onReset = async () => {
+  protected onReset = async () => {
     await this.context.graph.zoomTo(1, this.options.animation);
   };
 
-  private validate(event: BehaviorEvent<WheelEvent> | BehaviorEvent<KeyboardEvent>) {
+  protected validate(event: IWheelEvent | IKeyboardEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
@@ -144,5 +144,10 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     const container = this.context.canvas.getContainer();
     if (!container) return;
     container.addEventListener(eventName, listener);
+  }
+
+  public destroy() {
+    this.shortcut.destroy();
+    super.destroy();
   }
 }

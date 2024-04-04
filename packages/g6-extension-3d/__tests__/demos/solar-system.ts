@@ -1,9 +1,9 @@
 import type { DisplayObject } from '@antv/g';
-import type { G6Spec, Vector3 } from '@antv/g6';
+import type { Vector3 } from '@antv/g6';
 import { Graph, register } from '@antv/g6';
 import { Light, Sphere, renderer } from '../../src';
 
-export const solarSystem = async (context: G6Spec) => {
+export const solarSystem: TestCase = async (context) => {
   register('plugin', '3d-light', Light);
   register('node', 'sphere', Sphere);
 

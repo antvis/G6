@@ -13,7 +13,7 @@ describe('getPluginInstance', () => {
     }
 
     register('plugin', 'custom', CustomPlugin);
-    const graph = await createGraph({
+    const graph = createGraph({
       plugins: [
         {
           key: 'custom-plugin',

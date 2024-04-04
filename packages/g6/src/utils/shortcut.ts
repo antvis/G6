@@ -1,4 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
+import type { FederatedMouseEvent } from '@antv/g';
 import { isEqual } from '@antv/util';
 import { CommonEvent } from '../constants';
 
@@ -43,6 +44,7 @@ export class Shortcut {
     emitter.on(CommonEvent.KEY_DOWN, this.onKeyDown);
     emitter.on(CommonEvent.KEY_UP, this.onKeyUp);
     emitter.on(CommonEvent.WHEEL, this.onWheel);
+    emitter.on(CommonEvent.DRAG, this.onDrag);
   }
 
   private onKeyDown = (event: KeyboardEvent) => {
@@ -60,18 +62,41 @@ export class Shortcut {
     });
   }
 
-  private onWheel = (event: WheelEvent) => {
+  /**
+   * <zh/> 扩展 wheel, drag 操作
+   *
+   * <en/> Extend wheel, drag operations
+   * @param eventType - event name
+   * @param event - event
+   */
+  private triggerExtendKey(eventType: CommonEvent, event: unknown) {
     this.map.forEach((handler, key) => {
-      if (key.includes(CommonEvent.WHEEL)) {
+      if (key.includes(eventType)) {
         if (
           isEqual(
             Array.from(this.recordKey),
-            key.filter((k) => k !== CommonEvent.WHEEL),
+            key.filter((k) => k !== eventType),
           )
         ) {
           handler(event);
         }
       }
     });
+  }
+
+  private onWheel = (event: WheelEvent) => {
+    this.triggerExtendKey(CommonEvent.WHEEL, event);
   };
+
+  private onDrag = (event: FederatedMouseEvent) => {
+    this.triggerExtendKey(CommonEvent.DRAG, event);
+  };
+
+  public destroy() {
+    this.unbindAll();
+    this.emitter.off(CommonEvent.KEY_DOWN, this.onKeyDown);
+    this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
+    this.emitter.off(CommonEvent.WHEEL, this.onWheel);
+    this.emitter.off(CommonEvent.DRAG, this.onDrag);
+  }
 }

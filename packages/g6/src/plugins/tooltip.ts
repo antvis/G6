@@ -2,7 +2,7 @@ import type { TooltipStyleProps } from '@antv/component';
 import { Tooltip as TooltipComponent } from '@antv/component';
 import { get } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
-import type { ElementDatum, ElementEvent, ElementType } from '../types';
+import type { ElementDatum, ElementType, IElementEvent } from '../types';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
@@ -12,9 +12,9 @@ export interface TooltipOptions
   /** <zh/> 触发方式 | <en/> Event type that triggers display of tooltip */
   trigger?: 'hover' | 'click';
   /** <zh/> 自定义内容 | <en/> Function for getting tooltip content  */
-  getContent?: (evt: ElementEvent, items: ElementDatum[]) => HTMLElement | string;
+  getContent?: (evt: IElementEvent, items: ElementDatum[]) => HTMLElement | string;
   /** <zh/> 是否启用 | <en/> Is enable */
-  enable?: boolean | ((evt: ElementEvent) => boolean);
+  enable?: boolean | ((evt: IElementEvent) => boolean);
 }
 
 export class Tooltip extends BasePlugin<TooltipOptions> {
@@ -100,7 +100,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     });
   }
 
-  private isEnable = (e: ElementEvent) => {
+  private isEnable = (e: IElementEvent) => {
     const { enable } = this.options;
     if (typeof enable === 'function') {
       return enable(e);
@@ -108,7 +108,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     return enable;
   };
 
-  public onClick = (e: ElementEvent) => {
+  public onClick = (e: IElementEvent) => {
     const {
       target: { id },
     } = e;
@@ -122,7 +122,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
   };
 
-  public onPointerMove = (e: ElementEvent) => {
+  public onPointerMove = (e: IElementEvent) => {
     const { target } = e;
     if (!this.currentTarget || target.id === this.currentTarget) {
       return;
@@ -130,17 +130,17 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.showTooltip(e);
   };
 
-  public onPointerLeave = (e: ElementEvent) => {
+  public onPointerLeave = (e: IElementEvent) => {
     this.hideTooltip(e);
     this.currentTarget = null;
   };
 
-  public onCanvasMove = (e: ElementEvent) => {
+  public onCanvasMove = (e: IElementEvent) => {
     this.hideTooltip(e);
     this.currentTarget = null;
   };
 
-  private onPointerEnter = (e: ElementEvent) => {
+  private onPointerEnter = (e: IElementEvent) => {
     this.showTooltip(e);
   };
 
@@ -148,7 +148,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     const e = {
       targetType: elementType,
       target: { id },
-    } as ElementEvent;
+    } as IElementEvent;
     this.showTooltip(e);
   };
 
@@ -166,7 +166,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
   };
 
-  public showTooltip = (e: ElementEvent) => {
+  public showTooltip = (e: IElementEvent) => {
     const {
       targetType,
       client,
@@ -214,7 +214,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     });
   };
 
-  public hideTooltip = (e?: ElementEvent) => {
+  public hideTooltip = (e?: IElementEvent) => {
     // if e is undefined, hide the tooltip， external call
     if (!e) {
       this.tooltipElement?.hide();
