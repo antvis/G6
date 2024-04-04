@@ -4,6 +4,7 @@ import { ID } from '@antv/graphlib';
 import { createDOM, debounce, uniqueId } from '@antv/util';
 
 import Moveable from 'moveable';
+import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import { NodeStyle } from '../spec/element/node';
 import { Combo, Edge, Node, Point } from '../types';
@@ -97,7 +98,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     this.moveableRef = this.createMoveable();
     this.connectToHTML();
 
-    this.drawerCanvas();
+    this.addEventListener();
   }
 
   public update(options: Partial<MinimapOptions>) {
@@ -238,8 +239,6 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       options: { refresh, size, padding, mode, hideEdge },
     } = this;
 
-    await this.context.graph.render();
-
     const nodes = this.context.element?.getNodes() || [];
     const edges = hideEdge ? [] : this.context.element?.getEdges() || [];
     const combos = this.context.element?.getCombos() || [];
@@ -323,7 +322,10 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       }
 
       if (!minimapItem.destroyed) {
-        minimapItem.style = { ...minimapItem.style, ...graphItem.style };
+        minimapItem.attr({
+          ...minimapItem.attributes,
+          ...graphItem.attributes,
+        });
       }
 
       group.appendChild(minimapItem);
@@ -355,7 +357,12 @@ export class Minimap extends BasePlugin<MinimapOptions> {
           id: `minimap-delegate-${shape.id}`,
         });
       }
-      minimapItem.style = { ...minimapItem.style, ...graphItem?.style, ...attrs };
+      minimapItem.attr({
+        ...minimapItem.attributes,
+        ...graphItem?.attributes,
+        ...attrs,
+      });
+
       minimapItem.toFront();
 
       if (!graphItem) {
@@ -390,7 +397,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const [graphWidth = 500, graphHeight = 500] = graph.getSize();
 
     const graphZoom = graph.getOptions().zoom || 1;
-    const graphBBox = this.context.canvas.document.documentElement.getRenderBounds();
+    const graphBBox = this.context.canvas.getBounds();
 
     const [graphTopLeftViewportX, graphTopLeftViewportY] = graph.getViewportByCanvas(graphBBox.min);
     const [graphBottomRightViewportX, graphBottomRightViewportY] = graph.getViewportByCanvas(graphBBox.max);
@@ -430,8 +437,8 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       Object.assign(viewportDom.style, {
         left: `${left}px`,
         top: `${top}px`,
-        width: `${width}px`,
-        height: `${height}px`,
+        width: '100px' || `${width}px`,
+        height: '100px' || `${height}px`,
       });
     }
   }
@@ -446,15 +453,14 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     });
   }
 
-  public getEvents() {
-    return {
-      afteritemstatechange: this.handleUpdateCanvas,
-      afterlayout: this.handleUpdateCanvas,
-      viewportchange: this.handleUpdateCanvas,
-      afteritemchange: this.handleUpdateCanvas,
-      afteritemvisibilitychange: this.handleVisibilityChange,
-    };
+  private addEventListener() {
+    this.context.graph.on(GraphEvent.AFTER_SIZE_CHANGE, this.handleUpdateCanvas.bind(this)); // 在元素更新之后触发
+    this.context.graph.on(GraphEvent.AFTER_RENDER, this.drawerCanvas.bind(this)); // 在元素更新之后触发
+    this.context.graph.on(GraphEvent.AFTER_ELEMENT_STATE_CHANGE, this.handleUpdateCanvas.bind(this)); // 在元素更新之后触发
+    this.context.graph.on(GraphEvent.AFTER_ELEMENT_VISIBILITY_CHANGE, this.handleVisibilityChange.bind(this)); // 在元素更新之后触发
+    this.context.graph.on(GraphEvent.AFTER_ELEMENT_UPDATE, this.handleUpdateCanvas.bind(this)); // 在元素更新之后触发
   }
+
   /**
    * Listener for main graph updating, update the viewport DOM.
    */
@@ -476,7 +482,9 @@ export class Minimap extends BasePlugin<MinimapOptions> {
   private debounceCloneVisibility = debounce(
     (ids: string[]) => {
       for (const [shapeId, { minimapItem }] of this.itemMap) {
-        minimapItem.style.visibility = ids.includes(String(shapeId)) ? 'visible' : 'hidden';
+        minimapItem.attr({
+          visibility: ids.includes(String(shapeId)) ? 'visible' : 'hidden',
+        });
       }
     },
     50,
