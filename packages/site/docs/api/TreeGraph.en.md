@@ -65,4 +65,4 @@ const data = {
   - Tree layout algorithms do not modify the source data. it generates a new data instead. And the source data will be a property of the new data. This mechanism will reduce the complexity of transformation from nested data to nodes and edges in graph.
   - The layout will be re-calculated after adding / deleting / expanding / collapsing nodes on the tree.
 
-TreeGraph is inherited from Graph, please refer to [G6.Graph(GraphOptions)](/en/docs/api/Graph) for its configurations. One difference is the `layout` option. There are four layout algorithms for tree in G6: dendrogram, compactBox, mindmap, and indeted, whose detailed configurations are listed in [TreeGraph Layout](/en/docs/api/tree-graph-layout/guide).
+TreeGraph is inherited from Graph, please refer to [G6.Graph(GraphOptions)](/en/docs/api/Graph) for its configurations. One difference is the `layout` option. There are four layout algorithms for tree in G6: dendrogram, compactBox, mindmap, and indented, whose detailed configurations are listed in [TreeGraph Layout](/en/docs/api/tree-graph-layout/guide).

@@ -38,9 +38,9 @@ const graph = new G6.TreeGraph({
 
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| type | String | dendrogram | 布局类型，支持 dendrogram、compactBox、mindmap 和 indeted。 |
+| type | String | dendrogram | 布局类型，支持 dendrogram、compactBox、mindmap 和 indented。 |
 | excludeInvisibles | Boolean | false | *v4.8.8 起支持。* 布局计算是否排除掉隐藏的节点，若配置为 true，则隐藏节点不参与布局计算。 |
 | direction | String | LR | 布局方向，有  `LR` , `RL` , `TB` , `BT` , `H` , `V`  可选。<br />L：左；R：右；T：上；B：下；H：垂直；V：水平。 |
 | getChildren | Function |  | 返回当前节点的所有子节点 |
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 当 `type='indeted'` 时，`direction` 只能取 `'LR'`、`'RL'` 和 `'H'` 这三个值。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 当 `type='indented'` 时，`direction` 只能取 `'LR'`、`'RL'` 和 `'H'` 这三个值。

@@ -65,4 +65,4 @@ const data = {
   - 树图的布局算法一般是不改变源数据的，而是重新生成一份数据，将源数据作为新数据的一个属性。如果每次都需要做次遍历转换数据到节点和边的数据增加了用户的实现复杂度。
   - 树图的每次新增/删除/展开/收缩节点，都需要重新计算布局。遍历一份结构化数据对应到图上每个节点去做更新操作，也很麻烦。
 
-TreeGraph 继承自 Graph，配置项参考 [G6.Graph(GraphOptions)](/zh/docs/api/Graph)。其中， layout 配置项支持的布局类型 (`type` 属性) 和 Graph 中所支持的类型不同，TreeGraph 中 layout 目前支持 dendrogram、compactBox、mindmap 和 indeted 四种布局方式，具体配置方式见 [TreeGraph Layout](/zh/docs/api/tree-graph-layout/guide)。
+TreeGraph 继承自 Graph，配置项参考 [G6.Graph(GraphOptions)](/zh/docs/api/Graph)。其中， layout 配置项支持的布局类型 (`type` 属性) 和 Graph 中所支持的类型不同，TreeGraph 中 layout 目前支持 dendrogram、compactBox、mindmap 和 indented 四种布局方式，具体配置方式见 [TreeGraph Layout](/zh/docs/api/tree-graph-layout/guide)。
