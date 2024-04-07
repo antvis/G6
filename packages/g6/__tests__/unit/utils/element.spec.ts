@@ -14,6 +14,7 @@ import {
   getTrianglePoints,
   getTrianglePorts,
   isEdge,
+  isElement,
   isNode,
   isSameNode,
   isSimplePort,
@@ -38,14 +39,20 @@ describe('element', () => {
   const edge = new Polyline({ style: { sourceNode: node1, targetNode: node2 } });
 
   it('isNode', () => {
-    expect(isNode(new Rect({ style: { width: 10, height: 10 } }))).toBe(false);
+    const rect = new Rect({ style: { width: 10, height: 10 } });
+    expect(isNode(rect)).toBe(false);
+    expect(isElement(rect)).toBe(false);
     const node = new Circle({});
     expect(isNode(node)).toBe(true);
+    expect(isElement(node)).toBe(true);
   });
 
   it('isEdge', () => {
-    expect(isEdge(new Line({ style: { x1: 0, y1: 0, x2: 10, y2: 10 } }))).toBe(false);
+    const line = new Line({ style: { x1: 0, y1: 0, x2: 10, y2: 10 } });
+    expect(isEdge(line)).toBe(false);
+    expect(isElement(line)).toBe(false);
     expect(isEdge(edge)).toBe(true);
+    expect(isElement(edge)).toBe(true);
   });
 
   it('isSameNode', () => {
