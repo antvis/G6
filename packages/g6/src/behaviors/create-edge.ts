@@ -1,6 +1,6 @@
 import type { FederatedMouseEvent } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { deepMix, isFunction, uniqueId } from '@antv/util';
+import { isFunction, uniqueId } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
@@ -24,7 +24,7 @@ export interface CreateEdgeOptions extends BaseBehaviorOptions {
    *
    * <en/> edge config.
    */
-  edgeStyle?: EdgeStyle;
+  style?: EdgeStyle;
   /**
    * <zh/> 交互配置 点击 或 拖拽
    *
@@ -36,25 +36,26 @@ export interface CreateEdgeOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when create is completed.
    */
-  onFinish?: (targetId: ID, sourceId: ID, createEdgeId: ID) => void;
+  onFinish?: (edge: EdgeData) => void;
   /**
-   * <zh/> 创建边回调, 返回 edgeData.
+   * <zh/> 创建边回调，返回边数据
    *
-   * <en/> Callback when create edge, return edgeData.
+   * <en/> Callback when create edge, return EdgeData.
    */
-  onCreate?: (targetId: ID, sourceId: ID, createEdgeId: ID) => Partial<EdgeData>;
+  onCreate?: (edge: EdgeData) => EdgeData;
 }
 
 export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   static defaultOptions: Partial<CreateEdgeOptions> = {
     animation: true,
     enable: true,
-    edgeStyle: {},
+    style: {},
     trigger: 'drag',
+    onCreate: (data) => data,
     onFinish: () => {},
   };
 
-  public source: ID | null = null;
+  public source?: ID;
 
   constructor(context: RuntimeContext, options: CreateEdgeOptions) {
     super(context, Object.assign({}, CreateEdge.defaultOptions, options));
@@ -62,7 +63,6 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   }
 
   public update(options: Partial<CreateEdgeOptions>): void {
-    this.unbindEvents();
     super.update(options);
     this.bindEvents();
   }
@@ -70,6 +70,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   private bindEvents() {
     const { graph } = this.context;
     const { trigger } = this.options;
+    this.unbindEvents();
 
     if (trigger === 'click') {
       graph.on(`node:${CommonEvent.CLICK}`, this.handleCreateEdge);
@@ -97,7 +98,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   private handleCreateEdge = async (event: BehaviorEvent<FederatedMouseEvent>) => {
     if (!this.validate(event)) return;
     const { graph, canvas } = this.context;
-    const { edgeStyle } = this.options;
+    const { style } = this.options;
 
     if (this.source) {
       this.createEdge(event);
@@ -125,7 +126,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
         target: ASSIST_NODE_ID,
         style: {
           pointerEvents: 'none',
-          ...edgeStyle,
+          ...style,
         },
       },
     ]);
@@ -142,31 +143,16 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
   private createEdge = (event: BehaviorEvent<FederatedMouseEvent>) => {
     const { graph } = this.context;
-    const { edgeStyle, onFinish, onCreate } = this.options;
+    const { style, onFinish, onCreate } = this.options;
     const targetId = event.target?.id;
-
-    if (!targetId || !this.source) return;
+    if (targetId === undefined || this.source === undefined) return;
 
     const target = this.getSelectedNodeIDs([event.target.id])?.[0];
-    const id = `${this.source}-${uniqueId()}-${target}`;
+    const id = `${this.source}-${target}-${uniqueId()}`;
 
-    const edgeOptions = isFunction(onCreate) ? onCreate(target, this.source, id) : {};
-
-    graph.addEdgeData([
-      deepMix(
-        {
-          id,
-          source: this.source,
-          target,
-          style: {
-            ...edgeStyle,
-          },
-        },
-        edgeOptions,
-      ),
-    ]);
-
-    onFinish(this.source, target, id);
+    const edgeData = onCreate({ id, source: this.source, target, style });
+    graph.addEdgeData([edgeData]);
+    onFinish(edgeData);
   };
 
   private cancelEdge = async () => {
@@ -176,7 +162,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
     graph.removeNodeData([ASSIST_NODE_ID]);
 
-    this.source = null;
+    this.source = undefined;
 
     await element!.draw({ animation: false, silence: true });
   };
@@ -201,19 +187,14 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
   private unbindEvents() {
     const { graph } = this.context;
-    const { trigger } = this.options;
 
-    if (trigger === 'click') {
-      graph.off(`node:${CommonEvent.CLICK}`, this.handleCreateEdge);
-      graph.off(`combo:${CommonEvent.CLICK}`, this.handleCreateEdge);
-      graph.off(`canvas:${CommonEvent.CLICK}`, this.cancelEdge);
-      graph.off(`edge:${CommonEvent.CLICK}`, this.cancelEdge);
-    } else {
-      graph.off(`node:${CommonEvent.DRAG_START}`, this.handleCreateEdge);
-      graph.off(`combo:${CommonEvent.DRAG_START}`, this.handleCreateEdge);
-      graph.off(CommonEvent.POINTER_UP, this.drop);
-    }
-
+    graph.off(`node:${CommonEvent.CLICK}`, this.handleCreateEdge);
+    graph.off(`combo:${CommonEvent.CLICK}`, this.handleCreateEdge);
+    graph.off(`canvas:${CommonEvent.CLICK}`, this.cancelEdge);
+    graph.off(`edge:${CommonEvent.CLICK}`, this.cancelEdge);
+    graph.off(`node:${CommonEvent.DRAG_START}`, this.handleCreateEdge);
+    graph.off(`combo:${CommonEvent.DRAG_START}`, this.handleCreateEdge);
+    graph.off(CommonEvent.POINTER_UP, this.drop);
     graph.off(CommonEvent.POINTER_MOVE, this.updateAssistEdge);
   }
 

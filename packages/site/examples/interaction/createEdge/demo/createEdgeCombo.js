@@ -9,15 +9,14 @@ const data = {
   edges: [],
   combos: [
     {
-      id: 'combo1', 
+      id: 'combo1',
     },
     {
-      id: 'combo2', style: {
+      id: 'combo2',
+      style: {
         // 指向中心
-        ports: [
-          { key: 'port-1', placement: [0.5, 0.5] },
-        ]
-      }
+        ports: [{ key: 'port-1', placement: [0.5, 0.5] }],
+      },
     },
   ],
 };
@@ -35,14 +34,16 @@ const graph = new Graph({
     },
   },
   data,
-  behaviors: [{
-    type: 'create-edge',
-    trigger: 'drag',
-    edgeStyle: {
-      lineWidth: 2,
-      lineDash: [2, 3],
+  behaviors: [
+    {
+      type: 'create-edge',
+      trigger: 'drag',
+      style: {
+        lineWidth: 2,
+        lineDash: [2, 3],
+      },
     },
-  }],
+  ],
 });
 
 graph.render();

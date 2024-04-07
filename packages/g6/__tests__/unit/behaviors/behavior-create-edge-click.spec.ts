@@ -1,4 +1,4 @@
-import type { Graph } from '@/src';
+import type { EdgeData, Graph } from '@/src';
 import { CommonEvent } from '@/src';
 import { behaviorCreateEdge } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
@@ -25,7 +25,7 @@ describe('behavior create edge click', () => {
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node3' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'click-edge2');
 
-    graph.setBehaviors([{ type: 'create-edge', trigger: 'click', edgeStyle: { color: 'red', lineWidth: 2 } }]);
+    graph.setBehaviors([{ type: 'create-edge', trigger: 'click', style: { color: 'red', lineWidth: 2 } }]);
 
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node2' }, targetType: 'node' });
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node3' }, targetType: 'node' });
@@ -39,11 +39,13 @@ describe('behavior create edge click', () => {
       {
         type: 'create-edge',
         trigger: 'click',
-        edgeStyle: { color: 'red', lineWidth: 2 },
-        onCreate: (target: string, source: string) => {
+        style: { color: 'red', lineWidth: 2 },
+        onCreate: (edge: EdgeData) => {
+          const { source, target, ...rest } = edge;
           return {
             target: source,
             source: target,
+            ...rest,
           };
         },
       },

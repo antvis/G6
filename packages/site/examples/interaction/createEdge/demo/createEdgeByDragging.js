@@ -49,15 +49,17 @@ const graph = new Graph({
       { id: 'edge6', source: 'node4', target: 'node5', data: {} },
     ],
   },
-  behaviors: [{
-    type: 'create-edge',
-    trigger: 'drag',
-    edgeStyle: {
-      color: '#fff',
-      lineWidth: 2,
-      lineDash: [2, 3],
+  behaviors: [
+    {
+      type: 'create-edge',
+      trigger: 'drag',
+      style: {
+        color: '#fff',
+        lineWidth: 2,
+        lineDash: [2, 3],
+      },
     },
-  }],
+  ],
 });
 
 graph.render();
