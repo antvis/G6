@@ -1,10 +1,10 @@
-import type { BasePluginOptions } from '..';
-import { BasePlugin } from '..';
 import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
 import { DataChange } from '../../types';
-import type { BatchEvent, GraphLifeCycleEvent } from '../../utils/event';
+import type { GraphLifeCycleEvent } from '../../utils/event';
 import { idsOf } from '../../utils/id';
+import type { BasePluginOptions } from '../base-plugin';
+import { BasePlugin } from '../base-plugin';
 import type { Command } from './utils';
 import { parseCommand } from './utils';
 
@@ -130,7 +130,7 @@ export class History extends BasePlugin<HistoryOptions> {
     this.freezed = false;
   };
 
-  private addCommand = (event: GraphLifeCycleEvent | BatchEvent) => {
+  private addCommand = (event: GraphLifeCycleEvent) => {
     if (this.isFirstDraw) {
       this.isFirstDraw = false;
       return;
@@ -154,8 +154,8 @@ export class History extends BasePlugin<HistoryOptions> {
     this.undoStackPush(parseCommand(this.batchChanges!.flat(), this.batchAnimation, this.context));
   };
 
-  private initBatchCommand = (event: BatchEvent) => {
-    const { initiate } = event;
+  private initBatchCommand = (event: GraphLifeCycleEvent) => {
+    const { initiate } = event.data;
     this.batchAnimation = false;
     if (initiate) {
       this.batchChanges = [];
@@ -196,9 +196,7 @@ export class History extends BasePlugin<HistoryOptions> {
 
     super.destroy();
 
-    // @ts-expect-error force delete
-    delete this.undoStack;
-    // @ts-expect-error force delete
-    delete this.redoStack;
+    this.undoStack = [];
+    this.redoStack = [];
   }
 }

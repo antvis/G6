@@ -1,5 +1,6 @@
 import { GraphEvent } from '../constants';
-import { BaseEvent, BatchEvent } from '../utils/event';
+import type { BaseEvent } from '../utils/event';
+import { GraphLifeCycleEvent } from '../utils/event';
 import type { RuntimeContext } from './types';
 
 export class BatchController {
@@ -18,12 +19,12 @@ export class BatchController {
 
   public startBatch(initiate = true) {
     this.batchCount++;
-    this.emit(new BatchEvent(GraphEvent.BATCH_START, initiate));
+    if (this.batchCount === 1) this.emit(new GraphLifeCycleEvent(GraphEvent.BATCH_START, { initiate }));
   }
 
   public endBatch() {
     this.batchCount--;
-    this.emit(new BatchEvent(GraphEvent.BATCH_END));
+    if (this.batchCount === 0) this.emit(new GraphLifeCycleEvent(GraphEvent.BATCH_END));
   }
 
   public get isBatching() {

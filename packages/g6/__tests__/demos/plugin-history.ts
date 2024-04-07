@@ -1,5 +1,5 @@
+import type { History } from '@/src';
 import { Graph } from '@/src';
-import { History } from '../../src/plugins';
 
 export const pluginHistory: TestCase = async (context) => {
   const graph = new Graph({

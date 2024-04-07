@@ -45,7 +45,6 @@ import { idOf } from '../utils/id';
 import { parsePoint, toPointObject } from '../utils/point';
 import { zIndexOf } from '../utils/style';
 import { subtract } from '../utils/vector';
-import { BatchController } from './batch';
 import { BehaviorController } from './behavior';
 import { Canvas } from './canvas';
 import type { HierarchyKey } from './data';
@@ -460,7 +459,6 @@ export class Graph extends EventEmitter {
 
   private createRuntime() {
     this.context.options = this.options;
-    if (!this.context.batch) this.context.batch = new BatchController(this.context);
     if (!this.context.plugin) this.context.plugin = new PluginController(this.context);
     if (!this.context.viewport) this.context.viewport = new ViewportController(this.context);
     if (!this.context.element) this.context.element = new ElementController(this.context);
