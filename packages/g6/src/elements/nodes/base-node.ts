@@ -283,7 +283,31 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
     this.drawPortShapes(attributes, container);
   }
 
-  animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
+  /**
+   * <zh/> 在元素完成创建并执行完入场动画后调用
+   *
+   * <en/> Called after the element is created and the entrance animation is completed
+   * @override
+   */
+  public onCreate() {}
+
+  /**
+   * <zh/> 在元素更新并执行完过渡动画后调用
+   *
+   * <en/> Called after the element is updated and the transition animation is completed
+   * @override
+   */
+  public onUpdate() {}
+
+  /**
+   * <zh/> 在元素完成退场动画并销毁后调用
+   *
+   * <en/> Called after the element completes the exit animation and is destroyed
+   * @override
+   */
+  public onDestroy() {}
+
+  public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
     const result = super.animate(keyframes, options);
 
     if (result) {

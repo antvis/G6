@@ -14,9 +14,9 @@ export {
   GraphEvent,
   NodeEvent,
 } from './constants';
-export { BaseCombo } from './elements/combos';
-export { BaseEdge } from './elements/edges';
-export { BaseNode } from './elements/nodes';
+export { BaseCombo, CircleCombo, RectCombo } from './elements/combos';
+export { BaseEdge, Cubic, CubicHorizontal, CubicVertical, Line, Polyline, Quadratic } from './elements/edges';
+export { BaseNode, Circle, Diamond, Ellipse, Hexagon, Image, Rect, Star, Triangle } from './elements/nodes';
 export { BaseShape } from './elements/shapes';
 export { BasePlugin, CameraSetting } from './plugins';
 export { getExtension, getExtensions, register } from './registry';
@@ -24,9 +24,27 @@ export { Graph } from './runtime/graph';
 export { Shortcut } from './utils/shortcut';
 
 export type { BaseBehaviorOptions, DragCanvasOptions, ZoomCanvasOptions } from './behaviors';
-export type { BaseComboStyleProps } from './elements/combos';
-export type { BaseEdgeStyleProps } from './elements/edges';
-export type { BaseNodeStyleProps } from './elements/nodes';
+export type { BaseComboStyleProps, CircleComboStyleProps, RectComboStyleProps } from './elements/combos';
+export type {
+  BaseEdgeStyleProps,
+  CubicHorizontalStyleProps,
+  CubicStyleProps,
+  CubicVerticalStyleProps,
+  LineStyleProps,
+  PolylineStyleProps,
+  QuadraticStyleProps,
+} from './elements/edges';
+export type {
+  BaseNodeStyleProps,
+  CircleStyleProps,
+  DiamondStyleProps,
+  EllipseStyleProps,
+  HexagonStyleProps,
+  ImageStyleProps,
+  RectStyleProps,
+  StarStyleProps,
+  TriangleStyleProps,
+} from './elements/nodes';
 export type { BaseShapeStyleProps } from './elements/shapes';
 export type { BasePluginOptions, CameraSettingOptions } from './plugins';
 export type { RuntimeContext } from './runtime/types';

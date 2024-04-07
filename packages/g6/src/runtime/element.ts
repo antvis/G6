@@ -8,8 +8,6 @@ import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
 import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
-import type { BaseNode } from '../elements/nodes';
-import type { BaseShape } from '../elements/shapes';
 import { getExtension } from '../registry';
 import type { ComboData, EdgeData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
@@ -18,6 +16,7 @@ import type {
   Combo,
   DataChange,
   Edge,
+  Element,
   ElementData,
   ElementDatum,
   ElementType,
@@ -48,7 +47,7 @@ export class ElementController {
     combo: Group;
   };
 
-  private elementMap: Record<ID, DisplayObject> = {};
+  private elementMap: Record<ID, Element> = {};
 
   private shapeTypeMap: Record<ID, string> = {};
 
@@ -209,7 +208,7 @@ export class ElementController {
     this.computeElementsStatesStyle(ids);
   }
 
-  public getElement<T extends DisplayObject = BaseShape<any>>(id: ID): T | undefined {
+  public getElement<T extends Element>(id: ID): T | undefined {
     return this.elementMap[id] as T;
   }
 
@@ -283,8 +282,8 @@ export class ElementController {
    */
   private getEdgeEndsContext(datum: EdgeData) {
     const { source, target } = datum;
-    const sourceNode = this.getElement<BaseNode>(source);
-    const targetNode = this.getElement<BaseNode>(target);
+    const sourceNode = this.getElement<Node>(source);
+    const targetNode = this.getElement<Node>(target);
 
     return { sourceNode, targetNode };
   }
@@ -556,7 +555,7 @@ export class ElementController {
           ...style,
         },
       }),
-    ) as DisplayObject;
+    ) as Element;
 
     this.shapeTypeMap[id] = type;
     this.elementMap[id] = shape;
@@ -565,6 +564,7 @@ export class ElementController {
       withAnimationCallbacks(animator?.(id, shape, { ...shape.attributes, opacity: 0 }) || null, {
         after: () => {
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_CREATE, elementType, datum));
+          shape.onCreate();
         },
       });
   }
@@ -616,8 +616,10 @@ export class ElementController {
     if (!shape) return () => null;
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_UPDATE, elementType, datum));
-    const emitAfterUpdate = () =>
+    const afterUpdate = () => {
       this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum));
+      shape.onUpdate();
+    };
 
     const { type, ...style } = this.getElementComputedStyle(elementType, datum);
 
@@ -627,7 +629,7 @@ export class ElementController {
       return () => {
         this.destroyElement(elementType, datum, { ...context, animation: false })();
         this.createElement(elementType, datum, { ...context, animation: false })();
-        emitAfterUpdate();
+        afterUpdate();
         return null;
       };
     }
@@ -646,7 +648,7 @@ export class ElementController {
         return () =>
           withAnimationCallbacks(
             animator?.(id, shape, { ...shape.attributes, opacity: 0 }, { opacity: originalOpacity }) || null,
-            { after: emitAfterUpdate },
+            { after: afterUpdate },
           );
       }
       // hide
@@ -657,7 +659,7 @@ export class ElementController {
             {
               after: () => {
                 updateStyle(shape, { visibility: this.latestElementVisibilityMap.get(shape) });
-                emitAfterUpdate();
+                afterUpdate();
               },
             },
           );
@@ -669,7 +671,7 @@ export class ElementController {
 
     return () =>
       withAnimationCallbacks(animator?.(id, shape, originalStyle) || null, {
-        after: emitAfterUpdate,
+        after: afterUpdate,
       });
   }
 
@@ -708,6 +710,7 @@ export class ElementController {
         after: () => {
           this.clearElement(id);
           element.destroy();
+          element.onDestroy();
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_DESTROY, elementType, datum));
         },
       });

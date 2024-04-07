@@ -3,6 +3,7 @@ export * from './animation-element-edge-line';
 export * from './animation-element-edge-quadratic';
 export * from './animation-element-position';
 export * from './animation-element-state';
+export * from './animation-element-state-switch';
 export * from './animation-element-style-position';
 export * from './behavior-create-edge';
 export * from './behavior-drag-canvas';

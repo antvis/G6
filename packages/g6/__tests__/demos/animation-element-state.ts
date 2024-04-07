@@ -1,77 +1,70 @@
-import { Graph, type G6Spec } from '@/src';
+import { Circle, ExtensionCategory, Graph, Line, register } from '@/src';
 
 export const animationElementState: TestCase = async (context) => {
-  const options: G6Spec = {
+  class BreathingCircle extends Circle {
+    onCreate() {
+      this.shapeMap.halo.animate([{ lineWidth: 5 }, { lineWidth: 10 }], {
+        duration: 1000,
+        iterations: Infinity,
+        direction: 'alternate',
+      });
+    }
+  }
+
+  class FlyLine extends Line {
+    onCreate() {
+      this.shapeMap.key.animate([{ lineDashOffset: -20 }, { lineDashOffset: 0 }], {
+        duration: 500,
+        iterations: Infinity,
+      });
+    }
+  }
+
+  register(ExtensionCategory.NODE, 'breathing-circle', BreathingCircle);
+  register(ExtensionCategory.EDGE, 'fly-line', FlyLine);
+
+  const graph = new Graph({
     ...context,
     data: {
       nodes: [
-        { id: 'node-1', style: { x: 50, y: 50, states: ['active', 'selected'] } },
+        { id: 'node-1', style: { x: 50, y: 50 } },
         { id: 'node-2', style: { x: 200, y: 50 } },
-        { id: 'node-3', style: { x: 125, y: 150, states: ['active'] } },
+        { id: 'node-3', style: { x: 125, y: 150 } },
       ],
       edges: [
-        { source: 'node-1', target: 'node-2', style: { states: ['active'] } },
-        { source: 'node-2', target: 'node-3' },
-        { source: 'node-3', target: 'node-1' },
+        { source: 'node-1', target: 'node-2', style: {} },
+        { source: 'node-2', target: 'node-3', style: {} },
+        { source: 'node-3', target: 'node-1', style: {} },
       ],
     },
-    theme: 'light',
     node: {
       style: {
-        lineWidth: 1,
-        size: 20,
-      },
-      state: {
-        active: {
-          lineWidth: 2,
-        },
-        selected: {
-          color: 'pink',
-        },
-      },
-      animation: {
-        update: [{ fields: ['lineWidth', 'color'] }],
+        type: 'breathing-circle',
+        halo: true,
+        haloLineWidth: 5,
       },
     },
     edge: {
       style: {
-        lineWidth: 1,
-      },
-      state: {
-        active: {
-          lineWidth: 2,
-          color: 'pink',
-        },
-      },
-      animation: {
-        update: [
-          {
-            fields: ['lineWidth', 'color'],
-          },
-        ],
+        type: 'fly-line',
+        lineDash: [10, 10],
       },
     },
-  };
+    behaviors: ['drag-element'],
+  });
 
-  const graph = new Graph(options);
-  await graph.render();
+  await graph.draw();
 
-  const play = () => {
-    graph.updateData({
-      nodes: [
-        { id: 'node-1', style: { states: [] } },
-        { id: 'node-2', style: { states: ['active'] } },
-        { id: 'node-3', style: { states: ['selected'] } },
-      ],
-      edges: [
-        { source: 'node-1', target: 'node-2', style: { states: [] } },
-        { source: 'node-2', target: 'node-3', style: { states: ['active'] } },
-      ],
-    });
-    graph.draw();
-  };
-
-  animationElementState.form = (panel) => [panel.add({ play }, 'play').name('Play')];
+  animationElementState.form = (panel) => [
+    panel.add(
+      {
+        Animate: () => {
+          graph.translateElementBy('node-2', [0, 50]);
+        },
+      },
+      'Animate',
+    ),
+  ];
 
   return graph;
 };
