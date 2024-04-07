@@ -183,4 +183,28 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     // collapsed marker
     this.drawCollapsedMarkerShape(attributes, container);
   }
+
+  /**
+   * <zh/> 在元素完成创建并执行完入场动画后调用
+   *
+   * <en/> Called after the element is created and the entrance animation is completed
+   * @override
+   */
+  public onCreate() {}
+
+  /**
+   * <zh/> 在元素更新并执行完过渡动画后调用
+   *
+   * <en/> Called after the element is updated and the transition animation is completed
+   * @override
+   */
+  public onUpdate() {}
+
+  /**
+   * <zh/> 在元素完成退场动画并销毁后调用
+   *
+   * <en/> Called after the element completes the exit animation and is destroyed
+   * @override
+   */
+  public onDestroy() {}
 }
