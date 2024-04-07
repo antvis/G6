@@ -39,7 +39,7 @@ import type {
   ViewportAnimationEffectTiming,
 } from '../types';
 import { sizeOf } from '../utils/dom';
-import { ElementStateChangeEvent, GraphLifeCycleEvent, emit } from '../utils/event';
+import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
 import { parsePoint, toPointObject } from '../utils/point';
 import { zIndexOf } from '../utils/style';
@@ -958,17 +958,19 @@ export class Graph extends EventEmitter {
       ? [args1, (args2 as boolean) ?? true]
       : [{ [args1]: args2 as State | State[] }, args3];
 
-    emit(this, new ElementStateChangeEvent(GraphEvent.BEFORE_ELEMENT_STATE_CHANGE, config));
+    const parseState = (state: State | State[]) => {
+      if (!state) return [];
+      return Array.isArray(state) ? state : [state];
+    };
 
     const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
     Object.entries(config).forEach(([id, value]) => {
       const elementType = this.getElementType(id);
-      dataToUpdate[`${elementType}s`].push({ id, style: { states: Array.isArray(value) ? value : [value] } });
+      dataToUpdate[`${elementType}s`].push({ id, style: { states: parseState(value) } });
     });
     this.updateData(dataToUpdate);
 
     await this.context.element!.draw({ animation });
-    emit(this, new ElementStateChangeEvent(GraphEvent.AFTER_ELEMENT_STATE_CHANGE, config));
   }
 
   /**
