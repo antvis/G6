@@ -1,5 +1,6 @@
 import { getDiamondPoints } from '@/src/utils/element';
 import {
+  deduplicate,
   findNearestPoints,
   getEllipseIntersectPoint,
   getLinesIntersection,
@@ -13,6 +14,7 @@ import {
   moveTo,
   parsePoint,
   round,
+  sortByX,
   toPointObject,
 } from '@/src/utils/point';
 import { Circle, Rect } from '@antv/g';
@@ -24,6 +26,30 @@ describe('Point Functions', () => {
 
   it('toPointObject', () => {
     expect(toPointObject([100, 100])).toEqual({ x: 100, y: 100 });
+  });
+
+  it('sortByX', () => {
+    expect(
+      sortByX([
+        [150, 150],
+        [50, 50],
+        [100, 100],
+      ]),
+    ).toEqual([
+      [50, 50],
+      [100, 100],
+      [150, 150],
+    ]);
+  });
+
+  it('deduplicate', () => {
+    expect(
+      deduplicate([
+        [100, 100],
+        [100, 100],
+        [100, 100],
+      ]),
+    ).toEqual([[100, 100]]);
   });
 
   it('round', () => {

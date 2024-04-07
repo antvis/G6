@@ -27,6 +27,33 @@ export function toPointObject(point: Point): PointLike {
 }
 
 /**
+ * <zh/> 根据 X 轴坐标排序
+ * <en/> Sort by X-axis coordinates
+ * @param points - <zh/> 点集 | <en/> point set
+ * @returns <zh/> 排序后的点集 | <en/> sorted point set
+ */
+export function sortByX(points: Point[]): Point[] {
+  return points.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+}
+
+/**
+ * <zh/> 点集去重
+ *
+ * <en/> Deduplicate point set
+ * @param points - <zh/> 点集 | <en/> pointset
+ * @returns <zh/> 去重后的点集 | <en/> deduplicated pointset
+ */
+export function deduplicate(points: Point[]): Point[] {
+  const set = new Set<string>();
+  return points.filter((p) => {
+    const key = p.join(',');
+    if (set.has(key)) return false;
+    set.add(key);
+    return true;
+  });
+}
+
+/**
  * <zh/> 对点格式化，精确到 `digits` 位的数字
  *
  * <en/> Round the point to the given precision
@@ -126,9 +153,10 @@ export function isLinesParallel(l1: [Point, Point], l2: [Point, Point]): boolean
  * <en/> Get the intersection of two line segments
  * @param l1 - <zh/> 第一条线段 | <en/> the first line segment
  * @param l2 - <zh/> 第二条线段 | <en/> the second line segment
+ * @param extended - <zh/> 是否包含延长线上的交点 | <en/> whether to include the intersection on the extension line
  * @returns <zh/> 交点 | <en/> intersection
  */
-export function getLinesIntersection(l1: [Point, Point], l2: [Point, Point]): Point | undefined {
+export function getLinesIntersection(l1: [Point, Point], l2: [Point, Point], extended = false): Point | undefined {
   if (isLinesParallel(l1, l2)) return undefined;
 
   const [p1, p2] = l1;
@@ -143,7 +171,7 @@ export function getLinesIntersection(l1: [Point, Point], l2: [Point, Point]): Po
       ? (p1[0] - p3[0] + t * (p2[0] - p1[0])) / (p4[0] - p3[0])
       : (p1[1] - p3[1] + t * (p2[1] - p1[1])) / (p4[1] - p3[1]);
 
-  if (!isBetween(t, 0, 1) || !isBetween(u, 0, 1)) return undefined;
+  if (!extended && (!isBetween(t, 0, 1) || !isBetween(u, 0, 1))) return undefined;
 
   return [p1[0] + t * (p2[0] - p1[0]), p1[1] + t * (p2[1] - p1[1])];
 }
@@ -172,6 +200,51 @@ export function getPolygonIntersectPoint(p: Point, center: Point, points: Point[
     if (intersect) return intersect;
   }
   return center;
+}
+
+/**
+ * <en/> Whether point is inside the polygon (ray algo)
+ * @param point
+ * @param polygon
+ * @param points
+ */
+export function isPointInPolygon(point: Point, points: Point[]): boolean {
+  const [x, y] = point;
+  let isHit = false;
+  const n = points.length;
+  // 判断两个double在eps精度下的大小关系
+  const tolerance = 1e-6;
+  /**
+   *
+   * @param xValue
+   */
+  function dcmp(xValue) {
+    if (Math.abs(xValue) < tolerance) {
+      return 0;
+    }
+    return xValue < 0 ? -1 : 1;
+  }
+  if (n <= 2) {
+    // svg 中点小于 3 个时，不显示，也无法被拾取
+    return false;
+  }
+  for (let i = 0; i < n; i++) {
+    const p1 = points[i];
+    const p2 = points[(i + 1) % n];
+    if (isCollinear(p1, p2, point)) {
+      // 点在多边形一条边上
+      return true;
+    }
+    // 前一个判断min(p1[1],p2[1])<P.y<=max(p1[1],p2[1])
+    // 后一个判断被测点 在 射线与边交点 的左边
+    if (
+      dcmp(p1[1] - y) > 0 !== dcmp(p2[1] - y) > 0 &&
+      dcmp(x - ((y - p1[1]) * (p1[0] - p2[0])) / (p1[1] - p2[1]) - p1[0]) < 0
+    ) {
+      isHit = !isHit;
+    }
+  }
+  return isHit;
 }
 
 /**

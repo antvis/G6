@@ -29,7 +29,9 @@
     "beforesizechange",
     "beforetransform",
     "beforeviewportanimate",
+    "bubblesets",
     "cancelviewportanimate",
+    "convexhull",
     "dendrogram",
     "elementstatechange",
     "elementtranslate",
@@ -42,6 +44,7 @@
     "mindmap",
     "onframe",
     "Phong",
+    "pointset",
     "Polyline",
     "ranksep"
   ],
