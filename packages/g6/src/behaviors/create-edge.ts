@@ -4,7 +4,7 @@ import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
 import type { EdgeStyle } from '../spec/element/edge';
-import type { IPointerEvent } from '../types';
+import type { Element, IPointerEvent } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -85,7 +85,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     graph.on(CommonEvent.POINTER_MOVE, this.updateAssistEdge);
   }
 
-  private drop = async (event: IPointerEvent) => {
+  private drop = async (event: IElementEvent) => {
     const { targetType } = event;
     if (['combo', 'node'].includes(targetType) && this.source) {
       await this.handleCreateEdge(event);
@@ -94,7 +94,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     }
   };
 
-  private handleCreateEdge = async (event: IPointerEvent) => {
+  private handleCreateEdge = async (event: IElementEvent) => {
     if (!this.validate(event)) return;
     const { graph, canvas } = this.context;
     const { style } = this.options;
@@ -140,7 +140,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     await element!.draw({ animation: false, silence: true });
   };
 
-  private createEdge = (event: IPointerEvent) => {
+  private createEdge = (event: IElementEvent) => {
     const { graph } = this.context;
     const { style, onFinish, onCreate } = this.options;
     const targetId = event.target?.id;
@@ -202,3 +202,5 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     super.destroy();
   }
 }
+
+type IElementEvent = IPointerEvent<Element>;

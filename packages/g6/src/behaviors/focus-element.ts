@@ -2,7 +2,7 @@ import type { ID } from '@antv/graphlib';
 import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { IKeyboardEvent, IPointerEvent, ViewportAnimationEffectTiming } from '../types';
+import type { Element, IPointerEvent, ViewportAnimationEffectTiming } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -20,7 +20,7 @@ export interface FocusElementOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the function of dragging the node
    */
-  enable?: boolean | ((event: IPointerEvent | IKeyboardEvent) => boolean);
+  enable?: boolean | ((event: IElementEvent) => boolean);
 }
 
 export class FocusElement extends BaseBehavior<FocusElementOptions> {
@@ -57,16 +57,16 @@ export class FocusElement extends BaseBehavior<FocusElementOptions> {
     );
   }
 
-  private clickFocusElement = async (event: IPointerEvent) => {
+  private clickFocusElement = async (event: IElementEvent) => {
     if (!this.validate(event)) return;
     const { animation } = this.options;
     const { graph } = this.context;
-    const id = this.getSelectedNodeIDs([event.target.id]);
+    const id = this.getSelectedNodeIDs([(event.target as Element).id]);
 
     await graph.focusElement(id, animation);
   };
 
-  private validate(event: IPointerEvent) {
+  private validate(event: IElementEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
@@ -86,3 +86,5 @@ export class FocusElement extends BaseBehavior<FocusElementOptions> {
     super.destroy();
   }
 }
+
+type IElementEvent = IPointerEvent<Element>;

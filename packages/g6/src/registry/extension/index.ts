@@ -1,7 +1,7 @@
 import type EventEmitter from '@antv/event-emitter';
 import { getExtension } from '..';
 import type { RuntimeContext } from '../../runtime/types';
-import type { Listener } from '../../types';
+import type { IEvent } from '../../types';
 import { arrayDiff } from '../../utils/diff';
 import { parseExtensions } from '../../utils/extension';
 import type { ExtensionOptions, LooselyExtensionOption, STDExtensionOption } from './types';
@@ -88,7 +88,7 @@ export class BaseExtension<T extends LooselyExtensionOption> {
 
   protected options: Required<T>;
 
-  protected events: [EventEmitter | HTMLElement, string, Listener][] = [];
+  protected events: [EventEmitter | HTMLElement, string, (event: IEvent) => void][] = [];
 
   public destroyed = false;
 

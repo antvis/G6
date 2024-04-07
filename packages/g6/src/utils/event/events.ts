@@ -1,12 +1,20 @@
 import type { IAnimation } from '@antv/g';
 import type { AnimationType, GraphEvent } from '../../constants';
-import type { ElementDatum, ElementType, TransformOptions } from '../../types';
+import type {
+  ElementDatum,
+  ElementType,
+  IAnimateEvent,
+  IElementLifeCycleEvent,
+  IGraphLifeCycleEvent,
+  IViewportEvent,
+  TransformOptions,
+} from '../../types';
 
 export class BaseEvent {
   constructor(public type: string) {}
 }
 
-export class GraphLifeCycleEvent extends BaseEvent {
+export class GraphLifeCycleEvent extends BaseEvent implements IGraphLifeCycleEvent {
   constructor(
     type:
       | GraphEvent.BEFORE_RENDER
@@ -23,7 +31,7 @@ export class GraphLifeCycleEvent extends BaseEvent {
   }
 }
 
-export class AnimateEvent extends BaseEvent {
+export class AnimateEvent extends BaseEvent implements IAnimateEvent {
   constructor(
     type: GraphEvent.BEFORE_ANIMATE | GraphEvent.AFTER_ANIMATE,
     public animationType: AnimationType,
@@ -34,7 +42,7 @@ export class AnimateEvent extends BaseEvent {
   }
 }
 
-export class ElementLifeCycleEvent extends BaseEvent {
+export class ElementLifeCycleEvent extends BaseEvent implements IElementLifeCycleEvent {
   constructor(
     type:
       | GraphEvent.BEFORE_ELEMENT_CREATE
@@ -50,7 +58,7 @@ export class ElementLifeCycleEvent extends BaseEvent {
   }
 }
 
-export class ViewportEvent extends BaseEvent {
+export class ViewportEvent extends BaseEvent implements IViewportEvent {
   constructor(
     type: GraphEvent.BEFORE_TRANSFORM | GraphEvent.AFTER_TRANSFORM,
     public data: TransformOptions,

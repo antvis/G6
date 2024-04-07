@@ -1,5 +1,4 @@
-import type { Graph } from '@/src';
-import type { AnimateEvent } from '@/src/utils/event';
+import type { Graph, IAnimateEvent } from '@/src';
 import type { Canvas, IAnimation } from '@antv/g';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -108,7 +107,7 @@ export async function toMatchAnimation(
   options: ToMatchSVGSnapshotOptions = {},
 ) {
   const animationPromise = new Promise<IAnimation>((resolve) => {
-    graph.once('beforeanimate', (e: AnimateEvent) => {
+    graph.once<IAnimateEvent>('beforeanimate', (e) => {
       resolve(e.animation!);
     });
   });

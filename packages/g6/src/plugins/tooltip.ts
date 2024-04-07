@@ -2,7 +2,7 @@ import type { TooltipStyleProps } from '@antv/component';
 import { Tooltip as TooltipComponent } from '@antv/component';
 import { get } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
-import type { ElementDatum, ElementType, IElementEvent } from '../types';
+import type { Element, ElementDatum, ElementType, IPointerEvent } from '../types';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
@@ -39,14 +39,13 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.bindEvents();
   }
 
-  public getEvents(): { [key: string]: Function } {
+  public getEvents(): { [key: string]: (event: IElementEvent) => void } {
     if (this.options.trigger === 'click') {
       return {
         'node:click': this.onClick,
         'edge:click': this.onClick,
         'combo:click': this.onClick,
         'canvas:click': this.onPointerLeave,
-        afterremoveitem: this.onPointerLeave,
         contextmenu: this.onPointerLeave,
         drag: this.onPointerLeave,
       };
@@ -176,7 +175,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     const { getContent } = this.options;
     const { color, stroke } = attributes;
     this.currentTarget = id;
-    const items: ElementDatum[] = this.getItems(id, targetType);
+    const items: ElementDatum[] = this.getItems(id, targetType as ElementType);
     let x;
     let y;
     if (client) {
@@ -266,3 +265,5 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     super.destroy();
   }
 }
+
+type IElementEvent = IPointerEvent<Element>;
