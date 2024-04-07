@@ -34,5 +34,5 @@ export function computeElementCallbackStyle(
  * @returns <zh/> z-index | <en/> z-index
  */
 export function zIndexOf(datum: ElementDatum) {
-  return datum.style?.zIndex ?? inferDefaultValue('zIndex') ?? 0;
+  return datum.style?.zIndex ?? (inferDefaultValue('zIndex') as number) ?? 0;
 }

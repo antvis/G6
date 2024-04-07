@@ -11,10 +11,6 @@ import { parseCommand } from './utils';
 
 export interface HistoryOptions extends BasePluginOptions {
   /**
-   * <zh/> 插件是否可用。默认为 `true`
-   */
-  enable?: boolean;
-  /**
    * <zh/>  最多记录该数据长度的历史记录，默认为 0 表示不做限制
    */
   stackSize?: number;
@@ -42,14 +38,13 @@ export class History extends BasePlugin<HistoryOptions> {
   static singleton = true;
 
   static defaultOptions: Partial<HistoryOptions> = {
-    enable: true,
     stackSize: 0,
   };
 
   private batchChanges: DataChange[][] | null = null;
   private batchAnimation = false;
-  private undoStack: Command[] = [];
-  private redoStack: Command[] = [];
+  public undoStack: Command[] = [];
+  public redoStack: Command[] = [];
   private isFirstDraw = true;
   private freezed = false;
 
@@ -61,10 +56,6 @@ export class History extends BasePlugin<HistoryOptions> {
     graph.on(GraphEvent.BATCH_START, this.initBatchCommand);
     graph.on(GraphEvent.BATCH_END, this.addCommand);
   }
-
-  public canUndo = () => this.undoStack.length > 0;
-
-  public canRedo = () => this.redoStack.length > 0;
 
   public undo = () => {
     const cmd = this.undoStack.pop();
@@ -86,7 +77,16 @@ export class History extends BasePlugin<HistoryOptions> {
     return this;
   };
 
-  protected executeCommand = (cmd: Command, revert = true) => {
+  public cancel = () => {
+    const cmd = this.undoStack.pop();
+    if (cmd) {
+      this.executeCommand(cmd, false);
+      this.redoStack = [];
+    }
+    return this;
+  };
+
+  private executeCommand = (cmd: Command, revert = true) => {
     this.freezed = true;
 
     this.options.executeCommand?.(cmd);
@@ -109,15 +109,15 @@ export class History extends BasePlugin<HistoryOptions> {
     if (this.freezed) return;
 
     if (event.type === GraphEvent.AFTER_DRAW) {
-      const { data = [], animation = true } = event as GraphLifeCycleEvent;
+      const { dataChanges = [], animation = true } = (event as GraphLifeCycleEvent).data;
 
       if (this.context.batch?.isBatching) {
         if (!this.batchChanges) return;
-        this.batchChanges.push(data);
+        this.batchChanges.push(dataChanges);
         this.batchAnimation &&= animation;
         return;
       }
-      this.batchChanges = [data];
+      this.batchChanges = [dataChanges];
       this.batchAnimation = animation;
     }
 

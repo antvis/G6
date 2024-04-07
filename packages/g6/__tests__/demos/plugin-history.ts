@@ -1,4 +1,5 @@
 import { Graph } from '@/src';
+import { IGraphWithHistory } from '../../../src/plugins/history/api';
 import type { STDTestCase } from '../types';
 
 export const pluginHistory: STDTestCase = async (context) => {
@@ -54,8 +55,8 @@ export const pluginHistory: STDTestCase = async (context) => {
 
         graph.draw();
       },
-      undo: () => graph.undo(),
-      redo: () => graph.redo(),
+      undo: () => (graph as IGraphWithHistory).undo(),
+      redo: () => (graph as IGraphWithHistory).redo(),
     };
     const visible = panel
       .add(config, 'visible')

@@ -11,7 +11,7 @@ import type {
 } from '../../types';
 
 import type { ID } from '@antv/graphlib';
-import type { DataChange, State } from '../../types';
+import type { State } from '../../types';
 export class BaseEvent {
   constructor(public type: string) {}
 }
@@ -27,8 +27,7 @@ export class GraphLifeCycleEvent extends BaseEvent implements IGraphLifeCycleEve
       | GraphEvent.AFTER_LAYOUT
       | GraphEvent.BEFORE_SIZE_CHANGE
       | GraphEvent.AFTER_SIZE_CHANGE,
-    public data?: DataChange[],
-    public animation?: boolean,
+    public data?: any,
   ) {
     super(type);
   }

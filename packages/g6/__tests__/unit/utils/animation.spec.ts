@@ -131,7 +131,7 @@ describe('animation', () => {
     expect(inferDefaultValue('stroke')).toBe(undefined);
     expect(inferDefaultValue('visibility')).toBe('visible');
     expect(inferDefaultValue('collapsed')).toBe(false);
-    expect(inferDefaultValue('states')).toBe([]);
+    expect(inferDefaultValue('states')).toEqual([]);
   });
 
   it('withAnimationCallbacks', async () => {

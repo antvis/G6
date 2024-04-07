@@ -1,51 +1,55 @@
-import { Graph } from '@/src';
+import type { History } from '.';
+import { Graph } from '../../../src';
+import type { Command } from './utils';
 
-declare module '@/src' {
-  interface Graph {
-    canUndo(): boolean;
-    canRedo(): boolean;
-    undo(): void;
-    undoAndCancel(): void;
-    redo(): void;
-    getUndoStack(): void;
-    getRedoStack(): void;
-  }
+export interface IGraphWithHistory extends Graph {
+  undo: () => Graph;
+  undoAndCancel: () => Graph;
+  redo: () => Graph;
+  getUndoStack: () => Command[];
+  getRedoStack: () => Command[];
+  cleanHistory: () => Graph;
 }
 
 const HISTORY_KEY = 'plugin-history-0';
 
-Graph.prototype.canUndo = function () {
-  const history = this.context.plugin.extensionMap[HISTORY_KEY];
-  if (history) {
-    return history.canUndo();
-  }
-  return false;
+const getHistoryPlugin = (graph: Graph) => {
+  // @ts-ignore
+  return graph.context.plugin?.extensionMap[HISTORY_KEY] as History;
 };
 
-Graph.prototype.canRedo = function () {
-  const history = this.context.plugin.extensionMap[HISTORY_KEY];
-  if (history) {
-    return history.canRedo();
-  }
-  return false;
+const GraphWithHistory = Graph.prototype as IGraphWithHistory;
+
+GraphWithHistory.undo = function () {
+  const history = getHistoryPlugin(this);
+  history?.undo();
+  return this;
 };
 
-Graph.prototype.undo = function () {
-  const history = this.context.plugin.extensionMap[HISTORY_KEY];
-  if (history) {
-    history.undo();
-  }
+GraphWithHistory.undoAndCancel = function () {
+  const history = getHistoryPlugin(this);
+  history?.cancel();
+  return this;
 };
 
-Graph.prototype.undoAndCancel = function () {};
-
-Graph.prototype.redo = function () {
-  const history = this.context.plugin.extensionMap[HISTORY_KEY];
-  if (history) {
-    history.redo();
-  }
+GraphWithHistory.redo = function () {
+  const history = getHistoryPlugin(this);
+  history?.redo();
+  return this;
 };
 
-Graph.prototype.getUndoStack = function () {};
+GraphWithHistory.getUndoStack = function () {
+  const history = getHistoryPlugin(this);
+  return history?.undoStack || [];
+};
 
-Graph.prototype.getRedoStack = function () {};
+GraphWithHistory.getRedoStack = function () {
+  const history = getHistoryPlugin(this);
+  return history?.redoStack || [];
+};
+
+GraphWithHistory.cleanHistory = function () {
+  const history = getHistoryPlugin(this);
+  history?.clean();
+  return this;
+};
