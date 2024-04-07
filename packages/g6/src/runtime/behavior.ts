@@ -59,12 +59,13 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
   }
 
   private forwardCanvasEvents = (event: FederatedPointerEvent | FederatedWheelEvent) => {
-    const target = eventTargetOf(event.target as DisplayObject);
+    const { target: originalTarget } = event;
+    const target = eventTargetOf(originalTarget as DisplayObject);
     if (!target) return;
     const { graph, canvas } = this.context;
     const { type: targetType, element: targetElement } = target;
     const { type, detail, button } = event;
-    const stdEvent = { ...event, target: targetElement, targetType };
+    const stdEvent = { ...event, target: targetElement, targetType, originalTarget };
 
     if (type === CanvasEvent.POINTER_MOVE) {
       if (this.currentTarget !== targetElement) {

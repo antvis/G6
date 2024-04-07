@@ -4,7 +4,7 @@ import { ID } from '@antv/graphlib';
 import { isFunction } from '@antv/util';
 import { COMBO_KEY, CommonEvent } from '../constants';
 import { RuntimeContext } from '../runtime/types';
-import type { EdgeDirection, IDragEvent, Point, PrefixObject } from '../types';
+import type { EdgeDirection, Element, IDragEvent, Point, PrefixObject } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { idOf } from '../utils/id';
 import { subStyleProps } from '../utils/prefix';
@@ -24,7 +24,7 @@ export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<Ba
    *
    * <en/> Whether to enable the function of dragging the node
    */
-  enable?: boolean | ((event: IDragEvent) => boolean);
+  enable?: boolean | ((event: IElementDragEvent) => boolean);
   /**
    * <zh/> 拖拽操作效果
    * - link: 将拖拽元素置入为目标元素的子元素
@@ -150,7 +150,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     );
   }
 
-  private onDragStart = (event: IDragEvent) => {
+  private onDragStart = (event: IElementDragEvent) => {
     this.enable = this.validate(event);
     if (!this.enable) return;
 
@@ -160,7 +160,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     if (this.options.shadow) this.createShadow(this.target);
   };
 
-  private onDrag = (event: IDragEvent) => {
+  private onDrag = (event: IElementDragEvent) => {
     if (!this.enable) return;
     const zoom = this.context.graph.getZoom();
     const { dx, dy } = event;
@@ -184,7 +184,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     this.target = [];
   };
 
-  private onDrop = async (event: IDragEvent) => {
+  private onDrop = async (event: IElementDragEvent) => {
     if (this.options.dropEffect !== 'link') return;
     const { model, element } = this.context;
     const modifiedParentId = event.target.id;
@@ -200,7 +200,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     await element?.draw({ animation: true });
   };
 
-  private validate(event: IDragEvent) {
+  private validate(event: IElementDragEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
@@ -294,3 +294,5 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     super.destroy();
   }
 }
+
+type IElementDragEvent = IDragEvent<Element>;

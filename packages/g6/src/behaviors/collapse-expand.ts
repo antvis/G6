@@ -3,6 +3,7 @@ import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { IPointerEvent } from '../types';
+import { isElement } from '../utils/element';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -59,8 +60,10 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
 
   private onCollapseExpand = async (event: IPointerEvent) => {
     if (!this.validate(event)) return;
+    const { target } = event;
+    if (!isElement(target)) return;
 
-    const id = event?.target?.id;
+    const id = target.id;
     const { model, graph } = this.context;
     const data = model.getComboData([id])[0];
     if (!data) return false;

@@ -65,10 +65,14 @@ export type {
   ViewportOptions,
 } from './spec';
 export type {
+  IAnimateEvent,
   IDragEvent,
-  IElementEvent,
+  IElementLifeCycleEvent,
+  IEvent,
+  IGraphLifeCycleEvent,
   IKeyboardEvent,
   IPointerEvent,
+  IViewportEvent,
   IWheelEvent,
   Point,
   Vector2,

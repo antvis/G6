@@ -3,7 +3,7 @@ import { get, isString } from '@antv/util';
 import { BaseCombo, BaseEdge, BaseNode } from '../elements';
 import type { NodePortStyleProps } from '../elements/nodes/base-node';
 import type { TriangleDirection } from '../elements/nodes/triangle';
-import type { Combo, Edge, Node, Placement, Point, Position } from '../types';
+import type { Combo, Edge, Element, Node, Placement, Point, Position } from '../types';
 import type { LabelPlacement, Port } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { isPoint } from './is';
@@ -11,36 +11,47 @@ import { findNearestPoints, getEllipseIntersectPoint } from './point';
 import { getXYByPlacement } from './position';
 
 /**
- * <zh/> 判断是否是 BaseNode 的实例
+ * <zh/> 判断是否是 Node 的实例
  *
- * <en/> Judge whether the instance is BaseNode
+ * <en/> Judge whether the instance is Node
  * @param shape - <zh/> 实例 | <en/> instance
- * @returns <zh/> 是否是 BaseNode 的实例 | <en/> whether the instance is BaseNode
+ * @returns <zh/> 是否是 Node 的实例 | <en/> whether the instance is Node
  */
 export function isNode(shape: DisplayObject | Port): shape is Node {
   return shape instanceof BaseNode && shape.type === 'node';
 }
 
 /**
- * <zh/> 判断是否是 BaseEdge 的实例
+ * <zh/> 判断是否是 Edge 的实例
  *
- * <en/> Judge whether the instance is BaseEdge
+ * <en/> Judge whether the instance is Edge
  * @param shape - <zh/> 实例 | <en/> instance
- * @returns <zh/> 是否是 BaseEdge 的实例 | <en/> whether the instance is BaseEdge
+ * @returns <zh/> 是否是 Edge 的实例 | <en/> whether the instance is Edge
  */
 export function isEdge(shape: DisplayObject): shape is Edge {
   return shape instanceof BaseEdge;
 }
 
 /**
- * <zh/> 判断是否是 BaseCombo 的实例
+ * <zh/> 判断是否是 Combo 的实例
  *
- * <en/> Judge whether the instance is BaseCombo
+ * <en/> Judge whether the instance is Combo
  * @param shape - <zh/> 实例 | <en/> instance
- * @returns <zh/> 是否是 BaseCombo 的实例 | <en/> whether the instance is BaseCombo
+ * @returns <zh/> 是否是 Combo 的实例 | <en/> whether the instance is Combo
  */
 export function isCombo(shape: DisplayObject): shape is Combo {
   return shape instanceof BaseCombo;
+}
+
+/**
+ * <zh/> 判断是否是 Element 的实例
+ *
+ * <en/> Judge whether the instance is Element
+ * @param shape - <zh/> 实例 | <en/> instance
+ * @returns <zh/> 是否是 Element 的实例 | <en/> whether the instance is Element
+ */
+export function isElement(shape: any): shape is Element {
+  return isNode(shape) || isEdge(shape) || isCombo(shape);
 }
 
 /**

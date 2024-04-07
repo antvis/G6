@@ -1,5 +1,6 @@
 import type { RuntimeContext } from '../runtime/types';
-import type { IElementEvent } from '../types/event';
+import type { Element } from '../types';
+import type { IPointerEvent } from '../types/event';
 import type { Item } from '../utils/contextmenu';
 import { CONTEXTMENU_CSS, getContentFromItems } from '../utils/contextmenu';
 import { createPluginContainer, insertDOM } from '../utils/dom';
@@ -196,3 +197,5 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     }
   };
 }
+
+type IElementEvent = IPointerEvent<Element>;
