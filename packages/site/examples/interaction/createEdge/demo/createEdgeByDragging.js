@@ -1,16 +1,11 @@
-import { Graph, extend, Extensions } from '@antv/g6';
-
-const ExtGraph = extend(Graph, {
-  behaviors: {
-    'create-edge': Extensions.CreateEdge,
-  },
-});
+import { Graph } from '@antv/g6';
 
 const container = document.getElementById('container');
 
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 30;
-const graph = new ExtGraph({
+
+const graph = new Graph({
   container: 'container',
   width,
   height,
@@ -41,7 +36,12 @@ const graph = new ExtGraph({
       { id: 'node5', data: {} },
     ],
     edges: [
-      { id: 'edge1', source: 'node1', target: 'node2', data: {} },
+      {
+        id: 'edge1',
+        source: 'node1',
+        target: 'node2',
+        data: {},
+      },
       { id: 'edge2', source: 'node1', target: 'node3', data: {} },
       { id: 'edge3', source: 'node1', target: 'node4', data: {} },
       { id: 'edge4', source: 'node2', target: 'node3', data: {} },
@@ -49,25 +49,19 @@ const graph = new ExtGraph({
       { id: 'edge6', source: 'node4', target: 'node5', data: {} },
     ],
   },
-  modes: {
-    default: [
-      {
-        key: 'create-edge-behavior-key',
-        type: 'create-edge',
-        trigger: 'drag',
-        edgeConfig: { keyShape: { stroke: '#f00' } },
-        createVirtualEventName: 'begincreate',
-        cancelCreateEventName: 'cancelcreate',
+  behaviors: [
+    {
+      type: 'create-edge',
+      trigger: 'drag',
+      style: {
+        color: '#fff',
+        lineWidth: 2,
+        lineDash: [2, 3],
       },
-    ],
-  },
+    },
+  ],
 });
 
-graph.on('begincreate', (e) => {
-  graph.setCursor('crosshair');
-});
-graph.on('cancelcreate', (e) => {
-  graph.setCursor('default');
-});
+graph.render();
 
 window.graph = graph;

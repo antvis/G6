@@ -580,7 +580,7 @@ export class ElementController {
     const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
       if (elementData.size === 0) return;
-      const animator = this.getAnimationExecutor(elementType, 'enter');
+      const animator = this.getAnimationExecutor(elementType, 'enter', context.animation);
       elementData.forEach((datum) =>
         tasks.push(() => this.createElement(elementType, datum, { ...context, animator })),
       );

@@ -53,9 +53,17 @@ const graph = new Graph({
     {
       type: 'create-edge',
       trigger: 'click',
-      style: {
-        color: 'red',
-        lineWidth: 2,
+      onCreate: (edge) => {
+        const { style, ...rest } = edge;
+        return {
+          ...rest,
+          style: {
+            ...style,
+            color: 'red',
+            lineWidth: 2,
+            endArrow: true,
+          },
+        };
       },
     },
   ],
