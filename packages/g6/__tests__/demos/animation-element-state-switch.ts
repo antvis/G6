@@ -1,6 +1,7 @@
-import { Graph, type G6Spec } from '@/src';
+import type { G6Spec } from '@/src';
+import { Graph } from '@/src';
 
-export const animationElementState: TestCase = async (context) => {
+export const animationElementStateSwitch: TestCase = async (context) => {
   const options: G6Spec = {
     ...context,
     data: {
@@ -71,7 +72,7 @@ export const animationElementState: TestCase = async (context) => {
     graph.draw();
   };
 
-  animationElementState.form = (panel) => [panel.add({ play }, 'play').name('Play')];
+  animationElementStateSwitch.form = (panel) => [panel.add({ play }, 'play').name('Play')];
 
   return graph;
 };

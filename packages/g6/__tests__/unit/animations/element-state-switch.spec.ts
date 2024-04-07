@@ -1,9 +1,9 @@
-import { animationElementState } from '@/__tests__/demos';
+import { animationElementStateSwitch } from '@/__tests__/demos';
 import { createDemoGraph } from '@@/utils';
 
-describe('animation element state', () => {
-  it('animation element state', async () => {
-    const graph = await createDemoGraph(animationElementState, { animation: true });
+describe('animation element state switch', () => {
+  it('animation element state switch', async () => {
+    const graph = await createDemoGraph(animationElementStateSwitch, { animation: true });
     await expect(graph).toMatchAnimation(__filename, [0, 200, 1000], () => {
       graph.updateData({
         nodes: [
