@@ -43,7 +43,6 @@ export * from './element-position-combo';
 export * from './element-state';
 export * from './element-visibility';
 export * from './element-z-index';
-export * from './graph-event';
 export * from './layout-antv-dagre-flow';
 export * from './layout-antv-dagre-flow-combo';
 export * from './layout-circular-basic';

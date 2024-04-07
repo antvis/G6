@@ -43,10 +43,6 @@ export enum GraphEvent {
   BEFORE_TRANSFORM = 'beforetransform',
   /** <zh/> 可视区域变化之后 | <en/> After the visible area changes */
   AFTER_TRANSFORM = 'aftertransform',
-  /** <zh/> 状态变化之前 | <en/> Before the state changes */
-  BEFORE_ELEMENT_STATE_CHANGE = 'beforeelementstatechange',
-  /** <zh/> 状态变化之后 | <en/> After the state changes */
-  AFTER_ELEMENT_STATE_CHANGE = 'afterelementstatechange',
 }
 
 export const enum AnimationTypeEnum {
