@@ -28,6 +28,7 @@ import type {
   ElementDatum,
   ElementType,
   FitViewOptions,
+  IEvent,
   NodeLikeData,
   PartialEdgeData,
   PartialGraphData,
@@ -1043,4 +1044,28 @@ export class Graph extends EventEmitter {
   private onResize = debounce(() => {
     this.resize();
   }, 300);
+
+  /**
+   * <zh/> 监听事件
+   *
+   * <en/> Listen to events
+   * @param eventName - <zh/> 事件名称 | <en/> event name
+   * @param callback - <zh/> 回调函数 | <en/> callback function
+   * @returns <zh/> Graph 实例 | <en/> Graph instance
+   */
+  public on<T extends IEvent = IEvent>(eventName: string, callback: (event: T) => void) {
+    return super.on(eventName, callback);
+  }
+
+  /**
+   * <zh/> 一次性监听事件
+   *
+   * <en/> Listen to events once
+   * @param eventName - <zh/> 事件名称 | <en/> event name
+   * @param callback - <zh/> 回调函数 | <en/> callback function
+   * @returns <zh/> Graph 实例 | <en/> Graph instance
+   */
+  public once<T extends IEvent = IEvent>(eventName: string, callback: (event: T) => void) {
+    return super.once(eventName, callback);
+  }
 }
