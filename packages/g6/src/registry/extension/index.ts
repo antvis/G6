@@ -37,9 +37,6 @@ export abstract class ExtensionController<Extension extends BaseExtension<Loosel
     const Ctor = getExtension(category, type);
     if (!Ctor) return;
 
-    // 如果插件是单例并且已经存在，就不创建新的实例 ｜ If the plugin is a singleton and already exists, no new instance is created
-    if (Ctor.singleton && Object.values(this.extensionMap).some((instance) => instance instanceof Ctor)) return;
-
     const instance = new Ctor(this.context, extension);
     this.extensionMap[key] = instance as Extension;
   }
@@ -87,8 +84,6 @@ export abstract class ExtensionController<Extension extends BaseExtension<Loosel
  * <en/> Base class for extension instance
  */
 export class BaseExtension<T extends LooselyExtensionOption> {
-  static singleton: boolean = false;
-
   protected context: RuntimeContext;
 
   protected options: Required<T>;

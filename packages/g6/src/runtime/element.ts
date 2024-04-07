@@ -340,7 +340,6 @@ export class ElementController {
 
     await executeAnimatableTasks(
       [...destroyTasks, ...createTasks, ...updateTasks],
-      // this.context.silence || drawContext.silence
       drawContext.silence
         ? {}
         : {

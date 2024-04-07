@@ -1,8 +1,7 @@
 import { Graph } from '@/src';
-import { IGraphWithHistory } from '../../../src/plugins/history/api';
-import type { STDTestCase } from '../types';
+import { History } from '../../src/plugins';
 
-export const pluginHistory: STDTestCase = async (context) => {
+export const pluginHistory: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: {
@@ -36,10 +35,12 @@ export const pluginHistory: STDTestCase = async (context) => {
       },
     },
     behaviors: ['drag-element', 'collapse-expand'],
-    plugins: ['history'],
+    plugins: [{ key: 'history', type: 'history' }],
   });
 
   await graph.render();
+
+  const history = graph.getPluginInstance<History>('history');
 
   pluginHistory.form = (panel) => {
     const config = {
@@ -70,8 +71,9 @@ export const pluginHistory: STDTestCase = async (context) => {
       expand: () => graph.expand('combo-1'),
       state: () => graph.setElementState('node-1', 'selected', true),
       zIndex: () => graph.setElementZIndex('combo-2', 100),
-      undo: () => (graph as IGraphWithHistory).undo(),
-      redo: () => (graph as IGraphWithHistory).redo(),
+      undo: () => history.undo(),
+      redo: () => history.redo(),
+      clear: () => history.clear(),
     };
     const visible = panel
       .add(config, 'visible')
@@ -90,6 +92,7 @@ export const pluginHistory: STDTestCase = async (context) => {
       panel.add(config, 'zIndex').name('front combo2'),
       panel.add(config, 'undo'),
       panel.add(config, 'redo'),
+      panel.add(config, 'clear'),
     ];
   };
 

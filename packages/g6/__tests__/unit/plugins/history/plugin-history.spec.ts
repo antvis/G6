@@ -1,12 +1,15 @@
-import type { IGraphWithHistory } from '@/src/plugins/history/api';
-import { pluginHistory } from '@@/demo/case';
+import { pluginHistory } from '@/__tests__/demos';
+import { Graph } from '@/src';
+import { History } from '@/src/plugins';
 import { createDemoGraph } from '@@/utils';
 
 describe('history plugin', () => {
-  let graph: IGraphWithHistory;
+  let graph: Graph;
+  let history: History;
 
   beforeAll(async () => {
-    graph = (await createDemoGraph(pluginHistory, { animation: false })) as IGraphWithHistory;
+    graph = await createDemoGraph(pluginHistory, { animation: false });
+    history = graph.getPluginInstance<History>('history');
   });
 
   afterAll(() => {
@@ -20,11 +23,11 @@ describe('history plugin', () => {
     });
     graph.draw();
     await expect(graph).toMatchSnapshot(__filename, 'addData');
-    graph.undo();
+    history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'addData-undo');
-    graph.redo();
+    history.redo();
     await expect(graph).toMatchSnapshot(__filename, 'addData-redo');
-    graph.undo();
+    history.undo();
   });
 
   it('updateData', async () => {
@@ -34,11 +37,11 @@ describe('history plugin', () => {
     });
     graph.draw();
     await expect(graph).toMatchSnapshot(__filename, 'updateData');
-    graph.undo();
+    history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'updateData-undo');
-    graph.redo();
+    history.redo();
     await expect(graph).toMatchSnapshot(__filename, 'updateData-redo');
-    graph.undo();
+    history.undo();
   });
 
   it('removeData', async () => {
@@ -48,58 +51,58 @@ describe('history plugin', () => {
     });
     graph.draw();
     await expect(graph).toMatchSnapshot(__filename, 'deleteData');
-    graph.undo();
+    history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'deleteData-undo');
-    graph.redo();
+    history.redo();
     await expect(graph).toMatchSnapshot(__filename, 'deleteData-redo');
-    graph.undo();
+    history.undo();
   });
 
   it('collapse/expand', async () => {
     graph.collapse('combo-2');
     await expect(graph).toMatchSnapshot(__filename, 'collapse');
-    graph.undo();
+    history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'collapse-undo');
-    graph.redo();
+    history.redo();
     await expect(graph).toMatchSnapshot(__filename, 'collapse-redo');
-    graph.undo();
+    history.undo();
 
     graph.expand('combo-1');
     await expect(graph).toMatchSnapshot(__filename, 'expand');
-    graph.undo();
+    history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'expand-undo');
-    graph.redo();
+    history.redo();
     await expect(graph).toMatchSnapshot(__filename, 'expand-redo');
-    graph.undo();
+    history.undo();
   });
 
   it('setElementState', async () => {
     graph.setElementState('node-1', 'selected', true);
     await expect(graph).toMatchSnapshot(__filename, 'setElementsState');
-    graph.undo();
+    history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'setElementsState-undo');
-    graph.redo();
+    history.redo();
     await expect(graph).toMatchSnapshot(__filename, 'setElementsState-redo');
-    graph.undo();
+    history.undo();
   });
 
   it('setElementVisibility', async () => {
     graph.setElementVisibility('node-1', 'hidden');
     await expect(graph).toMatchSnapshot(__filename, 'hideElement');
-    graph.undo();
+    history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'hideElement-undo');
-    graph.redo();
+    history.redo();
     await expect(graph).toMatchSnapshot(__filename, 'hideElement-redo');
-    graph.undo();
+    history.undo();
   });
 
   it('setElementZIndex', async () => {
     graph.setElementZIndex('combo-2', 100);
     await expect(graph).toMatchSnapshot(__filename, 'setElementZIndex');
-    graph.undo();
+    history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'setElementZIndex-undo');
-    graph.redo();
+    history.redo();
     await expect(graph).toMatchSnapshot(__filename, 'setElementZIndex-redo');
-    graph.undo();
+    history.undo();
   });
 });

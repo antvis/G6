@@ -15,7 +15,7 @@
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="node-2" fill="none" transform="matrix(1,0,0,1,227.251083,261.688171)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12" stroke="rgba(0,0,0,1)"/>
           </g>
         </g>
         <g id="node-1" fill="none" transform="matrix(1,0,0,1,272.748932,238.311813)">
@@ -23,7 +23,7 @@
             <circle id="halo" fill="none" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="12" stroke="rgba(255,192,203,1)" stroke-opacity="0.25" r="12" stroke-dasharray="0,0" pointer-events="none" visibility="visible"/>
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(255,192,203,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="3" stroke="rgba(0,0,0,1)" r="12" visibility="visible"/>
+            <circle id="key" fill="rgba(255,192,203,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="3" r="12" stroke="rgba(0,0,0,1)" visibility="visible"/>
           </g>
         </g>
       </g>

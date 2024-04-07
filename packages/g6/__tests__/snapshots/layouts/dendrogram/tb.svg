@@ -218,7 +218,7 @@
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="Modeling Methods" fill="none" transform="matrix(1,0,0,1,-18,-54)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -230,7 +230,7 @@
         </g>
         <g id="Classification" fill="none" transform="matrix(1,0,0,1,-388,146)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -242,7 +242,7 @@
         </g>
         <g id="Logistic regression" fill="none" transform="matrix(0,1,-1,0,-528,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000003,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -254,7 +254,7 @@
         </g>
         <g id="Linear discriminant analysis" fill="none" transform="matrix(0,1,-1,0,-488,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000001,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -266,7 +266,7 @@
         </g>
         <g id="Rules" fill="none" transform="matrix(0,1,-1,0,-448,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000015,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -278,7 +278,7 @@
         </g>
         <g id="Decision trees" fill="none" transform="matrix(0,1,-1,0,-408,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000014,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -290,7 +290,7 @@
         </g>
         <g id="Naive Bayes" fill="none" transform="matrix(0,1,-1,0,-368,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000013,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -302,7 +302,7 @@
         </g>
         <g id="K nearest neighbor" fill="none" transform="matrix(0,1,-1,0,-328,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000011,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -314,7 +314,7 @@
         </g>
         <g id="Probabilistic neural network" fill="none" transform="matrix(0,1,-1,0,-288,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000010,11.999978)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -326,7 +326,7 @@
         </g>
         <g id="Support vector machine" fill="none" transform="matrix(0,1,-1,0,-248,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000008,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -338,7 +338,7 @@
         </g>
         <g id="Consensus" fill="none" transform="matrix(1,0,0,1,42,46)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -350,7 +350,7 @@
         </g>
         <g id="Models diversity" fill="none" transform="matrix(1,0,0,1,-98,146)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -362,7 +362,7 @@
         </g>
         <g id="Different initializations" fill="none" transform="matrix(0,1,-1,0,-198,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000007,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -374,7 +374,7 @@
         </g>
         <g id="Different parameter choices" fill="none" transform="matrix(0,1,-1,0,-158,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000005,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -386,7 +386,7 @@
         </g>
         <g id="Different architectures" fill="none" transform="matrix(0,1,-1,0,-118,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000004,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -398,7 +398,7 @@
         </g>
         <g id="Different modeling methods" fill="none" transform="matrix(0,1,-1,0,-78,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000003,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -410,7 +410,7 @@
         </g>
         <g id="Different training sets" fill="none" transform="matrix(0,1,-1,0,-38,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000001,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -422,7 +422,7 @@
         </g>
         <g id="Different feature sets" fill="none" transform="matrix(0,1,-1,0,2,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000015,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -434,7 +434,7 @@
         </g>
         <g id="Methods" fill="none" transform="matrix(1,0,0,1,72,146)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -446,7 +446,7 @@
         </g>
         <g id="Classifier selection" fill="none" transform="matrix(0,1,-1,0,52,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000013,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -458,7 +458,7 @@
         </g>
         <g id="Classifier fusion" fill="none" transform="matrix(0,1,-1,0,92,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000012,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -470,7 +470,7 @@
         </g>
         <g id="Common" fill="none" transform="matrix(1,0,0,1,182,146)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -482,7 +482,7 @@
         </g>
         <g id="Bagging" fill="none" transform="matrix(0,1,-1,0,142,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000010,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -494,7 +494,7 @@
         </g>
         <g id="Boosting" fill="none" transform="matrix(0,1,-1,0,182,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000009,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -506,7 +506,7 @@
         </g>
         <g id="AdaBoost" fill="none" transform="matrix(0,1,-1,0,222,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000008,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -518,7 +518,7 @@
         </g>
         <g id="Regression" fill="none" transform="matrix(1,0,0,1,352,146)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,12,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -530,7 +530,7 @@
         </g>
         <g id="Multiple linear regression" fill="none" transform="matrix(0,1,-1,0,272,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000006,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -542,7 +542,7 @@
         </g>
         <g id="Partial least squares" fill="none" transform="matrix(0,1,-1,0,312,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000005,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -554,7 +554,7 @@
         </g>
         <g id="Multi-layer feed forward neural network" fill="none" transform="matrix(0,1,-1,0,352,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000003,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -566,7 +566,7 @@
         </g>
         <g id="General regression neural network" fill="none" transform="matrix(0,1,-1,0,392,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000002,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -578,7 +578,7 @@
         </g>
         <g id="Support vector regression" fill="none" transform="matrix(0,1,-1,0,432,246)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,-0.000016,12)">
             <g transform="matrix(1,0,0,1,0,0)">

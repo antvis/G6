@@ -31,9 +31,7 @@ export class BatchController {
   }
 
   public destroy() {
-    // @ts-expect-error force delete
-    delete this.batches;
-    // @ts-expect-error force delete
-    delete this.context;
+    // @ts-ignore
+    this.context = null;
   }
 }

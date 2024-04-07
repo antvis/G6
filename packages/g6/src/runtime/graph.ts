@@ -460,12 +460,12 @@ export class Graph extends EventEmitter {
 
   private createRuntime() {
     this.context.options = this.options;
+    if (!this.context.batch) this.context.batch = new BatchController(this.context);
     if (!this.context.plugin) this.context.plugin = new PluginController(this.context);
     if (!this.context.viewport) this.context.viewport = new ViewportController(this.context);
     if (!this.context.element) this.context.element = new ElementController(this.context);
     if (!this.context.layout) this.context.layout = new LayoutController(this.context);
     if (!this.context.behavior) this.context.behavior = new BehaviorController(this.context);
-    if (!this.context.batch) this.context.batch = new BatchController(this.context);
   }
 
   private async prepare(): Promise<void> {

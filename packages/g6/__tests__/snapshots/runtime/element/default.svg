@@ -37,7 +37,7 @@
         </g>
         <g id="node-2" fill="none" transform="matrix(1,0,0,1,150,100)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(213,62,79,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(213,62,79,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
         </g>
         <g id="node-3" fill="none" transform="matrix(1,0,0,1,125,150)">

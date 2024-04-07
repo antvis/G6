@@ -5,7 +5,6 @@ import type { RuntimeContext } from '../../runtime/types';
 import { DataChange } from '../../types';
 import type { BatchEvent, GraphLifeCycleEvent } from '../../utils/event';
 import { idsOf } from '../../utils/id';
-import './api';
 import type { Command } from './utils';
 import { parseCommand } from './utils';
 
@@ -35,8 +34,6 @@ export interface HistoryOptions extends BasePluginOptions {
 }
 
 export class History extends BasePlugin<HistoryOptions> {
-  static singleton = true;
-
   static defaultOptions: Partial<HistoryOptions> = {
     stackSize: 0,
   };
@@ -57,6 +54,29 @@ export class History extends BasePlugin<HistoryOptions> {
     graph.on(GraphEvent.BATCH_END, this.addCommand);
   }
 
+  /**
+   * <zh/> 是否可以执行撤销操作
+   * <en/> Whether undo can be done
+   * @returns <zh/> 是否可以执行撤销操作 | <en/> Whether undo can be done
+   */
+  public canUndo = () => {
+    return this.undoStack.length > 0;
+  };
+
+  /**
+   * <zh/> 是否可以执行重做操作
+   * <en/> Whether redo can be done
+   * @returns <zh/> 是否可以执行重做操作 | <en/> Whether redo can be done
+   */
+  public canRedo = () => {
+    return this.redoStack.length > 0;
+  };
+
+  /**
+   * <zh/> 执行撤销
+   * <en/> Execute undo
+   * @returns <zh/> 返回当前实例 | <en/> Return the current instance
+   */
   public undo = () => {
     const cmd = this.undoStack.pop();
     if (cmd) {
@@ -68,6 +88,11 @@ export class History extends BasePlugin<HistoryOptions> {
     return this;
   };
 
+  /**
+   * <zh/> 执行重做
+   * <en/> Execute redo
+   * @returns <zh/> 返回当前实例 | <en/> Return the current instance
+   */
   public redo = () => {
     const cmd = this.redoStack.pop();
     if (cmd) {
@@ -77,7 +102,12 @@ export class History extends BasePlugin<HistoryOptions> {
     return this;
   };
 
-  public cancel = () => {
+  /**
+   * <zh/> 执行撤销且不计入历史记录
+   * <en/> Execute undo and do not record in history
+   * @returns <zh/> 返回当前实例 | <en/> Return the current instance
+   */
+  public undoAndCancel = () => {
     const cmd = this.undoStack.pop();
     if (cmd) {
       this.executeCommand(cmd, false);
@@ -147,7 +177,11 @@ export class History extends BasePlugin<HistoryOptions> {
     this.options.afterAddCommand?.(cmd, true);
   }
 
-  public clean(): void {
+  /**
+   * <zh/> 清空历史记录
+   * <en/> Clear history
+   */
+  public clear(): void {
     this.undoStack = [];
     this.redoStack = [];
     this.batchChanges = null;

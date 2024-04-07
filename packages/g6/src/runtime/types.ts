@@ -1,5 +1,5 @@
 import type { G6Spec } from '../spec';
-import { BatchController } from './batch';
+import type { BatchController } from './batch';
 import type { BehaviorController } from './behavior';
 import type { Canvas } from './canvas';
 import type { DataController } from './data';

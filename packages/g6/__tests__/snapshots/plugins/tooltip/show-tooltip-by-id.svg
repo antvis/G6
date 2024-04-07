@@ -2,7 +2,7 @@
   <defs/>
   <g id="g-svg-camera" transform="matrix(0.202407,0,0,0.202407,235.416672,231.129288)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-8" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="a" fill="none" transform="matrix(1,0,0,1,514.073059,93.231476)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle id="key" fill="rgba(253,253,253,1)" transform="translate(-793.1100797116424,-793.1100797116424)" cx="793.1100797116424" cy="793.1100797116424" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="793.1100797116424"/>
@@ -24,7 +24,7 @@
           </g>
         </g>
       </g>
-      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="edge-444" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
           <g id="edge-444" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,493.732086,73.109398)">
@@ -446,10 +446,10 @@
           </g>
         </g>
       </g>
-      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="0" fill="none" transform="matrix(1,0,0,1,484.140228,65.898544)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -461,7 +461,7 @@
         </g>
         <g id="1" fill="none" transform="matrix(1,0,0,1,789.673157,295.588501)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -473,7 +473,7 @@
         </g>
         <g id="2" fill="none" transform="matrix(1,0,0,1,669.961060,-168.566422)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -485,7 +485,7 @@
         </g>
         <g id="3" fill="none" transform="matrix(1,0,0,1,718.986938,54.372250)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -497,7 +497,7 @@
         </g>
         <g id="4" fill="none" transform="matrix(1,0,0,1,881.385925,-128.068451)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -509,7 +509,7 @@
         </g>
         <g id="5" fill="none" transform="matrix(1,0,0,1,926.443420,87.794342)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -521,7 +521,7 @@
         </g>
         <g id="6" fill="none" transform="matrix(1,0,0,1,1154.923218,-74.852554)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -533,7 +533,7 @@
         </g>
         <g id="7" fill="none" transform="matrix(1,0,0,1,654.338867,461.904297)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -545,7 +545,7 @@
         </g>
         <g id="8" fill="none" transform="matrix(1,0,0,1,513.690125,298.996033)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -557,7 +557,7 @@
         </g>
         <g id="9" fill="none" transform="matrix(1,0,0,1,317.063202,-129.442642)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -569,7 +569,7 @@
         </g>
         <g id="10" fill="none" transform="matrix(1,0,0,1,73.107780,63.732269)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -581,7 +581,7 @@
         </g>
         <g id="11" fill="none" transform="matrix(1,0,0,1,82.537895,221.304474)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -593,7 +593,7 @@
         </g>
         <g id="12" fill="none" transform="matrix(1,0,0,1,157.248932,473.373138)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -605,7 +605,7 @@
         </g>
         <g id="13" fill="none" transform="matrix(1,0,0,1,424.359772,483.723480)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -617,7 +617,7 @@
         </g>
         <g id="14" fill="none" transform="matrix(1,0,0,1,298.981934,198.765884)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -629,7 +629,7 @@
         </g>
         <g id="15" fill="none" transform="matrix(1,0,0,1,537.981201,-320.260529)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -641,7 +641,7 @@
         </g>
         <g id="16" fill="none" transform="matrix(1,0,0,1,72.697197,-212.300217)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -653,7 +653,7 @@
         </g>
         <g id="17" fill="none" transform="matrix(1,0,0,1,112.479836,-531.856506)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -665,7 +665,7 @@
         </g>
         <g id="18" fill="none" transform="matrix(1,0,0,1,-124.979530,-520.191956)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -677,7 +677,7 @@
         </g>
         <g id="19" fill="none" transform="matrix(1,0,0,1,-333.180298,-309.624115)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -689,7 +689,7 @@
         </g>
         <g id="20" fill="none" transform="matrix(1,0,0,1,-74.993576,-305.636200)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -701,7 +701,7 @@
         </g>
         <g id="21" fill="none" transform="matrix(1,0,0,1,-109.953697,-69.380348)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -713,7 +713,7 @@
         </g>
         <g id="22" fill="none" transform="matrix(1,0,0,1,-315.052002,77.836052)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -725,7 +725,7 @@
         </g>
         <g id="23" fill="none" transform="matrix(1,0,0,1,-628.744141,-121.970230)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -737,7 +737,7 @@
         </g>
         <g id="24" fill="none" transform="matrix(1,0,0,1,-126.777069,274.519440)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -749,7 +749,7 @@
         </g>
         <g id="25" fill="none" transform="matrix(1,0,0,1,-289.151337,464.396576)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -761,7 +761,7 @@
         </g>
         <g id="26" fill="none" transform="matrix(1,0,0,1,-507.099518,443.900055)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -773,7 +773,7 @@
         </g>
         <g id="27" fill="none" transform="matrix(1,0,0,1,-965.529968,-162.450348)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -785,7 +785,7 @@
         </g>
         <g id="28" fill="none" transform="matrix(1,0,0,1,-694.907166,204.193588)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -797,7 +797,7 @@
         </g>
         <g id="29" fill="none" transform="matrix(1,0,0,1,-797.897766,-408.054474)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -809,7 +809,7 @@
         </g>
         <g id="30" fill="none" transform="matrix(1,0,0,1,-520.616333,208.026978)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -821,7 +821,7 @@
         </g>
         <g id="31" fill="none" transform="matrix(1,0,0,1,-756.145325,40.967537)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -833,7 +833,7 @@
         </g>
         <g id="32" fill="none" transform="matrix(1,0,0,1,-539.506042,32.769501)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -845,7 +845,7 @@
         </g>
         <g id="33" fill="none" transform="matrix(1,0,0,1,-430.575714,-147.492615)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" r="12"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
