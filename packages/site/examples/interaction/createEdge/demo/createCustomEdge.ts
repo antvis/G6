@@ -1,14 +1,7 @@
 import { Graph } from '@antv/g6';
 
-const container = document.getElementById('container');
-
-const width = container.scrollWidth;
-const height = (container.scrollHeight || 500) - 30;
-
 const graph = new Graph({
   container: 'container',
-  width,
-  height,
   layout: {
     type: 'grid',
   },
@@ -19,14 +12,6 @@ const graph = new Graph({
       disableLod: true,
     },
   ],
-  node: {
-    labelShape: {
-      text: {
-        fields: ['id'],
-        formatter: (model) => model.id,
-      },
-    },
-  },
   data: {
     nodes: [
       { id: 'node1', data: {} },
@@ -70,5 +55,3 @@ const graph = new Graph({
 });
 
 graph.render();
-
-window.graph = graph;

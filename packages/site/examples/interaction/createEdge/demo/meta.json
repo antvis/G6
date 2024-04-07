@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "createEdgeByDragging.js",
+      "filename": "createEdgeByDragging.ts",
       "title": {
         "zh": "从节点拖拽创建边",
         "en": "Create Edge by Dragging"
@@ -13,7 +13,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DW16QJNmRm8AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "createEdgeByClicking.js",
+      "filename": "createEdgeByClicking.ts",
       "title": {
         "zh": "点击节点创建边",
         "en": "Create Edge by Clicking"
@@ -21,7 +21,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DW16QJNmRm8AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "createEdgeCombo.js",
+      "filename": "createEdgeCombo.ts",
       "title": {
         "zh": "点击 Combo 创建边",
         "en": "Create Edge by Clicking Combo"
@@ -29,7 +29,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Uwn-RZXSXLQAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "createCustomEdge.js",
+      "filename": "createCustomEdge.ts",
       "title": {
         "zh": "点击自定义创建边",
         "en": "Create custom Edge by Clicking"
