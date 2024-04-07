@@ -1,167 +1,88 @@
-import { Graph as BaseGraph, Extensions, extend } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
-const Graph = extend(BaseGraph, {
-  plugins: {
-    legend: Extensions.Legend,
-  },
-  behaviors: {
-    'brush-select': Extensions.BrushSelect,
-    'activate-relations': Extensions.ActivateRelations,
-    'zoom-canvas': Extensions.ZoomCanvas,
-  },
-});
-
-const container = document.getElementById('container') as HTMLElement;
-const width = container.scrollWidth;
-const height = (container.scrollHeight || 500) - 50;
-
-/** graph schema */
-const GraphSchema = {
+const data = {
   nodes: [
     {
-      nodeType: 'person',
-      properties: {
-        id: 'string',
-        name: 'string',
-        phoneNumber: 'number',
+      id: '1',
+      style: {
+        type: 'circle',
+        color: '#5B8FF9',
       },
-      count: 10,
+      data: { cluster: 'node-type1' },
     },
     {
-      nodeType: 'company',
-      properties: {
-        id: 'string',
-        name: 'string',
+      id: '2',
+      style: {
+        type: 'rect',
+        color: '#5AD8A6',
       },
-      count: 3,
+      data: { cluster: 'node-type2' },
+    },
+    {
+      id: '3',
+      style: {
+        type: 'triangle',
+        color: '#5D7092',
+      },
+      data: { cluster: 'node-type3' },
+    },
+    {
+      id: '4',
+      style: {
+        type: 'diamond',
+        color: '#6F5EF9',
+      },
+      data: { cluster: 'node-type4' },
     },
   ],
   edges: [
     {
-      edgeType: 'friend',
-      sourceType: 'person',
-      targetType: 'person',
-      properties: {},
-      count: 3,
+      source: '1',
+      target: '2',
+      data: { cluster: 'edge-type1' },
     },
     {
-      edgeType: 'employ',
-      sourceType: 'company',
-      targetType: 'person',
-      properties: {},
-      count: 4,
+      source: '1',
+      target: '4',
+      data: { cluster: 'edge-type2' },
     },
     {
-      edgeType: 'legal',
-      sourceType: 'person',
-      targetType: 'company',
-      properties: {},
-      count: 5,
+      source: '3',
+      target: '4',
+    },
+    {
+      source: '2',
+      target: '4',
+      data: { cluster: 'edge-type3' },
     },
   ],
 };
-const nodeMap = new Map();
-const nodeTypeMap = new Map();
-const edgeMap = new Map();
-GraphSchema.nodes.forEach((item, index) => {
-  const { nodeType, count, properties } = item;
-  Array.from({ length: count }).map((c, i) => {
-    const id = `${nodeType}-${index}-${i}`;
-    const node = {
-      id,
-      data: {
-        ...properties, // can import facker
-        nodeType,
-        id,
-      },
-    };
-    nodeMap.set(id, node);
-    const nty = nodeTypeMap.get(nodeType) || [];
-    nodeTypeMap.set(nodeType, [...nty, node]);
-  });
-});
 
-GraphSchema.edges.forEach((item, index) => {
-  const { edgeType, count, properties, sourceType, targetType } = item;
-  const sources = nodeTypeMap.get(sourceType);
-  const targets = nodeTypeMap.get(targetType);
-  Array.from({ length: count }).forEach((c, i) => {
-    const id = `${edgeType}-${index}-${i}`;
-    const edge = {
-      id,
-      data: {
-        ...properties, // can import facker
-        edgeType,
-        id,
-      },
-      source: sources[i % sources.length].id,
-      target: targets[i % targets.length].id,
-    };
-    edgeMap.set(id, edge);
-  });
-});
-
-const data = {
-  nodes: [...nodeMap.values()],
-  edges: [...edgeMap.values()],
-};
-
-const legend = {
-  key: 'default-legend',
-  type: 'legend',
-  size: [250, 'fit-content'],
-  background: 'rgba(0,0,0,0.05)',
+const graph = new Graph({
+  container: 'container',
+  data,
   node: {
-    enable: true,
-    padding: [20, 20],
-    title: 'node-legend',
-    typeField: 'nodeType',
-    rows: 1,
-    cols: 4,
-    labelStyle: {
-      spacing: 8,
-      fontSize: 20,
+    style: {
+      labelPosition: 'bottom',
+      stroke: '#fff',
+      lineWidth: 4,
     },
   },
   edge: {
-    enable: true,
-    padding: [10, 20],
-    title: 'edge-legend',
-    typeField: 'edgeType',
+    style: {
+      stroke: '#fff',
+      lineWidth: 4,
+    },
   },
-};
-
-new Graph({
-  container,
-  width,
-  height,
-  data,
-  plugins: [legend],
   layout: {
     type: 'force',
   },
-  theme: {
-    type: 'spec',
-    specification: {
-      node: {
-        dataTypeField: 'nodeType',
-      },
-      edge: {
-        dataTypeField: 'edgeType',
-      },
+  plugins: [
+    {
+      type: 'legend',
+      nodeField: 'cluster',
     },
-  },
-  node: {
-    labelShape: {
-      text: {
-        fields: ['id'],
-        formatter: (model) => {
-          return model.id;
-        },
-      },
-    },
-  },
-  modes: {
-    default: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-element'],
-  },
+  ],
 });
+
+graph.render();

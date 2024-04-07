@@ -49,21 +49,23 @@ export class Canvas {
 
   public renderers!: Record<CanvasLayer, IRenderer>;
 
+  private initialized = false;
+
   constructor(config: CanvasConfig) {
     this.config = config;
   }
 
   public async init() {
-    const allCanvas = Object.entries(this.canvas);
+    if (this.initialized) return;
 
-    if (allCanvas.every(([, canvas]) => !canvas)) {
-      const { renderer: getRenderer, background, ...restConfig } = this.config;
-      const names: CanvasLayer[] = ['main', 'label', 'transient', 'transientLabel', 'background'];
+    const { renderer: getRenderer, background, ...restConfig } = this.config;
+    const names: CanvasLayer[] = ['main', 'label', 'transient', 'transientLabel', 'background'];
 
-      const { renderers, canvas } = names.reduce(
-        (acc, name) => {
-          const renderer = isFunction(getRenderer) ? getRenderer?.(name) : new CanvasRenderer();
+    const { renderers, canvas } = names.reduce(
+      (acc, name) => {
+        const renderer = isFunction(getRenderer) ? getRenderer?.(name) : new CanvasRenderer();
 
+        if (name === 'main') {
           renderer.registerPlugin(
             new DragNDropPlugin({
               isDocumentDraggable: true,
@@ -72,45 +74,45 @@ export class Canvas {
               dragstartTimeThreshold: 100,
             }),
           );
+        } else {
+          renderer.unregisterPlugin(renderer.getPlugin('dom-interaction'));
+        }
 
-          if (name !== 'main') {
-            renderer.unregisterPlugin(renderer.getPlugin('dom-interaction'));
-          }
+        const canvas = new GCanvas({
+          renderer,
+          supportsMutipleCanvasesInOneContainer: true,
+          ...restConfig,
+        });
 
-          const canvas = new GCanvas({
-            renderer,
-            supportsMutipleCanvasesInOneContainer: true,
-            ...restConfig,
-          });
+        acc.renderers[name] = renderer;
+        acc.canvas[name] = canvas;
+        this[name] = canvas;
 
-          acc.renderers[name] = renderer;
-          acc.canvas[name] = canvas;
-          this[name] = canvas;
+        return acc;
+      },
+      { renderers: {}, canvas: {} } as {
+        renderers: Record<CanvasLayer, IRenderer>;
+        canvas: Record<CanvasLayer, GCanvas>;
+      },
+    );
 
-          return acc;
-        },
-        { renderers: {}, canvas: {} } as {
-          renderers: Record<CanvasLayer, IRenderer>;
-          canvas: Record<CanvasLayer, GCanvas>;
-        },
-      );
+    this.renderers = renderers;
 
-      this.renderers = renderers;
+    Object.entries(canvas).forEach(([name, canvas]) => {
+      const domElement = canvas.getContextService().getDomElement() as unknown as HTMLElement;
 
-      Object.entries(canvas).forEach(([name, canvas]) => {
-        const domElement = canvas.getContextService().getDomElement() as unknown as HTMLElement;
+      domElement.style.position = 'absolute';
+      domElement.style.outline = 'none';
+      domElement.tabIndex = 1;
 
-        domElement.style.position = 'absolute';
-        domElement.style.outline = 'none';
-        domElement.tabIndex = 1;
-
-        if (name !== 'main') domElement.style.pointerEvents = 'none';
-      });
-    }
+      if (name !== 'main') domElement.style.pointerEvents = 'none';
+    });
 
     this.setBackground();
 
-    return Promise.all(Object.values(this.canvas).map((canvas) => canvas.ready));
+    await Promise.all(Object.values(this.canvas).map((canvas) => canvas.ready));
+
+    this.initialized = true;
   }
 
   public getRendererType(layer: CanvasLayer = 'main') {

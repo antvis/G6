@@ -7,26 +7,26 @@
     {
       "filename": "legend.ts",
       "title": {
-        "zh": "图例-点击与 hover 筛选",
-        "en": "Filtering legend by clicking and hovering"
+        "zh": "默认图例",
+        "en": "Default legend"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*53oGRpdKpwsAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*pGMMQIVmtdoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "legendCustomMarker.ts",
+      "filename": "legend-click.ts",
       "title": {
-        "zh": "图例-自定义 Marker 样式",
-        "en": "Customize legend marker style"
+        "zh": "点击图例",
+        "en": "Click legend"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*40awTrXVQ1UAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*krcoS6DXEnYAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "legendSVG.ts",
+      "filename": "style.ts",
       "title": {
-        "zh": "图例-使用 SVG 绘制图例",
-        "en": "Render legend with SVG"
+        "zh": "Marker 样式",
+        "en": "Marker style"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*53oGRpdKpwsAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cnYaQLn2zkQAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

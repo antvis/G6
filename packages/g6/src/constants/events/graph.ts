@@ -1,4 +1,8 @@
 export enum GraphEvent {
+  /** <zh/> 画布初始化之前 | <en/> Before the canvas is initialized */
+  BEFORE_CANVAS_INIT = 'beforecanvasinit',
+  /** <zh/> 画布初始化之后 | <en/> After the canvas is initialized */
+  AFTER_CANVAS_INIT = 'aftercanvasinit',
   /** <zh/> 视口尺寸变更之前 | <en/> Before the viewport size changes */
   BEFORE_SIZE_CHANGE = 'beforesizechange',
   /** <zh/> 视口尺寸变更之后 | <en/> After the viewport size changes */
@@ -39,14 +43,6 @@ export enum GraphEvent {
   BEFORE_TRANSFORM = 'beforetransform',
   /** <zh/> 可视区域变化之后 | <en/> After the visible area changes */
   AFTER_TRANSFORM = 'aftertransform',
-  /** <zh/> 元素可见性变化之前 | <en/> Before the visibility of the element changes */
-  BEFORE_ELEMENT_VISIBILITY_CHANGE = 'beforeelementvisibilitychange',
-  /** <zh/> 元素可见性变化之后 | <en/> After the visibility of the element changes */
-  AFTER_ELEMENT_VISIBILITY_CHANGE = 'afterelementvisibilitychange',
-  /** <zh/> 元素层级变化之前 | <en/> Before the layer of the element changes */
-  BEFORE_ELEMENT_Z_INDEX_CHANGE = 'beforeelementzindexchange',
-  /** <zh/> 元素层级变化之后 | <en/> After the layer of the element changes */
-  AFTER_ELEMENT_Z_INDEX_CHANGE = 'afterelementzindexchange',
   /** <zh/> 状态变化之前 | <en/> Before the state changes */
   BEFORE_ELEMENT_STATE_CHANGE = 'beforeelementstatechange',
   /** <zh/> 状态变化之后 | <en/> After the state changes */

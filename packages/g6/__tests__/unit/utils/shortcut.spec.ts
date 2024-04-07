@@ -8,6 +8,7 @@ describe('shortcut', () => {
   const shortcut = new Shortcut(emitter);
 
   afterAll(() => {
+    shortcut.destroy();
     emitter.off();
   });
 
@@ -68,5 +69,16 @@ describe('shortcut', () => {
     emitter.emit(CommonEvent.WHEEL, { deltaX: 0, deltaY: 10 });
     expect(wheel).toHaveBeenCalledTimes(1);
     expect(wheel.mock.calls[0][0].deltaY).toBe(10);
+    emitter.emit(CommonEvent.KEY_UP, { key: 'Control' });
+  });
+
+  it('drag', () => {
+    const drag = jest.fn();
+    shortcut.bind(['drag'], drag);
+
+    emitter.emit(CommonEvent.DRAG, { deltaX: 10, deltaY: 0 });
+    expect(drag).toHaveBeenCalledTimes(1);
+    expect(drag.mock.calls[0][0].deltaX).toBe(10);
+    expect(drag.mock.calls[0][0].deltaY).toBe(0);
   });
 });

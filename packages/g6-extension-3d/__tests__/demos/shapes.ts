@@ -1,8 +1,7 @@
-import type { G6Spec } from '@antv/g6';
 import { Graph, register } from '@antv/g6';
 import { Capsule, Cone, Cube, Cylinder, Light, Plane, Sphere, Torus, renderer } from '../../src';
 
-export const shapes = async (context: G6Spec) => {
+export const shapes: TestCase = async (context) => {
   register('plugin', '3d-light', Light);
   register('node', 'sphere', Sphere);
   register('node', 'plane', Plane);
@@ -56,4 +55,6 @@ export const shapes = async (context: G6Spec) => {
   });
 
   await graph.render();
+
+  return graph;
 };
