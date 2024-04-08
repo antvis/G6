@@ -112,7 +112,6 @@ export function create(tokens: ThemeTokens): Theme {
         },
         active: {
           halo: true,
-          lineWidth: 0,
         },
         highlight: {
           labelFontWeight: 700,
@@ -123,13 +122,11 @@ export function create(tokens: ThemeTokens): Theme {
         inactive: {
           iconOpacity: 0.25,
           labelOpacity: 0.25,
-          lineWidth: 0,
           opacity: 0.25,
         },
         disabled: {
           color: nodeColorDisabled,
           labelOpacity: 0.25,
-          lineWidth: 0,
         },
       },
       animation: {
