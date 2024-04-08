@@ -15,12 +15,12 @@
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="node-1" fill="none" transform="matrix(1,0,0,1,100,100)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(0,0,0,0)" d="M 0,0 l 48,0 l 0,24 l-48 0 z" transform="translate(-24,-12)" stroke="rgba(23,131,255,1)" width="48" height="24"/>
+            <path id="key" fill="rgba(0,0,0,0)" d="M 0,0 l 48,0 l 0,24 l-48 0 z" transform="translate(-24,-12)" stroke-width="0" stroke="rgba(23,131,255,1)" width="48" height="24"/>
           </g>
         </g>
         <g id="node-2" fill="none" transform="matrix(1,0,0,1,200,100)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" r="12"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
       </g>

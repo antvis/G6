@@ -16,7 +16,7 @@
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,129,50)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle" visibility="hidden">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
                 edge-1
               </text>
             </g>
@@ -34,7 +34,7 @@
           </g>
           <g id="label" fill="none" transform="matrix(0.600005,-0.799996,0.799996,0.600005,160.099976,103.199989)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle" visibility="hidden">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
                 edge-2
               </text>
             </g>
@@ -52,7 +52,7 @@
           </g>
           <g id="label" fill="none" transform="matrix(0.600000,0.800000,-0.800000,0.600000,85.099998,96.800003)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle" visibility="hidden">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
                 edge-3
               </text>
             </g>
@@ -62,11 +62,11 @@
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="node-1" fill="none" transform="matrix(1,0,0,1,50,50)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" r="10" visibility="hidden"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10" visibility="hidden"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,10)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" visibility="hidden">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
                 1
               </text>
             </g>
@@ -74,11 +74,11 @@
         </g>
         <g id="node-2" fill="none" transform="matrix(1,0,0,1,200,50)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" r="10" visibility="hidden"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10" visibility="hidden"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,10)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" visibility="hidden">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
                 2
               </text>
             </g>
@@ -86,11 +86,11 @@
         </g>
         <g id="node-3" fill="none" transform="matrix(1,0,0,1,125,150)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" r="10" visibility="hidden"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10" visibility="hidden"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,10)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" visibility="hidden">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
                 3
               </text>
             </g>
@@ -98,11 +98,11 @@
         </g>
         <g id="node-4" fill="none" transform="matrix(1,0,0,1,125,200)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" visibility="hidden" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" visibility="hidden" r="10"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,10)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" visibility="hidden">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
                 4
               </text>
             </g>

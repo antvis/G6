@@ -308,7 +308,7 @@ export class Legend extends BasePlugin<LegendOptions> {
       style: categoryStyle,
     });
     layoutWrapper.appendChild(category);
-    canvas.appendChild(layoutWrapper);
+    canvas.appendChild(layoutWrapper as any);
     this.element = layoutWrapper;
     this.draw = true;
   };
