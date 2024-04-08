@@ -52,7 +52,7 @@
             <circle id="halo" fill="none" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" r="10" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="2" stroke="rgba(0,0,0,1)" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
       </g>

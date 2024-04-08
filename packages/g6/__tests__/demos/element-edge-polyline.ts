@@ -143,6 +143,7 @@ export const elementEdgePolyline: TestCase = async (context) => {
         size: (d) => d.style?.size || [50, 20],
         color: '#f8f8f8',
         stroke: '#8b9baf',
+        lineWidth: 1,
         labelPlacement: 'center',
         labelFill: '#8b9baf',
         portLineWidth: 0,
