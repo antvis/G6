@@ -1,12 +1,9 @@
 /**
- * Convex Hull
- * @description
- * <zh/> 凸包是包含所有点的最小凸多边形
- * <en/> Convex hull is the smallest convex polygon that contains all the points
+ * Convex Hull (the smallest convex polygon that contains all the points)
  */
 import type { PathArray } from '@antv/util';
 import type { Point, Vector2 } from '../../types';
-import { getLinesIntersection } from '../../utils/point';
+import { getLinesIntersection } from '../../utils/line';
 import { add, cross, normalize, perpendicular, scale, subtract, toVector3 } from '../../utils/vector';
 import { getClosedSpline } from './util';
 

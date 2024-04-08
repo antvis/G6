@@ -9,9 +9,10 @@ import type { ComboData, NodeData } from '../../spec';
 import type { Point, Position } from '../../types';
 import { getBBoxHeight, getBBoxWidth } from '../../utils/bbox';
 import { idOf } from '../../utils/id';
-import { getLinesIntersection, isPointInPolygon } from '../../utils/point';
+import { getLinesIntersection } from '../../utils/line';
+import { isPointInPolygon } from '../../utils/point';
 import { positionOf } from '../../utils/position';
-import { add, distance, divide } from '../../utils/vector';
+import { add, distance, divide, subtract } from '../../utils/vector';
 import { getClosedSpline } from './util';
 
 export interface BubblesetsOptions {
@@ -93,14 +94,14 @@ function MarchingSquares(contour: Point[], potentialArea, threshold: number) {
     for (let i = 0; i < potentialArea.width * potentialArea.height; i++) {
       prevX = x;
       prevY = y;
-      if (contour.findIndex((item) => item.x === x && item.y === y) > -1) {
-        if (contour[0].x !== x || contour[0].y !== y) {
+      if (contour.findIndex((item) => item[0] === x && item[1] === y) > -1) {
+        if (contour[0][0] !== x || contour[0][1] !== y) {
           // encountered a loop but haven't returned to start: change direction using conditionals and continue back to start
         } else {
           return true;
         }
       } else {
-        contour.push({ x, y });
+        contour.push([x, y]);
       }
 
       const state = getState(x, y);
@@ -221,7 +222,7 @@ export const fractionToLine = (graph: Graph, itemId: ID, line: LineStructure) =>
   let countIntersections = 0;
   for (let i = 0; i < 4; i++) {
     const [x1, y1, x2, y2] = getBBoxBoundLine(bbox, directions[i] as 'top' | 'left' | 'bottom' | 'right');
-    let testDistance = fractionAlongLineA(line, new LineStructure(x1, y1, x2, y2));
+    let testDistance = fractionAlongLineA(line, new LineStructure([x1, y1], [x2, y2]));
     testDistance = Math.abs(testDistance - 0.5);
     if (testDistance >= 0 && testDistance <= 1) {
       countIntersections += 1;
@@ -254,7 +255,7 @@ const pickBestNeighbor = (
     const itemP = positionOf(model);
     const neighborItemP = positionOf(neighborModel);
     const dist = distance(itemP, neighborItemP);
-    const directLine = new LineStructure(itemP[0], itemP[1], neighborItemP[0], neighborItemP[1]);
+    const directLine = new LineStructure(itemP, neighborItemP);
     const numberObstacles = nonMembers.reduce((count, _item) => {
       if (fractionToLine(graph, idOf(_item), directLine) > 0) {
         return count + 1;
@@ -406,8 +407,8 @@ const computeRoute = (
             // 第二次route时不要求pointInside
             if (virtualNode && !exist && (!isFirst || !pointInside)) {
               // add 2 rerouted lines to check
-              linesToCheck.push(new LineStructure(line.x1, line.y1, virtualNode.x, virtualNode.y));
-              linesToCheck.push(new LineStructure(virtualNode.x, virtualNode.y, line.x2, line.y2));
+              linesToCheck.push(new LineStructure(line.p1, [virtualNode.x, virtualNode.y]));
+              linesToCheck.push(new LineStructure([virtualNode.x, virtualNode.y], line.p2));
               hasIntersection = true;
             }
           };
@@ -465,7 +466,7 @@ function getRoute(
         break;
       }
       const line2 = checkedLines.pop()!;
-      const mergeLine = new LineStructure(line1.x1, line1.y1, line2.x2, line2.y2);
+      const mergeLine = new LineStructure(line1.p1, line2.p2);
       const closestItem = getIntersectItem(graph, nonMembers, mergeLine);
       // merge most recent line and previous line
       if (!closestItem) {
@@ -478,38 +479,26 @@ function getRoute(
     return finalRoute;
   };
 
-  const directLine = new LineStructure(
-    positionOf(currentModel)[0],
-    positionOf(currentModel)[1],
-    positionOf(optimalNeighbor)[0],
-    positionOf(optimalNeighbor)[1],
-  );
+  const directLine = new LineStructure(positionOf(currentModel), positionOf(optimalNeighbor));
   const checkedLines = computeRoute(graph, directLine, nonMembers, maxRoutingIterations, morphBuffer);
   const finalRoute = mergeLines(checkedLines);
   return finalRoute;
 }
 
 export class LineStructure {
-  public x1: number;
+  public p1: Point = [0, 0];
+  public p2: Point = [0, 0];
 
-  public y1: number;
-
-  public x2: number;
-
-  public y2: number;
-
-  constructor(x1: number, y1: number, x2: number, y2: number) {
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;
+  constructor(p1: Point, p2: Point) {
+    this.p1 = p1;
+    this.p2 = p2;
   }
 
-  public getBBox() {
-    const minX = Math.min(this.x1, this.x2);
-    const minY = Math.min(this.y1, this.y2);
-    const maxX = Math.max(this.x1, this.x2);
-    const maxY = Math.max(this.y1, this.y2);
+  public getBBox(): AABB {
+    const minX = Math.min(this.p1[0], this.p2[0]);
+    const minY = Math.min(this.p1[1], this.p2[1]);
+    const maxX = Math.max(this.p1[0], this.p2[0]);
+    const maxY = Math.max(this.p1[1], this.p2[1]);
     const res = {
       min: [minX, minY],
       max: [maxX, maxY],
@@ -571,8 +560,8 @@ export const genBubbleSetPath = (
     hull = [];
     if (!new MarchingSquares(contour, potentialArea, options.threshold).march()) continue;
     const marchedPath = contour.map((point) => ({
-      x: Math.round(point.x * options.pixelGroupSize + activeRegion.min[0]),
-      y: Math.round(point.y * options.pixelGroupSize + activeRegion.min[1]),
+      x: Math.round(point[0] * options.pixelGroupSize + activeRegion.min[0]),
+      y: Math.round(point[1] * options.pixelGroupSize + activeRegion.min[1]),
     }));
     // const marchedPath = marchingSquares(potentialArea, options.threshold).map(point => ({ x: Math.round(point.x * options.pixelGroupSize + activeRegion.minX), y: Math.round(point.y * options.pixelGroupSize + activeRegion.minY) }))
     if (marchedPath) {
@@ -626,7 +615,7 @@ export const genBubbleSetPath = (
 };
 
 /**
- * union bounding box
+ *
  * @param graph
  * @param members
  * @param edges
@@ -703,10 +692,8 @@ export const pointRectSquareDist = (point: Point, rect: { width: number; height:
 };
 
 export const pointLineSquareDist = (point: Point, line: LineStructure) => {
-  const x1 = line.x1;
-  const y1 = line.y1;
-  const x2 = line.x2 - x1;
-  const y2 = line.y2 - y1;
+  const [x1, y1] = line.p1;
+  const [x2, y2] = subtract(line.p2, line.p1);
   let px = point[0] - x1;
   let py = point[1] - y1;
   let dotprod = px * x2 + py * y2;

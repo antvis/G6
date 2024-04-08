@@ -46,7 +46,7 @@ export type {
   TriangleStyleProps,
 } from './elements/nodes';
 export type { BaseShapeStyleProps } from './elements/shapes';
-export type { BasePluginOptions, CameraSettingOptions } from './plugins';
+export type { BasePluginOptions, CameraSettingOptions, Hull } from './plugins';
 export type { RuntimeContext } from './runtime/types';
 export type {
   BehaviorOptions,
