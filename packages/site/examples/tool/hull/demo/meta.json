@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "hull.js",
+      "filename": "hull.ts",
       "title": {
         "zh": "用轮廓包裹节点集合",
         "en": "Use hulls to wrap the node sets."
@@ -13,7 +13,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eXzfTbFrYjMAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "changeMembers.js",
+      "filename": "changeMembers.ts",
       "title": {
         "zh": "修改包裹内部成员",
         "en": "Interactively change the members in the hull."

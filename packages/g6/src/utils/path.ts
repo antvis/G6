@@ -39,7 +39,7 @@ export function parsePath(path: string): PathArray {
     .split(/\s*,|\s+/);
   const segments = [];
   let currentCommand = '';
-  let currentElement = {};
+  let currentElement: Record<string, any> = {};
   while (items.length > 0) {
     let it = items.shift()!;
     if (it in PATH_COMMANDS) {

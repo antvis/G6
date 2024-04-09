@@ -1,5 +1,5 @@
 import { getPolygonTextStyleByPlacement } from '@/src/utils/polygon';
-import { AABB } from '@antv/g';
+import { AABB, Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
 
 describe('polygon', () => {
