@@ -8,9 +8,9 @@ import { idOf } from '../../utils/id';
 import { positionOf } from '../../utils/position';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
-import { computeHullPath } from './convexhull';
 import type { HullStyleProps } from './shape';
 import { Hull as HullShape } from './shape';
+import { computeHullPath } from './util';
 
 export interface HullOptions extends BasePluginOptions, HullStyleProps {
   /**
@@ -100,7 +100,6 @@ export class Hull extends BasePlugin<HullOptions> {
     if (isEqual(hullMemberIds, this.hullMemberIds) && !forceUpdate) return this.path;
     this.hullMemberIds = hullMemberIds;
     this.path = computeHullPath(vertices, this.getPadding(), this.options.corner);
-    console.log('path', this.path);
     return this.path;
   };
 

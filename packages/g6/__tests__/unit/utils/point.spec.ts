@@ -1,13 +1,18 @@
 import { getDiamondPoints } from '@/src/utils/element';
 import {
+  centerOf,
   deduplicate,
+  findNearestLine,
+  findNearestPointOnLine,
   findNearestPoints,
+  getDistanceToLine,
   getEllipseIntersectPoint,
   getPolygonIntersectPoint,
   getRectIntersectPoint,
   isCollinear,
   isHorizontal,
   isOrthogonal,
+  isPointInPolygon,
   isVertical,
   moveTo,
   parsePoint,
@@ -33,20 +38,6 @@ describe('Point Functions', () => {
         [150, 150],
         [50, 50],
         [100, 100],
-      ]),
-    ).toEqual([
-      [50, 50],
-      [100, 100],
-      [150, 150],
-    ]);
-  });
-
-  it('sortByClockwise', () => {
-    expect(
-      sortByClockwise([
-        [100, 100],
-        [50, 50],
-        [150, 150],
       ]),
     ).toEqual([
       [50, 50],
@@ -149,7 +140,7 @@ describe('Point Functions', () => {
   });
 
   it('getDiamondIntersectPoint', () => {
-    expect(getPolygonIntersectPoint([100, 100], [0, 0], getDiamondPoints(100, 100))).toEqual([25, 25]);
+    expect(getPolygonIntersectPoint([100, 100], [0, 0], getDiamondPoints(100, 100)).point).toEqual([25, 25]);
     expect(getDiamondPoints(0, 0)).toEqual([
       [0, -0],
       [0, 0],
@@ -181,6 +172,117 @@ describe('Point Functions', () => {
     ).toEqual([
       [0, 0],
       [1, 1],
+    ]);
+  });
+
+  it('isPointInPolygon', () => {
+    expect(
+      isPointInPolygon(
+        [10, 10],
+        [
+          [0, 0],
+          [100, 0],
+          [100, 100],
+          [0, 100],
+        ],
+      ),
+    ).toEqual(true);
+    expect(
+      isPointInPolygon(
+        [20, 20],
+        [
+          [0, 0],
+          [10, 0],
+          [10, 10],
+          [0, 10],
+        ],
+      ),
+    ).toEqual(false);
+  });
+
+  it('findNearestLine', () => {
+    expect(
+      findNearestLine(
+        [10, 10],
+        [
+          [
+            [20, 0],
+            [20, 20],
+          ],
+          [
+            [30, 0],
+            [30, 30],
+          ],
+        ],
+      ),
+    ).toEqual([
+      [20, 0],
+      [20, 20],
+    ]);
+  });
+
+  it('getDistanceToLine', () => {
+    expect(
+      getDistanceToLine(
+        [10, 10],
+        [
+          [20, 0],
+          [20, 20],
+        ],
+      ),
+    ).toEqual(10);
+  });
+
+  it('findNearestPointOnLine', () => {
+    expect(
+      findNearestPointOnLine(
+        [10, 10],
+        [
+          [20, 0],
+          [20, 20],
+        ],
+      ),
+    ).toEqual([20, 10]);
+    expect(
+      findNearestPointOnLine(
+        [10, 10],
+        [
+          [20, 20],
+          [20, 20],
+        ],
+      ),
+    ).toEqual([20, 20]);
+    expect(
+      findNearestPointOnLine(
+        [10, 10],
+        [
+          [20, 0],
+          [20, 5],
+        ],
+      ),
+    ).toEqual([20, 5]);
+  });
+
+  it('centerOf', () => {
+    expect(
+      centerOf([
+        [0, 0],
+        [100, 100],
+      ]),
+    ).toEqual([50, 50]);
+  });
+
+  it('sortByClockwise', () => {
+    expect(
+      sortByClockwise([
+        [100, 100],
+        [50, 50],
+        [150, 150],
+      ]),
+    ).toEqual([
+      [150, 150],
+      [100, 100],
+      [50, 50],
     ]);
   });
 });

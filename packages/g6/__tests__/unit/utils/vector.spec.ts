@@ -75,6 +75,8 @@ describe('Vector Functions', () => {
 
   it('angle', () => {
     expect(angle([1, 0], [0, 1])).toEqual(Math.PI / 2);
+    expect(angle([1, 0], [-1, 0], true)).toEqual(Math.PI);
+    expect(angle([1, 0], [0, -1], true)).toEqual((Math.PI * 3) / 2);
   });
 
   it('exactEquals', () => {

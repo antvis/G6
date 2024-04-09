@@ -5,9 +5,9 @@
       <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)"/>
       <g id="g-svg-108" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g transform="matrix(1,0,0,1,159.024719,-44.331593)">
-          <path id="contour" fill="rgba(173,216,230,1)" d="M 0,394.19107241670457 L 340.30469038975434,550.5226557903181 L 180.33516197413817,0 Z" stroke="rgba(0,0,255,1)" opacity="0.2"/>
+          <path id="contour" fill="rgba(173,216,230,1)" d="M 0,394.19107241670457 L 340.30469038975434,550.5226557903181 L 180.33516197413817,0 Z" stroke="rgba(0,0,255,1)" opacity="0.2" stroke-width="5"/>
         </g>
-        <g id="label" fill="none" transform="matrix(0.908702,0.417446,-0.417446,0.908702,359.364441,441.892975)">
+        <g id="label" fill="none" transform="matrix(0.908702,0.417446,-0.417446,0.908702,361.510284,442.878723)">
           <g transform="matrix(1,0,0,1,-32.700001,0)">
             <path id="background" fill="rgba(255,192,203,1)" d="M 0,0 l 66.4,0 l 0,23 l-66.4 0 z" opacity="0.75" stroke-width="0" width="66.4" height="23"/>
           </g>

@@ -57,7 +57,8 @@ export function parsePath(path: string): PathArray {
     } else if (currentCommand === 'm') {
       currentCommand = 'l';
     }
-    segments.push(Object.values(currentElement));
+    const [type, ...values] = Object.values(currentElement);
+    segments.push([type, ...values.map(Number)]);
   }
   return segments as unknown as PathArray;
 }
