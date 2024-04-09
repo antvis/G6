@@ -3,7 +3,8 @@ import { PathArray, isEqual, isFunction } from '@antv/util';
 import hull from 'hull.js';
 import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
-import type { CallableValue, ElementDatum, Point } from '../../types';
+import type { CallableValue, Point } from '../../types';
+import type { ElementLifeCycleEvent } from '../../utils/event';
 import { idOf } from '../../utils/id';
 import { positionOf } from '../../utils/position';
 import type { BasePluginOptions } from '../base-plugin';
@@ -86,9 +87,9 @@ export class Hull extends BasePlugin<HullOptions> {
     this.firstRender = true;
   };
 
-  private updateHullPath = ({ data }: { data: ElementDatum }) => {
+  private updateHullPath = (event: ElementLifeCycleEvent) => {
     if (!this.firstRender) return;
-    if (!this.options.members.includes(idOf(data))) return;
+    if (!this.options.members.includes(idOf(event.data))) return;
     this.shape.update({ path: this.getHullPath(true) });
   };
 
