@@ -4,9 +4,9 @@ import { deepMix } from '@antv/util';
 import type { LabelStyleProps } from '../../elements/shapes';
 import { BaseShape, Label } from '../../elements/shapes';
 import type { CardinalPlacement, PrefixObject } from '../../types';
+import { getPolygonTextStyleByPlacement } from '../../utils/polygon';
 import { subStyleProps } from '../../utils/prefix';
 import { getWordWrapWidthByBox } from '../../utils/text';
-import { getHullTextStyleByPlacement } from './util';
 
 type HullLabelStyleProps = LabelStyleProps & {
   /**
@@ -18,10 +18,10 @@ type HullLabelStyleProps = LabelStyleProps & {
    * <zh/> 标签是否贴合轮廓，默认为 true
    * <en/> Whether the label is close to the contour, default is true
    */
-  closeToContour?: boolean;
+  closeToHull?: boolean;
   /**
-   * <zh/> 标签是否跟随轮廓旋转，默认为 true，仅在 closeToContour 为 true 时生效
-   * <en/> Whether the label rotates with the contour, default is true. Only effective when closeToContour is true
+   * <zh/> 标签是否跟随轮廓旋转，默认为 true，仅在 closeToHull 为 true 时生效
+   * <en/> Whether the label rotates with the contour, default is true. Only effective when closeToHull is true
    */
   autoRotate?: boolean;
   /**
@@ -51,7 +51,7 @@ export class Hull extends BaseShape<HullStyleProps> {
   static defaultStyleProps: Partial<HullStyleProps> = {
     label: true,
     labelPlacement: 'bottom',
-    labelCloseToContour: true,
+    labelCloseToHull: true,
     labelAutoRotate: true,
     labelOffsetX: 0,
     labelOffsetY: 0,
@@ -61,8 +61,9 @@ export class Hull extends BaseShape<HullStyleProps> {
     super(deepMix({}, { style: Hull.defaultStyleProps }, options));
   }
 
-  protected getLabelStyle(attributes: ParsedHullStyleProps): LabelStyleProps {
-    const { maxWidth, offsetX, offsetY, autoRotate, placement, closeToContour, ...labelStyle } = subStyleProps<
+  protected getLabelStyle(attributes: ParsedHullStyleProps): LabelStyleProps | false {
+    if (!attributes.label || !attributes.path || attributes.path.length === 0) return false;
+    const { maxWidth, offsetX, offsetY, autoRotate, placement, closeToHull, ...labelStyle } = subStyleProps<
       Required<HullLabelStyleProps>
     >(this.getGraphicStyle(attributes), 'label');
 
@@ -70,13 +71,13 @@ export class Hull extends BaseShape<HullStyleProps> {
     const contourBounds = contour?.getRenderBounds();
 
     return Object.assign(
-      getHullTextStyleByPlacement(
+      getPolygonTextStyleByPlacement(
         contourBounds,
         placement,
         offsetX,
         offsetY,
-        closeToContour,
-        this.parsedAttributes.path,
+        closeToHull,
+        attributes.path,
         autoRotate,
       ),
       { wordWrapWidth: getWordWrapWidthByBox(contourBounds, maxWidth) },

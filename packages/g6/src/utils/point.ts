@@ -4,7 +4,7 @@ import { getBBoxHeight, getBBoxWidth } from './bbox';
 import type { LineSegment } from './line';
 import { getLinesIntersection, isLinesParallel } from './line';
 import { getXYByPlacement } from './position';
-import { add, distance, normalize, subtract, toVector2 } from './vector';
+import { add, distance, divide, normalize, subtract, toVector2 } from './vector';
 
 /**
  * <zh/> 将对象坐标转换为数组坐标
@@ -345,4 +345,33 @@ export function findNearestPointOnLine(point: Point, line: LineSegment): Point {
   const y = y1 + u * py;
 
   return [x, y];
+}
+
+/**
+ * <zh/> 获取点集的中心点
+ *
+ * <en/> Get the center point of a set of points
+ * @param points - <zh/> 点集 | <en/> point set
+ * @returns <zh/> 中心点 | <en/> center point
+ */
+export function centerOf(points: Point[]): Point {
+  const totalPosition = points.reduce((acc, p) => add(acc, p), [0, 0]);
+  return divide(totalPosition, points.length);
+}
+
+/**
+ * <zh/> 按顺时针或逆时针方向对点集排序
+ *
+ * <en/> Sort the point set in a clockwise or counterclockwise direction
+ * @param points - <zh/> 点集 | <en/> point set
+ * @param clockwise - <zh/> 是否顺时针 | <en/> whether clockwise
+ * @returns <zh/> 排序后的点集 | <en/> sorted point set
+ */
+export function sortByClockwise(points: Point[], clockwise = true): Point[] {
+  const center = centerOf(points);
+  return points.sort(([x1, y1], [x2, y2]) => {
+    const angle1 = Math.atan2(y1 - center[1], x1 - center[0]);
+    const angle2 = Math.atan2(y2 - center[1], x2 - center[0]);
+    return clockwise ? angle2 - angle1 : angle1 - angle2;
+  });
 }

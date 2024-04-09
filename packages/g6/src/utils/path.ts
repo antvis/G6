@@ -57,7 +57,7 @@ export function parsePath(path: string): PathArray {
     } else if (currentCommand === 'm') {
       currentCommand = 'l';
     }
-    segments.push(currentElement);
+    segments.push(Object.values(currentElement));
   }
   return segments as unknown as PathArray;
 }
@@ -75,6 +75,10 @@ export function pathToPoints(path: string | PathArray): Point[] {
 
   segments.forEach((seg) => {
     const command = seg[0];
+    if (command === 'Z') {
+      points.push(points[0]);
+      return;
+    }
     if (command !== 'A') {
       for (let i = 1; i < seg.length; i = i + 2) {
         points.push([seg[i] as number, seg[i + 1] as number, 0]);
@@ -86,3 +90,41 @@ export function pathToPoints(path: string | PathArray): Point[] {
   });
   return points;
 }
+
+/**
+ * <zh/> 生成平滑闭合曲线
+ *
+ * <en/> Generate smooth closed curves
+ * @param points - <zh/> 点集 | <en/> points
+ * @returns <zh/> 平滑闭合曲线 | <en/> smooth closed curves
+ */
+export const getClosedSpline = (points: Point[]): PathArray => {
+  if (points.length < 2)
+    return [
+      ['M', 0, 0],
+      ['L', 0, 0],
+    ];
+  const first = points[0];
+  const second = points[1];
+  const last = points[points.length - 1];
+  const lastSecond = points[points.length - 2];
+
+  points.unshift(lastSecond, last);
+  points.push(first, second);
+
+  const closedPath = [['M', last[0], last[1]]];
+  for (let i = 1; i < points.length - 2; i += 1) {
+    const [x0, y0] = points[i - 1];
+    const [x1, y1] = points[i];
+    const [x2, y2] = points[i + 1];
+    const [x3, y3] = i !== points.length - 2 ? points[i + 2] : [x2, y2];
+
+    const cp1x = x1 + (x2 - x0) / 6;
+    const cp1y = y1 + (y2 - y0) / 6;
+    const cp2x = x2 - (x3 - x1) / 6;
+    const cp2y = y2 - (y3 - y1) / 6;
+    closedPath.push(['C', cp1x, cp1y, cp2x, cp2y, x2, y2]);
+  }
+
+  return closedPath as PathArray;
+};

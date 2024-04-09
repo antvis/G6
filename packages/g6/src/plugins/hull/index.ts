@@ -1,52 +1,63 @@
 import type { ID } from '@antv/graphlib';
-import { isEqual, isFunction } from '@antv/util';
+import { PathArray, isEqual, isFunction } from '@antv/util';
+import hull from 'hull.js';
 import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
-import type { ComboData, NodeData } from '../../spec';
-import type { CallableValue, ElementDatum } from '../../types';
+import type { CallableValue, ElementDatum, Point } from '../../types';
 import { idOf } from '../../utils/id';
-import { deduplicate, sortByX } from '../../utils/point';
 import { positionOf } from '../../utils/position';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
-import type { BubblesetsOptions } from './bubblesets';
-import { genBubbleSetPath } from './bubblesets';
-import type { ConvexHullOptions } from './convexhull';
-import { convexHull, genConvexHullPath } from './convexhull';
+import { computeHullPath } from './convexhull';
 import type { HullStyleProps } from './shape';
 import { Hull as HullShape } from './shape';
 
-export interface HullOptions extends BasePluginOptions, HullStyleProps, ConvexHullOptions, BubblesetsOptions {
-  hullType?: 'bubble-sets' | 'convex-hull';
-  padding?: number;
+export interface HullOptions extends BasePluginOptions, HullStyleProps {
+  /**
+   * <zh/> Hull 内的元素
+   * <en/> Elements in Hull
+   */
   members?: ID[];
-  nonMembers?: ID[];
+  /**
+   * <zh/> 凹度，数值越大凹度越小；默认为 Infinity 代表为 Convex Hull
+   * <en/> Concavity. Default is Infinity, which means Convex Hull
+   */
+  concavity?: number;
+  /**
+   * <zh/> 内边距，默认为 10
+   * <en/> Padding, default is 10
+   */
+  padding?: number;
+  /**
+   * <zh/> 拐角类型，目前支持 'rounded'、'smooth' 和 'sharp'
+   * <en/> Corner type, currently supports 'rounded', 'smooth' and 'sharp'
+   */
+  corner?: 'rounded' | 'smooth' | 'sharp';
 }
 
 export class Hull extends BasePlugin<HullOptions> {
   private shape!: HullShape;
-  /**
-   * <zh/> 在 Hull 上及内部的元素
-   * <en/> Elements on and inside Hull
-   */
-  private members: (NodeData | ComboData)[] = [];
   /**
    * <zh/> 在 Hull 上的元素
    * <en/> Element Ids on Hull
    */
   private hullMemberIds: ID[] = [];
   /**
-   * <zh/> 不在 hull 内的元素
-   * <en/> Elements not in Hull
+   * <zh/> Hull 绘制路径
+   * <en/> Hull path
    */
-  private nonMembers: (NodeData | ComboData)[] = [];
+  private path!: PathArray;
+  /**
+   * <zh> 是否初次渲染完成
+   * <en> Whether the first rendering is completed
+   */
+  private firstRender = false;
 
   static defaultOptions: Partial<HullOptions> = {
-    hullType: 'convex-hull',
     members: [],
-    nonMembers: [], // only valid for `bubble-sets`
-    padding: 10, // only valid for `convex-hull`
-    cornerType: 'rounded', // only valid for `convex-hull`
+    padding: 10,
+    corner: 'rounded',
+    concavity: Infinity,
     /** hull style */
     fill: 'lightblue',
     stroke: 'blue',
@@ -64,43 +75,36 @@ export class Hull extends BasePlugin<HullOptions> {
     this.context.graph.on(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateHullPath);
   }
 
-  private getHullStyle(): HullStyleProps {
-    const { hullType, members, nonMembers, padding, cornerType, ...style } = this.options;
-    return { ...style, path: this.genHullPath() };
+  private getHullStyle(forceUpdate?: boolean): HullStyleProps {
+    const { members, padding, corner, ...style } = this.options;
+    return { ...style, path: this.getHullPath(forceUpdate) };
   }
 
   private drawHull = () => {
-    this.shape = new HullShape({
-      style: this.getHullStyle(),
-    });
+    this.shape = new HullShape({ style: this.getHullStyle() });
     this.context.canvas.appendChild(this.shape);
+    this.firstRender = true;
   };
 
-  private updateHullPath = ({ data: datum }: { data: ElementDatum }) => {
-    if (this.hullMemberIds.includes(idOf(datum))) {
-      this.shape.update({ path: this.genHullPath() });
-    }
+  private updateHullPath = ({ data }: { data: ElementDatum }) => {
+    if (!this.firstRender) return;
+    if (!this.options.members.includes(idOf(data))) return;
+    this.shape.update({ path: this.getHullPath(true) });
   };
 
-  private genHullPath = () => {
+  private getHullPath = (forceUpdate = false): PathArray => {
     const { graph } = this.context;
-
-    this.members = this.options.members.map((id) => graph.getNodeData(id));
-    this.nonMembers = this.options.nonMembers.map((id) => graph.getNodeData(id));
-
-    if (this.options.hullType === 'convex-hull') {
-      const points = deduplicate(sortByX(this.members.map(positionOf)));
-      const convex = convexHull(points);
-      this.hullMemberIds = convex.flatMap((point) =>
-        this.members.filter((m) => isEqual(positionOf(m), point)).map(idOf),
-      );
-      return genConvexHullPath(convex, this.parsePadding(), this.options.cornerType);
-    } else {
-      return genBubbleSetPath(graph, this.members, this.nonMembers, this.options);
-    }
+    const data = this.options.members.map((id) => graph.getNodeData(id));
+    const vertices = hull(data.map(positionOf), this.options.concavity).slice(1).reverse() as Point[];
+    const hullMemberIds = vertices.flatMap((point) => data.filter((m) => isEqual(positionOf(m), point)).map(idOf));
+    if (isEqual(hullMemberIds, this.hullMemberIds) && !forceUpdate) return this.path;
+    this.hullMemberIds = hullMemberIds;
+    this.path = computeHullPath(vertices, this.getPadding(), this.options.corner);
+    console.log('path', this.path);
+    return this.path;
   };
 
-  private parsePadding() {
+  private getPadding() {
     const { graph } = this.context;
 
     const memberPadding = this.hullMemberIds.reduce((acc: number, id: ID) => {
@@ -115,31 +119,31 @@ export class Hull extends BasePlugin<HullOptions> {
   public addMembers(members: ID | ID[]) {
     const membersToAdd = Array.isArray(members) ? members : [members];
     this.options.members = [...new Set([...this.options.members, ...membersToAdd])];
-    this.shape.update({ path: this.genHullPath() });
+    this.shape.update({ path: this.getHullPath() });
   }
 
   public removeMembers(members: ID | ID[]) {
     const membersToRemove = Array.isArray(members) ? members : [members];
     this.options.members = this.options.members.filter((id) => !membersToRemove.includes(id));
-    this.shape.update({ path: this.genHullPath() });
+    if (membersToRemove.some((id) => this.hullMemberIds.includes(id))) {
+      this.shape.update({ path: this.getHullPath() });
+    }
   }
 
   public updateMembers(members: CallableValue<ID[]>) {
     this.options.members = isFunction(members) ? members(this.options.members) : members;
-    this.shape.update({ path: this.genHullPath() });
+    this.shape.update(this.getHullStyle(true));
   }
 
   public updateOptions(options: CallableValue<HullOptions>) {
     this.options = (isFunction(options) ? options(this.options) : options) as Required<HullOptions>;
-    this.shape.update(this.getHullStyle());
+    this.shape.update({ ...this.options, path: this.getHullPath(true) });
   }
 
   public destroy(): void {
     this.context.graph.off(GraphEvent.AFTER_DRAW, this.drawHull);
     this.shape.destroy();
-    this.members = [];
     this.hullMemberIds = [];
-    this.nonMembers = [];
     super.destroy();
   }
 }

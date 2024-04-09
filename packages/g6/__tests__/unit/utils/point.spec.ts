@@ -3,17 +3,16 @@ import {
   deduplicate,
   findNearestPoints,
   getEllipseIntersectPoint,
-  getLinesIntersection,
   getPolygonIntersectPoint,
   getRectIntersectPoint,
   isCollinear,
   isHorizontal,
-  isLinesParallel,
   isOrthogonal,
   isVertical,
   moveTo,
   parsePoint,
   round,
+  sortByClockwise,
   sortByX,
   toPointObject,
 } from '@/src/utils/point';
@@ -42,6 +41,20 @@ describe('Point Functions', () => {
     ]);
   });
 
+  it('sortByClockwise', () => {
+    expect(
+      sortByClockwise([
+        [100, 100],
+        [50, 50],
+        [150, 150],
+      ]),
+    ).toEqual([
+      [50, 50],
+      [100, 100],
+      [150, 150],
+    ]);
+  });
+
   it('deduplicate', () => {
     expect(
       deduplicate([
@@ -50,6 +63,20 @@ describe('Point Functions', () => {
         [100, 100],
       ]),
     ).toEqual([[100, 100]]);
+  });
+
+  it('sortByX', () => {
+    expect(
+      sortByX([
+        [100, 100],
+        [50, 50],
+        [150, 150],
+      ]),
+    ).toEqual([
+      [50, 50],
+      [100, 100],
+      [150, 150],
+    ]);
   });
 
   it('round', () => {
@@ -80,60 +107,6 @@ describe('Point Functions', () => {
     expect(isCollinear([100, 100], [100, 50], [100, 150])).toEqual(true);
     expect(isCollinear([100, 100], [50, 100], [150, 100])).toEqual(true);
     expect(isCollinear([100, 100], [50, 50], [150, 100])).toEqual(false);
-  });
-
-  it('isLinesParallel', () => {
-    expect(
-      isLinesParallel(
-        [
-          [100, 100],
-          [100, 50],
-        ],
-        [
-          [100, 150],
-          [100, 200],
-        ],
-      ),
-    ).toEqual(true);
-    expect(
-      isLinesParallel(
-        [
-          [100, 100],
-          [100, 50],
-        ],
-        [
-          [100, 150],
-          [150, 200],
-        ],
-      ),
-    ).toEqual(false);
-  });
-
-  it('getLinesIntersection', () => {
-    expect(
-      getLinesIntersection(
-        [
-          [100, 0],
-          [100, 200],
-        ],
-        [
-          [0, 100],
-          [200, 100],
-        ],
-      ),
-    ).toEqual([100, 100]);
-    expect(
-      getLinesIntersection(
-        [
-          [100, 0],
-          [100, 200],
-        ],
-        [
-          [0, 100],
-          [50, 300],
-        ],
-      ),
-    ).toEqual(undefined);
   });
 
   it('getRectIntersectPoint', () => {
