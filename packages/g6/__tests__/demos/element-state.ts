@@ -18,13 +18,9 @@ export const elementState: TestCase = async (context) => {
     theme: 'light',
     node: {
       style: {
-        lineWidth: 1,
         size: 20,
       },
       state: {
-        active: {
-          lineWidth: 2,
-        },
         selected: {
           color: 'pink',
         },

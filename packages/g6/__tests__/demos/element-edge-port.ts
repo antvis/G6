@@ -148,6 +148,7 @@ export const elementEdgePort: TestCase = async (context) => {
         size: 50,
         color: '#f8f8f8',
         stroke: '#8b9baf',
+        lineWidth: 1,
       },
     },
     edge: {
