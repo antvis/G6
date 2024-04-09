@@ -6,7 +6,7 @@ const graph = new Graph({
   container: 'container',
   data: {
     nodes: [
-      { id: 'node1', style: { x: 150, y: 250, lineWidth: 0 } },
+      { id: 'node1', style: { x: 200, y: 250, lineWidth: 0 } },
       { id: 'node2', style: { x: 250, y: 200, lineWidth: 0 } },
       { id: 'node3', style: { x: 300, y: 250, lineWidth: 0 } },
       { id: 'node4', style: { x: 250, y: 300, lineWidth: 0 } },
@@ -36,13 +36,14 @@ const graph = new Graph({
   },
   behaviors: [
     {
-      type: 'brush-select',
+      type: 'lasso-select',
       mode: 'diff',
       trigger: 'shift',
       style: {
         color: '#00f',
-        fillOpacity: 0.2,
+        fillOpacity: 0.1,
         stroke: '#0ff',
+        lineWidth: 2,
       },
     },
   ],
@@ -69,7 +70,7 @@ selector.addEventListener('change', (e) => {
   // change the graph mode
   graph.setBehaviors([
     {
-      type: 'brush-select',
+      type: 'lasso-select',
       trigger: value,
     },
   ]);

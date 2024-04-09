@@ -1,9 +1,9 @@
-## brushStyle
+## style
 
 **Type**:
 
 ```ts
-type brushStyle = {
+type style = {
   fill?: string;
   stroke?: string;
   fillOpacity?: number;
@@ -16,7 +16,7 @@ type brushStyle = {
 
 ```json
 {
-  "fill": "#EEF6FF",
+  "color": "#EEF6FF",
   "fillOpacity": 0.4,
   "stroke": "#DDEEFE",
   "lineWidth": 1
@@ -27,80 +27,49 @@ type brushStyle = {
 
 **Description**: The style of the selection area
 
-## eventName
-
-**Type**: `string`
-
-**Default**: `''`
-
-The event name triggered when selected/deselected
-
-<embed src="./BehaviorItemTypes.en.md"></embed>
-
-## onDeselect
+## onSelect
 
 **Type**:
 
 ```ts
-type onDeselect = (
-  selectedIds: { nodes: ID[]; edges: ID[]; combos: ID[] },
-  deselectedIds: { nodes: ID[]; edges: ID[]; combos: ID[] },
-) => void;
+type onSelect = (states: { [key: ID]: string[] }) => { [key: ID]: string[] };
 ```
 
 **Required**: false
 
 **Description**: The callback function when deselected
 
-## onSelect
-
-**Type**:
-
-```ts
-type onSelect = (selectedIds: { nodes: ID[]; edges: ID[]; combos: ID[] }) => void;
-```
-
-**Required**: false
-
-**Description**: The callback function when selected
-
-## selectedState
+## state
 
 **Type**: `string`
 
-**Default**: `'selected'`
+**Default**: `'selected' | 'active'`
 
 Switch to this state when highlighted
 
-## selectSetMode
+## mode
 
-**Type**: `'union' | 'intersect' | 'latest' | 'latest'`
+**Type**: `'union' | 'intersect' | 'diff' | 'default'`
 
-**Default**: `'latest'`
+**Default**: `'default'`
 
 The mode of the select set
 
 <embed src="./BehaviorShouldBegin.zh.md"></embed>
-
-## shouldUpdate
-
-**Type**:
-
-```ts
-type shouldUpdate = (itemType: ITEM_TYPE, id: ID, action: 'select' | 'deselect', self: BrushSelect) => boolean;
-```
-
-**Default**: `() => {}`
-
-**Required**: false
-
-**Description**: Whether to allow the current node to update the interaction state. When false is returned, you need to manually listen for events and update the state
 
 ## trigger
 
 **Type**: `'shift' | 'ctrl' | 'alt' | 'meta' | 'drag'`
 
 **Default**: `'shift'`
+
+The event type that triggers the interaction
+
+## isTimely
+
+**Type**: `boolean`
+
+**Default**: `false`
 
 The event type that triggers the interaction
 

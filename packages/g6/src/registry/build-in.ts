@@ -8,6 +8,7 @@ import {
   DragElementForce,
   FocusElement,
   HoverElement,
+  LassoSelect,
   ZoomCanvas,
 } from '../behaviors';
 import {
@@ -73,6 +74,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'focus-element': FocusElement,
     'create-edge': CreateEdge,
     'brush-select': BrushSelect,
+    'lasso-select': LassoSelect,
   },
   combo: {
     circle: CircleCombo,

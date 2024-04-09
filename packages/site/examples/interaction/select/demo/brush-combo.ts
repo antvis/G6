@@ -31,8 +31,8 @@ const graph = new Graph({
   behaviors: [
     {
       type: 'brush-select',
-      isTimely: true, // need selectSetMode: 'latest'.
-      selectSetMode: 'latest',
+      isTimely: true, // need mode: 'default'.
+      mode: 'default',
     },
   ],
 });

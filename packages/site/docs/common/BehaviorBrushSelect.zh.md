@@ -1,10 +1,10 @@
-## brushStyle
+## style
 
 **类型**：
 
 ```ts
-type brushStyle = {
-  fill?: string;
+type style = {
+  color?: string;
   stroke?: string;
   fillOpacity?: number;
   lineWidth?: number;
@@ -16,7 +16,7 @@ type brushStyle = {
 
 ```json
 {
-  "fill": "#EEF6FF",
+  "color": "#EEF6FF",
   "fillOpacity": 0.4,
   "stroke": "#DDEEFE",
   "lineWidth": 1
@@ -27,74 +27,35 @@ type brushStyle = {
 
 **说明**：选区样式
 
-## eventName
-
-**类型**：`string`
-
-**默认值**：`''`
-
-选中/取消选中时触发的事件名
-
-<embed src="./BehaviorItemTypes.zh.md"></embed>
-
-## onDeselect
-
-**类型**：
-
-```ts
-type onDeselect = (
-  selectedIds: { nodes: ID[]; edges: ID[]; combos: ID[] },
-  deselectedIds: { nodes: ID[]; edges: ID[]; combos: ID[] },
-) => void;
-```
-
-**是否必须**：false
-
-**说明**：取消选中时的回调函数
-
 ## onSelect
 
 **类型**：
 
 ```ts
-type onSelect = (selectedIds: { nodes: ID[]; edges: ID[]; combos: ID[] }) => void;
+type onSelect = (states: { [key: ID]: string[] }) => { [key: ID]: string[] };
 ```
 
 **是否必须**：false
 
 **说明**：选中时的回调函数
 
-## selectedState
+## state
 
 **类型**：`string`
 
-**默认值**：`'selected'`
+**默认值**：`'selected' | 'active'`
 
 选中时切换到该状态
 
-## selectSetMode
+## mode
 
-**类型**：`'union' | 'intersect' | 'latest' | 'latest'`
+**类型**：`'union' | 'intersect' | 'diff' | 'default'`
 
-**默认值**：`'latest'`
+**默认值**：`'default'`
 
 选区的选择模式
 
 <embed src="./BehaviorShouldBegin.zh.md"></embed>
-
-## shouldUpdate
-
-**类型**：
-
-```ts
-type shouldUpdate = (itemType: ITEM_TYPE, id: ID, action: 'select' | 'deselect', self: BrushSelect) => boolean;
-```
-
-**是否必须**：false
-
-**是否必须**：false
-
-**说明**：是否允许当前节点更新交互状态。返回 false 时，需要手动监听事件和更新状态
 
 ## trigger
 
@@ -103,6 +64,14 @@ type shouldUpdate = (itemType: ITEM_TYPE, id: ID, action: 'select' | 'deselect',
 **默认值**：`'shift'`
 
 触发交互的事件类型
+
+## isTimely
+
+**类型**：`boolean`
+
+**默认值**：`false`
+
+Real-time departure brush select.
 
 ---
 

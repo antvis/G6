@@ -1,5 +1,5 @@
 import type { AABB } from '@antv/g';
-import type { Anchor, NodeLikeData, Placement, Position, RelativePlacement } from '../types';
+import type { Anchor, NodeLikeData, Placement, Points, Position, RelativePlacement } from '../types';
 import { parseAnchor } from './anchor';
 import { parsePlacement } from './placement';
 
@@ -54,3 +54,20 @@ export function getXYByAnchor(bbox: AABB, anchor: Anchor): Position {
   const parsedAnchor = parseAnchor(anchor);
   return getXYByRelativePlacement(bbox, parsedAnchor as RelativePlacement);
 }
+
+/**
+ * <zh/> 通过 rect points 路径点获取 position 方位配置.
+ *
+ * <en/> The rect points command is used to obtain the position and orientation configuration.
+ * @param points Points
+ * @returns `{ left: number; right: number; top: number; bottom: number }`
+ */
+export const getPositionByRectPoints = (points: Points) => {
+  const [p1, p2] = points;
+  return {
+    left: Math.min(p1[0], p2[0]),
+    right: Math.max(p1[0], p2[0]),
+    top: Math.min(p1[1], p2[1]),
+    bottom: Math.max(p1[1], p2[1]),
+  };
+};

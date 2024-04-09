@@ -11,6 +11,7 @@ export * from './behavior-drag-canvas';
 export * from './behavior-drag-element';
 export * from './behavior-focus-element';
 export * from './behavior-hover-element';
+export * from './behavior-lasso-select';
 export * from './behavior-zoom-canvas';
 export * from './combo';
 export * from './combo-expand-collapse';

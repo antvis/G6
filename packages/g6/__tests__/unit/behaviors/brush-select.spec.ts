@@ -38,7 +38,7 @@ describe('behavior brush select', () => {
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-2');
 
-    graph.setBehaviors([{ type: 'brush-select', brushStyle: { color: 'green', lineWidth: 2, stroke: 'blue' } }]);
+    graph.setBehaviors([{ type: 'brush-select', style: { color: 'green', lineWidth: 2, stroke: 'blue' } }]);
 
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });

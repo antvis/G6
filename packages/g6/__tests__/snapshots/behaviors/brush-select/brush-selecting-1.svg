@@ -90,7 +90,7 @@
         </g>
         <g id="g6-brush-select-rect-id" fill="none" transform="matrix(1,0,0,1,250,250)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(255,0,0,1)" d="M 0,0 l 300,0 l 0,300 l-300 0 z" transform="translate(-150,-150)" fill-opacity="0.1" stroke-width="1" pointer-events="none" width="300" height="300"/>
+            <path id="key" fill="rgba(238,246,255,1)" d="M 0,0 l 300,0 l 0,300 l-300 0 z" transform="translate(-150,-150)" stroke-width="1" stroke="rgba(221,238,254,1)" fill-opacity="0.4" pointer-events="none" width="300" height="300"/>
           </g>
         </g>
       </g>
