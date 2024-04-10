@@ -1,9 +1,9 @@
 import type { BaseStyleProps } from '@antv/g';
 import { Rect } from '@antv/g';
-import { ID } from '@antv/graphlib';
+import type { ID } from '@antv/graphlib';
 import { isFunction } from '@antv/util';
 import { COMBO_KEY, CommonEvent } from '../constants';
-import { RuntimeContext } from '../runtime/types';
+import type { RuntimeContext } from '../runtime/types';
 import type { EdgeDirection, Element, IDragEvent, Point, PrefixObject } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { idOf } from '../utils/id';
@@ -96,11 +96,11 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     shadowLineDash: [5, 5],
   };
 
-  private enable: boolean = false;
+  protected enable: boolean = false;
 
   private enableElements = ['node', 'combo'];
 
-  private target: ID[] = [];
+  protected target: ID[] = [];
 
   private shadow?: Rect;
 
@@ -115,6 +115,11 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
 
   constructor(context: RuntimeContext, options: DragElementOptions) {
     super(context, Object.assign({}, DragElement.defaultOptions, options));
+    this.onDragStart = this.onDragStart.bind(this);
+    this.onDrag = this.onDrag.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+
     this.bindEvents();
   }
 
@@ -139,7 +144,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     }
   }
 
-  private getSelectedNodeIDs(currTarget: ID[]) {
+  protected getSelectedNodeIDs(currTarget: ID[]) {
     return Array.from(
       new Set(
         this.context.graph
@@ -150,7 +155,12 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     );
   }
 
-  private onDragStart = (event: IElementDragEvent) => {
+  protected getDelta(event: IElementDragEvent) {
+    const zoom = this.context.graph.getZoom();
+    return divide([event.dx, event.dy], zoom);
+  }
+
+  protected onDragStart(event: IElementDragEvent) {
     this.enable = this.validate(event);
     if (!this.enable) return;
 
@@ -158,19 +168,17 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     this.hideEdge();
     this.context.graph.frontElement(this.target);
     if (this.options.shadow) this.createShadow(this.target);
-  };
+  }
 
-  private onDrag = (event: IElementDragEvent) => {
+  protected onDrag(event: IElementDragEvent) {
     if (!this.enable) return;
-    const zoom = this.context.graph.getZoom();
-    const { dx, dy } = event;
-    const delta = divide([dx, dy], zoom);
+    const delta = this.getDelta(event);
 
     if (this.options.shadow) this.moveShadow(delta);
     else this.moveElement(this.target, delta);
-  };
+  }
 
-  private onDragEnd = () => {
+  protected onDragEnd() {
     this.enable = false;
     if (this.options.shadow) {
       if (!this.shadow) return;
@@ -182,7 +190,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     this.showEdges();
     this.options.onFinish?.(this.target);
     this.target = [];
-  };
+  }
 
   private onDrop = async (event: IElementDragEvent) => {
     if (this.options.dropEffect !== 'link') return;
@@ -200,14 +208,14 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     await element?.draw({ animation: true });
   };
 
-  private validate(event: IElementDragEvent) {
+  protected validate(event: IElementDragEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
   }
 
-  private async moveElement(ids: ID[], offset: Point) {
+  protected async moveElement(ids: ID[], offset: Point) {
     const { model, element } = this.context;
     const { dropEffect } = this.options;
     ids.forEach((id) => {
@@ -262,7 +270,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     this.hiddenEdges = [];
   }
 
-  private hideEdge() {
+  protected hideEdge() {
     const { hideEdge, shadow } = this.options;
     if (hideEdge === 'none' || shadow) return;
     const { graph } = this.context;
