@@ -10,8 +10,6 @@ import type {
   TransformOptions,
 } from '../../types';
 
-import type { ID } from '@antv/graphlib';
-import type { State } from '../../types';
 export class BaseEvent {
   constructor(public type: string) {}
 }
@@ -66,15 +64,6 @@ export class ViewportEvent extends BaseEvent implements IViewportEvent {
   constructor(
     type: GraphEvent.BEFORE_TRANSFORM | GraphEvent.AFTER_TRANSFORM,
     public data: TransformOptions,
-  ) {
-    super(type);
-  }
-}
-
-export class ElementStateChangeEvent extends BaseEvent {
-  constructor(
-    type: GraphEvent.BEFORE_ELEMENT_STATE_CHANGE | GraphEvent.AFTER_ELEMENT_STATE_CHANGE,
-    public states: Record<ID, State | State[]>,
   ) {
     super(type);
   }

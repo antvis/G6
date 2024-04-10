@@ -1,5 +1,5 @@
 import { isObject } from '@antv/util';
-import { RuntimeContext } from '../../runtime/types';
+import type { RuntimeContext } from '../../runtime/types';
 import type { GraphData } from '../../spec';
 import type { DataChange, DataChanges, ElementDatum } from '../../types';
 import { inferDefaultValue } from '../../utils/animation';

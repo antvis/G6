@@ -213,8 +213,9 @@ export class History extends BasePlugin<HistoryOptions> {
     graph.off(GraphEvent.BATCH_START, this.initBatchCommand);
     graph.off(GraphEvent.BATCH_END, this.addCommand);
 
-    super.destroy();
+    this.emitter.off();
 
+    super.destroy();
     this.undoStack = [];
     this.redoStack = [];
   }
