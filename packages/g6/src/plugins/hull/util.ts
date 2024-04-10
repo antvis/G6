@@ -19,12 +19,11 @@ export function computeHullPath(points: Point[], padding: number, corner: 'round
   if (points.length === 1) return genSinglePointHullPath(points[0], padding, corner);
   if (points.length === 2) return genTwoPointsHullPath(points, padding, corner);
   switch (corner) {
-    case 'rounded':
-      return genMultiPointsRoundedHull(points, padding);
     case 'smooth':
       return genMultiPointsSmoothHull(points, padding);
     case 'sharp':
       return genMultiPointsSharpHull(points, padding);
+    case 'rounded':
     default:
       return genMultiPointsRoundedHull(points, padding);
   }

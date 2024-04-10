@@ -1,7 +1,7 @@
-import type { PathArray } from '@antv/util';
+import type { PathArray, PathCommand } from '@antv/util';
 import type { Point } from '../types';
 
-const PATH_COMMANDS: Record<string, string[]> = {
+const PATH_COMMANDS: Record<PathCommand, string[]> = {
   M: ['x', 'y'],
   m: ['dx', 'dy'],
   H: ['x'],
@@ -11,6 +11,7 @@ const PATH_COMMANDS: Record<string, string[]> = {
   L: ['x', 'y'],
   l: ['dx', 'dy'],
   Z: [],
+  z: [],
   C: ['x1', 'y1', 'x2', 'y2', 'x', 'y'],
   c: ['dx1', 'dy1', 'dx2', 'dy2', 'dx', 'dy'],
   S: ['x2', 'y2', 'x', 'y'],
@@ -38,12 +39,12 @@ export function parsePath(path: string): PathArray {
     .trim()
     .split(/\s*,|\s+/);
   const segments = [];
-  let currentCommand = '';
+  let currentCommand = '' as PathCommand;
   let currentElement: Record<string, any> = {};
   while (items.length > 0) {
     let it = items.shift()!;
     if (it in PATH_COMMANDS) {
-      currentCommand = it;
+      currentCommand = it as PathCommand;
     } else {
       items.unshift(it);
     }
