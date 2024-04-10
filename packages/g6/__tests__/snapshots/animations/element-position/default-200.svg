@@ -71,32 +71,32 @@
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="node-1" fill="none" transform="matrix(1,0,0,1,250,137.293274)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="node-2" fill="none" transform="matrix(1,0,0,1,202.969955,200)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="node-3" fill="none" transform="matrix(1,0,0,1,297.030060,200)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="node-4" fill="none" transform="matrix(1,0,0,1,155.939911,262.706726)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="node-5" fill="none" transform="matrix(1,0,0,1,250,262.706726)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="node-6" fill="none" transform="matrix(1,0,0,1,344.060089,262.706726)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
       </g>

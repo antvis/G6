@@ -30,7 +30,7 @@
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="node1" fill="none" transform="matrix(1,0,0,1,100,150)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 0,0 l 100,0 l 0,100 l-100 0 z" transform="translate(-50,-50)" stroke-width="0" width="100" height="100"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 0,0 l 100,0 l 0,100 l-100 0 z" transform="translate(-50,-50)" stroke-width="0" stroke="rgba(0,0,0,1)" width="100" height="100"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,50)">
             <g transform="matrix(1,0,0,1,-42.060001,0)">
@@ -53,7 +53,7 @@
         </g>
         <g id="node2" fill="none" transform="matrix(1,0,0,1,400,150)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 0,0 l 150,0 l 0,150 l-150 0 z" transform="translate(-75,-75)" stroke-width="0" width="150" height="150"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 0,0 l 150,0 l 0,150 l-150 0 z" transform="translate(-75,-75)" stroke-width="0" stroke="rgba(0,0,0,1)" width="150" height="150"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,75)">
             <g transform="matrix(1,0,0,1,-67.379997,0)">

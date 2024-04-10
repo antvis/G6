@@ -7,22 +7,22 @@
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="1" fill="none" transform="matrix(1,0,0,1,200,250)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(212,65,76,1)" transform="translate(-25,-25)" cx="25" cy="25" stroke-width="0" r="25"/>
+            <circle id="key" fill="rgba(212,65,76,1)" transform="translate(-25,-25)" cx="25" cy="25" stroke-width="0" stroke="rgba(0,0,0,1)" r="25"/>
           </g>
         </g>
         <g id="2" fill="none" transform="matrix(1,0,0,1,300,250)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(47,54,61,1)" transform="translate(-25,-25)" cx="25" cy="25" stroke-width="0" r="25"/>
+            <circle id="key" fill="rgba(47,54,61,1)" transform="translate(-25,-25)" cx="25" cy="25" stroke-width="0" stroke="rgba(0,0,0,1)" r="25"/>
           </g>
         </g>
         <g id="3" fill="none" transform="matrix(1,0,0,1,250,200)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(47,54,61,1)" transform="translate(-25,-25)" cx="25" cy="25" stroke-width="0" r="25"/>
+            <circle id="key" fill="rgba(47,54,61,1)" transform="translate(-25,-25)" cx="25" cy="25" stroke-width="0" stroke="rgba(0,0,0,1)" r="25"/>
           </g>
         </g>
         <g id="4" fill="none" transform="matrix(1,0,0,1,250,300)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(47,54,61,1)" transform="translate(-25,-25)" cx="25" cy="25" stroke-width="0" r="25"/>
+            <circle id="key" fill="rgba(47,54,61,1)" transform="translate(-25,-25)" cx="25" cy="25" stroke-width="0" stroke="rgba(0,0,0,1)" r="25"/>
           </g>
         </g>
       </g>

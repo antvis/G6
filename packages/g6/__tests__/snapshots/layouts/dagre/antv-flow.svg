@@ -140,7 +140,7 @@
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="0" fill="none" transform="matrix(1,0,0,1,680,100)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" width="60" height="30"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -152,7 +152,7 @@
         </g>
         <g id="1" fill="none" transform="matrix(1,0,0,1,405,300)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" width="60" height="30"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -164,7 +164,7 @@
         </g>
         <g id="2" fill="none" transform="matrix(1,0,0,1,1050,900)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" width="60" height="30"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -176,7 +176,7 @@
         </g>
         <g id="3" fill="none" transform="matrix(1,0,0,1,850,300)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" width="60" height="30"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -188,7 +188,7 @@
         </g>
         <g id="4" fill="none" transform="matrix(1,0,0,1,490,500)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" width="60" height="30"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -200,7 +200,7 @@
         </g>
         <g id="5" fill="none" transform="matrix(1,0,0,1,310,700)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" width="60" height="30"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -212,7 +212,7 @@
         </g>
         <g id="6" fill="none" transform="matrix(1,0,0,1,670,700)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" width="60" height="30"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -224,7 +224,7 @@
         </g>
         <g id="7" fill="none" transform="matrix(1,0,0,1,490,900)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" width="60" height="30"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -236,7 +236,7 @@
         </g>
         <g id="8" fill="none" transform="matrix(1,0,0,1,130,900)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" width="60" height="30"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,0,0)">
@@ -248,7 +248,7 @@
         </g>
         <g id="9" fill="none" transform="matrix(1,0,0,1,860,1100)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" width="60" height="30"/>
+            <path id="key" fill="rgba(23,131,255,1)" d="M 8,0 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" transform="translate(-30,-15)" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30"/>
           </g>
           <g id="label" fill="none" transform="matrix(1,0,0,1,0,0)">
             <g transform="matrix(1,0,0,1,0,0)">

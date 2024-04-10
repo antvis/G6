@@ -134,97 +134,97 @@
       <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="src" fill="none" transform="matrix(1,0,0,1,0,0)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="animations" fill="none" transform="matrix(1,0,0,1,30,52)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="behaviors" fill="none" transform="matrix(1,0,0,1,30,104)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="elements" fill="none" transform="matrix(1,0,0,1,30,156)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="nodes" fill="none" transform="matrix(1,0,0,1,60,208)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="edges" fill="none" transform="matrix(1,0,0,1,60,260)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="combos" fill="none" transform="matrix(1,0,0,1,60,312)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="layouts" fill="none" transform="matrix(1,0,0,1,30,364)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="runtime" fill="none" transform="matrix(1,0,0,1,30,416)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="canvas" fill="none" transform="matrix(1,0,0,1,60,468)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="data" fill="none" transform="matrix(1,0,0,1,60,520)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="element" fill="none" transform="matrix(1,0,0,1,60,572)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="graph" fill="none" transform="matrix(1,0,0,1,60,624)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="layout" fill="none" transform="matrix(1,0,0,1,60,676)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="viewport" fill="none" transform="matrix(1,0,0,1,60,728)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="spec" fill="none" transform="matrix(1,0,0,1,30,780)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="themes" fill="none" transform="matrix(1,0,0,1,30,832)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="dark" fill="none" transform="matrix(1,0,0,1,60,884)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
         <g id="light" fill="none" transform="matrix(1,0,0,1,60,936)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" r="10"/>
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-10,-10)" cx="10" cy="10" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
       </g>
