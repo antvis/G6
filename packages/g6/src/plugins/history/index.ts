@@ -1,3 +1,4 @@
+import EventEmitter from '@antv/event-emitter';
 import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
 import { DataChange } from '../../types';
@@ -5,6 +6,8 @@ import type { GraphLifeCycleEvent } from '../../utils/event';
 import { idsOf } from '../../utils/id';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
+import type { HistoryEventHandler, HistoryEventName } from './events';
+import { HistoryEvent } from './events';
 import type { Command } from './utils';
 import { parseCommand } from './utils';
 
@@ -37,7 +40,7 @@ export class History extends BasePlugin<HistoryOptions> {
   static defaultOptions: Partial<HistoryOptions> = {
     stackSize: 0,
   };
-
+  private emitter: EventEmitter;
   private batchChanges: DataChange[][] | null = null;
   private batchAnimation = false;
   public undoStack: Command[] = [];
@@ -47,6 +50,8 @@ export class History extends BasePlugin<HistoryOptions> {
 
   constructor(context: RuntimeContext, options: HistoryOptions) {
     super(context, Object.assign({}, History.defaultOptions, options));
+
+    this.emitter = new EventEmitter();
 
     const { graph } = this.context;
     graph.on(GraphEvent.AFTER_DRAW, this.addCommand);
@@ -84,6 +89,7 @@ export class History extends BasePlugin<HistoryOptions> {
       this.options.beforeAddCommand?.(cmd, false);
       this.redoStack.push(cmd);
       this.options.afterAddCommand?.(cmd, false);
+      this.notify(HistoryEvent.UNDO, cmd);
     }
     return this;
   };
@@ -98,6 +104,7 @@ export class History extends BasePlugin<HistoryOptions> {
     if (cmd) {
       this.executeCommand(cmd, false);
       this.undoStackPush(cmd);
+      this.notify(HistoryEvent.REDO, cmd);
     }
     return this;
   };
@@ -112,6 +119,7 @@ export class History extends BasePlugin<HistoryOptions> {
     if (cmd) {
       this.executeCommand(cmd, false);
       this.redoStack = [];
+      this.notify(HistoryEvent.CANCEL, cmd);
     }
     return this;
   };
@@ -152,6 +160,7 @@ export class History extends BasePlugin<HistoryOptions> {
     }
 
     this.undoStackPush(parseCommand(this.batchChanges!.flat(), this.batchAnimation, this.context));
+    this.notify(HistoryEvent.ADD, this.undoStack[this.undoStack.length - 1]);
   };
 
   private initBatchCommand = (event: GraphLifeCycleEvent) => {
@@ -186,6 +195,16 @@ export class History extends BasePlugin<HistoryOptions> {
     this.redoStack = [];
     this.batchChanges = null;
     this.batchAnimation = false;
+    this.notify(HistoryEvent.CLEAR, null);
+  }
+
+  protected notify(event: HistoryEventName, cmd: Command | null) {
+    this.emitter.emit(event, { cmd });
+    this.emitter.emit(HistoryEvent.CHANGE, { cmd });
+  }
+
+  public on(event: HistoryEventName, handler: HistoryEventHandler): void {
+    this.emitter.on(event, handler);
   }
 
   public destroy(): void {
