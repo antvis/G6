@@ -1,3 +1,4 @@
+import { Rect } from '@antv/g';
 import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import { isBBoxCenterInRect } from '../utils/behaviors/brush';
@@ -8,7 +9,7 @@ import type { ID } from '@antv/graphlib';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
 import type { NodeStyle } from '../spec/element/node';
-import type { IPointerEvent, Point, Points, State, Vector2 } from '../types';
+import type { IPointerEvent, Point, Points, State } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 
 const SHOW_RECT_ID = 'g6-brush-select-rect-id';
@@ -93,6 +94,7 @@ export const DEFAULT_STYLE = {
   color: '#EEF6FF',
   stroke: '#DDEEFE',
   fillOpacity: 0.4,
+  zIndex: 2,
 };
 
 export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> extends BaseBehavior<T> {
@@ -114,6 +116,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
 
   private startPoint?: Point;
   private endPoint?: Point;
+  private rectShape?: Rect;
 
   public selectElementFn: (graph: Graph, id: ID, points: Points) => boolean = isBBoxCenterInRect;
 
@@ -127,16 +130,19 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
     if (!this.validate(event) || !this.isKeydown(event) || this.startPoint) return;
     const { style, trigger } = this.options;
     if (event.targetType !== 'canvas' && trigger === 'drag') return;
-    const { graph } = this.context;
-    graph.addNodeData([
-      {
-        id: SHOW_RECT_ID,
-        style: {
-          ...BrushSelect.defaultOptions.style,
-          ...style,
-        },
+    const { canvas } = this.context;
+
+    this.rectShape = new Rect({
+      id: SHOW_RECT_ID,
+      style: {
+        ...BrushSelect.defaultOptions.style,
+        fill: style.color || DEFAULT_STYLE.color,
+        ...style,
+        pointerEvents: 'none',
       },
-    ]);
+    });
+
+    canvas.appendChild(this.rectShape);
 
     this.startPoint = [event.canvas.x, event.canvas.y];
   };
@@ -144,31 +150,19 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
   public pointerMove = async (event: IPointerEvent) => {
     if (!this.startPoint) return;
     const { isTimely, mode } = this.options;
-    const { graph, element } = this.context;
 
     this.endPoint = [event.canvas.x, event.canvas.y];
 
-    const size = [
-      Math.abs(this.endPoint[0] - this.startPoint[0]),
-      Math.abs(this.endPoint[1] - this.startPoint[1]),
-    ] as Vector2;
-
-    graph.updateNodeData([
-      {
-        id: SHOW_RECT_ID,
-        style: {
-          label: false,
-          size,
-          x: Math.min(this.endPoint[0], this.startPoint[0]) + size[0] / 2,
-          y: Math.min(this.endPoint[1], this.startPoint[1]) + size[1] / 2,
-        },
-      },
-    ]);
+    this.rectShape?.attr({
+      x: Math.min(this.endPoint[0], this.startPoint[0]),
+      y: Math.min(this.endPoint[1], this.startPoint[1]),
+      width: Math.abs(this.endPoint[0] - this.startPoint[0]),
+      height: Math.abs(this.endPoint[1] - this.startPoint[1]),
+    });
 
     if (isTimely && mode === 'default') {
       this.updateElementState([this.startPoint, this.endPoint]);
     }
-    await element?.draw({ animation: false, silence: true });
   };
 
   public pointerUp = async (event: IPointerEvent) => {
@@ -236,12 +230,8 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
   };
 
   private clearBrush = async () => {
-    const { graph, element } = this.context;
-
-    graph.removeNodeData([SHOW_RECT_ID]);
-
-    await element?.draw({ animation: false, silence: true });
-
+    this.rectShape?.remove();
+    this.rectShape = undefined;
     this.startPoint = undefined;
     this.endPoint = undefined;
   };
@@ -254,7 +244,6 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
       graph.getNodeData().forEach((node) => {
         const { id } = node;
         if (
-          id !== SHOW_RECT_ID &&
           graph.getElementVisibility(id) !== 'hidden' && // hidden node is not selectable
           this.selectElementFn(graph, id, points)
         ) {

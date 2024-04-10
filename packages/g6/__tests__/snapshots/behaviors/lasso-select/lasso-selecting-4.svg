@@ -12,9 +12,6 @@
           </g>
         </g>
       </g>
-      <g transform="matrix(1,0,0,1,100,100)">
-        <path id="g6-lasso-select-path-id" fill="rgba(0,128,0,1)" stroke-width="2" stroke="rgba(0,0,255,1)" fill-opacity="0.4" pointer-events="none" d="M 0,0 L 0,100 L 100,100 L 100,0 Z"/>
-      </g>
       <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
         <g id="edge1" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
           <g id="edge1" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
@@ -94,6 +91,9 @@
             </g>
           </g>
         </g>
+      </g>
+      <g transform="matrix(1,0,0,1,100,100)">
+        <path id="g6-lasso-select-path-id" fill="rgba(0,128,0,1)" stroke-width="2" stroke="rgba(0,0,255,1)" fill-opacity="0.4" pointer-events="none" d="M 0,0 L 0,100 L 100,100 L 100,0 Z"/>
       </g>
     </g>
   </g>
