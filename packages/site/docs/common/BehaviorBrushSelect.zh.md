@@ -65,7 +65,7 @@ type onSelect = (states: { [key: ID]: string[] }) => { [key: ID]: string[] };
 
 触发交互的事件类型
 
-## isTimely
+## immediately
 
 **类型**：`boolean`
 

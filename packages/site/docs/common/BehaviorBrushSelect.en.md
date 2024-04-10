@@ -65,7 +65,7 @@ The mode of the select set
 
 The event type that triggers the interaction
 
-## isTimely
+## immediately
 
 **Type**: `boolean`
 

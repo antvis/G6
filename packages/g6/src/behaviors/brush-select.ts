@@ -3,6 +3,7 @@ import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import { isBBoxCenterInRect } from '../utils/behaviors/brush';
 import { getAllElementState, transformEdgeState } from '../utils/behaviors/utils';
+import { Shortcut } from '../utils/shortcut';
 import { BaseBehavior } from './base-behavior';
 
 import type { ID } from '@antv/graphlib';
@@ -14,11 +15,7 @@ import type { BaseBehaviorOptions } from './base-behavior';
 
 const SHOW_RECT_ID = 'g6-brush-select-rect-id';
 
-const ALLOWED_TRIGGERS = ['shift', 'alt', 'ctrl', 'drag', 'meta'];
-
 type ElementTypes = Array<'node' | 'edge' | 'combo'>;
-
-type Trigger = (typeof ALLOWED_TRIGGERS)[number];
 
 type SELECT_MODE = 'union' | 'intersect' | 'diff' | 'default';
 
@@ -48,7 +45,7 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
    *
    * <en/> Trigger click or drag.
    */
-  trigger?: Trigger;
+  trigger?: string[] | string;
   /**
    * <zh/> 框选选中模式
    * union : 选中元素添加 state 状态
@@ -74,7 +71,7 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
    *
    * <en/> Timely screening.
    */
-  isTimely?: boolean;
+  immediately?: boolean;
   /**
    * <zh/> 框选 框样式
    *
@@ -96,12 +93,11 @@ export const DEFAULT_STYLE = {
   fillOpacity: 0.4,
   zIndex: 2,
 };
-
 export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> extends BaseBehavior<T> {
   static defaultOptions: Partial<BrushSelectOptions> = {
     enable: true,
     trigger: 'drag',
-    isTimely: false,
+    immediately: false,
     state: 'selected',
     mode: 'default',
     animation: false,
@@ -117,17 +113,19 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
   private startPoint?: Point;
   private endPoint?: Point;
   private rectShape?: Rect;
+  public shortcut?: Shortcut;
 
   public selectElementFn: (graph: Graph, id: ID, points: Points) => boolean = isBBoxCenterInRect;
 
   constructor(context: RuntimeContext, options: T) {
     super(context, Object.assign({}, BrushSelect.defaultOptions, options));
+    this.shortcut = new Shortcut(context.graph);
     if (options.type === 'lasso-select') return;
     this.bindEvents();
   }
 
   public pointerDown = async (event: IPointerEvent) => {
-    if (!this.validate(event) || !this.isKeydown(event) || this.startPoint) return;
+    if (!this.validate(event) || !this.isKeydown() || this.startPoint) return;
     const { style, trigger } = this.options;
     if (event.targetType !== 'canvas' && trigger === 'drag') return;
     const { canvas } = this.context;
@@ -149,7 +147,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
 
   public pointerMove = async (event: IPointerEvent) => {
     if (!this.startPoint) return;
-    const { isTimely, mode } = this.options;
+    const { immediately, mode } = this.options;
 
     this.endPoint = [event.canvas.x, event.canvas.y];
 
@@ -160,7 +158,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
       height: Math.abs(this.endPoint[1] - this.startPoint[1]),
     });
 
-    if (isTimely && mode === 'default') {
+    if (immediately && mode === 'default') {
       this.updateElementState([this.startPoint, this.endPoint]);
     }
   };
@@ -268,16 +266,11 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
   };
 
   // 当前按键是否和 trigger 配置一致
-  public isKeydown(event: IPointerEvent) {
-    const trigger = this.options.trigger;
-    const keyMap: Record<Trigger, boolean> = {
-      drag: true,
-      shift: event.shiftKey,
-      ctrl: event.ctrlKey,
-      alt: event.altKey,
-      meta: event.metaKey,
-    };
-    return keyMap[trigger];
+  public isKeydown() {
+    const { trigger } = this.options;
+    const keys = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
+    if (keys.length === 0 || keys.includes('drag')) return true;
+    return this.shortcut?.match(keys);
   }
 
   public validate(event: IPointerEvent) {

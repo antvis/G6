@@ -32,7 +32,7 @@ export class LassoSelect extends BrushSelect<LassoSelectOptions> {
   }
 
   public pointerDown = async (event: IPointerEvent) => {
-    if (!this.validate(event) || !this.isKeydown(event) || this.points) return;
+    if (!this.validate(event) || !this.isKeydown() || this.points) return;
     const { style, trigger } = this.options;
     if (event.targetType !== 'canvas' && trigger === 'drag') return;
 
@@ -55,14 +55,14 @@ export class LassoSelect extends BrushSelect<LassoSelectOptions> {
 
   public pointerMove = async (event: IPointerEvent) => {
     if (!this.points) return;
-    const { isTimely, mode } = this.options;
+    const { immediately, mode } = this.options;
     const { element } = this.context;
 
     this.points.push([event.canvas.x, event.canvas.y]);
 
     this.pathShape?.setAttribute('path', pointsToPath(this.points));
 
-    if (isTimely && mode === 'default') {
+    if (immediately && mode === 'default') {
       this.lassoUpdateElementState();
     }
     await element?.draw({ animation: false, silence: true });

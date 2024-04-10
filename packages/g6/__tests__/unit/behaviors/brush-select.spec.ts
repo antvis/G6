@@ -14,6 +14,11 @@ describe('behavior brush select', () => {
     await expect(graph).toMatchSnapshot(__filename);
 
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
+    graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 100, y: 100 } });
+
+    await expect(graph).toMatchSnapshot(__filename, 'brush-select-clear');
+
+    graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-1');
@@ -52,19 +57,75 @@ describe('behavior brush select', () => {
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-3');
 
-    graph.setBehaviors([{ type: 'brush-select', selectedState: 'active', trigger: 'shift' }]);
+    graph.setBehaviors([{ type: 'brush-select', trigger: 'shift' }]);
 
-    graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, shiftKey: true, targetType: 'canvas' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'Shift' });
+    graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-4');
 
+    graph.emit(CommonEvent.KEY_UP, { key: 'Shift' });
     graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 400, y: 400 } });
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selected-4');
 
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-4');
+
+    graph.setBehaviors([{ type: 'brush-select', state: 'active', trigger: 'shift', immediately: true }]);
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'Shift' });
+    graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
+    graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });
+
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-5');
+
+    graph.emit(CommonEvent.KEY_UP, { key: 'Shift' });
+    graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 400, y: 400 } });
+
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-5');
+
+    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-5');
+
+    graph.setBehaviors([{ type: 'brush-select', mode: 'diff', trigger: 'drag' }]);
+    graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
+    graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });
+
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-diff');
+
+    graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 400, y: 400 } });
+
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-diff');
+
+    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-diff');
+
+    graph.setBehaviors([{ type: 'brush-select', mode: 'union' }]);
+    graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
+    graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });
+
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-union');
+
+    graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 400, y: 400 } });
+
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-union');
+
+    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-union');
+
+    graph.setBehaviors([{ type: 'brush-select', mode: 'intersect' }]);
+    graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
+    graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });
+
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-intersect');
+
+    graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 400, y: 400 } });
+
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-intersect');
+
+    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-intersect');
   });
 
   afterAll(() => {

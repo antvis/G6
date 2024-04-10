@@ -31,7 +31,7 @@ const graph = new Graph({
   behaviors: [
     {
       type: 'brush-select',
-      isTimely: true, // need mode: 'default'.
+      immediately: true, // need mode: 'default'.
       mode: 'default',
     },
   ],
