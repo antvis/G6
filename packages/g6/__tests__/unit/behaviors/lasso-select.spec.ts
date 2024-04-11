@@ -121,14 +121,14 @@ describe('behavior lasso select', () => {
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 500, y: 500 } });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 500, y: 100 } });
 
-    await expect(graph).toMatchSnapshot(__filename, 'lasso-selecting-mode-diff');
+    await expect(graph).toMatchSnapshot(__filename, 'lasso-selecting-mode-diff-');
 
     graph.emit(CommonEvent.POINTER_UP);
 
-    await expect(graph).toMatchSnapshot(__filename, 'lasso-selected-mode-diff');
+    await expect(graph).toMatchSnapshot(__filename, 'lasso-selected-mode-diff-');
 
     graph.emit(`canvas:${CommonEvent.CLICK}`);
-    await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-mode-diff');
+    await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-mode-diff-');
 
     graph.setBehaviors([{ type: 'lasso-select', mode: 'intersect' }]);
 
