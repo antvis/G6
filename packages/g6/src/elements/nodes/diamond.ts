@@ -25,6 +25,6 @@ export class Diamond extends Polygon {
   public getIntersectPoint(point: Point): Point {
     const { points } = this.getKeyStyle(this.attributes as ParsedDiamondStyleProps);
     const center = [this.attributes.x, this.attributes.y] as Point;
-    return getPolygonIntersectPoint(point, center, points);
+    return getPolygonIntersectPoint(point, center, points).point;
   }
 }

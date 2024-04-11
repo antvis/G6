@@ -1,4 +1,4 @@
-import { Graph, Extensions, extend } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -163,112 +163,101 @@ const data = {
   ],
 };
 
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-
-const hullPlugin = new Extensions.Hull({
-  key: 'hull-plugin',
-});
-
-const ExtGraph = extend(Graph, {
-  edges: {
-    'loop-edge': Extensions.LoopEdge,
+const graph = new Graph({
+  container: 'container',
+  data,
+  node: {
+    style: {
+      labelText: (d) => d.data.label,
+    },
   },
-});
-
-const graph = new ExtGraph({
-  container,
-  width,
-  height,
-  plugins: [hullPlugin],
-  modes: {
-    default: ['drag-canvas', 'zoom-canvas', 'drag-node'],
-  },
-  autoFit: 'view',
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
   layout: {
     type: 'grid',
   },
-  data,
 });
 
-hullPlugin.addHull({
-  id: 'hull1',
-  padding: 15,
-  type: 'smooth-convex', //'bubble' | 'round-convex' | 'smooth-convex';
-  members: graph
-    .getAllNodesData()
-    .filter((model) => model.data.group === 1)
-    .map((node) => node.id),
-  labelShape: {
-    text: 'Group1',
-    position: 'left',
-    offsetY: -2,
+graph.setPlugins([
+  {
+    key: 'hull-1',
+    type: 'hull',
+    members: graph
+      .getNodeData()
+      .filter((node) => node.data.group === 1)
+      .map((node) => node.id),
+    corner: 'smooth',
+    labelText: 'Group1',
+    labelPlacement: 'left',
+    labelBackground: true,
+    labelBackgroundFill: 'lightblue',
   },
-});
-
-hullPlugin.addHull({
-  id: 'hull2',
-  padding: 15,
-  type: 'round-convex',
-  members: graph
-    .getAllNodesData()
-    .filter((model) => model.data.group === 2)
-    .map((node) => node.id),
-  labelShape: {
-    text: 'Group2',
-    position: 'left',
-    offsetY: -2,
-  },
-  style: {
+  {
+    key: 'hull-2',
+    type: 'hull',
+    members: graph
+      .getNodeData()
+      .filter((node) => node.data.group === 2)
+      .map((node) => node.id),
+    corner: 'rounded',
     fill: 'pink',
     stroke: 'red',
+    labelText: 'Group2',
+    labelPlacement: 'left',
+    labelBackground: true,
+    labelBackgroundFill: 'pink',
+    padding: 15,
   },
-});
+]);
 
-let memberAdded = false;
-let nonMemberAdded = false;
+graph.render().then(async () => {
+  let memberAdded = false;
 
-const updateActions = [
-  {
-    name: 'Add/Delete Member',
-    action: () => {
-      if (!memberAdded) {
-        hullPlugin.addHullMember('hull1', ['4']);
-      } else {
-        hullPlugin.removeHullMember('hull1', ['4']);
-      }
-      memberAdded = !memberAdded;
+  const hull1 = graph.getPluginInstance('hull-1');
+
+  const updateActions = [
+    {
+      name: 'Add/Delete Member',
+      action: () => {
+        if (!memberAdded) {
+          hull1.addMembers(['4']);
+        } else {
+          hull1.removeMembers(['4']);
+        }
+        memberAdded = !memberAdded;
+      },
     },
-  },
-  {
-    name: 'Update Config',
-    action: () => {
-      hullPlugin.updateHull({
-        id: 'hull1',
-        style: { fill: '#ff0' },
-        labelShape: { text: 'updated-label', position: 'top' },
-      });
+    {
+      name: 'Update Config',
+      action: () => {
+        hull1.updateOptions((prev) => ({
+          ...prev,
+          fill: 'yellow',
+          corner: 'sharp',
+          labelText: 'Updated Group1',
+          labelPlacement: 'top',
+          labelCloseToHull: false,
+          labelBackgroundFill: 'orange',
+        }));
+      },
     },
-  },
-];
+  ];
 
-const btnContainer = document.createElement('div');
-btnContainer.style.position = 'absolute';
-container.appendChild(btnContainer);
-const tip = document.createElement('span');
-tip.innerHTML = `👉 update:`;
-btnContainer.appendChild(tip);
-updateActions.forEach((item, i) => {
-  const btn = document.createElement('a');
-  btn.innerHTML = item.name;
-  btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-  btn.style.padding = '4px';
-  btn.style.marginLeft = i > 0 ? '24px' : '8px';
-  btnContainer.appendChild(btn);
-  btn.addEventListener('click', () => {
-    item.action();
+  const btnContainer = document.createElement('div');
+  btnContainer.style.position = 'absolute';
+  const container = document.getElementById('container')!;
+  container.appendChild(btnContainer);
+  const tip = document.createElement('span');
+  tip.innerHTML = `👉 update:`;
+  btnContainer.appendChild(tip);
+  updateActions.forEach((item, i) => {
+    const btn = document.createElement('a');
+    btn.innerHTML = item.name;
+    btn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+    btn.style.padding = '4px';
+    btn.style.marginLeft = i > 0 ? '24px' : '8px';
+    btnContainer.appendChild(btn);
+    btn.addEventListener('click', () => {
+      item.action();
+    });
   });
 });
-
-window.graph = graph;

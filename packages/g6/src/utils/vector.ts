@@ -128,18 +128,25 @@ export function normalize(a: Vector2 | Vector3): Vector2 | Vector3 {
 }
 
 /**
- * <zh/> 计算两个向量间的夹角
+ * <zh/> 计算两个向量间的夹角，输出为锐角余弦值
  *
  * <en/> Get the angle between two vectors
  * @param a - <zh/> 第一个向量 | <en/> The first vector
  * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to calculate the angle in a clockwise direction
  * @returns  <zh/> 弧度值 | <en/> The angle in radians
  */
-export function angle(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
-  return Math.acos(
+export function angle(a: Vector2 | Vector3, b: Vector2 | Vector3, clockwise = false): number {
+  const determinant = a[0] * b[1] - a[1] * b[0];
+  let angle = Math.acos(
     (multiply(a, b) as number[]).reduce((sum: number, v: number) => sum + v, 0) /
       (distance(a, VECTOR_ZERO) * distance(b, VECTOR_ZERO)),
   );
+  // If clockwise is true and determinant is negative, adjust the angle
+  if (clockwise && determinant < 0) {
+    angle = 2 * Math.PI - angle;
+  }
+  return angle;
 }
 
 /**

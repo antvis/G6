@@ -63,12 +63,14 @@
     "@antv/graphlib": "^2.0.2",
     "@antv/hierarchy": "latest",
     "@antv/layout": "^1.2.14-beta.3",
-    "@antv/util": "^3.3.7"
+    "@antv/util": "^3.3.7",
+    "hull.js": "^1.0.5"
   },
   "devDependencies": {
     "@antv/g-svg": "^1.10.26",
     "@antv/layout-gpu": "^1.1.5",
     "@antv/layout-wasm": "^1.4.0",
+    "@types/hull.js": "^1.0.4",
     "@types/xmlserializer": "^0.6.6",
     "jest-canvas-mock": "^2.5.1",
     "jest-random-mock": "^1.0.0",
