@@ -2,6 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import type { FederatedMouseEvent } from '@antv/g';
 import { isEqual } from '@antv/util';
 import { CommonEvent } from '../constants';
+import { isEqualIgnoreOrder } from './array';
 
 export interface ShortcutOptions {}
 
@@ -36,6 +37,12 @@ export class Shortcut {
 
   public unbindAll() {
     this.map.clear();
+  }
+
+  public match(key: ShortcutKey) {
+    const recordKeyList = Array.from(this.recordKey).map((k) => k.toLocaleLowerCase());
+    const keyList = key.map((k) => k.toLocaleLowerCase());
+    return isEqualIgnoreOrder(recordKeyList, keyList);
   }
 
   private bindEvents() {
