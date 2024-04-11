@@ -5,10 +5,9 @@ import data from '@@/dataset/cluster.json';
 export const behaviorClickElement: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
-    data: data,
+    data,
     layout: {
       type: 'd3force',
-      linkDistance: 150,
     },
     node: {
       style: {
@@ -25,6 +24,8 @@ export const behaviorClickElement: TestCase = async (context) => {
     multiple: true,
     trigger: ['shift'],
     degree: 0,
+    selectedState: 'selected',
+    unselectedState: undefined,
   };
 
   const updateClickElementOption = (options: Partial<ClickElementOptions>) => {
