@@ -4,6 +4,7 @@ import {
   CreateEdge,
   DragCanvas,
   DragElement,
+  DragElementForce,
   FocusElement,
   HoverElement,
   ZoomCanvas,
@@ -31,6 +32,7 @@ import {
   CircularLayout,
   ComboCombinedLayout,
   ConcentricLayout,
+  D3Force3DLayout,
   D3ForceLayout,
   DagreLayout,
   ForceAtlas2Layout,
@@ -45,7 +47,7 @@ import {
   indented,
   mindmap,
 } from '../layouts';
-import { blues, greens, oranges, spectral } from '../palettes';
+import { blues, greens, oranges, spectral, tableau } from '../palettes';
 import { Contextmenu, GridLine, Hull, Legend, Toolbar, Tooltip, Watermark } from '../plugins';
 import { dark, light } from '../themes';
 import type { ExtensionRegistry } from './types';
@@ -64,6 +66,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'zoom-canvas': ZoomCanvas,
     'drag-canvas': DragCanvas,
     'drag-element': DragElement,
+    'drag-element-force': DragElementForce,
     'collapse-expand': CollapseExpand,
     'hover-element': HoverElement,
     'focus-element': FocusElement,
@@ -89,6 +92,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     circular: CircularLayout,
     concentric: ConcentricLayout,
     d3force: D3ForceLayout,
+    'd3-force-3d': D3Force3DLayout,
     dagre: DagreLayout,
     dendrogram,
     force: ForceLayout,
@@ -112,6 +116,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   },
   palette: {
     spectral,
+    tableau,
     oranges,
     greens,
     blues,

@@ -2,6 +2,7 @@ import type {
   AntVDagreLayoutOptions,
   CircularLayoutOptions,
   ConcentricLayoutOptions,
+  D3Force3DLayoutOptions,
   D3ForceLayoutOptions,
   DagreLayoutOptions,
   ForceAtlas2LayoutOptions,
@@ -19,6 +20,7 @@ export type BuiltInLayoutOptions =
   | CircularLayout
   | ConcentricLayout
   | D3ForceLayout
+  | D3Force3DLayout
   | DagreLayout
   | ForceAtlas2
   | ForceLayout
@@ -28,7 +30,7 @@ export type BuiltInLayoutOptions =
   | RadialLayout
   | RandomLayout;
 
-export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOptions, PresetLayoutOptions {
+export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOptions {
   type: string;
   /**
    * <zh/> 参与该布局的节点
@@ -73,6 +75,10 @@ interface D3ForceLayout extends BaseLayoutOptions, D3ForceLayoutOptions {
   type: 'd3force';
 }
 
+interface D3Force3DLayout extends BaseLayoutOptions, D3Force3DLayoutOptions {
+  type: 'd3force3d';
+}
+
 interface ForceLayout extends BaseLayoutOptions, ForceLayoutOptions {
   type: 'force' | 'gforce';
 }
@@ -87,10 +93,6 @@ interface AntVDagreLayout extends BaseLayoutOptions, AntVDagreLayoutOptions {
 
 interface DagreLayout extends BaseLayoutOptions, DagreLayoutOptions {
   type: 'dagre';
-}
-
-export interface PresetLayoutOptions {
-  presetLayout?: BaseLayoutOptions;
 }
 
 export interface AnimationOptions {

@@ -61,6 +61,8 @@ export * from './layout-dagre';
 export * from './layout-dendrogram-basic';
 export * from './layout-dendrogram-tb';
 export * from './layout-force';
+export * from './layout-force-collision';
+export * from './layout-force-lattice';
 export * from './layout-forceatlas2-wasm';
 export * from './layout-fruchterman-basic';
 export * from './layout-fruchterman-cluster';

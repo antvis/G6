@@ -1,24 +1,22 @@
 import type { IAnimation } from '@antv/g';
 import type { Edge as GraphlibEdge, Node as GraphlibNode } from '@antv/graphlib';
 import { Graph as Graphlib } from '@antv/graphlib';
-import type { ForceLayoutOptions, Layout, LayoutMapping } from '@antv/layout';
+import type { Layout, LayoutMapping } from '@antv/layout';
 import { Supervisor, isLayoutWithIterations } from '@antv/layout';
-import { isNumber } from '@antv/util';
+import { deepMix } from '@antv/util';
 import { COMBO_KEY, GraphEvent, TREE_KEY } from '../constants';
-import type { BaseLayoutOptions } from '../layouts/types';
 import { getExtension } from '../registry';
 import type { EdgeData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
-import type { NodeLikeData, PartialGraphData, Point, TreeData } from '../types';
+import type { PartialGraphData, TreeData } from '../types';
 import { getAnimation } from '../utils/animation';
 import { isVisible } from '../utils/element';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
-import { isComboLayout, isPositionSpecified, isTreeLayout } from '../utils/layout';
+import { isComboLayout, isTreeLayout } from '../utils/layout';
 import { parsePoint } from '../utils/point';
 import { parseSize } from '../utils/size';
 import { dfs } from '../utils/traverse';
-import { add } from '../utils/vector';
 import type { RuntimeContext } from './types';
 
 type LayoutGraphlibModel = Graphlib<Required<NodeData>['style'], Required<EdgeData>['style']>;
@@ -33,6 +31,8 @@ export class LayoutController {
   private supervisor?: Supervisor;
 
   private instance?: Layout<unknown>;
+
+  private instances: Layout<unknown>[] = [];
 
   private animationResult?: IAnimation | null;
 
@@ -51,45 +51,11 @@ export class LayoutController {
     this.context = context;
   }
 
-  /**
-   * <zh/> 初始化布局位置
-   *
-   * <en/> Initialize layout position
-   * @param model - <zh/> 布局数据 | <en/> Layout data
-   * @param options - <zh/> 预设布局配置项 | <en/> Preset layout options
-   * @returns <zh/> 布局结果 | <en/> Layout result
-   */
-  private async presetLayout(model: LayoutGraphlibModel, options?: BaseLayoutOptions) {
-    if (!options) return;
-    if (options.type) return this.stepLayout(model, options);
-
-    const positions = model.getAllNodes().reduce(
-      (nodes, node) => {
-        if (!isPositionSpecified(node.data)) {
-          // 如果没有指定位置，将节点放置到邻居节点的中心 / If the position is not specified, place the node in the center of the neighboring node
-          let p: Point = [0, 0, 0];
-          let count = 0;
-          model.getNeighbors(node.id).forEach((neighbor) => {
-            if (isPositionSpecified(neighbor.data)) {
-              const { x: nx, y: ny, z: nz = 0 } = neighbor.data;
-              p = add(p, [nx, ny, nz] as Point);
-              count++;
-            }
-          });
-          if (count) {
-            nodes.push({
-              id: node.id,
-              data: { x: p[0] / count, y: p[1] / count, z: p[2] / count },
-            });
-          }
-        }
-
-        return nodes;
-      },
-      [] as LayoutMapping['nodes'],
-    );
-
-    this.updateElementPosition({ nodes: positions, edges: [] }, false);
+  public getLayoutInstance(): Layout<unknown>[];
+  public getLayoutInstance(index: number): Layout<unknown>;
+  public getLayoutInstance(index?: number) {
+    if (index === undefined) return this.instances;
+    return this.instance;
   }
 
   public async layout() {
@@ -98,10 +64,9 @@ export class LayoutController {
     const { graph } = this.context;
     emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT));
     for (const options of pipeline) {
-      const { presetLayout } = options;
+      const index = pipeline.indexOf(options);
       const model = this.getLayoutDataModel(options);
-      await this.presetLayout(model, presetLayout);
-      const result = await this.stepLayout(model, { ...this.presetOptions, ...options });
+      const result = await this.stepLayout(model, { ...this.presetOptions, ...options }, index);
 
       if (!options.animation) {
         this.updateElementPosition(result, false);
@@ -110,16 +75,24 @@ export class LayoutController {
     emit(graph, new GraphLifeCycleEvent(GraphEvent.AFTER_LAYOUT));
   }
 
-  public async stepLayout(model: LayoutGraphlibModel, options: STDLayoutOptions): Promise<LayoutMapping> {
-    if (isTreeLayout(options)) return await this.treeLayout(model, options);
-    return await this.graphLayout(model, options);
+  public async stepLayout(
+    model: LayoutGraphlibModel,
+    options: STDLayoutOptions,
+    index: number,
+  ): Promise<LayoutMapping> {
+    if (isTreeLayout(options)) return await this.treeLayout(model, options, index);
+    return await this.graphLayout(model, options, index);
   }
 
-  private async graphLayout(model: LayoutGraphlibModel, options: STDLayoutOptions): Promise<LayoutMapping> {
-    // TODO iterations 考虑基于动画时长进行计算
+  private async graphLayout(
+    model: LayoutGraphlibModel,
+    options: STDLayoutOptions,
+    index: number,
+  ): Promise<LayoutMapping> {
     const { animation, enableWorker, iterations = 300 } = options;
 
     const layout = this.initGraphLayout(model, options);
+    this.instances[index] = layout;
     this.instance = layout;
 
     // 使用 web worker 执行布局 / Use web worker to execute layout
@@ -155,7 +128,11 @@ export class LayoutController {
     return layoutResult;
   }
 
-  private async treeLayout(model: LayoutGraphlibModel, options: STDLayoutOptions): Promise<LayoutMapping> {
+  private async treeLayout(
+    model: LayoutGraphlibModel,
+    options: STDLayoutOptions,
+    index: number,
+  ): Promise<LayoutMapping> {
     const { type, animation } = options;
     // @ts-expect-error @antv/hierarchy 布局格式与 @antv/layout 不一致，其导出的是一个方法，而非 class
     // The layout format of @antv/hierarchy is inconsistent with @antv/layout, it exports a method instead of a class
@@ -324,32 +301,23 @@ export class LayoutController {
 
     if (!Ctor) throw new Error(`The layout type ${type} is not found`);
 
-    const config = { nodeSize, width, height, center, ...restOptions };
+    const layout = new Ctor();
 
-    if (type === 'force') {
-      Object.assign(config, {
-        getMass: (node: GraphlibNode<Required<NodeLikeData>['style']>) => {
-          const { id } = node;
-          // 此处 node 是经过 converter 转化的 / Here node is converted
-          const { getMass } = options as ForceLayoutOptions;
-          // @ts-expect-error size is incompatible, but it's okay
-          if (getMass) return getMass(node);
-          const { mass } = node.data;
-          if (isNumber(mass)) return mass;
-          // 如果有预布局位置或者数据中指定了坐标，则质量为 10 / If there is a pre-layout position or the coordinates are specified in the data, the mass is 10
-          if (isPositionSpecified(model.getNode(id).data)) return 10;
-          if (isPositionSpecified(node.data)) return 10;
-          return 1;
-        },
-      });
-    } else if (type === 'dagre') {
-      Object.assign(config, {
-        // TODO 添加预设位置
-        preset: [],
-      });
+    const config = { nodeSize, width, height, center };
+
+    switch (layout.id) {
+      case 'd3-force':
+      case 'd3-force-3d':
+        Object.assign(config, {
+          center: { x: width / 2, y: height / 2, z: 0 },
+        });
+        break;
+      default:
+        break;
     }
 
-    return new Ctor(config);
+    deepMix(layout.options, config, restOptions);
+    return layout;
   }
 
   private updateElementPosition(layoutData: LayoutMapping, animation: boolean) {
@@ -385,6 +353,7 @@ export class LayoutController {
     this.supervisor?.kill();
     this.supervisor = undefined;
     this.instance = undefined;
+    this.instances = [];
     this.animationResult = undefined;
   }
 }
