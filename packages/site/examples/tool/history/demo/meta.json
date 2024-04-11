@@ -3,5 +3,14 @@
     "zh": "中文分类",
     "en": "Category"
   },
-  "demos": []
+  "demos": [
+    {
+      "filename": "default.ts",
+      "title": {
+        "zh": "撤销重做",
+        "en": "Redo/Undo"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r3dAQo-R3BoAAAAAAAAAAABkARQnAQ"
+    }
+  ]
 }

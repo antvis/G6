@@ -129,6 +129,9 @@ describe('animation', () => {
     expect(inferDefaultValue('z')).toBe(0);
     expect(inferDefaultValue('opacity')).toBe(1);
     expect(inferDefaultValue('stroke')).toBe(undefined);
+    expect(inferDefaultValue('visibility')).toBe('visible');
+    expect(inferDefaultValue('collapsed')).toBe(false);
+    expect(inferDefaultValue('states')).toEqual([]);
   });
 
   it('withAnimationCallbacks', async () => {
