@@ -10,6 +10,9 @@ export const layoutD3Force: TestCase = async (context) => {
     behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element', 'click-select'],
     layout: {
       type: 'd3force',
+      collide: {
+        strength: 0.5,
+      },
     },
     node: {
       style: {
