@@ -34,7 +34,8 @@ export class LassoSelect extends BrushSelect<LassoSelectOptions> {
   public pointerDown = async (event: IPointerEvent) => {
     if (!this.validate(event) || !this.isKeydown() || this.points) return;
     const { style, trigger } = this.options;
-    if (event.targetType !== 'canvas' && trigger === 'drag') return;
+    const triggers = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
+    if (event.targetType !== 'canvas' && triggers.includes('drag')) return;
 
     const { canvas } = this.context;
 
