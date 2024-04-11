@@ -88,44 +88,44 @@ describe('behavior brush select', () => {
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-5');
 
-    graph.setBehaviors([{ type: 'brush-select', mode: 'diff', trigger: 'drag' }]);
+    graph.setBehaviors([{ type: 'brush-select', mode: 'union', trigger: 'drag' }]);
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });
 
-    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-diff');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-mode-union');
 
     graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 400, y: 400 } });
 
-    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-diff');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-mode-union');
 
     graph.emit(`canvas:${CommonEvent.CLICK}`);
-    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-diff');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-mode-union');
 
-    graph.setBehaviors([{ type: 'brush-select', mode: 'union' }]);
+    graph.setBehaviors([{ type: 'brush-select', mode: 'diff' }]);
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });
 
-    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-union');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-mode-diff');
 
     graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 400, y: 400 } });
 
-    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-union');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-mode-diff');
 
     graph.emit(`canvas:${CommonEvent.CLICK}`);
-    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-union');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-mode-diff');
 
     graph.setBehaviors([{ type: 'brush-select', mode: 'intersect' }]);
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });
 
-    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-intersect');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-mode-intersect');
 
     graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 400, y: 400 } });
 
-    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-intersect');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-mode-intersect');
 
     graph.emit(`canvas:${CommonEvent.CLICK}`);
-    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-intersect');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-mode-intersect');
   });
 
   afterAll(() => {
