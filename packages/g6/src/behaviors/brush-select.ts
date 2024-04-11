@@ -10,12 +10,11 @@ import type { ID } from '@antv/graphlib';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
 import type { NodeStyle } from '../spec/element/node';
-import type { IPointerEvent, Point, Points, State } from '../types';
+import type { ElementTypes, IPointerEvent, Point, Points, State } from '../types';
+import type { ShortcutKey } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
 
 const SHOW_RECT_ID = 'g6-brush-select-rect-id';
-
-type ElementTypes = Array<'node' | 'edge' | 'combo'>;
 
 type SELECT_MODE = 'union' | 'intersect' | 'diff' | 'default';
 
@@ -45,7 +44,7 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
    *
    * <en/> Trigger click or drag.
    */
-  trigger?: string[] | string;
+  trigger?: ShortcutKey;
   /**
    * <zh/> 框选选中模式
    * union : 选中元素添加 state 状态
@@ -96,7 +95,7 @@ export const DEFAULT_STYLE = {
 export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> extends BaseBehavior<T> {
   static defaultOptions: Partial<BrushSelectOptions> = {
     enable: true,
-    trigger: 'drag',
+    trigger: ['drag'],
     immediately: false,
     state: 'selected',
     mode: 'default',
@@ -127,7 +126,8 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
   public pointerDown = async (event: IPointerEvent) => {
     if (!this.validate(event) || !this.isKeydown() || this.startPoint) return;
     const { style, trigger } = this.options;
-    if (event.targetType !== 'canvas' && trigger === 'drag') return;
+    const triggers = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
+    if (event.targetType !== 'canvas' && triggers.includes('drag')) return;
     const { canvas } = this.context;
 
     this.rectShape = new Rect({
