@@ -20,5 +20,16 @@ export const behaviorHoverElement: TestCase = async (context) => {
 
   await graph.render();
 
+  const config = {
+    degree: 0,
+  };
+
+  behaviorHoverElement.form = (panel) => [
+    panel
+      .add(config, 'degree', 0, 3, 1)
+      .name('Degree')
+      .onChange((degree: number) => graph.setBehaviors([{ type: 'hover-element', degree }])),
+  ];
+
   return graph;
 };
