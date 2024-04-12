@@ -105,14 +105,14 @@ describe('behavior brush select', () => {
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 400, y: 400 } });
 
-    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-mode-diff-');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-mode-diff');
 
     graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 400, y: 400 } });
 
-    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-mode-diff-');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selected-mode-diff');
 
     graph.emit(`canvas:${CommonEvent.CLICK}`);
-    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-mode-diff-');
+    await expect(graph).toMatchSnapshot(__filename, 'brush-clear-mode-diff');
 
     graph.setBehaviors([{ type: 'brush-select', mode: 'intersect' }]);
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
