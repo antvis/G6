@@ -2,6 +2,7 @@ import type { DisplayObject, FederatedPointerEvent, FederatedWheelEvent } from '
 import type { BaseBehavior } from '../behaviors/base-behavior';
 import { CanvasEvent, ContainerEvent } from '../constants';
 import { ExtensionController } from '../registry/extension';
+import type { ExtensionCategory } from '../registry/extension/types';
 import type { BehaviorOptions, CustomBehaviorOption } from '../spec/behavior';
 import type { Target } from '../types';
 import { eventTargetOf } from '../utils/event';
@@ -11,7 +12,7 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
   /** <zh/> 当前事件的目标 | <en/> The current event target */
   private currentTarget: Target | null = null;
 
-  public category: 'plugin' | 'behavior' = 'behavior';
+  public category: ExtensionCategory = 'behavior';
 
   constructor(context: RuntimeContext) {
     super(context);

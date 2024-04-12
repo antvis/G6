@@ -4,7 +4,7 @@ import type { RuntimeContext } from '../../runtime/types';
 import type { IEvent } from '../../types';
 import { arrayDiff } from '../../utils/diff';
 import { parseExtensions } from '../../utils/extension';
-import type { ExtensionOptions, LooselyExtensionOption, STDExtensionOption } from './types';
+import type { ExtensionCategory, ExtensionOptions, LooselyExtensionOption, STDExtensionOption } from './types';
 
 export abstract class ExtensionController<Extension extends BaseExtension<LooselyExtensionOption>> {
   protected context: RuntimeContext;
@@ -13,7 +13,7 @@ export abstract class ExtensionController<Extension extends BaseExtension<Loosel
 
   protected extensionMap: Record<string, Extension> = {};
 
-  public abstract category: 'plugin' | 'behavior';
+  public abstract category: ExtensionCategory;
 
   constructor(context: RuntimeContext) {
     this.context = context;

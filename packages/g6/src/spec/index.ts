@@ -8,4 +8,5 @@ export type { LayoutOptions } from './layout';
 export type { PluginOptions } from './plugin';
 export type { G6Spec } from './spec';
 export type { ThemeOptions } from './theme';
+export type { TransformOptions } from './transform';
 export type { ViewportOptions } from './viewport';

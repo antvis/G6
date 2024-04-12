@@ -53,6 +53,7 @@ import {
 import { blues, greens, oranges, spectral, tableau } from '../palettes';
 import { Contextmenu, GridLine, History, Hull, Legend, Toolbar, Tooltip, Watermark } from '../plugins';
 import { dark, light } from '../themes';
+import { ArrangeDrawOrder, CollapseExpandCombo, UpdateRelatedEdge } from '../transforms';
 import type { ExtensionRegistry } from './types';
 
 /**
@@ -140,5 +141,10 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     toolbar: Toolbar,
     legend: Legend,
     history: History,
+  },
+  transform: {
+    'update-related-edges': UpdateRelatedEdge,
+    'arrange-draw-order': ArrangeDrawOrder,
+    'collapse-expand-combo': CollapseExpandCombo,
   },
 };
