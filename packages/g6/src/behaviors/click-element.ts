@@ -4,7 +4,7 @@ import { CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
 import type { Element, ElementType, IPointerEvent, State } from '../types';
-import { getIds } from '../utils/id';
+import { idsOf } from '../utils/id';
 import { getElementNthDegreeIds } from '../utils/relation';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
@@ -125,7 +125,11 @@ export class ClickElement extends BaseBehavior<ClickElementOptions> {
       } else {
         const selectedElementIds = getElementNthDegreeIds(graph, targetType, target.id, this.options.degree);
         const isMultiple = this.options.multiple && this.shortcut.match(this.options.trigger);
-        this.selectedElementIds = isMultiple ? this.selectedElementIds.concat(selectedElementIds) : selectedElementIds;
+        if (!isMultiple) {
+          this.selectedElementIds = selectedElementIds;
+        } else {
+          this.selectedElementIds.push(...selectedElementIds);
+        }
       }
     }
     if (!this.selectedElementIds.length) return;
@@ -137,7 +141,7 @@ export class ClickElement extends BaseBehavior<ClickElementOptions> {
     }
 
     if (this.options.unselectedState) {
-      const inactiveIds = getIds(graph.getData()).filter((id) => !this.selectedElementIds.includes(id));
+      const inactiveIds = idsOf(graph.getData(), true).filter((id) => !this.selectedElementIds.includes(id));
       Object.assign(states, this.getElementsState(inactiveIds, this.options.unselectedState, add));
     }
 

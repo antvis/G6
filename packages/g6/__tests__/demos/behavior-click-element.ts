@@ -15,13 +15,13 @@ export const behaviorClickElement: TestCase = async (context) => {
       },
     },
     zoomRange: [0.5, 5],
-    behaviors: [{ type: 'click-element' }],
+    behaviors: [{ type: 'click-element', key: 'click-element' }, 'drag-element'],
   });
 
   await graph.render();
 
   const config = {
-    multiple: true,
+    multiple: false,
     trigger: ['shift'],
     degree: 0,
     selectedState: 'selected',
@@ -29,7 +29,7 @@ export const behaviorClickElement: TestCase = async (context) => {
   };
 
   const updateClickElementOption = (options: Partial<ClickElementOptions>) => {
-    graph.setBehaviors((prev) => [{ ...(prev[0] as ClickElementOptions), ...options }]);
+    graph.updateBehavior({ key: 'click-element', ...options });
     console.log(graph.getBehaviors());
   };
 
