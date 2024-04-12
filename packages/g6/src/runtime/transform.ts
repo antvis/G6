@@ -19,7 +19,7 @@ export class TransformController extends ExtensionController<BaseTransform<Custo
   }
 
   public setTransforms(transforms: TransformOptions) {
-    this.setExtensions(transforms.concat(REQUIRED_TRANSFORMS));
+    this.setExtensions([...transforms, ...REQUIRED_TRANSFORMS]);
   }
 
   public getTransformInstance(key?: string) {
