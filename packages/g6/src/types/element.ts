@@ -12,6 +12,8 @@ import type { Size } from './size';
 
 export type ElementType = 'node' | 'edge' | 'combo';
 
+export type ElementTypes = Array<ElementType>;
+
 export type ElementOptions = NodeOptions | EdgeOptions | ComboOptions;
 
 export type Node = BaseNode;
