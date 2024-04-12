@@ -1,9 +1,9 @@
-import type { FlowData, ProcedureData } from '../runtime/element';
 import type { ComboData } from '../spec';
 import type { ElementDatum, ElementType } from '../types';
 import { getSubgraphRelatedEdges } from '../utils/edge';
 import { idOf } from '../utils/id';
 import { BaseTransform } from './base-transform';
+import type { DrawData, ProcedureData } from './types';
 
 /**
  * <zh/> 处理元素的收起和展开
@@ -11,7 +11,7 @@ import { BaseTransform } from './base-transform';
  * <en/> Process the collapse and expand of elements
  */
 export class CollapseExpandCombo extends BaseTransform {
-  public beforeDraw(input: FlowData): FlowData {
+  public beforeDraw(input: DrawData): DrawData {
     const { model } = this.context;
     const { add, update } = input;
 

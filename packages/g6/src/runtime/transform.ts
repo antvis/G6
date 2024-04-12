@@ -1,5 +1,4 @@
 import { ExtensionController } from '../registry/extension';
-import type { ExtensionCategory } from '../registry/extension/types';
 import type { CustomTransformOption, TransformOptions } from '../spec/transform';
 import { BaseTransform } from '../transforms';
 import type { RuntimeContext } from './types';
@@ -11,7 +10,7 @@ export const REQUIRED_TRANSFORMS: TransformOptions = [
 ];
 
 export class TransformController extends ExtensionController<BaseTransform<CustomTransformOption>> {
-  public category: ExtensionCategory = 'transform';
+  public category = 'transform' as const;
 
   constructor(context: RuntimeContext) {
     super(context);

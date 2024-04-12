@@ -6,11 +6,12 @@ import type { ID } from '@antv/graphlib';
 import { groupBy, isEmpty } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
-import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
+import { AnimationType, ChangeType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry';
 import type { ComboData, EdgeData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
+import type { DrawData, ProcedureData } from '../transforms/types';
 import type {
   AnimatableTask,
   Combo,
@@ -373,7 +374,7 @@ export class ElementController {
       ComboAdded = [],
       ComboUpdated = [],
       ComboRemoved = [],
-    } = groupBy(tasks, (change) => change.type) as unknown as Record<`${ChangeTypeEnum}`, DataChange[]>;
+    } = groupBy(tasks, (change) => change.type) as unknown as Record<`${ChangeType}`, DataChange[]>;
 
     const dataOf = <T extends DataChange['value']>(data: DataChange[]) =>
       new Map(
@@ -383,7 +384,7 @@ export class ElementController {
         }),
       );
 
-    const input: FlowData = {
+    const input: DrawData = {
       add: {
         nodes: dataOf<NodeData>(NodeAdded),
         edges: dataOf<EdgeData>(EdgeAdded),
@@ -404,7 +405,7 @@ export class ElementController {
     return { dataChanges, drawData: this.transformData(input) };
   }
 
-  private transformData(input: FlowData) {
+  private transformData(input: DrawData): DrawData {
     const transforms = this.context.transform.getTransformInstance();
 
     return Object.values(transforms).reduce((data, transform) => transform.beforeDraw(data), input);
@@ -658,22 +659,3 @@ type DrawContext = {
   /** <zh/> 是否不抛出事件 | <en/> Whether not to throw events */
   silence?: boolean;
 };
-
-/**
- * <zh/> 在 Element Controller 中，为了提高查询性能，统一使用 Map 存储数据
- *
- * <en/> In Element Controller, in order to improve query performance, use Map to store data uniformly
- */
-export class ProcedureData {
-  nodes: Map<ID, NodeData> = new Map();
-  edges: Map<ID, EdgeData> = new Map();
-  combos: Map<ID, ComboData> = new Map();
-}
-
-export type FlowData = {
-  add: ProcedureData;
-  update: ProcedureData;
-  remove: ProcedureData;
-};
-
-type Flow = (input: FlowData) => FlowData;

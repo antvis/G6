@@ -1,5 +1,3 @@
-export type ExtensionCategory = 'plugin' | 'behavior' | 'transform';
-
 interface ExtensionMetaOptions {
   type: string;
   key: string;

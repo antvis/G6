@@ -3,7 +3,7 @@ export const ChangeEvent = {
   CHANGE: 'change',
 };
 
-export const enum ChangeTypeEnum {
+export const enum ChangeType {
   'NodeAdded' = 'NodeAdded',
   'NodeUpdated' = 'NodeUpdated',
   'NodeRemoved' = 'NodeRemoved',

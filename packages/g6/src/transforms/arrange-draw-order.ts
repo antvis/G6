@@ -1,8 +1,8 @@
 import type { ID } from '@antv/graphlib';
-import type { FlowData } from '../runtime/element';
 import type { ComboData } from '../spec';
 import { idOf } from '../utils/id';
 import { BaseTransform } from './base-transform';
+import type { DrawData } from './types';
 
 /**
  * <zh/> 调整元素绘制顺序
@@ -10,7 +10,7 @@ import { BaseTransform } from './base-transform';
  * <en/> Adjust the drawing order of elements
  */
 export class ArrangeDrawOrder extends BaseTransform {
-  public beforeDraw(input: FlowData): FlowData {
+  public beforeDraw(input: DrawData): DrawData {
     const { model } = this.context;
 
     const combosToAdd = input.add.combos;
