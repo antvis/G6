@@ -1,6 +1,7 @@
 import { comboCollapseExpand, fade, translate } from '../animations';
 import {
   BrushSelect,
+  ClickElement,
   CollapseExpand,
   CreateEdge,
   DragCanvas,
@@ -70,6 +71,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'drag-element': DragElement,
     'drag-element-force': DragElementForce,
     'collapse-expand': CollapseExpand,
+    'click-element': ClickElement,
     'hover-element': HoverElement,
     'focus-element': FocusElement,
     'create-edge': CreateEdge,

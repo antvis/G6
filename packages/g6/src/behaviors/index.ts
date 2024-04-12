@@ -1,5 +1,6 @@
 export { BaseBehavior } from './base-behavior';
 export { BrushSelect } from './brush-select';
+export { ClickElement } from './click-element';
 export { CollapseExpand } from './collapse-expand';
 export { CreateEdge } from './create-edge';
 export { DragCanvas } from './drag-canvas';
@@ -12,6 +13,7 @@ export { ZoomCanvas } from './zoom-canvas';
 
 export type { BaseBehaviorOptions } from './base-behavior';
 export type { BrushSelectOptions } from './brush-select';
+export type { ClickElementOptions } from './click-element';
 export type { CollapseExpandOptions } from './collapse-expand';
 export type { CreateEdgeOptions } from './create-edge';
 export type { DragCanvasOptions } from './drag-canvas';
