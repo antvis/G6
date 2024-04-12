@@ -1,8 +1,8 @@
-import { getPositionByRectPoints } from '../position';
+import { isPointInPolygon } from '../point';
 
 import type { ID } from '@antv/graphlib';
 import type { Graph } from '../../runtime/graph';
-import type { Points } from '../../types';
+import type { Point, Points } from '../../types';
 
 /**
  * <zh/> 元素中心是否在 rect 中
@@ -13,10 +13,17 @@ import type { Points } from '../../types';
  * @param points Points
  * @returns boolean
  */
-export const isBBoxCenterInRect = (graph: Graph, id: ID, points: Points) => {
-  const { left, right, top, bottom } = getPositionByRectPoints(points);
-
+export function isBBoxCenterInRect(graph: Graph, id: ID, points: Points) {
   const bbox = graph.getElementRenderBounds(id);
   if (!bbox) return false;
-  return bbox.center[0] >= left && bbox.center[0] <= right && bbox.center[1] >= top && bbox.center[1] <= bottom;
-};
+  return isPointInPolygon(bbox.center, points);
+}
+
+/**
+ *
+ * @param start
+ * @param end
+ */
+export function getRectPoints(start: Point, end: Point): Points {
+  return [start, [start[0], end[1]], end, [end[0], start[1]]];
+}

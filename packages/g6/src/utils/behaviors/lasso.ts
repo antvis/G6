@@ -1,9 +1,11 @@
 import { AABB } from '@antv/g';
-import { isBetween } from '../math';
+import { getLinesIntersection } from '../line';
+import { isPointInPolygon } from '../point';
 
 import type { ID } from '@antv/graphlib';
 import type { Graph } from '../../runtime/graph';
-import type { Point, Points } from '../../types';
+import type { Points } from '../../types';
+import type { LineSegment } from '../line';
 
 /**
  * <zh/> 元素中心是否在 path 中
@@ -76,7 +78,7 @@ const isPolygonsIntersect = (points1: Points, points2: Points): boolean => {
   let isIn = false;
   // 判定点是否在多边形内部，一旦有一个点在另一个多边形内，则返回
   points2.forEach((point) => {
-    if (isPointInPolygon(points1, point)) {
+    if (isPointInPolygon(point, points1)) {
       isIn = true;
       return false;
     }
@@ -85,7 +87,7 @@ const isPolygonsIntersect = (points1: Points, points2: Points): boolean => {
     return true;
   }
   points1.forEach((point) => {
-    if (isPointInPolygon(points2, point)) {
+    if (isPointInPolygon(point, points2)) {
       isIn = true;
       return false;
     }
@@ -113,108 +115,13 @@ const intersectBBox = (box1: Partial<AABB>, box2: Partial<AABB>) => {
   );
 };
 
-/**
- * <zh/> 点是否在多边形内.
- *
- * <en/> Whether the point is inside the polygon.
- * @param points Points
- * @param point Point
- * @returns boolean
- */
-const isPointInPolygon = (points: Points, point: Point): boolean => {
-  let isHit = false;
-  const n = points.length;
-  const [x, y] = point;
-  // 判断两个double在eps精度下的大小关系
-  const tolerance = 1e-6;
-
-  /**
-   *
-   * @param xValue
-   */
-  function dcmp(xValue: number) {
-    if (Math.abs(xValue) < tolerance) {
-      return 0;
-    }
-    return xValue < 0 ? -1 : 1;
-  }
-  if (n <= 2) {
-    // svg 中点小于 3 个时，不显示，也无法被拾取
-    return false;
-  }
-  for (let i = 0; i < n; i++) {
-    const p1 = points[i];
-    const p2 = points[(i + 1) % n];
-    if (onSegment(p1, p2, point)) {
-      // 点在多边形一条边上
-      return true;
-    }
-    // 前一个判断min(p1[1],p2[1])<P.y<=max(p1[1],p2[1])
-    // 后一个判断被测点 在 射线与边交点 的左边
-    if (
-      dcmp(p1[1] - y) > 0 !== dcmp(p2[1] - y) > 0 &&
-      dcmp(x - ((y - p1[1]) * (p1[0] - p2[0])) / (p1[1] - p2[1]) - p1[0]) < 0
-    ) {
-      isHit = !isHit;
-    }
-  }
-  return isHit;
-};
-
-const onSegment = (p1: Point, p2: Point, q: Point) => {
-  if (
-    (q[0] - p1[0]) * (p2[1] - p1[1]) === (p2[0] - p1[0]) * (q[1] - p1[1]) &&
-    Math.min(p1[0], p2[0]) <= q[0] &&
-    q[0] <= Math.max(p1[0], p2[0]) &&
-    Math.min(p1[1], p2[1]) <= q[1] &&
-    q[1] <= Math.max(p1[1], p2[1])
-  ) {
-    return true;
-  }
-  return false;
-};
-
 const lineIntersectPolygon = (lines: Points[], line: Points) => {
   let isIntersect = false;
   lines.forEach((l) => {
-    if (getLinesIntersect(l, line)) {
+    if (l.length > 1 && line.length > 1 && getLinesIntersection(l as LineSegment, line as LineSegment)) {
       isIntersect = true;
       return false;
     }
   });
   return isIntersect;
-};
-
-/**
- * <zh/> 获取两线相交的点.
- *
- * <en/> Get lines Intersect point.
- * @param line1Points Points
- * @param line2Points Points
- * @returns Point
- */
-export const getLinesIntersect = (line1Points: Points, line2Points: Points): Point | boolean => {
-  const tolerance = 0.0001;
-
-  const [p0, p1] = line1Points;
-  const [p2, p3] = line2Points;
-
-  const E: Point = [p2[0] - p0[0], p2[1] - p0[1]];
-
-  const D0: Point = [p1[0] - p0[0], p1[1] - p0[1]];
-
-  const D1: Point = [p3[0] - p2[0], p3[1] - p2[1]];
-
-  const kross: number = D0[0] * D1[1] - D0[1] * D1[0];
-  const sqrKross: number = kross * kross;
-  const invertKross: number = 1 / kross;
-  const sqrLen0: number = D0[0] * D0[0] + D0[1] * D0[1];
-  const sqrLen1: number = D1[0] * D1[0] + D1[1] * D1[1];
-  if (sqrKross > tolerance * sqrLen0 * sqrLen1) {
-    const s = (E[0] * D1[1] - E[1] * D1[0]) * invertKross;
-    const t = (E[0] * D0[1] - E[1] * D0[0]) * invertKross;
-    if (!isBetween(s, 0, 1) || !isBetween(t, 0, 1)) return false;
-    return [p0[0] + s * D0[0], p0[1] + s * D0[1]];
-  }
-  return false;
 };

@@ -1,7 +1,7 @@
 import { Rect } from '@antv/g';
 import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
-import { isBBoxCenterInRect } from '../utils/behaviors/brush';
+import { getRectPoints, isBBoxCenterInRect } from '../utils/behaviors/brush';
 import { getAllElementState, transformEdgeState } from '../utils/behaviors/utils';
 import { Shortcut } from '../utils/shortcut';
 import { BaseBehavior } from './base-behavior';
@@ -159,7 +159,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
     });
 
     if (immediately && mode === 'default') {
-      this.updateElementState([this.startPoint, this.endPoint]);
+      this.updateElementState(getRectPoints(this.startPoint, this.endPoint));
     }
   };
 
@@ -170,7 +170,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
       return;
     }
 
-    const points = [this.startPoint, [event.canvas.x, event.canvas.y]] as Points;
+    const points = getRectPoints(this.startPoint, [event.canvas.x, event.canvas.y]);
     this.updateElementState(points);
 
     await this.clearBrush();
