@@ -1,5 +1,6 @@
 import { comboCollapseExpand, fade, translate } from '../animations';
 import {
+  BrushSelect,
   ClickElement,
   CollapseExpand,
   CreateEdge,
@@ -8,6 +9,7 @@ import {
   DragElementForce,
   FocusElement,
   HoverElement,
+  LassoSelect,
   ZoomCanvas,
 } from '../behaviors';
 import {
@@ -49,7 +51,7 @@ import {
   mindmap,
 } from '../layouts';
 import { blues, greens, oranges, spectral, tableau } from '../palettes';
-import { Contextmenu, GridLine, Legend, Toolbar, Tooltip, Watermark } from '../plugins';
+import { Contextmenu, GridLine, History, Hull, Legend, Toolbar, Tooltip, Watermark } from '../plugins';
 import { dark, light } from '../themes';
 import type { ExtensionRegistry } from './types';
 
@@ -73,6 +75,8 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'hover-element': HoverElement,
     'focus-element': FocusElement,
     'create-edge': CreateEdge,
+    'brush-select': BrushSelect,
+    'lasso-select': LassoSelect,
   },
   combo: {
     circle: CircleCombo,
@@ -128,11 +132,13 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     light,
   },
   plugin: {
+    hull: Hull,
     'grid-line': GridLine,
     watermark: Watermark,
     tooltip: Tooltip,
     contextmenu: Contextmenu,
     toolbar: Toolbar,
     legend: Legend,
+    history: History,
   },
 };

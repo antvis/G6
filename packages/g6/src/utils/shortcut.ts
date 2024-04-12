@@ -1,14 +1,15 @@
 import EventEmitter from '@antv/event-emitter';
 import type { FederatedMouseEvent } from '@antv/g';
-import { isEqual } from '@antv/util';
+import { isEqual, isString } from '@antv/util';
 import { CommonEvent } from '../constants';
-import { isEqualIgnoreOrder } from './array';
 
 export interface ShortcutOptions {}
 
 export type ShortcutKey = string[];
 
 type Handler = (event: any) => void;
+
+const lowerCaseKeys = (keys: ShortcutKey) => keys.map((key) => (isString(key) ? key.toLocaleLowerCase() : key));
 
 export class Shortcut {
   private map: Map<ShortcutKey, Handler> = new Map();
@@ -40,9 +41,10 @@ export class Shortcut {
   }
 
   public match(key: ShortcutKey) {
-    const recordKeyList = Array.from(this.recordKey).map((k) => k.toLocaleLowerCase());
-    const keyList = key.map((k) => k.toLocaleLowerCase());
-    return isEqualIgnoreOrder(recordKeyList, keyList);
+    // 排序
+    const recordKeyList = lowerCaseKeys(Array.from(this.recordKey)).sort();
+    const keyList = lowerCaseKeys(key).sort();
+    return isEqual(recordKeyList, keyList);
   }
 
   private bindEvents() {
@@ -55,17 +57,19 @@ export class Shortcut {
   }
 
   private onKeyDown = (event: KeyboardEvent) => {
+    if (!event?.key) return;
     this.recordKey.add(event.key);
     this.trigger(event);
   };
 
   private onKeyUp = (event: KeyboardEvent) => {
+    if (!event?.key) return;
     this.recordKey.delete(event.key);
   };
 
   private trigger(event: KeyboardEvent) {
     this.map.forEach((handler, key) => {
-      if (isEqual(Array.from(this.recordKey), key)) handler(event);
+      if (this.match(key)) handler(event);
     });
   }
 

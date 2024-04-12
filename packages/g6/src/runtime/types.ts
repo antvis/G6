@@ -1,4 +1,5 @@
 import type { G6Spec } from '../spec';
+import type { BatchController } from './batch';
 import type { BehaviorController } from './behavior';
 import type { Canvas } from './canvas';
 import type { DataController } from './data';
@@ -67,4 +68,10 @@ export interface RuntimeContext {
    * <en/> Plugin controller
    */
   plugin?: PluginController;
+  /**
+   * <zh/> 批量操作控制器
+   *
+   * <en/> Batch operation controller
+   */
+  batch?: BatchController;
 }

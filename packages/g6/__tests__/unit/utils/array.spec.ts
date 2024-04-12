@@ -1,4 +1,4 @@
-import { deduplicate, isEqualIgnoreOrder } from '@/src/utils/array';
+import { deduplicate } from '@/src/utils/array';
 
 describe('array', () => {
   it('deduplicate', () => {
@@ -10,11 +10,5 @@ describe('array', () => {
         (item) => item.id,
       ),
     ).toEqual(expect.arrayContaining([{ id: 'node-1', data: { value: 1 } }, { id: 'node-2' }]));
-  });
-
-  it('isEqualIgnoreOrder', () => {
-    expect(isEqualIgnoreOrder([1, 2, 3], [1, 2, 3])).toEqual(true);
-    expect(isEqualIgnoreOrder([1, 2, 3], [1, 3, 2])).toEqual(true);
-    expect(isEqualIgnoreOrder([1, 2, 3], [1, 2])).toEqual(false);
   });
 });

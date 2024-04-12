@@ -1,4 +1,5 @@
 export { BaseBehavior } from './base-behavior';
+export { BrushSelect } from './brush-select';
 export { ClickElement } from './click-element';
 export { CollapseExpand } from './collapse-expand';
 export { CreateEdge } from './create-edge';
@@ -7,9 +8,11 @@ export { DragElement } from './drag-element';
 export { DragElementForce } from './drag-element-force';
 export { FocusElement } from './focus-element';
 export { HoverElement } from './hover-element';
+export { LassoSelect } from './lasso-select';
 export { ZoomCanvas } from './zoom-canvas';
 
 export type { BaseBehaviorOptions } from './base-behavior';
+export type { BrushSelectOptions } from './brush-select';
 export type { ClickElementOptions } from './click-element';
 export type { CollapseExpandOptions } from './collapse-expand';
 export type { CreateEdgeOptions } from './create-edge';
@@ -18,4 +21,5 @@ export type { DragElementOptions } from './drag-element';
 export type { DragElementForceOptions } from './drag-element-force';
 export type { FocusElementOptions } from './focus-element';
 export type { HoverElementOptions } from './hover-element';
+export type { LassoSelectOptions } from './lasso-select';
 export type { ZoomCanvasOptions } from './zoom-canvas';

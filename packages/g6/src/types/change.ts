@@ -62,3 +62,21 @@ export type ComboRemoved = {
   type: Loosen<ChangeTypeEnum.ComboRemoved>;
   value: ComboData;
 };
+
+export type DataChanges = {
+  add: {
+    nodes: NodeAdded[];
+    edges: EdgeAdded[];
+    combos: ComboAdded[];
+  };
+  update: {
+    nodes: NodeUpdated[];
+    edges: EdgeUpdated[];
+    combos: ComboUpdated[];
+  };
+  remove: {
+    nodes: NodeRemoved[];
+    edges: EdgeRemoved[];
+    combos: ComboRemoved[];
+  };
+};

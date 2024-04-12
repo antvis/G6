@@ -31,6 +31,6 @@ export abstract class Polygon extends BaseNode<PolygonStyleProps> {
   public getIntersectPoint(point: Point): Point {
     const { points } = this.getKeyStyle(this.parsedAttributes as ParsedPolygonStyleProps);
     const center: Point = [+(this.attributes?.x || 0), +(this.attributes?.y || 0)];
-    return getPolygonIntersectPoint(point, center, points!);
+    return getPolygonIntersectPoint(point, center, points!).point;
   }
 }
