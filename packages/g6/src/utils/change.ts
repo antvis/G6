@@ -1,5 +1,7 @@
 import type { ID } from '@antv/graphlib';
-import type { DataAdded, DataChange, DataRemoved, DataUpdated } from '../types';
+import { groupBy } from '@antv/util';
+import { ChangeTypeEnum } from '../constants';
+import type { DataAdded, DataChange, DataChanges, DataRemoved, DataUpdated } from '../types';
 import { idOf } from './id';
 
 /**
@@ -53,4 +55,43 @@ export function reduceDataChanges(changes: DataChange[]): DataChange[] {
     ...Array.from(results.Updated.values()),
     ...Array.from(results.Removed.values()),
   ];
+}
+
+/**
+ * <zh/> 对数据操作进行分类
+ *
+ * <en/> Classify data changes
+ * @param changes - <zh/> 数据操作 | <en/> data changes
+ * @returns <zh/> 分类后的数据操作 | <en/> classified data changes
+ */
+export function groupByChangeType(changes: DataChange[]): DataChanges {
+  const {
+    NodeAdded = [],
+    NodeUpdated = [],
+    NodeRemoved = [],
+    EdgeAdded = [],
+    EdgeUpdated = [],
+    EdgeRemoved = [],
+    ComboAdded = [],
+    ComboUpdated = [],
+    ComboRemoved = [],
+  } = groupBy(changes, (change) => change.type) as unknown as Record<`${ChangeTypeEnum}`, DataChange[]>;
+
+  return {
+    add: {
+      nodes: NodeAdded,
+      edges: EdgeAdded,
+      combos: ComboAdded,
+    },
+    update: {
+      nodes: NodeUpdated,
+      edges: EdgeUpdated,
+      combos: ComboUpdated,
+    },
+    remove: {
+      nodes: NodeRemoved,
+      edges: EdgeRemoved,
+      combos: ComboRemoved,
+    },
+  } as DataChanges;
 }

@@ -156,6 +156,12 @@ export function inferDefaultValue(name: string) {
     case 'z':
     case 'zIndex':
       return 0;
+    case 'visibility':
+      return 'visible';
+    case 'collapsed':
+      return false;
+    case 'states':
+      return [];
     default:
       return undefined;
   }

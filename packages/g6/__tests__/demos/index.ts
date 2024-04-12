@@ -86,6 +86,8 @@ export * from './layout-radial-sort';
 export * from './plugin-camera-setting';
 export * from './plugin-contextmenu';
 export * from './plugin-grid-line';
+export * from './plugin-history';
+export * from './plugin-hull';
 export * from './plugin-legend';
 export * from './plugin-toolbar-build-in';
 export * from './plugin-toolbar-iconfont';

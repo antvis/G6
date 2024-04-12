@@ -326,9 +326,9 @@ export class ElementController {
   public async draw(drawContext: DrawContext = { animation: true }) {
     this.init();
 
-    const drawData = this.computeDrawData();
-    if (!drawData) return;
-
+    const data = this.computeChangesAndDrawData();
+    if (!data) return;
+    const { dataChanges, drawData } = data;
     // 计算样式 / Calculate style
     this.computeStyle();
 
@@ -343,20 +343,26 @@ export class ElementController {
       drawContext.silence
         ? {}
         : {
-            before: () => this.emit(new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW)),
+            before: () =>
+              this.emit(
+                new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation: drawContext.animation }),
+              ),
             beforeAnimate: (animation) =>
               this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, drawData)),
             afterAnimate: (animation) =>
               this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData)),
-            after: () => this.emit(new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW)),
+            after: () =>
+              this.emit(
+                new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation: drawContext.animation }),
+              ),
           },
     )?.finished;
   }
 
-  private computeDrawData() {
+  private computeChangesAndDrawData() {
     const { model } = this.context;
-
-    const tasks = reduceDataChanges(model.getChanges());
+    const dataChanges = model.getChanges();
+    const tasks = reduceDataChanges(dataChanges);
     if (tasks.length === 0) return null;
 
     const {
@@ -399,7 +405,8 @@ export class ElementController {
 
     const flows: Flow[] = [this.updateRelatedEdgeFlow, this.arrangeDrawOrderFlow, this.collapseExpandFlow];
     const output = flows.reduce((data, flow) => flow(data), input);
-    return output;
+
+    return { dataChanges, drawData: output };
   }
 
   /**

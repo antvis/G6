@@ -235,7 +235,12 @@ export function getPolylinePath(points: Point[], radius = 0, z = false): PathArr
  * @param radius - <zh/> 圆角半径 | <en/> Radius of the rounded corner
  * @returns <zh/> 返回控制点 | <en/> Returns control points
  */
-function getBorderRadiusPoints(prevPoint: Point, midPoint: Point, nextPoint: Point, radius: number): [Point, Point] {
+export function getBorderRadiusPoints(
+  prevPoint: Point,
+  midPoint: Point,
+  nextPoint: Point,
+  radius: number,
+): [Point, Point] {
   const d0 = manhattanDistance(prevPoint, midPoint);
   const d1 = manhattanDistance(nextPoint, midPoint);
   // 取给定的半径和最小半径之间的较小值 | use the smaller value between the given radius and the minimum radius

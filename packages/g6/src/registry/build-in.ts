@@ -50,7 +50,7 @@ import {
   mindmap,
 } from '../layouts';
 import { blues, greens, oranges, spectral, tableau } from '../palettes';
-import { Contextmenu, GridLine, Legend, Toolbar, Tooltip, Watermark } from '../plugins';
+import { Contextmenu, GridLine, History, Hull, Legend, Toolbar, Tooltip, Watermark } from '../plugins';
 import { dark, light } from '../themes';
 import type { ExtensionRegistry } from './types';
 
@@ -130,11 +130,13 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     light,
   },
   plugin: {
+    hull: Hull,
     'grid-line': GridLine,
     watermark: Watermark,
     tooltip: Tooltip,
     contextmenu: Contextmenu,
     toolbar: Toolbar,
     legend: Legend,
+    history: History,
   },
 };
