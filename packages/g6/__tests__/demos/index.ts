@@ -96,4 +96,5 @@ export * from './plugin-tooltip';
 export * from './plugin-watermark';
 export * from './plugin-watermark-image';
 export * from './theme';
+export * from './transform-process-parallel-edges';
 export * from './viewport-fit';
