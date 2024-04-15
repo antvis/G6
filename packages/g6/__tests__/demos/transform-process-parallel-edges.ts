@@ -4,7 +4,7 @@ import data from '@@/dataset/parallel-edges.json';
 export const transformProcessParallelEdges: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
-    data: data,
+    data,
     node: { style: { labelText: (d) => d.id } },
     behaviors: [
       'drag-element',
@@ -21,6 +21,7 @@ export const transformProcessParallelEdges: TestCase = async (context) => {
         mode: 'merge',
         style: {
           lineDash: [2, 2],
+          lineWidth: 3,
         },
       },
     ],
@@ -38,7 +39,8 @@ export const transformProcessParallelEdges: TestCase = async (context) => {
       .name('Mode')
       .onChange((mode: string) => {
         graph.updateTransform({ key: 'process-parallel-edges', mode });
-        graph.setData(data);
+        graph.removeEdgeData(data.edges.map((edge) => edge.id));
+        graph.addEdgeData(data.edges);
         graph.render();
       }),
     panel

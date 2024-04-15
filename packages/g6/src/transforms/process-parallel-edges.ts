@@ -1,6 +1,6 @@
 import type { PathStyleProps } from '@antv/g';
 import type { ID } from '@antv/graphlib';
-import { deepMix, isEmpty } from '@antv/util';
+import { deepMix, isBoolean, isEmpty } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
 import type { ElementDatum, ElementType, LoopPlacement, NodeLikeData } from '../types';
@@ -184,15 +184,34 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
     reassignTo: (type: 'add' | 'update' | 'remove', elementType: ElementType, datum: ElementDatum) => void,
     edges: Map<ID, EdgeData>,
   ) => {
-    const { edgeMap } = groupByEndpoints(edges);
+    const { edgeMap, reverses } = groupByEndpoints(edges);
 
     edgeMap.forEach((edges) => {
-      edges.forEach((edge, i, edgeArr) => {
+      if (edges.length === 1) {
+        const edge = edges[0];
+        const element = this.context.element?.getElement(idOf(edge));
+        reassignTo(element ? 'update' : 'add', 'edge', edge);
+        return;
+      }
+
+      const mergedStyle = edges
+        .map(({ source, target, style = {} }, i) => {
+          const { startArrow, endArrow } = style;
+          const newStyle: EdgeData['style'] = {};
+          const [start, end] = reverses[`${source}|${target}|${i}`]
+            ? ['endArrow', 'startArrow']
+            : ['startArrow', 'endArrow'];
+          if (isBoolean(startArrow)) newStyle[start] = startArrow;
+          if (isBoolean(endArrow)) newStyle[end] = endArrow;
+          return newStyle;
+        })
+        .reduce((acc, style) => ({ ...acc, ...style }), {});
+
+      edges.forEach((edge, i) => {
         if (i === 0) {
-          const mergedEdgeData = deepMix({}, ...edgeArr, edge, edgeArr.length > 1 && { style: this.options.style });
+          const mergedEdgeData = { ...edge, style: { ...mergedStyle, ...this.options.style } };
           const element = this.context.element?.getElement(idOf(edge));
-          if (element) reassignTo('update', 'edge', mergedEdgeData);
-          else reassignTo('add', 'edge', mergedEdgeData);
+          reassignTo(element ? 'update' : 'add', 'edge', mergedEdgeData);
         } else {
           reassignTo('remove', 'edge', edge);
         }

@@ -15,18 +15,16 @@ describe('transform-process-parallel-edges', () => {
     graph.destroy();
   });
 
-  it('Remove Purple Edge in merge mode', async () => {
-    await expect(graph).toMatchSnapshot(__filename, 'merge-remove-purple-edge__before');
-    graph.removeEdgeData(['edge1', 'loop1']);
+  it('mode', async () => {
+    await expect(graph).toMatchSnapshot(__filename, 'merge-mode');
+    graph.updateTransform({ key: 'process-parallel-edges', mode: 'bundle' });
+    graph.removeEdgeData(data.edges.map((edge) => edge.id));
+    graph.addEdgeData(data.edges);
     graph.render();
-    await expect(graph).toMatchSnapshot(__filename, 'merge-remove-purple-edge__after');
+    await expect(graph).toMatchSnapshot(__filename, 'bundle-mode');
   });
 
   it('Add Orange Edge in bundle mode', async () => {
-    graph.updateTransform({ key: 'process-parallel-edges', mode: 'bundle' });
-    graph.setData(data);
-    graph.render();
-
     await expect(graph).toMatchSnapshot(__filename, 'bundle-add-orange-edge__before');
     graph.addEdgeData([
       {
