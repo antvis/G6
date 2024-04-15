@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "multiEdges.js",
+      "filename": "multiEdges.ts",
       "title": {
         "zh": "两节点间存在多条边",
         "en": "Multiple Edges Between 2 Nodes"
