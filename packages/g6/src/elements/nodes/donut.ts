@@ -1,6 +1,5 @@
 import { Path } from '@antv/g';
 import { deepMix, get, isNumber } from '@antv/util';
-import { NODE_PALETTE_OPTIONS } from '../../themes/base';
 import { subStyleProps } from '../../utils/prefix';
 import { Circle } from './circle';
 
@@ -14,7 +13,7 @@ type Round = {
    *
    * <en/> Id.
    */
-  id: ID;
+  id?: ID;
   /**
    * <zh/> 内径 [0, 1].
    *
@@ -43,7 +42,8 @@ type Round = {
 
 export interface DonutStyleProps extends CircleStyleProps {
   innerRadius?: number;
-  donuts?: Round[];
+  donuts?: Array<Round | number>[];
+  palette?: string[];
 }
 
 export class Donut extends Circle {
@@ -60,29 +60,28 @@ export class Donut extends Circle {
     const { donuts, innerRadius, size } = attributes;
 
     if (!isNumber(size) || size === 0 || !donuts?.length) return;
-    const colors = get(NODE_PALETTE_OPTIONS, ['color']);
-    const style = subStyleProps(this.getGraphicStyle(attributes), 'donut');
+    const { palette, ...style } = subStyleProps<Required<DonutStyleProps>>(this.getGraphicStyle(attributes), 'donut');
 
     // 总值
     let sum = 0;
     // 起点角度
     let angelStart = 0;
 
-    donuts.forEach(({ value = 0 }) => (sum += value));
+    donuts.forEach((round) => (sum += isNumber(round) ? round : get(round, ['value'], 0)));
 
     donuts.forEach((round, index) => {
       const {
         value = 0,
-        color = colors[index % colors.length],
-        innerRadius: roundInnerRadius,
-        id,
+        color = palette[index % palette.length],
+        innerRadius: roundInnerRadius = innerRadius,
+        id = `round${index}`,
         ...roundStyle
-      } = round;
+      } = (isNumber(round) ? { value: round } : round) as Round;
 
       const r = size / 2;
 
       // 内径
-      const radiusR = r * Math.max(0, Math.min(1, (isNumber(roundInnerRadius) ? roundInnerRadius : innerRadius) || 0));
+      const radiusR = r * Math.max(0, Math.min(1, Number(roundInnerRadius) || 0));
 
       // 比例
       const ratio = sum === 0 ? 1 / donuts.length : value / sum;

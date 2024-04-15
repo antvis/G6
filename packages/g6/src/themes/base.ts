@@ -4,10 +4,23 @@ import type { Theme } from './types';
 
 const BADGE_PALETTE: CategoricalPalette = ['#7E92B5', '#f5222d', '#faad14'];
 
-export const NODE_PALETTE_OPTIONS: PaletteOptions = {
+const NODE_PALETTE_OPTIONS: PaletteOptions = {
   type: 'group',
   color: ['#1783FF', '#00C9C9', '#F08F56', '#D580FF', '#7863FF', '#DB9D0D', '#60C42D', '#FF80CA', '#2491B3', '#17C76F'],
 };
+
+const DONUT_PALETTE_OPTIONS = [
+  '#1783FF',
+  '#00C9C9',
+  '#F08F56',
+  '#D580FF',
+  '#7863FF',
+  '#DB9D0D',
+  '#60C42D',
+  '#FF80CA',
+  '#2491B3',
+  '#17C76F',
+];
 
 const EDGE_PALETTE_OPTIONS: PaletteOptions = {
   type: 'group',
@@ -34,6 +47,7 @@ type ThemeTokens = {
   nodeStroke: string;
   nodeBadgePalette?: string[];
   nodePaletteOptions?: PaletteOptions;
+  donutPaletteOptions?: PaletteOptions;
   edgeColor: string;
   edgeColorDisabled: string;
   edgePaletteOptions?: PaletteOptions;
@@ -59,6 +73,7 @@ export function create(tokens: ThemeTokens): Theme {
     nodeStroke,
     nodeBadgePalette = BADGE_PALETTE,
     nodePaletteOptions = NODE_PALETTE_OPTIONS,
+    donutPaletteOptions = DONUT_PALETTE_OPTIONS,
     edgeColor,
     edgeColorDisabled,
     edgePaletteOptions = EDGE_PALETTE_OPTIONS,
@@ -77,6 +92,7 @@ export function create(tokens: ThemeTokens): Theme {
         badgeFontSize: 8,
         badgePadding: [1, 4],
         badgePalette: nodeBadgePalette,
+        donutPalette: donutPaletteOptions,
         color: nodeColor,
         halo: false,
         haloLineWidth: 12,

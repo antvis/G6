@@ -44,17 +44,14 @@ const graph = new Graph({
         if (index === 1) {
           return [
             {
-              id: id + '-round1',
               value: 50,
               color: 'red',
             },
             {
-              id: id + '-round2',
               value: 150,
               color: 'green',
             },
             {
-              id: id + '-round3',
               value: 100,
               color: 'blue',
             },
@@ -64,20 +61,17 @@ const graph = new Graph({
         if (index === 4) {
           return [
             {
-              id: id + '-round1',
               value: 150,
               fill: 'pink',
               stroke: '#fff',
               lineWidth: 1,
             },
             {
-              id: id + '-round2',
               value: 250,
               stroke: '#fff',
               lineWidth: 1,
             },
             {
-              id: id + '-round3',
               value: 200,
               stroke: '#fff',
               lineWidth: 1,
@@ -85,13 +79,7 @@ const graph = new Graph({
           ];
         }
 
-        return [
-          { id: id + '-round1' },
-          { id: id + '-round2' },
-          { id: id + '-round3' },
-          { id: id + '-round4' },
-          { id: id + '-round5' },
-        ];
+        return [100, 200, 100, 200];
       },
       labelText: (d) => d.id,
       iconHeight: 20,

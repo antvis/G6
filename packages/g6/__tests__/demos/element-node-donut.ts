@@ -21,37 +21,19 @@ export const elementNodeDonut: TestCase = async (context) => {
       {
         id: 'donut-halo',
         style: {
-          donuts: [
-            {
-              id: 'round1',
-              color: 'red',
-            },
-            {
-              id: 'round2',
-              color: 'green',
-            },
-          ],
+          donuts: [{ color: 'red' }, { color: 'green' }],
         },
       },
       {
         id: 'donut-badges',
         style: {
-          donuts: [
-            {
-              id: 'round1',
-              innerRadius: 0.8,
-            },
-            {
-              id: 'round2',
-              innerRadius: 0.4,
-            },
-          ],
+          donuts: [{ innerRadius: 0.8 }, { innerRadius: 0.4 }],
         },
       },
       {
         id: 'donut-ports',
         style: {
-          donuts: [{ id: 'round1' }, { id: 'round2' }, { id: 'round3' }],
+          donuts: [1, 1, 1],
         },
       },
       {
