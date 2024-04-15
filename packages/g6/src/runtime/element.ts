@@ -356,6 +356,9 @@ export class ElementController {
               ),
           },
     )?.finished;
+
+    // 渲染完成后，清除变更记录 / After rendered, clear change record
+    this.context.model.clearChanges();
   }
 
   private computeChangesAndDrawData() {

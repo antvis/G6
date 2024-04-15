@@ -90,9 +90,11 @@ export class DataController {
    * @returns <zh/> 数据变更 | <en/> data changes
    */
   public getChanges(): DataChange[] {
-    const changes = this.changes;
+    return this.changes;
+  }
+
+  public clearChanges() {
     this.changes = [];
-    return changes;
   }
 
   public batch(callback: () => void) {

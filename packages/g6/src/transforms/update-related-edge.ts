@@ -17,7 +17,7 @@ export class UpdateRelatedEdge extends BaseTransform {
 
     const addRelatedEdges = (_: NodeLikeData, id: ID) => {
       const relatedEdgesData = model.getRelatedEdgesData(id);
-      relatedEdgesData.forEach((edge) => edges.set(idOf(edge), edge));
+      relatedEdgesData.forEach((edge) => !edges.has(idOf(edge)) && edges.set(idOf(edge), edge));
     };
 
     nodes.forEach(addRelatedEdges);
