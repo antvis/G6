@@ -50,7 +50,7 @@ describe('transform-process-parallel-edges', () => {
 
   it('isParallelEdges', () => {
     expect(isParallelEdges({ source: 'node1', target: 'node2' }, { source: 'node2', target: 'node1' })).toBe(true);
-    expect(isParallelEdges({ source: 'node1', target: 'node2' }, { source: 'node1', target: 'node2' })).toBe(false);
+    expect(isParallelEdges({ source: 'node1', target: 'node2' }, { source: 'node1', target: 'node2' })).toBe(true);
     expect(isParallelEdges({ source: 'node1', target: 'node2' }, { source: 'node2', target: 'node3' })).toBe(false);
   });
 

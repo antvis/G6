@@ -49,8 +49,18 @@ export const transformProcessParallelEdges: TestCase = async (context) => {
         },
       ],
       edges: [
-        { id: 'edge1', source: 'node1', target: 'node4', style: { color: '#8576FF', lineWidth: 2 } },
-        { id: 'edge2', source: 'node4', target: 'node1' },
+        {
+          id: 'edge1',
+          source: 'node1',
+          target: 'node4',
+          style: { color: '#8576FF', lineWidth: 2, startArrow: true },
+        },
+        {
+          id: 'edge2',
+          source: 'node4',
+          target: 'node1',
+          style: { endArrow: true },
+        },
         { id: 'edge3', source: 'node4', target: 'node1' },
         { id: 'edge4', source: 'node1', target: 'node4' },
         { id: 'edge5', source: 'node1', target: 'node2' },
@@ -84,7 +94,14 @@ export const transformProcessParallelEdges: TestCase = async (context) => {
         labelText: (d) => d.id,
       },
     },
-    behaviors: ['drag-element'],
+    behaviors: [
+      'drag-element',
+      {
+        type: 'hover-element',
+        key: 'hover-element',
+        enable: (event) => event.targetType === 'edge',
+      },
+    ],
     transforms: [{ type: 'process-parallel-edges', key: 'process-parallel-edges' }],
   });
 
