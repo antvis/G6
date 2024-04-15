@@ -8,6 +8,7 @@ module.exports = {
   setupFilesAfterEnv: ['./__tests__/setup.ts'],
   transform: {
     '^.+\\.[tj]s$': ['@swc/jest'],
+    '^.+\\.svg$': ['<rootDir>/__tests__/utils/svg-transformer.js'],
   },
   collectCoverageFrom: ['src/**/*.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],

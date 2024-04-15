@@ -8,4 +8,9 @@ declare global {
   }
 
   export type TestContext = G6Spec;
+
+  export module '*.svg' {
+    const content: string;
+    export default content;
+  }
 }

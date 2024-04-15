@@ -40,6 +40,7 @@ export * from './element-node-hexagon';
 export * from './element-node-image';
 export * from './element-node-rect';
 export * from './element-node-star';
+export * from './element-node-svg-icon';
 export * from './element-node-triangle';
 export * from './element-port';
 export * from './element-position';
