@@ -1,6 +1,6 @@
 import type { ID } from '@antv/graphlib';
 import { groupBy } from '@antv/util';
-import { ChangeTypeEnum } from '../constants';
+import { ChangeType } from '../constants';
 import type { DataAdded, DataChange, DataChanges, DataRemoved, DataUpdated } from '../types';
 import { idOf } from './id';
 
@@ -75,7 +75,7 @@ export function groupByChangeType(changes: DataChange[]): DataChanges {
     ComboAdded = [],
     ComboUpdated = [],
     ComboRemoved = [],
-  } = groupBy(changes, (change) => change.type) as unknown as Record<`${ChangeTypeEnum}`, DataChange[]>;
+  } = groupBy(changes, (change) => change.type) as unknown as Record<`${ChangeType}`, DataChange[]>;
 
   return {
     add: {

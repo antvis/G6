@@ -4,7 +4,7 @@ import type { CustomPluginOption, PluginOptions } from '../spec/plugin';
 import type { RuntimeContext } from './types';
 
 export class PluginController extends ExtensionController<BasePlugin<CustomPluginOption>> {
-  public category: 'plugin' | 'behavior' = 'plugin';
+  public category = 'plugin' as const;
 
   constructor(context: RuntimeContext) {
     super(context);

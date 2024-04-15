@@ -4,6 +4,7 @@ import type { Behavior } from '../behaviors/types';
 import type { STDPalette } from '../palettes/types';
 import type { Plugin } from '../plugins/types';
 import type { Theme } from '../themes/types';
+import type { Transform } from '../transforms/types';
 import type { Combo, Edge, Node } from '../types';
 
 /**
@@ -21,4 +22,5 @@ export interface ExtensionRegistry {
   behavior: Record<string, { new (...args: any[]): Behavior }>;
   plugin: Record<string, { new (...args: any[]): Plugin }>;
   animation: Record<string, STDAnimation>; // animation spec
+  transform: Record<string, { new (...args: any[]): Transform }>;
 }

@@ -18,9 +18,11 @@ import type {
   NodeOptions,
   PluginOptions,
   ThemeOptions,
+  TransformOptions,
 } from '../spec';
 import type { UpdateBehaviorOption } from '../spec/behavior';
 import type { UpdatePluginOption } from '../spec/plugin';
+import type { UpdateTransformOption } from '../spec/transform';
 import type {
   CallableValue,
   DataID,
@@ -53,6 +55,7 @@ import { DataController } from './data';
 import { ElementController } from './element';
 import { LayoutController } from './layout';
 import { PluginController } from './plugin';
+import { TransformController } from './transform';
 import { RuntimeContext } from './types';
 import { ViewportController } from './viewport';
 
@@ -119,11 +122,12 @@ export class Graph extends EventEmitter {
       layout,
       node,
       padding,
-      theme,
       plugins,
+      theme,
+      transforms,
       width,
-      zoomRange,
       zoom,
+      zoomRange,
     } = options;
 
     if (background) this.setBackground(background);
@@ -135,6 +139,7 @@ export class Graph extends EventEmitter {
     if (node) this.setNode(node);
     if (theme) this.setTheme(theme);
     if (plugins) this.setPlugins(plugins);
+    if (transforms) this.setTransforms(transforms);
     if (isNumber(width) || isNumber(height))
       this.setSize(width ?? this.options.width ?? 0, height ?? this.options.height ?? 0);
 
@@ -288,6 +293,44 @@ export class Graph extends EventEmitter {
    */
   public getPluginInstance<T extends Plugin>(key: string) {
     return this.context.plugin!.getPluginInstance(key) as unknown as T;
+  }
+
+  /**
+   * <zh/> 设置数据转换器
+   *
+   * <en/> Set data transforms
+   * @param transforms - <zh/> 数据转换配置 | <en/> data transform configuration
+   */
+  public setTransforms(transforms: CallableValue<TransformOptions>): void {
+    this.options.transforms = isFunction(transforms) ? transforms(this.getTransforms()) : transforms;
+    this.context.transform?.setTransforms(this.options.transforms);
+  }
+
+  /**
+   * <zh/> 更新数据转换器
+   *
+   * <en/> Update data transform
+   * @param transform - <zh/> 数据转换配置 | <en/> data transform configuration
+   */
+  public updateTransform(transform: UpdateTransformOption): void {
+    this.setTransforms((transforms) =>
+      transforms.map((_transform) => {
+        if (isObject(_transform) && _transform.key === transform.key) {
+          return { ..._transform, ...transform };
+        }
+        return _transform;
+      }),
+    );
+  }
+
+  /**
+   * <zh/> 获取数据转换器
+   *
+   * <en/> Get data transforms
+   * @returns <zh/> 数据转换器实例 | <en/> data transform instance
+   */
+  public getTransforms(): TransformOptions {
+    return this.options.transforms || [];
   }
 
   public getData(): GraphData {
@@ -463,6 +506,7 @@ export class Graph extends EventEmitter {
     if (!this.context.batch) this.context.batch = new BatchController(this.context);
     if (!this.context.plugin) this.context.plugin = new PluginController(this.context);
     if (!this.context.viewport) this.context.viewport = new ViewportController(this.context);
+    if (!this.context.transform) this.context.transform = new TransformController(this.context);
     if (!this.context.element) this.context.element = new ElementController(this.context);
     if (!this.context.layout) this.context.layout = new LayoutController(this.context);
     if (!this.context.behavior) this.context.behavior = new BehaviorController(this.context);

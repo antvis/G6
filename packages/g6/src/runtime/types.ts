@@ -7,6 +7,7 @@ import type { ElementController } from './element';
 import type { Graph } from './graph';
 import type { LayoutController } from './layout';
 import type { PluginController } from './plugin';
+import type { TransformController } from './transform';
 import type { ViewportController } from './viewport';
 
 export interface RuntimeContext {
@@ -34,6 +35,12 @@ export interface RuntimeContext {
    * <en/> Data model
    */
   model: DataController;
+  /**
+   * <zh/> 数据转换控制器
+   *
+   * <en/> Data transform controller
+   */
+  transform: TransformController;
   /**
    * <zh/> 元素控制器
    *
