@@ -1,6 +1,7 @@
 import { transformProcessParallelEdges } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { getParallelEdges, groupByEndpoints, isParallelEdges } from '@/src/transforms/process-parallel-edges';
+import data from '@@/dataset/parallel-edges.json';
 import { createDemoGraph } from '@@/utils';
 
 describe('transform-process-parallel-edges', () => {
@@ -14,8 +15,19 @@ describe('transform-process-parallel-edges', () => {
     graph.destroy();
   });
 
-  it('Add Orange Edge', async () => {
-    await expect(graph).toMatchSnapshot(__filename, 'add-orange-edge__before');
+  it('Remove Purple Edge in merge mode', async () => {
+    await expect(graph).toMatchSnapshot(__filename, 'merge-remove-purple-edge__before');
+    graph.removeEdgeData(['edge1', 'loop1']);
+    graph.render();
+    await expect(graph).toMatchSnapshot(__filename, 'merge-remove-purple-edge__after');
+  });
+
+  it('Add Orange Edge in bundle mode', async () => {
+    graph.updateTransform({ key: 'process-parallel-edges', mode: 'bundle' });
+    graph.setData(data);
+    graph.render();
+
+    await expect(graph).toMatchSnapshot(__filename, 'bundle-add-orange-edge__before');
     graph.addEdgeData([
       {
         id: 'new-edge',
@@ -31,21 +43,21 @@ describe('transform-process-parallel-edges', () => {
       },
     ]);
     graph.draw();
-    await expect(graph).toMatchSnapshot(__filename, 'add-orange-edge__after');
+    await expect(graph).toMatchSnapshot(__filename, 'bundle-add-orange-edge__after');
   });
 
-  it('Update Orange Edge', async () => {
-    await expect(graph).toMatchSnapshot(__filename, 'update-orange-edge__before');
+  it('Update Orange Edge in bundle mode', async () => {
+    await expect(graph).toMatchSnapshot(__filename, 'bundle-update-orange-edge__before');
     graph.updateEdgeData([{ id: 'new-edge', source: 'node1', target: 'node6' }]);
     graph.draw();
-    await expect(graph).toMatchSnapshot(__filename, 'update-orange-edge__after');
+    await expect(graph).toMatchSnapshot(__filename, 'bundle-update-orange-edge__after');
   });
 
-  it('Remove Purple Edge', async () => {
-    await expect(graph).toMatchSnapshot(__filename, 'remove-purple-edge__before');
+  it('Remove Purple Edge in bundle mode', async () => {
+    await expect(graph).toMatchSnapshot(__filename, 'bundle-remove-purple-edge__before');
     graph.removeEdgeData(['edge1', 'loop1']);
     graph.draw();
-    await expect(graph).toMatchSnapshot(__filename, 'remove-purple-edge__after');
+    await expect(graph).toMatchSnapshot(__filename, 'bundle-remove-purple-edge__after');
   });
 
   it('isParallelEdges', () => {

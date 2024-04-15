@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)"/>
+      <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="edge1" fill="none" marker-start="true" marker-end="true" transform="matrix(1,0,0,1,0,0)">
+          <g id="edge1" fill="none" marker-start="true" marker-end="true" stroke="transparent" stroke-width="4"/>
+          <g transform="matrix(1,0,0,1,258.171417,91.998779)">
+            <path id="key" fill="none" d="M 1.5857565532973814,111.00295873081423 L 1.6571778372116341,116.00244860481178 L 0.07142128391425222,4.99948987399755" stroke-width="2" stroke-dasharray="2,2" stroke="rgba(133,118,255,1)"/>
+            <path id="key" fill="none" d="M 1.5857565532973814,111.00295873081423 L 1.6571778372116341,116.00244860481178 L 0.07142128391425222,4.99948987399755" stroke-width="4" stroke-dasharray="2,2" stroke="transparent"/>
+            <g transform="matrix(-0.014284,-0.999898,0.999898,-0.014284,1.585757,111.002960)">
+              <path id="g-svg-35" fill="rgba(133,118,255,1)" d="M 0,4 L 8,0 L 8,8 Z" transform="translate(-4,-4)" stroke-width="1" stroke-dasharray="0,0" stroke="rgba(133,118,255,1)" width="8" height="8"/>
+              <path id="g-svg-35" fill="transparent" d="M 0,4 L 8,0 L 8,8 Z" transform="translate(-4,-4)" stroke-width="3" stroke-dasharray="0,0" stroke="transparent" width="8" height="8"/>
+            </g>
+            <g transform="matrix(0.014284,0.999898,-0.999898,0.014284,0.071421,4.999490)">
+              <path id="g-svg-37" fill="rgba(133,118,255,1)" d="M 0,4 L 8,0 L 8,8 Z" transform="translate(-4,-4)" stroke-width="1" stroke-dasharray="0,0" stroke="rgba(133,118,255,1)" width="8" height="8"/>
+              <path id="g-svg-37" fill="transparent" d="M 0,4 L 8,0 L 8,8 Z" transform="translate(-4,-4)" stroke-width="3" stroke-dasharray="0,0" stroke="transparent" width="8" height="8"/>
+            </g>
+          </g>
+        </g>
+        <g id="edge5" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="edge5" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,192.223343,230.260117)">
+            <path id="key" fill="none" d="M 61.55330422335368,0 L 0,101.47977182769122" stroke-width="1" stroke-dasharray="2,2" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 61.55330422335368,0 L 0,101.47977182769122" stroke-width="3" stroke-dasharray="2,2" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="edge7" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="edge7" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,142.763443,196.370926)">
+            <path id="key" fill="none" d="M 105.47310449646159,21.258145092310087 L 0,0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 105.47310449646159,21.258145092310087 L 0,0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="edge8" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="edge8" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,271.636627,188.930710)">
+            <path id="key" fill="none" d="M 0,28.13859044468566 L 111.72675617742834,0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,28.13859044468566 L 111.72675617742834,0" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="edge9" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="edge9" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g transform="matrix(1,0,0,1,266.352173,230.180862)">
+            <path id="key" fill="none" d="M 0,0 L 60.295672512805595,96.63826964381178" stroke-width="1" stroke-dasharray="2,2" stroke="rgba(153,173,209,1)"/>
+            <path id="key" fill="none" d="M 0,0 L 60.295672512805595,96.63826964381178" stroke-width="3" stroke-dasharray="2,2" stroke="transparent"/>
+          </g>
+        </g>
+        <g id="loop1" fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+          <g id="loop1" fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="4"/>
+          <g transform="matrix(1,0,0,1,388.505646,158.283615)">
+            <path id="key" fill="none" d="M 1.902152013373268,16.629831585203164 C -7.282250363388869 -5.543277195067731,20.27095676689754 -5.543277195067731,11.086554390135404 16.629831585203164" stroke-width="2" stroke-dasharray="2,2" stroke="rgba(133,118,255,1)"/>
+            <path id="key" fill="none" d="M 1.902152013373268,16.629831585203164 C -7.282250363388869 -5.543277195067731,20.27095676689754 -5.543277195067731,11.086554390135404 16.629831585203164" stroke-width="4" stroke-dasharray="2,2" stroke="transparent"/>
+          </g>
+        </g>
+      </g>
+      <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="node1" fill="none" transform="matrix(1,0,0,1,260,220)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+                node1
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="node2" fill="none" transform="matrix(1,0,0,1,186,342)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+                node2
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="node3" fill="none" transform="matrix(1,0,0,1,131,194)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+                node3
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="node4" fill="none" transform="matrix(1,0,0,1,258,80)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+                node4
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="node5" fill="none" transform="matrix(1,0,0,1,395,186)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+                node5
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="node6" fill="none" transform="matrix(1,0,0,1,333,337)">
+          <g transform="matrix(1,0,0,1,0,0)">
+            <circle id="key" fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+          </g>
+          <g id="label" fill="none" transform="matrix(1,0,0,1,0,12)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text id="text" fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+                node6
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
