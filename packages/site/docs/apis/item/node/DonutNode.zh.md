@@ -7,24 +7,28 @@ order: 3
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*c5f5Q7XuOWoAAAAAAAAAAAAADmJ7AQ/original" width=150 />
 
-## keyShape
+## DonutShapesStyle
 
-**类型**：`KeyShapeStyle`
+**类型**：`DonutShapesStyle`
 
 <details>
 
-<summary style="color: #873bf4; cursor: pointer">KeyShapeStyle</summary>
+<summary style="color: #873bf4; cursor: pointer">DonutShapesStyle</summary>
 
 ```typescript
-type KeyShapeStyle = StyleProps & {
+type DonutShapesStyle = CircleStyleProps & {
   /**
-   * 甜甜圈的半径
+   * 甜甜圈的内径
    */
-  r?: number;
+  innerRadius?: number;
+  /**
+   * 甜甜圈配置
+   */
+  donuts: Round[];
 };
 ```
 
-其中，相关的图形样式参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)。
+其中，相关的图形配置参考 [Circle 图形样式](../shape/CircleStyleProps.zh.md)。
 
 </details>
 
@@ -36,70 +40,48 @@ type KeyShapeStyle = StyleProps & {
 
 ```json
 {
-  "r": 16
+  "innerRadius": 0.5,
+  "donuts": [],
 }
 ```
 
-</details>
-
-## donutShapes
-
-**类型**：`DonutShapesStyle`
+**类型**：`Round`
 
 <details>
 
-<summary style="color: #873bf4; cursor: pointer">DonutShapesStyle</summary>
+<summary style="color: #873bf4; cursor: pointer">Round</summary>
 
 ```typescript
-type DonutShapesStyle = TextStyleProps & {
+type Round = {
   /**
-   * The position of the text relative to the key shape (keyShape) of the node, supports above, below, left, right, and center
+   * <zh/> 圆弧 id
+   * 
+   * <en/> Id.
    */
-  position?: 'top' | 'bottom' | 'left' | 'right' | 'center';
+  id: ID;
   /**
-   * The x offset of the text shape relative to the key shape (keyShape)
+   * <zh/> 内径 [0, 1].
+   * 
+   * <en/> Inner radius.
    */
-  offsetX?: number;
+  innerRadius?: number;
   /**
-   * The y offset of the text shape relative to the key shape (keyShape)
+   * <zh/> 数值，用于计算比例
+   * 
+   * <en/> Numerical value used to calculate the scale.
    */
-  offsetY?: number;
+  value?: number;
   /**
-   * The z offset of the text shape relative to the key shape (keyShape)
+   * <zh/> 颜色
+   * 
+   * <en/> Color.
    */
-  offsetZ?: number;
+  color?: string;
   /**
-   * The maximum width allowed for the text.
-   * If specified as a number, it represents the pixel value.
-   * If specified as a text with '%', it represents a percentage of the key shape (keyShape) bounding box size.
-   * The default value is '200%', which means the maximum width of the text shape cannot exceed twice the width of the key shape.
-   * If it exceeds, it will be automatically truncated and an ellipsis '...' will be added at the end.
+   * <zh/> 其他圆弧(path)样式配置
+   * 
+   * <en/> Other arc style configurations.
    */
-  maxWidth?: string | number;
-  /**
-   * The rotation angle of the text (in radians)
-   */
-  angle?: number;
+  [key: string]: any;
 };
 ```
-
-For more detailed style configuration, refer to [Text Graphic Style](../shape/TextStyleProps.en.md).
-
-</details>
-
-**默认值**：`object`
-
-<details>
-
-<summary style="color: #873bf4; cursor: pointer">object</summary>
-
-```json
-{
-  "innerSize": 0.6,
-  "zIndex": 1
-}
-```
-
-</details>
-
-<embed src="../../../common/NodeShapeStyles.zh.md"></embed>

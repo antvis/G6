@@ -6,6 +6,7 @@ import {
   CubicHorizontal,
   CubicVertical,
   Diamond,
+  Donut,
   Ellipse,
   Hexagon,
   Image,
@@ -30,6 +31,7 @@ describe('registry', () => {
       star: Star,
       triangle: Triangle,
       diamond: Diamond,
+      donut: Donut,
       hexagon: Hexagon,
     });
     expect(getExtensions('edge')).toEqual({

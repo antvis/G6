@@ -35,6 +35,7 @@ export * from './element-label-background';
 export * from './element-label-oversized';
 export * from './element-node-circle';
 export * from './element-node-diamond';
+export * from './element-node-donut';
 export * from './element-node-ellipse';
 export * from './element-node-hexagon';
 export * from './element-node-image';

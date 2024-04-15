@@ -4,7 +4,7 @@ import type { Theme } from './types';
 
 const BADGE_PALETTE: CategoricalPalette = ['#7E92B5', '#f5222d', '#faad14'];
 
-const NODE_PALETTE_OPTIONS: PaletteOptions = {
+export const NODE_PALETTE_OPTIONS: PaletteOptions = {
   type: 'group',
   color: ['#1783FF', '#00C9C9', '#F08F56', '#D580FF', '#7863FF', '#DB9D0D', '#60C42D', '#FF80CA', '#2491B3', '#17C76F'],
 };
@@ -120,6 +120,7 @@ export function create(tokens: ThemeTokens): Theme {
           strokeOpacity: 0.85,
         },
         inactive: {
+          donutOpacity: 0.25,
           iconOpacity: 0.25,
           labelOpacity: 0.25,
           opacity: 0.25,
@@ -127,6 +128,7 @@ export function create(tokens: ThemeTokens): Theme {
         disabled: {
           color: nodeColorDisabled,
           labelOpacity: 0.25,
+          donutOpacity: 0.25,
         },
       },
       animation: {
