@@ -356,9 +356,6 @@ export class ElementController {
               ),
           },
     )?.finished;
-
-    // 渲染完成后，清除变更记录 / After rendered, clear change record
-    this.context.model.clearChanges();
   }
 
   private computeChangesAndDrawData() {
@@ -404,8 +401,12 @@ export class ElementController {
         combos: dataOf<ComboData>(ComboRemoved),
       },
     };
+    const drawData = this.transformData(input);
 
-    return { dataChanges, drawData: this.transformData(input) };
+    // 清空变更 / Clear changes
+    model.clearChanges();
+
+    return { dataChanges, drawData };
   }
 
   private transformData(input: DrawData): DrawData {
