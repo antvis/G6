@@ -401,8 +401,12 @@ export class ElementController {
         combos: dataOf<ComboData>(ComboRemoved),
       },
     };
+    const drawData = this.transformData(input);
 
-    return { dataChanges, drawData: this.transformData(input) };
+    // 清空变更 / Clear changes
+    model.clearChanges();
+
+    return { dataChanges, drawData };
   }
 
   private transformData(input: DrawData): DrawData {
