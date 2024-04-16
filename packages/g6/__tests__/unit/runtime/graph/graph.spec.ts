@@ -313,8 +313,10 @@ describe('Graph', () => {
   });
 
   it('toDataURL', async () => {
-    const url = await graph.toDataURL();
-    expect(url).toBeDefined();
+    expect(await graph.toDataURL()).toBeDefined();
+    expect(await graph.toDataURL({ mode: 'overall' })).toBeDefined();
+    expect((await graph.toDataURL({ type: 'image/jpeg' })).startsWith('data:image/jpeg')).toBe(true);
+    expect((await graph.toDataURL({ type: 'image/png' })).startsWith('data:image/png')).toBe(true);
   });
 
   it('resize', () => {

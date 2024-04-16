@@ -1,8 +1,8 @@
 import type {
   Cursor,
-  DataURLOptions,
   DisplayObject,
   CanvasConfig as GCanvasConfig,
+  DataURLOptions as GDataURLOptions,
   IAnimation,
   IRenderer,
   PointLike,
@@ -13,12 +13,25 @@ import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
 import { createDOM, isFunction, isString } from '@antv/util';
 import type { CanvasOptions } from '../spec/canvas';
 import type { CanvasLayer } from '../types/canvas';
-import { getCombinedBBox } from '../utils/bbox';
+import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 
 export interface CanvasConfig
   extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'cursor'> {
   renderer?: CanvasOptions['renderer'];
   background?: string;
+}
+
+export interface DataURLOptions extends GDataURLOptions {
+  /**
+   * <zh/> 导出模式
+   *  - viewport: 导出视口内容
+   *  - overall: 导出整个画布
+   *
+   * <en/> export mode
+   *  - viewport: export the content of the viewport
+   *  - overall: export the entire canvas
+   */
+  mode?: 'viewport' | 'overall';
 }
 
 /**
@@ -173,7 +186,7 @@ export class Canvas {
       Object.values(this.canvas)
         .map((canvas) => canvas.document.documentElement)
         .filter((el) => el.childNodes.length > 0)
-        .map((el) => el.getBounds()),
+        .map((el) => el.getRenderBounds()),
     );
   }
 
@@ -211,7 +224,21 @@ export class Canvas {
 
   public async toDataURL(options: Partial<DataURLOptions> = {}) {
     const devicePixelRatio = window.devicePixelRatio || 1;
-    const { width, height } = this.config;
+    const { mode = 'viewport', ...restOptions } = options;
+
+    let startX = 0;
+    let startY = 0;
+    let width = 0;
+    let height = 0;
+
+    if (mode === 'viewport') {
+      [width, height] = [this.config.width || 0, this.config.height || 0];
+    } else if (mode === 'overall') {
+      const bounds = this.getBounds();
+      const size = getBBoxSize(bounds);
+      [startX, startY] = bounds.min;
+      [width, height] = size;
+    }
 
     const container: HTMLElement = createDOM('<div id="virtual-image"></div>');
 
@@ -244,15 +271,23 @@ export class Canvas {
 
     const camera = this.main.getCamera();
     const offscreenCamera = offscreenCanvas.getCamera();
-    offscreenCamera.setZoom(camera.getZoom());
-    offscreenCamera.setPosition(camera.getPosition());
-    offscreenCamera.setFocalPoint(camera.getFocalPoint());
+
+    if (mode === 'viewport') {
+      offscreenCamera.setZoom(camera.getZoom());
+      offscreenCamera.setPosition(camera.getPosition());
+      offscreenCamera.setFocalPoint(camera.getFocalPoint());
+    } else if (mode === 'overall') {
+      const [x, y, z] = offscreenCamera.getPosition();
+      const [fx, fy, fz] = offscreenCamera.getFocalPoint();
+      offscreenCamera.setPosition([x + startX, y + startY, z]);
+      offscreenCamera.setFocalPoint([fx + startX, fy + startY, fz]);
+    }
 
     const contextService = offscreenCanvas.getContextService();
 
     return new Promise<string>((resolve) => {
       offscreenCanvas.on(CanvasEvent.AFTER_RENDER, async () => {
-        const url = await contextService.toDataURL(options);
+        const url = await contextService.toDataURL(restOptions);
         resolve(url);
       });
     });
