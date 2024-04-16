@@ -7,7 +7,7 @@ import type {
   IRenderer,
   PointLike,
 } from '@antv/g';
-import { Canvas as GCanvas } from '@antv/g';
+import { CanvasEvent, Canvas as GCanvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
 import { createDOM, isFunction, isString } from '@antv/util';
@@ -31,14 +31,12 @@ export class Canvas {
   public main!: GCanvas;
   public label!: GCanvas;
   public transient!: GCanvas;
-  public transientLabel!: GCanvas;
 
   public get canvas() {
     return {
       main: this.main,
       label: this.label,
       transient: this.transient,
-      transientLabel: this.transientLabel,
       background: this.background,
     };
   }
@@ -59,7 +57,7 @@ export class Canvas {
     if (this.initialized) return;
 
     const { renderer: getRenderer, background, ...restConfig } = this.config;
-    const names: CanvasLayer[] = ['main', 'label', 'transient', 'transientLabel', 'background'];
+    const names: CanvasLayer[] = ['main', 'label', 'transient', 'background'];
 
     const { renderers, canvas } = names.reduce(
       (acc, name) => {
@@ -213,14 +211,14 @@ export class Canvas {
 
   public async toDataURL(options: Partial<DataURLOptions> = {}) {
     const devicePixelRatio = window.devicePixelRatio || 1;
-    const { width, height, renderer: getRenderer } = this.config;
+    const { width, height } = this.config;
 
     const container: HTMLElement = createDOM('<div id="virtual-image"></div>');
 
     const offscreenCanvas = new GCanvas({
       width,
       height,
-      renderer: getRenderer?.('main') || new CanvasRenderer(),
+      renderer: new CanvasRenderer(),
       devicePixelRatio,
       container,
       background: this.background.getConfig().background,
@@ -252,7 +250,12 @@ export class Canvas {
 
     const contextService = offscreenCanvas.getContextService();
 
-    return contextService.toDataURL(options);
+    return new Promise<string>((resolve) => {
+      offscreenCanvas.on(CanvasEvent.AFTER_RENDER, async () => {
+        const url = await contextService.toDataURL(options);
+        resolve(url);
+      });
+    });
   }
 
   public destroy() {
