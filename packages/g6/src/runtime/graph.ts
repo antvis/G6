@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import type { AABB, BaseStyleProps, DataURLOptions } from '@antv/g';
+import type { AABB, BaseStyleProps } from '@antv/g';
 import type { ID } from '@antv/graphlib';
 import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
 import { COMBO_KEY, GraphEvent } from '../constants';
@@ -49,6 +49,7 @@ import { zIndexOf } from '../utils/style';
 import { subtract } from '../utils/vector';
 import { BatchController } from './batch';
 import { BehaviorController } from './behavior';
+import type { DataURLOptions } from './canvas';
 import { Canvas } from './canvas';
 import type { HierarchyKey } from './data';
 import { DataController } from './data';
@@ -1051,6 +1052,21 @@ export class Graph extends EventEmitter {
     else if (elementType === 'combo') this.updateComboData([{ id, style: { collapsed } }]);
   }
 
+  /**
+   * <zh/> 导出画布内容为 DataURL
+   *
+   * <en/> Export canvas content as DataURL
+   * @param options - <zh/> 导出配置 | <en/> export configuration
+   * @param mode
+   * <zh/> 导出模式
+   *  - viewport: 导出视口内容
+   *  - overall: 导出整个画布
+   *
+   * <en/> export mode
+   *  - viewport: export the content of the viewport
+   *  - overall: export the entire canvas
+   * @returns <zh/> DataURL | <en/> DataURL
+   */
   public async toDataURL(options: Partial<DataURLOptions> = {}): Promise<string> {
     return this.context.canvas!.toDataURL(options);
   }

@@ -16,13 +16,14 @@ export const graphToDataURL: TestCase = async (context) => {
   graphToDataURL.form = (panel) => {
     const config = {
       toDataURL: () => {
-        graph.toDataURL().then((url) => {
+        graph.toDataURL({ mode: config.mode } as any).then((url) => {
           navigator.clipboard.writeText(url);
           alert('The data URL has been copied to the clipboard');
         });
       },
+      mode: 'viewport',
       download: async () => {
-        const dataURL = await graph.toDataURL();
+        const dataURL = await graph.toDataURL({ mode: config.mode } as any);
         const [head, content] = dataURL.split(',');
         const contentType = head.match(/:(.*?);/)![1];
 
@@ -43,7 +44,11 @@ export const graphToDataURL: TestCase = async (context) => {
         a.click();
       },
     };
-    return [panel.add(config, 'toDataURL'), panel.add(config, 'download').name('Download')];
+    return [
+      panel.add(config, 'toDataURL'),
+      panel.add(config, 'mode', ['viewport', 'overall']),
+      panel.add(config, 'download').name('Download'),
+    ];
   };
 
   await graph.render();
