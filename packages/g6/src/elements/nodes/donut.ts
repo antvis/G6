@@ -1,25 +1,14 @@
 import { Path } from '@antv/g';
 import { deepMix, get, isNumber } from '@antv/util';
+import { getPaletteColors } from '../../utils/palette';
 import { subStyleProps } from '../../utils/prefix';
 import { Circle } from './circle';
 
 import type { DisplayObjectConfig, Group } from '@antv/g';
-import type { ID } from '@antv/graphlib';
+import type { CategoricalPalette } from '../../palettes/types';
 import type { CircleStyleProps } from './circle';
 
 type Round = {
-  /**
-   * <zh/> 圆弧 id
-   *
-   * <en/> Id.
-   */
-  id?: ID;
-  /**
-   * <zh/> 内径 [0, 1].
-   *
-   * <en/> Inner radius.
-   */
-  innerRadius?: number;
   /**
    * <zh/> 数值，用于计算比例
    *
@@ -43,7 +32,7 @@ type Round = {
 export interface DonutStyleProps extends CircleStyleProps {
   innerRadius?: number;
   donuts?: Array<Round | number>[];
-  palette?: string[];
+  palette?: string | CategoricalPalette;
 }
 
 export class Donut extends Circle {
@@ -60,7 +49,13 @@ export class Donut extends Circle {
     const { donuts, innerRadius, size } = attributes;
 
     if (!isNumber(size) || size === 0 || !donuts?.length) return;
-    const { palette, ...style } = subStyleProps<Required<DonutStyleProps>>(this.getGraphicStyle(attributes), 'donut');
+    const { palette: defaultPalette, ...style } = subStyleProps<Required<DonutStyleProps>>(
+      this.getGraphicStyle(attributes),
+      'donut',
+    );
+
+    const palette = getPaletteColors(attributes?.palette || defaultPalette);
+    if (!palette) return;
 
     // 总值
     let sum = 0;
@@ -73,15 +68,13 @@ export class Donut extends Circle {
       const {
         value = 0,
         color = palette[index % palette.length],
-        innerRadius: roundInnerRadius = innerRadius,
-        id = `round${index}`,
         ...roundStyle
       } = (isNumber(round) ? { value: round } : round) as Round;
 
       const r = size / 2;
 
       // 内径
-      const radiusR = r * Math.max(0, Math.min(1, Number(roundInnerRadius) || 0));
+      const radiusR = r * Math.max(0, Math.min(1, Number(innerRadius) || 0));
 
       // 比例
       const ratio = sum === 0 ? 1 / donuts.length : value / sum;
@@ -129,7 +122,7 @@ export class Donut extends Circle {
         ...roundStyle,
       };
 
-      this.upsert(`${id}`, Path, cfg, container);
+      this.upsert(`round${index}`, Path, cfg, container);
     });
   }
 

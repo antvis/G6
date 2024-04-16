@@ -7,10 +7,9 @@ export const elementNodeDonut: TestCase = async (context) => {
       {
         id: 'donut',
         style: {
-          donutInnerRadius: 0.8,
+          innerRadius: 0.6,
           donuts: [
             {
-              id: 'round1',
               color: 'red',
               stroke: 'green',
               lineWidth: 2,
@@ -27,7 +26,7 @@ export const elementNodeDonut: TestCase = async (context) => {
       {
         id: 'donut-badges',
         style: {
-          donuts: [{ innerRadius: 0.8 }, { innerRadius: 0.4 }],
+          donuts: [1, 2, 3],
         },
       },
       {
@@ -41,11 +40,9 @@ export const elementNodeDonut: TestCase = async (context) => {
         style: {
           donuts: [
             {
-              id: 'round1',
               value: 20,
             },
             {
-              id: 'round2',
               value: 1000,
             },
           ],
@@ -56,11 +53,9 @@ export const elementNodeDonut: TestCase = async (context) => {
         style: {
           donuts: [
             {
-              id: 'round1',
               value: 1000,
             },
             {
-              id: 'round2',
               value: 20,
             },
           ],
@@ -71,19 +66,18 @@ export const elementNodeDonut: TestCase = async (context) => {
         style: {
           donutLineWidth: 1,
           donutStroke: '#fff',
-          donuts: [{ id: 'round1' }, { id: 'round2' }, { id: 'round3' }],
+          donuts: [1, 2, 3],
         },
       },
       {
         id: 'donut-inactive',
         style: {
+          innerRadius: -11,
           donuts: [
             {
-              id: 'round1',
               fill: 'red',
             },
             {
-              id: 'round2',
               fill: 'green',
             },
           ],
@@ -92,16 +86,13 @@ export const elementNodeDonut: TestCase = async (context) => {
       {
         id: 'donut-disabled',
         style: {
+          innerRadius: 11,
           donuts: [
             {
-              id: 'round1',
               color: 'green',
-              innerRadius: 11,
             },
             {
-              id: 'round2',
               color: 'red',
-              innerRadius: -11,
             },
           ],
         },
@@ -116,6 +107,7 @@ export const elementNodeDonut: TestCase = async (context) => {
       style: {
         type: 'donut', // 👈🏻 Node shape type.
         size: 40,
+        innerRadius: 0.5,
         labelText: (d) => d.id!,
         iconHeight: 20,
         iconWidth: 20,
