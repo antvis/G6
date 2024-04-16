@@ -72,7 +72,7 @@ export const elementNodeDonut: TestCase = async (context) => {
       {
         id: 'donut-inactive',
         style: {
-          innerRadius: -11,
+          innerRadius: 0,
           donuts: [
             {
               fill: 'red',
@@ -86,7 +86,7 @@ export const elementNodeDonut: TestCase = async (context) => {
       {
         id: 'donut-disabled',
         style: {
-          innerRadius: 11,
+          innerRadius: 1,
           donuts: [
             {
               color: 'green',

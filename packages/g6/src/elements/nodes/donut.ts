@@ -74,7 +74,7 @@ export class Donut extends Circle {
       const r = size / 2;
 
       // 内径
-      const radiusR = r * Math.max(0, Math.min(1, Number(innerRadius) || 0));
+      const radiusR = r * (Number(innerRadius) || 0);
 
       // 比例
       const ratio = sum === 0 ? 1 / donuts.length : value / sum;

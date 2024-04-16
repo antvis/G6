@@ -54,18 +54,6 @@ default: `object`
 ```typescript
 type Round = {
   /**
-   * <zh/> 圆弧 id
-   * 
-   * <en/> Id.
-   */
-  id: ID;
-  /**
-   * <zh/> 内径 [0, 1].
-   * 
-   * <en/> Inner radius.
-   */
-  innerRadius?: number;
-  /**
    * <zh/> 数值，用于计算比例
    * 
    * <en/> Numerical value used to calculate the scale.
