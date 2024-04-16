@@ -2,28 +2,25 @@ import type { DisplayObjectConfig, RectStyleProps as GRectStyleProps } from '@an
 import { Rect as GRect, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { subStyleProps } from '../../utils/prefix';
-import type { BaseComboStyleProps, ParsedBaseComboStyleProps } from './base-combo';
+import type { BaseComboStyleProps } from './base-combo';
 import { BaseCombo } from './base-combo';
 
-type KeyStyleProps = GRectStyleProps;
-export type RectComboStyleProps = BaseComboStyleProps<KeyStyleProps>;
-type ParsedRectComboStyleProps = ParsedBaseComboStyleProps<KeyStyleProps>;
-type RectComboOptions = DisplayObjectConfig<RectComboStyleProps>;
+export type RectComboStyleProps = BaseComboStyleProps;
 
 export class RectCombo extends BaseCombo<RectComboStyleProps> {
   static defaultStyleProps: Partial<RectComboStyleProps> = {
     anchor: [0.5, 0.5],
   };
 
-  constructor(options: RectComboOptions) {
+  constructor(options: DisplayObjectConfig<RectComboStyleProps>) {
     super(deepMix({}, { style: RectCombo.defaultStyleProps }, options));
   }
 
-  protected drawKeyShape(attributes: ParsedRectComboStyleProps, container: Group): GRect | undefined {
+  protected drawKeyShape(attributes: Required<RectComboStyleProps>, container: Group): GRect | undefined {
     return this.upsert('key', GRect, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes: ParsedRectComboStyleProps): GRectStyleProps {
+  protected getKeyStyle(attributes: Required<RectComboStyleProps>): GRectStyleProps {
     const keyStyle = super.getKeyStyle(attributes);
     const collapsedStyle = subStyleProps(keyStyle, 'collapsed');
 

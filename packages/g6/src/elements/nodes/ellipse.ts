@@ -8,11 +8,9 @@ import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type EllipseStyleProps = BaseNodeStyleProps<KeyStyleProps>;
-type ParsedEllipseStyleProps = Required<EllipseStyleProps>;
-type KeyStyleProps = GEllipseStyleProps;
+export type EllipseStyleProps = BaseNodeStyleProps;
 
-export class Ellipse extends BaseNode<EllipseStyleProps> {
+export class Ellipse extends BaseNode {
   static defaultStyleProps: Partial<EllipseStyleProps> = {
     size: [80, 40],
   };
@@ -21,11 +19,11 @@ export class Ellipse extends BaseNode<EllipseStyleProps> {
     super(deepMix({}, { style: Ellipse.defaultStyleProps }, options));
   }
 
-  protected drawKeyShape(attributes: ParsedEllipseStyleProps, container: Group) {
+  protected drawKeyShape(attributes: Required<EllipseStyleProps>, container: Group) {
     return this.upsert('key', GEllipse, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes: ParsedEllipseStyleProps): KeyStyleProps {
+  protected getKeyStyle(attributes: Required<EllipseStyleProps>): GEllipseStyleProps {
     const keyStyle = super.getKeyStyle(attributes);
     const [majorAxis, minorAxis] = this.getSize(attributes);
     return {
@@ -35,10 +33,10 @@ export class Ellipse extends BaseNode<EllipseStyleProps> {
     };
   }
 
-  protected getIconStyle(attributes: ParsedEllipseStyleProps): false | IconStyleProps {
+  protected getIconStyle(attributes: Required<EllipseStyleProps>): false | IconStyleProps {
     const style = super.getIconStyle(attributes);
     const { rx, ry } = this.getKeyStyle(attributes);
-    const size = Math.min(rx as number, ry as number) * 2 * ICON_SIZE_RATIO;
+    const size = Math.min(+rx, +ry) * 2 * ICON_SIZE_RATIO;
 
     return style ? ({ width: size, height: size, ...style } as IconStyleProps) : false;
   }

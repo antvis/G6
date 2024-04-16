@@ -7,21 +7,19 @@ import { getPortXYByPlacement, getTrianglePoints, getTrianglePorts } from '../..
 import { subStyleProps } from '../../utils/prefix';
 import { IconStyleProps } from '../shapes';
 import type { NodePortStyleProps } from './base-node';
-import type { ParsedPolygonStyleProps, PolygonStyleProps } from './polygon';
+import type { PolygonStyleProps } from './polygon';
 import { Polygon } from './polygon';
 
-export type TriangleStyleProps = PolygonStyleProps & ExtendsStyleProps;
-type ParsedTriangleStyleProps = ParsedPolygonStyleProps & Required<ExtendsStyleProps>;
-type ExtendsStyleProps = {
+export type TriangleStyleProps = PolygonStyleProps<{
   /**
    * <zh/> 三角形的方向
    * <en/> The direction of the triangle
    */
   direction?: TriangleDirection;
-};
+}>;
 export type TriangleDirection = 'up' | 'left' | 'right' | 'down';
 
-export class Triangle extends Polygon {
+export class Triangle extends Polygon<TriangleStyleProps> {
   static defaultStyleProps: Partial<TriangleStyleProps> = {
     size: 40,
     direction: 'up',
@@ -31,13 +29,13 @@ export class Triangle extends Polygon {
     super(deepMix({}, { style: Triangle.defaultStyleProps }, options));
   }
 
-  protected getPoints(attributes: ParsedTriangleStyleProps): Point[] {
+  protected getPoints(attributes: Required<TriangleStyleProps>): Point[] {
     const { direction } = attributes;
     const [width, height] = this.getSize(attributes);
     return getTrianglePoints(width, height, direction);
   }
 
-  protected getPortXY(attributes: ParsedTriangleStyleProps, style: NodePortStyleProps): Point {
+  protected getPortXY(attributes: Required<TriangleStyleProps>, style: NodePortStyleProps): Point {
     const { direction } = attributes;
     const { placement = 'top' } = style;
     const bbox = this.getKey().getLocalBounds();
@@ -48,7 +46,7 @@ export class Triangle extends Polygon {
 
   // icon 处于内切三角形的重心
   // icon is at the centroid of the triangle
-  protected getIconStyle(attributes: ParsedTriangleStyleProps): false | IconStyleProps {
+  protected getIconStyle(attributes: Required<TriangleStyleProps>): false | IconStyleProps {
     const { icon, iconText, iconSrc, direction } = attributes;
 
     if (icon === false || isEmpty(iconText || iconSrc)) return false;

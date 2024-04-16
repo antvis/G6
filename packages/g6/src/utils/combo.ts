@@ -1,5 +1,6 @@
 import { AABB } from '@antv/g';
-import type { BaseComboProps, Point, Position, Size } from '../types';
+import type { BaseComboStyleProps } from '../elements/combos/base-combo';
+import type { Point, Position, Size } from '../types';
 import { getXYByAnchor } from './position';
 import { parseSize } from './size';
 
@@ -13,7 +14,7 @@ import { parseSize } from './size';
  * @returns <zh/> 收起时的原点 | <en/> origin when collapsed
  */
 export function getRectCollapsedOrigin(
-  collapsedOrigin: BaseComboProps['collapsedOrigin'],
+  collapsedOrigin: BaseComboStyleProps['collapsedOrigin'],
   collapsedSize: Size,
   expandedSize: Size,
 ): Position {
@@ -58,7 +59,7 @@ export function getRectCollapsedOrigin(
  * @returns <zh/> 收起时的原点 | <en/> origin when collapsed
  */
 export function getCircleCollapsedOrigin(
-  collapsedOrigin: BaseComboProps['collapsedOrigin'],
+  collapsedOrigin: BaseComboStyleProps['collapsedOrigin'],
   collapsedSize: Size,
   expandedSize: Size,
 ): Position {
@@ -112,12 +113,12 @@ export function getCircleCollapsedOrigin(
  * @returns <zh/> 原点实际位置 | <en/> actual position of the origin
  */
 export function getXYByCollapsedOrigin(
-  collapsedOrigin: BaseComboProps['collapsedOrigin'],
+  collapsedOrigin: BaseComboStyleProps['collapsedOrigin'],
   center: Point,
   collapsedSize: Size,
   expandedSize: Size,
   getCollapsedOrigin: (
-    collapsedOrigin: BaseComboProps['collapsedOrigin'],
+    collapsedOrigin: BaseComboStyleProps['collapsedOrigin'],
     collapsedSize: Size,
     expandedSize: Size,
   ) => Position = getRectCollapsedOrigin,

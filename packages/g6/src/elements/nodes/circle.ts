@@ -8,14 +8,12 @@ import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type CircleStyleProps = BaseNodeStyleProps<KeyStyleProps>;
-type ParsedCircleStyleProps = Required<CircleStyleProps>;
-type KeyStyleProps = GCircleStyleProps;
+export type CircleStyleProps = BaseNodeStyleProps;
 
 /**
  * Draw circle based on BaseNode, override drawKeyShape.
  */
-export class Circle extends BaseNode<CircleStyleProps> {
+export class Circle extends BaseNode {
   static defaultStyleProps: Partial<CircleStyleProps> = {
     size: 24,
   };
@@ -24,16 +22,16 @@ export class Circle extends BaseNode<CircleStyleProps> {
     super(deepMix({}, { style: Circle.defaultStyleProps }, options));
   }
 
-  protected drawKeyShape(attributes: ParsedCircleStyleProps, container: Group) {
+  protected drawKeyShape(attributes: Required<CircleStyleProps>, container: Group) {
     return this.upsert('key', GCircle, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes: ParsedCircleStyleProps): KeyStyleProps {
+  protected getKeyStyle(attributes: Required<CircleStyleProps>): GCircleStyleProps {
     const keyStyle = super.getKeyStyle(attributes);
     return { ...keyStyle, r: Math.min(...this.getSize(attributes)) / 2 };
   }
 
-  protected getIconStyle(attributes: ParsedCircleStyleProps): false | IconStyleProps {
+  protected getIconStyle(attributes: Required<CircleStyleProps>): false | IconStyleProps {
     const style = super.getIconStyle(attributes);
     const { r } = this.getKeyStyle(attributes);
     const size = (r as number) * 2 * ICON_SIZE_RATIO;

@@ -155,8 +155,8 @@ export class DataController {
       const data = toG6Data(combo);
       if (!this.isCombo(idOf(data))) return acc;
 
-      if (ids === undefined) acc.push(data);
-      else ids.includes(idOf(data)) && acc.push(data);
+      if (ids === undefined) acc.push(data as ComboData);
+      else ids.includes(idOf(data)) && acc.push(data as ComboData);
       return acc;
     }, [] as ComboData[]);
   }
@@ -181,10 +181,7 @@ export class DataController {
     return data;
   }
 
-  public getParentData(
-    id: ID,
-    hierarchy: HierarchyKey | undefined = this.inferStructureKey(id),
-  ): NodeLikeData | undefined {
+  public getParentData(id: ID, hierarchy: HierarchyKey): NodeLikeData | undefined {
     const { model } = this;
     if (!hierarchy) {
       console.error('The hierarchy structure key is not specified');
@@ -200,10 +197,6 @@ export class DataController {
     const { model } = this;
     if (!model.hasNode(id) || !model.hasTreeStructure(structureKey)) return [];
     return model.getChildren(id, structureKey).map(toG6Data);
-  }
-
-  private inferStructureKey(id: ID) {
-    if (this.isCombo(id)) return COMBO_KEY;
   }
 
   /**
@@ -461,7 +454,7 @@ export class DataController {
       const modifiedCombos: ComboData[] = [];
       combos.forEach((modifiedCombo) => {
         const id = idOf(modifiedCombo);
-        const originalCombo = toG6Data(model.getNode(id));
+        const originalCombo = toG6Data(model.getNode(id)) as ComboData;
         if (isEqual(originalCombo, modifiedCombo)) return;
 
         const value = mergeElementsData(originalCombo, modifiedCombo);
@@ -515,7 +508,7 @@ export class DataController {
    */
   public refreshComboData(id: ID) {
     const combo = this.getComboData([id])[0];
-    const ancestors = this.getAncestorsData(id, COMBO_KEY);
+    const ancestors = this.getAncestorsData(id, COMBO_KEY) as ComboData[];
 
     if (combo) this.pushChange({ value: combo, original: combo, type: ChangeType.ComboUpdated });
 
@@ -562,7 +555,7 @@ export class DataController {
     if ([dx, dy, dz].some(isNaN) || [dx, dy, dz].every((o) => o === 0)) return;
     const combo = this.getComboData([id])[0];
     if (!combo) return;
-    dfs(
+    dfs<NodeLikeData>(
       combo,
       (succeed) => {
         const succeedID = idOf(succeed);
@@ -572,9 +565,11 @@ export class DataController {
         });
         this.pushChange({
           value,
+          // @ts-ignore
           original: succeed,
           type: this.isCombo(succeedID) ? ChangeType.ComboUpdated : ChangeType.NodeUpdated,
         });
+
         this.model.mergeNodeData(succeedID, value);
       },
       (node) => this.getChildrenData(idOf(node)),
@@ -593,7 +588,7 @@ export class DataController {
     const dy = ty - comboY;
     const dz = tz - comboZ;
 
-    dfs(
+    dfs<NodeLikeData>(
       combo,
       (succeed) => {
         const succeedId = idOf(succeed);
@@ -603,6 +598,7 @@ export class DataController {
         });
         this.pushChange({
           value,
+          // @ts-ignore
           original: succeed,
           type: this.isCombo(succeedId) ? ChangeType.ComboUpdated : ChangeType.NodeUpdated,
         });
@@ -686,6 +682,7 @@ export class DataController {
         });
         this.pushChange({
           value,
+          // @ts-ignore
           original: childData,
           type: this.isCombo(childId) ? ChangeType.ComboUpdated : ChangeType.NodeUpdated,
         });

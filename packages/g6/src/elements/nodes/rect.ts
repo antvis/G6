@@ -6,9 +6,8 @@ import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type RectStyleProps = BaseNodeStyleProps<KeyStyleProps>;
+export type RectStyleProps = BaseNodeStyleProps;
 type ParsedRectStyleProps = Required<RectStyleProps>;
-type KeyStyleProps = GRectStyleProps;
 
 /**
  * Draw Rect based on BaseNode, override drawKeyShape.
@@ -23,10 +22,10 @@ export class Rect extends BaseNode<RectStyleProps> {
     super(deepMix({}, { style: Rect.defaultStyleProps }, options));
   }
 
-  protected getKeyStyle(attributes: ParsedRectStyleProps): KeyStyleProps {
+  protected getKeyStyle(attributes: ParsedRectStyleProps): GRectStyleProps {
     const [width, height] = this.getSize(attributes);
     return {
-      ...(super.getKeyStyle(attributes) as KeyStyleProps),
+      ...super.getKeyStyle(attributes),
       width,
       height,
     };

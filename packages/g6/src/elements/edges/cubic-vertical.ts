@@ -4,7 +4,7 @@ import type { Point } from '../../types';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { Cubic } from './cubic';
 
-export type CubicVerticalStyleProps = BaseEdgeStyleProps & {
+export interface CubicVerticalStyleProps extends BaseEdgeStyleProps {
   /**
    * <zh/> 控制点在两端点连线上的相对位置，范围为`0-1`
    * <en/> The relative position of the control point on the line, ranging from `0-1`
@@ -15,7 +15,7 @@ export type CubicVerticalStyleProps = BaseEdgeStyleProps & {
    * <en/> The distance of the control point from the line
    */
   curveOffset?: number | [number, number];
-};
+}
 
 export class CubicVertical extends Cubic {
   static defaultStyleProps: Partial<CubicVerticalStyleProps> = {
