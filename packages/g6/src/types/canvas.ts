@@ -1,1 +1,1 @@
-export type CanvasLayer = 'background' | 'main' | 'label' | 'transient' | 'transientLabel';
+export type CanvasLayer = 'background' | 'main' | 'label' | 'transient';

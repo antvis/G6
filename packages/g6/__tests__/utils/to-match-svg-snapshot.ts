@@ -12,7 +12,7 @@ export type ToMatchSVGSnapshotOptions = {
   keepSVGElementId?: boolean;
 };
 const formatSVG = (svg: string, keepSVGElementId: boolean) => {
-  return (keepSVGElementId ? svg : svg.replace(/id="[^"]*"/g, '').replace(/clip-path="[^"]*"/g, '')).replace(
+  return (keepSVGElementId ? svg : svg.replace(/ *id="[^"]*" */g, ' ').replace(/clip-path="[^"]*"/g, '')).replace(
     '\r\n',
     '\n',
   );
@@ -27,7 +27,7 @@ export async function toMatchSVGSnapshot(
 ): Promise<{ message: () => string; pass: boolean }> {
   await sleep(300);
 
-  const { fileFormat = 'svg', keepSVGElementId = true } = options;
+  const { fileFormat = 'svg', keepSVGElementId = false } = options;
   const namePath = path.join(dir, name);
   const actualPath = path.join(dir, `${name}-actual.${fileFormat}`);
   const expectedPath = path.join(dir, `${name}.${fileFormat}`);
