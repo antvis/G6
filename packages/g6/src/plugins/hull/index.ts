@@ -2,6 +2,8 @@ import type { ID } from '@antv/graphlib';
 import { PathArray, isEqual, isFunction } from '@antv/util';
 import hull from 'hull.js';
 import { GraphEvent } from '../../constants';
+import type { AnnotatedPathStyleProps } from '../../elements/shapes';
+import { AnnotatedPath } from '../../elements/shapes';
 import type { RuntimeContext } from '../../runtime/types';
 import type { CallableValue, Point } from '../../types';
 import type { ElementLifeCycleEvent } from '../../utils/event';
@@ -9,11 +11,9 @@ import { idOf } from '../../utils/id';
 import { positionOf } from '../../utils/position';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
-import type { HullStyleProps } from './shape';
-import { Hull as HullShape } from './shape';
 import { computeHullPath } from './util';
 
-export interface HullOptions extends BasePluginOptions, HullStyleProps {
+export interface HullOptions extends BasePluginOptions, AnnotatedPathStyleProps {
   /**
    * <zh/> Hull 内的元素
    * <en/> Elements in Hull
@@ -37,7 +37,7 @@ export interface HullOptions extends BasePluginOptions, HullStyleProps {
 }
 
 export class Hull extends BasePlugin<HullOptions> {
-  private shape!: HullShape;
+  private shape!: AnnotatedPath;
   /**
    * <zh/> 在 Hull 上的元素
    * <en/> Element Ids on Hull
@@ -76,13 +76,13 @@ export class Hull extends BasePlugin<HullOptions> {
     this.context.graph.on(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateHullPath);
   }
 
-  private getHullStyle(forceUpdate?: boolean): HullStyleProps {
+  private getHullStyle(forceUpdate?: boolean): AnnotatedPathStyleProps {
     const { members, padding, corner, ...style } = this.options;
     return { ...style, path: this.getHullPath(forceUpdate) };
   }
 
   private drawHull = () => {
-    this.shape = new HullShape({ style: this.getHullStyle() });
+    this.shape = new AnnotatedPath({ style: this.getHullStyle() });
     this.context.canvas.appendChild(this.shape);
     this.firstRender = true;
   };
