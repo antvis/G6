@@ -224,7 +224,7 @@ export class Canvas {
 
   public async toDataURL(options: Partial<DataURLOptions> = {}) {
     const devicePixelRatio = window.devicePixelRatio || 1;
-    const { mode = 'viewport', ..._options } = options;
+    const { mode = 'viewport', ...restOptions } = options;
 
     let startX = 0;
     let startY = 0;
@@ -232,15 +232,12 @@ export class Canvas {
     let height = 0;
 
     if (mode === 'viewport') {
-      width = this.config.width || 0;
-      height = this.config.height || 0;
+      [width, height] = [this.config.width || 0, this.config.height || 0];
     } else if (mode === 'overall') {
       const bounds = this.getBounds();
       const size = getBBoxSize(bounds);
-      startX = bounds.min[0];
-      startY = bounds.min[1];
-      width = size[0];
-      height = size[1];
+      [startX, startY] = bounds.min;
+      [width, height] = size;
     }
 
     const container: HTMLElement = createDOM('<div id="virtual-image"></div>');
@@ -290,7 +287,7 @@ export class Canvas {
 
     return new Promise<string>((resolve) => {
       offscreenCanvas.on(CanvasEvent.AFTER_RENDER, async () => {
-        const url = await contextService.toDataURL(_options);
+        const url = await contextService.toDataURL(restOptions);
         resolve(url);
       });
     });
