@@ -51,7 +51,7 @@ export function removePrefix(string: string, prefix?: string, lowercaseFirstLett
  * @param prefix - <zh/> 子样式前缀 | <en/> sub style prefix
  * @returns <zh/> 子样式 | <en/> sub style
  */
-export function subStyleProps<T extends object>(style: object, prefix: string) {
+export function subStyleProps<T extends Record<string, any>>(style: object, prefix: string) {
   return Object.entries(style).reduce((acc, [key, value]) => {
     if (key === 'className' || key === 'class') return acc;
     if (startsWith(key, prefix)) {

@@ -1,18 +1,22 @@
-import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
+import type { DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
+import type { ID } from '@antv/graphlib';
 import { deepMix, isEmpty } from '@antv/util';
 import type { CategoricalPalette } from '../../palettes/types';
+import type { NodeData } from '../../spec';
 import type {
   BadgePlacement,
-  BaseNodeProps,
+  BaseElementStyleProps,
   Keyframe,
   LabelPlacement,
+  Node,
   Placement,
   Point,
   Port,
   PortPlacement,
   PortStyleProps,
   PrefixObject,
+  Size,
 } from '../../types';
 import { getPortXYByPlacement, getTextStyleByPlacement, isSimplePort } from '../../utils/element';
 import { getPaletteColors } from '../../utils/palette';
@@ -24,8 +28,108 @@ import { getWordWrapWidthByBox } from '../../utils/text';
 import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
 
-export type BaseNodeStyleProps<H extends BaseStyleProps = BaseNodeProps> = BaseNodeProps &
-  ShapeSwitch & {
+export type BaseNodeStyleProps<T extends Record<string, unknown> = Record<string, any>> = T &
+  BaseElementStyleProps &
+  PrefixObject<NodeLabelStyleProps, 'label'> &
+  PrefixObject<T, 'halo'> &
+  PrefixObject<IconStyleProps, 'icon'> &
+  PrefixObject<BadgeStyleProps, 'badge'> &
+  PrefixObject<PortStyleProps, 'port'> & {
+    /**
+     * <zh/> x 坐标
+     *
+     * <en/> The x-coordinate of node
+     */
+    x?: number | string;
+    /**
+     * <zh/> y 坐标
+     *
+     * <en/> The y-coordinate of node
+     */
+    y?: number | string;
+    /**
+     * <zh/> z 坐标
+     *
+     * <en/> The z-coordinate of node
+     */
+    z?: number;
+    /**
+     * <zh/> 节点大小，快捷设置节点宽高
+     *
+     * <en/> The size of node, which is a shortcut to set the width and height of node
+     */
+    size?: Size;
+    /**
+     * <zh/> 主色
+     *
+     * <en/> Subject color
+     */
+    color?: string;
+    /**
+     * @deprecated
+     * <zh/> 解决类型 style.getPropertyValue 问题，不要使用该属性
+     *
+     * <en/> Solve the problem of style.getPropertyValue, do not use this property
+     * @description
+     * <zh/> 移除该属性会导致 Polygon 及其子类与 Node 不兼容
+     *
+     * <en/> Removing this property will cause Polygon and its subclasses to be incompatible with Node
+     * @ignore
+     */
+    points?: ([number, number] | [number, number, number])[];
+    /**
+     * <zh/> 父节点 id
+     * <en/> The id of the parent node/combo
+     */
+    parentId?: ID;
+    /**
+     * <zh/> 是否收起
+     *
+     * <en/> Indicates whether the node is collapsed
+     */
+    collapsed?: boolean;
+    /**
+     * <zh/> 子节点实例
+     *
+     * <en/> The instance of the child node
+     */
+    childrenNode?: Node[];
+    /**
+     * <zh/> 子节点数据
+     *
+     * <en/> The data of the child node
+     */
+    childrenData?: NodeData[];
+    /**
+     * <zh/> 是否显示节点标签
+     *
+     * <en/> Whether to show the node label
+     */
+    label?: boolean;
+    /**
+     * <zh/> 是否显示节点光环
+     *
+     * <en/> Whether to show the node halo
+     */
+    halo?: boolean;
+    /**
+     * <zh/> 是否显示节点图标
+     *
+     * <en/> Whether to show the node icon
+     */
+    icon?: boolean;
+    /**
+     * <zh/> 是否显示节点徽标
+     *
+     * <en/> Whether to show the node badge
+     */
+    badge?: boolean;
+    /**
+     * <zh/> 是否显示连接桩
+     *
+     * <en/> Whether to show the node port
+     */
+    port?: boolean;
     /**
      * <zh/> 连接桩
      * <en/> Port
@@ -41,11 +145,7 @@ export type BaseNodeStyleProps<H extends BaseStyleProps = BaseNodeProps> = BaseN
      * <en/> Badge background color palette
      */
     badgePalette?: string[] | CategoricalPalette;
-  } & PrefixObject<NodeLabelStyleProps, 'label'> &
-  PrefixObject<H, 'halo'> &
-  PrefixObject<IconStyleProps, 'icon'> &
-  PrefixObject<BadgeStyleProps, 'badge'> &
-  PrefixObject<PortStyleProps, 'port'>;
+  };
 
 /**
  * Design document: https://www.yuque.com/antv/g6/gl1iof1xpzg6ed98
@@ -53,7 +153,7 @@ export type BaseNodeStyleProps<H extends BaseStyleProps = BaseNodeProps> = BaseN
  * The P is the StyleProps of Key Shape.
  * The KeyShape is the type of the key shape.
  */
-export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseShape<S> {
+export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps> extends BaseShape<S> {
   public type = 'node';
 
   static defaultStyleProps: Partial<BaseNodeStyleProps> = {
@@ -90,7 +190,11 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = any> extends BaseS
     super(deepMix({}, { style: BaseNode.defaultStyleProps }, options));
   }
 
-  protected getSize(attributes = this.parsedAttributes) {
+  public get parsedAttributes() {
+    return this.attributes as Required<S>;
+  }
+
+  protected getSize(attributes = this.attributes) {
     const { size } = attributes;
     return parseSize(size);
   }
@@ -351,12 +455,4 @@ export type NodePortStyleProps = Partial<PortStyleProps> & {
    * If the value is a tuple of two numbers, it will be treated as the position coordinates(0 ~ 1).
    */
   placement: Placement;
-};
-
-type ShapeSwitch = {
-  label?: boolean;
-  halo?: boolean;
-  icon?: boolean;
-  badge?: boolean;
-  port?: boolean;
 };

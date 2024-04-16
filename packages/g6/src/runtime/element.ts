@@ -22,7 +22,6 @@ import type {
   ElementDatum,
   ElementType,
   Node,
-  NodeLike,
   State,
   StyleIterationContext,
 } from '../types';
@@ -306,7 +305,7 @@ export class ElementController {
       const isCollapsed = !!style.collapsed;
       const childrenNode = isCollapsed
         ? []
-        : (childrenData.map((child) => this.getElement(idOf(child))).filter(Boolean) as NodeLike[]);
+        : (childrenData.map((child) => this.getElement(idOf(child))).filter(Boolean) as (Node | Combo)[]);
       Object.assign(style, { childrenNode, childrenData });
     }
 

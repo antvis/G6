@@ -10,7 +10,7 @@ import type { ID } from '@antv/graphlib';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
 import type { NodeStyle } from '../spec/element/node';
-import type { ElementTypes, IPointerEvent, Point, Points, State } from '../types';
+import type { ElementType, IPointerEvent, Point, Points, State } from '../types';
 import type { ShortcutKey } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
 
@@ -32,7 +32,7 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
    *
    * <en/> Enable Elements type.
    */
-  enableElements?: ElementTypes;
+  enableElements?: ElementType[];
   /**
    * <zh/> 是否启用动画
    *
@@ -234,7 +234,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
     this.endPoint = undefined;
   };
 
-  public getPointsSelectIds = (graph: Graph, points: Points, itemTypes: ElementTypes) => {
+  public getPointsSelectIds = (graph: Graph, points: Points, itemTypes: ElementType[]) => {
     const selectedNodeIds: ID[] = [];
     const selectedComboIds: ID[] = [];
 
