@@ -235,7 +235,7 @@ graph.render().then(async () => {
           corner: 'sharp',
           labelText: 'Updated Group1',
           labelPlacement: 'top',
-          labelCloseToHull: false,
+          labelCloseToPath: false,
           labelBackgroundFill: 'orange',
         }));
       },

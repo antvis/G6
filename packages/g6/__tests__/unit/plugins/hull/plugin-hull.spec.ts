@@ -46,10 +46,10 @@ describe('plugin hull', () => {
     await expect(graph).toMatchSnapshot(__filename, 'labelPlacement__bottom');
   });
 
-  it('update labelCloseToHull', async () => {
-    hull.updateOptions((options) => ({ ...options, labelCloseToHull: false }));
+  it('update labelCloseToPath', async () => {
+    hull.updateOptions((options) => ({ ...options, labelCloseToPath: false }));
     await expect(graph).toMatchSnapshot(__filename, 'labelCloseToHull__false');
-    hull.updateOptions((options) => ({ ...options, labelCloseToHull: true }));
+    hull.updateOptions((options) => ({ ...options, labelCloseToPath: true }));
     await expect(graph).toMatchSnapshot(__filename, 'labelCloseToHull__true');
   });
 

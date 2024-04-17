@@ -48,11 +48,6 @@ export class Hull extends BasePlugin<HullOptions> {
    * <en/> Hull path
    */
   private path!: PathArray;
-  /**
-   * <zh> 是否初次渲染完成
-   * <en> Whether the first rendering is completed
-   */
-  private firstRender = false;
 
   static defaultOptions: Partial<HullOptions> = {
     members: [],
@@ -82,13 +77,16 @@ export class Hull extends BasePlugin<HullOptions> {
   }
 
   private drawHull = () => {
-    this.shape = new AnnotatedPath({ style: this.getHullStyle() });
-    this.context.canvas.appendChild(this.shape);
-    this.firstRender = true;
+    if (!this.shape) {
+      this.shape = new AnnotatedPath({ style: this.getHullStyle() });
+      this.context.canvas.appendChild(this.shape);
+    } else {
+      this.shape.update(this.getHullStyle());
+    }
   };
 
   private updateHullPath = (event: ElementLifeCycleEvent) => {
-    if (!this.firstRender) return;
+    if (!this.shape) return;
     if (!this.options.members.includes(idOf(event.data))) return;
     this.shape.update({ path: this.getHullPath(true) });
   };
@@ -118,26 +116,22 @@ export class Hull extends BasePlugin<HullOptions> {
 
   public addMembers(members: ID | ID[]) {
     const membersToAdd = Array.isArray(members) ? members : [members];
-    this.options.members = [...new Set([...this.options.members, ...membersToAdd])];
-    this.shape.update({ path: this.getHullPath() });
+    this.sync({ members: [...new Set([...this.options.members, ...membersToAdd])] });
   }
 
   public removeMembers(members: ID | ID[]) {
     const membersToRemove = Array.isArray(members) ? members : [members];
-    this.options.members = this.options.members.filter((id) => !membersToRemove.includes(id));
-    if (membersToRemove.some((id) => this.hullMemberIds.includes(id))) {
-      this.shape.update({ path: this.getHullPath() });
-    }
+    this.sync({ members: this.options.members.filter((id) => !membersToRemove.includes(id)) });
   }
 
   public updateMembers(members: CallableValue<ID[]>) {
-    this.options.members = isFunction(members) ? members(this.options.members) : members;
-    this.shape.update(this.getHullStyle(true));
+    const membersToUpdate = isFunction(members) ? members(this.options.members) : members;
+    this.sync({ members: membersToUpdate });
   }
 
   public updateOptions(options: CallableValue<HullOptions>) {
-    this.options = (isFunction(options) ? options(this.options) : options) as Required<HullOptions>;
-    this.shape.update({ ...this.options, path: this.getHullPath(true) });
+    this.sync(isFunction(options) ? options(this.options) : options, false);
+    this.shape.update(this.getHullStyle(true));
   }
 
   public destroy(): void {
