@@ -17,4 +17,6 @@ export enum ExtensionCategory {
   PLUGIN = 'plugin',
   /** <zh/> 动画 | <en/> Animation */
   ANIMATION = 'animation',
+  /** <zh/> 数据转换 ｜<en/> Data transform */
+  TRANSFORM = 'transform',
 }

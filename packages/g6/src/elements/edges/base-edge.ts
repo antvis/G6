@@ -10,11 +10,12 @@ import { Image, Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix, isEmpty, isFunction } from '@antv/util';
 import type {
-  BaseEdgeProps,
+  BaseElementStyleProps,
   EdgeKey,
   EdgeLabelStyleProps,
   Keyframe,
   LoopPlacement,
+  Node,
   Point,
   PrefixObject,
   Size,
@@ -31,13 +32,78 @@ import type { LabelStyleProps } from '../shapes';
 import { Label } from '../shapes';
 import { BaseShape } from '../shapes/base-shape';
 
-export type BaseEdgeStyleProps = BaseEdgeProps &
-  ShapeSwitch &
+export type BaseEdgeStyleProps = BaseElementStyleProps &
+  Pick<
+    PathStyleProps,
+    'isBillboard' | 'markerStart' | 'markerStartOffset' | 'markerEnd' | 'markerEndOffset' | 'markerMid'
+  > &
   PrefixObject<EdgeLabelStyleProps, 'label'> &
   PrefixObject<PathStyleProps, 'halo'> &
   PrefixObject<EdgeArrowStyleProps, 'startArrow'> &
   PrefixObject<EdgeArrowStyleProps, 'endArrow'> &
-  PrefixObject<LoopStyleProps, 'loop'>;
+  PrefixObject<LoopStyleProps, 'loop'> & {
+    /**
+     * <zh/> 是否显示边的标签
+     *
+     * <en/> Whether to display the label of the edge
+     */
+    label?: boolean;
+    /**
+     * <zh/> 是否显示边的光晕
+     *
+     * <en/> Whether to display the halo of the edge
+     */
+    halo?: boolean;
+    /**
+     * <zh/> 是否显示边的起始箭头
+     *
+     * <en/> Whether to display the start arrow of the edge
+     */
+    startArrow?: boolean;
+    /**
+     * <zh/> 是否显示边的结束箭头
+     *
+     * <en/> Whether to display the end arrow of the edge
+     */
+    endArrow?: boolean;
+    /**
+     * <zh/> 起始箭头的偏移量
+     *
+     * <en/> Offset of the start arrow
+     */
+    startArrowOffset?: number;
+    /**
+     * <zh/> 结束箭头的偏移量
+     *
+     * <en/> Offset of the end arrow
+     */
+    endArrowOffset?: number;
+    /**
+     * <zh/> 主色
+     * <en/> Subject color
+     */
+    color?: string;
+    /**
+     * <zh/> 边的起点 shape
+     * <en/> The source shape. Represents the start of the edge
+     */
+    sourceNode: Node;
+    /**
+     * <zh/> 边的终点 shape
+     * <en/> The source shape. Represents the start of the edge
+     */
+    targetNode: Node;
+    /**
+     * <zh/> 边起始连接的 port
+     * <en/> The Port of the source node
+     */
+    sourcePort?: string;
+    /**
+     * <zh/> 边终点连接的 port
+     * <en/> The Port of the target node
+     */
+    targetPort?: string;
+  };
 
 type ParsedBaseEdgeStyleProps = Required<BaseEdgeStyleProps>;
 
@@ -289,13 +355,4 @@ export type LoopStyleProps = {
    * <en/> Determine the position from the edge of the node keyShape to the top of the self-loop, used to specify the curvature of the self-loop, the default value is the maximum of the width or height
    */
   dist?: number;
-};
-
-type ShapeSwitch = {
-  label?: boolean;
-  halo?: boolean;
-  startArrow?: boolean;
-  endArrow?: boolean;
-  startArrowOffset?: number;
-  endArrowOffset?: number;
 };

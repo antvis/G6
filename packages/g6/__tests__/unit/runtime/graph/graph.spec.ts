@@ -86,6 +86,24 @@ describe('Graph', () => {
     graph.setPlugins([]);
   });
 
+  it('getTransforms/setTransforms/updateTransform', () => {
+    expect(graph.getTransforms()).toEqual([]);
+    graph.setTransforms([{ type: 'flow', key: 'flow-1' }]);
+    expect(graph.getTransforms()).toEqual([{ type: 'flow', key: 'flow-1' }]);
+    graph.updateTransform({ key: 'flow-1', props1: 'a' });
+    expect(graph.getTransforms()).toEqual([{ type: 'flow', key: 'flow-1', props1: 'a' }]);
+    graph.setTransforms([
+      { type: 'flow', key: 'flow-1' },
+      { type: 'flow', key: 'flow-2' },
+    ]);
+    graph.updateTransform({ key: 'flow-2', props1: 'b' });
+    expect(graph.getTransforms()).toEqual([
+      { type: 'flow', key: 'flow-1' },
+      { type: 'flow', key: 'flow-2', props1: 'b' },
+    ]);
+    graph.setTransforms([]);
+  });
+
   it('updateData/getData/setData', () => {
     // 调整之后，getData 获取的为当前 graph 最新的数据，而不是初始化时的数据
     // After adjustment, the data obtained by getData is the latest data of the graph, not the data when it is initialized
@@ -295,8 +313,10 @@ describe('Graph', () => {
   });
 
   it('toDataURL', async () => {
-    const url = await graph.toDataURL();
-    expect(url).toBeDefined();
+    expect(await graph.toDataURL()).toBeDefined();
+    expect(await graph.toDataURL({ mode: 'overall' })).toBeDefined();
+    expect((await graph.toDataURL({ type: 'image/jpeg' })).startsWith('data:image/jpeg')).toBe(true);
+    expect((await graph.toDataURL({ type: 'image/png' })).startsWith('data:image/png')).toBe(true);
   });
 
   it('resize', () => {

@@ -6,11 +6,12 @@ import type { ID } from '@antv/graphlib';
 import { groupBy, isEmpty } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
-import { AnimationType, ChangeTypeEnum, GraphEvent } from '../constants';
+import { AnimationType, ChangeType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry';
 import type { ComboData, EdgeData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
+import type { DrawData, ProcedureData } from '../transforms/types';
 import type {
   AnimatableTask,
   Combo,
@@ -21,15 +22,12 @@ import type {
   ElementDatum,
   ElementType,
   Node,
-  NodeLike,
-  NodeLikeData,
   State,
   StyleIterationContext,
 } from '../types';
 import { executeAnimatableTasks, inferDefaultValue, withAnimationCallbacks } from '../utils/animation';
 import { cacheStyle, getCachedStyle, hasCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
-import { getSubgraphRelatedEdges } from '../utils/edge';
 import { updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '../utils/event';
@@ -307,7 +305,7 @@ export class ElementController {
       const isCollapsed = !!style.collapsed;
       const childrenNode = isCollapsed
         ? []
-        : (childrenData.map((child) => this.getElement(idOf(child))).filter(Boolean) as NodeLike[]);
+        : (childrenData.map((child) => this.getElement(idOf(child))).filter(Boolean) as (Node | Combo)[]);
       Object.assign(style, { childrenNode, childrenData });
     }
 
@@ -375,7 +373,7 @@ export class ElementController {
       ComboAdded = [],
       ComboUpdated = [],
       ComboRemoved = [],
-    } = groupBy(tasks, (change) => change.type) as unknown as Record<`${ChangeTypeEnum}`, DataChange[]>;
+    } = groupBy(tasks, (change) => change.type) as unknown as Record<`${ChangeType}`, DataChange[]>;
 
     const dataOf = <T extends DataChange['value']>(data: DataChange[]) =>
       new Map(
@@ -385,7 +383,7 @@ export class ElementController {
         }),
       );
 
-    const input: FlowData = {
+    const input: DrawData = {
       add: {
         nodes: dataOf<NodeData>(NodeAdded),
         edges: dataOf<EdgeData>(EdgeAdded),
@@ -402,144 +400,19 @@ export class ElementController {
         combos: dataOf<ComboData>(ComboRemoved),
       },
     };
+    const drawData = this.transformData(input);
 
-    const flows: Flow[] = [this.updateRelatedEdgeFlow, this.arrangeDrawOrderFlow, this.collapseExpandFlow];
-    const output = flows.reduce((data, flow) => flow(data), input);
+    // 清空变更 / Clear changes
+    model.clearChanges();
 
-    return { dataChanges, drawData: output };
+    return { dataChanges, drawData };
   }
 
-  /**
-   * 如果更新了节点 / combo，需要更新连接的边
-   * If the node / combo is updated, the connected edge and the combo it is in need to be updated
-   */
-  private updateRelatedEdgeFlow: Flow = (input) => {
-    const { model } = this.context;
-    const {
-      update: { nodes, edges, combos },
-    } = input;
+  private transformData(input: DrawData): DrawData {
+    const transforms = this.context.transform.getTransformInstance();
 
-    const addRelatedEdges = (_: NodeLikeData, id: ID) => {
-      const relatedEdgesData = model.getRelatedEdgesData(id);
-      relatedEdgesData.forEach((edge) => edges.set(idOf(edge), edge));
-    };
-
-    nodes.forEach(addRelatedEdges);
-    combos.forEach(addRelatedEdges);
-
-    return input;
-  };
-
-  /**
-   * <zh/> 调整元素绘制顺序
-   *
-   * <en/> Adjust the drawing order of elements
-   */
-  private arrangeDrawOrderFlow: Flow = (input) => {
-    const { model } = this.context;
-
-    const combosToAdd = input.add.combos;
-
-    const order: [ID, ComboData, number][] = [];
-    combosToAdd.forEach((combo, id) => {
-      const ancestors = model.getAncestorsData(id, 'combo');
-      const path = ancestors.map((ancestor) => idOf(ancestor)).reverse();
-      // combo 的 zIndex 为距离根 combo 的深度
-      // The zIndex of the combo is the depth from the root combo
-      order.push([id, combo, path.length]);
-    });
-
-    input.add.combos = new Map(
-      order
-        // 基于 zIndex 降序排序，优先绘制子 combo / Sort based on zIndex in descending order, draw child combo first
-        .sort(([, , zIndex1], [, , zIndex2]) => zIndex2 - zIndex1)
-        .map(([id, datum]) => [id, datum]),
-    );
-
-    return input;
-  };
-
-  /**
-   * <zh/> 处理元素的收起和展开
-   *
-   * <en/> Process the collapse and expand of elements
-   */
-  private collapseExpandFlow: Flow = (input) => {
-    const { model } = this.context;
-    const { add, update } = input;
-    /**
-     * <zh/> 重新分配绘制任务
-     *
-     * <en/> Reassign drawing tasks
-     */
-    const reassignTo = (type: 'add' | 'update' | 'remove', elementType: ElementType, datum: ElementDatum) => {
-      const typeName = `${elementType}s` as keyof ProcedureData;
-      Object.entries(input).forEach(([_type, value]) => {
-        if (type === _type) value[typeName].set(idOf(datum), datum as any);
-        else value[typeName].delete(idOf(datum));
-      });
-    };
-
-    // combo 添加和更新的顺序为先子后父，因此采用倒序遍历
-    // The order of adding and updating combos is first child and then parent, so reverse traversal is used
-    const combos = [...input.update.combos.entries(), ...input.add.combos.entries()];
-    while (combos.length) {
-      const [id, combo] = combos.pop()!;
-
-      const isCollapsed = !!combo.style?.collapsed;
-      if (isCollapsed) {
-        const descendants = model.getDescendantsData(id);
-        const descendantIds = descendants.map(idOf);
-        const { internal, external } = getSubgraphRelatedEdges(descendantIds, (id) => model.getRelatedEdgesData(id));
-
-        // 移除所有后代元素 / Remove all descendant elements
-        descendants.forEach((descendant) => {
-          const descendantId = idOf(descendant);
-          // 不再处理当前 combo 的后代 combo
-          // No longer process the descendant combo of the current combo
-          const comboIndex = combos.findIndex(([id]) => id === descendantId);
-          if (comboIndex !== -1) combos.splice(comboIndex, 1);
-
-          const elementType = model.getElementType(descendantId);
-          reassignTo('remove', elementType, descendant);
-        });
-
-        // 如果是内部边/节点 销毁
-        // If it is an internal edge/node, destroy it
-        internal.forEach((edge) => reassignTo('remove', 'edge', edge));
-
-        // 如果是外部边，连接到收起对象上
-        // If it is an external edge, connect to the collapsed object
-        external.forEach((edge) => {
-          const id = idOf(edge);
-          const type = descendantIds.includes(edge.source) ? 'source' : 'target';
-          const datum = { ...edge, [type]: idOf(combo) };
-          if (add.edges.has(id)) add.edges.set(id, datum);
-          if (update.edges.has(id)) update.edges.set(id, datum);
-        });
-      } else {
-        const children = model.getChildrenData(id);
-        const childrenIds = children.map(idOf);
-        const { edges } = getSubgraphRelatedEdges(childrenIds, (id) => model.getRelatedEdgesData(id));
-
-        [...children, ...edges].forEach((descendant) => {
-          const id = idOf(descendant);
-          const elementType = model.getElementType(id);
-
-          const element = this.getElement(id);
-          // 如果节点不存在，则添加到新增列表，如果存在，添加到更新列表
-          // If the node does not exist, add it to the new list, if it exists, add it to the update list
-          if (element) reassignTo('update', elementType, descendant);
-          else reassignTo('add', elementType, descendant);
-
-          // 继续展开子节点 / Continue to expand child nodes
-          if (elementType === 'combo') combos.push([id, descendant as ComboData]);
-        });
-      }
-    }
-
-    return input;
-  };
+    return Object.values(transforms).reduce((data, transform) => transform.beforeDraw(data), input);
+  }
 
   private createElement(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
     const { animator } = context;
@@ -789,22 +662,3 @@ type DrawContext = {
   /** <zh/> 是否不抛出事件 | <en/> Whether not to throw events */
   silence?: boolean;
 };
-
-/**
- * <zh/> 在 Element Controller 中，为了提高查询性能，统一使用 Map 存储数据
- *
- * <en/> In Element Controller, in order to improve query performance, use Map to store data uniformly
- */
-class ProcedureData {
-  nodes: Map<ID, NodeData> = new Map();
-  edges: Map<ID, EdgeData> = new Map();
-  combos: Map<ID, ComboData> = new Map();
-}
-
-type FlowData = {
-  add: ProcedureData;
-  update: ProcedureData;
-  remove: ProcedureData;
-};
-
-type Flow = (input: FlowData) => FlowData;

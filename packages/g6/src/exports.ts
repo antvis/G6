@@ -21,6 +21,7 @@ export { BaseShape } from './elements/shapes';
 export { BasePlugin, CameraSetting, History } from './plugins';
 export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
+export { BaseTransform } from './transforms';
 export { Shortcut } from './utils/shortcut';
 
 export type { BaseBehaviorOptions, DragCanvasOptions, ZoomCanvasOptions } from './behaviors';
@@ -64,6 +65,7 @@ export type {
   ThemeOptions,
   ViewportOptions,
 } from './spec';
+export type { BaseTransformOptions } from './transforms';
 export type {
   IAnimateEvent,
   IDragEvent,

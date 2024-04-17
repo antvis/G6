@@ -13,7 +13,7 @@ export abstract class ExtensionController<Extension extends BaseExtension<Loosel
 
   protected extensionMap: Record<string, Extension> = {};
 
-  public abstract category: 'plugin' | 'behavior';
+  public abstract category: 'plugin' | 'behavior' | 'transform';
 
   constructor(context: RuntimeContext) {
     this.context = context;

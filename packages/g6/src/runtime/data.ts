@@ -1,6 +1,6 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { isEqual, isUndefined } from '@antv/util';
-import { COMBO_KEY, ChangeTypeEnum, TREE_KEY } from '../constants';
+import { COMBO_KEY, ChangeType, TREE_KEY } from '../constants';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type {
   DataAdded,
@@ -75,11 +75,7 @@ export class DataController {
     if (this.isTraceless) return;
     const { type } = change;
 
-    if (
-      type === ChangeTypeEnum.NodeUpdated ||
-      type === ChangeTypeEnum.EdgeUpdated ||
-      type === ChangeTypeEnum.ComboUpdated
-    ) {
+    if (type === ChangeType.NodeUpdated || type === ChangeType.EdgeUpdated || type === ChangeType.ComboUpdated) {
       const { value, original } = change;
       this.changes.push({ value: cloneElementData(value), original: cloneElementData(original), type } as DataUpdated);
     } else {
@@ -94,9 +90,11 @@ export class DataController {
    * @returns <zh/> 数据变更 | <en/> data changes
    */
   public getChanges(): DataChange[] {
-    const changes = this.changes;
+    return this.changes;
+  }
+
+  public clearChanges() {
     this.changes = [];
-    return changes;
   }
 
   public batch(callback: () => void) {
@@ -157,8 +155,8 @@ export class DataController {
       const data = toG6Data(combo);
       if (!this.isCombo(idOf(data))) return acc;
 
-      if (ids === undefined) acc.push(data);
-      else ids.includes(idOf(data)) && acc.push(data);
+      if (ids === undefined) acc.push(data as ComboData);
+      else ids.includes(idOf(data)) && acc.push(data as ComboData);
       return acc;
     }, [] as ComboData[]);
   }
@@ -183,10 +181,7 @@ export class DataController {
     return data;
   }
 
-  public getParentData(
-    id: ID,
-    hierarchy: HierarchyKey | undefined = this.inferStructureKey(id),
-  ): NodeLikeData | undefined {
+  public getParentData(id: ID, hierarchy: HierarchyKey): NodeLikeData | undefined {
     const { model } = this;
     if (!hierarchy) {
       console.error('The hierarchy structure key is not specified');
@@ -202,10 +197,6 @@ export class DataController {
     const { model } = this;
     if (!model.hasNode(id) || !model.hasTreeStructure(structureKey)) return [];
     return model.getChildren(id, structureKey).map(toG6Data);
-  }
-
-  private inferStructureKey(id: ID) {
-    if (this.isCombo(id)) return COMBO_KEY;
   }
 
   /**
@@ -326,7 +317,7 @@ export class DataController {
     if (!nodes.length) return;
     this.model.addNodes(
       nodes.map((node) => {
-        this.pushChange({ value: node, type: ChangeTypeEnum.NodeAdded });
+        this.pushChange({ value: node, type: ChangeType.NodeAdded });
         return toGraphlibData(node);
       }),
     );
@@ -337,7 +328,7 @@ export class DataController {
     if (!edges.length) return;
     this.model.addEdges(
       edges.map((edge) => {
-        this.pushChange({ value: edge, type: ChangeTypeEnum.EdgeAdded });
+        this.pushChange({ value: edge, type: ChangeType.EdgeAdded });
         return toGraphlibData(edge);
       }),
     );
@@ -354,7 +345,7 @@ export class DataController {
     model.addNodes(
       combos.map((combo) => {
         this.comboIds.add(idOf(combo));
-        this.pushChange({ value: combo, type: ChangeTypeEnum.ComboAdded });
+        this.pushChange({ value: combo, type: ChangeType.ComboAdded });
         return toGraphlibData(combo);
       }),
     );
@@ -416,7 +407,7 @@ export class DataController {
         if (isEqual(originalNode, modifiedNode)) return;
 
         const value = mergeElementsData(originalNode, modifiedNode);
-        this.pushChange({ value, original: originalNode, type: ChangeTypeEnum.NodeUpdated });
+        this.pushChange({ value, original: originalNode, type: ChangeType.NodeUpdated });
         model.mergeNodeData(id, value);
         modifiedNodes.push(value);
       });
@@ -450,7 +441,7 @@ export class DataController {
           model.updateEdgeTarget(id, modifiedEdge.target);
         }
         const updatedData = mergeElementsData(originalEdge, modifiedEdge);
-        this.pushChange({ value: updatedData, original: originalEdge, type: ChangeTypeEnum.EdgeUpdated });
+        this.pushChange({ value: updatedData, original: originalEdge, type: ChangeType.EdgeUpdated });
         model.mergeEdgeData(id, updatedData);
       });
     });
@@ -463,11 +454,11 @@ export class DataController {
       const modifiedCombos: ComboData[] = [];
       combos.forEach((modifiedCombo) => {
         const id = idOf(modifiedCombo);
-        const originalCombo = toG6Data(model.getNode(id));
+        const originalCombo = toG6Data(model.getNode(id)) as ComboData;
         if (isEqual(originalCombo, modifiedCombo)) return;
 
         const value = mergeElementsData(originalCombo, modifiedCombo);
-        this.pushChange({ value, original: originalCombo, type: ChangeTypeEnum.ComboUpdated });
+        this.pushChange({ value, original: originalCombo, type: ChangeType.ComboUpdated });
         model.mergeNodeData(id, value);
         modifiedCombos.push(value);
       });
@@ -517,12 +508,12 @@ export class DataController {
    */
   public refreshComboData(id: ID) {
     const combo = this.getComboData([id])[0];
-    const ancestors = this.getAncestorsData(id, COMBO_KEY);
+    const ancestors = this.getAncestorsData(id, COMBO_KEY) as ComboData[];
 
-    if (combo) this.pushChange({ value: combo, original: combo, type: ChangeTypeEnum.ComboUpdated });
+    if (combo) this.pushChange({ value: combo, original: combo, type: ChangeType.ComboUpdated });
 
     ancestors.forEach((value) => {
-      this.pushChange({ value: value, original: value, type: ChangeTypeEnum.ComboUpdated });
+      this.pushChange({ value: value, original: value, type: ChangeType.ComboUpdated });
     });
   }
 
@@ -564,7 +555,7 @@ export class DataController {
     if ([dx, dy, dz].some(isNaN) || [dx, dy, dz].every((o) => o === 0)) return;
     const combo = this.getComboData([id])[0];
     if (!combo) return;
-    dfs(
+    dfs<NodeLikeData>(
       combo,
       (succeed) => {
         const succeedID = idOf(succeed);
@@ -574,9 +565,11 @@ export class DataController {
         });
         this.pushChange({
           value,
+          // @ts-ignore
           original: succeed,
-          type: this.isCombo(succeedID) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
+          type: this.isCombo(succeedID) ? ChangeType.ComboUpdated : ChangeType.NodeUpdated,
         });
+
         this.model.mergeNodeData(succeedID, value);
       },
       (node) => this.getChildrenData(idOf(node)),
@@ -595,7 +588,7 @@ export class DataController {
     const dy = ty - comboY;
     const dz = tz - comboZ;
 
-    dfs(
+    dfs<NodeLikeData>(
       combo,
       (succeed) => {
         const succeedId = idOf(succeed);
@@ -605,8 +598,9 @@ export class DataController {
         });
         this.pushChange({
           value,
+          // @ts-ignore
           original: succeed,
-          type: this.isCombo(succeedId) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
+          type: this.isCombo(succeedId) ? ChangeType.ComboUpdated : ChangeType.NodeUpdated,
         });
         this.model.mergeNodeData(succeedId, value);
       },
@@ -636,7 +630,7 @@ export class DataController {
         this.removeEdgeData(this.getRelatedEdgesData(id).map(idOf));
         // TODO 树图情况下移除子节点
 
-        this.pushChange({ value: this.getNodeData([id])[0], type: ChangeTypeEnum.NodeRemoved });
+        this.pushChange({ value: this.getNodeData([id])[0], type: ChangeType.NodeRemoved });
         this.removeNodeLikeHierarchy(id);
       });
       this.model.removeNodes(ids);
@@ -645,7 +639,7 @@ export class DataController {
 
   public removeEdgeData(ids: ID[] = []) {
     if (!ids.length) return;
-    ids.forEach((id) => this.pushChange({ value: this.getEdgeData([id])[0], type: ChangeTypeEnum.EdgeRemoved }));
+    ids.forEach((id) => this.pushChange({ value: this.getEdgeData([id])[0], type: ChangeType.EdgeRemoved }));
     this.model.removeEdges(ids);
   }
 
@@ -653,7 +647,7 @@ export class DataController {
     if (!ids.length) return;
     this.batch(() => {
       ids.forEach((id) => {
-        this.pushChange({ value: this.getComboData([id])[0], type: ChangeTypeEnum.ComboRemoved });
+        this.pushChange({ value: this.getComboData([id])[0], type: ChangeType.ComboRemoved });
         this.removeNodeLikeHierarchy(id);
         this.comboIds.delete(id);
       });
@@ -688,8 +682,9 @@ export class DataController {
         });
         this.pushChange({
           value,
+          // @ts-ignore
           original: childData,
-          type: this.isCombo(childId) ? ChangeTypeEnum.ComboUpdated : ChangeTypeEnum.NodeUpdated,
+          type: this.isCombo(childId) ? ChangeType.ComboUpdated : ChangeType.NodeUpdated,
         });
         this.model.mergeNodeData(idOf(childData), value);
       });

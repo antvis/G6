@@ -9,10 +9,14 @@ import { deepMix } from '@antv/util';
 import { Material } from '../types';
 import { createMaterial } from '../utils/material';
 
-export type BaseNode3DStyleProps = BaseNodeStyleProps<MeshStyleProps> & {
-  texture?: string | TexImageSource;
-  materialType?: Material['type'];
-} & PrefixObject<IMaterial, 'material'>;
+export type BaseNode3DStyleProps = BaseNodeStyleProps<
+  {
+    geometry?: GGeometry<any>;
+    material?: GMaterial<any>;
+    texture?: string | TexImageSource;
+    materialType?: Material['type'];
+  } & PrefixObject<IMaterial, 'material'>
+>;
 
 export abstract class BaseNode3D<S extends BaseNode3DStyleProps> extends BaseNode<S> {
   static defaultStyleProps: Partial<BaseNode3DStyleProps> = {
@@ -58,7 +62,6 @@ export abstract class BaseNode3D<S extends BaseNode3DStyleProps> extends BaseNod
     return createMaterial(this.plugin, materialStyle, texture);
   }
 }
-
 export interface MeshStyleProps extends BaseStyleProps {
   x?: number | string;
   y?: number | string;

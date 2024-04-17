@@ -4,7 +4,7 @@ import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import type { CanvasOptions } from '@antv/g6';
 
 export const renderer: CanvasOptions['renderer'] = (layer) => {
-  if (layer === 'label' || layer === 'transientLabel') {
+  if (layer === 'label') {
     return new CanvasRenderer();
   }
 

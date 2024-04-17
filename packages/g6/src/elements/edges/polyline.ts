@@ -10,7 +10,7 @@ import { orth } from '../../utils/router/orth';
 import type { BaseEdgeStyleProps, LoopStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-export type PolylineStyleProps = BaseEdgeStyleProps & {
+export interface PolylineStyleProps extends BaseEdgeStyleProps {
   /**
    * <zh/> 圆角半径
    * <en/> The radius of the rounded corner
@@ -36,7 +36,7 @@ export type PolylineStyleProps = BaseEdgeStyleProps & {
    * <en/> Padding for routing calculation
    */
   routerPadding?: Padding;
-};
+}
 type ParsedPolylineStyleProps = Required<PolylineStyleProps>;
 
 export class Polyline extends BaseEdge {

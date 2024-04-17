@@ -1,7 +1,18 @@
-import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
+import type { AABB, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { deepMix, isEmpty, isFunction } from '@antv/util';
 import { COMBO_KEY } from '../../constants';
-import type { BaseComboProps, NodeLikeData, Position, PrefixObject, STDSize } from '../../types';
+import type {
+  BaseElementStyleProps,
+  Combo,
+  Node,
+  NodeLikeData,
+  Padding,
+  Placement,
+  Position,
+  PrefixObject,
+  STDSize,
+  Size,
+} from '../../types';
 import { getBBoxHeight, getBBoxWidth, getCombinedBBox, getExpandedBBox } from '../../utils/bbox';
 import { getXYByCollapsedOrigin } from '../../utils/combo';
 import { idOf } from '../../utils/id';
@@ -13,6 +24,52 @@ import { add, divide } from '../../utils/vector';
 import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
 import { Icon, IconStyleProps } from '../shapes';
+
+export type BaseComboStyleProps<T extends Record<string, unknown> = Record<string, any>> = T &
+  BaseElementStyleProps &
+  BaseNodeStyleProps<T> &
+  PrefixObject<T, 'collapsed'> &
+  PrefixObject<CollapsedMarkerStyleProps, 'collapsedMarker'> & {
+    /**
+     * <zh/> Combo 展开后的默认大小
+     *
+     * <en/> The default size of combo when expanded
+     */
+    size?: Size;
+    /**
+     * <zh/> Combo 收起后的默认大小
+     *
+     * <en/> The default size of combo when collapsed
+     */
+    collapsedSize?: Size;
+    /**
+     * <zh/> Combo 收起时的原点
+     * <en/> The origin of combo when collapsed
+     */
+    collapsedOrigin?: Placement | [number, number];
+    /**
+     * <zh/> Combo 的子元素，可以是节点或者 Combo
+     *
+     * <en/> The children of combo, which can be nodes or combos
+     */
+    childrenNode?: (Node | Combo)[];
+    /**
+     * <zh/> Combo 的子元素数据
+     *
+     * <en/> The data of the children of combo
+     * @description
+     * <zh/> 如果 combo 是收起状态，children 可能为空，通过 childrenData 能够获取完整的子元素数据
+     *
+     * <en/> If the combo is collapsed, children may be empty, and the complete child element data can be obtained through childrenData
+     */
+    childrenData?: NodeLikeData[];
+    /**
+     * <zh/> Combo 的内边距，只在展开状态下生效
+     * <en/> The padding of combo, only effective when expanded
+     */
+    padding?: Padding;
+    collapsedMarker?: boolean;
+  };
 
 export type CollapsedMarkerStyleProps = IconStyleProps & {
   /**
@@ -26,14 +83,6 @@ export type CollapsedMarkerStyleProps = IconStyleProps & {
    */
   type?: 'child-count' | 'descendant-count' | 'node-count' | ((children: NodeLikeData[]) => string);
 };
-export type BaseComboStyleProps<KeyStyleProps extends BaseStyleProps = BaseStyleProps> = BaseComboProps &
-  PrefixObject<KeyStyleProps, 'collapsed'> & {
-    collapsedMarker?: boolean;
-  } & PrefixObject<CollapsedMarkerStyleProps, 'collapsedMarker'> &
-  BaseNodeStyleProps<KeyStyleProps>;
-export type ParsedBaseComboStyleProps<KeyStyleProps extends BaseStyleProps> = Required<
-  BaseComboStyleProps<KeyStyleProps>
->;
 
 export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStyleProps> extends BaseNode<S> {
   public type = 'combo';

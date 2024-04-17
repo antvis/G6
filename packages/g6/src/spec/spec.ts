@@ -8,6 +8,7 @@ import type { NodeOptions } from './element/node';
 import type { LayoutOptions } from './layout';
 import type { PluginOptions } from './plugin';
 import type { ThemeOptions } from './theme';
+import type { TransformOptions } from './transform';
 import type { ViewportOptions } from './viewport';
 
 /**
@@ -75,4 +76,10 @@ export interface G6Spec extends CanvasOptions, ViewportOptions {
    * <en/> Canvas plugins
    */
   plugins?: PluginOptions;
+  /**
+   * <zh/> 数据转换器
+   *
+   * <en/> Data transforms
+   */
+  transforms?: TransformOptions;
 }

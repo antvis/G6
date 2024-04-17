@@ -6,7 +6,7 @@ import { getCubicPath, getCurveControlPoint, parseCurveOffset, parseCurvePositio
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-export type CubicStyleProps = BaseEdgeStyleProps & {
+export interface CubicStyleProps extends BaseEdgeStyleProps {
   /**
    * <zh/> 控制点数组，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
    * <en/> Control points. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.
@@ -22,7 +22,7 @@ export type CubicStyleProps = BaseEdgeStyleProps & {
    * <en/> The distance of the control point from the line
    */
   curveOffset?: number | [number, number];
-};
+}
 
 type ParsedCubicStyleProps = Required<CubicStyleProps>;
 

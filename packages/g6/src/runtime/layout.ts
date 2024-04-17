@@ -8,7 +8,7 @@ import { COMBO_KEY, GraphEvent, TREE_KEY } from '../constants';
 import { getExtension } from '../registry';
 import type { EdgeData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
-import type { PartialGraphData, TreeData } from '../types';
+import type { Combo, Node, PartialGraphData, TreeData } from '../types';
 import { getAnimation } from '../utils/animation';
 import { isVisible } from '../utils/element';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
@@ -292,7 +292,7 @@ export class LayoutController {
     const nodeSize: number | ((node: LayoutGraphlibNode) => number) =
       (options?.nodeSize as number) ??
       ((node) => {
-        const nodeElement = element?.getElement(node.id);
+        const nodeElement = element?.getElement<Node | Combo>(node.id);
         const { size } = nodeElement?.attributes || {};
         return Math.max(...parseSize(size));
       });

@@ -515,9 +515,6 @@ describe('DataController', () => {
       { value: { id: 'combo-2', data: {}, style: {} }, type: 'ComboAdded' },
       { value: { id: 'node-4', data: { value: 4 }, style: { fill: 'yellow' } }, type: 'NodeAdded' },
     ]);
-
-    // re pull
-    expect(controller.getChanges()).toEqual([]);
   });
 
   it('changes add', () => {

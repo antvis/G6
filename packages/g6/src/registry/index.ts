@@ -18,6 +18,7 @@ const EXTENSION_REGISTRY: ExtensionRegistry = {
   palette: {},
   theme: {},
   plugin: {},
+  transform: {},
 };
 
 /**
