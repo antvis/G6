@@ -42,7 +42,7 @@
   "devDependencies": {
     "@antv/g": "^5.18.25",
     "@antv/g-canvas": "^1.11.27",
-    "@antv/g6": "^5.0.0-beta.30"
+    "@antv/g6": "workspace:*"
   },
   "peerDependencies": {
     "@antv/g": "^5.18.25",

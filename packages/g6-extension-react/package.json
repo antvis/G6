@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@ant-design/icons": "^5.3.6",
-    "@antv/g6": "^5.0.0-beta.30",
+    "@antv/g6": "workspace:*",
     "@types/react": "^18.2.75",
     "@types/react-dom": "^18.2.24",
     "antd": "^5.10.2",
