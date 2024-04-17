@@ -18,7 +18,7 @@ export { BaseCombo, CircleCombo, RectCombo } from './elements/combos';
 export { BaseEdge, Cubic, CubicHorizontal, CubicVertical, Line, Polyline, Quadratic } from './elements/edges';
 export { BaseNode, Circle, Diamond, Ellipse, Hexagon, Image, Rect, Star, Triangle } from './elements/nodes';
 export { BaseShape } from './elements/shapes';
-export { BasePlugin, CameraSetting, History } from './plugins';
+export { BasePlugin, BubbleSets, CameraSetting, History } from './plugins';
 export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
 export { BaseTransform } from './transforms';
