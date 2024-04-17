@@ -7,7 +7,7 @@ import type {
   IEventTarget,
 } from '@antv/g';
 import { FederatedPointerEvent, HTML as GHTML } from '@antv/g';
-import { deepMix, isNil, isUndefined, pick } from '@antv/util';
+import { isNil, isUndefined, pick } from '@antv/util';
 import { NodeEvent } from '../../constants';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
@@ -29,7 +29,7 @@ export class HTML extends BaseNode<HTMLStyleProps> {
   };
 
   constructor(options: DisplayObjectConfig<HTMLStyleProps>) {
-    super(deepMix({}, { style: HTML.defaultStyleProps }, options));
+    super({ ...options, style: Object.assign({}, HTML.defaultStyleProps, options.style) });
   }
 
   private rootPointerEvent = new FederatedPointerEvent(null);
