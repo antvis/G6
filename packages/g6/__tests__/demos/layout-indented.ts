@@ -23,9 +23,7 @@ export const layoutIndented: TestCase = async (context) => {
     },
     node: { style: { size: 20 } },
     edge: {
-      style: {
-        type: 'polyline',
-      },
+      type: 'polyline',
     },
   };
 

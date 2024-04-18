@@ -1,7 +1,6 @@
-import type { ID } from '@antv/graphlib';
 import { isNumber, isString } from '@antv/util';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
-import type { DataID } from '../types';
+import type { DataID, ID } from '../types';
 import { isEdgeData } from './is';
 
 /**

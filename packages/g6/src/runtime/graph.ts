@@ -1,6 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps } from '@antv/g';
-import type { ID } from '@antv/graphlib';
 import { debounce, isArray, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
 import { COMBO_KEY, GraphEvent } from '../constants';
 import type { Plugin } from '../plugins/types';
@@ -30,6 +29,7 @@ import type {
   ElementDatum,
   ElementType,
   FitViewOptions,
+  ID,
   IEvent,
   NodeLikeData,
   PartialEdgeData,

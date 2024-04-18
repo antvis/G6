@@ -2,9 +2,8 @@ import { AABB } from '@antv/g';
 import { getLinesIntersection } from '../line';
 import { isPointInPolygon } from '../point';
 
-import type { ID } from '@antv/graphlib';
 import type { Graph } from '../../runtime/graph';
-import type { Points } from '../../types';
+import type { ID, Points } from '../../types';
 import type { LineSegment } from '../line';
 
 /**

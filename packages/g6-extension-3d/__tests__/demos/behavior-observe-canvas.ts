@@ -15,8 +15,8 @@ export const behaviorObserveCanvas: TestCase = async (context) => {
     renderer,
     data,
     node: {
+      type: 'sphere',
       style: {
-        type: 'sphere',
         materialType: 'phong',
         labelText: '',
         x: (d) => +d.style!.x! + 250,
@@ -25,9 +25,7 @@ export const behaviorObserveCanvas: TestCase = async (context) => {
       palette: 'spectral',
     },
     edge: {
-      style: {
-        type: 'line3d',
-      },
+      type: 'line3d',
     },
     behaviors: ['zoom-canvas-3d', { key: 'observe-canvas-3d', type: 'observe-canvas-3d' }],
     plugins: [

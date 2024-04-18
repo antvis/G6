@@ -20,8 +20,8 @@ export const elementNodeDiamond: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'diamond', // 👈🏻 Node shape type.
       style: {
-        type: 'diamond', // 👈🏻 Node shape type.
         size: 40,
         labelText: (d) => d.id!,
         iconWidth: 20,

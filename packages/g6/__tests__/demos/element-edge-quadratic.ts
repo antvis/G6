@@ -36,8 +36,8 @@ export const elementEdgeQuadratic: TestCase = async (context) => {
     ...context,
     data,
     edge: {
+      type: 'quadratic', // 👈🏻 Edge shape type.
       style: {
-        type: 'quadratic', // 👈🏻 Edge shape type.
         labelText: (d) => d.id!,
         labelBackground: true,
         endArrow: true,

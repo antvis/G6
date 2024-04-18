@@ -31,7 +31,6 @@ describe('ElementController', () => {
       node: {
         style: {
           fill: (datum) => ((datum?.data?.value as number) > 100 ? 'red' : 'blue'),
-          border: (datum: any, index: number) => (index % 2 === 0 ? 0 : 10),
         },
         state: {
           selected: {
@@ -106,9 +105,9 @@ describe('ElementController', () => {
     expect(elementController.getPaletteStyle(edge2Id)[paletteKey]).toBe(BUILT_IN_PALETTES.oranges.at(-2));
     expect(elementController.getPaletteStyle('combo-1')[paletteKey]).toBe(BUILT_IN_PALETTES.blues[0]);
 
-    expect(elementController.getDefaultStyle('node-1')).toEqual({ fill: 'blue', border: 0 });
-    expect(elementController.getDefaultStyle('node-2')).toEqual({ fill: 'red', border: 10 });
-    expect(elementController.getDefaultStyle('node-3')).toEqual({ fill: 'red', border: 0 });
+    expect(elementController.getDefaultStyle('node-1')).toEqual({ fill: 'blue' });
+    expect(elementController.getDefaultStyle('node-2')).toEqual({ fill: 'red' });
+    expect(elementController.getDefaultStyle('node-3')).toEqual({ fill: 'red' });
     expect(elementController.getDefaultStyle(edge1Id)).toEqual({});
     expect(elementController.getDefaultStyle('combo-1')).toEqual({});
 
@@ -123,11 +122,9 @@ describe('ElementController', () => {
 
     expect(elementController.getElementComputedStyle('node', node1)).toEqual({
       ...LIGHT_THEME.node?.style,
-      type: 'circle',
       fill: 'blue',
       stroke: 'pink',
       lineWidth: 1,
-      border: 0,
       // from palette
       color: BUILT_IN_PALETTES.spectral[0],
       x: 100,
@@ -136,9 +133,7 @@ describe('ElementController', () => {
 
     expect(elementController.getElementComputedStyle('node', node2)).toEqual({
       ...LIGHT_THEME.node?.style,
-      type: 'circle',
       fill: 'red',
-      border: 10,
       // from palette
       color: BUILT_IN_PALETTES.spectral[1],
       x: 150,
@@ -148,8 +143,6 @@ describe('ElementController', () => {
     expect(elementController.getElementComputedStyle('node', node3)).toEqual({
       ...LIGHT_THEME.node?.style,
       ...LIGHT_THEME.node?.state?.selected,
-      type: 'circle',
-      border: 0,
       parentId: 'combo-1',
       states: ['selected'],
       // from state
@@ -162,7 +155,6 @@ describe('ElementController', () => {
 
     expect(omit(elementController.getElementComputedStyle('edge', edge1), ['sourceNode', 'targetNode'])).toEqual({
       ...LIGHT_THEME.edge?.style,
-      type: 'line',
       color: BUILT_IN_PALETTES.oranges.at(-1),
     });
 
@@ -170,7 +162,6 @@ describe('ElementController', () => {
       ...LIGHT_THEME.edge?.style,
       ...LIGHT_THEME.edge?.state?.active,
       ...LIGHT_THEME.edge?.state?.selected,
-      type: 'line',
       lineWidth: 4,
       stroke: 'red',
       states: ['active', 'selected'],
@@ -183,7 +174,6 @@ describe('ElementController', () => {
 
     expect(omit(comboStyle, ['childrenNode', 'childrenData'])).toEqual({
       ...LIGHT_THEME.combo?.style,
-      type: 'circle',
       color: BUILT_IN_PALETTES.blues[0],
     });
   });
