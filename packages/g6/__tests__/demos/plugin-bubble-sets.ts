@@ -1,4 +1,5 @@
 import { BubbleSets, Graph } from '@/src';
+import type { BubbleSetsOptions } from '@/src/plugins';
 import { idOf } from '@/src/utils/id';
 
 const data = {
@@ -194,7 +195,7 @@ export const pluginBubbleSets: TestCase = async (context) => {
       threshold: 1,
       memberInfluenceFactor: 1,
       edgeInfluenceFactor: 1,
-      nonMemberInfluenceFactor: -0.8,
+      AvoidMemberInfluenceFactor: -0.8,
       virtualEdges: true,
     };
 
@@ -210,7 +211,7 @@ export const pluginBubbleSets: TestCase = async (context) => {
         .add(
           {
             AddMember: () => {
-              bubblesets.addMembers(config.member);
+              bubblesets.addMember(config.member);
             },
           },
           'AddMember',
@@ -220,7 +221,7 @@ export const pluginBubbleSets: TestCase = async (context) => {
         .add(
           {
             RemoveMember: () => {
-              bubblesets.removeMembers(config.member);
+              bubblesets.removeMember(config.member);
             },
           },
           'RemoveMember',
@@ -229,11 +230,11 @@ export const pluginBubbleSets: TestCase = async (context) => {
       panel
         .add(
           {
-            AddNonMember: () => {
-              bubblesets.addNonMembers(config.member);
+            AddAvoidMember: () => {
+              bubblesets.addAvoidMember(config.member);
             },
           },
-          'AddNonMember',
+          'AddAvoidMember',
         )
         .name('Add Element as Non-Member'),
 
@@ -241,7 +242,7 @@ export const pluginBubbleSets: TestCase = async (context) => {
         .add(
           {
             RemoveMember: () => {
-              bubblesets.removeNonMembers(config.member);
+              bubblesets.removeAvoidMember(config.member);
             },
           },
           'RemoveMember',
@@ -249,19 +250,27 @@ export const pluginBubbleSets: TestCase = async (context) => {
         .name('Remove Element as Non-Member'),
     ];
 
+    const updateOptions = (options: BubbleSetsOptions) => {
+      graph.updatePlugin({
+        key: 'bubble-sets',
+        ...options,
+      });
+      graph.render();
+    };
+
     Object.keys(config)
       .slice(1, -1)
       .forEach((key) => {
         panels.push(
           panel.add(config, key, 0, 100, 1).onChange((value: number) => {
-            bubblesets.updateOptions({ [key]: value });
+            updateOptions({ [key]: value } as BubbleSetsOptions);
           }),
         );
       });
 
     panels.push(
       panel.add(config, 'virtualEdges').onChange((value: boolean) => {
-        bubblesets.updateOptions({ virtualEdges: value });
+        updateOptions({ virtualEdges: value } as BubbleSetsOptions);
       }),
     );
 

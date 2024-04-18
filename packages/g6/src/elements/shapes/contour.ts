@@ -9,7 +9,7 @@ import type { LabelStyleProps } from '../shapes';
 import { BaseShape } from './base-shape';
 import { Label } from './label';
 
-type AnnotatedPathLabelStyleProps = LabelStyleProps & {
+type ContourLabelStyleProps = LabelStyleProps & {
   /**
    * <zh/> 标签位置，可选值为 'top'、'right'、'bottom'、'left'、'center'；默认为 'bottom'
    * <en/> Label position, optional values are 'top', 'right', 'bottom', 'left', 'center'; default is 'bottom'
@@ -42,14 +42,14 @@ type AnnotatedPathLabelStyleProps = LabelStyleProps & {
   maxWidth?: number;
 };
 
-export type AnnotatedPathStyleProps = PathStyleProps & {
+export type ContourStyleProps = PathStyleProps & {
   label?: boolean;
-} & PrefixObject<AnnotatedPathLabelStyleProps, 'label'>;
-type ParsedAnnotatedPathStyleProps = Required<AnnotatedPathStyleProps>;
-type AnnotatedPathOptions = DisplayObjectConfig<AnnotatedPathStyleProps>;
+} & PrefixObject<ContourLabelStyleProps, 'label'>;
+type ParsedContourStyleProps = Required<ContourStyleProps>;
+type ContourOptions = DisplayObjectConfig<ContourStyleProps>;
 
-export class AnnotatedPath extends BaseShape<AnnotatedPathStyleProps> {
-  static defaultStyleProps: Partial<AnnotatedPathStyleProps> = {
+export class Contour extends BaseShape<ContourStyleProps> {
+  static defaultStyleProps: Partial<ContourStyleProps> = {
     label: true,
     labelPlacement: 'bottom',
     labelCloseToPath: true,
@@ -58,14 +58,14 @@ export class AnnotatedPath extends BaseShape<AnnotatedPathStyleProps> {
     labelOffsetY: 0,
   };
 
-  constructor(options: AnnotatedPathOptions) {
-    super(deepMix({}, { style: AnnotatedPath.defaultStyleProps }, options));
+  constructor(options: ContourOptions) {
+    super(deepMix({}, { style: Contour.defaultStyleProps }, options));
   }
 
-  protected getLabelStyle(attributes: ParsedAnnotatedPathStyleProps): LabelStyleProps | false {
+  protected getLabelStyle(attributes: ParsedContourStyleProps): LabelStyleProps | false {
     if (!attributes.label || !attributes.path || attributes.path.length === 0) return false;
     const { maxWidth, offsetX, offsetY, autoRotate, placement, closeToPath, ...labelStyle } = subStyleProps<
-      Required<AnnotatedPathLabelStyleProps>
+      Required<ContourLabelStyleProps>
     >(this.getGraphicStyle(attributes), 'label');
 
     const key = this.shapeMap.key;
@@ -78,11 +78,11 @@ export class AnnotatedPath extends BaseShape<AnnotatedPathStyleProps> {
     );
   }
 
-  protected getKeyStyle(attributes: ParsedAnnotatedPathStyleProps): PathStyleProps {
+  protected getKeyStyle(attributes: ParsedContourStyleProps): PathStyleProps {
     return this.getGraphicStyle(attributes);
   }
 
-  public render(attributes: ParsedAnnotatedPathStyleProps, container: Group): void {
+  public render(attributes: ParsedContourStyleProps, container: Group): void {
     this.upsert('key', Path, this.getKeyStyle(attributes), container);
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
   }

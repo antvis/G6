@@ -2,8 +2,8 @@ import type { ID } from '@antv/graphlib';
 import { PathArray, isEqual, isFunction } from '@antv/util';
 import hull from 'hull.js';
 import { GraphEvent } from '../../constants';
-import type { AnnotatedPathStyleProps } from '../../elements/shapes';
-import { AnnotatedPath } from '../../elements/shapes';
+import type { ContourStyleProps } from '../../elements/shapes';
+import { Contour } from '../../elements/shapes';
 import type { RuntimeContext } from '../../runtime/types';
 import type { CallableValue, Point } from '../../types';
 import type { ElementLifeCycleEvent } from '../../utils/event';
@@ -13,7 +13,7 @@ import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 import { computeHullPath } from './util';
 
-export interface HullOptions extends BasePluginOptions, AnnotatedPathStyleProps {
+export interface HullOptions extends BasePluginOptions, ContourStyleProps {
   /**
    * <zh/> Hull 内的元素
    * <en/> Elements in Hull
@@ -37,7 +37,7 @@ export interface HullOptions extends BasePluginOptions, AnnotatedPathStyleProps 
 }
 
 export class Hull extends BasePlugin<HullOptions> {
-  private shape!: AnnotatedPath;
+  private shape!: Contour;
   /**
    * <zh/> 在 Hull 上的元素
    * <en/> Element Ids on Hull
@@ -48,6 +48,8 @@ export class Hull extends BasePlugin<HullOptions> {
    * <en/> Hull path
    */
   private path!: PathArray;
+
+  private optionsCache!: HullOptions;
 
   static defaultOptions: Partial<HullOptions> = {
     members: [],
@@ -71,18 +73,20 @@ export class Hull extends BasePlugin<HullOptions> {
     this.context.graph.on(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateHullPath);
   }
 
-  private getHullStyle(forceUpdate?: boolean): AnnotatedPathStyleProps {
+  private getHullStyle(forceUpdate?: boolean): ContourStyleProps {
     const { members, padding, corner, ...style } = this.options;
     return { ...style, path: this.getHullPath(forceUpdate) };
   }
 
   private drawHull = () => {
     if (!this.shape) {
-      this.shape = new AnnotatedPath({ style: this.getHullStyle() });
+      this.shape = new Contour({ style: this.getHullStyle() });
       this.context.canvas.appendChild(this.shape);
     } else {
-      this.shape.update(this.getHullStyle());
+      const forceUpdate = !isEqual(this.optionsCache, this.options);
+      this.shape.update(this.getHullStyle(forceUpdate));
     }
+    this.optionsCache = { ...this.options };
   };
 
   private updateHullPath = (event: ElementLifeCycleEvent) => {
@@ -114,24 +118,27 @@ export class Hull extends BasePlugin<HullOptions> {
     return memberPadding + this.options.padding;
   }
 
-  public addMembers(members: ID | ID[]) {
+  public addMember(members: ID | ID[]) {
     const membersToAdd = Array.isArray(members) ? members : [members];
-    this.sync({ members: [...new Set([...this.options.members, ...membersToAdd])] });
+    this.options.members = [...new Set([...this.options.members, ...membersToAdd])];
+    this.shape.update({ path: this.getHullPath() });
   }
 
-  public removeMembers(members: ID | ID[]) {
+  public removeMember(members: ID | ID[]) {
     const membersToRemove = Array.isArray(members) ? members : [members];
-    this.sync({ members: this.options.members.filter((id) => !membersToRemove.includes(id)) });
+    this.options.members = this.options.members.filter((id) => !membersToRemove.includes(id));
+    if (membersToRemove.some((id) => this.hullMemberIds.includes(id))) {
+      this.shape.update({ path: this.getHullPath() });
+    }
   }
 
-  public updateMembers(members: CallableValue<ID[]>) {
-    const membersToUpdate = isFunction(members) ? members(this.options.members) : members;
-    this.sync({ members: membersToUpdate });
-  }
-
-  public updateOptions(options: CallableValue<HullOptions>) {
-    this.sync(isFunction(options) ? options(this.options) : options, false);
+  public updateMember(members: CallableValue<ID[]>) {
+    this.options.members = isFunction(members) ? members(this.options.members) : members;
     this.shape.update(this.getHullStyle(true));
+  }
+
+  public getMember() {
+    return this.options.members;
   }
 
   public destroy(): void {

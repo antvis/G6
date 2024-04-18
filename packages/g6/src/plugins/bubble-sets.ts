@@ -4,8 +4,8 @@ import { deepMix, isEqual, isFunction } from '@antv/util';
 import type { IBubbleSetOptions, ILine, IRectangle } from 'bubblesets-js';
 import { BubbleSets as BubbleSetsJS, Line, Rectangle, defaultOptions } from 'bubblesets-js';
 import { GraphEvent } from '../constants';
-import type { AnnotatedPathStyleProps } from '../elements/shapes';
-import { AnnotatedPath } from '../elements/shapes';
+import type { ContourStyleProps } from '../elements/shapes';
+import { Contour } from '../elements/shapes';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
 import type { CallableValue } from '../types';
@@ -18,7 +18,7 @@ import { parsePoint } from '../utils/point';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
-export interface BubbleSetsOptions extends BasePluginOptions, IBubbleSetOptions, AnnotatedPathStyleProps {
+export interface BubbleSetsOptions extends BasePluginOptions, IBubbleSetOptions, ContourStyleProps {
   /**
    * <zh/> 成员元素，包括节点和边
    *
@@ -30,11 +30,11 @@ export interface BubbleSetsOptions extends BasePluginOptions, IBubbleSetOptions,
    *
    * <en/> Non-member elements, only nodes
    */
-  nonMembers?: ID[];
+  avoidMembers?: ID[];
 }
 
 export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
-  private shape!: AnnotatedPath;
+  private shape!: Contour;
 
   private bubbleSets!: BubbleSetsJS;
 
@@ -42,13 +42,13 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
 
   private members: Map<ID, IRectangle | ILine> = new Map();
 
-  private nonMembers: Map<ID, IRectangle | ILine> = new Map();
+  private avoidMembers: Map<ID, IRectangle | ILine> = new Map();
 
   private bubbleSetOptions: IBubbleSetOptions = {};
 
   static defaultOptions: Partial<BubbleSetsOptions> = {
     members: [],
-    nonMembers: [],
+    avoidMembers: [],
     /** shape style */
     fill: 'lightblue',
     stroke: 'blue',
@@ -73,23 +73,23 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
   private init() {
     this.bubbleSets = new BubbleSetsJS(this.options);
     this.members = new Map();
-    this.nonMembers = new Map();
+    this.avoidMembers = new Map();
   }
 
   private parseOptions() {
-    const { type, key, members, nonMembers, ...rest } = this.options;
+    const { type, key, members, avoidMembers, ...rest } = this.options;
     const res = Object.keys(rest).reduce(
-      (acc: { style: AnnotatedPathStyleProps; bubbleSetOptions: IBubbleSetOptions }, key: string) => {
+      (acc: { style: ContourStyleProps; bubbleSetOptions: IBubbleSetOptions }, key: string) => {
         if (key in defaultOptions) {
           acc.bubbleSetOptions[key as keyof IBubbleSetOptions] = rest[key];
         } else {
-          acc.style[key as keyof AnnotatedPathStyleProps] = rest[key];
+          acc.style[key as keyof ContourStyleProps] = rest[key];
         }
         return acc;
       },
       { style: {}, bubbleSetOptions: {} },
     );
-    return { type, key, members, nonMembers, ...res };
+    return { type, key, members, avoidMembers, ...res };
   }
 
   private drawBubbleSets = () => {
@@ -99,7 +99,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
 
     const finalStyle = { ...style, path: this.getPath() };
     if (!this.shape) {
-      this.shape = new AnnotatedPath({ style: finalStyle });
+      this.shape = new Contour({ style: finalStyle });
       this.context.canvas.appendChild(this.shape);
     } else {
       this.shape.update(finalStyle);
@@ -109,7 +109,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
   private updateBubbleSetsPath = (event: ElementLifeCycleEvent) => {
     if (!this.shape) return;
     const id = idOf(event.data);
-    if (![...this.options.members, ...this.options.nonMembers].includes(id)) return;
+    if (![...this.options.members, ...this.options.avoidMembers].includes(id)) return;
     this.shape.update({ ...this.parseOptions().style, path: this.getPath(id) });
   };
 
@@ -118,16 +118,16 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
 
     const currMembers = this.options.members;
     const prevMembers = [...this.members.keys()];
-    const currNonMembers = this.options.nonMembers;
-    const prevNonMembers = [...this.nonMembers.keys()];
+    const currAvoidMembers = this.options.avoidMembers;
+    const prevAvoidMembers = [...this.avoidMembers.keys()];
 
-    if (!forceUpdateId && isEqual(currMembers, prevMembers) && isEqual(currNonMembers, prevNonMembers))
+    if (!forceUpdateId && isEqual(currMembers, prevMembers) && isEqual(currAvoidMembers, prevAvoidMembers))
       return this.path;
 
     const { enter: membersToEnter = [], exit: membersToExit = [] } = arrayDiff(prevMembers, currMembers, (d) => d);
-    const { enter: nonMembersToEnter = [], exit: nonMembersToExit = [] } = arrayDiff(
-      prevNonMembers,
-      currNonMembers,
+    const { enter: avoidMembersToEnter = [], exit: avoidMembersToExit = [] } = arrayDiff(
+      prevAvoidMembers,
+      currAvoidMembers,
       (d) => d,
     );
 
@@ -138,7 +138,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
 
     const updateBubbleSets = (ids: ID[], isEntering: boolean, isMember: boolean) => {
       ids.forEach((id) => {
-        const members = isMember ? this.members : this.nonMembers;
+        const members = isMember ? this.members : this.avoidMembers;
         const pushMember = isMember ? 'pushMember' : 'pushNonMember';
         const removeMember = isMember ? 'removeMember' : 'removeNonMember';
         if (isEntering) {
@@ -167,8 +167,8 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
 
     updateBubbleSets(membersToExit, false, true);
     updateBubbleSets(membersToEnter, true, true);
-    updateBubbleSets(nonMembersToExit, false, false);
-    updateBubbleSets(nonMembersToEnter, true, false);
+    updateBubbleSets(avoidMembersToExit, false, false);
+    updateBubbleSets(avoidMembersToEnter, true, false);
 
     const pointPath = this.bubbleSets.compute();
     const cleanPath = pointPath.sample(8).simplify(0).bSplines().simplify(0);
@@ -176,50 +176,59 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
     return this.path;
   };
 
-  public addMembers(members: ID | ID[]) {
+  public addMember(members: ID | ID[]) {
     const membersToAdd = Array.isArray(members) ? members : [members];
-    if (membersToAdd.some((member) => this.options.nonMembers.includes(member))) {
-      this.sync({ nonMembers: this.options.nonMembers.filter((id) => !membersToAdd.includes(id)) }, false);
+    if (membersToAdd.some((member) => this.options.avoidMembers.includes(member))) {
+      this.options.avoidMembers = this.options.avoidMembers.filter((id) => !membersToAdd.includes(id));
     }
-    this.sync({ members: [...new Set([...this.options.members, ...membersToAdd])] });
+    this.options.members = [...new Set([...this.options.members, ...membersToAdd])];
+    this.drawBubbleSets();
   }
 
-  public removeMembers(members: ID | ID[]) {
+  public removeMember(members: ID | ID[]) {
     const membersToRemove = Array.isArray(members) ? members : [members];
-    this.sync({ members: this.options.members.filter((id) => !membersToRemove.includes(id)) });
+    this.options.members = this.options.members.filter((id) => !membersToRemove.includes(id));
+    this.drawBubbleSets();
   }
 
-  public updateMembers(members: CallableValue<ID[]>) {
-    const membersToUpdate = isFunction(members) ? members(this.options.members) : members;
-    this.sync({ members: membersToUpdate });
+  public updateMember(members: CallableValue<ID[]>) {
+    this.options.members = isFunction(members) ? members(this.options.members) : members;
+    this.drawBubbleSets();
   }
 
-  public addNonMembers(nonMembers: ID | ID[]) {
-    const nonMembersToAdd = Array.isArray(nonMembers) ? nonMembers : [nonMembers];
-    if (nonMembersToAdd.some((nonMember) => this.options.members.includes(nonMember))) {
-      this.sync({ members: this.options.members.filter((id) => !nonMembersToAdd.includes(id)) }, false);
+  public getMember() {
+    return this.options.members;
+  }
+
+  public addAvoidMember(avoidMembers: ID | ID[]) {
+    const avoidMembersToAdd = Array.isArray(avoidMembers) ? avoidMembers : [avoidMembers];
+    if (avoidMembersToAdd.some((AvoidMember) => this.options.members.includes(AvoidMember))) {
+      this.options.members = this.options.members.filter((id) => !avoidMembersToAdd.includes(id));
     }
-    this.sync({ nonMembers: [...new Set([...this.options.nonMembers, ...nonMembersToAdd])] });
+    this.options.avoidMembers = [...new Set([...this.options.avoidMembers, ...avoidMembersToAdd])];
+    this.drawBubbleSets();
   }
 
-  public removeNonMembers(nonMembers: ID | ID[]) {
-    const nonMembersToRemove = Array.isArray(nonMembers) ? nonMembers : [nonMembers];
-    if (this.options.nonMembers.some((member) => nonMembersToRemove.includes(member))) {
-      this.sync({ nonMembers: this.options.nonMembers.filter((id) => !nonMembersToRemove.includes(id)) });
+  public removeAvoidMember(avoidMembers: ID | ID[]) {
+    const avoidMembersToRemove = Array.isArray(avoidMembers) ? avoidMembers : [avoidMembers];
+    if (this.options.avoidMembers.some((member) => avoidMembersToRemove.includes(member))) {
+      this.options.avoidMembers = this.options.avoidMembers.filter((id) => !avoidMembersToRemove.includes(id));
+      this.drawBubbleSets();
     }
   }
 
-  public updateNonMembers(nonMembers: ID | ID[]) {
-    const nonMembersToUpdate = Array.isArray(nonMembers) ? nonMembers : [nonMembers];
-    this.sync({ nonMembers: nonMembersToUpdate });
+  public updateAvoidMember(avoidMembers: ID | ID[]) {
+    this.options.avoidMembers = Array.isArray(avoidMembers) ? avoidMembers : [avoidMembers];
+    this.drawBubbleSets();
   }
 
-  public updateOptions(options: Partial<BubbleSetsOptions>) {
-    this.sync(options);
+  public getAvoidMember() {
+    return this.options.avoidMembers;
   }
 
   public destroy(): void {
-    this.context.graph.off(GraphEvent.AFTER_DRAW, this.drawBubbleSets);
+    this.context.graph.off(GraphEvent.AFTER_RENDER, this.drawBubbleSets);
+    this.context.graph.off(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateBubbleSetsPath);
     this.shape.destroy();
     super.destroy();
   }

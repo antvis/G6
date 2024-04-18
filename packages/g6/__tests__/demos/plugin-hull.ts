@@ -189,7 +189,8 @@ export const pluginHull: TestCase = async (context) => {
   const hull = graph.getPluginInstance<Hull>('hull');
 
   const updateHullOptions = (optionsToUpdate: Partial<HullOptions>) => {
-    hull.updateOptions(optionsToUpdate);
+    graph.updatePlugin({ key: 'hull', ...optionsToUpdate });
+    graph.render();
   };
 
   pluginHull.form = (panel) => {
@@ -239,7 +240,7 @@ export const pluginHull: TestCase = async (context) => {
         .add(
           {
             AddMember: () => {
-              hull.addMembers(config.node);
+              hull.addMember(config.node);
             },
           },
           'AddMember',
@@ -249,7 +250,7 @@ export const pluginHull: TestCase = async (context) => {
         .add(
           {
             RemoveMember: () => {
-              hull.removeMembers(config.node);
+              hull.removeMember(config.node);
             },
           },
           'RemoveMember',
