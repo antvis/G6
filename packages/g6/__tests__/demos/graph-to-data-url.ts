@@ -3,6 +3,7 @@ import { Graph } from '@/src';
 export const graphToDataURL: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
+    background: '#f4df4d',
     data: {
       nodes: [
         { id: 'node-1', style: { x: 50, y: 50, color: 'purple', halo: true, labelText: 'node-1' } },

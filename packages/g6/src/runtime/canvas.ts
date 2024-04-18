@@ -153,6 +153,7 @@ export class Canvas {
 
   public setBackground(background = this.config.background) {
     const container = this.getContainer();
+    this.config.background = background;
     if (container && background) {
       container.style.background = background;
       container.style.transition = 'background 0.5s';
@@ -248,7 +249,7 @@ export class Canvas {
       renderer: new CanvasRenderer(),
       devicePixelRatio,
       container,
-      background: this.background.getConfig().background,
+      background: this.config.background,
     });
 
     await offscreenCanvas.ready;
