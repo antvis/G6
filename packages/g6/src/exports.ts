@@ -16,13 +16,14 @@ export {
 } from './constants';
 export { BaseCombo, CircleCombo, RectCombo } from './elements/combos';
 export { BaseEdge, Cubic, CubicHorizontal, CubicVertical, Line, Polyline, Quadratic } from './elements/edges';
-export { BaseNode, Circle, Diamond, Ellipse, Hexagon, Image, Rect, Star, Triangle } from './elements/nodes';
+export { BaseNode, Circle, Diamond, Ellipse, HTML, Hexagon, Image, Rect, Star, Triangle } from './elements/nodes';
 export { BaseShape } from './elements/shapes';
 export { BasePlugin, CameraSetting, History } from './plugins';
 export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
 export { BaseTransform } from './transforms';
 export { Shortcut } from './utils/shortcut';
+export { parseSize } from './utils/size';
 
 export type { BaseBehaviorOptions, DragCanvasOptions, ZoomCanvasOptions } from './behaviors';
 export type { BaseComboStyleProps, CircleComboStyleProps, RectComboStyleProps } from './elements/combos';
@@ -40,6 +41,7 @@ export type {
   CircleStyleProps,
   DiamondStyleProps,
   EllipseStyleProps,
+  HTMLStyleProps,
   HexagonStyleProps,
   ImageStyleProps,
   RectStyleProps,
@@ -67,6 +69,9 @@ export type {
 } from './spec';
 export type { BaseTransformOptions } from './transforms';
 export type {
+  Combo,
+  Edge,
+  Element,
   IAnimateEvent,
   IDragEvent,
   IElementLifeCycleEvent,
@@ -76,6 +81,7 @@ export type {
   IPointerEvent,
   IViewportEvent,
   IWheelEvent,
+  Node,
   Point,
   Vector2,
   Vector3,

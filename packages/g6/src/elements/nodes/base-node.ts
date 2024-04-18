@@ -310,8 +310,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
    * Get the key shape for the node.
    * @returns Key shape.
    */
-  public getKey(): DisplayObject {
-    return this.shapeMap.key;
+  public getKey<T extends DisplayObject>(): T {
+    return this.shapeMap.key as T;
   }
 
   /**

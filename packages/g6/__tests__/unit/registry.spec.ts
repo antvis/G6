@@ -1,4 +1,3 @@
-import { getExtension, getExtensions, register } from '@/src';
 import {
   Circle,
   CircleCombo,
@@ -8,16 +7,20 @@ import {
   Diamond,
   Donut,
   Ellipse,
+  HTML,
   Hexagon,
   Image,
   Line,
   Polyline,
   Quadratic,
   Rect,
+  RectCombo,
   Star,
   Triangle,
-} from '@/src/elements';
-import { RectCombo } from '@/src/elements/combos/rect';
+  getExtension,
+  getExtensions,
+  register,
+} from '@/src';
 import { dark, light } from '@/src/themes';
 import { pick } from '@antv/util';
 
@@ -33,6 +36,7 @@ describe('registry', () => {
       diamond: Diamond,
       donut: Donut,
       hexagon: Hexagon,
+      html: HTML,
     });
     expect(getExtensions('edge')).toEqual({
       cubic: Cubic,
