@@ -287,7 +287,9 @@ export class Canvas {
     const contextService = offscreenCanvas.getContextService();
 
     return new Promise<string>((resolve) => {
-      offscreenCanvas.on(CanvasEvent.AFTER_RENDER, async () => {
+      offscreenCanvas.on(CanvasEvent.RERENDER, async () => {
+        // 等待图片渲染完成 / Wait for the image to render
+        await new Promise((r) => setTimeout(r, 300));
         const url = await contextService.toDataURL(restOptions);
         resolve(url);
       });
