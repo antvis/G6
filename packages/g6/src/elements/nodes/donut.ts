@@ -39,6 +39,7 @@ export class Donut extends Circle {
   static defaultStyleProps: Partial<DonutStyleProps> = {
     innerRadius: 0.5,
     donuts: [],
+    palette: 'tableau',
   };
 
   constructor(options: DisplayObjectConfig<DonutStyleProps>) {

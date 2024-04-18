@@ -9,19 +9,6 @@ const NODE_PALETTE_OPTIONS: PaletteOptions = {
   color: ['#1783FF', '#00C9C9', '#F08F56', '#D580FF', '#7863FF', '#DB9D0D', '#60C42D', '#FF80CA', '#2491B3', '#17C76F'],
 };
 
-const DONUT_PALETTE_OPTIONS = [
-  '#1783FF',
-  '#00C9C9',
-  '#F08F56',
-  '#D580FF',
-  '#7863FF',
-  '#DB9D0D',
-  '#60C42D',
-  '#FF80CA',
-  '#2491B3',
-  '#17C76F',
-];
-
 const EDGE_PALETTE_OPTIONS: PaletteOptions = {
   type: 'group',
   color: [
@@ -73,7 +60,6 @@ export function create(tokens: ThemeTokens): Theme {
     nodeStroke,
     nodeBadgePalette = BADGE_PALETTE,
     nodePaletteOptions = NODE_PALETTE_OPTIONS,
-    donutPaletteOptions = DONUT_PALETTE_OPTIONS,
     edgeColor,
     edgeColorDisabled,
     edgePaletteOptions = EDGE_PALETTE_OPTIONS,
@@ -92,7 +78,6 @@ export function create(tokens: ThemeTokens): Theme {
         badgeFontSize: 8,
         badgePadding: [1, 4],
         badgePalette: nodeBadgePalette,
-        donutPalette: donutPaletteOptions,
         color: nodeColor,
         halo: false,
         haloLineWidth: 12,
