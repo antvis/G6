@@ -1,5 +1,5 @@
-import type { ID } from '@antv/graphlib';
 import type { BaseNodeStyleProps } from '../../elements/nodes';
+import type { ID } from '../../types';
 import type { CallableObject } from '../../types/callable';
 import type { NodeData } from '../data';
 import type { AnimationOptions } from './animation';

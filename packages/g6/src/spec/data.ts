@@ -1,4 +1,4 @@
-import type { ID } from '@antv/graphlib';
+import type { ID } from '../types';
 import type { ComboStyle } from './element/combo';
 import type { EdgeStyle } from './element/edge';
 import type { NodeStyle } from './element/node';

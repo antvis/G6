@@ -1,9 +1,8 @@
 import type { PathStyleProps } from '@antv/g';
-import type { ID } from '@antv/graphlib';
 import { deepMix, isBoolean, isEmpty } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
-import type { ElementDatum, ElementType, LoopPlacement, NodeLikeData } from '../types';
+import type { ElementDatum, ElementType, ID, LoopPlacement, NodeLikeData } from '../types';
 import { groupByChangeType, reduceDataChanges } from '../utils/change';
 import { idOf } from '../utils/id';
 import type { BaseTransformOptions } from './base-transform';

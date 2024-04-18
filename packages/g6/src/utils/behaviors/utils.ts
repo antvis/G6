@@ -1,8 +1,8 @@
 import { isFunction } from '@antv/util';
 
-import type { ID } from '@antv/graphlib';
 import type { States } from '../../behaviors/types';
 import type { Graph } from '../../runtime/graph';
+import type { ID } from '../../types';
 
 /**
  * <zh/> 获取所有元素状态.

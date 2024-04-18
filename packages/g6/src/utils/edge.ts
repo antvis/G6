@@ -1,5 +1,4 @@
 import type { AABB } from '@antv/g';
-import type { ID } from '@antv/graphlib';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
 import type { EdgeData } from '../spec';
@@ -7,6 +6,7 @@ import type {
   EdgeKey,
   EdgeLabelPlacement,
   EdgeLabelStyleProps,
+  ID,
   LoopPlacement,
   Node,
   Point,

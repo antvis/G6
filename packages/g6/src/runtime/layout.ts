@@ -8,7 +8,7 @@ import { COMBO_KEY, GraphEvent, TREE_KEY } from '../constants';
 import { getExtension } from '../registry';
 import type { EdgeData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
-import type { Combo, Node, PartialGraphData, TreeData } from '../types';
+import type { Combo, ID, Node, PartialGraphData, TreeData } from '../types';
 import { getAnimation } from '../utils/animation';
 import { isVisible } from '../utils/element';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
@@ -292,7 +292,7 @@ export class LayoutController {
     const nodeSize: number | ((node: LayoutGraphlibNode) => number) =
       (options?.nodeSize as number) ??
       ((node) => {
-        const nodeElement = element?.getElement<Node | Combo>(node.id);
+        const nodeElement = element?.getElement<Node | Combo>(node.id as string);
         const { size } = nodeElement?.attributes || {};
         return Math.max(...parseSize(size));
       });
@@ -327,7 +327,7 @@ export class LayoutController {
     const { nodes, edges } = layoutData;
     const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
     nodes.forEach(({ id, data: { x, y, z = 0 } }) => {
-      dataToUpdate.nodes.push({ id, style: { x, y, z } });
+      dataToUpdate.nodes.push({ id: id as ID, style: { x, y, z } });
     });
 
     edges.forEach(({ id, data: { points = [], controlPoints = points.slice(1, points.length - 1) } }) => {
@@ -338,7 +338,7 @@ export class LayoutController {
       if (controlPoints?.length) {
         // points 的第一个点是起点，最后一个点是终点，中间的点是控制点
         // The first point of points is the starting point, and the last point is the end point, and the middle point is the control point
-        dataToUpdate.edges.push({ id, style: { controlPoints: controlPoints.map(parsePoint) } });
+        dataToUpdate.edges.push({ id: id as ID, style: { controlPoints: controlPoints.map(parsePoint) } });
       }
     });
 

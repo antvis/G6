@@ -1,4 +1,4 @@
-import { Graph as GraphLib, ID } from '@antv/graphlib';
+import { Graph as GraphLib } from '@antv/graphlib';
 import { isEqual, isUndefined } from '@antv/util';
 import { COMBO_KEY, ChangeType, TREE_KEY } from '../constants';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
@@ -9,6 +9,7 @@ import type {
   DataRemoved,
   DataUpdated,
   ElementDatum,
+  ID,
   NodeLikeData,
   PartialEdgeData,
   PartialGraphData,

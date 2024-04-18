@@ -1,10 +1,9 @@
 import type { BaseStyleProps } from '@antv/g';
 import { Rect } from '@antv/g';
-import type { ID } from '@antv/graphlib';
 import { isFunction } from '@antv/util';
 import { COMBO_KEY, CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { EdgeDirection, Element, IDragEvent, Point, PrefixObject } from '../types';
+import type { EdgeDirection, Element, ID, IDragEvent, Point, PrefixObject } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { idOf } from '../utils/id';
 import { subStyleProps } from '../utils/prefix';

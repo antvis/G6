@@ -2,7 +2,6 @@
 /* eslint-disable jsdoc/require-param */
 import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
-import type { ID } from '@antv/graphlib';
 import { groupBy, isEmpty } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
@@ -21,6 +20,7 @@ import type {
   ElementData,
   ElementDatum,
   ElementType,
+  ID,
   Node,
   State,
   StyleIterationContext,

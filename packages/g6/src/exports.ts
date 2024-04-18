@@ -73,6 +73,7 @@ export type {
   Edge,
   Element,
   IAnimateEvent,
+  ID,
   IDragEvent,
   IElementLifeCycleEvent,
   IEvent,

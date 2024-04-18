@@ -1,10 +1,9 @@
-import type { ID } from '@antv/graphlib';
 import { isFunction, uniqueId } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
 import type { EdgeStyle } from '../spec/element/edge';
-import type { Element, IPointerEvent } from '../types';
+import type { Element, ID, IPointerEvent } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
