@@ -1,45 +1,55 @@
 import { Path } from '@antv/g';
-import { deepMix, get, isNumber } from '@antv/util';
+import { deepMix, isNumber, isString } from '@antv/util';
 import { getPaletteColors } from '../../utils/palette';
 import { subStyleProps } from '../../utils/prefix';
+import { parseSize } from '../../utils/size';
 import { Circle } from './circle';
 
-import type { DisplayObjectConfig, Group } from '@antv/g';
-import type { CategoricalPalette } from '../../palettes/types';
+import type { BaseStyleProps, DisplayObjectConfig, Group } from '@antv/g';
+import type { PrefixObject } from '../../types';
 import type { CircleStyleProps } from './circle';
 
-type Round = {
+interface Round extends BaseStyleProps {
   /**
    * <zh/> 数值，用于计算比例
    *
    * <en/> Numerical value used to calculate the scale.
    */
-  value?: number;
+  value: number;
   /**
    * <zh/> 颜色
    *
    * <en/> Color.
    */
   color?: string;
-  /**
-   * <zh/> 其他圆弧(path)样式配置
-   *
-   * <en/> Other arc style configurations.
-   */
-  [key: string]: any;
-};
+}
 
-export interface DonutStyleProps extends CircleStyleProps {
-  innerRadius?: number;
-  donuts?: Array<Round | number>[];
-  palette?: string | CategoricalPalette;
+export interface DonutStyleProps extends CircleStyleProps, PrefixObject<BaseStyleProps, 'donut'> {
+  /**
+   * <zh/> 内环半径，使用百分比或者像素值
+   *
+   * <en/> Inner ring radius, using percentage or pixel value.
+   */
+  innerRadius?: string | number;
+  /**
+   * <zh/> 圆环数据
+   *
+   * <en/> Donut data.
+   */
+  donuts?: number[] | Round[];
+  /**
+   * <zh/> 颜色或者色板名
+   *
+   * <en/> Color or palette.
+   */
+  colors?: string | string[];
 }
 
 export class Donut extends Circle {
   static defaultStyleProps: Partial<DonutStyleProps> = {
-    innerRadius: 0.5,
+    innerRadius: '50%',
     donuts: [],
-    palette: 'tableau',
+    colors: 'tableau',
   };
 
   constructor(options: DisplayObjectConfig<DonutStyleProps>) {
@@ -47,80 +57,38 @@ export class Donut extends Circle {
   }
 
   protected drawDonutShape(attributes: Required<DonutStyleProps>, container: Group): void {
-    const { donuts, innerRadius, size } = attributes;
+    const { donuts, innerRadius = 0, size } = attributes;
+    if (!donuts?.length) return;
 
-    if (!isNumber(size) || size === 0 || !donuts?.length) return;
-    const style = subStyleProps<Required<DonutStyleProps>>(this.getGraphicStyle(attributes), 'donut');
+    const parsedDonuts = donuts.map((round) => (isNumber(round) ? { value: round } : round) as Round);
 
-    const palette = getPaletteColors(attributes?.palette || Donut.defaultStyleProps.palette);
-    if (!palette) return;
+    const style = subStyleProps<BaseStyleProps>(this.getGraphicStyle(attributes), 'donut');
 
-    // 总值
-    let sum = 0;
-    // 起点角度
-    let angelStart = 0;
+    const colors = getPaletteColors(attributes.colors);
+    if (!colors) return;
 
-    donuts.forEach((round) => (sum += isNumber(round) ? round : get(round, ['value'], 0)));
+    const sum = parsedDonuts.reduce((acc, cur) => acc + (cur.value ?? 0), 0);
 
-    donuts.forEach((round, index) => {
-      const {
-        value = 0,
-        color = palette[index % palette.length],
-        ...roundStyle
-      } = (isNumber(round) ? { value: round } : round) as Round;
+    let start = 0;
+    parsedDonuts.forEach((round, index) => {
+      const { value = 0, color = colors[index % colors.length], ...roundStyle } = round;
+      const outerR = parseSize(size)[0] / 2;
+      const innerR = isString(innerRadius) ? (outerR * parseInt(innerRadius)) / 100 : innerRadius;
+      const angle = (sum === 0 ? 1 / parsedDonuts.length : value / sum) * 360;
 
-      const r = size / 2;
+      this.upsert(
+        `round${index}`,
+        Path,
+        {
+          ...style,
+          path: arc(outerR, innerR, start, start + angle),
+          fill: color,
+          ...roundStyle,
+        },
+        container,
+      );
 
-      // 内径
-      const radiusR = r * (Number(innerRadius) || 0);
-
-      // 比例
-      const ratio = sum === 0 ? 1 / donuts.length : value / sum;
-
-      // 角度
-      const angel = ratio * Math.PI * 2;
-
-      const startPoint = calculateArcEndpoint(r, angelStart);
-      const innerStartPoint = calculateArcEndpoint(radiusR, angelStart);
-
-      angelStart += angel;
-
-      const endPoint = calculateArcEndpoint(r, angelStart);
-      const innerEndPoint = calculateArcEndpoint(radiusR, angelStart);
-
-      const isObtuse = angel > Math.PI;
-
-      const path = [];
-
-      // 360 度， 直接画圆
-      if (angel === Math.PI * 2) {
-        path.push(
-          ['M', ...startPoint],
-          ['A', r, r, 0, 1, 1, startPoint[0], -startPoint[1]],
-          ['A', r, r, 0, 1, 1, ...startPoint],
-          ['M', ...innerStartPoint],
-          ['A', radiusR, radiusR, 0, 1, 0, innerStartPoint[0], -innerStartPoint[1]],
-          ['A', radiusR, radiusR, 0, 1, 0, ...innerStartPoint],
-          ['Z'],
-        );
-      } else {
-        path.push(
-          ['M', ...startPoint],
-          ['A', r, r, 1, isObtuse ? 1 : 0, 1, ...endPoint],
-          ['L', ...innerEndPoint],
-          ['A', radiusR, radiusR, -1, isObtuse ? 0 : -1, -1, ...innerStartPoint],
-          ['Z'],
-        );
-      }
-
-      const cfg = {
-        ...style,
-        path,
-        fill: color,
-        ...roundStyle,
-      };
-
-      this.upsert(`round${index}`, Path, cfg, container);
+      start += angle;
     });
   }
 
@@ -130,15 +98,40 @@ export class Donut extends Circle {
   }
 }
 
-/**
- * <zh> 获得给定弧度和半径后的弧度结束点
- *
- * <en> Obtain the end point of the radian with a given radian and radius.
- * @param arcR  number
- * @param angle 弧度 [0, Math.PI*2] number
- * @returns Point
- */
-const calculateArcEndpoint = (arcR: number, angle: number): number[] => [
-  arcR * Math.sin(angle % (Math.PI * 2)),
-  -arcR * Math.cos(angle % (Math.PI * 2)),
-];
+const point = (x: number, y: number, r: number, angel: number) => [x + Math.sin(angel) * r, y - Math.cos(angel) * r];
+
+const full = (x: number, y: number, R: number, r: number) => {
+  if (r <= 0 || R <= r) {
+    return [['M', x - R, y], ['A', R, R, 0, 1, 1, x + R, y], ['A', R, R, 0, 1, 1, x - R, y], ['Z']];
+  }
+  return [
+    ['M', x - R, y],
+    ['A', R, R, 0, 1, 1, x + R, y],
+    ['A', R, R, 0, 1, 1, x - R, y],
+    ['Z'],
+    ['M', x + r, y],
+    ['A', r, r, 0, 1, 0, x - r, y],
+    ['A', r, r, 0, 1, 0, x + r, y],
+    ['Z'],
+  ];
+};
+
+const part = (x: number, y: number, R: number, r: number, start: number, end: number) => {
+  const [s, e] = [(start / 360) * 2 * Math.PI, (end / 360) * 2 * Math.PI];
+  const P = [point(x, y, r, s), point(x, y, R, s), point(x, y, R, e), point(x, y, r, e)];
+  const flag = e - s > Math.PI ? 1 : 0;
+  return [
+    ['M', P[0][0], P[0][1]],
+    ['L', P[1][0], P[1][1]],
+    ['A', R, R, 0, flag, 1, P[2][0], P[2][1]],
+    ['L', P[3][0], P[3][1]],
+    ['A', r, r, 0, flag, 0, P[0][0], P[0][1]],
+    ['Z'],
+  ];
+};
+
+const arc = (R = 0, r = 0, start: number, end: number) => {
+  const [x, y] = [0, 0];
+  if (Math.abs(start - end) % 360 < 0.000001) return full(x, y, R, r);
+  return part(x, y, R, r, start, end);
+};

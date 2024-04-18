@@ -7,14 +7,14 @@ export const elementNodeDonut: TestCase = async (context) => {
       {
         id: 'donut',
         style: {
-          innerRadius: 0.6,
+          innerRadius: '60%',
           donuts: [
             {
-              color: 'red',
-              stroke: 'green',
+              color: 'orange',
               lineWidth: 2,
             },
           ],
+          color: 'purple',
         },
       },
       {
@@ -51,14 +51,7 @@ export const elementNodeDonut: TestCase = async (context) => {
       {
         id: 'donut-selected',
         style: {
-          donuts: [
-            {
-              value: 1000,
-            },
-            {
-              value: 20,
-            },
-          ],
+          donuts: [{ value: 1000 }, { value: 20 }],
         },
       },
       {
@@ -73,28 +66,14 @@ export const elementNodeDonut: TestCase = async (context) => {
         id: 'donut-inactive',
         style: {
           innerRadius: 0,
-          donuts: [
-            {
-              fill: 'red',
-            },
-            {
-              fill: 'green',
-            },
-          ],
+          donuts: [{ fill: 'red' }, { fill: 'green' }],
         },
       },
       {
         id: 'donut-disabled',
         style: {
-          innerRadius: 1,
-          donuts: [
-            {
-              color: 'green',
-            },
-            {
-              color: 'red',
-            },
-          ],
+          innerRadius: '50%',
+          donuts: [{ color: 'green' }, { color: 'red' }],
         },
       },
     ],
@@ -107,8 +86,8 @@ export const elementNodeDonut: TestCase = async (context) => {
       style: {
         type: 'donut', // 👈🏻 Node shape type.
         size: 40,
-        innerRadius: 0.5,
-        labelText: (d) => d.id!,
+        innerRadius: (d: any) => d.style.innerRadius ?? '50%',
+        labelText: (d) => d.id,
         iconHeight: 20,
         iconWidth: 20,
         iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
@@ -134,6 +113,7 @@ export const elementNodeDonut: TestCase = async (context) => {
     layout: {
       type: 'grid',
     },
+    behaviors: ['drag-element'],
   });
 
   await graph.render();
