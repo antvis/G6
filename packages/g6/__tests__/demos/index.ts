@@ -37,6 +37,7 @@ export * from './element-node-circle';
 export * from './element-node-diamond';
 export * from './element-node-ellipse';
 export * from './element-node-hexagon';
+export * from './element-node-html';
 export * from './element-node-image';
 export * from './element-node-rect';
 export * from './element-node-star';
