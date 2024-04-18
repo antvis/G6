@@ -3,13 +3,11 @@ import { Renderer } from '@antv/g-canvas';
 import { ID } from '@antv/graphlib';
 import { createDOM, debounce, uniqueId } from '@antv/util';
 
-import Moveable from 'moveable';
-import { GraphEvent } from '../constants';
-import type { RuntimeContext } from '../runtime/types';
-import { NodeStyle } from '../spec/element/node';
-import { Combo, Edge, Node, Point } from '../types';
-import type { BasePluginOptions } from './base-plugin';
-import { BasePlugin } from './base-plugin';
+import { GraphEvent } from '../../constants';
+import { BasePlugin, BasePluginOptions, Point, RuntimeContext } from '../../exports';
+import { NodeStyle } from '../../spec/element/node';
+import { Combo, Edge, Node } from '../../types/element';
+import Moveable from './moveable';
 
 const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';
@@ -44,8 +42,8 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     viewportClassName: 'g6-minimap-viewport',
     // Minimap 中默认展示和主图一样的内容，KeyShape 只展示节点和边的 key shape 部分，delegate表示展示自定义的rect，用户可自定义样式
     mode: 'default',
-    padding: 8,
-    size: [200, 120],
+    padding: 0, //8,
+    size: [100, 100],
     delegateStyle: {
       fill: '#40a9ff',
       stroke: '#096dd9',
@@ -53,7 +51,6 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     refresh: true,
     hideEdge: false,
   };
-  private moveableRef: Moveable;
   private minimapDom: HTMLElement;
   private minimapContainerDom: HTMLElement;
   private canvas: Canvas;
@@ -79,25 +76,24 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
   /** Ratio of (minimap graph size / main graph size). */
   private ratio = 0;
-  /** Distance from top of minimap graph to the top of minimap container. */
-  private dx = 0;
-  /** Distance from left of minimap graph to the left of minimap container. */
-  private dy = 0;
+
   /** Cache the visibility while items' visibility changed. And apply them onto the minimap with debounce. */
   private visibleCache: { [id: string]: boolean } = {};
   private outerElement: HTMLElement | null = null;
-  private controllerList: AbortController[] = [];
+
   private offset: Point = [0, 0];
+  private initialOptions: MinimapOptions;
+  private moveableRef: Moveable;
 
   constructor(context: RuntimeContext, options: MinimapOptions) {
     super(context, Object.assign({}, Minimap.defaultOptions, options));
+    this.initialOptions = { ...this.options };
     this.minimapDom = this.createMinimapDom();
     this.minimapContainerDom = this.createMinimapContainerDom();
     this.canvas = this.createCanvas();
     this.viewportDom = this.createViewportDom();
-    this.moveableRef = this.createMoveable();
     this.connectToHTML();
-
+    this.moveableRef = this.createMoveable();
     this.addEventListener();
   }
 
@@ -116,31 +112,10 @@ export class Minimap extends BasePlugin<MinimapOptions> {
   }
 
   private createMinimapContainerDom() {
-    const controller_1 = new AbortController();
-    const controller_2 = new AbortController();
-    const controller_3 = new AbortController();
-    const controller_4 = new AbortController();
-    const controller_5 = new AbortController();
-
-    this.controllerList.push(controller_1, controller_2, controller_3, controller_4, controller_5);
-
     const minimapContainerDom = createDOM(
       '<div class="g6-minimap-container" style="position: relative;height:100%" ></div>',
     );
 
-    // if (isSafari || isFireFox) {
-    //   minimapContainerDom.addEventListener('mousemove', this.dragListener.bind(this), {
-    //     capture: false,
-    //     signal: controller_3.signal,
-    //   });
-    // }
-
-    // minimapContainerDom.addEventListener('mouseleave', this.dragendListener.bind(this), {
-    //   signal: controller_4.signal,
-    // });
-    // minimapContainerDom.addEventListener('mouseup', this.dragendListener.bind(this), {
-    //   signal: controller_5.signal,
-    // });
     return minimapContainerDom;
   }
 
@@ -158,14 +133,8 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       options: { viewportClassName },
     } = this;
 
-    const controller = new AbortController();
-    const controller_2 = new AbortController();
-    const controller_3 = new AbortController();
-    this.controllerList.push(controller, controller_2, controller_3);
-
     const viewportDom = createDOM(`<div
     class=${viewportClassName}
-    draggable="true"
     style='position:absolute;
       left:0;
       top:0;
@@ -180,40 +149,30 @@ export class Minimap extends BasePlugin<MinimapOptions> {
   }
 
   private createMoveable() {
-    const rawRefresh = this.options.refresh;
-    const moveableRef = new Moveable(this.minimapContainerDom, {
-      target: this.viewportDom,
-      draggable: true,
-      origin: false,
-      snappable: true, // 搭配bounds使用
-      // scalable: true, // 暂不支持
-      bounds: {
-        left: 0,
-        top: 0,
-        right: 0,
-        bottom: 0,
-        position: 'css',
-      },
+    const moveableRef = new Moveable(this.viewportDom, {
+      container: this.minimapContainerDom,
     });
+
     moveableRef
-      .on('dragStart', () => {
+      .on('dragStart', (e) => {
         this.options.refresh = false;
       })
-      .on('drag', (e) => {
+      .on('drag', (e, dragData) => {
+        // 不要用e.target, 当拖到圈外时,target会改变
         const camera = this.context.canvas.getCamera();
         const zoom = Math.pow(2, camera.getZoom());
-        camera.pan(e.delta[0] / this.ratio / zoom, e.delta[1] / this.ratio / zoom);
+        camera.pan(dragData.delta[0] / this.ratio / zoom, dragData.delta[1] / this.ratio / zoom);
 
-        e.target.style.transform = e.transform;
+        Object.assign(this.viewportDom.style, {
+          left: dragData.left + 'px',
+          top: dragData.top + 'px',
+          width: dragData.width + 'px',
+          height: dragData.height + 'px',
+        });
       })
       .on('dragEnd', () => {
-        this.options.refresh = rawRefresh;
+        this.options.refresh = !!this.initialOptions.refresh;
       });
-
-    moveableRef.on('scale', (e) => {
-      e.target.style.transform = e.drag.transform;
-    });
-
     return moveableRef;
   }
 
@@ -259,31 +218,27 @@ export class Minimap extends BasePlugin<MinimapOptions> {
         break;
     }
     this.canvas.appendChild(group);
-    const minimapBBox = this.canvas.getRoot().getRenderBounds();
-
+    const minimapBBox = this.canvas.document.documentElement.getBounds(); //  能够获取画布内元素的总体包围盒(canvas坐标系)
     const graphBBox = this.context.canvas.getBounds(); //  能够获取画布内元素的总体包围盒
+    // [
+    //  min[0],max[0]
+    //  min[1],max[1]
+    //              ]
 
+    const [graphWidth, graphHeight] = this.context.graph.getSize();
+
+    // canvas
     const width = graphBBox.max[0] - graphBBox.min[0];
     const height = graphBBox.max[1] - graphBBox.min[1];
-
-    // Scale the graph to fit the size - padding of the minimap container
+    // 求minimap缩放比例: minimap宽高 / graph宽高
     const zoomRatio = Math.min((size[0] - 2 * padding) / width, (size[1] - 2 * padding) / height);
-    const zoomCenter = this.canvas.viewport2Canvas({ x: 0, y: 0 });
-    this.canvas.getCamera().setFocalPoint(zoomCenter.x, zoomCenter.y);
-    this.canvas.getCamera().setPosition(zoomCenter.x, zoomCenter.y);
     this.canvas.getCamera().setZoom(zoomRatio);
     this.canvas.getCamera().setPosition(minimapBBox.center[0], minimapBBox.center[1]);
     this.canvas.getCamera().setFocalPoint(minimapBBox.center[0], minimapBBox.center[1]);
 
-    const { x: dx, y: dy } = this.canvas.canvas2Viewport({
-      x: minimapBBox.min[0],
-      y: minimapBBox.min[1],
-    });
-
     // Update the viewport DOM
     this.ratio = zoomRatio;
-    this.dx = dx;
-    this.dy = dy;
+
     this.updateViewport();
     // Delete unused itemMap
     this.deleteDestroyedShapes();
@@ -379,66 +334,48 @@ export class Minimap extends BasePlugin<MinimapOptions> {
   }
 
   /**
-   * Update the viewport DOM.
+   * 根据主图的缩放 设置minimap的宽高
+   * 根据主图的相机位置或者是transform位置, 设置minimap的left top
    */
   private updateViewport() {
     const {
       options,
       context: { graph },
-      dx,
-      dy,
+
       ratio,
       viewportDom,
     } = this;
     if (this.destroyed) return;
 
     const { size } = options;
-
-    const [graphWidth = 500, graphHeight = 500] = graph.getSize();
-
+    // 主图可视区域的范围
+    const [graphWidth = 500, graphHeight = 500] = graph.getSize(); //  client 坐标系
     const graphZoom = graph.getOptions().zoom || 1;
-    const graphBBox = this.context.canvas.getBounds();
+    const graphBBox = this.context.canvas.getBounds(); //  能够获取画布内元素的总体包围盒
+    // getClientByPage
+
+    const a = graph.getCanvasByClient([graphWidth, graphHeight]);
 
     const [graphTopLeftViewportX, graphTopLeftViewportY] = graph.getViewportByCanvas(graphBBox.min);
     const [graphBottomRightViewportX, graphBottomRightViewportY] = graph.getViewportByCanvas(graphBBox.max);
+    // ratio 是个分数, graphZoom是整数
+    const width = (graphWidth * ratio) / graphZoom;
+    const height = (graphHeight * ratio) / graphZoom;
 
-    // Width and height of the viewport DOM
-    let width = (graphWidth * ratio) / graphZoom;
-    let height = (graphHeight * ratio) / graphZoom;
+    // [
+    //  min[0],max[0]
+    //  min[1],max[1]
+    //              ]
 
-    let left = 0;
-    let top = 0;
-    if (graphTopLeftViewportX < 0) {
-      left = (-graphTopLeftViewportX / graphWidth) * width + dx;
-      if (graphBottomRightViewportX < graphWidth) {
-        width = size[0] - left;
-      }
-    } else {
-      width -= (graphTopLeftViewportX / graphWidth) * width - dx;
-    }
-    if (graphTopLeftViewportY < 0) {
-      top = (-graphTopLeftViewportY / graphHeight) * height + dy;
-      if (graphBottomRightViewportY < graphHeight) {
-        height = size[1] - top;
-      }
-    } else {
-      height -= (graphTopLeftViewportY / graphHeight) * height - dy;
-    }
+    // canvas
+    const width2 = graphBBox.max[0] - graphBBox.min[0];
 
-    const right = width + left;
-    if (right > size[0]) {
-      width -= right - size[0];
-    }
-    const bottom = height + top;
-    if (bottom > size[1]) {
-      height -= bottom - size[1];
-    }
     if (viewportDom) {
       Object.assign(viewportDom.style, {
-        left: `${left}px`,
-        top: `${top}px`,
-        width: '100px' || `${width}px`,
-        height: '100px' || `${height}px`,
+        left: `${0}px`,
+        top: `${0}px`,
+        width: `${50 || width}px`,
+        height: `${50 || height}px`,
       });
     }
   }
@@ -454,11 +391,12 @@ export class Minimap extends BasePlugin<MinimapOptions> {
   }
 
   private addEventListener() {
+    // 画布尺寸变化
     this.context.graph.on(GraphEvent.AFTER_SIZE_CHANGE, this.handleUpdateCanvas.bind(this)); // 在元素更新之后触发
-    this.context.graph.on(GraphEvent.AFTER_RENDER, this.drawerCanvas.bind(this)); // 在元素更新之后触发
-    this.context.graph.on(GraphEvent.AFTER_ELEMENT_STATE_CHANGE, this.handleUpdateCanvas.bind(this)); // 在元素更新之后触发
-    this.context.graph.on(GraphEvent.AFTER_ELEMENT_VISIBILITY_CHANGE, this.handleVisibilityChange.bind(this)); // 在元素更新之后触发
-    this.context.graph.on(GraphEvent.AFTER_ELEMENT_UPDATE, this.handleUpdateCanvas.bind(this)); // 在元素更新之后触发
+    // 绘制完成（不包含布局）
+    this.context.graph.on(GraphEvent.AFTER_RENDER, this.updateCanvas.bind(this)); // 在元素更新之后触发
+    // 渲染完成（包含布局）
+    this.context.graph.on(GraphEvent.AFTER_DRAW, this.updateCanvas.bind(this)); // 在元素更新之后触发
   }
 
   /**
@@ -474,35 +412,15 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     false,
   );
   private updateCanvas() {
-    // 如何判断canvas.destroyed?
     if (!this.options.refresh || this.context.graph.destroyed) return;
     this.drawerCanvas();
   }
-
-  private debounceCloneVisibility = debounce(
-    (ids: string[]) => {
-      for (const [shapeId, { minimapItem }] of this.itemMap) {
-        minimapItem.attr({
-          visibility: ids.includes(String(shapeId)) ? 'visible' : 'hidden',
-        });
-      }
-    },
-    50,
-    false,
-  );
-
-  private handleVisibilityChange = (params: any) => {
-    const { ids, value } = params;
-
-    this.debounceCloneVisibility(ids);
-  };
 
   public destroy(): void {
     super.destroy();
     this.outerElement?.remove();
     this.canvas?.destroy();
-    this.moveableRef.destroy();
-    this.controllerList.forEach((abortController) => abortController.abort());
+    this.moveableRef.unset();
   }
 }
 

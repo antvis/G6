@@ -62,9 +62,8 @@
     "@antv/g-plugin-dragndrop": "^1.8.22",
     "@antv/graphlib": "^2.0.2",
     "@antv/hierarchy": "latest",
-    "@antv/util": "^3.3.7",
-    "moveable": "^0.53.0",
-    "@antv/layout": "^1.2.14-beta.1"
+    "@antv/layout": "^1.2.14-beta.1",
+    "@antv/util": "^3.3.7"
   },
   "devDependencies": {
     "@antv/g-plugin-3d": "^1.9.34",
