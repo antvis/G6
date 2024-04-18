@@ -30,17 +30,15 @@ export const positionValidate: TestCase = async (context) => {
       ],
     },
     node: {
+      type: 'sphere',
       style: {
-        type: 'sphere',
         materialType: 'phong',
         labelText: '',
       },
       palette: 'spectral',
     },
     edge: {
-      style: {
-        type: 'line3d',
-      },
+      type: 'line3d',
     },
     behaviors: ['drag-canvas-3d'],
     plugins: [

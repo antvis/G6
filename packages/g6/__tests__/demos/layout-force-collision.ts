@@ -55,7 +55,7 @@ export const layoutForceCollision: TestCase = async (context) => {
     },
     node: {
       style: {
-        size: (d, i) => (i === 0 ? 0 : (d.data!.r as number) * 4),
+        size: (d) => (d.id === '0' ? 0 : (d.data!.r as number) * 4),
       },
       palette: {
         color: 'tableau',

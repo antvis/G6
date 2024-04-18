@@ -14,8 +14,8 @@ export const elementNodeHTML: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'html', // 👈🏻 Node shape type.
       style: {
-        type: 'html', // 👈🏻 Node shape type.
         size: [240, 80],
         innerHTML: (d: NodeData) => `
 <div style="width: 100%; height: 100%; background: ${d.style!.color}; display: flex; justify-content: center; align-items: center;">

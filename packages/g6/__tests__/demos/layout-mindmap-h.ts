@@ -23,9 +23,7 @@ export const layoutMindmapH: TestCase = async (context) => {
       },
     },
     edge: {
-      style: {
-        type: 'cubic-horizontal',
-      },
+      type: 'cubic-horizontal',
     },
     layout: {
       type: 'mindmap',

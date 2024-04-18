@@ -197,7 +197,8 @@ export class Legend extends BasePlugin<LegendOptions> {
       data.forEach((item) => {
         const { id } = item;
         const value = get(item, ['data', getField(item)]);
-        const { color = '#1783ff', type: marker = 'circle' } = getElementStyle(type, item);
+        const marker = element?.getElementType(type, item) || 'circle';
+        const { color = '#1783ff' } = getElementStyle(type, item);
         if (id && value && value.replace(/\s+/g, '')) {
           this.setFieldMap(value, id, type);
           if (!items[value]) {

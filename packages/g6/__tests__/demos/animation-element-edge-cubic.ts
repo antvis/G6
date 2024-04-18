@@ -20,8 +20,8 @@ export const animationElementEdgeCubic: TestCase = async (context) => {
       ],
     },
     edge: {
+      type: 'cubic',
       style: {
-        type: 'cubic',
         lineWidth: 2,
         stroke: '#1890FF',
         labelText: 'cubic-edge',

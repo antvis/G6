@@ -14,9 +14,7 @@ export const layoutDendrogramBasic: TestCase = async (context) => {
       },
     },
     edge: {
-      style: {
-        type: 'cubic-horizontal',
-      },
+      type: 'cubic-horizontal',
     },
     layout: {
       type: 'dendrogram',

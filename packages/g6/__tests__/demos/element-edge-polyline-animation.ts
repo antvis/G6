@@ -13,9 +13,7 @@ export const elementEdgePolylineAnimation: TestCase = async (context) => {
     ...context,
     data,
     edge: {
-      style: {
-        type: 'polyline',
-      },
+      type: 'polyline',
     },
     behaviors: [{ type: 'drag-element' }],
   });

@@ -14,7 +14,10 @@ export const combo: TestCase = async (context) => {
     combos: [
       {
         id: 'combo-1',
-        style: { type: 'rect', parentId: 'combo-2' },
+        type: 'rect',
+        style: {
+          parentId: 'combo-2',
+        },
       },
       {
         id: 'combo-2',

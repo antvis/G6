@@ -14,8 +14,8 @@ export const behaviorDragCanvas: TestCase = async (context) => {
     renderer,
     data,
     node: {
+      type: 'sphere',
       style: {
-        type: 'sphere',
         materialType: 'phong',
         labelText: '',
         x: (d) => +d.style!.x! + 250,
@@ -24,9 +24,7 @@ export const behaviorDragCanvas: TestCase = async (context) => {
       palette: 'spectral',
     },
     edge: {
-      style: {
-        type: 'line3d',
-      },
+      type: 'line3d',
     },
     behaviors: [
       'drag-canvas-3d',

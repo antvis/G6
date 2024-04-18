@@ -39,8 +39,8 @@ export const elementEdgeCustomArrow: TestCase = async (context) => {
     ...context,
     data,
     edge: {
+      type: 'line', // 👈🏻 Edge shape type.
       style: {
-        type: 'line', // 👈🏻 Edge shape type.
         color: '#F6BD16',
         labelText: (d) => d.id!,
         labelBackground: true,

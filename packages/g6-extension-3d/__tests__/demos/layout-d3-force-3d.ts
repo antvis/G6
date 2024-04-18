@@ -19,8 +19,8 @@ export const layoutD3Force3D: TestCase = async (context) => {
       type: 'd3-force-3d',
     },
     node: {
+      type: 'sphere',
       style: {
-        type: 'sphere',
         materialType: 'phong',
       },
       palette: {
@@ -30,9 +30,7 @@ export const layoutD3Force3D: TestCase = async (context) => {
       },
     },
     edge: {
-      style: {
-        type: 'line3d',
-      },
+      type: 'line3d',
     },
     behaviors: ['observe-canvas-3d', 'zoom-canvas-3d'],
     plugins: [
