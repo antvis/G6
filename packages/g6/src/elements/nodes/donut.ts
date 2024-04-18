@@ -50,12 +50,9 @@ export class Donut extends Circle {
     const { donuts, innerRadius, size } = attributes;
 
     if (!isNumber(size) || size === 0 || !donuts?.length) return;
-    const { palette: defaultPalette, ...style } = subStyleProps<Required<DonutStyleProps>>(
-      this.getGraphicStyle(attributes),
-      'donut',
-    );
+    const style = subStyleProps<Required<DonutStyleProps>>(this.getGraphicStyle(attributes), 'donut');
 
-    const palette = getPaletteColors(attributes?.palette || defaultPalette);
+    const palette = getPaletteColors(attributes?.palette || Donut.defaultStyleProps.palette);
     if (!palette) return;
 
     // 总值
