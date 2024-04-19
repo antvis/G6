@@ -51,7 +51,7 @@ import {
   mindmap,
 } from '../layouts';
 import { blues, greens, oranges, spectral, tableau } from '../palettes';
-import { Contextmenu, GridLine, History, Hull, Legend, Toolbar, Tooltip, Watermark } from '../plugins';
+import { Contextmenu, GridLine, History, Hull, Legend, Timebar, Toolbar, Tooltip, Watermark } from '../plugins';
 import { dark, light } from '../themes';
 import { ArrangeDrawOrder, CollapseExpandCombo, ProcessParallelEdges, UpdateRelatedEdge } from '../transforms';
 import type { ExtensionRegistry } from './types';
@@ -141,6 +141,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     toolbar: Toolbar,
     legend: Legend,
     history: History,
+    timebar: Timebar,
   },
   transform: {
     'update-related-edges': UpdateRelatedEdge,
