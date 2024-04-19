@@ -5,7 +5,7 @@ import * as demos from './demos';
 import { createGraphCanvas } from './utils';
 
 type Options = {
-  Type: string;
+  Search: string;
   Demo: string;
   Renderer: string;
   Theme: string;
@@ -14,7 +14,7 @@ type Options = {
 };
 
 const options: Options = {
-  Type: 'cases',
+  Search: '',
   Demo: Object.keys(demos)[0],
   Renderer: 'canvas',
   GridLine: true,
@@ -36,6 +36,11 @@ window.onload = render;
 function initPanel() {
   const panel = new GUI({ container: document.getElementById('panel')!, autoPlace: true });
   const Demo = panel.add(options, 'Demo', Object.keys(demos)).onChange(render);
+  const Search = panel.add(options, 'Search').onChange((keyword: string) => {
+    const keys = Object.keys(demos);
+    const filtered = keys.filter((key) => key.toLowerCase().includes(keyword.toLowerCase()));
+    Demo.options(filtered);
+  });
   const Renderer = panel.add(options, 'Renderer', { Canvas: 'canvas', SVG: 'svg', WebGL: 'webgl' }).onChange(render);
   const Theme = panel.add(options, 'Theme', { Light: 'light', Dark: 'dark' }).onChange(render);
   const GridLine = panel.add(options, 'GridLine').onChange(() => {
@@ -44,7 +49,7 @@ function initPanel() {
   });
   const Animation = panel.add(options, 'Animation').onChange(render);
   const reload = panel.add(options, 'Reload').onChange(render);
-  return { panel, Demo, Renderer, GridLine, Theme, Animation, reload };
+  return { panel, Demo, Search, Renderer, GridLine, Theme, Animation, reload };
 }
 
 async function render() {

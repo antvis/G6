@@ -1,10 +1,9 @@
 import type { CategoryOptions } from '@antv/component';
 import { Category, Layout, Selection } from '@antv/component';
-import type { ID } from '@antv/graphlib';
 import { get, isFunction } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { ElementDatum, ElementType, State } from '../types';
+import type { ElementDatum, ElementType, ID, State } from '../types';
 import type { CardinalPlacement } from '../types/placement';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
@@ -198,8 +197,9 @@ export class Legend extends BasePlugin<LegendOptions> {
       data.forEach((item) => {
         const { id } = item;
         const value = get(item, ['data', getField(item)]);
-        const { color = '#1783ff', type: marker = 'circle' } = getElementStyle(type, item);
-        if ((id || id === 0) && value && value.replace(/\s+/g, '')) {
+        const marker = element?.getElementType(type, item) || 'circle';
+        const { color = '#1783ff' } = getElementStyle(type, item);
+        if (id && value && value.replace(/\s+/g, '')) {
           this.setFieldMap(value, id, type);
           if (!items[value]) {
             items[value] = {

@@ -17,7 +17,8 @@ export const pluginHistory: TestCase = async (context) => {
       combos: [
         {
           id: 'combo-1',
-          style: { type: 'rect', parentId: 'combo-2', collapsed: true },
+          type: 'rect',
+          style: { parentId: 'combo-2', collapsed: true },
         },
         { id: 'combo-2' },
       ],

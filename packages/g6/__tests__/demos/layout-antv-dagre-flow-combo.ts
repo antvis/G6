@@ -7,8 +7,8 @@ export const layoutAntVDagreFlowCombo: TestCase = async (context) => {
     autoFit: 'view',
     data,
     node: {
+      type: 'rect',
       style: {
-        type: 'rect',
         size: [60, 30],
         radius: 8,
         labelText: (d) => d.id,
@@ -20,14 +20,14 @@ export const layoutAntVDagreFlowCombo: TestCase = async (context) => {
       },
     },
     edge: {
+      type: 'cubic-vertical',
       style: {
-        type: 'cubic-vertical',
         endArrow: true,
       },
     },
     combo: {
+      type: 'rect',
       style: {
-        type: 'rect',
         radius: 8,
         labelText: (d) => d.id,
         lineDash: 0,

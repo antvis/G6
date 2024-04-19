@@ -25,7 +25,7 @@ describe('element override methods', () => {
 
     const graph = createGraph({
       data: {
-        nodes: [{ id: 'node-1', style: { type: 'custom-circle' } }],
+        nodes: [{ id: 'node-1', type: 'custom-circle' }],
       },
     });
 

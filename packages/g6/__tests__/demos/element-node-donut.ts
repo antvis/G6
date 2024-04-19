@@ -83,8 +83,8 @@ export const elementNodeDonut: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'donut', // 👈🏻 Node shape type.
       style: {
-        type: 'donut', // 👈🏻 Node shape type.
         size: 40,
         innerRadius: (d: any) => d.style.innerRadius ?? '50%',
         labelText: (d) => d.id,

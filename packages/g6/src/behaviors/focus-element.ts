@@ -1,8 +1,7 @@
-import type { ID } from '@antv/graphlib';
 import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { Element, IPointerEvent, ViewportAnimationEffectTiming } from '../types';
+import type { Element, ID, IPointerEvent, ViewportAnimationEffectTiming } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 

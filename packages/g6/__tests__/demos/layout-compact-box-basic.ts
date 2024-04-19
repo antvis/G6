@@ -16,9 +16,7 @@ export const layoutCompactBoxBasic: TestCase = async (context) => {
       },
     },
     edge: {
-      style: {
-        type: 'cubic-horizontal',
-      },
+      type: 'cubic-horizontal',
     },
     layout: {
       type: 'compact-box',

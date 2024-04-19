@@ -1,6 +1,5 @@
-import type { ID } from '@antv/graphlib';
 import type { Graph } from '../runtime/graph';
-import type { ElementType } from '../types';
+import type { ElementType, ID } from '../types';
 import { idOf } from './id';
 import { bfs } from './traverse';
 

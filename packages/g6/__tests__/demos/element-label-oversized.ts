@@ -38,8 +38,8 @@ export const elementLabelOversized: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'rect',
       style: {
-        type: 'rect',
         x: (d) => d.data!.x as number,
         y: (d) => d.data!.y as number,
         size: (d) => d.data!.size as number,

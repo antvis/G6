@@ -1,8 +1,8 @@
 import type { BaseEdgeStyleProps } from '../../elements/edges';
+import { State } from '../../types';
 import type { CallableObject } from '../../types/callable';
 import type { EdgeData } from '../data';
 import type { AnimationOptions } from './animation';
-import type { BaseElementStyle } from './base';
 import type { PaletteOptions } from './palette';
 
 /**
@@ -11,6 +11,12 @@ import type { PaletteOptions } from './palette';
  * <en/> Edge spec
  */
 export interface EdgeOptions {
+  /**
+   * <zh/> 边类型
+   *
+   * <en/> Edge type
+   */
+  type?: string | ((datum: EdgeData) => string);
   /**
    * <zh/> 边样式
    *
@@ -44,6 +50,12 @@ export interface StaticEdgeOptions {
   palette?: PaletteOptions;
 }
 
-export interface EdgeStyle extends BaseElementStyle, Partial<BaseEdgeStyleProps> {
+export interface EdgeStyle extends Partial<BaseEdgeStyleProps> {
+  /**
+   * <zh/> 初始状态
+   *
+   * <en/> Initial state
+   */
+  states?: State[];
   [key: string]: any;
 }

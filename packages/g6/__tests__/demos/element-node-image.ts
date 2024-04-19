@@ -20,8 +20,8 @@ export const elementNodeImage: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'image', // 👈🏻 Node shape type.
       style: {
-        type: 'image', // 👈🏻 Node shape type.
         size: 40,
         labelText: (d) => d.id!,
         src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',

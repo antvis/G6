@@ -1,7 +1,6 @@
-import type { ID } from '@antv/graphlib';
 import { groupBy } from '@antv/util';
 import { ChangeType } from '../constants';
-import type { DataAdded, DataChange, DataChanges, DataRemoved, DataUpdated } from '../types';
+import type { DataAdded, DataChange, DataChanges, DataRemoved, DataUpdated, ID } from '../types';
 import { idOf } from './id';
 
 /**

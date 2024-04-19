@@ -26,14 +26,14 @@ export const elementZIndex: TestCase = async (context) => {
         size: 40,
         labelText: (d) => d.id,
         labelWordWrapWidth: 200,
-        color: (d, index) => ['red', 'green', 'blue'][index],
       },
+      palette: 'tableau',
     },
     combo: {
       style: {
         labelText: (d) => d.id,
-        color: (d, index: number) => ['pink', 'cyan', 'purple', 'orange'][index],
       },
+      palette: 'tableau',
     },
     behaviors: ['drag-element'],
   });

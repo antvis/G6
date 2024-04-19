@@ -78,8 +78,8 @@ export const elementEdgeLoopPolyline: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'rect',
       style: {
-        type: 'rect',
         size: [80, 30],
         port: (d) => idOf(d).toString().includes('ports'),
         portR: 3,
@@ -96,8 +96,8 @@ export const elementEdgeLoopPolyline: TestCase = async (context) => {
       },
     },
     edge: {
+      type: 'polyline',
       style: {
-        type: 'polyline',
         endArrow: true,
         loopPlacement: (d) => d.style!.placement,
       },

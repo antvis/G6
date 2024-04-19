@@ -1,5 +1,4 @@
-import type { ID } from '@antv/graphlib';
-import type { NodeLikeData } from '../types';
+import type { ID, NodeLikeData } from '../types';
 import { idOf } from '../utils/id';
 import { BaseTransform } from './base-transform';
 import type { DrawData } from './types';

@@ -20,8 +20,8 @@ export const elementNodeHexagon: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'hexagon', // 👈🏻 Node shape type.
       style: {
-        type: 'hexagon', // 👈🏻 Node shape type.
         size: 40,
         labelText: (d) => d.id!,
         iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',

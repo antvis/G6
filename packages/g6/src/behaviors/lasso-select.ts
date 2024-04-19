@@ -4,9 +4,8 @@ import { getAllElementState } from '../utils/behaviors/utils';
 import { pointsToPath } from '../utils/path';
 import { BrushSelect, DEFAULT_STYLE } from './brush-select';
 
-import type { ID } from '@antv/graphlib';
 import type { RuntimeContext } from '../runtime/types';
-import type { IPointerEvent, Points, State } from '../types';
+import type { ID, IPointerEvent, Points, State } from '../types';
 import type { BrushSelectOptions } from './brush-select';
 
 const SHOW_PATH_ID = 'g6-lasso-select-path-id';

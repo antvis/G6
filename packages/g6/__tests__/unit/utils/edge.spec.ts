@@ -1,3 +1,4 @@
+import type { ID } from '@/src';
 import { Rect } from '@/src/elements';
 import {
   getCubicPath,
@@ -12,7 +13,6 @@ import {
   parseCurvePosition,
 } from '@/src/utils/edge';
 import { AABB, Line } from '@antv/g';
-import type { ID } from '@antv/graphlib';
 
 describe('edge', () => {
   describe('getLabelPositionStyle', () => {

@@ -19,8 +19,8 @@ export const elementNodeTriangle: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'triangle', // 👈🏻 Node shape type.
       style: {
-        type: 'triangle', // 👈🏻 Node shape type.
         size: 40,
         direction: (d: any) => d.data?.direction,
         labelText: (d) => d.id!,

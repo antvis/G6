@@ -84,9 +84,6 @@ export const elementEdgePort: TestCase = async (context) => {
         { key: 'right', placement: [1, 0.5], r: 4, stroke: '#31d0c6', fill: '#fff' },
       ],
     },
-    'node-19': {
-      type: 'star',
-    },
   };
 
   const edges: Record<string, any> = {
@@ -124,7 +121,6 @@ export const elementEdgePort: TestCase = async (context) => {
       labelText: 'sourcePort✅ targetPort❓',
     },
     'edge-9': {
-      type: 'cubic',
       sourcePort: 'bottom',
       labelText: 'sourcePort✅ targetPort❓',
     },
@@ -133,18 +129,24 @@ export const elementEdgePort: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: {
-      nodes: Array.from({ length: 20 }).map((_, i) => ({ id: `node-${i}`, style: nodes[`node-${i}`] || {} })),
+      nodes: Array.from({ length: 20 }).map((_, i) => ({
+        id: `node-${i}`,
+        data: { index: i },
+        type: i === 19 ? 'star' : 'circle',
+        style: nodes[`node-${i}`] || {},
+      })),
       edges: Array.from({ length: 10 }).map((_, i) => ({
         id: `edge-${i}`,
         source: `node-${i * 2}`,
         target: `node-${i * 2 + 1}`,
+        type: i === 9 ? 'cubic' : 'line',
         style: edges[`edge-${i}`] || {},
       })),
     },
     node: {
       style: {
-        x: (_, index) => [50, 200, 300, 450][index % 4],
-        y: (_, index) => 50 + Math.floor(index / 4) * 100,
+        x: (d) => [50, 200, 300, 450][(d.data!.index as number) % 4],
+        y: (d) => 50 + Math.floor((d.data!.index as number) / 4) * 100,
         size: 50,
         color: '#f8f8f8',
         stroke: '#8b9baf',

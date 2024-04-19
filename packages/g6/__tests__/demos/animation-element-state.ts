@@ -38,15 +38,15 @@ export const animationElementState: TestCase = async (context) => {
       ],
     },
     node: {
+      type: 'breathing-circle',
       style: {
-        type: 'breathing-circle',
         halo: true,
         haloLineWidth: 5,
       },
     },
     edge: {
+      type: 'fly-line',
       style: {
-        type: 'fly-line',
         lineDash: [10, 10],
       },
     },

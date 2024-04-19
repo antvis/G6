@@ -1,8 +1,7 @@
 import { AABB } from '@antv/g';
-import type { ID } from '@antv/graphlib';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
-import type { FitViewOptions, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
+import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
 import { getAnimation } from '../utils/animation';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
