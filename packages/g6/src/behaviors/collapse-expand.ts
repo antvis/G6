@@ -70,10 +70,10 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
     const { onCollapse, onExpand, animation } = this.options;
     const isCollapse = data.style?.collapsed;
     if (isCollapse) {
-      await graph.expand(id, animation);
+      await graph.expandElement(id, animation);
       onExpand?.(id);
     } else {
-      await graph.collapse(id, animation);
+      await graph.collapseElement(id, animation);
       onCollapse?.(id);
     }
   };
