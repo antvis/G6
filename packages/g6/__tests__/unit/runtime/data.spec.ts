@@ -1,4 +1,4 @@
-import { Utils } from '@/src';
+import { treeToGraphData } from '@/src';
 import { DataController } from '@/src/runtime/data';
 import { reduceDataChanges } from '@/src/utils/change';
 import { idOf } from '@/src/utils/id';
@@ -593,7 +593,7 @@ describe('DataController', () => {
   it('getAncestorsData getParentData getChildrenData', () => {
     const controller = new DataController();
 
-    controller.addData(Utils.treeToGraphData(tree));
+    controller.addData(treeToGraphData(tree));
 
     expect(controller.getAncestorsData('Logistic regression', 'tree').map(idOf)).toEqual([
       'Classification',
