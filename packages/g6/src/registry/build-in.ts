@@ -19,6 +19,7 @@ import {
   CubicHorizontal,
   CubicVertical,
   Diamond,
+  Donut,
   Ellipse,
   HTML,
   Hexagon,
@@ -121,6 +122,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     image: Image,
     rect: Rect,
     star: Star,
+    donut: Donut,
     triangle: Triangle,
   },
   palette: {

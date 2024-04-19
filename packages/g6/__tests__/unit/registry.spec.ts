@@ -5,6 +5,7 @@ import {
   CubicHorizontal,
   CubicVertical,
   Diamond,
+  Donut,
   Ellipse,
   HTML,
   Hexagon,
@@ -33,6 +34,7 @@ describe('registry', () => {
       star: Star,
       triangle: Triangle,
       diamond: Diamond,
+      donut: Donut,
       hexagon: Hexagon,
       html: HTML,
     });
