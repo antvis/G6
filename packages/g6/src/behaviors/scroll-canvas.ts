@@ -1,8 +1,7 @@
-import type { FederatedWheelEvent } from '@antv/g';
-import { isFunction, isObject, isPlainObject } from '@antv/util';
+import { isFunction, isObject } from '@antv/util';
 import { CanvasEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import { BehaviorEvent, Point } from '../types';
+import type { IKeyboardEvent, Point } from '../types';
 import { Shortcut, ShortcutKey } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
@@ -13,10 +12,7 @@ export interface ScrollCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the function of scrolling the canvas
    */
-  enable?:
-    | boolean
-    | EnableOptions
-    | ((event: BehaviorEvent<FederatedWheelEvent> | BehaviorEvent<KeyboardEvent>) => boolean);
+  enable?: boolean | ((event: WheelEvent | IKeyboardEvent) => boolean);
   /**
    * <zh/> 触发滚动的方式，默认使用指针滚动
    *
@@ -85,15 +81,24 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
       this.shortcut.bind(left, (event) => this.scroll([-10, 0], event));
       this.shortcut.bind(right, (event) => this.scroll([10, 0], event));
     } else {
-      graph.on(CanvasEvent.WHEEL, this.onWheel);
+      /**
+       * 这里必需在原生canvas上绑定wheel事件，参考：
+       * https://g.antv.antgroup.com/api/event/faq#%E5%9C%A8-chrome-%E4%B8%AD%E7%A6%81%E6%AD%A2%E9%A1%B5%E9%9D%A2%E9%BB%98%E8%AE%A4%E6%BB%9A%E5%8A%A8%E8%A1%8C%E4%B8%BA
+       */
+      graph
+        .getCanvas()
+        .getContextService()
+        .getDomElement()
+        ?.addEventListener(CanvasEvent.WHEEL, this.onWheel, { passive: false });
     }
   }
 
-  private onWheel = async (ev: BehaviorEvent<FederatedWheelEvent>) => {
-    const diffX = ev.deltaX || ev.movement.x;
-    const diffY = ev.deltaY || ev.movement.y;
+  private onWheel = async (event: WheelEvent) => {
+    event.preventDefault();
+    const diffX = event.deltaX;
+    const diffY = event.deltaY;
 
-    await this.scroll([-diffX, -diffY], ev);
+    await this.scroll([-diffX, -diffY], event);
   };
 
   private formatDisplacement([dx, dy]: Point) {
@@ -111,7 +116,7 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
     return [dx, dy] as Point;
   }
 
-  private async scroll(value: Point, event: BehaviorEvent<FederatedWheelEvent> | BehaviorEvent<KeyboardEvent>) {
+  private async scroll(value: Point, event: WheelEvent | IKeyboardEvent) {
     if (!this.validate(event)) return;
     const { onfinish } = this.options;
     const graph = this.context.graph;
@@ -120,15 +125,11 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
     onfinish?.();
   }
 
-  private validate(evt: BehaviorEvent<FederatedWheelEvent> | BehaviorEvent<KeyboardEvent>) {
-    const { targetType } = evt;
+  private validate(event: WheelEvent | IKeyboardEvent) {
     if (this.destroyed) return false;
 
     const { enable } = this.options;
-    if (isFunction(enable)) return enable(evt);
-    else if (isPlainObject(enable)) {
-      return targetType in enable ? !!enable[targetType as keyof EnableOptions] : true;
-    }
+    if (isFunction(enable)) return enable(event);
     return !!enable;
   }
 }
