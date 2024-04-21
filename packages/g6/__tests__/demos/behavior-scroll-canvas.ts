@@ -1,8 +1,7 @@
 import { Graph } from '@/src';
 import data from '@@/dataset/cluster.json';
-import type { STDTestCase } from '../types';
 
-export const behaviorScrollCanvas: STDTestCase = async (context) => {
+export const behaviorScrollCanvas: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
