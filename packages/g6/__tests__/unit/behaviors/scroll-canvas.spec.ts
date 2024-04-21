@@ -1,6 +1,6 @@
+import { behaviorScrollCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { CommonEvent } from '@/src';
-import { behaviorScrollCanvas } from '@@/demo/case';
 import { createDemoGraph } from '@@/utils';
 import { isObject } from '@antv/util';
 import { ScrollCanvasOptions } from '../../../src/behaviors';
@@ -31,9 +31,14 @@ describe('behavior scroll canvas', () => {
     ]);
   });
 
+  function emitWheelEvent(options?: { deltaX: number; deltaY: number }) {
+    const dom: HTMLElement | undefined = graph.getCanvas().getContextService().getDomElement();
+    dom?.dispatchEvent(new WheelEvent(CommonEvent.WHEEL, options));
+  }
+
   it('scroll', async () => {
     const [x, y] = graph.getPosition();
-    graph.emit(CommonEvent.WHEEL, { deltaX: -10, deltaY: -10 });
+    emitWheelEvent({ deltaX: -10, deltaY: -10 });
     expect(graph.getPosition()).toBeCloseTo([x + 10, y + 10]);
 
     await expect(graph).toMatchSnapshot(__filename);
@@ -41,9 +46,8 @@ describe('behavior scroll canvas', () => {
 
   it('direction', async () => {
     setBehavior({ direction: 'x' });
-
     const [x, y] = graph.getPosition();
-    graph.emit(CommonEvent.WHEEL, { deltaX: -10, deltaY: -10 });
+    emitWheelEvent({ deltaX: -10, deltaY: -10 });
     expect(graph.getPosition()).toBeCloseTo([x + 10, y]);
 
     setBehavior({ direction: undefined });
@@ -55,7 +59,7 @@ describe('behavior scroll canvas', () => {
     const [x, y] = graph.getPosition();
     const deltaX = -10,
       deltaY = -10;
-    graph.emit(CommonEvent.WHEEL, { deltaX, deltaY });
+    emitWheelEvent({ deltaX, deltaY });
     expect(graph.getPosition()).toBeCloseTo([x + Math.abs(deltaX * sensitivity), y + Math.abs(deltaY * sensitivity)]);
   });
 
