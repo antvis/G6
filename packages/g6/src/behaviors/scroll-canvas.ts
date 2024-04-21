@@ -85,12 +85,12 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
        * 这里必需在原生canvas上绑定wheel事件，参考：
        * https://g.antv.antgroup.com/api/event/faq#%E5%9C%A8-chrome-%E4%B8%AD%E7%A6%81%E6%AD%A2%E9%A1%B5%E9%9D%A2%E9%BB%98%E8%AE%A4%E6%BB%9A%E5%8A%A8%E8%A1%8C%E4%B8%BA
        */
-      graph
-        .getCanvas()
-        .getContextService()
-        .getDomElement()
-        ?.addEventListener(CanvasEvent.WHEEL, this.onWheel, { passive: false });
+      this.graphDom?.addEventListener(CanvasEvent.WHEEL, this.onWheel, { passive: false });
     }
+  }
+
+  get graphDom(): HTMLElement | undefined {
+    return this.context.graph.getCanvas().getContextService().getDomElement();
   }
 
   private onWheel = async (event: WheelEvent) => {
@@ -131,5 +131,11 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
+  }
+
+  public destroy(): void {
+    this.shortcut.destroy();
+    this.graphDom?.removeEventListener(CanvasEvent.WHEEL, this.onWheel);
+    super.destroy();
   }
 }
