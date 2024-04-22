@@ -1,4 +1,3 @@
-import type { ID } from '@antv/graphlib';
 import type { PathArray } from '@antv/util';
 import { deepMix, isEqual, isFunction } from '@antv/util';
 import type { IBubbleSetOptions, ILine, IRectangle } from 'bubblesets-js';
@@ -8,7 +7,7 @@ import type { ContourStyleProps } from '../elements/shapes';
 import { Contour } from '../elements/shapes';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
-import type { CallableValue } from '../types';
+import type { CallableValue, ID } from '../types';
 import { getBBoxHeight, getBBoxWidth } from '../utils/bbox';
 import { arrayDiff } from '../utils/diff';
 import type { ElementLifeCycleEvent } from '../utils/event';
@@ -26,9 +25,9 @@ export interface BubbleSetsOptions extends BasePluginOptions, IBubbleSetOptions,
    */
   members: ID[];
   /**
-   * <zh/> 非成员元素，仅包括节点
+   * <zh/> 需要避开的元素，在绘制轮廓时不会包含这些元素。目前支持设置节点
    *
-   * <en/> Non-member elements, only nodes
+   * <en/> Elements to avoid, these elements will not be included when drawing the contour, currently only nodes are supported
    */
   avoidMembers?: ID[];
 }

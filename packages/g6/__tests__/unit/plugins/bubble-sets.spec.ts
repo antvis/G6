@@ -1,7 +1,6 @@
-import type { BubbleSets, Graph } from '@/src';
+import type { BubbleSets, Graph, ID } from '@/src';
 import { pluginBubbleSets } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
-import type { ID } from '@antv/graphlib';
 
 describe('plugin bubble-sets', () => {
   let graph: Graph;

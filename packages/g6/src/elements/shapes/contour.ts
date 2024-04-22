@@ -9,7 +9,7 @@ import type { LabelStyleProps } from '../shapes';
 import { BaseShape } from './base-shape';
 import { Label } from './label';
 
-type ContourLabelStyleProps = LabelStyleProps & {
+interface ContourLabelStyleProps extends LabelStyleProps {
   /**
    * <zh/> 标签位置，可选值为 'top'、'right'、'bottom'、'left'、'center'；默认为 'bottom'
    * <en/> Label position, optional values are 'top', 'right', 'bottom', 'left', 'center'; default is 'bottom'
@@ -40,7 +40,7 @@ type ContourLabelStyleProps = LabelStyleProps & {
    * <en/> The maximum width of the text, which will be automatically ellipsis if exceeded
    */
   maxWidth?: number;
-};
+}
 
 export type ContourStyleProps = PathStyleProps & {
   label?: boolean;
