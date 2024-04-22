@@ -1,48 +1,4 @@
-import { Canvas, CanvasConfig } from '@antv/g';
-import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
-
 export type Datum = Record<string, any>;
-
-/**
- * <zh> 创建 canvas 对象.
- *
- * <en> Create canvas.
- * @param container HTMLElement
- * @param width number
- * @param height number
- * @param pixelRatio number
- * @param canvasConfig CanvasConfig
- * @returns Canvas
- */
-export function createCanvas(
-  container: HTMLElement,
-  width: number,
-  height: number,
-  pixelRatio?: number,
-  canvasConfig: Partial<CanvasConfig> = {},
-): Canvas {
-  const renderer = new CanvasRenderer();
-
-  renderer.registerPlugin(
-    new DragNDropPlugin({
-      isDocumentDraggable: true,
-      isDocumentDroppable: true,
-      dragstartDistanceThreshold: 10,
-      dragstartTimeThreshold: 100,
-    }),
-  );
-
-  return new Canvas({
-    container,
-    width,
-    height,
-    devicePixelRatio: pixelRatio,
-    renderer,
-    supportsMutipleCanvasesInOneContainer: true,
-    ...canvasConfig,
-  });
-}
 
 /**
  * <zh> 水平方向的位置转化为 timebar 外部 dom 对应样式.
@@ -65,12 +21,15 @@ export function parseLevelPositionToStyle(position: 'bottom' | 'top', bound: [nu
 }
 
 /**
+ * <zh> 从对象中获取 keys 数组中的任意一个key的值
  *
- * @param datum
- * @param optionsKeys
- * @param defaultValue
+ * <en> Gets the value of any key in the keys array from the object.
+ * @param datum Datum
+ * @param optionsKeys string[]
+ * @param defaultValue any
+ * @returns any
  */
-export function tryToGet<T = any>(datum: Datum, optionsKeys: string[], defaultValue?: T) {
+export function tryToGet<T = any>(datum: Datum, optionsKeys: string[], defaultValue?: T): T | undefined {
   for (let i = 0; i < optionsKeys.length; i++) {
     const key = optionsKeys[i];
     const val = datum?.[key] as T;

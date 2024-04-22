@@ -1,10 +1,12 @@
 import { Timebar as GUITimebar } from '@antv/component';
+import { Canvas } from '@antv/g';
 import { createDOM, get, isArray, isDate, isFunction, isNumber, set } from '@antv/util';
 import { BasePlugin } from '../base-plugin';
-import { createCanvas, parseLevelPositionToStyle, tryToGet } from './util';
+import { parseLevelPositionToStyle, tryToGet } from './util';
+
+import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 
 import type { TimebarStyleProps } from '@antv/component';
-import type { Canvas } from '@antv/g';
 import type { RuntimeContext } from '../../runtime/types';
 import type { EdgeData, GraphData, NodeData } from '../../spec';
 import type { ElementType, ID } from '../../types';
@@ -157,7 +159,13 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     );
     container?.appendChild(this.wrapper);
 
-    this.timebarCanvas = createCanvas(this.wrapper, bound[0], Number(height) + padding * 2, undefined, {
+    this.timebarCanvas = new Canvas({
+      container: this.wrapper,
+      width: bound[0],
+      height: Number(height) + padding * 2,
+      devicePixelRatio: undefined,
+      renderer: new CanvasRenderer(),
+      supportsMutipleCanvasesInOneContainer: true,
       background: '#fff',
     });
   }
