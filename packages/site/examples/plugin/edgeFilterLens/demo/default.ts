@@ -12,15 +12,7 @@ let filterLensConfig = {
   trigger: 'mousemove',
   showLabel: 'edge',
   showType: 'both',
-  delegateStyle: {
-    fill: '#F8E8D9',
-    lineDash: [5, 5],
-    stroke: '#666',
-  },
-  shouldShow: (edgeModel) => {
-    return edgeModel.data.value > 5;
-  },
-  r: 180,
+  r: 140,
 };
 
 const container = document.getElementById('container') as HTMLElement;
@@ -38,16 +30,6 @@ const graph = new Graph({
     linkDistance: 100,
   },
   edge: {
-    keyShape: {
-      stroke: {
-        fields: ['value'],
-        formatter: (model) => (model.data.value > 5 ? '#f00' : '#99ADD1'),
-      },
-      lineWidth: {
-        fields: ['value'],
-        formatter: (model) => (model.data.value > 5 ? 3 : 1),
-      },
-    },
     labelShape: {
       text: {
         fields: ['value'],
@@ -65,7 +47,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
     graph.read(data);
-window.graph = graph;
+    window.graph = graph;
   });
 
 const buttonContainer = document.createElement('div');
