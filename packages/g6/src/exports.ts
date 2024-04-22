@@ -1,8 +1,3 @@
-import { dark, light } from './themes';
-import { idOf } from './utils/id';
-import { omitStyleProps, subStyleProps } from './utils/prefix';
-import { treeToGraphData } from './utils/tree';
-
 export { BaseBehavior, DragCanvas, ZoomCanvas } from './behaviors';
 export {
   CanvasEvent,
@@ -34,8 +29,11 @@ export { BasePlugin, CameraSetting, History } from './plugins';
 export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
 export { BaseTransform } from './transforms';
+export { idOf } from './utils/id';
+export { omitStyleProps, subStyleProps } from './utils/prefix';
 export { Shortcut } from './utils/shortcut';
 export { parseSize } from './utils/size';
+export { treeToGraphData } from './utils/tree';
 
 export type { BaseBehaviorOptions, DragCanvasOptions, ZoomCanvasOptions } from './behaviors';
 export type { BaseComboStyleProps, CircleComboStyleProps, RectComboStyleProps } from './elements/combos';
@@ -102,16 +100,5 @@ export type {
 } from './types';
 export type { ShortcutKey } from './utils/shortcut';
 
-const Utils = {
-  idOf,
-  treeToGraphData,
-  subStyleProps,
-  omitStyleProps,
-};
-
-const Theme = {
-  dark,
-  light,
-};
-
-export { Theme, Utils };
+import { dark, light } from './themes';
+export const Theme = { dark, light };

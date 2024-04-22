@@ -3,7 +3,7 @@ import type { ProceduralGeometry as GGeometry, Material as GMaterial } from '@an
 import { Mesh } from '@antv/g-plugin-3d';
 import type { IMaterial, Plugin } from '@antv/g-plugin-device-renderer';
 import type { BaseNodeStyleProps } from '@antv/g6';
-import { BaseNode, Utils } from '@antv/g6';
+import { BaseNode, omitStyleProps, subStyleProps } from '@antv/g6';
 import { PrefixObject } from '@antv/g6/lib/types';
 import { deepMix } from '@antv/util';
 import { Material } from '../types';
@@ -44,7 +44,7 @@ export abstract class BaseNode3D<S extends BaseNode3DStyleProps> extends BaseNod
   }
 
   protected getKeyStyle(attributes: Required<S>): MeshStyleProps {
-    const style = Utils.omitStyleProps(super.getKeyStyle(attributes), 'material');
+    const style = omitStyleProps(super.getKeyStyle(attributes), 'material');
     const geometry = this.getGeometry(attributes);
     const material = this.getMaterial(attributes);
     return { x: 0, y: 0, z: 0, ...style, geometry, material };
@@ -58,7 +58,7 @@ export abstract class BaseNode3D<S extends BaseNode3DStyleProps> extends BaseNod
 
   protected getMaterial(attributes: Required<S>): GMaterial<any> | undefined {
     const { texture } = attributes;
-    const materialStyle = Utils.subStyleProps<Material>(attributes, 'material');
+    const materialStyle = subStyleProps<Material>(attributes, 'material');
     return createMaterial(this.plugin, materialStyle, texture);
   }
 }

@@ -1,10 +1,10 @@
-import { Graph, Utils } from '@/src';
+import { Graph, treeToGraphData } from '@/src';
 import data from '@@/dataset/algorithm-category.json';
 
 export const layoutMindmapH: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
-    data: Utils.treeToGraphData(data),
+    data: treeToGraphData(data),
     autoFit: 'view',
     node: {
       style: (model) => {

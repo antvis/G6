@@ -1,12 +1,12 @@
 import type { NodeData } from '@/src';
-import { Graph, Utils } from '@/src';
+import { Graph, treeToGraphData } from '@/src';
 import data from '@@/dataset/algorithm-category.json';
 
 export const layoutCompactBoxTopToBottom: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     autoFit: 'view',
-    data: Utils.treeToGraphData(data),
+    data: treeToGraphData(data),
     behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
     node: {
       style: {

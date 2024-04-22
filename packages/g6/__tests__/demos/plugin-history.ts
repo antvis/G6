@@ -68,8 +68,8 @@ export const pluginHistory: TestCase = async (context) => {
         });
         graph.draw();
       },
-      collapse: () => graph.collapse('combo-2'),
-      expand: () => graph.expand('combo-1'),
+      collapse: () => graph.collapseElement('combo-2'),
+      expand: () => graph.expandElement('combo-1'),
       state: () => graph.setElementState('node-1', 'selected', true),
       zIndex: () => graph.setElementZIndex('combo-2', 100),
       undo: () => history.undo(),
