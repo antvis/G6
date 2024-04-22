@@ -10,8 +10,8 @@ import {
   FocusElement,
   HoverElement,
   LassoSelect,
-  ZoomCanvas,
   ScrollCanvas,
+  ZoomCanvas,
 } from '../behaviors';
 import {
   Circle,
