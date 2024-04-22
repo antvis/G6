@@ -12,7 +12,7 @@ export default [
     input: 'src/index.ts',
     output: {
       file: 'dist/g6-extension-react.min.js',
-      name: 'g6-extension-react',
+      name: 'G6ExtensionReact',
       format: 'umd',
       sourcemap: false,
     },
