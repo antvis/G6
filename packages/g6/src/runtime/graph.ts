@@ -1,7 +1,6 @@
 import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps } from '@antv/g';
-import type { ID } from '@antv/graphlib';
-import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
+import { debounce, isArray, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
 import { COMBO_KEY, GraphEvent } from '../constants';
 import type { Plugin } from '../plugins/types';
 import { getExtension } from '../registry';
@@ -30,6 +29,7 @@ import type {
   ElementDatum,
   ElementType,
   FitViewOptions,
+  ID,
   IEvent,
   NodeLikeData,
   PartialEdgeData,
@@ -65,8 +65,6 @@ export class Graph extends EventEmitter {
 
   static defaultOptions: G6Spec = {
     autoResize: false,
-    width: 800,
-    height: 600,
     theme: 'light',
     rotation: 0,
     zoom: 1,
@@ -146,7 +144,7 @@ export class Graph extends EventEmitter {
 
     if (zoomRange) this.options.zoomRange = zoomRange;
     if (isNumber(zoom)) this.options.zoom = zoom;
-    if (isNumber(padding)) this.options.padding = padding;
+    if (isNumber(padding) || isArray(padding)) this.options.padding = padding;
   }
 
   public setBackground(background: G6Spec['background']): void {
@@ -486,13 +484,14 @@ export class Graph extends EventEmitter {
       await container.init();
     } else {
       const $container = isString(container) ? document.getElementById(container!) : container;
+      const containerSize = sizeOf($container!);
 
       this.emit(GraphEvent.BEFORE_CANVAS_INIT, { container: $container, width, height });
 
       const canvas = new Canvas({
         container: $container!,
-        width,
-        height,
+        width: width ?? containerSize[0],
+        height: height ?? containerSize[1],
         renderer,
       });
 
@@ -502,7 +501,7 @@ export class Graph extends EventEmitter {
     }
   }
 
-  private createRuntime() {
+  private initRuntime() {
     this.context.options = this.options;
     if (!this.context.batch) this.context.batch = new BatchController(this.context);
     if (!this.context.plugin) this.context.plugin = new PluginController(this.context);
@@ -514,10 +513,14 @@ export class Graph extends EventEmitter {
   }
 
   private async prepare(): Promise<void> {
+    // 等待同步任务执行完成，避免 render 后立即调用 destroy 导致的问题
+    // Wait for synchronous tasks to complete, to avoid problems caused by calling destroy immediately after render
+    await Promise.resolve();
+
     if (this.destroyed) throw new Error('Graph has been destroyed');
 
     await this.initCanvas();
-    this.createRuntime();
+    this.initRuntime();
   }
 
   /**
@@ -530,8 +533,8 @@ export class Graph extends EventEmitter {
    * <en/> This process will execute data update, element rendering, and layout execution
    */
   public async render(): Promise<void> {
-    emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_RENDER));
     await this.prepare();
+    emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_RENDER));
     await Promise.all([this.context.element?.draw(), this.context.layout?.layout()]);
     await this.autoFit();
     emit(this, new GraphLifeCycleEvent(GraphEvent.AFTER_RENDER));
@@ -1036,12 +1039,12 @@ export class Graph extends EventEmitter {
     return this.context.element!.getElement(id)!.getRenderBounds();
   }
 
-  public async collapse(id: ID, animation: boolean = true): Promise<void> {
+  public async collapseElement(id: ID, animation: boolean = true): Promise<void> {
     this.setElementCollapsibility(id, true);
     await this.context.element!.draw({ animation, stage: 'collapse' });
   }
 
-  public async expand(id: ID, animation: boolean = true): Promise<void> {
+  public async expandElement(id: ID, animation: boolean = true): Promise<void> {
     this.setElementCollapsibility(id, false);
     await this.context.element!.draw({ animation, stage: 'expand' });
   }

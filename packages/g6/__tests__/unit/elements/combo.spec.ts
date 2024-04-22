@@ -75,8 +75,8 @@ describe('combo', () => {
       graph.updateComboData([
         {
           id: 'combo-1',
+          type: 'rect',
           style: {
-            type: 'rect',
             collapsed: false,
           },
         },
@@ -87,8 +87,8 @@ describe('combo', () => {
       graph.updateComboData([
         {
           id: 'combo-1',
+          type: 'rect',
           style: {
-            type: 'rect',
             collapsed: true,
             collapsedOrigin,
             collapsedMarker: false,

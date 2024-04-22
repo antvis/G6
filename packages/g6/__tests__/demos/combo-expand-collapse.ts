@@ -17,7 +17,11 @@ export const comboExpandCollapse: TestCase = async (context) => {
       combos: [
         {
           id: 'combo-1',
-          style: { type: 'rect', parentId: 'combo-2', collapsed: true },
+          type: 'rect',
+          style: {
+            parentId: 'combo-2',
+            collapsed: true,
+          },
         },
         { id: 'combo-2' },
       ],
@@ -43,8 +47,8 @@ export const comboExpandCollapse: TestCase = async (context) => {
     const config = {
       element: 'combo-1',
       dropEffect: 'move',
-      collapse: () => graph.collapse(config.element),
-      expand: () => graph.expand(config.element),
+      collapse: () => graph.collapseElement(config.element),
+      expand: () => graph.expandElement(config.element),
     };
 
     return [

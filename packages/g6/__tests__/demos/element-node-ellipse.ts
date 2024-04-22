@@ -20,8 +20,8 @@ export const elementNodeEllipse: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'ellipse', // 👈🏻 Node shape type.
       style: {
-        type: 'ellipse', // 👈🏻 Node shape type.
         size: [45, 35],
         labelText: (d) => d.id!,
         iconHeight: 20,

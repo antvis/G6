@@ -1,11 +1,10 @@
-import type { ID } from '@antv/graphlib';
 import { PathArray, isEqual, isFunction } from '@antv/util';
 import hull from 'hull.js';
 import { GraphEvent } from '../../constants';
 import type { ContourStyleProps } from '../../elements/shapes';
 import { Contour } from '../../elements/shapes';
 import type { RuntimeContext } from '../../runtime/types';
-import type { CallableValue, Point } from '../../types';
+import type { CallableValue, ID, Point } from '../../types';
 import type { ElementLifeCycleEvent } from '../../utils/event';
 import { idOf } from '../../utils/id';
 import { positionOf } from '../../utils/position';

@@ -23,7 +23,7 @@ export const layoutForceCollision: TestCase = async (context) => {
         this.context.layout?.getLayoutInstance().find((layout) => ['d3-force', 'd3-force-3d'].includes(layout?.id)) as
           | D3Force3DLayout
           | D3ForceLayout
-      ).setFixedPosition(0, [...pos]);
+      ).setFixedPosition('0', [...pos]);
     }
   }
 
@@ -55,7 +55,7 @@ export const layoutForceCollision: TestCase = async (context) => {
     },
     node: {
       style: {
-        size: (d, i) => (i === 0 ? 0 : (d.data!.r as number) * 4),
+        size: (d) => (d.id === '0' ? 0 : (d.data!.r as number) * 4),
       },
       palette: {
         color: 'tableau',
@@ -75,7 +75,7 @@ function getData(width: number, size = 200) {
   const r = randomUniform(k, k * 4);
   const n = 4;
   return {
-    nodes: Array.from({ length: size }, (_, i) => ({ id: i, data: { r: r(), group: i && (i % n) + 1 } })),
+    nodes: Array.from({ length: size }, (_, i) => ({ id: `${i}`, data: { r: r(), group: i && (i % n) + 1 } })),
     edges: [],
   };
 }

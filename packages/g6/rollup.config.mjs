@@ -12,7 +12,7 @@ export default [
     input: 'src/index.ts',
     output: {
       file: 'dist/g6.min.js',
-      name: 'G6V5',
+      name: 'G6',
       format: 'umd',
       sourcemap: false,
     },

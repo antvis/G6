@@ -1,5 +1,5 @@
-import type { ID } from '@antv/graphlib';
 import type { ComboData, EdgeData, NodeData } from '../spec/data';
+import type { ID } from '../types';
 
 export type DataID = {
   nodes?: ID[];

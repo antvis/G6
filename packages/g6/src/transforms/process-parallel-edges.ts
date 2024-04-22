@@ -1,9 +1,8 @@
 import type { PathStyleProps } from '@antv/g';
-import type { ID } from '@antv/graphlib';
 import { deepMix, isBoolean, isEmpty } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
-import type { ElementDatum, ElementType, LoopPlacement, NodeLikeData } from '../types';
+import type { ElementDatum, ElementType, ID, LoopPlacement, NodeLikeData } from '../types';
 import { groupByChangeType, reduceDataChanges } from '../utils/change';
 import { idOf } from '../utils/id';
 import type { BaseTransformOptions } from './base-transform';
@@ -153,9 +152,7 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
       arcEdges.forEach((edge, i, edgeArr) => {
         const computeStyle = () => {
           const length = edgeArr.length;
-          const style: EdgeData['style'] = {
-            type: CUBIC_EDGE_TYPE,
-          };
+          const style: EdgeData['style'] = {};
           if (edge.source === edge.target) {
             const len = CUBIC_LOOP_PLACEMENTS.length;
             style.loopPlacement = CUBIC_LOOP_PLACEMENTS[i % len];
@@ -172,7 +169,8 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
           return style;
         };
 
-        const mergedEdgeData = deepMix(edge, { style: computeStyle() });
+        const mergedEdgeData = deepMix(edge, { type: CUBIC_EDGE_TYPE, style: computeStyle() });
+
         const element = this.context.element?.getElement(idOf(edge));
         if (element) reassignTo('update', 'edge', mergedEdgeData);
         else reassignTo('add', 'edge', mergedEdgeData);

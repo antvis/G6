@@ -59,7 +59,7 @@ describe('history plugin', () => {
   });
 
   it('collapse/expand', async () => {
-    graph.collapse('combo-2');
+    graph.collapseElement('combo-2');
     await expect(graph).toMatchSnapshot(__filename, 'collapse');
     history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'collapse-undo');
@@ -67,7 +67,7 @@ describe('history plugin', () => {
     await expect(graph).toMatchSnapshot(__filename, 'collapse-redo');
     history.undo();
 
-    graph.expand('combo-1');
+    graph.expandElement('combo-1');
     await expect(graph).toMatchSnapshot(__filename, 'expand');
     history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'expand-undo');

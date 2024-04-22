@@ -15,7 +15,7 @@ describe('behavior drag combo', () => {
 
   it('default status', async () => {
     graph.setBehaviors([{ type: 'drag-element', dropEffect: 'link' }]);
-    graph.expand('combo-1');
+    graph.expandElement('combo-1');
     await expect(graph).toMatchSnapshot(__filename);
   });
 

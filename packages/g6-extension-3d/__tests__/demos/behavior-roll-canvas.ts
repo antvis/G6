@@ -14,8 +14,8 @@ export const behaviorRollCanvas: TestCase = async (context) => {
     renderer,
     data,
     node: {
+      type: 'sphere',
       style: {
-        type: 'sphere',
         materialType: 'phong',
         labelText: '',
         x: (d) => +d.style!.x! + 250,
@@ -24,9 +24,7 @@ export const behaviorRollCanvas: TestCase = async (context) => {
       palette: 'spectral',
     },
     edge: {
-      style: {
-        type: 'line3d',
-      },
+      type: 'line3d',
     },
     behaviors: ['roll-canvas-3d'],
     plugins: [

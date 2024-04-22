@@ -1,5 +1,5 @@
-import { ID } from '@antv/graphlib';
 import type { ComboData, EdgeData, NodeData } from '../spec';
+import type { ID } from '../types';
 import type { BaseTransform, BaseTransformOptions } from './base-transform';
 
 export type BuiltInTransformOptions = BaseTransformOptions;

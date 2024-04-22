@@ -17,7 +17,8 @@ export const pluginHistory: TestCase = async (context) => {
       combos: [
         {
           id: 'combo-1',
-          style: { type: 'rect', parentId: 'combo-2', collapsed: true },
+          type: 'rect',
+          style: { parentId: 'combo-2', collapsed: true },
         },
         { id: 'combo-2' },
       ],
@@ -67,8 +68,8 @@ export const pluginHistory: TestCase = async (context) => {
         });
         graph.draw();
       },
-      collapse: () => graph.collapse('combo-2'),
-      expand: () => graph.expand('combo-1'),
+      collapse: () => graph.collapseElement('combo-2'),
+      expand: () => graph.expandElement('combo-1'),
       state: () => graph.setElementState('node-1', 'selected', true),
       zIndex: () => graph.setElementZIndex('combo-2', 100),
       undo: () => history.undo(),

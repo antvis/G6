@@ -153,6 +153,7 @@ export class Canvas {
 
   public setBackground(background = this.config.background) {
     const container = this.getContainer();
+    this.config.background = background;
     if (container && background) {
       container.style.background = background;
       container.style.transition = 'background 0.5s';
@@ -248,7 +249,7 @@ export class Canvas {
       renderer: new CanvasRenderer(),
       devicePixelRatio,
       container,
-      background: this.background.getConfig().background,
+      background: this.config.background,
     });
 
     await offscreenCanvas.ready;
@@ -286,7 +287,9 @@ export class Canvas {
     const contextService = offscreenCanvas.getContextService();
 
     return new Promise<string>((resolve) => {
-      offscreenCanvas.on(CanvasEvent.AFTER_RENDER, async () => {
+      offscreenCanvas.on(CanvasEvent.RERENDER, async () => {
+        // 等待图片渲染完成 / Wait for the image to render
+        await new Promise((r) => setTimeout(r, 300));
         const url = await contextService.toDataURL(restOptions);
         resolve(url);
       });

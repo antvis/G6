@@ -1,4 +1,4 @@
-import type { ElementData, ElementDatum } from './data';
+import type { ElementDatum } from './data';
 
 /**
  * <zh/> 样式计算迭代上下文
@@ -7,6 +7,4 @@ import type { ElementData, ElementDatum } from './data';
  */
 export type StyleIterationContext = {
   datum: ElementDatum;
-  index: number;
-  elementData: ElementData;
 };

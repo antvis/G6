@@ -6,11 +6,10 @@ import { getAllElementState, transformEdgeState } from '../utils/behaviors/utils
 import { Shortcut } from '../utils/shortcut';
 import { BaseBehavior } from './base-behavior';
 
-import type { ID } from '@antv/graphlib';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
 import type { NodeStyle } from '../spec/element/node';
-import type { ElementType, IPointerEvent, Point, Points, State } from '../types';
+import type { ElementType, ID, IPointerEvent, Point, Points, State } from '../types';
 import type { ShortcutKey } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
 

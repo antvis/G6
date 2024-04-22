@@ -1,6 +1,5 @@
-import type { ID } from '@antv/graphlib';
 import type { D3Force3DLayout, D3ForceLayout } from '@antv/layout';
-import type { Element, IDragEvent, Point } from '../types';
+import type { Element, ID, IDragEvent, Point } from '../types';
 import { idOf } from '../utils/id';
 import { add } from '../utils/vector';
 import type { DragElementOptions } from './drag-element';

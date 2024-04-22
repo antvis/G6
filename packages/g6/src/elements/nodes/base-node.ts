@@ -1,12 +1,12 @@
 import type { DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
-import type { ID } from '@antv/graphlib';
 import { deepMix, isEmpty } from '@antv/util';
 import type { CategoricalPalette } from '../../palettes/types';
 import type { NodeData } from '../../spec';
 import type {
   BadgePlacement,
   BaseElementStyleProps,
+  ID,
   Keyframe,
   LabelPlacement,
   Node,
@@ -310,8 +310,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
    * Get the key shape for the node.
    * @returns Key shape.
    */
-  public getKey(): DisplayObject {
-    return this.shapeMap.key;
+  public getKey<T extends DisplayObject>(): T {
+    return this.shapeMap.key as T;
   }
 
   /**

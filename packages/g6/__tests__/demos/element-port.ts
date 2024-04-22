@@ -24,8 +24,8 @@ export const elementPort: TestCase = async (context) => {
       ],
     },
     node: {
+      type: (d) => (d.id === 'node-1' ? 'circle' : 'rect'),
       style: {
-        type: (d) => (d.id === 'node-1' ? 'circle' : 'rect'),
         size: (d) => (d.id === 'node-1' ? 30 : [50, 150]),
         port: true,
         ports: (d) =>

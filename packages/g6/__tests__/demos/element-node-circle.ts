@@ -20,8 +20,8 @@ export const elementNodeCircle: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'circle', // 👈🏻 Node shape type.
       style: {
-        type: 'circle', // 👈🏻 Node shape type.
         size: 40,
         labelText: (d) => d.id!,
         iconHeight: 20,

@@ -14,13 +14,13 @@ export function computeElementCallbackStyle(
   callableStyle: CallableObject<Record<string, unknown>, ElementDatum>,
   context: StyleIterationContext,
 ) {
-  const { datum, index, elementData } = context;
+  const { datum } = context;
 
-  if (isFunction(callableStyle)) return callableStyle(datum, index, elementData);
+  if (isFunction(callableStyle)) return callableStyle(datum);
 
   return Object.fromEntries(
     Object.entries(callableStyle).map(([key, style]) => {
-      if (isFunction(style)) return [key, style(datum, index, elementData)];
+      if (isFunction(style)) return [key, style(datum)];
       return [key, style];
     }),
   );

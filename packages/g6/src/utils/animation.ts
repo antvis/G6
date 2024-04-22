@@ -182,7 +182,7 @@ type Callbacks = {
  * @param callbacks - <zh/> 回调函数 | <en/> callback function
  * @returns <zh/> 动画对象 | <en/> animation object
  */
-export function withAnimationCallbacks(animation: IAnimation | null, callbacks: Callbacks) {
+export function withAnimationCallbacks(animation: IAnimation | null | undefined, callbacks: Callbacks) {
   callbacks.before?.();
   if (animation) {
     callbacks.beforeAnimate?.(animation);
@@ -193,7 +193,7 @@ export function withAnimationCallbacks(animation: IAnimation | null, callbacks: 
   } else {
     callbacks.after?.();
   }
-  return animation;
+  return animation || null;
 }
 
 /**

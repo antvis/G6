@@ -20,8 +20,8 @@ export const elementNodeRect: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'rect', // 👈🏻 Node shape type.
       style: {
-        type: 'rect', // 👈🏻 Node shape type.
         radius: 4, // 👈🏻 Set the radius.
         size: 40,
         labelText: (d) => d.id!,
