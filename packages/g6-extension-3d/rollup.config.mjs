@@ -12,7 +12,7 @@ export default [
     input: 'src/index.ts',
     output: {
       file: 'dist/g6-extension-3d.min.js',
-      name: 'g6-extension-3d',
+      name: 'G6Extension3D',
       format: 'umd',
       sourcemap: false,
     },
