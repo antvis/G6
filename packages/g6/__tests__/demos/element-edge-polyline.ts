@@ -52,7 +52,8 @@ export const elementEdgePolyline: TestCase = async (context) => {
         },
         {
           id: 'control-point-1',
-          style: { x: 100, y: 175, size: 4, type: 'circle' },
+          type: 'circle',
+          style: { x: 100, y: 175, size: 4 },
         },
         {
           id: 'node-5',
@@ -64,7 +65,8 @@ export const elementEdgePolyline: TestCase = async (context) => {
         },
         {
           id: 'control-point-2',
-          style: { x: 100, y: 300, size: 4, type: 'circle' },
+          type: 'circle',
+          style: { x: 100, y: 300, size: 4 },
         },
         {
           id: 'node-7',
@@ -84,7 +86,8 @@ export const elementEdgePolyline: TestCase = async (context) => {
         },
         {
           id: 'control-point-3',
-          style: { x: 340, y: 390, size: 4, type: 'circle' },
+          type: 'circle',
+          style: { x: 340, y: 390, size: 4 },
         },
       ],
       edges: [
@@ -138,8 +141,8 @@ export const elementEdgePolyline: TestCase = async (context) => {
       ],
     },
     node: {
+      type: (d) => d.type || 'rect',
       style: {
-        type: (d) => d.style?.type || 'rect',
         size: (d) => d.style?.size || [50, 20],
         color: '#f8f8f8',
         stroke: '#8b9baf',
@@ -150,8 +153,8 @@ export const elementEdgePolyline: TestCase = async (context) => {
       },
     },
     edge: {
+      type: 'polyline',
       style: {
-        type: 'polyline',
         color: '#1890FF',
       },
     },

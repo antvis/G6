@@ -21,9 +21,7 @@ export const layoutCompactBoxLeftAlign: TestCase = async (context) => {
       },
     },
     edge: {
-      style: {
-        type: 'cubic-vertical',
-      },
+      type: 'cubic-vertical',
     },
     layout: {
       type: 'compact-box',

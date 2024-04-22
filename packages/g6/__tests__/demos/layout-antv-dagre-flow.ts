@@ -7,8 +7,8 @@ export const layoutAntVDagreFlow: TestCase = async (context) => {
     autoFit: 'view',
     data,
     node: {
+      type: 'rect',
       style: {
-        type: 'rect',
         size: [60, 30],
         radius: 8,
         labelPlacement: 'center',
@@ -16,8 +16,8 @@ export const layoutAntVDagreFlow: TestCase = async (context) => {
       },
     },
     edge: {
+      type: 'polyline',
       style: {
-        type: 'polyline',
         radius: 20,
         endArrow: true,
         lineWidth: 2,

@@ -17,8 +17,8 @@ export const layerTop: TestCase = async (context) => {
   data.nodes = nodes.map(({ name, pos, layer }: any) => ({
     id: name,
     data: { layer },
+    type: 'sphere',
     style: {
-      type: 'sphere',
       radius: 10,
       color: colors[layer - 1],
       materialType: 'phong',
@@ -29,8 +29,8 @@ export const layerTop: TestCase = async (context) => {
   new Array(3).fill(0).forEach((_, i) => {
     data.nodes!.push({
       id: `plane-${i + 1}`,
+      type: 'plane',
       style: {
-        type: 'plane',
         size: 1000,
         color: colors[i],
         y: -300 + 300 * i + 10,
@@ -50,12 +50,9 @@ export const layerTop: TestCase = async (context) => {
     y: 100,
     data,
     zoom: 0.4,
-    node: {
-      style: {},
-    },
     edge: {
+      type: 'line3d',
       style: {
-        type: 'line3d',
         lineWidth: 5,
       },
     },

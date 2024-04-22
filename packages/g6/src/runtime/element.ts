@@ -2,8 +2,7 @@
 /* eslint-disable jsdoc/require-param */
 import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
-import type { ID } from '@antv/graphlib';
-import { groupBy, isEmpty } from '@antv/util';
+import { groupBy, isEmpty, isString } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
 import { AnimationType, ChangeType, GraphEvent } from '../constants';
@@ -21,6 +20,7 @@ import type {
   ElementData,
   ElementDatum,
   ElementType,
+  ID,
   Node,
   State,
   StyleIterationContext,
@@ -64,7 +64,8 @@ export class ElementController {
     }
   }
 
-  private emit(event: BaseEvent) {
+  private emit(event: BaseEvent, context: DrawContext) {
+    if (context.silence) return;
     emit(this.context.graph, event);
   }
 
@@ -73,6 +74,17 @@ export class ElementController {
       const elementData = this.context.model.getElementData(elementType);
       callback(elementType, elementData);
     });
+  }
+
+  public getElementType(elementType: ElementType, datum: ElementDatum) {
+    const { options } = this.context;
+    const userDefinedType = options[elementType]?.type || datum.type;
+
+    if (!userDefinedType) {
+      return { node: 'circle', edge: 'line', combo: 'circle' }[elementType];
+    }
+    if (isString(userDefinedType)) return userDefinedType;
+    return userDefinedType(datum as any);
   }
 
   private getTheme(elementType: ElementType) {
@@ -125,7 +137,7 @@ export class ElementController {
    *
    * <en/> compute default style of single element
    */
-  private computedElementDefaultStyle(elementType: ElementType, context: StyleIterationContext) {
+  private computeElementDefaultStyle(elementType: ElementType, context: StyleIterationContext) {
     const { options } = this.context;
     const defaultStyle = options[elementType]?.style || {};
     this.defaultStyle[idOf(context.datum)] = computeElementCallbackStyle(defaultStyle as any, context);
@@ -135,8 +147,8 @@ export class ElementController {
     this.forEachElementData((elementType, elementData) => {
       elementData
         .filter((datum) => ids === undefined || ids.includes(idOf(datum)))
-        .forEach((datum, index) => {
-          this.computedElementDefaultStyle(elementType, { datum, index, elementData });
+        .forEach((datum) => {
+          this.computeElementDefaultStyle(elementType, { datum });
         });
     });
   }
@@ -189,9 +201,9 @@ export class ElementController {
     this.forEachElementData((elementType, elementData) => {
       elementData
         .filter((datum) => ids === undefined || ids.includes(idOf(datum)))
-        .forEach((datum, index) => {
+        .forEach((datum) => {
           const states = this.getElementState(idOf(datum));
-          this.computeElementStatesStyle(elementType, states, { datum, index, elementData });
+          this.computeElementStatesStyle(elementType, states, { datum });
         });
     });
   }
@@ -309,10 +321,6 @@ export class ElementController {
       Object.assign(style, { childrenNode, childrenData });
     }
 
-    if (!style.type) {
-      style.type = { node: 'circle', edge: 'line', combo: 'circle' }[elementType];
-    }
-
     return style;
   }
 
@@ -344,14 +352,22 @@ export class ElementController {
             before: () =>
               this.emit(
                 new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation: drawContext.animation }),
+                drawContext,
               ),
             beforeAnimate: (animation) =>
-              this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, drawData)),
+              this.emit(
+                new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, drawData),
+                drawContext,
+              ),
             afterAnimate: (animation) =>
-              this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData)),
+              this.emit(
+                new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData),
+                drawContext,
+              ),
             after: () =>
               this.emit(
                 new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation: drawContext.animation }),
+                drawContext,
               ),
           },
     )?.finished;
@@ -415,17 +431,17 @@ export class ElementController {
   }
 
   private createElement(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
-    const { animator } = context;
     const id = idOf(datum);
     const currentShape = this.getElement(id);
     if (currentShape) return () => null;
-    const { type, ...style } = this.getElementComputedStyle(elementType, datum);
+    const type = this.getElementType(elementType, datum);
+    const style = this.getElementComputedStyle(elementType, datum);
 
     // get shape constructor
     const Ctor = getExtension(elementType, type);
     if (!Ctor) return () => null;
 
-    this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum));
+    this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum), context);
 
     const shape = this.container[elementType].appendChild(
       new Ctor({
@@ -440,10 +456,11 @@ export class ElementController {
     this.shapeTypeMap[id] = type;
     this.elementMap[id] = shape;
 
+    const { animation, animator } = context;
     return () =>
-      withAnimationCallbacks(animator?.(id, shape, { ...shape.attributes, opacity: 0 }) || null, {
+      withAnimationCallbacks(animation ? animator?.(id, shape, { ...shape.attributes, opacity: 0 }) : null, {
         after: () => {
-          this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_CREATE, elementType, datum));
+          this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_CREATE, elementType, datum), context);
           shape.onCreate();
         },
       });
@@ -495,20 +512,21 @@ export class ElementController {
     const shape = this.getElement(id);
     if (!shape) return () => null;
 
-    this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_UPDATE, elementType, datum));
+    this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_UPDATE, elementType, datum), context);
     const afterUpdate = () => {
-      this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum));
+      this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum), context);
       shape.onUpdate();
     };
 
-    const { type, ...style } = this.getElementComputedStyle(elementType, datum);
+    const type = this.getElementType(elementType, datum);
+    const style = this.getElementComputedStyle(elementType, datum);
 
     // 如果类型不同，需要先销毁原有元素，再创建新元素
     // If the type is different, you need to destroy the original element first, and then create a new element
     if (this.shapeTypeMap[id] !== type) {
+      this.destroyElement(elementType, datum, { animation: false, silence: true })();
+      this.createElement(elementType, datum, { animation: false, silence: true })();
       return () => {
-        this.destroyElement(elementType, datum, { ...context, animation: false })();
-        this.createElement(elementType, datum, { ...context, animation: false })();
         afterUpdate();
         return null;
       };
@@ -527,7 +545,7 @@ export class ElementController {
         updateStyle(shape, { visibility: 'visible' });
         return () =>
           withAnimationCallbacks(
-            animator?.(id, shape, { ...shape.attributes, opacity: 0 }, { opacity: originalOpacity }) || null,
+            animator?.(id, shape, { ...shape.attributes, opacity: 0 }, { opacity: originalOpacity }),
             { after: afterUpdate },
           );
       }
@@ -535,7 +553,7 @@ export class ElementController {
       else if (style.visibility === 'hidden') {
         return () =>
           withAnimationCallbacks(
-            animator?.(id, shape, { ...shape.attributes, opacity: originalOpacity }, { opacity: 0 }) || null,
+            animator?.(id, shape, { ...shape.attributes, opacity: originalOpacity }, { opacity: 0 }),
             {
               after: () => {
                 updateStyle(shape, { visibility: this.latestElementVisibilityMap.get(shape) });
@@ -549,8 +567,19 @@ export class ElementController {
     const originalStyle = { ...shape.attributes };
     updateStyle(shape, style);
 
+    // 如果边的端点节点已经销毁，则更新端点节点
+    // If the endpoint node of the edge has been destroyed, update the endpoint node
+    if (elementType === 'edge') {
+      if (originalStyle.sourceNode.destroyed) {
+        originalStyle.sourceNode = style.sourceNode;
+      }
+      if (originalStyle.targetNode.destroyed) {
+        originalStyle.targetNode = style.targetNode;
+      }
+    }
+
     return () =>
-      withAnimationCallbacks(animator?.(id, shape, originalStyle) || null, {
+      withAnimationCallbacks(animator?.(id, shape, originalStyle), {
         after: afterUpdate,
       });
   }
@@ -582,20 +611,17 @@ export class ElementController {
     const element = this.elementMap[id];
     if (!element) return () => null;
 
-    this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_DESTROY, elementType, datum));
+    this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_DESTROY, elementType, datum), context);
 
-    return () => {
-      const result = animator?.(id, element, { ...element.attributes }, { opacity: 0 }) || null;
-      withAnimationCallbacks(result, {
+    return () =>
+      withAnimationCallbacks(animator?.(id, element, { ...element.attributes }, { opacity: 0 }), {
         after: () => {
           this.clearElement(id);
           element.destroy();
           element.onDestroy();
-          this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_DESTROY, elementType, datum));
+          this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_DESTROY, elementType, datum), context);
         },
       });
-      return result;
-    };
   }
 
   private getDestroyTasks(data: ProcedureData, context: Omit<DrawContext, 'animator'>): AnimatableTask[] {
@@ -606,11 +632,11 @@ export class ElementController {
       ['node', nodes],
     ];
 
-    const { animation, stage } = context;
+    const { animation, stage = 'exit' } = context;
     const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
       if (elementData.size === 0) return [];
-      const animator = this.getAnimationExecutor(elementType, stage || 'exit', animation);
+      const animator = this.getAnimationExecutor(elementType, stage, animation);
       elementData.forEach((datum) =>
         tasks.push(() => this.destroyElement(elementType, datum, { ...context, animator })),
       );

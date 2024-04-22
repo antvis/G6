@@ -34,6 +34,7 @@ type ThemeTokens = {
   nodeStroke: string;
   nodeBadgePalette?: string[];
   nodePaletteOptions?: PaletteOptions;
+  donutPaletteOptions?: PaletteOptions;
   edgeColor: string;
   edgeColorDisabled: string;
   edgePaletteOptions?: PaletteOptions;
@@ -120,6 +121,7 @@ export function create(tokens: ThemeTokens): Theme {
           strokeOpacity: 0.85,
         },
         inactive: {
+          donutOpacity: 0.25,
           iconOpacity: 0.25,
           labelOpacity: 0.25,
           opacity: 0.25,
@@ -127,6 +129,7 @@ export function create(tokens: ThemeTokens): Theme {
         disabled: {
           color: nodeColorDisabled,
           labelOpacity: 0.25,
+          donutOpacity: 0.25,
         },
       },
       animation: {

@@ -19,8 +19,8 @@ describe('element change type', () => {
 
   it('change type', async () => {
     graph.updateNodeData([
-      { id: 'node-1', style: { type: 'circle' } },
-      { id: 'node-2', style: { type: 'diamond' } },
+      { id: 'node-1', type: 'circle' },
+      { id: 'node-2', type: 'diamond' },
     ]);
 
     await graph.draw();

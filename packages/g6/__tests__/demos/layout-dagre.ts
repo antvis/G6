@@ -27,8 +27,8 @@ export const layoutDagre: TestCase = async (context) => {
     },
     zoom: 0.8,
     node: {
+      type: 'rect',
       style: {
-        type: 'rect',
         labelText: (d) => d.data!.label as string,
         size: (d) => [d.data!.width, d.data!.height] as [number, number],
       },

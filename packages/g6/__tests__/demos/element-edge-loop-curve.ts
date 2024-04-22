@@ -78,8 +78,8 @@ export const elementEdgeLoopCurve: TestCase = async (context) => {
     ...context,
     data,
     node: {
+      type: 'rect',
       style: {
-        type: 'rect',
         size: [80, 30],
         labelBackground: true,
         port: (d) => idOf(d).toString().includes('ports'),
@@ -97,8 +97,8 @@ export const elementEdgeLoopCurve: TestCase = async (context) => {
       },
     },
     edge: {
+      type: 'line',
       style: {
-        type: 'line',
         endArrow: true,
         loopPlacement: (d) => d.style!.placement,
       },

@@ -42,8 +42,8 @@ export const elementEdgeCubicHorizontal: TestCase = async (context) => {
       },
     },
     edge: {
+      type: 'cubic-horizontal', // 👈🏻 Edge shape type.
       style: {
-        type: 'cubic-horizontal', // 👈🏻 Edge shape type.
         labelText: (d) => d.id!,
         labelBackground: true,
         endArrow: true,

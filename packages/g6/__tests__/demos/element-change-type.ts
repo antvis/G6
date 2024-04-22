@@ -5,7 +5,7 @@ export const elementChangeType: TestCase = async (context) => {
     ...context,
     data: {
       nodes: [
-        { id: 'node-1', style: { x: 100, y: 100, type: 'rect', color: 'transparent', stroke: '#1783ff' } },
+        { id: 'node-1', type: 'rect', style: { x: 100, y: 100, color: 'transparent', stroke: '#1783ff' } },
         { id: 'node-2', style: { x: 200, y: 100 } },
       ],
       edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2' }],
@@ -22,7 +22,7 @@ export const elementChangeType: TestCase = async (context) => {
     const options = { Circle: 'circle', Rect: 'rect', Diamond: 'diamond', Star: 'star' };
 
     const changeType = (id: string, type: string) => {
-      graph.updateNodeData([{ id, style: { type } }]);
+      graph.updateNodeData([{ id, type }]);
       graph.draw();
     };
 

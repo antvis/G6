@@ -26,8 +26,8 @@ export const elementEdgeArrow: TestCase = async (context) => {
     ...context,
     data,
     edge: {
+      type: 'line', // 👈🏻 Edge shape type.
       style: {
-        type: 'line', // 👈🏻 Edge shape type.
         labelText: (d) => d.id!,
         labelBackground: true,
         endArrow: true,

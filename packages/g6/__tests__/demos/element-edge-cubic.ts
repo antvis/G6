@@ -36,8 +36,8 @@ export const elementEdgeCubic: TestCase = async (context) => {
     ...context,
     data,
     edge: {
+      type: 'cubic', // 👈🏻 Edge shape type.
       style: {
-        type: 'cubic', // 👈🏻 Edge shape type.
         labelText: (d) => d.id!,
         labelBackground: true,
         endArrow: true,

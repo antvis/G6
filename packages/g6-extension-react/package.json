@@ -1,0 +1,54 @@
+{
+  "name": "@antv/g6-extension-react",
+  "version": "0.0.1",
+  "description": "Using React Component to Define Your G6 Graph Node",
+  "keywords": [
+    "antv",
+    "g6",
+    "extension",
+    "react",
+    "node"
+  ],
+  "license": "MIT",
+  "author": "Aarebecca",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "src",
+    "esm",
+    "lib",
+    "dist"
+  ],
+  "scripts": {
+    "build": "run-p build:*",
+    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib -p tsconfig.build.json",
+    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm -p tsconfig.build.json",
+    "build:umd": "rimraf ./dist && rollup -c",
+    "ci": "run-s lint type-check build test",
+    "dev": "vite",
+    "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
+    "prepublishOnly": "npm run ci",
+    "test": "jest",
+    "type-check": "tsc --noEmit -p tsconfig.test.json"
+  },
+  "dependencies": {
+    "@antv/g": "^5.18.25",
+    "@antv/react-g": "^1.10.28"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^5.3.6",
+    "@antv/g6": "workspace:*",
+    "@types/react": "^18.2.75",
+    "@types/react-dom": "^18.2.24",
+    "antd": "^5.10.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3"
+  },
+  "peerDependencies": {
+    "@antv/g6": "^5.0.0-beta.30",
+    "react": ">=16.8",
+    "react-dom": ">=16.8"
+  }
+}

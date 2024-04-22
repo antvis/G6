@@ -55,8 +55,8 @@ export const solarSystem: TestCase = async (context) => {
       ],
     },
     node: {
+      type: 'sphere',
       style: {
-        type: 'sphere',
         materialShininess: 0,
         labelText: (d) => d.id,
       },

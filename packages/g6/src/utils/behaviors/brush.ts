@@ -1,8 +1,7 @@
 import { isPointInPolygon } from '../point';
 
-import type { ID } from '@antv/graphlib';
 import type { Graph } from '../../runtime/graph';
-import type { Point, Points } from '../../types';
+import type { ID, Point, Points } from '../../types';
 
 /**
  * <zh/> 元素中心是否在 rect 中

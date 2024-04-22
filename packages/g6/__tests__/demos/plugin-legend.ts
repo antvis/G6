@@ -25,15 +25,15 @@ export const pluginLegend: TestCase = async (context) => {
     layout: { type: 'd3force' },
     behaviors: ['drag-canvas', 'drag-element'],
     node: {
+      type: (item: any) => {
+        if (item.data.cluster === 'a') return 'diamond';
+        if (item.data.cluster === 'b') return 'rect';
+        if (item.data.cluster === 'c') return 'triangle';
+        return 'circle';
+      },
       style: {
         labelText: (d) => d.id,
         lineWidth: 0,
-        type: (item: any) => {
-          if (item.data.cluster === 'a') return 'diamond';
-          if (item.data.cluster === 'b') return 'rect';
-          if (item.data.cluster === 'c') return 'triangle';
-          return 'circle';
-        },
         color: (item: any) => {
           if (item.data.cluster === 'a') return 'red';
           if (item.data.cluster === 'b') return 'blue';
