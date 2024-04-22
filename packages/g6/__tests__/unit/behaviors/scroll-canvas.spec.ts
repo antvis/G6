@@ -32,7 +32,7 @@ describe('behavior scroll canvas', () => {
   });
 
   function emitWheelEvent(options?: { deltaX: number; deltaY: number }) {
-    const dom: HTMLElement | undefined = graph.getCanvas().getContextService().getDomElement();
+    const dom = graph.getCanvas().getContextService().getDomElement();
     dom?.dispatchEvent(new WheelEvent(CommonEvent.WHEEL, options));
   }
 

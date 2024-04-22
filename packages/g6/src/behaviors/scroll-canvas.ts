@@ -89,7 +89,7 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
     }
   }
 
-  get graphDom(): HTMLElement | undefined {
+  get graphDom() {
     return this.context.graph.getCanvas().getContextService().getDomElement();
   }
 
