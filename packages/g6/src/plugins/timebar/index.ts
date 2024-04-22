@@ -4,11 +4,10 @@ import { BasePlugin } from '../base-plugin';
 import { createCanvas, parseLevelPositionToStyle, tryToGet } from './util';
 
 import type { Canvas } from '@antv/g';
-import type { ID } from '@antv/graphlib';
 import type { TimebarStyleProps } from '@antv/gui';
 import type { RuntimeContext } from '../../runtime/types';
 import type { EdgeData, GraphData, NodeData } from '../../spec';
-import type { ElementType } from '../../types';
+import type { ElementType, ID } from '../../types';
 import type { BasePluginOptions } from '../base-plugin';
 import type { Datum } from './util';
 
