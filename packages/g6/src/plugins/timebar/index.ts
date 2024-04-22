@@ -1,10 +1,10 @@
-import { Timebar as GUITimebar } from '@antv/gui';
+import { Timebar as GUITimebar } from '@antv/component';
 import { createDOM, get, isArray, isDate, isFunction, isNumber, set } from '@antv/util';
 import { BasePlugin } from '../base-plugin';
 import { createCanvas, parseLevelPositionToStyle, tryToGet } from './util';
 
+import type { TimebarStyleProps } from '@antv/component';
 import type { Canvas } from '@antv/g';
-import type { TimebarStyleProps } from '@antv/gui';
 import type { RuntimeContext } from '../../runtime/types';
 import type { EdgeData, GraphData, NodeData } from '../../spec';
 import type { ElementType, ID } from '../../types';
@@ -28,11 +28,6 @@ export type TimebarOptions = BasePluginOptions &
      */
     className?: string;
     /**
-     * <zh/> 插件是否可用，默认 `true`。
-     * <en/> Whether the plugin is available, default is `true`.
-     */
-    enable?: boolean;
-    /**
      * <zh/> Timebar 的位置, 当前可配置 'bottom' | 'top'。
      * <en/> Timebar location, currently configurable 'bottom' | 'top'.
      */
@@ -46,10 +41,14 @@ export type TimebarOptions = BasePluginOptions &
      * <zh/> 筛选类型。
      * <en/> Filter element types.
      */
-    itemTypes?: ElementType[];
+    elementTypes?: ElementType[];
     /**
-     * <zh/> 筛选模式 modify: 数据修改 visibility: 可见性修改 。
-     * <en/> Filter mode modify: data modification visibility: visibility modification.
+     * <zh/> 筛选模式
+     *  - modify: 通过修改图数据进行筛选
+     *  - visibility: 通过修改元素可见性进行筛选
+     * <en/> Filter mode.
+     *  - modify: Filter by modifying the graph data.
+     *  - visibility: Filter by modifying element visibility.
      */
     mode?: 'modify' | 'visibility';
   };
@@ -69,14 +68,14 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     height: 60,
     zIndex: 3,
     padding: 4,
-    itemTypes: ['node'],
+    elementTypes: ['node'],
     mode: 'modify',
-    getTimeFromData: (datum: Datum) => tryToGet<number | Date>(datum, prospectiveTimeKeys, undefined),
-    getValueFromData: (datum: Datum) => tryToGet<number | Date>(datum, prospectiveValueKeys, undefined),
+    getTime: (datum: Datum) => tryToGet<number | Date>(datum, prospectiveTimeKeys, undefined),
+    getvalue: (datum: Datum) => tryToGet<number | Date>(datum, prospectiveValueKeys, undefined),
   };
 
   private timebar?: GUITimebar;
-  private timeBarCanvas?: Canvas;
+  private timebarCanvas?: Canvas;
   private wrapper?: HTMLElement;
   private originalData?: GraphData;
 
@@ -100,9 +99,9 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     const bound = canvas.getSize();
 
     this.createTimeBarCanvas();
-    if (!this.timeBarCanvas) return;
+    if (!this.timebarCanvas) return;
 
-    this.timeBarCanvas.ready.then(() => {
+    this.timebarCanvas.ready.then(() => {
       this.timebar = new GUITimebar({
         style: {
           onChange: (v) => {
@@ -124,7 +123,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
         },
       });
 
-      this.timeBarCanvas?.appendChild(this.timebar);
+      this.timebarCanvas?.appendChild(this.timebar);
       graph.on('timebar:handle', this.timebarHandle);
     });
   }
@@ -139,10 +138,10 @@ export class Timebar extends BasePlugin<TimebarOptions> {
   };
 
   private getTimeData() {
-    const { data, getTimeFromData, getValueFromData } = this.options;
+    const { data, getTime, getvalue } = this.options;
     return data.map((datum: Datum) => ({
-      time: getTimeFromData?.(datum) || datum?.time,
-      value: getValueFromData?.(datum) || datum?.value,
+      time: getTime?.(datum) || datum?.time,
+      value: getvalue?.(datum) || datum?.value,
     }));
   }
 
@@ -158,7 +157,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     );
     container?.appendChild(this.wrapper);
 
-    this.timeBarCanvas = createCanvas(this.wrapper, bound[0], Number(height) + padding * 2, undefined, {
+    this.timebarCanvas = createCanvas(this.wrapper, bound[0], Number(height) + padding * 2, undefined, {
       background: '#fff',
     });
   }
@@ -168,14 +167,14 @@ export class Timebar extends BasePlugin<TimebarOptions> {
 
   private async filterElements(timestamps: number[]) {
     if (!this.originalData) return;
-    const { itemTypes, getTimeFromData } = this.options;
+    const { elementTypes, getTime } = this.options;
     const { graph, element } = this.context;
 
     const filterId = [] as ID[];
 
     const newData = { ...this.originalData };
 
-    itemTypes.forEach((type) => {
+    elementTypes.forEach((type) => {
       const key = `${type}s`;
       const data = get(newData, [key]) as NodeData[];
       if (data) {
@@ -184,7 +183,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
           [key],
           data.filter(({ id, data }) => {
             if (!id) return true;
-            const timestamp = getTimeFromData(data);
+            const timestamp = getTime(data);
             if (timestamp && (timestamps[0] > timestamp || timestamps[1] < timestamp)) {
               filterId.push(id);
               return false;
@@ -210,7 +209,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
 
   private hiddenElments(timestamps: number[]) {
     const { graph } = this.context;
-    const { itemTypes } = this.options;
+    const { elementTypes } = this.options;
     const hideElementId: ID[] = [];
     const showElementId: ID[] = [];
 
@@ -218,11 +217,11 @@ export class Timebar extends BasePlugin<TimebarOptions> {
 
     const filterElements = [];
 
-    if (itemTypes.includes('node')) {
+    if (elementTypes.includes('node')) {
       const nodeData = this.originalData?.nodes || [];
       filterElements.push(...nodeData);
     }
-    if (itemTypes.includes('combo')) {
+    if (elementTypes.includes('combo')) {
       const comboData = this.originalData?.combos || [];
       filterElements.push(...comboData);
     }
@@ -263,7 +262,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     this.originalData = undefined;
     this.wrapper = undefined;
     this.timebar = undefined;
-    this.timeBarCanvas = undefined;
+    this.timebarCanvas = undefined;
 
     super.destroy();
   }
