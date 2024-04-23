@@ -1,6 +1,8 @@
 /dist
 .dumi/tmp
 .dumi/tmp-production
+/support
+/docs/apis
 
 ## api doc
 .translate-info.txt

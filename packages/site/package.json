@@ -29,6 +29,7 @@
     "dev": "dumi dev",
     "doc": " ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
+    "lint": "eslint ./src  --quiet && prettier ./src  --check",
     "preview": "dumi preview"
   },
   "dependencies": {
