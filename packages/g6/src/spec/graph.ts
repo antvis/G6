@@ -12,12 +12,12 @@ import type { TransformOptions } from './transform';
 import type { ViewportOptions } from './viewport';
 
 /**
- * <zh/> Spec 定义
+ * <zh/> Graph 配置项
  *
- * <en/> Specification definition
+ * <en/> Graph options
  */
 
-export interface G6Spec extends CanvasOptions, ViewportOptions {
+export interface GraphOptions extends CanvasOptions, ViewportOptions {
   /**
    * <zh/> 启用关闭、全局动画
    *

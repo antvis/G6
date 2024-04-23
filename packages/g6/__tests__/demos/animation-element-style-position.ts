@@ -1,7 +1,7 @@
-import { Graph, type G6Spec } from '@/src';
+import { Graph, type GraphOptions } from '@/src';
 
 export const animationElementStylePosition: TestCase = async (context) => {
-  const options: G6Spec = {
+  const options: GraphOptions = {
     ...context,
     data: {
       nodes: [

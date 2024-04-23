@@ -1,4 +1,4 @@
-import type { G6Spec } from '../spec';
+import type { GraphOptions } from '../spec';
 import type { BatchController } from './batch';
 import type { BehaviorController } from './behavior';
 import type { Canvas } from './canvas';
@@ -28,7 +28,7 @@ export interface RuntimeContext {
    *
    * <en/> G6 options
    */
-  options: G6Spec;
+  options: GraphOptions;
   /**
    * <zh/> 数据模型
    *
