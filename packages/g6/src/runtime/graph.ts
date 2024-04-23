@@ -490,8 +490,8 @@ export class Graph extends EventEmitter {
 
       const canvas = new Canvas({
         container: $container!,
-        width: width ?? containerSize[0],
-        height: height ?? containerSize[1],
+        width: width || containerSize[0],
+        height: height || containerSize[1],
         renderer,
       });
 
