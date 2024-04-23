@@ -83,7 +83,7 @@ Hull style
 
 **Description**: Add a hull member
 
-### addHullNonMember
+### addHullAvoidMember
 
 **Type**: `(id: ID, member: ID | ID[]) => void;`
 
@@ -101,7 +101,7 @@ Hull style
 
 **Description**: Remove a hull member
 
-### removeHullNonMember
+### removeHullAvoidMember
 
 **Type**: `(id: ID, member: ID | ID[]) => void;`
 
@@ -143,8 +143,8 @@ type BubbleCfg = {
   edgeInfluenceFactor?: number;
   /** member influence factor */
   memberInfluenceFactor?: number;
-  /** nonMember influence factor */
-  nonMemberInfluenceFactor?: number;
+  /** AvoidMember influence factor */
+  AvoidMemberInfluenceFactor?: number;
 };
 
 type ComboLabelPosition =
@@ -162,7 +162,7 @@ type ComboLabelPosition =
 type HullComponentOptions = {
   id: string;
   members?: ID[];
-  nonMembers?: ID[];
+  avoidMembers?: ID[];
   style?: ShapeStyle;
   padding?: number;
   type?: 'bubble' | 'round-convex' | 'smooth-convex';

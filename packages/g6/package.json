@@ -64,6 +64,7 @@
     "@antv/hierarchy": "latest",
     "@antv/layout": "^1.2.14-beta.3",
     "@antv/util": "^3.3.7",
+    "bubblesets-js": "^2.3.2",
     "hull.js": "^1.0.5"
   },
   "devDependencies": {

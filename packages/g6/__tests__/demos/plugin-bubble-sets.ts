@@ -1,6 +1,6 @@
-import { Graph, Hull } from '@/src';
-import { HullOptions } from '@/src/plugins';
-import type { CardinalPlacement } from '@/src/types';
+import { BubbleSets, Graph } from '@/src';
+import type { BubbleSetsOptions } from '@/src/plugins';
+import { idOf } from '@/src/utils/id';
 
 const data = {
   nodes: [
@@ -158,105 +158,123 @@ const data = {
   combos: [],
 };
 
-export const pluginHull: TestCase = async (context) => {
+export const pluginBubbleSets: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
     behaviors: ['drag-canvas', 'drag-element'],
     plugins: [
       {
-        key: 'hull',
-        type: 'hull',
-        members: ['node0', 'node1', 'node2'],
-        labelText: 'convex hull',
-        labelFontWeight: '700',
-        labelBackground: true,
-        labelBackgroundFill: 'pink',
-        lineWidth: 5,
+        key: 'bubble-sets',
+        type: 'bubble-sets',
+        members: ['node0', 'node1'],
+        labelText: 'Bubble',
       },
     ],
-    node: {
-      style: { labelText: (d) => d.id },
-    },
-    edge: {
-      style: {},
-    },
+    node: { style: { labelText: (d) => d.id } },
     autoFit: 'view',
   });
 
   await graph.render();
 
-  const hull = graph.getPluginInstance<Hull>('hull');
+  pluginBubbleSets.form = (panel) => {
+    const bubblesets = graph.getPluginInstance<BubbleSets>('bubble-sets');
 
-  const updateHullOptions = (optionsToUpdate: Partial<HullOptions>) => {
-    graph.updatePlugin({ key: 'hull', ...optionsToUpdate });
-    graph.render();
-  };
-
-  pluginHull.form = (panel) => {
-    const nodeIds = graph.getNodeData().map((node) => node.id);
     const config = {
-      concavity: 100,
-      padding: 10,
-      corner: 'rounded',
-      labelPlacement: 'bottom',
-      labelCloseToPath: true,
-      labelAutoRotate: true,
-      node: 'node0',
+      member: 'node0',
+      // default options in bubblesets-js
+      // More info see: https://github.com/upsetjs/bubblesets-js/blob/main/src/BubbleSets.ts
+      maxRoutingIterations: 100,
+      maxMarchingIterations: 20,
+      pixelGroup: 4,
+      edgeR0: 10,
+      edgeR1: 20,
+      nodeR0: 15,
+      nodeR1: 50,
+      morphBuffer: 10,
+      threshold: 1,
+      memberInfluenceFactor: 1,
+      edgeInfluenceFactor: 1,
+      AvoidMemberInfluenceFactor: -0.8,
+      virtualEdges: true,
     };
-    return [
-      panel.add(config, 'concavity', 0, 100, 1).onChange((concavity: number) => {
-        updateHullOptions({ concavity });
-      }),
-      panel.add(config, 'padding', 0, 100, 1).onChange((padding: number) => {
-        updateHullOptions({ padding });
-      }),
-      panel
-        .add(config, 'corner', ['rounded', 'smooth', 'sharp'])
-        .name('Corner Type')
-        .onChange((corner: 'rounded' | 'smooth' | 'sharp') => {
-          updateHullOptions({ corner });
-        }),
-      panel
-        .add(config, 'labelPlacement', ['top', 'bottom', 'left', 'right'])
-        .name('Label Placement')
-        .onChange((labelPlacement: CardinalPlacement) => {
-          updateHullOptions({ labelPlacement });
-        }),
-      panel
-        .add(config, 'labelCloseToPath')
-        .name('Label Close To Path')
-        .onChange((labelCloseToPath: boolean) => {
-          updateHullOptions({ labelCloseToPath });
-        }),
-      panel
-        .add(config, 'labelAutoRotate')
-        .name('Label Auto Rotate')
-        .onChange((labelAutoRotate: boolean) => {
-          updateHullOptions({ labelAutoRotate });
-        }),
-      panel.add(config, 'node', nodeIds).name('Node'),
+
+    const members = [
+      ...graph.getNodeData().map(idOf),
+      ...graph.getEdgeData().map(idOf),
+      ...graph.getComboData().map(idOf),
+    ];
+
+    const panels = [
+      panel.add(config, 'member', members).name('Element'),
       panel
         .add(
           {
             AddMember: () => {
-              hull.addMember(config.node);
+              bubblesets.addMember(config.member);
             },
           },
           'AddMember',
         )
-        .name('Add Member'),
+        .name('Add Element as Member'),
       panel
         .add(
           {
             RemoveMember: () => {
-              hull.removeMember(config.node);
+              bubblesets.removeMember(config.member);
             },
           },
           'RemoveMember',
         )
-        .name('Remove Member'),
+        .name('Remove Element as Member'),
+      panel
+        .add(
+          {
+            AddAvoidMember: () => {
+              bubblesets.addAvoidMember(config.member);
+            },
+          },
+          'AddAvoidMember',
+        )
+        .name('Add Element as Non-Member'),
+
+      panel
+        .add(
+          {
+            RemoveMember: () => {
+              bubblesets.removeAvoidMember(config.member);
+            },
+          },
+          'RemoveMember',
+        )
+        .name('Remove Element as Non-Member'),
     ];
+
+    const updateOptions = (options: BubbleSetsOptions) => {
+      graph.updatePlugin({
+        key: 'bubble-sets',
+        ...options,
+      });
+      graph.render();
+    };
+
+    Object.keys(config)
+      .slice(1, -1)
+      .forEach((key) => {
+        panels.push(
+          panel.add(config, key, 0, 100, 1).onChange((value: number) => {
+            updateOptions({ [key]: value } as BubbleSetsOptions);
+          }),
+        );
+      });
+
+    panels.push(
+      panel.add(config, 'virtualEdges').onChange((value: boolean) => {
+        updateOptions({ virtualEdges: value } as BubbleSetsOptions);
+      }),
+    );
+
+    return panels;
   };
 
   return graph;

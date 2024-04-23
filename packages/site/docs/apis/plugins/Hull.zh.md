@@ -81,7 +81,7 @@ type labelShape = ShapeSyle & {
 
 添加轮廓包裹成员
 
-### addHullNonMember
+### addHullAvoidMember
 
 **类型**：`(id: ID, member: ID | ID[]) => void;`
 
@@ -99,7 +99,7 @@ type labelShape = ShapeSyle & {
 
 移除轮廓包裹成员
 
-### removeHullNonMember
+### removeHullAvoidMember
 
 **类型**：`(id: ID, member: ID | ID[]) => void;`
 
@@ -142,7 +142,7 @@ type BubbleCfg = {
   /** 成员影响因子 */
   memberInfluenceFactor?: number;
   /** 非成员影响因子 */
-  nonMemberInfluenceFactor?: number;
+  AvoidMemberInfluenceFactor?: number;
 };
 
 type ComboLabelPosition =
@@ -160,7 +160,7 @@ type ComboLabelPosition =
 type HullComponentOptions = {
   id: string;
   members?: ID[];
-  nonMembers?: ID[];
+  avoidMembers?: ID[];
   style?: ShapeStyle;
   padding?: number;
   type?: 'bubble' | 'round-convex' | 'smooth-convex';

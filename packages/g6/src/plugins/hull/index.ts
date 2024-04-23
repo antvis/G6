@@ -1,6 +1,8 @@
 import { PathArray, isEqual, isFunction } from '@antv/util';
 import hull from 'hull.js';
 import { GraphEvent } from '../../constants';
+import type { ContourStyleProps } from '../../elements/shapes';
+import { Contour } from '../../elements/shapes';
 import type { RuntimeContext } from '../../runtime/types';
 import type { CallableValue, ID, Point } from '../../types';
 import type { ElementLifeCycleEvent } from '../../utils/event';
@@ -8,11 +10,9 @@ import { idOf } from '../../utils/id';
 import { positionOf } from '../../utils/position';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
-import type { HullStyleProps } from './shape';
-import { Hull as HullShape } from './shape';
 import { computeHullPath } from './util';
 
-export interface HullOptions extends BasePluginOptions, HullStyleProps {
+export interface HullOptions extends BasePluginOptions, ContourStyleProps {
   /**
    * <zh/> Hull 内的元素
    * <en/> Elements in Hull
@@ -36,7 +36,7 @@ export interface HullOptions extends BasePluginOptions, HullStyleProps {
 }
 
 export class Hull extends BasePlugin<HullOptions> {
-  private shape!: HullShape;
+  private shape!: Contour;
   /**
    * <zh/> 在 Hull 上的元素
    * <en/> Element Ids on Hull
@@ -47,11 +47,8 @@ export class Hull extends BasePlugin<HullOptions> {
    * <en/> Hull path
    */
   private path!: PathArray;
-  /**
-   * <zh> 是否初次渲染完成
-   * <en> Whether the first rendering is completed
-   */
-  private firstRender = false;
+
+  private optionsCache!: HullOptions;
 
   static defaultOptions: Partial<HullOptions> = {
     members: [],
@@ -75,19 +72,24 @@ export class Hull extends BasePlugin<HullOptions> {
     this.context.graph.on(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateHullPath);
   }
 
-  private getHullStyle(forceUpdate?: boolean): HullStyleProps {
+  private getHullStyle(forceUpdate?: boolean): ContourStyleProps {
     const { members, padding, corner, ...style } = this.options;
     return { ...style, path: this.getHullPath(forceUpdate) };
   }
 
   private drawHull = () => {
-    this.shape = new HullShape({ style: this.getHullStyle() });
-    this.context.canvas.appendChild(this.shape);
-    this.firstRender = true;
+    if (!this.shape) {
+      this.shape = new Contour({ style: this.getHullStyle() });
+      this.context.canvas.appendChild(this.shape);
+    } else {
+      const forceUpdate = !isEqual(this.optionsCache, this.options);
+      this.shape.update(this.getHullStyle(forceUpdate));
+    }
+    this.optionsCache = { ...this.options };
   };
 
   private updateHullPath = (event: ElementLifeCycleEvent) => {
-    if (!this.firstRender) return;
+    if (!this.shape) return;
     if (!this.options.members.includes(idOf(event.data))) return;
     this.shape.update({ path: this.getHullPath(true) });
   };
@@ -115,13 +117,13 @@ export class Hull extends BasePlugin<HullOptions> {
     return memberPadding + this.options.padding;
   }
 
-  public addMembers(members: ID | ID[]) {
+  public addMember(members: ID | ID[]) {
     const membersToAdd = Array.isArray(members) ? members : [members];
     this.options.members = [...new Set([...this.options.members, ...membersToAdd])];
     this.shape.update({ path: this.getHullPath() });
   }
 
-  public removeMembers(members: ID | ID[]) {
+  public removeMember(members: ID | ID[]) {
     const membersToRemove = Array.isArray(members) ? members : [members];
     this.options.members = this.options.members.filter((id) => !membersToRemove.includes(id));
     if (membersToRemove.some((id) => this.hullMemberIds.includes(id))) {
@@ -129,14 +131,13 @@ export class Hull extends BasePlugin<HullOptions> {
     }
   }
 
-  public updateMembers(members: CallableValue<ID[]>) {
+  public updateMember(members: CallableValue<ID[]>) {
     this.options.members = isFunction(members) ? members(this.options.members) : members;
     this.shape.update(this.getHullStyle(true));
   }
 
-  public updateOptions(options: CallableValue<HullOptions>) {
-    this.options = (isFunction(options) ? options(this.options) : options) as Required<HullOptions>;
-    this.shape.update({ ...this.options, path: this.getHullPath(true) });
+  public getMember() {
+    return this.options.members;
   }
 
   public destroy(): void {

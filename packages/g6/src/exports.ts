@@ -25,7 +25,7 @@ export {
   Triangle,
 } from './elements/nodes';
 export { BaseShape } from './elements/shapes';
-export { BasePlugin, CameraSetting, History } from './plugins';
+export { BasePlugin, BubbleSets, CameraSetting, History } from './plugins';
 export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
 export { BaseTransform } from './transforms';

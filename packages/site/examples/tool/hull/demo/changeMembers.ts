@@ -219,9 +219,9 @@ graph.render().then(async () => {
       name: 'Add/Delete Member',
       action: () => {
         if (!memberAdded) {
-          hull1.addMembers(['4']);
+          hull1.addMember(['4']);
         } else {
-          hull1.removeMembers(['4']);
+          hull1.removeMember(['4']);
         }
         memberAdded = !memberAdded;
       },
@@ -235,7 +235,7 @@ graph.render().then(async () => {
           corner: 'sharp',
           labelText: 'Updated Group1',
           labelPlacement: 'top',
-          labelCloseToHull: false,
+          labelCloseToPath: false,
           labelBackgroundFill: 'orange',
         }));
       },

@@ -88,6 +88,7 @@ export * from './layout-radial-configuration-translate';
 export * from './layout-radial-prevent-overlap';
 export * from './layout-radial-prevent-overlap-unstrict';
 export * from './layout-radial-sort';
+export * from './plugin-bubble-sets';
 export * from './plugin-camera-setting';
 export * from './plugin-contextmenu';
 export * from './plugin-grid-line';

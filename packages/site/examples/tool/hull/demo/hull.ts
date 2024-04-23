@@ -636,7 +636,7 @@ const graph = new Graph({
       stroke: '#D580FF',
       labelText: 'cluster-d',
       labelPlacement: 'bottom',
-      labelCloseToHull: false,
+      labelCloseToPath: false,
     },
   ],
   autoFit: 'center',
