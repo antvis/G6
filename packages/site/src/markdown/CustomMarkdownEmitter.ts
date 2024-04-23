@@ -1,6 +1,5 @@
 import type { ApiItem, ApiModel, IResolveDeclarationReferenceResult } from '@microsoft/api-extractor-model';
 import type { DocLinkTag, DocNode, StringBuilder } from '@microsoft/tsdoc';
-
 import { CustomDocNodeKind } from '../nodes/CustomDocNodeKind';
 import type { DocDetails } from '../nodes/DocDetails';
 import type { DocEmphasisSpan } from '../nodes/DocEmphasisSpan';
@@ -11,7 +10,8 @@ import type { DocTable } from '../nodes/DocTable';
 import type { DocTableCell } from '../nodes/DocTableCell';
 import type { DocUnorderedList } from '../nodes/DocUnorderedList';
 import type { IndentedWriter } from '../utils/IndentedWriter';
-import { MarkdownEmitter, type IMarkdownEmitterContext, type IMarkdownEmitterOptions } from './MarkdownEmitter';
+import type { IMarkdownEmitterContext, IMarkdownEmitterOptions } from './MarkdownEmitter';
+import { MarkdownEmitter } from './MarkdownEmitter';
 
 export interface ICustomMarkdownEmitterOptions extends IMarkdownEmitterOptions {
   contextApiItem: ApiItem | undefined;

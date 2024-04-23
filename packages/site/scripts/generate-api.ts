@@ -80,7 +80,7 @@ async function runApiExtractor() {
     const reportFolder = path.parse(reportFilePath).dir;
     const reportTempFolder = path.parse(reportTempFilePath).dir;
 
-    if (FileSystem.exists(reportTempFolder)) {
+    if (FileSystem.exists(packageJsonFullPath)) {
       const packageJson = JSON.parse(FileSystem.readFile(packageJsonFullPath));
       if ('build:cjs' in packageJson.scripts) {
         execSync(`cd ${projectFolder} && pnpm run build:cjs`);
