@@ -65,6 +65,7 @@ export {
 } from './layouts';
 export {
   BasePlugin,
+  BubbleSets,
   CameraSetting,
   Contextmenu,
   GridLine,
@@ -139,6 +140,7 @@ export type {
 export type { BaseShapeStyleProps } from './elements/shapes';
 export type {
   BasePluginOptions,
+  BubbleSetsOptions,
   CameraSettingOptions,
   ContextmenuOptions,
   GridLineOptions,
