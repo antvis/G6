@@ -125,26 +125,26 @@ export class MarkdownDocumenter {
     this._markdownEmitter = new CustomMarkdownEmitter(this._apiModel);
   }
 
-  public generateFiles(): void {
+  public async generateFiles() {
     const collectedData = this._initPageData(this._apiModel);
 
     // Write the API model page
     this.isExternal = false;
     this.locale = LocaleLanguage.EN;
-    this._writeApiItemPage(this._apiModel);
+    await this._writeApiItemPage(this._apiModel);
     this.locale = LocaleLanguage.ZH;
-    this._writeApiItemPage(this._apiModel);
+    await this._writeApiItemPage(this._apiModel);
 
     // Write the API pages classified by extension
     for (const [_, pageData] of collectedData.pagesByName.entries()) {
       // Only generate pages for supported groups
-      if (supportedGroups.includes(pageData.group)) {
-        this.isExternal = true;
-        this.locale = LocaleLanguage.EN;
-        this._writeApiPage(pageData);
-        this.locale = LocaleLanguage.ZH;
-        this._writeApiPage(pageData);
-      }
+      // if (supportedGroups.includes(pageData.group)) {
+      this.isExternal = true;
+      this.locale = LocaleLanguage.EN;
+      await this._writeApiPage(pageData);
+      this.locale = LocaleLanguage.ZH;
+      await this._writeApiPage(pageData);
+      // }
     }
   }
 
@@ -1229,6 +1229,9 @@ export class MarkdownDocumenter {
       }
 
       if (returnNodes.length > 0) {
+        // If there are parameters, add a newline before the returns section
+        this._assertNewline(output);
+
         output.appendNode(
           new DocParagraph({ configuration }, [
             new DocEmphasisSpan({ configuration, bold: true }, [
@@ -1237,6 +1240,10 @@ export class MarkdownDocumenter {
                 text: this._intl(Keyword.RETURNS),
               }),
             ]),
+            new DocPlainText({
+              configuration,
+              text: this._intl(Keyword.COLON),
+            }),
           ]),
         );
         output.appendNode(new DocParagraph({ configuration }, [new DocUnorderedList({ configuration }, returnNodes)]));
@@ -1244,6 +1251,11 @@ export class MarkdownDocumenter {
     }
 
     return hasParameters || hasReturns;
+  }
+
+  private _assertNewline(output: DocSection): void {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    output.appendNode(new DocParagraph({ configuration }));
   }
 
   private _createSectionForParameter(block: DocBlock): DocSection {

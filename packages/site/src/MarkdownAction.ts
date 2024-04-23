@@ -20,7 +20,7 @@ export class MarkdownAction {
       outputFolder,
     });
 
-    markdownDocumenter.generateFiles();
+    await markdownDocumenter.generateFiles();
   }
 
   /**
