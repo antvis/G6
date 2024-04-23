@@ -1,4 +1,4 @@
-import type { BubbleSets, Graph, ID } from '@/src';
+import { CommonEvent, type BubbleSets, type Graph, type ID } from '@/src';
 import { pluginBubbleSets } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
@@ -28,9 +28,9 @@ describe('plugin bubble-sets', () => {
   });
 
   it('add/remove/update member', async () => {
-    bubbleSets.addMember(['node12']);
+    bubbleSets.addMember(['node12', 'edge1']);
     await expect(graph).toMatchSnapshot(__filename, 'member-add');
-    bubbleSets.removeMember(['node12']);
+    bubbleSets.removeMember(['node12', 'edge1']);
     await expect(graph).toMatchSnapshot(__filename, 'member-remove');
     bubbleSets.updateMember(['node3', 'node4', 'node5', 'node6', 'node7']);
     await expect(graph).toMatchSnapshot(__filename, 'member-update');
@@ -53,5 +53,14 @@ describe('plugin bubble-sets', () => {
     graph.updatePlugin({ key: 'bubble-sets', fill: 'pink' });
     graph.render();
     await expect(graph).toMatchSnapshot(__filename, 'options-update');
+    reset();
+  });
+
+  it('update element', async () => {
+    graph.emit(`node:${CommonEvent.DRAG_START}`, { target: { id: 'node11' }, targetType: 'node' });
+    graph.emit(`node:${CommonEvent.DRAG}`, { dx: 50, dy: 50 });
+    graph.emit(`node:${CommonEvent.DRAG_END}`);
+
+    await expect(graph).toMatchSnapshot(__filename, 'element-position-update');
   });
 });

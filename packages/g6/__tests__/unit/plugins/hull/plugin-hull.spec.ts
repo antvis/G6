@@ -1,5 +1,5 @@
 import { pluginHull } from '@/__tests__/demos';
-import type { Graph, Hull } from '@/src';
+import { CommonEvent, type Graph, type Hull } from '@/src';
 import type { HullOptions } from '@/src/plugins';
 import { createDemoGraph } from '@@/utils';
 
@@ -80,5 +80,12 @@ describe('plugin hull', () => {
     hull.updateMember(['node5', 'node6']);
     await expect(graph).toMatchSnapshot(__filename, 'updateMember');
     expect(hull.getMember()).toEqual(['node5', 'node6']);
+  });
+
+  it('update element position', async () => {
+    graph.emit(`node:${CommonEvent.DRAG_START}`, { target: { id: 'node5' }, targetType: 'node' });
+    graph.emit(`node:${CommonEvent.DRAG}`, { dx: 50, dy: -50 });
+    graph.emit(`node:${CommonEvent.DRAG_END}`);
+    await expect(graph).toMatchSnapshot(__filename, 'updateMember__position');
   });
 });
