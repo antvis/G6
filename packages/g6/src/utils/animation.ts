@@ -1,7 +1,7 @@
 import type { DisplayObject, IAnimation } from '@antv/g';
 import { isEqual, isNil, isObject } from '@antv/util';
 import { DEFAULT_ANIMATION_OPTIONS } from '../constants';
-import type { G6Spec } from '../spec';
+import type { GraphOptions } from '../spec';
 import type { AnimatableTask, Keyframe } from '../types';
 import { isNode } from './element';
 import { getDescendantShapes } from './shape';
@@ -229,7 +229,7 @@ export function executeAnimatableTasks(tasks: AnimatableTask[], callbacks: Callb
  * @returns <zh/> 动画配置 | <en/> animation configuration
  */
 export function getAnimation(
-  options: G6Spec,
+  options: GraphOptions,
   localAnimation: boolean | EffectTiming | undefined,
 ): false | EffectTiming {
   const { animation } = options;

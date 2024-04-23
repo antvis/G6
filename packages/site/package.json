@@ -24,6 +24,7 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
+    "add-doc": "node ./scripts/doc-template.js",
     "build": "npm run doc && dumi build",
     "deploy": "npm run build && gh-pages -d dist",
     "dev": "dumi dev",

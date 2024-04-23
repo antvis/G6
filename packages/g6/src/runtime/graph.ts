@@ -10,8 +10,8 @@ import type {
   ComboOptions,
   EdgeData,
   EdgeOptions,
-  G6Spec,
   GraphData,
+  GraphOptions,
   LayoutOptions,
   NodeData,
   NodeOptions,
@@ -61,9 +61,9 @@ import { RuntimeContext } from './types';
 import { ViewportController } from './viewport';
 
 export class Graph extends EventEmitter {
-  private options: G6Spec;
+  private options: GraphOptions;
 
-  static defaultOptions: G6Spec = {
+  static defaultOptions: GraphOptions = {
     autoResize: false,
     theme: 'light',
     rotation: 0,
@@ -78,7 +78,7 @@ export class Graph extends EventEmitter {
     model: new DataController(),
   };
 
-  constructor(options: G6Spec) {
+  constructor(options: GraphOptions) {
     super();
     this.options = Object.assign({}, Graph.defaultOptions, options);
     this.setOptions(this.options);
@@ -94,7 +94,7 @@ export class Graph extends EventEmitter {
    * <en/> Get options
    * @returns <zh/> 配置项 | <en/> options
    */
-  public getOptions(): G6Spec {
+  public getOptions(): GraphOptions {
     return this.options;
   }
 
@@ -108,7 +108,7 @@ export class Graph extends EventEmitter {
    *
    * <en/> To update devicePixelRatio and container properties, please destroy and recreate the instance
    */
-  public setOptions(options: G6Spec): void {
+  public setOptions(options: GraphOptions): void {
     const {
       animation,
       background,
@@ -147,12 +147,12 @@ export class Graph extends EventEmitter {
     if (isNumber(padding) || isArray(padding)) this.options.padding = padding;
   }
 
-  public setBackground(background: G6Spec['background']): void {
+  public setBackground(background: GraphOptions['background']): void {
     this.options.background = background;
     this.context.canvas?.setBackground(background);
   }
 
-  public getBackground(): G6Spec['background'] {
+  public getBackground(): GraphOptions['background'] {
     return this.options.background;
   }
 
@@ -166,11 +166,11 @@ export class Graph extends EventEmitter {
     this.options.height = height;
   }
 
-  public setZoomRange(zoomRange: G6Spec['zoomRange']): void {
+  public setZoomRange(zoomRange: GraphOptions['zoomRange']): void {
     this.options.zoomRange = zoomRange;
   }
 
-  public getZoomRange(): G6Spec['zoomRange'] {
+  public getZoomRange(): GraphOptions['zoomRange'] {
     return this.options.zoomRange;
   }
 
@@ -490,8 +490,8 @@ export class Graph extends EventEmitter {
 
       const canvas = new Canvas({
         container: $container!,
-        width: width ?? containerSize[0],
-        height: height ?? containerSize[1],
+        width: width || containerSize[0],
+        height: height || containerSize[1],
         renderer,
       });
 

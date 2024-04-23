@@ -1,9 +1,9 @@
-import type { G6Spec } from '@/src';
+import type { GraphOptions } from '@/src';
 import { Renderer } from '@antv/g-canvas';
 
 describe('spec', () => {
   it('spec', () => {
-    const options: G6Spec = {
+    const options: GraphOptions = {
       width: 800,
       height: 600,
       renderer: () => new Renderer(),

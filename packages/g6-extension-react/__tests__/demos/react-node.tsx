@@ -1,5 +1,5 @@
 import { DatabaseFilled } from '@ant-design/icons';
-import type { Graph as G6Graph, G6Spec, NodeData } from '@antv/g6';
+import type { Graph as G6Graph, GraphOptions, NodeData } from '@antv/g6';
 import { ExtensionCategory, register } from '@antv/g6';
 import { Badge, Button, Flex, Form, Input, Layout, Select, Table, Tag, Typography } from 'antd';
 import { useRef, useState } from 'react';
@@ -60,7 +60,7 @@ export const ReactNodeDemo = () => {
     );
   };
 
-  const [options, setOptions] = useState<G6Spec>({
+  const [options, setOptions] = useState<GraphOptions>({
     data: {
       nodes: [
         {
