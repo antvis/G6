@@ -37,12 +37,12 @@ import {
   DocFencedCode,
   DocHtmlStartTag,
   DocLinkTag,
+  DocNode,
   DocNodeContainer,
   DocNodeKind,
   DocParagraph,
   DocPlainText,
   DocSection,
-  DocSoftBreak,
   StandardTags,
   StringBuilder,
   TSDocConfiguration,
@@ -51,6 +51,7 @@ import { FileSystem, NewlineKind, PackageName } from '@rushstack/node-core-libra
 import * as path from 'path';
 
 import { camelCase, upperFirst } from 'lodash';
+import prettier from 'prettier';
 import { Keyword, intl } from './constants/keywords';
 import { LocaleLanguage } from './constants/locale';
 import { CustomMarkdownEmitter } from './markdown/CustomMarkdownEmitter';
@@ -196,7 +197,7 @@ export class MarkdownDocumenter {
     }
   }
 
-  private _writeApiPage(pageData: IPageData): void {
+  private async _writeApiPage(pageData: IPageData) {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
     const output: DocSection = new DocSection({ configuration });
 
@@ -256,12 +257,17 @@ export class MarkdownDocumenter {
 
               const detailSection = new DocSection({ configuration });
 
-              this._writeParameterTables(detailSection, apiMember as ApiParameterListMixin, true);
-              this._writeThrowsSection(detailSection, apiMember);
-
-              output.appendNode(
-                new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
+              const hasParameterAndReturn = this._writeParameterTables(
+                detailSection,
+                apiMember as ApiParameterListMixin,
+                { showTitle: false },
               );
+
+              if (hasParameterAndReturn) {
+                output.appendNode(
+                  new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
+                );
+              }
               break;
             }
           }
@@ -278,7 +284,7 @@ export class MarkdownDocumenter {
       },
     });
 
-    const pageContent: string = stringBuilder.toString();
+    const pageContent: string = await prettier.format(stringBuilder.toString(), { parser: 'markdown' });
 
     const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
 
@@ -291,7 +297,7 @@ export class MarkdownDocumenter {
     });
   }
 
-  private _writeApiItemPage(apiItem: ApiItem): void {
+  private async _writeApiItemPage(apiItem: ApiItem) {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
     const output: DocSection = new DocSection({ configuration });
 
@@ -480,8 +486,9 @@ export class MarkdownDocumenter {
       },
     });
 
-    const pageContent: string = stringBuilder.toString();
-
+    const pageContent: string = await prettier.format(stringBuilder.toString(), {
+      parser: 'markdown',
+    });
     FileSystem.ensureFolder(path.dirname(filename));
     FileSystem.writeFile(filename, pageContent, {
       convertLineEndings: NewlineKind.CrLf,
@@ -1134,63 +1141,139 @@ export class MarkdownDocumenter {
   private _writeParameterTables(
     output: DocSection,
     apiParameterListMixin: ApiParameterListMixin,
-    simple: boolean = false,
-  ): void {
+    options: { showTitle?: boolean } = { showTitle: true },
+  ): boolean {
+    const { showTitle } = options;
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
+
+    /**
+     * Check if there are any parameters or returns to show
+     */
+    let hasParameters = false;
+    let hasReturns = false;
 
     const parametersTable: DocTable = new DocTable({
       configuration,
       headerTitles: [this._intl(Keyword.PARAMETER), this._intl(Keyword.TYPE), this._intl(Keyword.DESCRIPTION)],
     });
     for (const apiParameter of apiParameterListMixin.parameters) {
-      const parameterDescription: DocSection = new DocSection({
-        configuration,
-      });
-
-      if (apiParameter.tsdocParamBlock) {
-        this._appendAndMergeSection(parameterDescription, apiParameter.tsdocParamBlock.content);
-      }
-
       parametersTable.addRow(
         new DocTableRow({ configuration }, [
           new DocTableCell({ configuration }, [
             new DocParagraph({ configuration }, [new DocPlainText({ configuration, text: apiParameter.name })]),
           ]),
           new DocTableCell({ configuration }, [this._createParagraphForTypeExcerpt(apiParameter.parameterTypeExcerpt)]),
-          new DocTableCell({ configuration }, parameterDescription.nodes),
+          new DocTableCell(
+            { configuration },
+            this._createSectionForParameter(apiParameter.tsdocParamBlock as DocBlock).nodes,
+          ),
         ]),
       );
     }
 
     if (parametersTable.rows.length > 0) {
-      !simple && output.appendNode(new DocHeading({ configuration, title: 'Parameters' }));
+      hasParameters = true;
+      showTitle && output.appendNode(new DocHeading({ configuration, title: 'Parameters' }));
       output.appendNode(parametersTable);
     }
 
     if (ApiReturnTypeMixin.isBaseClassOf(apiParameterListMixin)) {
       const returnTypeExcerpt: Excerpt = apiParameterListMixin.returnTypeExcerpt;
 
-      output.appendNode(new DocParagraph({ configuration }, [new DocSoftBreak({ configuration })]));
+      // Return type
+      const returnNodes: DocNode[] = [];
 
-      output.appendNode(
-        new DocParagraph({ configuration }, [
-          new DocEmphasisSpan({ configuration, bold: true }, [
-            new DocPlainText({
-              configuration,
-              text: this._intl(Keyword.RETURNS) + this._intl(Keyword.COLON),
-            }),
+      const typeExcerptNodes = this._createParagraphForTypeExcerpt(returnTypeExcerpt).nodes;
+
+      if (typeExcerptNodes.length > 0) {
+        if (
+          !(
+            typeExcerptNodes.length === 1 &&
+            typeExcerptNodes[0] instanceof DocPlainText &&
+            typeExcerptNodes[0].text === 'void'
+          )
+        ) {
+          hasReturns ||= true;
+        }
+
+        returnNodes.push(
+          new DocParagraph({ configuration }, [
+            new DocEmphasisSpan({ configuration, bold: true }, [
+              new DocPlainText({
+                configuration,
+                text: this._intl(Keyword.TYPE) + this._intl(Keyword.COLON),
+              }),
+            ]),
+            ...typeExcerptNodes,
           ]),
-        ]),
-      );
+        );
+      }
 
-      output.appendNode(this._createParagraphForTypeExcerpt(returnTypeExcerpt));
-
+      // Return description
       if (apiParameterListMixin instanceof ApiDocumentedItem) {
         if (apiParameterListMixin.tsdocComment && apiParameterListMixin.tsdocComment.returnsBlock) {
-          this._appendSection(output, apiParameterListMixin.tsdocComment.returnsBlock.content);
+          returnNodes.push(
+            new DocParagraph({ configuration }, [
+              new DocEmphasisSpan({ configuration, bold: true }, [
+                new DocPlainText({
+                  configuration,
+                  text: this._intl(Keyword.DESCRIPTION) + this._intl(Keyword.COLON),
+                }),
+              ]),
+              ...this._createSectionForParameter(apiParameterListMixin.tsdocComment.returnsBlock)
+                .getChildNodes()[0]
+                .getChildNodes(),
+            ]),
+          );
         }
       }
+
+      if (returnNodes.length > 0) {
+        output.appendNode(
+          new DocParagraph({ configuration }, [
+            new DocEmphasisSpan({ configuration, bold: true }, [
+              new DocPlainText({
+                configuration,
+                text: this._intl(Keyword.RETURNS),
+              }),
+            ]),
+          ]),
+        );
+        output.appendNode(new DocParagraph({ configuration }, [new DocUnorderedList({ configuration }, returnNodes)]));
+      }
     }
+
+    return hasParameters || hasReturns;
+  }
+
+  private _createSectionForParameter(block: DocBlock): DocSection {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+
+    const description: DocSection = new DocSection({
+      configuration,
+    });
+
+    if (block) {
+      const nodes = block.content.getChildNodes()[0]?.getChildNodes() || [];
+
+      let matchBilingual = false;
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        if (node instanceof DocHtmlStartTag && node.selfClosingTag) {
+          matchBilingual = true;
+          const text = (nodes[i + 1] as DocPlainText).text.replace('|', '').trim();
+
+          description.appendNode(new DocParagraph({ configuration }, [new DocPlainText({ configuration, text })]));
+          break;
+        }
+      }
+
+      if (!matchBilingual) {
+        this._appendAndMergeSection(description, block.content);
+      }
+    }
+
+    return description;
   }
 
   private _createParagraphForTypeExcerpt(excerpt: Excerpt): DocParagraph {
@@ -1516,6 +1599,43 @@ export class MarkdownDocumenter {
     output.appendNode(new DocPageTitle({ configuration, key, locale: this.locale }));
   }
 
+  private _appendSummarySection(output: DocSection, apiItem: ApiItem): void {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+
+    if (apiItem instanceof ApiDocumentedItem) {
+      if (apiItem.tsdocComment !== undefined) {
+        const localizedSection: DocSection = this._localizeSection(apiItem.tsdocComment.summarySection, this.locale);
+        const formattedSection = new DocSection({ configuration });
+
+        for (const nodes of localizedSection.getChildNodes()) {
+          for (const node of nodes.getChildNodes()) {
+            if (node instanceof DocPlainText) {
+              const texts = node.text.split(/ - /g);
+              const listText = texts.slice(1);
+
+              formattedSection.appendNode(
+                new DocParagraph({ configuration }, [new DocPlainText({ configuration, text: texts[0] })]),
+              );
+
+              if (listText.length > 0) {
+                formattedSection.appendNode(
+                  new DocParagraph({ configuration }, [
+                    new DocUnorderedList(
+                      { configuration },
+                      listText.map((text) => new DocPlainText({ configuration, text })),
+                    ),
+                  ]),
+                );
+              }
+            }
+          }
+        }
+
+        this._appendAndMergeSection(output, formattedSection);
+      }
+    }
+  }
+
   private _getMembersAndWriteIncompleteWarning(
     apiClassOrInterface: ApiClass | ApiInterface,
     output: DocSection,
@@ -1617,42 +1737,7 @@ export class MarkdownDocumenter {
     return trimmed;
   }
 
-  private _appendSummarySection(output: DocSection, apiItem: ApiItem): void {
-    const configuration: TSDocConfiguration = this._tsdocConfiguration;
-
-    if (apiItem instanceof ApiDocumentedItem) {
-      if (apiItem.tsdocComment !== undefined) {
-        const localizedSection: DocSection = this._localizeSection(apiItem.tsdocComment.summarySection, this.locale);
-        const formattedSection = new DocSection({ configuration });
-
-        for (const nodes of localizedSection.getChildNodes()) {
-          for (const node of nodes.getChildNodes()) {
-            if (node instanceof DocPlainText) {
-              const texts = node.text.split(/ - /g);
-              const listText = texts.slice(1);
-
-              formattedSection.appendNode(
-                new DocParagraph({ configuration }, [new DocPlainText({ configuration, text: texts[0] })]),
-              );
-
-              if (listText.length > 0) {
-                formattedSection.appendNode(
-                  new DocParagraph({ configuration }, [
-                    new DocUnorderedList(
-                      { configuration },
-                      listText.map((text) => new DocPlainText({ configuration, text })),
-                    ),
-                  ]),
-                );
-              }
-            }
-          }
-        }
-
-        this._appendSection(output, formattedSection);
-      }
-    }
-  }
+  private _localizeParameter() {}
 
   private _intl(keyword: Keyword) {
     return intl(keyword, this.locale);

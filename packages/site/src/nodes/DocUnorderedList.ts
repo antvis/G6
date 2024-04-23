@@ -1,4 +1,4 @@
-import type { DocPlainText, IDocNodeParameters } from '@microsoft/tsdoc';
+import type { DocNode, IDocNodeParameters } from '@microsoft/tsdoc';
 import { DocNodeContainer } from '@microsoft/tsdoc';
 import { CustomDocNodeKind } from './CustomDocNodeKind';
 
@@ -11,7 +11,7 @@ export interface IDocUnorderedListParameters extends IDocNodeParameters {}
  * Represents an unordered list of spans.
  */
 export class DocUnorderedList extends DocNodeContainer {
-  public constructor(parameters: IDocUnorderedListParameters, children?: DocPlainText[]) {
+  public constructor(parameters: IDocUnorderedListParameters, children?: DocNode[]) {
     super(parameters, children);
   }
 

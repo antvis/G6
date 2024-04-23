@@ -1,5 +1,5 @@
 import type { ApiItem, ApiModel, IResolveDeclarationReferenceResult } from '@microsoft/api-extractor-model';
-import type { DocLinkTag, DocNode, DocPlainText, StringBuilder } from '@microsoft/tsdoc';
+import type { DocLinkTag, DocNode, StringBuilder } from '@microsoft/tsdoc';
 
 import { CustomDocNodeKind } from '../nodes/CustomDocNodeKind';
 import type { DocDetails } from '../nodes/DocDetails';
@@ -155,7 +155,7 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
 
         writer.write('<details>');
 
-        writer.write('<summary style="color: #873bf4; cursor: pointer; padding: 1em 0 0;">');
+        writer.write('<summary>');
         writer.write(docDetails.summary || '');
         writer.write('</summary>');
 
@@ -172,7 +172,8 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
 
         for (const docNode of docUnorderedList.getChildNodes()) {
           writer.ensureNewLine();
-          writer.writeLine('- ' + (docNode as DocPlainText).text);
+          writer.writeLine('- ');
+          this.writeNode(docNode, context, false);
         }
 
         writer.writeLine();

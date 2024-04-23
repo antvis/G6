@@ -32,15 +32,27 @@ export class CustomDocNodes {
       const configuration: TSDocConfiguration = new TSDocConfiguration();
 
       configuration.docNodeManager.registerDocNodes('@micrososft/api-documenter', [
-        { docNodeKind: CustomDocNodeKind.EmphasisSpan, constructor: DocEmphasisSpan },
+        {
+          docNodeKind: CustomDocNodeKind.EmphasisSpan,
+          constructor: DocEmphasisSpan,
+        },
         { docNodeKind: CustomDocNodeKind.Heading, constructor: DocHeading },
         { docNodeKind: CustomDocNodeKind.NoteBox, constructor: DocNoteBox },
         { docNodeKind: CustomDocNodeKind.Table, constructor: DocTable },
-        { docNodeKind: CustomDocNodeKind.TableCell, constructor: DocTableCell },
+        {
+          docNodeKind: CustomDocNodeKind.TableCell,
+          constructor: DocTableCell,
+        },
         { docNodeKind: CustomDocNodeKind.TableRow, constructor: DocTableRow },
-        { docNodeKind: CustomDocNodeKind.PageTitle, constructor: DocPageTitle },
+        {
+          docNodeKind: CustomDocNodeKind.PageTitle,
+          constructor: DocPageTitle,
+        },
         { docNodeKind: CustomDocNodeKind.Details, constructor: DocDetails },
-        { docNodeKind: CustomDocNodeKind.UnorderedList, constructor: DocUnorderedList },
+        {
+          docNodeKind: CustomDocNodeKind.UnorderedList,
+          constructor: DocUnorderedList,
+        },
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.EmphasisSpan, [
@@ -48,7 +60,11 @@ export class CustomDocNodes {
         DocNodeKind.SoftBreak,
       ]);
 
-      configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.UnorderedList, [DocNodeKind.PlainText]);
+      configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.UnorderedList, [
+        DocNodeKind.PlainText,
+        DocNodeKind.LinkTag,
+        DocNodeKind.Paragraph,
+      ]);
 
       configuration.docNodeManager.registerAllowableChildren(DocNodeKind.Section, [
         CustomDocNodeKind.Heading,
