@@ -134,6 +134,27 @@ export default defineConfig({
         },
       },
       {
+        slug: 'apis/element/node',
+        title: {
+          zh: 'Node 节点',
+          en: 'Node',
+        },
+      },
+      {
+        slug: 'apis/element/edge',
+        title: {
+          zh: 'Edge 边',
+          en: 'Edge',
+        },
+      },
+      {
+        slug: 'apis/element/combo',
+        title: {
+          zh: 'Combo 组合',
+          en: 'Combo',
+        },
+      },
+      {
         slug: 'apis/layout',
         title: {
           zh: 'Layout 布局',
@@ -157,21 +178,21 @@ export default defineConfig({
       {
         slug: 'apis/extension',
         title: {
-          zh: '扩展',
+          zh: 'Extension 扩展',
           en: 'Extension',
         },
       },
       {
         slug: 'apis/function',
         title: {
-          zh: '函数',
+          zh: 'Function 函数',
           en: 'Function',
         },
       },
       {
         slug: 'apis/export',
         title: {
-          zh: '导出索引',
+          zh: 'Export 导出',
           en: 'Export',
         },
       },
