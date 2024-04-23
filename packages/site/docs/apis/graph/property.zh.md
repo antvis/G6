@@ -1,4 +1,4 @@
 ---
-title: Graph 属性
+title: Properties 属性
 order: 2
 ---

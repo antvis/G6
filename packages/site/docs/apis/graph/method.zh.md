@@ -1,4 +1,4 @@
 ---
-title: Graph 方法
+title: API 方法
 order: 1
 ---

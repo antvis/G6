@@ -1,4 +1,4 @@
 ---
-title: Graph Properties
+title: Properties
 order: 2
 ---

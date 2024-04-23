@@ -1,4 +1,4 @@
 ---
-title: Graph Methods
+title: API Methods
 order: 1
 ---
