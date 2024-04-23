@@ -7,11 +7,11 @@ export const graphToDataURL: TestCase = async (context) => {
     background: '#f4df4d',
     data: {
       nodes: [
-        { id: 'node-1', style: { x: 50, y: 50, color: 'purple', halo: true, labelText: 'node-1' } },
-        { id: 'node-2', style: { x: 100, y: 50, color: 'pink', halo: true, labelText: 'node-2' } },
+        { id: 'node-1', style: { x: 50, y: 50, fill: 'purple', halo: true, labelText: 'node-1' } },
+        { id: 'node-2', style: { x: 100, y: 50, fill: 'pink', halo: true, labelText: 'node-2' } },
         { id: 'node-3', style: { x: 150, y: 50, iconSrc: icon, iconWidth: 30, iconHeight: 30, labelText: 'node-2' } },
       ],
-      edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', style: { color: 'orange', lineWidth: 2 } }],
+      edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', style: { stroke: 'orange', lineWidth: 2 } }],
     },
     behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
   });

@@ -78,7 +78,7 @@ export function create(tokens: ThemeTokens): Theme {
         badgeFontSize: 8,
         badgePadding: [1, 4],
         badgePalette: nodeBadgePalette,
-        color: nodeColor,
+        fill: nodeColor,
         halo: false,
         haloLineWidth: 12,
         haloStrokeOpacity: 0.25,
@@ -127,7 +127,7 @@ export function create(tokens: ThemeTokens): Theme {
           opacity: 0.25,
         },
         disabled: {
-          color: nodeColorDisabled,
+          fill: nodeColorDisabled,
           labelOpacity: 0.25,
           donutOpacity: 0.25,
         },
@@ -136,13 +136,12 @@ export function create(tokens: ThemeTokens): Theme {
         enter: 'fade',
         exit: 'fade',
         visibility: 'fade',
-        update: [{ fields: ['x', 'y', 'color', 'stroke'] }],
+        update: [{ fields: ['x', 'y', 'fill', 'stroke'] }],
       },
     },
     edge: {
       palette: edgePaletteOptions,
       style: {
-        color: edgeColor,
         halo: false,
         haloLineWidth: 12,
         haloStrokeOpacity: 0.25,
@@ -160,6 +159,7 @@ export function create(tokens: ThemeTokens): Theme {
         labelTextBaseline: 'middle',
         lineWidth: 1,
         opacity: 1,
+        stroke: edgeColor,
       },
       state: {
         selected: {
@@ -180,7 +180,7 @@ export function create(tokens: ThemeTokens): Theme {
           opacity: 0.25,
         },
         disabled: {
-          color: edgeColorDisabled,
+          stroke: edgeColorDisabled,
           labelOpacity: 0.25,
         },
       },
@@ -188,7 +188,7 @@ export function create(tokens: ThemeTokens): Theme {
         enter: 'fade',
         exit: 'fade',
         visibility: 'fade',
-        update: [{ fields: ['color'] }, { fields: ['path'], shape: 'key' }],
+        update: [{ fields: ['path', 'stroke'], shape: 'key' }],
       },
     },
     combo: {
@@ -196,7 +196,7 @@ export function create(tokens: ThemeTokens): Theme {
         collapsedMaskFill: comboColor,
         collapsedMaskFontSize: 12,
         collapsedSize: 32,
-        color: comboColor,
+        fill: comboColor,
         halo: false,
         haloLineWidth: 12,
         haloStroke: comboStroke,
@@ -235,7 +235,7 @@ export function create(tokens: ThemeTokens): Theme {
           opacity: 0.65,
         },
         disabled: {
-          color: comboColorDisabled,
+          fill: comboColorDisabled,
           labelOpacity: 0.25,
           opacity: 0.25,
           stroke: comboStrokeDisabled,
@@ -247,7 +247,7 @@ export function create(tokens: ThemeTokens): Theme {
         visibility: 'fade',
         expand: 'combo-collapse-expand',
         collapse: 'combo-collapse-expand',
-        update: [{ fields: ['x', 'y'] }, { fields: ['size', 'color', 'stroke'], shape: 'key' }],
+        update: [{ fields: ['x', 'y'] }, { fields: ['size', 'fill', 'stroke'], shape: 'key' }],
       },
     },
   };

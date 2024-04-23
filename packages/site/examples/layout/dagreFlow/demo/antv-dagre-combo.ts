@@ -21,7 +21,7 @@ fetch('https://assets.antv.antgroup.com/g6/dagre-combo.json')
           labelPlacement: 'center',
           labelText: (d) => d.id,
           ports: [{ placement: 'top' }, { placement: 'bottom' }],
-          color: (d) => {
+          fill: (d) => {
             const styles = { A: '#F09056', B: '#D580FF', C: '#01C9C9' };
             return styles[d.style.parentId] || '#1883FF';
           },

@@ -39,7 +39,7 @@ const graph = new Graph({
   edge: {
     style: {
       type: 'line', // 👈🏻 Edge shape type.
-      color: '#F6BD16',
+      stroke: '#F6BD16',
       labelText: (d) => d.id!,
       labelBackground: true,
       endArrow: true,

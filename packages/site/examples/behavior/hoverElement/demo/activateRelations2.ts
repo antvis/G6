@@ -11,19 +11,19 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
         style: { size: 30 },
         state: {
           highlight: {
-            color: '#D580FF',
+            fill: '#D580FF',
             halo: true,
             lineWidth: 0,
           },
           unhighlight: {
-            color: '#99ADD1',
+            fill: '#99ADD1',
           },
         },
       },
       edge: {
         state: {
           highlight: {
-            color: '#D580FF',
+            stroke: '#D580FF',
           },
         },
       },

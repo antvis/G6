@@ -22,7 +22,7 @@ export const elementState: TestCase = async (context) => {
       },
       state: {
         selected: {
-          color: 'pink',
+          fill: 'pink',
         },
       },
       animation: {
@@ -36,7 +36,7 @@ export const elementState: TestCase = async (context) => {
       state: {
         active: {
           lineWidth: 2,
-          color: 'pink',
+          stroke: 'pink',
         },
       },
       animation: {

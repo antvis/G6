@@ -44,7 +44,7 @@ const graph = new Graph({
           ...rest,
           style: {
             ...style,
-            color: 'red',
+            stroke: 'red',
             lineWidth: 2,
             endArrow: true,
           },

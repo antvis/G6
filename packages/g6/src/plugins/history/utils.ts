@@ -62,8 +62,12 @@ export function parseCommand(changes: DataChange[], animation = false, context?:
         if (context) {
           // 特殊处理：获取元素原始 color
           const itemType = context.graph.getElementType(idOf(item.original));
-          const { color } = context.element!.getElementComputedStyle(itemType, item.original);
-          newOriginal = { ...item.original, style: { color, ...item.original.style } } as ElementDatum;
+          const colorKey = itemType === 'edge' ? 'stroke' : 'fill';
+          const style = context.element!.getElementComputedStyle(itemType, item.original);
+          newOriginal = {
+            ...item.original,
+            style: { [colorKey]: style[colorKey], ...item.original.style },
+          } as ElementDatum;
         }
         alignFields(newValue, newOriginal);
         cmd.current.update[category] ||= [];

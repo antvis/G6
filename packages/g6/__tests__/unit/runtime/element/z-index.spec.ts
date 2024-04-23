@@ -8,9 +8,9 @@ describe('element z-index', () => {
     graph = createGraph({
       data: {
         nodes: [
-          { id: 'node-1', style: { x: 150, y: 150, color: 'red' } },
-          { id: 'node-2', style: { x: 175, y: 175, color: 'green' } },
-          { id: 'node-3', style: { x: 200, y: 200, color: 'blue' } },
+          { id: 'node-1', style: { x: 150, y: 150, fill: 'red' } },
+          { id: 'node-2', style: { x: 175, y: 175, fill: 'green' } },
+          { id: 'node-3', style: { x: 200, y: 200, fill: 'blue' } },
         ],
       },
       theme: 'light',

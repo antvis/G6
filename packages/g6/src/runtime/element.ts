@@ -123,11 +123,12 @@ export class ElementController {
     });
   }
 
-  public getPaletteStyle(id: ID) {
+  public getPaletteStyle(elementType: ElementType, id: ID): BaseStyleProps {
     const color = this.paletteStyle[id];
     if (!color) return {};
 
-    return { color };
+    if (elementType === 'edge') return { stroke: color };
+    return { fill: color };
   }
 
   private defaultStyle: Record<ID, Record<string, unknown>> = {};
@@ -302,7 +303,7 @@ export class ElementController {
     const id = idOf(datum);
     // 优先级(从低到高) Priority (from low to high):
     const themeStyle = this.getThemeStyle(elementType);
-    const paletteStyle = this.getPaletteStyle(id);
+    const paletteStyle = this.getPaletteStyle(elementType, id);
     const dataStyle = datum.style || {};
     const defaultStyle = this.getDefaultStyle(id);
     const themeStateStyle = this.getThemeStateStyle(elementType, this.getElementState(id));

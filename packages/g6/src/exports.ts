@@ -25,7 +25,19 @@ export {
   Triangle,
 } from './elements/nodes';
 export { BaseShape } from './elements/shapes';
-export { BasePlugin, BubbleSets, CameraSetting, History } from './plugins';
+export {
+  BasePlugin,
+  BubbleSets,
+  CameraSetting,
+  Contextmenu,
+  GridLine,
+  History,
+  Hull,
+  Legend,
+  Toolbar,
+  Tooltip,
+  Watermark,
+} from './plugins';
 export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
 export { BaseTransform } from './transforms';
@@ -59,7 +71,19 @@ export type {
   TriangleStyleProps,
 } from './elements/nodes';
 export type { BaseShapeStyleProps } from './elements/shapes';
-export type { BasePluginOptions, CameraSettingOptions, Hull } from './plugins';
+export type {
+  BasePluginOptions,
+  BubbleSetsOptions,
+  CameraSettingOptions,
+  ContextmenuOptions,
+  GridLineOptions,
+  HistoryOptions,
+  HullOptions,
+  LegendOptions,
+  ToolbarOptions,
+  TooltipOptions,
+  WatermarkOptions,
+} from './plugins';
 export type { RuntimeContext } from './runtime/types';
 export type {
   BehaviorOptions,
