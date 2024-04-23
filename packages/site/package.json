@@ -23,17 +23,13 @@
   },
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
-  "type": "module",
   "scripts": {
     "build": "npm run doc && dumi build",
     "deploy": "npm run build && gh-pages -d dist",
     "dev": "dumi dev",
-    "doc": "npm run doc:prepare && ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-intl.ts",
-    "doc:prepare": "node ./scripts/env-setup.cjs USE_TS_NODE true",
+    "doc": " ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
-    "preview": "dumi preview",
-    "start": "npm run start:prepare && npm run develop",
-    "start:prepare": "node ./scripts/env-setup.cjs USE_TS_NODE false"
+    "preview": "dumi preview"
   },
   "dependencies": {
     "@antv/algorithm": "^0.1.26",
@@ -55,9 +51,15 @@
     "@manypkg/get-packages": "^2.2.0",
     "@microsoft/api-documenter": "^7.23.16",
     "@microsoft/api-extractor": "^7.39.1",
+    "@microsoft/api-extractor-model": "^7.28.14",
+    "@microsoft/tsdoc": "^0.14.2",
+    "@rushstack/node-core-library": "^4.1.0",
     "@types/fs-extra": "^11.0.4",
+    "@types/lodash": "^4.17.0",
+    "@types/resolve": "^1.20.6",
     "fs-extra": "^11.2.0",
     "prettier": "^3.1.1",
+    "resolve": "^1.22.8",
     "ts-node": "^10.9.2"
   }
 }
