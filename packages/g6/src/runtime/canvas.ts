@@ -319,7 +319,7 @@ export class Canvas {
  *
  * <en/> G Canvas destroy does not handle animation objects, causing memory leaks
  * @param canvas GCanvas
- * @description
+ * @remarks
  * <zh/> 这些操作都应该在 G 中完成，这里只是一个临时的解决方案
  * 此操作大概能在测试环节降低 10～20% 的内存占用（从 2800MB 降低到 2200MB）
  *

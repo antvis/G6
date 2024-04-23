@@ -56,7 +56,7 @@ export class ViewportController {
    *
    * <en/> Get the center coordinates of the canvas
    * @returns - <zh/> 画布中心坐标 | <en/> Center coordinates of the canvas
-   * @description
+   * @remarks
    * <zh/> 基于画布的宽高计算中心坐标，不受视口变换影响
    *
    * <en/> Calculate the center coordinates based on the width and height of the canvas, not affected by the viewport transformation
@@ -72,7 +72,7 @@ export class ViewportController {
    *
    * <en/> Current viewport center coordinates
    * @returns - <zh/> 视口中心坐标 | <en/> Viewport center coordinates
-   * @description
+   * @remarks
    * <zh/> 以画布原点为原点，受到视口变换影响
    *
    * <en/> With the origin of the canvas as the origin, affected by the viewport transformation

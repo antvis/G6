@@ -30,7 +30,7 @@ export interface ViewportOptions {
    * <zh/> 画布内边距
    *
    * <en/> canvas padding
-   * @description
+   * @remarks
    * <zh/> 通常在自适应时，会根据内边距进行适配
    *
    * <en/> Usually, it will be adapted according to the padding when auto-fitting

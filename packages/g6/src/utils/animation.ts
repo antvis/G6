@@ -101,7 +101,7 @@ export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
  * @param keyframes - <zh/> 动画关键帧 | <en/> keyframes of the animation
  * @param options - <zh/> 动画配置项 | <en/> animation options
  * @returns <zh/> 动画对象 | <en/> animation object
- * @description
+ * @remarks
  * <zh/> 在设置 enableCSSParsing 为 false 后，复合图形无法继承父属性，因此对于一些需要继承父属性的动画，需要对所有子图形执行相同的动画
  *
  * <en/> After setting enableCSSParsing to false, the compound shape cannot inherit the parent attribute, so for some animations that need to inherit the parent attribute, the same animation needs to be performed on all child shapes
@@ -142,7 +142,7 @@ export function executeAnimation<T extends DisplayObject>(
  * <en/> Get default value of attribute
  * @param name - <zh/> 属性名 | <en/> Attribute name
  * @returns <zh/> 属性默认值 | <en/> Attribute default value
- * @description
+ * @remarks
  * <zh/> 执行动画过程中，一些属性没有显式指定属性值，但实际上在 G 中存在属性值，因此通过该方法获取其实际默认值
  *
  * <en/> During the animation, some attributes do not explicitly specify the attribute value, but in fact there is an attribute value in G, so use this method to get the actual default value

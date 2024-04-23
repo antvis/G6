@@ -1,4 +1,22 @@
-export { BaseBehavior, DragCanvas, ZoomCanvas } from './behaviors';
+import { dark, light } from './themes';
+import { idOf } from './utils/id';
+import { omitStyleProps, subStyleProps } from './utils/prefix';
+import { treeToGraphData } from './utils/tree';
+
+export {
+  BaseBehavior,
+  BrushSelect,
+  ClickElement,
+  CollapseExpand,
+  CreateEdge,
+  DragCanvas,
+  DragElement,
+  DragElementForce,
+  FocusElement,
+  HoverElement,
+  LassoSelect,
+  ZoomCanvas,
+} from './behaviors';
 export {
   CanvasEvent,
   ComboEvent,
@@ -25,7 +43,38 @@ export {
   Triangle,
 } from './elements/nodes';
 export { BaseShape } from './elements/shapes';
-export { BasePlugin, BubbleSets, CameraSetting, History } from './plugins';
+export {
+  AntVDagreLayout,
+  CircularLayout,
+  ComboCombinedLayout,
+  ConcentricLayout,
+  D3Force3DLayout,
+  D3ForceLayout,
+  DagreLayout,
+  ForceAtlas2Layout,
+  ForceLayout,
+  FruchtermanLayout,
+  GridLayout,
+  MDSLayout,
+  RadialLayout,
+  RandomLayout,
+  compactBox,
+  dendrogram,
+  indented,
+  mindmap,
+} from './layouts';
+export {
+  BasePlugin,
+  CameraSetting,
+  Contextmenu,
+  GridLine,
+  History,
+  Hull,
+  Legend,
+  Toolbar,
+  Tooltip,
+  Watermark,
+} from './plugins';
 export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
 export { BaseTransform } from './transforms';
@@ -35,7 +84,36 @@ export { Shortcut } from './utils/shortcut';
 export { parseSize } from './utils/size';
 export { treeToGraphData } from './utils/tree';
 
-export type { BaseBehaviorOptions, DragCanvasOptions, ZoomCanvasOptions } from './behaviors';
+export type { BaseStyleProps } from '@antv/g';
+export type {
+  AntVDagreLayoutOptions,
+  CircularLayoutOptions,
+  ConcentricLayoutOptions,
+  D3Force3DLayoutOptions,
+  D3ForceLayoutOptions,
+  DagreLayoutOptions,
+  ForceAtlas2LayoutOptions,
+  ForceLayoutOptions,
+  FruchtermanLayoutOptions,
+  GridLayoutOptions,
+  MDSLayoutOptions,
+  RadialLayoutOptions,
+  RandomLayoutOptions,
+} from '@antv/layout';
+export type {
+  BaseBehaviorOptions,
+  BrushSelectOptions,
+  ClickElementOptions,
+  CollapseExpandOptions,
+  CreateEdgeOptions,
+  DragCanvasOptions,
+  DragElementForceOptions,
+  DragElementOptions,
+  FocusElementOptions,
+  HoverElementOptions,
+  LassoSelectOptions,
+  ZoomCanvasOptions,
+} from './behaviors';
 export type { BaseComboStyleProps, CircleComboStyleProps, RectComboStyleProps } from './elements/combos';
 export type {
   BaseEdgeStyleProps,
@@ -59,7 +137,18 @@ export type {
   TriangleStyleProps,
 } from './elements/nodes';
 export type { BaseShapeStyleProps } from './elements/shapes';
-export type { BasePluginOptions, CameraSettingOptions, Hull } from './plugins';
+export type {
+  BasePluginOptions,
+  CameraSettingOptions,
+  ContextmenuOptions,
+  GridLineOptions,
+  HistoryOptions,
+  HullOptions,
+  LegendOptions,
+  ToolbarOptions,
+  TooltipOptions,
+  WatermarkOptions,
+} from './plugins';
 export type { RuntimeContext } from './runtime/types';
 export type {
   BehaviorOptions,
@@ -79,9 +168,13 @@ export type {
 } from './spec';
 export type { BaseTransformOptions } from './transforms';
 export type {
+  CardinalPlacement,
   Combo,
+  CornerPlacement,
+  DirectionalPlacement,
   Edge,
   Element,
+  ElementType,
   IAnimateEvent,
   ID,
   IDragEvent,
@@ -93,12 +186,20 @@ export type {
   IViewportEvent,
   IWheelEvent,
   Node,
+  Placement,
   Point,
+  RelativePlacement,
+  State,
   Vector2,
   Vector3,
   ViewportAnimationEffectTiming,
 } from './types';
 export type { ShortcutKey } from './utils/shortcut';
 
-import { dark, light } from './themes';
 export const Theme = { dark, light };
+export const Utils = {
+  idOf,
+  treeToGraphData,
+  subStyleProps,
+  omitStyleProps,
+};

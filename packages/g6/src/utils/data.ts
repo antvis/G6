@@ -8,7 +8,7 @@ import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
  * @param original - <zh/> 原始数据 | <en/> original data
  * @param modified - <zh/> 待合并的数据 | <en/> data to be merged
  * @returns <zh/> 合并后的数据 | <en/> merged data
- * @description
+ * @remarks
  * <zh/> 只会合并第一层的数据，data、style 下的二级数据会被覆盖
  *
  * <en/> Only the first level of data will be merged, the second level of data under data and style will be overwritten
@@ -39,7 +39,7 @@ export function mergeElementsData<T extends NodeData | EdgeData | ComboData>(ori
  * <en/> Clone clement data
  * @param data - <zh/> 待克隆的数据 | <en/> data to be cloned
  * @returns <zh/> 克隆后的数据 | <en/> cloned data
- * @description
+ * @remarks
  * <zh/> 只会克隆到第二层（data、style）
  *
  * <en/> Only clone to the second level (data, style)

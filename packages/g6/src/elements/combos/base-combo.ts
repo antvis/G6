@@ -57,7 +57,7 @@ export type BaseComboStyleProps<T extends Record<string, unknown> = Record<strin
      * <zh/> Combo 的子元素数据
      *
      * <en/> The data of the children of combo
-     * @description
+     * @remarks
      * <zh/> 如果 combo 是收起状态，children 可能为空，通过 childrenData 能够获取完整的子元素数据
      *
      * <en/> If the combo is collapsed, children may be empty, and the complete child element data can be obtained through childrenData

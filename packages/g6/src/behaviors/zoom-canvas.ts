@@ -26,7 +26,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    * <zh/> 触发缩放的方式
    *
    * <en/> The way to trigger zoom
-   * @description
+   * @remarks
    * <zh/>
    * - 数组：组合快捷键，默认使用滚轮缩放，['Control'] 表示按住 Control 键滚动鼠标滚轮时触发缩放
    * - 对象：缩放快捷键，例如 { zoomIn: ['Control', '+'], zoomOut: ['Control', '-'], reset: ['Control', '0'] }

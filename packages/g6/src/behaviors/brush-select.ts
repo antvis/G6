@@ -15,59 +15,70 @@ import type { BaseBehaviorOptions } from './base-behavior';
 
 const SHOW_RECT_ID = 'g6-brush-select-rect-id';
 
-type SELECT_MODE = 'union' | 'intersect' | 'diff' | 'default';
-
 export type States = Record<ID, State | State[]>;
 
+/**
+ * <zh/> 框选配置项
+ *
+ * <en/> Brush select options
+ */
 export interface BrushSelectOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用框选功能
    *
    * <en/> Whether to enable Brush select element function.
+   * @defaultValue true
    */
   enable?: boolean | ((event: IPointerEvent) => boolean);
   /**
    * <zh/> 可框选的元素类型
    *
    * <en/> Enable Elements type.
+   * @defaultValue ['node', 'combo', 'edge']
    */
   enableElements?: ElementType[];
   /**
    * <zh/> 是否启用动画
    *
    * <en/> Whether to enable animation.
+   * @defaultValue false
    */
   animation?: boolean;
   /**
    * <zh/> 交互配置 按键拖拽 或 直接拖拽
    *
    * <en/> Trigger click or drag.
+   * @defaultValue ['drag']
    */
   trigger?: ShortcutKey;
   /**
    * <zh/> 框选选中模式
-   * union : 选中元素添加 state 状态
-   * intersect : 进一步筛选已经 state 开启的元素
-   * diff : 反转选中元素的 state 状态
-   * default : 选中元素添加 state 状态, 其他元素 state 关闭
+   * - union : 选中元素添加 state 状态
+   * - intersect : 进一步筛选已经 state 开启的元素
+   * - diff : 反转选中元素的 state 状态
+   * - default : 选中元素添加 state 状态, 其他元素 state 关闭
    *
    * <en/> Box Select Select the mode.
-   * union : Select element add state.
-   * intersect : Further filter the elements that are already state enabled.
-   * diff : Inverts the state of the selected element.
-   * default : Check element state to turn on and other elements state to turn off.
+   * - union : Select element add state.
+   * - intersect : Further filter the elements that are already state enabled.
+   * - diff : Inverts the state of the selected element.
+   * - default : Check element state to turn on and other elements state to turn off.
+   * @defaultValue 'default'
    */
-  mode?: SELECT_MODE;
+  mode?: 'union' | 'intersect' | 'diff' | 'default';
   /**
    * <zh/> 选中 state 状态
    *
    * <en/> Check state status.
+   * @defaultValue 'selected'
    */
-  state?: 'selected' | 'active'; // TODO: Enum
+  state?: State;
   /**
    * <zh/> 及时框选, 在框选模式为 default 时，才能使用
    *
+  //  * TODO fixme
    * <en/> Timely screening.
+   * @defaultValue false
    */
   immediately?: boolean;
   /**
@@ -80,6 +91,8 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
    * <zh/> 框选元素状态回调。
    *
    * <en/> Callback when brush select elements.
+   * @param states - 选中的元素状态
+   * @returns 选中的元素状态
    */
   onSelect?: (states: States) => States;
 }
@@ -91,6 +104,12 @@ export const DEFAULT_STYLE = {
   fillOpacity: 0.4,
   zIndex: 2,
 };
+
+/**
+ * <zh/> 框选一组元素
+ *
+ * <en/> Brush select elements
+ */
 export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> extends BaseBehavior<T> {
   static defaultOptions: Partial<BrushSelectOptions> = {
     enable: true,

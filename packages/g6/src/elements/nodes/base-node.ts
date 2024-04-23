@@ -70,7 +70,7 @@ export type BaseNodeStyleProps<T extends Record<string, unknown> = Record<string
      * <zh/> 解决类型 style.getPropertyValue 问题，不要使用该属性
      *
      * <en/> Solve the problem of style.getPropertyValue, do not use this property
-     * @description
+     * @remarks
      * <zh/> 移除该属性会导致 Polygon 及其子类与 Node 不兼容
      *
      * <en/> Removing this property will cause Polygon and its subclasses to be incompatible with Node

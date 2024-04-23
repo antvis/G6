@@ -15,22 +15,29 @@ import { computeHullPath } from './util';
 export interface HullOptions extends BasePluginOptions, ContourStyleProps {
   /**
    * <zh/> Hull 内的元素
+   *
    * <en/> Elements in Hull
    */
   members?: ID[];
   /**
    * <zh/> 凹度，数值越大凹度越小；默认为 Infinity 代表为 Convex Hull
+   *
    * <en/> Concavity. Default is Infinity, which means Convex Hull
+   * @defaultValue Infinity
    */
   concavity?: number;
   /**
    * <zh/> 内边距，默认为 10
+   *
    * <en/> Padding, default is 10
+   * @defaultValue 10
    */
   padding?: number;
   /**
    * <zh/> 拐角类型，目前支持 'rounded'、'smooth' 和 'sharp'
+   *
    * <en/> Corner type, currently supports 'rounded', 'smooth' and 'sharp'
+   * @defaultValue 'rounded'
    */
   corner?: 'rounded' | 'smooth' | 'sharp';
 }
@@ -117,12 +124,24 @@ export class Hull extends BasePlugin<HullOptions> {
     return memberPadding + this.options.padding;
   }
 
+  /**
+   * <zh/> 添加 Hull 成员
+   *
+   * <en/> Add Hull member
+   * @param members - <zh/> 元素 Ids | <en/> Element Ids
+   */
   public addMember(members: ID | ID[]) {
     const membersToAdd = Array.isArray(members) ? members : [members];
     this.options.members = [...new Set([...this.options.members, ...membersToAdd])];
     this.shape.update({ path: this.getHullPath() });
   }
 
+  /**
+   * <zh/> 移除 Hull 成员
+   *
+   * <en/> Remove Hull member
+   * @param members - <zh/> 元素 Ids | <en/> Element Ids
+   */
   public removeMember(members: ID | ID[]) {
     const membersToRemove = Array.isArray(members) ? members : [members];
     this.options.members = this.options.members.filter((id) => !membersToRemove.includes(id));
@@ -131,15 +150,32 @@ export class Hull extends BasePlugin<HullOptions> {
     }
   }
 
+  /**
+   * <zh/> 更新 Hull 成员
+   *
+   * <en/> Update Hull member
+   * @param members - <zh/> 元素 Ids | <en/> Element Ids
+   */
   public updateMember(members: CallableValue<ID[]>) {
     this.options.members = isFunction(members) ? members(this.options.members) : members;
     this.shape.update(this.getHullStyle(true));
   }
 
+  /**
+   * <zh/> 获取 Hull 成员
+   *
+   * <en/> Get Hull member
+   * @returns <zh/> 元素 Ids | <en/> Element Ids
+   */
   public getMember() {
     return this.options.members;
   }
 
+  /**
+   * <zh/> 销毁 Hull
+   *
+   * <en/> Destroy Hull
+   */
   public destroy(): void {
     this.context.graph.off(GraphEvent.AFTER_DRAW, this.drawHull);
     this.shape.destroy();
