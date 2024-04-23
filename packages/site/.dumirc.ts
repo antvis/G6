@@ -50,17 +50,10 @@ export default defineConfig({
     },
     navs: [
       {
-        slug: 'docs/manual/introduction',
+        slug: 'docs/manual',
         title: {
-          zh: '教程',
-          en: 'Manual',
-        },
-      },
-      {
-        slug: 'examples',
-        title: {
-          zh: '示例',
-          en: 'Examples',
+          zh: '文档',
+          en: 'Docs',
         },
       },
       {
@@ -71,9 +64,16 @@ export default defineConfig({
         },
       },
       {
+        slug: 'examples',
         title: {
-          zh: '其他资源',
-          en: 'Online Tools',
+          zh: '图表示例',
+          en: 'Playground',
+        },
+      },
+      {
+        title: {
+          zh: '社区',
+          en: 'Community',
         },
         dropdownItems: [
           {
@@ -84,148 +84,96 @@ export default defineConfig({
             },
           },
           {
-            url: 'https://g6.antv.antgroup.com',
+            url: 'https://g6-next.antv.antgroup.com',
             name: {
               zh: '国内镜像',
-              en: 'China Site',
+              en: 'Site in China',
             },
           },
         ],
       },
     ],
-    ecosystems: [
-      // 头部的菜单中的「周边生态」
-    ],
     docs: [
+      // Docs folder
       {
-        slug: 'manual/v5',
+        slug: 'manual/core-concept',
         title: {
-          zh: '🎉 新版本 5.0',
-          en: '🎉 New v5.0',
-        },
-        order: 4,
-      },
-      {
-        slug: 'manual/tutorial',
-        title: {
-          zh: '入门教程',
-          en: 'Tutorial',
-        },
-        order: 5,
-      },
-      {
-        slug: 'manual/advanced',
-        title: {
-          zh: '进阶教程',
-          en: 'Advanced',
-        },
-        order: 6,
-      },
-      {
-        slug: 'manual/customize',
-        title: {
-          zh: '自定义扩展',
-          en: 'Customzing Extensions',
-        },
-        order: 7,
-      },
-      // ==========API====================
-      {
-        slug: 'apis/reference',
-        title: {
-          zh: 'API 文档',
-          en: 'API Reference',
-        },
-        order: 1,
-      },
-      {
-        slug: 'apis/data',
-        title: {
-          zh: '数据',
-          en: 'Data',
-        },
-        order: 2,
-      },
-      {
-        slug: 'apis/graph',
-        title: {
-          zh: '图实例',
-          en: 'Graph',
-        },
-        order: 2,
-      },
-      {
-        slug: 'apis/item',
-        title: {
-          zh: '元素',
-          en: 'Elements',
-        },
-      },
-      {
-        slug: 'apis/item/node',
-        title: {
-          zh: '节点',
-          en: 'Node',
+          zh: '核心概念',
+          en: 'Concepts',
         },
         order: 3,
       },
       {
-        slug: 'apis/item/edge',
+        slug: 'manual/advanced',
         title: {
-          zh: '边',
-          en: 'Edge',
+          zh: '进阶指南',
+          en: 'Advanced',
         },
         order: 4,
       },
+      // APIs folder
       {
-        slug: 'apis/item/combo',
+        slug: 'apis/graph',
         title: {
-          zh: 'Combo',
-          en: 'Combo',
+          zh: 'Graph 图',
+          en: 'Graph',
         },
-        order: 5,
       },
       {
-        slug: 'apis/shape',
+        slug: 'apis/data',
         title: {
-          zh: '图形',
-          en: 'Shape',
+          zh: 'Data 数据',
+          en: 'Data',
         },
-        order: 6,
+      },
+      {
+        slug: 'apis/element',
+        title: {
+          zh: 'Element 元素',
+          en: 'Element',
+        },
       },
       {
         slug: 'apis/layout',
         title: {
-          zh: '布局',
-          en: 'layout',
+          zh: 'Layout 布局',
+          en: 'Layout',
         },
-        order: 7,
       },
       {
-        slug: 'apis/behaviors',
+        slug: 'apis/behavior',
         title: {
-          zh: '交互',
-          en: 'Interaction',
+          zh: 'Behavior 交互',
+          en: 'Behavior',
         },
-        order: 8,
       },
       {
-        slug: 'apis/plugins',
+        slug: 'apis/plugin',
         title: {
-          zh: '自由插件',
+          zh: 'Plugin 插件',
           en: 'Plugin',
         },
-        order: 9,
       },
-    ],
-    tutorials: [
       {
-        slug: 'manual/about',
+        slug: 'apis/extension',
         title: {
-          zh: '关于',
-          en: 'About',
+          zh: '扩展',
+          en: 'Extension',
         },
-        order: 1,
+      },
+      {
+        slug: 'apis/function',
+        title: {
+          zh: '函数',
+          en: 'Function',
+        },
+      },
+      {
+        slug: 'apis/export',
+        title: {
+          zh: '导出索引',
+          en: 'Export',
+        },
       },
     ],
     examples: [
@@ -233,7 +181,7 @@ export default defineConfig({
         slug: 'feature',
         icon: 'gallery',
         title: {
-          zh: '5.0 新能力',
+          zh: '5.0 特性',
           en: '5.0 Features',
         },
       },
@@ -246,7 +194,7 @@ export default defineConfig({
         },
       },
       {
-        slug: 'net',
+        slug: 'layout',
         icon: 'net',
         title: {
           zh: '图布局',
@@ -254,23 +202,23 @@ export default defineConfig({
         },
       },
       {
-        slug: 'item',
+        slug: 'element',
         icon: 'shape',
         title: {
           zh: '元素',
-          en: 'Item',
+          en: 'Element',
         },
       },
       {
-        slug: 'interaction',
+        slug: 'behavior',
         icon: 'interaction',
         title: {
           zh: '交互',
-          en: 'Interaction',
+          en: 'Behavior',
         },
       },
       {
-        slug: 'scatter',
+        slug: 'animation',
         icon: 'scatter',
         title: {
           zh: '动画',
@@ -278,18 +226,18 @@ export default defineConfig({
         },
       },
       {
-        slug: 'tool',
+        slug: 'plugin',
         icon: 'tool',
         title: {
-          zh: '组件',
-          en: 'Component',
+          zh: '插件',
+          en: 'Plugin',
         },
       },
       {
         slug: 'performance',
         icon: 'net',
         title: {
-          zh: '性能测试',
+          zh: '性能',
           en: 'Performance',
         },
       },
@@ -334,7 +282,7 @@ export default defineConfig({
         {
           text: {
             zh: '图表示例',
-            en: 'Examples',
+            en: 'Playground',
           },
           link: `/examples`,
           type: 'primary',
@@ -389,7 +337,7 @@ export default defineConfig({
         },
         description: {
           zh: '扎根实际具体业务场景、结合业界领先成果，沉淀顶尖解决方案',
-          en: 'According to practical bussiness scenarios, we found out the top solutions',
+          en: 'According to practical business scenarios, we found out the top solutions',
         },
       },
       {
@@ -400,7 +348,7 @@ export default defineConfig({
         },
         description: {
           zh: 'Vivid, 精心设计的简单、灵活、高可拓展的接口，满足你的无限创意',
-          en: 'Well-designed simple, flexible, and extendable intefaces will satisfy your infinite originality',
+          en: 'Well-designed simple, flexible, and extendable interfaces will satisfy your infinite originality',
         },
       },
     ],
@@ -478,7 +426,7 @@ export default defineConfig({
         img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*1l8-TqUr7UcAAAAAAAAAAABkARQnAQ',
       },
       {
-        name: '网上银行',
+        name: '网商银行',
         img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*ZAKFQJ5Bz4MAAAAAAAAAAABkARQnAQ',
       },
       {
