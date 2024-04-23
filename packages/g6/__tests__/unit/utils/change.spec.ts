@@ -32,4 +32,17 @@ describe('change', () => {
       },
     ]);
   });
+
+  it('reduceDataChanges with Updated and Removed', () => {
+    expect(
+      reduceDataChanges([
+        {
+          type: 'NodeUpdated',
+          value: { id: 'node-3', style: { fill: 'pink' } },
+          original: { id: 'node-3', style: { fill: 'red' } },
+        },
+        { type: 'NodeRemoved', value: { id: 'node-3' } },
+      ]),
+    ).toEqual([{ type: 'NodeRemoved', value: { id: 'node-3' } }]);
+  });
 });
