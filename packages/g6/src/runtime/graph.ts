@@ -139,8 +139,7 @@ export class Graph extends EventEmitter {
     if (theme) this.setTheme(theme);
     if (plugins) this.setPlugins(plugins);
     if (transforms) this.setTransforms(transforms);
-    if (isNumber(width) || isNumber(height))
-      this.setSize(width ?? this.options.width ?? 0, height ?? this.options.height ?? 0);
+    if (isNumber(width) || isNumber(height)) this.setSize(width ?? this.options.width, height ?? this.options.height);
 
     if (zoomRange) this.options.zoomRange = zoomRange;
     if (isNumber(zoom)) this.options.zoom = zoom;
@@ -161,7 +160,7 @@ export class Graph extends EventEmitter {
     return [this.options.width || 0, this.options.height || 0];
   }
 
-  public setSize(width: number, height: number): void {
+  public setSize(width?: number, height?: number): void {
     this.options.width = width;
     this.options.height = height;
   }
