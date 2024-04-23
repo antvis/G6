@@ -115,84 +115,84 @@ export default defineConfig({
       {
         slug: 'apis/graph',
         title: {
-          zh: 'Graph 图',
+          zh: 'Graph - 图',
           en: 'Graph',
         },
       },
       {
         slug: 'apis/data',
         title: {
-          zh: 'Data 数据',
+          zh: 'Data - 数据',
           en: 'Data',
         },
       },
       {
         slug: 'apis/element',
         title: {
-          zh: 'Element 元素',
+          zh: 'Element - 元素',
           en: 'Element',
         },
       },
       {
         slug: 'apis/element/node',
         title: {
-          zh: 'Node 节点',
+          zh: 'Node - 节点',
           en: 'Node',
         },
       },
       {
         slug: 'apis/element/edge',
         title: {
-          zh: 'Edge 边',
+          zh: 'Edge - 边',
           en: 'Edge',
         },
       },
       {
         slug: 'apis/element/combo',
         title: {
-          zh: 'Combo 组合',
+          zh: 'Combo - 组合',
           en: 'Combo',
         },
       },
       {
         slug: 'apis/layout',
         title: {
-          zh: 'Layout 布局',
+          zh: 'Layout - 布局',
           en: 'Layout',
         },
       },
       {
         slug: 'apis/behavior',
         title: {
-          zh: 'Behavior 交互',
+          zh: 'Behavior - 交互',
           en: 'Behavior',
         },
       },
       {
         slug: 'apis/plugin',
         title: {
-          zh: 'Plugin 插件',
+          zh: 'Plugin - 插件',
           en: 'Plugin',
         },
       },
       {
         slug: 'apis/extension',
         title: {
-          zh: 'Extension 扩展',
+          zh: 'Extension - 扩展',
           en: 'Extension',
         },
       },
       {
         slug: 'apis/function',
         title: {
-          zh: 'Function 函数',
+          zh: 'Function - 函数',
           en: 'Function',
         },
       },
       {
         slug: 'apis/export',
         title: {
-          zh: 'Export 导出',
+          zh: 'Export - 导出',
           en: 'Export',
         },
       },
