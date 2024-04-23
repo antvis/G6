@@ -417,6 +417,24 @@ export class DataController {
     });
   }
 
+  /**
+   * <zh/> 将所有数据提交到变更记录中以进行重绘
+   *
+   * <en/> Submit all data to the change record for redrawing
+   */
+  public refreshData() {
+    const { nodes, edges, combos } = this.getData();
+    nodes.forEach((node) => {
+      this.pushChange({ value: node, original: node, type: ChangeType.NodeUpdated });
+    });
+    edges.forEach((edge) => {
+      this.pushChange({ value: edge, original: edge, type: ChangeType.EdgeUpdated });
+    });
+    combos.forEach((combo) => {
+      this.pushChange({ value: combo, original: combo, type: ChangeType.ComboUpdated });
+    });
+  }
+
   public syncNodeDatum(datum: PartialNodeLikeData<NodeData>) {
     const { model } = this;
 

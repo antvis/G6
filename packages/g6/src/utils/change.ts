@@ -34,13 +34,18 @@ export function reduceDataChanges(changes: DataChange[]): DataChange[] {
       else if (results.Updated.has(id)) {
         const { original } = results.Updated.get(id)!;
         results.Updated.set(id, { type, value, original } as DataUpdated);
+      } else if (results.Removed.has(id)) {
+        // 如果存在 Removed，不做任何操作
+        // If there is a Removed operation, do nothing
       } else results.Updated.set(id, change);
     } else if (type === 'NodeRemoved' || type === 'EdgeRemoved' || type === 'ComboRemoved') {
       // 如果存在 Added 或者 Updated 的操作，删除 Removed 操作
       // If there is an Added or Updated operation, delete the Removed operation
-      if (results.Added.has(id) || results.Updated.has(id)) {
+      if (results.Added.has(id)) {
         results.Added.delete(id);
+      } else if (results.Updated.has(id)) {
         results.Updated.delete(id);
+        results.Removed.set(id, change);
       } else {
         results.Removed.set(id, change);
       }
