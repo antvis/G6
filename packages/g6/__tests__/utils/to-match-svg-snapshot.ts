@@ -1,5 +1,6 @@
 import type { Graph, IAnimateEvent } from '@/src';
 import type { Canvas, IAnimation } from '@antv/g';
+import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
 import format from 'xml-formatter';
@@ -76,8 +77,11 @@ export async function toMatchSVGSnapshot(
 
       // Perverse actual file.
       if (actual) fs.writeFileSync(actualPath, actual);
+
+      const formatPath = (p: string) => p.split('/g6/')[1];
       return {
-        message: () => `mismatch ${namePath}`,
+        message: () =>
+          `mismatch: \n expected: ${chalk.green(formatPath(expectedPath))}\n received: ${chalk.red(formatPath(actualPath))}`,
         pass: false,
       };
     }
