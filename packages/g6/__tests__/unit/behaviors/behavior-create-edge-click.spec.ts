@@ -13,7 +13,7 @@ describe('behavior create edge click', () => {
   it('click create edge', async () => {
     await expect(graph).toMatchSnapshot(__filename);
 
-    await graph.setBehaviors([{ type: 'create-edge', trigger: 'click' }]);
+    graph.setBehaviors([{ type: 'create-edge', trigger: 'click' }]);
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node1' }, targetType: 'node' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 100, y: 100 } });
     await expect(graph).toMatchSnapshot(__filename, 'click-edge1-move');
@@ -25,7 +25,7 @@ describe('behavior create edge click', () => {
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node3' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'click-edge2');
 
-    graph.setBehaviors([{ type: 'create-edge', trigger: 'click', style: { color: 'red', lineWidth: 2 } }]);
+    graph.setBehaviors([{ type: 'create-edge', trigger: 'click', style: { stroke: 'red', lineWidth: 2 } }]);
 
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node2' }, targetType: 'node' });
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: 'node3' }, targetType: 'node' });
@@ -39,7 +39,7 @@ describe('behavior create edge click', () => {
       {
         type: 'create-edge',
         trigger: 'click',
-        style: { color: 'red', lineWidth: 2 },
+        style: { stroke: 'red', lineWidth: 2 },
         onCreate: (edge: EdgeData) => {
           const { source, target, ...rest } = edge;
           return {

@@ -99,7 +99,7 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
 
 export const DEFAULT_STYLE = {
   lineWidth: 1,
-  color: '#EEF6FF',
+  fill: '#EEF6FF',
   stroke: '#DDEEFE',
   fillOpacity: 0.4,
   zIndex: 2,
@@ -152,7 +152,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
       id: SHOW_RECT_ID,
       style: {
         ...BrushSelect.defaultOptions.style,
-        fill: style.color || DEFAULT_STYLE.color,
+        fill: style.fill || DEFAULT_STYLE.fill,
         ...style,
         pointerEvents: 'none',
       },

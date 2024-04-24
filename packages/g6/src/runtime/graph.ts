@@ -185,14 +185,17 @@ export class Graph extends EventEmitter {
 
   public setNode(node: NodeOptions): void {
     this.options.node = node;
+    this.context.model.refreshData();
   }
 
   public setEdge(edge: EdgeOptions): void {
     this.options.edge = edge;
+    this.context.model.refreshData();
   }
 
   public setCombo(combo: ComboOptions): void {
     this.options.combo = combo;
+    this.context.model.refreshData();
   }
 
   public getTheme(): ThemeOptions {

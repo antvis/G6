@@ -229,3 +229,29 @@ describe('Viewport Fit with AutoFit and Padding with Animation', () => {
     await expect(graph).toMatchSnapshot(__filename, 'auto-fit-with-padding-animation');
   });
 });
+
+describe('Viewport Fit with lineWidth', () => {
+  let graph: Graph;
+  beforeAll(async () => {
+    graph = await createDemoGraph(viewportFit, { padding: 10 });
+  });
+
+  afterAll(() => {
+    graph.destroy();
+  });
+
+  it('default', async () => {
+    graph.setNode({
+      ...graph.getOptions().node,
+      style: {
+        size: 50,
+        lineWidth: 5,
+        stroke: 'pink',
+        fill: (d: any) => (d.id === '1' ? '#d4414c' : '#2f363d'),
+      },
+    });
+    await graph.draw();
+    await graph.fitView();
+    await expect(graph).toMatchSnapshot(__filename, 'with-lineWidth');
+  });
+});

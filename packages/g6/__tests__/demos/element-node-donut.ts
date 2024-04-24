@@ -14,7 +14,7 @@ export const elementNodeDonut: TestCase = async (context) => {
               lineWidth: 2,
             },
           ],
-          color: 'purple',
+          fill: 'purple',
         },
       },
       {

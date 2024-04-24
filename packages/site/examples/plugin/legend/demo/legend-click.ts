@@ -6,7 +6,7 @@ const data = {
       id: '1',
       style: {
         type: 'circle',
-        color: '#5B8FF9',
+        fill: '#5B8FF9',
       },
       data: { cluster: 'node-type1' },
     },
@@ -14,7 +14,7 @@ const data = {
       id: '2',
       style: {
         type: 'rect',
-        color: '#5AD8A6',
+        fill: '#5AD8A6',
       },
       data: { cluster: 'node-type2' },
     },
@@ -22,7 +22,7 @@ const data = {
       id: '3',
       style: {
         type: 'triangle',
-        color: '#5D7092',
+        fill: '#5D7092',
       },
       data: { cluster: 'node-type3' },
     },
@@ -30,7 +30,7 @@ const data = {
       id: '4',
       style: {
         type: 'diamond',
-        color: '#6F5EF9',
+        fill: '#6F5EF9',
       },
       data: { cluster: 'node-type4' },
     },
@@ -42,7 +42,7 @@ const data = {
       target: '2',
       style: {
         type: 'quadratic',
-        color: '#F6BD16',
+        stroke: '#F6BD16',
       },
       data: { cluster: 'edge-type1' },
     },

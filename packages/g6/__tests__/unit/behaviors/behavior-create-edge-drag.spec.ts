@@ -25,7 +25,7 @@ describe('behavior create edge drag', () => {
     graph.emit(CommonEvent.POINTER_UP, { target: { id: 'node3' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'drag-edge2');
 
-    graph.setBehaviors([{ type: 'create-edge', trigger: 'drag', style: { color: 'red', lineWidth: 2 } }]);
+    graph.setBehaviors([{ type: 'create-edge', trigger: 'drag', style: { stroke: 'red', lineWidth: 2 } }]);
 
     graph.emit(`node:${CommonEvent.DRAG_START}`, { target: { id: 'node2' }, targetType: 'node' });
     graph.emit(CommonEvent.POINTER_UP, { target: { id: 'node3' }, targetType: 'node' });
@@ -39,7 +39,7 @@ describe('behavior create edge drag', () => {
       {
         type: 'create-edge',
         trigger: 'drag',
-        style: { color: 'red', lineWidth: 2 },
+        style: { stroke: 'red', lineWidth: 2 },
         onCreate: (edge: EdgeData) => {
           const { source, target, ...rest } = edge;
           return {

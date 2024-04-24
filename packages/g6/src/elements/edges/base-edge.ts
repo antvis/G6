@@ -79,11 +79,6 @@ export type BaseEdgeStyleProps = BaseElementStyleProps &
      */
     endArrowOffset?: number;
     /**
-     * <zh/> 主色
-     * <en/> Subject color
-     */
-    color?: string;
-    /**
      * <zh/> 边的起点 shape
      * <en/> The source shape. Represents the start of the edge
      */
@@ -151,13 +146,12 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   }
 
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps): PathStyleProps {
-    const { sourceNode, targetNode, color, stroke, ...style } = this.getGraphicStyle(attributes);
+    const { sourceNode, targetNode, ...style } = this.getGraphicStyle(attributes);
 
     const path = isSameNode(sourceNode, targetNode) ? this.getLoopPath(attributes) : this.getKeyPath(attributes);
     return {
       path,
       ...omitStyleProps(style, ['halo', 'label', 'startArrow', 'endArrow']),
-      stroke: color || stroke,
     };
   }
 

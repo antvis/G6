@@ -49,15 +49,15 @@ export const pluginHistory: TestCase = async (context) => {
       visible: true,
       add: () => {
         graph.addData({
-          nodes: [{ id: 'node-5', style: { x: 200, y: 100, color: 'pink' } }],
-          edges: [{ source: 'node-1', target: 'node-5', style: { color: 'brown' } }],
+          nodes: [{ id: 'node-5', style: { x: 200, y: 100, fill: 'pink' } }],
+          edges: [{ source: 'node-1', target: 'node-5', style: { stroke: 'brown' } }],
         });
         graph.draw();
       },
       update: () => {
         graph.updateData({
-          nodes: [{ id: 'node-1', style: { x: 150, y: 100, color: 'red' } }],
-          edges: [{ id: 'edge-1', style: { color: 'green' } }],
+          nodes: [{ id: 'node-1', style: { x: 150, y: 100, fill: 'red' } }],
+          edges: [{ id: 'edge-1', style: { stroke: 'green' } }],
         });
         graph.draw();
       },

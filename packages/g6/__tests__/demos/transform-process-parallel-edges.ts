@@ -52,13 +52,13 @@ export const transformProcessParallelEdges: TestCase = async (context) => {
                 id: 'new-edge',
                 source: 'node1',
                 target: 'node4',
-                style: { color: '#FF9800', lineWidth: 2 },
+                style: { stroke: '#FF9800', lineWidth: 2 },
               },
               {
                 id: 'new-loop',
                 source: 'node5',
                 target: 'node5',
-                style: { color: '#FF9800', lineWidth: 2 },
+                style: { stroke: '#FF9800', lineWidth: 2 },
               },
             ]);
             graph.draw();

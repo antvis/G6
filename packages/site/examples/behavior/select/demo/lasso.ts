@@ -40,7 +40,7 @@ const graph = new Graph({
       mode: 'diff',
       trigger: 'shift',
       style: {
-        color: '#00f',
+        fill: '#00f',
         fillOpacity: 0.1,
         stroke: '#0ff',
         lineWidth: 2,

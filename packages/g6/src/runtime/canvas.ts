@@ -187,7 +187,7 @@ export class Canvas {
       Object.values(this.canvas)
         .map((canvas) => canvas.document.documentElement)
         .filter((el) => el.childNodes.length > 0)
-        .map((el) => el.getRenderBounds()),
+        .map((el) => el.getBounds()),
     );
   }
 
