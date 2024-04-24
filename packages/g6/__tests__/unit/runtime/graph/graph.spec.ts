@@ -22,25 +22,25 @@ describe('Graph', () => {
 
   it('setNode/getNode', () => {
     const options = graph.getOptions();
-    graph.setNode(Object.assign({}, options.node, { state: { selected: { color: 'pink' } } }));
+    graph.setNode(Object.assign({}, options.node, { state: { selected: { fill: 'pink' } } }));
     expect(graph.getOptions().node!.state!.selected).toEqual({
-      color: 'pink',
+      fill: 'pink',
     });
   });
 
   it('setEdge/getEdge', () => {
     const options = graph.getOptions();
-    graph.setEdge(Object.assign({}, options.edge, { state: { selected: { color: 'pink' } } }));
+    graph.setEdge(Object.assign({}, options.edge, { state: { selected: { stroke: 'pink' } } }));
     expect(graph.getOptions().edge!.state!.selected).toEqual({
-      color: 'pink',
+      stroke: 'pink',
     });
   });
 
   it('setCombo/getCombo', () => {
     const options = graph.getOptions();
-    graph.setCombo(Object.assign({}, options.combo, { state: { selected: { color: 'pink' } } }));
+    graph.setCombo(Object.assign({}, options.combo, { state: { selected: { fill: 'pink' } } }));
     expect(graph.getOptions().combo!.state!.selected).toEqual({
-      color: 'pink',
+      fill: 'pink',
     });
   });
 

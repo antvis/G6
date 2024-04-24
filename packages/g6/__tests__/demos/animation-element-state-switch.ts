@@ -27,11 +27,11 @@ export const animationElementStateSwitch: TestCase = async (context) => {
           lineWidth: 2,
         },
         selected: {
-          color: 'pink',
+          fill: 'pink',
         },
       },
       animation: {
-        update: [{ fields: ['lineWidth', 'color'] }],
+        update: [{ fields: ['lineWidth', 'fill'] }],
       },
     },
     edge: {
@@ -41,13 +41,13 @@ export const animationElementStateSwitch: TestCase = async (context) => {
       state: {
         active: {
           lineWidth: 2,
-          color: 'pink',
+          stroke: 'pink',
         },
       },
       animation: {
         update: [
           {
-            fields: ['lineWidth', 'color'],
+            fields: ['lineWidth', 'stroke'],
           },
         ],
       },

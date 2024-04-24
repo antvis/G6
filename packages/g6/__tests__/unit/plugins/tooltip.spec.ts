@@ -1,4 +1,5 @@
 import { pluginTooltip } from '@/__tests__/demos';
+import type { Tooltip } from '@/src';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin tooltip', () => {
@@ -43,9 +44,7 @@ describe('plugin tooltip', () => {
 
   it('show tooltip by id', async () => {
     const graph = await createDemoGraph(pluginTooltip);
-    // @ts-expect-error
-    const tooltip = graph.context.plugin.extensionMap['tooltip'];
-    // @ts-expect-error
+    const tooltip = graph.getPluginInstance<Tooltip>('tooltip');
     tooltip.showTooltipById('6', 'node');
     await expect(graph).toMatchSnapshot(__filename, 'show-tooltip-by-id');
     graph.destroy();

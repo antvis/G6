@@ -247,7 +247,7 @@ describe('Viewport Fit with lineWidth', () => {
         size: 50,
         lineWidth: 5,
         stroke: 'pink',
-        color: (d: any) => (d.id === '1' ? '#d4414c' : '#2f363d'),
+        fill: (d: any) => (d.id === '1' ? '#d4414c' : '#2f363d'),
       },
     });
     await graph.draw();

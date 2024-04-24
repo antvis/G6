@@ -42,7 +42,7 @@ export class LassoSelect extends BrushSelect<LassoSelectOptions> {
       id: SHOW_PATH_ID,
       style: {
         ...LassoSelect.defaultOptions.style,
-        fill: style.color || DEFAULT_STYLE.color,
+        fill: style.fill || DEFAULT_STYLE.fill,
         ...style,
         pointerEvents: 'none',
       },

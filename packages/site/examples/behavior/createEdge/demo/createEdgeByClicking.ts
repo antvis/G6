@@ -39,7 +39,7 @@ const graph = new Graph({
       type: 'create-edge',
       trigger: 'click',
       style: {
-        color: 'red',
+        stroke: 'red',
         lineWidth: 2,
       },
     },

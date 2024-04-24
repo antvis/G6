@@ -4,7 +4,7 @@ const data = {
   nodes: [
     { id: 'node-1', style: { x: 200, y: 200 } },
     { id: 'node-2', style: { x: 350, y: 120 } },
-    { id: 'node-cp', style: { x: 300, y: 190, size: 5, color: 'rgb(244, 109, 67)' } },
+    { id: 'node-cp', style: { x: 300, y: 190, size: 5, fill: 'rgb(244, 109, 67)' } },
   ],
   edges: [
     {
