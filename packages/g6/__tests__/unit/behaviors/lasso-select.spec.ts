@@ -46,7 +46,7 @@ describe('behavior lasso select', () => {
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-2');
 
-    graph.setBehaviors([{ type: 'lasso-select', style: { color: 'green', lineWidth: 2, stroke: 'blue' } }]);
+    graph.setBehaviors([{ type: 'lasso-select', style: { fill: 'green', lineWidth: 2, stroke: 'blue' } }]);
 
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 100, y: 300 } });

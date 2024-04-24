@@ -41,9 +41,11 @@ export interface CameraSettingOptions extends BasePluginOptions {
    */
   fov?: number;
   /**
-   * <zh/> 相机视口宽高比，仅在透视相机下有效。设置为 'auto' 时，会自动根据画布宽高比设置
+   * <zh/> 相机视口宽高比，仅在透视相机下有效
+   * - 设置为 'auto' 时，会自动根据画布宽高比设置
    *
-   * <en/> Camera viewport aspect ratio, only valid in perspective camera. When set to 'auto', it will be automatically set according to the canvas aspect ratio
+   * <en/> Camera viewport aspect ratio, only valid in perspective camera.
+   * - When set to 'auto', it will be automatically set according to the canvas aspect ratio
    */
   aspect?: number | 'auto';
   /**

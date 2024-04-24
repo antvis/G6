@@ -1,5 +1,6 @@
 import { pluginHull } from '@/__tests__/demos';
-import type { Graph, Hull } from '@/src';
+import { CommonEvent, type Graph, type Hull } from '@/src';
+import type { HullOptions } from '@/src/plugins';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin hull', () => {
@@ -19,59 +20,72 @@ describe('plugin hull', () => {
     await expect(graph).toMatchSnapshot(__filename, 'default');
   });
 
+  const updateHullOptions = (optionsToUpdate: Partial<HullOptions>) => {
+    graph.updatePlugin({ key: 'hull', ...optionsToUpdate });
+    graph.render();
+  };
+
   it('update corner', async () => {
-    hull.updateOptions((options) => ({ ...options, corner: 'sharp' }));
+    updateHullOptions({ corner: 'sharp' });
     await expect(graph).toMatchSnapshot(__filename, 'corner__sharp');
-    hull.updateOptions((options) => ({ ...options, corner: 'smooth' }));
+    updateHullOptions({ corner: 'smooth' });
     await expect(graph).toMatchSnapshot(__filename, 'corner__smooth');
-    hull.updateOptions((options) => ({ ...options, corner: 'rounded' }));
+    updateHullOptions({ corner: 'rounded' });
     await expect(graph).toMatchSnapshot(__filename, 'corner__rounded');
   });
 
   it('update padding', async () => {
-    hull.updateOptions((options) => ({ ...options, padding: 20 }));
+    updateHullOptions({ padding: 20 });
     await expect(graph).toMatchSnapshot(__filename, 'padding__20');
-    hull.updateOptions((options) => ({ ...options, padding: 0 }));
+    updateHullOptions({ padding: 0 });
     await expect(graph).toMatchSnapshot(__filename, 'padding__0');
   });
 
   it('update labelPlacement', async () => {
-    hull.updateOptions((options) => ({ ...options, labelPlacement: 'top' }));
+    updateHullOptions({ labelPlacement: 'top' });
     await expect(graph).toMatchSnapshot(__filename, 'labelPlacement__top');
-    hull.updateOptions((options) => ({ ...options, labelPlacement: 'left' }));
+    updateHullOptions({ labelPlacement: 'left' });
     await expect(graph).toMatchSnapshot(__filename, 'labelPlacement__left');
-    hull.updateOptions((options) => ({ ...options, labelPlacement: 'right' }));
+    updateHullOptions({ labelPlacement: 'right' });
     await expect(graph).toMatchSnapshot(__filename, 'labelPlacement__right');
-    hull.updateOptions((options) => ({ ...options, labelPlacement: 'bottom' }));
+    updateHullOptions({ labelPlacement: 'bottom' });
     await expect(graph).toMatchSnapshot(__filename, 'labelPlacement__bottom');
   });
 
-  it('update labelCloseToHull', async () => {
-    hull.updateOptions((options) => ({ ...options, labelCloseToHull: false }));
+  it('update labelCloseToPath', async () => {
+    updateHullOptions({ labelCloseToPath: false });
     await expect(graph).toMatchSnapshot(__filename, 'labelCloseToHull__false');
-    hull.updateOptions((options) => ({ ...options, labelCloseToHull: true }));
+    updateHullOptions({ labelCloseToPath: true });
     await expect(graph).toMatchSnapshot(__filename, 'labelCloseToHull__true');
   });
 
   it('update labelAutoRotate', async () => {
-    hull.updateOptions((options) => ({ ...options, labelAutoRotate: false }));
+    updateHullOptions({ labelAutoRotate: false });
     await expect(graph).toMatchSnapshot(__filename, 'labelAutoRotate__false');
-    hull.updateOptions((options) => ({ ...options, labelAutoRotate: true }));
+    updateHullOptions({ labelAutoRotate: true });
     await expect(graph).toMatchSnapshot(__filename, 'labelAutoRotate__true');
   });
 
-  it('addMembers', async () => {
-    hull.addMembers('node3');
-    await expect(graph).toMatchSnapshot(__filename, 'addMembers__node3');
+  it('addMember', async () => {
+    hull.addMember('node3');
+    await expect(graph).toMatchSnapshot(__filename, 'addMember__node3');
   });
 
-  it('removeMembers', async () => {
-    hull.removeMembers('node1');
-    await expect(graph).toMatchSnapshot(__filename, 'removeMembers__node1');
+  it('removeMember', async () => {
+    hull.removeMember('node1');
+    await expect(graph).toMatchSnapshot(__filename, 'removeMember__node1');
   });
 
-  it('updateMembers', async () => {
-    hull.updateMembers(['node5', 'node6']);
-    await expect(graph).toMatchSnapshot(__filename, 'updateMembers');
+  it('updateMember', async () => {
+    hull.updateMember(['node5', 'node6']);
+    await expect(graph).toMatchSnapshot(__filename, 'updateMember');
+    expect(hull.getMember()).toEqual(['node5', 'node6']);
+  });
+
+  it('update element position', async () => {
+    graph.emit(`node:${CommonEvent.DRAG_START}`, { target: { id: 'node5' }, targetType: 'node' });
+    graph.emit(`node:${CommonEvent.DRAG}`, { dx: 50, dy: -50 });
+    graph.emit(`node:${CommonEvent.DRAG_END}`);
+    await expect(graph).toMatchSnapshot(__filename, 'updateMember__position');
   });
 });

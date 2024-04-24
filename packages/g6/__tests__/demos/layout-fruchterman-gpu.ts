@@ -1,11 +1,11 @@
-import type { G6Spec } from '@/src';
+import type { GraphOptions } from '@/src';
 import { Graph, register } from '@/src';
 import data from '@@/dataset/soccer.json';
 
 export const layoutFruchtermanGPU: TestCase = async (context) => {
   register('layout', 'fruchterman-gpu', (await import('@antv/layout-gpu')).FruchtermanLayout);
 
-  const options: G6Spec = {
+  const options: GraphOptions = {
     ...context,
     data,
     theme: 'light',

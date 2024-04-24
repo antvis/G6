@@ -1,4 +1,5 @@
 export { BasePlugin } from './base-plugin';
+export { BubbleSets } from './bubble-sets';
 export { CameraSetting } from './camera-setting';
 export { Contextmenu } from './contextmenu';
 export { GridLine } from './grid-line';
@@ -11,6 +12,7 @@ export { Tooltip } from './tooltip';
 export { Watermark } from './watermark';
 
 export type { BasePluginOptions } from './base-plugin';
+export type { BubbleSetsOptions } from './bubble-sets';
 export type { CameraSettingOptions } from './camera-setting';
 export type { ContextmenuOptions } from './contextmenu';
 export type { GridLineOptions } from './grid-line';

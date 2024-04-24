@@ -1,9 +1,9 @@
-import type { G6Spec } from '@antv/g6';
+import type { GraphOptions } from '@antv/g6';
 import { Graph as G6Graph } from '@antv/g6';
 import { useEffect, useRef } from 'react';
 
 export interface GraphProps {
-  options: G6Spec;
+  options: GraphOptions;
   onRender?: (graph: G6Graph) => void;
   onDestroy?: () => void;
 }

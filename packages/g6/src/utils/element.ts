@@ -168,7 +168,7 @@ export function findPorts(
  * <zh/> 查找节点上的最有可能连接的连接桩
  *
  * <en/> Find the most likely connected port on the node
- * @description
+ * @remarks
  * 1. If `portKey` is specified, return the port.
  * 2. If `portKey` is not specified, return the port closest to the opposite connection points.
  * 3. If the node has no ports, return undefined.
@@ -195,7 +195,7 @@ export function findPort(node: Node, oppositeNode: Node, portKey?: string, oppos
  * <zh/> 寻找节点上所有可能的连接点
  *
  * <en/> Find all possible connection points on the node
- * @description
+ * @remarks
  * 1. If `portKey` is specified, return the position of the port.
  * 2. If `portKey` is not specified, return positions of all ports.
  * 3. If the node has no ports, return the center of the node.

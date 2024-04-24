@@ -14,7 +14,7 @@ export const viewportFit: TestCase = async (context) => {
     node: {
       style: {
         size: 50,
-        color: (d) => (d.id === '1' ? '#d4414c' : '#2f363d'),
+        fill: (d) => (d.id === '1' ? '#d4414c' : '#2f363d'),
       },
     },
     behaviors: ['zoom-canvas', 'drag-canvas'],

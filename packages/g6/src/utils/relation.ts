@@ -7,7 +7,7 @@ import { bfs } from './traverse';
  * <zh/> 获取指定元素在 n 度关系内的所有元素的 ID
  *
  * <en/> Get the IDs of all elements within an n-degree relationship from the specified element
- * @description
+ * @remarks
  * <zh/> 对于节点，0 度关系是节点本身，1 度关系包括节点的直接相邻节点和边，以此类推。
  * 对于边，0 度关系是边本身，1 度关系包括边本身及其两个端点，以此类推。
  *
@@ -37,7 +37,7 @@ export function getElementNthDegreeIds(graph: Graph, elementType: ElementType, e
  * <zh/> 获取指定节点在 n 度关系内的所有元素的 ID
  *
  * <en/> Get all elements IDs within n-degree relationship of the specified node
- * @description
+ * @remarks
  * <zh/> 节点的 0 度关系是节点本身，1 度关系是节点的直接相邻节点和边，以此类推
  *
  * <en/> 0-degree relationship of a node is the node itself; 1-degree relationship is the node's neighboring nodes and related edges, etc

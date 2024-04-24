@@ -1,11 +1,11 @@
-import { Graph, Utils } from '@/src';
+import { Graph, treeToGraphData } from '@/src';
 import data from '@@/dataset/algorithm-category.json';
 
 export const layoutDendrogramTb: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     autoFit: 'view',
-    data: Utils.treeToGraphData(data),
+    data: treeToGraphData(data),
     node: {
       style: (model) => {
         const hasChildren = !!model.style!.children?.length;

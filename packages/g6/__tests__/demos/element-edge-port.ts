@@ -148,14 +148,14 @@ export const elementEdgePort: TestCase = async (context) => {
         x: (d) => [50, 200, 300, 450][(d.data!.index as number) % 4],
         y: (d) => 50 + Math.floor((d.data!.index as number) / 4) * 100,
         size: 50,
-        color: '#f8f8f8',
+        fill: '#f8f8f8',
         stroke: '#8b9baf',
         lineWidth: 1,
       },
     },
     edge: {
       style: {
-        color: '#1890FF',
+        stroke: '#1890FF',
         lineWidth: 2,
         labelFontSize: 12,
         labelMaxLines: 2,

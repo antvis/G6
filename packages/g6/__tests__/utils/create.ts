@@ -1,4 +1,4 @@
-import type { G6Spec } from '@/src';
+import type { GraphOptions } from '@/src';
 import { Graph } from '@/src';
 import { Circle } from '@/src/elements';
 import { Canvas } from '@/src/runtime/canvas';
@@ -83,7 +83,7 @@ export async function createDemoGraph(demo: TestCase, context?: Partial<TestCont
   return demo({ animation: false, container, theme: 'light', ...context });
 }
 
-export function createGraph(options: G6Spec) {
+export function createGraph(options: GraphOptions) {
   const container = createGraphCanvas(document.getElementById('container'));
   return new Graph({
     container,

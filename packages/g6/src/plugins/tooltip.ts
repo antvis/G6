@@ -12,9 +12,9 @@ export interface TooltipOptions
   /** <zh/> 触发方式 | <en/> Event type that triggers display of tooltip */
   trigger?: 'hover' | 'click';
   /** <zh/> 自定义内容 | <en/> Function for getting tooltip content  */
-  getContent?: (evt: IElementEvent, items: ElementDatum[]) => HTMLElement | string;
+  getContent?: (event: IElementEvent, items: ElementDatum[]) => HTMLElement | string;
   /** <zh/> 是否启用 | <en/> Is enable */
-  enable?: boolean | ((evt: IElementEvent) => boolean);
+  enable?: boolean | ((event: IElementEvent) => boolean);
 }
 
 export class Tooltip extends BasePlugin<TooltipOptions> {

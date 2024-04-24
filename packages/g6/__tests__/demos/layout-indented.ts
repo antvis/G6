@@ -1,13 +1,13 @@
-import type { G6Spec } from '@/src';
-import { Graph, Utils } from '@/src';
+import type { GraphOptions } from '@/src';
+import { Graph, treeToGraphData } from '@/src';
 import tree from '@@/dataset/file-system.json';
 
 export const layoutIndented: TestCase = async (context) => {
-  const options: G6Spec = {
+  const options: GraphOptions = {
     ...context,
     y: -200,
     zoom: 0.5,
-    data: Utils.treeToGraphData(tree),
+    data: treeToGraphData(tree),
     theme: 'light',
     layout: {
       type: 'indented',

@@ -11,12 +11,14 @@ export interface CollapseExpandOptions extends BaseBehaviorOptions {
    * <zh/> 是否启用动画
    *
    * <en/> Whether to enable animation
+   * @defaultValue true
    */
   animation: boolean;
   /**
    * <zh/> 是否启用展开/收起功能
    *
    * <en/> Whether to enable the expand/collapse function
+   * @defaultValue true
    */
   enable?: boolean | ((event: IPointerEvent) => boolean);
   /**
@@ -70,10 +72,10 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
     const { onCollapse, onExpand, animation } = this.options;
     const isCollapse = data.style?.collapsed;
     if (isCollapse) {
-      await graph.expand(id, animation);
+      await graph.expandElement(id, animation);
       onExpand?.(id);
     } else {
-      await graph.collapse(id, animation);
+      await graph.collapseElement(id, animation);
       onCollapse?.(id);
     }
   };

@@ -1,4 +1,4 @@
-import type { G6Spec } from '@/src';
+import type { GraphOptions } from '@/src';
 import { Graph, register } from '@/src';
 import data from '@@/dataset/soccer.json';
 
@@ -9,7 +9,7 @@ export const layoutForceatlas2WASM: TestCase = async (context) => {
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
 
-  const options: G6Spec = {
+  const options: GraphOptions = {
     ...context,
     data,
     theme: 'light',

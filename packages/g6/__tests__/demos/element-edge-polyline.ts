@@ -144,7 +144,7 @@ export const elementEdgePolyline: TestCase = async (context) => {
       type: (d) => d.type || 'rect',
       style: {
         size: (d) => d.style?.size || [50, 20],
-        color: '#f8f8f8',
+        fill: '#f8f8f8',
         stroke: '#8b9baf',
         lineWidth: 1,
         labelPlacement: 'center',
@@ -155,7 +155,7 @@ export const elementEdgePolyline: TestCase = async (context) => {
     edge: {
       type: 'polyline',
       style: {
-        color: '#1890FF',
+        stroke: '#1890FF',
       },
     },
   });

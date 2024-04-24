@@ -14,7 +14,7 @@ export const elementNodeSVGIcon: TestCase = async (context) => {
     node: {
       style: {
         size: 40,
-        color: 'transparent',
+        fill: 'transparent',
         iconSrc: (d) => (d?.data?.type === 'user' ? user : comment),
         iconWidth: 40,
         iconHeight: 40,

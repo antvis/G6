@@ -21,7 +21,7 @@ export const layoutAntVDagreFlow: TestCase = async (context) => {
         radius: 20,
         endArrow: true,
         lineWidth: 2,
-        color: '#C2C8D5',
+        stroke: '#C2C8D5',
       },
     },
     layout: {

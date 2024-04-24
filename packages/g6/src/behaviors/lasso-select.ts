@@ -12,7 +12,7 @@ const SHOW_PATH_ID = 'g6-lasso-select-path-id';
 
 export type States = Record<ID, State | State[]>;
 
-export type LassoSelectOptions = BrushSelectOptions;
+export interface LassoSelectOptions extends BrushSelectOptions {}
 
 export class LassoSelect extends BrushSelect<LassoSelectOptions> {
   static defaultOptions: Partial<LassoSelectOptions> = {
@@ -42,7 +42,7 @@ export class LassoSelect extends BrushSelect<LassoSelectOptions> {
       id: SHOW_PATH_ID,
       style: {
         ...LassoSelect.defaultOptions.style,
-        fill: style.color || DEFAULT_STYLE.color,
+        fill: style.fill || DEFAULT_STYLE.fill,
         ...style,
         pointerEvents: 'none',
       },

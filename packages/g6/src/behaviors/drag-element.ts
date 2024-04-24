@@ -34,7 +34,7 @@ export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<Ba
    * - link: Place the drag element as a child element of the target element
    * - move: Move the element and update the parent element size
    * - none: Only update the drag target position, no additional operations
-   * @description
+   * @remarks
    * <zh/> combo 元素可作为元素容器置入 node 或 combo 元素
    *
    * <en/> The combo element can be placed as an element container into the node or combo element
@@ -60,7 +60,7 @@ export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<Ba
    * - in: hide the edges with the node as the target node
    * - both: hide all edges related to the node
    * - all: hide all edges in the graph
-   * @description
+   * @remarks
    * <zh/> 使用幽灵节点时不会隐藏边
    *
    * <en/> Edges will not be hidden when using the drag shadow

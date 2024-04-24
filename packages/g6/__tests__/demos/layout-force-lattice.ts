@@ -19,12 +19,12 @@ export const layoutForceLattice: TestCase = async (context) => {
     node: {
       style: {
         size: 10,
-        color: '#000',
+        fill: '#000',
       },
     },
     edge: {
       style: {
-        color: '#000',
+        stroke: '#000',
       },
     },
     behaviors: [{ type: 'drag-element-force' }, 'zoom-canvas'],

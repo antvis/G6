@@ -48,7 +48,7 @@
       "id": "edge1",
       "source": "node1",
       "target": "node4",
-      "style": { "color": "#8576FF", "lineWidth": 2, "startArrow": true }
+      "style": { "stroke": "#8576FF", "lineWidth": 2, "startArrow": true }
     },
     {
       "id": "edge2",
@@ -65,7 +65,7 @@
     { "id": "edge9", "source": "node1", "target": "node6" },
     { "id": "edge10", "source": "node1", "target": "node6" },
     { "id": "edge11", "source": "node1", "target": "node6" },
-    { "id": "loop1", "source": "node5", "target": "node5", "style": { "color": "#8576FF", "lineWidth": 2 } },
+    { "id": "loop1", "source": "node5", "target": "node5", "style": { "stroke": "#8576FF", "lineWidth": 2 } },
     { "id": "loop2", "source": "node5", "target": "node5" },
     { "id": "loop3", "source": "node5", "target": "node5" },
     { "id": "loop4", "source": "node5", "target": "node5" },

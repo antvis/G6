@@ -187,7 +187,7 @@ export class Canvas {
       Object.values(this.canvas)
         .map((canvas) => canvas.document.documentElement)
         .filter((el) => el.childNodes.length > 0)
-        .map((el) => el.getRenderBounds()),
+        .map((el) => el.getBounds()),
     );
   }
 
@@ -319,7 +319,7 @@ export class Canvas {
  *
  * <en/> G Canvas destroy does not handle animation objects, causing memory leaks
  * @param canvas GCanvas
- * @description
+ * @remarks
  * <zh/> 这些操作都应该在 G 中完成，这里只是一个临时的解决方案
  * 此操作大概能在测试环节降低 10～20% 的内存占用（从 2800MB 降低到 2200MB）
  *

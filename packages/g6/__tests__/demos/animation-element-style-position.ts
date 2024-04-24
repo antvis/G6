@@ -1,7 +1,7 @@
-import { Graph, type G6Spec } from '@/src';
+import { Graph, type GraphOptions } from '@/src';
 
 export const animationElementStylePosition: TestCase = async (context) => {
-  const options: G6Spec = {
+  const options: GraphOptions = {
     ...context,
     data: {
       nodes: [
@@ -31,9 +31,9 @@ export const animationElementStylePosition: TestCase = async (context) => {
 
   const play = () => {
     graph.addNodeData([
-      { id: 'node-4', style: { x: 50, y: 200, color: 'orange' } },
-      { id: 'node-5', style: { x: 75, y: 150, color: 'purple' } },
-      { id: 'node-6', style: { x: 200, y: 100, color: 'cyan' } },
+      { id: 'node-4', style: { x: 50, y: 200, fill: 'orange' } },
+      { id: 'node-5', style: { x: 75, y: 150, fill: 'purple' } },
+      { id: 'node-6', style: { x: 200, y: 100, fill: 'cyan' } },
     ]);
     graph.removeNodeData(['node-1']);
     graph.updateNodeData([{ id: 'node-2', style: { x: 200, y: 200, stroke: 'green' } }]);

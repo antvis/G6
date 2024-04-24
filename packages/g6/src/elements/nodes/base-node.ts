@@ -60,17 +60,11 @@ export type BaseNodeStyleProps<T extends Record<string, unknown> = Record<string
      */
     size?: Size;
     /**
-     * <zh/> 主色
-     *
-     * <en/> Subject color
-     */
-    color?: string;
-    /**
      * @deprecated
      * <zh/> 解决类型 style.getPropertyValue 问题，不要使用该属性
      *
      * <en/> Solve the problem of style.getPropertyValue, do not use this property
-     * @description
+     * @remarks
      * <zh/> 移除该属性会导致 Polygon 及其子类与 Node 不兼容
      *
      * <en/> Removing this property will cause Polygon and its subclasses to be incompatible with Node
@@ -200,12 +194,9 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   }
 
   protected getKeyStyle(attributes: Required<S>) {
-    const { color, fill, ...style } = this.getGraphicStyle(attributes);
+    const style = this.getGraphicStyle(attributes);
 
-    return Object.assign(
-      { fill: color || fill },
-      omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'port']),
-    ) as any;
+    return Object.assign(omitStyleProps(style, ['label', 'halo', 'icon', 'badge', 'port'])) as any;
   }
 
   protected getLabelStyle(attributes: Required<S>): false | LabelStyleProps {

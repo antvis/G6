@@ -1,8 +1,8 @@
-import type { G6Spec } from '@/src';
+import type { GraphOptions } from '@/src';
 import { Graph } from '@/src';
 
 export const animationElementStateSwitch: TestCase = async (context) => {
-  const options: G6Spec = {
+  const options: GraphOptions = {
     ...context,
     data: {
       nodes: [
@@ -27,11 +27,11 @@ export const animationElementStateSwitch: TestCase = async (context) => {
           lineWidth: 2,
         },
         selected: {
-          color: 'pink',
+          fill: 'pink',
         },
       },
       animation: {
-        update: [{ fields: ['lineWidth', 'color'] }],
+        update: [{ fields: ['lineWidth', 'fill'] }],
       },
     },
     edge: {
@@ -41,13 +41,13 @@ export const animationElementStateSwitch: TestCase = async (context) => {
       state: {
         active: {
           lineWidth: 2,
-          color: 'pink',
+          stroke: 'pink',
         },
       },
       animation: {
         update: [
           {
-            fields: ['lineWidth', 'color'],
+            fields: ['lineWidth', 'stroke'],
           },
         ],
       },

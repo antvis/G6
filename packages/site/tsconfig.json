@@ -6,7 +6,8 @@
     "lib": ["dom"],
     "paths": {
       "@antv/g6": ["../g6/lib/index"]
-    }
+    },
+    "module": "CommonJS"
   },
   "include": [".dumirc.ts", "global.d.ts"],
   "ts-node": {

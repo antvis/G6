@@ -1,23 +1,22 @@
-/* eslint-disable jsdoc/require-jsdoc */
-/* eslint-disable jsdoc/require-param */
-/* eslint-disable jsdoc/require-returns */
+/**
+ * @file Using API Extractor to generate API Document Model files
+ */
 import { getPackages } from '@manypkg/get-packages';
-import { Extractor, ExtractorConfig, ExtractorResult, IConfigFile } from '@microsoft/api-extractor';
+import type { ExtractorResult, IConfigFile } from '@microsoft/api-extractor';
+import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
+import { EnumMemberOrder } from '@microsoft/api-extractor-model';
+import { FileSystem } from '@rushstack/node-core-library';
 import { execSync } from 'child_process';
-import fs, { unlinkSync } from 'fs';
-import { remove } from 'fs-extra';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import * as path from 'path';
 
 /**
  * Get a path relative to the base directory of this project. If called with no
  * arguments it will return the base directory.
+ * @param paths - the paths to join
+ * @returns the resolved path
  */
 export function baseDir(...paths: string[]): string {
-  return path.resolve(__dirname, '../../..', path.join(...paths));
+  return path.resolve('../../', path.join(...paths));
 }
 
 const separator = '__';
@@ -25,8 +24,9 @@ const separator = '__';
 /**
  * Mangle a scoped package name. Which removes the `@` symbol and adds a `__`
  * separator.
- *
- * `@babel/types` => `babel__types`
+ * @example `@antv/g6` => `antv__g6`
+ * @param packageName - the package name to mangle
+ * @returns the mangled package name
  */
 export function mangleScopedPackageName(packageName: string): string {
   const [scope, name] = packageName.split('/');
@@ -37,12 +37,13 @@ export function mangleScopedPackageName(packageName: string): string {
   return scope;
 }
 
-const reportFolderRoot = path.resolve(__dirname, '..', path.join('support', 'api'));
+const reportFolderRoot = path.resolve(path.join('support', 'api'));
 const reportTempFolderRoot = path.resolve(reportFolderRoot, 'temp');
 const ignorePackages = new Set<string>(['@antv/g6-react-node', '@antv/g6-plugin-map-view', '@antv/g6-site']);
 
 /**
  * Get all typed packages.
+ * @returns the list of packages
  */
 async function getTypedPackages() {
   const packages = await getPackages(baseDir());
@@ -58,7 +59,7 @@ async function getTypedPackages() {
 async function runApiExtractor() {
   const packages = await getTypedPackages();
 
-  const packageNameSet = new Set(packages.map((pkg) => pkg.packageJson.name));
+  const packageNameSet = new Set([...packages.map((pkg) => pkg.packageJson.name), '@antv/layout']);
 
   for (const pkg of packages) {
     const json = pkg.packageJson;
@@ -80,8 +81,8 @@ async function runApiExtractor() {
     const reportFolder = path.parse(reportFilePath).dir;
     const reportTempFolder = path.parse(reportTempFilePath).dir;
 
-    if (fs.existsSync(packageJsonFullPath)) {
-      const packageJson = JSON.parse(fs.readFileSync(packageJsonFullPath, 'utf8'));
+    if (FileSystem.exists(packageJsonFullPath)) {
+      const packageJson = JSON.parse(FileSystem.readFile(packageJsonFullPath));
       if ('build:cjs' in packageJson.scripts) {
         execSync(`cd ${projectFolder} && pnpm run build:cjs`);
       } else {
@@ -111,7 +112,7 @@ async function runApiExtractor() {
         },
         skipLibCheck: true,
       },
-
+      enumMemberOrder: EnumMemberOrder.Preserve,
       // Make `export * from 'other-remirror-packages'` to work
       bundledPackages: [
         ...Object.keys(pkg.packageJson.dependencies ?? {}),
@@ -147,21 +148,12 @@ async function runApiExtractor() {
   }
 }
 
-const outputFolder = './docs/apis/reference';
-
 /**
- * Build API documentation from API type information and comments extracted by the `api-extractor`.
+ * Run the API extractor and then delete the temp folder.
+ * Self invoking function.
  */
-async function generateMd() {
-  execSync(`api-documenter markdown -i ./support/api -o ${outputFolder}`);
-  unlinkSync(path.join(outputFolder, 'index.md'));
-}
-
-async function run() {
-  await remove(reportFolderRoot);
+(async function run() {
+  await FileSystem.deleteFolder(reportFolderRoot);
   await runApiExtractor();
-  await remove(reportTempFolderRoot);
-  await generateMd();
-}
-
-run();
+  await FileSystem.deleteFolder(reportTempFolderRoot);
+})();

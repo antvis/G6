@@ -123,11 +123,12 @@ export class ElementController {
     });
   }
 
-  public getPaletteStyle(id: ID) {
+  public getPaletteStyle(elementType: ElementType, id: ID): BaseStyleProps {
     const color = this.paletteStyle[id];
     if (!color) return {};
 
-    return { color };
+    if (elementType === 'edge') return { stroke: color };
+    return { fill: color };
   }
 
   private defaultStyle: Record<ID, Record<string, unknown>> = {};
@@ -285,7 +286,7 @@ export class ElementController {
    * <en/> Get edge end context
    * @param id - <zh/> 边 id | <en/> edge id
    * @returns <zh/> 边端点连接上下文 | <en/> edge end context
-   * @description
+   * @remarks
    * <zh/> 只提供了最基本的节点示例和连接点位置信息，更多的上下文信息需要在边元素中计算
    *
    * <en/> Only the most basic node instances and connection point position information are provided, and more context information needs to be calculated in the edge element
@@ -302,7 +303,7 @@ export class ElementController {
     const id = idOf(datum);
     // 优先级(从低到高) Priority (from low to high):
     const themeStyle = this.getThemeStyle(elementType);
-    const paletteStyle = this.getPaletteStyle(id);
+    const paletteStyle = this.getPaletteStyle(elementType, id);
     const dataStyle = datum.style || {};
     const defaultStyle = this.getDefaultStyle(id);
     const themeStateStyle = this.getThemeStateStyle(elementType, this.getElementState(id));

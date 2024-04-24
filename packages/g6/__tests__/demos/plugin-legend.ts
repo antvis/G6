@@ -34,7 +34,7 @@ export const pluginLegend: TestCase = async (context) => {
       style: {
         labelText: (d) => d.id,
         lineWidth: 0,
-        color: (item: any) => {
+        fill: (item: any) => {
           if (item.data.cluster === 'a') return 'red';
           if (item.data.cluster === 'b') return 'blue';
           if (item.data.cluster === 'c') return 'green';

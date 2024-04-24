@@ -49,7 +49,17 @@ module.exports = {
     // TODO: rules below will be set to 2 in the future
     'jsdoc/require-jsdoc': 1,
     'jsdoc/check-access': 1,
-    'jsdoc/check-tag-names': 1,
+    /**
+     * js plugin rules
+     */
+    'jsdoc/check-tag-names': [
+      'error',
+      {
+        // Allow TSDoc tags @remarks, @defaultValue
+        // Custom tags: @apiCategory for Graph API
+        definedTags: ['remarks', 'defaultValue', 'apiCategory'],
+      },
+    ],
     'jsdoc/require-description': 1,
     'jsdoc/require-param': 1,
     'jsdoc/check-param-names': 1,

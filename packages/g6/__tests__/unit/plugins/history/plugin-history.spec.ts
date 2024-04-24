@@ -18,8 +18,8 @@ describe('history plugin', () => {
 
   it('addData', async () => {
     graph.addData({
-      nodes: [{ id: 'node-5', style: { x: 200, y: 100, color: 'pink' } }],
-      edges: [{ source: 'node-1', target: 'node-5', style: { color: 'brown' } }],
+      nodes: [{ id: 'node-5', style: { x: 200, y: 100, fill: 'pink' } }],
+      edges: [{ source: 'node-1', target: 'node-5', style: { stroke: 'brown' } }],
     });
     graph.draw();
     await expect(graph).toMatchSnapshot(__filename, 'addData');
@@ -32,8 +32,8 @@ describe('history plugin', () => {
 
   it('updateData', async () => {
     graph.updateData({
-      nodes: [{ id: 'node-1', style: { x: 150, y: 100, color: 'red' } }],
-      edges: [{ id: 'edge-1', style: { color: 'green' } }],
+      nodes: [{ id: 'node-1', style: { x: 150, y: 100, fill: 'red' } }],
+      edges: [{ id: 'edge-1', style: { stroke: 'green' } }],
     });
     graph.draw();
     await expect(graph).toMatchSnapshot(__filename, 'updateData');
@@ -59,7 +59,7 @@ describe('history plugin', () => {
   });
 
   it('collapse/expand', async () => {
-    graph.collapse('combo-2');
+    graph.collapseElement('combo-2');
     await expect(graph).toMatchSnapshot(__filename, 'collapse');
     history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'collapse-undo');
@@ -67,7 +67,7 @@ describe('history plugin', () => {
     await expect(graph).toMatchSnapshot(__filename, 'collapse-redo');
     history.undo();
 
-    graph.expand('combo-1');
+    graph.expandElement('combo-1');
     await expect(graph).toMatchSnapshot(__filename, 'expand');
     history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'expand-undo');

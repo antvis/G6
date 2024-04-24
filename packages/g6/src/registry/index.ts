@@ -37,7 +37,7 @@ const EXTENSION_REGISTRY: ExtensionRegistry = {
  * <zh/> 要注册的扩展类，在使用时创建实例
  *
  * <en/> The extension class to be registered. An instance will be created upon use
- * @description
+ * @remarks
  * <zh/> 内置扩展在项目导入时会自动注册。对于非内置扩展，可以通过 `register` 方法手动注册。扩展只需要注册一次，即可在项目的任何位置使用。
  *
  * <en/> Built-in extensions are automatically registered when the project is imported. For non-built-in extensions, you can manually register them using the `register` method. Extensions only need to be registered once and can be used anywhere in the project.
