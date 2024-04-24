@@ -15,6 +15,14 @@ import type { ViewportOptions } from './viewport';
  * <zh/> Graph 配置项
  *
  * <en/> Graph options
+ * @remarks
+ * <zh/> Graph 的初始化通过 `new` 进行实例化，实例化时需要传入需要的参数。目前所支持的参数如下：
+ *
+ * <en/> The initialization of Graph is instantiated through `new`, and the required parameters need to be passed in when instantiated.
+ *
+ * ```
+ * new G6.Graph(options: GraphOptions) => Graph
+ * ```
  */
 
 export interface GraphOptions extends CanvasOptions, ViewportOptions {
@@ -22,7 +30,7 @@ export interface GraphOptions extends CanvasOptions, ViewportOptions {
    * <zh/> 启用关闭、全局动画
    *
    * <en/> Enable or disable global animation
-   * @description
+   * @remarks
    * <zh/> 为动画配置项时，会启用动画，并将该动画配置作为全局动画的基础配置
    *
    * <en/> When it is an animation configuration item, the animation will be enabled, and the animation configuration will be used as the basic configuration of the global animation

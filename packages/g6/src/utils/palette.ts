@@ -43,7 +43,7 @@ export function parsePalette(palette?: PaletteOptions): STDPaletteOptions | unde
  * @param data - <zh/> 元素数据 | <en/> Element data
  * @param palette - <zh/> 色板配置 | <en/> PaletteOptions options
  * @returns <zh/> 元素颜色 | <en/> Element color
- * @description
+ * @remarks
  * <zh/> 返回值结果是一个以元素 id 为 key，颜色值为 value 的对象
  *
  * <en/> The return value is an object with element id as key and color value as value

@@ -60,7 +60,7 @@
    * This would direct API Extractor to embed those types directly in the .d.ts rollup, as if they had been
    * local files for library1.
    */
-  "bundledPackages": [],
+  "bundledPackages": ["@antv/layout"],
 
   /**
    * Specifies what type of newlines API Extractor should use when writing output files.  By default, the output files
@@ -86,7 +86,7 @@
    *
    * DEFAULT VALUE: "by-name"
    */
-  // "enumMemberOrder": "by-name",
+  "enumMemberOrder": "preserve",
 
   /**
    * Determines how the TypeScript compiler engine will be invoked by API Extractor.

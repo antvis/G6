@@ -11,12 +11,14 @@ export interface CollapseExpandOptions extends BaseBehaviorOptions {
    * <zh/> 是否启用动画
    *
    * <en/> Whether to enable animation
+   * @defaultValue true
    */
   animation: boolean;
   /**
    * <zh/> 是否启用展开/收起功能
    *
    * <en/> Whether to enable the expand/collapse function
+   * @defaultValue true
    */
   enable?: boolean | ((event: IPointerEvent) => boolean);
   /**

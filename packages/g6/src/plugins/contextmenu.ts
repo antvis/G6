@@ -56,6 +56,7 @@ export type ContextmenuOptions = BasePluginOptions & {
 
 /**
  * <zh/> 支持处理事件，并显示右键菜单，在菜单点击之后，可以触发相应的事件。
+ *
  * <en/> Support processing events and displaying right-click menus.
  *       After clicking the menu, you can trigger the corresponding event.
  */

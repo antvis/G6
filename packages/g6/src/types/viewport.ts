@@ -7,15 +7,15 @@ export type ViewportAnimationEffectTiming =
       duration?: number;
     };
 
-export type TransformOptions = {
+export interface TransformOptions {
   mode: ViewportChangeMode;
   origin?: Point;
   translate?: Point;
   rotate?: number;
   scale?: number;
-};
+}
 
-export type FitViewOptions = {
+export interface FitViewOptions {
   /**
    * <zh/> 在以下情况下进行适配
    * - 'overflow' 仅当图内容超出视口时进行适配
@@ -38,6 +38,6 @@ export type FitViewOptions = {
    * - 'both' Adapt to the x and y directions
    */
   direction?: 'x' | 'y' | 'both';
-};
+}
 
 type ViewportChangeMode = 'relative' | 'absolute';

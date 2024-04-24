@@ -9,6 +9,11 @@ import { multiply } from '../utils/vector';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
+/**
+ * <zh/> 拖拽画布交互配置项
+ *
+ * <en/> Drag canvas behavior options
+ */
 export interface DragCanvasOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用拖拽动画，仅在使用按键移动时有效
@@ -20,6 +25,7 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    * <zh/> 是否启用拖拽画布的功能
    *
    * <en/> Whether to enable the function of dragging the canvas
+   * @defaultValue true
    */
   enable?: boolean | ((event: IPointerEvent | IKeyboardEvent) => boolean);
   /**
@@ -32,6 +38,7 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    * <zh/> 触发一次按键移动的距离
    *
    * <en/> The distance of a single key movement
+   * @defaultValue 10
    */
   sensitivity?: number;
   /**

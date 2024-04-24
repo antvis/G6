@@ -45,7 +45,7 @@ export interface RuntimeContext {
    * <zh/> 元素控制器
    *
    * <en/> Element controller
-   * @description
+   * @remarks
    * <zh/> 仅在绘制开始后才可用
    *
    * <en/> Only available after drawing starts

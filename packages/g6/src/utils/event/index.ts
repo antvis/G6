@@ -24,7 +24,7 @@ export function emit(emitter: EventEmitter, event: BaseEvent) {
  * <en/> Get the event target element
  * @param shape - <zh/> 事件图形 | <en/> event shape
  * @returns <zh/> 目标元素 | <en/> target element
- * @description
+ * @remarks
  * <zh/> 事件响应大多数情况会命中元素的内部图形，通过该方法可以获取到其所属元素
  *
  * <en/> Most of the event responses will hit the internal graphics of the element, and this method can be used to get the element to which it belongs

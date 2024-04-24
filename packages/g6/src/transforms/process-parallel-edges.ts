@@ -27,7 +27,7 @@ export interface ProcessParallelEdgesOptions extends BaseTransformOptions {
    * <zh/> 处理模式，默认为捆绑
    *
    * <en/> Processing mode, default is bundle
-   * @description
+   * @remarks
    * <zh/>
    * - merge: 将平行边合并为一条边，适用于不需要区分平行边的情况
    * - bundle: 每条边都会与其他所有平行边捆绑在一起，并通过改变曲率与其他边分开。如果一组平行边的数量是奇数，那么中心的边将被绘制为直线，其他的边将被绘制为曲线

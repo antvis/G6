@@ -286,7 +286,7 @@ export class ElementController {
    * <en/> Get edge end context
    * @param id - <zh/> 边 id | <en/> edge id
    * @returns <zh/> 边端点连接上下文 | <en/> edge end context
-   * @description
+   * @remarks
    * <zh/> 只提供了最基本的节点示例和连接点位置信息，更多的上下文信息需要在边元素中计算
    *
    * <en/> Only the most basic node instances and connection point position information are provided, and more context information needs to be calculated in the edge element

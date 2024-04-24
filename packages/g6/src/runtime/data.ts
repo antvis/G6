@@ -36,7 +36,7 @@ export class DataController {
    * <zh/> 最近一次删除的 combo 的 id
    *
    * <en/> The ids of the last deleted combos
-   * @description
+   * @remarks
    * <zh/> 当删除 combo 后，会将其 id 从 comboIds 中移除，此时根据 Graphlib 的 changes 事件获取到的 NodeRemoved 无法区分是 combo 还是 node。
    * 因此需要记录最近一次删除的 combo 的 id，并用于 isCombo 的判断
    *
@@ -109,7 +109,7 @@ export class DataController {
    *
    * <en/> Perform operations without leaving records
    * @param callback - <zh/> 回调函数 | <en/> callback function
-   * @description
+   * @remarks
    * <zh/> 通常用于运行时调整元素并同步数据，避免触发数据变更导致重绘
    *
    * <en/> Usually used to adjust elements at runtime and synchronize data to avoid triggering data changes and causing redraws
@@ -520,7 +520,7 @@ export class DataController {
    *
    * <en/> Refresh combo data
    * @param id - <zh/> combo ID | <en/> combo ID
-   * @description
+   * @remarks
    * <zh/> 不会更改数据，但会触发数据变更事件
    *
    * <en/> Will not change the data, but will trigger data change events

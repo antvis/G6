@@ -1,4 +1,17 @@
-export { BaseBehavior, DragCanvas, ZoomCanvas } from './behaviors';
+export {
+  BaseBehavior,
+  BrushSelect,
+  ClickElement,
+  CollapseExpand,
+  CreateEdge,
+  DragCanvas,
+  DragElement,
+  DragElementForce,
+  FocusElement,
+  HoverElement,
+  LassoSelect,
+  ZoomCanvas,
+} from './behaviors';
 export {
   CanvasEvent,
   ComboEvent,
@@ -26,6 +39,26 @@ export {
 } from './elements/nodes';
 export { BaseShape } from './elements/shapes';
 export {
+  AntVDagreLayout,
+  CircularLayout,
+  ComboCombinedLayout,
+  ConcentricLayout,
+  D3Force3DLayout,
+  D3ForceLayout,
+  DagreLayout,
+  ForceAtlas2Layout,
+  ForceLayout,
+  FruchtermanLayout,
+  GridLayout,
+  MDSLayout,
+  RadialLayout,
+  RandomLayout,
+  compactBox,
+  dendrogram,
+  indented,
+  mindmap,
+} from './layouts';
+export {
   BasePlugin,
   BubbleSets,
   CameraSetting,
@@ -47,7 +80,37 @@ export { Shortcut } from './utils/shortcut';
 export { parseSize } from './utils/size';
 export { treeToGraphData } from './utils/tree';
 
-export type { BaseBehaviorOptions, DragCanvasOptions, ZoomCanvasOptions } from './behaviors';
+export type { BaseStyleProps } from '@antv/g';
+export type {
+  AntVDagreLayoutOptions,
+  CircularLayoutOptions,
+  ComboCombinedLayoutOptions,
+  ConcentricLayoutOptions,
+  D3Force3DLayoutOptions,
+  D3ForceLayoutOptions,
+  DagreLayoutOptions,
+  ForceAtlas2LayoutOptions,
+  ForceLayoutOptions,
+  FruchtermanLayoutOptions,
+  GridLayoutOptions,
+  MDSLayoutOptions,
+  RadialLayoutOptions,
+  RandomLayoutOptions,
+} from '@antv/layout';
+export type {
+  BaseBehaviorOptions,
+  BrushSelectOptions,
+  ClickElementOptions,
+  CollapseExpandOptions,
+  CreateEdgeOptions,
+  DragCanvasOptions,
+  DragElementForceOptions,
+  DragElementOptions,
+  FocusElementOptions,
+  HoverElementOptions,
+  LassoSelectOptions,
+  ZoomCanvasOptions,
+} from './behaviors';
 export type { BaseComboStyleProps, CircleComboStyleProps, RectComboStyleProps } from './elements/combos';
 export type {
   BaseEdgeStyleProps,
@@ -103,9 +166,13 @@ export type {
 } from './spec';
 export type { BaseTransformOptions } from './transforms';
 export type {
+  CardinalPlacement,
   Combo,
+  CornerPlacement,
+  DirectionalPlacement,
   Edge,
   Element,
+  ElementType,
   IAnimateEvent,
   ID,
   IDragEvent,
@@ -117,12 +184,12 @@ export type {
   IViewportEvent,
   IWheelEvent,
   Node,
+  Placement,
   Point,
+  RelativePlacement,
+  State,
   Vector2,
   Vector3,
   ViewportAnimationEffectTiming,
 } from './types';
 export type { ShortcutKey } from './utils/shortcut';
-
-import { dark, light } from './themes';
-export const Theme = { dark, light };

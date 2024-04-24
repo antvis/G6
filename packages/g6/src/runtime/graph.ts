@@ -63,6 +63,9 @@ import { ViewportController } from './viewport';
 export class Graph extends EventEmitter {
   private options: GraphOptions;
 
+  /**
+   * @internal
+   */
   static defaultOptions: GraphOptions = {
     autoResize: false,
     theme: 'light',
@@ -71,6 +74,11 @@ export class Graph extends EventEmitter {
     zoomRange: [0.01, 10],
   };
 
+  /**
+   * <zh/> 当前图实例是否已经被销毁
+   *
+   * <en/> Whether the current graph instance has been destroyed
+   */
   public destroyed = false;
 
   // @ts-expect-error will be initialized in createRuntime
@@ -93,6 +101,7 @@ export class Graph extends EventEmitter {
    *
    * <en/> Get options
    * @returns <zh/> 配置项 | <en/> options
+   * {@group options}
    */
   public getOptions(): GraphOptions {
     return this.options;
@@ -103,7 +112,7 @@ export class Graph extends EventEmitter {
    *
    * <en/> Set options
    * @param options - <zh/> 配置项 | <en/> options
-   * @description
+   * @remarks
    * <zh/> 要更新 devicePixelRatio、container 属性请销毁后重新创建实例
    *
    * <en/> To update devicePixelRatio and container properties, please destroy and recreate the instance
@@ -335,10 +344,24 @@ export class Graph extends EventEmitter {
     return this.options.transforms || [];
   }
 
+  /**
+   * <zh/> 获取数据
+   *
+   * <en/> Get data
+   * @returns <zh/> 数据 | <en/> data
+   * @apiCategory data
+   */
   public getData(): GraphData {
     return this.context.model.getData();
   }
 
+  /**
+   * <zh/> 获取节点数据
+   *
+   * <en/> Get node data
+   * @returns <zh/> 节点数据 | <en/> node data
+   * @apiCategory data
+   */
   public getNodeData(): NodeData[];
   public getNodeData(id: ID): NodeData;
   public getNodeData(ids: ID[]): NodeData[];
@@ -348,6 +371,13 @@ export class Graph extends EventEmitter {
     return this.context.model.getNodeData([id])?.[0];
   }
 
+  /**
+   * <zh/> 获取边数据
+   *
+   * <en/> Get edge data
+   * @returns <zh/> 边数据 | <en/> edge data
+   * @apiCategory data
+   */
   public getEdgeData(): EdgeData[];
   public getEdgeData(id: ID): EdgeData;
   public getEdgeData(ids: ID[]): EdgeData[];
@@ -437,7 +467,7 @@ export class Graph extends EventEmitter {
    * @param id - <zh/> 节点或 combo ID | <en/> node or combo ID
    * @param hierarchy - <zh/> 指定树图层级关系还是 combo 层级关系 | <en/> specify tree or combo hierarchy relationship
    * @returns <zh/> 祖先元素数据 | <en/> ancestor element data
-   * @description
+   * @remarks
    * <zh/> 数组中的顺序是从父节点到祖先节点
    *
    * <en/> The order in the array is from the parent node to the ancestor node
@@ -530,7 +560,7 @@ export class Graph extends EventEmitter {
    * <zh/> 执行渲染
    *
    * <en/> Render
-   * @description
+   * @remarks
    * <zh/> 此过程会执行数据更新、绘制元素、执行布局
    *
    * <en/> This process will execute data update, element rendering, and layout execution
@@ -650,7 +680,7 @@ export class Graph extends EventEmitter {
    * @param ratio - <zh/> 缩放比例 | <en/> zoom ratio
    * @param animation - <zh/> 动画配置 | <en/> animation configuration
    * @param origin - <zh/> 缩放中心(视口坐标) | <en/> zoom center(viewport coordinates)
-   * @description
+   * @remarks
    * <zh/>
    * - ratio > 1 放大
    * - ratio < 1 缩小
@@ -669,7 +699,7 @@ export class Graph extends EventEmitter {
    * @param zoom - <zh/> 指定缩放比例 | <en/> specified zoom ratio
    * @param animation - <zh/> 动画配置 | <en/> animation configuration
    * @param origin - <zh/> 缩放中心(视口坐标) | <en/> zoom center(viewport coordinates)
-   * @description
+   * @remarks
    * <zh/>
    * - zoom = 1 默认大小
    * - zoom > 1 放大
@@ -744,7 +774,7 @@ export class Graph extends EventEmitter {
    * <en/> Translate the graph to the specified position
    * @param position - <zh/> 指定位置 | <en/> specified position
    * @param animation - <zh/> 动画配置 | <en/> animation configuration
-   * @description
+   * @remarks
    */
   public async translateTo(position: Point, animation?: ViewportAnimationEffectTiming): Promise<void> {
     await this.context.viewport!.transform({ mode: 'absolute', translate: position }, animation);
@@ -755,7 +785,7 @@ export class Graph extends EventEmitter {
    *
    * <en/> Get the position of the graph
    * @returns <zh/> 图的位置 | <en/> position of the graph
-   * @description
+   * @remarks
    * <zh/> 默认状态下，图的位置为 [0, 0]
    *
    * <en/> By default, the position of the graph is [0, 0]

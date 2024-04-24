@@ -10,48 +10,60 @@ import { Shortcut } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
+/**
+ * <zh/> 点击元素交互配置项
+ *
+ * <en/> Click element behavior options
+ */
 export interface ClickElementOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用动画
    *
    * <en/> Whether to enable animation
+   * @defaultValue true
    */
   animation?: boolean;
   /**
    * <zh/> 是否启用点击元素的功能
    *
    * <en/> Whether to enable the function of clicking the element
+   * @defaultValue true
    */
   enable?: boolean | ((event: IPointerEvent) => boolean);
   /**
    * <zh/> 是否允许多选
    *
    * <en/> Whether to allow multiple selection
+   * @defaultValue false
    */
   multiple?: boolean;
   /**
    * <zh/> 按下该快捷键配合鼠标点击进行多选
    *
    * <en/> Press this shortcut key to apply multiple selection with mouse click
+   * @defaultValue ['shift']
    */
   trigger?: ShortcutKey;
   /**
-   * <zh/> 选中时应用的状态，默认为 selected
+   * <zh/> 选中时应用的状态
    *
    * <en/> The state to be applied when select.
+   * @defaultValue 'selected'
    */
-  selectedState: State;
+  selectedState?: State;
   /**
-   * <zh/> 当有元素被选中时，其他未选中的元素应用的状态，默认为 undefined
+   * <zh/> 当有元素被选中时，其他未选中的元素应用的状态
    *
    * <en/> The state to be applied on other unselected elements when some elements are selected
+   * @defaultValue undefined
    */
-  unselectedState: State;
+  unselectedState?: State;
   /**
    * <zh/> 选中元素的度，即决定了影响范围
    *
    * <en/> The degree to determine the scope of influence
-   * @description
+   * @defaultValue 0
+   * @remarks
    * <zh/> 对于节点来说，
    * - 0 表示只选中当前节点
    * - 1 表示选中当前节点及其直接相邻的节点和边，以此类推
@@ -69,6 +81,17 @@ export interface ClickElementOptions extends BaseBehaviorOptions {
   degree?: number;
 }
 
+/**
+ * <zh/> 点击元素
+ *
+ * <en/> Click Element
+ * @remarks
+ * ```typescript
+ * const graph = new Graph({
+ *  behaviors: ['click-element'],
+ * });
+ * ```
+ */
 export class ClickElement extends BaseBehavior<ClickElementOptions> {
   private selectedElementIds: ID[] = [];
 
