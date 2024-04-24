@@ -56,7 +56,8 @@ module.exports = {
       'error',
       {
         // Allow TSDoc tags @remarks, @defaultValue
-        definedTags: ['remarks', 'defaultValue'],
+        // Custom tags: @apiCategory for Graph API
+        definedTags: ['remarks', 'defaultValue', 'apiCategory'],
       },
     ],
     'jsdoc/require-description': 1,

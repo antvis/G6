@@ -4,6 +4,7 @@
 import { getPackages } from '@manypkg/get-packages';
 import type { ExtractorResult, IConfigFile } from '@microsoft/api-extractor';
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
+import { EnumMemberOrder } from '@microsoft/api-extractor-model';
 import { FileSystem } from '@rushstack/node-core-library';
 import { execSync } from 'child_process';
 import * as path from 'path';
@@ -58,7 +59,7 @@ async function getTypedPackages() {
 async function runApiExtractor() {
   const packages = await getTypedPackages();
 
-  const packageNameSet = new Set(packages.map((pkg) => pkg.packageJson.name));
+  const packageNameSet = new Set([...packages.map((pkg) => pkg.packageJson.name), '@antv/layout']);
 
   for (const pkg of packages) {
     const json = pkg.packageJson;
@@ -111,7 +112,7 @@ async function runApiExtractor() {
         },
         skipLibCheck: true,
       },
-
+      enumMemberOrder: EnumMemberOrder.Preserve,
       // Make `export * from 'other-remirror-packages'` to work
       bundledPackages: [
         ...Object.keys(pkg.packageJson.dependencies ?? {}),

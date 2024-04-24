@@ -147,6 +147,10 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
 
         writer.writeLine('---');
         writer.writeLine('title: ' + docPageTitle.title);
+        if (docPageTitle.order) {
+          writer.ensureNewLine();
+          writer.writeLine('order: ' + docPageTitle.order);
+        }
         writer.writeLine('---');
         break;
       }

@@ -63,6 +63,9 @@ import { ViewportController } from './viewport';
 export class Graph extends EventEmitter {
   private options: GraphOptions;
 
+  /**
+   * @internal
+   */
   static defaultOptions: GraphOptions = {
     autoResize: false,
     theme: 'light',
@@ -71,6 +74,11 @@ export class Graph extends EventEmitter {
     zoomRange: [0.01, 10],
   };
 
+  /**
+   * <zh/> 当前图实例是否已经被销毁
+   *
+   * <en/> Whether the current graph instance has been destroyed
+   */
   public destroyed = false;
 
   // @ts-expect-error will be initialized in createRuntime
@@ -93,6 +101,7 @@ export class Graph extends EventEmitter {
    *
    * <en/> Get options
    * @returns <zh/> 配置项 | <en/> options
+   * {@group options}
    */
   public getOptions(): GraphOptions {
     return this.options;
@@ -332,10 +341,24 @@ export class Graph extends EventEmitter {
     return this.options.transforms || [];
   }
 
+  /**
+   * <zh/> 获取数据
+   *
+   * <en/> Get data
+   * @returns <zh/> 数据 | <en/> data
+   * @apiCategory data
+   */
   public getData(): GraphData {
     return this.context.model.getData();
   }
 
+  /**
+   * <zh/> 获取节点数据
+   *
+   * <en/> Get node data
+   * @returns <zh/> 节点数据 | <en/> node data
+   * @apiCategory data
+   */
   public getNodeData(): NodeData[];
   public getNodeData(id: ID): NodeData;
   public getNodeData(ids: ID[]): NodeData[];
@@ -345,6 +368,13 @@ export class Graph extends EventEmitter {
     return this.context.model.getNodeData([id])?.[0];
   }
 
+  /**
+   * <zh/> 获取边数据
+   *
+   * <en/> Get edge data
+   * @returns <zh/> 边数据 | <en/> edge data
+   * @apiCategory data
+   */
   public getEdgeData(): EdgeData[];
   public getEdgeData(id: ID): EdgeData;
   public getEdgeData(ids: ID[]): EdgeData[];

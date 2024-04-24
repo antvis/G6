@@ -62,6 +62,7 @@ export class IndentedWriter {
 
   /**
    * Retrieves the output that was built so far.
+   * @returns The output string.
    */
   public getText(): string {
     return this._builder.toString();
@@ -77,7 +78,7 @@ export class IndentedWriter {
    * the prefix could be "// " to indent and comment simultaneously.)
    * Each call to IndentedWriter.increaseIndent() must be followed by a
    * corresponding call to IndentedWriter.decreaseIndent().
-   * @param indentPrefix
+   * @param indentPrefix - The string to prepend to each line of indented text.
    */
   public increaseIndent(indentPrefix?: string): void {
     this._indentStack.push(indentPrefix !== undefined ? indentPrefix : this.defaultIndentPrefix);
@@ -96,8 +97,9 @@ export class IndentedWriter {
   /**
    * A shorthand for ensuring that increaseIndent()/decreaseIndent() occur
    * in pairs.
-   * @param scope
-   * @param indentPrefix
+   * @param scope - A callback function that will be invoked with the indentation increased.
+   * @param indentPrefix - The string to prepend to each line of indented text.
+   *  If not provided, the default indent prefix will be used.
    */
   public indentScope(scope: () => void, indentPrefix?: string): void {
     this.increaseIndent(indentPrefix);
@@ -131,6 +133,7 @@ export class IndentedWriter {
 
   /**
    * Returns the last character that was written, or an empty string if no characters have been written yet.
+   * @returns The last character that was written.
    */
   public peekLastCharacter(): string {
     if (this._latestChunk !== undefined) {
@@ -142,6 +145,7 @@ export class IndentedWriter {
   /**
    * Returns the second to last character that was written, or an empty string if less than one characters
    * have been written yet.
+   * @returns The second to last character that was written.
    */
   public peekSecondLastCharacter(): string {
     if (this._latestChunk !== undefined) {
@@ -160,9 +164,9 @@ export class IndentedWriter {
    *
    * If `mayWrite` writes "CONTENT", this method will write "<before>CONTENT<after>".
    * If `mayWrite` writes nothing, this method will write nothing.
-   * @param before
-   * @param after
-   * @param mayWrite
+   * @param before - The message to write before the content.
+   * @param after - The message to write after the content.
+   * @param mayWrite - The callback that may write content.
    */
   public writeTentative(before: string, after: string, mayWrite: () => void): void {
     this._beforeStack.push(before);
@@ -186,7 +190,7 @@ export class IndentedWriter {
    * Writes some text to the internal string buffer, applying indentation according
    * to the current indentation level.  If the string contains multiple newlines,
    * each line will be indented separately.
-   * @param message
+   * @param message - The text to write.
    */
   public write(message: string): void {
     if (message.length === 0) {
@@ -220,7 +224,7 @@ export class IndentedWriter {
   /**
    * A shorthand for writing an optional message, followed by a newline.
    * Indentation is applied following the semantics of IndentedWriter.write().
-   * @param message
+   * @param message - The text to write.
    */
   public writeLine(message: string = ''): void {
     if (message.length > 0) {
@@ -234,7 +238,7 @@ export class IndentedWriter {
 
   /**
    * Writes a string that does not contain any newline characters.
-   * @param message
+   * @param message - The text to write.
    */
   private _writeLinePart(message: string): void {
     if (message.length > 0) {

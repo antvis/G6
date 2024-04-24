@@ -1,8 +1,3 @@
-import { dark, light } from './themes';
-import { idOf } from './utils/id';
-import { omitStyleProps, subStyleProps } from './utils/prefix';
-import { treeToGraphData } from './utils/tree';
-
 export {
   BaseBehavior,
   BrushSelect,
@@ -89,6 +84,7 @@ export type { BaseStyleProps } from '@antv/g';
 export type {
   AntVDagreLayoutOptions,
   CircularLayoutOptions,
+  ComboCombinedLayoutOptions,
   ConcentricLayoutOptions,
   D3Force3DLayoutOptions,
   D3ForceLayoutOptions,
@@ -197,11 +193,3 @@ export type {
   ViewportAnimationEffectTiming,
 } from './types';
 export type { ShortcutKey } from './utils/shortcut';
-
-export const Theme = { dark, light };
-export const Utils = {
-  idOf,
-  treeToGraphData,
-  subStyleProps,
-  omitStyleProps,
-};

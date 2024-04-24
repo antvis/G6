@@ -1,4 +1,23 @@
 export const PageTitle: Record<string, string[]> = {
+  // graph
+  GraphOptions: ['Options', '配置项'],
+  GraphMethods: ['API', '方法'],
+  GraphProperties: ['Properties', '属性'],
+  // layout
+  AntvDagreLayout: ['AntvDagre', '布局'],
+  CircularLayout: ['Circular', '环形布局'],
+  ComboCombinedLayout: ['ComboCombined', '复合布局'],
+  ConcentricLayout: ['Concentric', '同心圆布局'],
+  D3Force3DLayout: ['D3Force3D', '3D 力导向布局'],
+  D3ForceLayout: ['D3Force', '力导向布局'],
+  DagreLayout: ['Dagre', '层次布局'],
+  ForceAtlas2Layout: ['ForceAtlas2', '力导向布局'],
+  ForceLayout: ['Force', '力导向布局'],
+  FruchtermanLayout: ['Fruchterman', '力导向布局'],
+  GridLayout: ['Grid', '网格布局'],
+  MdsLayout: ['Mds', '高维数据降维布局'],
+  RadialLayout: ['Radial', '镭射布局'],
+  RandomLayout: ['Random', '随机布局'],
   // behaviors
   BaseBehavior: ['BaseBehavior', '基础交互'],
   BrushSelect: ['BrushSelect', '框选'],

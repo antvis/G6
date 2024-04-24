@@ -1,6 +1,5 @@
 import type { CanvasConfig, IRenderer } from '@antv/g';
 import type { Canvas } from '../runtime/canvas';
-import type { CanvasLayer } from '../types/canvas';
 
 /**
  * <zh/> 画布配置项
@@ -9,6 +8,11 @@ import type { CanvasLayer } from '../types/canvas';
  * @public
  */
 export interface CanvasOptions extends Pick<CanvasConfig, 'devicePixelRatio'> {
+  /**
+   * <zh/> 画布容器
+   *
+   * <en/> canvas container
+   */
   container?: string | HTMLElement | Canvas;
   /**
    * <zh/> 画布宽度
@@ -27,7 +31,7 @@ export interface CanvasOptions extends Pick<CanvasConfig, 'devicePixelRatio'> {
    *
    * <en/> get renderer
    */
-  renderer?: (layer: CanvasLayer) => IRenderer;
+  renderer?: (layer: 'background' | 'main' | 'label' | 'transient') => IRenderer;
   /**
    * <zh/> 是否自动调整画布大小
    *

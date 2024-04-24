@@ -73,7 +73,6 @@ const supportedApiItems = [ApiItemKind.Interface, ApiItemKind.Enum, ApiItemKind.
  * A page and its associated API items.
  */
 export interface IPageData {
-  /** The name (`@docCategory` tag value) of the page */
   readonly name: string;
   readonly apiItems: ApiItem[];
   readonly group: string;
@@ -84,7 +83,7 @@ export interface ICollectedData {
   // readonly fallbackGroup: string;
   readonly apiModel: ApiModel;
   /**
-   * Page data keyed by page name (`@docCategory` tag value).
+   * Page data keyed by page name.
    * Entries in this object are unique.
    */
   readonly pagesByName: Map<string, IPageData>;
@@ -126,23 +125,22 @@ export class MarkdownDocumenter {
 
     // Write the API model page
     this.isReference = true;
-
-    const languages = [LocaleLanguage.EN, LocaleLanguage.ZH];
-
-    for (const language of languages) {
-      this.locale = language;
-      await this._writeApiItemPage(this._apiModel);
-    }
+    await this._generateBilingualPages(this._writeApiItemPage.bind(this), this._apiModel);
 
     // Write the API pages classified by extension
     for (const [_, pageData] of collectedData.pagesByName.entries()) {
       // 对于交互和插件
-      if (['behaviors', 'plugins'].includes(pageData.group)) {
+      if (['behaviors', 'plugins', 'layouts'].includes(pageData.group)) {
         this.isReference = false;
-        for (const language of languages) {
-          this.locale = language;
-          await this._writeApiPage(pageData);
-        }
+        await this._generateBilingualPages(this._writeExtensionPage.bind(this), pageData);
+      }
+
+      // 对于图实例，将拆分成三个页面： 配置项，实例方法，属性
+      // For graph instance, split into three pages: options, methods, properties
+      if (pageData.group === 'runtime' && pageData.name === 'Graph') {
+        this._generateBilingualPages(this._writeGraphOptionsPage.bind(this), pageData);
+        this._generateBilingualPages(this._writeGraphMethodsPage.bind(this), pageData);
+        this._generateBilingualPages(this._writeGraphPropertiesPage.bind(this), pageData);
       }
     }
   }
@@ -154,26 +152,37 @@ export class MarkdownDocumenter {
       pagesByApi: new Map(),
     };
 
-    // Generate empty page data objects for each docCategory
     for (const apiPackage of collectedData.apiModel.packages) {
       for (const entryPoint of apiPackage.entryPoints) {
-        this._initPageDataForItem(collectedData, entryPoint);
+        this._initPageDataForItem(collectedData, entryPoint, apiPackage.entryPoints as unknown as ApiItem[]);
       }
     }
 
     return collectedData;
   }
 
-  private _initPageDataForItem(collectedData: ICollectedData, apiItem: ApiItem) {
+  private _initPageDataForItem(collectedData: ICollectedData, apiItem: ApiItem, siblingApiItems?: ApiItem[]) {
     if (
       supportedApiItems.includes(apiItem.kind as unknown as ApiItemKind) &&
       apiItem instanceof ApiDeclaredItem &&
       apiItem.fileUrlPath
     ) {
       const paths = apiItem.fileUrlPath?.split('/').slice(1);
-      const group = paths?.[0];
+      let group = paths?.[0];
       const target = paths?.[paths.length - 1].replace(/\.d\.ts$/, '');
-      const pageName = upperFirst(camelCase(target === 'index' ? paths?.[paths.length - 2] : target));
+      let pageName = upperFirst(camelCase(target === 'index' ? paths?.[paths.length - 2] : target));
+
+      // Special handling for @antv/layout
+      if (apiItem.fileUrlPath.includes('@antv/layout')) {
+        group = 'layouts';
+        const name =
+          target === 'types'
+            ? paths?.[paths.length - 2] === 'lib'
+              ? (apiItem as ApiInterface).name.replace('LayoutOptions', '')
+              : paths?.[paths.length - 2]
+            : target;
+        pageName = upperFirst(camelCase(name) + 'Layout');
+      }
 
       if (!pageName) return;
 
@@ -189,99 +198,31 @@ export class MarkdownDocumenter {
       }
       collectedData.pagesByApi.set(apiItem.displayName, pageData);
       pageData.apiItems.push(apiItem);
-    }
 
-    for (const memberApiItem of apiItem.members) {
-      this._initPageDataForItem(collectedData, memberApiItem);
-    }
-  }
-
-  private async _writeApiPage(pageData: IPageData) {
-    const configuration: TSDocConfiguration = this._tsdocConfiguration;
-    const output: DocSection = new DocSection({ configuration });
-
-    this._appendPageTitle(output, pageData.name);
-
-    const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
-
-    if (apiClass) {
-      this._appendSummarySection(output, apiClass);
-    }
-
-    const apiInterface = pageData.apiItems.find((apiItem) => apiItem instanceof ApiInterface) as ApiInterface;
-    if (apiInterface) {
-      output.appendNode(new DocHeading({ configuration, title: this._intl(Keyword.OPTIONS) }));
-      this._writeInterfaceTables(output, apiInterface, {
-        showTarget: ['properties'],
-        showPropertiesTableTitle: false,
-      });
-    }
-
-    if (apiClass) {
-      const apiMembers: readonly ApiItem[] = this._getMembersAndWriteIncompleteWarning(apiClass, output);
-
-      if (apiMembers.length > 0) {
-        output.appendNode(new DocHeading({ configuration, title: 'API' }));
-        for (const apiMember of apiMembers) {
-          switch (apiMember.kind) {
-            case ApiItemKind.Method: {
-              output.appendNode(
-                new DocHeading({
-                  configuration,
-                  title: apiMember.getScopedNameWithinPackage(),
-                  level: 4,
-                }),
-              );
-
-              if (apiMember instanceof ApiDocumentedItem) {
-                if (apiMember.tsdocComment !== undefined) {
-                  this._appendSection(
-                    output,
-                    this._localizeSection(apiMember.tsdocComment.summarySection, this.locale),
-                  );
-                }
-              }
-              if (apiMember instanceof ApiDeclaredItem) {
-                if (apiMember.excerpt.text.length > 0) {
-                  output.appendNode(
-                    new DocFencedCode({
-                      configuration,
-                      code: apiMember.getExcerptWithModifiers(),
-                      language: 'typescript',
-                    }),
-                  );
-                }
-                this._writeHeritageTypes(output, apiMember);
-              }
-
-              const detailSection = new DocSection({ configuration });
-
-              const hasParameterAndReturn = this._writeParameterTables(
-                detailSection,
-                apiMember as ApiParameterListMixin,
-                { showTitle: false },
-              );
-
-              if (hasParameterAndReturn) {
-                output.appendNode(
-                  new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
-                );
-              }
-              break;
-            }
-          }
-        }
+      // For interface, add the referenced interfaces to pageData.apiItems
+      if (apiItem instanceof ApiInterface) {
+        const refApiItems = apiItem.excerptTokens
+          .filter((token) => token.kind === ExcerptTokenKind.Reference && token.canonicalReference)
+          .map(
+            (token) => this._apiModel.resolveDeclarationReference(token.canonicalReference!, undefined).resolvedApiItem,
+          )
+          .filter(Boolean) as ApiItem[];
+        pageData.apiItems.unshift(...refApiItems);
       }
     }
 
-    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
-    const filename: string = path.join(this._outputFolder, pageData.group, `${pageData.name}.${lang}.md`);
+    for (const memberApiItem of apiItem.members) {
+      this._initPageDataForItem(collectedData, memberApiItem, apiItem.members as ApiItem[]);
+    }
+  }
 
-    await this._writeFile(
-      filename,
-      output,
-      pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass),
-    );
+  private async _generateBilingualPages<T>(func: (params: T) => Promise<void>, params: T) {
+    const languages = [LocaleLanguage.EN, LocaleLanguage.ZH];
+
+    for (const language of languages) {
+      this.locale = language;
+      await func(params);
+    }
   }
 
   private async _writeApiItemPage(apiItem: ApiItem) {
@@ -464,6 +405,235 @@ export class MarkdownDocumenter {
     const filename: string = path.join(this._outputFolder, 'reference', this._getFilenameForApiItem(apiItem));
 
     await this._writeFile(filename, output, apiItem);
+  }
+
+  private async _writeExtensionPage(pageData: IPageData) {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    const output: DocSection = new DocSection({ configuration });
+
+    this._appendPageTitle(output, pageData.name);
+
+    const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
+
+    if (apiClass) {
+      this._appendSummarySection(output, apiClass);
+    }
+
+    const apiInterfaces = pageData.apiItems.filter((apiItem) => apiItem instanceof ApiInterface) as ApiInterface[];
+    if (apiInterfaces.length > 0)
+      apiInterfaces.forEach((apiInterface, i) => this._writeOptions(output, apiInterface, { showTitle: i === 0 }));
+
+    if (apiClass) this._writeAPIMethods(output, apiClass);
+
+    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
+    const filename: string = path.join(this._outputFolder, pageData.group, `${pageData.name}.${lang}.md`);
+
+    await this._writeFile(
+      filename,
+      output,
+      pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass),
+    );
+  }
+
+  private _writeOptions(output: DocSection, apiItem: ApiInterface | ApiClass, options?: { showTitle?: boolean }) {
+    const { showTitle = true } = options || {};
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    showTitle && output.appendNode(new DocHeading({ configuration, title: this._intl(Keyword.OPTIONS) }));
+
+    const apiMembers: readonly ApiItem[] = this._getMembersAndWriteIncompleteWarning(apiItem, output);
+
+    for (const apiMember of apiMembers) {
+      const isInherited: boolean = apiMember.parent !== apiItem;
+      if (
+        (apiMember.kind === ApiItemKind.Property || apiMember.kind === ApiItemKind.PropertySignature) &&
+        apiMember instanceof ApiPropertyItem
+      ) {
+        // property name
+        output.appendNode(
+          new DocHeading({
+            configuration,
+            title: Utilities.getConciseSignature(apiMember),
+            level: 3,
+          }),
+        );
+
+        // property type, optional, readonly, default value
+        const isOptional = ApiOptionalMixin.isBaseClassOf(apiMember) && apiMember.isOptional;
+
+        const nodes: DocNode[] = [
+          //  property type
+          new DocEmphasisSpan({ configuration, italic: true }, [
+            ...this._createParagraphForTypeExcerpt(apiMember.propertyTypeExcerpt).getChildNodes(),
+            new DocPlainText({ configuration, text: ' ' }),
+          ]),
+          //  optional
+          new DocEmphasisSpan({ configuration, bold: true }, [
+            new DocPlainText({
+              configuration,
+              text: isOptional ? 'Optional' : 'Required',
+            }),
+            new DocPlainText({ configuration, text: ' ' }),
+          ]),
+        ];
+
+        if (apiMember instanceof ApiDocumentedItem) {
+          if (apiMember.tsdocComment !== undefined) {
+            const defaultValueBlock: DocBlock | undefined = apiMember.tsdocComment.customBlocks?.find(
+              (x) => x.blockTag.tagNameWithUpperCase === StandardTags.defaultValue.tagNameWithUpperCase,
+            );
+
+            if (defaultValueBlock) {
+              nodes.push(
+                // default value
+                new DocEmphasisSpan({ configuration, italic: true }, [
+                  new DocPlainText({
+                    configuration,
+                    text: 'Default: ',
+                  }),
+                ]),
+                this._createStaticCode(defaultValueBlock.content.nodes[0] as DocSection),
+              );
+            }
+          }
+        }
+
+        output.appendNode(new DocNoteBox({ configuration }, [new DocParagraph({ configuration }, nodes)]));
+
+        // summary
+        this._appendSummarySection(output, apiMember);
+        // remarks
+        this._writeRemarksSection(output, apiMember);
+      }
+    }
+  }
+
+  private _writeAPIMethods(output: DocSection, apiClass: ApiClass, options?: { showTitle?: boolean }) {
+    const { showTitle = true } = options || {};
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    const apiMembers: readonly ApiItem[] = this._getMembersAndWriteIncompleteWarning(apiClass, output);
+
+    const groupMembers: { [key: string]: ApiItem[] } = {};
+
+    for (const apiMember of apiMembers) {
+      if (apiMember instanceof ApiDocumentedItem) {
+        const tsdocComment: DocComment | undefined = apiMember.tsdocComment;
+
+        if (tsdocComment) {
+          const exampleBlocks: DocBlock[] = tsdocComment.customBlocks.filter(
+            (x) => x.blockTag.tagNameWithUpperCase === StandardTags.example.tagNameWithUpperCase,
+          );
+        }
+
+        // apiMember.tsdocComment.customBlocks.filter(
+        //   (block) => block.blockTag.tagNameWithUpperCase === StandardTags.decorator.tagNameWithUpperCase,
+        // ),
+      }
+    }
+
+    if (apiMembers.length > 0) {
+      showTitle && output.appendNode(new DocHeading({ configuration, title: 'API' }));
+      for (const apiMember of apiMembers) {
+        switch (apiMember.kind) {
+          case ApiItemKind.Method: {
+            output.appendNode(
+              new DocHeading({
+                configuration,
+                title: apiMember.getScopedNameWithinPackage(),
+                level: 3,
+              }),
+            );
+
+            if (apiMember instanceof ApiDocumentedItem) {
+              if (apiMember.tsdocComment !== undefined) {
+                this._appendSection(output, this._localizeSection(apiMember.tsdocComment.summarySection, this.locale));
+              }
+            }
+            if (apiMember instanceof ApiDeclaredItem) {
+              if (apiMember.excerpt.text.length > 0) {
+                output.appendNode(
+                  new DocFencedCode({
+                    configuration,
+                    code: apiMember.getExcerptWithModifiers(),
+                    language: 'typescript',
+                  }),
+                );
+              }
+              this._writeHeritageTypes(output, apiMember);
+            }
+
+            const detailSection = new DocSection({ configuration });
+
+            const hasParameterAndReturn = this._writeParameterTables(
+              detailSection,
+              apiMember as ApiParameterListMixin,
+              { showTitle: false },
+            );
+
+            if (hasParameterAndReturn) {
+              output.appendNode(
+                new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
+              );
+            }
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  private async _writeGraphOptionsPage(pageData: IPageData) {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    const output: DocSection = new DocSection({ configuration });
+
+    this._appendPageTitle(output, 'GraphOptions', 0);
+
+    const apiInterfaces = pageData.apiItems.filter((apiItem) => apiItem instanceof ApiInterface) as ApiInterface[];
+
+    const topApiInterface = apiInterfaces.find((apiInterface) => apiInterface.name === 'GraphOptions');
+
+    if (topApiInterface) {
+      this._writeRemarksSection(output, topApiInterface);
+    }
+
+    if (apiInterfaces.length > 0)
+      apiInterfaces.forEach((apiInterface) => this._writeOptions(output, apiInterface, { showTitle: false }));
+
+    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
+    const filename: string = path.join(this._outputFolder, 'graph', `option.${lang}.md`);
+
+    await this._writeFile(filename, output);
+  }
+
+  private async _writeGraphMethodsPage(pageData: IPageData) {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    const output: DocSection = new DocSection({ configuration });
+
+    this._appendPageTitle(output, 'GraphMethods', 1);
+
+    const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
+
+    if (apiClass) this._writeAPIMethods(output, apiClass, { showTitle: false });
+
+    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
+    const filename: string = path.join(this._outputFolder, 'graph', `method.${lang}.md`);
+
+    await this._writeFile(filename, output);
+  }
+
+  private async _writeGraphPropertiesPage(pageData: IPageData) {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    const output: DocSection = new DocSection({ configuration });
+
+    this._appendPageTitle(output, 'GraphProperties', 2);
+
+    const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
+
+    if (apiClass) this._writeOptions(output, apiClass, { showTitle: false });
+
+    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
+    const filename: string = path.join(this._outputFolder, 'graph', `property.${lang}.md`);
+
+    await this._writeFile(filename, output);
   }
 
   private async _writeFile(filename: string, output: DocSection, apiItem?: ApiItem) {
@@ -847,8 +1017,24 @@ export class MarkdownDocumenter {
   /**
    * GENERATE PAGE: CLASS
    */
-  private _writeClassTables(output: DocSection, apiClass: ApiClass, options?: { showTarget?: string[] }): void {
-    const { showTarget = ['events', 'constructors', 'properties', 'methods'] } = options || {};
+  private _writeClassTables(
+    output: DocSection,
+    apiClass: ApiClass,
+    options?: {
+      showTarget?: string[];
+      showEventsTableTitle?: boolean;
+      showPropertiesTableTitle?: boolean;
+      showConstructorsTableTitle?: boolean;
+      showMethodsTableTitle?: boolean;
+    },
+  ): void {
+    const {
+      showTarget = ['events', 'constructors', 'properties', 'methods'],
+      showEventsTableTitle = true,
+      showPropertiesTableTitle = true,
+      showConstructorsTableTitle = true,
+      showMethodsTableTitle = true,
+    } = options || {};
 
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
@@ -939,32 +1125,34 @@ export class MarkdownDocumenter {
     }
 
     if (showTarget.includes('events') && eventsTable.rows.length > 0) {
-      output.appendNode(new DocHeading({ configuration, title: this._intl(Keyword.EVENTS) }));
+      showEventsTableTitle && output.appendNode(new DocHeading({ configuration, title: this._intl(Keyword.EVENTS) }));
       output.appendNode(eventsTable);
     }
 
     if (showTarget.includes('constructors') && constructorsTable.rows.length > 0) {
-      output.appendNode(
-        new DocHeading({
-          configuration,
-          title: this._intl(Keyword.CONSTRUCTORS),
-        }),
-      );
+      showConstructorsTableTitle &&
+        output.appendNode(
+          new DocHeading({
+            configuration,
+            title: this._intl(Keyword.CONSTRUCTORS),
+          }),
+        );
       output.appendNode(constructorsTable);
     }
 
     if (showTarget.includes('properties') && propertiesTable.rows.length > 0) {
-      output.appendNode(
-        new DocHeading({
-          configuration,
-          title: this._intl(Keyword.PROPERTIES),
-        }),
-      );
+      showPropertiesTableTitle &&
+        output.appendNode(
+          new DocHeading({
+            configuration,
+            title: this._intl(Keyword.PROPERTIES),
+          }),
+        );
       output.appendNode(propertiesTable);
     }
 
     if (showTarget.includes('methods') && methodsTable.rows.length > 0) {
-      output.appendNode(new DocHeading({ configuration, title: this._intl(Keyword.METHODS) }));
+      showMethodsTableTitle && output.appendNode(new DocHeading({ configuration, title: this._intl(Keyword.METHODS) }));
       output.appendNode(methodsTable);
     }
   }
@@ -1014,24 +1202,19 @@ export class MarkdownDocumenter {
   private _writeInterfaceTables(
     output: DocSection,
     apiInterface: ApiInterface,
-    options: {
+    options?: {
       showTarget?: string[];
       showEventsTableTitle?: boolean;
       showPropertiesTableTitle?: boolean;
       showMethodsTableTitle?: boolean;
-    } = {
-      showTarget: ['events', 'properties', 'methods'],
-      showEventsTableTitle: true,
-      showPropertiesTableTitle: true,
-      showMethodsTableTitle: true,
     },
   ): void {
     const {
-      showEventsTableTitle,
-      showPropertiesTableTitle,
-      showMethodsTableTitle,
+      showEventsTableTitle = true,
+      showPropertiesTableTitle = true,
+      showMethodsTableTitle = true,
       showTarget = ['events', 'properties', 'methods'],
-    } = options;
+    } = options || {};
 
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
@@ -1579,6 +1762,19 @@ export class MarkdownDocumenter {
     }
   }
 
+  private _createStaticCode(docSection: DocSection): DocCodeSpan {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+
+    const content = docSection
+      .getChildNodes()
+      .map((node) => {
+        if (node instanceof DocPlainText) return node.text;
+      })
+      .join('');
+
+    return new DocCodeSpan({ configuration, code: content });
+  }
+
   private _appendStaticCodeNode(output: DocSection, docSection: DocSection): void {
     const content = docSection
       .getChildNodes()
@@ -1595,10 +1791,10 @@ export class MarkdownDocumenter {
     );
   }
 
-  private _appendPageTitle(output: DocSection, key: string): void {
+  private _appendPageTitle(output: DocSection, key: string, order?: number): void {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
-    output.appendNode(new DocPageTitle({ configuration, key, locale: this.locale }));
+    output.appendNode(new DocPageTitle({ configuration, key, locale: this.locale, order }));
   }
 
   private _appendSummarySection(output: DocSection, apiItem: ApiItem): void {
@@ -1733,6 +1929,14 @@ export class MarkdownDocumenter {
         if (!isSpecificLanguage) {
           trimmed.appendNode(node);
         }
+      } else if (node instanceof DocFencedCode) {
+        trimmed.appendNode(
+          new DocFencedCode({
+            configuration,
+            code: node.code,
+            language: 'typescript',
+          }),
+        );
       }
     }
 

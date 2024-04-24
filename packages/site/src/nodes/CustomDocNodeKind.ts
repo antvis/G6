@@ -58,6 +58,8 @@ export class CustomDocNodes {
       configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.EmphasisSpan, [
         DocNodeKind.PlainText,
         DocNodeKind.SoftBreak,
+        DocNodeKind.Paragraph,
+        DocNodeKind.LinkTag,
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.UnorderedList, [
