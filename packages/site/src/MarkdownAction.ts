@@ -4,6 +4,7 @@ import type * as tsdoc from '@microsoft/tsdoc';
 import { FileSystem } from '@rushstack/node-core-library';
 import * as path from 'path';
 import { MarkdownDocumenter } from './MarkdownDocumenter';
+import { inputFolder, outputFolder } from './setting';
 
 interface IBuildApiModelResult {
   apiModel: ApiModel;
@@ -29,9 +30,6 @@ export class MarkdownAction {
    */
   protected buildApiModel(): IBuildApiModelResult {
     const apiModel: ApiModel = new ApiModel();
-
-    const inputFolder = './support/api';
-    const outputFolder = './docs/apis';
 
     if (!FileSystem.exists(inputFolder)) {
       throw new Error('The input folder does not exist: ' + inputFolder);

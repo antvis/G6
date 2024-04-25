@@ -23,6 +23,7 @@ export class Utilities {
   /**
    * Converts bad filename characters to underscores.
    * @param name - The name to convert.
+   * @returns The safe filename.
    */
   public static getSafeFilenameForName(name: string): string {
     // TODO: This can introduce naming collisions.

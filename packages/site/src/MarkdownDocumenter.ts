@@ -66,6 +66,7 @@ import { DocTable } from './nodes/DocTable';
 import { DocTableCell } from './nodes/DocTableCell';
 import { DocTableRow } from './nodes/DocTableRow';
 import { DocUnorderedList } from './nodes/DocUnorderedList';
+import { outputFolder, referenceFoldername } from './setting';
 import { Utilities } from './utils/Utilities';
 import { getBlockTagByName } from './utils/parser';
 
@@ -123,6 +124,8 @@ export class MarkdownDocumenter {
   }
 
   public async generateFiles() {
+    this._initGitignore();
+
     const collectedData = this._initPageData(this._apiModel);
 
     // Write the API model page
@@ -404,7 +407,7 @@ export class MarkdownDocumenter {
       this._writeRemarksSection(output, apiItem);
     }
 
-    const filename: string = path.join(this._outputFolder, 'reference', this._getFilenameForApiItem(apiItem));
+    const filename: string = path.join(this._outputFolder, referenceFoldername, this._getFilenameForApiItem(apiItem));
 
     await this._writeFile(filename, output, apiItem);
   }
@@ -535,74 +538,77 @@ export class MarkdownDocumenter {
               groupMembers[apiCategory] ||= [];
               groupMembers[apiCategory].push(apiMember);
             }
-          }
-          if (!ApiCategoryDefined) {
-            groupMembers['undeclared'] ||= [];
-            groupMembers['undeclared'].push(apiMember);
-          }
-        }
-      }
-    }
-
-    if (apiMembers.length > 0 && showTitle) output.appendNode(new DocHeading({ configuration, title: 'API' }));
-
-    Object.entries(groupMembers).forEach(([category, apiMembers]) => {
-      if (category !== 'undeclared' && showSubTitle) {
-        const title = getApiCategoryName(category, this.locale);
-        output.appendNode(new DocHeading({ configuration, title, level: 1 }));
-      }
-      if (apiMembers.length > 0) {
-        for (const apiMember of apiMembers) {
-          switch (apiMember.kind) {
-            case ApiItemKind.Method: {
-              output.appendNode(
-                new DocHeading({
-                  configuration,
-                  title: Utilities.getConciseSignature(apiMember, true),
-                  level: 2,
-                }),
-              );
-
-              if (apiMember instanceof ApiDocumentedItem) {
-                if (apiMember.tsdocComment !== undefined) {
-                  this._appendSection(
-                    output,
-                    this._localizeSection(apiMember.tsdocComment.summarySection, this.locale),
-                  );
-                }
-              }
-              if (apiMember instanceof ApiDeclaredItem) {
-                if (apiMember.excerpt.text.length > 0) {
-                  output.appendNode(
-                    new DocFencedCode({
-                      configuration,
-                      code: apiMember.getExcerptWithModifiers(),
-                      language: 'typescript',
-                    }),
-                  );
-                }
-                this._writeHeritageTypes(output, apiMember);
-              }
-
-              const detailSection = new DocSection({ configuration });
-
-              const hasParameterAndReturn = this._writeParameterTables(
-                detailSection,
-                apiMember as ApiParameterListMixin,
-                { showTitle: false },
-              );
-
-              if (hasParameterAndReturn) {
-                output.appendNode(
-                  new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
-                );
-              }
-              break;
+            if (!ApiCategoryDefined) {
+              groupMembers['undeclared'] ||= [];
+              groupMembers['undeclared'].push(apiMember);
             }
           }
         }
       }
-    });
+
+      if (apiMembers.length > 0 && showTitle) output.appendNode(new DocHeading({ configuration, title: 'API' }));
+
+      Object.entries(groupMembers).forEach(([category, apiMembers]) => {
+        if (category !== 'undeclared' && showSubTitle) {
+          const title = getApiCategoryName(category, this.locale);
+          output.appendNode(new DocHeading({ configuration, title, level: 1 }));
+        }
+        if (apiMembers.length > 0) {
+          for (const apiMember of apiMembers) {
+            switch (apiMember.kind) {
+              case ApiItemKind.Method: {
+                output.appendNode(
+                  new DocHeading({
+                    configuration,
+                    title: Utilities.getConciseSignature(apiMember, true),
+                    level: 2,
+                  }),
+                );
+
+                if (apiMember instanceof ApiDocumentedItem) {
+                  if (apiMember.tsdocComment !== undefined) {
+                    this._appendSection(
+                      output,
+                      this._localizeSection(apiMember.tsdocComment.summarySection, this.locale),
+                    );
+                  }
+                }
+                if (apiMember instanceof ApiDeclaredItem) {
+                  if (apiMember.excerpt.text.length > 0) {
+                    output.appendNode(
+                      new DocFencedCode({
+                        configuration,
+                        code: apiMember.getExcerptWithModifiers(),
+                        language: 'typescript',
+                      }),
+                    );
+                  }
+                  this._writeHeritageTypes(output, apiMember);
+                }
+
+                const detailSection = new DocSection({ configuration });
+
+                const hasParameterAndReturn = this._writeParameterTables(
+                  detailSection,
+                  apiMember as ApiParameterListMixin,
+                  { showTitle: false },
+                );
+
+                if (hasParameterAndReturn) {
+                  output.appendNode(
+                    new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
+                  );
+                }
+
+                this._writeRemarksSection(output, apiMember);
+
+                break;
+              }
+            }
+          }
+        }
+      });
+    }
   }
 
   private async _writeGraphOptionsPage(pageData: IPageData) {
@@ -677,6 +683,39 @@ export class MarkdownDocumenter {
     FileSystem.writeFile(filename, pageContent, {
       convertLineEndings: NewlineKind.CrLf,
     });
+
+    this._syncToGitignore(filename);
+  }
+
+  private _syncToGitignore(filename: string) {
+    const gitignoreUrl = outputFolder + '/.gitignore';
+    const relativeFilename = filename.replace(`${outputFolder}/`, '');
+
+    if (FileSystem.exists(gitignoreUrl)) {
+      const gitignoreContent = FileSystem.readFile(gitignoreUrl);
+      if (relativeFilename.includes(referenceFoldername)) {
+        const hasReference = gitignoreContent.includes(referenceFoldername);
+        if (!hasReference) FileSystem.appendToFile(gitignoreUrl, `\n${referenceFoldername}`);
+        return;
+      }
+      if (!gitignoreContent.includes(relativeFilename)) {
+        FileSystem.appendToFile(gitignoreUrl, `\n${relativeFilename}`);
+      }
+    }
+  }
+
+  private _initGitignore() {
+    const splitLine = '# auto-generated by api-documenter';
+    const gitignoreUrl = outputFolder + '/.gitignore';
+    if (FileSystem.exists(gitignoreUrl)) {
+      let gitignoreContent = FileSystem.readFile(gitignoreUrl);
+      const index = gitignoreContent.indexOf(splitLine);
+      if (index !== -1) gitignoreContent = gitignoreContent.substring(0, index);
+      gitignoreContent += splitLine;
+      FileSystem.writeFile(gitignoreUrl, gitignoreContent);
+    } else {
+      FileSystem.writeFile(gitignoreUrl, splitLine);
+    }
   }
 
   private _writeHeritageTypes(output: DocSection, apiItem: ApiDeclaredItem): void {

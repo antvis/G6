@@ -167,6 +167,8 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
         this.writeNode(docDetails.content, context, false);
         writer.ensureNewLine();
         writer.write('</details>');
+
+        writer.ensureSkippedLine();
         break;
       }
       case CustomDocNodeKind.UnorderedList: {
