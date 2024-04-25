@@ -26,7 +26,9 @@ export class GraphLifeCycleEvent extends BaseEvent implements IGraphLifeCycleEve
       | GraphEvent.BEFORE_SIZE_CHANGE
       | GraphEvent.AFTER_SIZE_CHANGE
       | GraphEvent.BATCH_START
-      | GraphEvent.BATCH_END,
+      | GraphEvent.BATCH_END
+      | GraphEvent.BEFORE_DESTROY
+      | GraphEvent.AFTER_DESTROY,
     public data?: any,
   ) {
     super(type);
