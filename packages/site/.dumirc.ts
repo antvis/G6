@@ -155,21 +155,21 @@ export default defineConfig({
         },
       },
       {
-        slug: 'apis/layout',
+        slug: 'apis/layouts',
         title: {
           zh: 'Layout - 布局',
           en: 'Layout',
         },
       },
       {
-        slug: 'apis/behavior',
+        slug: 'apis/behaviors',
         title: {
           zh: 'Behavior - 交互',
           en: 'Behavior',
         },
       },
       {
-        slug: 'apis/plugin',
+        slug: 'apis/plugins',
         title: {
           zh: 'Plugin - 插件',
           en: 'Plugin',

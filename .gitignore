@@ -28,10 +28,6 @@ coverage
 # Bundle visualizer
 stats.html
 
-# Site
-packages/site/docs/apis/reference
-packages/site/support
-
 # Tools
 .turbo
 **/tmp/
