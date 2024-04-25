@@ -228,7 +228,7 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 设置节点映射器
+   * <zh/> 设置节点样式映射
    *
    * <en/> Set node mapper
    * @param node - <zh/> 节点配置 | <en/> node configuration
@@ -240,7 +240,7 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 设置边映射器
+   * <zh/> 设置边样式映射
    *
    * <en/> Set edge mapper
    * @param edge - <zh/> 边配置 | <en/> edge configuration
@@ -252,10 +252,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 设置 combo 映射器
+   * <zh/> 设置组合样式映射
    *
    * <en/> Set combo mapper
-   * @param combo - <zh/> combo 配置 | <en/> combo configuration
+   * @param combo - <zh/> 组合配置 | <en/> combo configuration
    * @apiCategory element
    */
   public setCombo(combo: ComboOptions): void {
@@ -523,28 +523,28 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取所有 combo 数据
+   * <zh/> 获取所有组合数据
    *
    * <en/> Get all combo data
-   * @returns <zh/> combo 数据 | <en/> combo data
+   * @returns <zh/> 组合数据 | <en/> combo data
    * @apiCategory data
    */
   public getComboData(): ComboData[];
   /**
-   * <zh/> 获取单个 combo 数据
+   * <zh/> 获取单个组合数据
    *
    * <en/> Get single combo data
-   * @param id - <zh/> combo ID | <en/> combo ID
-   * @returns <zh/> combo 数据 | <en/> combo data
+   * @param id - <zh/> 组合ID | <en/> combo ID
+   * @returns <zh/> 组合数据 | <en/> combo data
    * @apiCategory data
    */
   public getComboData(id: ID): ComboData;
   /**
-   * <zh/> 批量获取多个 combo 数据
+   * <zh/> 批量获取多个组合数据
    *
    * <en/> Get multiple combo data in batch
-   * @param ids - <zh/> combo ID 数组 | <en/> combo ID array
-   * @returns <zh/> combo 数据 | <en/> combo data
+   * @param ids - <zh/> 组合ID 数组 | <en/> combo ID array
+   * @returns <zh/> 组合数据 | <en/> combo data
    * @apiCategory data
    */
   public getComboData(ids: ID[]): ComboData[];
@@ -599,10 +599,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 新增 combo 数据
+   * <zh/> 新增组合数据
    *
    * <en/> Add combo data
-   * @param data - <zh/> combo 数据 | <en/> combo data
+   * @param data - <zh/> 组合数据 | <en/> combo data
    * @apiCategory data
    */
   public addComboData(data: CallableValue<ComboData[]>): void {
@@ -643,10 +643,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 更新 combo 数据
+   * <zh/> 更新 组合数据
    *
    * <en/> Update combo data
-   * @param data - <zh/> combo 数据 | <en/> combo data
+   * @param data - <zh/> 组合数据 | <en/> combo data
    * @apiCategory data
    */
   public updateComboData(data: CallableValue<PartialNodeLikeData<ComboData>[]>): void {
@@ -687,10 +687,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 删除多条 combo 数据
+   * <zh/> 删除多条组合数据
    *
    * <en/> Remove multiple combo data
-   * @param ids - <zh/> combo ID 数组 | <en/> combo ID array
+   * @param ids - <zh/> 组合 ID 数组 | <en/> 组合 ID array
    * @apiCategory data
    */
   public removeComboData(ids: ID[] | ((data: ComboData[]) => ID[])): void {
@@ -710,10 +710,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取节点或 combo 相关的边数据
+   * <zh/> 获取节点或组合相关的边数据
    *
    * <en/> Get the edge data related to the node or combo
-   * @param id - <zh/> 节点或 combo ID | <en/> node or combo ID
+   * @param id - <zh/> 节点或组合ID | <en/> node or combo ID
    * @param direction - <zh/> 边的方向 | <en/> edge direction
    * @returns <zh/> 边数据 | <en/> edge data
    * @apiCategory data
@@ -723,10 +723,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取节点或 combo 的一跳邻居节点数据
+   * <zh/> 获取节点或组合的一跳邻居节点数据
    *
    * <en/> Get the one-hop neighbor node data of the node or combo
-   * @param id - <zh/> 节点或 combo ID | <en/> node or combo ID
+   * @param id - <zh/> 节点或组合ID | <en/> node or combo ID
    * @returns <zh/> 邻居节点数据 | <en/> neighbor node data
    * @apiCategory data
    */
@@ -735,11 +735,11 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取节点或 combo 的祖先元素数据
+   * <zh/> 获取节点或组合的祖先元素数据
    *
    * <en/> Get the ancestor element data of the node or combo
-   * @param id - <zh/> 节点或 combo ID | <en/> node or combo ID
-   * @param hierarchy - <zh/> 指定树图层级关系还是 combo 层级关系 | <en/> specify tree or combo hierarchy relationship
+   * @param id - <zh/> 节点或组合ID | <en/> node or combo ID
+   * @param hierarchy - <zh/> 指定树图层级关系还是组合层级关系 | <en/> specify tree or combo hierarchy relationship
    * @returns <zh/> 祖先元素数据 | <en/> ancestor element data
    * @remarks
    * <zh/> 数组中的顺序是从父节点到祖先节点
@@ -752,11 +752,11 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取节点或 combo 的父元素数据
+   * <zh/> 获取节点或组合的父元素数据
    *
    * <en/> Get the parent element data of the node or combo
-   * @param id - <zh/> 节点或 combo ID | <en/> node or combo ID
-   * @param hierarchy - <zh/> 指定树图层级关系还是 combo 层级关系 | <en/> specify tree or combo hierarchy relationship
+   * @param id - <zh/> 节点或组合ID | <en/> node or combo ID
+   * @param hierarchy - <zh/> 指定树图层级关系还是组合层级关系 | <en/> specify tree or combo hierarchy relationship
    * @returns <zh/> 父元素数据 | <en/> parent element data
    * @apiCategory data
    */
@@ -765,10 +765,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取节点或 combo 的子元素数据
+   * <zh/> 获取节点或组合的子元素数据
    *
    * <en/> Get the child element data of the node or combo
-   * @param id - <zh/> 节点或 combo ID | <en/> node or combo ID
+   * @param id - <zh/> 节点或组合ID | <en/> node or combo ID
    * @returns <zh/> 子元素数据 | <en/> child element data
    * @apiCategory data
    */
@@ -795,11 +795,11 @@ export class Graph extends EventEmitter {
    */
   public getElementDataByState(elementType: 'edge', state: State): EdgeData[];
   /**
-   * <zh/> 获取具体某一状态下的 combo 数据
+   * <zh/> 获取具体某一状态下的组合数据
    *
    * <en/> Get combo data in a specific state
    * @param state - <zh/> 状态 | <en/> state
-   * @returns <zh/> combo 数据 | <en/> combo data
+   * @returns <zh/> 组合数据 | <en/> combo data
    * @apiCategory data
    */
   public getElementDataByState(elementType: 'combo', state: State): ComboData[];
