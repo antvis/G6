@@ -1,9 +1,9 @@
-import { pluginTimeBarBuildIn } from '@/__tests__/demos';
+import { pluginTimeBarVisibilityBuildIn } from '@/__tests__/demos';
 import { createDemoGraph, sleep } from '@@/utils';
 
-describe('plugin timebar', () => {
+describe('plugin timebar visibility', () => {
   it('timebar', async () => {
-    const graph = await createDemoGraph(pluginTimeBarBuildIn);
+    const graph = await createDemoGraph(pluginTimeBarVisibilityBuildIn);
     const container = graph.getCanvas().getContainer()!;
 
     expect(graph.getPlugins().length).toBe(1);
@@ -32,6 +32,7 @@ describe('plugin timebar', () => {
       key: 'timebar',
       width: 550,
       height: 120,
+      elementTypes: ['node', 'combo'],
       timebarType: 'chart',
     });
 

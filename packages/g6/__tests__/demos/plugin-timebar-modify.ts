@@ -1,6 +1,6 @@
 import { Graph } from '@/src';
 
-export const pluginTimeBarBuildIn: TestCase = async (context) => {
+export const pluginTimeBarModifyBuildIn: TestCase = async (context) => {
   const startTime = new Date('2023-08-01').getTime();
   const diff = 3600 * 24 * 1000;
   const timebarData = [10, 2, 3, 4, 15, 10, 5, 0, 3, 1].map((value, index) => ({
@@ -15,6 +15,7 @@ export const pluginTimeBarBuildIn: TestCase = async (context) => {
         timestamp: startTime + (index % 10) * diff,
         value: index % 20,
         label: new Date(startTime + (index % 10) * diff).toLocaleString(),
+        parentId: index < 2 ? `combo-${index}` : null,
       },
     })),
     edges: new Array(49).fill(0).map((_, i) => ({
@@ -25,6 +26,24 @@ export const pluginTimeBarBuildIn: TestCase = async (context) => {
         edgeType: 'e1',
       },
     })),
+    combo: [
+      {
+        id: 'combo-0',
+        data: {
+          timestamp: startTime + diff,
+          value: 1,
+          label: new Date(startTime + diff).toLocaleString(),
+        },
+      },
+      {
+        id: 'combo-1',
+        data: {
+          timestamp: startTime + 3 * diff,
+          value: 3,
+          label: new Date(startTime + 3 * diff).toLocaleString(),
+        },
+      },
+    ],
   };
 
   const graph = new Graph({
@@ -38,7 +57,7 @@ export const pluginTimeBarBuildIn: TestCase = async (context) => {
         type: 'timebar',
         key: 'timebar',
         data: timebarData,
-        mode: 'visibility',
+        mode: 'modify',
       },
     ],
   });
