@@ -577,6 +577,9 @@ export class MarkdownDocumenter {
                 new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
               );
             }
+
+            this._writeRemarksSection(output, apiMember);
+
             break;
           }
         }
@@ -1940,7 +1943,7 @@ export class MarkdownDocumenter {
   }
 
   private _getLinkFilenameForApiItem(apiItem: ApiItem): string {
-    const prefix = !this.isReference ? `../${referenceFoldername}/` : './';
+    const prefix = !this.isReference ? '../reference/' : './';
     return prefix + this._getFilenameForApiItem(apiItem);
   }
 
