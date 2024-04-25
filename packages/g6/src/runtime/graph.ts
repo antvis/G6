@@ -573,6 +573,8 @@ export class Graph extends EventEmitter {
   }
 
   public destroy(): void {
+    emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_DESTROY));
+
     const { layout, element, model, canvas, behavior, plugin } = this.context;
     plugin?.destroy();
     behavior?.destroy();
@@ -588,6 +590,8 @@ export class Graph extends EventEmitter {
     window.removeEventListener('resize', this.onResize);
 
     this.destroyed = true;
+
+    emit(this, new GraphLifeCycleEvent(GraphEvent.AFTER_DESTROY));
   }
 
   public getCanvas(): Canvas {
