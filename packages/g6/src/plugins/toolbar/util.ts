@@ -2,16 +2,19 @@ import { CornerPlacement } from '../../types';
 
 /**
  * <zh/> 工具栏显示项目。
+ *
  * <en/> The item of the toolbar.
  */
 export type ToolbarItem = {
   /**
    * <zh/> 可以使用 id 来配置内置的工具栏项，可以是 'zoom-in'、'zoom-out'、'auto-fit'、'reset' 等值，也可以配合三方的 iconfont 使用，原理是通过 id 来匹配内置的 svg symbol。See: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/symbol。
+   *
    * <en/> You can use id to configure the built-in toolbar items, which can be values such as 'zoom-in', 'zoom-out', 'auto-fit', 'reset', etc. One of the two configurations with `marker`. The principle is to match the built-in svg symbol through id. See: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/symbol.
    */
   readonly id: 'zoom-in' | 'zoom-out' | 'redo' | 'undo' | 'edit' | 'delete' | 'auto-fit' | 'export' | 'reset' | string;
   /**
    * <zh/> 工具栏项对应的值，在 onClick 中作为回调参数。
+   *
    * <en/> The value corresponding to the toolbar item, used as a callback parameter in `onClick`.
    */
   readonly value: string;
@@ -19,12 +22,14 @@ export type ToolbarItem = {
 
 /**
  * <zh/> Toolbar 的位置，相对于画布，默认为 `top-left`，最终会影响 DOM 的 style 样式。
+ *
  * <en/> The position of the Toolbar relative to the canvas, default is `top-left`, which will ultimately affect the style of the DOM.
  */
 export type Position = CornerPlacement;
 
 /**
  * <zh/> 解析 toolbar 的 position 为位置样式。
+ *
  * <en/> Parse the position of the toolbar into position style.
  * @param position - position
  * @returns style

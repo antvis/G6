@@ -13,7 +13,10 @@ import { parseCommand } from './utils';
 
 export interface HistoryOptions extends BasePluginOptions {
   /**
-   * <zh/>  最多记录该数据长度的历史记录，默认为 0 表示不做限制
+   * <zh/>  最多记录该数据长度的历史记录
+   *
+   * <en/> The maximum number of history records
+   * @defaultValue 0(不做限制)
    */
   stackSize?: number;
   /**
@@ -61,6 +64,7 @@ export class History extends BasePlugin<HistoryOptions> {
 
   /**
    * <zh/> 是否可以执行撤销操作
+   *
    * <en/> Whether undo can be done
    * @returns <zh/> 是否可以执行撤销操作 | <en/> Whether undo can be done
    */
@@ -70,6 +74,7 @@ export class History extends BasePlugin<HistoryOptions> {
 
   /**
    * <zh/> 是否可以执行重做操作
+   *
    * <en/> Whether redo can be done
    * @returns <zh/> 是否可以执行重做操作 | <en/> Whether redo can be done
    */
@@ -79,6 +84,7 @@ export class History extends BasePlugin<HistoryOptions> {
 
   /**
    * <zh/> 执行撤销
+   *
    * <en/> Execute undo
    * @returns <zh/> 返回当前实例 | <en/> Return the current instance
    */
@@ -96,6 +102,7 @@ export class History extends BasePlugin<HistoryOptions> {
 
   /**
    * <zh/> 执行重做
+   *
    * <en/> Execute redo
    * @returns <zh/> 返回当前实例 | <en/> Return the current instance
    */
@@ -111,6 +118,7 @@ export class History extends BasePlugin<HistoryOptions> {
 
   /**
    * <zh/> 执行撤销且不计入历史记录
+   *
    * <en/> Execute undo and do not record in history
    * @returns <zh/> 返回当前实例 | <en/> Return the current instance
    */
@@ -188,6 +196,7 @@ export class History extends BasePlugin<HistoryOptions> {
 
   /**
    * <zh/> 清空历史记录
+   *
    * <en/> Clear history
    */
   public clear(): void {

@@ -6,17 +6,17 @@ import { inferDefaultValue } from '../../utils/animation';
 import { groupByChangeType, reduceDataChanges } from '../../utils/change';
 import { idOf } from '../../utils/id';
 
-export type Command = {
+export interface Command {
   current: CommandData;
   original: CommandData;
   animation: boolean;
-};
+}
 
-export type CommandData = {
+export interface CommandData {
   add: GraphData;
   update: GraphData;
   remove: GraphData;
-};
+}
 
 /**
  * <zh/> 对齐两个对象的字段。若目标对象缺少字段，则会添加默认值。

@@ -6,8 +6,12 @@ import { BasePlugin } from './base-plugin';
 export interface CameraSettingOptions extends BasePluginOptions {
   /**
    * <zh/> 投影模式，透视投影仅在 3D 场景下有效
+   * - perspective : 透视投影
+   * - orthographic : 正交投影
    *
    * <en/> Projection mode, perspective projection is only valid in 3D scenes
+   * - perspective : perspective projection
+   * - orthographic : Orthogonal projection
    */
   projectionMode?: 'perspective' | 'orthographic';
   /**
@@ -42,16 +46,19 @@ export interface CameraSettingOptions extends BasePluginOptions {
   fov?: number;
   /**
    * <zh/> 相机视口宽高比，仅在透视相机下有效
-   * - 设置为 'auto' 时，会自动根据画布宽高比设置
+   * - number : 具体的宽高比
+   * - auto : 自动设置为画布的宽高比
    *
    * <en/> Camera viewport aspect ratio, only valid in perspective camera.
-   * - When set to 'auto', it will be automatically set according to the canvas aspect ratio
+   * - number : Specific aspect ratio
+   * - auto : Automatically set to the aspect ratio of the canvas
    */
   aspect?: number | 'auto';
   /**
-   * <zh/> 相机距离目标的距离，默认为 500
+   * <zh/> 相机距离目标的距离
    *
-   * <en/> The distance from the camera to the target, default is 100.
+   * <en/> The distance from the camera to the target
+   * @defaultValue 500
    */
   distance?: number;
   /**
@@ -96,7 +103,12 @@ export class CameraSetting extends BasePlugin<CameraSettingOptions> {
     super(context, options);
     this.bindEvents();
   }
-
+  /**
+   * <zh/> 更新相机参数
+   *
+   * <en/> Update camera parameters
+   * @param options <zh/> 相机配置项 <br/> <en/> Camera configuration options
+   */
   public update(options: Partial<CameraSettingOptions>): void {
     this.setOptions(options);
     super.update(options);

@@ -8,27 +8,56 @@ import type { CardinalPlacement } from '../types/placement';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
-type Field = string | ((item: ElementDatum) => string);
-type Datum = {
+export interface FieldDefinition {
+  field: string | ((item: ElementDatum) => string);
+}
+
+interface Datum {
   id?: string;
   label?: string;
   color?: string;
   marker?: string;
   elementType?: ElementType;
   [key: string]: any;
-};
+}
 
 export interface LegendOptions extends BasePluginOptions, Omit<CategoryOptions, 'data'> {
-  /** <zh/> 触发方式 | <en/> Event type that triggers display of legend */
+  /**
+   * <zh/> 图例触发行为，可选 hover | click
+   * - hover：鼠标移入图例项时触发
+   * - click：鼠标点击图例项时触发
+   *
+   * <en/> Legend trigger behavior, optional hover | click
+   * - hover：mouseover the legend item
+   * - click：click the legend item
+   * @defaultValue 'hover'
+   */
   trigger?: 'hover' | 'click';
-  /** <zh/> 位置 | <en/> Legend position */
+  /**
+   * <zh/> 图例在画布中的相对位置，默认为 'bottom'，代表在画布正下方
+   *
+   * <en/> Relative position of the legend in the canvas, defaults to 'bottom', representing the bottom of the canvas
+   * @defaultValue 'bottom'
+   */
   position?: CardinalPlacement;
-  /** <zh/> 节点分类标识 | <en/> Node Classification Identifier */
-  nodeField?: Field;
-  /** <zh/> 边分类标识 | <en/> Edge Classification Identifier */
-  edgeField?: Field;
-  /** <zh/> Combo分类标识 | <en/> Combo Classification Identifier */
-  comboField?: Field;
+  /**
+   * <zh/> 节点分类标识
+   *
+   * <en/> Node Classification Identifier
+   */
+  nodeField?: FieldDefinition['field'];
+  /**
+   * <zh/> 边分类标识
+   *
+   * <en/> Edge Classification Identifier
+   */
+  edgeField?: FieldDefinition['field'];
+  /**
+   * <zh/> Combo分类标识
+   *
+   * <en/> Combo Classification Identifier
+   */
+  comboField?: FieldDefinition['field'];
 }
 
 export class Legend extends BasePlugin<LegendOptions> {
@@ -58,6 +87,12 @@ export class Legend extends BasePlugin<LegendOptions> {
     this.bindEvents();
   }
 
+  /**
+   * <zh/> 更新图例配置
+   *
+   * <en/> Update the legend configuration
+   * @param options <zh/> 图例配置项 | <en/> Legend configuration item
+   */
   public update(options: Partial<LegendOptions>) {
     super.update(options);
     this.clear();
@@ -86,35 +121,58 @@ export class Legend extends BasePlugin<LegendOptions> {
     graph.setElementState(Object.fromEntries(ids?.map((id) => [id, state])));
   };
 
-  public click = (el: Selection) => {
+  /**
+   * <zh/> 图例元素点击事件
+   *
+   * <en/> Legend element click event
+   * @param event <zh/> 点击的元素 ｜ <en/> The element that is clicked
+   */
+  public click = (event: Selection) => {
     if (this.options.trigger === 'hover') return;
-    const composeId = get(el, [this.typePrefix, 'id']);
+    const composeId = get(event, [this.typePrefix, 'id']);
     if (!this.selectedItems.includes(composeId)) {
       this.selectedItems.push(composeId);
-      this.changeState(el, 'selected');
+      this.changeState(event, 'selected');
     } else {
       this.selectedItems = this.selectedItems.filter((item) => item !== composeId);
-      this.changeState(el, []);
+      this.changeState(event, []);
     }
   };
 
-  public mouseleave = (el: Selection) => {
+  /**
+   * <zh/> 图例元素移出事件
+   *
+   * <en/> Legend element mouseleave event
+   * @param event <zh/> 移出的元素 ｜ <en/> The element that is moved out
+   */
+  public mouseleave = (event: Selection) => {
     if (this.options.trigger === 'click') return;
     this.selectedItems = [];
-    this.changeState(el, []);
+    this.changeState(event, []);
   };
 
-  public mouseenter = (el: Selection) => {
+  /**
+   * <zh/> 图例元素移入事件
+   *
+   * <en/> Legend element mouseenter event
+   * @param event <zh/> 移入的元素 ｜ <en/> The element that is moved in
+   */
+  public mouseenter = (event: Selection) => {
     if (this.options.trigger === 'click') return;
-    const composeId = get(el, [this.typePrefix, 'id']);
+    const composeId = get(event, [this.typePrefix, 'id']);
     if (!this.selectedItems.includes(composeId)) {
       this.selectedItems.push(composeId);
-      this.changeState(el, 'active');
+      this.changeState(event, 'active');
     } else {
       this.selectedItems = this.selectedItems.filter((item) => item !== composeId);
     }
   };
 
+  /**
+   * <zh/> 刷新图例元素状态
+   *
+   * <en/> Refresh the status of the legend element
+   */
   public updateElement() {
     if (!this.element) return;
     const category = this.element.getChildByIndex(0) as Category;
@@ -154,7 +212,7 @@ export class Legend extends BasePlugin<LegendOptions> {
     };
   };
 
-  private getMarkerData = (field: Field, elementType: ElementType) => {
+  private getMarkerData = (field: FieldDefinition['field'], elementType: ElementType) => {
     if (!field) return [];
     const { model, element, graph } = this.context;
     const { nodes, edges, combos } = model.getData();
@@ -235,6 +293,13 @@ export class Legend extends BasePlugin<LegendOptions> {
     return Object.values(items);
   };
 
+  /**
+   * <zh/> 图例布局
+   *
+   * <en/> Legend layout
+   * @param position <zh/> 图例位置| <en/> Legend position
+   * @returns <zh/> 图例布局样式| <en/> Legend layout style
+   */
   public layout = (position: CardinalPlacement) => {
     const preset = {
       flexDirection: 'row',
@@ -315,6 +380,11 @@ export class Legend extends BasePlugin<LegendOptions> {
     this.draw = true;
   };
 
+  /**
+   * <zh/>销毁图例
+   *
+   * <en/> Destroy the legend
+   */
   public destroy(): void {
     this.clear();
     this.context.graph.off(GraphEvent.AFTER_DRAW, this.createElement);
