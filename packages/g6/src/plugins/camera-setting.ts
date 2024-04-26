@@ -107,7 +107,7 @@ export class CameraSetting extends BasePlugin<CameraSettingOptions> {
    * <zh/> 更新相机参数
    *
    * <en/> Update camera parameters
-   * @param options <zh/> 相机配置项 <br/> <en/> Camera configuration options
+   * @param options <zh/> 相机配置项 | <en/> Camera configuration options
    */
   public update(options: Partial<CameraSettingOptions>): void {
     this.setOptions(options);

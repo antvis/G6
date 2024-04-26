@@ -17,7 +17,7 @@ export type { ContextmenuOptions } from './contextmenu';
 export type { GridLineOptions } from './grid-line';
 export type { HistoryOptions } from './history';
 export type { HullOptions } from './hull';
-export type { FieldDefinition, LegendOptions } from './legend';
+export type { LegendOptions } from './legend';
 export type { ToolbarOptions } from './toolbar';
 export type { TooltipOptions } from './tooltip';
 export type { WatermarkOptions } from './watermark';

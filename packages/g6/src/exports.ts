@@ -139,7 +139,6 @@ export type {
   BubbleSetsOptions,
   CameraSettingOptions,
   ContextmenuOptions,
-  FieldDefinition,
   GridLineOptions,
   HistoryOptions,
   HullOptions,

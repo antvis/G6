@@ -8,10 +8,6 @@ import type { CardinalPlacement } from '../types/placement';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
-export interface FieldDefinition {
-  field: string | ((item: ElementDatum) => string);
-}
-
 interface Datum {
   id?: string;
   label?: string;
@@ -45,19 +41,19 @@ export interface LegendOptions extends BasePluginOptions, Omit<CategoryOptions, 
    *
    * <en/> Node Classification Identifier
    */
-  nodeField?: FieldDefinition['field'];
+  nodeField?: string | ((item: ElementDatum) => string);
   /**
    * <zh/> 边分类标识
    *
    * <en/> Edge Classification Identifier
    */
-  edgeField?: FieldDefinition['field'];
+  edgeField?: string | ((item: ElementDatum) => string);
   /**
    * <zh/> Combo分类标识
    *
    * <en/> Combo Classification Identifier
    */
-  comboField?: FieldDefinition['field'];
+  comboField?: string | ((item: ElementDatum) => string);
 }
 
 export class Legend extends BasePlugin<LegendOptions> {
@@ -125,7 +121,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <zh/> 图例元素点击事件
    *
    * <en/> Legend element click event
-   * @param event <zh/> 点击的元素 ｜ <en/> The element that is clicked
+   * @param event <zh/> 点击的元素 | <en/> The element that is clicked
    */
   public click = (event: Selection) => {
     if (this.options.trigger === 'hover') return;
@@ -143,7 +139,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <zh/> 图例元素移出事件
    *
    * <en/> Legend element mouseleave event
-   * @param event <zh/> 移出的元素 ｜ <en/> The element that is moved out
+   * @param event <zh/> 移出的元素 | <en/> The element that is moved out
    */
   public mouseleave = (event: Selection) => {
     if (this.options.trigger === 'click') return;
@@ -155,7 +151,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <zh/> 图例元素移入事件
    *
    * <en/> Legend element mouseenter event
-   * @param event <zh/> 移入的元素 ｜ <en/> The element that is moved in
+   * @param event <zh/> 移入的元素 | <en/> The element that is moved in
    */
   public mouseenter = (event: Selection) => {
     if (this.options.trigger === 'click') return;
@@ -212,7 +208,7 @@ export class Legend extends BasePlugin<LegendOptions> {
     };
   };
 
-  private getMarkerData = (field: FieldDefinition['field'], elementType: ElementType) => {
+  private getMarkerData = (field: string | ((item: ElementDatum) => string), elementType: ElementType) => {
     if (!field) return [];
     const { model, element, graph } = this.context;
     const { nodes, edges, combos } = model.getData();
