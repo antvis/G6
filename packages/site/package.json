@@ -29,6 +29,7 @@
     "deploy": "npm run build && gh-pages -d dist",
     "dev": "dumi dev",
     "doc": " ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
+    "doc:clear": "ts-node ./scripts/clear-doc.ts",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
     "lint": "eslint ./src  --quiet && prettier ./src  --check",
     "preview": "dumi preview"
@@ -47,6 +48,7 @@
     "antd": "^5.10.2",
     "dumi": "^2.2.14",
     "insert-css": "^2.0.0",
+    "react": "^18.2.0",
     "stats.js": "^0.17.0"
   },
   "devDependencies": {
@@ -58,6 +60,7 @@
     "@rushstack/node-core-library": "^4.1.0",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.0",
+    "@types/react": "^18.2.75",
     "@types/resolve": "^1.20.6",
     "fs-extra": "^11.2.0",
     "prettier": "^3.1.1",

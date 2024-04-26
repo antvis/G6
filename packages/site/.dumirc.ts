@@ -57,7 +57,7 @@ export default defineConfig({
         },
       },
       {
-        slug: 'docs/apis',
+        slug: 'docs/api',
         title: {
           zh: 'API',
           en: 'API',
@@ -96,6 +96,22 @@ export default defineConfig({
     docs: [
       // Docs folder
       {
+        slug: 'manual/getting-started',
+        title: {
+          zh: '开始使用',
+          en: 'Getting Started',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/getting-started/integration',
+        title: {
+          zh: '前端框架集成',
+          en: 'Integration',
+        },
+        order: 2,
+      },
+      {
         slug: 'manual/core-concept',
         title: {
           zh: '核心概念',
@@ -111,86 +127,86 @@ export default defineConfig({
         },
         order: 4,
       },
-      // APIs folder
+      // API folder
       {
-        slug: 'apis/graph',
+        slug: 'api/graph',
         title: {
           zh: 'Graph - 图',
           en: 'Graph',
         },
       },
       {
-        slug: 'apis/data',
+        slug: 'api/data',
         title: {
           zh: 'Data - 数据',
           en: 'Data',
         },
       },
       {
-        slug: 'apis/element',
+        slug: 'api/element',
         title: {
           zh: 'Element - 元素',
           en: 'Element',
         },
       },
       {
-        slug: 'apis/element/node',
+        slug: 'api/element/node',
         title: {
           zh: 'Node - 节点',
           en: 'Node',
         },
       },
       {
-        slug: 'apis/element/edge',
+        slug: 'api/element/edge',
         title: {
           zh: 'Edge - 边',
           en: 'Edge',
         },
       },
       {
-        slug: 'apis/element/combo',
+        slug: 'api/element/combo',
         title: {
           zh: 'Combo - 组合',
           en: 'Combo',
         },
       },
       {
-        slug: 'apis/layouts',
+        slug: 'api/layouts',
         title: {
           zh: 'Layout - 布局',
           en: 'Layout',
         },
       },
       {
-        slug: 'apis/behaviors',
+        slug: 'api/behaviors',
         title: {
           zh: 'Behavior - 交互',
           en: 'Behavior',
         },
       },
       {
-        slug: 'apis/plugins',
+        slug: 'api/plugins',
         title: {
           zh: 'Plugin - 插件',
           en: 'Plugin',
         },
       },
       {
-        slug: 'apis/extension',
+        slug: 'api/extension',
         title: {
           zh: 'Extension - 扩展',
           en: 'Extension',
         },
       },
       {
-        slug: 'apis/function',
+        slug: 'api/function',
         title: {
           zh: 'Function - 函数',
           en: 'Function',
         },
       },
       {
-        slug: 'apis/export',
+        slug: 'api/reference',
         title: {
           zh: 'Export - 导出',
           en: 'Export',
