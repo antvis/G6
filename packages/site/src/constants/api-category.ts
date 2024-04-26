@@ -19,10 +19,9 @@ const apiCategoryNames: Record<string, string[]> = {
 };
 
 /**
- * Get the category name of the API
- * @param categoryKey - The key of the category
- * @param locale - The locale
- * @returns The category name
+ *
+ * @param categoryKey
+ * @param locale
  */
 export function getApiCategoryName(categoryKey: string, locale: LocaleLanguage) {
   const [en, zh] = apiCategoryNames[categoryKey];

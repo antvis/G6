@@ -17,7 +17,7 @@ export type HTMLStyleProps = BaseNodeStyleProps<{
 }>;
 
 /**
- * @see https://github.com/antvis/G/blob/next/packages/g-lite/src/plugins/EventPlugin.ts
+ * @see https://github.com/antvis/G/blob/next/packages/g/src/plugins/EventPlugin.ts
  */
 export class HTML extends BaseNode<HTMLStyleProps> {
   static defaultStyleProps: Partial<HTMLStyleProps> = {

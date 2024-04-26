@@ -80,23 +80,6 @@ export { Shortcut } from './utils/shortcut';
 export { parseSize } from './utils/size';
 export { treeToGraphData } from './utils/tree';
 
-export type { BaseStyleProps } from '@antv/g';
-export type {
-  AntVDagreLayoutOptions,
-  CircularLayoutOptions,
-  ComboCombinedLayoutOptions,
-  ConcentricLayoutOptions,
-  D3Force3DLayoutOptions,
-  D3ForceLayoutOptions,
-  DagreLayoutOptions,
-  ForceAtlas2LayoutOptions,
-  ForceLayoutOptions,
-  FruchtermanLayoutOptions,
-  GridLayoutOptions,
-  MDSLayoutOptions,
-  RadialLayoutOptions,
-  RandomLayoutOptions,
-} from '@antv/layout';
 export type {
   BaseBehaviorOptions,
   BrushSelectOptions,
@@ -133,7 +116,7 @@ export type {
   StarStyleProps,
   TriangleStyleProps,
 } from './elements/nodes';
-export type { BaseShapeStyleProps } from './elements/shapes';
+export type { BaseShapeStyleProps, LabelStyleProps } from './elements/shapes';
 export type {
   BasePluginOptions,
   BubbleSetsOptions,
@@ -171,6 +154,8 @@ export type {
   CornerPlacement,
   DirectionalPlacement,
   Edge,
+  EdgeArrowStyleProps,
+  EdgeLabelStyleProps,
   Element,
   ElementType,
   IAnimateEvent,
@@ -183,6 +168,7 @@ export type {
   IPointerEvent,
   IViewportEvent,
   IWheelEvent,
+  LoopStyleProps,
   Node,
   Placement,
   Point,
@@ -193,3 +179,21 @@ export type {
   ViewportAnimationEffectTiming,
 } from './types';
 export type { ShortcutKey } from './utils/shortcut';
+
+export type {
+  AntVDagreLayoutOptions,
+  CircularLayoutOptions,
+  ComboCombinedLayoutOptions,
+  ConcentricLayoutOptions,
+  D3Force3DLayoutOptions,
+  D3ForceLayoutOptions,
+  DagreLayoutOptions,
+  ForceAtlas2LayoutOptions,
+  ForceLayoutOptions,
+  FruchtermanLayoutOptions,
+  GridLayoutOptions,
+  MDSLayoutOptions,
+  RadialLayoutOptions,
+  RandomLayoutOptions,
+} from '@antv/layout';
+export type { PathArray } from '@antv/util';

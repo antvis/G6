@@ -52,11 +52,12 @@ import * as path from 'path';
 
 import { camelCase, upperFirst } from 'lodash';
 import prettier from 'prettier';
-import { getApiCategoryName } from './constants/api-category';
 import { Keyword, intl } from './constants/keywords';
+import { GLinks } from './constants/link';
 import { LocaleLanguage } from './constants/locale';
 import { CustomMarkdownEmitter } from './markdown/CustomMarkdownEmitter';
 import { CustomDocNodes } from './nodes/CustomDocNodeKind';
+import { DocContainer } from './nodes/DocContainer';
 import { DocDetails } from './nodes/DocDetails';
 import { DocEmphasisSpan } from './nodes/DocEmphasisSpan';
 import { DocHeading } from './nodes/DocHeading';
@@ -68,7 +69,7 @@ import { DocTableRow } from './nodes/DocTableRow';
 import { DocUnorderedList } from './nodes/DocUnorderedList';
 import { outputFolder, referenceFoldername } from './setting';
 import { Utilities } from './utils/Utilities';
-import { getBlockTagByName } from './utils/parser';
+import { ICustomExcerptToken, getAccessorExcerptTokensPrefixes, parseExcerptTokens } from './utils/excerpt-token';
 
 const supportedApiItems = [ApiItemKind.Interface, ApiItemKind.Enum, ApiItemKind.Class, ApiItemKind.TypeAlias];
 
@@ -114,7 +115,7 @@ export class MarkdownDocumenter {
    * If true, the page will be generated in the reference folder.
    * If false, the page will be generated in the root folder.
    */
-  private isReference: boolean = true;
+  private referenceLevel = 0;
 
   public constructor(options: IMarkdownDocumenterOptions) {
     this._apiModel = options.apiModel;
@@ -129,20 +130,31 @@ export class MarkdownDocumenter {
     const collectedData = this._initPageData(this._apiModel);
 
     // Write the API model page
-    this.isReference = true;
+    this.referenceLevel = 0;
     await this._generateBilingualPages(this._writeApiItemPage.bind(this), this._apiModel);
 
     // Write the API pages classified by extension
     for (const [_, pageData] of collectedData.pagesByName.entries()) {
-      // 对于交互和插件
+      // 对于交互、插件、布局
       if (['behaviors', 'plugins', 'layouts'].includes(pageData.group)) {
-        this.isReference = false;
+        this.referenceLevel = 1;
         await this._generateBilingualPages(this._writeExtensionPage.bind(this), pageData);
+      }
+
+      // 对于元素
+      if (['elements/nodes', 'elements/edges', 'elements/combos'].includes(pageData.group)) {
+        this.referenceLevel = 2;
+        await this._generateBilingualPages(this._writeElementStylePropsPage.bind(this), pageData);
+
+        if (pageData.name.startsWith('Base')) {
+          await this._generateBilingualPages(this._writeElementMethodsPage.bind(this), pageData);
+        }
       }
 
       // 对于图实例，将拆分成三个页面： 配置项，实例方法，属性
       // For graph instance, split into three pages: options, methods, properties
       if (pageData.group === 'runtime' && pageData.name === 'Graph') {
+        this.referenceLevel = 1;
         this._generateBilingualPages(this._writeGraphOptionsPage.bind(this), pageData);
         this._generateBilingualPages(this._writeGraphMethodsPage.bind(this), pageData);
         this._generateBilingualPages(this._writeGraphPropertiesPage.bind(this), pageData);
@@ -173,7 +185,10 @@ export class MarkdownDocumenter {
       apiItem.fileUrlPath
     ) {
       const paths = apiItem.fileUrlPath?.split('/').slice(1);
-      let group = paths?.[0];
+      // For elements, group by the first two levels of the path, such as `elements.nodes`
+      // For others, group by the first level of the path, such as `behaviors`, `plugins`, `layouts`
+      const topGroup = paths?.[0];
+      let group = topGroup === 'elements' ? paths.slice(0, 2).join('/') : topGroup;
       const target = paths?.[paths.length - 1].replace(/\.d\.ts$/, '');
       let pageName = upperFirst(camelCase(target === 'index' ? paths?.[paths.length - 2] : target));
 
@@ -440,8 +455,155 @@ export class MarkdownDocumenter {
     );
   }
 
-  private _writeOptions(output: DocSection, apiItem: ApiInterface | ApiClass, options?: { showTitle?: boolean }) {
-    const { showTitle = true } = options || {};
+  private async _writeElementMethodsPage(pageData: IPageData) {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    const output: DocSection = new DocSection({ configuration });
+
+    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
+    const filename: string = path.join(this._outputFolder, pageData.group, `Method.${lang}.md`);
+
+    this._appendPageTitle(output, 'ElementMethods', 0);
+
+    const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
+
+    this._writeAPIMethods(output, apiClass, { showTitle: false });
+
+    await this._writeFile(filename, output);
+  }
+
+  private async _writeElementStylePropsPage(pageData: IPageData) {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    const output: DocSection = new DocSection({ configuration });
+
+    this._appendPageTitle(output, pageData.name);
+
+    const apiInterfaces = pageData.apiItems.filter((apiItem) => apiItem instanceof ApiInterface) as ApiInterface[];
+
+    const topApiInterface = apiInterfaces.find((apiInterface) =>
+      apiInterface.displayName.startsWith(pageData.name),
+    ) as ApiInterface;
+
+    if (topApiInterface) {
+      this._appendSummarySection(output, topApiInterface);
+      this._writeRemarksSection(output, topApiInterface);
+
+      const showExcerptTokens = pageData.name.startsWith('Base');
+      if (!showExcerptTokens) {
+        output.appendNode(
+          new DocContainer({ configuration, status: 'info', title: '说明' }, [
+            new DocParagraph({ configuration }, [
+              new DocPlainText({
+                configuration,
+                text: `请先阅读[前一章节](../base-${pageData.group.split('/')[1].slice(0, -1)})了解元素基础样式配置，本章节将介绍元素的特有属性`,
+              }),
+            ]),
+          ]),
+        );
+      }
+
+      this._writeElementOptions(output, topApiInterface, showExcerptTokens);
+    }
+
+    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
+    const filename: string = path.join(this._outputFolder, pageData.group, `${pageData.name}.${lang}.md`);
+
+    await this._writeFile(filename, output);
+  }
+
+  /**
+   * Special for Element options, which needs to handle `prefixObject`
+   */
+  private _writeElementOptions(output: DocSection, apiInterface: ApiInterface, includeExcerptTokens: boolean) {
+    this._writeOptions(output, apiInterface, { showTitle: false });
+
+    if (includeExcerptTokens) {
+      const _customExcerptTokens = parseExcerptTokens(this._apiModel, apiInterface);
+      this._writeExcerptTokens(output, _customExcerptTokens);
+    }
+  }
+
+  private _getLinkFromExcerptToken(excerptToken: ICustomExcerptToken) {
+    return (
+      GLinks[excerptToken.text] ||
+      (excerptToken.interface ? this._getLinkFilenameForApiItem(excerptToken.interface) : '')
+    );
+  }
+
+  private _writeExcerptTokens(output: DocSection, customExcerptTokens: ICustomExcerptToken[]) {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+
+    let flag = false;
+
+    for (const token of customExcerptTokens) {
+      const textNodes = [];
+      if ('type' in token && token.type) {
+        const url = this._getLinkFromExcerptToken(token);
+        const link = url ? `[${token.text}](${url})` : token.text;
+        switch (token.type) {
+          case 'PrefixObject': {
+            const accessorPrefixes = getAccessorExcerptTokensPrefixes(token);
+            const prefix = camelCase(`${accessorPrefixes}`);
+            output.appendNode(
+              new DocHeading({
+                configuration: this._tsdocConfiguration,
+                title: `${prefix}{${link}}`,
+                escaped: false,
+              }),
+            );
+            break;
+          }
+          case 'Omit': {
+            textNodes.push(
+              new DocPlainText({
+                configuration,
+                text: `支持扩展：${link} (除 ${token.fields.join(',')} 以外)`,
+              }),
+            );
+            flag = true;
+            break;
+          }
+          case 'Pick': {
+            textNodes.push(
+              new DocPlainText({ configuration, text: `支持扩展：${link} (其中的 ${token.fields.join(',')})` }),
+            );
+            flag = true;
+            break;
+          }
+          default:
+            break;
+        }
+      }
+      if (token.interface) {
+        const accessorPrefixes = getAccessorExcerptTokensPrefixes(token);
+        this._writeOptions(output, token.interface, { showTitle: false, prefix: accessorPrefixes });
+      } else {
+        const link = this._getLinkFromExcerptToken(token);
+        const linkMd = link ? `[${token.text}](${link})` : token.text;
+        const textNode = new DocPlainText({
+          configuration,
+          text: '支持扩展：' + linkMd,
+        });
+        !flag && textNodes.push(textNode);
+      }
+      if (token.children && token.children.length > 0) {
+        this._writeExcerptTokens(output, token.children);
+      }
+      if (textNodes.length > 0) {
+        output.appendNode(
+          // new DocContainer({ configuration, status: 'info', title: '更多配置项' }, [
+          new DocParagraph({ configuration }, [new DocUnorderedList({ configuration }, textNodes)]),
+          // ]),
+        );
+      }
+    }
+  }
+
+  private _writeOptions(
+    output: DocSection,
+    apiItem: ApiInterface | ApiClass,
+    options?: { showTitle?: boolean; prefix?: string },
+  ) {
+    const { showTitle = true, prefix = '' } = options || {};
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
     showTitle && output.appendNode(new DocHeading({ configuration, title: this._intl(Keyword.OPTIONS) }));
 
@@ -453,11 +615,12 @@ export class MarkdownDocumenter {
         (apiMember.kind === ApiItemKind.Property || apiMember.kind === ApiItemKind.PropertySignature) &&
         apiMember instanceof ApiPropertyItem
       ) {
+        const name = Utilities.getConciseSignature(apiMember);
         // property name
         output.appendNode(
           new DocHeading({
             configuration,
-            title: Utilities.getConciseSignature(apiMember),
+            title: prefix ? camelCase(`${prefix} ${name}`) : name,
             level: 2,
           }),
         );
@@ -467,17 +630,17 @@ export class MarkdownDocumenter {
 
         const nodes: DocNode[] = [
           //  property type
-          new DocEmphasisSpan({ configuration, bold: true }, [
+          new DocEmphasisSpan({ configuration, italic: true }, [
             ...this._createParagraphForTypeExcerpt(apiMember.propertyTypeExcerpt).getChildNodes(),
-            new DocPlainText({ configuration, text: '  ' }),
+            new DocPlainText({ configuration, text: ' ' }),
           ]),
           //  optional
-          new DocEmphasisSpan({ configuration, italic: true }, [
+          new DocEmphasisSpan({ configuration, bold: true }, [
             new DocPlainText({
               configuration,
               text: isOptional ? 'Optional' : 'Required',
             }),
-            new DocPlainText({ configuration, text: '  ' }),
+            new DocPlainText({ configuration, text: ' ' }),
           ]),
         ];
 
@@ -490,7 +653,7 @@ export class MarkdownDocumenter {
             if (defaultValueBlock) {
               nodes.push(
                 // default value
-                new DocEmphasisSpan({ configuration, bold: true }, [
+                new DocEmphasisSpan({ configuration, italic: true }, [
                   new DocPlainText({
                     configuration,
                     text: 'Default: ',
@@ -512,102 +675,80 @@ export class MarkdownDocumenter {
     }
   }
 
-  private _writeAPIMethods(
-    output: DocSection,
-    apiClass: ApiClass,
-    options?: { showTitle?: boolean; showSubTitle?: boolean },
-  ) {
-    const { showTitle = true, showSubTitle = false } = options || {};
+  private _writeAPIMethods(output: DocSection, apiClass: ApiClass, options?: { showTitle?: boolean }) {
+    const { showTitle = true } = options || {};
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
-    const apiMembers: ApiItem[] = this._getMembersAndWriteIncompleteWarning(apiClass, output) as ApiItem[];
+    const apiMembers: readonly ApiItem[] = this._getMembersAndWriteIncompleteWarning(apiClass, output);
 
     const groupMembers: { [key: string]: ApiItem[] } = {};
 
-    if (!showSubTitle) groupMembers['undeclared'] = apiMembers;
+    for (const apiMember of apiMembers) {
+      if (apiMember instanceof ApiDocumentedItem) {
+        const tsdocComment: DocComment | undefined = apiMember.tsdocComment;
 
-    if (showSubTitle) {
+        if (tsdocComment) {
+          const exampleBlocks: DocBlock[] = tsdocComment.customBlocks.filter(
+            (x) => x.blockTag.tagNameWithUpperCase === StandardTags.example.tagNameWithUpperCase,
+          );
+        }
+
+        // apiMember.tsdocComment.customBlocks.filter(
+        //   (block) => block.blockTag.tagNameWithUpperCase === StandardTags.decorator.tagNameWithUpperCase,
+        // ),
+      }
+    }
+
+    if (apiMembers.length > 0) {
+      showTitle && output.appendNode(new DocHeading({ configuration, title: 'API' }));
       for (const apiMember of apiMembers) {
-        if (apiMember instanceof ApiDocumentedItem) {
-          const tsdocComment: DocComment | undefined = apiMember.tsdocComment;
-          let ApiCategoryDefined = false;
-          if (tsdocComment && tsdocComment.customBlocks) {
-            const apiCategoryBlock = getBlockTagByName('@apiCategory', tsdocComment);
-            if (apiCategoryBlock) {
-              const apiCategory = this._extractContentFromSection(apiCategoryBlock);
-              ApiCategoryDefined = true;
-              groupMembers[apiCategory] ||= [];
-              groupMembers[apiCategory].push(apiMember);
+        switch (apiMember.kind) {
+          case ApiItemKind.Method: {
+            output.appendNode(
+              new DocHeading({
+                configuration,
+                title: apiMember.getScopedNameWithinPackage(),
+                level: 2,
+              }),
+            );
+
+            if (apiMember instanceof ApiDocumentedItem) {
+              if (apiMember.tsdocComment !== undefined) {
+                this._appendSection(output, this._localizeSection(apiMember.tsdocComment.summarySection, this.locale));
+              }
             }
-            if (!ApiCategoryDefined) {
-              groupMembers['undeclared'] ||= [];
-              groupMembers['undeclared'].push(apiMember);
+            if (apiMember instanceof ApiDeclaredItem) {
+              if (apiMember.excerpt.text.length > 0) {
+                output.appendNode(
+                  new DocFencedCode({
+                    configuration,
+                    code: apiMember.getExcerptWithModifiers(),
+                    language: 'typescript',
+                  }),
+                );
+              }
+              this._writeHeritageTypes(output, apiMember);
             }
+
+            const detailSection = new DocSection({ configuration });
+
+            const hasParameterAndReturn = this._writeParameterTables(
+              detailSection,
+              apiMember as ApiParameterListMixin,
+              { showTitle: false },
+            );
+
+            if (hasParameterAndReturn) {
+              output.appendNode(
+                new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
+              );
+            }
+
+            this._writeRemarksSection(output, apiMember);
+
+            break;
           }
         }
       }
-
-      if (apiMembers.length > 0 && showTitle) output.appendNode(new DocHeading({ configuration, title: 'API' }));
-
-      Object.entries(groupMembers).forEach(([category, apiMembers]) => {
-        if (category !== 'undeclared' && showSubTitle) {
-          const title = getApiCategoryName(category, this.locale);
-          output.appendNode(new DocHeading({ configuration, title, level: 1 }));
-        }
-        if (apiMembers.length > 0) {
-          for (const apiMember of apiMembers) {
-            switch (apiMember.kind) {
-              case ApiItemKind.Method: {
-                output.appendNode(
-                  new DocHeading({
-                    configuration,
-                    title: Utilities.getConciseSignature(apiMember, true),
-                    level: 2,
-                  }),
-                );
-
-                if (apiMember instanceof ApiDocumentedItem) {
-                  if (apiMember.tsdocComment !== undefined) {
-                    this._appendSection(
-                      output,
-                      this._localizeSection(apiMember.tsdocComment.summarySection, this.locale),
-                    );
-                  }
-                }
-                if (apiMember instanceof ApiDeclaredItem) {
-                  if (apiMember.excerpt.text.length > 0) {
-                    output.appendNode(
-                      new DocFencedCode({
-                        configuration,
-                        code: apiMember.getExcerptWithModifiers(),
-                        language: 'typescript',
-                      }),
-                    );
-                  }
-                  this._writeHeritageTypes(output, apiMember);
-                }
-
-                const detailSection = new DocSection({ configuration });
-
-                const hasParameterAndReturn = this._writeParameterTables(
-                  detailSection,
-                  apiMember as ApiParameterListMixin,
-                  { showTitle: false },
-                );
-
-                if (hasParameterAndReturn) {
-                  output.appendNode(
-                    new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
-                  );
-                }
-
-                this._writeRemarksSection(output, apiMember);
-
-                break;
-              }
-            }
-          }
-        }
-      });
     }
   }
 
@@ -642,7 +783,7 @@ export class MarkdownDocumenter {
 
     const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
 
-    if (apiClass) this._writeAPIMethods(output, apiClass, { showTitle: false, showSubTitle: true });
+    if (apiClass) this._writeAPIMethods(output, apiClass, { showTitle: false });
 
     const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
     const filename: string = path.join(this._outputFolder, 'graph', `method.${lang}.md`);
@@ -1838,20 +1979,13 @@ export class MarkdownDocumenter {
     return new DocCodeSpan({ configuration, code: content });
   }
 
-  private _extractContentFromSection(docSection: DocSection): string {
-    const nodes = docSection.getChildNodes();
-    for (const node of nodes) {
-      if (node instanceof DocParagraph) {
-        return this._extractContentFromSection(node as DocSection);
-      } else if (node instanceof DocPlainText) {
-        return node.text;
-      }
-    }
-    return '';
-  }
-
   private _appendStaticCodeNode(output: DocSection, docSection: DocSection): void {
-    const content = this._extractContentFromSection(docSection);
+    const content = docSection
+      .getChildNodes()
+      .map((node) => {
+        if (node instanceof DocPlainText) return node.text;
+      })
+      .join('');
 
     output.appendNodeInParagraph(
       new DocCodeSpan({
@@ -1876,14 +2010,14 @@ export class MarkdownDocumenter {
         const formattedSection = new DocSection({ configuration });
 
         for (const nodes of localizedSection.getChildNodes()) {
+          const paragraph = new DocParagraph({ configuration });
+
           for (const node of nodes.getChildNodes()) {
             if (node instanceof DocPlainText) {
               const texts = node.text.split(/ - /g);
               const listText = texts.slice(1);
 
-              formattedSection.appendNode(
-                new DocParagraph({ configuration }, [new DocPlainText({ configuration, text: texts[0] })]),
-              );
+              paragraph.appendNode(new DocPlainText({ configuration, text: texts[0] }));
 
               if (listText.length > 0) {
                 formattedSection.appendNode(
@@ -1895,8 +2029,14 @@ export class MarkdownDocumenter {
                   ]),
                 );
               }
+            } else if (node instanceof DocCodeSpan) {
+              paragraph.appendNode(new DocPlainText({ configuration, text: ' ' }));
+              paragraph.appendNode(new DocCodeSpan({ configuration, code: node.code }));
+              paragraph.appendNode(new DocPlainText({ configuration, text: ' ' }));
             }
           }
+
+          formattedSection.appendNode(paragraph);
         }
 
         this._appendAndMergeSection(output, formattedSection);
@@ -1953,6 +2093,7 @@ export class MarkdownDocumenter {
       if (ApiParameterListMixin.isBaseClassOf(hierarchyItem)) {
         if (hierarchyItem.overloadIndex > 1) {
           // Subtract one for compatibility with earlier releases of API Documenter.
+          // (This will get revamped when we fix GitHub issue #1308)
           qualifiedName += `_${hierarchyItem.overloadIndex - 1}`;
         }
       }
@@ -1973,7 +2114,12 @@ export class MarkdownDocumenter {
   }
 
   private _getLinkFilenameForApiItem(apiItem: ApiItem): string {
-    const prefix = !this.isReference ? '../reference/' : './';
+    const relativeUrl: Record<number, string> = {
+      0: './',
+      1: '../reference/',
+      2: '../../reference/',
+    };
+    const prefix = relativeUrl[this.referenceLevel];
     return prefix + this._getFilenameForApiItem(apiItem);
   }
 

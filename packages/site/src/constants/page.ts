@@ -3,6 +3,30 @@ export const PageTitle: Record<string, string[]> = {
   GraphOptions: ['Options', '配置项'],
   GraphMethods: ['API', '方法'],
   GraphProperties: ['Properties', '属性'],
+  // element
+  ElementMethods: ['API', '方法'],
+  // element/node
+  BaseNode: ['BaseStyleProps', '基础样式属性'],
+  Circle: ['Circle', '圆'],
+  Diamond: ['Diamond', '菱形'],
+  Donut: ['Donut', '甜甜圈'],
+  Ellipse: ['Ellipse', '椭圆'],
+  Hexagon: ['Hexagon', '六边形'],
+  Html: ['Html', 'HTML'],
+  Image: ['Image', '图片'],
+  Rect: ['Rect', '矩形'],
+  Star: ['Star', '五角形'],
+  Triangle: ['Triangle', '三角形'],
+  // element/edge
+  BaseEdge: ['BaseStyleProps', '基础样式属性'],
+  Cubic: ['Cubic', '三次贝塞尔曲线'],
+  CubicHorizontal: ['CubicHorizontal', '水平三次贝塞尔曲线'],
+  CubicVertical: ['CubicVertical', '垂直三次贝塞尔曲线'],
+  Line: ['Line', '直线'],
+  Polyline: ['Polyline', '折线'],
+  Quadratic: ['Quadratic', '二次贝塞尔曲线'],
+  // element/combo
+  BaseCombo: ['BaseStyleProps', '基础样式属性'],
   // layout
   AntvDagreLayout: ['AntvDagre', '布局'],
   CircularLayout: ['Circular', '环形布局'],

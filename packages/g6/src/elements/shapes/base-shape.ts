@@ -7,7 +7,17 @@ import { updateStyle } from '../../utils/element';
 import { setVisibility } from '../../utils/visibility';
 
 export interface BaseShapeStyleProps extends BaseStyleProps {
+  /**
+   * <zh/> x 坐标
+   *
+   * <en/> x coordinate
+   */
   x?: number | string;
+  /**
+   * <zh/> y 坐标
+   *
+   * <en/> y coordinate
+   */
   y?: number | string;
 }
 
