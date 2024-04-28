@@ -102,7 +102,7 @@ export class GridLine extends BasePlugin<GridLineOptions> {
    * <zh/> 更新网格线配置
    *
    * <en/> Update the configuration of the grid line
-   * @param options <zh/> 配置项 | <en/> options
+   * @param options - <zh/> 配置项 | <en/> options
    */
   public update(options: Partial<GridLineOptions>) {
     super.update(options);

@@ -36,13 +36,13 @@ export interface WatermarkOptions extends BasePluginOptions {
   /**
    * <zh/> 图片地址，如果有值，则使用，否则使用文本
    *
-   * <en/> The image url, if it has a value, it will be used, otherwise it will use the text.
+   * <en/> The image url, if it has a value, it will be used, otherwise it will use the text
    */
   imageURL?: string;
   /**
    * <zh/> 水印文本
    *
-   * <en/> The text of watermark.
+   * <en/> The text of watermark
    */
   text?: string;
   /**
@@ -68,13 +68,13 @@ export interface WatermarkOptions extends BasePluginOptions {
   /**
    * <zh/> 文本水印的文本字体粗细
    *
-   * <en/> The font weight of text watermark.
+   * <en/> The font weight of text watermark
    */
   textFontWeight: string;
   /**
    * <zh/> 文本水印的文本字体变体
    *
-   * <en/> The font variant of text watermark.
+   * <en/> The font variant of text watermark
    */
   textFontVariant: string;
   /**
@@ -94,55 +94,55 @@ export interface WatermarkOptions extends BasePluginOptions {
   /**
    * <zh/> 水印的背景定位行为
    *
-   * <en/> The background attachment of watermark.
+   * <en/> The background attachment of watermark
    */
   backgroundAttachment: string;
   /**
    * <zh/> 水印的背景混合
    *
-   * <en/> The background blend of watermark.
+   * <en/> The background blend of watermark
    */
   backgroundBlendMode: string;
   /**
    * <zh/> 水印的背景裁剪
    *
-   * <en/> The background clip of watermark.
+   * <en/> The background clip of watermark
    */
   backgroundClip: string;
   /**
    * <zh/> 水印的背景颜色
    *
-   * <en/> The background color of watermark.
+   * <en/> The background color of watermark
    */
   backgroundColor: string;
   /**
    * <zh/> 水印的背景图片
    *
-   * <en/> The background image of watermark.
+   * <en/> The background image of watermark
    */
   backgroundImage: string;
   /**
    * <zh/> 水印的背景原点
    *
-   * <en/> The background origin of watermark.
+   * <en/> The background origin of watermark
    */
   backgroundOrigin: string;
   /**
    * <zh/> 水印的背景位置
    *
-   * <en/> The background position of watermark.
+   * <en/> The background position of watermark
    */
   backgroundPosition: string;
   /**
    * <zh/> 水印的背景位置-x
    *
-   * <en/> The background position-x of watermark.
+   * <en/> The background position-x of watermark
    */
   backgroundPositionX: string;
   /**
    * <zh/> 水印的背景位置-y
    *
-   * <en/> The background position-y of watermark.
+   * <en/> The background position-y of watermark
    */
   backgroundPositionY: string;
   /**
@@ -155,15 +155,18 @@ export interface WatermarkOptions extends BasePluginOptions {
   /**
    * <zh/> 水印的背景大小
    *
-   * <en/> The background size of watermark.
+   * <en/> The background size of watermark
    */
   backgroundSize: string;
 }
 
 /**
- * <zh/> 支持使用文本和图片作为水印，实现原理是在 Graph 容器的 div 上加上 background-image 属性，然后就可以通过 css 来控制水印的位置和样式。对于文本，会使用隐藏 canvas 转成图片的方式来实现。
+ * <zh/> 支持使用文本和图片作为水印
  *
- * <en/> Support using text and images as watermarks.The principle is to add the background-image property to the div of the Graph container,and then you can control the position and style of the watermark through css. For text,it will be converted to an image using a hidden canvas.
+ * <en/> Support using text and images as watermarks
+ * @remarks
+ * <zh/> 实现原理是在 Graph 容器的 div 上加上 background-image 属性，然后就可以通过 css 来控制水印的位置和样式。对于文本，会使用隐藏 canvas 转成图片的方式来实现
+ * <en/> The principle is to add the background-image property to the div of the Graph container,and then you can control the position and style of the watermark through css. For text,it will be converted to an image using a hidden canvas
  */
 export class Watermark extends BasePlugin<WatermarkOptions> {
   static defaultOptions: Partial<WatermarkOptions> = {
@@ -192,8 +195,8 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
   /**
    * <zh/> 更新水印配置
    *
-   * <en/> Update the watermark configuration.
-   * @param options <zh/> 配置项 | <en/> Options
+   * <en/> Update the watermark configuration
+   * @param options - <zh/> 配置项 | <en/> Options
    */
   public async update(options: Partial<WatermarkOptions>) {
     super.update(options);
@@ -208,7 +211,7 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
       }
     });
 
-    // Set the background image.
+    // Set the background image
     const base64 = imageURL
       ? await getImageWatermark(width, height, imageURL, rest)
       : await getTextWateramrk(width, height, text, rest);
@@ -218,7 +221,7 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
   /**
    * <zh/> 销毁水印
    *
-   * <en/> Destroy the watermark.
+   * <en/> Destroy the watermark
    */
   public destroy(): void {
     super.destroy();

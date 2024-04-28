@@ -91,7 +91,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <zh/> 更新tooltip配置
    *
    * <en/> Update the tooltip configuration
-   * @param options  <zh/> 配置项 | <en/> options
+   * @param options - <zh/> 配置项 | <en/> options
    */
   public update(options: Partial<TooltipOptions>) {
     this.unbindEvents();
@@ -140,7 +140,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <zh/> 点击事件
    *
    * <en/> Click event
-   * @param event <zh/> 元素 | <en/> element
+   * @param event - <zh/> 元素 | <en/> element
    */
   public onClick = (event: IElementEvent) => {
     const {
@@ -160,7 +160,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <zh/> 在目标元素(node/edge/combo)上移动
    *
    * <en/> Move on target element (node/edge/combo)
-   * @param event <zh/> 目标元素 | <en/> target element
+   * @param event - <zh/> 目标元素 | <en/> target element
    */
   public onPointerMove = (event: IElementEvent) => {
     const { target } = event;
@@ -173,7 +173,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <zh/> 点击画布/触发拖拽/出现上下文菜单隐藏tooltip
    *
    * <en/> Hide tooltip when clicking canvas/triggering drag/appearing context menu
-   * @param event <zh/> 目标元素 | <en/> target element
+   * @param event - <zh/> 目标元素 | <en/> target element
    */
   public onPointerLeave = (event: IElementEvent) => {
     this.hideTooltip(event);
@@ -183,7 +183,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <zh/> 移动画布
    *
    * <en/> Move canvas
-   * @param event <zh/> 目标元素 | <en/> target element
+   * @param event - <zh/> 目标元素 | <en/> target element
    */
   public onCanvasMove = (event: IElementEvent) => {
     this.hideTooltip(event);
@@ -198,8 +198,8 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <zh/> 通过id和元素类型指定要显示的tooltip
    *
    * <en/> Show tooltip by id and element type
-   * @param id id
-   * @param elementType <zh/> 元素类型 | <en/> element type
+   * @param id - id
+   * @param elementType - <zh/> 元素类型 | <en/> element type
    */
   public showTooltipById = (id: string, elementType: ElementType = 'node') => {
     const event = {
@@ -227,7 +227,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <zh/> 在目标元素上显示tooltip
    *
    * <en/> Show tooltip on target element
-   * @param event <zh/> 目标元素 | <en/> target element
+   * @param event - <zh/> 目标元素 | <en/> target element
    */
   public showTooltip = (event: IElementEvent) => {
     const {
@@ -280,7 +280,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <zh/> 隐藏tooltip
    *
    * <en/> Hidden tooltip
-   * @param event <zh/> 目标元素,不传则为外部调用 | <en/> Target element, not passed in as external call
+   * @param event - <zh/> 目标元素,不传则为外部调用 | <en/> Target element, not passed in as external call
    */
   public hideTooltip = (event?: IElementEvent) => {
     // if e is undefined, hide the tooltip， external call

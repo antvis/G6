@@ -87,7 +87,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <zh/> 更新图例配置
    *
    * <en/> Update the legend configuration
-   * @param options <zh/> 图例配置项 | <en/> Legend configuration item
+   * @param options - <zh/> 图例配置项 | <en/> Legend configuration item
    */
   public update(options: Partial<LegendOptions>) {
     super.update(options);
@@ -121,7 +121,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <zh/> 图例元素点击事件
    *
    * <en/> Legend element click event
-   * @param event <zh/> 点击的元素 | <en/> The element that is clicked
+   * @param event - <zh/> 点击的元素 | <en/> The element that is clicked
    */
   public click = (event: Selection) => {
     if (this.options.trigger === 'hover') return;
@@ -139,7 +139,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <zh/> 图例元素移出事件
    *
    * <en/> Legend element mouseleave event
-   * @param event <zh/> 移出的元素 | <en/> The element that is moved out
+   * @param event - <zh/> 移出的元素 | <en/> The element that is moved out
    */
   public mouseleave = (event: Selection) => {
     if (this.options.trigger === 'click') return;
@@ -151,7 +151,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <zh/> 图例元素移入事件
    *
    * <en/> Legend element mouseenter event
-   * @param event <zh/> 移入的元素 | <en/> The element that is moved in
+   * @param event - <zh/> 移入的元素 | <en/> The element that is moved in
    */
   public mouseenter = (event: Selection) => {
     if (this.options.trigger === 'click') return;
@@ -293,7 +293,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <zh/> 图例布局
    *
    * <en/> Legend layout
-   * @param position <zh/> 图例位置| <en/> Legend position
+   * @param position -  <zh/> 图例位置| <en/> Legend position
    * @returns <zh/> 图例布局样式| <en/> Legend layout style
    */
   public layout = (position: CardinalPlacement) => {

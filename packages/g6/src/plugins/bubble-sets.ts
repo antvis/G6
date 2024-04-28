@@ -179,7 +179,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
    * <zh/> 添加成员元素
    *
    * <en/> Add member elements
-   * @param members <zh/> 单个或多个 | <en/> single or multiple
+   * @param members - <zh/> 单个或多个 | <en/> single or multiple
    */
   public addMember(members: ID | ID[]) {
     const membersToAdd = Array.isArray(members) ? members : [members];
@@ -193,7 +193,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
    * <zh/> 移除成员元素
    *
    * <en/> Remove member elements
-   * @param members <zh/> 单个或多个 | <en/> single or multiple
+   * @param members - <zh/> 单个或多个 | <en/> single or multiple
    */
   public removeMember(members: ID | ID[]) {
     const membersToRemove = Array.isArray(members) ? members : [members];
@@ -204,7 +204,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
    * <zh/> 更新成员元素
    *
    * <en/> Update member elements
-   * @param members <zh/> 值或者回调函数 | <en/> value or callback function
+   * @param members - <zh/> 值或者回调函数 | <en/> value or callback function
    */
   public updateMember(members: CallableValue<ID[]>) {
     this.options.members = isFunction(members) ? members(this.options.members) : members;
@@ -224,7 +224,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
    * <zh/> 添加需要避开的元素
    *
    * <en/> Add elements to avoid
-   * @param avoidMembers <zh/> 单个或多个 | <en/> single or multiple
+   * @param avoidMembers - <zh/> 单个或多个 | <en/> single or multiple
    */
   public addAvoidMember(avoidMembers: ID | ID[]) {
     const avoidMembersToAdd = Array.isArray(avoidMembers) ? avoidMembers : [avoidMembers];
@@ -238,7 +238,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
    * <zh/> 移除需要避开的元素
    *
    * <en/> Remove elements to avoid
-   * @param avoidMembers <zh/> 单个或多个 | <en/> single or multiple
+   * @param avoidMembers - <zh/> 单个或多个 | <en/> single or multiple
    */
   public removeAvoidMember(avoidMembers: ID | ID[]) {
     const avoidMembersToRemove = Array.isArray(avoidMembers) ? avoidMembers : [avoidMembers];
@@ -251,7 +251,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
    * <zh/> 更新需要避开的元素
    *
    * <en/> Update elements to avoid
-   * @param avoidMembers <zh/> 单个或多个 | <en/> single or multiple
+   * @param avoidMembers - <zh/> 单个或多个 | <en/> single or multiple
    */
   public updateAvoidMember(avoidMembers: ID | ID[]) {
     this.options.avoidMembers = Array.isArray(avoidMembers) ? avoidMembers : [avoidMembers];
