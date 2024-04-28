@@ -1,4 +1,5 @@
 export const GLinks: Record<string, string> = {
+  BaseStyleProps: 'https://g.antv.antgroup.com/api/basic/display-object#%E7%BB%98%E5%9B%BE%E5%B1%9E%E6%80%A7',
   DisplayObject: 'https://g.antv.antgroup.com/api/basic/display-object',
   GroupStyleProps: 'https://g.antv.antgroup.com/api/basic/group',
   TextStyleProps: 'https://g.antv.antgroup.com/api/basic/text',

@@ -1,24 +1,18 @@
 /* eslint-disable jsdoc/require-param */
-import type {
-  ApiEnum,
-  ApiItem,
-  ApiModel,
-  ApiNamespace,
-  ApiPackage,
-  Excerpt,
-  ExcerptToken,
-  IFindApiItemsResult,
-  IResolveDeclarationReferenceResult,
-} from '@microsoft/api-extractor-model';
 import {
   ApiAbstractMixin,
   ApiClass,
   ApiDeclaredItem,
   ApiDocumentedItem,
+  ApiEnum,
   ApiInitializerMixin,
   ApiInterface,
+  ApiItem,
   ApiItemKind,
+  ApiModel,
+  ApiNamespace,
   ApiOptionalMixin,
+  ApiPackage,
   ApiParameterListMixin,
   ApiPropertyItem,
   ApiProtectedMixin,
@@ -27,7 +21,11 @@ import {
   ApiReturnTypeMixin,
   ApiStaticMixin,
   ApiTypeAlias,
+  Excerpt,
+  ExcerptToken,
   ExcerptTokenKind,
+  IFindApiItemsResult,
+  IResolveDeclarationReferenceResult,
   ReleaseTag,
 } from '@microsoft/api-extractor-model';
 import {
@@ -48,10 +46,10 @@ import {
   TSDocConfiguration,
 } from '@microsoft/tsdoc';
 import { FileSystem, NewlineKind, PackageName } from '@rushstack/node-core-library';
-import * as path from 'path';
-
 import { camelCase, upperFirst } from 'lodash';
+import * as path from 'path';
 import prettier from 'prettier';
+import { getElementLocale } from './constants';
 import { Keyword, intl } from './constants/keywords';
 import { GLinks } from './constants/link';
 import { LocaleLanguage } from './constants/locale';
@@ -83,8 +81,6 @@ export interface IPageData {
 }
 
 export interface ICollectedData {
-  // readonly pageGroups: readonly string[];
-  // readonly fallbackGroup: string;
   readonly apiModel: ApiModel;
   /**
    * Page data keyed by page name.
@@ -111,9 +107,10 @@ export class MarkdownDocumenter {
 
   private locale: LocaleLanguage = LocaleLanguage.EN;
   /**
-   * Whether the current page is a reference page.
-   * If true, the page will be generated in the reference folder.
-   * If false, the page will be generated in the root folder.
+   * The reference level of the current page, used to determine the heading level of the current page.
+   * 0: API Reference
+   * 1: Extension
+   * 2: Element Style Props
    */
   private referenceLevel = 0;
 
@@ -144,11 +141,7 @@ export class MarkdownDocumenter {
       // 对于元素
       if (['elements/nodes', 'elements/edges', 'elements/combos'].includes(pageData.group)) {
         this.referenceLevel = 2;
-        await this._generateBilingualPages(this._writeElementStylePropsPage.bind(this), pageData);
-
-        if (pageData.name.startsWith('Base')) {
-          await this._generateBilingualPages(this._writeElementMethodsPage.bind(this), pageData);
-        }
+        await this._generateBilingualPages(this._writeElementPage.bind(this), pageData);
       }
 
       // 对于图实例，将拆分成三个页面： 配置项，实例方法，属性
@@ -192,6 +185,11 @@ export class MarkdownDocumenter {
       const target = paths?.[paths.length - 1].replace(/\.d\.ts$/, '');
       let pageName = upperFirst(camelCase(target === 'index' ? paths?.[paths.length - 2] : target));
 
+      if (topGroup === 'elements' && paths[1] === 'combos') {
+        const elementType = upperFirst(paths[1].slice(0, -1));
+        if (!pageName.endsWith(elementType)) pageName += elementType;
+      }
+
       // Special handling for @antv/layout
       if (apiItem.fileUrlPath.includes('@antv/layout')) {
         group = 'layouts';
@@ -218,17 +216,6 @@ export class MarkdownDocumenter {
       }
       collectedData.pagesByApi.set(apiItem.displayName, pageData);
       pageData.apiItems.push(apiItem);
-
-      // For interface, add the referenced interfaces to pageData.apiItems
-      if (apiItem instanceof ApiInterface) {
-        const refApiItems = apiItem.excerptTokens
-          .filter((token) => token.kind === ExcerptTokenKind.Reference && token.canonicalReference)
-          .map(
-            (token) => this._apiModel.resolveDeclarationReference(token.canonicalReference!, undefined).resolvedApiItem,
-          )
-          .filter(Boolean) as ApiItem[];
-        pageData.apiItems.unshift(...refApiItems);
-      }
     }
 
     for (const memberApiItem of apiItem.members) {
@@ -236,6 +223,9 @@ export class MarkdownDocumenter {
     }
   }
 
+  /**
+   * Generate bilingual pages
+   */
   private async _generateBilingualPages<T>(func: (params: T) => Promise<void>, params: T) {
     const languages = [LocaleLanguage.EN, LocaleLanguage.ZH];
 
@@ -338,7 +328,7 @@ export class MarkdownDocumenter {
             ]),
           );
         }
-        this._appendSummarySection(output, apiItem);
+        this._writeSummarySection(output, apiItem);
       }
     }
 
@@ -434,19 +424,20 @@ export class MarkdownDocumenter {
     this._appendPageTitle(output, pageData.name);
 
     const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
+    const apiInterface = pageData.apiItems.find((apiItem) => apiItem instanceof ApiInterface) as ApiInterface;
 
     if (apiClass) {
-      this._appendSummarySection(output, apiClass);
+      this._writeSummarySection(output, apiClass);
+      this._writeRemarksSection(output, apiClass);
     }
 
-    const apiInterfaces = pageData.apiItems.filter((apiItem) => apiItem instanceof ApiInterface) as ApiInterface[];
-    if (apiInterfaces.length > 0)
-      apiInterfaces.forEach((apiInterface, i) => this._writeOptions(output, apiInterface, { showTitle: i === 0 }));
+    if (apiInterface) {
+      this._writeOptions(output, apiInterface, { includeExcerptTokens: true });
+    }
 
     if (apiClass) this._writeAPIMethods(output, apiClass);
 
-    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
-    const filename: string = path.join(this._outputFolder, pageData.group, `${pageData.name}.${lang}.md`);
+    const filename: string = path.join(this._outputFolder, pageData.group, `${pageData.name}.${this._getLang()}.md`);
 
     await this._writeFile(
       filename,
@@ -455,57 +446,27 @@ export class MarkdownDocumenter {
     );
   }
 
-  private async _writeElementMethodsPage(pageData: IPageData) {
-    const configuration: TSDocConfiguration = this._tsdocConfiguration;
-    const output: DocSection = new DocSection({ configuration });
-
-    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
-    const filename: string = path.join(this._outputFolder, pageData.group, `Method.${lang}.md`);
-
-    this._appendPageTitle(output, 'ElementMethods', 0);
-
-    const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
-
-    this._writeAPIMethods(output, apiClass, { showTitle: false });
-
-    await this._writeFile(filename, output);
-  }
-
-  private async _writeElementStylePropsPage(pageData: IPageData) {
+  private async _writeElementPage(pageData: IPageData) {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
     const output: DocSection = new DocSection({ configuration });
 
     this._appendPageTitle(output, pageData.name);
 
-    const apiInterfaces = pageData.apiItems.filter((apiItem) => apiItem instanceof ApiInterface) as ApiInterface[];
+    const apiInterface = pageData.apiItems.find((apiItem) => apiItem instanceof ApiInterface) as ApiInterface;
+    const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
 
-    const topApiInterface = apiInterfaces.find((apiInterface) =>
-      apiInterface.displayName.startsWith(pageData.name),
-    ) as ApiInterface;
+    const isBase = pageData.name.startsWith('Base');
 
-    if (topApiInterface) {
-      this._appendSummarySection(output, topApiInterface);
-      this._writeRemarksSection(output, topApiInterface);
-
-      const showExcerptTokens = pageData.name.startsWith('Base');
-      if (!showExcerptTokens) {
-        output.appendNode(
-          new DocContainer({ configuration, status: 'info', title: '说明' }, [
-            new DocParagraph({ configuration }, [
-              new DocPlainText({
-                configuration,
-                text: `请先阅读[前一章节](../base-${pageData.group.split('/')[1].slice(0, -1)})了解元素基础样式配置，本章节将介绍元素的特有属性`,
-              }),
-            ]),
-          ]),
-        );
-      }
-
-      this._writeElementOptions(output, topApiInterface, showExcerptTokens);
+    if (apiClass && !isBase) {
+      this._writeSummarySection(output, apiClass);
+      this._writeRemarksSection(output, apiClass);
     }
 
-    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
-    const filename: string = path.join(this._outputFolder, pageData.group, `${pageData.name}.${lang}.md`);
+    if (apiInterface) {
+      this._writeElementOptions(output, apiInterface, pageData, isBase);
+    }
+
+    const filename: string = path.join(this._outputFolder, pageData.group, `${pageData.name}.${this._getLang()}.md`);
 
     await this._writeFile(filename, output);
   }
@@ -513,13 +474,30 @@ export class MarkdownDocumenter {
   /**
    * Special for Element options, which needs to handle `prefixObject`
    */
-  private _writeElementOptions(output: DocSection, apiInterface: ApiInterface, includeExcerptTokens: boolean) {
-    this._writeOptions(output, apiInterface, { showTitle: false });
+  private _writeElementOptions(
+    output: DocSection,
+    apiInterface: ApiInterface,
+    pageData: IPageData,
+    includeExcerptTokens: boolean,
+  ) {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
-    if (includeExcerptTokens) {
-      const _customExcerptTokens = parseExcerptTokens(this._apiModel, apiInterface);
-      this._writeExcerptTokens(output, _customExcerptTokens);
+    if (!includeExcerptTokens) {
+      const elementType = pageData.group.split('/')[1].slice(0, -1);
+      const baseStyleFileName = upperFirst(camelCase(`base ${elementType}`));
+      output.appendNode(
+        new DocContainer({ configuration, status: 'info', title: '说明' }, [
+          new DocParagraph({ configuration }, [
+            new DocPlainText({
+              configuration,
+              text: `请先阅读[前一章节](../${baseStyleFileName}.${this._getLang()}.md})了解${getElementLocale(elementType, this.locale)}通用样式配置`,
+            }),
+          ]),
+        ]),
+      );
     }
+
+    this._writeOptions(output, apiInterface, { showTitle: false, includeExcerptTokens });
   }
 
   private _getLinkFromExcerptToken(excerptToken: ICustomExcerptToken) {
@@ -556,15 +534,16 @@ export class MarkdownDocumenter {
             textNodes.push(
               new DocPlainText({
                 configuration,
-                text: `支持扩展：${link} (除 ${token.fields.join(',')} 以外)`,
+                text: `继承自：${link} (除 ${token.fields.join(',')} 以外)`,
               }),
             );
+
             flag = true;
             break;
           }
           case 'Pick': {
             textNodes.push(
-              new DocPlainText({ configuration, text: `支持扩展：${link} (其中的 ${token.fields.join(',')})` }),
+              new DocPlainText({ configuration, text: `继承自：${link} (其中的 ${token.fields.join(',')})` }),
             );
             flag = true;
             break;
@@ -573,6 +552,7 @@ export class MarkdownDocumenter {
             break;
         }
       }
+
       if (token.interface) {
         const accessorPrefixes = getAccessorExcerptTokensPrefixes(token);
         this._writeOptions(output, token.interface, { showTitle: false, prefix: accessorPrefixes });
@@ -581,7 +561,7 @@ export class MarkdownDocumenter {
         const linkMd = link ? `[${token.text}](${link})` : token.text;
         const textNode = new DocPlainText({
           configuration,
-          text: '支持扩展：' + linkMd,
+          text: '继承自：' + linkMd,
         });
         !flag && textNodes.push(textNode);
       }
@@ -589,11 +569,7 @@ export class MarkdownDocumenter {
         this._writeExcerptTokens(output, token.children);
       }
       if (textNodes.length > 0) {
-        output.appendNode(
-          // new DocContainer({ configuration, status: 'info', title: '更多配置项' }, [
-          new DocParagraph({ configuration }, [new DocUnorderedList({ configuration }, textNodes)]),
-          // ]),
-        );
+        output.appendNode(new DocParagraph({ configuration }, [new DocUnorderedList({ configuration }, textNodes)]));
       }
     }
   }
@@ -601,13 +577,17 @@ export class MarkdownDocumenter {
   private _writeOptions(
     output: DocSection,
     apiItem: ApiInterface | ApiClass,
-    options?: { showTitle?: boolean; prefix?: string },
+    options?: { showTitle?: boolean; prefix?: string; includeExcerptTokens?: boolean },
   ) {
-    const { showTitle = true, prefix = '' } = options || {};
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
-    showTitle && output.appendNode(new DocHeading({ configuration, title: this._intl(Keyword.OPTIONS) }));
+
+    const { showTitle = true, prefix = '', includeExcerptTokens } = options || {};
 
     const apiMembers: readonly ApiItem[] = this._getMembersAndWriteIncompleteWarning(apiItem, output);
+
+    if (showTitle && apiMembers.length > 0) {
+      output.appendNode(new DocHeading({ configuration, title: this._intl(Keyword.OPTIONS) }));
+    }
 
     for (const apiMember of apiMembers) {
       const isInherited: boolean = apiMember.parent !== apiItem;
@@ -616,30 +596,30 @@ export class MarkdownDocumenter {
         apiMember instanceof ApiPropertyItem
       ) {
         const name = Utilities.getConciseSignature(apiMember);
+
+        // property type, optional, readonly, default value
+        let propertyName = prefix ? camelCase(`${prefix} ${name}`) : name;
+
+        if (
+          !(ApiOptionalMixin.isBaseClassOf(apiMember) && apiMember.isOptional) &&
+          !(apiMember instanceof ApiPropertyItem)
+        ) {
+          propertyName = '<Badge type="success">Required</Badge>' + propertyName;
+        }
+
         // property name
         output.appendNode(
           new DocHeading({
             configuration,
-            title: prefix ? camelCase(`${prefix} ${name}`) : name,
+            title: propertyName,
             level: 2,
           }),
         );
-
-        // property type, optional, readonly, default value
-        const isOptional = ApiOptionalMixin.isBaseClassOf(apiMember) && apiMember.isOptional;
 
         const nodes: DocNode[] = [
           //  property type
           new DocEmphasisSpan({ configuration, italic: true }, [
             ...this._createParagraphForTypeExcerpt(apiMember.propertyTypeExcerpt).getChildNodes(),
-            new DocPlainText({ configuration, text: ' ' }),
-          ]),
-          //  optional
-          new DocEmphasisSpan({ configuration, bold: true }, [
-            new DocPlainText({
-              configuration,
-              text: isOptional ? 'Optional' : 'Required',
-            }),
             new DocPlainText({ configuration, text: ' ' }),
           ]),
         ];
@@ -653,7 +633,7 @@ export class MarkdownDocumenter {
             if (defaultValueBlock) {
               nodes.push(
                 // default value
-                new DocEmphasisSpan({ configuration, italic: true }, [
+                new DocEmphasisSpan({ configuration, bold: true }, [
                   new DocPlainText({
                     configuration,
                     text: 'Default: ',
@@ -668,10 +648,15 @@ export class MarkdownDocumenter {
         output.appendNode(new DocNoteBox({ configuration }, [new DocParagraph({ configuration }, nodes)]));
 
         // summary
-        this._appendSummarySection(output, apiMember);
+        this._writeSummarySection(output, apiMember);
         // remarks
         this._writeRemarksSection(output, apiMember);
       }
+    }
+
+    if (includeExcerptTokens && apiItem instanceof ApiInterface) {
+      const _customExcerptTokens = parseExcerptTokens(this._apiModel, apiItem);
+      this._writeExcerptTokens(output, _customExcerptTokens);
     }
   }
 
@@ -766,11 +751,9 @@ export class MarkdownDocumenter {
       this._writeRemarksSection(output, topApiInterface);
     }
 
-    if (apiInterfaces.length > 0)
-      apiInterfaces.forEach((apiInterface) => this._writeOptions(output, apiInterface, { showTitle: false }));
+    this._writeOptions(output, topApiInterface!, { showTitle: false, includeExcerptTokens: true });
 
-    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
-    const filename: string = path.join(this._outputFolder, 'graph', `option.${lang}.md`);
+    const filename: string = path.join(this._outputFolder, 'graph', `option.${this._getLang()}.md`);
 
     await this._writeFile(filename, output);
   }
@@ -785,8 +768,7 @@ export class MarkdownDocumenter {
 
     if (apiClass) this._writeAPIMethods(output, apiClass, { showTitle: false });
 
-    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
-    const filename: string = path.join(this._outputFolder, 'graph', `method.${lang}.md`);
+    const filename: string = path.join(this._outputFolder, 'graph', `method.${this._getLang()}.md`);
 
     await this._writeFile(filename, output);
   }
@@ -801,8 +783,7 @@ export class MarkdownDocumenter {
 
     if (apiClass) this._writeOptions(output, apiClass, { showTitle: false });
 
-    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
-    const filename: string = path.join(this._outputFolder, 'graph', `property.${lang}.md`);
+    const filename: string = path.join(this._outputFolder, 'graph', `property.${this._getLang()}.md`);
 
     await this._writeFile(filename, output);
   }
@@ -989,7 +970,15 @@ export class MarkdownDocumenter {
         let exampleNumber: number = 1;
         for (const exampleBlock of exampleBlocks) {
           const heading: string = this._intl(Keyword.EXAMPLE) + (exampleBlocks.length > 1 ? ' ' + exampleNumber : '');
-          output.appendNode(new DocHeading({ configuration, title: heading }));
+          const exampleTitle =
+            this.referenceLevel === 0
+              ? new DocHeading({ configuration, title: heading })
+              : new DocParagraph({ configuration }, [
+                  new DocEmphasisSpan({ configuration, bold: true }, [
+                    new DocPlainText({ configuration, text: heading }),
+                  ]),
+                ]);
+          output.appendNode(exampleTitle);
 
           this._appendSection(output, exampleBlock.content);
 
@@ -1685,6 +1674,21 @@ export class MarkdownDocumenter {
     }
   }
 
+  private _parseTypeAliasTokens(excerptTokens: ExcerptToken[]): ExcerptToken[] {
+    return excerptTokens.flatMap((token) => {
+      if (token.kind === ExcerptTokenKind.Reference && token.canonicalReference) {
+        const apiItemResult: IResolveDeclarationReferenceResult = this._apiModel.resolveDeclarationReference(
+          token.canonicalReference,
+          undefined,
+        );
+        if (apiItemResult.resolvedApiItem instanceof ApiTypeAlias) {
+          return this._parseTypeAliasTokens(apiItemResult.resolvedApiItem.excerptTokens.slice(1, -1));
+        }
+      }
+      return token;
+    });
+  }
+
   private _appendExcerptTokenWithHyperlinks(docNodeContainer: DocNodeContainer, token: ExcerptToken): void {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
@@ -1701,6 +1705,17 @@ export class MarkdownDocumenter {
       );
 
       if (apiItemResult.resolvedApiItem) {
+        // If the resolved item is a type alias, and it's a simple single-line type alias, then render it as plain text
+        if (apiItemResult.resolvedApiItem.kind === ApiItemKind.TypeAlias) {
+          const excerptTokens = (apiItemResult.resolvedApiItem as ApiTypeAlias).excerptTokens.slice(1, -1);
+          const typeAliasTokens = this._parseTypeAliasTokens(excerptTokens);
+          if (typeAliasTokens.every((token) => !token.text.includes('\n') && !token.text.includes('\r'))) {
+            return docNodeContainer.appendNode(
+              new DocPlainText({ configuration, text: typeAliasTokens.map((token) => token.text).join(' ') }),
+            );
+          }
+        }
+
         docNodeContainer.appendNode(
           new DocLinkTag({
             configuration,
@@ -1770,7 +1785,7 @@ export class MarkdownDocumenter {
 
     if (apiItem instanceof ApiDocumentedItem) {
       if (apiItem.tsdocComment !== undefined) {
-        this._appendSummarySection(section, apiItem);
+        this._writeSummarySection(section, apiItem);
       }
     }
 
@@ -2001,42 +2016,76 @@ export class MarkdownDocumenter {
     output.appendNode(new DocPageTitle({ configuration, key, locale: this.locale, order }));
   }
 
-  private _appendSummarySection(output: DocSection, apiItem: ApiItem): void {
+  /**
+   * Handle text nodes that contain a dash, should be treated as a unordered list
+   */
+  private _handleTextNodes(node: DocNode): DocNode[] {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+
+    if (node instanceof DocPlainText && node.text.includes(' - ')) {
+      const texts = node.text.split(/ - /g);
+      const [first, ...rest] = texts;
+      return [
+        new DocPlainText({ configuration, text: first }),
+        ...rest.flatMap((text) => [
+          new DocPlainText({ configuration, text: '-' }),
+          new DocPlainText({ configuration, text }),
+        ]),
+      ];
+    }
+    return [node];
+  }
+
+  private _parseParagraph(paragraph: DocParagraph): DocNode[][] {
+    const formattedNodes = paragraph.getChildNodes().flatMap((node) => this._handleTextNodes(node));
+
+    return formattedNodes.reduce((acc: DocNode[][], node: DocNode) => {
+      if (node instanceof DocPlainText && node.text === '-') {
+        acc.push([]);
+      } else if (acc.length) {
+        acc[acc.length - 1].push(node);
+      } else {
+        acc.push([node]);
+      }
+      return acc;
+    }, []);
+  }
+
+  private _handleHtmlStartTag(ps: DocNode[], configuration: TSDocConfiguration, formattedSection: DocSection): boolean {
+    if (ps.length > 0 && ps[0] instanceof DocHtmlStartTag) {
+      const [_htmlStartTag, ...rest] = ps;
+      formattedSection.appendNode(new DocParagraph({ configuration }, rest));
+      return true;
+    }
+    return false;
+  }
+
+  private _writeSummarySection(output: DocSection, apiItem: ApiItem): void {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
     if (apiItem instanceof ApiDocumentedItem) {
       if (apiItem.tsdocComment !== undefined) {
         const localizedSection: DocSection = this._localizeSection(apiItem.tsdocComment.summarySection, this.locale);
+
         const formattedSection = new DocSection({ configuration });
 
         for (const nodes of localizedSection.getChildNodes()) {
-          const paragraph = new DocParagraph({ configuration });
+          const paragraphs = this._parseParagraph(nodes as DocParagraph);
 
-          for (const node of nodes.getChildNodes()) {
-            if (node instanceof DocPlainText) {
-              const texts = node.text.split(/ - /g);
-              const listText = texts.slice(1);
+          const latest: DocNode[][] = [];
 
-              paragraph.appendNode(new DocPlainText({ configuration, text: texts[0] }));
-
-              if (listText.length > 0) {
-                formattedSection.appendNode(
-                  new DocParagraph({ configuration }, [
-                    new DocUnorderedList(
-                      { configuration },
-                      listText.map((text) => new DocPlainText({ configuration, text })),
-                    ),
-                  ]),
-                );
-              }
-            } else if (node instanceof DocCodeSpan) {
-              paragraph.appendNode(new DocPlainText({ configuration, text: ' ' }));
-              paragraph.appendNode(new DocCodeSpan({ configuration, code: node.code }));
-              paragraph.appendNode(new DocPlainText({ configuration, text: ' ' }));
+          for (const ps of paragraphs) {
+            if (!this._handleHtmlStartTag(ps, configuration, formattedSection)) {
+              latest.push(ps);
             }
           }
 
-          formattedSection.appendNode(paragraph);
+          formattedSection.appendNode(
+            new DocUnorderedList(
+              { configuration },
+              latest.map((nodes) => new DocParagraph({ configuration }, nodes)),
+            ),
+          );
         }
 
         this._appendAndMergeSection(output, formattedSection);
@@ -2080,10 +2129,8 @@ export class MarkdownDocumenter {
   }
 
   private _getFilenameForApiItem(apiItem: ApiItem): string {
-    const lang = this.locale === LocaleLanguage.EN ? 'en' : 'zh';
-
     if (apiItem.kind === ApiItemKind.Model) {
-      return `index.${lang}.md`;
+      return `index.${this._getLang()}.md`;
     }
 
     let baseName: string = '';
@@ -2110,7 +2157,7 @@ export class MarkdownDocumenter {
           baseName += '.' + qualifiedName;
       }
     }
-    return baseName + `.${lang}.md`;
+    return baseName + `.${this._getLang()}.md`;
   }
 
   private _getLinkFilenameForApiItem(apiItem: ApiItem): string {
@@ -2123,7 +2170,7 @@ export class MarkdownDocumenter {
     return prefix + this._getFilenameForApiItem(apiItem);
   }
 
-  private _localizeSection(section: DocSection, language: 'zh-CN' | 'en-US'): DocSection {
+  private _localizeSection(section: DocSection, language: LocaleLanguage): DocSection {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
     const trimmed: DocSection = new DocSection({ configuration });
 
@@ -2132,9 +2179,14 @@ export class MarkdownDocumenter {
     for (const node of section.getChildNodes()) {
       if (node instanceof DocParagraph) {
         for (const childNode of node.getChildNodes()) {
-          if (childNode instanceof DocHtmlStartTag) {
+          if (
+            childNode instanceof DocHtmlStartTag &&
+            childNode.selfClosingTag &&
+            (childNode.name === 'zh' || childNode.name === 'en')
+          ) {
             isSpecificLanguage = true;
-            const currentLanguage = childNode.selfClosingTag && childNode.name === 'zh' ? 'zh-CN' : 'en-US';
+            const currentLanguage =
+              childNode.selfClosingTag && childNode.name === 'zh' ? LocaleLanguage.ZH : LocaleLanguage.EN;
             if (currentLanguage == language) {
               trimmed.appendNode(node);
             }
@@ -2160,5 +2212,9 @@ export class MarkdownDocumenter {
 
   private _intl(keyword: Keyword) {
     return intl(keyword, this.locale);
+  }
+
+  private _getLang() {
+    return this.locale === LocaleLanguage.ZH ? 'zh' : 'en';
   }
 }

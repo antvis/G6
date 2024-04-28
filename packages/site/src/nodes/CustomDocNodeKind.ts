@@ -66,12 +66,14 @@ export class CustomDocNodes {
         DocNodeKind.SoftBreak,
         DocNodeKind.Paragraph,
         DocNodeKind.LinkTag,
+        DocNodeKind.CodeSpan,
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.UnorderedList, [
         DocNodeKind.PlainText,
         DocNodeKind.LinkTag,
         DocNodeKind.Paragraph,
+        DocNodeKind.CodeSpan,
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(DocNodeKind.Section, [
@@ -81,6 +83,7 @@ export class CustomDocNodes {
         CustomDocNodeKind.PageTitle,
         CustomDocNodeKind.Details,
         CustomDocNodeKind.Container,
+        CustomDocNodeKind.UnorderedList,
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(DocNodeKind.Paragraph, [
