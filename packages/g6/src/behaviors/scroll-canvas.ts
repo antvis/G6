@@ -11,6 +11,7 @@ export interface ScrollCanvasOptions extends BaseBehaviorOptions {
    * <zh/> 是否启用滚动画布的功能
    *
    * <en/> Whether to enable the function of scrolling the canvas
+   * @defaultValue true
    */
   enable?: boolean | ((event: WheelEvent | IKeyboardEvent) => boolean);
   /**
@@ -20,15 +21,22 @@ export interface ScrollCanvasOptions extends BaseBehaviorOptions {
    */
   trigger?: CombinationKey;
   /**
-   * <zh/> 允许的滚动方向。选项有："x"、"y"，默认情况下没有限制
+   * <zh/> 允许的滚动方向
+   * - 默认情况下没有限制
+   * - x : 只允许水平滚动
+   * - y : 只允许垂直滚动
    *
-   * <en/> The allowed rolling direction. The options are "x" and "y", with no restrictions by default
+   * <en/> The allowed rolling direction
+   * - by default, there is no restriction
+   * - x: only allow horizontal scrolling
+   * - y: only allow vertical scrolling
    */
   direction?: 'x' | 'y';
   /**
    * <zh/> 滚动灵敏度
    *
    * <en/> Scroll sensitivity
+   * @defaultValue 1
    */
   sensitivity?: number;
   /**
@@ -36,7 +44,7 @@ export interface ScrollCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when scrolling is completed
    */
-  onfinish?: () => void;
+  onFinish?: () => void;
 }
 
 type CombinationKey = {
@@ -44,12 +52,6 @@ type CombinationKey = {
   down: ShortcutKey;
   left: ShortcutKey;
   right: ShortcutKey;
-};
-
-type EnableOptions = {
-  node?: boolean;
-  edge?: boolean;
-  combo?: boolean;
 };
 
 export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
@@ -118,11 +120,11 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
 
   private async scroll(value: Point, event: WheelEvent | IKeyboardEvent) {
     if (!this.validate(event)) return;
-    const { onfinish } = this.options;
+    const { onFinish } = this.options;
     const graph = this.context.graph;
     const formattedValue = this.formatDisplacement(value);
     await graph.translateBy(formattedValue, false);
-    onfinish?.();
+    onFinish?.();
   }
 
   private validate(event: WheelEvent | IKeyboardEvent) {

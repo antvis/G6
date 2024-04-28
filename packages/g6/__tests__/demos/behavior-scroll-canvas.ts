@@ -15,19 +15,27 @@ export const behaviorScrollCanvas: TestCase = async (context) => {
     },
     behaviors: [
       {
+        key: 'scroll-canvas',
         type: 'scroll-canvas',
-        // direction: 'x',
-        // direction: 'y',
-        // sensitivity: 5,
-        // trigger: {
-        //   up: ['ArrowUp'],
-        //   down: ['ArrowDown'],
-        //   right: ['ArrowRight'],
-        //   left: ['ArrowLeft'],
-        // },
       },
     ],
   });
+
+  behaviorScrollCanvas.form = (panel) => {
+    const config = {
+      direction: '',
+      sensitivity: 1,
+    };
+
+    panel.onChange(() => {
+      graph.updateBehavior({
+        key: 'scroll-canvas',
+        ...config,
+      });
+    });
+
+    return [panel.add(config, 'direction', ['xy', 'x', 'y']), panel.add(config, 'sensitivity', 1, 10, 1)];
+  };
 
   await graph.render();
 
