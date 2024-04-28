@@ -1,15 +1,4 @@
-import { Graph as BaseGraph, Extensions, extend } from '@antv/g6';
-
-const Graph = extend(BaseGraph, {
-  plugins: {
-    toolbar: Extensions.Toolbar,
-    timebar: Extensions.Timebar,
-  },
-});
-
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = (container.scrollHeight || 500) - 110;
+import { Graph } from '@antv/g6';
 
 const startTime = new Date('2023-08-01').getTime();
 const diff = 3600 * 24 * 1000;
@@ -37,13 +26,13 @@ const graphData = {
   })),
 };
 
-new Graph({
-  container,
-  width,
-  height,
+const graph = new Graph({
+  container: 'container',
   data: graphData,
-  modes: {
-    default: ['drag-canvas', 'drag-element', 'zoom-canvas'],
+  height: 400,
+  behaviors: ['drag-canvas', 'drag-element', 'zoom-canvas'],
+  layout: {
+    type: 'grid',
   },
   plugins: [
     {
@@ -55,3 +44,5 @@ new Graph({
     },
   ],
 });
+
+graph.render();

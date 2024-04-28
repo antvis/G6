@@ -31,7 +31,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@swc/core": "^1.4.13",
+    "@swc/core": "^1.4.16",
     "@swc/jest": "^0.2.36",
     "@types/jest": "^29.5.12",
     "@types/jsdom": "^21.1.6",
@@ -55,13 +55,13 @@
     "prettier-plugin-organize-imports": "^3.2.4",
     "prettier-plugin-packagejson": "^2.5.0",
     "rimraf": "^5.0.5",
-    "rollup": "^4.14.1",
+    "rollup": "^4.16.1",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-visualizer": "^5.12.0",
     "stats.js": "^0.17.0",
     "turbo": "^1.13.2",
     "typescript": "^5.4.5",
-    "vite": "^5.2.8",
+    "vite": "^5.2.10",
     "xml-formatter": "^3.6.2"
   }
 }
