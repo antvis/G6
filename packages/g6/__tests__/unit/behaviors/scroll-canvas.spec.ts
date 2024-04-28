@@ -26,6 +26,7 @@ describe('behavior scroll canvas', () => {
   it('default status', () => {
     expect(graph.getBehaviors()).toEqual([
       {
+        key: 'scroll-canvas',
         type: 'scroll-canvas',
       },
     ]);
