@@ -10,6 +10,7 @@ import {
   FocusElement,
   HoverElement,
   LassoSelect,
+  ScrollCanvas,
   ZoomCanvas,
 } from '../behaviors';
 import {
@@ -73,6 +74,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'drag-canvas': DragCanvas,
     'drag-element': DragElement,
     'drag-element-force': DragElementForce,
+    'scroll-canvas': ScrollCanvas,
     'collapse-expand': CollapseExpand,
     'click-element': ClickElement,
     'hover-element': HoverElement,
