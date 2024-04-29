@@ -2,18 +2,36 @@ import type { TooltipStyleProps } from '@antv/component';
 import { Tooltip as TooltipComponent } from '@antv/component';
 import { get } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
-import type { Element, ElementDatum, ElementType, IPointerEvent } from '../types';
+import type { ElementDatum, ElementType, IElementEvent } from '../types';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
 export interface TooltipOptions
   extends BasePluginOptions,
     Pick<TooltipStyleProps, 'position' | 'offset' | 'enterable' | 'style' | 'container'> {
-  /** <zh/> 触发方式 | <en/> Event type that triggers display of tooltip */
+  /**
+   *  <zh/> 触发行为，可选 hover | click
+   * - hover：鼠标移入元素时触发
+   * - click：鼠标点击元素时触发
+   *
+   *  <en/> Trigger behavior, optional hover | click
+   * - hover：mouse hover element
+   * - click：mouse click element
+   * @defaultValue 'hover
+   */
   trigger?: 'hover' | 'click';
-  /** <zh/> 自定义内容 | <en/> Function for getting tooltip content  */
+  /**
+   *  <zh/> 自定义内容
+   *
+   *  <en/> Function for getting tooltip content
+   */
   getContent?: (event: IElementEvent, items: ElementDatum[]) => HTMLElement | string;
-  /** <zh/> 是否启用 | <en/> Is enable */
+  /**
+   *  <zh/> 是否启用
+   *
+   *  <en/> Is enable
+   *  @defaultValue true
+   */
   enable?: boolean | ((event: IElementEvent) => boolean);
 }
 
@@ -39,6 +57,12 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.bindEvents();
   }
 
+  /**
+   * <zh/> 获取事件及处理事件的方法
+   *
+   * <en/> Get event and handle event methods
+   * @returns <zh/> 事件及处理事件的方法 | <en/> Event and handling event methods
+   */
   public getEvents(): { [key: string]: (event: IElementEvent) => void } {
     if (this.options.trigger === 'click') {
       return {
@@ -63,7 +87,12 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
       'node:drag': this.onPointerLeave,
     };
   }
-
+  /**
+   * <zh/> 更新tooltip配置
+   *
+   * <en/> Update the tooltip configuration
+   * @param options - <zh/> 配置项 | <en/> options
+   */
   public update(options: Partial<TooltipOptions>) {
     this.unbindEvents();
     super.update(options);
@@ -99,56 +128,85 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     });
   }
 
-  private isEnable = (e: IElementEvent) => {
+  private isEnable = (event: IElementEvent) => {
     const { enable } = this.options;
     if (typeof enable === 'function') {
-      return enable(e);
+      return enable(event);
     }
     return enable;
   };
 
-  public onClick = (e: IElementEvent) => {
+  /**
+   * <zh/> 点击事件
+   *
+   * <en/> Click event
+   * @param event - <zh/> 元素 | <en/> element
+   */
+  public onClick = (event: IElementEvent) => {
     const {
       target: { id },
-    } = e;
+    } = event;
     // click the same item twice, tooltip will be hidden
     if (this.currentTarget === id) {
       this.currentTarget = null;
-      this.hideTooltip(e);
+      this.hideTooltip(event);
     } else {
       this.currentTarget = id;
-      this.showTooltip(e);
+      this.showTooltip(event);
     }
   };
 
-  public onPointerMove = (e: IElementEvent) => {
-    const { target } = e;
+  /**
+   * <zh/> 在目标元素(node/edge/combo)上移动
+   *
+   * <en/> Move on target element (node/edge/combo)
+   * @param event - <zh/> 目标元素 | <en/> target element
+   */
+  public onPointerMove = (event: IElementEvent) => {
+    const { target } = event;
     if (!this.currentTarget || target.id === this.currentTarget) {
       return;
     }
-    this.showTooltip(e);
+    this.showTooltip(event);
   };
-
-  public onPointerLeave = (e: IElementEvent) => {
-    this.hideTooltip(e);
+  /**
+   * <zh/> 点击画布/触发拖拽/出现上下文菜单隐藏tooltip
+   *
+   * <en/> Hide tooltip when clicking canvas/triggering drag/appearing context menu
+   * @param event - <zh/> 目标元素 | <en/> target element
+   */
+  public onPointerLeave = (event: IElementEvent) => {
+    this.hideTooltip(event);
+    this.currentTarget = null;
+  };
+  /**
+   * <zh/> 移动画布
+   *
+   * <en/> Move canvas
+   * @param event - <zh/> 目标元素 | <en/> target element
+   */
+  public onCanvasMove = (event: IElementEvent) => {
+    this.hideTooltip(event);
     this.currentTarget = null;
   };
 
-  public onCanvasMove = (e: IElementEvent) => {
-    this.hideTooltip(e);
-    this.currentTarget = null;
+  private onPointerEnter = (event: IElementEvent) => {
+    this.showTooltip(event);
   };
 
-  private onPointerEnter = (e: IElementEvent) => {
-    this.showTooltip(e);
-  };
-
+  /**
+   * <zh/> 通过id和元素类型指定要显示的tooltip
+   *
+   * <en/> Show tooltip by id and element type
+   * @param id - id
+   * @param elementType - <zh/> 元素类型 | <en/> element type
+   */
   public showTooltipById = (id: string, elementType: ElementType = 'node') => {
-    const e = {
+    const event = {
       targetType: elementType,
       target: { id },
     } as IElementEvent;
-    this.showTooltip(e);
+    this.showTooltip(event);
   };
 
   private getItems = (id: string, targetType: ElementType) => {
@@ -165,13 +223,19 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
   };
 
-  public showTooltip = (e: IElementEvent) => {
+  /**
+   * <zh/> 在目标元素上显示tooltip
+   *
+   * <en/> Show tooltip on target element
+   * @param event - <zh/> 目标元素 | <en/> target element
+   */
+  public showTooltip = (event: IElementEvent) => {
     const {
       targetType,
       client,
       target: { id, attributes = { color: '#1883FF' } },
-    } = e;
-    if (!this.tooltipElement || !this.isEnable(e)) return;
+    } = event;
+    if (!this.tooltipElement || !this.isEnable(event)) return;
     const { getContent } = this.options;
     const { color, stroke } = attributes;
     this.currentTarget = id;
@@ -188,7 +252,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
     let tooltipContent: { [key: string]: unknown } = {};
     if (getContent) {
-      tooltipContent.content = getContent(e, items);
+      tooltipContent.content = getContent(event, items);
     } else {
       tooltipContent = {
         title: targetType,
@@ -212,17 +276,22 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
       ...tooltipContent,
     });
   };
-
-  public hideTooltip = (e?: IElementEvent) => {
+  /**
+   * <zh/> 隐藏tooltip
+   *
+   * <en/> Hidden tooltip
+   * @param event - <zh/> 目标元素,不传则为外部调用 | <en/> Target element, not passed in as external call
+   */
+  public hideTooltip = (event?: IElementEvent) => {
     // if e is undefined, hide the tooltip， external call
-    if (!e) {
+    if (!event) {
       this.tooltipElement?.hide();
       return;
     }
-    if (!this.tooltipElement || !this.isEnable(e)) return;
+    if (!this.tooltipElement || !this.isEnable(event)) return;
     const {
       client: { x, y },
-    } = e;
+    } = event;
     this.tooltipElement.hide(x, y);
   };
 
@@ -257,6 +326,11 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     return tooltipElement;
   };
 
+  /**
+   * <zh/> 销毁tooltip
+   *
+   * <en/> Destroy tooltip
+   */
   public destroy(): void {
     this.unbindEvents();
     if (this.tooltipElement) {
@@ -265,5 +339,3 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     super.destroy();
   }
 }
-
-type IElementEvent = IPointerEvent<Element>;

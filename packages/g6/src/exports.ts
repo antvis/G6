@@ -168,16 +168,19 @@ export type {
 } from './spec';
 export type { BaseTransformOptions } from './transforms';
 export type {
+  CallableValue,
   CardinalPlacement,
   Combo,
   CornerPlacement,
   DirectionalPlacement,
   Edge,
   Element,
+  ElementDatum,
   ElementType,
   IAnimateEvent,
   ID,
   IDragEvent,
+  IElementEvent,
   IElementLifeCycleEvent,
   IEvent,
   IGraphLifeCycleEvent,

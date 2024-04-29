@@ -27,6 +27,8 @@ export interface IWheelEvent<T extends Target = Target> extends TargetedEvent<Fe
 
 export interface IKeyboardEvent extends KeyboardEvent {}
 
+export interface IElementEvent extends IPointerEvent<Element> {}
+
 export interface IDragEvent<T extends Target = Target> extends TargetedEvent<FederatedPointerEvent, T> {
   dx: number;
   dy: number;

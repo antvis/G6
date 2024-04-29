@@ -66,6 +66,11 @@ export interface GridLineOptions extends BasePluginOptions {
   follow?: boolean;
 }
 
+/**
+ * <zh/> 网格线
+ *
+ * <en/> Grid line
+ */
 export class GridLine extends BasePlugin<GridLineOptions> {
   static defaultOptions: Partial<GridLineOptions> = {
     lineWidth: 1,
@@ -93,6 +98,12 @@ export class GridLine extends BasePlugin<GridLineOptions> {
     this.bindEvents();
   }
 
+  /**
+   * <zh/> 更新网格线配置
+   *
+   * <en/> Update the configuration of the grid line
+   * @param options - <zh/> 配置项 | <en/> options
+   */
   public update(options: Partial<GridLineOptions>) {
     super.update(options);
     this.updateStyle();
@@ -126,6 +137,11 @@ export class GridLine extends BasePlugin<GridLineOptions> {
     if (translate) this.updateOffset(translate);
   };
 
+  /**
+   * <zh/> 销毁网格线
+   *
+   * <en/> Destroy the grid line
+   */
   public destroy(): void {
     this.context.graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);
     this.$element.remove();

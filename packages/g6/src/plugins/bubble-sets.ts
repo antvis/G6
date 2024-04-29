@@ -175,6 +175,12 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
     return this.path;
   };
 
+  /**
+   * <zh/> 添加成员元素
+   *
+   * <en/> Add member elements
+   * @param members - <zh/> 单个或多个 | <en/> single or multiple
+   */
   public addMember(members: ID | ID[]) {
     const membersToAdd = Array.isArray(members) ? members : [members];
     if (membersToAdd.some((member) => this.options.avoidMembers.includes(member))) {
@@ -183,22 +189,43 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
     this.options.members = [...new Set([...this.options.members, ...membersToAdd])];
     this.drawBubbleSets();
   }
-
+  /**
+   * <zh/> 移除成员元素
+   *
+   * <en/> Remove member elements
+   * @param members - <zh/> 单个或多个 | <en/> single or multiple
+   */
   public removeMember(members: ID | ID[]) {
     const membersToRemove = Array.isArray(members) ? members : [members];
     this.options.members = this.options.members.filter((id) => !membersToRemove.includes(id));
     this.drawBubbleSets();
   }
-
+  /**
+   * <zh/> 更新成员元素
+   *
+   * <en/> Update member elements
+   * @param members - <zh/> 值或者回调函数 | <en/> value or callback function
+   */
   public updateMember(members: CallableValue<ID[]>) {
     this.options.members = isFunction(members) ? members(this.options.members) : members;
     this.drawBubbleSets();
   }
-
+  /**
+   * <zh/> 获取成员元素
+   *
+   * <en/> Get member elements
+   * @returns <zh/> 成员元素数组 | <en/> member elements array
+   */
   public getMember() {
     return this.options.members;
   }
 
+  /**
+   * <zh/> 添加需要避开的元素
+   *
+   * <en/> Add elements to avoid
+   * @param avoidMembers - <zh/> 单个或多个 | <en/> single or multiple
+   */
   public addAvoidMember(avoidMembers: ID | ID[]) {
     const avoidMembersToAdd = Array.isArray(avoidMembers) ? avoidMembers : [avoidMembers];
     if (avoidMembersToAdd.some((AvoidMember) => this.options.members.includes(AvoidMember))) {
@@ -207,7 +234,12 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
     this.options.avoidMembers = [...new Set([...this.options.avoidMembers, ...avoidMembersToAdd])];
     this.drawBubbleSets();
   }
-
+  /**
+   * <zh/> 移除需要避开的元素
+   *
+   * <en/> Remove elements to avoid
+   * @param avoidMembers - <zh/> 单个或多个 | <en/> single or multiple
+   */
   public removeAvoidMember(avoidMembers: ID | ID[]) {
     const avoidMembersToRemove = Array.isArray(avoidMembers) ? avoidMembers : [avoidMembers];
     if (this.options.avoidMembers.some((member) => avoidMembersToRemove.includes(member))) {
@@ -215,16 +247,30 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
       this.drawBubbleSets();
     }
   }
-
+  /**
+   * <zh/> 更新需要避开的元素
+   *
+   * <en/> Update elements to avoid
+   * @param avoidMembers - <zh/> 单个或多个 | <en/> single or multiple
+   */
   public updateAvoidMember(avoidMembers: ID | ID[]) {
     this.options.avoidMembers = Array.isArray(avoidMembers) ? avoidMembers : [avoidMembers];
     this.drawBubbleSets();
   }
-
+  /**
+   * <zh/> 获取需要避开的元素
+   *
+   * <en/> Get elements to avoid
+   * @returns avoidMembers <zh/> 成员元素数组 | <en/> member elements array
+   */
   public getAvoidMember() {
     return this.options.avoidMembers;
   }
-
+  /**
+   * <zh/> 销毁
+   *
+   * <en/> Destroy
+   */
   public destroy(): void {
     this.context.graph.off(GraphEvent.AFTER_RENDER, this.drawBubbleSets);
     this.context.graph.off(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateBubbleSetsPath);
