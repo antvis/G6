@@ -4,12 +4,19 @@ import { deepMix } from '@antv/util';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
+/**
+ * <zh/> 直线样式配置项
+ *
+ * <en/> Line style properties
+ */
 export type LineStyleProps = BaseEdgeStyleProps;
 
 type ParsedLineStyleProps = Required<LineStyleProps>;
 
 /**
- * Draw line based on BaseEdge, override drawKeyShape
+ * <zh/> 直线
+ *
+ * <en/> Line
  */
 export class Line extends BaseEdge {
   static defaultStyleProps: Partial<LineStyleProps> = {};

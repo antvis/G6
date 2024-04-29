@@ -39,7 +39,7 @@ export function mangleScopedPackageName(packageName: string): string {
 
 const reportFolderRoot = path.resolve(path.join('support', 'api'));
 const reportTempFolderRoot = path.resolve(reportFolderRoot, 'temp');
-const ignorePackages = new Set<string>(['@antv/g6-react-node', '@antv/g6-plugin-map-view', '@antv/g6-site']);
+const ignorePackages = new Set<string>(['@antv/g6-site', '@antv/g6-extension-3d']);
 
 /**
  * Get all typed packages.
@@ -116,6 +116,7 @@ async function runApiExtractor() {
       // Make `export * from 'other-remirror-packages'` to work
       bundledPackages: [
         ...Object.keys(pkg.packageJson.dependencies ?? {}),
+        ...Object.keys(pkg.packageJson.devDependencies ?? {}),
         ...Object.keys(pkg.packageJson.peerDependencies ?? {}),
       ].filter((name) => packageNameSet.has(name)),
     };

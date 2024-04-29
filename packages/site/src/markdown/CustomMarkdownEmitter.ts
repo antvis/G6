@@ -1,5 +1,6 @@
 import type { ApiItem, ApiModel, IResolveDeclarationReferenceResult } from '@microsoft/api-extractor-model';
 import type { DocLinkTag, DocNode, StringBuilder } from '@microsoft/tsdoc';
+import { DocContainer } from 'src/nodes/DocContainer';
 import { CustomDocNodeKind } from '../nodes/CustomDocNodeKind';
 import type { DocDetails } from '../nodes/DocDetails';
 import type { DocEmphasisSpan } from '../nodes/DocEmphasisSpan';
@@ -56,7 +57,10 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
             prefix = '####';
         }
 
-        writer.writeLine(prefix + ' ' + this.getEscapedText(docHeading.title));
+        const _prefix = docHeading.prefix ? docHeading.prefix + ' ' : '';
+        const _suffix = docHeading.suffix ? ' ' + docHeading.suffix : '';
+
+        writer.writeLine(prefix + ' ' + _prefix + this.getEscapedText(docHeading.title) + _suffix);
         writer.writeLine();
         break;
       }
@@ -147,7 +151,7 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
 
         writer.writeLine('---');
         writer.writeLine('title: ' + docPageTitle.title);
-        if (docPageTitle.order) {
+        if (docPageTitle.order !== undefined) {
           writer.ensureNewLine();
           writer.writeLine('order: ' + docPageTitle.order);
         }
@@ -183,6 +187,16 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
         }
 
         writer.writeLine();
+        break;
+      }
+      case CustomDocNodeKind.Container: {
+        const container: DocContainer = docNode as DocContainer;
+        writer.ensureSkippedLine();
+        writer.write(`:::${container.status}` + (container.title ? `{title=${container.title}}` : ''));
+        writer.ensureNewLine();
+        this.writeNodes(container.getChildNodes(), context);
+        writer.write(':::');
+        writer.ensureSkippedLine();
         break;
       }
       default:

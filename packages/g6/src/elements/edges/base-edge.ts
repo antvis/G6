@@ -1,8 +1,8 @@
 import type {
   BaseStyleProps,
+  DisplayObject,
   DisplayObjectConfig,
   Group,
-  ImageStyleProps,
   LineStyleProps,
   PathStyleProps,
 } from '@antv/g';
@@ -11,97 +11,146 @@ import type { PathArray } from '@antv/util';
 import { deepMix, isEmpty, isFunction } from '@antv/util';
 import type {
   BaseElementStyleProps,
+  EdgeArrowStyleProps,
   EdgeKey,
   EdgeLabelStyleProps,
   Keyframe,
-  LoopPlacement,
+  LoopStyleProps,
   Node,
   Point,
   PrefixObject,
-  Size,
 } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
 import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
-import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
 import { getWordWrapWidthByEnds } from '../../utils/text';
 import type { LabelStyleProps } from '../shapes';
 import { Label } from '../shapes';
 import { BaseShape } from '../shapes/base-shape';
 
-export type BaseEdgeStyleProps = BaseElementStyleProps &
-  Pick<
-    PathStyleProps,
-    'isBillboard' | 'markerStart' | 'markerStartOffset' | 'markerEnd' | 'markerEndOffset' | 'markerMid'
-  > &
-  PrefixObject<EdgeLabelStyleProps, 'label'> &
-  PrefixObject<PathStyleProps, 'halo'> &
-  PrefixObject<EdgeArrowStyleProps, 'startArrow'> &
-  PrefixObject<EdgeArrowStyleProps, 'endArrow'> &
-  PrefixObject<LoopStyleProps, 'loop'> & {
-    /**
-     * <zh/> 是否显示边的标签
-     *
-     * <en/> Whether to display the label of the edge
-     */
-    label?: boolean;
-    /**
-     * <zh/> 是否显示边的光晕
-     *
-     * <en/> Whether to display the halo of the edge
-     */
-    halo?: boolean;
-    /**
-     * <zh/> 是否显示边的起始箭头
-     *
-     * <en/> Whether to display the start arrow of the edge
-     */
-    startArrow?: boolean;
-    /**
-     * <zh/> 是否显示边的结束箭头
-     *
-     * <en/> Whether to display the end arrow of the edge
-     */
-    endArrow?: boolean;
-    /**
-     * <zh/> 起始箭头的偏移量
-     *
-     * <en/> Offset of the start arrow
-     */
-    startArrowOffset?: number;
-    /**
-     * <zh/> 结束箭头的偏移量
-     *
-     * <en/> Offset of the end arrow
-     */
-    endArrowOffset?: number;
-    /**
-     * <zh/> 边的起点 shape
-     * <en/> The source shape. Represents the start of the edge
-     */
-    sourceNode: Node;
-    /**
-     * <zh/> 边的终点 shape
-     * <en/> The source shape. Represents the start of the edge
-     */
-    targetNode: Node;
-    /**
-     * <zh/> 边起始连接的 port
-     * <en/> The Port of the source node
-     */
-    sourcePort?: string;
-    /**
-     * <zh/> 边终点连接的 port
-     * <en/> The Port of the target node
-     */
-    targetPort?: string;
-  };
+/**
+ * <zh/> 边的基础样式属性
+ *
+ * <en/> Base style properties of the edge
+ */
+export interface BaseEdgeStyleProps
+  extends BaseElementStyleProps,
+    PrefixObject<EdgeLabelStyleProps, 'label'>,
+    PrefixObject<PathStyleProps, 'halo'>,
+    PrefixObject<EdgeArrowStyleProps, 'startArrow'>,
+    PrefixObject<EdgeArrowStyleProps, 'endArrow'>,
+    PrefixObject<LoopStyleProps, 'loop'> {
+  /**
+   * <zh/> 是否显示边的标签
+   *
+   * <en/> Whether to display the label of the edge
+   */
+  label?: boolean;
+  /**
+   * <zh/> 是否显示边的光晕
+   *
+   * <en/> Whether to display the halo of the edge
+   */
+  halo?: boolean;
+  /**
+   * <zh/> 是否显示边的起始箭头
+   *
+   * <en/> Whether to display the start arrow of the edge
+   */
+  startArrow?: boolean;
+  /**
+   * <zh/> 是否显示边的结束箭头
+   *
+   * <en/> Whether to display the end arrow of the edge
+   */
+  endArrow?: boolean;
+  /**
+   * <zh/> 起始箭头的偏移量
+   *
+   * <en/> Offset of the start arrow
+   */
+  startArrowOffset?: number;
+  /**
+   * <zh/> 结束箭头的偏移量
+   *
+   * <en/> Offset of the end arrow
+   */
+  endArrowOffset?: number;
+  /**
+   * <zh/> 边的起点 shape
+   *
+   * <en/> The source shape. Represents the start of the edge
+   */
+  sourceNode: Node;
+  /**
+   * <zh/> 边的终点 shape
+   *
+   * <en/> The source shape. Represents the start of the edge
+   */
+  targetNode: Node;
+  /**
+   * <zh/> 边起始连接的 port
+   *
+   * <en/> The Port of the source node
+   */
+  sourcePort?: string;
+  /**
+   * <zh/> 边终点连接的 port
+   *
+   * <en/> The Port of the target node
+   */
+  targetPort?: string;
+  /**
+   * <zh/> 在 “起始点” 处添加一个标记图形，其中 “起始点” 为边与起始节点的交点
+   *
+   * <en/> Add a marker graphic at the "start point", where the "start point" is the intersection of the edge and the source node
+   */
+  markerStart?: DisplayObject | null;
+  /**
+   * <zh/> 调整 “起始点” 处标记图形的位置，正偏移量向内，负偏移量向外
+   *
+   * <en/> Adjust the position of the marker graphic at the "start point", positive offset inward, negative offset outward
+   * @defaultValue 0
+   */
+  markerStartOffset?: number;
+  /**
+   * <zh/> 在 “终止点” 处添加一个标记图形，其中 “终止点” 为边与终止节点的交点
+   *
+   * <en/> Add a marker graphic at the "end point", where the "end point" is the intersection of the edge and the target node
+   */
+  markerEnd?: DisplayObject | null;
+  /**
+   * <zh/> 调整 “终止点” 处标记图形的位置，正偏移量向内，负偏移量向外
+   *
+   * <en/> Adjust the position of the marker graphic at the "end point", positive offset inward, negative offset outward
+   * @defaultValue 0
+   */
+  markerEndOffset?: number;
+  /**
+   * <zh/> 在路径除了 “起始点” 和 “终止点” 之外的每一个顶点上放置标记图形。在内部实现中，由于我们会把路径中部分命令转换成 C 命令，因此这些顶点实际是三阶贝塞尔曲线的控制点
+   *
+   * <en/> Place a marker graphic on each vertex of the path except for the "start point" and "end point". In the internal implementation, because we will convert some commands in the path to C commands, these vertices are actually the control points of the cubic Bezier curve
+   */
+  markerMid?: DisplayObject | null;
+  /**
+   * <zh/> 3D 场景中生效，始终朝向屏幕，因此线宽不受透视投影影像
+   *
+   * <en/> Effective in 3D scenes, always facing the screen, so the line width is not affected by the perspective projection image
+   * @defaultValue false
+   */
+  isBillboard?: boolean;
+}
 
 type ParsedBaseEdgeStyleProps = Required<BaseEdgeStyleProps>;
 
+/**
+ * <zh/> 基础边元素
+ *
+ * <en/> Base edge element
+ */
 export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   public type = 'edge';
 
@@ -323,30 +372,3 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     return result;
   }
 }
-
-type SymbolName = 'triangle' | 'circle' | 'diamond' | 'vee' | 'rect' | 'triangleRect' | 'simple';
-
-type EdgeArrowStyleProps = {
-  type?: SymbolName | SymbolFactor;
-  size?: Size;
-} & PathStyleProps &
-  Omit<ImageStyleProps, 'width' | 'height'> &
-  Record<string, unknown>;
-
-export type LoopStyleProps = {
-  /**
-   * <zh/> 边的位置
-   * <en/> The position of the edge
-   */
-  placement?: LoopPlacement;
-  /**
-   * <zh/> 指定是否顺时针绘制环
-   * <en/> Specify whether to draw the loop clockwise
-   */
-  clockwise?: boolean;
-  /**
-   * <zh/> 从节点 keyShape 边缘到自环顶部的距离，用于指定自环的曲率，默认为宽度或高度的最大值
-   * <en/> Determine the position from the edge of the node keyShape to the top of the self-loop, used to specify the curvature of the self-loop, the default value is the maximum of the width or height
-   */
-  dist?: number;
-};

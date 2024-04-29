@@ -1,4 +1,4 @@
-import { LocaleLanguage } from './locale';
+import { getIntl } from './common';
 
 const apiCategoryNames: Record<string, string[]> = {
   option: ['Option', '图配置项'],
@@ -19,12 +19,9 @@ const apiCategoryNames: Record<string, string[]> = {
 };
 
 /**
- * Get the category name of the API
- * @param categoryKey - The key of the category
- * @param locale - The locale
- * @returns The category name
+ * 获取 API 分类名称
+ * @param categoryKey 分类 key
+ * @param locale 语言
+ * @returns 分类名称
  */
-export function getApiCategoryName(categoryKey: string, locale: LocaleLanguage) {
-  const [en, zh] = apiCategoryNames[categoryKey];
-  return locale === LocaleLanguage.ZH ? zh : en;
-}
+export const getApiCategoryIntl = getIntl(apiCategoryNames);
