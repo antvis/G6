@@ -26,6 +26,13 @@ export interface QuadraticStyleProps extends BaseEdgeStyleProps {
 
 type ParsedQuadraticStyleProps = Required<QuadraticStyleProps>;
 
+/**
+ * <zh/> 二次贝塞尔曲线
+ *
+ * <en/> Quadratic Bezier curve
+ * @remarks
+ * <img width="220" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CLx6RqrqMvMAAAAAAAAAAAAADmJ7AQ/original" />
+ */
 export class Quadratic extends BaseEdge {
   static defaultStyleProps: Partial<QuadraticStyleProps> = {
     curvePosition: 0.5,

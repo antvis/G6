@@ -5,8 +5,18 @@ import { subStyleProps } from '../../utils/prefix';
 import type { BaseComboStyleProps } from './base-combo';
 import { BaseCombo } from './base-combo';
 
-export type RectComboStyleProps = BaseComboStyleProps;
+/**
+ * <zh/> 矩形 Combo 样式配置项
+ *
+ * <en/> Rect combo style props
+ */
+export interface RectComboStyleProps extends BaseComboStyleProps {}
 
+/**
+ * <zh/> 矩形 Combo
+ *
+ * <en/> Rect combo
+ */
 export class RectCombo extends BaseCombo<RectComboStyleProps> {
   static defaultStyleProps: Partial<RectComboStyleProps> = {
     anchor: [0.5, 0.5],

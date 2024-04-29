@@ -26,6 +26,13 @@ export interface CubicStyleProps extends BaseEdgeStyleProps {
 
 type ParsedCubicStyleProps = Required<CubicStyleProps>;
 
+/**
+ * <zh/> 三次贝塞尔曲线
+ *
+ * <en/> Cubic Bezier curve
+ * @remarks
+ * <img width="220" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cVd-TLQWujYAAAAAAAAAAAAADmJ7AQ/original" />
+ */
 export class Cubic extends BaseEdge {
   static defaultStyleProps: Partial<CubicStyleProps> = {
     curvePosition: 0.5,

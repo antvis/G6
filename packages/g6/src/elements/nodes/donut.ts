@@ -6,29 +6,20 @@ import { parseSize } from '../../utils/size';
 import { Circle } from './circle';
 
 import type { BaseStyleProps, DisplayObjectConfig, Group } from '@antv/g';
-import type { PrefixObject } from '../../types';
+import type { DonutRound, Prefix } from '../../types';
 import type { CircleStyleProps } from './circle';
 
-interface Round extends BaseStyleProps {
-  /**
-   * <zh/> 数值，用于计算比例
-   *
-   * <en/> Numerical value used to calculate the scale.
-   */
-  value: number;
-  /**
-   * <zh/> 颜色
-   *
-   * <en/> Color.
-   */
-  color?: string;
-}
-
-export interface DonutStyleProps extends CircleStyleProps, PrefixObject<BaseStyleProps, 'donut'> {
+/**
+ * <zh/> 甜甜圈节点样式配置项
+ *
+ * <en/> Donut node style props
+ */
+export interface DonutStyleProps extends CircleStyleProps, Prefix<'donut', BaseStyleProps> {
   /**
    * <zh/> 内环半径，使用百分比或者像素值
    *
    * <en/> Inner ring radius, using percentage or pixel value.
+   * @defaultValue '50%'
    */
   innerRadius?: string | number;
   /**
@@ -36,15 +27,21 @@ export interface DonutStyleProps extends CircleStyleProps, PrefixObject<BaseStyl
    *
    * <en/> Donut data.
    */
-  donuts?: number[] | Round[];
+  donuts?: number[] | DonutRound[];
   /**
    * <zh/> 颜色或者色板名
    *
    * <en/> Color or palette.
+   * @defaultValue 'tableau'
    */
   colors?: string | string[];
 }
 
+/**
+ * <zh/> 甜甜圈节点
+ *
+ * <en/> Donut node
+ */
 export class Donut extends Circle {
   static defaultStyleProps: Partial<DonutStyleProps> = {
     innerRadius: '50%',
@@ -60,7 +57,7 @@ export class Donut extends Circle {
     const { donuts, innerRadius = 0, size } = attributes;
     if (!donuts?.length) return;
 
-    const parsedDonuts = donuts.map((round) => (isNumber(round) ? { value: round } : round) as Round);
+    const parsedDonuts = donuts.map((round) => (isNumber(round) ? { value: round } : round) as DonutRound);
 
     const style = subStyleProps<BaseStyleProps>(this.getGraphicStyle(attributes), 'donut');
 

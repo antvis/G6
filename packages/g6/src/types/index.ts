@@ -3,6 +3,7 @@ export type * from './animation';
 export type * from './callable';
 export type * from './canvas';
 export type * from './change';
+export type * from './combo';
 export type * from './data';
 export type * from './edge';
 export type * from './element';

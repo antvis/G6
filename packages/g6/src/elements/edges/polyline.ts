@@ -29,6 +29,9 @@ export interface PolylineStyleProps extends BaseEdgeStyleProps {
   /**
    * <zh/> 路由名称，目前支持 'orth'
    * <en/> Routing name, currently supports 'orth'
+   * @defaultValue 'orth'
+   * @remarks
+   * <img width="220" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8Ia2RJFFQSoAAAAAAAAAAAAADmJ7AQ/original" />
    */
   routerName?: 'orth';
   /**
@@ -39,6 +42,13 @@ export interface PolylineStyleProps extends BaseEdgeStyleProps {
 }
 type ParsedPolylineStyleProps = Required<PolylineStyleProps>;
 
+/**
+ * <zh/> 折线
+ *
+ * <en/> Polyline
+ * @remarks
+ * <img width="220" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LeBUQKp9QD0AAAAAAAAAAAAADmJ7AQ/original" />
+ */
 export class Polyline extends BaseEdge {
   static defaultStyleProps: Partial<PolylineStyleProps> = {
     radius: 0,

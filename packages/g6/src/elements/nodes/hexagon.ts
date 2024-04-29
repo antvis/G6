@@ -3,17 +3,28 @@ import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { Point } from '../../types';
 import { getHexagonPoints } from '../../utils/element';
 import type { IconStyleProps } from '../shapes';
-import type { PolygonStyleProps } from './polygon';
-import { Polygon } from './polygon';
+import type { PolygonStyleProps } from '../shapes/polygon';
+import { Polygon } from '../shapes/polygon';
 
-export type HexagonStyleProps = PolygonStyleProps<{
+/**
+ * <zh/> 六边形节点样式配置项
+ *
+ * <en/> Hexagon node style props
+ */
+export interface HexagonStyleProps extends PolygonStyleProps {
   /**
    * <zh/> 外半径
+   *
    * <en/> outer radius
    */
   outerR?: number;
-}>;
+}
 
+/**
+ * <zh/> 六边形节点
+ *
+ * <en/> Hexagon node
+ */
 export class Hexagon extends Polygon<HexagonStyleProps> {
   constructor(options: DisplayObjectConfig<HexagonStyleProps>) {
     super(options);

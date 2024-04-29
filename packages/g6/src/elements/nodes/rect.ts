@@ -6,11 +6,18 @@ import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type RectStyleProps = BaseNodeStyleProps;
+/**
+ * <zh/> 矩形节点样式配置项
+ *
+ * <en/> Rect node style props
+ */
+export interface RectStyleProps extends BaseNodeStyleProps {}
 type ParsedRectStyleProps = Required<RectStyleProps>;
 
 /**
- * Draw Rect based on BaseNode, override drawKeyShape.
+ * <zh/> 矩形节点
+ *
+ * <en/> Rect node
  */
 export class Rect extends BaseNode<RectStyleProps> {
   static defaultStyleProps: Partial<RectStyleProps> = {

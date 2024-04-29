@@ -25,7 +25,11 @@ export interface ViewportOptions {
    *
    * <en/> whether to auto fit
    */
-  autoFit?: AutoFit;
+  autoFit?:
+    | { type: 'view'; options?: FitViewOptions; animation?: ViewportAnimationEffectTiming }
+    | { type: 'center'; animation?: ViewportAnimationEffectTiming }
+    | 'view'
+    | 'center';
   /**
    * <zh/> 画布内边距
    *
@@ -60,26 +64,10 @@ export interface ViewportOptions {
  * @internal
  */
 export interface STDViewportOptions {
-  autoFit?: STDAutoFit;
+  autoFit?:
+    | { type: 'view'; options?: FitViewOptions; animation?: ViewportAnimationEffectTiming }
+    | { type: 'center'; animation?: ViewportAnimationEffectTiming };
   padding?: STDPadding;
   zoom?: number;
   zoomRange?: [number, number];
 }
-
-/**
- * <zh/> 视口自适应规则
- *
- * <en/> Viewport auto fit rules
- * @public
- */
-export type AutoFit = STDAutoFit | 'view' | 'center';
-
-/**
- * <zh/> 视口自适应规则(标准属性)
- *
- * <en/> Viewport auto fit rules(STD)
- * @public
- */
-export type STDAutoFit =
-  | { type: 'view'; options?: FitViewOptions; animation?: ViewportAnimationEffectTiming }
-  | { type: 'center'; animation?: ViewportAnimationEffectTiming };

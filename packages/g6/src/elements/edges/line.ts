@@ -4,7 +4,12 @@ import { deepMix } from '@antv/util';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
-export type LineStyleProps = BaseEdgeStyleProps;
+/**
+ * <zh/> 直线样式配置项
+ *
+ * <en/> Line style properties
+ */
+export interface LineStyleProps extends BaseEdgeStyleProps {}
 
 type ParsedLineStyleProps = Required<LineStyleProps>;
 
