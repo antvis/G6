@@ -143,28 +143,28 @@ export default defineConfig({
         },
       },
       {
-        slug: 'api/element',
+        slug: 'apis/elements',
         title: {
           zh: 'Element - 元素',
           en: 'Element',
         },
       },
       {
-        slug: 'api/element/node',
+        slug: 'apis/elements/nodes',
         title: {
           zh: 'Node - 节点',
           en: 'Node',
         },
       },
       {
-        slug: 'api/element/edge',
+        slug: 'apis/elements/edges',
         title: {
           zh: 'Edge - 边',
           en: 'Edge',
         },
       },
       {
-        slug: 'api/element/combo',
+        slug: 'apis/elements/combos',
         title: {
           zh: 'Combo - 组合',
           en: 'Combo',

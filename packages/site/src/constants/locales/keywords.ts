@@ -1,4 +1,4 @@
-import { LocaleLanguage } from './locale';
+import { getIntl } from './index';
 
 export enum Keyword {
   ABSTRACT_CLASS = 'abstract-class',
@@ -7,16 +7,19 @@ export enum Keyword {
   CLASSES = 'classes',
   COLON = 'colon',
   COMMA = 'comma',
+  CONSTRUCTOR = 'constructor',
   CONSTRUCTORS = 'constructors',
   DECORATOR = 'decorator',
   DEFAULT_VALUE = 'defaultValue',
   DESCRIPTION = 'description',
+  ENUMERATION = 'enumeration',
   ENUMERATION_MEMBERS = 'enumeration-members',
   ENUMERATIONS = 'enumerations',
   EVENTS = 'events',
   EXAMPLE = 'example',
   EXCEPTIONS = 'exceptions',
   EXTENDS = 'extends',
+  FUNCTION = 'function',
   FUNCTIONS = 'functions',
   IMPLEMENTS = 'implements',
   INTERFACE = 'interface',
@@ -25,6 +28,7 @@ export enum Keyword {
   METHOD = 'method',
   METHODS = 'methods',
   MODIFIERS = 'modifiers',
+  NAMESPACE = 'namespace',
   NAMESPACES = 'namespaces',
   OPTIONAL = 'optional',
   OPTIONS = 'options',
@@ -38,7 +42,9 @@ export enum Keyword {
   RETURNS = 'returns',
   RIGHT_PARENTHESIS = 'rightParenthesis',
   TYPE = 'type',
+  TYPE_ALIAS = 'type-alias',
   TYPE_ALIASES = 'type-aliases',
+  VARIABLE = 'variable',
   VARIABLES = 'variables',
   VIEW_PARAMETERS = 'view-parameters',
 }
@@ -50,16 +56,19 @@ export const KeywordMapping: Record<Keyword, string[]> = {
   [Keyword.CLASSES]: ['Classes', '类'],
   [Keyword.COLON]: [':', '：'],
   [Keyword.COMMA]: [',', '，'],
+  [Keyword.CONSTRUCTOR]: ['Constructor', '构造函数'],
   [Keyword.CONSTRUCTORS]: ['Constructors', '构造函数'],
   [Keyword.DECORATOR]: ['Decorator', '装饰器'],
   [Keyword.DEFAULT_VALUE]: ['Default Value', '默认值'],
   [Keyword.DESCRIPTION]: ['Description', '描述'],
   [Keyword.ENUMERATION_MEMBERS]: ['Enumeration Members', '枚举成员'],
+  [Keyword.ENUMERATION]: ['Enumeration', '枚举'],
   [Keyword.ENUMERATIONS]: ['Enumerations', '枚举'],
   [Keyword.EVENTS]: ['Events', '事件'],
   [Keyword.EXAMPLE]: ['Example', '示例'],
   [Keyword.EXCEPTIONS]: ['Exceptions', '异常'],
   [Keyword.EXTENDS]: ['Extends', '继承自'],
+  [Keyword.FUNCTION]: ['Function', '函数'],
   [Keyword.FUNCTIONS]: ['Functions', '函数'],
   [Keyword.IMPLEMENTS]: ['Implements', '实现自'],
   [Keyword.INTERFACE]: ['Interface', '接口'],
@@ -68,6 +77,7 @@ export const KeywordMapping: Record<Keyword, string[]> = {
   [Keyword.METHOD]: ['Method', '方法'],
   [Keyword.METHODS]: ['Methods', '方法'],
   [Keyword.MODIFIERS]: ['Modifiers', '修饰符'],
+  [Keyword.NAMESPACE]: ['Namespace', '命名空间'],
   [Keyword.NAMESPACES]: ['Namespaces', '命名空间'],
   [Keyword.OPTIONAL]: ['Optional', '可选'],
   [Keyword.OPTIONS]: ['Options', '配置项'],
@@ -80,13 +90,12 @@ export const KeywordMapping: Record<Keyword, string[]> = {
   [Keyword.REMARKS]: ['Remarks', '备注'],
   [Keyword.RETURNS]: ['Returns', '返回值'],
   [Keyword.RIGHT_PARENTHESIS]: [')', '）'],
+  [Keyword.TYPE_ALIAS]: ['Type Alias', '类型别名'],
   [Keyword.TYPE_ALIASES]: ['Type Aliases', '类型别名'],
   [Keyword.TYPE]: ['Type', '类型'],
+  [Keyword.VARIABLE]: ['Variable', '变量'],
   [Keyword.VARIABLES]: ['Variables', '变量'],
   [Keyword.VIEW_PARAMETERS]: ['View Parameters', '相关参数'],
 };
 
-export const intl = (keyword: Keyword, language: LocaleLanguage) => {
-  const [en, zh] = KeywordMapping[keyword];
-  return language === LocaleLanguage.EN ? en : zh;
-};
+export const getKeywordIntl = getIntl(KeywordMapping);

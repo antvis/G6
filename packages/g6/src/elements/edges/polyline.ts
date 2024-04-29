@@ -18,21 +18,27 @@ import { BaseEdge } from './base-edge';
 export interface PolylineStyleProps extends BaseEdgeStyleProps {
   /**
    * <zh/> 圆角半径
+   *
    * <en/> The radius of the rounded corner
+   * @defaultValue 0
    */
   radius?: number;
   /**
    * <zh/> 控制点数组
+   *
    * <en/> Control point array
    */
   controlPoints?: Point[];
   /**
    * <zh/> 是否启用路由，默认开启且 controlPoints 会自动计入
+   *
    * <en/> Whether to enable routing, it is enabled by default and controlPoints will be automatically included
+   * @defaultValue false
    */
   router?: boolean;
   /**
    * <zh/> 路由名称，目前支持 'orth'
+   *
    * <en/> Routing name, currently supports 'orth'
    * @defaultValue 'orth'
    * @remarks
@@ -41,7 +47,9 @@ export interface PolylineStyleProps extends BaseEdgeStyleProps {
   routerName?: 'orth';
   /**
    * <zh/> 节点边距
+   *
    * <en/> Padding for routing calculation
+   * @defaultValue 10
    */
   routerPadding?: Padding;
 }

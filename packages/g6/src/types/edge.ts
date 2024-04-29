@@ -13,21 +13,24 @@ export type EdgeKey = Line | Path | Polyline;
  *
  * <en/> Edge label style properties
  */
-export type EdgeLabelStyleProps = LabelStyleProps & {
+export interface EdgeLabelStyleProps extends LabelStyleProps {
   /**
    * <zh/> 标签相对于边的位置。取值范围为 'start'、'center'、'end' 或特定比率（数字 0-1）
+   *
    * <en/> Label position relative to the edge (keyShape) that can be 'start', 'center', 'end' or a specific ratio (number 0-1)
    * @defaultValue 'center'
    */
   placement?: 'start' | 'center' | 'end' | number;
   /**
    * <zh/> 标签平行于边的水平偏移量
+   *
    * <en/> The horizontal offset of the label parallel to the edge
    * @defaultValue 4
    */
   offsetX?: number;
   /**
    * <zh/> 标签垂直于边的垂直偏移量
+   *
    * <en/> The vertical offset of the label perpendicular to the edge
    * @defaultValue 0
    */
@@ -46,7 +49,7 @@ export type EdgeLabelStyleProps = LabelStyleProps & {
    * @defaultValue '80%'
    */
   maxWidth?: string | number;
-};
+}
 
 /**
  * <zh/> 边上箭头的样式配置项

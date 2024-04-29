@@ -12,12 +12,16 @@ import { Cubic } from './cubic';
 export interface CubicHorizontalStyleProps extends BaseEdgeStyleProps {
   /**
    * <zh/> 控制点在两端点连线上的相对位置，范围为`0-1`
+   *
    * <en/> The relative position of the control point on the line, ranging from `0-1`
+   * @defaultValue [0.5, 0.5]
    */
   curvePosition?: number | [number, number];
   /**
    * <zh/> 控制点距离两端点连线的距离，可理解为控制边的弯曲程度
+   *
    * <en/> The distance of the control point from the line
+   * @defaultValue [0, 0]
    */
   curveOffset?: number | [number, number];
 }

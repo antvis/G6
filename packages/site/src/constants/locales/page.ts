@@ -1,8 +1,36 @@
+import { getIntl } from './common';
+
 export const PageTitle: Record<string, string[]> = {
   // graph
   GraphOptions: ['Options', '配置项'],
   GraphMethods: ['API', '方法'],
   GraphProperties: ['Properties', '属性'],
+  // element
+  ElementMethods: ['API', '方法'],
+  // element/node
+  BaseNode: ['BaseNode', '节点通用样式属性'],
+  Circle: ['Circle', '圆形'],
+  Diamond: ['Diamond', '菱形'],
+  Donut: ['Donut', '甜甜圈'],
+  Ellipse: ['Ellipse', '椭圆形'],
+  Hexagon: ['Hexagon', '六边形'],
+  Html: ['Html', 'HTML'],
+  Image: ['Image', '图片'],
+  Rect: ['Rect', '矩形'],
+  Star: ['Star', '五角形'],
+  Triangle: ['Triangle', '三角形'],
+  // element/edge
+  BaseEdge: ['BaseEdge', '边通用样式属性'],
+  Cubic: ['Cubic', '三次贝塞尔曲线'],
+  CubicHorizontal: ['CubicHorizontal', '水平三次贝塞尔曲线'],
+  CubicVertical: ['CubicVertical', '垂直三次贝塞尔曲线'],
+  Line: ['Line', '直线'],
+  Polyline: ['Polyline', '折线'],
+  Quadratic: ['Quadratic', '二次贝塞尔曲线'],
+  // element/combo
+  BaseCombo: ['BaseCombo', '组合基础样式属性'],
+  CircleCombo: ['Circle', '圆形'],
+  RectCombo: ['Rect', '矩形'],
   // layout
   AntvDagreLayout: ['AntvDagre', '布局'],
   CircularLayout: ['Circular', '环形布局'],
@@ -43,3 +71,12 @@ export const PageTitle: Record<string, string[]> = {
   Tooltip: ['Tooltip', '提示框'],
   Watermark: ['Watermark', '水印'],
 };
+
+// 节点、边、Combo 的中英文对照
+export const ElementLocale: Record<string, string[]> = {
+  node: ['Node', '节点'],
+  edge: ['Edge', '边'],
+  combo: ['Combo', '组合'],
+};
+
+export const getElementIntl = getIntl(ElementLocale);

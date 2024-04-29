@@ -1,4 +1,5 @@
 import { DocNodeKind, TSDocConfiguration } from '@microsoft/tsdoc';
+import { DocContainer } from './DocContainer';
 import { DocDetails } from './DocDetails';
 import { DocEmphasisSpan } from './DocEmphasisSpan';
 import { DocHeading } from './DocHeading';
@@ -22,6 +23,7 @@ export const enum CustomDocNodeKind {
   PageTitle = 'PageTitle',
   Details = 'Details',
   UnorderedList = 'UnorderedList',
+  Container = 'Container',
 }
 
 export class CustomDocNodes {
@@ -53,6 +55,10 @@ export class CustomDocNodes {
           docNodeKind: CustomDocNodeKind.UnorderedList,
           constructor: DocUnorderedList,
         },
+        {
+          docNodeKind: CustomDocNodeKind.Container,
+          constructor: DocContainer,
+        },
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.EmphasisSpan, [
@@ -60,12 +66,14 @@ export class CustomDocNodes {
         DocNodeKind.SoftBreak,
         DocNodeKind.Paragraph,
         DocNodeKind.LinkTag,
+        DocNodeKind.CodeSpan,
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.UnorderedList, [
         DocNodeKind.PlainText,
         DocNodeKind.LinkTag,
         DocNodeKind.Paragraph,
+        DocNodeKind.CodeSpan,
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(DocNodeKind.Section, [
@@ -74,12 +82,16 @@ export class CustomDocNodes {
         CustomDocNodeKind.Table,
         CustomDocNodeKind.PageTitle,
         CustomDocNodeKind.Details,
+        CustomDocNodeKind.Container,
+        CustomDocNodeKind.UnorderedList,
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(DocNodeKind.Paragraph, [
         CustomDocNodeKind.EmphasisSpan,
         CustomDocNodeKind.UnorderedList,
       ]);
+
+      configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.Container, [DocNodeKind.Paragraph]);
 
       CustomDocNodes._configuration = configuration;
     }
