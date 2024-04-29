@@ -199,13 +199,6 @@ export default defineConfig({
         },
       },
       {
-        slug: 'api/function',
-        title: {
-          zh: 'Function - 函数',
-          en: 'Function',
-        },
-      },
-      {
         slug: 'api/reference',
         title: {
           zh: 'Export - 导出',
