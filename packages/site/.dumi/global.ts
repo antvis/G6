@@ -16,4 +16,28 @@ if (window) {
 
   window.React = require('react');
   window.ReactDOM = require('react-dom');
+
+  // 用于文档中快速创建 ob demo 示例
+  window.createGraph = (options, style = {}) => {
+    const container = document.createElement('div');
+    Object.entries(style).forEach(([key, value]) => {
+      if (key === 'width' || key === 'height') {
+        if (typeof value === 'number') {
+          container.style[key] = `${value}px`;
+        }
+        container.style[key] = value;
+      }
+    });
+
+    const graph = new window.g6.Graph({
+      width: style.width,
+      height: style.height,
+      container,
+      ...options,
+    });
+
+    graph.render();
+
+    return container;
+  };
 }
