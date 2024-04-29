@@ -1,4 +1,4 @@
-import { LocaleLanguage } from './locale';
+import { getIntl } from './common';
 
 export const PageTitle: Record<string, string[]> = {
   // graph
@@ -79,12 +79,4 @@ export const ElementLocale: Record<string, string[]> = {
   combo: ['Combo', '组合'],
 };
 
-export const getElementLocale = (type: string, locale: LocaleLanguage) => {
-  const [en, zh] = ElementLocale[type];
-  return locale === LocaleLanguage.ZH ? zh : en;
-};
-
-export const getPageTitle = (key: string, locale: LocaleLanguage) => {
-  const [en, zh] = PageTitle[key];
-  return locale === LocaleLanguage.ZH ? zh : en;
-};
+export const getElementIntl = getIntl(ElementLocale);

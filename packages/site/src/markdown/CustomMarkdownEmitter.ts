@@ -57,7 +57,10 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
             prefix = '####';
         }
 
-        writer.writeLine(prefix + ' ' + this.getEscapedText(docHeading.title));
+        const _prefix = docHeading.prefix ? docHeading.prefix + ' ' : '';
+        const _suffix = docHeading.suffix ? ' ' + docHeading.suffix : '';
+
+        writer.writeLine(prefix + ' ' + _prefix + this.getEscapedText(docHeading.title) + _suffix);
         writer.writeLine();
         break;
       }
@@ -193,7 +196,7 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
         writer.ensureNewLine();
         this.writeNodes(container.getChildNodes(), context);
         writer.write(':::');
-        writer.ensureNewLine();
+        writer.ensureSkippedLine();
         break;
       }
       default:

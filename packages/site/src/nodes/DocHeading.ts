@@ -9,6 +9,8 @@ export interface IDocHeadingParameters extends IDocNodeParameters {
   title: string;
   level?: number;
   escaped?: boolean;
+  prefix?: string;
+  suffix?: string;
 }
 
 /**
@@ -18,12 +20,16 @@ export class DocHeading extends DocNode {
   public readonly title: string;
   public readonly level: number;
   public readonly escaped: boolean;
+  public readonly prefix: string;
+  public readonly suffix: string;
 
   public constructor(parameters: IDocHeadingParameters) {
     super(parameters);
     this.title = parameters.title;
     this.level = parameters.level !== undefined ? parameters.level : 1;
     this.escaped = parameters.escaped || true;
+    this.prefix = parameters.prefix || '';
+    this.suffix = parameters.suffix || '';
 
     if (this.level < 1 || this.level > 5) {
       throw new Error('IDocHeadingParameters.level must be a number between 1 and 5');

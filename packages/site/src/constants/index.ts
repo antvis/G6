@@ -1,3 +1,2 @@
-export * from './keywords';
-export * from './locale';
-export * from './page';
+export * from './link';
+export * from './locales';

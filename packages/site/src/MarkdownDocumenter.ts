@@ -9,6 +9,7 @@ import {
   ApiInterface,
   ApiItem,
   ApiItemKind,
+  ApiMethod,
   ApiModel,
   ApiNamespace,
   ApiOptionalMixin,
@@ -46,13 +47,11 @@ import {
   TSDocConfiguration,
 } from '@microsoft/tsdoc';
 import { FileSystem, NewlineKind, PackageName } from '@rushstack/node-core-library';
-import { camelCase, upperFirst } from 'lodash';
+import { camelCase, isBoolean, upperFirst } from 'lodash';
 import * as path from 'path';
 import prettier from 'prettier';
-import { getElementLocale } from './constants';
-import { Keyword, intl } from './constants/keywords';
+import { Keyword, LocaleLanguage, getApiCategoryIntl, getHelperIntl, getKeywordIntl } from './constants';
 import { GLinks } from './constants/link';
-import { LocaleLanguage } from './constants/locale';
 import { CustomMarkdownEmitter } from './markdown/CustomMarkdownEmitter';
 import { CustomDocNodes } from './nodes/CustomDocNodeKind';
 import { DocContainer } from './nodes/DocContainer';
@@ -67,9 +66,17 @@ import { DocTableRow } from './nodes/DocTableRow';
 import { DocUnorderedList } from './nodes/DocUnorderedList';
 import { outputFolder, referenceFoldername } from './setting';
 import { Utilities } from './utils/Utilities';
-import { ICustomExcerptToken, getAccessorExcerptTokensPrefixes, parseExcerptTokens } from './utils/excerpt-token';
+import {
+  ICustomExcerptToken,
+  findAccessorExcerptTokens,
+  liftPrefixExcerptTokens,
+  parseExcerptTokens,
+} from './utils/excerpt-token';
+import { getBlockTagByName } from './utils/parser';
 
 const supportedApiItems = [ApiItemKind.Interface, ApiItemKind.Enum, ApiItemKind.Class, ApiItemKind.TypeAlias];
+
+const hyperlinkReferences = ['BaseNodeStyleProps'];
 
 /**
  * A page and its associated API items.
@@ -472,7 +479,7 @@ export class MarkdownDocumenter {
   }
 
   /**
-   * Special for Element options, which needs to handle `prefixObject`
+   * Special for Element options, which needs to handle `Prefix`
    */
   private _writeElementOptions(
     output: DocSection,
@@ -490,7 +497,8 @@ export class MarkdownDocumenter {
           new DocParagraph({ configuration }, [
             new DocPlainText({
               configuration,
-              text: `请先阅读[前一章节](../${baseStyleFileName}.${this._getLang()}.md})了解${getElementLocale(elementType, this.locale)}通用样式配置`,
+              text:
+                getHelperIntl('basePropsStyleHelper', this.locale) + `(./${baseStyleFileName}.${this._getLang()}.md)`,
             }),
           ]),
         ]),
@@ -500,78 +508,29 @@ export class MarkdownDocumenter {
     this._writeOptions(output, apiInterface, { showTitle: false, includeExcerptTokens });
   }
 
-  private _getLinkFromExcerptToken(excerptToken: ICustomExcerptToken) {
-    return (
-      GLinks[excerptToken.text] ||
-      (excerptToken.interface ? this._getLinkFilenameForApiItem(excerptToken.interface) : '')
-    );
+  private _getLinkFromExcerptToken(excerptToken: ICustomExcerptToken): string | undefined {
+    return this._getLinkFromGLinks(excerptToken) || this._getLinkFromCanonicalReference(excerptToken);
   }
 
-  private _writeExcerptTokens(output: DocSection, customExcerptTokens: ICustomExcerptToken[]) {
-    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+  private _getLinkFromGLinks(excerptToken: ICustomExcerptToken): string | undefined {
+    return GLinks[excerptToken.text];
+  }
 
-    let flag = false;
+  private _getLinkFromCanonicalReference(excerptToken: ICustomExcerptToken): string | undefined {
+    let link: string | undefined = undefined;
 
-    for (const token of customExcerptTokens) {
-      const textNodes = [];
-      if ('type' in token && token.type) {
-        const url = this._getLinkFromExcerptToken(token);
-        const link = url ? `[${token.text}](${url})` : token.text;
-        switch (token.type) {
-          case 'PrefixObject': {
-            const accessorPrefixes = getAccessorExcerptTokensPrefixes(token);
-            const prefix = camelCase(`${accessorPrefixes}`);
-            output.appendNode(
-              new DocHeading({
-                configuration: this._tsdocConfiguration,
-                title: `${prefix}{${link}}`,
-                escaped: false,
-              }),
-            );
-            break;
-          }
-          case 'Omit': {
-            textNodes.push(
-              new DocPlainText({
-                configuration,
-                text: `继承自：${link} (除 ${token.fields.join(',')} 以外)`,
-              }),
-            );
+    if (excerptToken.canonicalReference) {
+      const apiItemResult = this._apiModel.resolveDeclarationReference(
+        excerptToken.canonicalReference,
+        undefined,
+      ).resolvedApiItem;
 
-            flag = true;
-            break;
-          }
-          case 'Pick': {
-            textNodes.push(
-              new DocPlainText({ configuration, text: `继承自：${link} (其中的 ${token.fields.join(',')})` }),
-            );
-            flag = true;
-            break;
-          }
-          default:
-            break;
-        }
-      }
-
-      if (token.interface) {
-        const accessorPrefixes = getAccessorExcerptTokensPrefixes(token);
-        this._writeOptions(output, token.interface, { showTitle: false, prefix: accessorPrefixes });
-      } else {
-        const link = this._getLinkFromExcerptToken(token);
-        const linkMd = link ? `[${token.text}](${link})` : token.text;
-        const textNode = new DocPlainText({
-          configuration,
-          text: '继承自：' + linkMd,
-        });
-        !flag && textNodes.push(textNode);
-      }
-      if (token.children && token.children.length > 0) {
-        this._writeExcerptTokens(output, token.children);
-      }
-      if (textNodes.length > 0) {
-        output.appendNode(new DocParagraph({ configuration }, [new DocUnorderedList({ configuration }, textNodes)]));
+      if (apiItemResult && apiItemResult instanceof ApiInterface) {
+        link = this._getLinkFilenameForApiItem(apiItemResult);
       }
     }
+
+    return link;
   }
 
   private _writeOptions(
@@ -580,178 +539,352 @@ export class MarkdownDocumenter {
     options?: { showTitle?: boolean; prefix?: string; includeExcerptTokens?: boolean },
   ) {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
-
     const { showTitle = true, prefix = '', includeExcerptTokens } = options || {};
-
     const apiMembers: readonly ApiItem[] = this._getMembersAndWriteIncompleteWarning(apiItem, output);
 
     if (showTitle && apiMembers.length > 0) {
       output.appendNode(new DocHeading({ configuration, title: this._intl(Keyword.OPTIONS) }));
     }
 
-    for (const apiMember of apiMembers) {
-      const isInherited: boolean = apiMember.parent !== apiItem;
-      if (
-        (apiMember.kind === ApiItemKind.Property || apiMember.kind === ApiItemKind.PropertySignature) &&
-        apiMember instanceof ApiPropertyItem
-      ) {
-        const name = Utilities.getConciseSignature(apiMember);
-
-        // property type, optional, readonly, default value
-        let propertyName = prefix ? camelCase(`${prefix} ${name}`) : name;
-
-        if (
-          !(ApiOptionalMixin.isBaseClassOf(apiMember) && apiMember.isOptional) &&
-          !(apiMember instanceof ApiPropertyItem)
-        ) {
-          propertyName = '<Badge type="success">Required</Badge>' + propertyName;
-        }
-
-        // property name
-        output.appendNode(
-          new DocHeading({
-            configuration,
-            title: propertyName,
-            level: 2,
-          }),
-        );
-
-        const nodes: DocNode[] = [
-          //  property type
-          new DocEmphasisSpan({ configuration, italic: true }, [
-            ...this._createParagraphForTypeExcerpt(apiMember.propertyTypeExcerpt).getChildNodes(),
-            new DocPlainText({ configuration, text: ' ' }),
-          ]),
-        ];
-
-        if (apiMember instanceof ApiDocumentedItem) {
-          if (apiMember.tsdocComment !== undefined) {
-            const defaultValueBlock: DocBlock | undefined = apiMember.tsdocComment.customBlocks?.find(
-              (x) => x.blockTag.tagNameWithUpperCase === StandardTags.defaultValue.tagNameWithUpperCase,
-            );
-
-            if (defaultValueBlock) {
-              nodes.push(
-                // default value
-                new DocEmphasisSpan({ configuration, bold: true }, [
-                  new DocPlainText({
-                    configuration,
-                    text: 'Default: ',
-                  }),
-                ]),
-                this._createStaticCode(defaultValueBlock.content.nodes[0] as DocSection),
-              );
-            }
-          }
-        }
-
-        output.appendNode(new DocNoteBox({ configuration }, [new DocParagraph({ configuration }, nodes)]));
-
-        // summary
-        this._writeSummarySection(output, apiMember);
-        // remarks
-        this._writeRemarksSection(output, apiMember);
-      }
+    if (includeExcerptTokens && this._isApiInterface(apiItem)) {
+      const filteredTokens = this._extractAndFilterExcerptTokens(apiItem as ApiInterface);
+      this._writeExcerptTokens(output, filteredTokens);
     }
 
+    apiMembers.forEach((apiMember) => {
+      if (this._isApiProperty(apiMember)) {
+        this._writePropertySections(output, apiMember, prefix, configuration);
+      }
+    });
+
     if (includeExcerptTokens && apiItem instanceof ApiInterface) {
-      const _customExcerptTokens = parseExcerptTokens(this._apiModel, apiItem);
-      this._writeExcerptTokens(output, _customExcerptTokens);
+      const liftedTokens = this._liftPrefixExcerptTokens(apiItem);
+      this._writeExcerptTokens(output, liftedTokens);
     }
   }
 
-  private _writeAPIMethods(output: DocSection, apiClass: ApiClass, options?: { showTitle?: boolean }) {
-    const { showTitle = true } = options || {};
+  private _extractAndFilterExcerptTokens(apiItem: ApiInterface): ICustomExcerptToken[] {
+    const excerptTokens = parseExcerptTokens(this._apiModel, apiItem);
+    return excerptTokens.filter((token) => token.type !== 'Prefix');
+  }
+
+  private _writePropertySections(
+    output: DocSection,
+    apiMember: ApiPropertyItem,
+    prefix: string,
+    configuration: TSDocConfiguration,
+  ): void {
+    const name = Utilities.getConciseSignature(apiMember);
+    const isRequired =
+      ApiOptionalMixin.isBaseClassOf(apiMember) && isBoolean(apiMember.isOptional) && !apiMember.isOptional;
+    const title = prefix ? camelCase(`${prefix} ${name}`) : name;
+
+    output.appendNode(
+      new DocHeading({
+        configuration,
+        title,
+        level: 2,
+        prefix: isRequired ? '<Badge type="success">Required</Badge>' : '',
+      }),
+    );
+
+    // write property type
+    const propertyContent: DocNode[] = [
+      new DocEmphasisSpan({ configuration, italic: true }, [
+        ...this._createParagraphForTypeExcerpt(apiMember.propertyTypeExcerpt).getChildNodes(),
+        new DocPlainText({ configuration, text: ' ' }),
+      ]),
+    ];
+
+    // write @defaultValue tag
+    if (apiMember instanceof ApiDocumentedItem) {
+      if (apiMember.tsdocComment !== undefined) {
+        const defaultValueBlock: DocBlock | undefined = apiMember.tsdocComment.customBlocks?.find(
+          (x) => x.blockTag.tagNameWithUpperCase === StandardTags.defaultValue.tagNameWithUpperCase,
+        );
+
+        if (defaultValueBlock) {
+          propertyContent.push(
+            new DocEmphasisSpan({ configuration, bold: true }, [
+              new DocPlainText({
+                configuration,
+                text: 'Default: ',
+              }),
+            ]),
+            this._createStaticCode(defaultValueBlock.content.nodes[0] as DocSection),
+          );
+        }
+      }
+    }
+
+    output.appendNode(new DocNoteBox({ configuration }, [new DocParagraph({ configuration }, propertyContent)]));
+
+    this._writeSummarySection(output, apiMember);
+    this._writeRemarksSection(output, apiMember);
+  }
+
+  private _isApiProperty(apiItem: ApiItem): apiItem is ApiPropertyItem {
+    return apiItem.kind === ApiItemKind.Property || apiItem.kind === ApiItemKind.PropertySignature;
+  }
+
+  private _isApiInterface(apiItem: ApiItem): apiItem is ApiInterface {
+    return apiItem.kind === ApiItemKind.Interface;
+  }
+
+  private _liftPrefixExcerptTokens(apiItem: ApiInterface): ICustomExcerptToken[] {
+    const excerptTokens = parseExcerptTokens(this._apiModel, apiItem);
+    return liftPrefixExcerptTokens(excerptTokens);
+  }
+
+  private _writeExcerptTokens(output: DocSection, customExcerptTokens: ICustomExcerptToken[]) {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
-    const apiMembers: readonly ApiItem[] = this._getMembersAndWriteIncompleteWarning(apiClass, output);
+
+    customExcerptTokens.forEach((customExcerptToken) => {
+      if (hyperlinkReferences.includes(customExcerptToken.text)) {
+        delete customExcerptToken.children;
+        delete customExcerptToken.interface;
+      }
+    });
+
+    for (const customExcerptToken of customExcerptTokens) {
+      const textNodes: DocPlainText[] = [];
+
+      if (customExcerptToken.type === 'Prefix') {
+        const link = this._getLinkFromExcerptToken(customExcerptToken);
+        const linkMd = link ? `[${customExcerptToken.text}](${link})` : customExcerptToken.text;
+        output.appendNode(
+          new DocHeading({
+            configuration: this._tsdocConfiguration,
+            title: `Prefix<${customExcerptToken.prefix}, ${linkMd}>`,
+            escaped: false,
+          }),
+        );
+        if (!customExcerptToken.interface) {
+          textNodes.push(
+            new DocPlainText({
+              configuration,
+              text: linkMd,
+            }),
+          );
+        }
+      }
+
+      const flattenTokens = (tokens: ICustomExcerptToken[]): ICustomExcerptToken[] => {
+        return tokens.flatMap((token) => {
+          if (Array.isArray(token.children) && token.children.length > 0) {
+            return flattenTokens(token.children);
+          } else {
+            return [token];
+          }
+        });
+      };
+
+      const formattedTokens = flattenTokens([customExcerptToken]).filter((token) => token.type !== 'Prefix');
+      formattedTokens.forEach((token) => {
+        const link = this._getLinkFromExcerptToken(token);
+        const linkMd = link ? `[${token.text}](${link})` : token.text;
+        switch (token.type) {
+          case 'Omit':
+          case 'Pick': {
+            const fieldString = token.fields.join(',');
+            const helper = (key: string) =>
+              linkMd +
+              this._intl(Keyword.LEFT_PARENTHESIS) +
+              getHelperIntl(key, this.locale) +
+              ' ' +
+              fieldString +
+              ' ' +
+              this._intl(Keyword.RIGHT_PARENTHESIS);
+            const text = token.type === 'Omit' ? helper('excludes') : helper('includes');
+            textNodes.push(
+              new DocPlainText({
+                configuration,
+                text,
+              }),
+            );
+            break;
+          }
+          case 'Default': {
+            if (!token.interface) {
+              const textNode = new DocPlainText({
+                configuration,
+                text: linkMd,
+              });
+              textNodes.push(textNode);
+            }
+            break;
+          }
+          default:
+            break;
+        }
+      });
+
+      const content: DocParagraph[] = [];
+
+      if (textNodes.length > 0) {
+        content.push(
+          new DocParagraph({ configuration }, [
+            new DocEmphasisSpan({ configuration, bold: true }, [
+              new DocPlainText({ configuration, text: this._intl(Keyword.EXTENDS) + this._intl(Keyword.COLON) }),
+            ]),
+            new DocUnorderedList({ configuration }, textNodes),
+          ]),
+        );
+      }
+
+      if (customExcerptToken.type === 'Prefix') {
+        content.push(
+          new DocParagraph({ configuration }, [
+            new DocPlainText({
+              configuration,
+              text: getHelperIntl('prefixHelper', this.locale) + `(../../reference/g6.prefix.${this._getLang()}.md)`,
+            }),
+          ]),
+        );
+      }
+
+      if (content.length > 0) {
+        output.appendNode(new DocContainer({ configuration, status: 'info' }, content));
+      }
+
+      const cache = new Set();
+
+      if (
+        (customExcerptToken.type === 'Prefix' || customExcerptToken.type === 'Default') &&
+        customExcerptToken.interface
+      ) {
+        if (cache.has(customExcerptToken.interface.name)) continue;
+        this._writeOptions(output, customExcerptToken.interface, {
+          showTitle: false,
+          prefix: 'prefix' in customExcerptToken ? customExcerptToken.prefix : '',
+        });
+        cache.add(customExcerptToken.interface.name);
+      }
+
+      formattedTokens.forEach((newToken) => {
+        const accessors = findAccessorExcerptTokens(newToken, false);
+        for (const _token of accessors) {
+          if (_token.interface) {
+            if (cache.has(_token.interface.name)) continue;
+            this._writeOptions(output, _token.interface, {
+              showTitle: false,
+              prefix: (customExcerptToken as any).prefix,
+            });
+            cache.add(_token.interface.name);
+          }
+        }
+      });
+    }
+  }
+
+  private _writeAPIMethods(
+    output: DocSection,
+    apiClass: ApiClass,
+    options?: { showTitle?: boolean; showSubTitle?: boolean },
+  ) {
+    const { showTitle = true, showSubTitle = false } = options || {};
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    const apiMembers: ApiItem[] = this._getMembersAndWriteIncompleteWarning(apiClass, output) as ApiItem[];
 
     const groupMembers: { [key: string]: ApiItem[] } = {};
 
-    for (const apiMember of apiMembers) {
-      if (apiMember instanceof ApiDocumentedItem) {
-        const tsdocComment: DocComment | undefined = apiMember.tsdocComment;
+    if (!showSubTitle) groupMembers['undeclared'] = apiMembers;
 
-        if (tsdocComment) {
-          const exampleBlocks: DocBlock[] = tsdocComment.customBlocks.filter(
-            (x) => x.blockTag.tagNameWithUpperCase === StandardTags.example.tagNameWithUpperCase,
-          );
-        }
-
-        // apiMember.tsdocComment.customBlocks.filter(
-        //   (block) => block.blockTag.tagNameWithUpperCase === StandardTags.decorator.tagNameWithUpperCase,
-        // ),
-      }
-    }
-
-    if (apiMembers.length > 0) {
-      showTitle && output.appendNode(new DocHeading({ configuration, title: 'API' }));
+    if (showSubTitle) {
       for (const apiMember of apiMembers) {
-        switch (apiMember.kind) {
-          case ApiItemKind.Method: {
-            output.appendNode(
-              new DocHeading({
-                configuration,
-                title: apiMember.getScopedNameWithinPackage(),
-                level: 2,
-              }),
-            );
-
-            if (apiMember instanceof ApiDocumentedItem) {
-              if (apiMember.tsdocComment !== undefined) {
-                this._appendSection(output, this._localizeSection(apiMember.tsdocComment.summarySection, this.locale));
-              }
+        if (apiMember instanceof ApiDocumentedItem) {
+          const tsdocComment: DocComment | undefined = apiMember.tsdocComment;
+          let ApiCategoryDefined = false;
+          if (tsdocComment && tsdocComment.customBlocks) {
+            const apiCategoryBlock = getBlockTagByName('@apiCategory', tsdocComment);
+            if (apiCategoryBlock) {
+              const apiCategory = this._extractContentFromSection(apiCategoryBlock);
+              ApiCategoryDefined = true;
+              groupMembers[apiCategory] ||= [];
+              groupMembers[apiCategory].push(apiMember);
             }
-            if (apiMember instanceof ApiDeclaredItem) {
-              if (apiMember.excerpt.text.length > 0) {
-                output.appendNode(
-                  new DocFencedCode({
-                    configuration,
-                    code: apiMember.getExcerptWithModifiers(),
-                    language: 'typescript',
-                  }),
-                );
-              }
-              this._writeHeritageTypes(output, apiMember);
-            }
-
-            const detailSection = new DocSection({ configuration });
-
-            const hasParameterAndReturn = this._writeParameterTables(
-              detailSection,
-              apiMember as ApiParameterListMixin,
-              { showTitle: false },
-            );
-
-            if (hasParameterAndReturn) {
-              output.appendNode(
-                new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
-              );
-            }
-
-            this._writeRemarksSection(output, apiMember);
-
-            break;
+          }
+          if (!ApiCategoryDefined) {
+            groupMembers['undeclared'] ||= [];
+            groupMembers['undeclared'].push(apiMember);
           }
         }
       }
     }
-  }
 
+    if (apiMembers.length > 0 && showTitle) output.appendNode(new DocHeading({ configuration, title: 'API' }));
+
+    Object.entries(groupMembers).forEach(([category, apiMembers]) => {
+      if (category !== 'undeclared' && showSubTitle) {
+        const title = getApiCategoryIntl(category, this.locale);
+        output.appendNode(new DocHeading({ configuration, title, level: 1 }));
+      }
+      if (apiMembers.length > 0) {
+        for (const apiMember of apiMembers) {
+          switch (apiMember.kind) {
+            case ApiItemKind.Method: {
+              output.appendNode(
+                new DocHeading({
+                  configuration,
+                  title: Utilities.getConciseSignature(apiMember, true),
+                  level: 2,
+                  suffix: (apiMember as ApiMethod).overloadIndex > 1 ? '<Badge type="warning">overload</Badge>' : '',
+                }),
+              );
+
+              if (apiMember instanceof ApiDocumentedItem) {
+                if (apiMember.tsdocComment !== undefined) {
+                  this._appendSection(
+                    output,
+                    this._localizeSection(apiMember.tsdocComment.summarySection, this.locale),
+                  );
+                }
+              }
+              if (apiMember instanceof ApiDeclaredItem) {
+                if (apiMember.excerpt.text.length > 0) {
+                  output.appendNode(
+                    new DocFencedCode({
+                      configuration,
+                      code: apiMember.getExcerptWithModifiers(),
+                      language: 'typescript',
+                    }),
+                  );
+                }
+                this._writeHeritageTypes(output, apiMember);
+              }
+
+              const detailSection = new DocSection({ configuration });
+
+              const hasParameterAndReturn = this._writeParameterTables(
+                detailSection,
+                apiMember as ApiParameterListMixin,
+                { showTitle: false },
+              );
+
+              if (hasParameterAndReturn) {
+                output.appendNode(
+                  new DocDetails({ configuration }, this._intl(Keyword.VIEW_PARAMETERS), detailSection.nodes),
+                );
+              }
+              break;
+            }
+          }
+        }
+      }
+    });
+  }
   private async _writeGraphOptionsPage(pageData: IPageData) {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
     const output: DocSection = new DocSection({ configuration });
 
     this._appendPageTitle(output, 'GraphOptions', 0);
 
-    const apiInterfaces = pageData.apiItems.filter((apiItem) => apiItem instanceof ApiInterface) as ApiInterface[];
+    const apiInterface = pageData.apiItems.find((apiItem) => apiItem instanceof ApiInterface) as ApiInterface;
 
-    const topApiInterface = apiInterfaces.find((apiInterface) => apiInterface.name === 'GraphOptions');
-
-    if (topApiInterface) {
-      this._writeRemarksSection(output, topApiInterface);
+    if (apiInterface) {
+      this._writeRemarksSection(output, apiInterface);
+      this._writeOptions(output, apiInterface, { showTitle: false, includeExcerptTokens: true });
     }
-
-    this._writeOptions(output, topApiInterface!, { showTitle: false, includeExcerptTokens: true });
 
     const filename: string = path.join(this._outputFolder, 'graph', `option.${this._getLang()}.md`);
 
@@ -766,7 +899,7 @@ export class MarkdownDocumenter {
 
     const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
 
-    if (apiClass) this._writeAPIMethods(output, apiClass, { showTitle: false });
+    if (apiClass) this._writeAPIMethods(output, apiClass, { showTitle: false, showSubTitle: true });
 
     const filename: string = path.join(this._outputFolder, 'graph', `method.${this._getLang()}.md`);
 
@@ -1061,32 +1194,32 @@ export class MarkdownDocumenter {
 
     const enumerationsTable: DocTable = new DocTable({
       configuration,
-      headerTitles: ['Enumeration', this._intl(Keyword.DESCRIPTION)],
+      headerTitles: [this._intl(Keyword.ENUMERATION), this._intl(Keyword.DESCRIPTION)],
     });
 
     const functionsTable: DocTable = new DocTable({
       configuration,
-      headerTitles: ['Function', this._intl(Keyword.DESCRIPTION)],
+      headerTitles: [this._intl(Keyword.FUNCTION), this._intl(Keyword.DESCRIPTION)],
     });
 
     const interfacesTable: DocTable = new DocTable({
       configuration,
-      headerTitles: ['Interface', this._intl(Keyword.DESCRIPTION)],
+      headerTitles: [this._intl(Keyword.INTERFACE), this._intl(Keyword.DESCRIPTION)],
     });
 
     const namespacesTable: DocTable = new DocTable({
       configuration,
-      headerTitles: ['Namespace', this._intl(Keyword.DESCRIPTION)],
+      headerTitles: [this._intl(Keyword.NAMESPACE), this._intl(Keyword.DESCRIPTION)],
     });
 
     const variablesTable: DocTable = new DocTable({
       configuration,
-      headerTitles: ['Variable', this._intl(Keyword.DESCRIPTION)],
+      headerTitles: [this._intl(Keyword.VARIABLE), this._intl(Keyword.DESCRIPTION)],
     });
 
     const typeAliasesTable: DocTable = new DocTable({
       configuration,
-      headerTitles: ['Type Alias', this._intl(Keyword.DESCRIPTION)],
+      headerTitles: [this._intl(Keyword.TYPE_ALIAS), this._intl(Keyword.DESCRIPTION)],
     });
 
     const apiMembers: ReadonlyArray<ApiItem> =
@@ -1243,7 +1376,7 @@ export class MarkdownDocumenter {
 
     const constructorsTable: DocTable = new DocTable({
       configuration,
-      headerTitles: ['Constructor', this._intl(Keyword.MODIFIERS), this._intl(Keyword.DESCRIPTION)],
+      headerTitles: [this._intl(Keyword.CONSTRUCTOR), this._intl(Keyword.MODIFIERS), this._intl(Keyword.DESCRIPTION)],
     });
 
     const propertiesTable: DocTable = new DocTable({
@@ -1675,7 +1808,7 @@ export class MarkdownDocumenter {
   }
 
   private _parseTypeAliasTokens(excerptTokens: ExcerptToken[]): ExcerptToken[] {
-    return excerptTokens.flatMap((token) => {
+    const tokens = excerptTokens.flatMap((token) => {
       if (token.kind === ExcerptTokenKind.Reference && token.canonicalReference) {
         const apiItemResult: IResolveDeclarationReferenceResult = this._apiModel.resolveDeclarationReference(
           token.canonicalReference,
@@ -1687,6 +1820,7 @@ export class MarkdownDocumenter {
       }
       return token;
     });
+    return tokens;
   }
 
   private _appendExcerptTokenWithHyperlinks(docNodeContainer: DocNodeContainer, token: ExcerptToken): void {
@@ -1705,10 +1839,11 @@ export class MarkdownDocumenter {
       );
 
       if (apiItemResult.resolvedApiItem) {
-        // If the resolved item is a type alias, and it's a simple single-line type alias, then render it as plain text
-        if (apiItemResult.resolvedApiItem.kind === ApiItemKind.TypeAlias) {
+        if (apiItemResult.resolvedApiItem.kind === ApiItemKind.TypeAlias && this.referenceLevel > 0) {
           const excerptTokens = (apiItemResult.resolvedApiItem as ApiTypeAlias).excerptTokens.slice(1, -1);
           const typeAliasTokens = this._parseTypeAliasTokens(excerptTokens);
+          // If the type alias is a simple single-line type alias, then render it as plain text
+          // Otherwise, render it as a hyperlink
           if (typeAliasTokens.every((token) => !token.text.includes('\n') && !token.text.includes('\r'))) {
             return docNodeContainer.appendNode(
               new DocPlainText({ configuration, text: typeAliasTokens.map((token) => token.text).join(' ') }),
@@ -1994,14 +2129,20 @@ export class MarkdownDocumenter {
     return new DocCodeSpan({ configuration, code: content });
   }
 
-  private _appendStaticCodeNode(output: DocSection, docSection: DocSection): void {
-    const content = docSection
-      .getChildNodes()
-      .map((node) => {
-        if (node instanceof DocPlainText) return node.text;
-      })
-      .join('');
+  private _extractContentFromSection(docSection: DocSection): string {
+    const nodes = docSection.getChildNodes();
+    for (const node of nodes) {
+      if (node instanceof DocParagraph) {
+        return this._extractContentFromSection(node as DocSection);
+      } else if (node instanceof DocPlainText) {
+        return node.text;
+      }
+    }
+    return '';
+  }
 
+  private _appendStaticCodeNode(output: DocSection, docSection: DocSection): void {
+    const content = this._extractContentFromSection(docSection);
     output.appendNodeInParagraph(
       new DocCodeSpan({
         configuration: this._tsdocConfiguration,
@@ -2024,10 +2165,9 @@ export class MarkdownDocumenter {
 
     if (node instanceof DocPlainText && node.text.includes(' - ')) {
       const texts = node.text.split(/ - /g);
-      const [first, ...rest] = texts;
       return [
-        new DocPlainText({ configuration, text: first }),
-        ...rest.flatMap((text) => [
+        new DocPlainText({ configuration, text: texts[0] }),
+        ...(texts.slice(1) || []).flatMap((text) => [
           new DocPlainText({ configuration, text: '-' }),
           new DocPlainText({ configuration, text }),
         ]),
@@ -2211,7 +2351,7 @@ export class MarkdownDocumenter {
   }
 
   private _intl(keyword: Keyword) {
-    return intl(keyword, this.locale);
+    return getKeywordIntl(keyword, this.locale);
   }
 
   private _getLang() {
