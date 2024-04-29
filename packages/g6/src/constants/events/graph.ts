@@ -51,4 +51,8 @@ export enum GraphEvent {
   BATCH_START = 'batchstart',
   /** <zh/> 批处理结束 | <en/> Batch processing ends */
   BATCH_END = 'batchend',
+  /** <zh/> 销毁开始之前 | <en/> Before destruction */
+  BEFORE_DESTROY = 'beforedestroy',
+  /** <zh/> 销毁结束之后 | <en/> After destruction */
+  AFTER_DESTROY = 'afterdestroy',
 }

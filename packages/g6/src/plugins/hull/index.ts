@@ -46,11 +46,13 @@ export class Hull extends BasePlugin<HullOptions> {
   private shape!: Contour;
   /**
    * <zh/> 在 Hull 上的元素
+   *
    * <en/> Element Ids on Hull
    */
   private hullMemberIds: ID[] = [];
   /**
    * <zh/> Hull 绘制路径
+   *
    * <en/> Hull path
    */
   private path!: PathArray;

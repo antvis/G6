@@ -67,6 +67,7 @@ export {
   History,
   Hull,
   Legend,
+  Timebar,
   Toolbar,
   Tooltip,
   Watermark,
@@ -126,6 +127,7 @@ export type {
   HistoryOptions,
   HullOptions,
   LegendOptions,
+  TimebarOptions,
   ToolbarOptions,
   TooltipOptions,
   WatermarkOptions,
@@ -149,6 +151,7 @@ export type {
 } from './spec';
 export type { BaseTransformOptions } from './transforms';
 export type {
+  CallableValue,
   CardinalPlacement,
   Combo,
   CornerPlacement,
@@ -157,10 +160,12 @@ export type {
   EdgeArrowStyleProps,
   EdgeLabelStyleProps,
   Element,
+  ElementDatum,
   ElementType,
   IAnimateEvent,
   ID,
   IDragEvent,
+  IElementEvent,
   IElementLifeCycleEvent,
   IEvent,
   IGraphLifeCycleEvent,
