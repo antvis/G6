@@ -4,19 +4,17 @@ import { Mesh } from '@antv/g-plugin-3d';
 import type { IMaterial, Plugin } from '@antv/g-plugin-device-renderer';
 import type { BaseNodeStyleProps } from '@antv/g6';
 import { BaseNode, omitStyleProps, subStyleProps } from '@antv/g6';
-import { PrefixObject } from '@antv/g6/lib/types';
+import { Prefix } from '@antv/g6/lib/types';
 import { deepMix } from '@antv/util';
 import { Material } from '../types';
 import { createMaterial } from '../utils/material';
 
-export type BaseNode3DStyleProps = BaseNodeStyleProps<
-  {
-    geometry?: GGeometry<any>;
-    material?: GMaterial<any>;
-    texture?: string | TexImageSource;
-    materialType?: Material['type'];
-  } & PrefixObject<IMaterial, 'material'>
->;
+export interface BaseNode3DStyleProps extends BaseNodeStyleProps, Prefix<'material', IMaterial> {
+  geometry?: GGeometry<any>;
+  material?: GMaterial<any>;
+  texture?: string | TexImageSource;
+  materialType?: Material['type'];
+}
 
 export abstract class BaseNode3D<S extends BaseNode3DStyleProps> extends BaseNode<S> {
   static defaultStyleProps: Partial<BaseNode3DStyleProps> = {
