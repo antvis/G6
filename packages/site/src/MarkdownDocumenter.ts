@@ -421,6 +421,8 @@ export class MarkdownDocumenter {
 
     const filename: string = path.join(this._outputFolder, referenceFoldername, this._getFilenameForApiItem(apiItem));
 
+    if (filename.startsWith('index')) return;
+
     await this._writeFile(filename, output, apiItem);
   }
 
@@ -2036,14 +2038,7 @@ export class MarkdownDocumenter {
   private _writeBreadcrumb(output: DocSection, apiItem: ApiItem): void {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
-    output.appendNodeInParagraph(
-      new DocLinkTag({
-        configuration,
-        tagName: '@link',
-        linkText: 'Home',
-        urlDestination: this._getLinkFilenameForApiItem(this._apiModel),
-      }),
-    );
+    let init = true;
 
     for (const hierarchyItem of apiItem.getHierarchy()) {
       switch (hierarchyItem.kind) {
@@ -2057,7 +2052,7 @@ export class MarkdownDocumenter {
           output.appendNodesInParagraph([
             new DocPlainText({
               configuration,
-              text: ' > ',
+              text: !init ? ' > ' : '',
             }),
             new DocLinkTag({
               configuration,
@@ -2066,6 +2061,7 @@ export class MarkdownDocumenter {
               urlDestination: this._getLinkFilenameForApiItem(hierarchyItem),
             }),
           ]);
+          init = false;
       }
     }
   }
