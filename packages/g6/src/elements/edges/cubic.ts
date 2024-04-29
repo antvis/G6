@@ -6,6 +6,11 @@ import { getCubicPath, getCurveControlPoint, parseCurveOffset, parseCurvePositio
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
+/**
+ * <zh/> 三次贝塞尔曲线样式配置项
+ *
+ * <en/> Cubic Bezier curve style properties
+ */
 export interface CubicStyleProps extends BaseEdgeStyleProps {
   /**
    * <zh/> 控制点数组，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
@@ -31,7 +36,7 @@ type ParsedCubicStyleProps = Required<CubicStyleProps>;
  *
  * <en/> Cubic Bezier curve
  * @remarks
- * <img width="220" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cVd-TLQWujYAAAAAAAAAAAAADmJ7AQ/original" />
+ * <img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cVd-TLQWujYAAAAAAAAAAAAADmJ7AQ/original" />
  */
 export class Cubic extends BaseEdge {
   static defaultStyleProps: Partial<CubicStyleProps> = {

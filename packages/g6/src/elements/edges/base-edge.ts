@@ -3,7 +3,6 @@ import type {
   DisplayObject,
   DisplayObjectConfig,
   Group,
-  ImageStyleProps,
   LineStyleProps,
   PathStyleProps,
 } from '@antv/g';
@@ -12,21 +11,20 @@ import type { PathArray } from '@antv/util';
 import { deepMix, isEmpty, isFunction } from '@antv/util';
 import type {
   BaseElementStyleProps,
+  EdgeArrowStyleProps,
   EdgeKey,
   EdgeLabelStyleProps,
   Keyframe,
-  LoopPlacement,
+  LoopStyleProps,
   Node,
   Point,
   Prefix,
-  Size,
 } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
 import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
-import type { SymbolFactor } from '../../utils/symbol';
 import * as Symbol from '../../utils/symbol';
 import { getWordWrapWidthByEnds } from '../../utils/text';
 import type { LabelStyleProps } from '../shapes';
@@ -154,6 +152,11 @@ export interface BaseEdgeStyleProps
 
 type ParsedBaseEdgeStyleProps = Required<BaseEdgeStyleProps>;
 
+/**
+ * <zh/> 边元素基类
+ *
+ * <en/> Base class of the edge
+ */
 export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   public type = 'edge';
 
@@ -375,30 +378,3 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     return result;
   }
 }
-
-type SymbolName = 'triangle' | 'circle' | 'diamond' | 'vee' | 'rect' | 'triangleRect' | 'simple';
-
-type EdgeArrowStyleProps = {
-  type?: SymbolName | SymbolFactor;
-  size?: Size;
-} & PathStyleProps &
-  Omit<ImageStyleProps, 'width' | 'height'> &
-  Record<string, unknown>;
-
-export type LoopStyleProps = {
-  /**
-   * <zh/> 边的位置
-   * <en/> The position of the edge
-   */
-  placement?: LoopPlacement;
-  /**
-   * <zh/> 指定是否顺时针绘制环
-   * <en/> Specify whether to draw the loop clockwise
-   */
-  clockwise?: boolean;
-  /**
-   * <zh/> 从节点 keyShape 边缘到自环顶部的距离，用于指定自环的曲率，默认为宽度或高度的最大值
-   * <en/> Determine the position from the edge of the node keyShape to the top of the self-loop, used to specify the curvature of the self-loop, the default value is the maximum of the width or height
-   */
-  dist?: number;
-};

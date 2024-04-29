@@ -186,7 +186,7 @@ export interface BaseNodeStyleProps
 }
 
 /**
- * <zh/> 节点基类
+ * <zh/> 节点元素的基类
  *
  * <en/> Base node class
  * @remarks

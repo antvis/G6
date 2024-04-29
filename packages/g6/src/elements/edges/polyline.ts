@@ -1,15 +1,20 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
-import type { Padding, Point, Port } from '../../types';
+import type { LoopStyleProps, Padding, Point, Port } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getPolylineLoopPath, getPolylinePath } from '../../utils/edge';
 import { findPorts, getConnectionPoint, getPortPosition } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { orth } from '../../utils/router/orth';
-import type { BaseEdgeStyleProps, LoopStyleProps } from './base-edge';
+import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
+/**
+ * <zh/> 折线样式配置项
+ *
+ * <en/> Polyline style properties
+ */
 export interface PolylineStyleProps extends BaseEdgeStyleProps {
   /**
    * <zh/> 圆角半径
@@ -31,7 +36,7 @@ export interface PolylineStyleProps extends BaseEdgeStyleProps {
    * <en/> Routing name, currently supports 'orth'
    * @defaultValue 'orth'
    * @remarks
-   * <img width="220" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8Ia2RJFFQSoAAAAAAAAAAAAADmJ7AQ/original" />
+   * <img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8Ia2RJFFQSoAAAAAAAAAAAAADmJ7AQ/original" />
    */
   routerName?: 'orth';
   /**
@@ -47,7 +52,7 @@ type ParsedPolylineStyleProps = Required<PolylineStyleProps>;
  *
  * <en/> Polyline
  * @remarks
- * <img width="220" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LeBUQKp9QD0AAAAAAAAAAAAADmJ7AQ/original" />
+ * <img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LeBUQKp9QD0AAAAAAAAAAAAADmJ7AQ/original" />
  */
 export class Polyline extends BaseEdge {
   static defaultStyleProps: Partial<PolylineStyleProps> = {

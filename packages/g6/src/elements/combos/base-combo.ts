@@ -26,7 +26,7 @@ import { BaseNode } from '../nodes';
 import { Icon, IconStyleProps } from '../shapes';
 
 /**
- * <zh/> Combo 通用样式配置项
+ * <zh/> 组合通用样式配置项
  *
  * <en/> Common style props for combo
  */
@@ -35,47 +35,47 @@ export interface BaseComboStyleProps
     Prefix<'collapsed', BaseStyleProps>,
     Prefix<'collapsedMarker', CollapsedMarkerStyleProps> {
   /**
-   * <zh/> Combo 展开后的默认大小
+   * <zh/> 组合展开后的默认大小
    *
    * <en/> The default size of combo when expanded
    */
   size?: Size;
   /**
-   * <zh/> Combo 收起后的默认大小
+   * <zh/> 组合收起后的默认大小
    *
    * <en/> The default size of combo when collapsed
    */
   collapsedSize?: Size;
   /**
-   * <zh/> Combo 收起时的原点
+   * <zh/> 组合收起时的原点
    *
    * <en/> The origin of combo when collapsed
    */
   collapsedOrigin?: Placement;
   /**
-   * <zh/> Combo 的子元素，可以是节点或者 Combo
+   * <zh/> 组合的子元素，可以是节点或者 Combo
    *
    * <en/> The children of combo, which can be nodes or combos
    */
   childrenNode?: (Node | Combo)[];
   /**
-   * <zh/> Combo 的子元素数据
+   * <zh/> 组合的子元素数据
    *
    * <en/> The data of the children of combo
    * @remarks
-   * <zh/> 如果 combo 是收起状态，children 可能为空，通过 childrenData 能够获取完整的子元素数据
+   * <zh/> 如果 组合是收起状态，children 可能为空，通过 childrenData 能够获取完整的子元素数据
    *
    * <en/> If the combo is collapsed, children may be empty, and the complete child element data can be obtained through childrenData
    */
   childrenData?: NodeLikeData[];
   /**
-   * <zh/> Combo 的内边距，只在展开状态下生效
+   * <zh/> 组合的内边距，只在展开状态下生效
    *
    * <en/> The padding of combo, only effective when expanded
    */
   padding?: Padding;
   /**
-   * <zh/> Combo 收起时是否显示标记
+   * <zh/> 组合收起时是否显示标记
    *
    * <en/> Whether to show the marker when the combo is collapsed
    */
@@ -83,11 +83,11 @@ export interface BaseComboStyleProps
 }
 
 /**
- * <zh/> Combo 基类
+ * <zh/> 组合元素的基类
  *
  * <en/> Base class of combo
  * @remarks
- * <zh/> 自定义 Combo 时，推荐使用这个类作为基类。这样，用户只需要专注于实现 keyShape 的绘制逻辑
+ * <zh/> 自定义组合时，推荐使用这个类作为基类。这样，用户只需要专注于实现 keyShape 的绘制逻辑
  *
  * <en/> When customizing a combo, it is recommended to use this class as the base class. In this way, users only need to focus on the logic of drawing keyShape
  */

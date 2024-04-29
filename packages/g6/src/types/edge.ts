@@ -8,6 +8,11 @@ export type EdgeDirection = 'in' | 'out' | 'both';
 
 export type EdgeKey = Line | Path | Polyline;
 
+/**
+ * <zh/> 边上标签样式配置项
+ *
+ * <en/> Edge label style properties
+ */
 export type EdgeLabelStyleProps = LabelStyleProps & {
   /**
    * <zh/> 标签相对于边的位置。取值范围为 'start'、'center'、'end' 或特定比率（数字 0-1）
@@ -43,6 +48,11 @@ export type EdgeLabelStyleProps = LabelStyleProps & {
   maxWidth?: string | number;
 };
 
+/**
+ * <zh/> 边上箭头的样式配置项
+ *
+ * <en/> Edge arrow style properties
+ */
 export interface EdgeArrowStyleProps
   extends PathStyleProps,
     Omit<ImageStyleProps, 'width' | 'height'>,
@@ -73,6 +83,11 @@ export interface EdgeArrowStyleProps
 
 export type LoopPlacement = CardinalPlacement | CornerPlacement;
 
+/**
+ * <zh/> 自环样式配置项
+ *
+ * <en/> Loop style properties
+ */
 export interface LoopStyleProps {
   /**
    * <zh/> 边的位置

@@ -6,6 +6,11 @@ import { getCurveControlPoint, getQuadraticPath } from '../../utils/edge';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
+/**
+ * <zh/> 二次贝塞尔曲线样式配置项
+ *
+ * <en/> Quadratic Bezier curve style properties
+ */
 export interface QuadraticStyleProps extends BaseEdgeStyleProps {
   /**
    * <zh/> 控制点，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
@@ -31,7 +36,7 @@ type ParsedQuadraticStyleProps = Required<QuadraticStyleProps>;
  *
  * <en/> Quadratic Bezier curve
  * @remarks
- * <img width="220" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CLx6RqrqMvMAAAAAAAAAAAAADmJ7AQ/original" />
+ * <img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CLx6RqrqMvMAAAAAAAAAAAAADmJ7AQ/original" />
  */
 export class Quadratic extends BaseEdge {
   static defaultStyleProps: Partial<QuadraticStyleProps> = {

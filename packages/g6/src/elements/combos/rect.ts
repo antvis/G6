@@ -6,14 +6,14 @@ import type { BaseComboStyleProps } from './base-combo';
 import { BaseCombo } from './base-combo';
 
 /**
- * <zh/> 矩形 Combo 样式配置项
+ * <zh/> 矩形组合样式配置项
  *
  * <en/> Rect combo style props
  */
 export interface RectComboStyleProps extends BaseComboStyleProps {}
 
 /**
- * <zh/> 矩形 Combo
+ * <zh/> 矩形组合
  *
  * <en/> Rect combo
  */
