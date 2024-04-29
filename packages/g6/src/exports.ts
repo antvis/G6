@@ -136,14 +136,7 @@ export type {
   StarStyleProps,
   TriangleStyleProps,
 } from './elements/nodes';
-export type {
-  BadgeStyleProps,
-  BaseShapeStyleProps,
-  BaseShapeStyleProps,
-  IconStyleProps,
-  LabelStyleProps,
-  LabelStyleProps,
-} from './elements/shapes';
+export type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from './elements/shapes';
 export type { AnimationOptions, WebWorkerLayoutOptions } from './layouts/types';
 export type { CategoricalPalette } from './palettes/types';
 export type {
