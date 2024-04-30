@@ -44,18 +44,21 @@ export interface ViewportOptions {
    * <zh/> 旋转角度
    *
    * <en/> rotation angle
+   * @defaultValue 0
    */
   rotation?: number;
   /**
    * <zh/> 缩放比例
    *
    * <en/> zoom ratio
+   * @defaultValue 1
    */
   zoom?: number;
   /**
    * <zh/> 缩放范围
    *
    * <en/> zoom range
+   * @defaultValue [0.01, 10]
    */
   zoomRange?: [number, number];
 }

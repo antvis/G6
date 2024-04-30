@@ -53,7 +53,7 @@ export interface BaseComboStyleProps
    */
   collapsedOrigin?: Placement;
   /**
-   * <zh/> 组合的子元素，可以是节点或者 Combo
+   * <zh/> 组合的子元素，可以是节点或者组合
    *
    * <en/> The children of combo, which can be nodes or combos
    */
@@ -63,7 +63,7 @@ export interface BaseComboStyleProps
    *
    * <en/> The data of the children of combo
    * @remarks
-   * <zh/> 如果 组合是收起状态，children 可能为空，通过 childrenData 能够获取完整的子元素数据
+   * <zh/> 如果组合是收起状态，children 可能为空，通过 childrenData 能够获取完整的子元素数据
    *
    * <en/> If the combo is collapsed, children may be empty, and the complete child element data can be obtained through childrenData
    */

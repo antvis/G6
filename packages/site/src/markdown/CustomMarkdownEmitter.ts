@@ -193,7 +193,7 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
         const container: DocContainer = docNode as DocContainer;
         writer.ensureSkippedLine();
         writer.write(`:::${container.status}` + (container.title ? `{title=${container.title}}` : ''));
-        writer.ensureNewLine();
+        writer.ensureSkippedLine();
         this.writeNodes(container.getChildNodes(), context);
         writer.write(':::');
         writer.ensureSkippedLine();

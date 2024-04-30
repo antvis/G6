@@ -35,8 +35,8 @@ export interface NodeLabelStyleProps extends LabelStyleProps {
   placement?: DirectionalPlacement;
   /**
    * <zh/> 标签最大宽度
-   * - string: 当设置为字符串时，表示以相对于节点宽度的百分比形式定义最大宽度。例如 `"50%"` 表示标签宽度不超过节点宽度的一半
-   * - number: 当设置为数字时，表示以像素值为单位定义最大宽度。例如 `100` 表示标签的最大宽度为 100 像素
+   * - string: 表示以相对于节点宽度的百分比形式定义最大宽度。例如 `"50%"` 表示标签宽度不超过节点宽度的一半
+   * - number: 表示以像素值为单位定义最大宽度。例如 `100` 表示标签的最大宽度为 100 像素
    *
    * <en/> The maximum width of the label
    * - string: When set to a string, it defines the maximum width as a percentage of the node width. For example, `"50%"` means the label width does not exceed half of the node width
@@ -68,24 +68,23 @@ export interface NodeBadgeStyleProps extends BadgeStyleProps {
 export interface PortStyleProps extends Omit<CircleStyleProps, 'r'> {
   /**
    * <zh/> 边是否连接到连接桩的中心
-   * - `false`: 边连接到连接桩的边缘
-   * - `true`: 边连接到连接桩的中心
+   * - 若为 `true`，则边连接到连接桩的中心
+   * - 若为 `false`，则边连接到连接桩的边缘
    *
    * <en/> Whether the edge is connected to the center of the port
-   * - `false`: The edge is connected to the edge of the port
-   * - `true`: The edge is connected to the center of the port
+   * - If `true`, the edge is connected to the center of the port
+   * - If `false`, the edge is connected to the edge of the port
    * @defaultValue false
    */
   linkToCenter?: boolean;
   /**
    * <zh/> 连接桩半径
-   * - `undefined`: 连接桩被视为一个点
-   * - number: 连接桩被视为一个圆形图形，这里指定圆形的半径
+   * - 如果设置为 `undefined`，则连接桩被视为一个点，不在画布上显示但存在，边会优先连接到最近的连接桩
+   * - 如果设置为数字，则连接桩被视为一个圆，圆的半径由此处指定
    *
    * <en/> The radius of the port
-   * - `undefined`: The port is treated as a point
-   * - number: The port is treated as a circle, and the radius of the circle is specified here
-   * @defaultValue `undefined`
+   * - If set to `undefined`, the port is treated as a point, not displayed on the canvas but exists, and the edge will be connected to the nearest port first
+   * - If set to a number, the port is treated as a circle, and the radius of the circle is specified here
    */
   r?: number;
 }

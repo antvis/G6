@@ -99,6 +99,7 @@ export type {
   RandomLayoutOptions,
 } from '@antv/layout';
 export type { PathArray } from '@antv/util';
+export type { AnimationContext, AnimationEffectTiming, AnimationExecutor } from './animations/types';
 export type {
   BaseBehaviorOptions,
   BrushSelectOptions,
@@ -163,13 +164,13 @@ export type {
   EdgeOptions,
   GraphData,
   GraphOptions,
-  LayoutOptions,
   NodeData,
   NodeOptions,
   PluginOptions,
   ThemeOptions,
   ViewportOptions,
 } from './spec';
+export type { LayoutOptions, STDLayoutOptions, SingleLayoutOptions } from './spec/layout';
 export type { BaseTransformOptions } from './transforms';
 export type {
   BaseElementStyleProps,
