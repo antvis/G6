@@ -9,7 +9,7 @@ import { BaseEdge } from './base-edge';
  *
  * <en/> Line style properties
  */
-export type LineStyleProps = BaseEdgeStyleProps;
+export interface LineStyleProps extends BaseEdgeStyleProps {}
 
 type ParsedLineStyleProps = Required<LineStyleProps>;
 
@@ -17,6 +17,8 @@ type ParsedLineStyleProps = Required<LineStyleProps>;
  * <zh/> 直线
  *
  * <en/> Line
+ * @remarks
+ * <img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YbpvTa4liAEAAAAAAAAAAAAADmJ7AQ/original" />
  */
 export class Line extends BaseEdge {
   static defaultStyleProps: Partial<LineStyleProps> = {};

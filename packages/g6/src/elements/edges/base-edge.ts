@@ -18,7 +18,7 @@ import type {
   LoopStyleProps,
   Node,
   Point,
-  PrefixObject,
+  Prefix,
 } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
@@ -32,39 +32,43 @@ import { Label } from '../shapes';
 import { BaseShape } from '../shapes/base-shape';
 
 /**
- * <zh/> 边的基础样式属性
+ * <zh/> 边的通用样式属性
  *
  * <en/> Base style properties of the edge
  */
 export interface BaseEdgeStyleProps
   extends BaseElementStyleProps,
-    PrefixObject<EdgeLabelStyleProps, 'label'>,
-    PrefixObject<PathStyleProps, 'halo'>,
-    PrefixObject<EdgeArrowStyleProps, 'startArrow'>,
-    PrefixObject<EdgeArrowStyleProps, 'endArrow'>,
-    PrefixObject<LoopStyleProps, 'loop'> {
+    Prefix<'label', EdgeLabelStyleProps>,
+    Prefix<'halo', PathStyleProps>,
+    Prefix<'startArrow', EdgeArrowStyleProps>,
+    Prefix<'endArrow', EdgeArrowStyleProps>,
+    Prefix<'loop', LoopStyleProps> {
   /**
    * <zh/> 是否显示边的标签
    *
    * <en/> Whether to display the label of the edge
+   * @defaultValue true
    */
   label?: boolean;
   /**
    * <zh/> 是否显示边的光晕
    *
    * <en/> Whether to display the halo of the edge
+   * @defaultValue false
    */
   halo?: boolean;
   /**
    * <zh/> 是否显示边的起始箭头
    *
    * <en/> Whether to display the start arrow of the edge
+   * @defaultValue false
    */
   startArrow?: boolean;
   /**
    * <zh/> 是否显示边的结束箭头
    *
    * <en/> Whether to display the end arrow of the edge
+   * @defaultValue false
    */
   endArrow?: boolean;
   /**
@@ -83,12 +87,14 @@ export interface BaseEdgeStyleProps
    * <zh/> 边的起点 shape
    *
    * <en/> The source shape. Represents the start of the edge
+   * @internal
    */
   sourceNode: Node;
   /**
    * <zh/> 边的终点 shape
    *
    * <en/> The source shape. Represents the start of the edge
+   *  @internal
    */
   targetNode: Node;
   /**
@@ -104,33 +110,33 @@ export interface BaseEdgeStyleProps
    */
   targetPort?: string;
   /**
-   * <zh/> 在 “起始点” 处添加一个标记图形，其中 “起始点” 为边与起始节点的交点
+   * <zh/> 在 “起点” 处添加一个标记图形，其中 “起始点” 为边与起始节点的交点
    *
    * <en/> Add a marker graphic at the "start point", where the "start point" is the intersection of the edge and the source node
    */
   markerStart?: DisplayObject | null;
   /**
-   * <zh/> 调整 “起始点” 处标记图形的位置，正偏移量向内，负偏移量向外
+   * <zh/> 调整 “起点” 处标记图形的位置，正偏移量向内，负偏移量向外
    *
    * <en/> Adjust the position of the marker graphic at the "start point", positive offset inward, negative offset outward
    * @defaultValue 0
    */
   markerStartOffset?: number;
   /**
-   * <zh/> 在 “终止点” 处添加一个标记图形，其中 “终止点” 为边与终止节点的交点
+   * <zh/> 在 “终点” 处添加一个标记图形，其中 “终点” 为边与终止节点的交点
    *
    * <en/> Add a marker graphic at the "end point", where the "end point" is the intersection of the edge and the target node
    */
   markerEnd?: DisplayObject | null;
   /**
-   * <zh/> 调整 “终止点” 处标记图形的位置，正偏移量向内，负偏移量向外
+   * <zh/> 调整 “终点” 处标记图形的位置，正偏移量向内，负偏移量向外
    *
    * <en/> Adjust the position of the marker graphic at the "end point", positive offset inward, negative offset outward
    * @defaultValue 0
    */
   markerEndOffset?: number;
   /**
-   * <zh/> 在路径除了 “起始点” 和 “终止点” 之外的每一个顶点上放置标记图形。在内部实现中，由于我们会把路径中部分命令转换成 C 命令，因此这些顶点实际是三阶贝塞尔曲线的控制点
+   * <zh/> 在路径除了 “起点” 和 “终点” 之外的每一个顶点上放置标记图形。在内部实现中，由于我们会把路径中部分命令转换成 C 命令，因此这些顶点实际是三阶贝塞尔曲线的控制点
    *
    * <en/> Place a marker graphic on each vertex of the path except for the "start point" and "end point". In the internal implementation, because we will convert some commands in the path to C commands, these vertices are actually the control points of the cubic Bezier curve
    */
@@ -139,7 +145,7 @@ export interface BaseEdgeStyleProps
    * <zh/> 3D 场景中生效，始终朝向屏幕，因此线宽不受透视投影影像
    *
    * <en/> Effective in 3D scenes, always facing the screen, so the line width is not affected by the perspective projection image
-   * @defaultValue false
+   * @defaultValue true
    */
   isBillboard?: boolean;
 }
@@ -147,9 +153,9 @@ export interface BaseEdgeStyleProps
 type ParsedBaseEdgeStyleProps = Required<BaseEdgeStyleProps>;
 
 /**
- * <zh/> 基础边元素
+ * <zh/> 边元素基类
  *
- * <en/> Base edge element
+ * <en/> Base class of the edge
  */
 export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   public type = 'edge';

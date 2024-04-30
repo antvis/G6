@@ -12,11 +12,24 @@ import { NodeEvent } from '../../constants';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type HTMLStyleProps = BaseNodeStyleProps<{
+/**
+ * <zh/> HTML 节点样式配置项
+ *
+ * <en/> HTML node style props
+ */
+export interface HTMLStyleProps extends BaseNodeStyleProps {
+  /**
+   * <zh/> HTML 内容，可以为字符串或者 `HTMLElement`
+   *
+   * <en/> HTML content, can be a string or `HTMLElement`
+   */
   innerHTML: string | HTMLElement;
-}>;
+}
 
 /**
+ * <zh/> HTML 节点
+ *
+ * <en/> HTML node
  * @see https://github.com/antvis/G/blob/next/packages/g/src/plugins/EventPlugin.ts
  */
 export class HTML extends BaseNode<HTMLStyleProps> {

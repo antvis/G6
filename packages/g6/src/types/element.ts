@@ -18,5 +18,8 @@ export type Combo = BaseCombo<any>;
 export type Element = Node | Edge | Combo;
 
 export interface BaseElementStyleProps extends BaseStyleProps {
+  /**
+   * @internal
+   */
   context?: RuntimeContext;
 }

@@ -4,7 +4,7 @@ import { BaseShape } from './base-shape';
 import type { LabelStyleProps } from './label';
 import { Label } from './label';
 
-export type BadgeStyleProps = LabelStyleProps;
+export interface BadgeStyleProps extends LabelStyleProps {}
 type ParsedBadgeStyleProps = Required<BadgeStyleProps>;
 type BadgeOptions = DisplayObjectConfig<BadgeStyleProps>;
 

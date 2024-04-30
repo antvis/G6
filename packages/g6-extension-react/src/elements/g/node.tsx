@@ -5,7 +5,14 @@ import { Rect } from '@antv/g6';
 import { render } from '@antv/react-g';
 import type { FC, ReactNode } from 'react';
 
-export type GNodeStyleProps = BaseNodeStyleProps<{ component: FC }>;
+export interface GNodeStyleProps extends BaseNodeStyleProps {
+  /**
+   * <zh/> React 组件
+   *
+   * <en/> React component
+   */
+  component: FC;
+}
 
 export class GNode extends Rect {
   static defaultStyleProps: Partial<GNodeStyleProps> = {

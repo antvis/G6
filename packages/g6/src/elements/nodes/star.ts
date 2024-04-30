@@ -1,20 +1,30 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import { ICON_SIZE_RATIO } from '../../constants/element';
-import type { Point, StarPortPlacement } from '../../types';
+import type { NodePortStyleProps, Point, StarPortPlacement } from '../../types';
 import { getPortXYByPlacement, getStarPoints, getStarPorts } from '../../utils/element';
 import type { IconStyleProps } from '../shapes';
-import { NodePortStyleProps } from './base-node';
-import type { PolygonStyleProps } from './polygon';
-import { Polygon } from './polygon';
+import type { PolygonStyleProps } from '../shapes/polygon';
+import { Polygon } from '../shapes/polygon';
 
-export type StarStyleProps = PolygonStyleProps<{
+/**
+ * <zh/> 五角星节点样式配置项
+ *
+ * <en/> Star node style props
+ */
+export interface StarStyleProps extends PolygonStyleProps {
   /**
-   * <zh/> 内半径
-   * <en/> Inner radius
+   * <zh/> 内半径，默认为外半径的 3/8
+   *
+   * <en/> Inner radius, default is 3/8 of the outer radius
    */
   innerR?: number;
-}>;
+}
 
+/**
+ * <zh/> 五角星节点
+ *
+ * <en/> Star node
+ */
 export class Star extends Polygon<StarStyleProps> {
   constructor(options: DisplayObjectConfig<StarStyleProps>) {
     super(options);

@@ -1,12 +1,12 @@
 import { DisplayObjectConfig, Group, Rect, RectStyleProps, Text, TextStyleProps } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { Padding } from '../../types/padding';
-import type { PrefixObject } from '../../types/prefix';
+import type { Prefix } from '../../types/prefix';
 import { parsePadding } from '../../utils/padding';
 import { omitStyleProps, startsWith, subStyleProps } from '../../utils/prefix';
 import { BaseShape } from './base-shape';
 
-export interface LabelStyleProps extends TextStyleProps, PrefixObject<RectStyleProps, 'background'> {
+export interface LabelStyleProps extends TextStyleProps, Prefix<'background', RectStyleProps> {
   /**
    * <zh/> 是否显示背景
    *

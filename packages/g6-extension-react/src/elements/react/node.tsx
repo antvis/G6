@@ -5,7 +5,14 @@ import type { FC, ReactNode as IReactNode } from 'react';
 import type { Root } from 'react-dom/client';
 import { createRoot } from 'react-dom/client';
 
-export type ReactNodeStyleProps = BaseNodeStyleProps<{ component: FC }>;
+export interface ReactNodeStyleProps extends BaseNodeStyleProps {
+  /**
+   * <zh/> React 组件
+   *
+   * <en/> React component
+   */
+  component: FC;
+}
 
 export class ReactNode extends HTML {
   private root!: Root;

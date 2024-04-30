@@ -1,7 +1,7 @@
 import type { DisplayObjectConfig, Group, PathStyleProps } from '@antv/g';
 import { Path } from '@antv/g';
 import { deepMix } from '@antv/util';
-import type { CardinalPlacement, PrefixObject } from '../../types';
+import type { CardinalPlacement, Prefix } from '../../types';
 import { getPolygonTextStyleByPlacement } from '../../utils/polygon';
 import { subStyleProps } from '../../utils/prefix';
 import { getWordWrapWidthByBox } from '../../utils/text';
@@ -12,39 +12,51 @@ import { Label } from './label';
 interface ContourLabelStyleProps extends LabelStyleProps {
   /**
    * <zh/> 标签位置，可选值为 'top'、'right'、'bottom'、'left'、'center'；默认为 'bottom'
+   *
    * <en/> Label position, optional values are 'top', 'right', 'bottom', 'left', 'center'; default is 'bottom'
    */
   placement?: CardinalPlacement | 'center';
   /**
    * <zh/> 标签是否贴合轮廓，默认为 true
+   *
    * <en/> Whether the label is close to the contour, default is true
    */
   closeToPath?: boolean;
   /**
    * <zh/> 标签是否跟随轮廓旋转，默认为 true，仅在 closeToPath 为 true 时生效
+   *
    * <en/> Whether the label rotates with the contour, default is true. Only effective when closeToPath is true
    */
   autoRotate?: boolean;
   /**
    * <zh/> x 轴偏移量
+   *
    * <en/> Label x-axis offset
    */
   offsetX?: number;
   /**
    * <zh/> y 轴偏移量
+   *
    * <en/> Label y-axis offset
    */
   offsetY?: number;
   /**
    * <zh/> 文本的最大宽度，超出会自动省略
+   *
    * <en/> The maximum width of the text, which will be automatically ellipsis if exceeded
    */
   maxWidth?: number;
 }
 
-export type ContourStyleProps = PathStyleProps & {
+export interface ContourStyleProps extends PathStyleProps, Prefix<'label', ContourLabelStyleProps> {
+  /**
+   * <zh/> 是否显示标签
+   *
+   * <en/> Whether to display the label
+   * @defaultValue true
+   */
   label?: boolean;
-} & PrefixObject<ContourLabelStyleProps, 'label'>;
+}
 type ParsedContourStyleProps = Required<ContourStyleProps>;
 type ContourOptions = DisplayObjectConfig<ContourStyleProps>;
 

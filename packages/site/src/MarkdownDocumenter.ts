@@ -495,7 +495,7 @@ export class MarkdownDocumenter {
       const elementType = pageData.group.split('/')[1].slice(0, -1);
       const baseStyleFileName = upperFirst(camelCase(`base ${elementType}`));
       output.appendNode(
-        new DocContainer({ configuration, status: 'info', title: '说明' }, [
+        new DocContainer({ configuration, status: 'info', title: getHelperIntl('remarks', this.locale) }, [
           new DocParagraph({ configuration }, [
             new DocPlainText({
               configuration,
@@ -578,7 +578,10 @@ export class MarkdownDocumenter {
   ): void {
     const name = Utilities.getConciseSignature(apiMember);
     const isRequired =
-      ApiOptionalMixin.isBaseClassOf(apiMember) && isBoolean(apiMember.isOptional) && !apiMember.isOptional;
+      ApiOptionalMixin.isBaseClassOf(apiMember) &&
+      isBoolean(apiMember.isOptional) &&
+      !apiMember.isOptional &&
+      apiMember.parent?.kind === ApiItemKind.Interface;
     const title = prefix ? camelCase(`${prefix} ${name}`) : name;
 
     output.appendNode(
@@ -726,10 +729,14 @@ export class MarkdownDocumenter {
       if (textNodes.length > 0) {
         content.push(
           new DocParagraph({ configuration }, [
-            new DocEmphasisSpan({ configuration, bold: true }, [
-              new DocPlainText({ configuration, text: this._intl(Keyword.EXTENDS) + this._intl(Keyword.COLON) }),
-            ]),
-            new DocUnorderedList({ configuration }, textNodes),
+            new DocPlainText({
+              configuration,
+              text: getHelperIntl('advancedPropsHelper', this.locale) + this._intl(Keyword.COLON),
+            }),
+            ...textNodes
+              .map((node) => [node, new DocPlainText({ configuration, text: ', ' })])
+              .flat()
+              .slice(0, -1),
           ]),
         );
       }
@@ -746,7 +753,9 @@ export class MarkdownDocumenter {
       }
 
       if (content.length > 0) {
-        output.appendNode(new DocContainer({ configuration, status: 'info' }, content));
+        output.appendNode(
+          new DocContainer({ configuration, status: 'info', title: getHelperIntl('remarks', this.locale) }, content),
+        );
       }
 
       const cache = new Set();
@@ -830,7 +839,7 @@ export class MarkdownDocumenter {
                   configuration,
                   title: Utilities.getConciseSignature(apiMember, true),
                   level: 2,
-                  suffix: (apiMember as ApiMethod).overloadIndex > 1 ? '<Badge type="warning">overload</Badge>' : '',
+                  prefix: (apiMember as ApiMethod).overloadIndex > 1 ? '<Badge type="warning">Overload</Badge>' : '',
                 }),
               );
 
@@ -1385,6 +1394,7 @@ export class MarkdownDocumenter {
       configuration,
       headerTitles: [
         this._intl(Keyword.PROPERTY),
+        this._intl(Keyword.MODIFIERS),
         this._intl(Keyword.TYPE),
         this._intl(Keyword.DEFAULT_VALUE),
         this._intl(Keyword.DESCRIPTION),
@@ -1848,7 +1858,15 @@ export class MarkdownDocumenter {
           // Otherwise, render it as a hyperlink
           if (typeAliasTokens.every((token) => !token.text.includes('\n') && !token.text.includes('\r'))) {
             return docNodeContainer.appendNode(
-              new DocPlainText({ configuration, text: typeAliasTokens.map((token) => token.text).join(' ') }),
+              new DocPlainText({
+                configuration,
+                text: typeAliasTokens
+                  .map((token) => token.text.trim())
+                  .join('')
+                  .split('|')
+                  .filter((item, index, arr) => arr.indexOf(item) === index)
+                  .join(' | '),
+              }),
             );
           }
         }

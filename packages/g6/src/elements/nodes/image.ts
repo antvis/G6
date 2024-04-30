@@ -8,11 +8,31 @@ import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type ImageStyleProps = BaseNodeStyleProps<{
+/**
+ * <zh/> 图片节点样式配置项
+ *
+ * <en/> Image node style props
+ */
+export interface ImageStyleProps extends BaseNodeStyleProps {
+  /**
+   * <zh/> 图片来源，即图片地址字符串
+   *
+   * <en/> Image source, i.e. image address string
+   */
   img?: string | HTMLImageElement;
+  /**
+   * <zh/> 该属性为 img 的别名
+   *
+   * <en/> This property is an alias for img
+   */
   src?: string | HTMLImageElement;
-}>;
+}
 
+/**
+ * <zh/> 图片节点
+ *
+ * <en/> Image node
+ */
 export class Image extends BaseNode<ImageStyleProps> {
   static defaultStyleProps: Partial<ImageStyleProps> = {
     size: 50,

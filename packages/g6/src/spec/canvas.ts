@@ -36,6 +36,7 @@ export interface CanvasOptions {
    * <zh/> 是否自动调整画布大小
    *
    * <en/> whether to auto resize canvas
+   * @defaultValue false
    */
   autoResize?: boolean;
   /**

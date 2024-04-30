@@ -8,10 +8,17 @@ import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type CircleStyleProps = BaseNodeStyleProps;
+/**
+ * <zh/> 圆形节点样式配置项
+ *
+ * <en/> Circle node style props
+ */
+export interface CircleStyleProps extends BaseNodeStyleProps {}
 
 /**
- * Draw circle based on BaseNode, override drawKeyShape.
+ * <zh/> 圆形节点
+ *
+ * <en/> Circle node
  */
 export class Circle extends BaseNode {
   static defaultStyleProps: Partial<CircleStyleProps> = {

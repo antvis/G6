@@ -643,7 +643,7 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 更新 组合数据
+   * <zh/> 更新组合数据
    *
    * <en/> Update combo data
    * @param data - <zh/> 组合数据 | <en/> combo data
@@ -710,9 +710,9 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取节点或组合相关的边数据
+   * <zh/> 获取节点或组合关联边的数据
    *
-   * <en/> Get the edge data related to the node or combo
+   * <en/> Get edge data related to the node or combo
    * @param id - <zh/> 节点或组合ID | <en/> node or combo ID
    * @param direction - <zh/> 边的方向 | <en/> edge direction
    * @returns <zh/> 边数据 | <en/> edge data
@@ -777,7 +777,7 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取具体某一状态下的节点数据
+   * <zh/> 获取指定状态下的节点数据
    *
    * <en/> Get node data in a specific state
    * @param state - <zh/> 状态 | <en/> state
@@ -786,7 +786,7 @@ export class Graph extends EventEmitter {
    */
   public getElementDataByState(elementType: 'node', state: State): NodeData[];
   /**
-   * <zh/> 获取具体某一状态下的边数据
+   * <zh/> 获取指定状态下的边数据
    *
    * <en/> Get edge data in a specific state
    * @param state - <zh/> 状态 | <en/> state
@@ -795,7 +795,7 @@ export class Graph extends EventEmitter {
    */
   public getElementDataByState(elementType: 'edge', state: State): EdgeData[];
   /**
-   * <zh/> 获取具体某一状态下的组合数据
+   * <zh/> 获取指定状态下的组合数据
    *
    * <en/> Get combo data in a specific state
    * @param state - <zh/> 状态 | <en/> state
