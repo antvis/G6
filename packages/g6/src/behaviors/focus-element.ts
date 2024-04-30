@@ -18,6 +18,7 @@ export interface FocusElementOptions extends BaseBehaviorOptions {
    * <zh/> 是否启用聚焦功能
    *
    * <en/> Whether to enable the function of dragging the node
+   * @defaultValue true
    */
   enable?: boolean | ((event: IElementEvent) => boolean);
 }
@@ -86,4 +87,4 @@ export class FocusElement extends BaseBehavior<FocusElementOptions> {
   }
 }
 
-type IElementEvent = IPointerEvent<Element>;
+interface IElementEvent extends IPointerEvent<Element> {}

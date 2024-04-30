@@ -20,6 +20,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    * <zh/> 是否启用缩放画布的功能
    *
    * <en/> Whether to enable the function of zooming the canvas
+   * @defaultValue true
    */
   enable?: boolean | ((event: IWheelEvent | IKeyboardEvent) => boolean);
   /**
@@ -40,6 +41,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    * <zh/> 缩放灵敏度
    *
    * <en/> Zoom sensitivity
+   * @defaultValue 1
    */
   sensitivity?: number;
   /**
@@ -146,6 +148,11 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     container.addEventListener(eventName, listener);
   }
 
+  /**
+   * <zh/> 销毁缩放画布
+   *
+   * <en/> Destroy zoom canvas
+   */
   public destroy() {
     this.shortcut.destroy();
     super.destroy();

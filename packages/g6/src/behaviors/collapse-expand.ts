@@ -34,7 +34,11 @@ export interface CollapseExpandOptions extends BaseBehaviorOptions {
    */
   onExpand?: (id: ID) => void;
 }
-
+/**
+ * <zh/> 展开/收起
+ *
+ * <en/> Collapse/Expand
+ */
 export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
   static defaultOptions: Partial<CollapseExpandOptions> = {
     enable: true,

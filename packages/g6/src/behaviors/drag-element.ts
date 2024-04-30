@@ -16,12 +16,14 @@ export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<Ba
    * <zh/> 是否启用拖拽动画
    *
    * <en/> Whether to enable drag animation
+   * @defaultValue true
    */
   animation: boolean;
   /**
    * <zh/> 是否启用拖拽节点的功能
    *
    * <en/> Whether to enable the function of dragging the node
+   * @defaultValue true
    */
   enable?: boolean | ((event: IElementDragEvent) => boolean);
   /**
@@ -38,12 +40,14 @@ export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<Ba
    * <zh/> combo 元素可作为元素容器置入 node 或 combo 元素
    *
    * <en/> The combo element can be placed as an element container into the node or combo element
+   * @defaultValue 'move'
    */
   dropEffect: 'link' | 'move' | 'none';
   /**
    * <zh/> 节点选中的状态，启用多选时会基于该状态查找选中的节点
    *
    * <en/> The state name of the selected node, when multi-selection is enabled, the selected nodes will be found based on this state
+   * @defaultValue 'selected'
    */
   state?: string;
   /**
@@ -64,6 +68,7 @@ export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<Ba
    * <zh/> 使用幽灵节点时不会隐藏边
    *
    * <en/> Edges will not be hidden when using the drag shadow
+   * @defaultValue 'none'
    */
   hideEdge?: 'none' | 'all' | EdgeDirection;
   /**
@@ -121,7 +126,12 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
 
     this.bindEvents();
   }
-
+  /**
+   * <zh/> 更新元素拖拽配置
+   *
+   * <en/> Update the element dragging configuration
+   * @param options - <zh/> 配置项 | <en/> options
+   */
   public update(options: Partial<DragElementOptions>): void {
     super.update(options);
     this.bindEvents();
@@ -143,6 +153,13 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     }
   }
 
+  /**
+   * <zh/> 获取当前选中的节点 id 集合
+   *
+   * <en/> Get the id collection of the currently selected node
+   * @param currTarget - <zh/> 当前拖拽目标元素 id 集合 | <en/> The id collection of the current drag target element
+   * @returns <zh/> 当前选中的节点 id 集合 | <en/> The id collection of the currently selected node
+   */
   protected getSelectedNodeIDs(currTarget: ID[]) {
     return Array.from(
       new Set(
@@ -158,7 +175,12 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     const zoom = this.context.graph.getZoom();
     return divide([event.dx, event.dy], zoom);
   }
-
+  /**
+   * <zh/> 拖拽开始时的回调
+   *
+   * <en/> Callback when dragging starts
+   * @param event - <zh/> 拖拽事件对象 | <en/> drag event object
+   */
   protected onDragStart(event: IElementDragEvent) {
     this.enable = this.validate(event);
     if (!this.enable) return;
@@ -170,6 +192,12 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     if (this.options.shadow) this.createShadow(this.target);
   }
 
+  /**
+   * <zh/> 拖拽过程中的回调
+   *
+   * <en/> Callback when dragging
+   * @param event - <zh/> 拖拽事件对象 | <en/> drag event object
+   */
   protected onDrag(event: IElementDragEvent) {
     if (!this.enable) return;
     const delta = this.getDelta(event);
@@ -177,7 +205,12 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     if (this.options.shadow) this.moveShadow(delta);
     else this.moveElement(this.target, delta);
   }
-
+  /**
+   * <zh/> 元素拖拽结束的回调
+   *
+   * <en/> Callback when dragging ends
+   * @param event - <zh/> 拖拽事件对象 | <en/> drag event object
+   */
   protected onDragEnd() {
     this.enable = false;
     if (this.options.shadow) {
@@ -192,7 +225,12 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     this.context.batch?.endBatch();
     this.target = [];
   }
-
+  /**
+   * <zh/> 拖拽放下的回调
+   *
+   * <en/> Callback when dragging is released
+   * @param event - <zh/> 拖拽事件对象 | <en/> drag event object
+   */
   private onDrop = async (event: IElementDragEvent) => {
     if (this.options.dropEffect !== 'link') return;
     const { model, element } = this.context;
@@ -208,7 +246,13 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     });
     await element?.draw({ animation: true });
   };
-
+  /**
+   * <zh/> 验证元素是否允许拖拽
+   *
+   * <en/> Verify if the element is allowed to be dragged
+   * @param event - <zh/> 拖拽事件对象 | <en/> drag event object
+   * @returns <zh/> 是否允许拖拽 | <en/> Whether to allow dragging
+   */
   protected validate(event: IElementDragEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
@@ -216,6 +260,13 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     return !!enable;
   }
 
+  /**
+   * <zh/> 移动元素
+   *
+   * <en/> Move the element
+   * @param ids - <zh/> 元素 id 集合 | <en/> element id collection
+   * @param offset <zh/> 偏移量 | <en/> offset
+   */
   protected async moveElement(ids: ID[], offset: Point) {
     const { model, element } = this.context;
     const { dropEffect } = this.options;
@@ -304,4 +355,4 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   }
 }
 
-type IElementDragEvent = IDragEvent<Element>;
+export interface IElementDragEvent extends IDragEvent<Element> {}
