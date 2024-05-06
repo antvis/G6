@@ -24,12 +24,13 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
-    "add-doc": "node ./scripts/doc-template.js",
     "build": "npm run doc && dumi build",
     "deploy": "npm run build && gh-pages -d dist",
     "dev": "dumi dev",
     "doc": " ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
+    "doc:add": "node ./scripts/doc-template.mjs",
     "doc:clear": "ts-node ./scripts/clear-doc.ts",
+    "doc:sort": "ts-node ./scripts/sort-doc.ts",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
     "lint": "eslint ./src  --quiet && prettier ./src  --check",
     "preview": "dumi preview"
