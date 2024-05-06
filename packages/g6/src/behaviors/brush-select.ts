@@ -67,9 +67,9 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
    */
   mode?: 'union' | 'intersect' | 'diff' | 'default';
   /**
-   * <zh/> 选中 state 状态
+   * <zh/> 指定选中时状态
    *
-   * <en/> Check state status
+   * <en/> Specify the state when selected
    * @defaultValue 'selected'
    */
   state?: State;
@@ -82,15 +82,15 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
    */
   immediately?: boolean;
   /**
-   * <zh/> 框选 框样式
+   * <zh/> 框选框样式
    *
-   * <en/> Timely screening
+   * <en/> Brush select box style
    */
   style?: NodeStyle;
   /**
-   * <zh/> 框选元素状态回调
+   * <zh/> 选中元素时的回调
    *
-   * <en/> Callback when brush select elements
+   * <en/> Callback when selecting elements
    * @param states - <zh/> 选中的元素状态 | <en/> Selected element state
    * @returns <zh/> 元素状态 | <en/> Element state
    */
@@ -147,7 +147,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
    * <en/> pointer down
    * @param event - <zh/> 指针事件 | <en/> pointer event
    */
-  public pointerDown = async (event: IPointerEvent) => {
+  protected pointerDown = async (event: IPointerEvent) => {
     if (!this.validate(event) || !this.isKeydown() || this.startPoint) return;
     const { style, trigger } = this.options;
     const triggers = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
@@ -174,7 +174,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
    * <en/> pointer move
    * @param event - <zh/> 指针事件 | <en/> pointer event
    */
-  public pointerMove = async (event: IPointerEvent) => {
+  protected pointerMove = async (event: IPointerEvent) => {
     if (!this.startPoint) return;
     const { immediately, mode } = this.options;
 
@@ -197,7 +197,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
    * <en/> pointer up
    * @param event - <zh/> 指针事件 | <en/> pointer event
    */
-  public pointerUp = async (event: IPointerEvent) => {
+  protected pointerUp = async (event: IPointerEvent) => {
     if (!this.startPoint) return;
     if (!this.endPoint) {
       await this.clearBrush();
@@ -219,7 +219,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
    *
    * <en/> Triggered when clicking the canvas
    */
-  public clearSelected = () => {
+  protected clearSelected = () => {
     if (this.endPoint) return;
 
     const { graph } = this.context;
@@ -292,7 +292,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
    * @param itemTypes - <zh/> 框选元素类型 | <en/> The type of the elements selected by the box selection
    * @returns <zh/> 框选选中的元素 ids | <en/> The ids of the elements selected by the box selection
    */
-  public getPointsSelectIds = (graph: Graph, points: Points, itemTypes: ElementType[]) => {
+  private getPointsSelectIds = (graph: Graph, points: Points, itemTypes: ElementType[]) => {
     const selectedNodeIds: ID[] = [];
     const selectedComboIds: ID[] = [];
 
@@ -324,7 +324,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
   };
 
   // 当前按键是否和 trigger 配置一致
-  public isKeydown() {
+  protected isKeydown() {
     const { trigger } = this.options;
     const keys = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
     if (keys.length === 0 || keys.includes('drag')) return true;
@@ -338,7 +338,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
    * @param event - <zh/> 指针事件 | <en/> pointer event
    * @returns <zh/> 是否触发框选 | <en/> Whether to trigger the box selection
    */
-  public validate(event: IPointerEvent) {
+  protected validate(event: IPointerEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
@@ -350,7 +350,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
    *
    * <en/> Bind event
    */
-  public bindEvents() {
+  protected bindEvents() {
     const { graph } = this.context;
     this.unbindEvents();
 
@@ -365,7 +365,7 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
    *
    * <en/> Unbind event
    */
-  public unbindEvents() {
+  protected unbindEvents() {
     const { graph } = this.context;
 
     graph.off(CommonEvent.POINTER_DOWN, this.pointerDown);
