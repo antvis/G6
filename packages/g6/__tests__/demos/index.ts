@@ -64,6 +64,7 @@ export * from './layout-compact-box-basic';
 export * from './layout-compact-box-left-align';
 export * from './layout-compact-box-top-to-bottom';
 export * from './layout-concentric';
+export * from './layout-custom-horizontal';
 export * from './layout-d3-force';
 export * from './layout-dagre';
 export * from './layout-dendrogram-basic';
