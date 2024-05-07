@@ -435,7 +435,7 @@ export function getTrianglePorts(width: number, height: number, direction: Trian
  * @param height - <zh/> 高度 | <en/> height
  * @returns <zh/> 矩形的顶点 | <en/> The points of a rectangle
  */
-export function getRectPoints(width: number, height: number): Point[] {
+export function getBoundingPoints(width: number, height: number): Point[] {
   return [
     [width / 2, -height / 2],
     [width / 2, height / 2],

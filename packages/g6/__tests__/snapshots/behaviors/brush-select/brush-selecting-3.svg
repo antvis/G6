@@ -89,9 +89,6 @@
           </g>
         </g>
       </g>
-      <g transform="matrix(1,0,0,1,100,100)">
-        <path fill="rgba(0,128,0,1)" stroke-width="2" stroke="rgba(0,0,255,1)" fill-opacity="0.4" pointer-events="none" d="M 0,0 l 300,0 l 0,300 l-300 0 z" width="300" height="300"/>
-      </g>
     </g>
   </g>
 </svg>

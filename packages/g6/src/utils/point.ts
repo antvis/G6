@@ -375,3 +375,13 @@ export function sortByClockwise(points: Point[], clockwise = true): Point[] {
     return clockwise ? angle2 - angle1 : angle1 - angle2;
   });
 }
+
+/**
+ * <zh/> 给定的起点和终点，返回一个由这两个点和它们的对角点组成的数组
+ * @param start - <zh/> 起点 | <en/> start point
+ * @param end - <zh/> 终点 | <en/> end point
+ * @returns <zh/> 由这两个点和它们的对角点组成的数组 | <en/> an array consisting of these two points and their diagonal points
+ */
+export function getBoundingPoints(start: Point, end: Point): Point[] {
+  return [start, [start[0], end[1]], end, [end[0], start[1]]];
+}

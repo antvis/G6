@@ -43,12 +43,24 @@ export const behaviorBrushSelect: TestCase = async (context) => {
     behaviors: [
       {
         type: 'brush-select',
+        key: 'brush-select',
         trigger: 'drag',
       },
     ],
   });
 
   await graph.render();
+
+  behaviorBrushSelect.form = (panel) => {
+    const config = {
+      mode: 'default',
+    };
+    const handleChange = () => {
+      graph.updateBehavior({ key: 'brush-select', ...config });
+    };
+
+    return [panel.add(config, 'mode', ['union', 'default', 'intersect', 'diff']).onChange(handleChange)];
+  };
 
   return graph;
 };
