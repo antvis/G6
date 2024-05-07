@@ -1,7 +1,7 @@
 import type { ApiItem, ApiModel, IResolveDeclarationReferenceResult } from '@microsoft/api-extractor-model';
 import type { DocLinkTag, DocNode, StringBuilder } from '@microsoft/tsdoc';
-import { DocContainer } from 'src/nodes/DocContainer';
 import { CustomDocNodeKind } from '../nodes/CustomDocNodeKind';
+import type { DocContainer } from '../nodes/DocContainer';
 import type { DocDetails } from '../nodes/DocDetails';
 import type { DocEmphasisSpan } from '../nodes/DocEmphasisSpan';
 import type { DocHeading } from '../nodes/DocHeading';
@@ -9,6 +9,7 @@ import type { DocNoteBox } from '../nodes/DocNoteBox';
 import type { DocPageTitle } from '../nodes/DocPageTitle';
 import type { DocTable } from '../nodes/DocTable';
 import type { DocTableCell } from '../nodes/DocTableCell';
+import type { DocText } from '../nodes/DocText';
 import type { DocUnorderedList } from '../nodes/DocUnorderedList';
 import type { IndentedWriter } from '../utils/IndentedWriter';
 import type { IMarkdownEmitterContext, IMarkdownEmitterOptions } from './MarkdownEmitter';
@@ -38,6 +39,13 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
     const writer: IndentedWriter = context.writer;
 
     switch (docNode.kind) {
+      case CustomDocNodeKind.Text: {
+        const docText: DocText = docNode as DocText;
+        writer.ensureNewLine();
+        writer.write(docText.text);
+        writer.ensureNewLine();
+        break;
+      }
       case CustomDocNodeKind.Heading: {
         const docHeading: DocHeading = docNode as DocHeading;
         writer.ensureSkippedLine();

@@ -1,6 +1,6 @@
 ---
 title: ContextMenu
-order: 1
+order: 2
 ---
 
 Using contextMenu in G6.

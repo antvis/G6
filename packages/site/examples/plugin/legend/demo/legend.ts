@@ -3,56 +3,44 @@ import { Graph } from '@antv/g6';
 const data = {
   nodes: [
     {
-      id: '1',
-      style: {
-        type: 'circle',
-        fill: '#5B8FF9',
-      },
+      id: 'node-1',
+      type: 'circle',
       data: { cluster: 'node-type1' },
     },
     {
-      id: '2',
-      style: {
-        type: 'rect',
-        fill: '#5AD8A6',
-      },
+      id: 'node-2',
+      type: 'rect',
       data: { cluster: 'node-type2' },
     },
     {
-      id: '3',
-      style: {
-        type: 'triangle',
-        fill: '#5D7092',
-      },
+      id: 'node-3',
+      type: 'triangle',
       data: { cluster: 'node-type3' },
     },
     {
-      id: '4',
-      style: {
-        type: 'diamond',
-        fill: '#6F5EF9',
-      },
+      id: 'node-4',
+      type: 'diamond',
       data: { cluster: 'node-type4' },
     },
   ],
   edges: [
     {
-      source: '1',
-      target: '2',
+      source: 'node-1',
+      target: 'node-2',
       data: { cluster: 'edge-type1' },
     },
     {
-      source: '1',
-      target: '4',
+      source: 'node-1',
+      target: 'node-4',
       data: { cluster: 'edge-type2' },
     },
     {
-      source: '3',
-      target: '4',
+      source: 'node-3',
+      target: 'node-4',
     },
     {
-      source: '2',
-      target: '4',
+      source: 'node-2',
+      target: 'node-4',
       data: { cluster: 'edge-type3' },
     },
   ],
@@ -61,26 +49,20 @@ const data = {
 const graph = new Graph({
   container: 'container',
   data,
-  node: {
-    style: {
-      labelPosition: 'bottom',
-      stroke: '#fff',
-      lineWidth: 4,
-    },
-  },
-  edge: {
-    style: {
-      stroke: '#fff',
-      lineWidth: 4,
-    },
-  },
   layout: {
     type: 'force',
+  },
+  node: {
+    style: { size: 32 },
+    palette: {
+      field: 'cluster',
+    },
   },
   plugins: [
     {
       type: 'legend',
       nodeField: 'cluster',
+      edgeField: 'cluster',
     },
   ],
 });

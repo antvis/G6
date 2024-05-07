@@ -8,6 +8,7 @@ import { DocPageTitle } from './DocPageTitle';
 import { DocTable } from './DocTable';
 import { DocTableCell } from './DocTableCell';
 import { DocTableRow } from './DocTableRow';
+import { DocText } from './DocText';
 import { DocUnorderedList } from './DocUnorderedList';
 
 /**
@@ -24,6 +25,7 @@ export const enum CustomDocNodeKind {
   Details = 'Details',
   UnorderedList = 'UnorderedList',
   Container = 'Container',
+  Text = 'Text',
 }
 
 export class CustomDocNodes {
@@ -59,6 +61,10 @@ export class CustomDocNodes {
           docNodeKind: CustomDocNodeKind.Container,
           constructor: DocContainer,
         },
+        {
+          docNodeKind: CustomDocNodeKind.Text,
+          constructor: DocText,
+        },
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.EmphasisSpan, [
@@ -89,6 +95,7 @@ export class CustomDocNodes {
       configuration.docNodeManager.registerAllowableChildren(DocNodeKind.Paragraph, [
         CustomDocNodeKind.EmphasisSpan,
         CustomDocNodeKind.UnorderedList,
+        CustomDocNodeKind.Text,
       ]);
 
       configuration.docNodeManager.registerAllowableChildren(CustomDocNodeKind.Container, [DocNodeKind.Paragraph]);

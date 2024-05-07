@@ -1,6 +1,6 @@
 ---
-title: 上下文菜单
-order: 1
+title: Contextmenu 上下文菜单
+order: 2
 ---
 
 G6 中内置的 contextMenu。
@@ -11,16 +11,16 @@ G6 中内置的 contextMenu。
 
 ```css
 /* 根据菜单对应标签的 id 进行设置 */
- #contextMenu {
-    position: absolute;
-    /* ... Other styles */
-  }
-  #contextMenu li {
-    cursor: pointer;
-		/* ... Other styles */
-  }
-  #contextMenu li:hover {
-    color: #aaa;
-    /* ... Other styles */
-  }
+#contextMenu {
+  position: absolute;
+  /* ... Other styles */
+}
+#contextMenu li {
+  cursor: pointer;
+  /* ... Other styles */
+}
+#contextMenu li:hover {
+  color: #aaa;
+  /* ... Other styles */
+}
 ```

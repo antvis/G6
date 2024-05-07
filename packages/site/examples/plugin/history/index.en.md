@@ -1,4 +1,4 @@
 ---
 title: History
-order: 1
+order: 4
 ---
