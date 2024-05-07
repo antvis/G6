@@ -6,12 +6,12 @@
   "demos": [
     {
       "filename": "clickFocus.ts",
-      "title": "节点聚焦",
+      "title": "点击元素移动到画布中心",
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ph6tS4k6S-oAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "clickFocusAnimate.ts",
-      "title": "节点聚焦自定义动画",
+      "title": "点击节点带有自定义动画地移动到画布中心",
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Fs_DT6n11zMAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]

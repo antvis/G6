@@ -22,7 +22,7 @@ export const behaviorFocusElement: TestCase = async (context) => {
     edge: {
       style: { endArrow: true },
     },
-    behaviors: [{ type: 'focus-element' }],
+    behaviors: ['focus-element'],
   });
 
   await graph.render();

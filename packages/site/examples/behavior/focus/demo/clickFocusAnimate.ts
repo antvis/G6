@@ -2,65 +2,33 @@ import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
-    {
-      id: 'node1',
-      data: {
-        x: 150,
-        y: 100,
-      },
-    },
-    {
-      id: 'node2',
-      data: { x: 250, y: 200 },
-    },
-    {
-      id: 'node3',
-      data: { x: 450, y: 200 },
-    },
+    { id: 'node1', style: { x: 110, y: 150, parentId: 'combo1' } },
+    { id: 'node2', style: { x: 190, y: 150, parentId: 'combo1' } },
+    { id: 'node3', style: { x: 150, y: 260, parentId: 'combo2' } },
   ],
-  edges: [
-    {
-      id: 'edge1',
-      source: 'node1',
-      target: 'node2',
-    },
-    {
-      id: 'edge2',
-      source: 'node1',
-      target: 'node3',
-    },
-    {
-      id: 'edge3',
-      source: 'node2',
-      target: 'node3',
-    },
+  edges: [{ source: 'node1', target: 'node2' }],
+  combos: [
+    { id: 'combo1', style: { parentId: 'combo2' } },
+    { id: 'combo2', style: {} },
   ],
 };
 
 const graph = new Graph({
   container: 'container',
-  width: 500,
-  height: 500,
-  data,
   node: {
-    style: {
-      labelText: (d) => d.id,
-      labelPosition: 'bottom',
-    },
+    style: { labelText: (d) => d.id },
   },
-  edge: {},
-  layout: {
-    type: 'force',
-  },
+  data,
   animation: true,
   behaviors: [
-    'drag-element',
+    'collapse-expand',
     {
       type: 'focus-element',
       animation: {
         easing: 'ease-out',
         duration: 3500,
       },
+      enable: (e) => e.targetType === 'node',
     },
   ],
 });
