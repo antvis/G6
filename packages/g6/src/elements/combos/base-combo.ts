@@ -1,15 +1,15 @@
-import type { AABB, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
+import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { deepMix, isEmpty, isFunction } from '@antv/util';
 import { COMBO_KEY } from '../../constants';
 import type {
-  BaseElementStyleProps,
+  CollapsedMarkerStyleProps,
   Combo,
   Node,
   NodeLikeData,
   Padding,
   Placement,
   Position,
-  PrefixObject,
+  Prefix,
   STDSize,
   Size,
 } from '../../types';
@@ -25,65 +25,72 @@ import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
 import { Icon, IconStyleProps } from '../shapes';
 
-export type BaseComboStyleProps<T extends Record<string, unknown> = Record<string, any>> = T &
-  BaseElementStyleProps &
-  BaseNodeStyleProps<T> &
-  PrefixObject<T, 'collapsed'> &
-  PrefixObject<CollapsedMarkerStyleProps, 'collapsedMarker'> & {
-    /**
-     * <zh/> Combo 展开后的默认大小
-     *
-     * <en/> The default size of combo when expanded
-     */
-    size?: Size;
-    /**
-     * <zh/> Combo 收起后的默认大小
-     *
-     * <en/> The default size of combo when collapsed
-     */
-    collapsedSize?: Size;
-    /**
-     * <zh/> Combo 收起时的原点
-     * <en/> The origin of combo when collapsed
-     */
-    collapsedOrigin?: Placement | [number, number];
-    /**
-     * <zh/> Combo 的子元素，可以是节点或者 Combo
-     *
-     * <en/> The children of combo, which can be nodes or combos
-     */
-    childrenNode?: (Node | Combo)[];
-    /**
-     * <zh/> Combo 的子元素数据
-     *
-     * <en/> The data of the children of combo
-     * @remarks
-     * <zh/> 如果 combo 是收起状态，children 可能为空，通过 childrenData 能够获取完整的子元素数据
-     *
-     * <en/> If the combo is collapsed, children may be empty, and the complete child element data can be obtained through childrenData
-     */
-    childrenData?: NodeLikeData[];
-    /**
-     * <zh/> Combo 的内边距，只在展开状态下生效
-     * <en/> The padding of combo, only effective when expanded
-     */
-    padding?: Padding;
-    collapsedMarker?: boolean;
-  };
-
-export type CollapsedMarkerStyleProps = IconStyleProps & {
+/**
+ * <zh/> 组合通用样式配置项
+ *
+ * <en/> Common style props for combo
+ */
+export interface BaseComboStyleProps
+  extends BaseNodeStyleProps,
+    Prefix<'collapsed', BaseStyleProps>,
+    Prefix<'collapsedMarker', CollapsedMarkerStyleProps> {
   /**
-   * <zh/> 标记类型
-   * <en/> Marker type
+   * <zh/> 组合展开后的默认大小
    *
-   * - 'child-count': Number of child elements
-   * - 'descendant-count': Number of descendant elements (including Nodes and Combos)
-   * - 'node-count': Number of descendant elements (only Nodes)
-   * - (children: NodeLikeData[]) => string: Custom function
+   * <en/> The default size of combo when expanded
    */
-  type?: 'child-count' | 'descendant-count' | 'node-count' | ((children: NodeLikeData[]) => string);
-};
+  size?: Size;
+  /**
+   * <zh/> 组合收起后的默认大小
+   *
+   * <en/> The default size of combo when collapsed
+   */
+  collapsedSize?: Size;
+  /**
+   * <zh/> 组合收起时的原点
+   *
+   * <en/> The origin of combo when collapsed
+   */
+  collapsedOrigin?: Placement;
+  /**
+   * <zh/> 组合的子元素，可以是节点或者组合
+   *
+   * <en/> The children of combo, which can be nodes or combos
+   */
+  childrenNode?: (Node | Combo)[];
+  /**
+   * <zh/> 组合的子元素数据
+   *
+   * <en/> The data of the children of combo
+   * @remarks
+   * <zh/> 如果组合是收起状态，children 可能为空，通过 childrenData 能够获取完整的子元素数据
+   *
+   * <en/> If the combo is collapsed, children may be empty, and the complete child element data can be obtained through childrenData
+   */
+  childrenData?: NodeLikeData[];
+  /**
+   * <zh/> 组合的内边距，只在展开状态下生效
+   *
+   * <en/> The padding of combo, only effective when expanded
+   */
+  padding?: Padding;
+  /**
+   * <zh/> 组合收起时是否显示标记
+   *
+   * <en/> Whether to show the marker when the combo is collapsed
+   */
+  collapsedMarker?: boolean;
+}
 
+/**
+ * <zh/> 组合元素的基类
+ *
+ * <en/> Base class of combo
+ * @remarks
+ * <zh/> 自定义组合时，推荐使用这个类作为基类。这样，用户只需要专注于实现 keyShape 的绘制逻辑
+ *
+ * <en/> When customizing a combo, it is recommended to use this class as the base class. In this way, users only need to focus on the logic of drawing keyShape
+ */
 export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStyleProps> extends BaseNode<S> {
   public type = 'combo';
 

@@ -2,17 +2,7 @@ import type { AABB } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
 import type { EdgeData } from '../spec';
-import type {
-  EdgeKey,
-  EdgeLabelPlacement,
-  EdgeLabelStyleProps,
-  ID,
-  LoopPlacement,
-  Node,
-  Point,
-  Port,
-  Vector2,
-} from '../types';
+import type { EdgeKey, EdgeLabelStyleProps, ID, LoopPlacement, Node, Point, Port, Vector2 } from '../types';
 import { getBBoxHeight, getBBoxSize, getBBoxWidth, getNearestSideToPoint, getNodeBBox } from './bbox';
 import { getAllPorts, getNodeConnectionPoint, getPortConnectionPoint, getPortPosition } from './element';
 import { isCollinear, isHorizontal, moveTo, parsePoint } from './point';
@@ -32,7 +22,7 @@ import { add, distance, manhattanDistance, multiply, normalize, perpendicular, s
  */
 export function getLabelPositionStyle(
   key: EdgeKey,
-  placement: EdgeLabelPlacement,
+  placement: EdgeLabelStyleProps['placement'],
   autoRotate: boolean,
   offsetX: number,
   offsetY: number,

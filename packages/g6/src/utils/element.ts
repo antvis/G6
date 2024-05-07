@@ -1,10 +1,18 @@
 import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isString } from '@antv/util';
 import { BaseCombo, BaseEdge, BaseNode } from '../elements';
-import type { NodePortStyleProps } from '../elements/nodes/base-node';
-import type { TriangleDirection } from '../elements/nodes/triangle';
-import type { Combo, Edge, Element, Node, Placement, Point, Position } from '../types';
-import type { LabelPlacement, Port } from '../types/node';
+import type {
+  Combo,
+  Edge,
+  Element,
+  Node,
+  NodePortStyleProps,
+  Placement,
+  Point,
+  Position,
+  TriangleDirection,
+} from '../types';
+import type { NodeLabelStyleProps, Port } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { isPoint } from './is';
 import { findNearestPoints, getEllipseIntersectPoint } from './point';
@@ -276,7 +284,7 @@ export function getNodeConnectionPoint(node: Node, opposite: Node | Port): Point
  */
 export function getTextStyleByPlacement(
   bbox: AABB,
-  placement: LabelPlacement = 'bottom',
+  placement: NodeLabelStyleProps['placement'] = 'bottom',
   isReverseBaseline = false,
 ): Partial<TextStyleProps> {
   const direction = placement.split('-');

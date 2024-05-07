@@ -2,7 +2,9 @@ import fs from 'fs';
 import path from 'path';
 
 /**
+ * <zh/> 清理自动生成的文档
  *
+ * <en/> Clear the auto-generated documents
  */
 function clear() {
   const baseDir = path.resolve(__dirname, '../docs/api');

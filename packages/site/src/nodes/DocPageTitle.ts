@@ -1,7 +1,6 @@
 import type { IDocNodeParameters } from '@microsoft/tsdoc';
 import { DocNode } from '@microsoft/tsdoc';
-import { LocaleLanguage } from '../constants/locale';
-import { PageTitle } from '../constants/page';
+import { LocaleLanguage, PageTitle } from '../constants/locales';
 import { CustomDocNodeKind } from './CustomDocNodeKind';
 
 /**

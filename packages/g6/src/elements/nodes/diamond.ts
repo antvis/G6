@@ -2,13 +2,20 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { Point } from '../../types';
 import { getDiamondPoints } from '../../utils/element';
 import { getPolygonIntersectPoint } from '../../utils/point';
-import type { PolygonStyleProps } from './polygon';
-import { Polygon } from './polygon';
-
-export type DiamondStyleProps = PolygonStyleProps;
+import type { PolygonStyleProps } from '../shapes/polygon';
+import { Polygon } from '../shapes/polygon';
 
 /**
- * Draw diamond based on BaseNode, override drawKeyShape.
+ * <zh/> 菱形节点样式配置项
+ *
+ * <en/> Diamond node style props
+ */
+export interface DiamondStyleProps extends PolygonStyleProps {}
+
+/**
+ * <zh/> 菱形节点
+ *
+ * <en/> Diamond node
  */
 export class Diamond extends Polygon {
   constructor(options: DisplayObjectConfig<DiamondStyleProps>) {

@@ -2,7 +2,7 @@ import { DisplayObjectConfig, Image as GImage, Text as GText, Group, ImageStyleP
 import type { BaseShapeStyleProps } from './base-shape';
 import { BaseShape } from './base-shape';
 
-export type IconStyleProps = BaseShapeStyleProps & Partial<TextStyleProps> & Partial<ImageStyleProps>;
+export interface IconStyleProps extends BaseShapeStyleProps, Partial<TextStyleProps>, Omit<ImageStyleProps, 'z'> {}
 
 type IconOptions = DisplayObjectConfig<IconStyleProps>;
 

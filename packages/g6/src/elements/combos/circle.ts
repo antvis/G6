@@ -9,8 +9,20 @@ import { parseSize } from '../../utils/size';
 import type { BaseComboStyleProps } from './base-combo';
 import { BaseCombo } from './base-combo';
 
-export type CircleComboStyleProps = BaseComboStyleProps;
+/**
+ * <zh/> 圆形组合样式配置项
+ *
+ * <en/> Circle combo style props
+ */
+export interface CircleComboStyleProps extends BaseComboStyleProps {}
 
+/**
+ * <zh/> 圆形组合
+ *
+ * <en/> Circle combo
+ * @remarks
+ * <img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WJhpRJCcFLAAAAAAAAAAAAAADmJ7AQ/original" />
+ */
 export class CircleCombo extends BaseCombo<CircleComboStyleProps> {
   constructor(options: DisplayObjectConfig<CircleComboStyleProps>) {
     super(options);

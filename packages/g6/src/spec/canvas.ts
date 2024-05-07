@@ -1,4 +1,4 @@
-import type { CanvasConfig, IRenderer } from '@antv/g';
+import type { IRenderer } from '@antv/g';
 import type { Canvas } from '../runtime/canvas';
 
 /**
@@ -7,7 +7,7 @@ import type { Canvas } from '../runtime/canvas';
  * <en/> Canvas spec
  * @public
  */
-export interface CanvasOptions extends Pick<CanvasConfig, 'devicePixelRatio'> {
+export interface CanvasOptions {
   /**
    * <zh/> 画布容器
    *
@@ -36,6 +36,7 @@ export interface CanvasOptions extends Pick<CanvasConfig, 'devicePixelRatio'> {
    * <zh/> 是否自动调整画布大小
    *
    * <en/> whether to auto resize canvas
+   * @defaultValue false
    */
   autoResize?: boolean;
   /**
@@ -44,4 +45,10 @@ export interface CanvasOptions extends Pick<CanvasConfig, 'devicePixelRatio'> {
    * <en/> canvas background color
    */
   background?: string;
+  /**
+   * <zh/> 设备像素比
+   *
+   * <en/> device pixel ratio
+   */
+  devicePixelRatio?: number;
 }

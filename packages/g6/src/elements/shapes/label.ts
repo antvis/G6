@@ -1,18 +1,26 @@
 import { DisplayObjectConfig, Group, Rect, RectStyleProps, Text, TextStyleProps } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { Padding } from '../../types/padding';
-import type { PrefixObject } from '../../types/prefix';
+import type { Prefix } from '../../types/prefix';
 import { parsePadding } from '../../utils/padding';
 import { omitStyleProps, startsWith, subStyleProps } from '../../utils/prefix';
-import type { BaseShapeStyleProps } from './base-shape';
 import { BaseShape } from './base-shape';
 
-export type LabelStyleProps = BaseShapeStyleProps &
-  TextStyleProps & {
-    background?: boolean;
-  } & PrefixObject<RectStyleProps, 'background'> & {
-    padding?: Padding;
-  };
+export interface LabelStyleProps extends TextStyleProps, Prefix<'background', RectStyleProps> {
+  /**
+   * <zh/> 是否显示背景
+   *
+   * <en/> Whether to show background
+   */
+  background?: boolean;
+  /**
+   * <zh/> 标签内边距
+   *
+   * <en/> Label padding
+   * @defaultValue 0
+   */
+  padding?: Padding;
+}
 type ParsedLabelStyleProps = Required<LabelStyleProps>;
 type LabelOptions = DisplayObjectConfig<LabelStyleProps>;
 

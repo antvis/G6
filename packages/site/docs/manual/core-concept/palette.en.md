@@ -1,4 +1,4 @@
 ---
 title: Palette
-order: 6
+order: 7
 ---

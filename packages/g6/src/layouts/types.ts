@@ -30,7 +30,12 @@ export type BuiltInLayoutOptions =
   | RadialLayout
   | RandomLayout;
 
-export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOptions {
+export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOptions, Record<string, any> {
+  /**
+   * <zh/> 布局类型
+   *
+   * <en/> Layout type
+   */
   type: string;
   /**
    * <zh/> 参与该布局的节点
@@ -40,7 +45,6 @@ export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOpti
    * @returns <zh/> 是否参与布局 | <en/> Whether to participate in the layout
    */
   nodesFilter?: (node: NodeData) => boolean;
-  [key: string]: any;
 }
 
 interface CircularLayout extends BaseLayoutOptions, CircularLayoutOptions {
@@ -111,7 +115,6 @@ export interface WebWorkerLayoutOptions {
    * <en/> Whether to run the layout in WebWorker
    */
   enableWorker?: boolean;
-
   /**
    * <zh/> 迭代布局的迭代次数
    *

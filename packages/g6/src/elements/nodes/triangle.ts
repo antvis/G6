@@ -1,24 +1,33 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import { deepMix, isEmpty } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
-import type { Point, TrianglePortPlacement } from '../../types';
+import type { NodePortStyleProps, Point, TriangleDirection, TrianglePortPlacement } from '../../types';
 import { getIncircleRadius, getTriangleCenter } from '../../utils/bbox';
 import { getPortXYByPlacement, getTrianglePoints, getTrianglePorts } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { IconStyleProps } from '../shapes';
-import type { NodePortStyleProps } from './base-node';
-import type { PolygonStyleProps } from './polygon';
-import { Polygon } from './polygon';
+import type { PolygonStyleProps } from '../shapes/polygon';
+import { Polygon } from '../shapes/polygon';
 
-export type TriangleStyleProps = PolygonStyleProps<{
+/**
+ * <zh/> 三角形节点样式配置项
+ *
+ * <en/> Triangle node style props
+ */
+export interface TriangleStyleProps extends PolygonStyleProps {
   /**
    * <zh/> 三角形的方向
+   *
    * <en/> The direction of the triangle
    */
   direction?: TriangleDirection;
-}>;
-export type TriangleDirection = 'up' | 'left' | 'right' | 'down';
+}
 
+/**
+ * <zh/> 三角形节点
+ *
+ * <en/> Triangle node
+ */
 export class Triangle extends Polygon<TriangleStyleProps> {
   static defaultStyleProps: Partial<TriangleStyleProps> = {
     size: 40,

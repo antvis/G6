@@ -8,7 +8,7 @@ export type ViewportAnimationEffectTiming =
     };
 
 export interface TransformOptions {
-  mode: ViewportChangeMode;
+  mode: 'relative' | 'absolute';
   origin?: Point;
   translate?: Point;
   rotate?: number;
@@ -39,5 +39,3 @@ export interface FitViewOptions {
    */
   direction?: 'x' | 'y' | 'both';
 }
-
-type ViewportChangeMode = 'relative' | 'absolute';

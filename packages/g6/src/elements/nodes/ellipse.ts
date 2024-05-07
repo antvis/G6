@@ -8,8 +8,18 @@ import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
-export type EllipseStyleProps = BaseNodeStyleProps;
+/**
+ * <zh/> 椭圆节点样式配置项
+ *
+ * <en/> Ellipse node style props
+ */
+export interface EllipseStyleProps extends BaseNodeStyleProps {}
 
+/**
+ * <zh/> 椭圆节点
+ *
+ * <en/> Ellipse node
+ */
 export class Ellipse extends BaseNode {
   static defaultStyleProps: Partial<EllipseStyleProps> = {
     size: [80, 40],

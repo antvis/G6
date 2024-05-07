@@ -98,6 +98,8 @@ export type {
   RadialLayoutOptions,
   RandomLayoutOptions,
 } from '@antv/layout';
+export type { PathArray } from '@antv/util';
+export type { AnimationContext, AnimationEffectTiming, AnimationExecutor } from './animations/types';
 export type {
   BaseBehaviorOptions,
   BrushSelectOptions,
@@ -126,6 +128,7 @@ export type {
   BaseNodeStyleProps,
   CircleStyleProps,
   DiamondStyleProps,
+  DonutStyleProps,
   EllipseStyleProps,
   HTMLStyleProps,
   HexagonStyleProps,
@@ -134,7 +137,9 @@ export type {
   StarStyleProps,
   TriangleStyleProps,
 } from './elements/nodes';
-export type { BaseShapeStyleProps } from './elements/shapes';
+export type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from './elements/shapes';
+export type { AnimationOptions, WebWorkerLayoutOptions } from './layouts/types';
+export type { CategoricalPalette } from './palettes/types';
 export type {
   BasePluginOptions,
   BubbleSetsOptions,
@@ -159,24 +164,29 @@ export type {
   EdgeOptions,
   GraphData,
   GraphOptions,
-  LayoutOptions,
   NodeData,
   NodeOptions,
   PluginOptions,
   ThemeOptions,
   ViewportOptions,
 } from './spec';
+export type { LayoutOptions, STDLayoutOptions, SingleLayoutOptions } from './spec/layout';
 export type { BaseTransformOptions } from './transforms';
 export type {
+  BaseElementStyleProps,
   CallableValue,
   CardinalPlacement,
+  CollapsedMarkerStyleProps,
   Combo,
   CornerPlacement,
   DirectionalPlacement,
   Edge,
+  EdgeArrowStyleProps,
+  EdgeLabelStyleProps,
   Element,
   ElementDatum,
   ElementType,
+  FitViewOptions,
   IAnimateEvent,
   ID,
   IDragEvent,
@@ -188,11 +198,23 @@ export type {
   IPointerEvent,
   IViewportEvent,
   IWheelEvent,
+  LoopPlacement,
+  LoopStyleProps,
   Node,
+  NodeBadgeStyleProps,
+  NodeLabelStyleProps,
+  NodeLikeData,
+  NodePortStyleProps,
+  Padding,
   Placement,
   Point,
+  PortStyleProps,
+  Prefix,
+  PrefixKey,
   RelativePlacement,
+  Size,
   State,
+  TransformOptions,
   Vector2,
   Vector3,
   ViewportAnimationEffectTiming,

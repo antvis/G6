@@ -1,44 +1,67 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { deepMix } from '@antv/util';
-import type { Padding, Point, Port } from '../../types';
+import type { LoopStyleProps, Padding, Point, Port } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getPolylineLoopPath, getPolylinePath } from '../../utils/edge';
 import { findPorts, getConnectionPoint, getPortPosition } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { orth } from '../../utils/router/orth';
-import type { BaseEdgeStyleProps, LoopStyleProps } from './base-edge';
+import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
+/**
+ * <zh/> 折线样式配置项
+ *
+ * <en/> Polyline style properties
+ */
 export interface PolylineStyleProps extends BaseEdgeStyleProps {
   /**
    * <zh/> 圆角半径
+   *
    * <en/> The radius of the rounded corner
+   * @defaultValue 0
    */
   radius?: number;
   /**
    * <zh/> 控制点数组
+   *
    * <en/> Control point array
    */
   controlPoints?: Point[];
   /**
    * <zh/> 是否启用路由，默认开启且 controlPoints 会自动计入
+   *
    * <en/> Whether to enable routing, it is enabled by default and controlPoints will be automatically included
+   * @defaultValue false
    */
   router?: boolean;
   /**
    * <zh/> 路由名称，目前支持 'orth'
+   *
    * <en/> Routing name, currently supports 'orth'
+   * @defaultValue 'orth'
+   * @remarks
+   * <img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8Ia2RJFFQSoAAAAAAAAAAAAADmJ7AQ/original" />
    */
   routerName?: 'orth';
   /**
    * <zh/> 节点边距
+   *
    * <en/> Padding for routing calculation
+   * @defaultValue 10
    */
   routerPadding?: Padding;
 }
 type ParsedPolylineStyleProps = Required<PolylineStyleProps>;
 
+/**
+ * <zh/> 折线
+ *
+ * <en/> Polyline
+ * @remarks
+ * <img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LeBUQKp9QD0AAAAAAAAAAAAADmJ7AQ/original" />
+ */
 export class Polyline extends BaseEdge {
   static defaultStyleProps: Partial<PolylineStyleProps> = {
     radius: 0,

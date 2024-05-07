@@ -3,7 +3,7 @@ import { Rect } from '@antv/g';
 import { isFunction } from '@antv/util';
 import { COMBO_KEY, CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { EdgeDirection, Element, ID, IDragEvent, Point, PrefixObject } from '../types';
+import type { EdgeDirection, Element, ID, IDragEvent, Point, Prefix } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { idOf } from '../utils/id';
 import { subStyleProps } from '../utils/prefix';
@@ -11,7 +11,7 @@ import { divide, subtract } from '../utils/vector';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
-export interface DragElementOptions extends BaseBehaviorOptions, PrefixObject<BaseStyleProps, 'shadow'> {
+export interface DragElementOptions extends BaseBehaviorOptions, Prefix<'shadow', BaseStyleProps> {
   /**
    * <zh/> 是否启用拖拽动画
    *
