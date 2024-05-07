@@ -30,6 +30,8 @@ export const elementEdgeCustomArrow: TestCase = async (context) => {
           endArrowSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
           endArrowSize: 28,
           endArrowTransform: 'rotate(90deg)',
+          endArrowX: -14,
+          endArrowY: -14,
         },
       },
     ],

@@ -1,0 +1,123 @@
+[Overview - v5.0.0-alpha.9](../../README.md) / [Modules](../../modules.md) / [layout](../../modules/layout.md) / ConcentricLayoutOptions
+
+[layout](../../modules/layout.md).ConcentricLayoutOptions
+
+## Properties
+
+### center
+
+• `Optional` **center**: `PointTuple`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:157
+
+___
+
+### clockwise
+
+• `Optional` **clockwise**: `boolean`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:163
+
+___
+
+### equidistant
+
+• `Optional` **equidistant**: `boolean`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:161
+
+___
+
+### height
+
+• `Optional` **height**: `number`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:167
+
+___
+
+### maxLevelDiff
+
+• `Optional` **maxLevelDiff**: `number`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:164
+
+___
+
+### nodeSize
+
+• `Optional` **nodeSize**: `number` \| `PointTuple` \| (`nodeData`: `Node`) => `number`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:159
+
+___
+
+### nodeSpacing
+
+• `Optional` **nodeSpacing**: `number` \| `number`[] \| (`node?`: `Node`) => `number`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:168
+
+___
+
+### preventOverlap
+
+• `Optional` **preventOverlap**: `boolean`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:158
+
+___
+
+### sortBy
+
+• `Optional` **sortBy**: `string`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:165
+
+___
+
+### startAngle
+
+• `Optional` **startAngle**: `number`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:162
+
+___
+
+### sweep
+
+• `Optional` **sweep**: `number`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:160
+
+___
+
+### width
+
+• `Optional` **width**: `number`
+
+#### Defined in
+
+node_modules/.pnpm/@antv+layout@1.2.9_workerize-loader@2.0.2/node_modules/@antv/layout/lib/types.d.ts:166

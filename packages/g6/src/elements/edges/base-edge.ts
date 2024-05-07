@@ -179,14 +179,12 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     haloStrokeOpacity: 0.25,
     haloZIndex: -1,
     startArrow: false,
-    startArrowAnchor: '0.5 0.5',
     startArrowSize: 8,
     startArrowLineDash: 0,
     startArrowLineWidth: 1,
     startArrowTransformOrigin: 'center',
     startArrowType: 'triangle',
     endArrow: false,
-    endArrowAnchor: '0.5 0.5',
     endArrowSize: 8,
     endArrowLineDash: 0,
     endArrowLineWidth: 1,
@@ -203,9 +201,9 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps): PathStyleProps {
     const { sourceNode, targetNode, ...style } = this.getGraphicStyle(attributes);
 
-    const path = isSameNode(sourceNode, targetNode) ? this.getLoopPath(attributes) : this.getKeyPath(attributes);
+    const d = isSameNode(sourceNode, targetNode) ? this.getLoopPath(attributes) : this.getKeyPath(attributes);
     return {
-      path,
+      d,
       ...omitStyleProps(style, ['halo', 'label', 'startArrow', 'endArrow']),
     };
   }
@@ -303,13 +301,13 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     );
     const [width, height] = parseSize(size);
     const arrowFn = isFunction(type) ? type : Symbol[type] || Symbol.triangle;
-    const path = arrowFn(width, height);
+    const d = arrowFn(width, height);
 
     return {
       ...keyStyle,
       width,
       height,
-      ...(path && { path, fill: type === 'simple' ? '' : keyStyle.stroke }),
+      ...(d && { d, fill: type === 'simple' ? '' : keyStyle.stroke }),
       ...arrowStyle,
     };
   }

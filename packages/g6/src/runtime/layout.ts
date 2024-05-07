@@ -143,7 +143,14 @@ export class LayoutController {
       dfs(
         result,
         (node) => {
-          const { id, x, y } = node;
+          const { id, x, y, z = 0 } = node;
+
+          // const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
+          // nodes.forEach(({ id, data: { x, y, z = 0 } }) => {
+          //   // Use `transform: translate3d()` instead of `x/y/z`
+          //   dataToUpdate.nodes.push({ id: id as ID, style: { transform: `translate3d(${x}, ${y}, ${z})` } });
+          // });
+
           layoutResult.nodes!.push({ id, style: { x, y } });
         },
         (node) => node.children,
@@ -235,6 +242,7 @@ export class LayoutController {
     const { model, element } = this.context;
     if (!element) return null;
     model.updateData(layoutResult);
+
     return element.draw({ animation, silence: true });
   }
 

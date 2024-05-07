@@ -1,0 +1,81 @@
+[Overview - v5.0.0-alpha.9](../../README.md) / [Modules](../../modules.md) / [behaviors](../../modules/behaviors.md) / HoverActivateOptions
+
+[behaviors](../../modules/behaviors.md).HoverActivateOptions
+
+## Properties
+
+### activateState
+
+• `Optional` **activateState**: `string`
+
+The state name to be considered as "selected".
+Defaults to "selected".
+
+#### Defined in
+
+[packages/g6/src/stdlib/behavior/hover-activate.ts:16](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/stdlib/behavior/hover-activate.ts#L16)
+
+___
+
+### eventName
+
+• `Optional` **eventName**: `string`
+
+The event name to trigger when drag end.
+
+#### Defined in
+
+[packages/g6/src/stdlib/behavior/hover-activate.ts:26](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/stdlib/behavior/hover-activate.ts#L26)
+
+___
+
+### itemTypes
+
+• **itemTypes**: (``"node"`` \| ``"edge"`` \| ``"combo"``)[]
+
+Item types to be able to acitvate.
+Defaults to `["node", "edge"]`.
+Should be an array of "node", "edge", or "combo".
+
+#### Defined in
+
+[packages/g6/src/stdlib/behavior/hover-activate.ts:22](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/stdlib/behavior/hover-activate.ts#L22)
+
+___
+
+### shouldBegin
+
+• `Optional` **shouldBegin**: (`event`: [`IG6GraphEvent`](IG6GraphEvent.md)) => `boolean`
+
+#### Type declaration
+
+▸ (`event`): `boolean`
+
+Whether allow the behavior happen on the current item.
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `event` | [`IG6GraphEvent`](IG6GraphEvent.md) |
+
+##### Returns
+
+`boolean`
+
+#### Defined in
+
+[packages/g6/src/stdlib/behavior/hover-activate.ts:30](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/stdlib/behavior/hover-activate.ts#L30)
+
+___
+
+### throttle
+
+• `Optional` **throttle**: `number`
+
+The time in milliseconds to throttle moving. Useful to avoid the frequent calculation.
+Defaults to 0.
+
+#### Defined in
+
+[packages/g6/src/stdlib/behavior/hover-activate.ts:11](https://github.com/antvis/G6/blob/4b803837a5/packages/g6/src/stdlib/behavior/hover-activate.ts#L11)

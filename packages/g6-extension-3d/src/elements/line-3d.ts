@@ -16,7 +16,7 @@ export class Line3D extends BaseEdge {
     const [x2, y2, z2] = targetNode.getPosition();
 
     // omit path
-    const { path, ...style } = super.getKeyStyle(attributes);
+    const { d, ...style } = super.getKeyStyle(attributes);
     return { x1, y1, z1, x2, y2, z2, ...style };
   }
 
