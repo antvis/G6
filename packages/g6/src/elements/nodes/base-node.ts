@@ -395,6 +395,16 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   protected abstract drawKeyShape(attributes: Required<S>, container: Group): DisplayObject | undefined;
 
   public render(attributes = this.parsedAttributes, container: Group = this) {
+    // Use `transform: translate3d()` instead of `x/y/z`
+    const { x = 0, y = 0, z = 0 } = attributes;
+    if (x !== 0 || y !== 0 || z !== 0) {
+      if (z === 0) {
+        this.style.transform = `translate(${x}, ${y})`;
+      } else {
+        this.style.transform = `translate3d(${x}, ${y}, ${z})`;
+      }
+    }
+
     // 1. key shape
     const keyShape = this.drawKeyShape(attributes, container);
     if (!keyShape) return;

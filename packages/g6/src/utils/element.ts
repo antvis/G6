@@ -302,8 +302,7 @@ export function getTextStyleByPlacement(
   }
 
   return {
-    x,
-    y,
+    transform: `translate(${x}, ${y})`,
     textBaseline,
     textAlign,
   };

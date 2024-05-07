@@ -16,11 +16,13 @@ export class Icon extends BaseShape<IconStyleProps> {
   }
 
   protected getIconStyle(attributes: IconStyleProps = this.attributes): IconStyleProps {
+    const { x = 0, y = 0 } = attributes;
     const style = this.getGraphicStyle(attributes);
-
+    const { width, height } = style;
     if (this.isGImage()) {
       return {
-        anchor: [0.5, 0.5],
+        x: (x as number) - (width as number) / 2,
+        y: (y as number) - (height as number) / 2,
         ...style,
       };
     }
