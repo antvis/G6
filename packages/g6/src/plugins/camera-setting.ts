@@ -6,24 +6,24 @@ import { BasePlugin } from './base-plugin';
 export interface CameraSettingOptions extends BasePluginOptions {
   /**
    * <zh/> 投影模式，透视投影仅在 3D 场景下有效
-   * - perspective : 透视投影
-   * - orthographic : 正交投影
+   * - `'perspective'` : 透视投影
+   * - `'orthographic'` : 正交投影
    *
    * <en/> Projection mode, perspective projection is only valid in 3D scenes
-   * - perspective : perspective projection
-   * - orthographic : Orthogonal projection
+   * - `'perspective'` : perspective projection
+   * - `'orthographic'` : Orthogonal projection
    */
   projectionMode?: 'perspective' | 'orthographic';
   /**
    * <zh/> 相机类型
-   * - orbiting: 固定视点，改变相机位置
-   * - exploring: 类似 orbiting，但允许相机在北极和南极之间旋转
-   * - tracking: 固定相机位置，改变视点
+   * - `'orbiting'`: 固定视点，改变相机位置
+   * - `'exploring'`: 类似 orbiting，但允许相机在北极和南极之间旋转
+   * - `'tracking'`: 固定相机位置，改变视点
    *
    * <en/> Camera type
-   * - orbiting: Fixed viewpoint, change camera position
-   * - exploring: Similar to orbiting, but allows the camera to rotate between the North Pole and the South Pole
-   * - tracking: Fixed camera position, change viewpoint
+   * - `'orbiting'`: Fixed viewpoint, change camera position
+   * - `'exploring'`: Similar to orbiting, but allows the camera to rotate between the North Pole and the South Pole
+   * - `'tracking'`: Fixed camera position, change viewpoint
    */
   cameraType?: 'orbiting' | 'exploring' | 'tracking';
   /**
@@ -47,11 +47,11 @@ export interface CameraSettingOptions extends BasePluginOptions {
   /**
    * <zh/> 相机视口宽高比，仅在透视相机下有效
    * - number : 具体的宽高比
-   * - auto : 自动设置为画布的宽高比
+   * - `'auto'` : 自动设置为画布的宽高比
    *
    * <en/> Camera viewport aspect ratio, only valid in perspective camera.
    * - number : Specific aspect ratio
-   * - auto : Automatically set to the aspect ratio of the canvas
+   * - `'auto'` : Automatically set to the aspect ratio of the canvas
    */
   aspect?: number | 'auto';
   /**
@@ -108,6 +108,7 @@ export class CameraSetting extends BasePlugin<CameraSettingOptions> {
    *
    * <en/> Update camera parameters
    * @param options - <zh/> 相机配置项 | <en/> Camera configuration options
+   * @internal
    */
   public update(options: Partial<CameraSettingOptions>): void {
     this.setOptions(options);

@@ -139,6 +139,7 @@ export type {
   TriangleStyleProps,
 } from './elements/nodes';
 export type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from './elements/shapes';
+export type { ContourLabelStyleProps, ContourStyleProps } from './elements/shapes/contour';
 export type { AnimationOptions, BaseLayoutOptions, WebWorkerLayoutOptions } from './layouts/types';
 export type { CategoricalPalette } from './palettes/types';
 export type {
@@ -155,6 +156,8 @@ export type {
   TooltipOptions,
   WatermarkOptions,
 } from './plugins';
+export type { HistoryEventName } from './plugins/history/events';
+export type { Command, CommandData } from './plugins/history/utils';
 export type { RuntimeContext } from './runtime/types';
 export type {
   BehaviorOptions,
@@ -172,6 +175,7 @@ export type {
   ViewportOptions,
 } from './spec';
 export type { LayoutOptions, STDLayoutOptions, SingleLayoutOptions } from './spec/layout';
+export type { CustomPluginOption } from './spec/plugin';
 export type { BaseTransformOptions } from './transforms';
 export type {
   BaseElementStyleProps,

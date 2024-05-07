@@ -100,3 +100,17 @@ export function insertDOM(
 
   return div;
 }
+
+/**
+ * Insert a DOM element before the first child of the container.
+ * @param container - container
+ * @param element - element
+ */
+export function insertBefore(container: HTMLElement, element: HTMLElement) {
+  const firstChild = container.firstChild;
+  if (firstChild) {
+    container.insertBefore(element, firstChild);
+  } else {
+    container.appendChild(element);
+  }
+}

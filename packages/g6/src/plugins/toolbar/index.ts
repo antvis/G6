@@ -1,8 +1,9 @@
 import type { RuntimeContext } from '../../runtime/types';
+import type { CornerPlacement } from '../../types';
 import { createPluginContainer, insertDOM } from '../../utils/dom';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
-import type { Position, ToolbarItem } from './util';
+import type { ToolbarItem } from './util';
 import { BUILD_IN_SVG_ICON, TOOLBAR_CSS, parsePositionToStyle } from './util';
 
 /**
@@ -23,7 +24,7 @@ export interface ToolbarOptions extends BasePluginOptions {
    * <en/> The position of the Toolbar relative to the canvas, which will affect the style of the DOM
    * @defaultValue 'top-left'
    */
-  position?: Position;
+  position?: CornerPlacement;
   /**
    * <zh/> 工具栏显式的 style 样式，可以用来设置它相对于画布的位置、背景容器样式等
    *
@@ -42,13 +43,6 @@ export interface ToolbarOptions extends BasePluginOptions {
    * <en/> Return the list of toolbar items, support return a `Promise` as items
    */
   getItems: () => ToolbarItem[] | Promise<ToolbarItem[]>;
-  /**
-   * <zh/> 插件是否可用
-   *
-   * <en/> Whether the plugin is available
-   * @defaultValue true
-   */
-  enable?: boolean;
 }
 
 /**
@@ -59,7 +53,6 @@ export interface ToolbarOptions extends BasePluginOptions {
 export class Toolbar extends BasePlugin<ToolbarOptions> {
   static defaultOptions: Partial<ToolbarOptions> = {
     position: 'top-left',
-    enable: true,
   };
 
   private $element: HTMLElement = createPluginContainer('toolbar', false);
@@ -85,6 +78,7 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
    *
    * <en/> Update the configuration of the toolbar
    * @param options - <zh/> 工具栏的配置项 | <en/> The configuration item of the toolbar
+   * @internal
    */
   public async update(options: Partial<ToolbarOptions>) {
     super.update(options);
@@ -100,9 +94,9 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
   }
 
   /**
-   * <zh/> 销毁工具栏。
+   * <zh/> 销毁工具栏
    *
-   * <en/> Destroy the toolbar.
+   * <en/> Destroy the toolbar
    */
   public destroy(): void {
     this.$element.removeEventListener('click', this.onToolbarItemClick);

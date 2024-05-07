@@ -17,6 +17,11 @@ import { parsePoint } from '../utils/point';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
+/**
+ * <zh/> 气泡集配置项
+ *
+ * <en/> BubbleSets options
+ */
 export interface BubbleSetsOptions extends BasePluginOptions, IBubbleSetOptions, ContourStyleProps {
   /**
    * <zh/> 成员元素，包括节点和边
@@ -32,6 +37,19 @@ export interface BubbleSetsOptions extends BasePluginOptions, IBubbleSetOptions,
   avoidMembers?: ID[];
 }
 
+/**
+ * <zh/> 气泡集
+ *
+ * <en/> BubbleSets
+ * @remarks
+ * <zh/> BubbleSets 最初由 Christopher Collins 在 2009 年的论文 "Bubble Sets: Revealing Set Relations with Isocontours over Existing Visualizations" 中提出。
+ *
+ * <zh/> 实现原理是通过创建一种类似于气泡的形状来表示集合。每个集合都被表示为一个独特的 "气泡"，集合中的元素被包含在这个气泡内部。如果两个集合有交集，那么这两个气泡会有重叠的部分，这个重叠的部分就表示这两个集合的交集。
+ *
+ * <en/> BubbleSets was originally proposed by Christopher Collins in the 2009 paper "Bubble Sets: Revealing Set Relations with Isocontours over Existing Visualizations".
+ *
+ * <en/> The principle is to represent sets by creating a shape similar to a bubble. Each set is represented by a unique "bubble", and the elements in the set are contained within this bubble. If two sets have an intersection, then the two bubbles will have an overlapping part, which represents the intersection of the two sets.
+ */
 export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
   private shape!: Contour;
 

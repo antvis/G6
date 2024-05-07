@@ -1,9 +1,14 @@
 import type { RuntimeContext } from '../runtime/types';
 import { createPluginContainer } from '../utils/dom';
-import { getImageWatermark, getTextWateramrk } from '../utils/watermark';
+import { getImageWatermark, getTextWatermark } from '../utils/watermark';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
+/**
+ * <zh/> 水印配置项
+ *
+ * <en/> Watermark options
+ */
 export interface WatermarkOptions extends BasePluginOptions {
   /**
    * <zh/> 水印的宽度（单个）
@@ -51,122 +56,123 @@ export interface WatermarkOptions extends BasePluginOptions {
    * <en/> The color of text watermark
    * @defaultValue '#000'
    */
-  textFill: string;
+  textFill?: string;
   /**
    * <zh/> 文本水印的文本大小
    *
    * <en/> The font size of text watermark
    * @defaultValue 16
    */
-  textFontSize: number;
+  textFontSize?: number;
   /**
    * <zh/> 文本水印的文本字体
    *
    * <en/> The font of text watermark
    */
-  textFontFamily: string;
+  textFontFamily?: string;
   /**
    * <zh/> 文本水印的文本字体粗细
    *
    * <en/> The font weight of text watermark
    */
-  textFontWeight: string;
+  textFontWeight?: string;
   /**
    * <zh/> 文本水印的文本字体变体
    *
    * <en/> The font variant of text watermark
    */
-  textFontVariant: string;
+  textFontVariant?: string;
   /**
    * <zh/> 文本水印的文本对齐方式
    *
    * <en/> The text align of text watermark
    * @defaultValue 'center'
    */
-  textAlign: CanvasTextAlign;
+  textAlign?: 'center' | 'end' | 'left' | 'right' | 'start';
   /**
    * <zh/> 文本水印的文本对齐基线
    *
    * <en/> The text baseline of text watermark
    * @defaultValue 'middle'
    */
-  textBaseline: CanvasTextBaseline;
+  textBaseline?: 'alphabetic' | 'bottom' | 'hanging' | 'ideographic' | 'middle' | 'top';
   /**
    * <zh/> 水印的背景定位行为
    *
    * <en/> The background attachment of watermark
    */
-  backgroundAttachment: string;
+  backgroundAttachment?: string;
   /**
    * <zh/> 水印的背景混合
    *
    * <en/> The background blend of watermark
    */
-  backgroundBlendMode: string;
+  backgroundBlendMode?: string;
   /**
    * <zh/> 水印的背景裁剪
    *
    * <en/> The background clip of watermark
    */
-  backgroundClip: string;
+  backgroundClip?: string;
   /**
    * <zh/> 水印的背景颜色
    *
    * <en/> The background color of watermark
    */
-  backgroundColor: string;
+  backgroundColor?: string;
   /**
    * <zh/> 水印的背景图片
    *
    * <en/> The background image of watermark
    */
-  backgroundImage: string;
+  backgroundImage?: string;
   /**
    * <zh/> 水印的背景原点
    *
    * <en/> The background origin of watermark
    */
-  backgroundOrigin: string;
+  backgroundOrigin?: string;
   /**
    * <zh/> 水印的背景位置
    *
    * <en/> The background position of watermark
    */
-  backgroundPosition: string;
+  backgroundPosition?: string;
   /**
    * <zh/> 水印的背景位置-x
    *
    * <en/> The background position-x of watermark
    */
-  backgroundPositionX: string;
+  backgroundPositionX?: string;
   /**
    * <zh/> 水印的背景位置-y
    *
    * <en/> The background position-y of watermark
    */
-  backgroundPositionY: string;
+  backgroundPositionY?: string;
   /**
    * <zh/> 水印的背景重复
    *
    * <en/> The background repeat of watermark
    * @defaultValue 'repeat'
    */
-  backgroundRepeat: string;
+  backgroundRepeat?: string;
   /**
    * <zh/> 水印的背景大小
    *
    * <en/> The background size of watermark
    */
-  backgroundSize: string;
+  backgroundSize?: string;
 }
 
 /**
- * <zh/> 支持使用文本和图片作为水印
+ * <zh/> 水印
  *
- * <en/> Support using text and images as watermarks
+ * <en/> Watermark
  * @remarks
- * <zh/> 实现原理是在 Graph 容器的 div 上加上 background-image 属性，然后就可以通过 css 来控制水印的位置和样式。对于文本，会使用隐藏 canvas 转成图片的方式来实现
- * <en/> The principle is to add the background-image property to the div of the Graph container,and then you can control the position and style of the watermark through css. For text,it will be converted to an image using a hidden canvas
+ * <zh/> 支持使用文本和图片作为水印，实现原理是在 Graph 容器的 div 上加上 `background-image` 属性，然后就可以通过 css 来控制水印的位置和样式。对于文本，会使用隐藏 canvas 转成图片的方式来实现
+ *
+ * <en/> Support using text and image as watermark, the principle is to add the `background-image` property to the div of the Graph container, and then you can control the position and style of the watermark through css. For text, it will be converted to an image using a hidden canvas
  */
 export class Watermark extends BasePlugin<WatermarkOptions> {
   static defaultOptions: Partial<WatermarkOptions> = {
@@ -174,6 +180,7 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
     height: 100,
     opacity: 0.2,
     rotate: Math.PI / 12,
+    text: '',
     textFill: '#000',
     textFontSize: 16,
     textAlign: 'center',
@@ -197,6 +204,7 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
    *
    * <en/> Update the watermark configuration
    * @param options - <zh/> 配置项 | <en/> Options
+   * @internal
    */
   public async update(options: Partial<WatermarkOptions>) {
     super.update(options);
@@ -214,7 +222,7 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
     // Set the background image
     const base64 = imageURL
       ? await getImageWatermark(width, height, imageURL, rest)
-      : await getTextWateramrk(width, height, text, rest);
+      : await getTextWatermark(width, height, text, rest);
     this.$element.style.backgroundImage = `url(${base64})`;
   }
 

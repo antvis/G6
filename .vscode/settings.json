@@ -50,7 +50,8 @@
     "Phong",
     "pointset",
     "Polyline",
-    "ranksep"
+    "ranksep",
+    "Timebar"
   ],
   "javascript.preferences.importModuleSpecifier": "relative",
   "typescript.preferences.importModuleSpecifier": "relative",

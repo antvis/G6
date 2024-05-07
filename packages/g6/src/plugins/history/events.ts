@@ -1,4 +1,3 @@
-import type { Loosen } from '../../types';
 import type { Command } from './utils';
 
 export interface IHistoryEvent {
@@ -46,4 +45,4 @@ export enum HistoryEvent {
   CHANGE = 'change',
 }
 
-export type HistoryEventName = Loosen<HistoryEvent>;
+export type HistoryEventName = 'undo' | 'redo' | 'cancel' | 'add' | 'clear' | 'change';

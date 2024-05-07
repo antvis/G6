@@ -12,6 +12,11 @@ import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 import { computeHullPath } from './util';
 
+/**
+ * <zh/> Hull 配置项
+ *
+ * <en/> Hull options
+ */
 export interface HullOptions extends BasePluginOptions, ContourStyleProps {
   /**
    * <zh/> Hull 内的元素
@@ -27,21 +32,38 @@ export interface HullOptions extends BasePluginOptions, ContourStyleProps {
    */
   concavity?: number;
   /**
-   * <zh/> 内边距，默认为 10
+   * <zh/> 内边距
    *
-   * <en/> Padding, default is 10
+   * <en/> Padding
    * @defaultValue 10
    */
   padding?: number;
   /**
-   * <zh/> 拐角类型，目前支持 'rounded'、'smooth' 和 'sharp'
+   * <zh/> 拐角类型
    *
-   * <en/> Corner type, currently supports 'rounded', 'smooth' and 'sharp'
+   * <en/> Corner type
    * @defaultValue 'rounded'
    */
   corner?: 'rounded' | 'smooth' | 'sharp';
 }
 
+/**
+ * <zh/> 轮廓
+ *
+ * <en/> Hull
+ * @remarks
+ * <zh/> 轮廓包围（Hull）用于处理和表示一组点的凸多边形包围盒。轮廓包围分为两种形态：凸包和凹包。
+ *
+ * <zh/> 凸包（Convex Hull）：这是一个凸多边形，它包含所有的点，并且没有任何凹陷。你可以将其想象为一组点的最小包围盒，没有任何点在这个多边形的外部。
+ *
+ * <zh/> 凹包（Concave Hull）：这是一个凹多边形，它同样包含所有的点，但是可能会有凹陷。凹包的凹陷程度由 concavity 参数控制。concavity 越大，凹陷越小。当 concavity 为 Infinity 时，凹包就变成了凸包。
+ *
+ * <en/> Hull is used to process and represent the convex polygon bounding box of a set of points. Hull has two forms: convex hull and concave hull.
+ *
+ * <en/>  Convex Hull: This is a convex polygon that contains all points and has no concave. You can think of it as the smallest bounding box of a set of points, with no points outside the polygon.
+ *
+ *  <en/>  Concave Hull: This is a concave polygon that also contains all points, but may have concave. The concavity of the concave hull is controlled by the concavity parameter. The larger the concavity, the smaller the concave. When concavity is Infinity, the concave hull becomes a convex hull.
+ */
 export class Hull extends BasePlugin<HullOptions> {
   private shape!: Contour;
   /**

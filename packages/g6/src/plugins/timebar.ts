@@ -34,16 +34,17 @@ export interface TimebarOptions extends BasePluginOptions {
    * @remarks
    * <zh/> 设置后 `position` 会失效
    *
-   * <en/> Setting will invalidate `position`
+   * <en/> `position` will be invalidated after setting `x`
    */
   x?: number;
   /**
    * <zh/> Y 位置
    *
    * <en/> Y position
+   * @remarks
    * <zh/> 设置后 `position` 会失效
    *
-   * <en/> Setting will invalidate `position`
+   * <en/> `position` will be invalidated after setting `y`
    */
   y?: number;
   /**
@@ -61,9 +62,9 @@ export interface TimebarOptions extends BasePluginOptions {
    */
   height?: number;
   /**
-   * <zh/> Timebar 的位置, 当前可配置 'bottom' | 'top'
+   * <zh/> Timebar 的位置
    *
-   * <en/> Timebar location, currently configurable 'bottom' | 'top'
+   * <en/> Timebar location
    * @defaultValue 'bottom'
    */
   position?: 'bottom' | 'top';
@@ -78,19 +79,19 @@ export interface TimebarOptions extends BasePluginOptions {
    *
    * <en/> Time data
    * @remarks
-   * <zh/> timebarType 为 'chart' 时，需要额外传入 value 字段作为图表数据
+   * <zh/> `timebarType` 为 `'chart'` 时，需要额外传入 `value` 字段作为图表数据
    *
-   * <en/> When timebarType is 'chart', you need to pass in the value field as chart data
+   * <en/> When `timebarType` is `'chart'`, you need to pass in the `value` field as chart data
    */
   data: number[] | { time: number; value: number }[];
   /**
    * <zh/> Timebar 展示类型
-   * - time: 显示为时间轴
-   * - chart: 显示为趋势图
+   * - `'time'`: 显示为时间轴
+   * - `'chart'`: 显示为趋势图
    *
    * <en/> Timebar Displays the type
-   * - time: Display as a timeline
-   * - chart: Display as a trend chart
+   * - `'time'`: Display as a timeline
+   * - `'chart'`: Display as a trend chart
    * @defaultValue 'time'
    */
   timebarType?: 'time' | 'chart';
@@ -102,12 +103,12 @@ export interface TimebarOptions extends BasePluginOptions {
   elementTypes?: ElementType[];
   /**
    * <zh/> 筛选模式
-   *  - modify: 通过修改图数据进行筛选
-   *  - visibility: 通过修改元素可见性进行筛选
+   *  - `'modify'`: 通过修改图数据进行筛选
+   *  - `'visibility'`: 通过修改元素可见性进行筛选
    *
    * <en/> Filter mode
-   *  - modify: Filter by modifying the graph data.
-   *  - visibility: Filter by modifying element visibility
+   *  - `'modify'`: Filter by modifying the graph data.
+   *  - `'visibility'`: Filter by modifying element visibility
    * @defaultValue 'modify'
    */
   mode?: 'modify' | 'visibility';
@@ -127,6 +128,7 @@ export interface TimebarOptions extends BasePluginOptions {
    * <zh/> 是否循环播放
    *
    * <en/> Whether to loop
+   * @defaultValue false
    */
   loop?: boolean;
   /**
@@ -190,6 +192,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     elementTypes: ['node'],
     mode: 'modify',
     getTime: (datum) => inferTime(datum, prospectiveTimeKeys, undefined),
+    loop: false,
   };
 
   private timebar?: TimebarComponent;
@@ -251,6 +254,13 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     this.timebar?.reset();
   }
 
+  /**
+   * <zh/> 更新时间条配置项
+   *
+   * <en/> Update timebar configuration options
+   * @param options - <zh/> 配置项 | <en/> Options
+   * @internal
+   */
   public update(options: Partial<TimebarOptions>) {
     super.update(options);
     this.backup();
