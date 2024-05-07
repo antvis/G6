@@ -44,11 +44,8 @@ export class LayoutController {
     this.context = context;
   }
 
-  public getLayoutInstance(): BaseLayout[];
-  public getLayoutInstance(index: number): BaseLayout;
-  public getLayoutInstance(index?: number) {
-    if (index === undefined) return this.instances;
-    return this.instance;
+  public getLayoutInstance(): BaseLayout[] {
+    return this.instances;
   }
 
   public async layout() {

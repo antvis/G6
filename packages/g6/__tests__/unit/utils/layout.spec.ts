@@ -1,4 +1,6 @@
 import {
+  getLayoutProperty,
+  invokeLayoutMethod,
   isComboLayout,
   isPositionSpecified,
   isTreeLayout,
@@ -175,7 +177,7 @@ describe('layout', () => {
     expect(onTick).toHaveBeenCalledTimes(300);
   });
 
-  it('layoutAdapter invoke and get', async () => {
+  it('invoke and get', async () => {
     const context = {
       model: {
         model: {
@@ -188,11 +190,11 @@ describe('layout', () => {
 
     const layout = new AdaptiveDagreLayout();
 
-    expect(layout.invoke('execute', dagreData)).toBeTruthy();
-    expect(layout.invoke('null')).toBe(null);
+    expect(invokeLayoutMethod(layout, 'execute', dagreData)).toBeTruthy();
+    expect(invokeLayoutMethod(layout, 'null')).toBe(null);
 
-    expect(typeof layout.get('assign')).toBe('function');
-    expect(layout.get('id')).toBe('dagre');
-    expect(layout.get('null')).toBe(null);
+    expect(typeof getLayoutProperty(layout, 'assign')).toBe('function');
+    expect(getLayoutProperty(layout, 'id')).toBe('dagre');
+    expect(getLayoutProperty(layout, 'null')).toBe(null);
   });
 });

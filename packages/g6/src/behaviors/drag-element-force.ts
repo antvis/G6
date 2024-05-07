@@ -1,5 +1,6 @@
 import type { Element, ID, IDragEvent, Point } from '../types';
 import { idOf } from '../utils/id';
+import { getLayoutProperty, invokeLayoutMethod } from '../utils/layout';
 import { add } from '../utils/vector';
 import type { DragElementOptions } from './drag-element';
 import { DragElement } from './drag-element';
@@ -27,7 +28,7 @@ export class DragElementForce extends DragElement {
     const layout = this.forceLayoutInstance;
     this.context.graph.getNodeData(ids).forEach((element, index) => {
       const { x = 0, y = 0 } = element.style || {};
-      layout?.invoke('setFixedPosition', ids[index], [...add([+x, +y], offset)]);
+      if (layout) invokeLayoutMethod(layout, 'setFixedPosition', ids[index], [...add([+x, +y], offset)]);
     });
   }
 
@@ -40,11 +41,11 @@ export class DragElementForce extends DragElement {
     this.context.graph.frontElement(this.target);
 
     const layout = this.forceLayoutInstance;
-    layout?.get('simulation').alphaTarget(0.3).restart();
+    if (layout) getLayoutProperty(layout, 'simulation').alphaTarget(0.3).restart();
 
     this.context.graph.getNodeData(this.target).forEach((element) => {
       const { x = 0, y = 0 } = element.style || {};
-      layout?.invoke('setFixedPosition', idOf(element), [+x, +y]);
+      if (layout) invokeLayoutMethod(layout, 'setFixedPosition', idOf(element), [+x, +y]);
     });
   }
 
@@ -57,10 +58,10 @@ export class DragElementForce extends DragElement {
 
   protected onDragEnd() {
     const layout = this.forceLayoutInstance;
-    layout?.get('simulation').alphaTarget(0);
+    if (layout) getLayoutProperty(layout, 'simulation').alphaTarget(0);
 
     this.context.graph.getNodeData(this.target).forEach((element) => {
-      layout?.invoke('setFixedPosition', idOf(element), [null, null, null]);
+      if (layout) invokeLayoutMethod(layout, 'setFixedPosition', idOf(element), [null, null, null]);
     });
   }
 }

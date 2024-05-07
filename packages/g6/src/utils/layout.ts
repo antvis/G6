@@ -197,3 +197,45 @@ export function layoutAdapter(
 
   return AdaptLayout;
 }
+
+/**
+ * <zh/> 调用布局成员方法
+ *
+ * <en/> Call layout member methods
+ * @description
+ * <zh/> 提供一种通用的调用方式来调用 G6 布局和 @antv/layout 布局上的方法
+ *
+ * <en/> Provide a common way to call methods on G6 layout and @antv/layout layout
+ * @param layout - <zh/> 布局实例 | <en/> Layout instance
+ * @param method - <zh/> 方法名 | <en/> Method name
+ * @param args - <zh/> 参数 | <en/> Arguments
+ * @returns <zh/> 返回值 | <en/> Return value
+ */
+export function invokeLayoutMethod(layout: BaseLayout, method: string, ...args: unknown[]) {
+  if (method in layout) {
+    return (layout as any)[method](...args);
+  }
+  // invoke AdaptLayout method
+  if ('instance' in layout) {
+    const instance = (layout as any).instance;
+    if (method in instance) return instance[method](...args);
+  }
+  return null;
+}
+
+/**
+ * <zh/> 获取布局成员属性
+ *
+ * <en/> Get layout member properties
+ * @param layout - <zh/> 布局实例 | <en/> Layout instance
+ * @param name - <zh/> 属性名 | <en/> Property name
+ * @returns <zh/> 返回值 | <en/> Return value
+ */
+export function getLayoutProperty(layout: BaseLayout, name: string) {
+  if (name in layout) return (layout as any)[name];
+  if ('instance' in layout) {
+    const instance = (layout as any).instance;
+    if (name in instance) return instance[name];
+  }
+  return null;
+}

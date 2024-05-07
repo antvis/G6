@@ -1,6 +1,7 @@
 // ref: https://observablehq.com/@d3/collision-detection
 import type { IPointerEvent, RuntimeContext } from '@/src';
 import { BaseBehavior, ExtensionCategory, Graph, register } from '@/src';
+import { invokeLayoutMethod } from '@/src/utils/layout';
 
 export const layoutForceCollision: TestCase = async (context) => {
   const width = 500;
@@ -18,10 +19,13 @@ export const layoutForceCollision: TestCase = async (context) => {
 
     onPointerMove(event: IPointerEvent) {
       const pos = this.context.graph.getCanvasByClient([event.client.x, event.client.y]);
-      this.context.layout
+      const layoutInstance = this.context.layout
         ?.getLayoutInstance()
-        .find((layout) => ['d3-force', 'd3-force-3d'].includes(layout?.id))
-        ?.invoke('setFixedPosition', '0', [...pos]);
+        .find((layout) => ['d3-force', 'd3-force-3d'].includes(layout?.id));
+
+      if (layoutInstance) {
+        invokeLayoutMethod(layoutInstance, 'setFixedPosition', '0', [...pos]);
+      }
     }
   }
 
