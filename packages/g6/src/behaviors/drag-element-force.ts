@@ -1,4 +1,3 @@
-import type { D3Force3DLayout, D3ForceLayout } from '@antv/layout';
 import type { Element, ID, IDragEvent, Point } from '../types';
 import { idOf } from '../utils/id';
 import { add } from '../utils/vector';
@@ -9,9 +8,7 @@ export interface DragElementForceOptions extends Omit<DragElementOptions, 'anima
 
 export class DragElementForce extends DragElement {
   private get forceLayoutInstance() {
-    return this.context
-      .layout!.getLayoutInstance()
-      .find((layout) => ['d3-force', 'd3-force-3d'].includes(layout?.id)) as D3ForceLayout | D3Force3DLayout;
+    return this.context.layout!.getLayoutInstance().find((layout) => ['d3-force', 'd3-force-3d'].includes(layout?.id));
   }
 
   protected validate(event: IDragEvent<Element>): boolean {
@@ -30,7 +27,7 @@ export class DragElementForce extends DragElement {
     const layout = this.forceLayoutInstance;
     this.context.graph.getNodeData(ids).forEach((element, index) => {
       const { x = 0, y = 0 } = element.style || {};
-      layout.setFixedPosition(ids[index], [...add([+x, +y], offset)]);
+      layout?.invoke('setFixedPosition', ids[index], [...add([+x, +y], offset)]);
     });
   }
 
@@ -43,11 +40,11 @@ export class DragElementForce extends DragElement {
     this.context.graph.frontElement(this.target);
 
     const layout = this.forceLayoutInstance;
-    layout.simulation.alphaTarget(0.3).restart();
+    layout?.get('simulation').alphaTarget(0.3).restart();
 
     this.context.graph.getNodeData(this.target).forEach((element) => {
       const { x = 0, y = 0 } = element.style || {};
-      layout.setFixedPosition(idOf(element), [+x, +y]);
+      layout?.invoke('setFixedPosition', idOf(element), [+x, +y]);
     });
   }
 
@@ -60,10 +57,10 @@ export class DragElementForce extends DragElement {
 
   protected onDragEnd() {
     const layout = this.forceLayoutInstance;
-    layout.simulation.alphaTarget(0);
+    layout?.get('simulation').alphaTarget(0);
 
     this.context.graph.getNodeData(this.target).forEach((element) => {
-      layout.setFixedPosition(idOf(element), [null, null, null]);
+      layout?.invoke('setFixedPosition', idOf(element), [null, null, null]);
     });
   }
 }

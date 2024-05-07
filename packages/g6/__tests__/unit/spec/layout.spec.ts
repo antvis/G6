@@ -60,7 +60,7 @@ describe('spec layout', () => {
     const pipeLayout: LayoutOptions = [
       {
         type: 'force',
-        nodesFilter: (node) => (node.data as { value: number }).value > 1,
+        nodeFilter: (node) => (node.data as { value: number }).value > 1,
       },
     ];
     expect(pipeLayout).toBeTruthy();

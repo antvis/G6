@@ -40,6 +40,7 @@ export {
 export { BaseShape } from './elements/shapes';
 export {
   AntVDagreLayout,
+  BaseLayout,
   CircularLayout,
   ComboCombinedLayout,
   ConcentricLayout,
@@ -138,7 +139,7 @@ export type {
   TriangleStyleProps,
 } from './elements/nodes';
 export type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from './elements/shapes';
-export type { AnimationOptions, WebWorkerLayoutOptions } from './layouts/types';
+export type { AnimationOptions, BaseLayoutOptions, WebWorkerLayoutOptions } from './layouts/types';
 export type { CategoricalPalette } from './palettes/types';
 export type {
   BasePluginOptions,
