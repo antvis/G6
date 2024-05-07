@@ -1,39 +1,17 @@
 import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, IAnimation } from '@antv/g';
 import { CustomElement } from '@antv/g';
-import { deepMix, isEmpty, isFunction, isNumber, upperFirst } from '@antv/util';
+import { deepMix, isEmpty, isFunction, upperFirst } from '@antv/util';
 import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
 import { updateStyle } from '../../utils/element';
 import { subObject } from '../../utils/prefix';
 import { setVisibility } from '../../utils/visibility';
 
-export interface BaseShapeStyleProps extends BaseStyleProps {
-  /**
-   * <zh/> x 坐标
-   *
-   * <en/> x coordinate
-   */
-  x?: number | string;
-  /**
-   * <zh/> y 坐标
-   *
-   * <en/> y coordinate
-   */
-  y?: number | string;
-}
+export interface BaseShapeStyleProps extends BaseStyleProps {}
 
 export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends CustomElement<StyleProps> {
   constructor(options: DisplayObjectConfig<StyleProps>) {
     super(options);
-
-    // CustomElement don't have `x/y` like Group
-    const { x, y } = this.attributes;
-    if (isNumber(x) || isNumber(y)) {
-      this.style.transform = `translate(${x}, ${y})`;
-      delete this.attributes.x;
-      delete this.attributes.y;
-    }
-
     this.render(this.attributes as Required<StyleProps>, this);
     this.setVisibility();
     this.bindEvents();

@@ -54,7 +54,7 @@ export function getLabelPositionStyle(
 
   if (isHorizontal(point, pointOffset) || !autoRotate) {
     const [x, y] = getXYByPlacement(key, ratio, offsetX, offsetY);
-    return { x, y, textAlign };
+    return { transform: `translate(${x}, ${y})`, textAlign };
   }
 
   let angle = Math.atan2(pointOffset[1] - point[1], pointOffset[0] - point[0]);
@@ -67,11 +67,9 @@ export function getLabelPositionStyle(
   }
 
   const [x, y] = getXYByPlacement(key, ratio, offsetX, offsetY, angle);
-  const transform = `rotate(${(angle / Math.PI) * 180}deg)`;
+  const transform = `translate(${x}, ${y}) rotate(${(angle / Math.PI) * 180}deg)`;
 
   return {
-    x,
-    y,
     textAlign,
     transform,
   };
