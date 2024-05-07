@@ -6,7 +6,7 @@ import {
   layoutMapping2GraphData,
 } from '@/src/utils/layout';
 import dagreData from '@@/dataset/dagre.json';
-import { DagreLayout } from '@antv/layout';
+import { D3ForceLayout, DagreLayout } from '@antv/layout';
 
 import type { GraphData } from '@/src';
 import type { LayoutMapping } from '@antv/layout';
@@ -150,5 +150,49 @@ describe('layout', () => {
       ],
       combos: [],
     });
+  });
+
+  it('layoutAdapter with onTick', async () => {
+    const context = {
+      model: {
+        model: {
+          hasTreeStructure: () => true,
+          getParent: () => null,
+        },
+      },
+    } as any;
+    const AdaptiveDagreLayout = layoutAdapter(D3ForceLayout, context);
+
+    const onTick = jest.fn();
+
+    const layout = new AdaptiveDagreLayout({
+      onTick,
+    });
+
+    await layout.execute(dagreData);
+
+    expect(onTick).toHaveBeenCalled();
+    expect(onTick).toHaveBeenCalledTimes(300);
+  });
+
+  it('layoutAdapter invoke and get', async () => {
+    const context = {
+      model: {
+        model: {
+          hasTreeStructure: () => true,
+          getParent: () => null,
+        },
+      },
+    } as any;
+    const AdaptiveDagreLayout = layoutAdapter(DagreLayout, context);
+
+    const layout = new AdaptiveDagreLayout();
+
+    expect(layout.invoke('execute', dagreData)).toBeTruthy();
+    expect(layout.invoke('null')).toBe(null);
+
+    expect(typeof layout.get('assign')).toBe('function');
+    expect(layout.get('id')).toBe('dagre');
+    expect(layout.get('null')).toBe(null);
   });
 });
