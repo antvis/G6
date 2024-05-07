@@ -13,6 +13,10 @@ export class Utilities {
     let prefixString = '';
     if (scoped) {
       prefixString = apiItem.getScopedNameWithinPackage().split('.').slice(0, -1).join('.') + '.';
+      // [MARK]: 特殊处理，History_2 -> History
+      if (prefixString.endsWith('_2.')) {
+        prefixString = prefixString.slice(0, -3) + '.';
+      }
     }
     if (ApiParameterListMixin.isBaseClassOf(apiItem)) {
       return prefixString + apiItem.displayName + '(' + apiItem.parameters.map((x) => x.name).join(', ') + ')';

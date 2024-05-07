@@ -47,11 +47,11 @@ import {
   TSDocConfiguration,
 } from '@microsoft/tsdoc';
 import { FileSystem, NewlineKind, PackageName } from '@rushstack/node-core-library';
-import { camelCase, isBoolean, upperFirst } from 'lodash';
+import { camelCase, isBoolean, kebabCase, upperFirst } from 'lodash';
 import * as path from 'path';
 import prettier from 'prettier';
 import { Keyword, LocaleLanguage, getApiCategoryIntl, getHelperIntl, getKeywordIntl } from './constants';
-import { GLinks } from './constants/link';
+import { links } from './constants/link';
 import { CustomMarkdownEmitter } from './markdown/CustomMarkdownEmitter';
 import { CustomDocNodes } from './nodes/CustomDocNodeKind';
 import { DocContainer } from './nodes/DocContainer';
@@ -63,6 +63,7 @@ import { DocPageTitle } from './nodes/DocPageTitle';
 import { DocTable } from './nodes/DocTable';
 import { DocTableCell } from './nodes/DocTableCell';
 import { DocTableRow } from './nodes/DocTableRow';
+import { DocText } from './nodes/DocText';
 import { DocUnorderedList } from './nodes/DocUnorderedList';
 import { outputFolder, referenceFoldername } from './setting';
 import { Utilities } from './utils/Utilities';
@@ -140,7 +141,7 @@ export class MarkdownDocumenter {
     // Write the API pages classified by extension
     for (const [_, pageData] of collectedData.pagesByName.entries()) {
       // 对于交互、插件、布局
-      if (['behaviors', 'plugins', 'layouts'].includes(pageData.group)) {
+      if (['behaviors', 'plugins', 'layouts'].includes(pageData.group) && !pageData.name.startsWith('Base')) {
         this.referenceLevel = 1;
         await this._generateBilingualPages(this._writeExtensionPage.bind(this), pageData);
       }
@@ -436,9 +437,10 @@ export class MarkdownDocumenter {
     const apiInterface = pageData.apiItems.find((apiItem) => apiItem instanceof ApiInterface) as ApiInterface;
 
     if (apiClass) {
-      this._writeSummarySection(output, apiClass);
       this._writeRemarksSection(output, apiClass);
     }
+
+    this._assertDemo(output, pageData);
 
     if (apiInterface) {
       this._writeOptions(output, apiInterface, { includeExcerptTokens: true });
@@ -511,11 +513,11 @@ export class MarkdownDocumenter {
   }
 
   private _getLinkFromExcerptToken(excerptToken: ICustomExcerptToken): string | undefined {
-    return this._getLinkFromGLinks(excerptToken) || this._getLinkFromCanonicalReference(excerptToken);
+    return this._getLinkFromlinks(excerptToken) || this._getLinkFromCanonicalReference(excerptToken);
   }
 
-  private _getLinkFromGLinks(excerptToken: ICustomExcerptToken): string | undefined {
-    return GLinks[excerptToken.text];
+  private _getLinkFromlinks(excerptToken: ICustomExcerptToken): string | undefined {
+    return links[excerptToken.text];
   }
 
   private _getLinkFromCanonicalReference(excerptToken: ICustomExcerptToken): string | undefined {
@@ -567,7 +569,17 @@ export class MarkdownDocumenter {
 
   private _extractAndFilterExcerptTokens(apiItem: ApiInterface): ICustomExcerptToken[] {
     const excerptTokens = parseExcerptTokens(this._apiModel, apiItem);
-    return excerptTokens.filter((token) => token.type !== 'Prefix');
+
+    const filterTokens = (tokens: ICustomExcerptToken[]): ICustomExcerptToken[] => {
+      return tokens
+        .filter((token) => token.type !== 'Prefix')
+        .map((token) => ({
+          ...token,
+          children: token.children ? filterTokens(token.children) : [],
+        }));
+    };
+
+    return filterTokens(excerptTokens);
   }
 
   private _writePropertySections(
@@ -2370,5 +2382,19 @@ export class MarkdownDocumenter {
 
   private _getLang() {
     return this.locale === LocaleLanguage.ZH ? 'zh' : 'en';
+  }
+
+  private _assertDemo(output: DocSection, pageData: IPageData): void {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+
+    const demoPath = path.join('common/api/', pageData.group, kebabCase(pageData.name) + '.md');
+
+    if (FileSystem.exists(demoPath)) {
+      output.appendNode(
+        new DocParagraph({ configuration }, [
+          new DocText({ configuration, text: `<embed src="@/${demoPath}"></embed>` }),
+        ]),
+      );
+    }
   }
 }

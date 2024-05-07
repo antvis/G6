@@ -68,11 +68,12 @@ export class Label extends BaseShape<LabelStyleProps> {
     } = this.shapeMap.text.getGeometryBounds();
 
     const [top, right, bottom, left] = parsePadding(padding);
+    const totalWidth = halfWidth * 2 + left + right;
 
     Object.assign(backgroundStyle, {
       x: minX - left,
       y: minY - top,
-      width: wordWrap ? Math.min(halfWidth * 2, wordWrapWidth) : halfWidth * 2 + left + right,
+      width: wordWrap ? Math.min(totalWidth, wordWrapWidth) : totalWidth,
       height: halfHeight * 2 + top + bottom,
     });
 

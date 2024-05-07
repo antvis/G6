@@ -1,9 +1,7 @@
 ---
-title: 图例 Legend
-order: 9
+title: Legend 图例
+order: 6
 ---
-
-G6 中内置的 Legend 图例，但未默认注册。需要将其引入到代码中，并使用 `extend` 方法注册后，方可在图实例上配置和使用。
 
 ## 使用指南
 

@@ -7,8 +7,9 @@ import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
 /**
- * <zh/> 右键菜单插件的配置项
- * <en/> The configuration item of the right-click menu plugin
+ * <zh/> 上下文菜单配置项
+ *
+ * <en/> Contextmenu options
  */
 export interface ContextmenuOptions extends BasePluginOptions {
   /**
@@ -19,13 +20,13 @@ export interface ContextmenuOptions extends BasePluginOptions {
    */
   className?: string;
   /**
-   * <zh/> 如何触发右键菜单，可以是 'click' 或者 'contextmenu'
-   * - click : 点击触发
-   * - contextmenu : 右键触发
+   * <zh/> 如何触发右键菜单
+   * - `'click'` : 点击触发
+   * - `'contextmenu'` : 右键触发
    *
    * <en/> How to trigger the context menu
-   * - click : Click trigger
-   * - contextmenu : Right-click trigger
+   * - `'click'` : Click trigger
+   * - `'contextmenu'` : Right-click trigger
    * @defaultValue 'contextmenu'
    */
   trigger?: 'click' | 'contextmenu';
@@ -43,25 +44,25 @@ export interface ContextmenuOptions extends BasePluginOptions {
    */
   onClick?: (v: string, target: HTMLElement) => void;
   /**
-   * <zh/> 返回菜单的项目列表，支持 Promise` 类型的返回值。是 `getContent` 的快捷配置
+   * <zh/> 返回菜单的项目列表，支持 `Promise` 类型的返回值。是 `getContent` 的快捷配置
    *
    * <en/> Return the list of menu items, support the `Promise` type return value. It is a shortcut configuration of `getContent`
    */
   getItems?: (event: IElementEvent) => Item[] | Promise<Item[]>;
   /**
-   * <zh/> 返回菜单的内容，支持 `Promise` 类型的返回值，也可以使用 `getItems` 来快捷配置
+   * <zh/> 返回菜单的内容，支持 `Promise` 类型的返回值，也可以使用 `getItems` 进行快捷配置
    *
    * <en/> Return the content of menu, support the `Promise` type return value, you can also use `getItems` for shortcut configuration
    */
   getContent?: (event: IElementEvent) => HTMLElement | string | Promise<HTMLElement | string>;
   /**
-   * <zh/> Loading 时候的菜单内容，用于 getContent 返回 Promise 的时候
+   * <zh/> 当 `getContent` 返回一个 `Promise` 时，使用的菜单内容
    *
    * <en/> The menu content when loading is used when getContent returns a Promise
    */
-  loadingContent: HTMLElement | string;
+  loadingContent?: HTMLElement | string;
   /**
-   * <zh/> 插件是否可用，通过参数来判断是否支持右键菜单，默认全部可用
+   * <zh/> 是否可用，通过参数判断是否支持右键菜单，默认是全部可用
    *
    * <en/> Whether the plugin is available, determine whether the right-click menu is supported through parameters, The default is all available
    * @defaultValue true
@@ -70,9 +71,13 @@ export interface ContextmenuOptions extends BasePluginOptions {
 }
 
 /**
- * <zh/> 支持处理事件，并显示右键菜单，在菜单点击之后，可以触发相应的事件
+ * <zh/> 上下文菜单
  *
- * <en/> Support processing events and displaying right-click menus. After clicking the menu, you can trigger the corresponding event
+ * <en/> Contextmenu
+ * @remarks
+ * <zh/> 上下文菜单，也被称为右键菜单，是当用户在某个特定区域上点击后出现的一个菜单。支持在点击前后，触发自定义事件。
+ *
+ * <en/> Contextmenu, also known as the right-click menu , is a menu that appears when a user clicks on a specific area. Supports triggering custom events before and after clicking.
  */
 export class Contextmenu extends BasePlugin<ContextmenuOptions> {
   static defaultOptions: Partial<ContextmenuOptions> = {
@@ -98,16 +103,17 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
   }
 
   /**
-   * <zh/> 根据传入的元素，显示右键菜单
+   * <zh/> 显示上下文菜单
    *
-   * <en/> Display the right-click menu based on the incoming element
-   * @param event - <zh/> 事件对象 | <en/> Event object
+   * <en/> Show the contextmenu
+   * @param event - <zh/> 元素指针事件 | <en/> Element pointer event
+   * @internal
    */
-  public async showContextmenu(event: IElementEvent) {
+  public async show(event: IElementEvent) {
     const { enable, offset } = this.options;
 
     if ((typeof enable === 'function' && !enable(event)) || !enable) {
-      this.hideContextmenu();
+      this.hide();
       return;
     }
 
@@ -128,19 +134,20 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
   }
 
   /**
-   * <zh/> 隐藏右键菜单
+   * <zh/> 隐藏上下文菜单
    *
-   * <en/> Hide the right-click menu
+   * <en/> Hide the contextmenu
    */
-  public hideContextmenu() {
+  public hide() {
     this.$element.style.display = 'none';
   }
 
   /**
-   * <zh/> 更新右键菜单的配置项
+   * <zh/> 更新上下文菜单的配置项
    *
-   * <en/> Update the configuration of the right-click menu
+   * <en/> Update the contextmenu options
    * @param options - <zh/> 配置项 | <en/> Options
+   * @internal
    */
   public update(options: Partial<ContextmenuOptions>) {
     this.unbindEvents();
@@ -149,9 +156,9 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
   }
 
   /**
-   * <zh/> 销毁右键菜单。
+   * <zh/> 销毁上下文菜单
    *
-   * <en/> Destroy the right-click menu.
+   * <en/> Destroy the contextmenu
    */
   public destroy(): void {
     this.unbindEvents();
@@ -196,7 +203,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     // `contextmenu` 事件默认会触发浏览器的右键菜单，需要阻止默认事件
     // `click` 事件不需要阻止默认事件
     event.preventDefault?.();
-    this.showContextmenu(event);
+    this.show(event);
   };
 
   private onMenuItemClick = (event: MouseEvent) => {
@@ -206,12 +213,12 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
         const v = event.target.getAttribute('value') as string;
         onClick && onClick(v, event.target);
 
-        this.hideContextmenu();
+        this.hide();
       }
 
       // 点击其他地方，隐藏菜单
       if (!this.context.graph.getCanvas().getContainer()!.contains(event.target)) {
-        this.hideContextmenu();
+        this.hide();
       }
     }
   };

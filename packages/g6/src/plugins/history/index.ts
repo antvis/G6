@@ -11,6 +11,11 @@ import { HistoryEvent } from './events';
 import type { Command } from './utils';
 import { parseCommand } from './utils';
 
+/**
+ * <zh/> 历史记录配置项
+ *
+ * <en/> History options
+ */
 export interface HistoryOptions extends BasePluginOptions {
   /**
    * <zh/>  最多记录该数据长度的历史记录
@@ -39,6 +44,15 @@ export interface HistoryOptions extends BasePluginOptions {
   executeCommand?: (cmd: Command) => void;
 }
 
+/**
+ * <zh/> 历史记录
+ *
+ * <en/> History
+ * @remarks
+ * <zh/> 历史记录用于记录图的数据变化，支持撤销和重做等操作。
+ *
+ * <en/> History is used to record data changes in the graph and supports operations such as undo and redo.
+ */
 export class History extends BasePlugin<HistoryOptions> {
   static defaultOptions: Partial<HistoryOptions> = {
     stackSize: 0,
@@ -68,9 +82,9 @@ export class History extends BasePlugin<HistoryOptions> {
    * <en/> Whether undo can be done
    * @returns <zh/> 是否可以执行撤销操作 | <en/> Whether undo can be done
    */
-  public canUndo = () => {
+  public canUndo() {
     return this.undoStack.length > 0;
-  };
+  }
 
   /**
    * <zh/> 是否可以执行重做操作
@@ -78,9 +92,9 @@ export class History extends BasePlugin<HistoryOptions> {
    * <en/> Whether redo can be done
    * @returns <zh/> 是否可以执行重做操作 | <en/> Whether redo can be done
    */
-  public canRedo = () => {
+  public canRedo() {
     return this.redoStack.length > 0;
-  };
+  }
 
   /**
    * <zh/> 执行撤销
@@ -88,7 +102,7 @@ export class History extends BasePlugin<HistoryOptions> {
    * <en/> Execute undo
    * @returns <zh/> 返回当前实例 | <en/> Return the current instance
    */
-  public undo = () => {
+  public undo() {
     const cmd = this.undoStack.pop();
     if (cmd) {
       this.executeCommand(cmd);
@@ -98,7 +112,7 @@ export class History extends BasePlugin<HistoryOptions> {
       this.notify(HistoryEvent.UNDO, cmd);
     }
     return this;
-  };
+  }
 
   /**
    * <zh/> 执行重做
@@ -106,7 +120,7 @@ export class History extends BasePlugin<HistoryOptions> {
    * <en/> Execute redo
    * @returns <zh/> 返回当前实例 | <en/> Return the current instance
    */
-  public redo = () => {
+  public redo() {
     const cmd = this.redoStack.pop();
     if (cmd) {
       this.executeCommand(cmd, false);
@@ -114,7 +128,7 @@ export class History extends BasePlugin<HistoryOptions> {
       this.notify(HistoryEvent.REDO, cmd);
     }
     return this;
-  };
+  }
 
   /**
    * <zh/> 执行撤销且不计入历史记录
@@ -122,7 +136,7 @@ export class History extends BasePlugin<HistoryOptions> {
    * <en/> Execute undo and do not record in history
    * @returns <zh/> 返回当前实例 | <en/> Return the current instance
    */
-  public undoAndCancel = () => {
+  public undoAndCancel() {
     const cmd = this.undoStack.pop();
     if (cmd) {
       this.executeCommand(cmd, false);
@@ -130,7 +144,7 @@ export class History extends BasePlugin<HistoryOptions> {
       this.notify(HistoryEvent.CANCEL, cmd);
     }
     return this;
-  };
+  }
 
   private executeCommand = (cmd: Command, revert = true) => {
     this.freezed = true;
@@ -207,15 +221,27 @@ export class History extends BasePlugin<HistoryOptions> {
     this.notify(HistoryEvent.CLEAR, null);
   }
 
-  protected notify(event: HistoryEventName, cmd: Command | null) {
+  private notify(event: HistoryEventName, cmd: Command | null) {
     this.emitter.emit(event, { cmd });
     this.emitter.emit(HistoryEvent.CHANGE, { cmd });
   }
 
+  /**
+   * <zh/> 监听历史记录事件
+   *
+   * <en/> Listen to history events
+   * @param event  - <zh/> 事件名称 | <en/> Event name
+   * @param handler - <zh/> 事件处理函数 | <en/> Event handler
+   */
   public on(event: HistoryEventName, handler: HistoryEventHandler): void {
     this.emitter.on(event, handler);
   }
 
+  /**
+   * <zh/> 销毁
+   *
+   * <en/> Destroy
+   */
   public destroy(): void {
     const { graph } = this.context;
     graph.off(GraphEvent.AFTER_DRAW, this.addCommand);

@@ -21,7 +21,7 @@ const graph = new Graph({
   layout: {
     type: 'grid',
   },
-  behaviors: ['brush-select', 'zoom-canvas', 'activate-relations', 'drag-canvas', 'drag-element'],
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
   plugins: [
     {
       type: 'contextmenu',

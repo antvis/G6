@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "default.ts",
+      "title": {
+        "zh": "画布网格",
+        "en": "Grid Line"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*s66AQJ3FJMMAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

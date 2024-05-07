@@ -1,5 +1,5 @@
-import type { CategoryOptions } from '@antv/component';
 import { Category, Layout, Selection } from '@antv/component';
+import { CategoryStyleProps } from '@antv/component/lib/ui/legend/types';
 import { get, isFunction } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
@@ -8,24 +8,28 @@ import type { CardinalPlacement } from '../types/placement';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
-interface Datum {
+interface Datum extends Record<string, any> {
   id?: string;
   label?: string;
   color?: string;
   marker?: string;
   elementType?: ElementType;
-  [key: string]: any;
 }
 
-export interface LegendOptions extends BasePluginOptions, Omit<CategoryOptions, 'data'> {
+/**
+ * <zh/> 图例配置项
+ *
+ * <en/> Legend options
+ */
+export interface LegendOptions extends BasePluginOptions, Omit<CategoryStyleProps, 'data'> {
   /**
-   * <zh/> 图例触发行为，可选 hover | click
-   * - hover：鼠标移入图例项时触发
-   * - click：鼠标点击图例项时触发
+   * <zh/> 图例触发行为
+   * - `'hover'`：鼠标移入图例项时触发
+   * - `'click'`：鼠标点击图例项时触发
    *
-   * <en/> Legend trigger behavior, optional hover | click
-   * - hover：mouseover the legend item
-   * - click：click the legend item
+   * <en/> Legend trigger behavior
+   * - `'hover'`：mouseover the legend item
+   * - `'click'`：click the legend item
    * @defaultValue 'hover'
    */
   trigger?: 'hover' | 'click';
@@ -49,13 +53,22 @@ export interface LegendOptions extends BasePluginOptions, Omit<CategoryOptions, 
    */
   edgeField?: string | ((item: ElementDatum) => string);
   /**
-   * <zh/> Combo分类标识
+   * <zh/> 组合分类标识
    *
    * <en/> Combo Classification Identifier
    */
   comboField?: string | ((item: ElementDatum) => string);
 }
 
+/**
+ * <zh/> 图例
+ *
+ * <en/> Legend
+ * @remarks
+ * <zh/> 图例插件用于展示图中元素的分类信息，支持节点、边、组合的分类信息展示。
+ *
+ * <en/> The legend plugin is used to display the classification information of elements in the graph, and supports the display of classification information of nodes, edges, and combos.
+ */
 export class Legend extends BasePlugin<LegendOptions> {
   static defaultOptions: Partial<LegendOptions> = {
     position: 'bottom',
@@ -88,6 +101,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    *
    * <en/> Update the legend configuration
    * @param options - <zh/> 图例配置项 | <en/> Legend configuration item
+   * @internal
    */
   public update(options: Partial<LegendOptions>) {
     super.update(options);
@@ -328,10 +342,10 @@ export class Legend extends BasePlugin<LegendOptions> {
       return;
     }
     const { canvas } = this.context;
-    const [canvasWidth, canvasHeiht] = canvas.getSize();
+    const [canvasWidth, canvasHeight] = canvas.getSize();
     const {
       width = canvasWidth,
-      height = canvasHeiht,
+      height = canvasHeight,
       nodeField,
       edgeField,
       comboField,
@@ -353,18 +367,20 @@ export class Legend extends BasePlugin<LegendOptions> {
       },
     });
 
-    const categoryStyle = {
-      width,
-      height,
-      data: items,
-      itemMarkerLineWidth: ({ lineWidth }: Datum) => lineWidth,
-      itemMarker: ({ marker }: Datum) => marker,
-      itemMarkerStroke: ({ stroke }: Datum) => stroke,
-      itemMarkerFill: ({ fill }: Datum) => fill,
-      gridCol: nodeItems.length,
-      ...rest,
-      ...this.getEvents(),
-    };
+    const categoryStyle = Object.assign(
+      {
+        width,
+        height,
+        data: items,
+        itemMarkerLineWidth: ({ lineWidth }: Datum) => lineWidth,
+        itemMarker: ({ marker }: Datum) => marker,
+        itemMarkerStroke: ({ stroke }: Datum) => stroke,
+        itemMarkerFill: ({ fill }: Datum) => fill,
+        gridCol: nodeItems.length,
+      },
+      rest,
+      this.getEvents(),
+    );
 
     const category = new Category({
       className: 'legend',

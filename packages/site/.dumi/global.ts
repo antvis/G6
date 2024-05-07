@@ -18,8 +18,11 @@ if (window) {
   window.ReactDOM = require('react-dom');
 
   // 用于文档中快速创建 ob demo 示例
-  window.createGraph = (options, style = {}) => {
+  window.createGraph = async (options, style = {}, renderPanel?: (gui) => void) => {
+    const $wrapper = document.createElement('div');
     const container = document.createElement('div');
+    $wrapper.appendChild(container);
+
     Object.entries(style).forEach(([key, value]) => {
       if (key === 'width' || key === 'height') {
         if (typeof value === 'number') {
@@ -36,8 +39,18 @@ if (window) {
       ...options,
     });
 
-    graph.render();
+    await graph.render();
 
-    return container;
+    if (renderPanel) {
+      const panelWidth = 245;
+      $wrapper.style.width = Number(style.width) + panelWidth + 'px';
+      $wrapper.style.height = Number(style.height) + 'px';
+      $wrapper.style.display = 'flex';
+
+      const gui = new (await import('lil-gui')).default({ container: $wrapper, autoPlace: false });
+      renderPanel(gui, graph);
+    }
+
+    return $wrapper;
   };
 }

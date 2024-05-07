@@ -29,10 +29,10 @@ const graphData = {
 const graph = new Graph({
   container: 'container',
   data: graphData,
-  height: 400,
   behaviors: ['drag-canvas', 'drag-element', 'zoom-canvas'],
   layout: {
     type: 'grid',
+    cols: 7,
   },
   plugins: [
     {
@@ -43,6 +43,8 @@ const graph = new Graph({
       loop: true,
     },
   ],
+  autoFit: 'view',
+  padding: [10, 0, 65, 0],
 });
 
 graph.render();

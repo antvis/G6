@@ -17,12 +17,10 @@ const graph = new Graph({
   data,
   node: {
     style: {
-      type: 'rect',
-      size: [80, 40],
+      size: 60,
       labelText: 'Drag Me!',
       labelPlacement: 'middle',
       labelFill: '#fff',
-      radius: 5,
     },
   },
   behaviors: ['drag-element'],

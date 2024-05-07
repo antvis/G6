@@ -1,12 +1,16 @@
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import { Point } from '../types';
-import { createPluginContainer } from '../utils/dom';
+import { createPluginContainer, insertBefore } from '../utils/dom';
 import { ViewportEvent } from '../utils/event';
 import { add, mod } from '../utils/vector';
-import type { BasePluginOptions } from './base-plugin';
-import { BasePlugin } from './base-plugin';
+import { BasePlugin, BasePluginOptions } from './base-plugin';
 
+/**
+ * <zh/> 网格线配置项
+ *
+ * <en/> Grid line options
+ */
 export interface GridLineOptions extends BasePluginOptions {
   /**
    * <zh/> 网格线颜色
@@ -48,6 +52,10 @@ export interface GridLineOptions extends BasePluginOptions {
    *
    * <en/> Border color
    * @defaultValue '#0001'
+   * @remarks
+   * <zh/> 完整属性定义参考 [CSS border-color](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-color)
+   *
+   * <en/> Refer to [CSS border-color](https://developer.mozilla.org/en-US/docs/Web/CSS/border-color) for the complete property definition
    */
   borderStroke?: string;
   /**
@@ -55,6 +63,10 @@ export interface GridLineOptions extends BasePluginOptions {
    *
    * <en/> Border style
    * @defaultValue 'solid'
+   * @remarks
+   * <zh/> 完整属性定义参考 [CSS border-style](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style)
+   *
+   * <en/> Refer to [CSS border-style](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style) for the complete property definition
    */
   borderStyle?: string;
   /**
@@ -70,18 +82,20 @@ export interface GridLineOptions extends BasePluginOptions {
  * <zh/> 网格线
  *
  * <en/> Grid line
+ * @remarks
+ * <zh/> 网格线插件，多用于辅助绘图
+ *
+ * <en/> Grid line plugin, often used to auxiliary drawing
  */
 export class GridLine extends BasePlugin<GridLineOptions> {
   static defaultOptions: Partial<GridLineOptions> = {
-    lineWidth: 1,
     border: true,
     borderLineWidth: 1,
-    borderStroke: '#0001',
+    borderStroke: '#eee',
     borderStyle: 'solid',
-    stroke: '#0001',
+    lineWidth: 1,
     size: 20,
-    tickCount: 4,
-    tickStrokeOpacity: 0.5,
+    stroke: '#eee',
   };
 
   private $element: HTMLElement = createPluginContainer('grid-line');
@@ -92,7 +106,7 @@ export class GridLine extends BasePlugin<GridLineOptions> {
     super(context, Object.assign({}, GridLine.defaultOptions, options));
 
     const $container = this.context.canvas.getContainer()!;
-    $container.appendChild(this.$element);
+    insertBefore($container, this.$element);
 
     this.updateStyle();
     this.bindEvents();
@@ -103,6 +117,7 @@ export class GridLine extends BasePlugin<GridLineOptions> {
    *
    * <en/> Update the configuration of the grid line
    * @param options - <zh/> 配置项 | <en/> options
+   * @internal
    */
   public update(options: Partial<GridLineOptions>) {
     super.update(options);

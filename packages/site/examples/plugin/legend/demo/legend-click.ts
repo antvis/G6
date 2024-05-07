@@ -4,34 +4,22 @@ const data = {
   nodes: [
     {
       id: '1',
-      style: {
-        type: 'circle',
-        fill: '#5B8FF9',
-      },
+      type: 'circle',
       data: { cluster: 'node-type1' },
     },
     {
       id: '2',
-      style: {
-        type: 'rect',
-        fill: '#5AD8A6',
-      },
+      type: 'rect',
       data: { cluster: 'node-type2' },
     },
     {
       id: '3',
-      style: {
-        type: 'triangle',
-        fill: '#5D7092',
-      },
+      type: 'triangle',
       data: { cluster: 'node-type3' },
     },
     {
       id: '4',
-      style: {
-        type: 'diamond',
-        fill: '#6F5EF9',
-      },
+      type: 'diamond',
       data: { cluster: 'node-type4' },
     },
   ],
@@ -40,10 +28,7 @@ const data = {
       id: '1-2',
       source: '1',
       target: '2',
-      style: {
-        type: 'quadratic',
-        stroke: '#F6BD16',
-      },
+      type: 'quadratic',
       data: { cluster: 'edge-type1' },
     },
     {
@@ -70,17 +55,11 @@ const graph = new Graph({
   container: 'container',
   data,
   node: {
-    style: {
-      labelPosition: 'bottom',
-      stroke: '#fff',
-      lineWidth: 4,
-    },
+    style: { size: 32 },
+    palette: { field: 'cluster' },
   },
   edge: {
-    style: {
-      stroke: '#fff',
-      lineWidth: 4,
-    },
+    palette: { field: 'cluster' },
   },
   layout: {
     type: 'force',
@@ -91,6 +70,9 @@ const graph = new Graph({
       nodeField: 'cluster',
       edgeField: 'cluster',
       trigger: 'click',
+      gridRow: 1,
+      gridCol: 4,
+      itemLabelFontSize: 12,
     },
   ],
 });

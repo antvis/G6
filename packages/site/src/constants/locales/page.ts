@@ -70,6 +70,8 @@ export const PageTitle: Record<string, string[]> = {
   Toolbar: ['Toolbar', '工具栏'],
   Tooltip: ['Tooltip', '提示框'],
   Watermark: ['Watermark', '水印'],
+  Timebar: ['Timebar', '时间条'],
+  Contextmenu: ['Contextmenu', '上下文菜单'],
 };
 
 // 节点、边、Combo 的中英文对照

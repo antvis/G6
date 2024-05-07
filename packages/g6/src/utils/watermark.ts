@@ -26,7 +26,7 @@ function createCanvas(width: number, height: number): HTMLCanvasElement {
  * @param style - 样式
  * @returns 水印的 base64
  */
-export async function getTextWateramrk(width: number, height: number, text: string, style: any) {
+export async function getTextWatermark(width: number, height: number, text: string, style: any) {
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d')!;
 

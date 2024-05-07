@@ -1,6 +1,6 @@
 ---
 title: ToolBar
-order: 4
+order: 8
 ---
 
 ToolBar is a build-in Component in G6, but not reigstered by default. It needs to be imported into the code and registered with the `extend` method, and then you could configured it to the graph instance.

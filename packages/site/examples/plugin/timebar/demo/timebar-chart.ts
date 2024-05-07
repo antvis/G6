@@ -28,11 +28,11 @@ const graphData = {
 
 const graph = new Graph({
   container: 'container',
-  height: 400,
   data: graphData,
   behaviors: ['drag-canvas', 'drag-element', 'zoom-canvas'],
   layout: {
     type: 'grid',
+    cols: 7,
   },
   plugins: [
     {
@@ -45,6 +45,8 @@ const graph = new Graph({
       timebarType: 'chart',
     },
   ],
+  autoFit: 'view',
+  padding: [10, 0, 160, 0],
 });
 
 graph.render();

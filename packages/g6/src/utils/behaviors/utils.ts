@@ -3,6 +3,7 @@ import { isFunction } from '@antv/util';
 import type { States } from '../../behaviors/types';
 import type { Graph } from '../../runtime/graph';
 import type { ID } from '../../types';
+import { idOf } from '../id';
 
 /**
  * <zh/> 获取所有元素状态.
@@ -17,7 +18,7 @@ export const getAllElementState = (graph: Graph, callback?: (id: ID, state: stri
   const datas = graph.getData();
   Object.values(datas).forEach((data) => {
     data.map((d: any) => {
-      const state = graph.getElementState(d.id);
+      const state = graph.getElementState(idOf(d));
       allElementState[d.id] = isFunction(callback) ? callback(d.id, state) : state;
     });
   });
