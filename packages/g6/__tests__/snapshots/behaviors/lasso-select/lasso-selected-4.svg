@@ -54,14 +54,11 @@
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,200)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle fill="none" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" r="12" stroke-dasharray="0,0" pointer-events="none"/>
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="3" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,0,12)">
             <g transform="matrix(1,0,0,1,0,0)">
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="13.5px" font-size="14" text-anchor="middle" font-weight="700">
+              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
                 node2
               </text>
             </g>

@@ -172,44 +172,31 @@ export function getPolygonIntersectPoint(
 }
 
 /**
- * <zh/> 判断点是否在多边形内部（射线法）
+ * <zh/> 判断点是否在多边形内部
  *
  * <en/> Whether point is inside the polygon (ray algo)
  * @param point - <zh/> 点 | <en/> point
  * @param points - <zh/> 多边形顶点 | <en/> polygon vertices
+ * @param start - <zh/> 起始索引 | <en/> start index
+ * @param end - <zh/> 结束索引 | <en/> end index
  * @returns <zh/> 是否在多边形内部 | <en/> whether inside the polygon
  */
-export function isPointInPolygon(point: Point, points: Point[]): boolean {
-  const [x, y] = point;
-  let isHit = false;
-  const n = points.length;
-  // 判断两个 double 在 eps 精度下的大小关系 | Determine the size relationship between two doubles within eps precision
-  const tolerance = 1e-6;
-
-  // svg 中点小于 3 个时，不显示，也无法被拾取 | When the number of points in the svg is less than 3, it is not displayed and cannot be picked up
-  if (n <= 2) return false;
-
-  const dcmp = (xValue: number) => {
-    if (Math.abs(xValue) < tolerance) {
-      return 0;
-    }
-    return xValue < 0 ? -1 : 1;
-  };
-
-  for (let i = 0; i < n; i++) {
-    const p1 = points[i];
-    const p2 = points[(i + 1) % n];
-    // 点在多边形一条边上 | The point is on one side of the polygon
-    if (isCollinear(p1, p2, point)) return true;
-    // 前一个判断min(p1[1],p2[1])<P.y<=max(p1[1],p2[1])；后一个判断被测点 在 射线与边交点 的左边
-    if (
-      dcmp(p1[1] - y) > 0 !== dcmp(p2[1] - y) > 0 &&
-      dcmp(x - ((y - p1[1]) * (p1[0] - p2[0])) / (p1[1] - p2[1]) - p1[0]) < 0
-    ) {
-      isHit = !isHit;
-    }
+export function isPointInPolygon(point: Point, points: Point[], start?: number, end?: number): boolean {
+  const x = point[0];
+  const y = point[1];
+  let inside = false;
+  if (start === undefined) start = 0;
+  if (end === undefined) end = points.length;
+  const len = end - start;
+  for (let i = 0, j = len - 1; i < len; j = i++) {
+    const xi = points[i + start][0];
+    const yi = points[i + start][1];
+    const xj = points[j + start][0];
+    const yj = points[j + start][1];
+    const intersect = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+    if (intersect) inside = !inside;
   }
-  return isHit;
+  return inside;
 }
 
 /**

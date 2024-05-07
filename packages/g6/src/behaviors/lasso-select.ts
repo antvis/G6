@@ -40,7 +40,6 @@ export class LassoSelect extends BrushSelect {
       this.clearLasso();
       return;
     }
-
     super.updateElementsStates(this.points);
 
     this.clearLasso();

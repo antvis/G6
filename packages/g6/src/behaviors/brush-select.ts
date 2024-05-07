@@ -179,12 +179,24 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
     this.clearBrush();
   }
 
+  /**
+   * <zh/> 清除状态
+   *
+   * <en/> Clear state
+   * @internal
+   */
   protected clearStates() {
     if (this.endPoint) return;
 
     this.clearElementsStates();
   }
 
+  /**
+   * <zh/> 清除画布上所有元素的状态
+   *
+   * <en/> Clear the state of all elements on the canvas
+   * @internal
+   */
   protected clearElementsStates() {
     const { graph } = this.context;
     const states = getAllElementState(graph, () => []);
@@ -192,6 +204,13 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
     graph.setElementState(states, this.options.animation);
   }
 
+  /**
+   * <zh/> 更新选中的元素状态
+   *
+   * <en/> Update the state of the selected elements
+   * @param points - <zh/> 框选区域的顶点 | <en/> The vertex of the selection area
+   * @internal
+   */
   protected updateElementsStates(points: Point[]) {
     const { graph } = this.context;
     const { enableElements, state, mode, onSelect } = this.options;
@@ -239,6 +258,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
    * @param points - <zh/> 框选区域的顶点 | <en/> The vertex of the selection area
    * @param itemTypes - <zh/> 元素类型 | <en/> Element type
    * @returns <zh/> 选中的元素 ID 数组 | <en/> Selected element ID array
+   * @internal
    */
   protected selector(graph: Graph, points: Point[], itemTypes: ElementType[]): ID[] {
     if (!itemTypes || itemTypes.length === 0) return [];
@@ -291,6 +311,14 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
     return this.shortcut!.match(keys);
   }
 
+  /**
+   * <zh/> 验证是否启用框选
+   *
+   * <en/> Verify whether brush select is enabled
+   * @param event - <zh/> 事件 | <en/> Event
+   * @returns <zh/> 是否启用 | <en/> Whether to enable
+   * @internal
+   */
   protected validate(event: IPointerEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
@@ -317,6 +345,23 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
     graph.off(`canvas:${CommonEvent.CLICK}`, this.clearStates);
   }
 
+  /**
+   * <zh/> 更新配置项
+   *
+   * <en/> Update configuration
+   * @param options - <zh/> 配置项 | <en/> Options
+   * @internal
+   */
+  public update(options: Partial<BrushSelectOptions>) {
+    this.options = deepMix(this.options, options);
+  }
+
+  /**
+   * <zh/> 销毁
+   *
+   * <en/> Destroy
+   * @internal
+   */
   public destroy() {
     this.unbindEvents();
     super.destroy();

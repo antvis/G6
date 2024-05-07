@@ -46,7 +46,10 @@ describe('behavior lasso select', () => {
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-2');
 
-    graph.setBehaviors([{ type: 'lasso-select', style: { fill: 'green', lineWidth: 2, stroke: 'blue' } }]);
+    graph.updateBehavior({
+      key: 'lasso-select',
+      style: { fill: 'green', lineWidth: 2, stroke: 'blue' },
+    });
 
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 100, y: 300 } });
@@ -62,7 +65,7 @@ describe('behavior lasso select', () => {
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-3');
 
-    graph.setBehaviors([{ type: 'lasso-select', trigger: 'shift' }]);
+    graph.updateBehavior({ key: 'lasso-select', trigger: 'shift' });
 
     graph.emit(CommonEvent.KEY_DOWN, { key: 'Shift' });
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
@@ -80,7 +83,7 @@ describe('behavior lasso select', () => {
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-4');
 
-    graph.setBehaviors([{ type: 'lasso-select', state: 'active', trigger: 'shift', immediately: true }]);
+    graph.updateBehavior({ key: 'lasso-select', state: 'active', trigger: 'shift', immediately: true });
 
     graph.emit(CommonEvent.KEY_DOWN, { key: 'Shift' });
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
@@ -98,7 +101,7 @@ describe('behavior lasso select', () => {
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-5');
 
-    graph.setBehaviors([{ type: 'lasso-select', mode: 'union', trigger: 'drag' }]);
+    graph.updateBehavior({ key: 'lasso-select', mode: 'union', trigger: 'drag' });
 
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 100, y: 500 } });
@@ -114,7 +117,7 @@ describe('behavior lasso select', () => {
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-mode-union');
 
-    graph.setBehaviors([{ type: 'lasso-select', mode: 'diff' }]);
+    graph.updateBehavior({ key: 'lasso-select', mode: 'diff' });
 
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 100, y: 500 } });
@@ -130,7 +133,7 @@ describe('behavior lasso select', () => {
     graph.emit(`canvas:${CommonEvent.CLICK}`);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-mode-diff');
 
-    graph.setBehaviors([{ type: 'lasso-select', mode: 'intersect' }]);
+    graph.updateBehavior({ key: 'lasso-select', mode: 'intersect' });
 
     graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
     graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 100, y: 500 } });

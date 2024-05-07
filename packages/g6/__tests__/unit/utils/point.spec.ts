@@ -198,6 +198,17 @@ describe('Point Functions', () => {
         ],
       ),
     ).toEqual(false);
+    expect(
+      isPointInPolygon(
+        [20, 30],
+        [
+          [0, 0],
+          [20, 0],
+          [20, 20],
+          [0, 20],
+        ],
+      ),
+    ).toEqual(false);
   });
 
   it('findNearestLine', () => {
