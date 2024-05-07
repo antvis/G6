@@ -45,7 +45,7 @@ describe('plugin tooltip', () => {
   it('show tooltip by id', async () => {
     const graph = await createDemoGraph(pluginTooltip);
     const tooltip = graph.getPluginInstance<Tooltip>('tooltip');
-    tooltip.showTooltipById('6', 'node');
+    tooltip.showById('6');
     await expect(graph).toMatchSnapshot(__filename, 'show-tooltip-by-id');
     graph.destroy();
   });
