@@ -8,7 +8,11 @@ import { eventTargetOf } from '../utils/event';
 import type { RuntimeContext } from './types';
 
 export class BehaviorController extends ExtensionController<BaseBehavior<CustomBehaviorOption>> {
-  /** <zh/> 当前事件的目标 | <en/> The current event target */
+  /**
+   * <zh/> 当前事件的目标
+   *
+   *  <en/> The current event target
+   */
   private currentTarget: Target | null = null;
 
   public category = 'behavior' as const;

@@ -30,7 +30,13 @@ export class LassoSelect extends BrushSelect<LassoSelectOptions> {
     this.bindEvents();
   }
 
-  public pointerDown = async (event: IPointerEvent) => {
+  /**
+   * </zh> 指针按下
+   *
+   * <en/> Pointer down
+   * @param event - <zh/> 指针事件对象 | <en/> pointer event object
+   */
+  protected pointerDown = async (event: IPointerEvent) => {
     if (!this.validate(event) || !this.isKeydown() || this.points) return;
     const { style, trigger } = this.options;
     const triggers = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
@@ -52,8 +58,13 @@ export class LassoSelect extends BrushSelect<LassoSelectOptions> {
 
     this.points = [[event.canvas.x, event.canvas.y]];
   };
-
-  public pointerMove = async (event: IPointerEvent) => {
+  /**
+   * </zh> 指针移动
+   *
+   * <en/> Pointer move
+   * @param event - <zh/> 指针事件对象 | <en/> pointer event object
+   */
+  protected pointerMove = async (event: IPointerEvent) => {
     if (!this.points) return;
     const { immediately, mode } = this.options;
     const { element } = this.context;
@@ -67,8 +78,12 @@ export class LassoSelect extends BrushSelect<LassoSelectOptions> {
     }
     await element?.draw({ animation: false, silence: true });
   };
-
-  public pointerUp = async () => {
+  /**
+   * </zh> 指针抬起
+   *
+   * <en/> Pointer up
+   */
+  protected pointerUp = async () => {
     if (!this.points) return;
     if (this.points.length < 2) {
       await this.clearLasso();
@@ -79,8 +94,12 @@ export class LassoSelect extends BrushSelect<LassoSelectOptions> {
 
     await this.clearLasso();
   };
-
-  public clearSelected = () => {
+  /**
+   * </zh> 清除选中元素的状态
+   *
+   * <en/> Clear the status of the selected element
+   */
+  protected clearSelected = () => {
     if (this.points) return;
 
     const { graph } = this.context;

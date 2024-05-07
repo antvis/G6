@@ -134,7 +134,11 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
     if (isFunction(enable)) return enable(event);
     return !!enable;
   }
-
+  /**
+   * <zh/> 销毁画布滚动
+   *
+   * <en/> Destroy the canvas scrolling
+   */
   public destroy(): void {
     this.shortcut.destroy();
     this.graphDom?.removeEventListener(CanvasEvent.WHEEL, this.onWheel);

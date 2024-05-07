@@ -13,24 +13,28 @@ export interface HoverElementOptions extends BaseBehaviorOptions {
    * <zh/> 是否启用动画
    *
    * <en/> Whether to enable animation
+   * @defaultValue true
    */
   animation?: boolean;
   /**
    * <zh/> 是否启用悬浮元素的功能
    *
    * <en/> Whether to enable hover element function
+   * @defaultValue true
    */
   enable?: boolean | ((event: IPointerEvent) => boolean);
   /**
    * <zh/> 激活元素的n度关系，默认为0，表示只激活当前节点，1表示激活当前节点及其直接相邻的节点和边，以此类推
    *
    * <en/> N-degree relationship of the hovered element, default to 0, which means only the current node is activated, 1 means the current node and its directly adjacent nodes and edges are activated, etc
+   * @defaultValue 0
    */
   degree?: number;
   /**
    * <zh/> 激活元素的状态，默认为 active
    *
    * <en/> Active element state, default to active
+   * @defaultValue 'active'
    */
   activeState?: State;
   /**

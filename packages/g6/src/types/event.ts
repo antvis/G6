@@ -53,12 +53,20 @@ export interface IAnimateEvent extends NativeEvent {
   data?: any;
 }
 
-/** <zh/> G6 原生事件 | <en/> G6 native event */
+/**
+ * <zh/> G6 原生事件
+ *
+ * <en/> G6 native event
+ */
 interface NativeEvent {
   type: string;
 }
 
-/** <zh/> 具有目标的事件 | <en/> Event with target */
+/**
+ * <zh/> 具有目标的事件
+ *
+ * <en/> Event with target
+ */
 type TargetedEvent<E extends FederatedEvent, T extends Target = Target> = Omit<E, 'target'> & {
   originalTarget: DisplayObject;
   target: T;

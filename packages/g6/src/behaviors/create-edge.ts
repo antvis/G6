@@ -14,19 +14,21 @@ export interface CreateEdgeOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用悬浮元素的功能
    *
-   * <en/> Whether to enable hover element function.
+   * <en/> Whether to enable hover element function
+   * @defaultValue true
    */
   enable?: boolean | ((event: IPointerEvent) => boolean);
   /**
    * <zh/> 边配置
    *
-   * <en/> edge config.
+   * <en/> edge config
    */
   style?: EdgeStyle;
   /**
    * <zh/> 交互配置 点击 或 拖拽
    *
    * <en/> trigger click or drag.
+   * @defaultValue 'drag'
    */
   trigger?: 'click' | 'drag';
   /**
