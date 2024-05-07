@@ -13,7 +13,7 @@ export type STDAnimation = ConfigurableAnimationOptions[];
 interface ConfigurableAnimationOptions extends AnimationEffectTiming {
   fields: string[];
   shape?: string;
-  states?: string[];
+  states?: State[];
 }
 
 export interface AnimationContext {

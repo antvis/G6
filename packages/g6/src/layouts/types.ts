@@ -1,5 +1,7 @@
 import type {
   AntVDagreLayoutOptions,
+  LayoutWithIterations as AntVIterativeLayout,
+  Layout as AntVNonIterativeLayout,
   CircularLayoutOptions,
   ConcentricLayoutOptions,
   D3Force3DLayoutOptions,
@@ -14,6 +16,7 @@ import type {
   RandomLayoutOptions,
 } from '@antv/layout';
 import type { NodeData } from '../spec/data';
+import type { BaseLayout } from './base-layout';
 
 export type BuiltInLayoutOptions =
   | AntVDagreLayout
@@ -44,7 +47,7 @@ export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOpti
    * @param node - <zh/> 节点数据 | <en/> node data
    * @returns <zh/> 是否参与布局 | <en/> Whether to participate in the layout
    */
-  nodesFilter?: (node: NodeData) => boolean;
+  nodeFilter?: (node: NodeData) => boolean;
 }
 
 interface CircularLayout extends BaseLayoutOptions, CircularLayoutOptions {
@@ -122,3 +125,7 @@ export interface WebWorkerLayoutOptions {
    */
   iterations?: number;
 }
+
+export type AntVLayout = AntVNonIterativeLayout<any> | AntVIterativeLayout<any>;
+
+export type Layout = BaseLayout | AntVLayout;

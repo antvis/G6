@@ -1,5 +1,16 @@
-import { isNumber } from '@antv/util';
+import { Graph as Graphlib } from '@antv/graphlib';
+import { deepMix, isNumber } from '@antv/util';
+import { COMBO_KEY } from '../constants';
+import { BaseLayout } from '../layouts/base-layout';
+import { idOf } from './id';
+import { parsePoint } from './point';
+
+import type { LayoutMapping, Graph as LayoutModel, Node as LayoutNodeData } from '@antv/layout';
+import type { AntVLayout } from '../layouts/types';
+import type { RuntimeContext } from '../runtime/types';
+import type { GraphData } from '../spec/data';
 import type { STDLayoutOptions } from '../spec/layout';
+import type { AdaptiveLayout, ID } from '../types';
 
 /**
  * <zh/> 判断是否是 combo 布局
@@ -36,4 +47,195 @@ export function isTreeLayout(options: STDLayoutOptions) {
  */
 export function isPositionSpecified(data: Record<string, unknown>) {
   return isNumber(data.x) && isNumber(data.y);
+}
+
+/**
+ * <zh/> 将图布局结果转换为 G6 数据
+ *
+ * <en/> Convert the layout result to G6 data
+ * @param layoutMapping - <zh/> 布局映射 | <en/> Layout mapping
+ * @returns <zh/> G6 数据 | <en/> G6 data
+ */
+export function layoutMapping2GraphData(layoutMapping: LayoutMapping): GraphData {
+  const { nodes, edges } = layoutMapping;
+  const data: GraphData = { nodes: [], edges: [], combos: [] };
+
+  nodes.forEach((nodeLike) => {
+    const target = nodeLike.data._isCombo ? data.combos : data.nodes;
+    const { x, y, z = 0 } = nodeLike.data;
+    target?.push({
+      id: nodeLike.id as ID,
+      style: { x, y, z },
+    });
+  });
+
+  edges.forEach((edge) => {
+    const {
+      id,
+      source,
+      target,
+      data: { points = [], controlPoints = points.slice(1, points.length - 1) },
+    } = edge;
+
+    data.edges!.push({
+      id: id as ID,
+      source: source as ID,
+      target: target as ID,
+      style: {
+        /**
+         * antv-dagre 返回 controlPoints，dagre 返回 points
+         * antv-dagre returns controlPoints, dagre returns points
+         */
+        ...(controlPoints?.length ? { controlPoints: controlPoints.map(parsePoint) } : {}),
+      },
+    });
+  });
+
+  return data;
+}
+
+/**
+ * <zh/> 将 @antv/layout 布局适配为 G6 布局
+ *
+ * <en/> Adapt @antv/layout layout to G6 layout
+ * @param Ctor - <zh/> 布局类 | <en/> Layout class
+ * @param context - <zh/> 运行时上下文 | <en/> Runtime context
+ * @returns <zh/> G6 布局类 | <en/> G6 layout class
+ */
+export function layoutAdapter(
+  Ctor: new (options?: any) => AntVLayout,
+  context: RuntimeContext,
+): new (options?: any) => BaseLayout {
+  class AdaptLayout extends BaseLayout implements AdaptiveLayout {
+    public instance: AntVLayout;
+
+    public id: string;
+
+    constructor(options?: Record<string, unknown>) {
+      super(options);
+      this.instance = new Ctor();
+      this.id = this.instance.id;
+
+      if ('stop' in this.instance && 'tick' in this.instance) {
+        const instance = this.instance;
+        this.stop = instance.stop.bind(instance);
+        this.tick = (iterations?: number) => {
+          const tickResult = instance.tick(iterations);
+          return layoutMapping2GraphData(tickResult);
+        };
+      }
+    }
+
+    public async execute(model: GraphData, options?: STDLayoutOptions): Promise<GraphData> {
+      return layoutMapping2GraphData(
+        await this.instance.execute(
+          this.graphData2LayoutModel(model),
+          this.transformOptions(deepMix({}, this.options, options)),
+        ),
+      );
+    }
+
+    private transformOptions(options: STDLayoutOptions) {
+      const { onTick } = options;
+
+      if (!onTick) return options;
+      options.onTick = (data: LayoutMapping) => onTick(layoutMapping2GraphData(data));
+      return options;
+    }
+
+    public graphData2LayoutModel(data: GraphData): LayoutModel {
+      const { nodes = [], edges = [], combos = [] } = data;
+      const nodesToLayout: LayoutNodeData[] = nodes.map((datum) => {
+        const id = idOf(datum);
+        const { data, style } = datum;
+        return {
+          id,
+          data: {
+            ...data,
+            // antv-dagre 会读取 data.parentId
+            // antv-dagre will read data.parentId
+            ...(style?.parentId ? { parentId: style.parentId } : {}),
+          },
+          style: { ...style },
+        };
+      });
+      const nodesIdMap = new Map(nodesToLayout.map((node) => [node.id, node]));
+
+      const edgesToLayout = edges
+        .filter((edge) => {
+          const { source, target } = edge;
+          return nodesIdMap.has(source) && nodesIdMap.has(target);
+        })
+        .map((edge) => {
+          const { source, target, data, style } = edge;
+          return { id: idOf(edge), source, target, data: { ...data }, style: { ...style } };
+        });
+
+      const combosToLayout: LayoutNodeData[] = combos.map((combo) => {
+        return { id: idOf(combo), data: { _isCombo: true, ...combo.data }, style: { ...combo.style } };
+      });
+
+      const layoutModel = new Graphlib({
+        nodes: [...nodesToLayout, ...combosToLayout],
+        edges: edgesToLayout,
+      });
+
+      if (context.model.model.hasTreeStructure(COMBO_KEY)) {
+        layoutModel.attachTreeStructure(COMBO_KEY);
+        // 同步层级关系 / Synchronize hierarchical relationships
+        nodesToLayout.forEach((node) => {
+          const parent = context.model.model.getParent(node.id, COMBO_KEY);
+          if (parent && layoutModel.hasNode(parent.id)) {
+            layoutModel.setParent(node.id, parent.id, COMBO_KEY);
+          }
+        });
+      }
+
+      return layoutModel;
+    }
+  }
+
+  return AdaptLayout;
+}
+
+/**
+ * <zh/> 调用布局成员方法
+ *
+ * <en/> Call layout member methods
+ * @description
+ * <zh/> 提供一种通用的调用方式来调用 G6 布局和 @antv/layout 布局上的方法
+ *
+ * <en/> Provide a common way to call methods on G6 layout and @antv/layout layout
+ * @param layout - <zh/> 布局实例 | <en/> Layout instance
+ * @param method - <zh/> 方法名 | <en/> Method name
+ * @param args - <zh/> 参数 | <en/> Arguments
+ * @returns <zh/> 返回值 | <en/> Return value
+ */
+export function invokeLayoutMethod(layout: BaseLayout, method: string, ...args: unknown[]) {
+  if (method in layout) {
+    return (layout as any)[method](...args);
+  }
+  // invoke AdaptLayout method
+  if ('instance' in layout) {
+    const instance = (layout as any).instance;
+    if (method in instance) return instance[method](...args);
+  }
+  return null;
+}
+
+/**
+ * <zh/> 获取布局成员属性
+ *
+ * <en/> Get layout member properties
+ * @param layout - <zh/> 布局实例 | <en/> Layout instance
+ * @param name - <zh/> 属性名 | <en/> Property name
+ * @returns <zh/> 返回值 | <en/> Return value
+ */
+export function getLayoutProperty(layout: BaseLayout, name: string) {
+  if (name in layout) return (layout as any)[name];
+  if ('instance' in layout) {
+    const instance = (layout as any).instance;
+    if (name in instance) return instance[name];
+  }
+  return null;
 }

@@ -1,7 +1,7 @@
 // ref: https://observablehq.com/@d3/collision-detection
 import type { IPointerEvent, RuntimeContext } from '@/src';
 import { BaseBehavior, ExtensionCategory, Graph, register } from '@/src';
-import type { D3Force3DLayout, D3ForceLayout } from '@antv/layout';
+import { invokeLayoutMethod } from '@/src/utils/layout';
 
 export const layoutForceCollision: TestCase = async (context) => {
   const width = 500;
@@ -19,11 +19,13 @@ export const layoutForceCollision: TestCase = async (context) => {
 
     onPointerMove(event: IPointerEvent) {
       const pos = this.context.graph.getCanvasByClient([event.client.x, event.client.y]);
-      (
-        this.context.layout?.getLayoutInstance().find((layout) => ['d3-force', 'd3-force-3d'].includes(layout?.id)) as
-          | D3Force3DLayout
-          | D3ForceLayout
-      ).setFixedPosition('0', [...pos]);
+      const layoutInstance = this.context.layout
+        ?.getLayoutInstance()
+        .find((layout) => ['d3-force', 'd3-force-3d'].includes(layout?.id));
+
+      if (layoutInstance) {
+        invokeLayoutMethod(layoutInstance, 'setFixedPosition', '0', [...pos]);
+      }
     }
   }
 
@@ -43,9 +45,7 @@ export const layoutForceCollision: TestCase = async (context) => {
         strength: 0.01,
       },
       collide: {
-        radius: (d) => {
-          return d.data.size / 2;
-        },
+        radius: (d) => d.data.r,
         iterations: 3,
       },
       manyBody: {
@@ -55,7 +55,7 @@ export const layoutForceCollision: TestCase = async (context) => {
     },
     node: {
       style: {
-        size: (d) => (d.id === '0' ? 0 : (d.data!.r as number) * 4),
+        size: (d) => (d.id === '0' ? 0 : (d.data!.r as number) * 2),
       },
       palette: {
         color: 'tableau',
@@ -72,7 +72,7 @@ export const layoutForceCollision: TestCase = async (context) => {
 
 function getData(width: number, size = 200) {
   const k = width / 200;
-  const r = randomUniform(k, k * 4);
+  const r = randomUniform(k * 2, k * 8);
   const n = 4;
   return {
     nodes: Array.from({ length: size }, (_, i) => ({ id: `${i}`, data: { r: r(), group: i && (i % n) + 1 } })),

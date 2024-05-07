@@ -1,5 +1,5 @@
 import { commonGraph } from '@/__tests__/demos/common-graph';
-import { Graph } from '@/src';
+import { Graph, idOf } from '@/src';
 import data from '@@/dataset/cluster.json';
 import { createDemoGraph } from '@@/utils';
 
@@ -8,7 +8,6 @@ describe('Graph', () => {
   beforeAll(async () => {
     graph = await createDemoGraph(commonGraph, { animation: false });
   });
-  const idOf = (d: any) => d.id;
 
   it('getOptions/setOptions', () => {
     graph.setOptions({ zoomRange: [-10, 10] });

@@ -15,3 +15,4 @@ export {
   RadialLayout,
   RandomLayout,
 } from '@antv/layout';
+export { BaseLayout } from './base-layout';
