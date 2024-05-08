@@ -1,121 +1,53 @@
 import { Path } from '@antv/g';
-import { isBBoxIntersectPolygon } from '../utils/behaviors/lasso';
-import { getAllElementState } from '../utils/behaviors/utils';
+import type { IPointerEvent, Points } from '../types';
 import { pointsToPath } from '../utils/path';
-import { BrushSelect, DEFAULT_STYLE } from './brush-select';
-
-import type { RuntimeContext } from '../runtime/types';
-import type { ID, IPointerEvent, Points, State } from '../types';
 import type { BrushSelectOptions } from './brush-select';
-
-const SHOW_PATH_ID = 'g6-lasso-select-path-id';
-
-export type States = Record<ID, State | State[]>;
+import { BrushSelect, getCursorPoint } from './brush-select';
 
 export interface LassoSelectOptions extends BrushSelectOptions {}
 
-export class LassoSelect extends BrushSelect<LassoSelectOptions> {
-  static defaultOptions: Partial<LassoSelectOptions> = {
-    ...BrushSelect.defaultOptions,
-    style: DEFAULT_STYLE,
-  };
-
+export class LassoSelect extends BrushSelect {
   private points?: Points;
   private pathShape?: Path;
 
-  public selectElementFn = isBBoxIntersectPolygon;
-
-  constructor(context: RuntimeContext, options: LassoSelectOptions) {
-    super(context, Object.assign({}, LassoSelect.defaultOptions, options));
-    this.bindEvents();
-  }
-
-  /**
-   * </zh> 指针按下
-   *
-   * <en/> Pointer down
-   * @param event - <zh/> 指针事件对象 | <en/> pointer event object
-   */
-  protected pointerDown = async (event: IPointerEvent) => {
-    if (!this.validate(event) || !this.isKeydown() || this.points) return;
-    const { style, trigger } = this.options;
-    const triggers = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
-    if (event.targetType !== 'canvas' && triggers.includes('drag')) return;
-
+  protected onPointerDown(event: IPointerEvent) {
+    if (!super.validate(event) || !super.isKeydown() || this.points) return;
     const { canvas } = this.context;
 
     this.pathShape = new Path({
-      id: SHOW_PATH_ID,
-      style: {
-        ...LassoSelect.defaultOptions.style,
-        fill: style.fill || DEFAULT_STYLE.fill,
-        ...style,
-        pointerEvents: 'none',
-      },
+      id: 'g6-lasso-select',
+      style: this.options.style,
     });
 
     canvas.appendChild(this.pathShape);
 
-    this.points = [[event.canvas.x, event.canvas.y]];
-  };
-  /**
-   * </zh> 指针移动
-   *
-   * <en/> Pointer move
-   * @param event - <zh/> 指针事件对象 | <en/> pointer event object
-   */
-  protected pointerMove = async (event: IPointerEvent) => {
+    this.points = [getCursorPoint(event)];
+  }
+
+  protected onPointerMove(event: IPointerEvent) {
     if (!this.points) return;
     const { immediately, mode } = this.options;
-    const { element } = this.context;
 
-    this.points.push([event.canvas.x, event.canvas.y]);
-
+    this.points.push(getCursorPoint(event));
     this.pathShape?.setAttribute('path', pointsToPath(this.points));
 
-    if (immediately && mode === 'default') {
-      this.lassoUpdateElementState();
-    }
-    await element?.draw({ animation: false, silence: true });
-  };
-  /**
-   * </zh> 指针抬起
-   *
-   * <en/> Pointer up
-   */
-  protected pointerUp = async () => {
+    if (immediately && mode === 'default' && this.points.length > 2) super.updateElementsStates(this.points);
+  }
+
+  protected onPointerUp() {
     if (!this.points) return;
     if (this.points.length < 2) {
-      await this.clearLasso();
+      this.clearLasso();
       return;
     }
+    super.updateElementsStates(this.points);
 
-    this.lassoUpdateElementState();
+    this.clearLasso();
+  }
 
-    await this.clearLasso();
-  };
-  /**
-   * </zh> 清除选中元素的状态
-   *
-   * <en/> Clear the status of the selected element
-   */
-  protected clearSelected = () => {
-    if (this.points) return;
-
-    const { graph } = this.context;
-    const selects = getAllElementState(graph, () => []);
-
-    graph.setElementState(selects, this.options.animation);
-  };
-
-  private lassoUpdateElementState = () => {
-    if (!this.points || this.points?.length < 2) return;
-    this.updateElementState(this.points);
-  };
-
-  private clearLasso = async () => {
+  private clearLasso() {
     this.pathShape?.remove();
     this.pathShape = undefined;
     this.points = undefined;
-  };
+  }
 }

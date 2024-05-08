@@ -1,21 +1,16 @@
+import type { RectStyleProps } from '@antv/g';
 import { Rect } from '@antv/g';
-import { isFunction } from '@antv/util';
+import { deepMix, isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
-import { getRectPoints, isBBoxCenterInRect } from '../utils/behaviors/brush';
-import { getAllElementState, transformEdgeState } from '../utils/behaviors/utils';
-import { Shortcut } from '../utils/shortcut';
-import { BaseBehavior } from './base-behavior';
-
+import { idOf } from '../exports';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
-import type { NodeStyle } from '../spec/element/node';
-import type { ElementType, ID, IPointerEvent, Point, Points, State } from '../types';
+import type { ElementDatum, ElementType, ID, IPointerEvent, Point, State } from '../types';
+import { getBoundingPoints, isPointInPolygon } from '../utils/point';
 import type { ShortcutKey } from '../utils/shortcut';
+import { Shortcut } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
-
-const SHOW_RECT_ID = 'g6-brush-select-rect-id';
-
-export type States = Record<ID, State | State[]>;
+import { BaseBehavior } from './base-behavior';
 
 /**
  * <zh/> 框选配置项
@@ -23,6 +18,13 @@ export type States = Record<ID, State | State[]>;
  * <en/> Brush select options
  */
 export interface BrushSelectOptions extends BaseBehaviorOptions {
+  /**
+   * <zh/> 是否启用动画
+   *
+   * <en/> Whether to enable animation.
+   * @defaultValue false
+   */
+  animation?: boolean;
   /**
    * <zh/> 是否启用框选功能
    *
@@ -33,96 +35,87 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 可框选的元素类型
    *
-   * <en/> Enable Elements type
+   * <en/> Enable Elements type.
    * @defaultValue ['node', 'combo', 'edge']
    */
   enableElements?: ElementType[];
   /**
-   * <zh/> 是否启用动画
+   * <zh/> 按下该快捷键配合鼠标点击进行框选
    *
-   * <en/> Whether to enable animation.
-   * @defaultValue false
-   */
-  animation?: boolean;
-  /**
-   * <zh/> 交互配置 按键拖拽 或 直接拖拽
+   * <en/> Press this shortcut key to apply brush select with mouse click.
+   * @remarks
+   * <zh/> 注意，`trigger` 设置为 `['drag']` 时会导致 `drag-canvas` 行为失效。两者不可同时配置。
    *
-   * <en/> Trigger click or drag
-   * @defaultValue ['drag']
+   * <en/> Note that setting `trigger` to `['drag']` will cause the `drag-canvas` behavior to fail. The two cannot be configured at the same time.
+   * @defaultValue ['shift']
    */
   trigger?: ShortcutKey;
   /**
-   * <zh/> 框选选中模式
-   * - union : 选中元素添加 state 状态
-   * - intersect : 进一步筛选已经 state 开启的元素
-   * - diff : 反转选中元素的 state 状态
-   * - default : 选中元素添加 state 状态, 其他元素 state 关闭
+   * <zh/> 被选中时切换到该状态
    *
-   * <en/> Box Select Select the mode
-   * - union : Select element add state
-   * - intersect : Further filter the elements that are already state enabled
-   * - diff : Inverts the state of the selected element
-   * - default : Check element state to turn on and other elements state to turn off
-   * @defaultValue 'default'
-   */
-  mode?: 'union' | 'intersect' | 'diff' | 'default';
-  /**
-   * <zh/> 指定选中时状态
-   *
-   * <en/> Specify the state when selected
+   * <en/> The state to switch to when selected.
    * @defaultValue 'selected'
    */
   state?: State;
   /**
-   * <zh/> 及时框选, 在框选模式为 default 时，才能使用
+   * <zh/> 框选的选择模式
+   * - `'union'`：保持已选元素的当前状态，并添加指定的 state 状态。
+   * - `'intersect'`：如果已选元素已有指定的 state 状态，则保留；否则清除该状态。
+   * - `'diff'`：对已选元素的指定 state 状态进行取反操作。
+   * - `'default'`：清除已选元素的当前状态，并添加指定的 state 状态。
    *
-  //  * TODO fixme
-   * <en/> Timely screening
+   * <en/> Brush select mode
+   * - `'union'`: Keep the current state of the selected elements and add the specified state.
+   * - `'intersect'`: If the selected elements already have the specified state, keep it; otherwise, clearBrush it.
+   * - `'diff'`: Perform a negation operation on the specified state of the selected elements.
+   * - `'default'`: Clear the current state of the selected elements and add the specified state.
+   * @defaultValue 'default'
+   */
+  mode?: 'union' | 'intersect' | 'diff' | 'default';
+  /**
+   * <zh/> 是否及时框选, 仅在框选模式为 `default` 时生效
+   *
+   * <en/> Whether to brush select immediately, only valid when the brush select mode is `default`
    * @defaultValue false
    */
   immediately?: boolean;
   /**
-   * <zh/> 框选框样式
+   * <zh/> 框选 框样式
    *
-   * <en/> Brush select box style
+   * <en/> Timely screening.
    */
-  style?: NodeStyle;
+  style?: RectStyleProps;
   /**
-   * <zh/> 选中元素时的回调
+   * <zh/> 框选元素状态回调。
    *
-   * <en/> Callback when selecting elements
-   * @param states - <zh/> 选中的元素状态 | <en/> Selected element state
-   * @returns <zh/> 元素状态 | <en/> Element state
+   * <en/> Callback when brush select elements.
+   * @param states - 选中的元素状态
+   * @returns 选中的元素状态
    */
-  onSelect?: (states: States) => States;
+  onSelect?: (states: Record<ID, State | State[]>) => Record<ID, State | State[]>;
 }
-
-export const DEFAULT_STYLE = {
-  lineWidth: 1,
-  fill: '#EEF6FF',
-  stroke: '#DDEEFE',
-  fillOpacity: 0.4,
-  zIndex: 2,
-};
-
 /**
  * <zh/> 框选一组元素
  *
  * <en/> Brush select elements
  */
-export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> extends BaseBehavior<T> {
+export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
   static defaultOptions: Partial<BrushSelectOptions> = {
-    enable: true,
-    trigger: ['drag'],
-    immediately: false,
-    state: 'selected',
-    mode: 'default',
     animation: false,
+    enable: true,
     enableElements: ['node', 'combo', 'edge'],
+    immediately: false,
+    mode: 'default',
+    state: 'selected',
+    trigger: ['shift'],
     style: {
-      size: 0,
-      type: 'rect',
-      ...DEFAULT_STYLE,
+      width: 0,
+      height: 0,
+      lineWidth: 1,
+      fill: '#EEF6FF',
+      stroke: '#DDEEFE',
+      fillOpacity: 0.4,
+      zIndex: 2,
       pointerEvents: 'none',
     },
   };
@@ -130,55 +123,35 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
   private startPoint?: Point;
   private endPoint?: Point;
   private rectShape?: Rect;
-  public shortcut?: Shortcut;
+  private shortcut?: Shortcut;
 
-  public selectElementFn: (graph: Graph, id: ID, points: Points) => boolean = isBBoxCenterInRect;
-
-  constructor(context: RuntimeContext, options: T) {
-    super(context, Object.assign({}, BrushSelect.defaultOptions, options));
+  constructor(context: RuntimeContext, options: BrushSelectOptions) {
+    super(context, deepMix({}, BrushSelect.defaultOptions, options));
     this.shortcut = new Shortcut(context.graph);
-    if (options.type === 'lasso-select') return;
+
+    this.onPointerDown = this.onPointerDown.bind(this);
+    this.onPointerMove = this.onPointerMove.bind(this);
+    this.onPointerUp = this.onPointerUp.bind(this);
+    this.clearStates = this.clearStates.bind(this);
+
     this.bindEvents();
   }
 
-  /**
-   * <zh/> 指针按下
-   *
-   * <en/> pointer down
-   * @param event - <zh/> 指针事件 | <en/> pointer event
-   */
-  protected pointerDown = async (event: IPointerEvent) => {
+  protected onPointerDown(event: IPointerEvent) {
     if (!this.validate(event) || !this.isKeydown() || this.startPoint) return;
-    const { style, trigger } = this.options;
-    const triggers = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
-    if (event.targetType !== 'canvas' && triggers.includes('drag')) return;
     const { canvas } = this.context;
 
-    this.rectShape = new Rect({
-      id: SHOW_RECT_ID,
-      style: {
-        ...BrushSelect.defaultOptions.style,
-        fill: style.fill || DEFAULT_STYLE.fill,
-        ...style,
-        pointerEvents: 'none',
-      },
-    });
-
+    this.rectShape = new Rect({ id: 'g6-brush-select', style: this.options.style });
     canvas.appendChild(this.rectShape);
 
     this.startPoint = [event.canvas.x, event.canvas.y];
-  };
-  /**
-   * <zh/> 指针移动
-   *
-   * <en/> pointer move
-   * @param event - <zh/> 指针事件 | <en/> pointer event
-   */
-  protected pointerMove = async (event: IPointerEvent) => {
+  }
+
+  protected onPointerMove(event: IPointerEvent) {
     if (!this.startPoint) return;
     const { immediately, mode } = this.options;
 
-    this.endPoint = [event.canvas.x, event.canvas.y];
+    this.endPoint = getCursorPoint(event);
 
     this.rectShape?.attr({
       x: Math.min(this.endPoint[0], this.startPoint[0]),
@@ -187,156 +160,170 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
       height: Math.abs(this.endPoint[1] - this.startPoint[1]),
     });
 
-    if (immediately && mode === 'default') {
-      this.updateElementState(getRectPoints(this.startPoint, this.endPoint));
-    }
-  };
-  /**
-   * <zh/> 指针抬起
-   *
-   * <en/> pointer up
-   * @param event - <zh/> 指针事件 | <en/> pointer event
-   */
-  protected pointerUp = async (event: IPointerEvent) => {
+    if (immediately && mode === 'default') this.updateElementsStates(getBoundingPoints(this.startPoint, this.endPoint));
+  }
+
+  protected onPointerUp(event: IPointerEvent) {
     if (!this.startPoint) return;
     if (!this.endPoint) {
-      await this.clearBrush();
+      this.clearBrush();
       return;
     }
 
-    const points = getRectPoints(this.startPoint, [event.canvas.x, event.canvas.y]);
-    this.updateElementState(points);
+    this.endPoint = getCursorPoint(event);
+    this.updateElementsStates(getBoundingPoints(this.startPoint, this.endPoint));
 
-    await this.clearBrush();
-  };
+    this.clearBrush();
+  }
 
   /**
-   * <zh/> 清空框选
+   * <zh/> 清除状态
    *
-   * <en/> clear brush
-   * @remarks
-   * <zh/> 点击画布时触发
-   *
-   * <en/> Triggered when clicking the canvas
+   * <en/> Clear state
+   * @internal
    */
-  protected clearSelected = () => {
+  protected clearStates() {
     if (this.endPoint) return;
 
-    const { graph } = this.context;
-    const selects = getAllElementState(graph, () => []);
-
-    graph.setElementState(selects, this.options.animation);
-  };
+    this.clearElementsStates();
+  }
 
   /**
-   * <zh/> 更新框选区域元素状态
+   * <zh/> 清除画布上所有元素的状态
    *
-   * <en/> Update the state of the elements in the box selection area
-   * @param points - <zh/> 形成框选区域的点的坐标 | <en/> The coordinates of the points forming the box selection area
+   * <en/> Clear the state of all elements on the canvas
+   * @internal
    */
-  public updateElementState = (points: Points) => {
+  protected clearElementsStates() {
+    const { graph } = this.context;
+    const states = Object.values(graph.getData()).reduce((acc, data) => {
+      return Object.assign(
+        {},
+        acc,
+        data.reduce((acc: Record<ID, []>, datum: ElementDatum) => {
+          acc[idOf(datum)] = [];
+          return acc;
+        }, {}),
+      );
+    }, {});
+
+    graph.setElementState(states, this.options.animation);
+  }
+
+  /**
+   * <zh/> 更新选中的元素状态
+   *
+   * <en/> Update the state of the selected elements
+   * @param points - <zh/> 框选区域的顶点 | <en/> The vertex of the selection area
+   * @internal
+   */
+  protected updateElementsStates(points: Point[]) {
     const { graph } = this.context;
     const { enableElements, state, mode, onSelect } = this.options;
 
-    // 框选选中的 ids
-    const rectSelectIds = this.getPointsSelectIds(graph, points, enableElements);
+    const selectedIds = this.selector(graph, points, enableElements);
 
-    // state mode 框选逻辑
-    let stateChangeFn = (id: ID, oldState: string[]): string[] => (rectSelectIds.includes(id) ? [state] : []);
+    let states: Record<ID, State | State[]> = {};
 
     switch (mode) {
       case 'union':
-        stateChangeFn = (id: ID, oldState: string[]) => (rectSelectIds.includes(id) ? [state] : oldState);
+        selectedIds.forEach((id) => {
+          states[id] = [...graph.getElementState(id), state];
+        });
         break;
       case 'diff':
-        stateChangeFn = (id: ID, oldState: string[]) => {
-          if (rectSelectIds.includes(id)) {
-            return oldState.includes(state) ? [] : [state];
-          }
-          return oldState;
-        };
+        selectedIds.forEach((id) => {
+          const prevStates = graph.getElementState(id);
+          states[id] = prevStates.includes(state) ? prevStates.filter((s) => s !== state) : [...prevStates, state];
+        });
         break;
       case 'intersect':
-        stateChangeFn = (id: ID, oldState: string[]) => {
-          if (rectSelectIds.includes(id)) {
-            return oldState.includes(state) ? [state] : [];
-          }
-          return oldState;
-        };
+        selectedIds.forEach((id) => {
+          const prevStates = graph.getElementState(id);
+          states[id] = prevStates.includes(state) ? [state] : [];
+        });
+        break;
+      case 'default':
+      default:
+        selectedIds.forEach((id) => {
+          states[id] = [state];
+        });
         break;
     }
 
-    let states = getAllElementState(graph, stateChangeFn);
-    if (enableElements.includes('edge')) {
-      transformEdgeState(graph, states, state);
-    }
-    if (isFunction(onSelect)) {
-      states = onSelect(states);
-    }
-    graph.setElementState(states, this.options.animation);
-  };
+    if (isFunction(onSelect)) states = onSelect(states);
 
-  private clearBrush = async () => {
+    graph.setElementState(states, this.options.animation);
+  }
+
+  /**
+   * <zh/> 查找画布上在指定区域内显示的元素。当节点的包围盒中心在矩形内时，节点被选中；当边的两端节点在矩形内时，边被选中；当 combo 的包围盒中心在矩形内时，combo 被选中。
+   *
+   * <en/> Find the elements displayed in the specified area on the canvas. A node is selected if the center of its bbox is inside the rect; An edge is selected if both end nodes are inside the rect ;A combo is selected if the center of its bbox is inside the rect.
+   * @param graph - <zh/> 图实例 | <en/> Graph instance
+   * @param points - <zh/> 框选区域的顶点 | <en/> The vertex of the selection area
+   * @param itemTypes - <zh/> 元素类型 | <en/> Element type
+   * @returns <zh/> 选中的元素 ID 数组 | <en/> Selected element ID array
+   * @internal
+   */
+  protected selector(graph: Graph, points: Point[], itemTypes: ElementType[]): ID[] {
+    if (!itemTypes || itemTypes.length === 0) return [];
+
+    const elements: ID[] = [];
+
+    const graphData = graph.getData();
+    itemTypes.forEach((itemType) => {
+      const data = graphData[`${itemType}s`];
+      data?.forEach((datum) => {
+        const id = idOf(datum);
+        if (graph.getElementVisibility(id) !== 'hidden' && isPointInPolygon(graph.getElementPosition(id), points)) {
+          elements.push(id);
+        }
+      });
+    });
+
+    // 如果边的两端节点都在框选范围内，则边也被选中 | If source node and target node are within the selection range, that edge is also selected
+    if (itemTypes.includes('edge')) {
+      const edges = graphData.edges;
+      edges?.forEach((edge) => {
+        const { source, target } = edge;
+        if (elements.includes(source) && elements.includes(target)) {
+          elements.push(idOf(edge));
+        }
+      });
+    }
+
+    return elements;
+  }
+
+  private clearBrush() {
     this.rectShape?.remove();
     this.rectShape = undefined;
     this.startPoint = undefined;
     this.endPoint = undefined;
-  };
-
-  /**
-   * <zh/> 获取框选选中的元素 ids
-   *
-   * <en/> Get the ids of the elements selected by the box selection
-   * @param graph - <zh/> 图实例 | <en/> Graph instance
-   * @param points - <zh/> 形成框选区域的点的坐标 | <en/> The coordinates of the points forming the box selection area
-   * @param itemTypes - <zh/> 框选元素类型 | <en/> The type of the elements selected by the box selection
-   * @returns <zh/> 框选选中的元素 ids | <en/> The ids of the elements selected by the box selection
-   */
-  private getPointsSelectIds = (graph: Graph, points: Points, itemTypes: ElementType[]) => {
-    const selectedNodeIds: ID[] = [];
-    const selectedComboIds: ID[] = [];
-
-    if (itemTypes.includes('node')) {
-      graph.getNodeData().forEach((node) => {
-        const { id } = node;
-        if (
-          graph.getElementVisibility(id) !== 'hidden' && // hidden node is not selectable
-          this.selectElementFn(graph, id, points)
-        ) {
-          selectedNodeIds.push(id);
-        }
-      });
-    }
-
-    if (itemTypes.includes('combo')) {
-      graph.getComboData().forEach((combo) => {
-        const { id } = combo;
-        if (
-          graph.getElementVisibility(id) !== 'hidden' && // hidden combo is not selectable
-          this.selectElementFn(graph, id, points)
-        ) {
-          selectedComboIds.push(id);
-        }
-      });
-    }
-
-    return [...selectedNodeIds, ...selectedComboIds];
-  };
-
-  // 当前按键是否和 trigger 配置一致
-  protected isKeydown() {
-    const { trigger } = this.options;
-    const keys = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
-    if (keys.length === 0 || keys.includes('drag')) return true;
-    return this.shortcut?.match(keys);
   }
 
   /**
-   * <zh/> 校验是否触发框选
+   * <zh/> 当前按键是否和 trigger 配置一致
    *
-   * <en/> Validate whether to trigger the box selection
-   * @param event - <zh/> 指针事件 | <en/> pointer event
-   * @returns <zh/> 是否触发框选 | <en/> Whether to trigger the box selection
+   * <en/> Is the current key consistent with the trigger configuration
+   * @returns <zh/> 是否一致 | <en/> Is consistent
+   * @internal
+   */
+  protected isKeydown(): boolean {
+    const { trigger } = this.options;
+    const keys = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
+    if (!trigger || keys.includes('drag')) return true;
+    return this.shortcut!.match(keys);
+  }
+
+  /**
+   * <zh/> 验证是否启用框选
+   *
+   * <en/> Verify whether brush select is enabled
+   * @param event - <zh/> 事件 | <en/> Event
+   * @returns <zh/> 是否启用 | <en/> Whether to enable
+   * @internal
    */
   protected validate(event: IPointerEvent) {
     if (this.destroyed) return false;
@@ -345,42 +332,48 @@ export class BrushSelect<T extends BaseBehaviorOptions = BrushSelectOptions> ext
     return !!enable;
   }
 
-  /**
-   * <zh/> 绑定事件
-   *
-   * <en/> Bind event
-   */
-  protected bindEvents() {
+  private bindEvents() {
     const { graph } = this.context;
     this.unbindEvents();
 
-    graph.on(CommonEvent.POINTER_DOWN, this.pointerDown);
-    graph.on(CommonEvent.POINTER_MOVE, this.pointerMove);
-    graph.on(CommonEvent.POINTER_UP, this.pointerUp);
-    graph.on(`canvas:${CommonEvent.CLICK}`, this.clearSelected);
+    graph.on(CommonEvent.POINTER_DOWN, this.onPointerDown);
+    graph.on(CommonEvent.POINTER_MOVE, this.onPointerMove);
+    graph.on(CommonEvent.POINTER_UP, this.onPointerUp);
+    graph.on(`canvas:${CommonEvent.CLICK}`, this.clearStates);
+  }
+
+  private unbindEvents() {
+    const { graph } = this.context;
+
+    graph.off(CommonEvent.POINTER_DOWN, this.onPointerDown);
+    graph.off(CommonEvent.POINTER_MOVE, this.onPointerMove);
+    graph.off(CommonEvent.POINTER_UP, this.onPointerUp);
+    graph.off(`canvas:${CommonEvent.CLICK}`, this.clearStates);
   }
 
   /**
-   * <zh/> 取消绑定事件
+   * <zh/> 更新配置项
    *
-   * <en/> Unbind event
+   * <en/> Update configuration
+   * @param options - <zh/> 配置项 | <en/> Options
+   * @internal
    */
-  protected unbindEvents() {
-    const { graph } = this.context;
-
-    graph.off(CommonEvent.POINTER_DOWN, this.pointerDown);
-    graph.off(CommonEvent.POINTER_MOVE, this.pointerMove);
-    graph.off(CommonEvent.POINTER_UP, this.pointerUp);
-    graph.off(`canvas:${CommonEvent.CLICK}`, this.clearSelected);
+  public update(options: Partial<BrushSelectOptions>) {
+    this.options = deepMix(this.options, options);
   }
 
   /**
    * <zh/> 销毁
    *
    * <en/> Destroy
+   * @internal
    */
   public destroy() {
     this.unbindEvents();
     super.destroy();
   }
 }
+
+export const getCursorPoint = (event: IPointerEvent): Point => {
+  return [event.canvas.x, event.canvas.y];
+};

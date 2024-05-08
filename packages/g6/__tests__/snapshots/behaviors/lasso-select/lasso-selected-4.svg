@@ -5,10 +5,7 @@
       <g fill="none" transform="matrix(1,0,0,1,0,0)">
         <g fill="none" transform="matrix(1,0,0,1,250.979996,261.500000)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle fill="none" transform="translate(-153.09563155100147,-153.09563155100147)" cx="153.09563155100147" cy="153.09563155100147" stroke-dasharray="0,0" stroke-width="12" stroke="rgba(153,173,209,1)" r="153.09563155100147" stroke-opacity="0.25" pointer-events="none"/>
-          </g>
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle fill="rgba(253,253,253,1)" transform="translate(-153.09563155100147,-153.09563155100147)" cx="153.09563155100147" cy="153.09563155100147" stroke-dasharray="0,0" stroke-width="4" stroke="rgba(153,173,209,1)" r="153.09563155100147"/>
+            <circle fill="rgba(253,253,253,1)" transform="translate(-153.09563155100147,-153.09563155100147)" cx="153.09563155100147" cy="153.09563155100147" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="153.09563155100147"/>
           </g>
         </g>
       </g>

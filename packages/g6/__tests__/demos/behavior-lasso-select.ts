@@ -40,12 +40,7 @@ export const behaviorLassoSelect: TestCase = async (context) => {
       },
     },
     animation: false,
-    behaviors: [
-      {
-        type: 'lasso-select',
-        trigger: 'drag',
-      },
-    ],
+    behaviors: [{ type: 'lasso-select', key: 'lasso-select', trigger: 'drag' }],
   });
 
   await graph.render();

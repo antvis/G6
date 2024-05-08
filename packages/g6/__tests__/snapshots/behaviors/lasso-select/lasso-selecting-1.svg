@@ -90,7 +90,7 @@
         </g>
       </g>
       <g transform="matrix(1,0,0,1,100,100)">
-        <path fill="rgba(238,246,255,1)" stroke-width="1" stroke="rgba(221,238,254,1)" fill-opacity="0.4" pointer-events="none" d="M 0,0 L 0,300 L 300,300 L 300,0 Z"/>
+        <path fill="rgba(238,246,255,1)" width="0" height="0" stroke-width="1" stroke="rgba(221,238,254,1)" fill-opacity="0.4" pointer-events="none" d="M 0,0 L 0,300 L 300,300 L 300,0 Z"/>
       </g>
     </g>
   </g>

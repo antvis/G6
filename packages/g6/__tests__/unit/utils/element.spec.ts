@@ -4,10 +4,10 @@ import { PortStyleProps } from '@/src/types';
 import {
   findPorts,
   getAllPorts,
+  getBoundingPoints,
   getHexagonPoints,
   getPortConnectionPoint,
   getPortXYByPlacement,
-  getRectPoints,
   getStarPoints,
   getStarPorts,
   getTextStyleByPlacement,
@@ -258,9 +258,9 @@ describe('element', () => {
     });
   });
 
-  it('getRectPoints', () => {
-    expect(getRectPoints(100, 100).length).toBe(4);
-    expect(getRectPoints(100, 100)).toEqual([
+  it('getBoundingPoints', () => {
+    expect(getBoundingPoints(100, 100).length).toBe(4);
+    expect(getBoundingPoints(100, 100)).toEqual([
       [50, -50],
       [50, 50],
       [-50, 50],
