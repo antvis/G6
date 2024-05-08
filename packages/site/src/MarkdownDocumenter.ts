@@ -247,61 +247,58 @@ export class MarkdownDocumenter {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
     const output: DocSection = new DocSection({ configuration });
 
-    this._writeBreadcrumb(output, apiItem);
-
     const scopedName: string = apiItem.getScopedNameWithinPackage();
+    let title = '';
 
     switch (apiItem.kind) {
       case ApiItemKind.Class:
-        output.appendNode(new DocHeading({ configuration, title: `${scopedName} class` }));
+        title = `${scopedName} class`;
         break;
       case ApiItemKind.Enum:
-        output.appendNode(new DocHeading({ configuration, title: `${scopedName} enum` }));
+        title = `${scopedName} enum`;
         break;
       case ApiItemKind.Interface:
-        output.appendNode(new DocHeading({ configuration, title: `${scopedName} interface` }));
+        title = `${scopedName} interface`;
         break;
       case ApiItemKind.Constructor:
       case ApiItemKind.ConstructSignature:
-        output.appendNode(new DocHeading({ configuration, title: scopedName }));
+        title = scopedName;
         break;
       case ApiItemKind.Method:
       case ApiItemKind.MethodSignature:
-        output.appendNode(new DocHeading({ configuration, title: `${scopedName} method` }));
+        title = `${scopedName} method`;
         break;
       case ApiItemKind.Function:
-        output.appendNode(new DocHeading({ configuration, title: `${scopedName} function` }));
+        title = `${scopedName} function`;
         break;
       case ApiItemKind.Model:
-        output.appendNode(new DocHeading({ configuration, title: `API Reference` }));
+        title = `API Reference`;
         break;
       case ApiItemKind.Namespace:
-        output.appendNode(new DocHeading({ configuration, title: `${scopedName} namespace` }));
+        title = `${scopedName} namespace`;
         break;
       case ApiItemKind.Package: {
-        console.log(`Writing ${apiItem.displayName} package`);
         const unscopedPackageName: string = PackageName.getUnscopedName(apiItem.displayName);
-        output.appendNode(
-          new DocHeading({
-            configuration,
-            title: `${unscopedPackageName} package`,
-          }),
-        );
+        title = unscopedPackageName;
         break;
       }
       case ApiItemKind.Property:
       case ApiItemKind.PropertySignature:
-        output.appendNode(new DocHeading({ configuration, title: `${scopedName} property` }));
+        title = `${scopedName} property`;
         break;
       case ApiItemKind.TypeAlias:
-        output.appendNode(new DocHeading({ configuration, title: `${scopedName} type` }));
+        title = `${scopedName} type`;
         break;
       case ApiItemKind.Variable:
-        output.appendNode(new DocHeading({ configuration, title: `${scopedName} variable` }));
+        title = `${scopedName} variable`;
         break;
       default:
         throw new Error('Unsupported API item kind: ' + apiItem.kind);
     }
+
+    this._appendPageTitle(output, title);
+    this._writeBreadcrumb(output, apiItem);
+    output.appendNode(new DocHeading({ configuration, title }));
 
     if (ApiReleaseTagMixin.isBaseClassOf(apiItem)) {
       if (apiItem.releaseTag === ReleaseTag.Alpha) {
@@ -672,7 +669,7 @@ export class MarkdownDocumenter {
         output.appendNode(
           new DocHeading({
             configuration: this._tsdocConfiguration,
-            title: `Prefix<${customExcerptToken.prefix}, ${linkMd}>`,
+            title: `[Prefix](../../reference/g6.prefix.${this._getLang()}.md)<'${customExcerptToken.prefix}', ${linkMd}>`,
             escaped: false,
           }),
         );
