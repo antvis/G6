@@ -364,7 +364,7 @@ export class DataController {
       model.attachTreeStructure(COMBO_KEY);
       this.setParent(id, parentIdOf(datum), COMBO_KEY);
 
-      const children = datum?.style?.children;
+      const children = (datum as NodeData).children;
       if (children !== undefined) {
         model.attachTreeStructure(TREE_KEY);
         children.forEach((child) => {
@@ -491,25 +491,25 @@ export class DataController {
    *
    * <en/> Set the parent node of the node
    * @param id - <zh/> 节点 ID | <en/> node ID
-   * @param parentId - <zh/> 父节点 ID | <en/> parent node ID
+   * @param parent - <zh/> 父节点 ID | <en/> parent node ID
    * @param hierarchy - <zh/> 层次结构类型 | <en/> hierarchy type
    * @param update - <zh/> 添加新/旧父节点数据更新记录 | <en/> add new/old parent node data update record
    */
-  public setParent(id: ID, parentId: ID | undefined, hierarchy: HierarchyKey, update: boolean = true) {
-    if (id === parentId) return;
+  public setParent(id: ID, parent: ID | undefined, hierarchy: HierarchyKey, update: boolean = true) {
+    if (id === parent) return;
     const originalParentId = parentIdOf(this.getNodeLikeData([id])[0]);
 
     // Sync data
-    if (originalParentId !== parentId) {
-      const modifiedDatum = { id, style: { parentId } };
+    if (originalParentId !== parent) {
+      const modifiedDatum = { id, combo: parent };
       if (this.isCombo(id)) this.syncComboDatum(modifiedDatum);
       else this.syncNodeDatum(modifiedDatum);
     }
 
-    this.model.setParent(id, parentId, hierarchy);
+    this.model.setParent(id, parent, hierarchy);
 
     if (update) {
-      new Set([originalParentId, parentId]).forEach((pId) => {
+      new Set([originalParentId, parent]).forEach((pId) => {
         if (pId !== undefined) this.refreshComboData(pId);
       });
     }
@@ -682,7 +682,7 @@ export class DataController {
    */
   protected removeNodeLikeHierarchy(id: ID) {
     if (this.model.hasTreeStructure(COMBO_KEY)) {
-      const grandParentId = parentIdOf(this.getNodeLikeData([id])[0]);
+      const grandParent = parentIdOf(this.getNodeLikeData([id])[0]);
 
       // 从父节点的 children 列表中移除
       // remove from its parent's children list
@@ -694,21 +694,20 @@ export class DataController {
       this.model.getChildren(id, COMBO_KEY).forEach((child) => {
         const childData = toG6Data(child);
         const childId = idOf(childData);
-        this.setParent(idOf(childData), grandParentId, COMBO_KEY, false);
+        this.setParent(idOf(childData), grandParent, COMBO_KEY, false);
         const value = mergeElementsData(childData, {
           id: idOf(childData),
-          style: { parentId: grandParentId },
+          combo: grandParent,
         });
         this.pushChange({
           value,
-          // @ts-ignore
           original: childData,
           type: this.isCombo(childId) ? ChangeType.ComboUpdated : ChangeType.NodeUpdated,
         });
         this.model.mergeNodeData(idOf(childData), value);
       });
 
-      if (!isUndefined(grandParentId)) this.refreshComboData(grandParentId);
+      if (!isUndefined(grandParent)) this.refreshComboData(grandParent);
     }
   }
 

@@ -7,14 +7,7 @@ describe('relation', () => {
   beforeAll(() => {
     graph = new Graph({
       data: {
-        nodes: [
-          { id: '1', style: { parentId: 'combo1' } },
-          { id: '2' },
-          { id: '3' },
-          { id: '4' },
-          { id: '5' },
-          { id: '6' },
-        ],
+        nodes: [{ id: '1', combo: 'combo1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, { id: '6' }],
         edges: [
           { source: '1', target: '2' },
           { source: '1', target: '3' },

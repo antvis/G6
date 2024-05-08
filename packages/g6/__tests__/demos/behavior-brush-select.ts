@@ -5,10 +5,10 @@ export const behaviorBrushSelect: TestCase = async (context) => {
     ...context,
     data: {
       nodes: [
-        { id: 'node1', style: { x: 150, y: 250, lineWidth: 0, parentId: 'combo1' } },
-        { id: 'node2', style: { x: 250, y: 200, lineWidth: 0, parentId: 'combo1' } },
-        { id: 'node3', style: { x: 350, y: 250, lineWidth: 0, parentId: 'combo1' } },
-        { id: 'node4', style: { x: 250, y: 300, lineWidth: 0, parentId: 'combo1' } },
+        { id: 'node1', combo: 'combo1', style: { x: 150, y: 250, lineWidth: 0 } },
+        { id: 'node2', combo: 'combo1', style: { x: 250, y: 200, lineWidth: 0 } },
+        { id: 'node3', combo: 'combo1', style: { x: 350, y: 250, lineWidth: 0 } },
+        { id: 'node4', combo: 'combo1', style: { x: 250, y: 300, lineWidth: 0 } },
       ],
       edges: [
         {

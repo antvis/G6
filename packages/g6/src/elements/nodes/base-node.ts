@@ -5,7 +5,6 @@ import type { CategoricalPalette } from '../../palettes/types';
 import type { NodeData } from '../../spec';
 import type {
   BaseElementStyleProps,
-  ID,
   Keyframe,
   Node,
   NodeBadgeStyleProps,
@@ -69,23 +68,9 @@ export interface BaseNodeStyleProps
    */
   size?: Size;
   /**
-   * <zh/> 父节点 id
+   * <zh/> 当前节点/组合是否展开
    *
-   * <en/> The id of the parent node/combo
-   * @remarks
-   * <zh/> 仅在树图中生效
-   *
-   * <en/> Only valid in the tree graph
-   */
-  parentId?: ID;
-  /**
-   * <zh/> 是否收起
-   *
-   * <en/> Indicates whether the node is collapsed
-   * @remarks
-   * <zh/> 仅在树图中生效
-   *
-   * <en/> Only valid in the tree graph
+   * <en/> Whether the current node/combo is expanded
    */
   collapsed?: boolean;
   /**

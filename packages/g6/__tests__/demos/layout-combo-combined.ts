@@ -21,6 +21,11 @@ export const layoutComboCombined: TestCase = async (context) => {
         return { stroke: color || '#99ADD1', lineWidth: size || 1 };
       },
     },
+    combo: {
+      style: {
+        labelText: (d) => d.id,
+      },
+    },
     behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
     autoFit: 'view',
   });

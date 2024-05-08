@@ -1,6 +1,5 @@
 import type { BaseEdgeStyleProps } from '../../elements/edges';
-import { State } from '../../types';
-import type { CallableObject } from '../../types/callable';
+import type { CallableObject } from '../../types';
 import type { EdgeData } from '../data';
 import type { AnimationOptions } from './animation';
 import type { PaletteOptions } from './palette';
@@ -51,11 +50,5 @@ export interface StaticEdgeOptions {
 }
 
 export interface EdgeStyle extends Partial<BaseEdgeStyleProps> {
-  /**
-   * <zh/> 初始状态
-   *
-   * <en/> Initial state
-   */
-  states?: State[];
   [key: string]: any;
 }

@@ -18,9 +18,9 @@ describe('spec data', () => {
           data: {
             value: 1,
           },
+          combo: 'combo-1',
           style: {
             collapsed: true,
-            parentId: 'combo-1',
             fill: 'red',
           },
         },
@@ -38,9 +38,9 @@ describe('spec data', () => {
           data: {
             value: 1,
           },
+          combo: 'combo-1',
+          collapsed: true,
           style: {
-            collapsed: true,
-            parentId: 'combo-1',
             fill: 'red',
           },
         },
@@ -51,8 +51,8 @@ describe('spec data', () => {
           data: {
             value: 1,
           },
+          collapsed: true,
           style: {
-            collapsed: true,
             fill: 'red',
           },
         },

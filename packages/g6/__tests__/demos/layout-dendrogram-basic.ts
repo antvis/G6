@@ -9,7 +9,7 @@ export const layoutDendrogramBasic: TestCase = async (context) => {
     node: {
       style: {
         labelText: (d) => d.id,
-        labelPlacement: (model) => (model.style!.children?.length ? 'left' : 'right'),
+        labelPlacement: (model) => (model.children?.length ? 'left' : 'right'),
         ports: [{ placement: 'right' }, { placement: 'left' }],
       },
     },

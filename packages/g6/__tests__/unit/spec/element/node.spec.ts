@@ -13,8 +13,6 @@ describe('spec element node', () => {
         ],
       },
       style: {
-        collapsed: (data: any) => data.style?.collapsed || false,
-        parentId: '1',
         x: 1,
         y: 1,
       },

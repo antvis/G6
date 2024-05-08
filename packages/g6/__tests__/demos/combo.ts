@@ -3,9 +3,9 @@ import { Graph } from '@/src';
 export const combo: TestCase = async (context) => {
   const data = {
     nodes: [
-      { id: 'node-1', data: {}, style: { parentId: 'combo-2', x: 120, y: 100 } },
-      { id: 'node-2', data: {}, style: { parentId: 'combo-1', x: 300, y: 200 } },
-      { id: 'node-3', data: {}, style: { parentId: 'combo-1', x: 200, y: 300 } },
+      { id: 'node-1', combo: 'combo-2', style: { x: 120, y: 100 } },
+      { id: 'node-2', combo: 'combo-1', style: { x: 300, y: 200 } },
+      { id: 'node-3', combo: 'combo-1', style: { x: 200, y: 300 } },
     ],
     edges: [
       { id: 'edge-1', source: 'node-1', target: 'node-2' },
@@ -15,9 +15,7 @@ export const combo: TestCase = async (context) => {
       {
         id: 'combo-1',
         type: 'rect',
-        style: {
-          parentId: 'combo-2',
-        },
+        combo: 'combo-2',
       },
       {
         id: 'combo-2',
@@ -133,7 +131,8 @@ export const combo: TestCase = async (context) => {
           graph.addNodeData([
             {
               id: 'node-4',
-              style: { parentId: 'combo-2', x: 100, y: 200, fill: 'pink' },
+              combo: 'combo-2',
+              style: { x: 100, y: 200, fill: 'pink' },
             },
           ]);
         }

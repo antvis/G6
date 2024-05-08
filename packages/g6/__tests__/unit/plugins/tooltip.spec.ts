@@ -1,5 +1,5 @@
 import { pluginTooltip } from '@/__tests__/demos';
-import type { Tooltip } from '@/src';
+import { idOf, type Tooltip } from '@/src';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin tooltip', () => {
@@ -19,7 +19,7 @@ describe('plugin tooltip', () => {
 
   it('edge', async () => {
     const graph = await createDemoGraph(pluginTooltip);
-    graph.emit('edge:click', { targetType: 'edge', target: { id: 'edge-444' } });
+    graph.emit('edge:click', { targetType: 'edge', target: { id: idOf({ source: '0', target: '1' }) } });
     await expect(graph).toMatchSnapshot(__filename, 'edge');
     graph.destroy();
   });

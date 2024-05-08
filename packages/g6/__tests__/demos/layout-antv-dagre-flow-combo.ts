@@ -16,7 +16,7 @@ export const layoutAntVDagreFlowCombo: TestCase = async (context) => {
         ports: [{ placement: 'top' }, { placement: 'bottom' }],
       },
       palette: {
-        field: (d) => d.style?.parentId,
+        field: (d) => d.combo,
       },
     },
     edge: {

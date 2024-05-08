@@ -1,6 +1,5 @@
 import type { BaseNodeStyleProps } from '../../elements/nodes';
-import type { ID, State } from '../../types';
-import type { CallableObject } from '../../types/callable';
+import type { CallableObject } from '../../types';
 import type { NodeData } from '../data';
 import type { AnimationOptions } from './animation';
 import type { PaletteOptions } from './palette';
@@ -51,17 +50,5 @@ export interface StaticNodeOptions {
 }
 
 export interface NodeStyle extends Partial<BaseNodeStyleProps> {
-  /**
-   * <zh/> 初始状态
-   *
-   * <en/> Initial state
-   */
-  states?: State[];
-  /**
-   * <zh/> 子节点 ID (树图专用)
-   *
-   * <en/> Child node ID (for tree graph)
-   */
-  children?: ID[];
   [key: string]: any;
 }
