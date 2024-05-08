@@ -18,7 +18,7 @@ order: 5
 
 1. `nodes` `edges` `combos` 中所有样式属性都需要放在 `style` 中，`data` 中存放数据属性：
 
-```ts
+```typescript
 // 4.x
 const data = {
   nodes: [
@@ -48,7 +48,7 @@ const data = {
 
 2. 如果要在数据中指定元素类型，可以使用 `type` 属性：
 
-```ts
+```typescript
 {
   nodes: [
     // 指定节点类型为 rect
@@ -95,7 +95,7 @@ autoFit: {
 
 5.x 已经移除交互模式，你可以通过设置 `behaviors` 来切换当前启用的交互行为。
 
-```ts
+```typescript
 // 4.x
 {
   modes: {
@@ -107,7 +107,7 @@ autoFit: {
 graph.setMode('preview');
 ```
 
-```ts
+```typescript
 
 // 5.x
 {
@@ -122,7 +122,7 @@ graph.setBehaviors(['drag-canvas']);
 
 元素样式已移至 `[element].style` 中，如 `defaultNode` 变更为 `node.style`：
 
-```ts
+```typescript
 // 4.x
 {
   defaultNode: {
@@ -146,7 +146,7 @@ graph.setBehaviors(['drag-canvas']);
 
 元素状态样式已移至 `[element].state` 中，如 `nodeStateStyles` 变更为 `node.stateStyles`：
 
-```ts
+```typescript
 // 4.x
 {
   nodeStateStyles: {
@@ -173,7 +173,7 @@ graph.setBehaviors(['drag-canvas']);
 - `animate` 配置项已变更为 `animation`
 - `animate` 和 `animateCfg` 已合并为 `animation`
 
-```ts
+```typescript
 // 4.x
 {
   animate: true,
@@ -195,7 +195,7 @@ graph.setBehaviors(['drag-canvas']);
 
 `minZoom` 和 `maxZoom` 已合并为 `zoomRange`
 
-```ts
+```typescript
 // 4.x
 {
   minZoom: 0.5,
@@ -214,7 +214,7 @@ G6 5.x 支持多层画布，默认使用 `canvas` 渲染。
 
 renderer 不再支持字符串类型，变更为回调函数：
 
-```ts
+```typescript
 // 4.x
 var options = {
   renderer: 'svg',
@@ -368,7 +368,7 @@ import { Renderer } from '@antv/g-svg';
 
 - 多个 `Hull` 需在 `plugins` 中配置多个 `hull` 插件，如：
 
-```ts
+```typescript
 {
   plugins: ['hull', 'hull'],
 };
@@ -386,7 +386,7 @@ import { Renderer } from '@antv/g-svg';
 
 所有撤销重做相关 API 请获取到对应插件后调用 API，例：
 
-```ts
+```typescript
 // 'history' 为使用插件时配置的 key
 const history = graph.getPluginInstance('history');
 
@@ -401,7 +401,7 @@ history.redo();
 - 动画结束事件：`afteranimate`
 - 停止动画：
 
-```ts
+```typescript
 graph.on('beforeanimate', (event) => {
   event.animation.stop();
 });
@@ -419,7 +419,7 @@ G6 5.x 采用了与 4.x 不同的坐标系，详见 [坐标系](/manual/advanced
 
 使用 `toDataURL` 替代，指定参数为：`mode: 'overall'`
 
-```ts
+```typescript
 graph.toDataURL({ mode: 'overall' });
 ```
 
@@ -427,7 +427,7 @@ graph.toDataURL({ mode: 'overall' });
 
 仅提供导出为 `DataURL` 的能力，如需下载图片，请参考如下实例代码：
 
-```ts
+```typescript
 async function downloadImage() {
   const dataURL = await graph.toDataURL();
   const [head, content] = dataURL.split(',');

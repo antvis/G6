@@ -5,7 +5,7 @@ order: 3
 
 ## 概述
 
-<image width="500px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yVbORYybrDQAAAAAAAAAAAAADmJ7AQ/original"></image>
+<image width="500px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yVbORYybrDQAAAAAAAAAAAAADmJ7AQ/original" />
 
 状态(State)是指<u>元素</u>存在的状态，例如**选中**、**悬停**、**激活**等。状态可以使得元素在不同的状态下展示不同的样式，帮助用户更直观的理解图中的信息。
 
@@ -34,7 +34,7 @@ G6 预设的状态包括：
 
 目前 G6 支持在样式映射中配置状态样式，例如：
 
-```ts
+```typescript
 {
   node: {
     style: {/** 默认状态样式 */},
@@ -58,7 +58,7 @@ G6 预设的状态包括：
 
 在绘制之前，可以在数据中配置元素的状态：
 
-```ts
+```typescript
 const data = {
   nodes: [
     {
@@ -82,7 +82,7 @@ const data = {
 
 或者在完成绘制后通过 API 来切换元素的状态：
 
-```ts
+```typescript
 // 将节点 'node-1' 设置为选中状态
 graph.setElementState('node-1', 'selected');
 
@@ -100,14 +100,14 @@ graph.setElementState({
 
 G6 提供了多个 API 用于获取状态，或者判断元素是否处于某个状态：
 
-```ts
+```typescript
 // 获取 'node-1' 的所有状态
 graph.getElementState('node-1');
 ```
 
 > 当元素仅存在 **默认状态** 时，`getElementState` 返回值为 `[]`。
 
-```ts
+```typescript
 // 获取所有选中的节点
 graph.getElementDataByState('node', 'selected');
 ```
@@ -116,7 +116,7 @@ graph.getElementDataByState('node', 'selected');
 
 要移除元素的状态，同样使用 `setElementState` 方法即可实现：
 
-```ts
+```typescript
 // 移除 `node-1` 的所有状态（恢复至默认状态）
 graph.setElementState('node-1', []);
 ```
@@ -133,7 +133,7 @@ graph.setElementState('node-1', []);
 
 要自定义状态，直接在样式映射中添加即可，例如：
 
-```ts
+```typescript
 {
   node: {
     // 自定义状态名为：'custom-state'
@@ -144,6 +144,6 @@ graph.setElementState('node-1', []);
 
 切换状态：
 
-```ts
+```typescript
 graph.setElementState('node-1', 'custom-state');
 ```

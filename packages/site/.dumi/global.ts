@@ -17,11 +17,8 @@ if (window) {
   window.React = require('react');
   window.ReactDOM = require('react-dom');
 
-  // 用于文档中快速创建 ob demo 示例
-  window.createGraph = async (options, style = {}, renderPanel?: (gui) => void) => {
-    const $wrapper = document.createElement('div');
+  window.createContainer = (style = {}) => {
     const container = document.createElement('div');
-    $wrapper.appendChild(container);
 
     Object.entries(style).forEach(([key, value]) => {
       if (key === 'width' || key === 'height') {
@@ -31,6 +28,12 @@ if (window) {
         container.style[key] = value;
       }
     });
+    return container;
+  };
+
+  // 用于文档中快速创建 ob demo 示例
+  window.createGraph = async (options, style = {}, renderPanel?: (gui) => void) => {
+    const container = createContainer(style);
 
     const graph = new window.g6.Graph({
       width: style.width,
@@ -42,15 +45,15 @@ if (window) {
     await graph.render();
 
     if (renderPanel) {
-      const panelWidth = 245;
-      $wrapper.style.width = Number(style.width) + panelWidth + 'px';
-      $wrapper.style.height = Number(style.height) + 'px';
-      $wrapper.style.display = 'flex';
+      const $wrapper = createContainer({ width: style.width + 245, height: style.height, display: 'flex' });
 
       const gui = new (await import('lil-gui')).default({ container: $wrapper, autoPlace: false });
       renderPanel(gui, graph);
+
+      $wrapper.appendChild(container);
+      return $wrapper;
     }
 
-    return $wrapper;
+    return container;
   };
 }

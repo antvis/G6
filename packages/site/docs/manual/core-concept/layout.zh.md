@@ -7,7 +7,7 @@ order: 4
 
 图布局是指将图中的元素按照一定的规则进行排列的过程，例如基于电荷弹性模型的力导向布局、逐次排布的网格布局、基于层次结构的树布局等。
 
-<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WIhlToluHaEAAAAAAAAAAAAADmJ7AQ/original"></image>
+<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WIhlToluHaEAAAAAAAAAAAAADmJ7AQ/original" />
 
 ## 布局类型
 
@@ -36,11 +36,22 @@ G6 提供了多种布局算法，用户可以根据自己的需求选择合适�
 
 其中 `CompactBox Layout`、`Dendrogram Layout`、`Mindmap Layout`、`Indented Layout` 是树布局的一种，适用于树状结构的图。
 
+## 注册布局
+
+你可以直接使用内置布局，如果想要使用其他布局，需要先进行注册：
+
+```typescript
+import { register, ExtensionCategory } from '@antv/g6';
+import { CustomLayout } from 'package-name/or/path-to-your-custom-layout';
+
+register(ExtensionCategory.LAYOUT, 'custom-layout', CustomLayout);
+```
+
 ## 配置布局
 
 通过 `layout` 配置项可以指定图的布局算法，例如：
 
-```ts
+```typescript
 {
   layout: {
     // 指定要使用的布局算法
@@ -52,6 +63,8 @@ G6 提供了多种布局算法，用户可以根据自己的需求选择合适�
 }
 ```
 
+也可在图实例化之后使用 `graph.setLayout` 来更新布局配置。
+
 ## 布局加速
 
 G6 对一些布局算法提供了加速版本，包括：在 Web Worker 中执行布局算法、提供 [WASM](https://webassembly.org/) 版本的布局算法、GPU 加速的布局算法等。可按照下列方式使用：
@@ -60,7 +73,7 @@ G6 对一些布局算法提供了加速版本，包括：在 Web Worker 中执�
 
 除树布局外，G6 的所有内置布局算法都支持在 Web Worker 中执行。只需将 `enableWorker` 设置为 `true` 即可：
 
-```ts
+```typescript
 {
   layout: {
     type: 'force',
@@ -82,7 +95,7 @@ npm install @antv/layout-wasm --save
 
 引入并注册布局算法：
 
-```ts
+```typescript
 import { register, Graph, ExtensionCategory } from '@antv/g6';
 import { FruchtermanLayout, initThreads, supportsThreads } from '@antv/layout-wasm';
 
@@ -91,14 +104,14 @@ register(ExtensionCategory.LAYOUT, 'fruchterman-wasm', FruchtermanLayout);
 
 初始化线程：
 
-```ts
+```typescript
 const supported = await supportsThreads();
 const threads = await initThreads(supported);
 ```
 
 初始化图并传入布局配置：
 
-```ts
+```typescript
 const graph = new Graph({
   // ... 其他配置
   layout: {
@@ -121,7 +134,7 @@ npm install @antv/layout-gpu --save
 
 引入并注册布局算法：
 
-```ts
+```typescript
 import { register, Graph, ExtensionCategory } from '@antv/g6';
 import { FruchtermanLayout } from '@antv/layout-gpu';
 
@@ -130,7 +143,7 @@ register(ExtensionCategory.LAYOUT, 'fruchterman-gpu', FruchtermanLayout);
 
 初始化图并传入布局配置：
 
-```ts
+```typescript
 const graph = new Graph({
   // ... 其他配置
   layout: {

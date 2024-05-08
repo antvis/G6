@@ -11,11 +11,22 @@ order: 6
 
 > 内置插件列表请参考：[插件](/api/plugin)
 
-## 启用插件
+## 注册插件
 
-要启用插件，需要在实例化 `Graph` 时传入 `plugins` 配置项，该配置项是一个数组，包含了需要启用的插件：
+你可以直接使用内置插件，如果要使用其他插件，需要先进行注册：
 
-```ts
+```typescript
+import { register, ExtensionCategory } from '@antv/g6';
+import { CustomPlugin } from 'package-name/or/path-to-your-custom-plugin';
+
+register(ExtensionCategory.PLUGIN, 'custom-plugin', CustomPlugin);
+```
+
+## 配置插件
+
+要启用并配置插件，需要在实例化 `Graph` 时传入 `plugins` 配置项，该配置项是一个数组，包含了需要启用的插件：
+
+```typescript
 {
   plugins: ['grid', 'tooltip', 'contextmenu'],
 }
@@ -23,7 +34,7 @@ order: 6
 
 一些插件支持以 `object` 的形式配置属性，例如：
 
-```ts
+```typescript
 {
   plugins: [
     {
@@ -38,7 +49,7 @@ order: 6
 
 在 `Graph` 实例化后可以通过 [setPlugins](/api/graph/method#setPlugins) 方法调整插件：
 
-```ts
+```typescript
 // 添加 minimap 插件
 graph.setPlugins((plugins) => [...plugins, 'minimap']);
 
@@ -48,7 +59,7 @@ graph.setPlugins((plugins) => plugins.filter((plugin) => plugin !== 'tooltip'));
 
 G6 Graph 还提供了 [updatePlugin](/api/graph/method#updatePlugin) 方法用于更方便的更新插件配置：
 
-```ts
+```typescript
 graph.updatePlugin({
   key: 'grid',
   follow: true,
@@ -63,7 +74,7 @@ graph.updatePlugin({
 
 使用 [setPlugins](/api/graph/method#setPlugins) 方法同样可以卸载插件，将插件配置列表置为空即可：
 
-```ts
+```typescript
 // 卸载所有插件
 graph.setPlugins([]);
 ```
