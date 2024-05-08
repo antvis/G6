@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "gaddi.js",
+      "title": {
+        "zh": "图模式匹配",
+        "en": "Graph pattern matching"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uVOySpSIZXkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "shortestPath.js",
+      "title": {
+        "zh": "最短路径",
+        "en": "Shortest path"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uVOySpSIZXkAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
