@@ -5,15 +5,12 @@ import { CommonEvent } from '../constants';
 import { idOf } from '../exports';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
-import type { ElementType, ID, IPointerEvent, Point, State } from '../types';
-import { getAllElementState } from '../utils/behaviors/utils';
+import type { ElementDatum, ElementType, ID, IPointerEvent, Point, State } from '../types';
 import { getBoundingPoints, isPointInPolygon } from '../utils/point';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
-
-export type States = Record<ID, State | State[]>;
 
 /**
  * <zh/> 框选配置项
@@ -95,7 +92,7 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
    * @param states - 选中的元素状态
    * @returns 选中的元素状态
    */
-  onSelect?: (states: States) => States;
+  onSelect?: (states: Record<ID, State | State[]>) => Record<ID, State | State[]>;
 }
 /**
  * <zh/> 框选一组元素
@@ -199,7 +196,16 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
    */
   protected clearElementsStates() {
     const { graph } = this.context;
-    const states = getAllElementState(graph, () => []);
+    const states = Object.values(graph.getData()).reduce((acc, data) => {
+      return Object.assign(
+        {},
+        acc,
+        data.reduce((acc: Record<ID, []>, datum: ElementDatum) => {
+          acc[idOf(datum)] = [];
+          return acc;
+        }, {}),
+      );
+    }, {});
 
     graph.setElementState(states, this.options.animation);
   }

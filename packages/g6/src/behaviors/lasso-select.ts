@@ -45,11 +45,6 @@ export class LassoSelect extends BrushSelect {
     this.clearLasso();
   }
 
-  protected clearSelected() {
-    if (this.points) return;
-    super.clearElementsStates();
-  }
-
   private clearLasso() {
     this.pathShape?.remove();
     this.pathShape = undefined;

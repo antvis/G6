@@ -150,40 +150,6 @@ export function getNearestSideToPoint(bbox: AABB, p: Point): 'left' | 'right' | 
 }
 
 /**
- * <zh/> 获取由两点及其对角点形成的包围盒
- *
- * <en/> Get the bounding box formed by two points and their diagonal points
- * @param p1 - <zh/> 点1 | <en/> Point 1
- * @param p2 - <zh/> 点2 | <en/> Point 2
- * @returns <zh/> 包围盒 | <en/> Bounding box
- */
-export function getBBoxByPoints(p1: Point, p2: Point): AABB {
-  const bbox = new AABB();
-  bbox.setMinMax(
-    [Math.min(p1[0], p2[0]), Math.min(p1[1], p2[1]), 0],
-    [Math.max(p1[0], p2[0]), Math.max(p1[1], p2[1]), 0],
-  );
-  return bbox;
-}
-
-/**
- * <zh/> 判断包围盒2是否包含在包围盒1内
- *
- * <en/> Determine whether the bounding box 2 is contained in the bounding box 1
- * @param bbox1 - <zh/> 包围盒1 | <en/> Bounding box 1
- * @param bbox2 - <zh/> 包围盒2 | <en/> Bounding box 2
- * @returns <zh/> 是否包含 | <en/> Whether it contains
- */
-export function isContains(bbox1: AABB, bbox2: AABB): boolean {
-  return (
-    bbox1.min[0] <= bbox2.min[0] &&
-    bbox1.min[1] <= bbox2.min[1] &&
-    bbox1.max[0] >= bbox2.max[0] &&
-    bbox1.max[1] >= bbox2.max[1]
-  );
-}
-
-/**
  * <zh/> 获取包围盒上离点 `p` 最近的点
  *
  * <en/> Get a point on the boundary nearest to the point `p`
