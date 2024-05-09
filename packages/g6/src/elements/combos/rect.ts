@@ -1,6 +1,5 @@
 import type { DisplayObjectConfig, RectStyleProps as GRectStyleProps } from '@antv/g';
 import { Rect as GRect, Group } from '@antv/g';
-import { deepMix } from '@antv/util';
 import { subStyleProps } from '../../utils/prefix';
 import type { BaseComboStyleProps } from './base-combo';
 import { BaseCombo } from './base-combo';
@@ -18,12 +17,8 @@ export interface RectComboStyleProps extends BaseComboStyleProps {}
  * <en/> Rect combo
  */
 export class RectCombo extends BaseCombo<RectComboStyleProps> {
-  static defaultStyleProps: Partial<RectComboStyleProps> = {
-    anchor: [0.5, 0.5],
-  };
-
   constructor(options: DisplayObjectConfig<RectComboStyleProps>) {
-    super(deepMix({}, { style: RectCombo.defaultStyleProps }, options));
+    super(options);
   }
 
   protected drawKeyShape(attributes: Required<RectComboStyleProps>, container: Group): GRect | undefined {
@@ -40,6 +35,8 @@ export class RectCombo extends BaseCombo<RectComboStyleProps> {
       ...(attributes.collapsed && collapsedStyle),
       width,
       height,
+      x: -width / 2,
+      y: -height / 2,
     };
   }
 }
