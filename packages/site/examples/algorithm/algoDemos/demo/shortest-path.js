@@ -4,6 +4,13 @@
 import { findShortestPath } from '@antv/algorithm';
 import { CanvasEvent, Graph, NodeEvent, idOf } from '@antv/g6';
 
+const arrayToObject = (array, value) => {
+  return array.reduce((obj, key) => {
+    obj[key] = value;
+    return obj;
+  }, {});
+};
+
 const formatData = (data) => {
   const newData = data;
   const { nodes } = newData;
@@ -32,7 +39,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
     const data = formatData(mockData);
     const graph = new Graph({
       container: 'container',
-      data,
+      data: formatData(mockData),
       behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'click-select'],
       autoFit: 'view',
     });
@@ -82,27 +89,36 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
       if (path?.length) {
         const pathNodeMap = {};
         path.forEach((id) => {
-          const pathNode = graph.getNodeData(id);
-          graph.frontElement(pathNode.id);
-          graph.setElementState(pathNode.id, 'highlight');
           pathNodeMap[id] = true;
         });
+        graph.frontElement(path);
+        graph.setElementState(arrayToObject(path, 'highlight'));
+
+        let highlightEdges = [];
+        let inactiveEdges = [];
+        let inactiveNodes = [];
+
         graph.getEdgeData().forEach((edge) => {
           const { source, target } = edge;
           const sourceInPathIdx = path.indexOf(source);
           const targetInPathIdx = path.indexOf(target);
           if (sourceInPathIdx === -1 || targetInPathIdx === -1) return;
           if (Math.abs(sourceInPathIdx - targetInPathIdx) === 1) {
-            graph.setElementState(edge.id, 'highlight');
+            highlightEdges.push(edge.id);
           } else {
-            graph.setElementState(edge.id, 'inactive');
+            inactiveEdges.push(edge.id);
           }
         });
+
         graph.getNodeData().forEach((node) => {
           if (!pathNodeMap[node.id]) {
-            graph.setElementState(node.id, 'inactive');
+            inactiveNodes.push(node.id);
           }
         });
+
+        graph.setElementState(arrayToObject(highlightEdges, 'highlight'));
+        graph.setElementState(arrayToObject(inactiveEdges, 'inactive'));
+        graph.setElementState(arrayToObject(inactiveNodes, 'inactive'));
       }
     });
   });
