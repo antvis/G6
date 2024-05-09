@@ -47,7 +47,7 @@
     "@antv/layout-wasm": "^1.3.4",
     "@antv/util": "^3.3.5",
     "antd": "^5.10.2",
-    "dumi": "^2.2.14",
+    "dumi": "~2.2.14",
     "insert-css": "^2.0.0",
     "lil-gui": "^0.19.2",
     "react": "^18.2.0",
