@@ -27,6 +27,14 @@
         "en": "LP automatic clustering"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uVOySpSIZXkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "louvain.js",
+      "title": {
+        "zh": "LOUVAIN 自动聚类",
+        "en": "LOUVAIN automatic clustering"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uVOySpSIZXkAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
