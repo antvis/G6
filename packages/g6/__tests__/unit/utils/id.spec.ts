@@ -8,7 +8,7 @@ describe('id', () => {
   });
 
   it('parentIdOf', () => {
-    expect(parentIdOf({ style: { parentId: '1' } })).toBe('1');
+    expect(parentIdOf({ combo: '1' })).toBe('1');
     expect(parentIdOf({})).toBeUndefined();
   });
 

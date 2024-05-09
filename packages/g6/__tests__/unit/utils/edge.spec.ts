@@ -237,8 +237,8 @@ describe('edge', () => {
      */
     const data = {
       nodes: [
-        { id: 'node-1', style: { parentId: 'combo-1' } },
-        { id: 'node-2', style: { parentId: 'combo-1' } },
+        { id: 'node-1', combo: 'combo-1' },
+        { id: 'node-2', combo: 'combo-1' },
         { id: 'node-3' },
         { id: 'node-4' },
         { id: 'node-5' },

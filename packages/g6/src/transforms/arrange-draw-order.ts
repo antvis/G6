@@ -15,21 +15,27 @@ export class ArrangeDrawOrder extends BaseTransform {
 
     const combosToAdd = input.add.combos;
 
-    const order: [ID, ComboData, number][] = [];
-    combosToAdd.forEach((combo, id) => {
-      const ancestors = model.getAncestorsData(id, 'combo');
-      const path = ancestors.map((ancestor) => idOf(ancestor)).reverse();
-      // combo 的 zIndex 为距离根 combo 的深度
-      // The zIndex of the combo is the depth from the root combo
-      order.push([id, combo, path.length]);
-    });
+    const arrangeCombo = (combos: Map<string, ComboData>): Map<string, ComboData> => {
+      // id, data, zIndex
+      const order: [ID, ComboData, number][] = [];
+      combos.forEach((combo, id) => {
+        const ancestors = model.getAncestorsData(id, 'combo');
+        const path = ancestors.map((ancestor) => idOf(ancestor)).reverse();
+        // combo 的 zIndex 为距离根 combo 的深度
+        // The zIndex of the combo is the depth from the root combo
+        order.push([id, combo, path.length]);
+      });
 
-    input.add.combos = new Map(
-      order
-        // 基于 zIndex 降序排序，优先绘制子 combo / Sort based on zIndex in descending order, draw child combo first
-        .sort(([, , zIndex1], [, , zIndex2]) => zIndex2 - zIndex1)
-        .map(([id, datum]) => [id, datum]),
-    );
+      return new Map(
+        order
+          // 基于 zIndex 降序排序，优先绘制子 combo / Sort based on zIndex in descending order, draw child combo first
+          .sort(([, , zIndex1], [, , zIndex2]) => zIndex2 - zIndex1)
+          .map(([id, datum]) => [id, datum]),
+      );
+    };
+
+    input.add.combos = arrangeCombo(combosToAdd);
+    input.update.combos = arrangeCombo(input.update.combos);
 
     return input;
   }

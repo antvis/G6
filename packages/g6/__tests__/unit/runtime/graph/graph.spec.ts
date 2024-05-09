@@ -145,8 +145,8 @@ describe('Graph', () => {
 
     graph.addComboData([{ id: 'combo-1', style: {} }]);
     graph.addNodeData([
-      { id: 'node-3', style: { parentId: 'combo-1' } },
-      { id: 'node-4', style: { parentId: 'combo-1' } },
+      { id: 'node-3', combo: 'combo-1' },
+      { id: 'node-4', combo: 'combo-1' },
     ]);
     graph.addEdgeData([{ id: 'edge-2', source: 'node-3', target: 'node-4' }]);
     expect(graph.getNodeData().map(idOf)).toEqual(['node-1', 'node-2', 'node-3', 'node-4']);
@@ -161,8 +161,8 @@ describe('Graph', () => {
     expect(graph.getNodeData()).toEqual([
       { id: 'node-1', data: {}, style: {} },
       { id: 'node-2', data: {}, style: {} },
-      { id: 'node-3', data: {}, style: { x: 100, y: 100, parentId: 'combo-1' } },
-      { id: 'node-4', data: {}, style: { parentId: 'combo-1' } },
+      { id: 'node-3', data: {}, combo: 'combo-1', style: { x: 100, y: 100 } },
+      { id: 'node-4', data: {}, combo: 'combo-1', style: {} },
     ]);
     expect(graph.getEdgeData().map(idOf)).toEqual(['edge-1', 'edge-2']);
     expect(graph.getComboData()).toEqual([{ id: 'combo-1', data: {}, style: { stroke: 'red' } }]);

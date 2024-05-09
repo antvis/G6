@@ -14,7 +14,7 @@ describe('ElementController', () => {
         nodes: [
           { id: 'node-1', style: { x: 100, y: 100, fill: 'red', stroke: 'pink', lineWidth: 1 }, data: { value: 100 } },
           { id: 'node-2', style: { x: 150, y: 100 }, data: { value: 150 } },
-          { id: 'node-3', style: { x: 125, y: 150, parentId: 'combo-1', states: ['selected'] }, data: { value: 150 } },
+          { id: 'node-3', combo: 'combo-1', style: { x: 125, y: 150, states: ['selected'] }, data: { value: 150 } },
         ],
         edges: [
           { id: 'edge-1', source: 'node-1', target: 'node-2', data: { weight: 250 } },
@@ -132,7 +132,6 @@ describe('ElementController', () => {
     expect(elementController.getElementComputedStyle('node', node3)).toEqual({
       ...LIGHT_THEME.node?.style,
       ...LIGHT_THEME.node?.state?.selected,
-      parentId: 'combo-1',
       states: ['selected'],
       // from state
       fill: 'purple',
@@ -167,11 +166,7 @@ describe('ElementController', () => {
 
   it('runtime', async () => {
     graph.setData({
-      nodes: [
-        { id: 'node-1' },
-        { id: 'node-2', style: { parentId: 'combo-1' } },
-        { id: 'node-3', style: { parentId: 'combo-1' } },
-      ],
+      nodes: [{ id: 'node-1' }, { id: 'node-2', combo: 'combo-1' }, { id: 'node-3', combo: 'combo-1' }],
       edges: [
         { source: 'node-1', target: 'node-2' },
         { source: 'node-2', target: 'node-3' },

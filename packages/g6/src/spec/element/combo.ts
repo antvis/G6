@@ -1,6 +1,5 @@
 import type { BaseComboStyleProps } from '../../elements/combos';
-import type { ID, State } from '../../types';
-import type { CallableObject } from '../../types/callable';
+import type { CallableObject } from '../../types';
 import type { ComboData } from '../data';
 import type { AnimationOptions } from './animation';
 import type { PaletteOptions } from './palette';
@@ -12,25 +11,25 @@ import type { PaletteOptions } from './palette';
  */
 export interface ComboOptions {
   /**
-   * <zh/> Combo 类型
+   * <zh/> 组合类型
    *
    * <en/> Combo type
    */
   type?: string | ((datum: ComboData) => string);
   /**
-   * <zh/> Combo 样式
+   * <zh/> 组合样式
    *
    * <en/> Combo style
    */
   style?: CallableObject<ComboStyle, ComboData>;
   /**
-   * <zh/> Combo 状态样式
+   * <zh/> 组合状态样式
    *
    * <en/> Combo state style
    */
   state?: Record<string, CallableObject<ComboStyle, ComboData>>;
   /**
-   * <zh/> Combo 动画
+   * <zh/> 组合动画
    *
    * <en/> Combo animation
    */
@@ -51,12 +50,5 @@ export interface StaticComboOptions {
 }
 
 export interface ComboStyle extends Partial<BaseComboStyleProps> {
-  /**
-   * <zh/> 初始状态
-   *
-   * <en/> Initial state
-   */
-  states?: State[];
-  children?: ID[];
   [key: string]: any;
 }

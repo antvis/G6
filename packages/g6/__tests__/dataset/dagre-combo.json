@@ -4,14 +4,14 @@
     { "id": "1" },
     { "id": "2" },
     { "id": "3" },
-    { "id": "4", "style": { "parentId": "A" } },
-    { "id": "5", "style": { "parentId": "B" } },
-    { "id": "6", "style": { "parentId": "A" } },
-    { "id": "7", "style": { "parentId": "C" } },
-    { "id": "8", "style": { "parentId": "C" } },
-    { "id": "9", "style": { "parentId": "A" } },
-    { "id": "10", "style": { "parentId": "B" } },
-    { "id": "11", "style": { "parentId": "B" } }
+    { "id": "4", "combo": "A" },
+    { "id": "5", "combo": "B" },
+    { "id": "6", "combo": "A" },
+    { "id": "7", "combo": "C" },
+    { "id": "8", "combo": "C" },
+    { "id": "9", "combo": "A" },
+    { "id": "10", "combo": "B" },
+    { "id": "11", "combo": "B" }
   ],
   "edges": [
     { "id": "edge-102", "source": "0", "target": "1" },

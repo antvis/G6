@@ -8,7 +8,7 @@ export const layoutDendrogramTb: TestCase = async (context) => {
     data: treeToGraphData(data),
     node: {
       style: (model) => {
-        const hasChildren = !!model.style!.children?.length;
+        const hasChildren = !!model.children?.length;
         return {
           labelMaxWidth: 200,
           labelPlacement: hasChildren ? 'right' : 'bottom',

@@ -1,26 +1,54 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
   <defs/>
-  <g transform="matrix(0.618237,0,0,0.618237,235.918900,206.720840)">
+  <g transform="matrix(0.562748,0,0,0.562748,237.182755,225.857666)">
     <g fill="none" transform="matrix(1,0,0,1,0,0)">
       <g fill="none" transform="matrix(1,0,0,1,0,0)">
         <g fill="none" transform="matrix(1,0,0,1,53.982624,309.341858)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle fill="rgba(253,253,253,1)" transform="translate(-154.80771720105744,-154.80771720105744)" cx="154.80771720105744" cy="154.80771720105744" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="154.80771720105744"/>
           </g>
+          <g fill="none" transform="matrix(1,0,0,1,0,154.807724)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+                a
+              </text>
+            </g>
+          </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,196.021637,-86.306732)">
+        <g fill="none" transform="matrix(1,0,0,1,-9.803416,-140.453995)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle fill="rgba(253,253,253,1)" transform="translate(-79.07117047318826,-79.07117047318826)" cx="79.07117047318826" cy="79.07117047318826" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="79.07117047318826"/>
+            <circle fill="rgba(253,253,253,1)" transform="translate(-260.8939637431703,-260.8939637431703)" cx="260.8939637431703" cy="260.8939637431703" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="260.8939637431703"/>
+          </g>
+          <g fill="none" transform="matrix(1,0,0,1,0,260.893951)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+                b
+              </text>
+            </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,32.902729,-248.026672)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle fill="rgba(253,253,253,1)" transform="translate(-76.11450356931611,-76.11450356931611)" cx="76.11450356931611" cy="76.11450356931611" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="76.11450356931611"/>
           </g>
+          <g fill="none" transform="matrix(1,0,0,1,0,76.114502)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+                c
+              </text>
+            </g>
+          </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,-175.009796,-210.482574)">
           <g transform="matrix(1,0,0,1,0,0)">
             <circle fill="rgba(253,253,253,1)" transform="translate(-50.61867244406949,-50.61867244406949)" cx="50.61867244406949" cy="50.61867244406949" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="50.61867244406949"/>
+          </g>
+          <g fill="none" transform="matrix(1,0,0,1,0,50.618671)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+                d
+              </text>
+            </g>
           </g>
         </g>
       </g>

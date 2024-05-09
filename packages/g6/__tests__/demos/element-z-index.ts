@@ -16,8 +16,8 @@ export const elementZIndex: TestCase = async (context) => {
       ],
       combos: [
         { id: 'combo-1', style: { x: 50, y: 250 } },
-        { id: 'combo-2', style: { x: 50, y: 250, parentId: 'combo-1' } },
-        { id: 'combo-3', style: { x: 150, y: 250, parentId: 'combo-2' } },
+        { id: 'combo-2', combo: 'combo-1', style: { x: 50, y: 250 } },
+        { id: 'combo-3', combo: 'combo-2', style: { x: 150, y: 250 } },
         { id: 'combo-4', style: { x: 350, y: 250 } },
       ],
     },

@@ -147,14 +147,14 @@ export function layoutAdapter(
       const { nodes = [], edges = [], combos = [] } = data;
       const nodesToLayout: LayoutNodeData[] = nodes.map((datum) => {
         const id = idOf(datum);
-        const { data, style } = datum;
+        const { data, style, combo } = datum;
         return {
           id,
           data: {
             ...data,
             // antv-dagre 会读取 data.parentId
             // antv-dagre will read data.parentId
-            ...(style?.parentId ? { parentId: style.parentId } : {}),
+            ...(combo ? { parentId: combo } : {}),
           },
           style: { ...style },
         };

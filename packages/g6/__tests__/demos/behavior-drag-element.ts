@@ -6,9 +6,9 @@ export const behaviorDragNode: TestCase = async (context) => {
     data: {
       nodes: [
         { id: 'node-1', style: { x: 100, y: 100 } },
-        { id: 'node-2', style: { x: 200, y: 100, parentId: 'combo-1' } },
+        { id: 'node-2', combo: 'combo-1', style: { x: 200, y: 100 } },
         { id: 'node-3', style: { x: 100, y: 200 } },
-        { id: 'node-4', style: { x: 200, y: 200, parentId: 'combo-1' } },
+        { id: 'node-4', combo: 'combo-1', style: { x: 200, y: 200 } },
       ],
       edges: [
         { source: 'node-1', target: 'node-2' },

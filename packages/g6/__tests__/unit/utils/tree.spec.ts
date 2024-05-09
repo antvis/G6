@@ -11,9 +11,7 @@ describe('tree', () => {
       nodes: [
         {
           id: 'root',
-          style: {
-            children: ['child'],
-          },
+          children: ['child'],
         },
         { id: 'child' },
       ],
@@ -31,7 +29,8 @@ describe('tree', () => {
       nodes: [
         {
           id: 'root',
-          style: { fill: 'red', children: ['child'] },
+          children: ['child'],
+          style: { fill: 'red' },
           data: { value: 10 },
         },
         { id: 'child', style: { fill: 'green' }, data: { value: 1 } },
@@ -59,7 +58,8 @@ describe('tree', () => {
       nodes: [
         {
           id: 'root',
-          style: { fill: 'red', children: ['child'] },
+          children: ['child'],
+          style: { fill: 'red' },
           data: { value: 10 },
         },
         { id: 'child', style: { fill: 'green' }, data: { value: 1 } },

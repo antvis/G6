@@ -1,4 +1,4 @@
-import type { ID } from '../types';
+import type { ID, State } from '../types';
 import type { ComboStyle } from './element/combo';
 import type { EdgeStyle } from './element/edge';
 import type { NodeStyle } from './element/node';
@@ -41,6 +41,10 @@ export interface NodeData {
    * <zh/> 节点数据
    *
    * <en/> Node data
+   * @remarks
+   * <zh/> 用于存储节点的自定义数据，可以在样式映射中通过回调函数获取
+   *
+   * <en/> Used to store custom data of the node, which can be obtained through callback functions in the style mapping
    */
   data?: Record<string, unknown>;
   /**
@@ -49,6 +53,28 @@ export interface NodeData {
    * <en/> Node style
    */
   style?: NodeStyle;
+  /**
+   * <zh/> 节点初始状态
+   *
+   * <en/> Initial state of the node
+   */
+  states?: State[];
+  /**
+   * <zh/> 所属组合 ID
+   *
+   * <en/> ID of the combo to which the node belongs
+   */
+  combo?: ID;
+  /**
+   * <zh/> 子节点 ID
+   *
+   * <en/> Child node ID
+   * @remarks
+   * <zh/> 适用于树图结构
+   *
+   * <en/> Suitable for tree graph structure
+   */
+  children?: ID[];
   [key: string]: unknown;
 }
 
@@ -69,6 +95,10 @@ export interface ComboData {
    * <zh/> Combo 数据
    *
    * <en/> Combo data
+   * @remarks
+   * <zh/> 用于存储 Combo 的自定义数据，可以在样式映射中通过回调函数获取
+   *
+   * <en/> Used to store custom data of the Combo, which can be obtained through callback functions in the style mapping
    */
   data?: Record<string, unknown>;
   /**
@@ -77,6 +107,18 @@ export interface ComboData {
    * <en/> Combo style
    */
   style?: ComboStyle;
+  /**
+   * <zh/> 组合初始状态
+   *
+   * <en/> Initial state of the combo
+   */
+  states?: State[];
+  /**
+   * <zh/> 所属组合 ID
+   *
+   * <en/> ID of the combo to which the combo belongs
+   */
+  combo?: ID;
   [key: string]: unknown;
 }
 
@@ -109,6 +151,10 @@ export interface EdgeData {
    * <zh/> 边数据
    *
    * <en/> Edge data
+   * @remarks
+   * <zh/> 用于存储边的自定义数据，可以在样式映射中通过回调函数获取
+   *
+   * <en/> Used to store custom data of the edge, which can be obtained through callback functions in the style mapping
    */
   data?: Record<string, unknown>;
   /**
@@ -117,5 +163,11 @@ export interface EdgeData {
    * <en/> Edge style
    */
   style?: EdgeStyle;
+  /**
+   * <zh/> 边初始状态
+   *
+   * <en/> Initial state of the edge
+   */
+  states?: State[];
   [key: string]: unknown;
 }

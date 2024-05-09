@@ -25,7 +25,7 @@ export function idOf(data: Partial<NodeData | EdgeData | ComboData>): ID {
  * @returns <zh/> 节点/Combo 的父节点 ID | <en/> parent id of node/combo
  */
 export function parentIdOf(data: Partial<NodeData | ComboData>) {
-  return data.style?.parentId;
+  return data.combo;
 }
 
 export function idsOf(data: GraphData, flat: true): ID[];
