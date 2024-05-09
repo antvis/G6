@@ -28,6 +28,14 @@ export interface ClickElementOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the function of clicking the element
    * @defaultValue true
+   * @remarks
+   * <zh/> 可以通过函数的方式动态控制是否启用，例如只有节点被选中时才启用。
+   *
+   * <en/> Whether to enable can be dynamically controlled by functions, such as only when nodes are selected.
+   *
+   * ```json
+   * { enable: event => event.targetType === 'node'}
+   * ```
    */
   enable?: boolean | ((event: IPointerEvent) => boolean);
   /**
@@ -64,19 +72,13 @@ export interface ClickElementOptions extends BaseBehaviorOptions {
    * <en/> The degree to determine the scope of influence
    * @defaultValue 0
    * @remarks
-   * <zh/> 对于节点来说，
-   * - 0 表示只选中当前节点
-   * - 1 表示选中当前节点及其直接相邻的节点和边，以此类推
-   * 对于边来说，
-   * - 0 表示只选中当前边
-   * - 1 表示选中当前边及其直接相邻的节点，以此类推
+   * <zh/> 对于节点来说，`0` 表示只选中当前节点，`1` 表示选中当前节点及其直接相邻的节点和边，以此类推。
    *
-   * <en/> For nodes,
-   * - 0 means only the current node is selected
-   * - 1 means the current node and its directly adjacent nodes and edges are selected, etc
-   * For edges,
-   * - 0 means only the current edge is selected
-   * - 1 means the current edge and its directly adjacent nodes are selected, etc
+   * <zh/> 对于边来说，`0` 表示只选中当前边，`1` 表示选中当前边及其直接相邻的节点，以此类推。
+   *
+   * <en/> For nodes, `0` means only the current node is selected, `1` means the current node and its directly adjacent nodes and edges are selected, etc.
+   *
+   * <en/> For edges, `0 `means only the current edge is selected,`1` means the current edge and its directly adjacent nodes are selected, etc.
    */
   degree?: number;
 }
@@ -86,11 +88,9 @@ export interface ClickElementOptions extends BaseBehaviorOptions {
  *
  * <en/> Click Element
  * @remarks
- * ```typescript
- * const graph = new Graph({
- *  behaviors: ['click-element'],
- * });
- * ```
+ * <zh/> 当鼠标点击元素时，可以激活元素的状态，例如选中节点或边。当 degree 设置为 `1` 时，点击节点会高亮当前节点及其直接相邻的节点和边。
+ *
+ * <en/> When the mouse clicks on an element, you can activate the state of the element, such as selecting nodes or edges. When the degree is 1, clicking on a node will highlight the current node and its directly adjacent nodes and edges.
  */
 export class ClickElement extends BaseBehavior<ClickElementOptions> {
   private selectedElementIds: ID[] = [];

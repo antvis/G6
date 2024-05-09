@@ -48,6 +48,7 @@ if (window) {
       $wrapper.style.display = 'flex';
 
       const gui = new (await import('lil-gui')).default({ container: $wrapper, autoPlace: false });
+      gui.title('Playground');
       renderPanel(gui, graph);
     }
 

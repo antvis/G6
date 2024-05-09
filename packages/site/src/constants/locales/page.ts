@@ -58,6 +58,7 @@ export const PageTitle: Record<string, string[]> = {
   FocusElement: ['FocusElement', '聚焦元素'],
   HoverElement: ['HoverElement', '悬停激活'],
   LassoSelect: ['LassoSelect', '套索选择'],
+  ScrollCanvas: ['ScrollCanvas', '滚动画布'],
   ZoomCanvas: ['ZoomCanvas', '缩放画布'],
   // plugins
   BubbleSets: ['BubbleSets', '气泡集'],

@@ -6,6 +6,11 @@ import { isElement } from '../utils/element';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
+/**
+ * <zh/> 展开/收起组合元素交互配置项
+ *
+ * <en/> Collapse/Expand combo behavior options
+ */
 export interface CollapseExpandOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用动画
@@ -13,7 +18,7 @@ export interface CollapseExpandOptions extends BaseBehaviorOptions {
    * <en/> Whether to enable animation
    * @defaultValue true
    */
-  animation: boolean;
+  animation?: boolean;
   /**
    * <zh/> 是否启用展开/收起功能
    *
@@ -34,10 +39,15 @@ export interface CollapseExpandOptions extends BaseBehaviorOptions {
    */
   onExpand?: (id: ID) => void;
 }
+
 /**
- * <zh/> 展开/收起
+ * <zh/> 展开/收起组合元素交互
  *
- * <en/> Collapse/Expand
+ * <en/> Collapse/Expand Combo behavior
+ * @remarks
+ * <zh/> 通过双击 Combo 进行展开或收起 Combo。
+ *
+ * <en/> Expand or collapse a Combo by double-clicking on it.
  */
 export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
   static defaultOptions: Partial<CollapseExpandOptions> = {

@@ -3,25 +3,30 @@ import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
 import type { EdgeStyle } from '../spec/element/edge';
-import type { Element, ID, IPointerEvent } from '../types';
+import type { ID, IElementEvent, IPointerEvent } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
 const ASSIST_EDGE_ID = 'g6-create-edge-assist-edge-id';
 const ASSIST_NODE_ID = 'g6-create-edge-assist-node-id';
 
+/**
+ * <zh/> 创建边交互配置项
+ *
+ * <en/> Create edge behavior options
+ */
 export interface CreateEdgeOptions extends BaseBehaviorOptions {
   /**
-   * <zh/> 是否启用悬浮元素的功能
+   * <zh/> 是否启用创建边的功能
    *
-   * <en/> Whether to enable hover element function
+   * <en/> Whether to enable the function of creating edges
    * @defaultValue true
    */
   enable?: boolean | ((event: IPointerEvent) => boolean);
   /**
-   * <zh/> 边配置
+   * <zh/> 新建边的样式配置
    *
-   * <en/> edge config
+   * <en/> Style configs of the new edge
    */
   style?: EdgeStyle;
   /**
@@ -45,6 +50,15 @@ export interface CreateEdgeOptions extends BaseBehaviorOptions {
   onCreate?: (edge: EdgeData) => EdgeData;
 }
 
+/**
+ * <zh/> 创建边交互
+ *
+ * <en/> Create edge behavior
+ * @remarks
+ * <zh/> 通过拖拽或点击节点创建边，支持自定义边样式。
+ *
+ * <en/> Create edges by dragging or clicking nodes, and support custom edge styles.
+ */
 export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   static defaultOptions: Partial<CreateEdgeOptions> = {
     animation: true,
@@ -62,6 +76,11 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     this.bindEvents();
   }
 
+  /**
+   * Update options
+   * @param options - The options to update
+   * @internal
+   */
   public update(options: Partial<CreateEdgeOptions>): void {
     super.update(options);
     this.bindEvents();
@@ -203,5 +222,3 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     super.destroy();
   }
 }
-
-type IElementEvent = IPointerEvent<Element>;

@@ -87,7 +87,7 @@ createGraph(
       },
     ],
   },
-  { width: 800, height: 450 },
+  { width: 600, height: 450 },
   (gui, graph) => {
     const options = {
       type: 'hull',
@@ -123,10 +123,10 @@ createGraph(
     optionFolder.add(options, 'labelOffsetY', 0, 20, 1);
     optionFolder.add(options, 'labelPlacement', ['left', 'right', 'top', 'bottom', 'center']);
 
-    optionFolder.onChange((e) => {
+    optionFolder.onChange(({ property, value }) => {
       graph.updatePlugin({
         key: 'hull-a',
-        ...e.object,
+        [property]: value,
       });
       graph.render();
     });

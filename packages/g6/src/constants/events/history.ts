@@ -1,11 +1,3 @@
-import type { Command } from './utils';
-
-export interface IHistoryEvent {
-  cmd?: Command | null;
-}
-
-export type HistoryEventHandler = (e: IHistoryEvent) => void;
-
 export enum HistoryEvent {
   /**
    * <zh/> 当命令被撤销时
@@ -44,5 +36,3 @@ export enum HistoryEvent {
    */
   CHANGE = 'change',
 }
-
-export type HistoryEventName = 'undo' | 'redo' | 'cancel' | 'add' | 'clear' | 'change';
