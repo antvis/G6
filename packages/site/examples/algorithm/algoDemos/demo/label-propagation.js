@@ -42,7 +42,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       clusteredData.clusters.forEach((cluster, i) => {
         const color = subjectColors[i % subjectColors.length];
         const nodes = cluster.nodes.map((node) => ({
-          ...node,
+          id: node.id,
           style: {
             fill: color,
           },
