@@ -55,9 +55,9 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@antv/component": "^1.0.3",
+    "@antv/component": "^2.0.1",
     "@antv/event-emitter": "^0.1.3",
-    "@antv/g": "^6.0.4",
+    "@antv/g": "^6.0.5",
     "@antv/g-canvas": "^2.0.3",
     "@antv/g-plugin-dragndrop": "^2.0.3",
     "@antv/graphlib": "^2.0.2",

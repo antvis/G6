@@ -382,6 +382,8 @@ export class Legend extends BasePlugin<LegendOptions> {
       this.getEvents(),
     );
 
+    console.log(categoryStyle);
+
     const category = new Category({
       className: 'legend',
       style: categoryStyle,
