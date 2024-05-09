@@ -30,17 +30,22 @@ const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 40;
 
-const graph = new Graph({
-  container: 'container',
-  width,
-  height,
-  linkCenter: true,
-  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'click-select'],
-  fitView: true,
-});
 fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a1d55.json')
   .then((res) => res.json())
   .then((mockData) => {
+    const data = formatData(mockData);
+    const graph = new Graph({
+      container: 'container',
+      width,
+      height,
+      data,
+      linkCenter: true,
+      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'click-select'],
+      fitView: true,
+    });
+
+    graph.render();
+
     const clearStates = () => {
       graph.getNodeData().forEach((node) => {
         graph.setElementState(node.id, []);
@@ -53,9 +58,6 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
     graph.on('canvas:click', (e) => {
       clearStates();
     });
-    const data = formatData(mockData);
-    graph.setData(data);
-    graph.render();
 
     // store the selected nodes according to the clicked order
     let selectedNodeIds = [];

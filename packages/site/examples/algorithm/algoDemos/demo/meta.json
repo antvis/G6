@@ -19,6 +19,14 @@
         "en": "Shortest path"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uVOySpSIZXkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "label-propagation.js",
+      "title": {
+        "zh": "LP 自动聚类",
+        "en": "LP automatic clustering"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uVOySpSIZXkAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
