@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "pattern-matching.js",
+      "title": {
+        "zh": "图模式匹配",
+        "en": "Graph pattern matching"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*a9eSQa4f4Y4AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "shortest-path.js",
+      "title": {
+        "zh": "最短路径",
+        "en": "Shortest path"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wQy2TZkb-VgAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "label-propagation.js",
+      "title": {
+        "zh": "LP 自动聚类",
+        "en": "LP automatic clustering"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1QHsR4wHCKwAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "louvain.js",
+      "title": {
+        "zh": "LOUVAIN 自动聚类",
+        "en": "LOUVAIN automatic clustering"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1QHsR4wHCKwAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
