@@ -5,4 +5,5 @@ export { CommonEvent } from './common';
 export { ContainerEvent } from './container';
 export { EdgeEvent } from './edge';
 export { GraphEvent } from './graph';
+export { HistoryEvent } from './history';
 export { NodeEvent } from './node';

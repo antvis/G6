@@ -33,7 +33,12 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> The way to trigger dragging, default to dragging with the pointer pressed
    */
-  trigger?: CombinationKey;
+  trigger?: {
+    up: ShortcutKey;
+    down: ShortcutKey;
+    left: ShortcutKey;
+    right: ShortcutKey;
+  };
   /**
    * <zh/> 触发一次按键移动的距离
    *
@@ -49,13 +54,11 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
   onFinish?: () => void;
 }
 
-type CombinationKey = {
-  up: ShortcutKey;
-  down: ShortcutKey;
-  left: ShortcutKey;
-  right: ShortcutKey;
-};
-
+/**
+ * <zh/> 拖拽画布交互
+ *
+ * <en/> Drag canvas behavior
+ */
 export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   static defaultOptions: Partial<DragCanvasOptions> = {
     enable: true,
@@ -74,6 +77,18 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     this.bindEvents();
     this.defaultCursor = this.context.canvas.getConfig().cursor || 'default';
     context.canvas.setCursor('grab');
+  }
+
+  /**
+   * <zh/> 更新配置
+   *
+   * <en/> Update options
+   * @param options - <zh/> 配置项 | <en/> Options
+   * @internal
+   */
+  public update(options: Partial<DragCanvasOptions>): void {
+    super.update(options);
+    this.bindEvents();
   }
 
   private bindEvents() {
@@ -110,6 +125,14 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     this.options.onFinish?.();
   }
 
+  /**
+   * <zh/> 平移画布
+   *
+   * <en/> Translate canvas
+   * @param offset - <zh/> 平移距离 | <en/> Translation distance
+   * @param animation - <zh/> 动画配置 | <en/> Animation configuration
+   * @internal
+   */
   protected async translate(offset: Vector2, animation?: ViewportAnimationEffectTiming) {
     await this.context.graph.translateBy(offset, animation);
   }

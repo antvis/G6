@@ -26,7 +26,7 @@ createGraph(
     behaviors: ['drag-canvas'],
     plugins: ['grid-line', { type: 'tooltip', key: 'tooltip' }],
   },
-  { width: 800, height: 300 },
+  { width: 600, height: 300 },
   (gui, graph) => {
     const options = {
       type: 'tooltip',

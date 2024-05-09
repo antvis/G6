@@ -16,13 +16,20 @@ export interface CustomPluginOption extends Record<string, any> {
    */
   type?: string;
   /**
-   * <zh/> 插件名称
+   * <zh/> 插件 key，即唯一标识
    *
-   * <en/> Plugin name
+   * <en/> Plugin key, that is, the unique identifier
    * @remarks
-   * <zh/> 插件名称用于标识插件，从而进一步操作此插件
+   * <zh/> 用于标识插件，从而进一步操作此插件
    *
-   * <en/> Plugin name is used to identify the plugin for further operations
+   * <en/> Used to identify the plugin for further operations
+   *
+   * ```ts
+   * // Get plugin instance
+   * const plugin = graph.getPluginInstance('key');
+   * // Update plugin options
+   * graph.updatePlugin({key: 'key', ...});
+   * ```
    */
   key?: string;
 }

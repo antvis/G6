@@ -10,6 +10,7 @@ export {
   FocusElement,
   HoverElement,
   LassoSelect,
+  ScrollCanvas,
   ZoomCanvas,
 } from './behaviors';
 export {
@@ -20,6 +21,7 @@ export {
   EdgeEvent,
   ExtensionCategory,
   GraphEvent,
+  HistoryEvent,
   NodeEvent,
 } from './constants';
 export { BaseCombo, CircleCombo, RectCombo } from './elements/combos';
@@ -113,6 +115,7 @@ export type {
   FocusElementOptions,
   HoverElementOptions,
   LassoSelectOptions,
+  ScrollCanvasOptions,
   ZoomCanvasOptions,
 } from './behaviors';
 export type { BaseComboStyleProps, CircleComboStyleProps, RectComboStyleProps } from './elements/combos';
@@ -156,8 +159,6 @@ export type {
   TooltipOptions,
   WatermarkOptions,
 } from './plugins';
-export type { HistoryEventName } from './plugins/history/events';
-export type { Command, CommandData } from './plugins/history/utils';
 export type { RuntimeContext } from './runtime/types';
 export type {
   BehaviorOptions,
@@ -174,6 +175,7 @@ export type {
   ThemeOptions,
   ViewportOptions,
 } from './spec';
+export type { CustomBehaviorOption } from './spec/behavior';
 export type { LayoutOptions, STDLayoutOptions, SingleLayoutOptions } from './spec/layout';
 export type { CustomPluginOption } from './spec/plugin';
 export type { BaseTransformOptions } from './transforms';
@@ -195,6 +197,7 @@ export type {
   IAnimateEvent,
   ID,
   IDragEvent,
+  IElementDragEvent,
   IElementEvent,
   IElementLifeCycleEvent,
   IEvent,
@@ -224,4 +227,5 @@ export type {
   Vector3,
   ViewportAnimationEffectTiming,
 } from './types';
+export type { Command, CommandData } from './types/history';
 export type { ShortcutKey } from './utils/shortcut';

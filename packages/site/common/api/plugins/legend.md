@@ -65,7 +65,7 @@ createGraph(
       },
     ],
   },
-  { width: 800, height: 300 },
+  { width: 600, height: 300 },
   (gui, graph) => {
     const options = {
       type: 'legend',
@@ -87,10 +87,10 @@ createGraph(
     optionFolder.add(options, 'itemMarkerSize', 12, 20, 1);
     optionFolder.add(options, 'itemLabelFontSize', 12, 20, 1);
 
-    optionFolder.onChange((e) => {
+    optionFolder.onChange(({ property, value }) => {
       graph.updatePlugin({
         key: 'legend',
-        ...e.object,
+        [property]: value,
       });
       graph.render();
     });

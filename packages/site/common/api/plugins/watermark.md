@@ -6,7 +6,7 @@ createGraph(
     behaviors: ['drag-canvas'],
     plugins: [{ type: 'watermark', key: 'watermark', text: 'G6: Graph Visualization' }],
   },
-  { width: 800, height: 300 },
+  { width: 600, height: 300 },
   (gui, graph) => {
     const options = {
       type: 'watermark',
@@ -14,7 +14,7 @@ createGraph(
       height: 100,
       opacity: 0.2,
       rotate: Math.PI / 12,
-      text: 'G6: Graph Visualization'
+      text: 'G6: Graph Visualization',
     };
     const optionFolder = gui.addFolder('Watermark Options');
     optionFolder.add(options, 'type').disable(true);
@@ -24,10 +24,10 @@ createGraph(
     optionFolder.add(options, 'rotate', 0, 2 * Math.PI, Math.PI / 12);
     optionFolder.add(options, 'text');
 
-    optionFolder.onChange((e) => {
+    optionFolder.onChange(({ property, value }) => {
       graph.updatePlugin({
         key: 'watermark',
-        ...e.object,
+        [property]: value,
       });
       graph.render();
     });

@@ -2,10 +2,10 @@ import type { RectStyleProps } from '@antv/g';
 import { Rect } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
-import { idOf } from '../exports';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
 import type { ElementDatum, ElementType, ID, IPointerEvent, Point, State } from '../types';
+import { idOf } from '../utils/id';
 import { getBoundingPoints, isPointInPolygon } from '../utils/point';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
@@ -137,6 +137,11 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
     this.bindEvents();
   }
 
+  /**
+   * Triggered when the pointer is pressed
+   * @param event - Pointer event
+   * @internal
+   */
   protected onPointerDown(event: IPointerEvent) {
     if (!this.validate(event) || !this.isKeydown() || this.startPoint) return;
     const { canvas } = this.context;
@@ -147,6 +152,11 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
     this.startPoint = [event.canvas.x, event.canvas.y];
   }
 
+  /**
+   * Triggered when the pointer is moved
+   * @param event - Pointer event
+   * @internal
+   */
   protected onPointerMove(event: IPointerEvent) {
     if (!this.startPoint) return;
     const { immediately, mode } = this.options;
@@ -163,6 +173,11 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
     if (immediately && mode === 'default') this.updateElementsStates(getBoundingPoints(this.startPoint, this.endPoint));
   }
 
+  /**
+   * Triggered when the pointer is released
+   * @param event - Pointer event
+   * @internal
+   */
   protected onPointerUp(event: IPointerEvent) {
     if (!this.startPoint) return;
     if (!this.endPoint) {

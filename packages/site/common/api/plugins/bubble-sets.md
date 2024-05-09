@@ -93,7 +93,7 @@ createGraph(
       },
     ],
   },
-  { width: 800, height: 450 },
+  { width: 600, height: 450 },
   (gui, graph) => {
     const options = {
       type: 'bubble-sets',
@@ -151,10 +151,10 @@ createGraph(
     optionFolder.add(options, 'nonMemberInfluenceFactor', -1, 1, 0.1);
     optionFolder.add(options, 'virtualEdges');
 
-    optionFolder.onChange((e) => {
+    optionFolder.onChange(({ property, value }) => {
       graph.updatePlugin({
         key: 'bubble-sets',
-        ...e.object,
+        [property]: value,
       });
       graph.render();
     });

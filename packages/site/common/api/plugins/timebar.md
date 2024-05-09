@@ -42,7 +42,7 @@ createGraph(
     autoFit: 'view',
     padding: [10, 0, 100, 0],
   },
-  { width: 800, height: 400 },
+  { width: 600, height: 400 },
   (gui, graph) => {
     const options = {
       type: 'timebar',
@@ -65,10 +65,10 @@ createGraph(
     optionFolder.add(options, 'timebarType', ['time', 'chart']);
     optionFolder.add(options, 'loop');
 
-    optionFolder.onChange((e) => {
+    optionFolder.onChange(({ property, value }) => {
       graph.updatePlugin({
         key: 'timebar',
-        ...e.object,
+        [property]: value,
       });
       graph.render();
     });

@@ -1,14 +1,13 @@
 import EventEmitter from '@antv/event-emitter';
 import { GraphEvent } from '../../constants';
+import { HistoryEvent } from '../../constants/events/history';
 import type { RuntimeContext } from '../../runtime/types';
-import { DataChange } from '../../types';
+import { DataChange, Loosen } from '../../types';
+import type { Command } from '../../types/history';
 import type { GraphLifeCycleEvent } from '../../utils/event';
 import { idsOf } from '../../utils/id';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
-import type { HistoryEventHandler, HistoryEventName } from './events';
-import { HistoryEvent } from './events';
-import type { Command } from './utils';
 import { parseCommand } from './utils';
 
 /**
@@ -221,7 +220,7 @@ export class History extends BasePlugin<HistoryOptions> {
     this.notify(HistoryEvent.CLEAR, null);
   }
 
-  private notify(event: HistoryEventName, cmd: Command | null) {
+  private notify(event: Loosen<HistoryEvent>, cmd: Command | null) {
     this.emitter.emit(event, { cmd });
     this.emitter.emit(HistoryEvent.CHANGE, { cmd });
   }
@@ -233,7 +232,7 @@ export class History extends BasePlugin<HistoryOptions> {
    * @param event  - <zh/> 事件名称 | <en/> Event name
    * @param handler - <zh/> 事件处理函数 | <en/> Event handler
    */
-  public on(event: HistoryEventName, handler: HistoryEventHandler): void {
+  public on(event: Loosen<HistoryEvent>, handler: (e: { cmd?: Command | null }) => void): void {
     this.emitter.on(event, handler);
   }
 

@@ -49,7 +49,7 @@ createGraph(
       },
     ],
   },
-  { width: 800, height: 300 },
+  { width: 600, height: 300 },
   (gui, graph) => {
     const options = {
       type: 'toolbar',
@@ -68,10 +68,10 @@ createGraph(
       'bottom-right',
     ]);
 
-    optionFolder.onChange((e) => {
+    optionFolder.onChange(({ property, value }) => {
       graph.updatePlugin({
         key: 'toolbar',
-        ...e.object,
+        [property]: value,
       });
       graph.render();
     });

@@ -14,7 +14,7 @@ createGraph(
     behaviors: ['drag-element'],
     plugins: ['grid-line', { type: 'history', key: 'history' }],
   },
-  { width: 800, height: 300 },
+  { width: 600, height: 300 },
   (gui, graph) => {
     const options = {
       type: 'history',
@@ -23,10 +23,10 @@ createGraph(
     const optionFolder = gui.addFolder('History Options');
     optionFolder.add(options, 'type').disable(true);
     optionFolder.add(options, 'stackSize', 0, 10, 1);
-    optionFolder.onChange((e) => {
+    optionFolder.onChange(({ property, value }) => {
       graph.updatePlugin({
         key: 'history',
-        ...e.object,
+        [property]: value,
       });
       graph.render();
     });

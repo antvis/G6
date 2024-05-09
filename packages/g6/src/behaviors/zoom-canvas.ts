@@ -9,11 +9,17 @@ import { Shortcut } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
+/**
+ * <zh/> 缩放画布交互配置项
+ *
+ * <en/> Zoom canvas behavior options
+ */
 export interface ZoomCanvasOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用缩放动画
    *
    * <en/> Whether to enable the animation of zooming
+   * @defaultValue '{ duration: 200 }'
    */
   animation?: ViewportAnimationEffectTiming;
   /**
@@ -25,18 +31,20 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
   enable?: boolean | ((event: IWheelEvent | IKeyboardEvent) => boolean);
   /**
    * <zh/> 触发缩放的方式
+   * - ShortcutKey：组合快捷键，**默认使用滚轮缩放**，['Control'] 表示按住 Control 键滚动鼠标滚轮时触发缩放
+   * - CombinationKey：缩放快捷键，例如 { zoomIn: ['Control', '+'], zoomOut: ['Control', '-'], reset: ['Control', '0'] }
    *
    * <en/> The way to trigger zoom
-   * @remarks
-   * <zh/>
-   * - 数组：组合快捷键，默认使用滚轮缩放，['Control'] 表示按住 Control 键滚动鼠标滚轮时触发缩放
-   * - 对象：缩放快捷键，例如 { zoomIn: ['Control', '+'], zoomOut: ['Control', '-'], reset: ['Control', '0'] }
-   *
-   * <en/>
-   * - Array: Combination shortcut key, default to zoom in and out with the mouse wheel, ['Control'] means zooming when holding down the Control key and scrolling the mouse wheel
-   * - Object: Zoom shortcut key, such as { zoomIn: ['Control', '+'], zoomOut: ['Control', '-'], reset: ['Control', '0'] }
+   * - ShortcutKey: Combination shortcut key, **default to zoom with the mouse wheel**, ['Control'] means zooming when holding down the Control key and scrolling the mouse wheel
+   * - CombinationKey: Zoom shortcut key, such as { zoomIn: ['Control', '+'], zoomOut: ['Control', '-'], reset: ['Control', '0'] }
    */
-  trigger?: ShortcutKey | CombinationKey;
+  trigger?:
+    | ShortcutKey
+    | {
+        zoomIn: ShortcutKey;
+        zoomOut: ShortcutKey;
+        reset: ShortcutKey;
+      };
   /**
    * <zh/> 缩放灵敏度
    *
@@ -52,12 +60,11 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
   onFinish?: () => void;
 }
 
-type CombinationKey = {
-  zoomIn: ShortcutKey;
-  zoomOut: ShortcutKey;
-  reset: ShortcutKey;
-};
-
+/**
+ * <zh/> 缩放画布交互
+ *
+ * <en/> Zoom canvas behavior
+ */
 export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
   static defaultOptions: Partial<ZoomCanvasOptions> = {
     animation: { duration: 200 },
@@ -76,6 +83,13 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     this.bindEvents();
   }
 
+  /**
+   * <zh/> 更新配置
+   *
+   * <en/> Update options
+   * @param options - <zh/> 配置项 | <en/> Options
+   * @internal
+   */
   public update(options: Partial<ZoomCanvasOptions>): void {
     super.update(options);
     this.bindEvents();
@@ -94,7 +108,15 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     }
 
     if (isObject(trigger)) {
-      const { zoomIn = [], zoomOut = [], reset = [] } = trigger as CombinationKey;
+      const {
+        zoomIn = [],
+        zoomOut = [],
+        reset = [],
+      } = trigger as {
+        zoomIn: ShortcutKey;
+        zoomOut: ShortcutKey;
+        reset: ShortcutKey;
+      };
       this.shortcut.bind(zoomIn, (event) => this.zoom(10, event, this.options.animation));
       this.shortcut.bind(zoomOut, (event) => this.zoom(-10, event, this.options.animation));
       this.shortcut.bind(reset, this.onReset);
@@ -134,6 +156,14 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     await this.context.graph.zoomTo(1, this.options.animation);
   };
 
+  /**
+   * <zh/> 验证是否可以缩放
+   *
+   * <en/> Verify whether it can be zoomed
+   * @param event - <zh/> 事件对象 | <en/> Event object
+   * @returns <zh/> 是否可以缩放 | <en/> Whether it can be zoomed
+   * @internal
+   */
   protected validate(event: IWheelEvent | IKeyboardEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;

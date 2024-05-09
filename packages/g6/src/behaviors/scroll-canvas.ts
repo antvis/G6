@@ -6,6 +6,11 @@ import { Shortcut, ShortcutKey } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
+/**
+ * <zh/> 滚动画布交互配置项
+ *
+ * <en/> Scroll canvas behavior options
+ */
 export interface ScrollCanvasOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用滚动画布的功能
@@ -19,17 +24,22 @@ export interface ScrollCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> The way to trigger scrolling, default to scrolling with the pointer pressed
    */
-  trigger?: CombinationKey;
+  trigger?: {
+    up: ShortcutKey;
+    down: ShortcutKey;
+    left: ShortcutKey;
+    right: ShortcutKey;
+  };
   /**
    * <zh/> 允许的滚动方向
    * - 默认情况下没有限制
-   * - x : 只允许水平滚动
-   * - y : 只允许垂直滚动
+   * - `'x'` : 只允许水平滚动
+   * - `'y'` : 只允许垂直滚动
    *
    * <en/> The allowed rolling direction
    * - by default, there is no restriction
-   * - x: only allow horizontal scrolling
-   * - y: only allow vertical scrolling
+   * - `'x'`: only allow horizontal scrolling
+   * - `'y'`: only allow vertical scrolling
    */
   direction?: 'x' | 'y';
   /**
@@ -47,13 +57,11 @@ export interface ScrollCanvasOptions extends BaseBehaviorOptions {
   onFinish?: () => void;
 }
 
-type CombinationKey = {
-  up: ShortcutKey;
-  down: ShortcutKey;
-  left: ShortcutKey;
-  right: ShortcutKey;
-};
-
+/**
+ * <zh/> 滚动画布交互
+ *
+ * <en/> Scroll canvas behavior
+ */
 export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
   static defaultOptions: ScrollCanvasOptions = {
     enable: true,
@@ -67,6 +75,18 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
 
     this.shortcut = new Shortcut(context.graph);
 
+    this.bindEvents();
+  }
+
+  /**
+   * <zh/> 更新配置
+   *
+   * <en/> Update options
+   * @param options - <zh/> 配置项 | <en/> Options
+   * @internal
+   */
+  public update(options: Partial<ScrollCanvasOptions>): void {
+    super.update(options);
     this.bindEvents();
   }
 

@@ -6,7 +6,7 @@ createGraph(
     behaviors: ['drag-canvas'],
     plugins: [{ type: 'grid-line', key: 'grid-line' }],
   },
-  { width: 800, height: 300 },
+  { width: 600, height: 300 },
   (gui, graph) => {
     const LINE_STYLE = ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset'];
     const options = {
@@ -31,10 +31,10 @@ createGraph(
     optionFolder.addColor(options, 'borderStroke');
     optionFolder.add(options, 'follow');
 
-    optionFolder.onChange((e) => {
+    optionFolder.onChange(({ property, value }) => {
       graph.updatePlugin({
         key: 'grid-line',
-        ...e.object,
+        [property]: value,
       });
       graph.render();
     });
