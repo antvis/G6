@@ -2,7 +2,7 @@
  * 最短路径
  */
 import { findShortestPath } from '@antv/algorithm';
-import { Graph } from '@antv/g6';
+import { CanvasEvent, Graph, NodeEvent, idOf } from '@antv/g6';
 
 const formatData = (data) => {
   const newData = data;
@@ -26,42 +26,32 @@ const button = document.createElement('button');
 button.innerHTML = `查看最短路径`;
 document.getElementById('container').appendChild(button);
 
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = (container.scrollHeight || 500) - 40;
-
 fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a1d55.json')
   .then((res) => res.json())
   .then((mockData) => {
     const data = formatData(mockData);
     const graph = new Graph({
       container: 'container',
-      width,
-      height,
       data,
-      linkCenter: true,
       behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'click-select'],
-      fitView: true,
+      autoFit: 'view',
     });
 
     graph.render();
 
     const clearStates = () => {
-      graph.getNodeData().forEach((node) => {
-        graph.setElementState(node.id, []);
-      });
-      graph.getEdgeData().forEach((edge) => {
-        graph.setElementState(edge.id, []);
-      });
+      graph.setElementState(
+        Object.fromEntries([...graph.getNodeData(), ...graph.getEdgeData()].map((element) => [idOf(element), []])),
+      );
     };
 
-    graph.on('canvas:click', (e) => {
+    graph.on(`canvas:${CanvasEvent.CLICK}`, (e) => {
       clearStates();
     });
 
     // store the selected nodes according to the clicked order
     let selectedNodeIds = [];
-    graph.on('node:click', (event) => {
+    graph.on(`node:${NodeEvent.CLICK}`, (event) => {
       const {
         target: { id },
       } = event;
@@ -76,7 +66,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
       }
     });
 
-    graph.on('canvas:click', (e) => {
+    graph.on(`canvas:${CanvasEvent.CLICK}`, (e) => {
       selectedNodeIds = [];
     });
 
@@ -86,8 +76,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
         return;
       }
       clearStates();
-      // path 为其中一条最短路径，allPath 为所有的最短路径
-      const { path, allPath } = findShortestPath(data, selectedNodeIds[0], selectedNodeIds[1], true);
+      const { path } = findShortestPath(data, selectedNodeIds[0], selectedNodeIds[1], true);
       selectedNodeIds = [];
 
       if (path?.length) {
@@ -95,7 +84,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
         path.forEach((id) => {
           const pathNode = graph.getNodeData(id);
           graph.frontElement(pathNode.id);
-          graph.setElementState(pathNode.id, 'highlight', true);
+          graph.setElementState(pathNode.id, 'highlight');
           pathNodeMap[id] = true;
         });
         graph.getEdgeData().forEach((edge) => {
@@ -104,14 +93,14 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
           const targetInPathIdx = path.indexOf(target);
           if (sourceInPathIdx === -1 || targetInPathIdx === -1) return;
           if (Math.abs(sourceInPathIdx - targetInPathIdx) === 1) {
-            graph.setElementState(edge.id, 'highlight', true);
+            graph.setElementState(edge.id, 'highlight');
           } else {
-            graph.setElementState(edge.id, 'inactive', true);
+            graph.setElementState(edge.id, 'inactive');
           }
         });
         graph.getNodeData().forEach((node) => {
           if (!pathNodeMap[node.id]) {
-            graph.setElementState(node.id, 'inactive', true);
+            graph.setElementState(node.id, 'inactive');
           }
         });
       }

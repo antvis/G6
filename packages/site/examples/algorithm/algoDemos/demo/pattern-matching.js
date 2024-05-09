@@ -4,23 +4,17 @@
 import { GADDI } from '@antv/algorithm';
 import { Graph } from '@antv/g6';
 
-// 颜色数组
 const colors = ['#5F95FF', '#61DDAA', '#65789B'];
 
-// 默认色板配置
 const defaultPalette = {
   type: 'group',
   field: 'cluster',
-  color: colors, // 传入颜色数组
+  color: colors,
 };
 
 const button = document.createElement('button');
 button.innerHTML = `Click Here to Match 点此开始匹配`;
 document.getElementById('container').appendChild(button);
-
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = (container.scrollHeight || 500) - 20;
 
 const pattern = {
   nodes: [
@@ -49,10 +43,8 @@ fetch('https://assets.antv.antgroup.com/g6/gaddi.json')
   .then((data) => {
     const graph = new Graph({
       container: 'container',
-      width,
-      height,
       data,
-      fitView: true,
+      autoFit: 'view',
       behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
       node: {
         style: {

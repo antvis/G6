@@ -21,24 +21,17 @@ const subjectColors = [
   '#F08BB4',
 ];
 
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = (container.scrollHeight || 500) - 20;
-
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
     const graph = new Graph({
       container: 'container',
       data,
-      width,
-      height,
-      linkCenter: true,
+      autoFit: 'view',
       behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
       layout: {
         type: 'force',
         linkDistance: 50,
-        minMovement: 0.1,
       },
     });
     graph.render();
@@ -47,13 +40,14 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       const clusteredData = labelPropagation(data, false);
       let newNodeData = [];
       clusteredData.clusters.forEach((cluster, i) => {
-        const colors = subjectColors[i % subjectColors.length];
-        cluster.nodes.forEach((node) => {
-          node.style = {
-            fill: colors,
-          };
-        });
-        newNodeData.push(...cluster.nodes);
+        const color = subjectColors[i % subjectColors.length];
+        const nodes = cluster.nodes.map((node) => ({
+          ...node,
+          style: {
+            fill: color,
+          },
+        }));
+        newNodeData.push(...nodes);
       });
       graph.updateNodeData(newNodeData);
       graph.draw();
