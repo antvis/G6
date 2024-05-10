@@ -14,7 +14,7 @@ describe('ElementController', () => {
         nodes: [
           { id: 'node-1', style: { x: 100, y: 100, fill: 'red', stroke: 'pink', lineWidth: 1 }, data: { value: 100 } },
           { id: 'node-2', style: { x: 150, y: 100 }, data: { value: 150 } },
-          { id: 'node-3', combo: 'combo-1', style: { x: 125, y: 150, states: ['selected'] }, data: { value: 150 } },
+          { id: 'node-3', combo: 'combo-1', states: ['selected'], style: { x: 125, y: 150 }, data: { value: 150 } },
         ],
         edges: [
           { id: 'edge-1', source: 'node-1', target: 'node-2', data: { weight: 250 } },
@@ -22,7 +22,8 @@ describe('ElementController', () => {
             id: 'edge-2',
             source: 'node-2',
             target: 'node-3',
-            style: { lineWidth: 5, states: ['active', 'selected'] },
+            states: ['active', 'selected'],
+            style: { lineWidth: 5 },
             data: { weight: 300 },
           },
         ],
@@ -132,7 +133,6 @@ describe('ElementController', () => {
     expect(elementController.getElementComputedStyle('node', node3)).toEqual({
       ...LIGHT_THEME.node?.style,
       ...LIGHT_THEME.node?.state?.selected,
-      states: ['selected'],
       // from state
       fill: 'purple',
       // from palette
@@ -151,7 +151,6 @@ describe('ElementController', () => {
       ...LIGHT_THEME.edge?.state?.selected,
       lineWidth: 4,
       stroke: 'red',
-      states: ['active', 'selected'],
     });
 
     const comboStyle = elementController.getElementComputedStyle('combo', combo1);

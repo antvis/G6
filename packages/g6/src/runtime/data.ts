@@ -248,11 +248,11 @@ export class DataController {
 
   public getElementDataByState(elementType: ElementType, state: string) {
     const elementData = this.getElementData(elementType);
-    return elementData.filter((datum) => datum.style?.states?.includes(state));
+    return elementData.filter((datum) => datum.states?.includes(state));
   }
 
   public getElementState(id: ID): State[] {
-    return this.getElementsData([id])?.[0]?.style?.states || [];
+    return this.getElementsData([id])?.[0]?.states || [];
   }
 
   public hasNode(id: ID) {

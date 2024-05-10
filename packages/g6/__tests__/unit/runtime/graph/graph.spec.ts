@@ -218,7 +218,7 @@ describe('Graph', () => {
     expect(graph.getElementState('node-1')).toEqual(['selected']);
     expect(graph.getElementState('node-2')).toEqual([]);
     expect(graph.getElementDataByState('node', 'selected')).toEqual([
-      { id: 'node-1', data: {}, style: { states: ['selected'] } },
+      { id: 'node-1', data: {}, style: {}, states: ['selected'] },
     ]);
   });
 

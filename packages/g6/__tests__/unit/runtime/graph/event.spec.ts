@@ -134,12 +134,12 @@ describe('event', () => {
     graph.on(GraphEvent.AFTER_ELEMENT_DESTROY, destroy);
 
     // state change
-    graph.updateNodeData([{ id: 'node-1', style: { states: ['active'] } }]);
+    graph.updateNodeData([{ id: 'node-1', states: ['active'] }]);
     await graph.draw();
 
     expect(update).toHaveBeenCalledTimes(2);
     expect(update.mock.calls[0][0].data.id).toEqual('node-1');
-    expect(update.mock.calls[0][0].data.style.states).toEqual(['active']);
+    expect(update.mock.calls[0][0].data.states).toEqual(['active']);
 
     // 同时会更新相邻的边 / It will also update the adjacent edge
     expect(update.mock.calls[1][0].data.id).toEqual('edge-1');
@@ -148,7 +148,7 @@ describe('event', () => {
     graph.setElementState('node-1', []);
     expect(update).toHaveBeenCalledTimes(2);
     expect(update.mock.calls[0][0].data.id).toEqual('node-1');
-    expect(update.mock.calls[0][0].data.style.states).toEqual([]);
+    expect(update.mock.calls[0][0].data.states).toEqual([]);
     expect(update.mock.calls[1][0].data.id).toEqual('edge-1');
 
     graph.destroy();
