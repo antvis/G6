@@ -1,21 +1,34 @@
 // @ts-nocheck
 if (window) {
-  // window.g6 = require('@antv/g6/es'); // import the source for debugging
-  window.g6 = require('@antv/g6/src'); // import the source for debugging
+  window.g6 = require('@antv/g6/src');
 
-  window.layoutGpu = require('@antv/layout-gpu'); // import the source for debugging
+  window.layoutGpu = require('@antv/layout-gpu');
   window.algorithm = require('@antv/algorithm');
-  window.layoutWasm = require('@antv/layout-wasm'); // import the source for debugging
+  window.layoutWasm = require('@antv/layout-wasm');
   window.graphlib = require('@antv/graphlib');
 
   window.insertCss = require('insert-css');
   window.util = require('@antv/util');
   window.stats = require('stats.js');
+  window.g = require('@antv/g');
+  window.gSvg = require('@antv/g-svg');
   window.g2 = require('@antv/g2');
   window.antd = require('antd');
 
   window.React = require('react');
   window.ReactDOM = require('react-dom');
+
+  window.addPanel = async (renderPanel: (gui) => void) => {
+    const container = document.getElementById('container')?.parentNode;
+    const gui = new window.lil.GUI({ container, autoPlace: true });
+    gui.title('Control');
+    renderPanel(gui);
+    Object.assign(gui.domElement.style, {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+    });
+  };
 
   window.createContainer = (style = {}) => {
     const container = document.createElement('div');
@@ -48,7 +61,7 @@ if (window) {
       const $wrapper = createContainer({ width: style.width + 245, height: style.height, display: 'flex' });
       $wrapper.appendChild(container);
 
-      const gui = new (await import('lil-gui')).default({ container: $wrapper, autoPlace: false });
+      const gui = new window.lil.GUI({ container: $wrapper, autoPlace: false });
       gui.title('Playground');
       renderPanel(gui, graph);
       $wrapper.appendChild(gui.domElement);

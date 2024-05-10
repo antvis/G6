@@ -39,6 +39,8 @@
     "@antv/algorithm": "^0.1.26",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "^0.4.4",
+    "@antv/g": "^5.18.25",
+    "@antv/g-svg": "^1.10.28",
     "@antv/g2": "^5.1.15",
     "@antv/g6": "workspace:*",
     "@antv/graphlib": "^2.0.2",
@@ -49,7 +51,6 @@
     "antd": "^5.10.2",
     "dumi": "~2.2.14",
     "insert-css": "^2.0.0",
-    "lil-gui": "^0.19.2",
     "react": "^18.2.0",
     "stats.js": "^0.17.0"
   },

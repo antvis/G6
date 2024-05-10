@@ -498,4 +498,5 @@ export default defineConfig({
   analytics: {
     ga_v2: 'G-YLQBGDK1GT',
   },
+  headScripts: ['https://cdn.jsdelivr.net/npm/lil-gui@0.19'],
 });
