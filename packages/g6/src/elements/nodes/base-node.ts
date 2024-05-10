@@ -322,7 +322,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
         portsShapeStyle[key] = false;
       } else {
         const [x, y] = this.getPortXY(attributes, option);
-        portsShapeStyle[key] = { cx: x, cy: y, ...mergedStyle };
+        portsShapeStyle[key] = { transform: `translate(${x}, ${y})`, ...mergedStyle };
       }
     });
     return portsShapeStyle;
