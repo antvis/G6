@@ -3,6 +3,10 @@
   "GraphMethods": ["API", "方法"],
   "GraphProperties": ["Properties", "属性"],
   "ElementMethods": ["API", "方法"],
+  "GraphData": ["GraphData", "图数据"],
+  "NodeData": ["NodeData", "节点数据"],
+  "EdgeData": ["EdgeData", "边数据"],
+  "ComboData": ["ComboData", "组合数据"],
   "BaseNode": ["BaseNode", "节点通用样式"],
   "Circle": ["Circle", "圆形"],
   "Diamond": ["Diamond", "菱形"],
@@ -53,14 +57,13 @@
   "ZoomCanvas": ["ZoomCanvas", "缩放画布"],
   "BubbleSets": ["BubbleSets", "气泡集"],
   "CameraSetting": ["CameraSetting", "相机设置"],
-  "ContextMenu": ["ContextMenu", "右键菜单"],
+  "ContextMenu": ["ContextMenu", "上下文菜单"],
   "GridLine": ["GridLine", "网格线"],
   "History": ["History", "历史记录"],
   "Hull": ["Hull", "轮廓包围"],
   "Legend": ["Legend", "图例"],
+  "Timebar": ["Timebar", "时间条"],
   "Toolbar": ["Toolbar", "工具栏"],
   "Tooltip": ["Tooltip", "提示框"],
-  "Watermark": ["Watermark", "水印"],
-  "Timebar": ["Timebar", "时间条"],
-  "Contextmenu": ["Contextmenu", "上下文菜单"]
+  "Watermark": ["Watermark", "水印"]
 }

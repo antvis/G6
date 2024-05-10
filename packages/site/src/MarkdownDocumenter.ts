@@ -152,6 +152,19 @@ export class MarkdownDocumenter {
         await this._generateBilingualPages(this._writeExtensionPage.bind(this), pageData);
       }
 
+      // 对于数据
+      if (pageData.group === 'spec' && pageData.name === 'Data') {
+        ['GraphData', 'NodeData', 'EdgeData', 'ComboData'].forEach(async (name) => {
+          this.referenceLevel = 1;
+          const apiInterface = pageData.apiItems.find(
+            (apiItem) => apiItem instanceof ApiInterface && apiItem.displayName === name,
+          ) as ApiInterface;
+          if (apiInterface) {
+            await this._generateBilingualPages(this._writeDataPage.bind(this), apiInterface);
+          }
+        });
+      }
+
       // 对于元素
       if (['elements/nodes', 'elements/edges', 'elements/combos'].includes(pageData.group)) {
         this.referenceLevel = 2;
@@ -458,6 +471,30 @@ export class MarkdownDocumenter {
       output,
       pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass),
     );
+  }
+
+  private async _writeDataPage(apiInterface: ApiInterface) {
+    const configuration: TSDocConfiguration = this._tsdocConfiguration;
+    const output: DocSection = new DocSection({ configuration });
+
+    const name = apiInterface.displayName;
+
+    const DATA_INDEX: Record<string, number> = {
+      GraphData: 0,
+      NodeData: 1,
+      EdgeData: 2,
+      ComboData: 3,
+    };
+
+    this._appendPageTitle(output, name, DATA_INDEX[name]);
+
+    this._writeRemarksSection(output, apiInterface);
+
+    this._writeOptions(output, apiInterface, { includeExcerptTokens: true, showTitle: false });
+
+    const filename: string = path.join(this._outputFolder, 'data', `${name}.${this._getLang()}.md`);
+
+    await this._writeFile(filename, output);
   }
 
   private async _writeElementPage(pageData: IPageData) {
