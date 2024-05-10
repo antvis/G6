@@ -1,14 +1,12 @@
 import type { IDocNodeParameters } from '@microsoft/tsdoc';
 import { DocNode } from '@microsoft/tsdoc';
-import { LocaleLanguage, PageTitle } from '../constants/locales';
 import { CustomDocNodeKind } from './CustomDocNodeKind';
 
 /**
  * Constructor parameters for {@link DocPageTitle}.
  */
 export interface IDocPageTitleParameters extends IDocNodeParameters {
-  key: string;
-  locale: string;
+  title: string;
   order?: number;
 }
 
@@ -27,10 +25,8 @@ export class DocPageTitle extends DocNode {
 
   public constructor(parameters: IDocPageTitleParameters) {
     super(parameters);
-    const { key, locale, order } = parameters;
-    const arr = PageTitle[key];
-    this.title = arr ? (locale === LocaleLanguage.EN ? arr[0] : arr.join(' ')) : key;
-    this.order = order;
+    this.title = parameters.title;
+    this.order = parameters.order;
   }
 
   /** @override */

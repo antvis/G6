@@ -50,8 +50,9 @@ import { FileSystem, NewlineKind, PackageName } from '@rushstack/node-core-libra
 import { camelCase, isBoolean, kebabCase, upperFirst } from 'lodash';
 import * as path from 'path';
 import prettier from 'prettier';
-import { Keyword, LocaleLanguage, getApiCategoryIntl, getHelperIntl, getKeywordIntl } from './constants';
+import { intl } from './constants';
 import { links } from './constants/link';
+import { Keyword, LocaleLanguage, LocaleType } from './constants/locales/enum';
 import { CustomMarkdownEmitter } from './markdown/CustomMarkdownEmitter';
 import { CustomDocNodes } from './nodes/CustomDocNodeKind';
 import { DocContainer } from './nodes/DocContainer';
@@ -65,7 +66,6 @@ import { DocTableCell } from './nodes/DocTableCell';
 import { DocTableRow } from './nodes/DocTableRow';
 import { DocText } from './nodes/DocText';
 import { DocUnorderedList } from './nodes/DocUnorderedList';
-import { outputFolder, referenceFoldername } from './setting';
 import { Utilities } from './utils/Utilities';
 import {
   ICustomExcerptToken,
@@ -73,7 +73,10 @@ import {
   liftPrefixExcerptTokens,
   parseExcerptTokens,
 } from './utils/excerpt-token';
+import { initGitignore, syncToGitignore } from './utils/gitignore';
 import { getBlockTagByName } from './utils/parser';
+
+const referenceFoldername = 'reference';
 
 const supportedApiItems = [ApiItemKind.Interface, ApiItemKind.Enum, ApiItemKind.Class, ApiItemKind.TypeAlias];
 
@@ -133,7 +136,7 @@ export class MarkdownDocumenter {
   }
 
   public async generateFiles() {
-    this._initGitignore();
+    initGitignore(this._outputFolder);
 
     const collectedData = this._initPageData(this._apiModel);
 
@@ -498,7 +501,7 @@ export class MarkdownDocumenter {
             configuration,
             text:
               '> ' +
-              getHelperIntl('basePropsStyleHelper', this.locale) +
+              intl(LocaleType.HELPER, 'basePropsStyleHelper', this.locale) +
               ` [${baseStyleFileName}](./${baseStyleFileName}.${this._getLang()}.md)`,
           }),
         ]),
@@ -696,7 +699,7 @@ export class MarkdownDocumenter {
             const helper = (key: string) =>
               linkMd +
               this._intl(Keyword.LEFT_PARENTHESIS) +
-              getHelperIntl(key, this.locale) +
+              intl(LocaleType.HELPER, key, this.locale) +
               ' ' +
               fieldString +
               ' ' +
@@ -732,7 +735,7 @@ export class MarkdownDocumenter {
           new DocParagraph({ configuration }, [
             new DocPlainText({
               configuration,
-              text: getHelperIntl('advancedPropsHelper', this.locale) + this._intl(Keyword.COLON),
+              text: intl(LocaleType.HELPER, 'advancedPropsHelper', this.locale) + this._intl(Keyword.COLON),
             }),
             ...textNodes
               .map((node) => [node, new DocPlainText({ configuration, text: ', ' })])
@@ -747,7 +750,9 @@ export class MarkdownDocumenter {
           new DocParagraph({ configuration }, [
             new DocPlainText({
               configuration,
-              text: getHelperIntl('prefixHelper', this.locale) + `(../../reference/g6.prefix.${this._getLang()}.md)`,
+              text:
+                intl(LocaleType.HELPER, 'prefixHelper', this.locale) +
+                `(../../reference/g6.prefix.${this._getLang()}.md)`,
             }),
           ]),
         );
@@ -755,7 +760,7 @@ export class MarkdownDocumenter {
 
       if (content.length > 0) {
         output.appendNode(
-          new DocContainer({ configuration, status: 'info', title: getHelperIntl('remarks', this.locale) }, content),
+          new DocContainer({ configuration, status: 'info', title: this._intl(Keyword.REMARKS) }, content),
         );
       }
 
@@ -828,7 +833,7 @@ export class MarkdownDocumenter {
 
     Object.entries(groupMembers).forEach(([category, apiMembers]) => {
       if (category !== 'undeclared' && showSubTitle) {
-        const title = getApiCategoryIntl(category, this.locale);
+        const title = intl(LocaleType.API_CATEGORY, category, this.locale);
         output.appendNode(new DocHeading({ configuration, title, level: 1 }));
       }
       if (apiMembers.length > 0) {
@@ -951,38 +956,7 @@ export class MarkdownDocumenter {
       convertLineEndings: NewlineKind.CrLf,
     });
 
-    this._syncToGitignore(filename);
-  }
-
-  private _syncToGitignore(filename: string) {
-    const gitignoreUrl = outputFolder + '/.gitignore';
-    const relativeFilename = filename.replace(`${outputFolder}/`, '');
-
-    if (FileSystem.exists(gitignoreUrl)) {
-      const gitignoreContent = FileSystem.readFile(gitignoreUrl);
-      if (relativeFilename.includes(referenceFoldername)) {
-        const hasReference = gitignoreContent.includes(referenceFoldername);
-        if (!hasReference) FileSystem.appendToFile(gitignoreUrl, `\n${referenceFoldername}`);
-        return;
-      }
-      if (!gitignoreContent.includes(relativeFilename)) {
-        FileSystem.appendToFile(gitignoreUrl, `\n${relativeFilename}`);
-      }
-    }
-  }
-
-  private _initGitignore() {
-    const splitLine = '# auto-generated by api-documenter';
-    const gitignoreUrl = outputFolder + '/.gitignore';
-    if (FileSystem.exists(gitignoreUrl)) {
-      let gitignoreContent = FileSystem.readFile(gitignoreUrl);
-      const index = gitignoreContent.indexOf(splitLine);
-      if (index !== -1) gitignoreContent = gitignoreContent.substring(0, index);
-      gitignoreContent += splitLine;
-      FileSystem.writeFile(gitignoreUrl, gitignoreContent);
-    } else {
-      FileSystem.writeFile(gitignoreUrl, splitLine);
-    }
+    syncToGitignore(this._outputFolder, filename);
   }
 
   private _writeHeritageTypes(output: DocSection, apiItem: ApiDeclaredItem): void {
@@ -2173,7 +2147,11 @@ export class MarkdownDocumenter {
   private _appendPageTitle(output: DocSection, key: string, order?: number): void {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
-    output.appendNode(new DocPageTitle({ configuration, key, locale: this.locale, order }));
+    const en = intl(LocaleType.PAGE_NAME, key, LocaleLanguage.EN);
+    const zh = intl(LocaleType.PAGE_NAME, key, LocaleLanguage.ZH);
+    const title = this.locale === LocaleLanguage.ZH && en !== zh ? `${en} ${zh}` : en;
+
+    output.appendNode(new DocPageTitle({ configuration, title, order }));
   }
 
   /**
@@ -2370,7 +2348,7 @@ export class MarkdownDocumenter {
   }
 
   private _intl(keyword: Keyword) {
-    return getKeywordIntl(keyword, this.locale);
+    return intl(LocaleType.KEYWORD, keyword, this.locale);
   }
 
   private _getLang() {

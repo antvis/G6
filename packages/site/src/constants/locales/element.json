@@ -1,0 +1,5 @@
+{
+  "node": ["Node", "节点"],
+  "edge": ["Edge", "边"],
+  "combo": ["Combo", "组合"]
+}
