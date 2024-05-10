@@ -9,7 +9,7 @@
     },
     "module": "CommonJS"
   },
-  "include": [".dumirc.ts", "global.d.ts"],
+  "include": [".dumirc.ts"],
   "ts-node": {
     "esm": true
   }
