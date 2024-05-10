@@ -34,8 +34,6 @@ export interface CubicVerticalStyleProps extends BaseEdgeStyleProps {
  * <zh/> 特别注意，计算控制点时主要考虑 y 轴上的距离，忽略 x 轴的变化
  *
  * <en/> Please note that when calculating the control points, the distance on the y-axis is mainly considered, and the change on the x-axis is ignored
- *
- * <img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wrDlQKxNHNEAAAAAAAAAAAAADmJ7AQ/original" />
  */
 export class CubicVertical extends Cubic {
   static defaultStyleProps: Partial<CubicVerticalStyleProps> = {

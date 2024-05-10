@@ -20,8 +20,6 @@ export interface CircleComboStyleProps extends BaseComboStyleProps {}
  * <zh/> 圆形组合
  *
  * <en/> Circle combo
- * @remarks
- * <img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WJhpRJCcFLAAAAAAAAAAAAAADmJ7AQ/original" />
  */
 export class CircleCombo extends BaseCombo<CircleComboStyleProps> {
   constructor(options: DisplayObjectConfig<CircleComboStyleProps>) {

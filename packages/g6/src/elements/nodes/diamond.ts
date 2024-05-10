@@ -2,7 +2,7 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { Point } from '../../types';
 import { getDiamondPoints } from '../../utils/element';
 import { getPolygonIntersectPoint } from '../../utils/point';
-import type { PolygonStyleProps } from '../shapes/polygon';
+import type { PolygonStyleProps } from '../shapes';
 import { Polygon } from '../shapes/polygon';
 
 /**

@@ -22,7 +22,7 @@ const graph = new Graph({
       type: 'donut', // 👈🏻 Node shape type.
       size: 80,
       fill: '#DB9D0D',
-      innerRadius: 0.5,
+      innerR: 0.5,
       donuts: (v, index) => {
         if (index === 0) return [1, 2, 3];
 

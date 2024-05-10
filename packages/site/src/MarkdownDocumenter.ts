@@ -50,8 +50,9 @@ import { FileSystem, NewlineKind, PackageName } from '@rushstack/node-core-libra
 import { camelCase, isBoolean, kebabCase, upperFirst } from 'lodash';
 import * as path from 'path';
 import prettier from 'prettier';
-import { Keyword, LocaleLanguage, getApiCategoryIntl, getHelperIntl, getKeywordIntl } from './constants';
+import { intl } from './constants';
 import { links } from './constants/link';
+import { Keyword, LocaleLanguage, LocaleType } from './constants/locales/enum';
 import { CustomMarkdownEmitter } from './markdown/CustomMarkdownEmitter';
 import { CustomDocNodes } from './nodes/CustomDocNodeKind';
 import { DocContainer } from './nodes/DocContainer';
@@ -65,7 +66,6 @@ import { DocTableCell } from './nodes/DocTableCell';
 import { DocTableRow } from './nodes/DocTableRow';
 import { DocText } from './nodes/DocText';
 import { DocUnorderedList } from './nodes/DocUnorderedList';
-import { outputFolder, referenceFoldername } from './setting';
 import { Utilities } from './utils/Utilities';
 import {
   ICustomExcerptToken,
@@ -73,11 +73,17 @@ import {
   liftPrefixExcerptTokens,
   parseExcerptTokens,
 } from './utils/excerpt-token';
+import { initGitignore, syncToGitignore } from './utils/gitignore';
 import { getBlockTagByName } from './utils/parser';
+
+const referenceFoldername = 'reference';
 
 const supportedApiItems = [ApiItemKind.Interface, ApiItemKind.Enum, ApiItemKind.Class, ApiItemKind.TypeAlias];
 
-const hyperlinkReferences = ['BaseNodeStyleProps'];
+// 需要跳过解析的复杂类型 | Complex types that need to be skipped for parsing
+export const interfacesToSkipParsing = ['BaseNodeStyleProps', 'BaseEdgeStyleProps', 'BaseComboStyleProps'];
+
+const typesToSkipParsing = ['CallableValue'];
 
 /**
  * A page and its associated API items.
@@ -130,7 +136,7 @@ export class MarkdownDocumenter {
   }
 
   public async generateFiles() {
-    this._initGitignore();
+    initGitignore(this._outputFolder);
 
     const collectedData = this._initPageData(this._apiModel);
 
@@ -466,9 +472,10 @@ export class MarkdownDocumenter {
     const isBase = pageData.name.startsWith('Base');
 
     if (apiClass && !isBase) {
-      this._writeSummarySection(output, apiClass);
       this._writeRemarksSection(output, apiClass);
     }
+
+    this._assertDemo(output, pageData);
 
     if (apiInterface) {
       this._writeElementOptions(output, apiInterface, pageData, isBase);
@@ -482,31 +489,26 @@ export class MarkdownDocumenter {
   /**
    * Special for Element options, which needs to handle `Prefix`
    */
-  private _writeElementOptions(
-    output: DocSection,
-    apiInterface: ApiInterface,
-    pageData: IPageData,
-    includeExcerptTokens: boolean,
-  ) {
+  private _writeElementOptions(output: DocSection, apiInterface: ApiInterface, pageData: IPageData, isBase: boolean) {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
-    if (!includeExcerptTokens) {
+    if (!isBase) {
       const elementType = pageData.group.split('/')[1].slice(0, -1);
       const baseStyleFileName = upperFirst(camelCase(`base ${elementType}`));
       output.appendNode(
-        new DocContainer({ configuration, status: 'info', title: getHelperIntl('remarks', this.locale) }, [
-          new DocParagraph({ configuration }, [
-            new DocPlainText({
-              configuration,
-              text:
-                getHelperIntl('basePropsStyleHelper', this.locale) + `(./${baseStyleFileName}.${this._getLang()}.md)`,
-            }),
-          ]),
+        new DocParagraph({ configuration }, [
+          new DocText({
+            configuration,
+            text:
+              '> ' +
+              intl(LocaleType.HELPER, 'basePropsStyleHelper', this.locale) +
+              ` [${baseStyleFileName}](./${baseStyleFileName}.${this._getLang()}.md)`,
+          }),
         ]),
       );
     }
 
-    this._writeOptions(output, apiInterface, { showTitle: false, includeExcerptTokens });
+    this._writeOptions(output, apiInterface, { showTitle: false, includeExcerptTokens: true });
   }
 
   private _getLinkFromExcerptToken(excerptToken: ICustomExcerptToken): string | undefined {
@@ -569,7 +571,7 @@ export class MarkdownDocumenter {
 
     const filterTokens = (tokens: ICustomExcerptToken[]): ICustomExcerptToken[] => {
       return tokens
-        .filter((token) => token.type !== 'Prefix')
+        .filter((token) => token.type !== 'Prefix' && !interfacesToSkipParsing.includes(token.text))
         .map((token) => ({
           ...token,
           children: token.children ? filterTokens(token.children) : [],
@@ -653,13 +655,6 @@ export class MarkdownDocumenter {
   private _writeExcerptTokens(output: DocSection, customExcerptTokens: ICustomExcerptToken[]) {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
-    customExcerptTokens.forEach((customExcerptToken) => {
-      if (hyperlinkReferences.includes(customExcerptToken.text)) {
-        delete customExcerptToken.children;
-        delete customExcerptToken.interface;
-      }
-    });
-
     for (const customExcerptToken of customExcerptTokens) {
       const textNodes: DocPlainText[] = [];
 
@@ -704,7 +699,7 @@ export class MarkdownDocumenter {
             const helper = (key: string) =>
               linkMd +
               this._intl(Keyword.LEFT_PARENTHESIS) +
-              getHelperIntl(key, this.locale) +
+              intl(LocaleType.HELPER, key, this.locale) +
               ' ' +
               fieldString +
               ' ' +
@@ -740,7 +735,7 @@ export class MarkdownDocumenter {
           new DocParagraph({ configuration }, [
             new DocPlainText({
               configuration,
-              text: getHelperIntl('advancedPropsHelper', this.locale) + this._intl(Keyword.COLON),
+              text: intl(LocaleType.HELPER, 'advancedPropsHelper', this.locale) + this._intl(Keyword.COLON),
             }),
             ...textNodes
               .map((node) => [node, new DocPlainText({ configuration, text: ', ' })])
@@ -755,7 +750,9 @@ export class MarkdownDocumenter {
           new DocParagraph({ configuration }, [
             new DocPlainText({
               configuration,
-              text: getHelperIntl('prefixHelper', this.locale) + `(../../reference/g6.prefix.${this._getLang()}.md)`,
+              text:
+                intl(LocaleType.HELPER, 'prefixHelper', this.locale) +
+                `(../../reference/g6.prefix.${this._getLang()}.md)`,
             }),
           ]),
         );
@@ -763,7 +760,7 @@ export class MarkdownDocumenter {
 
       if (content.length > 0) {
         output.appendNode(
-          new DocContainer({ configuration, status: 'info', title: getHelperIntl('remarks', this.locale) }, content),
+          new DocContainer({ configuration, status: 'info', title: this._intl(Keyword.REMARKS) }, content),
         );
       }
 
@@ -836,7 +833,7 @@ export class MarkdownDocumenter {
 
     Object.entries(groupMembers).forEach(([category, apiMembers]) => {
       if (category !== 'undeclared' && showSubTitle) {
-        const title = getApiCategoryIntl(category, this.locale);
+        const title = intl(LocaleType.API_CATEGORY, category, this.locale);
         output.appendNode(new DocHeading({ configuration, title, level: 1 }));
       }
       if (apiMembers.length > 0) {
@@ -959,38 +956,7 @@ export class MarkdownDocumenter {
       convertLineEndings: NewlineKind.CrLf,
     });
 
-    this._syncToGitignore(filename);
-  }
-
-  private _syncToGitignore(filename: string) {
-    const gitignoreUrl = outputFolder + '/.gitignore';
-    const relativeFilename = filename.replace(`${outputFolder}/`, '');
-
-    if (FileSystem.exists(gitignoreUrl)) {
-      const gitignoreContent = FileSystem.readFile(gitignoreUrl);
-      if (relativeFilename.includes(referenceFoldername)) {
-        const hasReference = gitignoreContent.includes(referenceFoldername);
-        if (!hasReference) FileSystem.appendToFile(gitignoreUrl, `\n${referenceFoldername}`);
-        return;
-      }
-      if (!gitignoreContent.includes(relativeFilename)) {
-        FileSystem.appendToFile(gitignoreUrl, `\n${relativeFilename}`);
-      }
-    }
-  }
-
-  private _initGitignore() {
-    const splitLine = '# auto-generated by api-documenter';
-    const gitignoreUrl = outputFolder + '/.gitignore';
-    if (FileSystem.exists(gitignoreUrl)) {
-      let gitignoreContent = FileSystem.readFile(gitignoreUrl);
-      const index = gitignoreContent.indexOf(splitLine);
-      if (index !== -1) gitignoreContent = gitignoreContent.substring(0, index);
-      gitignoreContent += splitLine;
-      FileSystem.writeFile(gitignoreUrl, gitignoreContent);
-    } else {
-      FileSystem.writeFile(gitignoreUrl, splitLine);
-    }
+    syncToGitignore(this._outputFolder, filename);
   }
 
   private _writeHeritageTypes(output: DocSection, apiItem: ApiDeclaredItem): void {
@@ -1828,15 +1794,15 @@ export class MarkdownDocumenter {
     }
   }
 
-  private _parseTypeAliasTokens(excerptTokens: ExcerptToken[]): ExcerptToken[] {
-    const tokens = excerptTokens.flatMap((token) => {
+  private _parseTypeAliasTokens(apiTypeAlias: ApiTypeAlias): ExcerptToken[] {
+    const tokens = apiTypeAlias.excerptTokens.slice(1, -1).flatMap((token) => {
       if (token.kind === ExcerptTokenKind.Reference && token.canonicalReference) {
         const apiItemResult: IResolveDeclarationReferenceResult = this._apiModel.resolveDeclarationReference(
           token.canonicalReference,
           undefined,
         );
         if (apiItemResult.resolvedApiItem instanceof ApiTypeAlias) {
-          return this._parseTypeAliasTokens(apiItemResult.resolvedApiItem.excerptTokens.slice(1, -1));
+          return this._parseTypeAliasTokens(apiItemResult.resolvedApiItem);
         }
       }
       return token;
@@ -1860,13 +1826,16 @@ export class MarkdownDocumenter {
       );
 
       if (apiItemResult.resolvedApiItem) {
-        if (apiItemResult.resolvedApiItem.kind === ApiItemKind.TypeAlias && this.referenceLevel > 0) {
-          const excerptTokens = (apiItemResult.resolvedApiItem as ApiTypeAlias).excerptTokens.slice(1, -1);
-          const typeAliasTokens = this._parseTypeAliasTokens(excerptTokens);
+        if (
+          apiItemResult.resolvedApiItem.kind === ApiItemKind.TypeAlias &&
+          this.referenceLevel > 0 &&
+          !typesToSkipParsing.includes(apiItemResult.resolvedApiItem.displayName)
+        ) {
+          const typeAliasTokens = this._parseTypeAliasTokens(apiItemResult.resolvedApiItem as ApiTypeAlias);
           // If the type alias is a simple single-line type alias, then render it as plain text
           // Otherwise, render it as a hyperlink
           if (typeAliasTokens.every((token) => !token.text.includes('\n') && !token.text.includes('\r'))) {
-            return docNodeContainer.appendNode(
+            docNodeContainer.appendNode(
               new DocPlainText({
                 configuration,
                 text: typeAliasTokens
@@ -1877,6 +1846,7 @@ export class MarkdownDocumenter {
                   .join(' | '),
               }),
             );
+            return;
           }
         }
 
@@ -2177,7 +2147,11 @@ export class MarkdownDocumenter {
   private _appendPageTitle(output: DocSection, key: string, order?: number): void {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
-    output.appendNode(new DocPageTitle({ configuration, key, locale: this.locale, order }));
+    const en = intl(LocaleType.PAGE_NAME, key, LocaleLanguage.EN);
+    const zh = intl(LocaleType.PAGE_NAME, key, LocaleLanguage.ZH);
+    const title = this.locale === LocaleLanguage.ZH && en !== zh ? `${en} ${zh}` : en;
+
+    output.appendNode(new DocPageTitle({ configuration, title, order }));
   }
 
   /**
@@ -2374,7 +2348,7 @@ export class MarkdownDocumenter {
   }
 
   private _intl(keyword: Keyword) {
-    return getKeywordIntl(keyword, this.locale);
+    return intl(LocaleType.KEYWORD, keyword, this.locale);
   }
 
   private _getLang() {

@@ -7,7 +7,7 @@ export const elementNodeDonut: TestCase = async (context) => {
       {
         id: 'donut',
         style: {
-          innerRadius: '60%',
+          innerR: '60%',
           donuts: [
             {
               color: 'orange',
@@ -65,14 +65,14 @@ export const elementNodeDonut: TestCase = async (context) => {
       {
         id: 'donut-inactive',
         style: {
-          innerRadius: 0,
+          innerR: 0,
           donuts: [{ fill: 'red' }, { fill: 'green' }],
         },
       },
       {
         id: 'donut-disabled',
         style: {
-          innerRadius: '50%',
+          innerR: '50%',
           donuts: [{ color: 'green' }, { color: 'red' }],
         },
       },
@@ -86,7 +86,7 @@ export const elementNodeDonut: TestCase = async (context) => {
       type: 'donut', // 👈🏻 Node shape type.
       style: {
         size: 40,
-        innerRadius: (d: any) => d.style.innerRadius ?? '50%',
+        innerR: (d: any) => d.style.innerR ?? '50%',
         labelText: (d) => d.id,
         iconHeight: 20,
         iconWidth: 20,
