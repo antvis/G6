@@ -1,5 +1,5 @@
-import type { DisplayObject, IAnimation, IAnimationEffectTiming } from '@antv/g';
-import type { State } from '../types';
+import type { IAnimation, IAnimationEffectTiming } from '@antv/g';
+import type { Element, State } from '../types';
 
 /**
  * <zh/> 为 string 时，会从注册的动画中获取
@@ -60,7 +60,7 @@ export type AnimationEffectTiming = Partial<
 >;
 
 export type AnimationExecutor = (
-  shape: DisplayObject,
+  shape: Element,
   animation: Animation | false,
   baseEffectTiming: AnimationEffectTiming,
   context: AnimationContext,

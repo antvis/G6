@@ -262,7 +262,7 @@ export class ElementController {
 
     return (
       id: ID,
-      shape: DisplayObject,
+      shape: Element,
       originalStyle: Record<string, unknown>,
       modifiedStyle?: Record<string, unknown>,
     ) => {
@@ -675,7 +675,7 @@ export class ElementController {
 
 type AnimationExecutor = (
   id: ID,
-  shape: DisplayObject,
+  shape: Element,
   originalStyle: Record<string, unknown>,
   modifiedStyle?: Record<string, unknown>,
 ) => IAnimation | null;

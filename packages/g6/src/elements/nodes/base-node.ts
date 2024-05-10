@@ -280,13 +280,14 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     });
     if (attributes.badge === false || isEmpty(attributes.badges)) return badgesShapeStyle;
 
-    const { badges: badgeOptions = [], badgePalette, ...restAttributes } = attributes;
+    const { badges: badgeOptions = [], badgePalette, opacity = 1, ...restAttributes } = attributes;
     const colors = getPaletteColors(badgePalette);
     const badgeStyle = subStyleProps<BadgeStyleProps>(this.getGraphicStyle(restAttributes), 'badge');
 
     badgeOptions.forEach((option, i) => {
       badgesShapeStyle[i] = {
         backgroundFill: colors ? colors[i % colors?.length] : undefined,
+        opacity,
         ...badgeStyle,
         ...this.getBadgeStyle(option),
       };
