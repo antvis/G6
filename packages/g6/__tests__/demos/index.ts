@@ -34,6 +34,7 @@ export * from './element-edge-port';
 export * from './element-edge-quadratic';
 export * from './element-label-background';
 export * from './element-label-oversized';
+export * from './element-node-badges';
 export * from './element-node-circle';
 export * from './element-node-diamond';
 export * from './element-node-donut';

@@ -5,7 +5,7 @@ export const elementNodeDonut: TestCase = async (context) => {
   const data = {
     nodes: [
       {
-        id: 'donut',
+        id: 'default',
         style: {
           innerRadius: '60%',
           donuts: [
@@ -18,25 +18,26 @@ export const elementNodeDonut: TestCase = async (context) => {
         },
       },
       {
-        id: 'donut-halo',
+        id: 'halo',
         style: {
           donuts: [{ color: 'red' }, { color: 'green' }],
         },
       },
       {
-        id: 'donut-badges',
+        id: 'badges',
         style: {
           donuts: [1, 2, 3],
         },
       },
       {
-        id: 'donut-ports',
+        id: 'ports',
         style: {
           donuts: [1, 1, 1],
         },
       },
       {
-        id: 'donut-active',
+        id: 'active',
+        states: ['active'],
         style: {
           donuts: [
             {
@@ -49,13 +50,15 @@ export const elementNodeDonut: TestCase = async (context) => {
         },
       },
       {
-        id: 'donut-selected',
+        id: 'selected',
+        states: ['selected'],
         style: {
           donuts: [{ value: 1000 }, { value: 20 }],
         },
       },
       {
-        id: 'donut-highlight',
+        id: 'highlight',
+        states: ['highlight'],
         style: {
           donutLineWidth: 1,
           donutStroke: '#fff',
@@ -63,14 +66,16 @@ export const elementNodeDonut: TestCase = async (context) => {
         },
       },
       {
-        id: 'donut-inactive',
+        id: 'inactive',
+        states: ['inactive'],
         style: {
           innerRadius: 0,
           donuts: [{ fill: 'red' }, { fill: 'green' }],
         },
       },
       {
-        id: 'donut-disabled',
+        id: 'disabled',
+        states: ['disabled'],
         style: {
           innerRadius: '50%',
           donuts: [{ color: 'green' }, { color: 'red' }],
@@ -109,6 +114,7 @@ export const elementNodeDonut: TestCase = async (context) => {
         badgePadding: [1, 4],
       },
     },
+    // TODO fixme when animation is enabled
     animation: false,
     layout: {
       type: 'grid',
@@ -117,14 +123,6 @@ export const elementNodeDonut: TestCase = async (context) => {
   });
 
   await graph.render();
-
-  graph.setElementState({
-    'donut-active': 'active',
-    'donut-selected': 'selected',
-    'donut-highlight': 'highlight',
-    'donut-inactive': 'inactive',
-    'donut-disabled': 'disabled',
-  });
 
   return graph;
 };

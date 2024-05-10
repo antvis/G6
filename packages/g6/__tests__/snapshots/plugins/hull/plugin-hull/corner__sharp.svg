@@ -5,7 +5,7 @@
       <g fill="none" transform="matrix(1,0,0,1,0,0)"/>
       <g fill="none" transform="matrix(1,0,0,1,0,0)">
         <g transform="matrix(1,0,0,1,158.411469,-44.898296)">
-          <path fill="rgba(173,216,230,1)" d="M 0,393.70228773763694 L 340.7675263611478,550.8523605740886 L 180.3090309386656,0 Z" stroke="rgba(0,0,255,1)" opacity="0.2" stroke-width="5"/>
+          <path fill="rgba(173,216,230,1)" d="M 0,393.70228773763694 L 340.7675263611478,550.8523605740886 L 180.3090309386656,0 Z" fill-opacity="0.2" stroke="rgba(0,0,255,1)" stroke-opacity="0.2" stroke-width="5"/>
         </g>
         <g fill="none" transform="matrix(0.908088,0.418779,-0.418779,0.908088,361.365417,442.399261)">
           <g transform="matrix(1,0,0,1,-32.700001,0)">

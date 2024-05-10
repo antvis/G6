@@ -12,7 +12,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                triangle
+                default
               </text>
             </g>
           </g>
@@ -32,7 +32,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                triangle-halo
+                halo
               </text>
             </g>
           </g>
@@ -49,7 +49,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                triangle-badges
+                badges
               </text>
             </g>
           </g>
@@ -102,7 +102,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                triangle-ports
+                ports
               </text>
             </g>
           </g>
@@ -131,7 +131,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                triangle-active
+                active
               </text>
             </g>
           </g>
@@ -151,7 +151,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="13.5px" font-size="14" text-anchor="middle" font-weight="700">
-                triangle-selected
+                selected
               </text>
             </g>
           </g>
@@ -168,7 +168,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="700">
-                triangle-highlight
+                highlight
               </text>
             </g>
           </g>
@@ -180,18 +180,35 @@
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,416.666656)">
           <g transform="matrix(1,0,0,1,-20,-20)">
-            <polygon fill="rgba(23,131,255,1)" points="0,40 40,40 20,0" stroke-width="0" stroke="rgba(0,0,0,1)" opacity="0.25"/>
+            <polygon fill="rgba(23,131,255,1)" points="0,40 40,40 20,0" fill-opacity="0.25" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25"/>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" opacity="0.25">
-                triangle-inactive
+                inactive
               </text>
             </g>
           </g>
           <g fill="none" width="19.777087639996633" height="19.777087639996633" transform="matrix(1,0,0,1,0,6.666667)">
             <g transform="matrix(1,0,0,1,0,0)">
               <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-9.888543819998317,-9.888543819998317)" width="19.777087639996633" height="19.777087639996633" font-size="16" opacity="0.25"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,416.666656,416.666656)">
+          <g transform="matrix(1,0,0,1,-20,-20)">
+            <polygon fill="rgba(240,240,240,1)" points="0,40 40,40 20,0" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+          </g>
+          <g fill="none" transform="matrix(1,0,0,1,0,20)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" opacity="0.25">
+                disabled
+              </text>
+            </g>
+          </g>
+          <g fill="none" width="19.777087639996633" height="19.777087639996633" transform="matrix(1,0,0,1,0,6.666667)">
+            <g transform="matrix(1,0,0,1,0,0)">
+              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" transform="translate(-9.888543819998317,-9.888543819998317)" width="19.777087639996633" height="19.777087639996633" font-size="16"/>
             </g>
           </g>
         </g>

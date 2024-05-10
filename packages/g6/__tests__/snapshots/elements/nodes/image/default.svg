@@ -12,7 +12,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                image
+                default
               </text>
             </g>
           </g>
@@ -27,7 +27,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                image-halo
+                halo
               </text>
             </g>
           </g>
@@ -39,7 +39,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                image-badges
+                badges
               </text>
             </g>
           </g>
@@ -87,7 +87,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                image-ports
+                ports
               </text>
             </g>
           </g>
@@ -114,7 +114,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                image-active
+                active
               </text>
             </g>
           </g>
@@ -129,43 +129,43 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="13.5px" font-size="14" text-anchor="middle" font-weight="700">
-                image-selected
+                selected
               </text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,83.333336,416.666656)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" transform="translate(-20,-20)" stroke-width="3" stroke="rgba(0,0,0,1)" width="40" height="40" stroke-opacity="0.85"/>
+            <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" transform="translate(-20,-20)" stroke-width="3" stroke="rgba(0,0,0,1)" stroke-opacity="0.85" width="40" height="40"/>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="700">
-                image-highlight
+                highlight
               </text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,416.666656)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" transform="translate(-20,-20)" stroke-width="0" stroke="rgba(0,0,0,1)" width="40" height="40" opacity="0.25"/>
+            <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" transform="translate(-20,-20)" opacity="0.5" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25" width="40" height="40"/>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" opacity="0.25">
-                image-inactive
+                inactive
               </text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,416.666656,416.666656)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <image fill="rgba(240,240,240,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" transform="translate(-20,-20)" stroke-width="0" stroke="rgba(0,0,0,1)" width="40" height="40" opacity="0.2"/>
+            <image fill="rgba(240,240,240,1)" preserveAspectRatio="none" x="0" y="0" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" transform="translate(-20,-20)" opacity="0.2" stroke-width="0" stroke="rgba(0,0,0,1)" width="40" height="40"/>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" opacity="0.25">
-                image-disabled
+                disabled
               </text>
             </g>
           </g>

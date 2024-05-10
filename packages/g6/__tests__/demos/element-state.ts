@@ -5,12 +5,12 @@ export const elementState: TestCase = async (context) => {
     ...context,
     data: {
       nodes: [
-        { id: 'node-1', style: { x: 50, y: 50, states: ['active', 'selected'] } },
+        { id: 'node-1', states: ['active', 'selected'], style: { x: 50, y: 50 } },
         { id: 'node-2', style: { x: 200, y: 50 } },
-        { id: 'node-3', style: { x: 125, y: 150, states: ['active'] } },
+        { id: 'node-3', states: ['active'], style: { x: 125, y: 150 } },
       ],
       edges: [
-        { id: 'edge-1', source: 'node-1', target: 'node-2', style: { states: ['active'] } },
+        { id: 'edge-1', source: 'node-1', target: 'node-2', states: ['active'] },
         { id: 'edge-2', source: 'node-2', target: 'node-3' },
         { id: 'edge-3', source: 'node-3', target: 'node-1' },
       ],

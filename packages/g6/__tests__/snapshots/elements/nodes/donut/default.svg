@@ -12,7 +12,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                donut
+                default
               </text>
             </g>
           </g>
@@ -35,7 +35,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                donut-halo
+                halo
               </text>
             </g>
           </g>
@@ -58,7 +58,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                donut-badges
+                badges
               </text>
             </g>
           </g>
@@ -120,7 +120,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                donut-ports
+                ports
               </text>
             </g>
           </g>
@@ -161,7 +161,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                donut-active
+                active
               </text>
             </g>
           </g>
@@ -187,7 +187,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="13.5px" font-size="14" text-anchor="middle" font-weight="700">
-                donut-selected
+                selected
               </text>
             </g>
           </g>
@@ -205,12 +205,12 @@
         </g>
         <g fill="none" transform="matrix(1,0,0,1,83.333336,416.666656)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle fill="rgba(23,131,255,1)" transform="translate(-20,-20)" cx="20" cy="20" stroke-width="3" stroke="rgba(0,0,0,1)" r="20" stroke-opacity="0.85"/>
+            <circle fill="rgba(23,131,255,1)" transform="translate(-20,-20)" cx="20" cy="20" stroke-width="3" stroke="rgba(0,0,0,1)" stroke-opacity="0.85" r="20"/>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="700">
-                donut-highlight
+                highlight
               </text>
             </g>
           </g>
@@ -231,12 +231,12 @@
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,416.666656)">
           <g transform="matrix(1,0,0,1,0,0)">
-            <circle fill="rgba(23,131,255,1)" transform="translate(-20,-20)" cx="20" cy="20" stroke-width="0" stroke="rgba(0,0,0,1)" r="20" opacity="0.25"/>
+            <circle fill="rgba(23,131,255,1)" transform="translate(-20,-20)" cx="20" cy="20" fill-opacity="0.25" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25" r="20"/>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" opacity="0.25">
-                donut-inactive
+                inactive
               </text>
             </g>
           </g>
@@ -259,7 +259,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,20)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" opacity="0.25">
-                donut-disabled
+                disabled
               </text>
             </g>
           </g>

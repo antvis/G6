@@ -1,0 +1,17 @@
+{
+  "nodes": [
+    { "id": "node1" },
+    { "id": "node2" },
+    { "id": "node3" },
+    { "id": "node4" },
+    { "id": "node5" },
+    { "id": "node6" }
+  ],
+  "edges": [
+    { "id": "line-default", "source": "node1", "target": "node2" },
+    { "id": "line-active", "source": "node1", "target": "node3", "states": ["active"] },
+    { "id": "line-selected", "source": "node1", "target": "node4", "states": ["selected"] },
+    { "id": "line-highlight", "source": "node1", "target": "node5", "states": ["highlight"] },
+    { "id": "line-inactive", "source": "node1", "target": "node6", "states": ["inactive"] }
+  ]
+}
