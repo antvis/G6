@@ -88,8 +88,10 @@ export class Hull extends BasePlugin<HullOptions> {
     concavity: Infinity,
     /** hull style */
     fill: 'lightblue',
+    fillOpacity: 0.2,
+    labelOpacity: 1,
     stroke: 'blue',
-    opacity: 0.2,
+    strokeOpacity: 0.2,
   };
 
   constructor(context: RuntimeContext, options: HullOptions) {

@@ -68,8 +68,9 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
     avoidMembers: [],
     /** shape style */
     fill: 'lightblue',
+    fillOpacity: 0.2,
     stroke: 'blue',
-    opacity: 0.2,
+    strokeOpacity: 0.2,
     /** bubbleSetJS config */
     ...defaultOptions,
   };

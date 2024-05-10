@@ -79,6 +79,7 @@ export function create(tokens: ThemeTokens): Theme {
         badgePadding: [1, 4],
         badgePalette: nodeBadgePalette,
         fill: nodeColor,
+        fillOpacity: 1,
         halo: false,
         haloLineWidth: 12,
         haloStrokeOpacity: 0.25,
@@ -95,7 +96,6 @@ export function create(tokens: ThemeTokens): Theme {
         labelFontWeight: 400,
         labelOpacity: 1,
         lineWidth: 0,
-        opacity: 1,
         portFill: nodeColor,
         portLineWidth: 1,
         portStroke: nodeStroke,
@@ -122,9 +122,10 @@ export function create(tokens: ThemeTokens): Theme {
         },
         inactive: {
           donutOpacity: 0.25,
+          fillOpacity: 0.25,
           iconOpacity: 0.25,
           labelOpacity: 0.25,
-          opacity: 0.25,
+          strokeOpacity: 0.25,
         },
         disabled: {
           fill: nodeColorDisabled,
@@ -142,6 +143,7 @@ export function create(tokens: ThemeTokens): Theme {
     edge: {
       palette: edgePaletteOptions,
       style: {
+        fillOpacity: 1,
         halo: false,
         haloLineWidth: 12,
         haloStrokeOpacity: 0.25,
@@ -158,8 +160,8 @@ export function create(tokens: ThemeTokens): Theme {
         labelPlacement: 'center',
         labelTextBaseline: 'middle',
         lineWidth: 1,
-        opacity: 1,
         stroke: edgeColor,
+        strokeOpacity: 1,
       },
       state: {
         selected: {
@@ -176,8 +178,9 @@ export function create(tokens: ThemeTokens): Theme {
           lineWidth: 2,
         },
         inactive: {
+          fillOpacity: 0.25,
           labelOpacity: 0.25,
-          opacity: 0.25,
+          strokeOpacity: 0.25,
         },
         disabled: {
           stroke: edgeColorDisabled,
@@ -188,7 +191,10 @@ export function create(tokens: ThemeTokens): Theme {
         enter: 'fade',
         exit: 'fade',
         visibility: 'fade',
-        update: [{ fields: ['path', 'stroke'], shape: 'key' }],
+        update: [
+          { fields: ['path', 'stroke'], shape: 'key' },
+          { fields: ['path', 'stroke'], shape: 'halo' },
+        ],
       },
     },
     combo: {
@@ -212,7 +218,8 @@ export function create(tokens: ThemeTokens): Theme {
         labelOpacity: 1,
         lineDash: 0,
         lineWidth: 1,
-        opacity: 1,
+        fillOpacity: 1,
+        strokeOpacity: 1,
         padding: 10,
         stroke: comboStroke,
       },
@@ -231,14 +238,16 @@ export function create(tokens: ThemeTokens): Theme {
           lineWidth: 4,
         },
         inactive: {
+          fillOpacity: 0.65,
           labelOpacity: 0.25,
-          opacity: 0.65,
+          strokeOpacity: 0.65,
         },
         disabled: {
           fill: comboColorDisabled,
+          fillOpacity: 0.25,
           labelOpacity: 0.25,
-          opacity: 0.25,
           stroke: comboStrokeDisabled,
+          strokeOpacity: 0.25,
         },
       },
       animation: {
