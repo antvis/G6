@@ -56,7 +56,7 @@ G6 中的“图”：
 
 Graph 类接收一个实例化参数对象，称之为**配置项**(Options，在可视化理论中将其称为：`Specification`)，用于配置图的数据、元素样式、布局、交互等。
 
-```ts
+```typescript
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

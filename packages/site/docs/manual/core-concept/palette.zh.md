@@ -11,14 +11,54 @@ order: 7
 
 离散色板是一组颜色数组，用于将元素中的离散值映射到不同的颜色上，例如节点的类型、边的关系等。下面是一个简单的离散色板示例：
 
-```ts
+```typescript
 ['#5B8FF9', '#61DDAA', '#F6BD16', '#F6903D', '#F08BB4'];
 ```
 
 连续色板是一个插值器，输入 0~1 的值，返回对应的颜色，用于将元素中的连续值映射到不同的颜色上，例如节点的度数、边的权重等。下面是一个简单的连续色板示例：
 
-```ts
+```typescript
 (value: number) => `rgb(${value * 255}, 0, 0)`;
+```
+
+## 注册色板
+
+你可以直接使用内置色板，如果想使用其他色板，需要先进行注册：
+
+```typescript
+import { register, ExtensionCategory } from '@antv/g6';
+import { CustomPalette } from 'package-name/or/path-to-your-custom-palette';
+
+register(ExtensionCategory.PALETTE, 'custom-palette', CustomPalette);
+```
+
+:::warning{title=注意}
+在注册色板过程中并不会区分离散色板和连续色板，使用色板过程中需要自行保证色板类型和数据类型的一致性。
+:::
+
+### 内置色板
+
+目前 G6 内置了 5 套常用的离散色板，用户可以直接使用：
+
+- spectral
+
+<div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(158, 1, 66);"></div><div style="background: rgb(213, 62, 79);"></div><div style="background: rgb(244, 109, 67);"></div><div style="background: rgb(253, 174, 97);"></div><div style="background: rgb(254, 224, 139);"></div><div style="background: rgb(255, 255, 191);"></div><div style="background: rgb(230, 245, 152);"></div><div style="background: rgb(171, 221, 164);"></div><div style="background: rgb(102, 194, 165);"></div><div style="background: rgb(50, 136, 189);"></div><div style="background: rgb(94, 79, 162);"></div></div>
+
+- tableau
+
+<div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(78, 121, 167);"></div><div style="background: rgb(242, 142, 44);"></div><div style="background: rgb(225, 87, 89);"></div><div style="background: rgb(118, 183, 178);"></div><div style="background: rgb(89, 161, 79);"></div><div style="background: rgb(237, 201, 73);"></div><div style="background: rgb(175, 122, 161);"></div><div style="background: rgb(255, 157, 167);"></div><div style="background: rgb(156, 117, 95);"></div><div style="background: rgb(186, 176, 171);"></div></div>
+
+- oranges
+
+<div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(255, 245, 235);"></div><div style="background: rgb(254, 230, 206);"></div><div style="background: rgb(253, 208, 162);"></div><div style="background: rgb(253, 174, 107);"></div><div style="background: rgb(253, 141, 60);"></div><div style="background: rgb(241, 105, 19);"></div><div style="background: rgb(217, 72, 1);"></div><div style="background: rgb(166, 54, 3);"></div><div style="background: rgb(127, 39, 4);"></div></div>
+
+- greens
+
+<div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(247, 252, 245);"></div><div style="background: rgb(229, 245, 224);"></div><div style="background: rgb(199, 233, 192);"></div><div style="background: rgb(161, 217, 155);"></div><div style="background: rgb(116, 196, 118);"></div><div style="background: rgb(65, 171, 93);"></div><div style="background: rgb(35, 139, 69);"></div><div style="background: rgb(0, 109, 44);"></div><div style="background: rgb(0, 68, 27);"></div></div>
+
+- blues
+
+<div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(247, 251, 255);"></div><div style="background: rgb(222, 235, 247);"></div><div style="background: rgb(198, 219, 239);"></div><div style="background: rgb(158, 202, 225);"></div><div style="background: rgb(107, 174, 214);"></div><div style="background: rgb(66, 146, 198);"></div><div style="background: rgb(33, 113, 181);"></div><div style="background: rgb(8, 81, 156);"></div><div style="background: rgb(8, 48, 107);"></div></div>
 ```
 
 ## 配置色板
@@ -29,7 +69,7 @@ order: 7
 
 1. 默认配置，直接配置 `palette` 的值为色板名，会默认为每个节点分配不同的颜色
 
-```ts
+```typescript
 {
   node: {
     palette: 'spectral', // spectral 为色板名
@@ -37,7 +77,7 @@ order: 7
 }
 ```
 
-```js | ob { pin:false }
+```js | ob { pin: false }
 createGraph(
   {
     data: {
@@ -77,7 +117,7 @@ createGraph(
 
 通过以下方式配置节点的颜色，使得同类别的节点颜色相同：
 
-```ts
+```typescript
 {
   node: {
     palette: {
@@ -89,7 +129,7 @@ createGraph(
 }
 ```
 
-```js | ob { pin:false }
+```js | ob { pin: false }
 createGraph(
   {
     data: {
@@ -129,13 +169,13 @@ createGraph(
 
 现在创建一个插值器，将最大值映射为红色(`rgb(255, 0, 0)`)，最小值映射为黑色(`rgb(0, 0, 0)`)：
 
-```ts
+```typescript
 (value) => `rgb(${value * 255}, 0, 0)`;
 ```
 
 通过以下配置使得节点的颜色根据数据中的 `value` 字段的值映射到不同的颜色：
 
-```ts
+```typescript
 {
   node: {
     palette: {
@@ -147,7 +187,7 @@ createGraph(
 }
 ```
 
-```js | ob { pin:false }
+```js | ob { pin: false }
 createGraph(
   {
     data: {
@@ -170,55 +210,9 @@ createGraph(
 内置连续色板不支持指定值域范围，如果有更复杂的颜色映射需求，可以在样式映射中自定义
 :::
 
-## 内置色板
-
-目前 G6 内置了 5 套常用的离散色板，用户可以直接使用：
-
-- spectral
-
-<div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(158, 1, 66);"></div><div style="background: rgb(213, 62, 79);"></div><div style="background: rgb(244, 109, 67);"></div><div style="background: rgb(253, 174, 97);"></div><div style="background: rgb(254, 224, 139);"></div><div style="background: rgb(255, 255, 191);"></div><div style="background: rgb(230, 245, 152);"></div><div style="background: rgb(171, 221, 164);"></div><div style="background: rgb(102, 194, 165);"></div><div style="background: rgb(50, 136, 189);"></div><div style="background: rgb(94, 79, 162);"></div></div>
-
-- tableau
-
-<div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(78, 121, 167);"></div><div style="background: rgb(242, 142, 44);"></div><div style="background: rgb(225, 87, 89);"></div><div style="background: rgb(118, 183, 178);"></div><div style="background: rgb(89, 161, 79);"></div><div style="background: rgb(237, 201, 73);"></div><div style="background: rgb(175, 122, 161);"></div><div style="background: rgb(255, 157, 167);"></div><div style="background: rgb(156, 117, 95);"></div><div style="background: rgb(186, 176, 171);"></div></div>
-
-- oranges
-
-<div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(255, 245, 235);"></div><div style="background: rgb(254, 230, 206);"></div><div style="background: rgb(253, 208, 162);"></div><div style="background: rgb(253, 174, 107);"></div><div style="background: rgb(253, 141, 60);"></div><div style="background: rgb(241, 105, 19);"></div><div style="background: rgb(217, 72, 1);"></div><div style="background: rgb(166, 54, 3);"></div><div style="background: rgb(127, 39, 4);"></div></div>
-
-- greens
-
-<div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(247, 252, 245);"></div><div style="background: rgb(229, 245, 224);"></div><div style="background: rgb(199, 233, 192);"></div><div style="background: rgb(161, 217, 155);"></div><div style="background: rgb(116, 196, 118);"></div><div style="background: rgb(65, 171, 93);"></div><div style="background: rgb(35, 139, 69);"></div><div style="background: rgb(0, 109, 44);"></div><div style="background: rgb(0, 68, 27);"></div></div>
-
-- blues
-
-<div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(247, 251, 255);"></div><div style="background: rgb(222, 235, 247);"></div><div style="background: rgb(198, 219, 239);"></div><div style="background: rgb(158, 202, 225);"></div><div style="background: rgb(107, 174, 214);"></div><div style="background: rgb(66, 146, 198);"></div><div style="background: rgb(33, 113, 181);"></div><div style="background: rgb(8, 81, 156);"></div><div style="background: rgb(8, 48, 107);"></div></div>
-```
-
 ## 自定义色板
 
 如果内置色板无法满足需求，可以自定义色板，具体请参考[自定义色板](/manual/advanced/custom-palette)。
-
-除此之外，你也可以在需要使用色板的位置跳过注册机制直接传入色板值，例如：
-
-```ts
-{
-  node: {
-    palette: {
-      type: 'group',
-      field: 'category',
-      color: ['#5B8FF9', '#61DDAA', '#F6BD16'], // 传入颜色数组
-    }
-  },
-  edge: {
-    palette: {
-      type: 'value',
-      field: 'value',
-      color: (value) => `rgb(${value * 255}, 0, 0)`, // 传入插值器
-    }
-  }
-}
-```
 
 ## 优先级
 
@@ -226,7 +220,7 @@ createGraph(
 
 如果同时配置了色板和样式映射，样式映射会覆盖色板颜色。下面的例子中，节点的颜色始终为红色：
 
-```ts
+```typescript
 {
   node: {
     style: {

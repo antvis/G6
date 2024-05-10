@@ -23,7 +23,7 @@ order: 9
 
 G6 提供了 `register` 函数用于注册扩展，例如：
 
-```ts
+```typescript
 import { register, ExtensionCategory } from '@antv/g6';
 import { CustomNode } from './my-custom-node';
 
@@ -37,7 +37,7 @@ register(ExtensionCategory.NODE, 'custom-node', CustomNode);
 
 > 详细的参数签名见：[API 文档](/api/reference/g6.register.zh.md)
 
-```ts
+```typescript
 // ✅
 register(ExtensionCategory.NODE, 'custom-name', CustomNode);
 register(ExtensionCategory.COMBO, 'custom-name', CustomCombo);
@@ -66,7 +66,7 @@ register(ExtensionCategory.NODE, 'custom-name', CustomNode);
 
 G6 提供了 `getExtension` 和 `getExtensions` 方法分别用于获取指定扩展类型下的单个扩展和所有扩展，例如：
 
-```ts
+```typescript
 import { getExtension, getExtensions, ExtensionCategory } from '@antv/g6';
 
 // 获取注册的名称为 'custom-node' 的节点扩展实现

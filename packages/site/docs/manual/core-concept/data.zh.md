@@ -51,13 +51,13 @@ G6 提供了一系列的 API 来访问和操作数据，包括：
 
 G6 并不提供数据的获取和解析功能，对于本地 JSON 数据，你可以直接引入使用：
 
-```ts
+```typescript
 import data from './path/to/data.json' assert { type: 'json' };
 ```
 
 对于远程数据，你可以使用 `fetch` 或者其他网络请求库来获取数据：
 
-```ts
+```typescript
 fetch('https://path/to/data.json')
   .then((res) => res.json())
   .then((data) => {

@@ -120,12 +120,20 @@ export default defineConfig({
         order: 3,
       },
       {
-        slug: 'manual/advanced',
+        slug: 'manual/custom-extension',
         title: {
-          zh: '进阶指南',
-          en: 'Advanced',
+          zh: '自定义扩展',
+          en: 'Custom Extension',
         },
         order: 4,
+      },
+      {
+        slug: 'manual/further-reading',
+        title: {
+          zh: '扩展阅读',
+          en: 'Further Reading',
+        },
+        order: 5,
       },
       // API folder
       {

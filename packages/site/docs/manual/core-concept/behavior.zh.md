@@ -5,7 +5,7 @@ order: 5
 
 ## 概述
 
-<image width="200px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sa3jRqp83K4AAAAAAAAAAAAADmJ7AQ/original"></image>
+<image width="200px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sa3jRqp83K4AAAAAAAAAAAAADmJ7AQ/original" />
 
 交互(Behavior)是指用户与画布、元素之间的一些列行为操作，例如拖拽、缩放、平移、选中等，通过交互可以帮助用户更直观的从图中获取信息。
 
@@ -26,19 +26,30 @@ G6 提供了丰富的交互功能，用户可以根据自己的需求选择合�
 - [Lasso Select](/api/behaviors/lasso-select)：套索选择
 - [Zoom Canvas](/api/behaviors/zoom-canvas)：缩放画布
 
+## 注册交互
+
+你可以直接使用内置交互，如果想要使用其他交互，需要先进行注册：
+
+```typescript
+import { register, ExtensionCategory } from '@antv/g6';
+import { CustomBehavior } from 'package-name/or/path-to-your-custom-behavior';
+
+register(ExtensionCategory.BEHAVIOR, 'custom-behavior', CustomBehavior);
+```
+
 ## 配置交互
 
-对于内置的交互，可以直接在 `behaviors` 中配置，例如：
+可以直接在 `behaviors` 中配置交互类型名称，例如：
 
-```ts
+```typescript
 {
   behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'click-select'],
 }
 ```
 
-一些交互行为支持以 `object` 的形式配置属性，例如：
+同时支持以 `object` 的形式传入配置参数，例如：
 
-```ts
+```typescript
 {
   behaviors: [
     {
@@ -55,7 +66,7 @@ G6 提供了丰富的交互功能，用户可以根据自己的需求选择合�
 
 如果要在初始化后更新交互行为，例如临时禁用某个交互行为，可以通过 [updateBehavior](/api/graph/method#updateBehavior) 方法：
 
-```ts
+```typescript
 // 禁用 zoom-canvas 交互
 graph.updateBehavior({
   key: 'zoom-canvas',
@@ -69,7 +80,7 @@ graph.updateBehavior({
 
 还可以通过 [setBehaviors](/api/graph/method#setBehaviors) 方法在任意时刻增加、更新、删除当前的交互行为：
 
-```ts
+```typescript
 // 添加 lasso-select 交互
 graph.setBehaviors((behaviors) => [...behaviors, 'lasso-select']);
 

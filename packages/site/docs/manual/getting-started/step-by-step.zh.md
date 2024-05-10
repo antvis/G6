@@ -70,7 +70,7 @@ npm install vite --save-dev
 
 **main.ts**：
 
-```ts
+```typescript
 alert('Hello, G6!');
 ```
 
@@ -106,7 +106,7 @@ const data = {
 
 创建一个图表实例，传入一个配置对象，包括容器和数据，然后调用 `render` 方法渲染图表：
 
-```ts
+```typescript
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
