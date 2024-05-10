@@ -1,0 +1,30 @@
+{
+  "nodes": [
+    { "id": "default" },
+    { "id": "halo", "style": { "halo": true } },
+    {
+      "id": "badges",
+      "style": {
+        "badges": [
+          { "text": "A", "placement": "right-top" },
+          { "text": "Important", "placement": "right" },
+          { "text": "Notice", "placement": "right-bottom" }
+        ],
+        "badgeFontSize": 8,
+        "badgePadding": [1, 4]
+      }
+    },
+    {
+      "id": "ports",
+      "style": {
+        "portR": 3,
+        "ports": [{ "placement": "left" }, { "placement": "right" }, { "placement": "top" }, { "placement": "bottom" }]
+      }
+    },
+    { "id": "active", "states": ["active"] },
+    { "id": "selected", "states": ["selected"] },
+    { "id": "highlight", "states": ["highlight"] },
+    { "id": "inactive", "states": ["inactive"] },
+    { "id": "disabled", "states": ["disabled"] }
+  ]
+}

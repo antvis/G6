@@ -14,8 +14,8 @@
         <g fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g transform="matrix(1,0,0,1,131,58)">
-            <path fill="none" d="M 63,0 L 0,84" stroke-width="12" stroke="rgba(217,185,205,1)" stroke-dasharray="0,0" pointer-events="none" stroke-opacity="0.25"/>
-            <path fill="none" d="M 63,0 L 0,84" stroke-width="14" stroke="transparent" stroke-dasharray="0,0" pointer-events="none" stroke-opacity="0.25"/>
+            <path fill="none" d="M 63,0 L 0,84" stroke-width="12" stroke="rgba(217,185,205,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
+            <path fill="none" d="M 63,0 L 0,84" stroke-width="14" stroke="transparent" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g transform="matrix(1,0,0,1,131,58)">
             <path fill="none" d="M 63,0 L 0,84" stroke-width="1.6270672695016453" stroke="rgba(217,185,205,1)"/>

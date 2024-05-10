@@ -52,13 +52,27 @@ export function removePrefix(string: string, prefix?: string, lowercaseFirstLett
  * @returns <zh/> 子样式 | <en/> sub style
  */
 export function subStyleProps<T extends Record<string, any>>(style: object, prefix: string) {
-  return Object.entries(style).reduce((acc, [key, value]) => {
+  const subStyle = Object.entries(style).reduce((acc, [key, value]) => {
     if (key === 'className' || key === 'class') return acc;
     if (startsWith(key, prefix)) {
-      acc[removePrefix(key, prefix) as keyof T] = value;
+      Object.assign(acc, { [removePrefix(key, prefix)]: value });
     }
     return acc;
   }, {} as T);
+
+  // 向下传递透明度，但避免覆盖子样式中的透明度属性
+  // Pass down opacity, but avoid overwriting the opacity property in the sub-style
+  if ('opacity' in style) {
+    const subOpacityKey = addPrefix('opacity', prefix) as keyof typeof style;
+    const opacity = style.opacity as number;
+
+    if (subOpacityKey in style) {
+      const subOpacity = style[subOpacityKey] as number;
+      Object.assign(subStyle, { opacity: opacity * subOpacity });
+    } else Object.assign(subStyle, { opacity });
+  }
+
+  return subStyle;
 }
 
 /**

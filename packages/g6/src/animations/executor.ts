@@ -2,7 +2,7 @@ import type { DisplayObject, IAnimation } from '@antv/g';
 import { isString, upperFirst } from '@antv/util';
 import { DEFAULT_ELEMENTS_ANIMATION_OPTIONS } from '../constants';
 import { getExtension } from '../registry';
-import { createAnimationsProxy, executeAnimation, inferDefaultValue, preprocessKeyframes } from '../utils/animation';
+import { createAnimationsProxy, inferDefaultValue, preprocessKeyframes } from '../utils/animation';
 import type { AnimationExecutor } from './types';
 
 /**
@@ -34,9 +34,13 @@ export const executor: AnimationExecutor = (element, animation, commonEffectTimi
    * @param shapeID - <zh/> 图形 ID | <en/> shape ID
    * @returns <zh/> 图形关键帧样式 | <en/> keyframe style of the shape
    */
-  const getKeyframeStyle = (shapeID?: string) => {
+  const getKeyframeStyle = (
+    shapeID?: string,
+  ): { shape: DisplayObject; fromStyle: Record<string, any>; toStyle: Record<string, any> } | null => {
     if (shapeID) {
-      const shape = element.getElementById(shapeID) as DisplayObject;
+      const shape = element.getShape(shapeID);
+      if (!shape) return null;
+
       const name = `get${upperFirst(shapeID)}Style` as keyof typeof element;
 
       const styler: (attrs?: Record<string, unknown>) => Record<string, unknown> =
@@ -54,14 +58,15 @@ export const executor: AnimationExecutor = (element, animation, commonEffectTimi
     }
   };
 
-  let keyResult: IAnimation;
+  let mainResult: IAnimation;
 
-  const results = animations
+  const subResults = animations
     .map(({ fields, shape: shapeID, states: enabledStates, ...individualEffectTiming }) => {
       if (enabledStates === undefined || enabledStates?.some((state) => states.includes(state))) {
-        const { shape, fromStyle, toStyle } = getKeyframeStyle(shapeID);
+        const keyframeStyle = getKeyframeStyle(shapeID);
+        if (!keyframeStyle) return null;
 
-        if (!shape) return null;
+        const { shape, fromStyle, toStyle } = keyframeStyle;
 
         const keyframes: Keyframe[] = [{}, {}];
 
@@ -70,13 +75,13 @@ export const executor: AnimationExecutor = (element, animation, commonEffectTimi
           Object.assign(keyframes[1], { [attr]: toStyle[attr] ?? inferDefaultValue(attr) });
         });
 
-        const result = executeAnimation(shape, preprocessKeyframes(keyframes), {
+        const result = shape.animate(preprocessKeyframes(keyframes), {
           ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS,
           ...commonEffectTiming,
           ...individualEffectTiming,
         });
 
-        if (shapeID === undefined) keyResult = result!;
+        if (shapeID === undefined) mainResult = result!;
 
         return result;
       }
@@ -84,12 +89,12 @@ export const executor: AnimationExecutor = (element, animation, commonEffectTimi
     })
     .filter(Boolean) as IAnimation[];
 
-  const mainResult = keyResult! || results?.[0];
+  const result = mainResult! || subResults?.[0];
 
-  if (!mainResult) return null;
+  if (!result) return null;
 
   return createAnimationsProxy(
-    mainResult,
-    results.filter((result) => result !== mainResult),
+    result,
+    subResults.filter((result) => result !== result),
   );
 };

@@ -12,7 +12,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0.000001,16.180340)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                star
+                default
               </text>
             </g>
           </g>
@@ -32,7 +32,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0.000001,16.180340)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                star-halo
+                halo
               </text>
             </g>
           </g>
@@ -49,7 +49,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0.000001,16.180340)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                star-badges
+                badges
               </text>
             </g>
           </g>
@@ -102,7 +102,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0.000001,16.180340)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                star-ports
+                ports
               </text>
             </g>
           </g>
@@ -134,7 +134,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0.000001,16.180340)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
-                star-active
+                active
               </text>
             </g>
           </g>
@@ -154,7 +154,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0.000001,16.180340)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="13.5px" font-size="14" text-anchor="middle" font-weight="700">
-                star-selected
+                selected
               </text>
             </g>
           </g>
@@ -171,7 +171,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0.000001,16.180340)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="700">
-                star-highlight
+                highlight
               </text>
             </g>
           </g>
@@ -183,12 +183,12 @@
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,416.666656)">
           <g transform="matrix(1,0,0,1,-19.021130,-20)">
-            <polygon fill="rgba(23,131,255,1)" points="19.02113032590307,0 23.429519718096618,13.932372542187894 38.04226065180614,13.819660112501051 26.15405419811672,22.317627457812105 30.776835371752533,36.180339887498945 19.02113032590307,27.5 7.265425280053606,36.180339887498945 11.888206453689417,22.317627457812105 0,13.819660112501051 14.61274093370952,13.932372542187894" stroke-width="0" stroke="rgba(0,0,0,1)" opacity="0.25"/>
+            <polygon fill="rgba(23,131,255,1)" points="19.02113032590307,0 23.429519718096618,13.932372542187894 38.04226065180614,13.819660112501051 26.15405419811672,22.317627457812105 30.776835371752533,36.180339887498945 19.02113032590307,27.5 7.265425280053606,36.180339887498945 11.888206453689417,22.317627457812105 0,13.819660112501051 14.61274093370952,13.932372542187894" fill-opacity="0.25" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25"/>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,0.000001,16.180340)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" opacity="0.25">
-                star-inactive
+                inactive
               </text>
             </g>
           </g>
@@ -205,7 +205,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0.000001,16.180340)">
             <g transform="matrix(1,0,0,1,0,0)">
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" opacity="0.25">
-                star-disabled
+                disabled
               </text>
             </g>
           </g>

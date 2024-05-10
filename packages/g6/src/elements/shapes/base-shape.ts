@@ -1,9 +1,10 @@
 import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, IAnimation } from '@antv/g';
 import { CustomElement } from '@antv/g';
-import { deepMix } from '@antv/util';
+import { deepMix, isEmpty, isFunction, upperFirst } from '@antv/util';
 import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
 import { updateStyle } from '../../utils/element';
+import { subObject } from '../../utils/prefix';
 import { setVisibility } from '../../utils/visibility';
 
 export interface BaseShapeStyleProps extends BaseStyleProps {
@@ -30,7 +31,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     this.bindEvents();
   }
 
-  get parsedAttributes() {
+  protected get parsedAttributes() {
     return this.attributes as Required<StyleProps>;
   }
 
@@ -123,6 +124,8 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
   }
 
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions): IAnimation | null {
+    if (keyframes.length === 0) return null;
+
     const animationMap: IAnimation[] = [];
 
     const result = super.animate(keyframes, options);
@@ -136,10 +139,10 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
         Object.entries(this.shapeMap).forEach(([key, shape]) => {
           // 如果存在方法名为 `get${key}Style` 的方法，则使用该方法获取样式，并自动为该图形实例创建动画
           // if there is a method named `get${key}Style`, use this method to get style and automatically create animation for the shape instance
-          const methodName = `get${key[0].toUpperCase()}${key.slice(1)}Style` as keyof this;
+          const methodName = `get${upperFirst(key)}Style` as keyof this;
           const method = this[methodName];
 
-          if (typeof method === 'function') {
+          if (isFunction(method)) {
             const subKeyframes: Keyframe[] = keyframes.map((style) =>
               method.call(this, { ...this.attributes, ...style }),
             );
@@ -148,10 +151,39 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
             if (result) animationMap.push(result);
           }
         });
+
+        // 针对 badges/ports 执行动画
+        const badges = subObject(this.shapeMap, 'badge-');
+        const ports = subObject(this.shapeMap, 'port-');
+
+        const handleShapeSet = (shapeSet: Record<string, DisplayObject>, name: string) => {
+          if (!isEmpty(shapeSet)) {
+            const methodName = `get${upperFirst(name)}Style` as keyof this;
+            const method = this[methodName];
+            if (isFunction(method)) {
+              const itemsKeyframes = keyframes.map((style) => method.call(this, { ...this.attributes, ...style }));
+              Object.entries(itemsKeyframes[0]).map(([key]) => {
+                const subKeyframes = itemsKeyframes.map((styles) => styles[key]);
+                const shape = shapeSet[key];
+                if (shape) {
+                  const result = shape.animate(preprocessKeyframes(subKeyframes), options);
+                  if (result) animationMap.push(result);
+                }
+              });
+            }
+          }
+        };
+
+        handleShapeSet(badges, 'badges');
+        handleShapeSet(ports, 'ports');
       }
     }
 
     return createAnimationsProxy(animationMap);
+  }
+
+  public getShape(key: string): DisplayObject | undefined {
+    return this.shapeMap[key];
   }
 
   private setVisibility() {

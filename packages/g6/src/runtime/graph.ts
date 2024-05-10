@@ -1452,7 +1452,7 @@ export class Graph extends EventEmitter {
     const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
     Object.entries(config).forEach(([id, value]) => {
       const elementType = this.getElementType(id);
-      dataToUpdate[`${elementType}s`].push({ id, style: { states: parseState(value) } });
+      dataToUpdate[`${elementType}s`].push({ id, states: parseState(value) });
     });
     this.updateData(dataToUpdate);
 

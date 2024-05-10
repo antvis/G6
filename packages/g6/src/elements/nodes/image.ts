@@ -44,8 +44,10 @@ export class Image extends BaseNode<ImageStyleProps> {
 
   protected getKeyStyle(attributes: Required<ImageStyleProps>): GImageStyleProps {
     const [width, height] = this.getSize(attributes);
-    const keyStyle = super.getKeyStyle(attributes);
+    const { fillOpacity, opacity = fillOpacity, ...keyStyle } = super.getKeyStyle(attributes);
+
     return {
+      opacity,
       ...keyStyle,
       width,
       height,
