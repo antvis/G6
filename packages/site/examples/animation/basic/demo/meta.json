@@ -1,0 +1,48 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "enter.js",
+      "title": {
+        "zh": "入场动画",
+        "en": "Enter Animation"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*f9JTTKw-VNwAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "enter-edge-path-in.js",
+      "title": {
+        "zh": "边路径入场",
+        "en": "Edge Path In"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*R895Tq952I0AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "update.js",
+      "title": {
+        "zh": "更新动画",
+        "en": "Update Animation"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*C1wjRrz-gC8AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "exit.js",
+      "title": {
+        "zh": "退场动画",
+        "en": "Exit Animation"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*UGu1Qolzzc4AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "combo-collapse-expand.js",
+      "title": {
+        "zh": "组合展开/收起",
+        "en": "Combo Collapse/Expand"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wzK3T6oBEg0AAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

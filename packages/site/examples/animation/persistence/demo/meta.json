@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "ant-line.js",
+      "title": {
+        "zh": "蚂蚁线",
+        "en": "Ant Line"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EonQSohWxtYAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "fly-marker.js",
+      "title": {
+        "zh": "飞行标记",
+        "en": "Fly Marker"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CN6ZQ4M8c80AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "breathing-circle.js",
+      "title": {
+        "zh": "呼吸效果",
+        "en": "Fly Marker"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*b-o-R5irgzsAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "ripple-circle.js",
+      "title": {
+        "zh": "涟漪效果",
+        "en": "Ripple"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*blf6TZXDzckAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
