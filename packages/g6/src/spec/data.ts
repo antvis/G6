@@ -3,6 +3,30 @@ import type { ComboStyle } from './element/combo';
 import type { EdgeStyle } from './element/edge';
 import type { NodeStyle } from './element/node';
 
+/**
+ * <zh/> 图数据
+ *
+ * <en/> Graph data
+ * @remarks
+ * <zh/> 图数据（GraphData）是 Graph 接收的数据类型之一，包含节点、边、组合的集合。
+ *
+ * <zh/> 一个图数据的示例如下：
+ *
+ * <en/> Graph data is one of the data types received by Graph, which contains a collection of nodes, edges, and combos.
+ *
+ * <en/> An example of a graph data is as follows:
+ *
+ * ```json
+ * {
+ *  "nodes": [
+ *    { "id": "node1", "combo": "combo-1", "style": { "x": 100, "y": 100 } },
+ *    { "id": "node2", "style": { "x": 200, "y": 200 } }
+ *  ],
+ *  "edges": [{ "source": "node1", "target": "node2" }],
+ *  "combos": [{ "id": "combo-1", "style": { "x": 100, "y": 100 } }]
+ * }
+ * ```
+ */
 export interface GraphData {
   /**
    * <zh/> 节点数据
@@ -24,6 +48,11 @@ export interface GraphData {
   combos?: ComboData[];
 }
 
+/**
+ * <zh/> 节点数据
+ *
+ * <en/> Node data
+ */
 export interface NodeData {
   /**
    * <zh/> 节点 ID
@@ -78,6 +107,11 @@ export interface NodeData {
   [key: string]: unknown;
 }
 
+/**
+ * <zh/> 组合数据
+ *
+ * <en/> Combo data
+ */
 export interface ComboData {
   /**
    * <zh/> Combo ID
@@ -122,6 +156,11 @@ export interface ComboData {
   [key: string]: unknown;
 }
 
+/**
+ * <zh/> 边数据
+ *
+ * <en/> Edge data
+ */
 export interface EdgeData {
   /**
    * <zh/> 边 ID
@@ -130,7 +169,7 @@ export interface EdgeData {
    */
   id?: ID;
   /**
-   * <zh/> 边源节点 ID
+   * <zh/> 边起始节点 ID
    *
    * <en/> Source node ID
    */
