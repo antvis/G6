@@ -23,10 +23,10 @@ if (window) {
     Object.entries(style).forEach(([key, value]) => {
       if (key === 'width' || key === 'height') {
         if (typeof value === 'number') {
-          container.style[key] = `${value}px`;
+          value = `${value}px`;
         }
-        container.style[key] = value;
       }
+      container.style[key] = value;
     });
     return container;
   };
@@ -46,12 +46,13 @@ if (window) {
 
     if (renderPanel) {
       const $wrapper = createContainer({ width: style.width + 245, height: style.height, display: 'flex' });
+      $wrapper.appendChild(container);
 
       const gui = new (await import('lil-gui')).default({ container: $wrapper, autoPlace: false });
       gui.title('Playground');
       renderPanel(gui, graph);
+      $wrapper.appendChild(gui.domElement);
 
-      $wrapper.appendChild(container);
       return $wrapper;
     }
 
