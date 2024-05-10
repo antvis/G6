@@ -12,7 +12,7 @@ import { BaseNode } from '../nodes/base-node';
  */
 export interface PolygonStyleProps extends BaseNodeStyleProps {
   /**
-   * <zh/>.多边形的顶点坐标
+   * <zh/> 多边形的顶点坐标
    *
    * <en/> The vertex coordinates of the polygon
    * @internal
