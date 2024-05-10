@@ -5,8 +5,8 @@ import type { NodePortStyleProps, Point, TriangleDirection, TrianglePortPlacemen
 import { getIncircleRadius, getTriangleCenter } from '../../utils/bbox';
 import { getPortXYByPlacement, getTrianglePoints, getTrianglePorts } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
+import type { PolygonStyleProps } from '../shapes';
 import { IconStyleProps } from '../shapes';
-import type { PolygonStyleProps } from '../shapes/polygon';
 import { Polygon } from '../shapes/polygon';
 
 /**
@@ -19,6 +19,7 @@ export interface TriangleStyleProps extends PolygonStyleProps {
    * <zh/> 三角形的方向
    *
    * <en/> The direction of the triangle
+   * @defaultValue 'up'
    */
   direction?: TriangleDirection;
 }

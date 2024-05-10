@@ -8,7 +8,7 @@ export const PageTitle: Record<string, string[]> = {
   // element
   ElementMethods: ['API', '方法'],
   // element/node
-  BaseNode: ['BaseNode', '节点通用样式属性'],
+  BaseNode: ['BaseNode', '节点通用样式'],
   Circle: ['Circle', '圆形'],
   Diamond: ['Diamond', '菱形'],
   Donut: ['Donut', '甜甜圈'],
@@ -20,7 +20,7 @@ export const PageTitle: Record<string, string[]> = {
   Star: ['Star', '五角形'],
   Triangle: ['Triangle', '三角形'],
   // element/edge
-  BaseEdge: ['BaseEdge', '边通用样式属性'],
+  BaseEdge: ['BaseEdge', '边通用样式'],
   Cubic: ['Cubic', '三次贝塞尔曲线'],
   CubicHorizontal: ['CubicHorizontal', '水平三次贝塞尔曲线'],
   CubicVertical: ['CubicVertical', '垂直三次贝塞尔曲线'],
@@ -28,7 +28,7 @@ export const PageTitle: Record<string, string[]> = {
   Polyline: ['Polyline', '折线'],
   Quadratic: ['Quadratic', '二次贝塞尔曲线'],
   // element/combo
-  BaseCombo: ['BaseCombo', '组合基础样式属性'],
+  BaseCombo: ['BaseCombo', '组合通用样式'],
   CircleCombo: ['Circle', '圆形'],
   RectCombo: ['Rect', '矩形'],
   // layout

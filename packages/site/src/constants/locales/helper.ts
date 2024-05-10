@@ -2,7 +2,10 @@ import { getIntl } from './index';
 
 export const helpers = {
   prefixHelper: ['More about `Prefix` generic usage, see [Prefix]', '关于 `Prefix` 泛型的使用信息，见 [Prefix]'],
-  basePropsStyleHelper: ['More about base style configuration, please check [here]', '了解通用样式配置，请点击[这里]'],
+  basePropsStyleHelper: [
+    'If the element has its specific properties, we will list them below. For all generic style attributes, see',
+    '如果元素有其特定的属性，我们将在下面列出。对于所有的通用样式属性，见',
+  ],
   advancedPropsHelper: [
     'Except for the properties explicitly listed below, other supported properties are seen',
     '除了下面显式列出的属性，其他支持属性见',

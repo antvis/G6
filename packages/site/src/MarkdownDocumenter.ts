@@ -77,7 +77,10 @@ import { getBlockTagByName } from './utils/parser';
 
 const supportedApiItems = [ApiItemKind.Interface, ApiItemKind.Enum, ApiItemKind.Class, ApiItemKind.TypeAlias];
 
-const hyperlinkReferences = ['BaseNodeStyleProps'];
+// 需要跳过解析的复杂类型 | Complex types that need to be skipped for parsing
+export const interfacesToSkipParsing = ['BaseNodeStyleProps', 'BaseEdgeStyleProps', 'BaseComboStyleProps'];
+
+const typesToSkipParsing = ['CallableValue'];
 
 /**
  * A page and its associated API items.
@@ -466,9 +469,10 @@ export class MarkdownDocumenter {
     const isBase = pageData.name.startsWith('Base');
 
     if (apiClass && !isBase) {
-      this._writeSummarySection(output, apiClass);
       this._writeRemarksSection(output, apiClass);
     }
+
+    this._assertDemo(output, pageData);
 
     if (apiInterface) {
       this._writeElementOptions(output, apiInterface, pageData, isBase);
@@ -482,31 +486,26 @@ export class MarkdownDocumenter {
   /**
    * Special for Element options, which needs to handle `Prefix`
    */
-  private _writeElementOptions(
-    output: DocSection,
-    apiInterface: ApiInterface,
-    pageData: IPageData,
-    includeExcerptTokens: boolean,
-  ) {
+  private _writeElementOptions(output: DocSection, apiInterface: ApiInterface, pageData: IPageData, isBase: boolean) {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
-    if (!includeExcerptTokens) {
+    if (!isBase) {
       const elementType = pageData.group.split('/')[1].slice(0, -1);
       const baseStyleFileName = upperFirst(camelCase(`base ${elementType}`));
       output.appendNode(
-        new DocContainer({ configuration, status: 'info', title: getHelperIntl('remarks', this.locale) }, [
-          new DocParagraph({ configuration }, [
-            new DocPlainText({
-              configuration,
-              text:
-                getHelperIntl('basePropsStyleHelper', this.locale) + `(./${baseStyleFileName}.${this._getLang()}.md)`,
-            }),
-          ]),
+        new DocParagraph({ configuration }, [
+          new DocText({
+            configuration,
+            text:
+              '> ' +
+              getHelperIntl('basePropsStyleHelper', this.locale) +
+              ` [${baseStyleFileName}](./${baseStyleFileName}.${this._getLang()}.md)`,
+          }),
         ]),
       );
     }
 
-    this._writeOptions(output, apiInterface, { showTitle: false, includeExcerptTokens });
+    this._writeOptions(output, apiInterface, { showTitle: false, includeExcerptTokens: true });
   }
 
   private _getLinkFromExcerptToken(excerptToken: ICustomExcerptToken): string | undefined {
@@ -569,7 +568,7 @@ export class MarkdownDocumenter {
 
     const filterTokens = (tokens: ICustomExcerptToken[]): ICustomExcerptToken[] => {
       return tokens
-        .filter((token) => token.type !== 'Prefix')
+        .filter((token) => token.type !== 'Prefix' && !interfacesToSkipParsing.includes(token.text))
         .map((token) => ({
           ...token,
           children: token.children ? filterTokens(token.children) : [],
@@ -652,13 +651,6 @@ export class MarkdownDocumenter {
 
   private _writeExcerptTokens(output: DocSection, customExcerptTokens: ICustomExcerptToken[]) {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
-
-    customExcerptTokens.forEach((customExcerptToken) => {
-      if (hyperlinkReferences.includes(customExcerptToken.text)) {
-        delete customExcerptToken.children;
-        delete customExcerptToken.interface;
-      }
-    });
 
     for (const customExcerptToken of customExcerptTokens) {
       const textNodes: DocPlainText[] = [];
@@ -1828,15 +1820,15 @@ export class MarkdownDocumenter {
     }
   }
 
-  private _parseTypeAliasTokens(excerptTokens: ExcerptToken[]): ExcerptToken[] {
-    const tokens = excerptTokens.flatMap((token) => {
+  private _parseTypeAliasTokens(apiTypeAlias: ApiTypeAlias): ExcerptToken[] {
+    const tokens = apiTypeAlias.excerptTokens.slice(1, -1).flatMap((token) => {
       if (token.kind === ExcerptTokenKind.Reference && token.canonicalReference) {
         const apiItemResult: IResolveDeclarationReferenceResult = this._apiModel.resolveDeclarationReference(
           token.canonicalReference,
           undefined,
         );
         if (apiItemResult.resolvedApiItem instanceof ApiTypeAlias) {
-          return this._parseTypeAliasTokens(apiItemResult.resolvedApiItem.excerptTokens.slice(1, -1));
+          return this._parseTypeAliasTokens(apiItemResult.resolvedApiItem);
         }
       }
       return token;
@@ -1860,13 +1852,16 @@ export class MarkdownDocumenter {
       );
 
       if (apiItemResult.resolvedApiItem) {
-        if (apiItemResult.resolvedApiItem.kind === ApiItemKind.TypeAlias && this.referenceLevel > 0) {
-          const excerptTokens = (apiItemResult.resolvedApiItem as ApiTypeAlias).excerptTokens.slice(1, -1);
-          const typeAliasTokens = this._parseTypeAliasTokens(excerptTokens);
+        if (
+          apiItemResult.resolvedApiItem.kind === ApiItemKind.TypeAlias &&
+          this.referenceLevel > 0 &&
+          !typesToSkipParsing.includes(apiItemResult.resolvedApiItem.displayName)
+        ) {
+          const typeAliasTokens = this._parseTypeAliasTokens(apiItemResult.resolvedApiItem as ApiTypeAlias);
           // If the type alias is a simple single-line type alias, then render it as plain text
           // Otherwise, render it as a hyperlink
           if (typeAliasTokens.every((token) => !token.text.includes('\n') && !token.text.includes('\r'))) {
-            return docNodeContainer.appendNode(
+            docNodeContainer.appendNode(
               new DocPlainText({
                 configuration,
                 text: typeAliasTokens
@@ -1877,6 +1872,7 @@ export class MarkdownDocumenter {
                   .join(' | '),
               }),
             );
+            return;
           }
         }
 

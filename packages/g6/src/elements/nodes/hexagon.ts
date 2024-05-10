@@ -2,8 +2,7 @@ import type { DisplayObjectConfig } from '@antv/g';
 import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { Point } from '../../types';
 import { getHexagonPoints } from '../../utils/element';
-import type { IconStyleProps } from '../shapes';
-import type { PolygonStyleProps } from '../shapes/polygon';
+import type { IconStyleProps, PolygonStyleProps } from '../shapes';
 import { Polygon } from '../shapes/polygon';
 
 /**
@@ -13,9 +12,9 @@ import { Polygon } from '../shapes/polygon';
  */
 export interface HexagonStyleProps extends PolygonStyleProps {
   /**
-   * <zh/> 外半径
+   * <zh/> 外半径，默认为宽高的最小值的一半
    *
-   * <en/> outer radius
+   * <en/> outer radius, default is half of the minimum value of width and height
    */
   outerR?: number;
 }

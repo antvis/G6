@@ -6,6 +6,7 @@ import { parseSize } from '../../utils/size';
 import { Circle } from './circle';
 
 import type { BaseStyleProps, DisplayObjectConfig, Group } from '@antv/g';
+import type { CategoricalPalette } from '../../palettes/types';
 import type { DonutRound, Prefix } from '../../types';
 import type { CircleStyleProps } from './circle';
 
@@ -21,7 +22,7 @@ export interface DonutStyleProps extends CircleStyleProps, Prefix<'donut', BaseS
    * <en/> Inner ring radius, using percentage or pixel value.
    * @defaultValue '50%'
    */
-  innerRadius?: string | number;
+  innerR?: string | number;
   /**
    * <zh/> 圆环数据
    *
@@ -34,7 +35,7 @@ export interface DonutStyleProps extends CircleStyleProps, Prefix<'donut', BaseS
    * <en/> Color or palette.
    * @defaultValue 'tableau'
    */
-  colors?: string | string[];
+  donutPalette?: string | CategoricalPalette;
 }
 
 /**
@@ -44,33 +45,43 @@ export interface DonutStyleProps extends CircleStyleProps, Prefix<'donut', BaseS
  */
 export class Donut extends Circle {
   static defaultStyleProps: Partial<DonutStyleProps> = {
-    innerRadius: '50%',
+    innerR: '50%',
     donuts: [],
-    colors: 'tableau',
+    donutPalette: 'tableau',
   };
 
   constructor(options: DisplayObjectConfig<DonutStyleProps>) {
     super(deepMix({}, { style: Donut.defaultStyleProps }, options));
   }
 
+  private parseOuterR() {
+    const { size } = this.parsedAttributes as Required<DonutStyleProps>;
+    return Math.min(...parseSize(size)) / 2;
+  }
+
+  private parseInnerR() {
+    const { innerR } = this.parsedAttributes as Required<DonutStyleProps>;
+    return isString(innerR) ? (parseInt(innerR) / 100) * this.parseOuterR() : innerR;
+  }
+
   protected drawDonutShape(attributes: Required<DonutStyleProps>, container: Group): void {
-    const { donuts, innerRadius = 0, size } = attributes;
+    const { donuts } = attributes;
     if (!donuts?.length) return;
 
     const parsedDonuts = donuts.map((round) => (isNumber(round) ? { value: round } : round) as DonutRound);
 
     const style = subStyleProps<BaseStyleProps>(this.getGraphicStyle(attributes), 'donut');
 
-    const colors = getPaletteColors(attributes.colors);
+    const colors = getPaletteColors(attributes.donutPalette);
     if (!colors) return;
 
     const sum = parsedDonuts.reduce((acc, cur) => acc + (cur.value ?? 0), 0);
+    const outerR = this.parseOuterR();
+    const innerR = this.parseInnerR();
 
     let start = 0;
     parsedDonuts.forEach((round, index) => {
       const { value = 0, color = colors[index % colors.length], ...roundStyle } = round;
-      const outerR = parseSize(size)[0] / 2;
-      const innerR = isString(innerRadius) ? (outerR * parseInt(innerRadius)) / 100 : innerRadius;
       const angle = (sum === 0 ? 1 / parsedDonuts.length : value / sum) * 360;
 
       this.upsert(

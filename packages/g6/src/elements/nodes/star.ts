@@ -2,8 +2,7 @@ import type { DisplayObjectConfig } from '@antv/g';
 import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { NodePortStyleProps, Point, StarPortPlacement } from '../../types';
 import { getPortXYByPlacement, getStarPoints, getStarPorts } from '../../utils/element';
-import type { IconStyleProps } from '../shapes';
-import type { PolygonStyleProps } from '../shapes/polygon';
+import type { IconStyleProps, PolygonStyleProps } from '../shapes';
 import { Polygon } from '../shapes/polygon';
 
 /**

@@ -1,5 +1,6 @@
 import { ApiInterface, ApiModel, ExcerptTokenKind, type ExcerptToken } from '@microsoft/api-extractor-model';
 import { camelCase } from 'lodash';
+import { interfacesToSkipParsing } from '../MarkdownDocumenter';
 
 export type BaseExcerptToken = {
   text: string;
@@ -94,6 +95,8 @@ export const liftPrefixExcerptTokens = (items: ICustomExcerptToken[]): ICustomEx
   let topLevelPrefixes: ICustomExcerptToken[] = [];
 
   for (const item of items) {
+    if (interfacesToSkipParsing.includes(item.text)) continue;
+
     if (item.type === 'Prefix') {
       const newItem = { ...item, prefix: getAccessorExcerptTokensPrefixes(item) };
       topLevelPrefixes.push(newItem);

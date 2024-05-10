@@ -15,3 +15,4 @@ export type { BaseShapeStyleProps } from './base-shape';
 export type { ContourStyleProps } from './contour';
 export type { IconStyleProps } from './icon';
 export type { LabelStyleProps } from './label';
+export type { PolygonStyleProps } from './polygon';
