@@ -2,7 +2,7 @@
 /* eslint-disable jsdoc/require-param */
 import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
 import { Group } from '@antv/g';
-import { groupBy, isEmpty, isString } from '@antv/util';
+import { get, groupBy, isEmpty, isString } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
 import { AnimationType, ChangeType, GraphEvent } from '../constants';
@@ -257,8 +257,9 @@ export class ElementController {
     context?: Partial<AnimationContext>,
   ): AnimationExecutor {
     const { options } = this.context;
+    const stageAnimation = get(options, [elementType, 'animation', stage], true);
 
-    if (options.animation === false || !animation) return () => null;
+    if (options.animation === false || stageAnimation === false || !animation) return () => null;
 
     return (
       id: ID,
@@ -433,8 +434,8 @@ export class ElementController {
 
   private createElement(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
     const id = idOf(datum);
-    const currentShape = this.getElement(id);
-    if (currentShape) return () => null;
+    const currentElement = this.getElement(id);
+    if (currentElement) return () => null;
     const type = this.getElementType(elementType, datum);
     const style = this.getElementComputedStyle(elementType, datum);
 
@@ -444,7 +445,7 @@ export class ElementController {
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum), context);
 
-    const shape = this.container[elementType].appendChild(
+    const element = this.container[elementType].appendChild(
       new Ctor({
         id,
         style: {
@@ -455,14 +456,14 @@ export class ElementController {
     ) as Element;
 
     this.shapeTypeMap[id] = type;
-    this.elementMap[id] = shape;
+    this.elementMap[id] = element;
 
     const { animation, animator } = context;
     return () =>
-      withAnimationCallbacks(animation ? animator?.(id, shape, { ...shape.attributes, opacity: 0 }) : null, {
+      withAnimationCallbacks(animation ? animator?.(id, element, { ...element.attributes, opacity: 0 }) : null, {
         after: () => {
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_CREATE, elementType, datum), context);
-          shape.onCreate();
+          element.onCreate();
         },
       });
   }
@@ -510,13 +511,13 @@ export class ElementController {
     const { animator } = context;
 
     const id = idOf(datum);
-    const shape = this.getElement(id);
-    if (!shape) return () => null;
+    const element = this.getElement(id);
+    if (!element) return () => null;
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_UPDATE, elementType, datum), context);
     const afterUpdate = () => {
       this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum), context);
-      shape.onUpdate();
+      element.onUpdate();
     };
 
     const type = this.getElementType(elementType, datum);
@@ -536,17 +537,17 @@ export class ElementController {
     // 如果是可见性更新 / If it is a visibility update
     if (context.stage === 'visibility' && 'visibility' in style) {
       // 缓存原始透明度 / Cache original opacity
-      if (!hasCachedStyle(shape, 'opacity')) cacheStyle(shape, 'opacity');
+      if (!hasCachedStyle(element, 'opacity')) cacheStyle(element, 'opacity');
 
-      const originalOpacity = getCachedStyle(shape, 'opacity') ?? inferDefaultValue('opacity');
-      this.latestElementVisibilityMap.set(shape, style.visibility);
+      const originalOpacity = getCachedStyle(element, 'opacity') ?? inferDefaultValue('opacity');
+      this.latestElementVisibilityMap.set(element, style.visibility);
 
       // show
       if (style.visibility !== 'hidden') {
-        updateStyle(shape, { visibility: 'visible' });
+        updateStyle(element, { visibility: 'visible' });
         return () =>
           withAnimationCallbacks(
-            animator?.(id, shape, { ...shape.attributes, opacity: 0 }, { opacity: originalOpacity }),
+            animator?.(id, element, { ...element.attributes, opacity: 0 }, { opacity: originalOpacity }),
             { after: afterUpdate },
           );
       }
@@ -554,10 +555,10 @@ export class ElementController {
       else if (style.visibility === 'hidden') {
         return () =>
           withAnimationCallbacks(
-            animator?.(id, shape, { ...shape.attributes, opacity: originalOpacity }, { opacity: 0 }),
+            animator?.(id, element, { ...element.attributes, opacity: originalOpacity }, { opacity: 0 }),
             {
               after: () => {
-                updateStyle(shape, { visibility: this.latestElementVisibilityMap.get(shape) });
+                updateStyle(element, { visibility: this.latestElementVisibilityMap.get(element) });
                 afterUpdate();
               },
             },
@@ -565,8 +566,8 @@ export class ElementController {
       }
     }
 
-    const originalStyle = { ...shape.attributes };
-    updateStyle(shape, style);
+    const originalStyle = { ...element.attributes };
+    updateStyle(element, style);
 
     // 如果边的端点节点已经销毁，则更新端点节点
     // If the endpoint node of the edge has been destroyed, update the endpoint node
@@ -580,7 +581,7 @@ export class ElementController {
     }
 
     return () =>
-      withAnimationCallbacks(animator?.(id, shape, originalStyle), {
+      withAnimationCallbacks(animator?.(id, element, originalStyle), {
         after: afterUpdate,
       });
   }

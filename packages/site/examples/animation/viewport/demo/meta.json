@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "zoom.js",
+      "title": {
+        "zh": "视口缩放",
+        "en": "Zoom Viewport"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*zZPpRoMmlvMAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "translate.js",
+      "title": {
+        "zh": "视口平移",
+        "en": "Translate Viewport"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*zZPpRoMmlvMAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "rotate.js",
+      "title": {
+        "zh": "视口旋转",
+        "en": "Rotate Viewport"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-yI2QqHqPQEAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
