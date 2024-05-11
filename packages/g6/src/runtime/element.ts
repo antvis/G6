@@ -71,7 +71,7 @@ export class ElementController {
 
   private forEachElementData(callback: (elementType: ElementType, elementData: ElementData) => void) {
     ELEMENT_TYPES.forEach((elementType) => {
-      const elementData = this.context.model.getElementData(elementType);
+      const elementData = this.context.model.getElementsDataByType(elementType);
       callback(elementType, elementData);
     });
   }

@@ -1413,7 +1413,7 @@ export class Graph extends EventEmitter {
    * @apiCategory element
    */
   public getElementZIndex(id: ID): number {
-    return zIndexOf(this.context.model.getElementsData([id])[0]);
+    return zIndexOf(this.context.model.getElementDataById(id));
   }
 
   /**

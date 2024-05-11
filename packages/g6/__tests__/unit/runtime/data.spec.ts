@@ -565,14 +565,14 @@ describe('DataController', () => {
 
     controller.addData(clone(data));
 
-    expect(controller.getElementsData(['node-1'])[0]).toEqual(data.nodes[0]);
+    expect(controller.getElementDataById('node-1')).toEqual(data.nodes[0]);
 
-    expect(controller.getElementsData(['edge-1'])[0]).toEqual(data.edges[0]);
+    expect(controller.getElementDataById('edge-1')).toEqual(data.edges[0]);
 
-    expect(controller.getElementsData(['combo-1'])[0]).toEqual(data.combos[0]);
+    expect(controller.getElementDataById('combo-1')).toEqual(data.combos[0]);
 
     expect(() => {
-      controller.getElementsData(['undefined'])[0];
+      controller.getElementDataById('undefined');
     }).toThrow();
   });
 

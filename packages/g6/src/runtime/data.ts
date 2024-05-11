@@ -169,7 +169,7 @@ export class DataController {
   }
 
   public getDescendantsData(id: ID): NodeLikeData[] {
-    const root = this.getElementsData([id])[0] as NodeLikeData;
+    const root = this.getElementDataById(id) as NodeLikeData;
     const data: NodeLikeData[] = [];
     dfs(
       root,
@@ -207,7 +207,7 @@ export class DataController {
    * @param elementType - <zh/> 元素类型 | <en/> element type
    * @returns <zh/> 元素数据 | <en/> element data
    */
-  public getElementData(elementType: ElementType) {
+  public getElementsDataByType(elementType: ElementType) {
     if (elementType === 'node') return this.getNodeData();
     if (elementType === 'edge') return this.getEdgeData();
     if (elementType === 'combo') return this.getComboData();
@@ -218,16 +218,14 @@ export class DataController {
    * <zh/> 根据 ID 获取元素的数据，不用关心元素的类型
    *
    * <en/> Get the data of the element by ID, no need to care about the type of the element
-   * @param ids - <zh/> 元素 ID 数组 | <en/> element ID array
+   * @param id - <zh/> 元素 ID 数组 | <en/> element ID array
    * @returns <zh/> 元素数据 | <en/> data of the element
    */
-  public getElementsData(ids: ID[]): ElementDatum[] {
-    return ids.map((id) => {
-      const type = this.getElementType(id);
-      if (type === 'node') return this.getNodeData([id])[0];
-      else if (type === 'edge') return this.getEdgeData([id])[0];
-      return this.getComboData([id])[0];
-    });
+  public getElementDataById(id: ID): ElementDatum {
+    const type = this.getElementType(id);
+    if (type === 'node') return this.getNodeData([id])[0];
+    else if (type === 'edge') return this.getEdgeData([id])[0];
+    return this.getComboData([id])[0];
   }
 
   /**
@@ -247,12 +245,12 @@ export class DataController {
   }
 
   public getElementDataByState(elementType: ElementType, state: string) {
-    const elementData = this.getElementData(elementType);
+    const elementData = this.getElementsDataByType(elementType);
     return elementData.filter((datum) => datum.states?.includes(state));
   }
 
   public getElementState(id: ID): State[] {
-    return this.getElementsData([id])?.[0]?.states || [];
+    return this.getElementDataById(id)?.states || [];
   }
 
   public hasNode(id: ID) {
@@ -552,7 +550,7 @@ export class DataController {
   }
 
   public getElementPosition(id: ID): Position {
-    const datum = this.getElementsData([id])[0] as NodeLikeData;
+    const datum = this.getElementDataById(id) as NodeLikeData;
     return positionOf(datum);
   }
 
