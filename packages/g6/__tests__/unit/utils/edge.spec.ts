@@ -1,6 +1,7 @@
 import type { ID } from '@/src';
 import { Rect } from '@/src/elements';
 import {
+  findActualConnectNodeData,
   getCubicPath,
   getCurveControlPoint,
   getLabelPositionStyle,
@@ -285,5 +286,29 @@ describe('edge', () => {
       ],
       internal: [{ id: 'node-3-node-5', source: 'node-3', target: 'node-5' }],
     });
+  });
+
+  it('findActualConnectNodeData', () => {
+    expect(findActualConnectNodeData({ id: 'node-1' }, () => undefined).id).toBe('node-1');
+    expect(
+      findActualConnectNodeData({ id: 'node-1' }, (id) => {
+        if (id === 'node-1') return { id: 'node-2' };
+        return undefined;
+      }).id,
+    ).toBe('node-1');
+    expect(
+      findActualConnectNodeData({ id: 'node-1' }, (id) => {
+        if (id === 'node-1') return { id: 'node-2', style: { collapsed: true } };
+        if (id === 'node-2') return { id: 'node-3' };
+        return undefined;
+      }).id,
+    ).toBe('node-2');
+    expect(
+      findActualConnectNodeData({ id: 'node-1' }, (id) => {
+        if (id === 'node-1') return { id: 'node-2' };
+        if (id === 'node-2') return { id: 'node-3', style: { collapsed: true } };
+        return undefined;
+      }).id,
+    ).toBe('node-3');
   });
 });

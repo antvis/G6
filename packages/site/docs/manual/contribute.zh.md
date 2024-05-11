@@ -220,7 +220,7 @@ git clone git@github.com:[your username]/G6.git
 :::warning{title=注意}
 请验证你的本地环境是否符合要求：
 
-- [Node.js](https://nodejs.org/) 版本 >= 16
+- [Node.js](https://nodejs.org/) 版本 >= 18
 - [pnpm](https://pnpm.io/) 版本 >= 8
 
 部分 scripts 脚本执行依赖 ts-node，执行前需要全局安装 ts-node。
