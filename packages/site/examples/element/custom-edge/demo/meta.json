@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "custom-path.js",
+      "title": {
+        "zh": "自定义路径",
+        "en": "Custom Path"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*MPQTSap6ZusAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "extra-label.js",
+      "title": {
+        "zh": "额外标签",
+        "en": "Extra Label"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*RnE9SL9xkBIAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "custom-arrow.js",
+      "title": {
+        "zh": "自定义箭头",
+        "en": "Custom Arrow"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6wrVRoF3S98AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "parallel-edges.js",
+      "title": {
+        "zh": "平行边",
+        "en": "Parallel Edges"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*g2p_Qa_wZcIAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

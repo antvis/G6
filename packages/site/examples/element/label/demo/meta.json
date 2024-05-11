@@ -5,29 +5,36 @@
   },
   "demos": [
     {
-      "filename": "copyLabel.ts",
+      "filename": "copy.js",
       "title": {
-        "zh": "文本超长交互与复制",
-        "en": "Long Label Show and Copy"
+        "zh": "复制",
+        "en": "Copy Content"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*O5DCQ4ziMisAAAAAAAAAAAAAARQnAQ"
-    
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*a-keS4q-nU4AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "labelLen.ts",
+      "filename": "ellipsis.js",
       "title": {
-        "zh": "文本超长",
-        "en": "Long Label"
+        "zh": "文本省略",
+        "en": "Text Ellipsis"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*LsGJTIaynVwAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-0P0R6AAnuMAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "labelLen1.ts",
+      "filename": "word-wrap.js",
       "title": {
-        "zh": "多行显示超长文本",
-        "en": "Break Line for Long Label"
+        "zh": "文本换行",
+        "en": "Word Wrap"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*UlYDSaAlGLkAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*N9eHSoiH3bEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "background.js",
+      "title": {
+        "zh": "背景颜色",
+        "en": "Background"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*NG7xT4mkRL4AAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
