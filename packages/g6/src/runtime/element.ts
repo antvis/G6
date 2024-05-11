@@ -5,7 +5,7 @@ import { Group } from '@antv/g';
 import { get, groupBy, isEmpty, isString } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
-import { AnimationType, ChangeType, GraphEvent } from '../constants';
+import { AnimationType, COMBO_KEY, ChangeType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry';
 import type { ComboData, EdgeData, NodeData } from '../spec';
@@ -22,12 +22,14 @@ import type {
   ElementType,
   ID,
   Node,
+  NodeLikeData,
   State,
   StyleIterationContext,
 } from '../types';
 import { executeAnimatableTasks, inferDefaultValue, withAnimationCallbacks } from '../utils/animation';
 import { cacheStyle, getCachedStyle, hasCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
+import { findActualConnectNodeData } from '../utils/edge';
 import { updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '../utils/event';
@@ -285,7 +287,6 @@ export class ElementController {
    * <zh/> 获取边端点连接上下文
    *
    * <en/> Get edge end context
-   * @param id - <zh/> 边 id | <en/> edge id
    * @returns <zh/> 边端点连接上下文 | <en/> edge end context
    * @remarks
    * <zh/> 只提供了最基本的节点示例和连接点位置信息，更多的上下文信息需要在边元素中计算
@@ -293,10 +294,16 @@ export class ElementController {
    * <en/> Only the most basic node instances and connection point position information are provided, and more context information needs to be calculated in the edge element
    */
   private getEdgeEndsContext(datum: EdgeData) {
+    const { model } = this.context;
     const { source, target } = datum;
-    const sourceNode = this.getElement<Node>(source);
-    const targetNode = this.getElement<Node>(target);
-
+    const sourceNodeData = model.getElementDataById(source) as NodeLikeData;
+    const targetNodeData = model.getElementDataById(target) as NodeLikeData;
+    const sourceNode = this.getElement<Node>(
+      findActualConnectNodeData(sourceNodeData, (id) => model.getParentData(id, COMBO_KEY)).id,
+    );
+    const targetNode = this.getElement<Node>(
+      findActualConnectNodeData(targetNodeData, (id) => model.getParentData(id, COMBO_KEY)).id,
+    );
     return { sourceNode, targetNode };
   }
 

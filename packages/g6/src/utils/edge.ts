@@ -2,9 +2,20 @@ import type { AABB } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
 import type { EdgeData } from '../spec';
-import type { EdgeKey, EdgeLabelStyleProps, ID, LoopPlacement, Node, Point, Port, Vector2 } from '../types';
+import type {
+  EdgeKey,
+  EdgeLabelStyleProps,
+  ID,
+  LoopPlacement,
+  Node,
+  NodeLikeData,
+  Point,
+  Port,
+  Vector2,
+} from '../types';
 import { getBBoxHeight, getBBoxSize, getBBoxWidth, getNearestSideToPoint, getNodeBBox } from './bbox';
 import { getAllPorts, getNodeConnectionPoint, getPortConnectionPoint, getPortPosition } from './element';
+import { idOf } from './id';
 import { isCollinear, isHorizontal, moveTo, parsePoint } from './point';
 import { freeJoin } from './router/orth';
 import { add, distance, manhattanDistance, multiply, normalize, perpendicular, subtract } from './vector';
@@ -540,4 +551,28 @@ export function getSubgraphRelatedEdges(ids: ID[], getRelatedEdges: (id: ID) => 
   });
 
   return { edges: Array.from(edges), internal: Array.from(internal), external: Array.from(external) };
+}
+
+/**
+ * <zh/> 获取边的实际连接节点
+ *
+ * <en/> Get the actual connected object of the edge
+ * @param node - <zh/> 逻辑连接节点数据 | <en/> Logical connection node data
+ * @param getParentData - <zh/> 获取父节点数据 | <en/> Get parent node data
+ * @returns <zh/> 实际连接节点数据 | <en/> Actual connected node data
+ */
+export function findActualConnectNodeData(node: NodeLikeData, getParentData: (id: ID) => NodeLikeData | undefined) {
+  const path: NodeLikeData[] = [];
+  let current = node;
+  while (current) {
+    path.push(current);
+    const parent = getParentData(idOf(current));
+    if (parent) current = parent;
+    else break;
+  }
+  if (path.some((n) => n.style?.collapsed)) {
+    const index = path.findLastIndex((n) => n.style?.collapsed);
+    return path[index] || path.at(-1);
+  }
+  return node;
 }
