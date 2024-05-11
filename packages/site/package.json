@@ -36,13 +36,16 @@
     "preview": "dumi preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.6",
     "@antv/algorithm": "^0.1.26",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "^0.4.4",
     "@antv/g": "^5.18.25",
     "@antv/g-svg": "^1.10.28",
-    "@antv/g2": "^5.1.15",
+    "@antv/g2": "5.1.15",
     "@antv/g6": "workspace:*",
+    "@antv/g6-extension-3d": "workspace:*",
+    "@antv/g6-extension-react": "workspace:*",
     "@antv/graphlib": "^2.0.2",
     "@antv/layout": "^1.2.14-beta.1",
     "@antv/layout-gpu": "^1.1.5",
