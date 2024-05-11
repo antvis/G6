@@ -15,39 +15,29 @@ describe('polygon', () => {
     expect(getPolygonTextStyleByPlacement(bounds, 'top', 0, 0, false, EMPTY_PATH, false)).toEqual({
       textAlign: 'center',
       textBaseline: 'bottom',
-      transform: 'none',
-      x: 50,
-      y: 0,
+      transform: 'translate(50, 0)',
     });
     expect(getPolygonTextStyleByPlacement(bounds, 'left', 0, 0, false, EMPTY_PATH, false)).toEqual({
       textAlign: 'right',
       textBaseline: 'middle',
-      transform: 'none',
-      x: 0,
-      y: 50,
+      transform: 'translate(0, 50)',
     });
     expect(getPolygonTextStyleByPlacement(bounds, 'right', 0, 0, false, EMPTY_PATH, false)).toEqual({
       textAlign: 'left',
       textBaseline: 'middle',
-      transform: 'none',
-      x: 100,
-      y: 50,
+      transform: 'translate(100, 50)',
     });
     expect(getPolygonTextStyleByPlacement(bounds, 'bottom', 0, 0, false, EMPTY_PATH, false)).toEqual({
       textAlign: 'center',
       textBaseline: 'top',
-      transform: 'none',
-      x: 50,
-      y: 100,
+      transform: 'translate(50, 100)',
     });
 
     // with offset
     expect(getPolygonTextStyleByPlacement(bounds, 'top', 10, 10, false, EMPTY_PATH, false)).toEqual({
       textAlign: 'center',
       textBaseline: 'bottom',
-      transform: 'none',
-      x: 60,
-      y: 10,
+      transform: 'translate(60, 10)',
     });
 
     // closeToHull and autoRotate
@@ -58,9 +48,7 @@ describe('polygon', () => {
     expect(getPolygonTextStyleByPlacement(bounds, 'top', 0, 0, true, circle, true)).toEqual({
       textAlign: 'center',
       textBaseline: 'bottom',
-      transform: 'none',
-      x: 50,
-      y: 0,
+      transform: 'translate(50, 0)',
     });
 
     const d: PathArray = [

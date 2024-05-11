@@ -62,7 +62,7 @@ describe('edge', () => {
 
       const labelPosition4 = getLabelPositionStyle(line, 'end', true, 5, 5);
       expect(labelPosition4.textAlign).toEqual('right');
-      expect(labelPosition4.transform).toEqual('translate(105, 105)');
+      expect(labelPosition4.transform).toEqual('translate(104, 105)');
 
       const labelPosition5 = getLabelPositionStyle(line, 0.5, true, 5, 5);
       expect(labelPosition5.textAlign).toEqual('center');

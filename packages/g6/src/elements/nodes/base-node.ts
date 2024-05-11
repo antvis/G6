@@ -24,6 +24,7 @@ import { getXYByPlacement } from '../../utils/position';
 import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { getWordWrapWidthByBox } from '../../utils/text';
+import { getTransformWithoutTranslate } from '../../utils/transform';
 import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, BaseShape, Icon, Label } from '../shapes';
 
@@ -396,12 +397,13 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
 
   public render(attributes = this.parsedAttributes, container: Group = this) {
     // Use `transform: translate3d()` instead of `x/y/z`
-    const { x = 0, y = 0, z = 0 } = attributes;
+    const { x = 0, y = 0, z = 0, transform } = attributes;
     if (x !== 0 || y !== 0 || z !== 0) {
+      const removedTranslate = transform ? getTransformWithoutTranslate(transform) : '';
       if (z === 0) {
-        this.style.transform = `translate(${x}, ${y})`;
+        this.style.transform = `translate(${x}, ${y}) ${removedTranslate}`;
       } else {
-        this.style.transform = `translate3d(${x}, ${y}, ${z})`;
+        this.style.transform = `translate3d(${x}, ${y}, ${z}) ${removedTranslate}`;
       }
     }
 
