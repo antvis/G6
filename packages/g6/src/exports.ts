@@ -79,6 +79,7 @@ export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
 export { BaseTransform } from './transforms';
 export { idOf } from './utils/id';
+export { invokeLayoutMethod } from './utils/layout';
 export { omitStyleProps, subStyleProps } from './utils/prefix';
 export { Shortcut } from './utils/shortcut';
 export { parseSize } from './utils/size';
