@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-     - v5
+      - v5
 
 jobs:
   deploy-site:
@@ -16,10 +16,14 @@ jobs:
           node-version: 18
       - uses: pnpm/action-setup@v2
         with:
-          version: 8     
+          version: 8
       - uses: actions/checkout@v2
       - run: pnpm install
       - run: npx turbo build
+      - run: |
+          cd ./packages/site
+          pnpm run doc
+          pnpm run build
       - run: cp ./packages/site/CNAME ./packages/site/dist/CNAME
       - run: |
           cd ./packages/site/dist
