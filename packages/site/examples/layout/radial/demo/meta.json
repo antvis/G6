@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": {
+        "zh": "基本 Radial 辐射布局",
+        "en": "Basic Radial Layout"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ec_WQ5hqVsgAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "prevent-overlap.js",
+      "title": {
+        "zh": "避免重叠",
+        "en": "Prevent Overlap"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "cluster-sort.js",
+      "title": {
+        "zh": "排序聚类",
+        "en": "Cluster Sort"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gzfTQKBB62IAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

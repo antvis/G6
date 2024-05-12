@@ -5,33 +5,33 @@
   },
   "demos": [
     {
-      "filename": "hMindmap.ts",
+      "filename": "auto-side.js",
       "title": {
-        "zh": "脑图树-子节点自动两侧分布",
-        "en": "Two Side Mindmap Layout"
+        "zh": "子节点自动分布",
+        "en": "Auto Mindmap Layout"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wRZjTL3fCbEAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "hRightMindmap.ts",
+      "filename": "right-side.js",
       "title": {
-        "zh": "脑图树-子节点右侧分布",
+        "zh": "子节点右侧分布",
         "en": "Right Side Mindmap Layout"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W6OGRLg2UJcAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "hLeftMindmap.ts",
+      "filename": "left-side.js",
       "title": {
-        "zh": "脑图树-子节点左侧分布",
+        "zh": "子节点左侧分布",
         "en": "Left Side Mindmap Layout"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NNUaTaN9yIgAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "hCustomSideMindmap.ts",
+      "filename": "custom-side.js",
       "title": {
-        "zh": "脑图树-自定义子节点分布",
+        "zh": "自定义子节点分布",
         "en": "Custom Mindmap Layout"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Su39QqQr9PYAAAAAAAAAAABkARQnAQ"

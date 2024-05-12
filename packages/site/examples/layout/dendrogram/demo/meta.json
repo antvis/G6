@@ -5,18 +5,18 @@
   },
   "demos": [
     {
-      "filename": "basicDendrogram.ts",
+      "filename": "basic.js",
       "title": {
         "zh": "生态树",
-        "en": "Basic Dendrogram Layout"
+        "en": "Dendrogram Layout"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*P-qOSoDNuckAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "tbDendrogram.ts",
+      "filename": "vertical.js",
       "title": {
-        "zh": "至上而下的生态树",
-        "en": "Top to Bottom Dendrogram"
+        "zh": "垂直布局",
+        "en": "Vertical Layout"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nTKmRKkyUVUAAAAAAAAAAABkARQnAQ"
     }

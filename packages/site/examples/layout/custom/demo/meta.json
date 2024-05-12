@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "bi-graph.js",
+      "title": {
+        "zh": "二分图布局",
+        "en": "Bi-graph Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*G4-YT4NDA2oAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "arc.js",
+      "title": {
+        "zh": "弧线图",
+        "en": "Arc Diagram"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_eivQrJXt8sAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

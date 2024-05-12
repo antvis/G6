@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "switch.js",
+      "title": {
+        "zh": "布局切换",
+        "en": "Switch Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*aGiCRrsJeCUAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "change-data.js",
+      "title": {
+        "zh": "数据动态切换",
+        "en": "Change Data"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Cq8SRL2NZtYAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

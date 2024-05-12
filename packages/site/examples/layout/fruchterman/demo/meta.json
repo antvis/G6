@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": {
+        "zh": "基本 Fruchterman 布局",
+        "en": "Basic Fruchterman Layout"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1KY7SLEXxqMAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "cluster.js",
+      "title": {
+        "zh": "基本 Fruchterman 布局",
+        "en": "Basic Fruchterman Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-s9CTphuwgcAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "run-in-web-worker.js",
+      "title": {
+        "zh": "使用 Web-worker",
+        "en": "Run in Web-worker"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*3gn9TZ3oUoIAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "run-in-gpu.js",
+      "title": {
+        "zh": "使用 GPU 加速",
+        "en": "Run in GPU"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SmXBQ6fv8PoAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

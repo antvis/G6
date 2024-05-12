@@ -1,0 +1,56 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "force.js",
+      "title": {
+        "zh": "Force 聚类",
+        "en": "Clustering Force Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sA14SZo9BBMAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "atlas2.js",
+      "title": {
+        "zh": "Force Atlas 2",
+        "en": "Force-Atlas 2 Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-HgiS6CyuuEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "d3-force.js",
+      "title": {
+        "zh": "D3 力导向布局",
+        "en": "D3 Force Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-_sFS5IRGGcAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "3d-force.js",
+      "title": {
+        "zh": "3D 力导向布局",
+        "en": "3D Force Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*4mbSTJLOXkgAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "mesh.js",
+      "title": {
+        "zh": "网格效果",
+        "en": "Mesh Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ykD5QqSEgeEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "collision.js",
+      "title": {
+        "zh": "弹性碰撞效果",
+        "en": "Collision Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yzv_To2Wm_EAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
