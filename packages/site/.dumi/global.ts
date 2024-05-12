@@ -1,6 +1,8 @@
 // @ts-nocheck
 if (window) {
-  window.g6 = require('@antv/g6/src');
+  window.g6 = require('@antv/g6');
+  window.g6Extension3d = require('@antv/g6-extension-3d');
+  window.g6ExtensionReact = require('@antv/g6-extension-react');
 
   window.layoutGpu = require('@antv/layout-gpu');
   window.algorithm = require('@antv/algorithm');
@@ -14,9 +16,11 @@ if (window) {
   window.gSvg = require('@antv/g-svg');
   window.g2 = require('@antv/g2');
   window.antd = require('antd');
+  window.icons = require('@ant-design/icons');
 
-  window.React = require('react');
-  window.ReactDOM = require('react-dom');
+  window.react = require('react');
+  window.React = window.react;
+  window.client = require('react-dom');
 
   window.addPanel = async (renderPanel: (gui) => void) => {
     const container = document.getElementById('container')?.parentNode;

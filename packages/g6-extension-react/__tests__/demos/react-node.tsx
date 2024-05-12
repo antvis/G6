@@ -76,8 +76,8 @@ export const ReactNodeDemo = () => {
       ],
     },
     node: {
+      type: 'react',
       style: {
-        type: 'react',
         size: [240, 100],
         component: (data: NodeData) => (
           <Node

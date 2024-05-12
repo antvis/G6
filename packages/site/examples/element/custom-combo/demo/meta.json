@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "extra-button.js",
+      "title": {
+        "zh": "额外按钮",
+        "en": "Extra Button"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YBe_Ta8leloAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

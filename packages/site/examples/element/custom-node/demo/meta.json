@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "react-g.jsx",
+      "title": {
+        "zh": "采用 JSX 语法的 G 节点",
+        "en": "G node with JSX syntax"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b-g0RoOpI3sAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "react-node.jsx",
+      "title": {
+        "zh": "React 节点",
+        "en": "React node"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9oz-R7bIkd0AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "g2-bar-chart.js",
+      "title": {
+        "zh": "G2 柱状图",
+        "en": "G2 bar chart"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VcCDR5myr70AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "g2-activity-chart.js",
+      "title": {
+        "zh": "G2 活动图",
+        "en": "G2 activity Chart"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GVyoQKk2WIIAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

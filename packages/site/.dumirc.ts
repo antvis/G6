@@ -492,6 +492,9 @@ export default defineConfig({
   mfsu: false,
   alias: {
     '@': __dirname,
+    '@antv/g6': require.resolve('../g6/src/index.ts'),
+    '@antv/g6-extension-3d': require.resolve('../g6-extension-3d/src/index.ts'),
+    '@antv/g6-extension-react': require.resolve('../g6-extension-react/src/index.ts'),
   },
   links: [],
   jsMinifier: 'terser',

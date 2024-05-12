@@ -99,9 +99,9 @@ export const GNodeDemo = () => {
           edges: [{ source: 'node-1', target: 'node-2' }],
         },
         node: {
+          type: 'g',
           style: {
-            type: 'g',
-            size: [180, 60], // tell G6 the size of the node
+            size: [180, 60],
             component: (data: NodeData) => <Node data={data} size={[180, 60]} />,
           },
         },
