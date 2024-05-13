@@ -16,11 +16,11 @@ function clear() {
   const lines = gitignore.split('\n');
 
   lines.forEach((line) => {
-    if (line.startsWith('#')) return;
+    if (!line || line.startsWith('#')) return;
 
     const file = line.trim();
     if (file) {
-      const filepath = path.resolve(baseDir, file);
+      const filepath = path.join(baseDir, file);
 
       if (fs.existsSync(filepath)) {
         if (fs.lstatSync(filepath).isDirectory()) {
