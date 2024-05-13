@@ -216,22 +216,6 @@ export default defineConfig({
     ],
     examples: [
       {
-        slug: 'feature',
-        icon: 'gallery',
-        title: {
-          zh: '5.0 特性',
-          en: '5.0 Features',
-        },
-      },
-      {
-        slug: 'case',
-        icon: 'gallery',
-        title: {
-          zh: '场景案例',
-          en: 'Case',
-        },
-      },
-      {
         slug: 'layout',
         icon: 'net',
         title: {
@@ -269,14 +253,6 @@ export default defineConfig({
         title: {
           zh: '插件',
           en: 'Plugin',
-        },
-      },
-      {
-        slug: 'performance',
-        icon: 'net',
-        title: {
-          zh: '性能',
-          en: 'Performance',
         },
       },
       {

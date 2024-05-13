@@ -5,18 +5,18 @@
   },
   "demos": [
     {
-      "filename": "tooltipPlugin.ts",
+      "filename": "basic.js",
       "title": {
-        "zh": "提示框插件",
-        "en": "Tooltip Plugin"
+        "zh": "提示框",
+        "en": "Tooltip"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ErhbR7ErhRwAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "tooltipClick.ts",
+      "filename": "click.js",
       "title": {
-        "zh": "点击出现提示框",
-        "en": "Tooltip Plugin with Click Trigger"
+        "zh": "点击触发",
+        "en": "Show on click"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ErhbR7ErhRwAAAAAAAAAAAAADmJ7AQ/original"
     }

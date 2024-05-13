@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "default.ts",
+      "filename": "basic.js",
       "title": {
         "zh": "用气泡集包裹节点集",
         "en": "Use Bubblesets to wrap the node sets."

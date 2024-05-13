@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "hull.ts",
+      "filename": "basic.js",
       "title": {
         "zh": "用轮廓包裹节点集合",
         "en": "Use hulls to wrap the node sets."

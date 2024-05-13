@@ -5,18 +5,18 @@
   },
   "demos": [
     {
-      "filename": "timebar-time.ts",
+      "filename": "time.js",
       "title": {
-        "zh": "时间条-时间模式",
-        "en": "Timebar"
+        "zh": "时间模式",
+        "en": "Time Mode"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*94CATK7VwhQAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "timebar-chart.ts",
+      "filename": "chart.js",
       "title": {
-        "zh": "时间条-图表模式",
-        "en": "Timebar"
+        "zh": "图表模式",
+        "en": "Chart Mode"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*RjCKS6xdRWwAAAAAAAAAAAAADmJ7AQ/original"
     }

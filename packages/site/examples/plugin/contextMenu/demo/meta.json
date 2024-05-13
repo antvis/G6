@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "contextMenu.ts",
+      "filename": "basic.js",
       "title": {
         "zh": "上下文菜单",
         "en": "Context Menu"
