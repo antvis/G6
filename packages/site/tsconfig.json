@@ -9,8 +9,5 @@
     },
     "module": "CommonJS"
   },
-  "include": [".dumirc.ts"],
-  "ts-node": {
-    "esm": true
-  }
+  "include": [".dumirc.ts"]
 }
