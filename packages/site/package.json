@@ -25,9 +25,8 @@
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
     "build": "npm run doc && dumi build",
-    "deploy": "npm run build && gh-pages -d dist",
     "dev": "dumi dev",
-    "doc": " ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
+    "doc": "ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
     "doc:add": "node ./scripts/doc-template.mjs",
     "doc:clear": "ts-node ./scripts/clear-doc.ts",
     "doc:sort": "ts-node ./scripts/sort-doc.ts",
@@ -70,7 +69,6 @@
     "@types/resolve": "^1.20.6",
     "fs-extra": "^11.2.0",
     "prettier": "^3.1.1",
-    "resolve": "^1.22.8",
-    "ts-node": "^10.9.2"
+    "resolve": "^1.22.8"
   }
 }
