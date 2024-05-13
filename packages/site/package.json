@@ -25,6 +25,7 @@
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
     "build": "npm run doc && dumi build",
+    "deploy": "gh-pages -d dist -b v5-site",
     "dev": "dumi dev",
     "doc": "ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
     "doc:add": "node ./scripts/doc-template.mjs",
@@ -49,10 +50,12 @@
     "@antv/layout": "^1.2.14-beta.1",
     "@antv/layout-gpu": "^1.1.5",
     "@antv/layout-wasm": "^1.3.4",
-    "@antv/util": "^3.3.5",
+    "@antv/util": "^3.3.7",
     "antd": "^5.10.2",
     "dumi": "~2.2.14",
+    "gh-pages": "^6.1.1",
     "insert-css": "^2.0.0",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "stats.js": "^0.17.0"
   },
