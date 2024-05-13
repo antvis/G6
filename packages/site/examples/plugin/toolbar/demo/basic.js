@@ -1,10 +1,5 @@
 import { Graph } from '@antv/g6';
 
-// Use your own iconfont.
-const iconFont = document.createElement('script');
-iconFont.src = '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js';
-document.head.appendChild(iconFont);
-
 const data = {
   nodes: [{ id: 'node-0' }, { id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }, { id: 'node-4' }, { id: 'node-5' }],
   edges: [
@@ -30,15 +25,22 @@ const graph = new Graph({
   plugins: [
     {
       type: 'toolbar',
-      position: 'right-top',
-      onClick: (item: string) => {
+      position: 'top-left',
+      onClick: (item) => {
         alert('item clicked:' + item);
       },
       getItems: () => {
+        // G6 内置了 9 个 icon，分别是 zoom-in、zoom-out、redo、undo、edit、delete、auto-fit、export、reset
         return [
-          { id: 'icon-xinjian', value: 'new' },
-          { id: 'icon-fenxiang', value: 'share' },
-          { id: 'icon-chexiao', value: 'undo' },
+          { id: 'zoom-in', value: 'zoom-in' },
+          { id: 'zoom-out', value: 'zoom-out' },
+          { id: 'redo', value: 'redo' },
+          { id: 'undo', value: 'undo' },
+          { id: 'edit', value: 'edit' },
+          { id: 'delete', value: 'delete' },
+          { id: 'auto-fit', value: 'auto-fit' },
+          { id: 'export', value: 'export' },
+          { id: 'reset', value: 'reset' },
         ];
       },
     },

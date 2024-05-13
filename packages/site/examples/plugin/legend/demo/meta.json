@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "legend.ts",
+      "filename": "basic.js",
       "title": {
         "zh": "默认图例",
         "en": "Default legend"
@@ -13,7 +13,7 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*u9w9T7X5fZoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "legend-click.ts",
+      "filename": "click.js",
       "title": {
         "zh": "点击图例",
         "en": "Click legend"
@@ -21,10 +21,10 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YMxxTZwt54UAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "style.ts",
+      "filename": "style.js",
       "title": {
-        "zh": "Marker 样式",
-        "en": "Marker style"
+        "zh": "图例项样式",
+        "en": "Item style"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DgNhR5MeC9kAAAAAAAAAAAAADmJ7AQ/original"
     }

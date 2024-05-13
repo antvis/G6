@@ -25,7 +25,6 @@ const graph = new Graph({
   plugins: [
     {
       type: 'watermark',
-      // 保持和下面图片大小一致，显示更清晰
       width: 1280,
       height: 830,
       rotate: 0,

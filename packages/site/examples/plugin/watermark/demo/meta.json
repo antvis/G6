@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "textWatermark.ts",
+      "filename": "text.js",
       "title": {
         "zh": "文本水印",
         "en": "Text Watermark"
@@ -13,15 +13,15 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GPRuRqBUIsoAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "imgWatermark.ts",
+      "filename": "repeat.js",
       "title": {
-        "zh": "图片水印",
-        "en": "Image Watermark"
+        "zh": "重复图片",
+        "en": "Repeat Image"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8NfwR5QEXvIAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "background.ts",
+      "filename": "background.js",
       "title": {
         "zh": "背景图片",
         "en": "Background Image"
