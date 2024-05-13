@@ -893,8 +893,8 @@ export class Graph extends EventEmitter {
    * <en/> Execute layout
    * @apiCategory layout
    */
-  public layout() {
-    this.context.layout!.layout();
+  public async layout() {
+    await this.context.layout!.layout();
   }
 
   /**

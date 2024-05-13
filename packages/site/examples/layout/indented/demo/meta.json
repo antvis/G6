@@ -5,36 +5,12 @@
   },
   "demos": [
     {
-      "filename": "filesystem.js",
-      "title": {
-        "zh": "缩进树-文件系统",
-        "en": "FileSystem-Indented Layout"
-      },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PJnfTKFRaCAAAAAAAAAAAABkARQnAQ"
-    },
-    {
-      "filename": "intendAlignTop.js",
-      "title": {
-        "zh": "缩进树-顶部对齐",
-        "en": "FileSystem-Align Top"
-      },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kbzRRZk2t2cAAAAAAAAAAABkARQnAQ"
-    },
-    {
-      "filename": "hIntended.js",
+      "filename": "basic.js",
       "title": {
         "zh": "缩进树-子节点两侧分布",
         "en": "Two Side Indented Layout"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*42EXSYyBcTYAAAAAAAAAAABkARQnAQ"
-    },
-    {
-      "filename": "graphWithIntended.js",
-      "title": {
-        "zh": "图数据使用缩进树",
-        "en": "Indented Layout with Graph Data"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*AvvxR51CtbMAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

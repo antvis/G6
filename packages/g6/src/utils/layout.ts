@@ -203,9 +203,9 @@ export function layoutAdapter(
  *
  * <en/> Call layout member methods
  * @description
- * <zh/> 提供一种通用的调用方式来调用 G6 布局和 @antv/layout 布局上的方法
+ * <zh/> 提供一种通用的调用方式来调用 G6 布局和 \@antv/layout 布局上的方法
  *
- * <en/> Provide a common way to call methods on G6 layout and @antv/layout layout
+ * <en/> Provide a common way to call methods on G6 layout and \@antv/layout layout
  * @param layout - <zh/> 布局实例 | <en/> Layout instance
  * @param method - <zh/> 方法名 | <en/> Method name
  * @param args - <zh/> 参数 | <en/> Arguments
