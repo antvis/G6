@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": {
+        "zh": "指定图形响应事件",
+        "en": "Specify the shape response event"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ZPt0SKT5JXQAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

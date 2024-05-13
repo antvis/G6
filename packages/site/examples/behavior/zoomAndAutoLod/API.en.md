@@ -1,5 +1,0 @@
----
-title: API
----
-
-# LodController Plugin

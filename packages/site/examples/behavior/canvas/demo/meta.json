@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "drag.js",
+      "title": {
+        "zh": "拖拽画布",
+        "en": "Drag Canvas"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0f81RI8DTF0AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "scroll-xy.js",
+      "title": {
+        "zh": "XY 轴滚动",
+        "en": "Scroll XY"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VoBZR7Z62KEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "scroll-y.js",
+      "title": {
+        "zh": "Y 轴滚动",
+        "en": "Scroll Y"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*c5DCSoAYsZQAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

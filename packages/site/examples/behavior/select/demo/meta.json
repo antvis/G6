@@ -5,23 +5,35 @@
   },
   "demos": [
     {
-      "filename": "click.ts",
-      "title": "点击单选或多选",
+      "filename": "click.js",
+      "title": {
+        "zh": "点选",
+        "en": "Click Select"
+      },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*F0RGQ67xbGYAAAAAAAAAAAAAARQnAQ"
     },
     {
-      "filename": "brush.ts",
-      "title": "框选",
+      "filename": "brush.js",
+      "title": {
+        "zh": "框选",
+        "en": "Brush Select"
+      },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*OeBHQZKfEwsAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "brush-combo.ts",
-      "title": "框选 combo",
+      "filename": "brush-combo.js",
+      "title": {
+        "zh": "框选组合",
+        "en": "Brush Combo"
+      },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*hE19RZL7iYQAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "lasso.ts",
-      "title": "拉索选择",
+      "filename": "lasso.js",
+      "title": {
+        "zh": "拉索选择",
+        "en": "Lasso Select"
+      },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GSdRQ5TO9IAAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]

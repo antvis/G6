@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": {
+        "zh": "高亮元素",
+        "en": "Hover Element"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7cgmToibajkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "activate-relations.js",
+      "title": {
+        "zh": "高亮相邻节点",
+        "en": "Activate Relations"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7cgmToibajkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "config-params.js",
+      "title": {
+        "zh": "定制参数",
+        "en": "Configurations for Activate Relations"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*AdibQby3Ma0AAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

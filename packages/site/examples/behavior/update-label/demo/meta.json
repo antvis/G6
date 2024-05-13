@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "update.js",
+      "title": {
+        "zh": "更新标签",
+        "en": "Update Label"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DSVuQ6oH_m8AAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

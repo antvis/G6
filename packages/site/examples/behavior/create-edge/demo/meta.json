@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "by-drag.js",
+      "title": {
+        "zh": "通过拖拽创建边",
+        "en": "Create Edge by Drag"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DW16QJNmRm8AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "by-click.js",
+      "title": {
+        "zh": "通过点击创建边",
+        "en": "Create Edge by Click"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DW16QJNmRm8AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "between-combos.js",
+      "title": {
+        "zh": "创建组合间连边",
+        "en": "Create Edge Between Combos"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Uwn-RZXSXLQAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "custom-edge-style.js",
+      "title": {
+        "zh": "自定义边样式",
+        "en": "Custom Edge Style"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ccvHTKQ19oMAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
