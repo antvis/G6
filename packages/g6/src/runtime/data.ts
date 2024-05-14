@@ -20,6 +20,7 @@ import type {
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
 import type { Point } from '../types/point';
+import { isCollapsed } from '../utils/collapsibility';
 import { cloneElementData, mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
@@ -750,11 +751,7 @@ export class DataController {
         const comboId = idOf(combo);
         const comboAncestors = this.getAncestorsData(comboId, COMBO_KEY);
         const comboAncestorIds = comboAncestors.map(idOf);
-        return (
-          !comboAncestors.some((combo) => !!combo.style?.collapsed) &&
-          !ancestors.includes(comboId) &&
-          !comboAncestorIds.includes(comboId)
-        );
+        return !comboAncestors.some(isCollapsed) && !ancestors.includes(comboId) && !comboAncestorIds.includes(comboId);
       });
     } else elementsToCompare = this.getNodeData().filter((node) => idOf(node) !== id);
 

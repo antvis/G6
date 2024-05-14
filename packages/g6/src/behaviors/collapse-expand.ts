@@ -2,6 +2,7 @@ import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { ID, IPointerEvent } from '../types';
+import { isCollapsed } from '../utils/collapsibility';
 import { isElement } from '../utils/element';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
@@ -100,8 +101,7 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
     if (!data) return false;
 
     const { onCollapse, onExpand, animation } = this.options;
-    const isCollapse = data.style?.collapsed;
-    if (isCollapse) {
+    if (isCollapsed(data)) {
       await graph.expandElement(id, animation);
       onExpand?.(id);
     } else {
