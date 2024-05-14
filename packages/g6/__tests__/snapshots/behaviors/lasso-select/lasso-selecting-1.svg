@@ -90,7 +90,7 @@
         </g>
       </g>
       <g>
-        <path fill="rgba(238,246,255,1)" width="0" height="0" stroke-width="1" stroke="rgba(221,238,254,1)" fill-opacity="0.4" pointer-events="none" d="M 100,100 Z"/>
+        <path fill="rgba(238,246,255,1)" width="0" height="0" stroke-width="1" stroke="rgba(221,238,254,1)" fill-opacity="0.4" pointer-events="none" d="M 100,100 L 100,400 L 400,400 L 400,100 Z"/>
       </g>
     </g>
   </g>

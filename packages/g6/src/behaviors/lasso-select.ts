@@ -52,6 +52,8 @@ export class LassoSelect extends BrushSelect {
     if (!this.points) return;
     const { immediately, mode } = this.options;
 
+    this.points.push(getCursorPoint(event));
+
     this.pathShape?.setAttribute('d', pointsToPath(this.points));
 
     if (immediately && mode === 'default' && this.points.length > 2) super.updateElementsStates(this.points);
