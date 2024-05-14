@@ -7,7 +7,7 @@ import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
 /**
- * <zh/> 展开/收起组合元素交互配置项
+ * <zh/> 展开/收起元素交互配置项
  *
  * <en/> Collapse/Expand combo behavior options
  */
@@ -26,6 +26,13 @@ export interface CollapseExpandOptions extends BaseBehaviorOptions {
    * @defaultValue true
    */
   enable?: boolean | ((event: IPointerEvent) => boolean);
+  /**
+   * <zh/> 触发方式
+   *
+   * <en/> Trigger method
+   * @defaultValue 'dblclick'
+   */
+  trigger?: CommonEvent.CLICK | CommonEvent.DBLCLICK;
   /**
    * <zh/> 完成收起时的回调
    *
@@ -53,6 +60,7 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
   static defaultOptions: Partial<CollapseExpandOptions> = {
     enable: true,
     animation: true,
+    trigger: CommonEvent.DBLCLICK,
   };
 
   constructor(context: RuntimeContext, options: CollapseExpandOptions) {
@@ -61,16 +69,24 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
     this.bindEvents();
   }
 
+  public update(options: Partial<CollapseExpandOptions>) {
+    this.unbindEvents();
+    super.update(options);
+    this.bindEvents();
+  }
+
   private bindEvents() {
     const { graph } = this.context;
-    this.unbindEvents();
-
-    graph.on(`combo:${CommonEvent.DBLCLICK}`, this.onCollapseExpand);
+    const { trigger } = this.options;
+    graph.on(`node:${trigger}`, this.onCollapseExpand);
+    graph.on(`combo:${trigger}`, this.onCollapseExpand);
   }
 
   private unbindEvents() {
     const { graph } = this.context;
-    graph.off(`combo:${CommonEvent.DBLCLICK}`, this.onCollapseExpand);
+    const { trigger } = this.options;
+    graph.off(`node:${trigger}`, this.onCollapseExpand);
+    graph.off(`combo:${trigger}`, this.onCollapseExpand);
   }
 
   private onCollapseExpand = async (event: IPointerEvent) => {
