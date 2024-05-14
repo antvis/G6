@@ -1,4 +1,4 @@
-import { comboExpandCollapse } from '@/__tests__/demos';
+import { behaviorExpandCollapseCombo } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { CommonEvent } from '@/src';
 import { createDemoGraph } from '@@/utils';
@@ -7,7 +7,7 @@ describe('behavior combo expand collapse', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createDemoGraph(comboExpandCollapse, { animation: false });
+    graph = await createDemoGraph(behaviorExpandCollapseCombo, { animation: false });
   });
 
   afterAll(() => {

@@ -34,7 +34,6 @@ export const layoutCompactBoxBasic: TestCase = async (context) => {
         return 100;
       },
     },
-    animation: false,
   });
 
   await graph.render();
