@@ -15,24 +15,24 @@ G6 提供了多种布局算法，用户可以根据自己的需求选择合适�
 
 <!-- TODO 待验证链接是否正确 -->
 
-- [AntVDagreLayout](/api/layouts/antv-dagre)：基于 dagre 定制的布局
-- [CircularLayout](/api/layouts/circular)：环形布局
-- [ComboCombinedLayout](/api/layouts/combo-combined)：适用于存在组合的布局
-- [ConcentricLayout](/api/layouts/concentric)：同心圆布局
-- [D3Force3DLayout](/api/layouts/d3-force-3d)：[3D 力导向](https://github.com/vasturiano/d3-force-3d)布局
-- [D3ForceLayout](/api/layouts/d3-force)：基于 [D3](https://d3js.org/d3-force) 的力导向布局
-- [DagreLayout](/api/layouts/dagre)：[dagre](https://github.com/dagrejs/dagre) 布局
-- [ForceAtlas2Layout](/api/layouts/force-atlas-2)：[ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) 布局
-- [ForceLayout](/api/layouts/force)：力导向布局
-- [FruchtermanLayout](/api/layouts/fruchterman)：[Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) 布局
-- [GridLayout](/api/layouts/grid)：网格布局
-- [MDSLayout](/api/layouts/mds)：高维数据降维算法布局
-- [RadialLayout](/api/layouts/radial)：径向布局
-- [RandomLayout](/api/layouts/random)：随机布局
-- [CompactBox Layout](/api/layouts/compact-box)：紧凑树布局
-- [Dendrogram Layout](/api/layouts/dendrogram)：树状布局
-- [Mindmap Layout](/api/layouts/mindmap)：思维导图布局
-- [Indented Layout](/api/layouts/indented)：缩进树布局
+- [AntVDagreLayout](/api/layouts/antv-dagre-layout)：基于 dagre 定制的布局
+- [CircularLayout](/api/layouts/circular-layout)：环形布局
+- [ComboCombinedLayout](/api/layouts/combo-combined-layout)：适用于存在组合的布局
+- [ConcentricLayout](/api/layouts/concentric-layout)：同心圆布局
+- [D3Force3DLayout](/api/layouts/d3-force-3-d-layout)：[3D 力导向](https://github.com/vasturiano/d3-force-3d)布局
+- [D3ForceLayout](/api/layouts/d3-force-layout)：基于 [D3](https://d3js.org/d3-force) 的力导向布局
+- [DagreLayout](/api/layouts/dagre-layout)：[dagre](https://github.com/dagrejs/dagre) 布局
+- [ForceAtlas2Layout](/api/layouts/force-atlas2-layout)：[ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) 布局
+- [ForceLayout](/api/layouts/force-layout)：力导向布局
+- [FruchtermanLayout](/api/layouts/fruchterman-layout)：[Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) 布局
+- [GridLayout](/api/layouts/grid-layout)：网格布局
+- [MDSLayout](/api/layouts/mds-layout)：高维数据降维算法布局
+- [RadialLayout](/api/layouts/radial-layout)：径向布局
+- [RandomLayout](/api/layouts/random-layout)：随机布局
+- CompactBox Layout：紧凑树布局
+- Dendrogram Layout：树状布局
+- Mindmap Layout：思维导图布局
+- Indented Layout：缩进树布局
 
 其中 `CompactBox Layout`、`Dendrogram Layout`、`Mindmap Layout`、`Indented Layout` 是树布局的一种，适用于树状结构的图。
 
@@ -165,4 +165,4 @@ const graph = new Graph({
 
 ## 自定义布局
 
-如果内置布局算法无法满足需求，可以自定义布局算法，具体请参考[自定义布局](/manual/advanced/custom-layout)。
+如果内置布局算法无法满足需求，可以自定义布局算法，具体请参考[自定义布局](/manual/custom-extension/layout)。

@@ -72,5 +72,5 @@ const graph = new Graph({
 :::
 
 - 要了解如何快速创建一个图，请参考[快速上手](/manual/getting-started/quick-start)。
-- 更多关于配置项的详细信息，请参考[方法](/api/graph/methods)。
+- 更多关于配置项的详细信息，请参考[方法](/api/graph/method)。
 - 要深入了解配置项中个部分的概念，请阅读本章节的其他内容。
