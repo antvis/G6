@@ -70,9 +70,9 @@ const data = {
 }
 ```
 
-通常来说，大多数节点具有相同的样式属性，例如都使用 `size` 来指定节点的大小。你可以在[Node - 节点](/api/graph/element/node/circle)中查看节点的具体样式属性。
+通常来说，大多数节点具有相同的样式属性，例如都使用 `size` 来指定节点的大小。你可以在[Node - 节点](/api/elements/nodes/base-node)中查看节点的具体样式属性。
 
-某些特殊的节点可能会有自己的样式属性，例如 `HTML` 节点的 `innerHTML` 属性用于指定节点的 HTML 内容。具体的样式属性可以参考[节点样式](/api/graph/element/node/circle)。
+某些特殊的节点可能会有自己的样式属性，例如 `HTML` 节点的 `innerHTML` 属性用于指定节点的 HTML 内容。具体的样式属性可以参考[节点样式](/api/elements/nodes/html)。
 
 除此之外，G6 官方提供了一些额外的节点需要安装后使用：
 
@@ -154,7 +154,7 @@ register(ExtensionCategory.NODE, 'custom-node', CustomNode);
 
 ### 自定义节点
 
-如果内置节点元素无法满足需求，可以自定义节点元素，具体请参考[自定义节点](/manual/advanced/custom-element#自定义节点)。
+如果内置节点元素无法满足需求，可以自定义节点元素，具体请参考[自定义节点](/manual/custom-extension/element#自定义节点)。
 
 ## 边
 
@@ -258,7 +258,7 @@ register(ExtensionCategory.EDGE, 'custom-edge', CustomEdge);
 
 ### 自定义边
 
-如果内置边元素无法满足需求，可以自定义边元素，具体请参考[自定义边](/manual/advanced/custom-element#自定义边)。
+如果内置边元素无法满足需求，可以自定义边元素，具体请参考[自定义边](/manual/custom-extension/element#自定义边)。
 
 ## 组合
 
@@ -347,4 +347,4 @@ register(ExtensionCategory.COMBO, 'custom-combo', CustomCombo);
 
 ### 自定义组合
 
-如果内置组合元素无法满足需求，可以自定义组合元素，具体请参考[自定义组合](/manual/advanced/custom-element#自定义组合)。
+如果内置组合元素无法满足需求，可以自定义组合元素，具体请参考[自定义组合](/manual/custom-extension/element#自定义组合)。

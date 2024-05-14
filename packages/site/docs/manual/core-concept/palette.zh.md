@@ -59,7 +59,6 @@ register(ExtensionCategory.PALETTE, 'custom-palette', CustomPalette);
 - blues
 
 <div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(247, 251, 255);"></div><div style="background: rgb(222, 235, 247);"></div><div style="background: rgb(198, 219, 239);"></div><div style="background: rgb(158, 202, 225);"></div><div style="background: rgb(107, 174, 214);"></div><div style="background: rgb(66, 146, 198);"></div><div style="background: rgb(33, 113, 181);"></div><div style="background: rgb(8, 81, 156);"></div><div style="background: rgb(8, 48, 107);"></div></div>
-```
 
 ## 配置色板
 
@@ -212,7 +211,7 @@ createGraph(
 
 ## 自定义色板
 
-如果内置色板无法满足需求，可以自定义色板，具体请参考[自定义色板](/manual/advanced/custom-palette)。
+如果内置色板无法满足需求，可以自定义色板，具体请参考[自定义色板](/manual/custom-extension/palette)。
 
 ## 优先级
 
