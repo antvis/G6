@@ -50,5 +50,6 @@
     "@antv/g6": "^5.0.0-beta.30",
     "react": ">=16.8",
     "react-dom": ">=16.8"
-  }
+  },
+  "repository": "https://github.com/antvis/G6.git"
 }
