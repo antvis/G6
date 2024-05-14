@@ -1,5 +1,5 @@
 import { Graph as GraphLib } from '@antv/graphlib';
-import { isEqual, isUndefined } from '@antv/util';
+import { isEqual, isUndefined, uniq } from '@antv/util';
 import { COMBO_KEY, ChangeType, TREE_KEY } from '../constants';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type {
@@ -163,10 +163,10 @@ export class DataController {
     }, [] as ComboData[]);
   }
 
-  public getAncestorsData(id: ID, hierarchy: HierarchyKey): NodeLikeData[] {
+  public getAncestorsData(id: ID, hierarchyKey: HierarchyKey): NodeLikeData[] {
     const { model } = this;
-    if (!model.hasNode(id) || !model.hasTreeStructure(hierarchy)) return [];
-    return model.getAncestors(id, hierarchy).map(toG6Data);
+    if (!model.hasNode(id) || !model.hasTreeStructure(hierarchyKey)) return [];
+    return model.getAncestors(id, hierarchyKey).map(toG6Data);
   }
 
   public getDescendantsData(id: ID): NodeLikeData[] {
@@ -183,14 +183,14 @@ export class DataController {
     return data;
   }
 
-  public getParentData(id: ID, hierarchy: HierarchyKey): NodeLikeData | undefined {
+  public getParentData(id: ID, hierarchyKey: HierarchyKey): NodeLikeData | undefined {
     const { model } = this;
-    if (!hierarchy) {
+    if (!hierarchyKey) {
       console.error('The hierarchy structure key is not specified');
       return undefined;
     }
-    if (!model.hasNode(id) || !model.hasTreeStructure(hierarchy)) return undefined;
-    const parent = model.getParent(id, hierarchy);
+    if (!model.hasNode(id) || !model.hasTreeStructure(hierarchyKey)) return undefined;
+    const parent = model.getParent(id, hierarchyKey);
     return parent ? toG6Data(parent) : undefined;
   }
 
@@ -491,24 +491,24 @@ export class DataController {
    * <en/> Set the parent node of the node
    * @param id - <zh/> 节点 ID | <en/> node ID
    * @param parent - <zh/> 父节点 ID | <en/> parent node ID
-   * @param hierarchy - <zh/> 层次结构类型 | <en/> hierarchy type
+   * @param hierarchyKey - <zh/> 层次结构类型 | <en/> hierarchy type
    * @param update - <zh/> 添加新/旧父节点数据更新记录 | <en/> add new/old parent node data update record
    */
-  public setParent(id: ID, parent: ID | undefined, hierarchy: HierarchyKey, update: boolean = true) {
+  public setParent(id: ID, parent: ID | undefined, hierarchyKey: HierarchyKey, update: boolean = true) {
     if (id === parent) return;
     const originalParentId = parentIdOf(this.getNodeLikeData([id])[0]);
 
     // Sync data
-    if (originalParentId !== parent) {
+    if (originalParentId !== parent && hierarchyKey === COMBO_KEY) {
       const modifiedDatum = { id, combo: parent };
       if (this.isCombo(id)) this.syncComboDatum(modifiedDatum);
       else this.syncNodeDatum(modifiedDatum);
     }
 
-    this.model.setParent(id, parent, hierarchy);
+    this.model.setParent(id, parent, hierarchyKey);
 
-    if (update) {
-      new Set([originalParentId, parent]).forEach((pId) => {
+    if (update && hierarchyKey === COMBO_KEY) {
+      uniq([originalParentId, parent]).forEach((pId) => {
         if (pId !== undefined) this.refreshComboData(pId);
       });
     }
