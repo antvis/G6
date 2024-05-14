@@ -1,9 +1,11 @@
-import type { IAnimation } from '@antv/g';
+import { type DisplayObject, type IAnimation } from '@antv/g';
 import { isEqual, isNil, isObject } from '@antv/util';
 import { DEFAULT_ANIMATION_OPTIONS } from '../constants';
 import type { GraphOptions } from '../spec';
 import type { AnimatableTask, Keyframe } from '../types';
 import { isNode } from './element';
+import { getDescendantShapes } from './shape';
+import { replaceTranslateInTransform } from './transform';
 
 export function createAnimationsProxy(animations: IAnimation[]): IAnimation | null;
 export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimations: IAnimation[]): IAnimation;
@@ -90,6 +92,63 @@ export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
     });
     return acc;
   }, [] as Keyframe[]);
+}
+
+/**
+ * <zh/> 对图形执行动画
+ *
+ * <en/> Animate the shape
+ * @param shape - <zh/> 待执行动画的图形 | <en/> the shape to be animated
+ * @param keyframes - <zh/> 动画关键帧 | <en/> keyframes of the animation
+ * @param options - <zh/> 动画配置项 | <en/> animation options
+ * @returns <zh/> 动画对象 | <en/> animation object
+ * @remarks
+ * <zh/> 在设置 enableCSSParsing 为 false 后，复合图形无法继承父属性，因此对于一些需要继承父属性的动画，需要对所有子图形执行相同的动画
+ *
+ * <en/> After setting enableCSSParsing to false, the compound shape cannot inherit the parent attribute, so for some animations that need to inherit the parent attribute, the same animation needs to be performed on all child shapes
+ */
+export function executeAnimation<T extends DisplayObject>(
+  shape: T,
+  keyframes: Keyframe[],
+  options: KeyframeAnimationOptions,
+) {
+  if (keyframes.length === 0) return null;
+  const inheritedAttrs = ['opacity'];
+  const translateAttrs = ['x', 'y'];
+
+  // x/y -> translate
+  if (keyframes.some((keyframe) => Object.keys(keyframe).some((attr) => translateAttrs.includes(attr)))) {
+    const { x = 0, y = 0, z = 0, transform = '' } = shape.attributes || {};
+    keyframes.forEach((keyframe) => {
+      keyframe.transform = replaceTranslateInTransform(
+        keyframe.x || (x as number),
+        keyframe.y || (y as number),
+        keyframe.z || (z as number),
+        transform,
+      );
+    });
+  }
+
+  const needInheritAnimation = keyframes.some((keyframe) =>
+    Object.keys(keyframe).some((attr) => inheritedAttrs.includes(attr)),
+  );
+
+  if (!needInheritAnimation) return shape.animate(keyframes, options);
+  const inheritAttrsKeyframes = keyframes.map((keyframe) => {
+    const newKeyframe: Keyframe = {};
+    Object.entries(keyframe).forEach(([attr, value]) => {
+      if (inheritedAttrs.includes(attr)) {
+        newKeyframe[attr] = value;
+      }
+    });
+    return newKeyframe;
+  });
+
+  const descendants = getDescendantShapes(shape);
+
+  const keyShapeAnimation = shape.animate(keyframes, options);
+  const descendantAnimations = descendants.map((descendant) => descendant.animate(inheritAttrsKeyframes, options)!);
+  return createAnimationsProxy(keyShapeAnimation!, descendantAnimations);
 }
 
 /**

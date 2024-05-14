@@ -192,8 +192,8 @@ export function create(tokens: ThemeTokens): Theme {
         exit: 'fade',
         visibility: 'fade',
         update: [
-          { fields: ['path', 'stroke'], shape: 'key' },
-          { fields: ['path', 'stroke'], shape: 'halo' },
+          { fields: ['d', 'stroke'], shape: 'key' },
+          { fields: ['d', 'stroke'], shape: 'halo' },
         ],
       },
     },
