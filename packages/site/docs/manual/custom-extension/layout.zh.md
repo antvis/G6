@@ -37,48 +37,7 @@ class DiagonalLayout extends BaseLayout {
 
 在上面的代码中，我们实现了一个简单的布局算法，将节点从左上角沿对角线排列。
 
-```js | ob { pin: false }
-(async () => {
-  const { Graph, BaseLayout, register, ExtensionCategory } = window.g6;
-
-  class DiagonalLayout extends BaseLayout {
-    id = 'diagonal-layout';
-
-    async execute(data) {
-      const { nodes = [] } = data;
-      return {
-        nodes: nodes.map((node, index) => ({
-          id: node.id,
-          style: {
-            x: 50 * index + 25,
-            y: 50 * index + 25,
-          },
-        })),
-      };
-    }
-  }
-
-  register(ExtensionCategory.LAYOUT, 'diagonal', DiagonalLayout);
-
-  const container = createContainer({ width: 200, height: 200 });
-
-  const graph = new Graph({
-    container,
-    width: 200,
-    height: 200,
-    data: {
-      nodes: [{ id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }, { id: 'node-4' }],
-    },
-    layout: {
-      type: 'diagonal',
-    },
-  });
-
-  await graph.render();
-
-  return container;
-})();
-```
+<embed src="@/docs/manual/custom-extension-common/layout/non-iterative-layout.md"></embed>
 
 :::info{title=提示}
 `execute` 方法返回的是一个 GraphData 对象，里面仅需要包含元素的基本信息（如 id、source、target）以及布局新增的属性（如 x、y、边的控制点等），不需要包含其他无用的信息。
@@ -162,75 +121,7 @@ class TickTockLayout extends BaseLayout<TickTockLayoutOptions> {
 
 在这个例子中，我们实现了一个简单的迭代布局算法，每 200ms 将节点的 x 坐标在 50 和 150 之间切换，并按照节点顺序在 y 方向上排列。
 
-```js | ob { pin: false }
-(async () => {
-  const { Graph, BaseLayout, register, ExtensionCategory } = window.g6;
-  class TickTockLayout extends BaseLayout {
-    id = 'tick-tock-layout';
-
-    async execute(data, options) {
-      const { onTick } = { ...this.options, ...options };
-
-      this.tickCount = 0;
-      this.data = data;
-
-      this.promise = new Promise((resolve) => {
-        this.resolve = resolve;
-      });
-
-      this.timer = window.setInterval(() => {
-        onTick(this.simulateTick());
-        if (this.tickCount === 10) this.stop();
-      }, 200);
-
-      await this.promise;
-
-      return this.simulateTick();
-    }
-
-    simulateTick = () => {
-      const x = this.tickCount++ % 2 === 0 ? 50 : 150;
-
-      return {
-        nodes: (this?.data?.nodes || []).map((node, index) => ({
-          id: node.id,
-          style: { x, y: (index + 1) * 30 },
-        })),
-      };
-    };
-
-    tick = () => {
-      return this.simulateTick();
-    };
-
-    stop = () => {
-      clearInterval(this.timer);
-      this.resolve?.();
-    };
-  }
-
-  register(ExtensionCategory.LAYOUT, 'tick-tock', TickTockLayout);
-
-  const container = createContainer({ width: 200, height: 200 });
-
-  const graph = new Graph({
-    container,
-    width: 200,
-    height: 200,
-    animation: true,
-    data: {
-      nodes: [{ id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }, { id: 'node-4' }, { id: 'node-5' }],
-    },
-    layout: {
-      type: 'tick-tock',
-    },
-  });
-
-  graph.render();
-
-  return container;
-})();
-```
+<embed src="@/docs/manual/custom-extension-common/layout/iterative-layout.md"></embed>
 
 ## 注册布局
 

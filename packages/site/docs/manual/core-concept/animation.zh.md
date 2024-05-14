@@ -152,7 +152,7 @@ class AntLine extends Line {
 ```typescript
 {
   edge: {
-    type: 'fly-line',
+    type: 'ant-line',
     style:{
       lineDash: [10, 10]
     }
@@ -160,44 +160,19 @@ class AntLine extends Line {
 }
 ```
 
-```js | ob { pin: false }
-(() => {
-  const { register, Line, Graph } = window.g6;
+<embed src="@/docs/manual/core-concept-common/animation/ant-line.md"></embed>
 
-  class AntLine extends Line {
-    onCreate() {
-      this.shapeMap.key.animate([{ lineDashOffset: 20 }, { lineDashOffset: 0 }], {
-        duration: 500,
-        iterations: Infinity,
-      });
-    }
-  }
+其中 `lineDash` 是 `lineDashOffset` 的数组，通过不断变化 `lineDashOffset` 来实现飞线效果。
 
-  register('edge', 'fly-line', FlyLine);
+同样的，还可以实现节点的呼吸效果：
 
-  const container = createContainer({ width: 200, height: 50 });
+````typescript
+import { Circle } from '@antv/g6';
 
-  const graph = new Graph({
-    container,
-    width: 200,
-    height: 50,
-    data: {
-      nodes: [
-        { id: 'node-1', style: { x: 25, y: 25 } },
-        { id: 'node-2', style: { x: 175, y: 25 } },
-      ],
-      edges: [{ source: 'node-1', target: 'node-2', style: { lineDash: [10, 10] } }],
-    },
-    edge: {
-      type: 'fly-line',
-    },
-  });
+class BreathingCircle extends Circle {
+  onCreate() {
 
-  graph.draw();
-
-  return container;
-})();
-```
+}
 
 其中 `lineDashOffset` 是 `lineDash` 的偏移量，通过不断变化 `lineDashOffset` 来实现飞线效果。
 
@@ -215,7 +190,7 @@ class BreathingCircle extends Circle {
     });
   }
 }
-```
+````
 
 节点样式配置：
 
@@ -231,42 +206,4 @@ class BreathingCircle extends Circle {
 }
 ```
 
-```js | ob { pin: false }
-(() => {
-  const { register, Circle, Graph } = window.g6;
-
-  class BreathingCircle extends Circle {
-    onCreate() {
-      this.shapeMap.halo.animate([{ lineWidth: 5 }, { lineWidth: 10 }], {
-        duration: 1000,
-        iterations: Infinity,
-        direction: 'alternate',
-      });
-    }
-  }
-
-  register('node', 'breathing-circle', BreathingCircle);
-
-  const container = createContainer({ width: 50, height: 50 });
-
-  const graph = new Graph({
-    container,
-    width: 50,
-    height: 50,
-    data: {
-      nodes: [{ id: 'node-1', style: { x: 25, y: 25 } }],
-    },
-    node: {
-      type: 'breathing-circle',
-      style: {
-        halo: true,
-        haloLineWidth: 5,
-      },
-    },
-  });
-
-  graph.draw();
-
-  return container;
-})();
-```
+<embed src="@/docs/manual/core-concept-common/animation/breathing-circle.md"></embed>
