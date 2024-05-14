@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g >
+    <g fill="none">
+      <g fill="none"/>
+      <g fill="none">
+        <g fill="none" marker-start="false" marker-end="true">
+          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 114.60499297752963,110 C 69.03740595652152 44.24595059554997,180.96259404347848 44.24595059554997,135.39500702247037 110 L 138.24298121128336,105.89037191222188" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M -10.39500702247037,-14.999999999999998 C -55.96259404347849 -80.75404940445002,55.9625940434785 -80.75404940445002,10.395007022470372 -14.999999999999998 L 13.242981211283379,-19.109628087778123" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(0.569595,-0.821926,0.821926,0.569595,138.242981,105.890373)">
+              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
+              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="true">
+          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 165,117.74661672909959 C 243.7162840092248 103.47263228960065,243.7162840092248 146.5273677103993,165 132.2533832709004 L 169.91976775057654,133.14550729836907" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 40,-7.253383270900416 C 118.71628400922481 -21.527367710399346,118.71628400922481 21.527367710399346,40 7.253383270900416 L 44.919767750576554,8.145507298369099" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(0.983954,0.178425,-0.178425,0.983954,169.919769,133.145508)">
+              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
+              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="true">
+          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 135.39500702247037,140 C 180.96259404347848 205.75404940445003,69.03740595652152 205.75404940445003,114.60499297752963 140 L 111.75701878871662,144.10962808777813" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 10.395007022470372,14.999999999999998 C 55.9625940434785 80.75404940445002,-55.96259404347849 80.75404940445002,-10.39500702247037 14.999999999999998 L -13.242981211283379,19.109628087778123" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(-0.569595,0.821926,-0.821926,-0.569595,111.757019,144.109634)">
+              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
+              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="true">
+          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 85,132.25338327090043 C 6.2837159907751925 146.52736771039937,6.2837159907751925 103.47263228960065,85 117.74661672909959 L 80.08023224942345,116.8544927016309" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M -40,7.253383270900421 C -118.71628400922481 21.527367710399357,-118.71628400922481 -21.527367710399325,-40 -7.25338327090041 L -44.919767750576554,-8.145507298369091" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(-0.983954,-0.178425,0.178425,-0.983954,80.080231,116.854492)">
+              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
+              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="true">
+          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 385.3950070224704,110 C 430.9625940434786 44.24595059555004,493.7162840092248 103.47263228960065,415 117.74661672909959 L 419.91976775057657,116.8544927016309" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 10.395007022470372,-14.999999999999998 C 55.9625940434785 -80.75404940445002,118.71628400922481 -21.527367710399346,40 -7.253383270900416 L 44.919767750576554,-8.145507298369099" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(0.983954,-0.178425,0.178425,0.983954,419.919769,116.854492)">
+              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
+              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="true">
+          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 415,132.2533832709004 C 493.7162840092248 146.5273677103993,430.9625940434786 205.75404940444997,385.3950070224704 140 L 388.2429812112834,144.10962808777813" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 40,7.253383270900416 C 118.71628400922481 21.527367710399346,55.9625940434785 80.75404940445002,10.395007022470372 14.999999999999998 L 13.242981211283379,19.109628087778123" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(0.569595,0.821926,-0.821926,0.569595,388.242981,144.109634)">
+              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
+              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="true">
+          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 364.60499297752966,140 C 319.03740595652164 205.7540494044501,256.2837159907752 146.52736771039937,335 132.25338327090043 L 330.08023224942343,133.14550729836913" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M -10.39500702247037,14.999999999999998 C -55.96259404347849 80.75404940445002,-118.71628400922481 21.527367710399357,-40 7.253383270900421 L -44.919767750576554,8.145507298369104" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(-0.983954,0.178425,-0.178425,-0.983954,330.080231,133.145508)">
+              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
+              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="true">
+          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 335,117.74661672909959 C 256.2837159907752 103.47263228960065,319.03740595652164 44.245950595549914,364.60499297752966 110 L 361.75701878871666,105.89037191222187" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M -40,-7.25338327090041 C -118.71628400922481 -21.527367710399325,-55.96259404347849 -80.75404940445002,-10.39500702247037 -14.999999999999998 L -13.242981211283379,-19.109628087778123" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(-0.569595,-0.821926,0.821926,-0.569595,361.757019,105.890373)">
+              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
+              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="true">
+          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 143.18861161242026,357.948176613356 C 199.36297633120682 305.28470968949364,245 375,168 375" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 18.188611612420257,-17.05182338664399 C 74.36297633120682 -69.71529031050639,120 0,43 0" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,173,375)">
+              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
+              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="true">
+          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 417.68328157299976,373.65835921350015 C 495 335,495 415,417.68328157299976 376.34164078649985 L 422.15541752799936,378.5777087639996" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 42.683281572999746,-1.3416407864998738 C 120 -40,120 40,42.683281572999746 1.3416407864998738 L 47.155417527999326,3.577708763999664" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(0.894427,0.447214,-0.447214,0.894427,422.155426,378.577698)">
+              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
+              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
+            </g>
+          </g>
+        </g>
+      </g>
+      <g fill="none">
+        <g fill="none" x="125" y="125" transform="matrix(1,0,0,1,125,125)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -40,-15 l 80,0 l 0,30 l-80 0 z" stroke-width="0" stroke="rgba(0,0,0,1)" width="80" height="30" x="-40" y="-15"/>
+          </g>
+        </g>
+        <g fill="none" x="375" y="125" transform="matrix(1,0,0,1,375,125)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -40,-15 l 80,0 l 0,30 l-80 0 z" stroke-width="0" stroke="rgba(0,0,0,1)" width="80" height="30" x="-40" y="-15"/>
+          </g>
+        </g>
+        <g fill="none" x="125" y="375" transform="matrix(1,0,0,1,125,375)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -40,-15 l 80,0 l 0,30 l-80 0 z" stroke-width="0" stroke="rgba(0,0,0,1)" width="80" height="30" x="-40" y="-15"/>
+          </g>
+          <g transform="matrix(1,0,0,1,16,-15)">
+            <circle fill="rgba(23,131,255,1)" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          </g>
+          <g transform="matrix(1,0,0,1,40,0)">
+            <circle fill="rgba(23,131,255,1)" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          </g>
+        </g>
+        <g fill="none" x="375" y="375" transform="matrix(1,0,0,1,375,375)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -40,-15 l 80,0 l 0,30 l-80 0 z" stroke-width="0" stroke="rgba(0,0,0,1)" width="80" height="30" x="-40" y="-15"/>
+          </g>
+          <g transform="matrix(1,0,0,1,16,-15)">
+            <circle fill="rgba(23,131,255,1)" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          </g>
+          <g transform="matrix(1,0,0,1,40,0)">
+            <circle fill="rgba(23,131,255,1)" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

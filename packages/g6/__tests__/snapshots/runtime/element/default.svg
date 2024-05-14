@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g >
+    <g fill="none">
+      <g fill="none">
+        <g fill="none" x="125" y="150" transform="matrix(1,0,0,1,125,150)">
+          <g>
+            <circle fill="rgba(247,251,255,1)" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="31.11269837220809"/>
+          </g>
+        </g>
+      </g>
+      <g fill="none">
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 112,100 L 138,100" stroke-width="1" stroke="rgba(127,39,4,1)"/>
+            <path fill="none" d="M 112,100 L 138,100" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="6"/>
+          <g>
+            <path fill="none" d="M 144.6334368540005,110.73312629199899 L 130.3665631459995,139.26687370800101" stroke-width="12" stroke="rgba(255,0,0,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
+            <path fill="none" d="M 144.6334368540005,110.73312629199899 L 130.3665631459995,139.26687370800101" stroke-width="14" stroke="transparent" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
+          </g>
+          <g>
+            <path fill="none" d="M 144.6334368540005,110.73312629199899 L 130.3665631459995,139.26687370800101" stroke-width="4" stroke="rgba(255,0,0,1)"/>
+            <path fill="none" d="M 144.6334368540005,110.73312629199899 L 130.3665631459995,139.26687370800101" stroke-width="6" stroke="transparent"/>
+          </g>
+        </g>
+      </g>
+      <g fill="none">
+        <g fill="none" x="100" y="100" transform="matrix(1,0,0,1,100,100)">
+          <g>
+            <circle fill="rgba(0,0,255,1)" stroke-width="1" stroke="rgba(255,192,203,1)" r="12"/>
+          </g>
+        </g>
+        <g fill="none" x="150" y="100" transform="matrix(1,0,0,1,150,100)">
+          <g>
+            <circle fill="rgba(255,0,0,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+          </g>
+        </g>
+        <g fill="none" x="125" y="150" transform="matrix(1,0,0,1,125,150)">
+          <g>
+            <circle fill="none" stroke-width="12" stroke="rgba(128,0,128,1)" stroke-opacity="0.25" r="12" stroke-dasharray="0,0" pointer-events="none"/>
+          </g>
+          <g>
+            <circle fill="rgba(128,0,128,1)" stroke-width="3" stroke="rgba(0,0,0,1)" r="12"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

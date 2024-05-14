@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g >
+    <g fill="none">
+      <g fill="none"/>
+      <g fill="none"/>
+      <g fill="none">
+        <g fill="none" x="150" y="150" transform="matrix(1,0,0,1,150,150)">
+          <g>
+            <circle fill="rgba(255,0,0,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="25"/>
+          </g>
+        </g>
+        <g fill="none" x="175" y="175" transform="matrix(1,0,0,1,175,175)">
+          <g>
+            <circle fill="rgba(0,128,0,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="25"/>
+          </g>
+        </g>
+        <g fill="none" x="200" y="200" transform="matrix(1,0,0,1,200,200)">
+          <g>
+            <circle fill="rgba(0,0,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="25"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g >
+    <g fill="none">
+      <g fill="none"/>
+      <g fill="none">
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 60,50 L 190,50" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 60,50 L 190,50" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 194,58 L 131,142" stroke-width="1" stroke="rgba(153,173,209,1)" opacity="0.5" visibility="visible"/>
+            <path fill="none" d="M 194,58 L 131,142" stroke-width="3" stroke="transparent" opacity="0.5" visibility="visible"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 119,142 L 56,58" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="visible"/>
+            <path fill="none" d="M 119,142 L 56,58" stroke-width="3" stroke="transparent" visibility="visible"/>
+          </g>
+        </g>
+      </g>
+      <g fill="none">
+        <g fill="none" x="50" y="50" transform="matrix(1,0,0,1,50,50)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
+          </g>
+        </g>
+        <g fill="none" x="200" y="50" transform="matrix(1,0,0,1,200,50)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
+          </g>
+        </g>
+        <g fill="none" x="125" y="150" transform="matrix(1,0,0,1,125,150)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" opacity="0.5" r="10" visibility="visible"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

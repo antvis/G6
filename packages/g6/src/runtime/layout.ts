@@ -144,14 +144,7 @@ export class LayoutController {
         result,
         (node) => {
           const { id, x, y, z = 0 } = node;
-
-          // const dataToUpdate: Required<PartialGraphData> = { nodes: [], edges: [], combos: [] };
-          // nodes.forEach(({ id, data: { x, y, z = 0 } }) => {
-          //   // Use `transform: translate3d()` instead of `x/y/z`
-          //   dataToUpdate.nodes.push({ id: id as ID, style: { transform: `translate3d(${x}, ${y}, ${z})` } });
-          // });
-
-          layoutResult.nodes!.push({ id, style: { x, y } });
+          layoutResult.nodes!.push({ id, style: { x, y, z } });
         },
         (node) => node.children,
         'TB',

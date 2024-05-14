@@ -3,6 +3,7 @@ import { isString, upperFirst } from '@antv/util';
 import { DEFAULT_ELEMENTS_ANIMATION_OPTIONS } from '../constants';
 import { getExtension } from '../registry';
 import { createAnimationsProxy, inferDefaultValue, preprocessKeyframes } from '../utils/animation';
+import { replaceTranslateInTransform } from '../utils/transform';
 import type { AnimationExecutor } from './types';
 
 /**
@@ -74,6 +75,21 @@ export const executor: AnimationExecutor = (element, animation, commonEffectTimi
           Object.assign(keyframes[0], { [attr]: fromStyle[attr] ?? inferDefaultValue(attr) });
           Object.assign(keyframes[1], { [attr]: toStyle[attr] ?? inferDefaultValue(attr) });
         });
+
+        const translateAttrs = ['x', 'y', 'z'];
+
+        // x/y -> translate
+        if (keyframes.some((keyframe) => Object.keys(keyframe).some((attr) => translateAttrs.includes(attr)))) {
+          const { x = 0, y = 0, z = 0, transform = '' } = shape.attributes || {};
+          keyframes.forEach((keyframe) => {
+            keyframe.transform = replaceTranslateInTransform(
+              (keyframe.x as number) || (x as number),
+              (keyframe.y as number) || (y as number),
+              (keyframe.z as number) || (z as number),
+              transform,
+            );
+          });
+        }
 
         const result = shape.animate(preprocessKeyframes(keyframes), {
           ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS,
