@@ -7,9 +7,9 @@ order: 0
 
 ### Definition of Graph
 
-In Chinese, the character "图" (Graph) can often be used to represent many different concepts, such as image (Image), shape (Shape), and chart or diagram (Chart, Diagram), etc.
+In Chinese, the character "图" (Graph) can often be used to represent many different concepts, such as image,shape,and chart or diagram,etc.
 
-In Graph Theory, a graph (Graph) is a mathematical structure used to model pairwise relationships between objects, which we typically represent with nodes (Node, or Vertex) and edges (Edge, or Link) to denote the objects and the relationships between them.
+In Graph Theory, a graph is a mathematical structure used to model pairwise relationships between objects, which we typically represent with nodes (or Vertex) and edges (or Link) to denote the objects and the relationships between them.
 
 The "graph" in G6:
 
@@ -41,10 +41,10 @@ In G6, we provide a universal graph representation capable of depicting the vari
 
 Graphs are a very versatile data structure that can be used to represent a variety of scenarios, such as:
 
-- Social Networks (Social Network)
-- Knowledge Graphs (Knowledge Graph)
-- Traffic Networks (Traffic Network)
-- Power Grids (Power Grid)
+- Social Networks
+- Knowledge Graphs
+- Traffic Networks
+- Power Grids
 
 In G6, we provide a rich expression capability for graphs that can meet the needs of different scenarios. We also offer a wealth of interactive and animated effects to make the graphs more vivid and intuitive.
 

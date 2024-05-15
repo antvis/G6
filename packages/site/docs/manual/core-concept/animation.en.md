@@ -110,7 +110,7 @@ Therefore, you can directly write an animation paradigm for the element itself:
 
 ## Custom Animation
 
-If the built-in animations do not meet your requirements, you can create custom animations. For details, please refer to [Custom Animation](/manual/custom-extension/animation).
+If the built-in animations do not meet your requirements, you can create custom animations. For details, please refer to [Custom Animation](/en/manual/custom-extension/animation).
 
 ## Animation Priority
 

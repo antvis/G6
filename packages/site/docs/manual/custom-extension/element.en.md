@@ -25,7 +25,7 @@ The mapping table of all graphics under the current element
 
 The mapping table of all animations under the current element
 
-### 方法
+### Methods
 
 #### upsert(key, Ctor, style, container)
 

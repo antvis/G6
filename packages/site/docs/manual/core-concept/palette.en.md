@@ -7,7 +7,7 @@ order: 7
 
 A palette refers to a set of predefined color collections that help users more conveniently select colors. In G6, a palette is a common configuration item that allows users to configure the colors of elements such as nodes, edges, and links through the palette.
 
-Palettes are divided into two types: 'discrete palette' and 'continuous palette'.
+Palettes are divided into two types: `discrete palette` and `continuous palette`.
 
 A discrete palette is an array of colors used to map discrete values within elements to different colors, such as the type of nodes, the relationship of edges, etc. Below is a simple example of a discrete palette:
 

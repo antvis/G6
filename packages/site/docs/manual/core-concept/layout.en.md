@@ -93,7 +93,7 @@ First, install `@antv/layout-wasm`:
 npm install @antv/layout-wasm --save
 ```
 
-Introduce and Register the Layout Algorithm:
+Import and Register the Layout Algorithm:
 
 ```typescript
 import { register, Graph, ExtensionCategory } from '@antv/g6';
@@ -132,7 +132,7 @@ First, install `@antv/layout-gpu`:
 npm install @antv/layout-gpu --save
 ```
 
-Introduce and Register the Layout Algorithm:
+Import and Register the Layout Algorithm:
 
 ```typescript
 import { register, Graph, ExtensionCategory } from '@antv/g6';
@@ -159,10 +159,10 @@ Usually, after calling `graph.render()`, G6 will automatically execute the layou
 
 If you need to manually execute the layout algorithm, G6 provides the following APIs:
 
-- [layout](/api/graph/method#layout): Execute the layout algorithm
-- [setLayout](/api/graph/method#setLayout): Set the layout algorithm
-- [stopLayout](/api/graph/method#stopLayout): Stop the layout algorithm
+- [layout](/en/api/graph/method#graphlayout): Execute the layout algorithm
+- [setLayout](/en/api/graph/method#graphsetlayoutlayout): Set the layout algorithm
+- [stopLayout](/en/api/graph/method#graphstoplayout): Stop the layout algorithm
 
 ## Custom Layout
 
-If the built-in layout algorithms do not meet your requirements, you can create a custom layout algorithm. For details, please refer to [Custom Layout](/manual/custom-extension/layout).
+If the built-in layout algorithms do not meet your requirements, you can create a custom layout algorithm. For details, please refer to [Custom Layout](/en/manual/custom-extension/layout).

@@ -31,8 +31,8 @@ const data = {
 // 5.x
 const data = {
   nodes: [
-    // label 为非样式属性，放在 data 中，可在样式映射函数中访问
-    // size 为样式属性，放在 style 中
+    // The label is a non-stylistic attribute, placed in the data, and can be accessed in the style mapping function
+    // The `size` is a stylistic attribute, placed within the `style`
     { id: 'node1', data: { label: 'node1' }, style: { size: 20 } },
     { id: 'node2', data: { label: 'node2' }, style: { size: 20 } },
   ],
@@ -51,7 +51,7 @@ Since we have redesigned and implemented the elements, please refer to the corre
 ```typescript
 {
   nodes: [
-    // 指定节点类型为 rect
+    // Specify the node type as rect
     { id: 'node1', type: 'rect' },
   ];
 }
