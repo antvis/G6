@@ -9,6 +9,7 @@
     "react",
     "node"
   ],
+  "repository": "https://github.com/antvis/G6.git",
   "license": "MIT",
   "author": "Aarebecca",
   "main": "lib/index.js",
@@ -33,8 +34,8 @@
     "type-check": "tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
-    "@antv/g": "^6.0.0",
-    "@antv/react-g": "^2.0.0"
+    "@antv/g": "^6.0.5",
+    "@antv/react-g": "^2.0.5"
   },
   "devDependencies": {
     "@ant-design/icons": "^5.3.6",
@@ -50,6 +51,5 @@
     "@antv/g6": "^5.0.0-beta.30",
     "react": ">=16.8",
     "react-dom": ">=16.8"
-  },
-  "repository": "https://github.com/antvis/G6.git"
+  }
 }
