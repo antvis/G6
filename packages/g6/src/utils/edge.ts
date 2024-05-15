@@ -568,9 +568,11 @@ export function findActualConnectNodeData(node: NodeLikeData, getParentData: (id
     if (parent) current = parent;
     else break;
   }
+
   if (path.some((n) => n.style?.collapsed)) {
-    const index = path.findLastIndex((n) => n.style?.collapsed);
+    const index = path.reverse().findIndex((n) => n.style?.collapsed);
     return path[index] || path.at(-1);
   }
+
   return node;
 }

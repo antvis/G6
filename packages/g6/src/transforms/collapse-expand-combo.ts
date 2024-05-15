@@ -39,7 +39,6 @@ export class CollapseExpandCombo extends BaseTransform {
   public beforeDraw(input: DrawData): DrawData {
     const { model } = this.context;
     const { add, update } = input;
-
     // combo 添加和更新的顺序为先子后父，因此采用倒序遍历
     // The order of adding and updating combos is first child and then parent, so reverse traversal is used
     const combos = [...input.update.combos.entries(), ...input.add.combos.entries()];
@@ -72,8 +71,9 @@ export class CollapseExpandCombo extends BaseTransform {
         // If it is an external edge, connect to the collapsed object
         external.forEach((edge) => {
           const id = idOf(edge);
-          if (add.edges.has(id)) add.edges.set(id, edge);
-          if (update.edges.has(id)) update.edges.set(id, edge);
+          const edgeElement = this.context.element?.getElement(id);
+          if (edgeElement) update.edges.set(id, edge);
+          else add.edges.set(id, edge);
         });
       } else {
         const children = model.getChildrenData(id);
