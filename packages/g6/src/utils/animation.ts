@@ -1,4 +1,4 @@
-import type { IAnimation } from '@antv/g';
+import { type IAnimation } from '@antv/g';
 import { isEqual, isNil, isObject } from '@antv/util';
 import { DEFAULT_ANIMATION_OPTIONS } from '../constants';
 import type { GraphOptions } from '../spec';

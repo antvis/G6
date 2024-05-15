@@ -30,11 +30,9 @@ export function getPolygonTextStyleByPlacement(
 ) {
   const [x, y] = getXYByPlacement(bounds, placement);
   const style: Partial<TextStyleProps> = {
-    x: x + offsetX,
-    y: y + offsetY,
     textAlign: placement === 'left' ? 'right' : placement === 'right' ? 'left' : 'center',
     textBaseline: placement === 'top' ? 'bottom' : placement === 'bottom' ? 'top' : 'middle',
-    transform: 'none',
+    transform: `translate(${x + offsetX}, ${y + offsetY})`,
   };
   if (placement === 'center' || !closeToContour) return style;
 
@@ -53,11 +51,10 @@ export function getPolygonTextStyleByPlacement(
   const line = findNearestLine([x, y], lines);
   const intersection = findNearestPointOnLine([x, y], line);
   if (intersection && line) {
-    style.x = intersection[0] + offsetX;
-    style.y = intersection[1] + offsetY;
+    style.transform = `translate(${intersection[0] + offsetX}, ${intersection[1] + offsetY})`;
     if (autoRotate) {
       const angle = Math.atan((line[0][1] - line[1][1]) / (line[0][0] - line[1][0]));
-      style.transform = `rotate(${(angle / Math.PI) * 180}deg)`;
+      style.transform += `rotate(${(angle / Math.PI) * 180}deg)`;
       style.textAlign = 'center';
       if (placement === 'right' || placement === 'left') {
         if (angle > 0) {

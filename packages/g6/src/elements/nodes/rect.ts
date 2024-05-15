@@ -22,7 +22,6 @@ type ParsedRectStyleProps = Required<RectStyleProps>;
 export class Rect extends BaseNode<RectStyleProps> {
   static defaultStyleProps: Partial<RectStyleProps> = {
     size: [48, 24],
-    anchor: [0.5, 0.5],
   };
 
   constructor(options: DisplayObjectConfig<RectStyleProps>) {
@@ -35,6 +34,8 @@ export class Rect extends BaseNode<RectStyleProps> {
       ...super.getKeyStyle(attributes),
       width,
       height,
+      x: -width / 2,
+      y: -height / 2,
     };
   }
 

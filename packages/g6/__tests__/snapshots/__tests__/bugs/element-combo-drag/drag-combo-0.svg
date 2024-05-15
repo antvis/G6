@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
   <defs/>
-  <g transform="matrix(1,0,0,1,0,0)">
-    <g fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g fill="none" transform="matrix(1,0,0,1,175,150)">
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle fill="rgba(253,253,253,1)" transform="translate(-26,-26)" cx="26" cy="26" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="26"/>
+  <g >
+    <g fill="none">
+      <g fill="none">
+        <g fill="none" x="175" y="150" transform="matrix(1,0,0,1,175,150)">
+          <g>
+            <circle fill="rgba(253,253,253,1)" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="26"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,0)">
-            <g transform="matrix(1,0,0,1,0,0)">
+          <g fill="none" x="0" y="0">
+            <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" font-size="12">
                 2
               </text>
@@ -16,19 +16,19 @@
           </g>
         </g>
       </g>
-      <g fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+      <g fill="none">
+        <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
-          <g transform="matrix(1,0,0,1,201,150)">
-            <path fill="none" d="M 0,0 L 87,0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 0,0 L 76,0" stroke-width="3" stroke="transparent"/>
+          <g>
+            <path fill="none" d="M 201,150 L 288,150" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 162,100 L 238,100" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
       </g>
-      <g fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g fill="none" transform="matrix(1,0,0,1,300,150)">
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle fill="rgba(23,131,255,1)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+      <g fill="none">
+        <g fill="none" x="300" y="150" transform="matrix(1,0,0,1,300,150)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
       </g>

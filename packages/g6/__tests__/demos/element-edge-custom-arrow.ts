@@ -9,8 +9,8 @@ export const elementEdgeCustomArrow: TestCase = async (context) => {
         source: 'node1',
         target: 'node2',
         style: {
-          endArrowPath: 'M0,0 L10,4 L14,14 L18,4 L28,0 L18,-4 L14,-14 L10,-4 Z',
-          endArrowOffset: 14,
+          endArrowD: 'M0,0 L10,4 L14,14 L18,4 L28,0 L18,-4 L14,-14 L10,-4 Z',
+          endArrowOffset: 28,
         },
       },
       {
@@ -18,8 +18,8 @@ export const elementEdgeCustomArrow: TestCase = async (context) => {
         source: 'node3',
         target: 'node4',
         style: {
-          endArrowPath: 'M 3,-5 L 3,5 L 15,10 L 15,-10 Z',
-          endArrowOffset: 10,
+          endArrowD: 'M 3,-5 L 3,5 L 15,10 L 15,-10 Z',
+          endArrowOffset: 20,
         },
       },
       {
@@ -30,6 +30,8 @@ export const elementEdgeCustomArrow: TestCase = async (context) => {
           endArrowSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
           endArrowSize: 28,
           endArrowTransform: 'rotate(90deg)',
+          endArrowX: -14,
+          endArrowY: -14,
         },
       },
     ],

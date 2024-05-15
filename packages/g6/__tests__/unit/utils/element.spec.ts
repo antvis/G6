@@ -162,53 +162,45 @@ describe('element', () => {
 
   it('getTextStyleByPlacement', () => {
     expect(getTextStyleByPlacement(bbox, 'left')).toEqual({
-      x: 100,
-      y: 150,
+      transform: 'translate(100, 150)',
       textAlign: 'right',
       textBaseline: 'middle',
     });
     expect(getTextStyleByPlacement(bbox, 'right')).toEqual({
-      x: 200,
-      y: 150,
+      transform: 'translate(200, 150)',
       textAlign: 'left',
       textBaseline: 'middle',
     });
     expect(getTextStyleByPlacement(bbox, 'top')).toEqual({
-      x: 150,
-      y: 100,
+      transform: 'translate(150, 100)',
       textAlign: 'center',
       textBaseline: 'bottom',
     });
     expect(getTextStyleByPlacement(bbox, 'bottom')).toEqual({
-      x: 150,
-      y: 200,
+      transform: 'translate(150, 200)',
       textAlign: 'center',
       textBaseline: 'top',
     });
 
     expect(getTextStyleByPlacement(bbox, 'left-top')).toEqual({
-      x: 100,
-      y: 100,
+      transform: 'translate(100, 100)',
       textAlign: 'right',
       textBaseline: 'bottom',
     });
     expect(getTextStyleByPlacement(bbox, 'right-bottom')).toEqual({
-      x: 200,
-      y: 200,
+      transform: 'translate(200, 200)',
       textAlign: 'left',
       textBaseline: 'top',
     });
 
     expect(getTextStyleByPlacement(bbox, 'center')).toEqual({
-      x: 150,
-      y: 150,
+      transform: 'translate(150, 150)',
       textAlign: 'center',
       textBaseline: 'middle',
     });
 
     expect(getTextStyleByPlacement(bbox)).toEqual({
-      x: 150,
-      y: 200,
+      transform: 'translate(150, 200)',
       textAlign: 'center',
       textBaseline: 'top',
     });

@@ -9,8 +9,7 @@ class BarChart extends Rect {
       'chart-container',
       RectGeometry,
       {
-        x: -width / 2,
-        y: -height / 2,
+        transform: `translate(${-width / 2}, ${-height / 2})`,
         width,
         height,
         fill: '#fff',

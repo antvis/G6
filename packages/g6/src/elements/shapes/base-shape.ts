@@ -7,25 +7,11 @@ import { updateStyle } from '../../utils/element';
 import { subObject } from '../../utils/prefix';
 import { setVisibility } from '../../utils/visibility';
 
-export interface BaseShapeStyleProps extends BaseStyleProps {
-  /**
-   * <zh/> x 坐标
-   *
-   * <en/> x coordinate
-   */
-  x?: number | string;
-  /**
-   * <zh/> y 坐标
-   *
-   * <en/> y coordinate
-   */
-  y?: number | string;
-}
+export interface BaseShapeStyleProps extends BaseStyleProps {}
 
 export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends CustomElement<StyleProps> {
   constructor(options: DisplayObjectConfig<StyleProps>) {
     super(options);
-
     this.render(this.attributes as Required<StyleProps>, this);
     this.setVisibility();
     this.bindEvents();
@@ -134,7 +120,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     if (Array.isArray(keyframes) && keyframes.length > 0) {
       // 如果 keyframes 中仅存在 skippedAttrs 中的属性，则仅更新父元素属性（跳过子图形）
       // if only skippedAttrs exist in keyframes, only update parent element attributes (skip child shapes)
-      const skippedAttrs = ['anchor', 'transform', 'transformOrigin', 'x', 'y', 'z', 'zIndex'];
+      const skippedAttrs = ['transform', 'transformOrigin', 'x', 'y', 'z', 'zIndex'];
       if (Object.keys(keyframes[0]).some((attr) => !skippedAttrs.includes(attr))) {
         Object.entries(this.shapeMap).forEach(([key, shape]) => {
           // 如果存在方法名为 `get${key}Style` 的方法，则使用该方法获取样式，并自动为该图形实例创建动画

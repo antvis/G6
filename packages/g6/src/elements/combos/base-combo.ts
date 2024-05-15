@@ -225,7 +225,8 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   protected getComboStyle(attributes: Required<S>) {
     const { zIndex = this.getComboZIndex(attributes) } = attributes;
     const [x, y] = this.calculatePosition(attributes);
-    return { x, y, zIndex };
+    // x/y will be used to calculate position later.
+    return { x, y, transform: `translate(${x}, ${y})`, zIndex };
   }
 
   public render(attributes: Required<S>, container: Group = this) {

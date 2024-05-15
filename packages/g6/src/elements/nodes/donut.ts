@@ -89,7 +89,7 @@ export class Donut extends Circle {
         Path,
         {
           ...style,
-          path: arc(outerR, innerR, start, start + angle),
+          d: arc(outerR, innerR, start, start + angle),
           fill: color,
           ...roundStyle,
         },

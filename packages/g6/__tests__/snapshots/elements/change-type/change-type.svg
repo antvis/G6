@@ -1,26 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
   <defs/>
-  <g transform="matrix(1,0,0,1,0,0)">
-    <g fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g fill="none" transform="matrix(1,0,0,1,0,0)"/>
-      <g fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g fill="none" marker-start="false" marker-end="false" transform="matrix(1,0,0,1,0,0)">
+  <g >
+    <g fill="none">
+      <g fill="none"/>
+      <g fill="none">
+        <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
-          <g transform="matrix(1,0,0,1,112,100)">
-            <path fill="none" d="M 0,0 L 76,0" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 0,0 L 64,0" stroke-width="3" stroke="transparent"/>
+          <g>
+            <path fill="none" d="M 112,100 L 188,100" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 124,100 L 188,100" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
       </g>
-      <g fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g fill="none" transform="matrix(1,0,0,1,100,100)">
-          <g transform="matrix(1,0,0,1,0,0)">
-            <circle fill="rgba(0,0,0,0)" transform="translate(-12,-12)" cx="12" cy="12" stroke-width="0" stroke="rgba(23,131,255,1)" r="12"/>
+      <g fill="none">
+        <g fill="none" x="100" y="100" transform="matrix(1,0,0,1,100,100)">
+          <g>
+            <circle fill="rgba(0,0,0,0)" stroke-width="0" stroke="rgba(23,131,255,1)" r="12"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,200,100)">
-          <g transform="matrix(1,0,0,1,-12,-12)">
-            <polygon fill="rgba(23,131,255,1)" points="12,0 24,12 12,24 0,12" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+        <g fill="none" x="200" y="100" transform="matrix(1,0,0,1,200,100)">
+          <g>
+            <polygon fill="rgba(23,131,255,1)" points="0,-12 12,0 0,12 -12,0" stroke-width="0" stroke="rgba(0,0,0,1)"/>
           </g>
         </g>
       </g>

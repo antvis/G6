@@ -51,7 +51,8 @@ export class Image extends BaseNode<ImageStyleProps> {
       ...keyStyle,
       width,
       height,
-      anchor: [0.5, 0.5] as [number, number],
+      x: -width / 2,
+      y: -height / 2,
     };
   }
 
@@ -62,8 +63,7 @@ export class Image extends BaseNode<ImageStyleProps> {
     const haloLineWidth = Number(haloStyle.lineWidth);
     const [width, height] = add(this.getSize(attributes), [haloLineWidth, haloLineWidth]);
     const fill = 'transparent';
-
-    return { ...keyStyle, ...haloStyle, width, height, fill };
+    return { ...keyStyle, ...haloStyle, width, height, fill, x: -width / 2, y: -height / 2 };
   }
 
   protected getIconStyle(attributes: Required<ImageStyleProps>): false | IconStyleProps {

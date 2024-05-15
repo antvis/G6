@@ -4,35 +4,35 @@ describe('Symbol Functions', () => {
   describe('circle', () => {
     it('should return the correct path for a circle', () => {
       const path = circle(10, 10);
-      expect(path).toEqual([['M', 0, 0], ['A', 5, 5, 0, 1, 0, 10, 0], ['A', 5, 5, 0, 1, 0, 0, 0], ['Z']]);
+      expect(path).toEqual([['M', -5, 0], ['A', 5, 5, 0, 1, 0, 5, 0], ['A', 5, 5, 0, 1, 0, -5, 0], ['Z']]);
     });
   });
 
   describe('triangle', () => {
     it('should return the correct path for a triangle', () => {
       const path = triangle(10, 10);
-      expect(path).toEqual([['M', 0, 0], ['L', 10, -5], ['L', 10, 5], ['Z']]);
+      expect(path).toEqual([['M', -5, 0], ['L', 5, -5], ['L', 5, 5], ['Z']]);
     });
   });
 
   describe('diamond', () => {
     it('should return the correct path for a diamond', () => {
       const path = diamond(10, 10);
-      expect(path).toEqual([['M', 0, 0], ['L', 5, -5], ['L', 10, 0], ['L', 5, 5], ['Z']]);
+      expect(path).toEqual([['M', -5, 0], ['L', 0, -5], ['L', 5, 0], ['L', 0, 5], ['Z']]);
     });
   });
 
   describe('vee', () => {
     it('should return the correct path for a vee', () => {
       const path = vee(10, 10);
-      expect(path).toEqual([['M', 0, 0], ['L', 10, -5], ['L', 6.666666666666667, 0], ['L', 10, 5], ['Z']]);
+      expect(path).toEqual([['M', -5, 0], ['L', 5, -5], ['L', 1.666666666666667, 0], ['L', 5, 5], ['Z']]);
     });
   });
 
   describe('rect', () => {
     it('should return the correct path for a rectangle', () => {
       const path = rect(10, 10);
-      expect(path).toEqual([['M', 0, -5], ['L', 10, -5], ['L', 10, 5], ['L', 0, 5], ['Z']]);
+      expect(path).toEqual([['M', -5, -5], ['L', 5, -5], ['L', 5, 5], ['L', -5, 5], ['Z']]);
     });
   });
 
@@ -40,14 +40,14 @@ describe('Symbol Functions', () => {
     it('should return the correct path for a triangleRect', () => {
       const path = triangleRect(10, 10);
       expect(path).toEqual([
-        ['M', 0, 0],
+        ['M', -5, 0],
+        ['L', 0, -5],
+        ['L', 0, 5],
+        ['Z'],
+        ['M', 3.571428571428571, -5],
         ['L', 5, -5],
         ['L', 5, 5],
-        ['Z'],
-        ['M', 8.571428571428571, -5],
-        ['L', 10, -5],
-        ['L', 10, 5],
-        ['L', 8.571428571428571, 5],
+        ['L', 3.571428571428571, 5],
         ['Z'],
       ]);
     });
@@ -57,9 +57,9 @@ describe('Symbol Functions', () => {
     it('should return the correct path for a simple shape', () => {
       const path = simple(10, 10);
       expect(path).toEqual([
-        ['M', 10, -5],
-        ['L', 0, 0],
-        ['L', 10, 5],
+        ['M', 5, -5],
+        ['L', -5, 0],
+        ['L', 5, 5],
       ]);
     });
   });

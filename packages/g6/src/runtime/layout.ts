@@ -143,8 +143,8 @@ export class LayoutController {
       dfs(
         result,
         (node) => {
-          const { id, x, y } = node;
-          layoutResult.nodes!.push({ id, style: { x, y } });
+          const { id, x, y, z = 0 } = node;
+          layoutResult.nodes!.push({ id, style: { x, y, z } });
         },
         (node) => node.children,
         'TB',
@@ -235,6 +235,7 @@ export class LayoutController {
     const { model, element } = this.context;
     if (!element) return null;
     model.updateData(layoutResult);
+
     return element.draw({ animation, silence: true });
   }
 

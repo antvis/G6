@@ -8,7 +8,7 @@ const data = {
       source: 'node1',
       target: 'node2',
       style: {
-        endArrowPath: 'M0,0 L10,4 L14,14 L18,4 L28,0 L18,-4 L14,-14 L10,-4 Z',
+        endArrowD: 'M0,0 L10,4 L14,14 L18,4 L28,0 L18,-4 L14,-14 L10,-4 Z',
         endArrowOffset: 14,
       },
     },
@@ -17,7 +17,7 @@ const data = {
       source: 'node3',
       target: 'node4',
       style: {
-        endArrowPath: 'M 3,-5 L 3,5 L 15,10 L 15,-10 Z',
+        endArrowD: 'M 3,-5 L 3,5 L 15,10 L 15,-10 Z',
         endArrowOffset: 10,
       },
     },

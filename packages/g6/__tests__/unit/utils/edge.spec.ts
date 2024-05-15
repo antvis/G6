@@ -50,35 +50,30 @@ describe('edge', () => {
 
       const labelPlacement = getLabelPositionStyle(line, 'center', false, 0, 0);
       expect(labelPlacement.textAlign).toEqual('center');
-      expect(labelPlacement.x).toEqual(50);
-      expect(labelPlacement.y).toEqual(100);
+      expect(labelPlacement.transform).toEqual('translate(50, 100)');
 
       const labelPosition2 = getLabelPositionStyle(line, 'center', true, 5, 5);
       expect(labelPosition2.textAlign).toEqual('center');
-      expect(labelPosition2.x).toEqual(55);
-      expect(labelPosition2.y).toEqual(105);
+      expect(labelPosition2.transform).toEqual('translate(55, 105)');
 
       const labelPosition3 = getLabelPositionStyle(line, 'start', true, 5, 5);
       expect(labelPosition3.textAlign).toEqual('left');
-      expect(labelPosition3.x).toEqual(5);
-      expect(labelPosition3.y).toEqual(105);
+      expect(labelPosition3.transform).toEqual('translate(5, 105)');
 
       const labelPosition4 = getLabelPositionStyle(line, 'end', true, 5, 5);
       expect(labelPosition4.textAlign).toEqual('right');
-      expect(labelPosition4.x).toBeCloseTo(100 * 0.99 + 5);
-      expect(labelPosition4.y).toEqual(105);
+      expect(labelPosition4.transform).toEqual('translate(104, 105)');
 
       const labelPosition5 = getLabelPositionStyle(line, 0.5, true, 5, 5);
       expect(labelPosition5.textAlign).toEqual('center');
-      expect(labelPosition5.x).toEqual(55);
-      expect(labelPosition5.y).toEqual(105);
+      expect(labelPosition5.transform).toEqual('translate(55, 105)');
 
       //  with rotation angle below Math.PI
       const labelPosition6 = getLabelPositionStyle(line1, 'center', true, 5, 5);
       expect(labelPosition6.textAlign).toEqual('center');
-      expect(labelPosition6.transform).toEqual('rotate(45deg)');
-      expect(labelPosition6.x).toEqual(50 + 5 * Math.cos(Math.PI / 4) - 5 * Math.sin(Math.PI / 4));
-      expect(labelPosition6.y).toEqual(150 + 5 * Math.sin(Math.PI / 4) + 5 * Math.cos(Math.PI / 4));
+      expect(labelPosition6.transform).toEqual(
+        `translate(${50 + 5 * Math.cos(Math.PI / 4) - 5 * Math.sin(Math.PI / 4)}, ${150 + 5 * Math.sin(Math.PI / 4) + 5 * Math.cos(Math.PI / 4)}) rotate(45deg)`,
+      );
 
       const labelPosition7 = getLabelPositionStyle(line1, 'start', true, 5, 5);
       expect(labelPosition7.textAlign).toEqual('left');
@@ -89,9 +84,9 @@ describe('edge', () => {
       // with rotation angle over Math.PI
       const labelPosition9 = getLabelPositionStyle(line2, 'center', true, 5, 5);
       expect(labelPosition9.textAlign).toEqual('center');
-      expect(labelPosition9.transform).toEqual('rotate(-45deg)');
-      expect(labelPosition9.x).toEqual(50 + 5 * Math.cos(-Math.PI / 4) - 5 * Math.sin(-Math.PI / 4));
-      expect(labelPosition9.y).toEqual(150 + 5 * Math.sin(-Math.PI / 4) + 5 * Math.cos(-Math.PI / 4));
+      expect(labelPosition9.transform).toEqual(
+        `translate(${50 + 5 * Math.cos(-Math.PI / 4) - 5 * Math.sin(-Math.PI / 4)}, ${150 + 5 * Math.sin(-Math.PI / 4) + 5 * Math.cos(-Math.PI / 4)}) rotate(-45deg)`,
+      );
     });
   });
 

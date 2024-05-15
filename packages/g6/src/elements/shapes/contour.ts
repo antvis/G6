@@ -80,7 +80,7 @@ export class Contour extends BaseShape<ContourStyleProps> {
   }
 
   protected getLabelStyle(attributes: ParsedContourStyleProps): LabelStyleProps | false {
-    if (!attributes.label || !attributes.path || attributes.path.length === 0) return false;
+    if (!attributes.label || !attributes.d || attributes.d.length === 0) return false;
     const { maxWidth, offsetX, offsetY, autoRotate, placement, closeToPath, ...labelStyle } = subStyleProps<
       Required<ContourLabelStyleProps>
     >(this.getGraphicStyle(attributes), 'label');
@@ -89,7 +89,7 @@ export class Contour extends BaseShape<ContourStyleProps> {
     const keyBounds = key?.getRenderBounds();
 
     return Object.assign(
-      getPolygonTextStyleByPlacement(keyBounds, placement, offsetX, offsetY, closeToPath, attributes.path, autoRotate),
+      getPolygonTextStyleByPlacement(keyBounds, placement, offsetX, offsetY, closeToPath, attributes.d, autoRotate),
       { wordWrapWidth: getWordWrapWidthByBox(keyBounds, maxWidth) },
       labelStyle,
     );

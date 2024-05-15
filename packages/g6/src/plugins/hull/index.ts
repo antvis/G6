@@ -107,7 +107,7 @@ export class Hull extends BasePlugin<HullOptions> {
 
   private getHullStyle(forceUpdate?: boolean): ContourStyleProps {
     const { members, padding, corner, ...style } = this.options;
-    return { ...style, path: this.getHullPath(forceUpdate) };
+    return { ...style, d: this.getHullPath(forceUpdate) };
   }
 
   private drawHull = () => {
@@ -124,7 +124,7 @@ export class Hull extends BasePlugin<HullOptions> {
   private updateHullPath = (event: ElementLifeCycleEvent) => {
     if (!this.shape) return;
     if (!this.options.members.includes(idOf(event.data))) return;
-    this.shape.update({ path: this.getHullPath(true) });
+    this.shape.update({ d: this.getHullPath(true) });
   };
 
   private getHullPath = (forceUpdate = false): PathArray => {
@@ -159,7 +159,7 @@ export class Hull extends BasePlugin<HullOptions> {
   public addMember(members: ID | ID[]) {
     const membersToAdd = Array.isArray(members) ? members : [members];
     this.options.members = [...new Set([...this.options.members, ...membersToAdd])];
-    this.shape.update({ path: this.getHullPath() });
+    this.shape.update({ d: this.getHullPath() });
   }
 
   /**
@@ -172,7 +172,7 @@ export class Hull extends BasePlugin<HullOptions> {
     const membersToRemove = Array.isArray(members) ? members : [members];
     this.options.members = this.options.members.filter((id) => !membersToRemove.includes(id));
     if (membersToRemove.some((id) => this.hullMemberIds.includes(id))) {
-      this.shape.update({ path: this.getHullPath() });
+      this.shape.update({ d: this.getHullPath() });
     }
   }
 
