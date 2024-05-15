@@ -7,7 +7,7 @@ order: 1
 
 In G6, layouts are divided into two types: 'iterative layout' and 'non-iterative layout'. An iterative layout refers to a layout algorithm that iterates multiple times until convergence, while a non-iterative layout refers to a layout algorithm that executes only once.
 
-## Implementing Layouts
+## Implement Layout
 
 ### Non-Iterative Layout
 
@@ -124,10 +124,10 @@ In this example, we have implemented a simple iterative layout algorithm that to
 
 <embed src="@/docs/manual/custom-extension-common/layout/iterative-layout.md"></embed>
 
-## Registration Layout
+## Register Layout
 
-You can register through the `register` method provided by G6. For more details, please refer to [Registration Layout](/manual/core-concept/layout#注册布局)
+You can register through the `register` method provided by G6. For more details, please refer to [Register Layout](/en/manual/core-concept/layout#register-layout)
 
-## Configuration Layout
+## Configure Layout
 
-The type and parameters of the layout can be configured in `options.layout`. For more details, please refer to [Configuration Layout](/manual/core-concept/layout#配置布局)
+The type and parameters of the layout can be configured in `options.layout`. For more details, please refer to [Configure Layout](/en/manual/core-concept/layout#configure-layout)

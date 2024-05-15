@@ -7,7 +7,7 @@ order: 4
 
 In G6, the theme is a subset of Graph Options and includes configurations related to the canvas and element styles. A theme can help you quickly switch between different graph styles.
 
-## Customizing Themes
+## Custom Theme
 
 For element styles, the configurations within a theme are static and do not support the use of callback functions to dynamically calculate styles. Additionally, `type` is also not supported for configuration within a theme. A theme includes the following configurations:
 
@@ -61,7 +61,7 @@ const theme = {
 For element state styles, please ensure that every property in the state style has a corresponding default style in the default style, otherwise it may result in the inability to clear the state style.
 :::
 
-## Registering a Theme
+## Register Theme
 
 You can register a theme using the `register` method provided by G6. Here is an example:
 
@@ -71,7 +71,7 @@ import { register, ExtensionCategory } from '@antv/g6';
 register(ExtensionCategory.THEME, 'custom-theme', theme);
 ```
 
-## Configuring the Theme
+## Configure Theme
 
 To enable and configure a theme, you need to pass the `theme` configuration item when instantiating the `Graph`:
 
@@ -81,9 +81,9 @@ To enable and configure a theme, you need to pass the `theme` configuration item
 }
 ```
 
-### Switching Themes
+### Switch Theme
 
-After the `Graph` instance is created, you can switch themes by using the [setTheme](/api/graph/method#setTheme) method:
+After the `Graph` instance is created, you can switch themes by using the [setTheme](/en/api/graph/method#setTheme) method:
 
 ```typescript
 graph.setTheme('dark');

@@ -9,7 +9,7 @@ The execution logic for interactions typically involves: 1. Listening for user i
 
 Interactions and plugins are both derived from G6's internal `BaseExtension` base class, so the implementation methods for interactions and plugins are essentially the same. However, based on the concept of visualization, interactions are usually used to handle user interaction events, while plugins are typically used to handle canvas rendering logic, rendering of additional components, etc.
 
-## Implementing Interactions
+## Implement Interaction
 
 The implementation of an interaction is quite flexible, and you can implement your interaction in the style you prefer.
 
@@ -53,10 +53,10 @@ The above example is the simplest implementation of an interaction. In actual de
 In addition, there may be event conflicts between multiple interactions, and you will need to carefully manage these conflicts.
 :::
 
-## Registering Interactions
+## Register Interaction
 
-You can register interactions through the registration method provided by G6. For more details, see [Registering Interactions](/manual/core-concept/behavior#注册交互).
+You can register interactions through the registration method provided by G6. For more details, see [Register Interaction](/en/manual/core-concept/behavior#register-interaction).
 
-## Configuring Interactions
+## Configure Interaction
 
-You can pass the name of the interaction type or a configuration parameters object in the `behaviors`. For more details, see [Configuring Interactions](/manual/core-concept/behavior#配置交互)
+You can pass the name of the interaction type or a configuration parameters object in the `behaviors`. For more details, see [Configure Interaction](/en/manual/core-concept/behavior#configure-interaction)

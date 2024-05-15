@@ -15,18 +15,18 @@ In G6 5.x, the concept of "interaction mode" (Mode) has been removed. Users only
 
 G6 provides a rich set of interactive features, and users can choose the appropriate interactive behaviors according to their needs, including:
 
-- [Brush Select](/api/behaviors/brush-select): Box Selection
-- [Click Select](/api/behaviors/click-element): Single Click Selection
-- [Collapse Expand](/api/behaviors/collapse-expand): Expand and Collapse
-- [Create Edge](/api/behaviors/create-edge): Create an Edge
-- [Drag Canvas](/api/behaviors/drag-canvas): Drag the Canvas
-- [Drag Element](/api/behaviors/drag-element): Drag an Element
-- [Focus Element](/api/behaviors/focus-element): Focus on an Element
-- [Hover Element](/api/behaviors/hover-element): Hover Over an Element
-- [Lasso Select](/api/behaviors/lasso-select): Lasso Selection
-- [Zoom Canvas](/api/behaviors/zoom-canvas): Zoom the Canvas
+- [Brush Select](/en/api/behaviors/brush-select): Box Selection
+- [Click Select](/en/api/behaviors/click-element): Single Click Selection
+- [Collapse Expand](/en/api/behaviors/collapse-expand): Expand and Collapse
+- [Create Edge](/en/api/behaviors/create-edge): Create an Edge
+- [Drag Canvas](/en/api/behaviors/drag-canvas): Drag the Canvas
+- [Drag Element](/en/api/behaviors/drag-element): Drag an Element
+- [Focus Element](/en/api/behaviors/focus-element): Focus on an Element
+- [Hover Element](/en/api/behaviors/hover-element): Hover Over an Element
+- [Lasso Select](/en/api/behaviors/lasso-select): Lasso Selection
+- [Zoom Canvas](/en/api/behaviors/zoom-canvas): Zoom the Canvas
 
-## Registering Interactions
+## Register Interaction
 
 You can directly use the built-in interactions. If you want to use other interactions, you need to register them first:
 
@@ -37,7 +37,7 @@ import { CustomBehavior } from 'package-name/or/path-to-your-custom-behavior';
 register(ExtensionCategory.BEHAVIOR, 'custom-behavior', CustomBehavior);
 ```
 
-## Configuring Interactions
+## Configure Interaction
 
 You can directly configure the names of interaction types in the `behaviors` array, for example:
 
@@ -60,11 +60,11 @@ It also supports passing configuration parameters in the form of an `object`, fo
 }
 ```
 
-> Different interaction behaviors support different configuration parameters. For details, please refer to [Interaction Behaviors](/api/behaviors/brush-select).
+> Different interaction behaviors support different configuration parameters. For details, please refer to [Behaviors](/en/api/behaviors/brush-select).
 
-### Updating Interactions
+### Update Interaction
 
-If you need to update interaction behaviors after initialization, for example, to temporarily disable a certain interaction behavior, you can use the [updateBehavior](/api/graph/method#graphupdatebehaviorbehavior) method:
+If you need to update interaction behaviors after initialization, for example, to temporarily disable a certain interaction behavior, you can use the [updateBehavior](/en/api/graph/method#graphupdatebehaviorbehavior) method:
 
 ```typescript
 // Disable the `zoom-canvas` interaction.
@@ -78,7 +78,7 @@ graph.updateBehavior({
 To use the `updateBehavior` method, you must configure the interaction as an `object` during initialization and provide a `key` value.
 :::
 
-You can also use the [setBehaviors](/api/graph/method#graphsetbehaviorsbehaviors) method to add, update, or remove current interaction behaviors at any time:
+You can also use the [setBehaviors](/en/api/graph/method#graphsetbehaviorsbehaviors) method to add, update, or remove current interaction behaviors at any time:
 
 ```typescript
 // Add the `lasso-select` interaction
@@ -98,6 +98,6 @@ graph.setBehaviors((behaviors) =>
 graph.setBehaviors((behaviors) => behaviors.filter((behavior) => behavior !== 'click-select'));
 ```
 
-## Custom Interactions
+## Custom Interaction
 
-If the built-in interactions do not meet your requirements, you can create custom interaction behaviors. For details, please refer to [Custom Interactions](/manual/custom-extension/behavior).
+If the built-in interactions do not meet your requirements, you can create custom behaviors. For details, please refer to [Custom Behavior](/en/manual/custom-extension/behavior).

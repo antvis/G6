@@ -26,28 +26,28 @@ It is a data exchange format widely supported by computers, so you do not have t
 
 G6 provides a series of APIs to access and manipulate data, including:
 
-- [getData](/api/graph/method#graphgetdata)
-- [setData](/api/graph/method#graphsetdatadata)
-- [updateData](/api/graph/method#graphupdatedatadata)
-- [getNodeData](/api/graph/method#graphgetnodedata)
-- [getEdgeData](/api/graph/method#graphgetedgedata)
-- [getComboData](/api/graph/method#graphgetcombodata)
-- [addData](/api/graph/method#graphadddatadata)
-- [addNodeData](/api/graph/method#graphaddnodedatadata)
-- [addEdgeData](/api/graph/method#graphaddedgedatadata)
-- [addComboData](/api/graph/method#graphaddcombodatadata)
-- [updateData](/api/graph/method#graphupdatedatadata)
-- [updateNodeData](/api/graph/method#graphupdatenodedatadata)
-- [updateEdgeData](/api/graph/method#graphupdateedgedatadata)
-- [updateComboData](/api/graph/method#graphupdatecombodatadata)
-- [removeData](/api/graph/method#graphremovedataids)
-- [removeNodeData](/api/graph/method#graphremovenodedataids)
-- [removeEdgeData](/api/graph/method#graphremoveedgedataids)
-- [removeComboData](/api/graph/method#graphremovecombodataids)
+- [getData](/en/api/graph/method#graphgetdata)
+- [setData](/en/api/graph/method#graphsetdatadata)
+- [updateData](/en/api/graph/method#graphupdatedatadata)
+- [getNodeData](/en/api/graph/method#graphgetnodedata)
+- [getEdgeData](/en/api/graph/method#graphgetedgedata)
+- [getComboData](/en/api/graph/method#graphgetcombodata)
+- [addData](/en/api/graph/method#graphadddatadata)
+- [addNodeData](/en/api/graph/method#graphaddnodedatadata)
+- [addEdgeData](/en/api/graph/method#graphaddedgedatadata)
+- [addComboData](/en/api/graph/method#graphaddcombodatadata)
+- [updateData](/en/api/graph/method#graphupdatedatadata)
+- [updateNodeData](/en/api/graph/method#graphupdatenodedatadata)
+- [updateEdgeData](/en/api/graph/method#graphupdateedgedatadata)
+- [updateComboData](/en/api/graph/method#graphupdatecombodatadata)
+- [removeData](/en/api/graph/method#graphremovedataids)
+- [removeNodeData](/en/api/graph/method#graphremovenodedataids)
+- [removeEdgeData](/en/api/graph/method#graphremoveedgedataids)
+- [removeComboData](/en/api/graph/method#graphremovecombodataids)
 
 Through different APIs, you can conveniently access and manipulate graph data, performing operations such as adding, deleting, modifying, and querying the graph.
 
-## Using Remote Data
+## Use Remote Data
 
 G6 does not provide functionality for data retrieval and parsing. For local JSON data, you can directly import and use it as follows:
 
@@ -61,6 +61,6 @@ For remote data, you can use `fetch` or other networking libraries to retrieve t
 fetch('https://path/to/data.json')
   .then((res) => res.json())
   .then((data) => {
-    // Using data
+    // Use data
   });
 ```

@@ -5,12 +5,12 @@ order: 5
 
 This document will guide you through the process of upgrading from G6 version `4.x` to `5.x`. If you are using version `3.x`, please upgrade to version `4.x` first.
 
-## Preparation Before Upgrading
+## Preparation Before Upgrade
 
 1. Please ensure that your current git branch is clean and there is no uncommitted code.
 2. Refer to the [Installation](./getting-started/installation) document to install version `5.x` and remove the dependencies for version `4.x`.
 
-## Start Upgrading
+## Start Upgrade
 
 ### Data
 
@@ -42,9 +42,9 @@ const data = {
 
 Since we have redesigned and implemented the elements, please refer to the corresponding documentation to modify the new element configuration items:
 
-- [Node](/api/elements/nodes/base-node)
-- [Edge](/api/elements/edges/base-edge)
-- [Combo](/api/elements/combos/base-combo)
+- [Node](/en/api/elements/nodes/base-node)
+- [Edge](/en/api/elements/edges/base-edge)
+- [Combo](/en/api/elements/combos/base-combo)
 
 2. If you need to specify the element type in the data, you can use the `type` attribute:
 
@@ -236,7 +236,7 @@ The built-in undo and redo functionality has been removed in version 5.x. For re
 
 <Badge type="warning">Change</Badge> **data / save / read / changeData**
 
-Version 5.x offers a completely new data API. For details, see [Data API](/api/graph/method#数据).
+Version 5.x offers a completely new data API. For details, see [Data API](/en/api/graph/method#data).
 
 - The `data` and `changeData` methods from 4.x are replaced by `setData` in 5.x.
 - The `save` method from 4.x is replaced by `getData` in 5.x.
@@ -409,11 +409,11 @@ graph.on('beforeanimate', (event) => {
 
 <Badge type="warning">Change</Badge> **getPointByClient / getClientByPoint / getPointByCanvas / getCanvasByPoint / getGraphCenterPoint / getViewPortCenterPoint**
 
-G6 5.x uses a different coordinate system than 4.x. For details, see [Coordinate System](/manual/further-reading/coordinate).
+G6 5.x uses a different coordinate system than 4.x. For details, see [Coordinate](/en/manual/further-reading/coordinate).
 
 <Badge type="error">Removed</Badge> **setTextWaterMarker / setImageWaterMarker**
 
-For watermark functionality, please refer to the [Watermark](/api/plugins/watermark)plugin.
+For watermark functionality, please refer to the [Watermark](/en/api/plugins/watermark)plugin.
 
 <Badge type="warning">Change</Badge> **toFullDataURL**
 
@@ -457,7 +457,7 @@ Use `setData` + `draw` to clear data and the canvas.
 
 ### Extension Registration
 
-Unlike G6 4.x, G6 5.x uses a unified extension registration function (register). You can refer to the [Extensions - Registration](/manual/core-concept/extension#注册扩展) to register G6 extensions.
+Unlike G6 4.x, G6 5.x uses a unified extension registration function (register). You can refer to the [Extension Register](/en/manual/core-concept/extension#register-extension) to register G6 extensions.
 
 The following G6 4.x registration functions have been deprecated:
 
@@ -506,4 +506,4 @@ Compared to G6 4.x, G6 5.x has the following differences in events:
   - The `graphstatechange` event has been changed to `beforeelementstatechange` / `afterelementstatechange`.
   - The `viewportchange` event has been changed to `beforetransform` / `aftertransform`.
 
-For a complete list of events, please refer to [Events](/api/reference/g6#枚举).
+For a complete list of events, please refer to [Event](/en/api/reference/g6#event).

@@ -5,7 +5,7 @@ order: 0
 
 ## Overview
 
-When the built-in elements of G6 do not meet the requirements, you can expand the G6 element library by customizing elements. Custom elements are an important feature of G6, allowing users to extend based on existing elements through secondary inheritance and encapsulation, or to develop new elements based on [G Graphics](https://g.antv.antgroup.com/api/basic/display-object).
+When the built-in elements of G6 do not meet the requirements, you can expand the G6 element library by customizing elements. Custom elements are an important feature of G6, allowing users to extend based on existing elements through secondary inheritance and encapsulation, or to develop new elements based on [G Graphics](https://g.antv.antgroup.com/en/api/basic/display-object).
 
 ## Element Base Class
 
@@ -77,9 +77,9 @@ The element provides the following hook functions, which can be overridden as ne
 
 - **The Graph context can be accessed via `attributes.context`**
 
-## Custom Nodes
+## Custom Node
 
-### Implementing Nodes
+### Implement Node
 
 **Inherit from Existing Nodes**
 
@@ -212,11 +212,11 @@ class CustomCircle extends CustomElement {
 
 ### Register Node
 
-You can register by using the `register` method provided by G6.For more details[Register Node](/manual/core-concept/element#注册节点)
+You can register by using the `register` method provided by G6.For more details[Register Node](/en/manual/core-concept/element#注册节点)
 
 ### Configure Node
 
-Custom nodes can be used and configured in `data` or `node style mapping`.For more details,[Configure Node](/manual/core-concept/element#配置节点)
+Custom nodes can be used and configured in `data` or `node style mapping`.For more details,[Configure Node](/en/manual/core-concept/element#配置节点)
 
 ## Customize Edge
 
@@ -249,21 +249,21 @@ class ExtendBaseEdge extends BaseEdge {
 }
 ```
 
-### Registering Edges
+### Register Edge
 
-You can register by using the `register` method provided by G6. For more details, see [Registering Edges](/manual/core-concept/element#注册边).
+You can register by using the `register` method provided by G6. For more details, see [Register Edge](/en/manual/core-concept/element#register-edge).
 
-### Configuring Edges
+### Configure Edge
 
-Custom edges can be used and configured in `data` or `edge style mapping`. For more details, see [Configuring Edges](/manual/core-concept/element#配置边).
+Custom edges can be used and configured in `data` or `edge style mapping`. For more details, see [Configure Edge](/en/manual/core-concept/element#configure-edge).
 
-## Custom Combinations
+## Custom Combo
 
-Combinations in G6 inherit from `BaseNode`, but there are certain differences: Combinations have two states, namely expanded (`Expanded`) and collapsed (`Collapsed`), and thus the implementation is also different.
+Combo in G6 inherit from `BaseNode`, but there are certain differences: Combo have two states, namely expanded (`Expanded`) and collapsed (`Collapsed`), and thus the implementation is also different.
 
-### Implementing Combinations
+### Implement Combo
 
-The way to customize combinations is similar to customizing nodes. You can either inherit from existing combinations or develop entirely new combinations based on G Graphics.
+The way to customize Combo is similar to customizing nodes. You can either inherit from existing Combo or develop entirely new Combo based on G Graphics.
 
 Here is an example that inherits from `BaseCombo` to implement a custom rectangular combination:
 
@@ -286,10 +286,10 @@ class ExtendBaseCombo extends BaseCombo {
 }
 ```
 
-### Registering Combinations
+### Register Combo
 
-You can register by using the `register` method provided by G6. For more details, see [Registering Combinations](/manual/core-concept/element#注册组合)
+You can register by using the `register` method provided by G6. For more details, see [Register Combo](/en/manual/core-concept/element#register-combo)
 
-### Configuring Combinations
+### Configure Combo
 
-Custom combinations can be used and configured in `data` or `combination style mapping`. For more details, see [Configuring Combinations](/manual/core-concept/element#配置组合)
+Custom Combo can be used and configured in `data` or `combination style mapping`. For more details, see [Configure Combo](/en/manual/core-concept/element#configure-combo)

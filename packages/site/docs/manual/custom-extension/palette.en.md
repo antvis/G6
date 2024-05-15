@@ -5,11 +5,11 @@ order: 5
 
 ## Overview
 
-[Core Concepts - Palette](/manual/core-concept/palette) mentions that G6 supports discrete palettes and continuous palettes. A discrete palette is essentially an array of colors, while a continuous palette is a color interpolator.
+[Core Concepts - Palette](/en/manual/core-concept/palette) mentions that G6 supports discrete palettes and continuous palettes. A discrete palette is essentially an array of colors, while a continuous palette is a color interpolator.
 
 Therefore, customizing a palette also adopts these two methods, and the following sections will introduce how to customize discrete and continuous palettes, respectively.
 
-## Implementing Palettes
+## Implement Palette
 
 ### Discrete Palette
 
@@ -33,7 +33,7 @@ const color = (value: number) => `rgb(${value * 255}, 0, 0)`;
 
 ## Register Palette
 
-You can register a palette using the `register` method provided by G6. For more details, please refer to [Register Palette](/manual/core-concept/palette#注册色板)
+You can register a palette using the `register` method provided by G6. For more details, please refer to [Register Palette](/en/manual/core-concept/palette#register-palette)
 
 ## Use Without Registration
 

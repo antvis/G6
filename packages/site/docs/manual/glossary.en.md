@@ -6,7 +6,7 @@ order: 7
 | Term             | Explanation                                                                                                                        |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | Graph / 图       | A concept in graph theory, specifically refers to the class used to instantiate the canvas in `G6`                                 |
-| Element / 元素   | Refers to `nodes`, `edges`, and `combos` in a general sense                                                                        |
+| Element / 元素   | Refers to `node`, `edge`, and `combo` in a general sense                                                                           |
 | Node / 节点      | Represents a single or composite shape in a Graph, denoting an independently existing entity                                       |
 | Edge / 边        | Represents a `line` connecting nodes in a Graph, indicating a relationship between two nodes                                       |
 | Combo / 组合     | A collection of nodes that can include sub-combos                                                                                  |

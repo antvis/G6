@@ -9,7 +9,7 @@ Graph layout refers to the process of arranging the elements in a graph accordin
 
 <image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WIhlToluHaEAAAAAAAAAAAAADmJ7AQ/original" />
 
-## Layout Types
+## Layout Type
 
 G6 provides a variety of layout algorithms, allowing users to select the appropriate layout algorithm based on their needs:
 
@@ -36,7 +36,7 @@ G6 provides a variety of layout algorithms, allowing users to select the appropr
 
 Among them, `CompactBox Layout`, `Dendrogram Layout`, `Mindmap Layout`, and `Indented Layout` are types of tree layouts, suitable for graphs with tree-like structures.
 
-## Registering Layouts
+## Register Layout
 
 You can directly use the built-in layouts, but if you want to use other layouts, you need to register them first:
 
@@ -47,7 +47,7 @@ import { CustomLayout } from 'package-name/or/path-to-your-custom-layout';
 register(ExtensionCategory.LAYOUT, 'custom-layout', CustomLayout);
 ```
 
-## Configuring Layouts
+## Configure Layout
 
 You can specify the graph's layout algorithm through the `layout` configuration item, for example:
 
@@ -83,7 +83,7 @@ All built-in layout algorithms in G6, except for tree layouts, support execution
 }
 ```
 
-### Using WASM Version Layout Algorithms
+### Use WASM Version Layout Algorithms
 
 The layout algorithms that currently support WASM versions are: `Fruchterman Layout`, `ForceAtlas Layout`, `Force Layout`, `Dagre Layout`.
 
@@ -122,7 +122,7 @@ const graph = new Graph({
 });
 ```
 
-### Using GPU-Accelerated Layouts
+### Use GPU-Accelerated Layout
 
 The layout algorithms that currently support GPU acceleration are: `Fruchterman Layout` and `GForce Layout`.
 
@@ -153,7 +153,7 @@ const graph = new Graph({
 });
 ```
 
-## Executing Layout
+## Execute Layout
 
 Usually, after calling `graph.render()`, G6 will automatically execute the layout algorithm.
 

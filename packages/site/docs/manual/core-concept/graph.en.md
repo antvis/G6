@@ -7,7 +7,7 @@ order: 0
 
 ### Definition of Graph
 
-In Chinese, the character "图" (tu) can often be used to represent many different concepts, such as image (Image), shape (Shape), and chart or diagram (Chart, Diagram), etc.
+In Chinese, the character "图" (Graph) can often be used to represent many different concepts, such as image (Image), shape (Shape), and chart or diagram (Chart, Diagram), etc.
 
 In Graph Theory, a graph (Graph) is a mathematical structure used to model pairwise relationships between objects, which we typically represent with nodes (Node, or Vertex) and edges (Edge, or Link) to denote the objects and the relationships between them.
 
@@ -17,7 +17,7 @@ The "graph" in G6:
 - Visually, a "graph" is a figure composed of a set of graphical elements representing nodes and edges.
 - In terms of code implementation, a "graph" is a class capable of transforming data into a graphical display.
 
-### Types of Graphs
+### Types of Graph
 
 Graph Theory categorizes graphs into many different types based on their structure and properties, such as:
 
@@ -37,7 +37,7 @@ In G6, we provide a universal graph representation capable of depicting the vari
 - Simple Graph and Multigraph: Defined by the uniqueness of the edges.
 - ...
 
-### Usage Scenarios
+### Use Scenarios
 
 Graphs are a very versatile data structure that can be used to represent a variety of scenarios, such as:
 
@@ -48,11 +48,11 @@ Graphs are a very versatile data structure that can be used to represent a varie
 
 In G6, we provide a rich expression capability for graphs that can meet the needs of different scenarios. We also offer a wealth of interactive and animated effects to make the graphs more vivid and intuitive.
 
-## Using G6 Graph
+## Use G6 Graph
 
 To create a Graph with G6, you first need to import the `@antv/g6` library, and then instantiate the Graph class.
 
-> For installation instructions, refer to: [Getting Started - Installation](/manual/getting-started/installation)
+> For installation instructions, refer to: [Getting Started - Installation](/en/manual/getting-started/installation)
 
 The Graph class accepts an instantiation argument object, known as **options** (Options, in visualization theory it is referred to as: `Specification`), which is used to configure the graph's data, element styles, layout, interactions, etc.
 
@@ -71,6 +71,6 @@ const graph = new Graph({
 The instantiation process only configures the basic information of the graph. To render the graph onto the page, you still need to call the `render` method.
 :::
 
-- To learn how to quickly create a graph, please refer to [Quick Start](/manual/getting-started/quick-start).
-- For more detailed information about the configuration options, please refer to [Methods](/api/graph/method).
+- To learn how to quickly create a graph, please refer to [Quick Start](/en/manual/getting-started/quick-start).
+- For more detailed information about the configuration options, please refer to [Method](/en/api/graph/method).
 - To gain an in-depth understanding of the concepts within the configuration options, please read the rest of the content in this section.

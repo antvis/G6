@@ -5,7 +5,7 @@ order: 6
 
 ## Overview
 
-## Implementing Animation
+## Implement Animation
 
 For circular node (Circle) elements, the main shape is a circle. Now, let's create an animation for it so that when the size of the node changes, it transitions with a scaling animation:
 

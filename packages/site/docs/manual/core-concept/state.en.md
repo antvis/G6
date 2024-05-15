@@ -9,7 +9,7 @@ order: 3
 
 Status (State) refers to the condition of an <u>element</u>, such as **selected**, **hovered**, **active**, etc. States allow elements to display different styles in different conditions, helping users to more intuitively understand the information in the graph.
 
-## Types of States
+## State Type
 
 In G6, the types of states are represented as an array of strings (`string[]`), meaning that an element can be in multiple states at the same time. For example, a node can be in both the **selected** and **hovered** states.
 
@@ -27,9 +27,9 @@ The predefined states in G6 include:
 - The preset states are not mandatory; they are merely common types of states. Users can define more state types according to their own needs.
   :::
 
-## Setting Element States
+## Set Element State
 
-### State Styles
+### State Style
 
 Currently, G6 supports configuring state styles within style mappings, for example:
 
@@ -53,7 +53,7 @@ Currently, G6 supports configuring state styles within style mappings, for examp
 }
 ```
 
-### Toggle States
+### Toggle State
 
 Before rendering, you can configure the state of elements in the data:
 
@@ -95,7 +95,7 @@ graph.setElementState({
 });
 ```
 
-### Getting States
+### Get State
 
 G6 provides multiple APIs for retrieving states, or for determining whether an element is in a certain state:
 
@@ -111,7 +111,7 @@ graph.getElementState('node-1');
 graph.getElementDataByState('node', 'selected');
 ```
 
-### Removing States
+### Remove State
 
 To remove the state of an element, you can also use the `setElementState` method to achieve this:
 
@@ -128,7 +128,7 @@ When an element is in multiple states, the priority of the states is determined 
 
 The style of the latter state will override the style of the former state.
 
-## Custom States
+## Custom State
 
 To customize states, simply add them to the style mapping, for example:
 

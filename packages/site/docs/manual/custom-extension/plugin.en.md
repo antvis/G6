@@ -7,7 +7,7 @@ order: 3
 
 Custom plugins can implement additional functionalities, such as adding extra components, rendering logic, etc.
 
-## Implementing Plugins
+## Implement Plugin
 
 Similar to interactions, the implementation of plugins is also quite flexible, and you can implement your plugins in the style you prefer.
 
@@ -46,10 +46,10 @@ In the example above, we have simulated the implementation of a data loading plu
 
 <embed src="@/docs/manual/custom-extension-common/plugin/implement-plugin.md"></embed>
 
-## Registering Plugins
+## Register Plugin
 
-You can register plugins using the `register` method provided by G6. For more details, please refer to [Registering Plugins](/manual/core-concept/plugin#注册插件)
+You can register plugins using the `register` method provided by G6. For more details, please refer to [Register Plugin](/en/manual/core-concept/plugin#register-plugin)
 
-## Configuring Plugins
+## Configure Plugin
 
-You can pass the name of the interaction type or a configuration parameters object in the `plugins` field. For more details, please refer to [Configuring Plugins](/manual/core-concept/plugin#配置插件)
+You can pass the name of the interaction type or a configuration parameters object in the `plugins` field. For more details, please refer to [Configure Plugins](/en/manual/core-concept/plugin#configure-plugin)

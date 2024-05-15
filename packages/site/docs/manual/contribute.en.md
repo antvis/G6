@@ -5,7 +5,7 @@ order: 8
 
 To contribute, you need to understand G6's code structure and development workflow. The code repository for G6 is located at: https://github.com/antvis/G6
 
-If you wish to fix a bug or add a new feature, you should first fork the code to your own repository.随后，在你的仓库中进行相应的修改。Once your changes are ready, submit a Pull Request (PR) back to the G6 repository.
+If you want to fix a bug or add a new feature, you need to first fork a copy of the code to your repository, then make modifications in your repository, and finally submit a Pull Request (PR) to the G6 repository.
 
 ## Project Structure
 
@@ -187,7 +187,7 @@ If you wish to fix a bug or add a new feature, you should first fork the code to
             </li>
             <li>
               examples
-              <small>Chart Examples</small>
+              <small>Graph Examples</small>
             </li>
             <li>
               .dumirc.ts
@@ -222,8 +222,6 @@ Please ensure your local environment meets the following requirements:
 
 - [Node.js](https://nodejs.org/) version >= 18
 - [pnpm](https://pnpm.io/) version >= 8
-
-Note that some of the scripts depend on ts-node, which needs to be installed globally before execution.
 
 :::
 
@@ -286,7 +284,7 @@ Submit a Pull Request (PR) to the G6 repository on GitHub.
 
 G6 utilizes Jest for conducting unit tests, with the test cases situated in the `packages/g6/__tests__/unit` directory.
 
-It is a requirement that all code submissions must successfully pass the tests to guarantee code quality.
+We require that all code submissions must pass tests to ensure code quality.
 
 The coverage rate for the current PR (Pull Request) submission is advised not to fall below the coverage rate of the existing codebase, and it is <text style="color: red;">not to fall below 90%</text>.
 

@@ -91,7 +91,7 @@ G6 中动画配置分为全局配置和局部配置，全局配置主要用于�
 上一节中提到的动画配置实际上使用了内置的动画范式，本节介绍如何自定义动画范式。
 
 :::info{title=提示}
-在编写动画范式之前需要了解元素的组成结构，具体请参考[元素](/manual/core-concept/element#节点的构成)一节
+在编写动画范式之前需要了解元素的组成结构，具体请参考[元素](/manual/core-concept/element#节点构成)一节
 :::
 
 [元素](/manual/core-concept/element)一节中提到：G6 中的元素是由一个或多个原子图形组合而成。因此元素的动画本质上是这些原子图形动画的组合。
@@ -130,7 +130,7 @@ G6 中动画配置分为全局配置和局部配置，全局配置主要用于�
 
 ## 持续动画
 
-如果希望元素具有持续动画，例如节点的波动效果、边的飞线效果等，可以通过自定义元素方式实现，下面提供一个具有蚂蚁线(Ant Line)动画的边的实现：
+如果希望元素具有持续动画，例如节点的波动效果、边的蚂蚁线效果等，可以通过自定义元素方式实现，下面提供一个具有蚂蚁线(Ant Line)动画的边的实现：
 
 ```typescript
 import { Line } from '@antv/g6';
@@ -166,13 +166,13 @@ class AntLine extends Line {
 
 同样的，还可以实现节点的呼吸效果：
 
-````typescript
+```typescript
 import { Circle } from '@antv/g6';
 
 class BreathingCircle extends Circle {
-  onCreate() {
-
+  onCreate() {}
 }
+```
 
 其中 `lineDashOffset` 是 `lineDash` 的偏移量，通过不断变化 `lineDashOffset` 来实现飞线效果。
 
@@ -190,7 +190,7 @@ class BreathingCircle extends Circle {
     });
   }
 }
-````
+```
 
 节点样式配置：
 

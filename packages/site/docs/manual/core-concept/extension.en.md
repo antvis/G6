@@ -7,7 +7,7 @@ order: 9
 
 Extension is an important concept in G6, it is a general term for all expandable parts in G6, including the following types:
 
-- Animation
+- Element
   - Node
   - Edge
   - Combo
@@ -19,7 +19,7 @@ Extension is an important concept in G6, it is a general term for all expandable
 - Theme
 - Transform
 
-## Registering Extensions
+## Register Extension
 
 G6 provides the `register` function for registering extensions, for example:
 
@@ -35,7 +35,7 @@ The first parameter of the `register` function is the type of the extension, the
 
 Different types of extensions **can** use the same extension name, but when registering extensions of the same type, only the first registration will take effect.
 
-> For detailed parameter signatures, see: [API Documentation](/api/reference/g6/register)
+> For detailed parameter signatures, see: [API Documentation](/en/api/reference/g6/register)
 
 ```typescript
 // ✅
@@ -47,7 +47,7 @@ register(ExtensionCategory.NODE, 'custom-name', CustomNode);
 register(ExtensionCategory.NODE, 'custom-name', CustomNode);
 ```
 
-## Using Extensions
+## Use Extension
 
 The configuration location for different types of extensions varies, but all are used by specifying the name that was used during registration, for example:
 
@@ -62,7 +62,7 @@ The configuration location for different types of extensions varies, but all are
 - Using palette extensions: `options.node.palette`, `options.edge.palette`, etc.
 - Using animation extensions: `options.node.animate`, `options.edge.animate`, etc.
 
-## Obtaining Extensions
+## Get Extension
 
 G6 provides the `getExtension` and `getExtensions` methods to obtain a single extension and all extensions of a specified type, respectively, for example:
 

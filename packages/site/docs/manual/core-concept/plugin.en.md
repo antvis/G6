@@ -7,11 +7,11 @@ order: 6
 
 A plugin is the most flexible extension mechanism in G6, allowing users to extend G6's functionality through plugins. For example, you can mount additional graphical components on the canvas or implement features like undo and redo.
 
-Most customization requirements can be met through plugins. G6 comes with some commonly used plugins, such as: [Tooltip](/api/plugins/tooltip), [Grid](/api/plugins/grid), [History](/api/plugins/history).
+Most customization requirements can be met through plugins. G6 comes with some commonly used plugins, such as: [Tooltip](/en/api/plugins/tooltip), [Grid](/en/api/plugins/grid), [History](/en/api/plugins/history).
 
-> For a list of built-in plugins, please refer to: [Plugins](/api/plugins/bubble-sets)
+> For a list of built-in plugins, please refer to: [Plugin](/en/api/plugins/bubble-sets)
 
-## Registering Plugins
+## Register Plugin
 
 You can use built-in plugins directly. If you want to use other plugins, you need to register them first:
 
@@ -22,7 +22,7 @@ import { CustomPlugin } from 'package-name/or/path-to-your-custom-plugin';
 register(ExtensionCategory.PLUGIN, 'custom-plugin', CustomPlugin);
 ```
 
-## Configuring Plugins
+## Configure Plugin
 
 To enable and configure plugins, you need to pass the `plugins` configuration item when instantiating the `Graph`. This configuration item is an array that includes the plugins that need to be enabled:
 
@@ -45,9 +45,9 @@ Some plugins support property configuration in the form of an `object`, for exam
 }
 ```
 
-### Updating Plugins
+### Update Plugin
 
-After the `Graph` is instantiated, you can adjust the plugins using the [setPlugins](/api/graph/method#graphsetpluginsplugins) method:
+After the `Graph` is instantiated, you can adjust the plugins using the [setPlugins](/en/api/graph/method#graphsetpluginsplugins) method:
 
 ```typescript
 // add minimap plugin
@@ -57,7 +57,7 @@ graph.setPlugins((plugins) => [...plugins, 'minimap']);
 graph.setPlugins((plugins) => plugins.filter((plugin) => plugin !== 'tooltip'));
 ```
 
-G6 Graph also provides the [updatePlugin](/api/graph/method#graphupdatepluginplugin) method for more conveniently updating plugin configurations:
+G6 Graph also provides the [updatePlugin](/en/api/graph/method#graphupdatepluginplugin) method for more conveniently updating plugin configurations:
 
 ```typescript
 graph.updatePlugin({
@@ -71,9 +71,9 @@ graph.updatePlugin({
 To use the `updatePlugin` method, you must configure the plugin as an `object` during initialization and pass in a `key` value.
 :::
 
-### Uninstalling Plugins
+### Uninstall Plugin
 
-The [setPlugins](/api/graph/method#graphsetpluginsplugins) method can also be used to uninstall plugins by setting the plugin configuration list to an empty array:
+The [setPlugins](/en/api/graph/method#graphsetpluginsplugins) method can also be used to uninstall plugins by setting the plugin configuration list to an empty array:
 
 ```typescript
 // Uninstall all plugins
@@ -95,6 +95,6 @@ const history = graph.getPluginInstance('history');
 The `graph.getPluginInstance` method takes the plugin `key` value as a parameter. Therefore, to obtain a plugin instance, you must configure the corresponding plugin as an `object` and pass in the `key` value.
 :::
 
-## Custom Plugins
+## Custom Plugin
 
-If the built-in plugins do not meet your requirements, you can create custom plugins. For details, please refer to [Custom Plugins](/manual/custom-extension/plugin).
+If the built-in plugins do not meet your requirements, you can create custom plugins. For details, please refer to [Custom Plugin](/en/manual/custom-extension/plugin).

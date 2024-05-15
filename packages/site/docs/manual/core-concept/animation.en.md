@@ -23,11 +23,11 @@ The implementation of an animation paradigm is as follows:
 
 The aforementioned animation paradigm indicates that when the `x` and `y` attributes of an element change, an animation will be executed.
 
-## Configuring Animations
+## Configure Animation
 
 In G6, animation configuration is divided into global configuration and local configuration. Global configuration is mainly used to set whether animations are enabled globally, the duration of animations, and other parameters. Local configuration is primarily used to set the animation effects for elements.
 
-### Disabling Global Animations
+### Disabled Global Animation
 
 To disable global animations, you can pass the `animation` configuration item when instantiating the `Graph`:
 
@@ -37,7 +37,7 @@ To disable global animations, you can pass the `animation` configuration item wh
 }
 ```
 
-### Configuring Global Animation
+### Configure Global Animation
 
 If you want to enable animations and also configure the default duration for the animations, you can pass the `animation` configuration item:
 
@@ -49,7 +49,7 @@ If you want to enable animations and also configure the default duration for the
 }
 ```
 
-### Configuring Element Animations
+### Configure Element Animation
 
 For individual elements, you can configure animations at different stages. For example, if you want an element to have a fade-in and fade-out effect when it enters and exits, you can configure it as follows:
 
@@ -91,10 +91,10 @@ If you wish to disable animations for an element, you can configure it as follow
 The animation configuration mentioned in the previous section actually used the built-in animation paradigm. This section introduces how to customize the animation paradigm.
 
 :::info{title=Tip}
-Before writing an animation paradigm, it is necessary to understand the compositional structure of an element. For details, please refer to the [Element](/manual/core-concept/element#Composition of a Node) section.
+Before writing an animation paradigm, it is necessary to understand the compositional structure of an element. For details, please refer to the [Element](/en/manual/core-concept/element#composition-node) section.
 :::
 
-The [Element](/manual/core-concept/element) section mentioned that elements in G6 are composed of one or more atomic graphics. Therefore, the animation of an element is essentially a combination of these atomic graphic animations.
+The [Element](/en/manual/core-concept/element) section mentioned that elements in G6 are composed of one or more atomic graphics. Therefore, the animation of an element is essentially a combination of these atomic graphic animations.
 
 Thus, the animation paradigm is an array that describes the animation effects of each atomic graphic within the element. For the element itself, it is also a special composite shape and thus has basic shape attributes such as `x`, `y`, etc.
 
@@ -119,18 +119,18 @@ Animation priority refers to the precedence between global animation configurati
 | Global Animation Config | Local Animation Config | Whether to Execute Animation                                                                     |
 | ----------------------- | ---------------------- | ------------------------------------------------------------------------------------------------ |
 | ✅ true                 | ✅ true                | ✅ Execute animation with default configuration                                                  |
-| ✅ true                 | ❌ false               | ❌ Do not execute animations for this type of element                                            |
+| ✅ true                 | ❌ false               | ❌ Won't execute animation                                                                       |
 | ✅ true                 | ✅ Custom Animation    | ✅ Execute animation with local animation configuration                                          |
 | ❌ false                | ✅ true                | ❌ Do not execute any animations                                                                 |
 | ❌ false                | ❌ false               | ❌ Do not execute any animations                                                                 |
 | ❌ false                | ✅ Custom Animation    | ❌ Do not execute any animations                                                                 |
 | ✅ Custom Animation     | ✅ true                | ✅ Execute animation with global animation configuration                                         |
 | ✅ Custom Animation     | ✅ Custom Animation    | ✅ Execute animation, local animation configuration overrides the global animation configuration |
-| ✅ Custom Animation     | ❌ false               | ❌ Do not execute animations for this type of element                                            |
+| ✅ Custom Animation     | ❌ false               | ❌ Won't execute animation                                                                       |
 
-## Continuous Animation
+## Persistent Animation
 
-If you want elements to have continuous animations, such as the undulating effect of nodes or the flying line effect of edges, this can be achieved by customizing the elements. Below is an implementation of an edge with an Ant Line animation provided:
+If you want elements to have persistent animations, such as the undulating effect of nodes or the ant line effect of edges, this can be achieved by customizing the elements. Below is an implementation of an edge with an Ant Line animation provided:
 
 ```typescript
 import { Line } from '@antv/g6';
@@ -166,13 +166,13 @@ The `lineDash` is an array for `lineDashOffset`, and the AntLine effect is achie
 
 Similarly, you can also create a breathing effect for nodes:
 
-````typescript
+```typescript
 import { Circle } from '@antv/g6';
 
 class BreathingCircle extends Circle {
-  onCreate() {
-
+  onCreate() {}
 }
+```
 
 The `lineDashOffset` is the offset for `lineDash`, and the FlyLine effect is achieved by continuously varying the `lineDashOffset`.
 
@@ -190,7 +190,7 @@ class BreathingCircle extends Circle {
     });
   }
 }
-````
+```
 
 Node Style Configuration:
 

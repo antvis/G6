@@ -21,7 +21,7 @@ A continuous palette is an interpolator that takes a value between 0 and 1 and r
 (value: number) => `rgb(${value * 255}, 0, 0)`;
 ```
 
-## Registering a Palette
+## Register Palette
 
 You can directly use the built-in palettes, but if you want to use other palettes, you need to register them first:
 
@@ -61,11 +61,11 @@ Currently, G6 has 5 sets of commonly used discrete palettes that users can direc
 
 <div style="display: flex; width: 600px; height: 20px;"><style>div{flex-grow:1}</style><div style="background: rgb(247, 251, 255);"></div><div style="background: rgb(222, 235, 247);"></div><div style="background: rgb(198, 219, 239);"></div><div style="background: rgb(158, 202, 225);"></div><div style="background: rgb(107, 174, 214);"></div><div style="background: rgb(66, 146, 198);"></div><div style="background: rgb(33, 113, 181);"></div><div style="background: rgb(8, 81, 156);"></div><div style="background: rgb(8, 48, 107);"></div></div>
 
-## Configuring Palettes
+## Configure Palette
 
 Currently, the configuration of palettes is mainly focused on elements, taking nodes as an example:
 
-### Discrete Palettes
+### Discrete Palette
 
 1. Default Configuration: By directly setting the value of `palette` to the name of the palette, each node will be assigned a different color by default
 
@@ -166,7 +166,7 @@ The built-in continuous palette does not support specifying a value range. If th
 
 ## Custom Palette
 
-If the built-in palette does not meet your requirements, you can customize the palette. For details, please refer to [Custom Palette](/manual/custom-extension/palette).
+If the built-in palette does not meet your requirements, you can customize the palette. For details, please refer to [Custom Palette](/en/manual/custom-extension/palette).
 
 ## Priority
 

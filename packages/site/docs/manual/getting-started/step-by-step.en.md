@@ -5,7 +5,7 @@ order: 3
 
 This tutorial will guide you through the development of a G6 chart from scratch, and along the way, you will learn and understand the main concepts of G6.
 
-## Creating the Application
+## Create Application
 
 We will use Vite to create a simple front-end application.
 
@@ -82,7 +82,7 @@ npm run dev
 
 Open a web browser and visit the address output in the terminal (typically: http://127.0.0.1:5173/), and you will see a pop-up displaying "Hello, G6!".
 
-## Creating a Simple Chart
+## Creating a Simple Graph
 
 Next, we will create a simple chart using G6.
 
@@ -102,9 +102,9 @@ const data = {
 
 The data includes two nodes and one edge. The `id` attribute for nodes is mandatory, and the position of each node is set in the `style`. The `source` and `target` attributes of the edge represent the `id` of the starting node and the ending node, respectively.
 
-### Creating and Drawing the Chart
+### Creating and Drawing the Graph
 
-Create an instance of the chart, pass in a configuration object that includes the container and data, and then call the `render` method to draw the chart:
+Create an instance of the Graph, pass in a configuration object that includes the container and data, and then call the `render` method to draw the Graph:
 
 ```typescript
 import { Graph } from '@antv/g6';
@@ -127,7 +127,7 @@ As shown below, you can see that the chart has been successfully drawn:
 
 <embed src="@/docs/manual/getting-started-common/step-by-step/create-chart.md"></embed>
 
-### Elements
+### Element
 
 Next, we will introduce how to configure the style and types of elements in the canvas.
 
@@ -348,6 +348,6 @@ Try dragging the canvas in the example below, and you will see that the grid lin
 
 In this tutorial, we created a G6 chart from scratch and became acquainted with the main concepts of G6. We learned how to create a simple chart, how to configure the style and types of elements, how to add interactive behaviors, how to use layout algorithms, how to use palettes, and how to use plugins.
 
-For a more detailed introduction to the concepts of G6, you can refer to [Core Concepts](/manual/core-concept/graph).
+For a more detailed introduction to the concepts of G6, you can refer to [Core Concepts](/en/manual/core-concept/graph).
 
-Detailed explanations of configuration items such as elements, layouts, and plugins can be found in the [API](/api).
+Detailed explanations of configuration items such as elements, layouts, and plugins can be found in the [API](/en/api).

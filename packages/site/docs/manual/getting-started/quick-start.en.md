@@ -5,7 +5,7 @@ order: 0
 
 ## Online Experience with G6
 
-Visit [Chart Examples](/examples) to experience G6 online without any environment setup.
+Visit [Chart Examples](/en/examples) to experience G6 online without any environment setup.
 
 ## Creating a Simple Graph
 

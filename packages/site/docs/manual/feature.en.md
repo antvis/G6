@@ -7,7 +7,7 @@ order: 1
 
 G6 version 5.0 has redesigned the Options paradigm. While ensuring comprehensive capabilities, it optimizes the configuration item structure to be more intuitive and easier to understand.
 
-You only need to quickly grasp the basic [core concepts](/manual/core-concept/graph) to get started with G6 quickly and achieve graph visualization without delay.
+You only need to quickly grasp the basic [core concepts](/en/manual/core-concept/graph) to get started with G6 quickly and achieve graph visualization without delay.
 
 **😰 The 4.0 Paradigm** had a complex nested structure and was less semantically capable
 
@@ -111,7 +111,7 @@ const graph = new Graph({
 
 ## 🎨 Multiple Themes Mechanism
 
-G6 5.0 comes with two built-in themes: light and dark, and allows for flexible customization based on the use case. For details, please refer to [Customize Themes](/manual/custom-extension/theme).
+G6 5.0 comes with two built-in themes: light and dark, and allows for flexible customization based on the use case. For details, please refer to [Custom Theme](/en/manual/custom-extension/theme).
 
 ## 💻 Information Layering
 
@@ -125,7 +125,7 @@ Under Construction...
 
 G6 5.0 has optimized and enhanced existing plugins, decoupling Graph from plugins, and providing richer capabilities while optimizing configurations.
 
-Please visit [Plugins](/api/plugins/bubble-sets) to experience the capabilities of more plugins.
+Please visit [Plugin](/en/api/plugins/bubble-sets) to experience the capabilities of more plugins.
 
 ## 💼 Optimized Package Size
 

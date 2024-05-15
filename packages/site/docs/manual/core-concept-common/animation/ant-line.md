@@ -11,7 +11,7 @@
     }
   }
 
-  register('edge', 'fly-line', FlyLine);
+  register('edge', 'ant-line', AntLine);
 
   const container = createContainer({ width: 200, height: 50 });
 
@@ -27,7 +27,7 @@
       edges: [{ source: 'node-1', target: 'node-2', style: { lineDash: [10, 10] } }],
     },
     edge: {
-      type: 'fly-line',
+      type: 'ant-line',
     },
   });
 

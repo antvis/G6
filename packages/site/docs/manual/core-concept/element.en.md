@@ -7,7 +7,7 @@ order: 2
 
 In G6, graph elements include **Nodes (Node)**, **Edges (Edge)**, and **Combos (Combo)**, which are the basic building blocks of a graph.
 
-An element is composed of one or more atomic graphics, which are the smallest graphic units in G6, including [rectangles](https://g.antv.antgroup.com/api/basic/rect), [circles](https://g.antv.antgroup.com/api/basic/circle), [text](https://g.antv.antgroup.com/api/basic/text), [paths](https://g.antv.antgroup.com/api/basic/path), and so on.
+An element is composed of one or more atomic graphics, which are the smallest graphic units in G6, including [rectangles](https://g.antv.antgroup.com/en/api/basic/rect), [circles](https://g.antv.antgroup.com/en/api/basic/circle), [text](https://g.antv.antgroup.com/en/api/basic/text), [paths](https://g.antv.antgroup.com/en/api/basic/path), and so on.
 
 For example, a node can be composed of a rectangle and some text, and an edge can be composed of a path and some text.
 
@@ -15,7 +15,7 @@ For example, a node can be composed of a rectangle and some text, and an edge ca
 
 G6 has a rich set of built-in graph element types and also supports user-defined graph elements, allowing users to define new types of graph elements according to their needs.
 
-## Configuring Elements
+## Configure Element
 
 Unlike G6 4.x, in G6 5.x, all configurations for a single graph element are laid out flat within the same object, with no nesting. Configurations for different parts of a node are distinguished using a prefix. For example, to set the fill color and label name of a node:
 
@@ -34,7 +34,7 @@ The advantage of adopting this approach is that during the development process, 
 
 <image width="800" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*oY_uTK80sIoAAAAAAAAAAAAADmJ7AQ/original" />
 
-## Nodes
+## Node
 
 Nodes are typically used to represent entities or abstract concepts in a graph, such as a person, a location, an organization, etc. Nodes can contain several attributes, such as the node's ID, name, type, etc.
 
@@ -69,9 +69,9 @@ const data = {
 }
 ```
 
-Generally speaking, most nodes share the same style properties, such as using `size` to specify the node's dimensions. You can view the specific style properties for nodes at [Node - Node](/api/elements/nodes/base-node).
+Generally speaking, most nodes share the same style properties, such as using `size` to specify the node's dimensions. You can view the specific style properties for nodes at [Element - Node](/en/api/elements/nodes/base-node).
 
-Some special nodes may have their own style properties. For example, the `HTML` node has an `innerHTML` property that is used to specify the HTML content of the node. The specific style properties can be found at [Node Style](/api/elements/nodes/html).
+Some special nodes may have their own style properties. For example, the `HTML` node has an `innerHTML` property that is used to specify the HTML content of the node. The specific style properties can be found at [Node Style](/en/api/elements/nodes/html).
 
 In addition to these, G6 officially provides some additional nodes that require installation before use:
 
@@ -94,7 +94,7 @@ In addition to these, G6 officially provides some additional nodes that require 
 - `ReactNode` for React nodes
 - `GNode` for nodes written with JSX syntax from `@antv/g`
 
-### Composition of Nodes
+### Composition of Node
 
 The nodes provided in G6 are composed of the following parts:
 
@@ -107,7 +107,7 @@ The nodes provided in G6 are composed of the following parts:
 - `halo`: The halo effect displayed around the main shape.
 - `port`: The connection point on the node, used for connecting edges.
 
-### Registering Nodes
+### Register Node
 
 You can directly use built-in nodes, but if you want to use other nodes or create custom nodes, you need to register them first:
 
@@ -118,7 +118,7 @@ import { CustomNode } from 'package-name/or/path-to-your-custom-node';
 register(ExtensionCategory.NODE, 'custom-node', CustomNode);
 ```
 
-### Configuring Nodes
+### Configure Node
 
 You can configure the node type and its style in the following ways:
 
@@ -145,17 +145,17 @@ You can configure the node type and its style in the following ways:
   node: {
     type: 'custom-node',
     style: {
-      // 节点样式
+      // Node Style
     }
   }
 }
 ```
 
-### Custom Nodes
+### Custom Node
 
-If the built-in node elements do not meet your requirements, you can customize node elements,For more details, please refer to[Custom Nodes](/manual/custom-extension/element#自定义节点)。
+If the built-in node elements do not meet your requirements, you can customize node elements,For more details, please refer to [Custom Node](/en/manual/custom-extension/element#custom-node)。
 
-## Edges
+## Edge
 
 You can create edges between any two nodes or combinations, and you may also create multiple edges between two nodes/combinations to represent different relationships.
 
@@ -210,7 +210,7 @@ In G6, an edge is composed of the following parts:
 - `arrow` : A text label, usually used to display the name or description of the edge
 - `halo` : A graphic that displays a halo effect around the main shape
 
-### Registering Edges
+### Register Edge
 
 The registration method for edges is similar to that for nodes:
 
@@ -221,13 +221,13 @@ import { CustomEdge } from 'package-name/or/path-to-your-custom-edge';
 register(ExtensionCategory.EDGE, 'custom-edge', CustomEdge);
 ```
 
-### Configuring Edges
+### Configure Edge
 
 You can configure the edge type and its style in the following ways:
 
 1. Configure in the data:
 
-````json
+```json
 {
   "edges": [
     {
@@ -240,6 +240,7 @@ You can configure the edge type and its style in the following ways:
     }
   ]
 }
+```
 
 2. In the edge style mapping:
 
@@ -252,21 +253,21 @@ You can configure the edge type and its style in the following ways:
     }
   }
 }
-````
+```
 
-### Custom Edges
+### Custom Edge
 
-If the built-in edge elements do not meet your requirements, you can customize edge elements. For details, please refer to [Custom Edges](/manual/custom-extension/element#自定义边).
+If the built-in edge elements do not meet your requirements, you can customize edge elements. For details, please refer to [Custom Edge](/en/manual/custom-extension/element#custom-edge).
 
-## Combination
+## Combo
 
-Combination, fully named as Combination, is a special type of element in G6 that can contain nodes and sub-combinations. It is often used to represent a set relationship, such as a department containing multiple employees, a city containing multiple districts, etc.
+Combo, fully named as Combination, is a special type of element in G6 that can contain nodes and sub-combinations. It is often used to represent a set relationship, such as a department containing multiple employees, a city containing multiple districts, etc.
 
 <image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WJhpRJCcFLAAAAAAAAAAAAAADmJ7AQ/original" />
 
 :::warning{title=note}
 
-It is not recommended to use combinations in **tree diagrams** because the layout method of combinations does not match that of tree diagrams, which may lead to style confusion.
+It is not recommended to use combinations in **tree graph** because the layout method of combinations does not match that of tree diagrams, which may lead to style confusion.
 :::
 
 G6 provides the following built-in combinations:
@@ -290,7 +291,7 @@ const data = {
 }
 ```
 
-### Composition of Combinations
+### Composition of Combo
 
 The combinations provided in G6 are composed of the following parts:
 
@@ -300,9 +301,9 @@ The combinations provided in G6 are composed of the following parts:
 - `halo`: The graphic that displays the halo effect around the main shape.
 - `label`: The text label, usually used to display the name or description of the combination.
 
-### Registering Combinations
+### Register Combo
 
-The registration method for combinations is similar to that for nodes:
+The registration method for Combo is similar to that for nodes:
 
 ```typescript
 import { register, ExtensionCategory } from '@antv/g6';
@@ -311,7 +312,7 @@ import { CustomCombo } from 'package-name/or/path-to-your-custom-combo';
 register(ExtensionCategory.COMBO, 'custom-combo', CustomCombo);
 ```
 
-### Configuring Combinations
+### Configure Combo
 
 You can configure the combination type and its style in the following ways:
 
@@ -344,6 +345,6 @@ You can configure the combination type and its style in the following ways:
 }
 ```
 
-### Custom Combinations
+### Custom Combo
 
-If the built-in combination elements do not meet your needs, you can customize combination elements. For more details, please refer to [Custom Combinations](/manual/custom-extension/element#自定义组合).
+If the built-in combination elements do not meet your needs, you can customize combination elements. For more details, please refer to [Custom Combo](/en/manual/custom-extension/element#custom-combo).
