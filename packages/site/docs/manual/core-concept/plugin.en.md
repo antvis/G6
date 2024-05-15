@@ -24,7 +24,7 @@ register(ExtensionCategory.PLUGIN, 'custom-plugin', CustomPlugin);
 
 ## Configure Plugin
 
-To enable and configure plugins, you need to pass the `plugins` configuration item when instantiating the `Graph`. This configuration item is an array that includes the plugins that need to be enabled:
+To enable and configure plugins, you need to pass the `plugins` option when instantiating the `Graph`. This option is an array that includes the plugins that need to be enabled:
 
 ```typescript
 {

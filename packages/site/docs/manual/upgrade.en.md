@@ -40,7 +40,7 @@ const data = {
 };
 ```
 
-Since we have redesigned and implemented the elements, please refer to the corresponding documentation to modify the new element configuration items:
+Since we have redesigned and implemented the elements, please refer to the corresponding documentation to modify the new element options:
 
 - [Node](/en/api/elements/nodes/base-node)
 - [Edge](/en/api/elements/edges/base-edge)
@@ -57,11 +57,11 @@ Since we have redesigned and implemented the elements, please refer to the corre
 }
 ```
 
-### Configuration Items
+### Options
 
 <Badge type="warning">Change</Badge> **fitView / fitCenter / fitViewPadding**
 
-- The `fitView` and `fitCenter` configuration items have been merged into `autoFit`.
+- The `fitView` and `fitCenter` options have been merged into `autoFit`.
 - To use `fitView`, you can configure it as `autoFit: 'view'`
 - To use `fitCenter`, you can configure it as `autoFit: 'center'`
 - You can also pass an object for full configuration:
@@ -81,7 +81,7 @@ autoFit: {
 
 In version 5.x, the edge connection mechanism will attempt to connect to nodes/Combos in the following order:
 
-1. Connection桩 (Pile? Connection Point?)
+1. Connect Port
 2. Outline
 3. Center
 
@@ -93,7 +93,7 @@ Please manually call the `render` or `draw` method to perform rendering.
 
 <Badge type="warning">Changed</Badge> **modes**
 
-In version 5.x, interaction modes have been removed. You can switch the currently enabled interaction behaviors by setting `behaviors`.
+In version 5.x, interaction modes have been removed. You can switch the currently enabled behaviors by setting `behaviors`.
 
 ```typescript
 // 4.x
@@ -170,7 +170,7 @@ Element state styles have been moved to `[element].state`, for example, `nodeSta
 
 <Badge type="warning">Change</Badge> **animate / animateCfg**
 
-- The `animate` configuration item has been changed to `animation`
+- The `animate` options has been changed to `animation`
 - `animate` and `animateCfg` have been merged into `animation`
 
 ```typescript
@@ -193,7 +193,7 @@ Element state styles have been moved to `[element].state`, for example, `nodeSta
 
 <Badge type="warning">Change</Badge> **minZoom / maxZoom**
 
-- The `minZoom` and `maxZoom` configuration items have been merged into `zoomRange`
+- The `minZoom` and `maxZoom` options have been merged into `zoomRange`
 
 ```typescript
 // 4.x
@@ -346,7 +346,7 @@ When using `setElementState`, the state that appears later in the array has a hi
 
 <Badge type="error">Removed</Badge> **setMode**
 
-Use `setBehaviors` to set the current interactions.
+Use `setBehaviors` to set the current behaviors.
 
 <Badge type="error">Removed</Badge> **setCurrentMode**
 

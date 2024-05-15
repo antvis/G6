@@ -14,7 +14,7 @@ For element styles, the configurations within a theme are static and do not supp
 - `background`: Canvas background color
 - `node`: Node style
 - `edge`: Edge style
-- `combo`: Combination style
+- `combo`: Combo style
 
 Below is a simple example of a theme configuration:
 
@@ -73,7 +73,7 @@ register(ExtensionCategory.THEME, 'custom-theme', theme);
 
 ## Configure Theme
 
-To enable and configure a theme, you need to pass the `theme` configuration item when instantiating the `Graph`:
+To enable and configure a theme, you need to pass the `theme` option when instantiating the `Graph`:
 
 ```typescript
 {

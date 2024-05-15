@@ -14,7 +14,7 @@ order: 7
 | Layout    | The process of arranging elements in a graph according to certain rules                                                            |
 | Behavior  | A series of operational behaviors between the user and the canvas or elements, such as dragging, scaling, panning, selecting, etc. |
 | Plugin    | A flexible extension mechanism provided by G6                                                                                      |
-| Extension | A collective term for all registrable content, including elements, interactions, layouts, plugins, etc.                            |
+| Extension | A collective term for all registrable content, including elements, behaviors, layouts, plugins, etc.                               |
 | Canvas    | The content area where the Graph is drawn                                                                                          |
 | Viewport  | The area observed by the camera, i.e., the current visible range of the user                                                       |
 | Shape     | Basic shapes provided by G, including circles, rectangles, text, etc.                                                              |

@@ -29,7 +29,7 @@ In G6, animation configuration is divided into global configuration and local co
 
 ### Disabled Global Animation
 
-To disable global animations, you can pass the `animation` configuration item when instantiating the `Graph`:
+To disable global animations, you can pass the `animation` option when instantiating the `Graph`:
 
 ```typescript
 {
@@ -39,7 +39,7 @@ To disable global animations, you can pass the `animation` configuration item wh
 
 ### Configure Global Animation
 
-If you want to enable animations and also configure the default duration for the animations, you can pass the `animation` configuration item:
+If you want to enable animations and also configure the default duration for the animations, you can pass the `animation` option:
 
 ```typescript
 {
@@ -121,9 +121,9 @@ Animation priority refers to the precedence between global animation configurati
 | ✅ true                 | ✅ true                | ✅ Execute animation with default configuration                                                  |
 | ✅ true                 | ❌ false               | ❌ Won't execute animation                                                                       |
 | ✅ true                 | ✅ Custom Animation    | ✅ Execute animation with local animation configuration                                          |
-| ❌ false                | ✅ true                | ❌ Do not execute any animations                                                                 |
-| ❌ false                | ❌ false               | ❌ Do not execute any animations                                                                 |
-| ❌ false                | ✅ Custom Animation    | ❌ Do not execute any animations                                                                 |
+| ❌ false                | ✅ true                | ❌ Won't execute animation                                                                       |
+| ❌ false                | ❌ false               | ❌ Won't execute animation                                                                       |
+| ❌ false                | ✅ Custom Animation    | ❌ Won't execute animation                                                                       |
 | ✅ Custom Animation     | ✅ true                | ✅ Execute animation with global animation configuration                                         |
 | ✅ Custom Animation     | ✅ Custom Animation    | ✅ Execute animation, local animation configuration overrides the global animation configuration |
 | ✅ Custom Animation     | ❌ false               | ❌ Won't execute animation                                                                       |
@@ -174,7 +174,7 @@ class BreathingCircle extends Circle {
 }
 ```
 
-The `lineDashOffset` is the offset for `lineDash`, and the FlyLine effect is achieved by continuously varying the `lineDashOffset`.
+The `lineDashOffset` is the offset for `lineDash`, and the AntLine effect is achieved by continuously varying the `lineDashOffset`.
 
 Similarly, you can also create a breathing effect for nodes:
 

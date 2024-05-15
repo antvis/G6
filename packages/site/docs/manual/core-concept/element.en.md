@@ -30,7 +30,7 @@ Unlike G6 4.x, in G6 5.x, all configurations for a single graph element are laid
 };
 ```
 
-The advantage of adopting this approach is that during the development process, it is easier to find the corresponding configuration items. It also facilitates the merging of configurations. If you are using the `VSCode` editor, you can see all the configurable properties of an element and search based on keywords:
+The advantage of adopting this approach is that during the development process, it is easier to find the corresponding options. It also facilitates the merging of configurations. If you are using the `VSCode` editor, you can see all the configurable properties of an element and search based on keywords:
 
 <image width="800" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*oY_uTK80sIoAAAAAAAAAAAAADmJ7AQ/original" />
 
@@ -157,7 +157,7 @@ If the built-in node elements do not meet your requirements, you can customize n
 
 ## Edge
 
-You can create edges between any two nodes or combinations, and you may also create multiple edges between two nodes/combinations to represent different relationships.
+You can create edges between any two nodes or combos, and you may also create multiple edges between two nodes/combos to represent different relationships.
 
 <image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YKN7TasqOh4AAAAAAAAAAAAADmJ7AQ/original" />
 
@@ -261,29 +261,29 @@ If the built-in edge elements do not meet your requirements, you can customize e
 
 ## Combo
 
-Combo, fully named as Combination, is a special type of element in G6 that can contain nodes and sub-combinations. It is often used to represent a set relationship, such as a department containing multiple employees, a city containing multiple districts, etc.
+Combo, fully named as Combination, is a special type of element in G6 that can contain nodes and sub-combos. It is often used to represent a set relationship, such as a department containing multiple employees, a city containing multiple districts, etc.
 
 <image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WJhpRJCcFLAAAAAAAAAAAAAADmJ7AQ/original" />
 
 :::warning{title=note}
 
-It is not recommended to use combinations in **tree graph** because the layout method of combinations does not match that of tree diagrams, which may lead to style confusion.
+It is not recommended to use combos in **tree graph** because the layout method of combos does not match that of tree diagrams, which may lead to style confusion.
 :::
 
-G6 provides the following built-in combinations:
+G6 provides the following built-in combos:
 
-- `Circle` for circular combinations
-- `Rect` for rectangular combinations
+- `Circle` for circular combos
+- `Rect` for rectangular combos
 
 You can use them by configuring the `type`:
 
 ```typescript
-// Specify the Combination Type in the Data
+// Specify the combo Type in the Data
 const data = {
   combos: [{ id: 'combo-1', type: 'circle' }],
 };
 
-// In the combination configuration, specify the combination type:
+// In the combo configuration, specify the combo type:
 {
   combo: {
     type: 'circle',
@@ -293,13 +293,13 @@ const data = {
 
 ### Composition of Combo
 
-The combinations provided in G6 are composed of the following parts:
+The combos provided in G6 are composed of the following parts:
 
 <image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*z-OxR4MAdUwAAAAAAAAAAAAADmJ7AQ/original" />
 
-- `key`: The main shape of the combination, representing the primary form of the combination.
+- `key`: The main shape of the combo, representing the primary form of the combo.
 - `halo`: The graphic that displays the halo effect around the main shape.
-- `label`: The text label, usually used to display the name or description of the combination.
+- `label`: The text label, usually used to display the name or description of the combo.
 
 ### Register Combo
 
@@ -314,7 +314,7 @@ register(ExtensionCategory.COMBO, 'custom-combo', CustomCombo);
 
 ### Configure Combo
 
-You can configure the combination type and its style in the following ways:
+You can configure the combo type and its style in the following ways:
 
 1. Configure in the data:
 
@@ -325,21 +325,21 @@ You can configure the combination type and its style in the following ways:
       "id": "combo-1",
       "type": "custom-combo",
       "style": {
-        // Combination Style
+        // combo Style
       }
     }
   ]
 }
 ```
 
-2. Configure in the combination style mapping:
+2. Configure in the combo style mapping:
 
 ```typescript
 {
   combo: {
     type: 'custom-combo',
     style: {
-      // Combination Style
+      // combo Style
     }
   }
 }
@@ -347,4 +347,4 @@ You can configure the combination type and its style in the following ways:
 
 ### Custom Combo
 
-If the built-in combination elements do not meet your needs, you can customize combination elements. For more details, please refer to [Custom Combo](/en/manual/custom-extension/element#custom-combo).
+If the built-in combo elements do not meet your needs, you can customize combo elements. For more details, please refer to [Custom Combo](/en/manual/custom-extension/element#custom-combo).

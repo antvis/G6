@@ -5,7 +5,7 @@ order: 7
 
 ## Overview
 
-A palette refers to a set of predefined color collections that help users more conveniently select colors. In G6, a palette is a common configuration item that allows users to configure the colors of elements such as nodes, edges, and links through the palette.
+A palette refers to a set of predefined color collections that help users more conveniently select colors. In G6, a palette is a common option that allows users to configure the colors of elements such as nodes, edges, and links through the palette.
 
 Palettes are divided into two types: `discrete palette` and `continuous palette`.
 

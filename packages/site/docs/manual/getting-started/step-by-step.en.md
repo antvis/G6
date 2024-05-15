@@ -166,9 +166,9 @@ As the code shows, we have configured the fill color of the nodes to be pink and
 
 <embed src="@/docs/manual/getting-started-common/step-by-step/elements-1.md"></embed>
 
-The key parts are the `node.style` and `edge.style` configuration items, which are used to configure the styles of nodes and edges, respectively.
+The key parts are the `node.style` and `edge.style` options, which are used to configure the styles of nodes and edges, respectively.
 
-> In the subsequent code examples, we will only display the parts of the configuration items. For the complete code of this project, please refer to the [Complete Example](https://codesandbox.io/s/g6-tutorial).
+> In the subsequent code examples, we will only display the parts of the options. For the complete code of this project, please refer to the [Complete Example](https://codesandbox.io/s/g6-tutorial).
 
 Next, we will demonstrate more types of nodes by setting the node type:
 
@@ -350,4 +350,4 @@ In this tutorial, we created a G6 chart from scratch and became acquainted with 
 
 For a more detailed introduction to the concepts of G6, you can refer to [Core Concepts](/en/manual/core-concept/graph).
 
-Detailed explanations of configuration items such as elements, layouts, and plugins can be found in the [API](/en/api).
+Detailed explanations of options such as elements, layouts, and plugins can be found in the [API](/en/api).

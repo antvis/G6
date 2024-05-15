@@ -5,7 +5,7 @@ order: 1
 
 ## 🏖️ Brand New Design Paradigm for Graphs
 
-G6 version 5.0 has redesigned the Options paradigm. While ensuring comprehensive capabilities, it optimizes the configuration item structure to be more intuitive and easier to understand.
+G6 version 5.0 has redesigned the Options paradigm. While ensuring comprehensive capabilities, it optimizes the options structure to be more intuitive and easier to understand.
 
 You only need to quickly grasp the basic [core concepts](/en/manual/core-concept/graph) to get started with G6 quickly and achieve graph visualization without delay.
 

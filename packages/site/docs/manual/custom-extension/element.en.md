@@ -265,7 +265,7 @@ Combo in G6 inherit from `BaseNode`, but there are certain differences: Combo ha
 
 The way to customize Combo is similar to customizing nodes. You can either inherit from existing Combo or develop entirely new Combo based on G Graphics.
 
-Here is an example that inherits from `BaseCombo` to implement a custom rectangular combination:
+Here is an example that inherits from `BaseCombo` to implement a custom rectangular combo:
 
 ```typescript
 import { BaseCombo } from '@antv/g6';
@@ -292,4 +292,4 @@ You can register by using the `register` method provided by G6. For more details
 
 ### Configure Combo
 
-Custom Combo can be used and configured in `data` or `combination style mapping`. For more details, see [Configure Combo](/en/manual/core-concept/element#configure-combo)
+Custom Combo can be used and configured in `data` or `combo style mapping`. For more details, see [Configure Combo](/en/manual/core-concept/element#configure-combo)

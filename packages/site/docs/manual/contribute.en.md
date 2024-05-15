@@ -69,7 +69,7 @@ If you want to fix a bug or add a new feature, you need to first fork a copy of 
                   <ul>
                     <li>
                       combos
-                      <small>Built-in Combinations</small>
+                      <small>Built-in Combos</small>
                     </li>
                     <li>
                       edges
@@ -147,7 +147,7 @@ If you want to fix a bug or add a new feature, you need to first fork a copy of 
           <ul>
             <li>
               behaviors
-              <small>3D Interactions</small>
+              <small>3D Behaviors</small>
             </li>
             <li>
               elements

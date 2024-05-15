@@ -7,12 +7,12 @@ order: 9
 
 Extension is an important concept in G6, it is a general term for all expandable parts in G6, including the following types:
 
+- Animation
+- Behavior
 - Element
   - Node
   - Edge
   - Combo
-- Behavior
-- Element
 - Layout
 - Palette
 - Plugin
@@ -53,8 +53,8 @@ The configuration location for different types of extensions varies, but all are
 
 - Using node extensions: `options.node.type`
 - Using edge extensions: `options.edge.type`
-- Using combination extensions: `options.combo.type`
-- Using interaction extensions: `options.behaviors`
+- Using combo extensions: `options.combo.type`
+- Using behavior extensions: `options.behaviors`
 - Using layout extensions: `options.layout.type`
 - Using plugin extensions: `options.plugins`
 - Using theme extensions: `options.theme`
