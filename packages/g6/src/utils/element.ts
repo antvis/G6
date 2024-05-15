@@ -47,7 +47,7 @@ export function isEdge(shape: DisplayObject): shape is Edge {
  * @param shape - <zh/> 实例 | <en/> instance
  * @returns <zh/> 是否是 Combo 的实例 | <en/> whether the instance is Combo
  */
-export function isCombo(shape: DisplayObject): shape is Combo {
+export function isCombo(shape: any): shape is Combo {
   return shape instanceof BaseCombo;
 }
 
@@ -226,8 +226,10 @@ function findConnectionPoints(node: Node, portKey?: string): Position[] {
  * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
  * @returns <zh/> 连接点 | <en/> Connection Point
  */
-export function getConnectionPoint(node: Port | Node, opposite: Node | Port): Point {
-  return isNode(node) ? getNodeConnectionPoint(node, opposite) : getPortConnectionPoint(node, opposite);
+export function getConnectionPoint(node: Port | Node | Combo, opposite: Node | Port): Point {
+  return isCombo(node) || isNode(node)
+    ? getNodeConnectionPoint(node, opposite)
+    : getPortConnectionPoint(node, opposite);
 }
 
 /**

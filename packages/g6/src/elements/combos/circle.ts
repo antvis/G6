@@ -1,9 +1,10 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps } from '@antv/g';
 import { Circle as GCircle, Group } from '@antv/g';
 import { isEmpty } from '@antv/util';
-import type { Position, STDSize } from '../../types';
+import type { Point, Position, STDSize } from '../../types';
 import { getBBoxSize } from '../../utils/bbox';
 import { getCircleCollapsedOrigin, getXYByCollapsedOrigin } from '../../utils/combo';
+import { getEllipseIntersectPoint } from '../../utils/point';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import type { BaseComboStyleProps } from './base-combo';
@@ -69,5 +70,10 @@ export class CircleCombo extends BaseCombo<CircleComboStyleProps> {
       this.getExpandedKeySize(attributes),
       getCircleCollapsedOrigin,
     );
+  }
+
+  public getIntersectPoint(point: Point): Point {
+    const keyShapeBounds = this.getKey().getBounds();
+    return getEllipseIntersectPoint(point, keyShapeBounds);
   }
 }
