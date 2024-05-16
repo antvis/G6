@@ -1,7 +1,12 @@
+import type { EdgeData } from '@/src';
 import { Graph } from '@/src';
-import factory from '@@/assets/factory.svg';
-import store from '@@/assets/store.svg';
-import warehouse from '@@/assets/warehouse.svg';
+
+const urls: Record<string, string> = {
+  container: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ldqFQLTPIwwAAAAAAAAAAAAADmJ7AQ/original',
+  warehouse: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ldqFQLTPIwwAAAAAAAAAAAAADmJ7AQ/original',
+  factory: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*k2sASKsW0EQAAAAAAAAAAAAADmJ7AQ/original',
+  store: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Z3HuQbWRrncAAAAAAAAAAAAADmJ7AQ/original',
+};
 
 const data = {
   nodes: [
@@ -313,7 +318,7 @@ export const demoSupplyChains: TestCase = async (context) => {
         labelBackgroundRadius: 10,
         labelPadding: [-3, 5],
         labelFontSize: 10,
-        iconSrc: datum.data?.type === 'factory' ? factory : datum.data?.type === 'store' ? store : warehouse,
+        iconSrc: urls[datum.data?.type as string],
         iconWidth: 24,
         iconHeight: 24,
         size: 30,
@@ -342,7 +347,10 @@ export const demoSupplyChains: TestCase = async (context) => {
     combo: {
       type: 'rect',
       style: (datum) => ({
-        stroke: datum.style?.collapsed ? ' transparent' : '#99add1',
+        collapsedMarker: true,
+        collapsedMarkerHeight: 32,
+        collapsedMarkerSrc: urls[datum.data?.type as string],
+        collapsedMarkerWidth: 32,
         fill: datum.style?.collapsed ? ' transparent' : '#99add1',
         fillOpacity: 0.05,
         labelBackground: true,
@@ -353,10 +361,19 @@ export const demoSupplyChains: TestCase = async (context) => {
         labelFontSize: 10,
         labelPadding: [-3, 5],
         labelText: datum.data!.name,
-        collapsedMarker: true,
-        collapsedMarkerSrc: datum.data?.type === 'factory' ? factory : datum.data?.type === 'store' ? store : warehouse,
-        collapsedMarkerWidth: 32,
-        collapsedMarkerHeight: 32,
+        stroke: datum.style?.collapsed ? ' transparent' : '#99add1',
+        badge: !!datum.style?.collapsed,
+        badges: [
+          {
+            placement: 'top-right',
+            backgroundFill: '#FF7474',
+            padding: [0, 4],
+            text: '可展开',
+            fontSize: 6,
+            fill: '#fff',
+            offsetX: -10,
+          },
+        ],
       }),
       state: {
         active: {
@@ -372,7 +389,7 @@ export const demoSupplyChains: TestCase = async (context) => {
         key: 'process-parallel-edges',
         type: 'process-parallel-edges',
         distance: 20,
-        style: (edges) => ({
+        style: (edges: EdgeData[]) => ({
           stroke: '#99add1',
           lineWidth: 3,
           lineDash: [2, 2],

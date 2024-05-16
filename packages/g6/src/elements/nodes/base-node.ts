@@ -299,8 +299,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
 
   protected getBadgeStyle(style: NodeBadgeStyleProps): NodeBadgeStyleProps {
     const keyShape = this.getKey();
-    const { placement = 'top', ...restStyle } = style;
-    const textStyle = getTextStyleByPlacement(keyShape.getLocalBounds(), placement, true);
+    const { placement = 'top', offsetX, offsetY, ...restStyle } = style;
+    const textStyle = getTextStyleByPlacement(keyShape.getLocalBounds(), placement, offsetX, offsetY, true);
     return { ...textStyle, ...restStyle };
   }
 
