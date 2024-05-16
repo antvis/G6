@@ -807,6 +807,7 @@ export class Graph extends EventEmitter {
         container: $container!,
         width: width || containerSize[0],
         height: height || containerSize[1],
+        background,
         renderer,
       });
 
