@@ -40,7 +40,7 @@ createGraph(
       },
     });
     optionFolder.onChange(({ property, value }) => {
-      debugger;
+  
       graph.updateBehavior({
         key: 'scroll-canvas',
         [property]: value,

@@ -1,34 +1,9 @@
 import type { ComboData } from '../spec';
-import type { ElementDatum, ElementType } from '../types';
 import { getSubgraphRelatedEdges } from '../utils/edge';
 import { idOf } from '../utils/id';
+import { reassignTo } from '../utils/transform';
 import { BaseTransform } from './base-transform';
-import type { DrawData, ProcedureData } from './types';
-
-/**
- * <zh/> 重新分配绘制任务
- *
- * <en/> Reassign drawing tasks
- * @param input - <zh>绘制数据 | <en>DrawData
- * @param type - <zh>类型 | <en>type
- * @param elementType - <zh>元素类型 | <en>element type
- * @param datum - <zh>数据 | <en>data
- */
-const reassignTo = (
-  input: DrawData,
-  type: 'add' | 'update' | 'remove',
-  elementType: ElementType,
-  datum: ElementDatum,
-) => {
-  const id = idOf(datum);
-  const typeName = `${elementType}s` as keyof ProcedureData;
-  const exitsDatum: any =
-    input.add[typeName].get(id) || input.update[typeName].get(id) || input.remove[typeName].get(id) || datum;
-  Object.entries(input).forEach(([_type, value]) => {
-    if (type === _type) value[typeName].set(id, exitsDatum);
-    else value[typeName].delete(id);
-  });
-};
+import type { DrawData } from './types';
 
 /**
  * <zh/> 处理元素的收起和展开

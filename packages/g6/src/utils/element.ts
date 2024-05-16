@@ -1,4 +1,4 @@
-import { type AABB, type DisplayObject, type TextStyleProps } from '@antv/g';
+import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isString } from '@antv/util';
 import { BaseCombo, BaseEdge, BaseNode } from '../elements';
 import type {

@@ -5,7 +5,7 @@ import { Group } from '@antv/g';
 import { get, groupBy, isEmpty, isString } from '@antv/util';
 import { executor as animationExecutor } from '../animations';
 import type { AnimationContext } from '../animations/types';
-import { AnimationType, COMBO_KEY, ChangeType, GraphEvent } from '../constants';
+import { AnimationType, ChangeType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry';
 import type { ComboData, EdgeData, NodeData } from '../spec';
@@ -22,14 +22,12 @@ import type {
   ElementType,
   ID,
   Node,
-  NodeLikeData,
   State,
   StyleIterationContext,
 } from '../types';
 import { executeAnimatableTasks, inferDefaultValue, withAnimationCallbacks } from '../utils/animation';
 import { cacheStyle, getCachedStyle, hasCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
-import { findActualConnectNodeData } from '../utils/edge';
 import { updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '../utils/event';
@@ -294,17 +292,7 @@ export class ElementController {
    * <en/> Only the most basic node instances and connection point position information are provided, and more context information needs to be calculated in the edge element
    */
   private getEdgeEndsContext(datum: EdgeData) {
-    const { model } = this.context;
-    const { source, target } = datum;
-    const sourceNodeData = model.getElementDataById(source) as NodeLikeData;
-    const targetNodeData = model.getElementDataById(target) as NodeLikeData;
-    const sourceNode = this.getElement<Node>(
-      findActualConnectNodeData(sourceNodeData, (id) => model.getParentData(id, COMBO_KEY)).id,
-    );
-    const targetNode = this.getElement<Node>(
-      findActualConnectNodeData(targetNodeData, (id) => model.getParentData(id, COMBO_KEY)).id,
-    );
-    return { sourceNode, targetNode };
+    return {};
   }
 
   public getElementComputedStyle(elementType: ElementType, datum: ElementDatum) {
@@ -329,7 +317,6 @@ export class ElementController {
         : (childrenData.map((child) => this.getElement(idOf(child))).filter(Boolean) as (Node | Combo)[]);
       Object.assign(style, { childrenNode, childrenData });
     }
-
     return style;
   }
 
@@ -534,6 +521,7 @@ export class ElementController {
     // If the type is different, you need to destroy the original element first, and then create a new element
     if (this.shapeTypeMap[id] !== type) {
       this.destroyElement(elementType, datum, { animation: false, silence: true })();
+      this.computeStyle();
       this.createElement(elementType, datum, { animation: false, silence: true })();
       return () => {
         afterUpdate();
