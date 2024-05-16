@@ -22,9 +22,7 @@ describe('transform-process-parallel-edges', () => {
     graph.addEdgeData(data.edges);
     graph.render();
     await expect(graph).toMatchSnapshot(__filename, 'bundle-mode');
-  });
 
-  it('Add Orange Edge in bundle mode', async () => {
     await expect(graph).toMatchSnapshot(__filename, 'bundle-add-orange-edge__before');
     graph.addEdgeData([
       {
@@ -42,16 +40,12 @@ describe('transform-process-parallel-edges', () => {
     ]);
     graph.draw();
     await expect(graph).toMatchSnapshot(__filename, 'bundle-add-orange-edge__after');
-  });
 
-  it('Update Orange Edge in bundle mode', async () => {
     await expect(graph).toMatchSnapshot(__filename, 'bundle-update-orange-edge__before');
     graph.updateEdgeData([{ id: 'new-edge', source: 'node1', target: 'node6' }]);
     graph.draw();
     await expect(graph).toMatchSnapshot(__filename, 'bundle-update-orange-edge__after');
-  });
 
-  it('Remove Purple Edge in bundle mode', async () => {
     await expect(graph).toMatchSnapshot(__filename, 'bundle-remove-purple-edge__before');
     graph.removeEdgeData(['edge1', 'loop1']);
     graph.draw();
@@ -59,19 +53,36 @@ describe('transform-process-parallel-edges', () => {
   });
 
   it('isParallelEdges', () => {
-    expect(isParallelEdges({ source: 'node1', target: 'node2' }, { source: 'node2', target: 'node1' })).toBe(true);
-    expect(isParallelEdges({ source: 'node1', target: 'node2' }, { source: 'node1', target: 'node2' })).toBe(true);
-    expect(isParallelEdges({ source: 'node1', target: 'node2' }, { source: 'node2', target: 'node3' })).toBe(false);
+    expect(
+      isParallelEdges(
+        { source: 'node1', target: 'node2', style: { sourceNode: 'node1', targetNode: 'node2' } },
+        { source: 'node2', target: 'node1', style: { sourceNode: 'node2', targetNode: 'node1' } },
+      ),
+    ).toBe(true);
+    expect(
+      isParallelEdges(
+        { source: 'node1', target: 'node2', style: { sourceNode: 'node1', targetNode: 'node2' } },
+        { source: 'node1', target: 'node2', style: { sourceNode: 'node1', targetNode: 'node2' } },
+      ),
+    ).toBe(true);
+    expect(
+      isParallelEdges(
+        { source: 'node1', target: 'node2', style: { sourceNode: 'node1', targetNode: 'node2' } },
+        { source: 'node2', target: 'node3', style: { sourceNode: 'node2', targetNode: 'node3' } },
+      ),
+    ).toBe(false);
   });
 
   it('getParallelEdges', () => {
-    expect(getParallelEdges({ source: 'node1', target: 'node2' }, [{ source: 'node2', target: 'node1' }])).toEqual([
-      { source: 'node2', target: 'node1' },
-    ]);
     expect(
-      getParallelEdges({ source: 'node1', target: 'node2' }, [
-        { source: 'node1', target: 'node2' },
-        { source: 'node2', target: 'node3' },
+      getParallelEdges({ source: 'node1', target: 'node2', style: { sourceNode: 'node1', targetNode: 'node2' } }, [
+        { source: 'node2', target: 'node1', style: { sourceNode: 'node2', targetNode: 'node1' } },
+      ]),
+    ).toEqual([{ source: 'node2', target: 'node1', style: { sourceNode: 'node2', targetNode: 'node1' } }]);
+    expect(
+      getParallelEdges({ source: 'node1', target: 'node2', style: { sourceNode: 'node1', targetNode: 'node2' } }, [
+        { source: 'node1', target: 'node2', style: { sourceNode: 'node1', targetNode: 'node2' } },
+        { source: 'node2', target: 'node3', style: { sourceNode: 'node2', targetNode: 'node3' } },
       ]),
     ).toEqual([]);
   });

@@ -19,6 +19,7 @@ export * from './combo';
 export * from './combo-expand-collapse';
 export * from './common-graph';
 export * from './controller-viewport';
+export * from './demo-supply-chains';
 export * from './element-change-type';
 export * from './element-edge-arrow';
 export * from './element-edge-cubic';
