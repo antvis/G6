@@ -1,6 +1,6 @@
 import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps } from '@antv/g';
-import { debounce, isArray, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
+import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
 import { COMBO_KEY, GraphEvent } from '../constants';
 import type { Plugin } from '../plugins/types';
 import { getExtension } from '../registry';
@@ -119,25 +119,10 @@ export class Graph extends EventEmitter {
    * @apiCategory option
    */
   public setOptions(options: GraphOptions): void {
-    const {
-      animation,
-      background,
-      behaviors,
-      combo,
-      container,
-      data,
-      edge,
-      height,
-      layout,
-      node,
-      padding,
-      plugins,
-      theme,
-      transforms,
-      width,
-      zoom,
-      zoomRange,
-    } = options;
+    const { background, behaviors, combo, data, edge, height, layout, node, plugins, theme, transforms, width } =
+      options;
+
+    Object.assign(this.options, options);
 
     if (background) this.setBackground(background);
     if (behaviors) this.setBehaviors(behaviors);
@@ -151,10 +136,6 @@ export class Graph extends EventEmitter {
     if (transforms) this.setTransforms(transforms);
     if (isNumber(width) || isNumber(height))
       this.setSize(width ?? this.options.width ?? 0, height ?? this.options.height ?? 0);
-
-    if (zoomRange) this.options.zoomRange = zoomRange;
-    if (isNumber(zoom)) this.options.zoom = zoom;
-    if (isNumber(padding) || isArray(padding)) this.options.padding = padding;
   }
 
   /**
@@ -201,8 +182,8 @@ export class Graph extends EventEmitter {
    * @apiCategory canvas
    */
   public setSize(width: number, height: number): void {
-    this.options.width = width;
-    this.options.height = height;
+    Object.assign(this.options, { width, height });
+    this.context.canvas?.resize(width, height);
   }
 
   /**
@@ -826,6 +807,7 @@ export class Graph extends EventEmitter {
         container: $container!,
         width: width || containerSize[0],
         height: height || containerSize[1],
+        background,
         renderer,
       });
 

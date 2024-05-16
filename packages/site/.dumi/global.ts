@@ -21,6 +21,7 @@ if (window) {
   window.react = require('react');
   window.React = window.react;
   window.client = require('react-dom');
+  window.styledComponents = require('styled-components');
 
   window.addPanel = async (renderPanel: (gui) => void) => {
     const container = document.getElementById('container')?.parentNode;
