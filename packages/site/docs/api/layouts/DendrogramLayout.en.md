@@ -1,6 +1,5 @@
 ---
 title: Dendrogram
-order: 2
 ---
 
 <a href='https://en.wikipedia.org/wiki/Dendrogram' target='_blank'>Dendrogram</a> layout is characterized by placing all child nodes on the same level, regardless of node size, with each node treated as 1px in size. It is suitable for representing hierarchical clustering.

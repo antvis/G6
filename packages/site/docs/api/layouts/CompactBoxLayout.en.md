@@ -1,6 +1,5 @@
 ---
 title: CompactBox
-order: 1
 ---
 
 Compact Box Tree Layout. This is the default layout for tree diagrams,its characteristic is that during the layout process, it takes into account the bounding box of each tree node, derived from the classic <a href='http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf' target='_blank'>Reingold–Tilford tidy layout algorithm</a>suitable for applications such as mind maps.
@@ -80,7 +79,7 @@ Example:
 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50;
   return 100;
 };
@@ -96,7 +95,7 @@ Example:
 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50;
   return 100;
 };
@@ -112,7 +111,7 @@ Example:
 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50;
   return 100;
 };
@@ -128,7 +127,7 @@ Example:
 
 ```javascript
 (d) => {
-  // d 是一个节点
+  // d is a node
   if (d.id === 'testId') return 50;
   return 100;
 };

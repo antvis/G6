@@ -1,6 +1,5 @@
 ---
 title: Indented
-order: 3
 ---
 
 Indented tree layout. The hierarchy of tree nodes is represented by the amount of horizontal indentation. Each element occupies one row/column. Commonly used in scenarios such as file directory structures.

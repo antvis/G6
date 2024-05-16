@@ -1,6 +1,5 @@
 ---
 title: CompactBox 紧凑树
-order: 1
 ---
 
 紧凑盒树布局。这是树图的默认布局，其特点是布局时统合考虑每个树节点的包围盒，由经典的 <a href='http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf' target='_blank'>Reingold–Tilford tidy 布局算法</a>演进而来，适合于脑图等应用场景。

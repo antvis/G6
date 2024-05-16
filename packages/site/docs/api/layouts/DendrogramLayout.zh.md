@@ -1,6 +1,5 @@
 ---
 title: Dendrogram 生态树
-order: 2
 ---
 
 <a href='https://en.wikipedia.org/wiki/Dendrogram' target='_blank'>生态树</a>布局的特点是所有子节点布局在同一层级，不考虑节点大小，每个节点被当成 1px 处理。适用于表示层次聚类。
