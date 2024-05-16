@@ -48,5 +48,9 @@
     "@antv/g": "^6.0.5",
     "@antv/g-canvas": "^2.0.4",
     "@antv/g6": "^5.0.0-beta.30"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

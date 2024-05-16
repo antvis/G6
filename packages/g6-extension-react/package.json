@@ -51,5 +51,9 @@
     "@antv/g6": "^5.0.0-beta.30",
     "react": ">=16.8",
     "react-dom": ">=16.8"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
