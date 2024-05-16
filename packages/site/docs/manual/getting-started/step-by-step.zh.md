@@ -125,20 +125,7 @@ graph.render();
 
 如下所示，可以看到图表已经顺利绘制出来：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node-1', style: { x: 50, y: 50 } },
-        { id: 'node-2', style: { x: 150, y: 50 } },
-      ],
-      edges: [{ source: 'node-1', target: 'node-2' }],
-    },
-  },
-  { width: 200, height: 100 },
-);
-```
+<embed src="@/docs/manual/getting-started-common/step-by-step/create-chart.md"></embed>
 
 ### 元素
 
@@ -177,30 +164,7 @@ graph.render();
 
 正如代码所示，我们在图表实例中配置了节点的填充颜色为粉色，边的描边颜色为浅绿色。你可以在下面的示例中看到效果：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node-1', style: { x: 50, y: 50 } },
-        { id: 'node-2', style: { x: 150, y: 50 } },
-      ],
-      edges: [{ source: 'node-1', target: 'node-2' }],
-    },
-    node: {
-      style: {
-        fill: 'pink',
-      },
-    },
-    edge: {
-      style: {
-        stroke: 'lightgreen',
-      },
-    },
-  },
-  { width: 200, height: 100 },
-);
-```
+<embed src="@/docs/manual/getting-started-common/step-by-step/elements-1.md"></embed>
 
 其中的关键部分是 `node.style` 和 `edge.style` 配置项，分别用来配置节点和边的样式。
 
@@ -234,32 +198,7 @@ createGraph(
 
 你可以在下面的示例中看到效果：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node-1', style: { x: 50, y: 50 } },
-        { id: 'node-2', style: { x: 150, y: 50 } },
-      ],
-      edges: [{ source: 'node-1', target: 'node-2' }],
-    },
-    node: {
-      type: (datum) => (datum.id === 'node-1' ? 'circle' : 'rect'),
-      style: {
-        fill: 'pink',
-        size: 20,
-      },
-    },
-    edge: {
-      style: {
-        stroke: 'lightgreen',
-      },
-    },
-  },
-  { width: 200, height: 100 },
-);
-```
+<embed src="@/docs/manual/getting-started-common/step-by-step/elements-2.md"></embed>
 
 ### 交互
 
@@ -275,33 +214,7 @@ G6 提供了多种交互行为，我们添加几个常用的交互，使得用�
 
 尝试在下面的示例中拖拽节点和画布，并使用滚轮缩放画布：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node-1', style: { x: 50, y: 50 } },
-        { id: 'node-2', style: { x: 150, y: 50 } },
-      ],
-      edges: [{ source: 'node-1', target: 'node-2' }],
-    },
-    node: {
-      type: (datum) => (datum.id === 'node-1' ? 'circle' : 'rect'),
-      style: {
-        fill: 'pink',
-        size: 20,
-      },
-    },
-    edge: {
-      style: {
-        stroke: 'lightgreen',
-      },
-    },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
-  },
-  { width: 300, height: 200 },
-);
-```
+<embed src="@/docs/manual/getting-started-common/step-by-step/behaviors.md"></embed>
 
 ### 布局
 
@@ -366,32 +279,7 @@ graph.render();
 
 </details>
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: Array.from({ length: 10 }).map((_, i) => ({ id: `node-${i}` })),
-      edges: Array.from({ length: 9 }).map((_, i) => ({ source: `node-0`, target: `node-${i + 1}` })),
-    },
-    node: {
-      style: {
-        size: 20,
-        fill: 'pink',
-      },
-    },
-    edge: {
-      style: {
-        stroke: 'lightgreen',
-      },
-    },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
-    layout: {
-      type: 'd3force',
-    },
-  },
-  { width: 200, height: 200 },
-);
-```
+<embed src="@/docs/manual/getting-started-common/step-by-step/layout.md"></embed>
 
 ### 色板
 
@@ -426,38 +314,7 @@ const data = {
 
 > 需要注意将 `node.style` 中的 `fill` 样式移除，因为其优先级高于色板分配的颜色。
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: Array.from({ length: 10 }).map((_, i) => ({
-        id: `node-${i}`,
-        data: { category: i === 0 ? 'central' : 'around' },
-      })),
-      edges: Array.from({ length: 9 }).map((_, i) => ({ source: `node-0`, target: `node-${i + 1}` })),
-    },
-    node: {
-      style: {
-        size: 20,
-      },
-      palette: {
-        field: 'category',
-        color: 'tableau',
-      },
-    },
-    edge: {
-      style: {
-        stroke: 'lightgreen',
-      },
-    },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
-    layout: {
-      type: 'd3force',
-    },
-  },
-  { width: 200, height: 200 },
-);
-```
+<embed src="@/docs/manual/getting-started-common/step-by-step/palette.md"></embed>
 
 ### 插件
 
@@ -473,39 +330,7 @@ createGraph(
 
 可以看到画布已经添加了网格线：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: Array.from({ length: 10 }).map((_, i) => ({
-        id: `node-${i}`,
-        data: { category: i === 0 ? 'central' : 'around' },
-      })),
-      edges: Array.from({ length: 9 }).map((_, i) => ({ source: `node-0`, target: `node-${i + 1}` })),
-    },
-    node: {
-      style: {
-        size: 20,
-      },
-      palette: {
-        field: 'category',
-        color: 'tableau',
-      },
-    },
-    edge: {
-      style: {
-        stroke: 'lightgreen',
-      },
-    },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
-    layout: {
-      type: 'd3force',
-    },
-    plugins: ['grid-line'],
-  },
-  { width: 200, height: 200 },
-);
-```
+<embed src="@/docs/manual/getting-started-common/step-by-step/plugins-1.md"></embed>
 
 上面的插件配置项中使用了简写形式，大部分的插件都支持传递额外的参数，例如 `grid-line` 插件可以配置 `follow` 属性来指定拖拽画布时网格线是否跟随画布移动。
 
@@ -517,39 +342,7 @@ createGraph(
 
 尝试在下面的示例中拖拽画布，可以看到网格线跟随画布移动：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: Array.from({ length: 10 }).map((_, i) => ({
-        id: `node-${i}`,
-        data: { category: i === 0 ? 'central' : 'around' },
-      })),
-      edges: Array.from({ length: 9 }).map((_, i) => ({ source: `node-0`, target: `node-${i + 1}` })),
-    },
-    node: {
-      style: {
-        size: 20,
-      },
-      palette: {
-        field: 'category',
-        color: 'tableau',
-      },
-    },
-    edge: {
-      style: {
-        stroke: 'lightgreen',
-      },
-    },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
-    layout: {
-      type: 'd3force',
-    },
-    plugins: [{ type: 'grid-line', follow: true }],
-  },
-  { width: 200, height: 200 },
-);
-```
+<embed src="@/docs/manual/getting-started-common/step-by-step/plugins-2.md"></embed>
 
 ## 小结
 

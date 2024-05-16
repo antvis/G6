@@ -91,7 +91,7 @@ G6 中动画配置分为全局配置和局部配置，全局配置主要用于�
 上一节中提到的动画配置实际上使用了内置的动画范式，本节介绍如何自定义动画范式。
 
 :::info{title=提示}
-在编写动画范式之前需要了解元素的组成结构，具体请参考[元素](/manual/core-concept/element#节点的构成)一节
+在编写动画范式之前需要了解元素的组成结构，具体请参考[元素](/manual/core-concept/element#节点构成)一节
 :::
 
 [元素](/manual/core-concept/element)一节中提到：G6 中的元素是由一个或多个原子图形组合而成。因此元素的动画本质上是这些原子图形动画的组合。
@@ -130,7 +130,7 @@ G6 中动画配置分为全局配置和局部配置，全局配置主要用于�
 
 ## 持续动画
 
-如果希望元素具有持续动画，例如节点的波动效果、边的飞线效果等，可以通过自定义元素方式实现，下面提供一个具有蚂蚁线(Ant Line)动画的边的实现：
+如果希望元素具有持续动画，例如节点的波动效果、边的蚂蚁线效果等，可以通过自定义元素方式实现，下面提供一个具有蚂蚁线(Ant Line)动画的边的实现：
 
 ```typescript
 import { Line } from '@antv/g6';
@@ -152,7 +152,7 @@ class AntLine extends Line {
 ```typescript
 {
   edge: {
-    type: 'fly-line',
+    type: 'ant-line',
     style:{
       lineDash: [10, 10]
     }
@@ -160,43 +160,18 @@ class AntLine extends Line {
 }
 ```
 
-```js | ob { pin: false }
-(() => {
-  const { register, Line, Graph } = window.g6;
+<embed src="@/docs/manual/core-concept-common/animation/ant-line.md"></embed>
 
-  class AntLine extends Line {
-    onCreate() {
-      this.shapeMap.key.animate([{ lineDashOffset: 20 }, { lineDashOffset: 0 }], {
-        duration: 500,
-        iterations: Infinity,
-      });
-    }
-  }
+其中 `lineDash` 是 `lineDashOffset` 的数组，通过不断变化 `lineDashOffset` 来实现飞线效果。
 
-  register('edge', 'fly-line', FlyLine);
+同样的，还可以实现节点的呼吸效果：
 
-  const container = createContainer({ width: 200, height: 50 });
+```typescript
+import { Circle } from '@antv/g6';
 
-  const graph = new Graph({
-    container,
-    width: 200,
-    height: 50,
-    data: {
-      nodes: [
-        { id: 'node-1', style: { x: 25, y: 25 } },
-        { id: 'node-2', style: { x: 175, y: 25 } },
-      ],
-      edges: [{ source: 'node-1', target: 'node-2', style: { lineDash: [10, 10] } }],
-    },
-    edge: {
-      type: 'fly-line',
-    },
-  });
-
-  graph.draw();
-
-  return container;
-})();
+class BreathingCircle extends Circle {
+  onCreate() {}
+}
 ```
 
 其中 `lineDashOffset` 是 `lineDash` 的偏移量，通过不断变化 `lineDashOffset` 来实现飞线效果。
@@ -231,42 +206,4 @@ class BreathingCircle extends Circle {
 }
 ```
 
-```js | ob { pin: false }
-(() => {
-  const { register, Circle, Graph } = window.g6;
-
-  class BreathingCircle extends Circle {
-    onCreate() {
-      this.shapeMap.halo.animate([{ lineWidth: 5 }, { lineWidth: 10 }], {
-        duration: 1000,
-        iterations: Infinity,
-        direction: 'alternate',
-      });
-    }
-  }
-
-  register('node', 'breathing-circle', BreathingCircle);
-
-  const container = createContainer({ width: 50, height: 50 });
-
-  const graph = new Graph({
-    container,
-    width: 50,
-    height: 50,
-    data: {
-      nodes: [{ id: 'node-1', style: { x: 25, y: 25 } }],
-    },
-    node: {
-      type: 'breathing-circle',
-      style: {
-        halo: true,
-        haloLineWidth: 5,
-      },
-    },
-  });
-
-  graph.draw();
-
-  return container;
-})();
-```
+<embed src="@/docs/manual/core-concept-common/animation/breathing-circle.md"></embed>

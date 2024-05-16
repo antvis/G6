@@ -8,11 +8,11 @@ order: 9
 扩展 (Extension) 是 G6 中的一个重要概念，它是 G6 中所有可扩展部分的统称，包括以下几种：
 
 - 动画 (Animation)
-  - 节点 (Node)
-  - 边 (Edge)
-  - 组合 (Combo)
 - 交互 (Behavior)
 - 元素 (Element)
+- 节点 (Node)
+  - 边 (Edge)
+  - 组合 (Combo)
 - 布局 (Layout)
 - 色板 (Palette)
 - 插件 (Plugin)

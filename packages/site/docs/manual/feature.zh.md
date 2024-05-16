@@ -71,54 +71,7 @@ G6 5.0 重新设计了 API，采用了一致的命名规范
 
 此外，G6 提供了 `treeToGraphData` 工具方法，帮助你快速将树图数据转换为图数据。
 
-```ts
-import { Graph, treeToGraphData } from '@antv/g6';
-
-const data = {
-  id: 'root',
-  children: [
-    { id: 'node1', children: [{ id: 'node1-1' }, { id: 'node1-2' }] },
-    { id: 'node2', children: [{ id: 'node2-1' }, { id: 'node2-2' }] },
-  ],
-};
-
-const graph = new Graph({
-  container: 'container',
-  layout: {
-    type: 'compact-box',
-    direction: 'TB',
-  },
-  data: treeToGraphData(data),
-  edge: {
-    type: 'cubic-vertical',
-  },
-});
-
-graph.render();
-```
-
-```js | ob { pin:false }
-createGraph(
-  {
-    autoFit: 'view',
-    data: g6.treeToGraphData({
-      id: 'root',
-      children: [
-        { id: 'node1', children: [{ id: 'node1-1' }, { id: 'node1-2' }] },
-        { id: 'node2', children: [{ id: 'node2-1' }, { id: 'node2-2' }] },
-      ],
-    }),
-    layout: {
-      type: 'compact-box',
-      direction: 'TB',
-    },
-    edge: {
-      type: 'cubic-vertical',
-    },
-  },
-  { width: 200, height: 200 },
-);
-```
+<embed src="@/docs/manual/feature-common/treeToGraphData.md"></embed>
 
 ## 🌆 多渲染器支持
 

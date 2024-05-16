@@ -33,7 +33,7 @@ export interface GraphOptions extends CanvasOptions, ViewportOptions {
    * @remarks
    * <zh/> 为动画配置项时，会启用动画，并将该动画配置作为全局动画的基础配置
    *
-   * <en/> When it is an animation configuration item, the animation will be enabled, and the animation configuration will be used as the basic configuration of the global animation
+   * <en/> When it is an animation options, the animation will be enabled, and the animation configuration will be used as the basic configuration of the global animation
    */
   animation?: boolean | AnimationEffectTiming;
   /**

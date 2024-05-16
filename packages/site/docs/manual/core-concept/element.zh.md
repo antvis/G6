@@ -70,7 +70,7 @@ const data = {
 }
 ```
 
-通常来说，大多数节点具有相同的样式属性，例如都使用 `size` 来指定节点的大小。你可以在[Node - 节点](/api/elements/nodes/base-node)中查看节点的具体样式属性。
+通常来说，大多数节点具有相同的样式属性，例如都使用 `size` 来指定节点的大小。你可以在[Element - 节点](/api/elements/nodes/base-node)中查看节点的具体样式属性。
 
 某些特殊的节点可能会有自己的样式属性，例如 `HTML` 节点的 `innerHTML` 属性用于指定节点的 HTML 内容。具体的样式属性可以参考[节点样式](/api/elements/nodes/html)。
 
