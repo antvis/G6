@@ -71,7 +71,7 @@ describe('registry', () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
     register('node', 'circle-node', CircleNode as any);
-    expect(consoleErrorSpy.mock.calls[0][0]).toBe('The extension circle-node of node has been registered before.');
+    expect(consoleErrorSpy).toHaveBeenCalledTimes(0);
 
     consoleErrorSpy.mockRestore();
 
