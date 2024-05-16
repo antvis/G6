@@ -1,12 +1,14 @@
-import type {
+import {
   DisplayObjectConfig,
   FederatedMouseEvent,
+  FederatedPointerEvent,
+  HTML as GHTML,
   HTMLStyleProps as GHTMLStyleProps,
   Group,
   ICanvas,
   IEventTarget,
+  Rect,
 } from '@antv/g';
-import { FederatedPointerEvent, HTML as GHTML } from '@antv/g';
 import { isNil, isUndefined, pick } from '@antv/util';
 import { NodeEvent } from '../../constants';
 import type { BaseNodeStyleProps } from './base-node';
@@ -73,7 +75,10 @@ export class HTML extends BaseNode<HTMLStyleProps> {
   }
 
   protected drawKeyShape(attributes: Required<HTMLStyleProps>, container: Group) {
-    return this.upsert('key', GHTML, this.getKeyStyle(attributes), container);
+    const style = this.getKeyStyle(attributes);
+    const { width, height } = style;
+    const bounds = this.upsert('key-container', Rect, { width, height, opacity: 0 }, container);
+    return this.upsert('key', GHTML, style, bounds);
   }
 
   public connectedCallback() {
