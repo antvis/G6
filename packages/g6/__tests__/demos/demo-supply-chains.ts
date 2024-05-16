@@ -105,169 +105,85 @@ const data = {
       id: 'g15',
       source: 'assembly-line-1',
       target: 'warehouse-1-container-1',
-      data: {
-        transportation: 'airplane',
-      },
-      style: {
-        sourceNode: 'factory',
-        targetNode: 'warehouse-1-container-1',
-      },
+      data: { transportation: 'airplane' },
     },
     {
       id: 'g16',
       source: 'assembly-line-1',
       target: 'warehouse-1-container-2',
-      data: {
-        transportation: 'truck',
-      },
-      style: {
-        sourceNode: 'factory',
-        targetNode: 'warehouse-1-container-2',
-      },
+      data: { transportation: 'truck' },
     },
     {
       id: 'g17',
       source: 'assembly-line-1',
       target: 'warehouse-1-container-3',
-      data: {
-        transportation: 'truck',
-      },
-      style: {
-        sourceNode: 'factory',
-        targetNode: 'warehouse-1-container-3',
-      },
+      data: { transportation: 'truck' },
     },
     {
       id: 'g18',
       source: 'assembly-line-2',
       target: 'warehouse-2-container-1',
-      data: {
-        transportation: 'train',
-      },
-      style: {
-        sourceNode: 'factory',
-        targetNode: 'warehouse-2-container-1',
-      },
+      data: { transportation: 'train' },
     },
     {
       id: 'g19',
       source: 'assembly-line-2',
       target: 'warehouse-2-container-2',
-      data: {
-        transportation: 'train',
-      },
-      style: {
-        sourceNode: 'factory',
-        targetNode: 'warehouse-2-container-2',
-      },
+      data: { transportation: 'train' },
     },
     {
       id: 'g20',
       source: 'assembly-line-2',
       target: 'warehouse-2-container-3',
-      data: {
-        transportation: 'truck',
-      },
-      style: {
-        sourceNode: 'factory',
-        targetNode: 'warehouse-2-container-3',
-      },
+      data: { transportation: 'truck' },
     },
     {
       id: 'g21',
       source: 'assembly-line-2',
       target: 'warehouse-2-container-4',
-      data: {
-        transportation: 'truck',
-      },
-      style: {
-        sourceNode: 'factory',
-        targetNode: 'warehouse-2-container-4',
-      },
+      data: { transportation: 'truck' },
     },
     {
       id: 'g22',
       source: 'warehouse-1-container-1',
       target: 'store',
-      data: {
-        transportation: 'truck',
-      },
-      style: {
-        sourceNode: 'warehouse-1-container-1',
-        targetNode: 'store',
-      },
+      data: { transportation: 'truck' },
     },
     {
       id: 'g23',
       source: 'warehouse-1-container-2',
       target: 'store',
-      data: {
-        transportation: 'train',
-      },
-      style: {
-        sourceNode: 'warehouse-1-container-2',
-        targetNode: 'store',
-      },
+      data: { transportation: 'train' },
     },
     {
       id: 'g24',
       source: 'warehouse-1-container-3',
       target: 'store',
-      data: {
-        transportation: 'train',
-      },
-      style: {
-        sourceNode: 'warehouse-1-container-3',
-        targetNode: 'store',
-      },
+      data: { transportation: 'train' },
     },
     {
       id: 'g25',
       source: 'warehouse-2-container-1',
       target: 'store',
-      data: {
-        transportation: 'train',
-      },
-      style: {
-        sourceNode: 'warehouse-2-container-1',
-        targetNode: 'store',
-      },
+      data: { transportation: 'train' },
     },
     {
       id: 'g26',
       source: 'warehouse-2-container-2',
       target: 'store',
-      data: {
-        transportation: 'train',
-      },
-      style: {
-        sourceNode: 'warehouse-2-container-2',
-        targetNode: 'store',
-      },
+      data: { transportation: 'train' },
     },
     {
       id: 'g27',
       source: 'warehouse-2-container-3',
       target: 'store',
-      data: {
-        transportation: 'train',
-      },
-      style: {
-        sourceNode: 'warehouse-2-container-3',
-        targetNode: 'store',
-      },
+      data: { transportation: 'train' },
     },
     {
       id: 'g28',
       source: 'warehouse-2-container-4',
       target: 'store',
-      data: {
-        transportation: 'train',
-      },
-      style: {
-        sourceNode: 'warehouse-2-container-4',
-        targetNode: 'store',
-      },
+      data: { transportation: 'train' },
     },
   ],
   combos: [
