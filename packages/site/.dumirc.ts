@@ -216,6 +216,14 @@ export default defineConfig({
     ],
     examples: [
       {
+        slug: 'scene-case',
+        icon: 'gallery',
+        title: {
+          zh: '场景案例',
+          en: 'Scene Case',
+        },
+      },
+      {
         slug: 'layout',
         icon: 'net',
         title: {
