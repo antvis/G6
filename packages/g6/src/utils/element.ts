@@ -1,4 +1,4 @@
-import { type AABB, type DisplayObject, type TextStyleProps } from '@antv/g';
+import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isString } from '@antv/util';
 import { BaseCombo, BaseEdge, BaseNode } from '../elements';
 import type {
@@ -281,12 +281,16 @@ export function getNodeConnectionPoint(node: Node, opposite: Node | Port): Point
  * Get the Text style by `position`.
  * @param bbox - BBox of element.
  * @param placement - The position relative with element.
+ * @param offsetX - The offset x.
+ * @param offsetY - The offset y.
  * @param isReverseBaseline - Whether reverse the baseline.
  * @returns Partial<TextStyleProps>
  */
 export function getTextStyleByPlacement(
   bbox: AABB,
   placement: NodeLabelStyleProps['placement'] = 'bottom',
+  offsetX: number = 0,
+  offsetY: number = 0,
   isReverseBaseline = false,
 ): Partial<TextStyleProps> {
   const direction = placement.split('-');
@@ -304,7 +308,7 @@ export function getTextStyleByPlacement(
   }
 
   return {
-    transform: `translate(${x}, ${y})`,
+    transform: `translate(${x + offsetX}, ${y + offsetY})`,
     textBaseline,
     textAlign,
   };

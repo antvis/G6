@@ -1,13 +1,15 @@
 import type { PathStyleProps } from '@antv/g';
-import { deepMix, isBoolean, isEmpty } from '@antv/util';
+import { isBoolean, isEmpty, isEqual, isFunction } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
-import type { ElementDatum, ElementType, ID, LoopPlacement, NodeLikeData } from '../types';
+import type { CallableValue, ID, LoopPlacement, NodeLikeData } from '../types';
 import { groupByChangeType, reduceDataChanges } from '../utils/change';
 import { idOf } from '../utils/id';
+import { reassignTo } from '../utils/transform';
 import type { BaseTransformOptions } from './base-transform';
 import { BaseTransform } from './base-transform';
-import type { DrawData, ProcedureData } from './types';
+import { getEdgeEndsContext } from './get-edge-actual-ends';
+import type { DrawData } from './types';
 
 const CUBIC_EDGE_TYPE = 'quadratic';
 
@@ -53,7 +55,7 @@ export interface ProcessParallelEdgesOptions extends BaseTransformOptions {
    *
    * <en/> The style of the merged edge, only valid for merging mode
    */
-  style?: PathStyleProps;
+  style?: CallableValue<PathStyleProps, EdgeData[]>;
 }
 
 /**
@@ -68,6 +70,8 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
     distance: 15, // only valid for bundling mode
   };
 
+  private cacheMergeStyle: Map<ID, PathStyleProps> = new Map();
+
   constructor(context: RuntimeContext, options: ProcessParallelEdgesOptions) {
     super(context, Object.assign({}, ProcessParallelEdges.defaultOptions, options));
   }
@@ -77,18 +81,9 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
 
     if (edges.size === 0) return input;
 
-    // <zh/> 重新分配绘制任务 | <en/> Reassign drawing tasks
-    const reassignTo = (type: 'add' | 'update' | 'remove', elementType: ElementType, datum: ElementDatum) => {
-      const typeName = `${elementType}s` as keyof ProcedureData;
-      Object.entries(input).forEach(([_type, value]) => {
-        if (type === _type) value[typeName].set(idOf(datum), datum as any);
-        else value[typeName].delete(idOf(datum));
-      });
-    };
-
     this.options.mode === 'bundle'
-      ? this.applyBundlingStyle(reassignTo, edges, this.options.distance)
-      : this.applyMergingStyle(reassignTo, edges);
+      ? this.applyBundlingStyle(input, edges, this.options.distance)
+      : this.applyMergingStyle(input, edges);
 
     return input;
   }
@@ -112,7 +107,8 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
     combosToUpdate.forEach(addRelatedEdges);
 
     const pushParallelEdges = (edge: EdgeData) => {
-      const parallelEdges = getParallelEdges(edge, model.getEdgeData(), true);
+      const edgeData = model.getEdgeData().map((edge) => getEdgeEndsContext(model, edge));
+      const parallelEdges = getParallelEdges(edge, edgeData, true);
       parallelEdges.forEach((e) => !edges.has(idOf(e)) && edges.set(idOf(e), e));
     };
 
@@ -141,11 +137,7 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
     return new Map([...edges].sort((a, b) => edgeIds.indexOf(a[0]) - edgeIds.indexOf(b[0])));
   };
 
-  protected applyBundlingStyle = (
-    reassignTo: (type: 'add' | 'update' | 'remove', elementType: ElementType, datum: ElementDatum) => void,
-    edges: Map<ID, EdgeData>,
-    distance: number,
-  ) => {
+  protected applyBundlingStyle = (input: DrawData, edges: Map<ID, EdgeData>, distance: number) => {
     const { edgeMap, reverses } = groupByEndpoints(edges);
 
     edgeMap.forEach((arcEdges) => {
@@ -166,29 +158,41 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
                 ? sign * Math.ceil(i / 2) * distance * 2
                 : sign * (Math.floor(i / 2) * distance * 2 + distance);
           }
-          return style;
+          return Object.assign({}, edge.style, style);
         };
 
-        const mergedEdgeData = deepMix(edge, { type: CUBIC_EDGE_TYPE, style: computeStyle() });
+        const mergedEdgeData = Object.assign(edge, { type: CUBIC_EDGE_TYPE, style: computeStyle() });
 
         const element = this.context.element?.getElement(idOf(edge));
-        if (element) reassignTo('update', 'edge', mergedEdgeData);
-        else reassignTo('add', 'edge', mergedEdgeData);
+        if (element) reassignTo(input, 'update', 'edge', mergedEdgeData, true);
+        else reassignTo(input, 'add', 'edge', mergedEdgeData, true);
       });
     });
   };
 
-  protected applyMergingStyle = (
-    reassignTo: (type: 'add' | 'update' | 'remove', elementType: ElementType, datum: ElementDatum) => void,
-    edges: Map<ID, EdgeData>,
-  ) => {
+  private resetEdgeStyle = (edge: EdgeData) => {
+    const style = edge.style || {};
+    const cacheStyle = this.cacheMergeStyle.get(idOf(edge)) || {};
+    Object.keys(cacheStyle).forEach((key) => {
+      if (isEqual(style[key], (cacheStyle as any)[key])) {
+        if (edge[key]) {
+          style[key] = edge[key];
+        } else {
+          delete style[key];
+        }
+      }
+    });
+    return Object.assign(edge, { style });
+  };
+
+  protected applyMergingStyle = (input: DrawData, edges: Map<ID, EdgeData>) => {
     const { edgeMap, reverses } = groupByEndpoints(edges);
 
     edgeMap.forEach((edges) => {
       if (edges.length === 1) {
         const edge = edges[0];
         const element = this.context.element?.getElement(idOf(edge));
-        reassignTo(element ? 'update' : 'add', 'edge', edge);
+        reassignTo(input, element ? 'update' : 'add', 'edge', this.resetEdgeStyle(edge), true);
         return;
       }
 
@@ -205,13 +209,22 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
         })
         .reduce((acc, style) => ({ ...acc, ...style }), {});
 
-      edges.forEach((edge, i) => {
+      edges.forEach((edge, i, edges) => {
         if (i === 0) {
-          const mergedEdgeData = { ...edge, style: { ...mergedStyle, ...this.options.style } };
+          const parsedStyle = Object.assign(
+            {},
+            isFunction(this.options.style) ? this.options.style(edges) : this.options.style,
+            { childrenData: edges },
+          );
+          this.cacheMergeStyle.set(idOf(edge), parsedStyle);
+          const mergedEdgeData = {
+            ...edge,
+            style: { ...mergedStyle, ...parsedStyle },
+          };
           const element = this.context.element?.getElement(idOf(edge));
-          reassignTo(element ? 'update' : 'add', 'edge', mergedEdgeData);
+          reassignTo(input, element ? 'update' : 'add', 'edge', mergedEdgeData, true);
         } else {
-          reassignTo('remove', 'edge', edge);
+          reassignTo(input, 'remove', 'edge', edge);
         }
       });
     });
@@ -278,7 +291,7 @@ export const getParallelEdges = (edge: EdgeData, edges: EdgeData[], containsSelf
  * @returns <zh/> 是否平行 | <en/> Whether is parallel
  */
 export const isParallelEdges = (edge1: EdgeData, edge2: EdgeData) => {
-  const { source: src1, target: tgt1 } = edge1;
-  const { source: src2, target: tgt2 } = edge2;
+  const { sourceNode: src1, targetNode: tgt1 } = edge1.style || {};
+  const { sourceNode: src2, targetNode: tgt2 } = edge2.style || {};
   return (src1 === src2 && tgt1 === tgt2) || (src1 === tgt2 && tgt1 === src2);
 };

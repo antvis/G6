@@ -5,8 +5,9 @@ import type { RuntimeContext } from './types';
 
 export const REQUIRED_TRANSFORMS: TransformOptions = [
   'update-related-edges',
-  'arrange-draw-order',
   'collapse-expand-combo',
+  'get-edge-actual-ends',
+  'arrange-draw-order',
 ];
 
 export class TransformController extends ExtensionController<BaseTransform<CustomTransformOption>> {
@@ -17,8 +18,14 @@ export class TransformController extends ExtensionController<BaseTransform<Custo
     this.setTransforms(this.context.options.transforms || []);
   }
 
+  protected getTransforms() {}
+
   public setTransforms(transforms: TransformOptions) {
-    this.setExtensions([...transforms, ...REQUIRED_TRANSFORMS]);
+    this.setExtensions([
+      ...REQUIRED_TRANSFORMS.slice(0, REQUIRED_TRANSFORMS.length - 1),
+      ...transforms,
+      REQUIRED_TRANSFORMS[REQUIRED_TRANSFORMS.length - 1],
+    ]);
   }
 
   public getTransformInstance(key?: string) {

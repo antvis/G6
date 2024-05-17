@@ -2,7 +2,6 @@ import type { ID, State } from '../types';
 import type { ComboStyle } from './element/combo';
 import type { EdgeStyle } from './element/edge';
 import type { NodeStyle } from './element/node';
-
 /**
  * <zh/> 图数据
  *
@@ -180,6 +179,20 @@ export interface EdgeData {
    * <en/> Target node ID
    */
   target: ID;
+  /**
+   * <zh/> 边的起点 shape
+   *
+   * <en/> The source shape. Represents the start of the edge
+   * @internal
+   */
+  sourceNode?: ID;
+  /**
+   * <zh/> 边的终点 shape
+   *
+   * <en/> The source shape. Represents the start of the edge
+   *  @internal
+   */
+  targetNode?: ID;
   /**
    * <zh/> 边类型
    *

@@ -30,7 +30,6 @@ export const behaviorClickElement: TestCase = async (context) => {
 
   const updateClickElementOption = (options: Partial<ClickElementOptions>) => {
     graph.updateBehavior({ key: 'click-element', ...options });
-    console.log(graph.getBehaviors());
   };
 
   behaviorClickElement.form = (panel) => [

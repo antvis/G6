@@ -10,11 +10,11 @@ export type Transform = BaseTransform<any>;
  *
  * <en/> In Element Controller, in order to improve query performance, use Map to store data uniformly
  */
-export class ProcedureData {
-  nodes: Map<ID, NodeData> = new Map();
-  edges: Map<ID, EdgeData> = new Map();
-  combos: Map<ID, ComboData> = new Map();
-}
+export type ProcedureData = {
+  nodes: Map<ID, NodeData>;
+  edges: Map<ID, EdgeData>;
+  combos: Map<ID, ComboData>;
+};
 
 export type DrawData = {
   add: ProcedureData;

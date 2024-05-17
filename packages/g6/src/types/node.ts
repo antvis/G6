@@ -58,6 +58,18 @@ export interface NodeBadgeStyleProps extends BadgeStyleProps {
    * <en/> Badge position relative to the node (keyShape)
    */
   placement?: CardinalPlacement | CornerPlacement;
+  /**
+   * <zh/> 徽标在 x 轴方向上的偏移量
+   *
+   * <en/> The offset of the badge in the x-axis direction
+   */
+  offsetX?: number;
+  /**
+   * <zh/> 徽标在 y 轴方向上的偏移量
+   *
+   * <en/> The offset of the badge in the y-axis direction
+   */
+  offsetY?: number;
 }
 
 /**

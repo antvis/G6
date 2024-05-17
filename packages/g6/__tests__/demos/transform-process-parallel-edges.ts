@@ -22,6 +22,7 @@ export const transformProcessParallelEdges: TestCase = async (context) => {
         style: {
           lineDash: [2, 2],
           lineWidth: 3,
+          stroke: '#99add1',
         },
       },
     ],

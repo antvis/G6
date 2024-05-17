@@ -74,7 +74,8 @@ export class Polyline extends BaseEdge {
   }
 
   protected getKeyPath(attributes: ParsedPolylineStyleProps): PathArray {
-    const { sourceNode, targetNode, radius } = attributes;
+    const { radius } = attributes;
+    const { sourceNode, targetNode } = this;
     // 1. 获取连接点（若有连接桩，取连接桩中心；反之，取节点中心）和连接桩 | Get connection points (if port, take port center; otherwise, take node center) and ports
     const { sourcePoint, targetPoint, sourcePort, targetPort } = this.getEndpointsAndPorts(attributes);
 
@@ -98,7 +99,8 @@ export class Polyline extends BaseEdge {
     sourcePort: Port | undefined;
     targetPort: Port | undefined;
   } {
-    const { sourceNode, targetNode, sourcePort: sourcePortKey, targetPort: targetPortKey } = attributes;
+    const { sourcePort: sourcePortKey, targetPort: targetPortKey } = attributes;
+    const { sourceNode, targetNode } = this;
 
     const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
 
@@ -111,7 +113,8 @@ export class Polyline extends BaseEdge {
   }
 
   protected getControlPoints(attributes: ParsedPolylineStyleProps, sourcePoint: Point, targetPoint: Point): Point[] {
-    const { controlPoints, sourceNode, targetNode, router, routerPadding } = attributes;
+    const { controlPoints, router, routerPadding } = attributes;
+    const { sourceNode, targetNode } = this;
 
     if (!router) return [...controlPoints];
 
@@ -122,7 +125,8 @@ export class Polyline extends BaseEdge {
   }
 
   protected getLoopPath(attributes: ParsedPolylineStyleProps): PathArray {
-    const { sourceNode: node, sourcePort: sourcePortKey, targetPort: targetPortKey, radius } = attributes;
+    const { sourcePort: sourcePortKey, targetPort: targetPortKey, radius } = attributes;
+    const node = this.sourceNode;
 
     const bbox = getNodeBBox(node);
     // 默认转折点距离为 bbox 的最大宽高的 1/4 | Default distance of the turning point is 1/4 of the maximum width and height of the bbox

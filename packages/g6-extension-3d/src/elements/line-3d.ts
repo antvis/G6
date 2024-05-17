@@ -11,7 +11,7 @@ export class Line3D extends BaseEdge {
   }
 
   protected getKeyStyle(attributes: Required<Line3DStyleProps>): any {
-    const { sourceNode, targetNode } = attributes;
+    const { sourceNode, targetNode } = this;
     const [x1, y1, z1] = sourceNode.getPosition();
     const [x2, y2, z2] = targetNode.getPosition();
 
