@@ -1,6 +1,6 @@
 import { Polyline } from '@/src/elements/edges';
 import { Circle } from '@/src/elements/nodes';
-import { PortStyleProps } from '@/src/types';
+import { ID, PortStyleProps } from '@/src/types';
 import {
   findPorts,
   getAllPorts,
@@ -36,7 +36,16 @@ describe('element', () => {
     id: 'node-2',
   });
 
-  const edge = new Polyline({ style: { sourceNode: node1, targetNode: node2 } });
+  const context: any = {
+    element: {
+      getElement(id: ID) {
+        if (id === 'node-1') return node1;
+        else return node2;
+      },
+    },
+  };
+
+  const edge = new Polyline({ style: { sourceNode: 'node-1', targetNode: 'node-2', context } });
 
   it('isNode', () => {
     const rect = new Rect({ style: { width: 10, height: 10 } });

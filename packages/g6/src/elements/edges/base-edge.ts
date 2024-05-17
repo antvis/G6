@@ -8,7 +8,7 @@ import type {
 } from '@antv/g';
 import { Image, Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { deepMix, isEmpty, isFunction, isString } from '@antv/util';
+import { deepMix, isEmpty, isFunction } from '@antv/util';
 import type {
   BaseElementStyleProps,
   EdgeArrowStyleProps,
@@ -85,21 +85,21 @@ export interface BaseEdgeStyleProps
    */
   endArrowOffset?: number;
   /**
-   * <zh/> 边的起点 shape，可以是节点的 ID 或者节点实例
+   * <zh/> 边的起点 ID
    *
-   * <en/> The source shape. Represents the start of the edge. It can be the ID or instance of the node
+   * <en/> The ID of the source node
    * @remarks
    * <zh/> 该属性指向物理意义上的起点，由 G6 内部维护，用户无需过多关注。通常情况下，`sourceNode` 与上一级的 `source` 属性一致。但在某些情况下，`sourceNode` 可能会被 G6 内部转换，例如在 Combo 收起时内部节点上的边会自动连接到父 Combo，此时 `sourceNode` 会变更为父 Combo 的 ID。
    *
    * <en/> This property concerning the physical origin, maintained internally by G6. In general, `sourceNode` corresponds to the `source` attribute of the parent level. However, in certain cases, such as when a Combo is collapsed and internal nodes are destroyed, corresponding edges will automatically connect to the parent Combo. At this point, `sourceNode` will be changed to the ID of the parent Combo
    */
-  sourceNode: ID | Node;
+  sourceNode: ID;
   /**
    * <zh/> 边的终点 shape
    *
    * <en/> The source shape. Represents the start of the edge
    */
-  targetNode: ID | Node;
+  targetNode: ID;
   /**
    * <zh/> 边起始连接的 port
    *
@@ -203,12 +203,12 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
 
   protected get sourceNode() {
     const { context, sourceNode: source } = this.parsedAttributes;
-    return isString(source) ? context.element!.getElement<Node>(source)! : source;
+    return context.element!.getElement<Node>(source)!;
   }
 
   protected get targetNode() {
     const { context, targetNode: target } = this.parsedAttributes;
-    return isString(target) ? context.element!.getElement<Node>(target)! : target;
+    return context.element!.getElement<Node>(target)!;
   }
 
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps): PathStyleProps {
