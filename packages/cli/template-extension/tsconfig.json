@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "declaration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "lib": ["DOM", "ESNext"],
+    "module": "esnext",
+    "moduleResolution": "Node",
+    "outDir": "lib",
+    "pretty": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "sourceRoot": "src",
+    "strict": true,
+    "target": "esnext",
+    "types": ["@types/jest", "node"],
+    "paths": {
+      "@/*": ["./*"],
+      "@@/*": ["__tests__/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "lib", "esm"],
+  "include": ["src/**/*", "__tests__/**/*"]
+}
