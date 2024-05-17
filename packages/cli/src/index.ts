@@ -12,11 +12,9 @@ const argv = minimist<{
 }>(process.argv.slice(2), { string: ['_'] });
 const cwd = process.cwd();
 
-const renameFiles: Record<string, string | undefined> = {
-  _gitignore: '.gitignore',
-};
+const renameFiles: Record<string, string | undefined> = {};
 
-const defaultTargetDir = 'g6-extension-custom';
+const defaultTargetDir = 'g6-extension-test';
 
 const TEMPLATES = [
   {
@@ -35,7 +33,7 @@ async function init() {
   let targetDir = argTargetDir || defaultTargetDir;
   const getProjectName = () => (targetDir === '.' ? path.basename(path.resolve()) : targetDir);
 
-  let result: prompts.Answers<'template' | 'projectName' | 'overwrite'>;
+  let result: prompts.Answers<'template' | 'projectName' | 'overwrite' | 'author'>;
 
   prompts.override({
     overwrite: argv.overwrite,
@@ -100,11 +98,11 @@ async function init() {
             targetDir = formatTargetDir(state.value) || defaultTargetDir;
           },
         },
-        // {
-        //   name: 'author',
-        //   message: reset('Author'),
-        //   initial: process.env,
-        // },
+        {
+          type: 'text',
+          name: 'author',
+          message: reset('Author'),
+        },
       ],
       {
         onCancel: () => {
@@ -118,7 +116,11 @@ async function init() {
   }
 
   // user choice associated with prompts
-  const { template, overwrite, projectName = getProjectName() } = result;
+  const { template, overwrite, projectName = getProjectName(), author } = result;
+
+  const variables = {
+    '{{projectName}}': projectName,
+  };
 
   const root = path.join(cwd, targetDir);
 
@@ -129,32 +131,34 @@ async function init() {
   }
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent);
+
   const pkgManager = pkgInfo ? pkgInfo.name : 'npm';
 
   console.log(`\nScaffolding project in ${root}...`);
 
   const templateDir = path.resolve(fileURLToPath(import.meta.url), '../..', `template-${template.name}`);
 
-  const write = (file: string, projectName: string, content?: string) => {
+  const write = (file: string, variables: Record<string, string>, content?: string) => {
     const targetPath = path.join(root, renameFiles[file] ?? file);
     if (content) {
       fs.writeFileSync(targetPath, content);
     } else {
-      copy(path.join(templateDir, file), targetPath, projectName);
+      copy(path.join(templateDir, file), targetPath, variables);
     }
   };
 
   const files = fs.readdirSync(templateDir);
 
   for (const file of files.filter((f) => f !== 'package.json')) {
-    write(file, projectName);
+    write(file, variables);
   }
 
   const pkg = JSON.parse(fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'));
 
   pkg.name = projectName;
+  pkg.author = author;
 
-  write('package.json', projectName, JSON.stringify(pkg, null, 2) + '\n');
+  write('package.json', variables, JSON.stringify(pkg, null, 2) + '\n');
 
   const cdProjectName = path.relative(cwd, root);
   console.log(`\nDone. Now run:\n`);
@@ -178,23 +182,23 @@ function formatTargetDir(targetDir: string | undefined) {
   return targetDir?.trim().replace(/\/+$/g, '');
 }
 
-function copy(src: string, dest: string, projectName: string) {
+function copy(src: string, dest: string, variables: Record<string, string>) {
   const stat = fs.statSync(src);
   if (stat.isDirectory()) {
-    copyDir(src, dest, projectName);
+    copyDir(src, dest, variables);
   } else {
     const templateContent = fs.readFileSync(src, 'utf-8');
-    const content = replaceTemplateVariables(templateContent, projectName);
+    const content = replaceTemplateVariables(templateContent, variables);
     fs.writeFileSync(dest, content);
   }
 }
 
-function copyDir(srcDir: string, destDir: string, projectName: string) {
+function copyDir(srcDir: string, destDir: string, variables: Record<string, string>) {
   fs.mkdirSync(destDir, { recursive: true });
   for (const file of fs.readdirSync(srcDir)) {
     const srcFile = path.resolve(srcDir, file);
     const destFile = path.resolve(destDir, file);
-    copy(srcFile, destFile, projectName);
+    copy(srcFile, destFile, variables);
   }
 }
 
@@ -225,9 +229,11 @@ function pkgFromUserAgent(userAgent: string | undefined) {
   };
 }
 
-function replaceTemplateVariables(content: string, projectName: string) {
-  const regex = new RegExp(`{{projectName}}`, 'g');
-  content = content.replace(regex, projectName);
+function replaceTemplateVariables(content: string, variables: Record<string, string>) {
+  Object.keys(variables).forEach((key) => {
+    const regex = new RegExp(key, 'g');
+    content = content.replace(regex, variables[key]);
+  });
   return content;
 }
 
