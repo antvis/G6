@@ -100,7 +100,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <zh/> 更新图例配置
    *
    * <en/> Update the legend configuration
-   * @param options - <zh/> 图例配置项 | <en/> Legend configuration item
+   * @param options - <zh/> 图例配置项 | <en/> Legend options
    * @internal
    */
   public update(options: Partial<LegendOptions>) {

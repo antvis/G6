@@ -159,9 +159,9 @@ const graph = new Graph({
 
 如果需要手动执行布局算法，G6 提供了以下 API：
 
-- [layout](/api/graph/method#layout)：执行布局算法
-- [setLayout](/api/graph/method#setLayout)：设置布局算法
-- [stopLayout](/api/graph/method#stopLayout)：停止布局算法
+- [layout](/api/graph/method#graphlayout)：执行布局算法
+- [setLayout](/api/graph/method#graphsetlayoutlayout)：设置布局算法
+- [stopLayout](/api/graph/method#graphstoplayout)：停止布局算法
 
 ## 自定义布局
 

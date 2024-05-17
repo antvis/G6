@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "battle-array.jsx",
+      "title": {
+        "zh": "英格兰阵容",
+        "en": "England"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dTxvSL2wgDIAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

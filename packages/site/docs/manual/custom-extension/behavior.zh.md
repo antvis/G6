@@ -44,48 +44,7 @@ class ClickAddNode extends BaseBehavior<ClickAddNodeOptions> {
 
 > 点击下面画布中的空白位置以添加一个节点
 
-```js | ob { pin: false }
-(async () => {
-  const { BaseBehavior, CanvasEvent, register, ExtensionCategory, Graph } = window.g6;
-
-  class ClickAddNode extends BaseBehavior {
-    constructor(context, options) {
-      super(context, options);
-
-      const { graph } = this.context;
-      graph.on(`canvas:${CanvasEvent.CLICK}`, (event) => {
-        const { layerX, layerY } = event.nativeEvent;
-        graph.addNodeData([
-          {
-            id: 'node-' + Date.now(),
-            style: { x: layerX, y: layerY },
-          },
-        ]);
-        graph.draw();
-      });
-    }
-  }
-
-  register(ExtensionCategory.BEHAVIOR, 'click-add-node', ClickAddNode);
-
-  const container = createContainer({ width: 300, height: 300 });
-  container.style.border = '1px solid #ccc';
-
-  const graph = new Graph({
-    container,
-    width: 300,
-    height: 300,
-    data: {
-      nodes: [],
-    },
-    behaviors: ['click-add-node'],
-  });
-
-  await graph.render();
-
-  return container;
-})();
-```
+<embed src="@/docs/manual/custom-extension-common/behavior/implement-behaviors.md"></embed>
 
 :::info{title=提示}
 上述示例是一个最简单的交互实现，实际开发过程中，你还需要处理监听事件的销毁、交互的启用与禁用等逻辑。

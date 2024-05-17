@@ -9,7 +9,7 @@ import { BUILD_IN_SVG_ICON, TOOLBAR_CSS, parsePositionToStyle } from './util';
 /**
  * <zh/> Toolbar 工具栏的配置项
  *
- * <en/> The configuration item of the Toolbar toolbar
+ * <en/> The options of the Toolbar toolbar
  */
 export interface ToolbarOptions extends BasePluginOptions {
   /**
@@ -77,7 +77,7 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
    * <zh/> 更新工具栏的配置项
    *
    * <en/> Update the configuration of the toolbar
-   * @param options - <zh/> 工具栏的配置项 | <en/> The configuration item of the toolbar
+   * @param options - <zh/> 工具栏的配置项 | <en/> The options of the toolbar
    * @internal
    */
   public async update(options: Partial<ToolbarOptions>) {

@@ -44,48 +44,7 @@ class RemoteDataSource extends BasePlugin<RemoteDataSourceOptions> {
 
 在上面的例子中，我们模拟实现了一个数据加载插件，在使用该插件后，实例化 Graph 时不用再传入数据，该插件会自动加载远程数据。
 
-```js | ob { pin: false }
-(() => {
-  const { BasePlugin, Graph, register, ExtensionCategory } = window.g6;
-
-  class RemoteDataSource extends BasePlugin {
-    constructor(context, options) {
-      super(context, options);
-      this.loadData();
-    }
-
-    async loadData() {
-      // mock remote data
-      const data = {
-        nodes: [
-          { id: 'node-1', style: { x: 25, y: 50 } },
-          { id: 'node-2', style: { x: 175, y: 50 } },
-        ],
-        edges: [{ source: 'node-1', target: 'node-2' }],
-      };
-
-      const { graph } = this.context;
-      graph.setData(data);
-      await graph.render();
-    }
-  }
-
-  register(ExtensionCategory.PLUGIN, 'remote-data-source', RemoteDataSource);
-
-  const container = window.createContainer({ width: 200, height: 100 });
-
-  const graph = new Graph({
-    container,
-    width: 200,
-    height: 100,
-    plugins: ['remote-data-source'],
-  });
-
-  graph.render();
-
-  return container;
-})();
-```
+<embed src="@/docs/manual/custom-extension-common/plugin/implement-plugin.md"></embed>
 
 ## 注册插件
 

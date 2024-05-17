@@ -56,11 +56,10 @@ export function register<T extends ExtensionCategory>(
   type: string,
   Ctor: ExtensionRegistry[T][string],
 ) {
-  if (EXTENSION_REGISTRY[category]![type]) {
-    console.error(`The extension ${type} of ${category} has been registered before.`);
-    return;
-  }
-  Object.assign(EXTENSION_REGISTRY[category]!, { [type]: Ctor });
+  const ext = EXTENSION_REGISTRY[category][type];
+  if (ext) {
+    if (ext !== Ctor) console.error(`The extension ${type} of ${category} has been registered before.`);
+  } else Object.assign(EXTENSION_REGISTRY[category]!, { [type]: Ctor });
 }
 
 /**

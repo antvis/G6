@@ -17,7 +17,7 @@ const PADDING = 10;
 
 /**
  * <zh/> Timebar 时间条的配置项。
- * <en/> The configuration item of the Timebar.
+ * <en/> The options of the Timebar.
  */
 export interface TimebarOptions extends BasePluginOptions {
   /**

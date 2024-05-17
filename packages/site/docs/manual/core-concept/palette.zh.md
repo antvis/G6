@@ -76,20 +76,7 @@ register(ExtensionCategory.PALETTE, 'custom-palette', CustomPalette);
 }
 ```
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: new Array(30).fill(0).map((_, i) => ({ id: `node-${i}` })),
-    },
-    layout: { type: 'grid', cols: 10, rows: 3 },
-    node: {
-      palette: 'spectral',
-    },
-  },
-  { width: 400, height: 100 },
-);
-```
+<embed src="@/docs/manual/core-concept-common/palette/default-config.md"></embed>
 
 > 当元素数量超过色板颜色数量时，会循环使用色板中的颜色
 
@@ -128,24 +115,7 @@ createGraph(
 }
 ```
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i}`, data: { category: ['A', 'B', 'C'][i % 3] } })),
-    },
-    layout: { type: 'grid', cols: 6 },
-    node: {
-      palette: {
-        type: 'group',
-        field: 'category',
-        color: 'tableau',
-      },
-    },
-  },
-  { width: 200, height: 50 },
-);
-```
+<embed src="@/docs/manual/core-concept-common/palette/standard-config.md"></embed>
 
 ### 连续色板
 
@@ -186,24 +156,7 @@ createGraph(
 }
 ```
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i}`, data: { value: (i + 1) * 20 } })),
-    },
-    layout: { type: 'grid', cols: 6 },
-    node: {
-      palette: {
-        type: 'value',
-        field: 'value',
-        color: (value) => `rgb(${value * 255}, 0, 0)`,
-      },
-    },
-  },
-  { width: 200, height: 50 },
-);
-```
+<embed src="@/docs/manual/core-concept-common/palette/continuous-palette.md"></embed>
 
 :::warning{title=注意}
 内置连续色板不支持指定值域范围，如果有更复杂的颜色映射需求，可以在样式映射中自定义
