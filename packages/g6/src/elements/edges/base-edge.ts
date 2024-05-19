@@ -381,15 +381,28 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
    */
   public onDestroy() {}
 
+  protected onframe() {
+    this.drawKeyShape(this.parsedAttributes, this);
+    this.drawHaloShape(this.parsedAttributes, this);
+    this.drawLabelShape(this.parsedAttributes, this);
+  }
+
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
-    const result = super.animate(keyframes, options);
+    const animation = super.animate(keyframes, options);
 
-    if (result) {
-      result.onframe = () => {
-        this.drawLabelShape(this.parsedAttributes, this);
-      };
-    }
+    if (animation) animation.onframe = () => this.onframe();
 
-    return result;
+    if (!animation) return animation;
+
+    // 设置 currentTime 时触发更新
+    // Trigger update when setting currentTime
+    return new Proxy(animation, {
+      set: (target, propKey, value) => {
+        // 需要推迟 onframe 调用时机，等待节点位置更新完成
+        // Need to delay the timing of the onframe call, wait for the node position update to complete
+        if (propKey === 'currentTime') Promise.resolve().then(() => this.onframe());
+        return Reflect.set(target, propKey, value);
+      },
+    });
   }
 }
