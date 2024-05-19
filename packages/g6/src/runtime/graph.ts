@@ -47,6 +47,7 @@ import { idOf } from '../utils/id';
 import { parsePoint, toPointObject } from '../utils/point';
 import { zIndexOf } from '../utils/style';
 import { subtract } from '../utils/vector';
+import { Animation } from './animation';
 import { BatchController } from './batch';
 import { BehaviorController } from './behavior';
 import type { DataURLOptions } from './canvas';
@@ -415,6 +416,7 @@ export class Graph extends EventEmitter {
         return _transform;
       }),
     );
+    this.context.model.refreshData();
   }
 
   /**
@@ -824,6 +826,7 @@ export class Graph extends EventEmitter {
     if (!this.context.viewport) this.context.viewport = new ViewportController(this.context);
     if (!this.context.transform) this.context.transform = new TransformController(this.context);
     if (!this.context.element) this.context.element = new ElementController(this.context);
+    if (!this.context.animation) this.context.animation = new Animation(this.context);
     if (!this.context.layout) this.context.layout = new LayoutController(this.context);
     if (!this.context.behavior) this.context.behavior = new BehaviorController(this.context);
   }
@@ -852,7 +855,8 @@ export class Graph extends EventEmitter {
   public async render(): Promise<void> {
     await this.prepare();
     emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_RENDER));
-    await Promise.all([this.context.element?.draw(), this.context.layout?.layout()]);
+    const animation = this.context.element!.draw();
+    await Promise.all([animation?.finished, this.context.layout!.layout()]);
     await this.autoFit();
     emit(this, new GraphLifeCycleEvent(GraphEvent.AFTER_RENDER));
   }
@@ -866,7 +870,7 @@ export class Graph extends EventEmitter {
    */
   public async draw(): Promise<void> {
     await this.prepare();
-    return this.context.element!.draw();
+    await this.context.element!.draw()?.finished;
   }
 
   /**
@@ -913,10 +917,11 @@ export class Graph extends EventEmitter {
   public destroy(): void {
     emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_DESTROY));
 
-    const { layout, element, model, canvas, behavior, plugin } = this.context;
+    const { layout, animation, element, model, canvas, behavior, plugin } = this.context;
     plugin?.destroy();
     behavior?.destroy();
     layout?.destroy();
+    animation?.destroy();
     element?.destroy();
     model.destroy();
     canvas?.destroy();
@@ -1176,7 +1181,7 @@ export class Graph extends EventEmitter {
       : [{ [args1 as ID]: args2 as Position }, args3];
 
     Object.entries(config).forEach(([id, offset]) => this.context.model.translateNodeBy(id, offset));
-    await this.context.element!.draw({ animation });
+    await this.context.element!.draw({ animation })?.finished;
   }
 
   /**
@@ -1208,7 +1213,7 @@ export class Graph extends EventEmitter {
       : [{ [args1 as ID]: args2 as Position }, args3];
 
     Object.entries(config).forEach(([id, position]) => this.context.model.translateNodeTo(id, position));
-    await this.context.element!.draw({ animation });
+    await this.context.element!.draw({ animation })?.finished;
   }
 
   /**
@@ -1275,9 +1280,12 @@ export class Graph extends EventEmitter {
       const elementType = this.getElementType(id);
       dataToUpdate[`${elementType}s`].push({ id, style: { visibility: value } });
     });
-    this.updateData(dataToUpdate);
 
-    await this.context.element!.draw({ animation, stage: 'visibility' });
+    const { model, element } = this.context;
+    model.preventUpdateNodeLikeHierarchy(() => {
+      model.updateData(dataToUpdate);
+    });
+    await element!.draw({ animation, stage: 'visibility' })?.finished;
   }
 
   /**
@@ -1353,7 +1361,7 @@ export class Graph extends EventEmitter {
 
     const { model, element } = this.context;
     model.preventUpdateNodeLikeHierarchy(() => model.updateData(dataToUpdate));
-    await element!.draw({ animation: false });
+    await element!.draw({ animation: false })?.finished;
   }
 
   /**
@@ -1438,7 +1446,7 @@ export class Graph extends EventEmitter {
     });
     this.updateData(dataToUpdate);
 
-    await this.context.element!.draw({ animation });
+    await this.context.element!.draw({ animation })?.finished;
   }
 
   /**
@@ -1475,7 +1483,7 @@ export class Graph extends EventEmitter {
    */
   public async collapseElement(id: ID, animation: boolean = true): Promise<void> {
     this.setElementCollapsibility(id, true);
-    await this.context.element!.draw({ animation, stage: 'collapse' });
+    await this.context.element!.draw({ animation, stage: 'collapse' })?.finished;
   }
 
   /**
@@ -1488,7 +1496,7 @@ export class Graph extends EventEmitter {
    */
   public async expandElement(id: ID, animation: boolean = true): Promise<void> {
     this.setElementCollapsibility(id, false);
-    await this.context.element!.draw({ animation, stage: 'expand' });
+    await this.context.element!.draw({ animation, stage: 'expand' })?.finished;
   }
 
   private setElementCollapsibility(id: ID, collapsed: boolean) {
