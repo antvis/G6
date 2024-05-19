@@ -2,7 +2,7 @@ import { AABB } from '@antv/g';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
 import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
-import { getAnimation } from '../utils/animation';
+import { getAnimationOptions } from '../utils/animation';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
 import { parsePadding } from '../utils/padding';
@@ -40,7 +40,7 @@ export class ViewportController {
   }
 
   private getAnimation(animation?: ViewportAnimationEffectTiming) {
-    const finalAnimation = getAnimation(this.context.options, animation);
+    const finalAnimation = getAnimationOptions(this.context.options, animation);
     if (!finalAnimation) return false;
     return pick({ ...finalAnimation }, ['easing', 'duration']) as Exclude<ViewportAnimationEffectTiming, boolean>;
   }

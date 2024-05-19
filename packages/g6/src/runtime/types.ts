@@ -1,4 +1,5 @@
 import type { GraphOptions } from '../spec';
+import type { Animation } from './animation';
 import type { BatchController } from './batch';
 import type { BehaviorController } from './behavior';
 import type { Canvas } from './canvas';
@@ -51,6 +52,12 @@ export interface RuntimeContext {
    * <en/> Only available after drawing starts
    */
   element?: ElementController;
+  /**
+   * <zh/> 元素动画执行器
+   *
+   * <en/> Element animation executor
+   */
+  animation?: Animation;
   /**
    * <zh/> 视口控制器
    *

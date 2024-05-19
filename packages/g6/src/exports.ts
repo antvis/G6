@@ -103,7 +103,7 @@ export type {
   RandomLayoutOptions,
 } from '@antv/layout';
 export type { PathArray } from '@antv/util';
-export type { AnimationContext, AnimationEffectTiming, AnimationExecutor } from './animations/types';
+export type { AnimationContext, AnimationEffectTiming, AnimationExecutor, AnimationOptions } from './animations/types';
 export type {
   BaseBehaviorOptions,
   BrushSelectOptions,
@@ -150,7 +150,7 @@ export type {
   PolygonStyleProps,
 } from './elements/shapes';
 export type { ContourLabelStyleProps, ContourStyleProps } from './elements/shapes/contour';
-export type { AnimationOptions, BaseLayoutOptions, WebWorkerLayoutOptions } from './layouts/types';
+export type { BaseLayoutOptions, WebWorkerLayoutOptions } from './layouts/types';
 export type { CategoricalPalette } from './palettes/types';
 export type {
   BasePluginOptions,
@@ -183,6 +183,7 @@ export type {
   ViewportOptions,
 } from './spec';
 export type { CustomBehaviorOption } from './spec/behavior';
+export type { AnimationStage } from './spec/element/animation';
 export type { LayoutOptions, STDLayoutOptions, SingleLayoutOptions } from './spec/layout';
 export type { CustomPluginOption } from './spec/plugin';
 export type { BaseTransformOptions } from './transforms';
