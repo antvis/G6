@@ -5,8 +5,8 @@ import type { CategoricalPalette } from '../../palettes/types';
 import type { NodeData } from '../../spec';
 import type {
   BaseElementStyleProps,
+  ID,
   Keyframe,
-  Node,
   NodeBadgeStyleProps,
   NodeLabelStyleProps,
   NodePortStyleProps,
@@ -83,7 +83,7 @@ export interface BaseNodeStyleProps
    *
    * <en/> Only valid in the tree graph
    */
-  childrenNode?: Node[];
+  childrenNode?: ID[];
   /**
    * <zh/> 子节点数据
    *
@@ -393,6 +393,10 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     });
   }
 
+  protected drawLabelShape(attributes: Required<S>, container: Group): void {
+    this.upsert('label', Label, this.getLabelStyle(attributes), container);
+  }
+
   protected abstract drawKeyShape(attributes: Required<S>, container: Group): DisplayObject | undefined;
 
   public render(attributes = this.parsedAttributes, container: Group = this) {
@@ -416,7 +420,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     this.drawBadgeShapes(attributes, container);
 
     // 5. label
-    this.upsert('label', Label, this.getLabelStyle(attributes), container);
+    this.drawLabelShape(attributes, container);
 
     // 6. ports
     this.drawPortShapes(attributes, container);
@@ -446,13 +450,16 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
    */
   public onDestroy() {}
 
+  protected onframe() {
+    this.drawBadgeShapes(this.parsedAttributes, this);
+    this.drawLabelShape(this.parsedAttributes, this);
+  }
+
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
     const result = super.animate(keyframes, options);
 
     if (result) {
-      result.onframe = () => {
-        this.drawBadgeShapes(this.parsedAttributes, this);
-      };
+      result.onframe = () => this.onframe();
     }
 
     return result;

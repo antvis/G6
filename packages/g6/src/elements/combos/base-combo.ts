@@ -3,8 +3,7 @@ import { deepMix, isEmpty, isFunction } from '@antv/util';
 import { COMBO_KEY } from '../../constants';
 import type {
   CollapsedMarkerStyleProps,
-  Combo,
-  Node,
+  ID,
   NodeLikeData,
   Padding,
   Placement,
@@ -57,7 +56,7 @@ export interface BaseComboStyleProps
    *
    * <en/> The children of combo, which can be nodes or combos
    */
-  childrenNode?: (Node | Combo)[];
+  childrenNode?: ID[];
   /**
    * <zh/> 组合的子元素数据
    *
@@ -169,8 +168,13 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   }
 
   protected getContentBBox(attributes: Required<S>): AABB {
-    const { childrenNode: children = [], padding } = attributes;
-    const childrenBBox = getCombinedBBox(children.map((child) => child.getBounds()));
+    const { context, childrenNode = [], padding } = attributes;
+    const childrenBBox = getCombinedBBox(
+      childrenNode
+        .map((id) => context!.element!.getElement(id))
+        .filter(Boolean)
+        .map((child) => child!.getBounds()),
+    );
 
     if (!padding) return childrenBBox;
 
@@ -203,8 +207,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
 
   protected getCollapsedMarkerText(type: CollapsedMarkerStyleProps['type'], attributes: Required<S>): string {
     const { context, childrenData = [] } = attributes;
-    if (!context) return '';
-    const { model } = context;
+    const { model } = context!;
 
     if (type === 'descendant-count') return model.getDescendantsData(this.id).length.toString();
     if (type === 'child-count') return childrenData.length.toString();
@@ -218,7 +221,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   }
 
   protected getComboZIndex(attributes: Required<S>): number {
-    const ancestors = attributes.context?.model.getAncestorsData(this.id, COMBO_KEY) || [];
+    const ancestors = attributes.context!.model.getAncestorsData(this.id, COMBO_KEY) || [];
     return ancestors.length;
   }
 
@@ -235,7 +238,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     Object.assign(this.style, comboStyle);
 
     // Sync combo position to model
-    attributes.context?.model.syncComboDatum({ id: this.id, style: comboStyle });
+    attributes.context!.model.syncComboDatum({ id: this.id, style: comboStyle });
 
     // collapsed marker
     this.drawCollapsedMarkerShape(attributes, container);
@@ -264,4 +267,9 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
    * @override
    */
   public onDestroy() {}
+
+  protected onframe() {
+    super.onframe();
+    this.drawKeyShape(this.parsedAttributes, this);
+  }
 }
