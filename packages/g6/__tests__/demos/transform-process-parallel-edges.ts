@@ -40,9 +40,7 @@ export const transformProcessParallelEdges: TestCase = async (context) => {
       .name('Mode')
       .onChange((mode: string) => {
         graph.updateTransform({ key: 'process-parallel-edges', mode });
-        graph.removeEdgeData(data.edges.map((edge) => edge.id));
-        graph.addEdgeData(data.edges);
-        graph.render();
+        graph.draw();
       }),
     panel
       .add(
