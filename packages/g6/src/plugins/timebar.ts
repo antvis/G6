@@ -390,7 +390,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     });
 
     graph.setData(newData);
-    await element!.draw({ animation: false, silence: true });
+    await element!.draw({ animation: false, silence: true })?.finished;
   }
 
   private hiddenElements(range: number | [number, number]) {

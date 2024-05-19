@@ -268,7 +268,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
       }
       model.setParent(id, modifiedParentId, COMBO_KEY);
     });
-    await element?.draw({ animation: true });
+    await element?.draw({ animation: true })?.finished;
   };
 
   /**
@@ -304,7 +304,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     });
 
     if (dropEffect === 'move') ids.forEach((id) => model.refreshComboData(id));
-    await element!.draw({ animation: this.animation });
+    await element!.draw({ animation: this.animation })?.finished;
   }
 
   private moveShadow(offset: Point) {

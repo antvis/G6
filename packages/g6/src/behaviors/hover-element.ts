@@ -77,7 +77,7 @@ export interface HoverElementOptions extends BaseBehaviorOptions {
  */
 export class HoverElement extends BaseBehavior<HoverElementOptions> {
   static defaultOptions: Partial<HoverElementOptions> = {
-    animation: true,
+    animation: false,
     enable: true,
     degree: 0,
     activeState: 'active',
