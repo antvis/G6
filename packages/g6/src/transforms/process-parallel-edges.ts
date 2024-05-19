@@ -219,6 +219,7 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
           this.cacheMergeStyle.set(idOf(edge), parsedStyle);
           const mergedEdgeData = {
             ...edge,
+            type: 'line',
             style: { ...mergedStyle, ...parsedStyle },
           };
           const element = this.context.element?.getElement(idOf(edge));

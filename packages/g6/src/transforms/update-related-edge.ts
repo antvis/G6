@@ -1,3 +1,4 @@
+import type { DrawContext } from '../runtime/element';
 import type { ID, NodeLikeData } from '../types';
 import { idOf } from '../utils/id';
 import { BaseTransform } from './base-transform';
@@ -8,7 +9,10 @@ import type { DrawData } from './types';
  * If the node / combo is updated, the connected edge and the combo it is in need to be updated
  */
 export class UpdateRelatedEdge extends BaseTransform {
-  public beforeDraw(input: DrawData): DrawData {
+  public beforeDraw(input: DrawData, context: DrawContext): DrawData {
+    const { stage } = context;
+    if (stage === 'visibility') return input;
+
     const { model } = this.context;
     const {
       update: { nodes, edges, combos },
