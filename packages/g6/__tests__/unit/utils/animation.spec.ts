@@ -1,12 +1,14 @@
-import { DEFAULT_ANIMATION_OPTIONS } from '@/src/constants';
-import { AnimatableTask } from '@/src/types';
+import type { GraphOptions } from '@/src';
+import { AnimationEffectTiming } from '@/src';
+import { STDAnimation } from '@/src/animations/types';
+import { DEFAULT_ANIMATION_OPTIONS, DEFAULT_ELEMENTS_ANIMATION_OPTIONS } from '@/src/constants';
+import { register } from '@/src/registry';
 import {
   createAnimationsProxy,
-  executeAnimatableTasks,
-  getAnimation,
+  getAnimationOptions,
+  getElementAnimationOptions,
   inferDefaultValue,
   preprocessKeyframes,
-  withAnimationCallbacks,
 } from '@/src/utils/animation';
 import type { IAnimation } from '@antv/g';
 
@@ -74,71 +76,137 @@ describe('animation', () => {
     expect(inferDefaultValue('states')).toEqual([]);
   });
 
-  it('withAnimationCallbacks', async () => {
-    const before = jest.fn();
-    const beforeAnimate = jest.fn();
-    const afterAnimate = jest.fn();
-    const after = jest.fn();
-
-    const callbacks = {
-      before: before,
-      beforeAnimate: beforeAnimate,
-      afterAnimate: afterAnimate,
-      after: after,
-    };
-
-    const animation = {
-      finished: Promise.resolve(),
-    } as unknown as IAnimation;
-
-    await withAnimationCallbacks(animation, callbacks)?.finished;
-
-    expect(callbacks.before).toHaveBeenCalledTimes(1);
-    expect(callbacks.beforeAnimate).toHaveBeenCalledTimes(1);
-    expect(callbacks.afterAnimate).toHaveBeenCalledTimes(1);
-    expect(callbacks.after).toHaveBeenCalledTimes(1);
-
-    await withAnimationCallbacks(null, callbacks)?.finished;
-
-    expect(callbacks.before).toHaveBeenCalledTimes(2);
-    expect(callbacks.beforeAnimate).toHaveBeenCalledTimes(1);
-    expect(callbacks.afterAnimate).toHaveBeenCalledTimes(1);
-    expect(callbacks.after).toHaveBeenCalledTimes(2);
-  });
-
-  it('executeAnimatableTasks', async () => {
-    const before = jest.fn();
-    const after = jest.fn();
-
-    const task = jest.fn(() => () => {
-      return {
-        finished: Promise.resolve(),
-      } as unknown as IAnimation;
-    });
-
-    const tasks: AnimatableTask[] = [task];
-
-    await executeAnimatableTasks(tasks, { before, after })?.finished;
-
-    expect(before).toHaveBeenCalledTimes(1);
-    expect(task).toHaveBeenCalledTimes(1);
-    expect(after).toHaveBeenCalledTimes(1);
-  });
-
   it('getAnimation', () => {
-    expect(getAnimation({ animation: true }, false)).toBe(false);
-    expect(getAnimation({ animation: false }, true)).toBe(false);
-    expect(getAnimation({ animation: true }, true)).toEqual(DEFAULT_ANIMATION_OPTIONS);
+    expect(getAnimationOptions({}, false)).toBe(false);
+    expect(getAnimationOptions({ animation: false }, true)).toBe(false);
+    expect(getAnimationOptions({}, true)).toEqual(DEFAULT_ANIMATION_OPTIONS);
 
-    expect(getAnimation({ animation: { duration: 1000 } }, true)).toEqual({
+    expect(getAnimationOptions({ animation: { duration: 1000 } }, true)).toEqual({
       ...DEFAULT_ANIMATION_OPTIONS,
       duration: 1000,
     });
 
-    expect(getAnimation({ animation: { duration: 1000 } }, { duration: 500, easing: 'linear' })).toEqual({
+    expect(getAnimationOptions({ animation: { duration: 1000 } }, { duration: 500, easing: 'linear' })).toEqual({
       ...DEFAULT_ANIMATION_OPTIONS,
       duration: 500,
       easing: 'linear',
     });
+  });
+
+  it('getElementAnimationOptions', () => {
+    // global, element, local => result
+    // total 2 * 3 * 3 = 18 cases
+    const animations: [
+      GraphOptions['animation'],
+      undefined | false | AnimationEffectTiming,
+      undefined | false | AnimationEffectTiming,
+      false | STDAnimation,
+    ][] = [
+      [false, false, false, []],
+      [false, false, undefined, []],
+      [false, undefined, false, []],
+      [false, undefined, undefined, []],
+      [undefined, false, false, []],
+      [undefined, false, undefined, []],
+      [undefined, undefined, false, []],
+      [undefined, undefined, undefined, []],
+      [{ duration: 1000 }, undefined, undefined, []],
+      [false, undefined, undefined, []],
+      [undefined, { duration: 1000 }, undefined, [{ ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS, fields: [] }]],
+      [
+        { duration: 1000 },
+        { duration: 500 },
+        undefined,
+        [{ ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS, duration: 500, fields: [] }],
+      ],
+      [
+        { duration: 1000 },
+        { duration: 500 },
+        { duration: 200 },
+        [{ ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS, duration: 200, fields: [] }],
+      ],
+      [{ duration: 1000 }, { duration: 500 }, false, []],
+      [{ duration: 1000 }, false, { duration: 200 }, []],
+      [false, { duration: 500 }, { duration: 200 }, []],
+      [false, { duration: 500 }, false, []],
+      [{ duration: 1000 }, false, false, []],
+      [true, undefined, undefined, []],
+      [true, { duration: 500 }, undefined, [{ ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS, duration: 500, fields: [] }]],
+      [
+        true,
+        { duration: 500 },
+        { duration: 200 },
+        [{ ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS, duration: 200, fields: [] }],
+      ],
+      [true, false, { duration: 200 }, []],
+    ];
+
+    const stage = 'update' as const;
+    const elementType = 'node' as const;
+    for (const [global, element, local, result] of animations) {
+      expect(
+        getElementAnimationOptions(
+          {
+            animation: global,
+            [elementType]: {
+              animation: {
+                ...(element === false
+                  ? { [stage]: false }
+                  : element === undefined
+                    ? {}
+                    : { [stage]: [{ ...element, fields: [] }] }),
+              },
+            },
+          },
+          elementType,
+          stage,
+          local,
+        ),
+      ).toEqual(result);
+    }
+  });
+
+  it('getElementAnimationOptions in theme', () => {
+    const stage = 'update' as const;
+
+    register('theme', 'test-element-animation', {
+      node: { animation: { [stage]: false } },
+      edge: { animation: false },
+      combo: {
+        animation: { [stage]: [{ fields: ['d', 'stroke'], shape: 'key', duration: 2000 }] },
+      },
+    });
+
+    expect(getElementAnimationOptions({ theme: 'test-element-animation' }, 'node', stage)).toEqual([]);
+    expect(getElementAnimationOptions({ theme: 'test-element-animation' }, 'edge', stage)).toEqual([]);
+    expect(getElementAnimationOptions({ theme: 'test-element-animation' }, 'combo', stage)).toEqual([
+      { ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS, fields: ['d', 'stroke'], shape: 'key', duration: 2000 },
+    ]);
+  });
+
+  it('getElementAnimationOptions mixin', () => {
+    const stage = 'update' as const;
+
+    register('theme', 'test-element-animation-mixin', {
+      node: { animation: { [stage]: false } },
+      edge: { animation: false },
+      combo: {
+        animation: { [stage]: [{ fields: ['d', 'stroke'], shape: 'key', duration: 2000 }] },
+      },
+    });
+
+    const options = {
+      theme: 'test-element-animation-mixin',
+      node: {
+        animation: {
+          enter: [{ fields: ['x', 'y'], duration: 1000 }],
+        },
+      },
+    };
+
+    expect(getElementAnimationOptions(options, 'node', stage)).toEqual([]);
+    expect(getElementAnimationOptions(options, 'node', 'enter')).toEqual([
+      { ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS, fields: ['x', 'y'], duration: 1000 },
+    ]);
   });
 });

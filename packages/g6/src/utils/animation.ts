@@ -1,9 +1,12 @@
-import { type IAnimation } from '@antv/g';
-import { isEqual, isNil, isObject } from '@antv/util';
-import { DEFAULT_ANIMATION_OPTIONS } from '../constants';
+import type { IAnimation } from '@antv/g';
+import { isEqual, isNil, isObject, isString } from '@antv/util';
+import type { AnimationEffectTiming, AnimationOptions, STDAnimation } from '../animations/types';
+import { DEFAULT_ANIMATION_OPTIONS, DEFAULT_ELEMENTS_ANIMATION_OPTIONS, ExtensionCategory } from '../constants';
+import { getExtension } from '../registry';
 import type { GraphOptions } from '../spec';
-import type { AnimatableTask, Keyframe } from '../types';
-import { isNode } from './element';
+import type { AnimationStage } from '../spec/element/animation';
+import type { ElementType, Keyframe } from '../types';
+import { themeOf } from './theme';
 
 export function createAnimationsProxy(animations: IAnimation[]): IAnimation | null;
 export function createAnimationsProxy(sourceAnimation: IAnimation, targetAnimations: IAnimation[]): IAnimation;
@@ -74,8 +77,8 @@ export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
       // 属性值不能为空 / property value cannot be empty
       values.some((value) => isNil(value)) ||
       // 属性值必须不完全一致 / property value must not be exactly the same
-      // 属性值可以是同一节点 / property value can be the same node
-      values.every((value) => !isNode(value) && isEqual(value, values[0]))
+      // 属性值可以是保留属性 / property value can be the reserved property
+      values.every((value) => !['sourceNode', 'targetNode', 'childrenNode'].includes(key) && isEqual(value, values[0]))
     ) {
       delete propertyIndexedKeyframes[key];
     }
@@ -123,59 +126,6 @@ export function inferDefaultValue(name: string) {
   }
 }
 
-type Callbacks = {
-  before?: () => void;
-  beforeAnimate?: (result: IAnimation) => void;
-  afterAnimate?: (result: IAnimation) => void;
-  after?: () => void;
-};
-
-/**
- * <zh/> 执行动画前后的回调
- *
- * <en/> Callback before and after animation execution
- * @param animation - <zh/> 动画对象 | <en/> animation object
- * @param callbacks - <zh/> 回调函数 | <en/> callback function
- * @returns <zh/> 动画对象 | <en/> animation object
- */
-export function withAnimationCallbacks(animation: IAnimation | null | undefined, callbacks: Callbacks) {
-  callbacks.before?.();
-  if (animation) {
-    callbacks.beforeAnimate?.(animation);
-    animation.finished.then(() => {
-      callbacks.afterAnimate?.(animation);
-      callbacks.after?.();
-    });
-  } else {
-    callbacks.after?.();
-  }
-  return animation || null;
-}
-
-/**
- * <zh/> 执行动画任务
- *
- * <en/> Execute animation tasks
- * @param tasks - <zh/> 动画任务 | <en/> animation task
- * @param callbacks - <zh/> 回调函数 | <en/> callback function
- * @returns <zh/> 动画对象 | <en/> animation object
- */
-export function executeAnimatableTasks(tasks: AnimatableTask[], callbacks: Callbacks = {}) {
-  if (tasks.length === 0) return null;
-  const { before, ...restCallbacks } = callbacks;
-  callbacks.before?.();
-  const animateTasks = tasks.map((task) => task());
-
-  const animation = createAnimationsProxy(
-    animateTasks
-      .map((task) => task())
-      .flat()
-      .filter(Boolean) as IAnimation[],
-  );
-  withAnimationCallbacks(animation, restCallbacks);
-  return animation;
-}
-
 /**
  * <zh/> 获取动画配置
  *
@@ -184,15 +134,75 @@ export function executeAnimatableTasks(tasks: AnimatableTask[], callbacks: Callb
  * @param localAnimation - <zh/> 局部动画配置 | <en/> local animation configuration
  * @returns <zh/> 动画配置 | <en/> animation configuration
  */
-export function getAnimation(
+export function getAnimationOptions(
   options: GraphOptions,
-  localAnimation: boolean | EffectTiming | undefined,
-): false | EffectTiming {
+  localAnimation: boolean | AnimationEffectTiming | undefined,
+): false | AnimationEffectTiming {
   const { animation } = options;
-  if (!animation || localAnimation === false) return false;
+  if (animation === false || localAnimation === false) return false;
 
-  const finalAnimation: EffectTiming = { ...DEFAULT_ANIMATION_OPTIONS };
-  if (isObject(animation)) Object.assign(finalAnimation, animation);
-  if (isObject(localAnimation)) Object.assign(finalAnimation, localAnimation);
-  return finalAnimation;
+  const effectTiming: AnimationEffectTiming = { ...DEFAULT_ANIMATION_OPTIONS };
+  if (isObject(animation)) Object.assign(effectTiming, animation);
+  if (isObject(localAnimation)) Object.assign(effectTiming, localAnimation);
+  return effectTiming;
+}
+
+/**
+ * <zh/> 获取动画配置
+ *
+ * <en/> Get animation configuration
+ * @param options - <zh/> 动画配置项 | <en/> animation configuration
+ * @returns <zh/> 动画配置 | <en/> animation configuration
+ */
+function animationOf(options: string | AnimationOptions[]): STDAnimation {
+  if (isString(options)) return getExtension(ExtensionCategory.ANIMATION, options) || [];
+  return options;
+}
+
+/**
+ * <zh/> 获取元素的动画
+ *
+ * <en/> Get element animation
+ * @param options - <zh/> G6 配置项 | <en/> G6 configuration
+ * @param elementType - <zh/> 元素类型 | <en/> element type
+ * @param stage - <zh/> 动画阶段 | <en/> animation stage
+ * @param localAnimation - <zh/> 局部动画配置 | <en/> local animation configuration
+ * @returns <zh/> 动画时序配置 | <en/> animation timing configuration
+ */
+export function getElementAnimationOptions(
+  options: GraphOptions,
+  elementType: ElementType,
+  stage: AnimationStage,
+  localAnimation?: AnimationEffectTiming | boolean,
+): STDAnimation {
+  const { animation: globalAnimation } = options;
+
+  const userElementAnimation = options?.[elementType]?.animation;
+  if (userElementAnimation === false) return [];
+  const useElementStageAnimation = userElementAnimation?.[stage];
+  if (useElementStageAnimation === false) return [];
+  if (globalAnimation === false || localAnimation === false) return [];
+
+  // 优先级：用户局部动画配置 > 用户动画配置 > 全局动画配置 > 主题动画配置 > 默认动画配置
+  // Priority: user local animation configuration > user animation configuration > global animation configuration > theme animation configuration > default animation configuration
+
+  const themeElementAnimation = themeOf(options)[elementType]?.animation;
+
+  const combine = (_: string | AnimationOptions[] = []) =>
+    animationOf(_).map((animation) => ({
+      ...DEFAULT_ELEMENTS_ANIMATION_OPTIONS,
+      ...(isObject(globalAnimation) && globalAnimation),
+      ...animation,
+      ...(isObject(localAnimation) && localAnimation),
+    }));
+
+  if (useElementStageAnimation) return combine(useElementStageAnimation);
+
+  if (!themeElementAnimation) return [];
+
+  // 此时取决于主题动画配置
+  // At this time, it depends on the theme animation configuration
+  const themeElementStageAnimation = themeElementAnimation[stage];
+  if (themeElementStageAnimation === false) return [];
+  return combine(themeElementStageAnimation);
 }
