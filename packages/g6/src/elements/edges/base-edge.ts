@@ -52,6 +52,13 @@ export interface BaseEdgeStyleProps
    */
   label?: boolean;
   /**
+   * <zh/> 是否启用自环边
+   *
+   * <en/> Whether to enable self-loop edge
+   * @defaultValue true
+   */
+  loop?: boolean;
+  /**
    * <zh/> 是否显示边的光晕
    *
    * <en/> Whether to display the halo of the edge
@@ -181,6 +188,7 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     haloPointerEvents: 'none',
     haloStrokeOpacity: 0.25,
     haloZIndex: -1,
+    loop: true,
     startArrow: false,
     startArrowSize: 8,
     startArrowLineDash: 0,
@@ -212,10 +220,10 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   }
 
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps): PathStyleProps {
-    const style = this.getGraphicStyle(attributes);
+    const { loop, ...style } = this.getGraphicStyle(attributes);
     const { sourceNode, targetNode } = this;
 
-    const d = isSameNode(sourceNode, targetNode) ? this.getLoopPath(attributes) : this.getKeyPath(attributes);
+    const d = loop && isSameNode(sourceNode, targetNode) ? this.getLoopPath(attributes) : this.getKeyPath(attributes);
 
     return {
       d,
