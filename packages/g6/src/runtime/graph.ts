@@ -1488,7 +1488,7 @@ export class Graph extends EventEmitter {
 
     this.isCollapsingExpanding = true;
     this.setElementCollapsibility(id, true);
-    await this.context.element!.collapseElement(id, animation);
+    await this.context.element!.collapseNode(id, animation);
     this.isCollapsingExpanding = false;
   }
 
@@ -1505,7 +1505,7 @@ export class Graph extends EventEmitter {
 
     this.isCollapsingExpanding = true;
     this.setElementCollapsibility(id, false);
-    await this.context.element!.expandElement(id, animation);
+    await this.context.element!.expandNode(id, animation);
     this.isCollapsingExpanding = false;
   }
 

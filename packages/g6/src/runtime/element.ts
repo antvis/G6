@@ -522,13 +522,13 @@ export class ElementController {
   }
 
   /**
-   * <zh/> 展开元素
+   * <zh/> 收起节点
    *
-   * <en/> expand element
+   * <en/> collapse node
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @param animation - <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true
    */
-  public async collapseElement(id: ID, animation: boolean = true): Promise<void> {
+  public async collapseNode(id: ID, animation: boolean = true): Promise<void> {
     const { model, layout } = this.context;
 
     const preprocess = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
@@ -572,7 +572,14 @@ export class ElementController {
     )?.finished;
   }
 
-  public async expandElement(id: ID, animation: boolean = true): Promise<void> {
+  /**
+   * <zh/> 展开节点
+   *
+   * <en/> expand node
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param animation - <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true
+   */
+  public async expandNode(id: ID, animation: boolean = true): Promise<void> {
     const { model, layout } = this.context;
 
     const position = positionOf(model.getNodeData([id])[0]);
