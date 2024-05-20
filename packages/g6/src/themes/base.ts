@@ -138,6 +138,8 @@ export function create(tokens: ThemeTokens): Theme {
         exit: 'fade',
         show: 'fade',
         hide: 'fade',
+        expand: 'move-in',
+        collapse: 'move-out',
         update: [{ fields: ['x', 'y', 'fill', 'stroke'] }],
       },
     },
@@ -191,6 +193,8 @@ export function create(tokens: ThemeTokens): Theme {
       animation: {
         enter: 'fade',
         exit: 'fade',
+        expand: 'path-in',
+        collapse: 'path-out',
         show: 'fade',
         hide: 'fade',
         update: [{ fields: ['sourceNode', 'targetNode'] }, { fields: ['stroke'], shape: 'key' }],

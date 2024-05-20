@@ -1,7 +1,7 @@
 import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { ID, IPointerEvent } from '../types';
+import type { ID, IPointerEvent, NodeLikeData } from '../types';
 import { isCollapsed } from '../utils/collapsibility';
 import { isElement } from '../utils/element';
 import type { BaseBehaviorOptions } from './base-behavior';
@@ -97,7 +97,7 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
 
     const id = target.id;
     const { model, graph } = this.context;
-    const data = model.getComboData([id])[0];
+    const data = model.getElementDataById(id) as NodeLikeData;
     if (!data) return false;
 
     const { onCollapse, onExpand, animation } = this.options;

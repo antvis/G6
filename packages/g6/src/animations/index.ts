@@ -1,19 +1,21 @@
-export { executor } from './executor';
-
 /**
  * <zh/> 内置的动画元素。
  * <en/> Built-in animations.
  */
-export const fade = [
-  {
-    fields: ['opacity'],
-  },
-];
+export { executor } from './executor';
 
-export const translate = [
-  {
-    fields: ['x', 'y'],
-  },
-];
+export const Fade = [{ fields: ['opacity'] }];
 
-export const comboCollapseExpand = [{ fields: ['childrenNode'] }];
+export const Translate = [{ fields: ['x', 'y'] }];
+
+export const ComboCollapseExpand = [{ fields: ['x', 'y', 'width', 'height', 'r'], shape: 'key' }];
+
+export const MoveIn = [{ fields: ['x', 'y'] }];
+
+export const MoveOut = MoveIn;
+
+export const PathIn = [{ fields: ['sourceNode', 'targetNode'] }];
+
+export const PathOut = PathIn;
+
+export const comboCollapseExpand = [{ fields: ['childrenNode', 'opacity'] }];

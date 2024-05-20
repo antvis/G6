@@ -69,12 +69,6 @@ export interface AnimationContext {
    * <en/> For example, before the element is destroyed, the final state opacity of the element needs to be set to 0
    */
   modifiedStyle: Record<string, unknown>;
-  /**
-   * <zh/> 动画时序配置
-   *
-   * <en/> Animation effect timing
-   */
-  // effectTiming: AnimationEffectTiming;
 }
 
 /**

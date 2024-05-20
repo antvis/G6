@@ -1,4 +1,4 @@
-import { comboCollapseExpand, fade, translate } from '../animations';
+import { ComboCollapseExpand, Fade, MoveIn, MoveOut, PathIn, PathOut, Translate } from '../animations';
 import {
   BrushSelect,
   ClickElement,
@@ -70,6 +70,7 @@ import { dark, light } from '../themes';
 import {
   ArrangeDrawOrder,
   CollapseExpandCombo,
+  CollapseExpandNode,
   GetEdgeActualEnds,
   ProcessParallelEdges,
   UpdateRelatedEdge,
@@ -82,9 +83,13 @@ import type { ExtensionRegistry } from './types';
  */
 export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   animation: {
-    fade,
-    translate,
-    'combo-collapse-expand': comboCollapseExpand,
+    'combo-collapse-expand': ComboCollapseExpand,
+    'move-in': MoveIn,
+    'move-out': MoveOut,
+    'path-in': PathIn,
+    'path-out': PathOut,
+    fade: Fade,
+    translate: Translate,
   },
   behavior: {
     'zoom-canvas': ZoomCanvas,
@@ -171,6 +176,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'update-related-edges': UpdateRelatedEdge,
     'arrange-draw-order': ArrangeDrawOrder,
     'collapse-expand-combo': CollapseExpandCombo,
+    'collapse-expand-node': CollapseExpandNode,
     'process-parallel-edges': ProcessParallelEdges,
     'get-edge-actual-ends': GetEdgeActualEnds,
   },

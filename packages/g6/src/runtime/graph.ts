@@ -1473,6 +1473,8 @@ export class Graph extends EventEmitter {
     return this.context.element!.getElement(id)!.getRenderBounds();
   }
 
+  private isCollapsingExpanding = false;
+
   /**
    * <zh/> 收起 Combo
    *
@@ -1482,8 +1484,12 @@ export class Graph extends EventEmitter {
    * @apiCategory element
    */
   public async collapseElement(id: ID, animation: boolean = true): Promise<void> {
+    if (this.isCollapsingExpanding) return;
+
+    this.isCollapsingExpanding = true;
     this.setElementCollapsibility(id, true);
-    await this.context.element!.draw({ animation, stage: 'collapse' })?.finished;
+    await this.context.element!.collapseElement(id, animation);
+    this.isCollapsingExpanding = false;
   }
 
   /**
@@ -1495,8 +1501,12 @@ export class Graph extends EventEmitter {
    * @apiCategory element
    */
   public async expandElement(id: ID, animation: boolean = true): Promise<void> {
+    if (this.isCollapsingExpanding) return;
+
+    this.isCollapsingExpanding = true;
     this.setElementCollapsibility(id, false);
-    await this.context.element!.draw({ animation, stage: 'expand' })?.finished;
+    await this.context.element!.expandElement(id, animation);
+    this.isCollapsingExpanding = false;
   }
 
   private setElementCollapsibility(id: ID, collapsed: boolean) {

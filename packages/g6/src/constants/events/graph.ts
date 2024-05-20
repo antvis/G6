@@ -132,18 +132,6 @@ export enum GraphEvent {
    */
   AFTER_TRANSFORM = 'aftertransform',
   /**
-   * <zh/> 状态变化之前
-   *
-   * <en/> Before the state changes
-   */
-  BEFORE_ELEMENT_STATE_CHANGE = 'beforeelementstatechange',
-  /**
-   * <zh/> 状态变化之后
-   *
-   * <en/> After the state changes
-   */
-  AFTER_ELEMENT_STATE_CHANGE = 'afterelementstatechange',
-  /**
    * <zh/> 批处理开始
    *
    * <en/> Batch processing starts

@@ -24,11 +24,12 @@ import type {
 } from '../types';
 import { cacheStyle, getCachedStyle, hasCachedStyle, setCacheStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
-import { updateStyle } from '../utils/element';
+import { markToBeDestroyed, updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
+import { positionOf } from '../utils/position';
 import { computeElementCallbackStyle } from '../utils/style';
 import { themeOf } from '../utils/theme';
 import type { RuntimeContext } from './types';
@@ -277,19 +278,12 @@ export class ElementController {
         ? {}
         : {
             before: () =>
-              this.emit(
-                new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation: context.animation }),
-                context,
-              ),
+              this.emit(new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation }), context),
             beforeAnimate: (animation) =>
               this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, drawData), context),
             afterAnimate: (animation) =>
               this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData), context),
-            after: () =>
-              this.emit(
-                new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation: context.animation }),
-                context,
-              ),
+            after: () => this.emit(new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation }), context),
           },
     );
   }
@@ -527,6 +521,107 @@ export class ElementController {
     delete this.shapeTypeMap[id];
   }
 
+  /**
+   * <zh/> 展开元素
+   *
+   * <en/> expand element
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param animation - <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true
+   */
+  public async collapseElement(id: ID, animation: boolean = true): Promise<void> {
+    const { model, layout } = this.context;
+
+    const preprocess = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
+
+    preprocess.drawData.remove.nodes.forEach((datum) => {
+      const id = idOf(datum);
+      const element = this.getElement(id);
+      if (element) markToBeDestroyed(element);
+    });
+
+    // 进行预布局，计算出所有元素的位置
+    // Perform pre-layout to calculate the position of all elements
+    const result = await layout!.simulate();
+    model.updateData(result);
+
+    // 重新计算数据 / Recalculate data
+    const { drawData } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
+    const { add, remove, update } = drawData;
+
+    const context = { animation, stage: 'collapse', data: drawData } as const;
+
+    this.destroyElements(remove, context);
+    this.createElements(add, context);
+    this.updateElements(update, context);
+
+    await this.context.animation!.animate(
+      animation,
+      {
+        beforeAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.COLLAPSE, animation, drawData), context),
+        afterAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.COLLAPSE, animation, drawData), context),
+      },
+      {
+        collapse: {
+          target: id,
+          descendants: Array.from(remove.nodes).map(([, node]) => idOf(node)),
+          position: positionOf(update.nodes.get(id)!),
+        },
+      },
+    )?.finished;
+  }
+
+  public async expandElement(id: ID, animation: boolean = true): Promise<void> {
+    const { model, layout } = this.context;
+
+    const position = positionOf(model.getNodeData([id])[0]);
+
+    // 首先创建展开的元素，然后进行预布局
+    // First create the expanded element, then perform pre-layout
+    const {
+      drawData: { add },
+    } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
+    this.createElements(add, { animation: false, stage: 'expand' });
+    // 重置动画 / Reset animation
+    this.context.animation!.clear();
+
+    const result = await layout!.simulate();
+    model.updateData(result);
+
+    // 重新计算数据 / Recalculate data
+    this.computeStyle();
+    const { drawData } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
+    const { update } = drawData;
+
+    const context = { animation, stage: 'expand', data: drawData } as const;
+
+    // 将新增边添加到更新列表 / Add new edges to the update list
+    add.edges.forEach((edge) => {
+      const id = idOf(edge);
+      if (!update.edges.has(id)) update.edges.set(id, edge);
+    });
+
+    this.updateElements(update, context);
+
+    await this.context.animation!.animate(
+      animation,
+      {
+        beforeAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.EXPAND, animation, drawData), context),
+        afterAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.EXPAND, animation, drawData), context),
+      },
+      {
+        expand: {
+          target: id,
+          descendants: Array.from(add.nodes).map(([, node]) => idOf(node)),
+          position,
+        },
+      },
+    )?.finished;
+  }
+
   public destroy() {
     // @ts-expect-error force delete
     this.container = {};
@@ -547,4 +642,6 @@ export interface DrawContext {
   stage?: AnimationStage;
   /** <zh/> 是否不抛出事件 | <en/> Whether not to throw events */
   silence?: boolean;
+  /** <zh/> 收起/展开的对象 ID | <en/> ID of the object to collapse/expand */
+  collapseExpandTarget?: ID;
 }
