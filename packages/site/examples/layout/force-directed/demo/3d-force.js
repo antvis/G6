@@ -13,7 +13,6 @@ fetch('https://assets.antv.antgroup.com/g6/d3-force-3d.json')
   .then((data) => {
     const graph = new Graph({
       container: 'container',
-      animation: true,
       renderer,
       data,
       layout: {

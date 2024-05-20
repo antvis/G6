@@ -14,6 +14,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
             labelText: data.id,
             labelWordWrap: true,
             labelWordWrapWidth: 150,
+            labelDx: isLeaf ? 20 : 0,
             labelDy: isLeaf ? 0 : 20,
             labelTextAlign: isLeaf ? 'start' : 'center',
             labelTextBaseline: 'middle',

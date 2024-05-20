@@ -19,7 +19,6 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
       layout: {
         type: 'force',
         linkDistance: 50,
-        animation: true,
         clustering: true,
         nodeClusterBy: 'cluster',
         clusterNodeStrength: 70,

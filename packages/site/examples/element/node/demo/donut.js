@@ -5,6 +5,7 @@ fetch('https://assets.antv.antgroup.com/g6/element-nodes.json')
   .then((data) => {
     const graph = new Graph({
       container: 'container',
+      animation: false,
       data,
       node: {
         type: 'donut',

@@ -5,7 +5,6 @@ fetch('https://assets.antv.antgroup.com/g6/force.json')
   .then((data) => {
     const graph = new Graph({
       container: 'container',
-      animation: true,
       data,
       layout: {
         type: 'force',

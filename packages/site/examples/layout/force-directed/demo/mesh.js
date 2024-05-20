@@ -13,7 +13,6 @@ function getData(size = 10) {
 }
 
 const graph = new Graph({
-  animation: true,
   data: getData(),
   layout: {
     type: 'd3force',

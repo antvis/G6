@@ -12,7 +12,6 @@ const data = {
 
 const graph = new Graph({
   container: 'container',
-  animation: true,
   node: {
     style: { labelText: (d) => d.id },
   },

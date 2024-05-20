@@ -16,7 +16,7 @@ const graph = new Graph({
   },
   edge: {
     animation: {
-      update: [{ fields: ['stroke', 'path', 'lineWidth'], shape: 'key' }],
+      update: [{ fields: ['sourceNode', 'targetNode'] }, { fields: ['stroke', 'lineWidth'], shape: 'key' }],
     },
   },
 });

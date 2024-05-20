@@ -30,7 +30,6 @@ fetch('https://assets.antv.antgroup.com/g6/collection.json')
       layout: {
         type: 'force',
         preventOverlap: true,
-        animation: true,
         linkDistance: (d) => {
           if (d.source === 'node0' || d.target === 'node0') {
             return 200;
