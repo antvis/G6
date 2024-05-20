@@ -24,7 +24,6 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
           field: 'cluster',
         },
       },
-      animation: true,
       behaviors: ['drag-canvas', 'drag-element'],
     });
 

@@ -50,7 +50,6 @@ const width = container.scrollWidth;
 
 const graph = new Graph({
   container,
-  animation: true,
   data: getData(width),
   layout: {
     type: 'd3force',

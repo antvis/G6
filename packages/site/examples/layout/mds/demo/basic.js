@@ -25,7 +25,6 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
         },
       },
       behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
-      animation: true,
     });
 
     graph.render();

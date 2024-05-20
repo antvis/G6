@@ -20,7 +20,6 @@ const fetchData = async (type) => {
 fetchData('small').then((data) => {
   const graph = new Graph({
     container: 'container',
-    animation: true,
     behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
     layout: {
       type: 'force',

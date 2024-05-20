@@ -35,7 +35,7 @@ class CircleComboWithExtraButton extends CircleCombo {
     const [, height] = this.getKeySize(attributes);
     const btnR = 8;
     const y = height / 2 + btnR;
-    const d = collapsed ? expand(0, 0, btnR) : collapse(0, 0, btnR);
+    const d = collapsed ? expand(0, y, btnR) : collapse(0, y, btnR);
 
     const hitArea = this.upsert('hit-area', Circle, { cy: y, r: 10, fill: '#fff', cursor: 'pointer' }, this);
     this.upsert('button', Path, { stroke: '#3d81f7', d, cursor: 'pointer' }, hitArea);

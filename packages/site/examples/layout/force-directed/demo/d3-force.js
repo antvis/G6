@@ -5,7 +5,6 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
   .then((data) => {
     const graph = new Graph({
       container: 'container',
-      animation: true,
       data,
       node: {
         style: {

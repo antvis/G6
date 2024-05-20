@@ -6,7 +6,6 @@ fetch('https://assets.antv.antgroup.com/g6/dagre-combo.json')
     const graph = new Graph({
       container: 'container',
       autoFit: 'view',
-      animation: true,
       data,
       node: {
         type: 'rect',
