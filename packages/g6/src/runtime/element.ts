@@ -439,8 +439,8 @@ export class ElementController {
         element,
         elementType,
         stage: exactStage,
-        originalStyle: { ...element.attributes },
-        modifiedStyle: style,
+        originalStyle: element.attributes,
+        modifiedStyle: { ...element.attributes, ...style },
       },
       {
         before: () => {
