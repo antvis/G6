@@ -8,8 +8,9 @@ import type { AntVLayout } from '../layouts/types';
 import { getExtension } from '../registry';
 import type { GraphData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
-import type { AdaptiveLayout, Combo, Node, TreeData } from '../types';
+import type { AdaptiveLayout, Combo, ID, Node, TreeData } from '../types';
 import { getAnimationOptions } from '../utils/animation';
+import { isToBeDestroyed } from '../utils/element';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
 import { idOf } from '../utils/id';
@@ -64,6 +65,30 @@ export class LayoutController {
       }
     }
     emit(graph, new GraphLifeCycleEvent(GraphEvent.AFTER_LAYOUT));
+  }
+
+  /**
+   * <zh/> 模拟布局
+   *
+   * <en/> Simulate layout
+   * @returns <zh/> 模拟布局结果 | <en/> Simulated layout result
+   */
+  public async simulate(): Promise<GraphData> {
+    if (!this.options) return {};
+    const pipeline = Array.isArray(this.options) ? this.options : [this.options];
+
+    let simulation: GraphData = {};
+
+    for (const options of pipeline) {
+      const index = pipeline.indexOf(options);
+
+      const data = this.getLayoutData(options);
+      const result = await this.stepLayout(data, { ...this.presetOptions, ...options, animation: false }, index);
+
+      simulation = result;
+    }
+
+    return simulation;
   }
 
   public async stepLayout(data: GraphData, options: STDLayoutOptions, index: number): Promise<GraphData> {
@@ -179,7 +204,29 @@ export class LayoutController {
     const { nodeFilter = () => true } = options;
     const { nodes, edges, combos } = this.context.model.getData();
 
-    return { nodes: nodes.filter(nodeFilter), edges, combos };
+    const getElement = (id: ID) => this.context.element!.getElement(id);
+
+    const nodesToLayout = nodes.filter((node) => {
+      const id = idOf(node);
+      const element = getElement(id);
+      if (!element) return false;
+      if (isToBeDestroyed(element)) return false;
+      return nodeFilter(node);
+    });
+
+    const nodesIdMap = new Map<ID, NodeData>(nodesToLayout.map((node) => [idOf(node), node]));
+
+    const edgesToLayout = edges.filter((edge) => {
+      const { source, target } = edge;
+      if (!nodesIdMap.has(source) || !nodesIdMap.has(target)) return false;
+      return true;
+    });
+
+    return {
+      nodes: nodesToLayout,
+      edges: edgesToLayout,
+      combos,
+    };
   }
 
   /**
