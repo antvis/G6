@@ -385,7 +385,7 @@ export class ElementController {
         elementType,
         stage,
         originalStyle: { ...element.attributes },
-        modifiedStyle: style,
+        modifiedStyle: { ...style },
       },
       {
         after: () => {
@@ -439,7 +439,7 @@ export class ElementController {
         element,
         elementType,
         stage: exactStage,
-        originalStyle: element.attributes,
+        originalStyle: { ...element.attributes },
         modifiedStyle: { ...element.attributes, ...style },
       },
       {
@@ -490,8 +490,8 @@ export class ElementController {
         element,
         elementType,
         stage,
-        originalStyle: element.attributes,
-        modifiedStyle: element.attributes,
+        originalStyle: { ...element.attributes },
+        modifiedStyle: { ...element.attributes },
       },
       {
         after: () => {
