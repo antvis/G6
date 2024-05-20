@@ -1,0 +1,42 @@
+{
+  "name": "@antv/g6-cli",
+  "version": "0.0.1",
+  "description": "Scaffolding Your Extension for G6",
+  "keywords": [
+    "antv",
+    "g6",
+    "extension",
+    "template"
+  ],
+  "repository": "https://github.com/antvis/G6.git",
+  "license": "MIT",
+  "author": "yvonneyx",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "create-g6": "index.js"
+  },
+  "files": [
+    "index.js",
+    "template-*",
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.0",
+    "@types/minimist": "^1.2.5",
+    "@types/prompts": "^2.4.9",
+    "kolorist": "^1.8.0",
+    "minimist": "^1.2.8",
+    "prompts": "^2.4.2",
+    "unbuild": "^2.0.0"
+  },
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
+  }
+}

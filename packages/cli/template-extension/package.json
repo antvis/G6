@@ -1,0 +1,76 @@
+{
+  "version": "0.0.1",
+  "description": "Extension for G6",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib -p tsconfig.build.json",
+    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm -p tsconfig.build.json",
+    "build:umd": "rimraf ./dist && rollup -c",
+    "build": "run-p build:*",
+    "dev": "vite",
+    "fix": "eslint ./src ./__tests__ --fix && prettier ./src __tests__ --write ",
+    "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
+    "test": "jest"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@antv/g6": "5.0.0-beta.35"
+  },
+  "devDependencies": {
+    "@antv/g": "^6.0.5",
+    "@antv/g-canvas": "^2.0.4",
+    "@antv/g-svg": "^2.0.5",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@swc/jest": "^0.2.36",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.12",
+    "@types/xmlserializer": "^0.6.6",
+    "@typescript-eslint/eslint-plugin": "^7.9.0",
+    "@typescript-eslint/parser": "^7.9.0",
+    "chalk": "^5.3.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^23.2.0",
+    "lil-gui": "^0.19.2",
+    "lodash": "^4.17.21",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.2.5",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "prettier-plugin-packagejson": "^2.5.0",
+    "rimraf": "^5.0.7",
+    "rollup": "^4.17.2",
+    "rollup-plugin-polyfill-node": "^0.13.0",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11",
+    "xml-formatter": "^3.6.2",
+    "xmlserializer": "^0.6.1"
+  },
+  "peerDependencies": {
+    "@antv/g": "^6.0.5",
+    "@antv/g-canvas": "^2.0.4"
+  }
+}
