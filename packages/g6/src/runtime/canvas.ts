@@ -154,7 +154,10 @@ export class Canvas {
   private backgroundElement!: HTMLDivElement;
 
   private initBackgroundElement(options: Record<string, unknown>) {
-    if (this.backgroundElement) return this.backgroundElement;
+    if (this.backgroundElement) {
+      Object.assign(this.backgroundElement.style, options);
+      return this.backgroundElement;
+    }
 
     const { width, height } = this.config;
 
