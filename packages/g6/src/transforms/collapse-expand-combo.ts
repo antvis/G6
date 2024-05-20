@@ -1,3 +1,4 @@
+import type { DrawContext } from '../runtime/element';
 import type { ComboData } from '../spec';
 import { getSubgraphRelatedEdges } from '../utils/edge';
 import { idOf } from '../utils/id';
@@ -11,7 +12,9 @@ import type { DrawData } from './types';
  * <en/> Process the collapse and expand of elements
  */
 export class CollapseExpandCombo extends BaseTransform {
-  public beforeDraw(input: DrawData): DrawData {
+  public beforeDraw(input: DrawData, context: DrawContext): DrawData {
+    if (context.stage === 'visibility') return input;
+
     const { model } = this.context;
     const { add, update } = input;
     // combo 添加和更新的顺序为先子后父，因此采用倒序遍历

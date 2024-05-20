@@ -136,7 +136,8 @@ export function create(tokens: ThemeTokens): Theme {
       animation: {
         enter: 'fade',
         exit: 'fade',
-        visibility: 'fade',
+        show: 'fade',
+        hide: 'fade',
         update: [{ fields: ['x', 'y', 'fill', 'stroke'] }],
       },
     },
@@ -190,11 +191,9 @@ export function create(tokens: ThemeTokens): Theme {
       animation: {
         enter: 'fade',
         exit: 'fade',
-        visibility: 'fade',
-        update: [
-          { fields: ['d', 'stroke'], shape: 'key' },
-          { fields: ['d', 'stroke'], shape: 'halo' },
-        ],
+        show: 'fade',
+        hide: 'fade',
+        update: [{ fields: ['sourceNode', 'targetNode'] }, { fields: ['stroke'], shape: 'key' }],
       },
     },
     combo: {
@@ -253,7 +252,8 @@ export function create(tokens: ThemeTokens): Theme {
       animation: {
         enter: 'fade',
         exit: 'fade',
-        visibility: 'fade',
+        show: 'fade',
+        hide: 'fade',
         expand: 'combo-collapse-expand',
         collapse: 'combo-collapse-expand',
         update: [{ fields: ['x', 'y'] }, { fields: ['size', 'fill', 'stroke'], shape: 'key' }],

@@ -53,6 +53,5 @@ export function hasCachedStyle(element: DisplayObject, name: string) {
  * @param value - <zh/> 样式值 | <en/> style value
  */
 export function setCacheStyle(element: DisplayObject, name: string, value: any) {
-  // element.attributes[getStyleCacheKey(name)] = value;
   set(element, [CacheTargetKey, getStyleCacheKey(name)], value);
 }

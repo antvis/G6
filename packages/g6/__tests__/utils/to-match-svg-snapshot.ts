@@ -1,8 +1,8 @@
 import type { Graph, IAnimateEvent } from '@/src';
 import type { Canvas, IAnimation } from '@antv/g';
 import chalk from 'chalk';
-import * as fs from 'fs';
-import * as path from 'path';
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
+import { join } from 'path';
 import format from 'xml-formatter';
 import xmlserializer from 'xmlserializer';
 import { getSnapshotDir } from './dir';
@@ -29,9 +29,9 @@ export async function toMatchSVGSnapshot(
   await sleep(300);
 
   const { fileFormat = 'svg', keepSVGElementId = false } = options;
-  const namePath = path.join(dir, name);
-  const actualPath = path.join(dir, `${name}-actual.${fileFormat}`);
-  const expectedPath = path.join(dir, `${name}.${fileFormat}`);
+  const namePath = join(dir, name);
+  const actualPath = join(dir, `${name}-actual.${fileFormat}`);
+  const expectedPath = join(dir, `${name}.${fileFormat}`);
   const gCanvases = Array.isArray(gCanvas) ? gCanvas : [gCanvas];
 
   let actual: string = '';
@@ -51,24 +51,24 @@ export async function toMatchSVGSnapshot(
     : '';
 
   try {
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    if (!fs.existsSync(expectedPath)) {
+    if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+    if (!existsSync(expectedPath)) {
       if (process.env.CI === 'true') {
         throw new Error(`Please generate golden image for ${namePath}`);
       }
       console.warn(`! generate ${namePath}`);
-      fs.writeFileSync(expectedPath, actual);
+      writeFileSync(expectedPath, actual);
       return {
         message: () => `generate ${namePath}`,
         pass: true,
       };
     } else {
-      const expected = fs.readFileSync(expectedPath, {
+      const expected = readFileSync(expectedPath, {
         encoding: 'utf8',
         flag: 'r',
       });
       if (actual === expected) {
-        if (fs.existsSync(actualPath)) fs.unlinkSync(actualPath);
+        if (existsSync(actualPath)) unlinkSync(actualPath);
         return {
           message: () => `match ${namePath}`,
           pass: true,
@@ -76,7 +76,7 @@ export async function toMatchSVGSnapshot(
       }
 
       // Perverse actual file.
-      if (actual) fs.writeFileSync(actualPath, actual);
+      if (actual) writeFileSync(actualPath, actual);
 
       const formatPath = (p: string) => p.split('/g6/')[1];
       return {
@@ -124,6 +124,7 @@ export async function toMatchAnimation(
 
   for (const frame of frames) {
     animation.currentTime = frame;
+
     await sleep(32);
     const result = await toMatchSVGSnapshot(
       Object.values(graph.getCanvas().canvas),

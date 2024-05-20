@@ -157,7 +157,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
     model.translateNodeTo(ASSIST_NODE_ID, [event.canvas.x, event.canvas.y]);
 
-    await element!.draw({ animation: false, silence: true });
+    await element!.draw({ animation: false, silence: true })?.finished;
   };
 
   private createEdge = (event: IElementEvent) => {
@@ -183,7 +183,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
     this.source = undefined;
 
-    await element!.draw({ animation: false, silence: true });
+    await element!.draw({ animation: false, silence: true })?.finished;
   };
 
   private getSelectedNodeIDs(currTarget: ID[]) {

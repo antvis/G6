@@ -155,7 +155,7 @@ describe('ElementController', () => {
 
     const comboStyle = elementController.getElementComputedStyle('combo', combo1);
 
-    expect(comboStyle.childrenNode[0].id).toEqual('node-3');
+    expect(comboStyle.childrenNode[0]).toEqual('node-3');
 
     expect(omit(comboStyle, ['childrenNode', 'childrenData'])).toEqual({
       ...LIGHT_THEME.combo?.style,

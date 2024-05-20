@@ -1,16 +1,6 @@
-import type { Animation } from '../../animations/types';
-
-export type AnimationOptions =
-  | false
-  | ({
-      [STAGE in AnimationStage]?: Animation;
-    } & {
-      [key: string]: Animation;
-    });
-
 /**
- * <zh/> 动画阶段
+ * <zh/> 元素动画执行阶段
  *
- * <en/> Animation stage
+ * <en/> Stage of element animation execution
  */
-export type AnimationStage = 'enter' | 'update' | 'exit' | 'visibility' | 'show' | 'hide' | 'collapse' | 'expand';
+export type AnimationStage = 'enter' | 'update' | 'exit' | 'show' | 'hide' | 'collapse' | 'expand' | string;

@@ -16,4 +16,4 @@ export const translate = [
   },
 ];
 
-export const comboCollapseExpand = [{ fields: ['x', 'y'] }, { fields: ['r', 'width', 'height'], shape: 'key' }];
+export const comboCollapseExpand = [{ fields: ['childrenNode'] }];

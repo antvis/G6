@@ -4,6 +4,4 @@ export type Keyframe = {
   [key: string]: any;
 };
 
-export type AnimatableTask = () => AnimationTask;
-
-export type AnimationTask = () => IAnimation | null;
+export type AnimationTask = () => () => IAnimation | null;

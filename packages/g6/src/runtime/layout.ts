@@ -9,7 +9,7 @@ import { getExtension } from '../registry';
 import type { GraphData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
 import type { AdaptiveLayout, Combo, Node, TreeData } from '../types';
-import { getAnimation } from '../utils/animation';
+import { getAnimationOptions } from '../utils/animation';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
 import { idOf } from '../utils/id';
@@ -31,7 +31,7 @@ export class LayoutController {
 
   private get presetOptions() {
     return {
-      animation: !!getAnimation(this.context.options, true),
+      animation: !!getAnimationOptions(this.context.options, true),
     };
   }
 

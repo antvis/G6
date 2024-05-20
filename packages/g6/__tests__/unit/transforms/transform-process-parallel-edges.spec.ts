@@ -1,7 +1,6 @@
 import { transformProcessParallelEdges } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { getParallelEdges, groupByEndpoints, isParallelEdges } from '@/src/transforms/process-parallel-edges';
-import data from '@@/dataset/parallel-edges.json';
 import { createDemoGraph } from '@@/utils';
 
 describe('transform-process-parallel-edges', () => {
@@ -18,9 +17,7 @@ describe('transform-process-parallel-edges', () => {
   it('mode', async () => {
     await expect(graph).toMatchSnapshot(__filename, 'merge-mode');
     graph.updateTransform({ key: 'process-parallel-edges', mode: 'bundle' });
-    graph.removeEdgeData(data.edges.map((edge) => edge.id));
-    graph.addEdgeData(data.edges);
-    graph.render();
+    graph.draw();
     await expect(graph).toMatchSnapshot(__filename, 'bundle-mode');
 
     await expect(graph).toMatchSnapshot(__filename, 'bundle-add-orange-edge__before');

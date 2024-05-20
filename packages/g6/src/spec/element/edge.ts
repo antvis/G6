@@ -1,7 +1,8 @@
+import type { AnimationOptions } from '../../animations/types';
 import type { BaseEdgeStyleProps } from '../../elements/edges';
 import type { CallableObject } from '../../types';
 import type { EdgeData } from '../data';
-import type { AnimationOptions } from './animation';
+import type { AnimationStage } from './animation';
 import type { PaletteOptions } from './palette';
 
 /**
@@ -33,7 +34,7 @@ export interface EdgeOptions {
    *
    * <en/> Edge animation
    */
-  animation?: AnimationOptions;
+  animation?: false | Record<AnimationStage, false | string | AnimationOptions[]>;
   /**
    * <zh/> 色板
    *
@@ -45,7 +46,7 @@ export interface EdgeOptions {
 export interface StaticEdgeOptions {
   style?: EdgeStyle;
   state?: Record<string, EdgeStyle>;
-  animation?: AnimationOptions;
+  animation?: false | Record<AnimationStage, false | string | AnimationOptions[]>;
   palette?: PaletteOptions;
 }
 

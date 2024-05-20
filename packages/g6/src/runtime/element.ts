@@ -1,10 +1,8 @@
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable jsdoc/require-param */
-import type { BaseStyleProps, DisplayObject, IAnimation } from '@antv/g';
+import type { BaseStyleProps } from '@antv/g';
 import { Group } from '@antv/g';
-import { get, groupBy, isEmpty, isString } from '@antv/util';
-import { executor as animationExecutor } from '../animations';
-import type { AnimationContext } from '../animations/types';
+import { groupBy, isEmpty, isString } from '@antv/util';
 import { AnimationType, ChangeType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry';
@@ -12,7 +10,6 @@ import type { ComboData, EdgeData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { DrawData, ProcedureData } from '../transforms/types';
 import type {
-  AnimatableTask,
   Combo,
   DataChange,
   Edge,
@@ -25,8 +22,7 @@ import type {
   State,
   StyleIterationContext,
 } from '../types';
-import { executeAnimatableTasks, inferDefaultValue, withAnimationCallbacks } from '../utils/animation';
-import { cacheStyle, getCachedStyle, hasCachedStyle } from '../utils/cache';
+import { cacheStyle, getCachedStyle, hasCachedStyle, setCacheStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
 import { updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
@@ -34,6 +30,7 @@ import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
 import { computeElementCallbackStyle } from '../utils/style';
+import { themeOf } from '../utils/theme';
 import type { RuntimeContext } from './types';
 
 export class ElementController {
@@ -88,11 +85,7 @@ export class ElementController {
   }
 
   private getTheme(elementType: ElementType) {
-    const { theme } = this.context.options;
-    if (!theme) return {};
-
-    const themeConfig = getExtension('theme', theme);
-    return themeConfig?.[elementType] || {};
+    return themeOf(this.context.options)[elementType] || {};
   }
 
   public getThemeStyle(elementType: ElementType) {
@@ -235,66 +228,6 @@ export class ElementController {
     return this.container.combo.children as Combo[];
   }
 
-  private getAnimation(elementType: ElementType, stage: AnimationStage) {
-    const { options } = this.context;
-
-    const userDefined = options?.[elementType]?.animation;
-    if (userDefined === false) return false;
-    const userDefinedStage = userDefined?.[stage];
-    if (userDefinedStage) return userDefinedStage;
-
-    const themeDefined = this.getTheme(elementType)?.animation;
-    if (themeDefined === false) return false;
-    const themeDefinedStage = themeDefined?.[stage];
-
-    return themeDefinedStage ?? false;
-  }
-
-  private getAnimationExecutor(
-    elementType: ElementType,
-    stage: AnimationStage,
-    animation: boolean = true,
-    context?: Partial<AnimationContext>,
-  ): AnimationExecutor {
-    const { options } = this.context;
-    const stageAnimation = get(options, [elementType, 'animation', stage], true);
-
-    if (options.animation === false || stageAnimation === false || !animation) return () => null;
-
-    return (
-      id: ID,
-      shape: Element,
-      originalStyle: Record<string, unknown>,
-      modifiedStyle?: Record<string, unknown>,
-    ) => {
-      return animationExecutor(
-        shape,
-        this.getAnimation(elementType, stage),
-        {},
-        {
-          originalStyle,
-          modifiedStyle,
-          states: this.getElementState(id),
-          ...context,
-        },
-      );
-    };
-  }
-
-  /**
-   * <zh/> 获取边端点连接上下文
-   *
-   * <en/> Get edge end context
-   * @returns <zh/> 边端点连接上下文 | <en/> edge end context
-   * @remarks
-   * <zh/> 只提供了最基本的节点示例和连接点位置信息，更多的上下文信息需要在边元素中计算
-   *
-   * <en/> Only the most basic node instances and connection point position information are provided, and more context information needs to be calculated in the edge element
-   */
-  private getEdgeEndsContext(datum: EdgeData) {
-    return {};
-  }
-
   public getElementComputedStyle(elementType: ElementType, datum: ElementDatum) {
     const id = idOf(datum);
     // 优先级(从低到高) Priority (from low to high):
@@ -307,14 +240,10 @@ export class ElementController {
 
     const style = Object.assign({}, themeStyle, paletteStyle, dataStyle, defaultStyle, themeStateStyle, stateStyle);
 
-    if (elementType === 'edge') {
-      Object.assign(style, this.getEdgeEndsContext(datum as EdgeData));
-    } else if (elementType === 'combo') {
+    if (elementType === 'combo') {
       const childrenData = this.context.model.getChildrenData(id);
       const isCollapsed = !!style.collapsed;
-      const childrenNode = isCollapsed
-        ? []
-        : (childrenData.map((child) => this.getElement(idOf(child))).filter(Boolean) as (Node | Combo)[]);
+      const childrenNode = isCollapsed ? [] : childrenData.map(idOf).filter((id) => this.getElement(id));
       Object.assign(style, { childrenNode, childrenData });
     }
     return style;
@@ -325,51 +254,47 @@ export class ElementController {
    *
    * <en/> start render process
    */
-  public async draw(drawContext: DrawContext = { animation: true }) {
+  public draw(context: DrawContext = { animation: true }) {
     this.init();
 
-    const data = this.computeChangesAndDrawData();
-    if (!data) return;
+    const data = this.computeChangesAndDrawData(context);
+    if (!data) return null;
+
     const { dataChanges, drawData } = data;
     // 计算样式 / Calculate style
     this.computeStyle();
-
     // 创建渲染任务 / Create render task
     const { add, update, remove } = drawData;
-    const destroyTasks = this.getDestroyTasks(remove, drawContext);
-    const createTasks = this.getCreateTasks(add, drawContext);
-    const updateTasks = this.getUpdateTasks(update, drawContext);
+    this.destroyElements(remove, context);
+    this.createElements(add, context);
+    this.updateElements(update, context);
 
-    await executeAnimatableTasks(
-      [...destroyTasks, ...createTasks, ...updateTasks],
-      drawContext.silence
+    const { animation, silence } = context;
+
+    return this.context.animation!.animate(
+      animation,
+      silence
         ? {}
         : {
             before: () =>
               this.emit(
-                new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation: drawContext.animation }),
-                drawContext,
+                new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation: context.animation }),
+                context,
               ),
             beforeAnimate: (animation) =>
-              this.emit(
-                new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, drawData),
-                drawContext,
-              ),
+              this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, drawData), context),
             afterAnimate: (animation) =>
-              this.emit(
-                new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData),
-                drawContext,
-              ),
+              this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData), context),
             after: () =>
               this.emit(
-                new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation: drawContext.animation }),
-                drawContext,
+                new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation: context.animation }),
+                context,
               ),
           },
-    )?.finished;
+    );
   }
 
-  private computeChangesAndDrawData() {
+  private computeChangesAndDrawData(context: DrawContext) {
     const { model } = this.context;
     const dataChanges = model.getChanges();
     const tasks = reduceDataChanges(dataChanges);
@@ -412,7 +337,7 @@ export class ElementController {
         combos: dataOf<ComboData>(ComboRemoved),
       },
     };
-    const drawData = this.transformData(input);
+    const drawData = this.transformData(input, context);
 
     // 清空变更 / Clear changes
     model.clearChanges();
@@ -420,22 +345,22 @@ export class ElementController {
     return { dataChanges, drawData };
   }
 
-  private transformData(input: DrawData): DrawData {
+  private transformData(input: DrawData, context: DrawContext): DrawData {
     const transforms = this.context.transform.getTransformInstance();
 
-    return Object.values(transforms).reduce((data, transform) => transform.beforeDraw(data), input);
+    return Object.values(transforms).reduce((data, transform) => transform.beforeDraw(data, context), input);
   }
 
   private createElement(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
     const id = idOf(datum);
     const currentElement = this.getElement(id);
-    if (currentElement) return () => null;
+    if (currentElement) return;
     const type = this.getElementType(elementType, datum);
     const style = this.getElementComputedStyle(elementType, datum);
 
     // get shape constructor
     const Ctor = getExtension(elementType, type);
-    if (!Ctor) return () => null;
+    if (!Ctor) return;
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum), context);
 
@@ -452,17 +377,26 @@ export class ElementController {
     this.shapeTypeMap[id] = type;
     this.elementMap[id] = element;
 
-    const { animation, animator } = context;
-    return () =>
-      withAnimationCallbacks(animation ? animator?.(id, element, { ...element.attributes, opacity: 0 }) : null, {
+    const { stage = 'enter' } = context;
+
+    this.context.animation?.add(
+      {
+        element,
+        elementType,
+        stage,
+        originalStyle: { ...element.attributes },
+        modifiedStyle: style,
+      },
+      {
         after: () => {
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_CREATE, elementType, datum), context);
           element.onCreate();
         },
-      });
+      },
+    );
   }
 
-  private getCreateTasks(data: ProcedureData, context: Omit<DrawContext, 'animator'>): AnimatableTask[] {
+  private createElements(data: ProcedureData, context: DrawContext) {
     const { nodes, edges, combos } = data;
     const iteration: [ElementType, Map<ID, ElementDatum>][] = [
       ['node', nodes],
@@ -470,49 +404,18 @@ export class ElementController {
       ['edge', edges],
     ];
 
-    const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
-      if (elementData.size === 0) return;
-      const animator = this.getAnimationExecutor(elementType, 'enter', context.animation);
-      elementData.forEach((datum) =>
-        tasks.push(() => this.createElement(elementType, datum, { ...context, animator })),
-      );
+      elementData.forEach((datum) => this.createElement(elementType, datum, context));
     });
-
-    return tasks;
   }
 
-  /**
-   * <zh/> 由于 show 和 hide 的时序存在差异
-   * - show： 立即将元素显示出来，然后执行动画
-   * - hide： 先执行动画，然后隐藏元素
-   *
-   * 如果在调用 hide 后立即调用 show，hide 动画完成后会将元素隐藏
-   *
-   * 因此需要缓存元素最新的可见性
-   *
-   * <en/> Due to the difference in the timing of show and hide
-   * - show: immediately shows the element and then executes the animation
-   * - hide: executes the animation first, and then hides the element
-   *
-   * If show is called immediately after hide,it hide the element after hide animation completed
-   *
-   * Therefore, the latest visibility of the element needs to be cached
-   */
-  private latestElementVisibilityMap: WeakMap<DisplayObject, BaseStyleProps['visibility']> = new WeakMap();
-
   private updateElement(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
-    const { animator } = context;
-
     const id = idOf(datum);
+
     const element = this.getElement(id);
     if (!element) return () => null;
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_UPDATE, elementType, datum), context);
-    const afterUpdate = () => {
-      this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum), context);
-      element.onUpdate();
-    };
 
     const type = this.getElementType(elementType, datum);
     const style = this.getElementComputedStyle(elementType, datum);
@@ -520,68 +423,48 @@ export class ElementController {
     // 如果类型不同，需要先销毁原有元素，再创建新元素
     // If the type is different, you need to destroy the original element first, and then create a new element
     if (this.shapeTypeMap[id] !== type) {
-      this.destroyElement(elementType, datum, { animation: false, silence: true })();
-      this.computeStyle();
-      this.createElement(elementType, datum, { animation: false, silence: true })();
-      return () => {
-        afterUpdate();
-        return null;
-      };
+      element.destroy();
+      delete this.shapeTypeMap[id];
+      delete this.elementMap[id];
+
+      this.createElement(elementType, datum, { animation: false, silence: true });
     }
 
-    // 如果是可见性更新 / If it is a visibility update
-    if (context.stage === 'visibility' && 'visibility' in style) {
-      // 缓存原始透明度 / Cache original opacity
-      if (!hasCachedStyle(element, 'opacity')) cacheStyle(element, 'opacity');
+    const { stage = 'update' } = context;
 
-      const originalOpacity = getCachedStyle(element, 'opacity') ?? inferDefaultValue('opacity');
-      this.latestElementVisibilityMap.set(element, style.visibility);
+    const exactStage = stage !== 'visibility' ? stage : style.visibility === 'hidden' ? 'hide' : 'show';
 
-      // show
-      if (style.visibility !== 'hidden') {
-        updateStyle(element, { visibility: 'visible' });
-        return () =>
-          withAnimationCallbacks(
-            animator?.(id, element, { ...element.attributes, opacity: 0 }, { opacity: originalOpacity }),
-            { after: afterUpdate },
-          );
-      }
-      // hide
-      else if (style.visibility === 'hidden') {
-        return () =>
-          withAnimationCallbacks(
-            animator?.(id, element, { ...element.attributes, opacity: originalOpacity }, { opacity: 0 }),
-            {
-              after: () => {
-                updateStyle(element, { visibility: this.latestElementVisibilityMap.get(element) });
-                afterUpdate();
-              },
-            },
-          );
-      }
-    }
+    this.context.animation?.add(
+      {
+        element,
+        elementType,
+        stage: exactStage,
+        originalStyle: { ...element.attributes },
+        modifiedStyle: style,
+      },
+      {
+        before: () => {
+          updateStyle(element, style);
 
-    const originalStyle = { ...element.attributes };
-    updateStyle(element, style);
+          if (stage === 'visibility') {
+            // 缓存原始透明度 / Cache original opacity
+            // 会在 animation controller 中访问该缓存值 / The cached value will be accessed in the animation controller
+            if (!hasCachedStyle(element, 'opacity')) cacheStyle(element, 'opacity');
+            setCacheStyle(element, 'visibility', exactStage === 'show' ? 'visible' : 'hidden');
+            if (exactStage === 'show') updateStyle(element, { visibility: 'visible' });
+          }
+        },
+        after: () => {
+          if (exactStage === 'hide') updateStyle(element, { visibility: getCachedStyle(element, 'visibility') });
 
-    // 如果边的端点节点已经销毁，则更新端点节点
-    // If the endpoint node of the edge has been destroyed, update the endpoint node
-    if (elementType === 'edge') {
-      if (originalStyle.sourceNode.destroyed) {
-        originalStyle.sourceNode = style.sourceNode;
-      }
-      if (originalStyle.targetNode.destroyed) {
-        originalStyle.targetNode = style.targetNode;
-      }
-    }
-
-    return () =>
-      withAnimationCallbacks(animator?.(id, element, originalStyle), {
-        after: afterUpdate,
-      });
+          this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum), context);
+          element.onUpdate();
+        },
+      },
+    );
   }
 
-  private getUpdateTasks(data: ProcedureData, context: Omit<DrawContext, 'animator'>): AnimatableTask[] {
+  private updateElements(data: ProcedureData, context: DrawContext) {
     const { nodes, edges, combos } = data;
     const iteration: [ElementType, Map<ID, ElementDatum>][] = [
       ['node', nodes],
@@ -589,39 +472,39 @@ export class ElementController {
       ['edge', edges],
     ];
 
-    const { animation, stage } = context;
-    const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
-      if (elementData.size === 0) return [];
-      const animator = this.getAnimationExecutor(elementType, stage || 'update', animation);
-      elementData.forEach((datum) =>
-        tasks.push(() => this.updateElement(elementType, datum, { ...context, animator })),
-      );
+      elementData.forEach((datum) => this.updateElement(elementType, datum, context));
     });
-
-    return tasks;
   }
 
   private destroyElement(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
-    const { animator } = context;
+    const { stage = 'exit' } = context;
     const id = idOf(datum);
     const element = this.elementMap[id];
     if (!element) return () => null;
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_DESTROY, elementType, datum), context);
 
-    return () =>
-      withAnimationCallbacks(animator?.(id, element, { ...element.attributes }, { opacity: 0 }), {
+    this.context.animation?.add(
+      {
+        element,
+        elementType,
+        stage,
+        originalStyle: element.attributes,
+        modifiedStyle: element.attributes,
+      },
+      {
         after: () => {
           this.clearElement(id);
           element.destroy();
           element.onDestroy();
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_DESTROY, elementType, datum), context);
         },
-      });
+      },
+    );
   }
 
-  private getDestroyTasks(data: ProcedureData, context: Omit<DrawContext, 'animator'>): AnimatableTask[] {
+  private destroyElements(data: ProcedureData, context: DrawContext) {
     const { nodes, edges, combos } = data;
     const iteration: [ElementType, Map<ID, ElementDatum>][] = [
       ['combo', combos],
@@ -629,19 +512,11 @@ export class ElementController {
       ['node', nodes],
     ];
 
-    const { animation, stage = 'exit' } = context;
-    const tasks: AnimatableTask[] = [];
     iteration.forEach(([elementType, elementData]) => {
-      if (elementData.size === 0) return [];
-      const animator = this.getAnimationExecutor(elementType, stage, animation);
-      elementData.forEach((datum) =>
-        tasks.push(() => this.destroyElement(elementType, datum, { ...context, animator })),
-      );
+      elementData.forEach((datum) => this.destroyElement(elementType, datum, context));
     });
 
     // TODO 重新计算色板样式，如果是分组色板，则不需要重新计算
-
-    return tasks;
   }
 
   private clearElement(id: ID) {
@@ -653,8 +528,6 @@ export class ElementController {
   }
 
   public destroy() {
-    Object.values(this.elementMap).forEach((element) => element.destroy());
-    Object.values(this.container).forEach((container) => container.destroy());
     // @ts-expect-error force delete
     this.container = {};
     this.elementMap = {};
@@ -664,24 +537,14 @@ export class ElementController {
     this.paletteStyle = {};
     // @ts-expect-error force delete
     this.context = {};
-    // @ts-expect-error force delete
-    this.latestElementVisibilityMap = undefined;
   }
 }
 
-type AnimationExecutor = (
-  id: ID,
-  shape: Element,
-  originalStyle: Record<string, unknown>,
-  modifiedStyle?: Record<string, unknown>,
-) => IAnimation | null;
-
-type DrawContext = {
-  animator?: AnimationExecutor;
+export interface DrawContext {
   /** <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true */
   animation: boolean;
   /** <zh/> 当前绘制阶段 | <en/> Current draw stage */
   stage?: AnimationStage;
   /** <zh/> 是否不抛出事件 | <en/> Whether not to throw events */
   silence?: boolean;
-};
+}

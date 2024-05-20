@@ -1,7 +1,8 @@
+import type { AnimationOptions } from '../../animations/types';
 import type { BaseNodeStyleProps } from '../../elements/nodes';
 import type { CallableObject } from '../../types';
 import type { NodeData } from '../data';
-import type { AnimationOptions } from './animation';
+import type { AnimationStage } from './animation';
 import type { PaletteOptions } from './palette';
 
 /**
@@ -33,7 +34,7 @@ export interface NodeOptions {
    *
    * <en/> Node animation
    */
-  animation?: AnimationOptions;
+  animation?: false | Record<AnimationStage, false | string | AnimationOptions[]>;
   /**
    * <zh/> 色板
    *
@@ -45,7 +46,7 @@ export interface NodeOptions {
 export interface StaticNodeOptions {
   style?: NodeStyle;
   state?: Record<string, NodeStyle>;
-  animation?: AnimationOptions;
+  animation?: false | Record<AnimationStage, false | string | AnimationOptions[]>;
   palette?: PaletteOptions;
 }
 

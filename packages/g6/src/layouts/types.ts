@@ -102,7 +102,7 @@ interface DagreLayout extends BaseLayoutOptions, DagreLayoutOptions {
   type: 'dagre';
 }
 
-export interface AnimationOptions {
+interface AnimationOptions {
   /**
    * <zh/> 启用布局动画，对于迭代布局，会在两次迭代之间进行动画过渡
    *
