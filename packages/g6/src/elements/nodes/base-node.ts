@@ -379,6 +379,10 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     );
   }
 
+  protected drawIconShape(attributes: Required<S>, container: Group): void {
+    this.upsert('icon', Icon, this.getIconStyle(attributes), container);
+  }
+
   protected drawBadgeShapes(attributes: Required<S>, container: Group): void {
     const badgesStyle = this.getBadgesStyle(attributes);
     Object.keys(badgesStyle).forEach((key) => {
@@ -414,7 +418,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     this.drawHaloShape(attributes, container);
 
     // 3. icon
-    this.upsert('icon', Icon, this.getIconStyle(attributes), container);
+    this.drawIconShape(attributes, container);
 
     // 4. badges
     this.drawBadgeShapes(attributes, container);
