@@ -385,7 +385,7 @@ export class ElementController {
         elementType,
         stage,
         originalStyle: { ...element.attributes },
-        modifiedStyle: { ...style },
+        modifiedStyle: { ...element.attributes, ...style },
       },
       {
         after: () => {

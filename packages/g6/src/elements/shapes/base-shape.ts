@@ -109,6 +109,17 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     return style;
   }
 
+  /**
+   * Get the prefix pairs for composite shapes used to handle animation
+   * @returns tuples array where each tuple contains a key corresponding to a method `get${key}Style` and its shape prefix
+   */
+  protected get compositeShapes(): [string, string][] {
+    return [
+      ['badges', 'badge-'],
+      ['ports', 'port-'],
+    ];
+  }
+
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions): IAnimation | null {
     if (keyframes.length === 0) return null;
 
@@ -138,11 +149,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
           }
         });
 
-        // 针对 badges/ports 执行动画
-        const badges = subObject(this.shapeMap, 'badge-');
-        const ports = subObject(this.shapeMap, 'port-');
-
-        const handleShapeSet = (shapeSet: Record<string, DisplayObject>, name: string) => {
+        const handleCompositeShapeAnimation = (shapeSet: Record<string, DisplayObject>, name: string) => {
           if (!isEmpty(shapeSet)) {
             const methodName = `get${upperFirst(name)}Style` as keyof this;
             const method = this[methodName];
@@ -160,8 +167,10 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
           }
         };
 
-        handleShapeSet(badges, 'badges');
-        handleShapeSet(ports, 'ports');
+        this.compositeShapes.forEach(([key, prefix]) => {
+          const shapeSet = subObject(this.shapeMap, prefix);
+          handleCompositeShapeAnimation(shapeSet, key);
+        });
       }
     }
 
