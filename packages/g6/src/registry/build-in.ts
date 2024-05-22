@@ -55,6 +55,7 @@ import {
 } from '../layouts';
 import { blues, greens, oranges, spectral, tableau } from '../palettes';
 import {
+  Background,
   BubbleSets,
   Contextmenu,
   GridLine,
@@ -166,6 +167,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     toolbar: Toolbar,
     tooltip: Tooltip,
     watermark: Watermark,
+    background: Background,
   },
   transform: {
     'update-related-edges': UpdateRelatedEdge,

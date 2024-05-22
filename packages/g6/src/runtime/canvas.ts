@@ -151,35 +151,8 @@ export class Canvas {
     return this.config;
   }
 
-  private backgroundElement!: HTMLDivElement;
-
-  private initBackgroundElement(options: Record<string, unknown>) {
-    if (this.backgroundElement) {
-      Object.assign(this.backgroundElement.style, options);
-      return this.backgroundElement;
-    }
-
-    const { width, height } = this.config;
-
-    const element = document.createElement('div');
-    Object.assign(element.style, options, {
-      width: `${width}px`,
-      height: `${height}px`,
-      pointerEvents: 'none',
-      transition: 'background 0.5s',
-      backgroundSize: 'contain',
-    });
-    this.backgroundElement = element;
-    return element;
-  }
-
   public setBackground(background = this.config.background) {
-    const container = this.getContainer();
     this.config.background = background;
-    if (container && background) {
-      const dom = this.initBackgroundElement({ background });
-      container.appendChild(dom);
-    }
   }
 
   public setCursor(cursor: Cursor) {

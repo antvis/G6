@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "background.js",
+      "title": {
+        "zh": "背景图片",
+        "en": "Background Image"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eCkYR7cLfWwAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

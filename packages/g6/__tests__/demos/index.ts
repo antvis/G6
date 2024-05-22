@@ -93,6 +93,7 @@ export { layoutRadialPreventOverlap } from './layout-radial-prevent-overlap';
 export { layoutRadialPreventOverlapUnstrict } from './layout-radial-prevent-overlap-unstrict';
 export { layoutRadialSort } from './layout-radial-sort';
 export { perfFCP } from './perf-fcp';
+export { pluginBackground } from './plugin-background';
 export { pluginBubbleSets } from './plugin-bubble-sets';
 export { pluginCameraSetting } from './plugin-camera-setting';
 export { pluginContextmenu } from './plugin-contextmenu';
