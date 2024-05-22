@@ -2,7 +2,7 @@ import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
-import type { Element, ElementType, ID, IPointerEvent, State } from '../types';
+import type { Element, ElementType, ID, IDragEvent, IPointerEvent, State } from '../types';
 import { idsOf } from '../utils/id';
 import { getElementNthDegreeIds } from '../utils/relation';
 import type { BaseBehaviorOptions } from './base-behavior';
@@ -91,8 +91,8 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
     this.bindEvents();
   }
 
-  private toggleFrozen = () => {
-    this.isFrozen = !this.isFrozen;
+  private toggleFrozen = (e: IDragEvent) => {
+    this.isFrozen = e.type === 'dragstart';
   };
 
   private bindEvents() {
