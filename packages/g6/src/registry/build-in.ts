@@ -1,4 +1,4 @@
-import { ComboCollapseExpand, Fade, MoveIn, MoveOut, PathIn, PathOut, Translate } from '../animations';
+import { ComboCollapse, ComboExpand, Fade, NodeCollapse, NodeExpand, PathIn, PathOut, Translate } from '../animations';
 import {
   BrushSelect,
   ClickElement,
@@ -83,9 +83,10 @@ import type { ExtensionRegistry } from './types';
  */
 export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   animation: {
-    'combo-collapse-expand': ComboCollapseExpand,
-    'move-in': MoveIn,
-    'move-out': MoveOut,
+    'combo-collapse': ComboCollapse,
+    'combo-expand': ComboExpand,
+    'node-collapse': NodeCollapse,
+    'node-expand': NodeExpand,
     'path-in': PathIn,
     'path-out': PathOut,
     fade: Fade,

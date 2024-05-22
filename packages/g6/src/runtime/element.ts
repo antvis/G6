@@ -3,7 +3,7 @@
 import type { BaseStyleProps } from '@antv/g';
 import { Group } from '@antv/g';
 import { groupBy, isEmpty, isString } from '@antv/util';
-import { AnimationType, ChangeType, GraphEvent } from '../constants';
+import { AnimationType, COMBO_KEY, ChangeType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry';
 import type { ComboData, EdgeData, NodeData } from '../spec';
@@ -24,6 +24,7 @@ import type {
 } from '../types';
 import { cacheStyle, getCachedStyle, hasCachedStyle, setCacheStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
+import { isCollapsed } from '../utils/collapsibility';
 import { markToBeDestroyed, updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '../utils/event';
@@ -438,7 +439,7 @@ export class ElementController {
       },
       {
         before: () => {
-          updateStyle(element, style);
+          if (stage !== 'collapse') updateStyle(element, style);
 
           if (stage === 'visibility') {
             // 缓存原始透明度 / Cache original opacity
@@ -448,9 +449,10 @@ export class ElementController {
             if (exactStage === 'show') updateStyle(element, { visibility: 'visible' });
           }
         },
+        afterAnimate: () => {},
         after: () => {
+          if (stage === 'collapse') updateStyle(element, style);
           if (exactStage === 'hide') updateStyle(element, { visibility: getCachedStyle(element, 'visibility') });
-
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum), context);
           element.onUpdate();
         },
@@ -528,7 +530,7 @@ export class ElementController {
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @param animation - <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true
    */
-  public async collapseNode(id: ID, animation: boolean = true): Promise<void> {
+  public async collapseNode(id: ID, animation: boolean): Promise<void> {
     const { model, layout } = this.context;
 
     const preprocess = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
@@ -579,8 +581,9 @@ export class ElementController {
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @param animation - <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true
    */
-  public async expandNode(id: ID, animation: boolean = true): Promise<void> {
+  public async expandNode(id: ID, animation: boolean): Promise<void> {
     const { model, layout } = this.context;
+    if (!model.getAncestorsData(id, COMBO_KEY).every((datum) => isCollapsed(datum))) return;
 
     const position = positionOf(model.getNodeData([id])[0]);
 
@@ -623,6 +626,82 @@ export class ElementController {
         expand: {
           target: id,
           descendants: Array.from(add.nodes).map(([, node]) => idOf(node)),
+          position,
+        },
+      },
+    )?.finished;
+  }
+
+  public async collapseCombo(id: ID, animation: boolean): Promise<void> {
+    const { model, element } = this.context;
+    if (model.getAncestorsData(id, COMBO_KEY).some((datum) => isCollapsed(datum))) return;
+
+    const combo = element!.getElement<Combo>(id)!;
+
+    const position = combo.getComboPosition({
+      ...combo.attributes,
+      collapsed: true,
+    });
+
+    const { dataChanges, drawData } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
+
+    const { update, remove } = drawData;
+    const context = { animation, stage: 'collapse', data: drawData } as const;
+
+    this.destroyElements(remove, context);
+    this.updateElements(update, context);
+
+    const idsOf = (data: Map<ID, ElementDatum>) => Array.from(data).map(([, node]) => idOf(node));
+
+    await this.context.animation!.animate(
+      animation,
+      {
+        before: () => this.emit(new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation }), context),
+        beforeAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.COLLAPSE, animation, drawData), context),
+        afterAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.COLLAPSE, animation, drawData), context),
+        after: () => this.emit(new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation }), context),
+      },
+      {
+        collapse: {
+          target: id,
+          descendants: [...idsOf(remove.nodes), ...idsOf(remove.combos)],
+          position,
+        },
+      },
+    )?.finished;
+  }
+
+  public async expandCombo(id: ID, animation: boolean): Promise<void> {
+    const { model } = this.context;
+    const position = positionOf(model.getComboData([id])[0]);
+
+    // 重新计算数据 / Recalculate data
+    this.computeStyle();
+    const { dataChanges, drawData } = this.computeChangesAndDrawData({ stage: 'expand', animation })!;
+    const { add, update } = drawData;
+    const context = { animation, stage: 'expand', data: drawData } as const;
+
+    this.createElements(add, context);
+    this.updateElements(update, context);
+
+    const idsOf = (data: Map<ID, ElementDatum>) => Array.from(data).map(([, node]) => idOf(node));
+
+    await this.context.animation!.animate(
+      animation,
+      {
+        before: () => this.emit(new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation }), context),
+        beforeAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.EXPAND, animation, drawData), context),
+        afterAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.EXPAND, animation, drawData), context),
+        after: () => this.emit(new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation }), context),
+      },
+      {
+        expand: {
+          target: id,
+          descendants: [...idsOf(add.nodes), ...idsOf(add.combos)],
           position,
         },
       },

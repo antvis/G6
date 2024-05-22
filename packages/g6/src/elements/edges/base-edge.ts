@@ -398,7 +398,9 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
     const animation = super.animate(keyframes, options);
 
-    if (animation) animation.onframe = () => this.onframe();
+    if (animation) {
+      animation.onframe = () => this.onframe();
+    }
 
     if (!animation) return animation;
 

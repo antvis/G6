@@ -39,7 +39,6 @@ export class Animation {
         const { element, elementType, stage } = context;
         const options = getElementAnimationOptions(this.context.options, elementType, stage, localAnimation);
         cb?.before?.();
-
         const animation = executor(element, this.inferStyle(context, extendOptions), options);
 
         if (animation) {
@@ -97,29 +96,43 @@ export class Animation {
       Object.assign(toStyle, { opacity: 0 });
     } else if (stage === 'collapse') {
       const { collapse } = options || {};
-      if (collapse) {
-        if (elementType === 'node') {
-          // 为即将被删除的元素设置目标位置
-          // Set the target position for the element to be deleted
-          // TODO 目前逻辑仅适用于节点
-          const { descendants, position } = collapse;
-          if (descendants.includes(element.id)) {
-            const [x, y, z] = position;
-            Object.assign(toStyle, { x, y, z });
-          }
+      const { target, descendants, position } = collapse!;
+      if (elementType === 'node') {
+        // 为即将被删除的元素设置目标位置
+        // Set the target position for the element to be deleted
+        if (descendants.includes(element.id)) {
+          const [x, y, z] = position;
+          Object.assign(toStyle, { x, y, z });
         }
+      } else if (elementType === 'combo') {
+        if (element.id === target || descendants.includes(element.id)) {
+          const [x, y] = position;
+          Object.assign(toStyle, { x, y, childrenNode: fromStyle.childrenNode });
+        }
+      } else if (elementType === 'edge') {
+        Object.assign(toStyle, { sourceNode: fromStyle.sourceNode, targetNode: fromStyle.targetNode });
       }
     } else if (stage === 'expand') {
       const { expand } = options || {};
-      if (expand) {
-        if (elementType === 'node') {
-          const { descendants, position } = expand;
-          if (descendants.includes(element.id)) {
-            const [x, y, z] = position;
-            Object.assign(fromStyle, { x, y, z });
-          }
+      const { target, descendants, position } = expand!;
+      if (elementType === 'node') {
+        // 设置展开节点的起点位置
+        // Set the starting position of the expanded node
+        if (element.id === target || descendants.includes(element.id)) {
+          const [x, y, z] = position;
+          Object.assign(fromStyle, { x, y, z });
         }
-        Object.assign(fromStyle, { opacity: 0 });
+      } else if (elementType === 'combo') {
+        // 设置展开后的组合子元素
+        // Set the child elements of the expanded combo
+        if (element.id === target || descendants.includes(element.id)) {
+          const [x, y, z] = position;
+          Object.assign(fromStyle, { x, y, z, childrenNode: toStyle.childrenNode });
+        }
+      } else if (elementType === 'edge') {
+        // 设置展开后的边的起点和终点
+        // Set the starting point and end point of the edge after expansion
+        Object.assign(fromStyle, { sourceNode: toStyle.sourceNode, targetNode: toStyle.targetNode });
       }
     }
 

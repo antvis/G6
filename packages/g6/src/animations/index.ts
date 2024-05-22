@@ -8,14 +8,16 @@ export const Fade = [{ fields: ['opacity'] }];
 
 export const Translate = [{ fields: ['x', 'y'] }];
 
-export const ComboCollapseExpand = [{ fields: ['x', 'y', 'width', 'height', 'r'], shape: 'key' }];
+export const NodeCollapse = [{ fields: ['x', 'y'] }];
 
-export const MoveIn = [{ fields: ['x', 'y'] }];
-
-export const MoveOut = MoveIn;
+export const NodeExpand = NodeCollapse;
 
 export const PathIn = [{ fields: ['sourceNode', 'targetNode'] }];
 
 export const PathOut = PathIn;
 
-export const comboCollapseExpand = [{ fields: ['childrenNode', 'opacity'] }];
+export const ComboCollapse = [{ fields: ['childrenNode', 'x', 'y'] }];
+
+export const ComboExpand = ComboCollapse;
+
+export const ComboCollapseExpand = [{ fields: ['childrenNode', 'x', 'y'] }];

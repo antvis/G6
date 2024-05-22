@@ -1,19 +1,17 @@
-import type { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
-import { deepMix, isEmpty, isFunction } from '@antv/util';
+import { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
+import { deepMix, isFunction } from '@antv/util';
 import { COMBO_KEY } from '../../constants';
 import type {
   CollapsedMarkerStyleProps,
   ID,
   NodeLikeData,
   Padding,
-  Placement,
   Position,
   Prefix,
   STDSize,
   Size,
 } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getCombinedBBox, getExpandedBBox } from '../../utils/bbox';
-import { getXYByCollapsedOrigin } from '../../utils/combo';
 import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
 import { getXYByPlacement, positionOf } from '../../utils/position';
@@ -45,12 +43,6 @@ export interface BaseComboStyleProps
    * <en/> The default size of combo when collapsed
    */
   collapsedSize?: Size;
-  /**
-   * <zh/> 组合收起时的原点
-   *
-   * <en/> The origin of combo when collapsed
-   */
-  collapsedOrigin?: Placement;
   /**
    * <zh/> 组合的子元素，可以是节点或者组合
    *
@@ -99,7 +91,6 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     draggable: true,
     collapsed: false,
     collapsedSize: 32,
-    collapsedOrigin: [0.5, 0.5],
     collapsedMarker: true,
     collapsedMarkerZIndex: 1,
     collapsedMarkerFontSize: 12,
@@ -115,34 +106,6 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
    * Draw the key shape of combo
    */
   protected abstract drawKeyShape(attributes: Required<S>, container: Group): DisplayObject | undefined;
-
-  protected calculatePosition(attributes: Required<S>): Position {
-    const { x = 0, y = 0, collapsed, childrenNode = [], childrenData = [] } = attributes;
-
-    if (childrenNode.length < childrenData.length) {
-      if (childrenData.length > 0) {
-        // combo 被收起，返回平均中心位置 / combo is collapsed, return the average center position
-        if (collapsed) {
-          const totalPosition = childrenData.reduce((acc, datum) => add(acc, positionOf(datum)), [0, 0, 0] as Position);
-          return divide(totalPosition, childrenData.length);
-        }
-      }
-      return [+x, +y, 0];
-    }
-
-    // empty combo
-    if (!childrenData.length) return [+x, +y, 0];
-    return !collapsed ? this.getContentBBox(attributes).center : this.getCollapsedOriginPosition(attributes);
-  }
-
-  protected getCollapsedOriginPosition(attributes: Required<S>): Position {
-    return getXYByCollapsedOrigin(
-      attributes.collapsedOrigin,
-      this.getContentBBox(attributes).center,
-      this.getCollapsedKeySize(attributes),
-      this.getExpandedKeySize(attributes),
-    );
-  }
 
   protected getKeySize(attributes: Required<S>): STDSize {
     const { collapsed, childrenNode = [] } = attributes;
@@ -161,8 +124,6 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   }
 
   protected getExpandedKeySize(attributes: Required<S>): STDSize {
-    if (!isEmpty(attributes.size)) return parseSize(attributes.size);
-
     const contentBBox = this.getContentBBox(attributes);
     return [getBBoxWidth(contentBBox), getBBoxHeight(contentBBox), 0];
   }
@@ -170,10 +131,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   protected getContentBBox(attributes: Required<S>): AABB {
     const { context, childrenNode = [], padding } = attributes;
     const childrenBBox = getCombinedBBox(
-      childrenNode
-        .map((id) => context!.element!.getElement(id))
-        .filter(Boolean)
-        .map((child) => child!.getBounds()),
+      childrenNode.map((id) => context!.element!.getElement(id)).map((child) => child!.getBounds()),
     );
 
     if (!padding) return childrenBBox;
@@ -225,20 +183,45 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     return ancestors.length;
   }
 
+  public getComboPosition(attributes: Required<S>): Position {
+    const { x = 0, y = 0, collapsed, context, childrenData = [] } = attributes;
+
+    if (childrenData.length === 0) return [+x, +y, 0];
+
+    if (collapsed) {
+      const { model } = context!;
+      const descendants = model.getDescendantsData(this.id).filter((datum) => !model.isCombo(idOf(datum)));
+
+      if (descendants.length > 0) {
+        // combo 被收起，返回平均中心位置 / combo is collapsed, return the average center position
+        const totalPosition = descendants.reduce((acc, datum) => add(acc, positionOf(datum)), [0, 0, 0] as Position);
+        return divide(totalPosition, descendants.length);
+      }
+      // empty combo
+      return [+x, +y, 0];
+    }
+
+    return this.getContentBBox(attributes).center;
+  }
+
   protected getComboStyle(attributes: Required<S>) {
     const { zIndex = this.getComboZIndex(attributes) } = attributes;
-    const [x, y] = this.calculatePosition(attributes);
+    const [x, y] = this.getComboPosition(attributes);
     // x/y will be used to calculate position later.
     return { x, y, transform: `translate(${x}, ${y})`, zIndex };
   }
 
-  public render(attributes: Required<S>, container: Group = this) {
-    super.render(attributes, container);
+  protected updateComboPosition(attributes: Required<S>) {
     const comboStyle = this.getComboStyle(attributes);
     Object.assign(this.style, comboStyle);
 
     // Sync combo position to model
     attributes.context!.model.syncComboDatum({ id: this.id, style: comboStyle });
+  }
+
+  public render(attributes: Required<S>, container: Group = this) {
+    super.render(attributes, container);
+    this.updateComboPosition(attributes);
 
     // collapsed marker
     this.drawCollapsedMarkerShape(attributes, container);
@@ -268,8 +251,33 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
    */
   public onDestroy() {}
 
+  protected hostingAnimation = false;
+
   protected onframe() {
     super.onframe();
+    // 收起状态下，通过动画来更新位置
+    // Update position through animation in collapsed state
+    if (!this.attributes.collapsed) this.updateComboPosition(this.parsedAttributes);
     this.drawKeyShape(this.parsedAttributes, this);
+  }
+
+  public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
+    const animation = super.animate(
+      this.attributes.collapsed
+        ? keyframes
+        : // 如果当前 combo 是展开状态，则动画不受 x, y, z, transform 影响，仅由子元素决定位置
+          // If the current combo is in the expanded state, the animation is not affected by x, y, z, transform, and the position is determined only by the child elements
+          keyframes.map(({ x, y, z, transform, ...keyframe }: any) => keyframe),
+      options,
+    );
+
+    if (!animation) return animation;
+
+    return new Proxy(animation, {
+      set: (target, propKey, value) => {
+        if (propKey === 'currentTime') Promise.resolve().then(() => this.onframe());
+        return Reflect.set(target, propKey, value);
+      },
+    });
   }
 }

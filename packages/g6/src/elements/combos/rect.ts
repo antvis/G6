@@ -27,12 +27,11 @@ export class RectCombo extends BaseCombo<RectComboStyleProps> {
 
   protected getKeyStyle(attributes: Required<RectComboStyleProps>): GRectStyleProps {
     const keyStyle = super.getKeyStyle(attributes);
-    const collapsedStyle = subStyleProps(keyStyle, 'collapsed');
 
     const [width, height] = this.getKeySize(attributes);
     return {
       ...keyStyle,
-      ...(attributes.collapsed && collapsedStyle),
+      ...(attributes.collapsed && subStyleProps(keyStyle, 'collapsed')),
       width,
       height,
       x: -width / 2,
