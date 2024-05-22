@@ -39,7 +39,7 @@ export function mangleScopedPackageName(packageName: string): string {
 
 const reportFolderRoot = path.resolve(path.join('support', 'api'));
 const reportTempFolderRoot = path.resolve(reportFolderRoot, 'temp');
-const ignorePackages = new Set<string>(['@antv/g6-site', '@antv/g6-extension-3d', '@antv/g6-cli']);
+const includePackages = new Set<string>(['@antv/g6', '@antv/g6-extension-react']);
 
 /**
  * Get all typed packages.
@@ -49,7 +49,7 @@ async function getTypedPackages() {
   const packages = await getPackages(baseDir());
   return packages.packages.filter((pkg) => {
     const json = pkg.packageJson;
-    return !json.private && !ignorePackages.has(json.name);
+    return !json.private && includePackages.has(json.name);
   });
 }
 
