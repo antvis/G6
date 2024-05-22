@@ -1,3 +1,4 @@
+import { omit } from '@antv/util';
 import type { RuntimeContext } from '../../runtime/types';
 import { createPluginContainer } from '../../utils/dom';
 import type { BasePluginOptions } from '../base-plugin';
@@ -48,13 +49,13 @@ export class Background extends BasePlugin<BackgroundOptions> {
     super.update(options);
 
     // Set the background style.
-    Object.assign(this.$element.style, this.options);
+    Object.assign(this.$element.style, omit(this.options, ['key', 'type']));
   }
 
   /**
-   * <zh/> 销毁水印
+   * <zh/> 销毁背景图
    *
-   * <en/> Destroy the watermark
+   * <en/> Destroy the background image
    */
   public destroy(): void {
     super.destroy();

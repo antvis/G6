@@ -11,6 +11,7 @@ describe('plugin background', () => {
     expect(graph.getPlugins()).toEqual([
       {
         type: 'background',
+        key: 'background',
         backgroundImage:
           'url(https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0Qq0ToQm1rEAAAAAAAAAAAAADmJ7AQ/original)',
       },
