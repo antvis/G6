@@ -14,6 +14,7 @@ import type {
   Vector2,
 } from '../types';
 import { getBBoxHeight, getBBoxSize, getBBoxWidth, getNearestSideToPoint, getNodeBBox } from './bbox';
+import { isCollapsed } from './collapsibility';
 import { getAllPorts, getNodeConnectionPoint, getPortConnectionPoint, getPortPosition } from './element';
 import { idOf } from './id';
 import { isCollinear, isHorizontal, moveTo, parsePoint } from './point';
@@ -570,7 +571,7 @@ export function findActualConnectNodeData(node: NodeLikeData, getParentData: (id
   }
 
   if (path.some((n) => n.style?.collapsed)) {
-    const index = path.reverse().findIndex((n) => n.style?.collapsed);
+    const index = path.reverse().findIndex(isCollapsed);
     return path[index] || path.at(-1);
   }
 

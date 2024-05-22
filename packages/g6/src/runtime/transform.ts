@@ -5,6 +5,7 @@ import type { RuntimeContext } from './types';
 
 export const REQUIRED_TRANSFORMS: TransformOptions = [
   'update-related-edges',
+  'collapse-expand-node',
   'collapse-expand-combo',
   'get-edge-actual-ends',
   'arrange-draw-order',

@@ -29,44 +29,20 @@ describe('combo', () => {
       ]);
       await graph.render();
     };
-    const collapseCombo = async (collapsedOrigin: any) => {
+    const collapseCombo = async () => {
       graph.updateComboData([
         {
           id: 'combo-2',
           style: {
             collapsed: true,
-            collapsedOrigin,
             collapsedMarker: false,
           },
         },
       ]);
       await graph.render();
     };
-    await collapseCombo('top');
-    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-top');
-    await expandCombo();
-    await collapseCombo('right');
-    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-right');
-    await collapseCombo('left');
-    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-left');
-    await expandCombo();
-    await collapseCombo('bottom');
-    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-bottom');
-    await expandCombo();
-    await collapseCombo('center');
+    await collapseCombo();
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-center');
-    await expandCombo();
-    await collapseCombo('top-left');
-    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-topLeft');
-    await expandCombo();
-    await collapseCombo('top-right');
-    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-topRight');
-    await expandCombo();
-    await collapseCombo('bottom-left');
-    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-bottomLeft');
-    await expandCombo();
-    await collapseCombo('bottom-right');
-    await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-bottomRight');
     await expandCombo();
   });
 
@@ -83,45 +59,22 @@ describe('combo', () => {
       ]);
       await graph.render();
     };
-    const collapseCombo = async (collapsedOrigin: any) => {
+    const collapseCombo = async () => {
       graph.updateComboData([
         {
           id: 'combo-1',
           type: 'rect',
           style: {
             collapsed: true,
-            collapsedOrigin,
             collapsedMarker: false,
           },
         },
       ]);
       await graph.render();
     };
-    await collapseCombo('top');
-    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-top');
-    await expandCombo();
-    await collapseCombo('right');
-    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-right');
-    await collapseCombo('left');
-    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-left');
-    await expandCombo();
-    await collapseCombo('bottom');
-    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-bottom');
-    await expandCombo();
-    await collapseCombo('center');
+
+    await collapseCombo();
     await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-center');
-    await expandCombo();
-    await collapseCombo('top-left');
-    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-topLeft');
-    await expandCombo();
-    await collapseCombo('top-right');
-    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-topRight');
-    await expandCombo();
-    await collapseCombo('bottom-left');
-    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-bottomLeft');
-    await expandCombo();
-    await collapseCombo('bottom-right');
-    await expect(graph).toMatchSnapshot(__filename, 'rect-collapse-bottomRight');
     await expandCombo();
   });
 
@@ -143,7 +96,6 @@ describe('combo', () => {
           id: 'combo-2',
           style: {
             collapsed: true,
-            collapsedOrigin: 'top',
             collapsedMarker: true,
             collapsedMarkerType: type,
           },

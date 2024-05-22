@@ -460,12 +460,13 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   }
 
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
-    const result = super.animate(keyframes, options);
+    const animation = super.animate(keyframes, options);
 
-    if (result) {
-      result.onframe = () => this.onframe();
+    if (animation) {
+      animation.onframe = () => this.onframe();
+      animation.finished.then(() => this.onframe());
     }
 
-    return result;
+    return animation;
   }
 }

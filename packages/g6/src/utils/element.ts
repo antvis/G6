@@ -1,5 +1,5 @@
 import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
-import { get, isString } from '@antv/util';
+import { get, isString, set } from '@antv/util';
 import { BaseCombo, BaseEdge, BaseNode } from '../elements';
 import type {
   Combo,
@@ -500,4 +500,25 @@ export function getHexagonPoints(outerR: number): Point[] {
     [(-outerR * Math.sqrt(3)) / 2, -outerR / 2],
     [(-outerR * Math.sqrt(3)) / 2, outerR / 2],
   ];
+}
+
+/**
+ * <zh/> 将图形标记为即将销毁，用于在 element controller 中识别要销毁的元素
+ *
+ * <en/> Mark the element as to be destroyed, used to identify the element to be destroyed in the element controller
+ * @param element - <zh/> 图形 | <en/> element
+ */
+export function markToBeDestroyed(element: DisplayObject) {
+  set(element, '__to_be_destroyed__', true);
+}
+
+/**
+ * <zh/> 判断图形是否即将销毁
+ *
+ * <en/> Determine whether the element is to be destroyed
+ * @param element - <zh/> 图形 | <en/> element
+ * @returns <zh/> 是否即将销毁 | <en/> whether the element is to be destroyed
+ */
+export function isToBeDestroyed(element: DisplayObject) {
+  return get(element, '__to_be_destroyed__', false);
 }

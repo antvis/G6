@@ -31,7 +31,6 @@ createGraph(
     const options = {
       collapsed: false,
       collapsedSize: 32,
-      collapsedOrigin: [0.5, 0.5],
       collapsedMarker: true,
       collapsedMarkerFontSize: 12,
       collapsedMarkerType: 'child-count',
@@ -41,23 +40,6 @@ createGraph(
 
     optionFolder.add(options, 'collapsed');
     optionFolder.add(options, 'collapsedSize', 0, 100, 1);
-    optionFolder.add(options, 'collapsedOrigin', [
-      [0.5, 0.5],
-      'left',
-      'right',
-      'top',
-      'bottom',
-      'left-top',
-      'left-bottom',
-      'right-top',
-      'right-bottom',
-      'top-left',
-      'top-right',
-      'bottom-left',
-      'bottom-right',
-      'center',
-    ]);
-
     optionFolder.add(options, 'collapsedMarker');
     optionFolder.add(options, 'collapsedMarkerFontSize', 12, 20, 1);
     optionFolder.add(options, 'collapsedMarkerType', ['child-count', 'descendant-count', 'node-count']);

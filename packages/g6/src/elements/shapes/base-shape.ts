@@ -120,12 +120,19 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     ];
   }
 
+  /*
+   * <zh/> 是否自动托管动画
+   *
+   * <en/> Whether to automatically host animation
+   */
+  protected hostingAnimation = true;
+
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions): IAnimation | null {
     if (keyframes.length === 0) return null;
-
     const animationMap: IAnimation[] = [];
 
     const result = super.animate(keyframes, options);
+    if (!this.hostingAnimation) return result;
     if (result) animationMap.push(result);
 
     if (Array.isArray(keyframes) && keyframes.length > 0) {
@@ -143,7 +150,6 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
             const subKeyframes: Keyframe[] = keyframes.map((style) =>
               method.call(this, { ...this.attributes, ...style }),
             );
-
             const result = shape.animate(preprocessKeyframes(subKeyframes), options);
             if (result) animationMap.push(result);
           }

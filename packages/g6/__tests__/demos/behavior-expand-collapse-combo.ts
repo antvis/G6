@@ -1,7 +1,7 @@
 import { Graph } from '@/src';
 import { isObject } from '@antv/util';
 
-export const comboExpandCollapse: TestCase = async (context) => {
+export const behaviorExpandCollapseCombo: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: {
@@ -43,7 +43,7 @@ export const comboExpandCollapse: TestCase = async (context) => {
 
   await graph.render();
 
-  comboExpandCollapse.form = (panel) => {
+  behaviorExpandCollapseCombo.form = (panel) => {
     const config = {
       element: 'combo-1',
       dropEffect: 'move',

@@ -44,23 +44,11 @@ export const combo: TestCase = async (context) => {
   await graph.render();
 
   const COMBO_TYPE = ['circle', 'rect'];
-  const COLLAPSED_ORIGIN = [
-    'top',
-    'bottom',
-    'left',
-    'right',
-    'center',
-    'top-left',
-    'top-right',
-    'bottom-left',
-    'bottom-right',
-  ];
   const COLLAPSED_MARKER_TYPE = ['child-count', 'descendant-count', 'node-count', 'custom'];
 
   combo.form = (panel) => {
     const config: Record<string, any> = {
       combo2Type: 'circle',
-      collapsedOrigin: 'top',
       collapsedMarker: true,
       collapsedMarkerType: 'child-count',
       collapseCombo1: () => {
@@ -69,7 +57,6 @@ export const combo: TestCase = async (context) => {
             id: 'combo-1',
             style: {
               collapsed: true,
-              collapsedOrigin: config.collapsedOrigin,
               collapsedMarker: config.collapsedMarker,
               collapsedMarkerType:
                 config.collapsedMarkerType === 'custom'
@@ -86,7 +73,6 @@ export const combo: TestCase = async (context) => {
             id: 'combo-1',
             style: {
               collapsed: false,
-              collapsedOrigin: config.collapsedOrigin,
               collapsedMarker: config.collapsedMarker,
             },
           },
@@ -99,7 +85,6 @@ export const combo: TestCase = async (context) => {
             id: 'combo-2',
             style: {
               collapsed: true,
-              collapsedOrigin: config.collapsedOrigin,
               collapsedMarker: config.collapsedMarker,
               collapsedMarkerType:
                 config.collapsedMarkerType === 'custom'
@@ -116,7 +101,6 @@ export const combo: TestCase = async (context) => {
             id: 'combo-2',
             style: {
               collapsed: false,
-              collapsedOrigin: config.collapsedOrigin,
               collapsedMarker: config.collapsedMarker,
             },
           },
@@ -149,7 +133,6 @@ export const combo: TestCase = async (context) => {
         graph.updateComboData([{ ...combo2Data, style: { ...combo2Data.style, type: config.combo2Type } }]);
         graph.render();
       }),
-      panel.add(config, 'collapsedOrigin', COLLAPSED_ORIGIN),
       panel.add(config, 'collapsedMarker'),
       panel.add(config, 'collapsedMarkerType', COLLAPSED_MARKER_TYPE),
       panel.add(config, 'collapseCombo1'),

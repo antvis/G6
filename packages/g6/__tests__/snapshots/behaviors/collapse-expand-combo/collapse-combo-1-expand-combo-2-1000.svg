@@ -3,11 +3,11 @@
   <g >
     <g fill="none">
       <g fill="none">
-        <g fill="none" x="188.11" y="193.5" transform="matrix(1,0,0,1,188.110001,193.500000)">
+        <g fill="none" x="166.69333587646486" y="174.25" transform="matrix(1,0,0,1,166.693329,174.250000)">
           <g>
-            <circle fill="rgba(253,253,253,1)" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="151.68730632455703"/>
+            <circle fill="rgba(253,253,253,1)" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="123.20602150725384"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,151.687302)">
+          <g fill="none" transform="matrix(1,0,0,1,0,123.206024)">
             <g>
               <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
                 combo-2
@@ -15,7 +15,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="250" y="250" transform="matrix(1,0,0,1,250,250)">
+        <g fill="none" x="207.1666717529297" y="211.5" transform="matrix(1,0,0,1,207.166672,211.500000)">
           <g>
             <path fill="rgba(253,253,253,1)" d="M -26,-26 l 52,0 l 0,52 l-52 0 z" stroke-dasharray="5,5" stroke-width="1" stroke="rgba(153,173,209,1)" width="52" height="52" x="-26" y="-26"/>
           </g>
@@ -26,14 +26,21 @@
               </text>
             </g>
           </g>
+          <g fill="none" x="0" y="0">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" font-size="12">
+                2
+              </text>
+            </g>
+          </g>
         </g>
       </g>
       <g fill="none">
         <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 127.8591664610141,109.06826899347782 L 227.46666666666667,224" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 130.48988731345844,105.82771517414359 L 289.51011268654156,194.17228482585642" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 127.3907449314849,109.45393512553001 L 186.84081107511648,185.5" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 127.8591664610141,109.06826899347782 L 227.46666666666667,224" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
       </g>

@@ -1,15 +1,17 @@
 import type { DrawContext } from '../runtime/element';
 import type { ComboData } from '../spec';
+import { isCollapsed } from '../utils/collapsibility';
 import { getSubgraphRelatedEdges } from '../utils/edge';
 import { idOf } from '../utils/id';
-import { reassignTo } from '../utils/transform';
+// import { reassignTo } from '../utils/transform';
 import { BaseTransform } from './base-transform';
 import type { DrawData } from './types';
+import { reassignTo } from './utils';
 
 /**
- * <zh/> 处理元素的收起和展开
+ * <zh/> 处理组合的收起和展开
  *
- * <en/> Process the collapse and expand of elements
+ * <en/> Process the collapse and expand of combos
  */
 export class CollapseExpandCombo extends BaseTransform {
   public beforeDraw(input: DrawData, context: DrawContext): DrawData {
@@ -23,8 +25,7 @@ export class CollapseExpandCombo extends BaseTransform {
     while (combos.length) {
       const [id, combo] = combos.pop()!;
 
-      const isCollapsed = !!combo.style?.collapsed;
-      if (isCollapsed) {
+      if (isCollapsed(combo)) {
         const descendants = model.getDescendantsData(id);
         const descendantIds = descendants.map(idOf);
         const { internal, external } = getSubgraphRelatedEdges(descendantIds, (id) => model.getRelatedEdgesData(id));

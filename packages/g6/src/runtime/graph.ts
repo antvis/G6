@@ -41,6 +41,7 @@ import type {
   Vector2,
   ViewportAnimationEffectTiming,
 } from '../types';
+import { isCollapsed } from '../utils/collapsibility';
 import { sizeOf } from '../utils/dom';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
@@ -1473,6 +1474,8 @@ export class Graph extends EventEmitter {
     return this.context.element!.getElement(id)!.getRenderBounds();
   }
 
+  private isCollapsingExpanding = false;
+
   /**
    * <zh/> 收起 Combo
    *
@@ -1482,8 +1485,19 @@ export class Graph extends EventEmitter {
    * @apiCategory element
    */
   public async collapseElement(id: ID, animation: boolean = true): Promise<void> {
+    const { model, element } = this.context;
+    if (isCollapsed(model.getNodeLikeData([id])[0])) return;
+
+    if (this.isCollapsingExpanding) return;
+
+    const elementType = model.getElementType(id);
+
+    this.isCollapsingExpanding = true;
     this.setElementCollapsibility(id, true);
-    await this.context.element!.draw({ animation, stage: 'collapse' })?.finished;
+    if (elementType === 'node') await element!.collapseNode(id, animation);
+    else if (elementType === 'combo') await element!.collapseCombo(id, animation);
+
+    this.isCollapsingExpanding = false;
   }
 
   /**
@@ -1495,8 +1509,19 @@ export class Graph extends EventEmitter {
    * @apiCategory element
    */
   public async expandElement(id: ID, animation: boolean = true): Promise<void> {
+    const { model, element } = this.context;
+    if (!isCollapsed(model.getNodeLikeData([id])[0])) return;
+
+    if (this.isCollapsingExpanding) return;
+
+    const elementType = model.getElementType(id);
+
+    this.isCollapsingExpanding = true;
     this.setElementCollapsibility(id, false);
-    await this.context.element!.draw({ animation, stage: 'expand' })?.finished;
+    if (elementType === 'node') await element!.expandNode(id, animation);
+    else if (elementType === 'combo') await element!.expandCombo(id, animation);
+
+    this.isCollapsingExpanding = false;
   }
 
   private setElementCollapsibility(id: ID, collapsed: boolean) {
