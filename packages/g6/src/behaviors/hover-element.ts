@@ -84,10 +84,16 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
     inactiveState: undefined,
   };
 
+  private isFrozen = false;
+
   constructor(context: RuntimeContext, options: HoverElementOptions) {
     super(context, Object.assign({}, HoverElement.defaultOptions, options));
     this.bindEvents();
   }
+
+  private toggleFrozen = () => {
+    this.isFrozen = !this.isFrozen;
+  };
 
   private bindEvents() {
     const { graph } = this.context;
@@ -97,6 +103,10 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
       graph.on(`${type}:${CommonEvent.POINTER_OVER}`, this.hoverElement);
       graph.on(`${type}:${CommonEvent.POINTER_OUT}`, this.hoverEndElement);
     });
+
+    const canvas = this.context.canvas.document;
+    canvas.addEventListener(`${CommonEvent.DRAG_START}`, this.toggleFrozen);
+    canvas.addEventListener(`${CommonEvent.DRAG_END}`, this.toggleFrozen);
   }
 
   private hoverElement = (event: IPointerEvent) => {
@@ -149,7 +159,7 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
   };
 
   private validate(event: IPointerEvent) {
-    if (this.destroyed) return false;
+    if (this.destroyed || this.isFrozen) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
@@ -162,6 +172,10 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
       graph.off(`${type}:${CommonEvent.POINTER_OVER}`, this.hoverElement);
       graph.off(`${type}:${CommonEvent.POINTER_OUT}`, this.hoverEndElement);
     });
+
+    const canvas = this.context.canvas.document;
+    canvas.removeEventListener(`${CommonEvent.DRAG_START}`, this.toggleFrozen);
+    canvas.removeEventListener(`${CommonEvent.DRAG_END}`, this.toggleFrozen);
   }
 
   public destroy() {
