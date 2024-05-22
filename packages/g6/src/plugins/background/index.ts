@@ -24,7 +24,6 @@ export class Background extends BasePlugin<BackgroundOptions> {
     transition: 'background 0.5s',
     backgroundSize: 'cover',
     opacity: '0.35',
-    // zIndex: '-1',
   };
 
   private $element: HTMLElement = createPluginContainer('background');
