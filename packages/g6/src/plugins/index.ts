@@ -1,3 +1,4 @@
+export { Background } from './background';
 export { BasePlugin } from './base-plugin';
 export { BubbleSets } from './bubble-sets';
 export { CameraSetting } from './camera-setting';
@@ -11,6 +12,7 @@ export { Toolbar } from './toolbar';
 export { Tooltip } from './tooltip';
 export { Watermark } from './watermark';
 
+export type { BackgroundOptions } from './background';
 export type { BasePluginOptions } from './base-plugin';
 export type { BubbleSetsOptions } from './bubble-sets';
 export type { CameraSettingOptions } from './camera-setting';

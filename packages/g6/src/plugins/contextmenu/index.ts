@@ -1,10 +1,10 @@
-import type { RuntimeContext } from '../runtime/types';
-import type { IElementEvent } from '../types/event';
-import type { Item } from '../utils/contextmenu';
-import { CONTEXTMENU_CSS, getContentFromItems } from '../utils/contextmenu';
-import { createPluginContainer, insertDOM } from '../utils/dom';
-import type { BasePluginOptions } from './base-plugin';
-import { BasePlugin } from './base-plugin';
+import type { RuntimeContext } from '../../runtime/types';
+import type { IElementEvent } from '../../types/event';
+import { createPluginContainer, insertDOM } from '../../utils/dom';
+import type { BasePluginOptions } from '../base-plugin';
+import { BasePlugin } from '../base-plugin';
+import type { Item } from './util';
+import { CONTEXTMENU_CSS, getContentFromItems } from './util';
 
 /**
  * <zh/> 上下文菜单配置项

@@ -19,8 +19,7 @@ describe('sizeOf', () => {
     expect(el.getAttribute('class')).toBe('g6-test');
     expect(el.style.position).toBe('absolute');
     expect(el.style.display).toBe('block');
-    expect(el.style.top).toBe('0px');
-    expect(el.style.left).toBe('0px');
+    expect(el.style.inset).toBe('0px');
     expect(el.style.height).toBe('100%');
     expect(el.style.width).toBe('100%');
     expect(el.style.overflow).toBe('hidden');

@@ -1,4 +1,4 @@
-import { alignFields, parseCommand } from '@/src/plugins/history/utils';
+import { alignFields, parseCommand } from '@/src/plugins/history/util';
 import type { DataChange } from '@/src/types';
 
 describe('history utils', () => {

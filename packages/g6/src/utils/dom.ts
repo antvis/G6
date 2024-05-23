@@ -58,8 +58,7 @@ export function createPluginContainer(type: string, cover = true) {
   el.style.display = 'block';
 
   if (cover) {
-    el.style.top = '0px';
-    el.style.left = '0px';
+    el.style.inset = '0px';
     el.style.height = '100%';
     el.style.width = '100%';
     el.style.overflow = 'hidden';

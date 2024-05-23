@@ -1,8 +1,8 @@
-import type { RuntimeContext } from '../runtime/types';
-import { createPluginContainer } from '../utils/dom';
-import { getImageWatermark, getTextWatermark } from '../utils/watermark';
-import type { BasePluginOptions } from './base-plugin';
-import { BasePlugin } from './base-plugin';
+import type { RuntimeContext } from '../../runtime/types';
+import { createPluginContainer } from '../../utils/dom';
+import type { BasePluginOptions } from '../base-plugin';
+import { BasePlugin } from '../base-plugin';
+import { getImageWatermark, getTextWatermark } from './util';
 
 /**
  * <zh/> 水印配置项

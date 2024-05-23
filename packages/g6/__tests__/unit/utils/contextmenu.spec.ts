@@ -1,4 +1,4 @@
-import { getContentFromItems } from '../../../src/utils/contextmenu';
+import { getContentFromItems } from '../../../src/plugins/contextmenu/util';
 
 describe('contextmenu', () => {
   it('getContentFromItems', () => {

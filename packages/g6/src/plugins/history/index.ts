@@ -8,7 +8,7 @@ import type { GraphLifeCycleEvent } from '../../utils/event';
 import { idsOf } from '../../utils/id';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
-import { parseCommand } from './utils';
+import { parseCommand } from './util';
 
 /**
  * <zh/> 历史记录配置项
