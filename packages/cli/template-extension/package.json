@@ -1,4 +1,5 @@
 {
+  "name": "g6-extension-test",
   "version": "0.0.1",
   "description": "Extension for G6",
   "repository": {

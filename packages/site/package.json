@@ -30,6 +30,7 @@
     "doc": "ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
     "doc:add": "node ./scripts/doc-template.mjs",
     "doc:clear": "ts-node ./scripts/clear-doc.ts",
+    "doc:dev": "npm run doc && rm -rf ./docs/api/reference",
     "doc:sort": "ts-node ./scripts/sort-doc.ts",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
     "lint": "eslint ./src  --quiet && prettier ./src  --check",
