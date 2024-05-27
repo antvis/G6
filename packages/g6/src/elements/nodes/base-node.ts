@@ -212,6 +212,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     label: true,
     labelIsBillboard: true,
     labelMaxWidth: '200%',
+    labelOffsetX: 0,
+    labelOffsetY: 0,
     labelPlacement: 'bottom',
     labelWordWrap: false,
     labelZIndex: 0,
@@ -239,7 +241,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   protected getLabelStyle(attributes: Required<S>): false | LabelStyleProps {
     if (attributes.label === false || isEmpty(attributes.labelText)) return false;
 
-    const { placement, maxWidth, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
+    const { placement, maxWidth, offsetX, offsetY, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
       this.getGraphicStyle(attributes),
       'label',
     );
@@ -247,7 +249,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     const keyBounds = keyShape.getLocalBounds();
 
     return Object.assign(
-      getTextStyleByPlacement(keyBounds, placement),
+      getTextStyleByPlacement(keyBounds, placement, offsetX, offsetY),
       { wordWrapWidth: getWordWrapWidthByBox(keyBounds, maxWidth) },
       labelStyle,
     );

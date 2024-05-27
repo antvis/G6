@@ -44,6 +44,18 @@ export interface NodeLabelStyleProps extends LabelStyleProps {
    * @defaultValue '200%'
    */
   maxWidth?: string | number;
+  /**
+   * <zh/> 标签在 x 轴方向上的偏移量
+   *
+   * <en/> The offset of the label in the x-axis direction
+   */
+  offsetX?: number;
+  /**
+   * <zh/> 标签在 y 轴方向上的偏移量
+   *
+   * <en/> The offset of the label in the y-axis direction
+   */
+  offsetY?: number;
 }
 
 /**
