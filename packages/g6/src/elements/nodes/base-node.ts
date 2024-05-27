@@ -212,8 +212,6 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     label: true,
     labelIsBillboard: true,
     labelMaxWidth: '200%',
-    labelOffsetX: 0,
-    labelOffsetY: 0,
     labelPlacement: 'bottom',
     labelWordWrap: false,
     labelZIndex: 0,

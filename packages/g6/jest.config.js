@@ -16,7 +16,7 @@ module.exports = {
   collectCoverage: false,
   testRegex: '(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$',
   // Transform esm to cjs.
-  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`, `<rootDir>/node_modules/.pnpm/(?!(${esm}))`],
+  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`],
   testPathIgnorePatterns: ['/(lib|esm)/__tests__/'],
   moduleNameMapper: {
     '^@@/(.*)$': '<rootDir>/__tests__/$1',
