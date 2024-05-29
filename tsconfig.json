@@ -13,7 +13,12 @@
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
-    "types": ["node", "@types/jest"]
+    "types": ["node", "@types/jest"],
+    "paths": {
+      "@g6/*": ["./packages/g6/src/*"],
+      "@@/*": ["./__tests__/*"],
+      "@antv/g6": ["./packages/g6/src"]
+    }
   },
   "exclude": ["node_modules"]
 }

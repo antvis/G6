@@ -4,13 +4,10 @@
     "experimentalDecorators": true,
     "lib": ["DOM", "ESNext"],
     "outDir": "lib",
-    "paths": {
-      "@/*": ["./*"],
-      "@@/*": ["__tests__/*"]
-    },
+    "paths": {},
     "sourceRoot": "src"
   },
   "exclude": ["node_modules", "dist", "lib", "esm"],
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*", "__tests__/**/*"]
+  "include": ["src/**/*"]
 }

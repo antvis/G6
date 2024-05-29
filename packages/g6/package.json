@@ -37,21 +37,16 @@
     "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm -p tsconfig.build.json",
     "build:umd": "rimraf ./dist && rollup -c && npm run size",
     "bundle-vis": "cross-env BUNDLE_VIS=1 npm run build:umd",
-    "ci": "run-s lint type-check build test",
+    "ci": "run-s lint type-check build",
     "coverage": "jest --coverage",
     "coverage:open": "open coverage/lcov-report/index.html",
     "dev": "vite",
     "fix": "eslint ./src ./__tests__ --fix && prettier ./src __tests__ --write ",
-    "jest": "node --expose-gc --max-old-space-size=1024 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles",
-    "jest:inspect": "node --inspect --expose-gc --max-old-space-size=1024 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles --runInBand",
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
     "prepublishOnly": "npm run ci",
     "size": "limit-size",
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
     "tag": "node ./scripts/tag.mjs",
-    "test": "npm run jest __tests__",
-    "test:integration": "npm run jest __tests__/integration",
-    "test:unit": "npm run jest __tests__/unit",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
@@ -68,15 +63,7 @@
     "hull.js": "^1.0.5"
   },
   "devDependencies": {
-    "@antv/g-svg": "^2.0.5",
-    "@antv/layout-gpu": "^1.1.5",
-    "@antv/layout-wasm": "^1.4.0",
-    "@types/hull.js": "^1.0.4",
-    "@types/xmlserializer": "^0.6.6",
-    "cross-env": "^7.0.3",
-    "jest-canvas-mock": "^2.5.1",
-    "jest-random-mock": "^1.0.0",
-    "xmlserializer": "^0.6.1"
+    "@types/hull.js": "^1.0.4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

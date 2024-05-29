@@ -10,16 +10,15 @@ module.exports = {
     '^.+\\.[tj]s$': ['@swc/jest'],
     '^.+\\.svg$': ['<rootDir>/__tests__/utils/svg-transformer.js'],
   },
-  collectCoverageFrom: ['src/**/*.ts'],
-  coveragePathIgnorePatterns: ['<rootDir>/src/elements/nodes/html.ts'],
+  collectCoverageFrom: ['<rootDir>/packages/g6/src/**/*.ts'],
+  coveragePathIgnorePatterns: ['<rootDir>/packages/g6/src/elements/nodes/html.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
-  collectCoverage: false,
-  testRegex: '(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$',
-  // Transform esm to cjs.
-  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`, `<rootDir>/node_modules/.pnpm/(?!(${esm}))`],
-  testPathIgnorePatterns: ['/(lib|esm)/__tests__/'],
+  collectCoverage: true,
+  testMatch: ['<rootDir>/__tests__/**/*.(test|spec).ts'],
+  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(?:.pnpm/)?(${esm}))`],
   moduleNameMapper: {
     '^@@/(.*)$': '<rootDir>/__tests__/$1',
-    '^@/(.*)$': '<rootDir>/$1',
+    '^@g6/(.*)$': '<rootDir>/packages/g6/src/$1',
+    '@antv/g6': '<rootDir>/packages/g6/src',
   },
 };

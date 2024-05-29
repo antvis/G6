@@ -11,7 +11,7 @@ export default defineConfig({
     // @see https://github.com/vitejs/vite/issues/10839#issuecomment-1345193175
     // @see https://vitejs.dev/guide/dep-pre-bundling.html#customizing-the-behavior
     // @see https://vitejs.dev/config/dep-optimization-options.html#optimizedeps-exclude
-    exclude: [],
+    exclude: ['@antv/layout-wasm'],
   },
   plugins: [
     {
@@ -29,7 +29,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, '.'),
+      '@antv/g6': path.resolve(__dirname, './packages/g6/src'),
       '@@': path.resolve(__dirname, './__tests__'),
     },
   },
