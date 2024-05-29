@@ -1,6 +1,6 @@
 import { ExtensionCategory, register } from '@antv/g6';
+import { ReactNode } from '@antv/g6-extension-react';
 import styled from 'styled-components';
-import { ReactNode } from '../../src';
 import { Graph } from '../../src/graph';
 import data from '../dataset/euro-cup.json';
 

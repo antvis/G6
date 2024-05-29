@@ -26,10 +26,8 @@
     "build:umd": "rimraf ./dist && rollup -c",
     "ci": "run-s lint type-check build test",
     "dev": "vite",
-    "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
-    "prepublishOnly": "npm run ci",
-    "test": "jest",
-    "type-check": "tsc --noEmit -p tsconfig.test.json"
+    "lint": "eslint ./src --quiet && prettier ./src --check",
+    "prepublishOnly": "npm run ci"
   },
   "dependencies": {
     "@antv/g-device-api": "^1.6.4",

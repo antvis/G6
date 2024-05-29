@@ -1,6 +1,6 @@
 import type { NodeData } from '@antv/g6';
 import { ExtensionCategory, register } from '@antv/g6';
-import { GNode, Group, Image, Rect, Text } from '../../src';
+import { GNode, Group, Image, Rect, Text } from '@antv/g6-extension-react';
 import { Graph } from '../../src/graph';
 
 register(ExtensionCategory.NODE, 'g', GNode);
