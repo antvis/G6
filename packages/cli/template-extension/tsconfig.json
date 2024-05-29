@@ -18,11 +18,7 @@
     "sourceRoot": "src",
     "strict": true,
     "target": "esnext",
-    "types": ["@types/jest", "node"],
-    "paths": {
-      "@/*": ["./*"],
-      "@@/*": ["__tests__/*"]
-    }
+    "types": ["@types/jest", "node"]
   },
   "exclude": ["node_modules", "dist", "lib", "esm"],
   "include": ["src/**/*", "__tests__/**/*"]

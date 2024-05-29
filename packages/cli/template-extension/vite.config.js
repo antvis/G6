@@ -1,4 +1,3 @@
-import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -19,10 +18,4 @@ export default defineConfig({
       },
     },
   ],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, '.'),
-      '@@': path.resolve(__dirname, './__tests__'),
-    },
-  },
 });

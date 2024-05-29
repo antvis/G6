@@ -1,5 +1,5 @@
-import { ExtendNode } from '@/src';
 import { ExtensionCategory, Graph, register } from '@antv/g6';
+import { ExtendNode } from '../../src';
 
 export const elementNodeExtend: TestCase = async (context) => {
   register(ExtensionCategory.NODE, 'extend-node', ExtendNode);

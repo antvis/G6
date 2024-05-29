@@ -1,6 +1,6 @@
-import { elementNodeExtend } from '@@/demos';
-import { createDemoGraph } from '@@/utils/index';
 import type { Graph } from '@antv/g6';
+import { elementNodeExtend } from '../../../demos';
+import { createDemoGraph } from '../../../utils';
 
 describe('element node circle', () => {
   let graph: Graph;
