@@ -95,12 +95,13 @@ export class HTML extends BaseNode<HTMLStyleProps> {
     }
   }
 
-  public onDestroy() {
+  public destroy() {
     const element = this.getDomElement();
     this.events.forEach((eventName) => {
       // @ts-expect-error assert event is PointerEvent
       element.removeEventListener(eventName, this.forwardEvents);
     });
+    super.destroy();
   }
 
   private forwardEvents = (nativeEvent: PointerEvent) => {
@@ -244,5 +245,12 @@ export class HTML extends BaseNode<HTMLStyleProps> {
       y = point.y;
     }
     return { x, y };
+  }
+
+  protected onframe(): void {
+    super.onframe();
+    // sync opacity
+    const { opacity } = this.attributes;
+    this.getDomElement().style.opacity = `${opacity}`;
   }
 }

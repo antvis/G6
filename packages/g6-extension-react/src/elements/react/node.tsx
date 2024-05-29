@@ -36,8 +36,8 @@ export class ReactNode extends HTML {
     }
   }
 
-  public onDestroy() {
+  public destroy(): void {
     this.root.unmount();
-    super.onDestroy();
+    super.destroy();
   }
 }
