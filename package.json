@@ -8,10 +8,11 @@
     "postinstall": "husky install",
     "prepare": "husky install",
     "build": "turbo build --filter=!@antv/g6-site",
-    "ci": "turbo run ci --filter=!@antv/g6-site",
+    "ci": "run-s lint turbo:ci test",
+    "turbo:ci": "turbo run ci --filter=!@antv/g6-site",
     "contribute": "node ./scripts/contribute.mjs",
     "dev": "vite",
-    "lint": "eslint __tests__ --quiet && prettier __tests --check",
+    "lint": "eslint __tests__ --quiet && prettier __tests__ --check",
     "test": "jest",
     "test:debug": "node --expose-gc --max-old-space-size=1024 --unhandled-rejections=strict ./node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles"
   },
