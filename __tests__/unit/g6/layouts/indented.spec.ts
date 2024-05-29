@@ -1,4 +1,4 @@
-import { layoutIndented } from '@@/demos';
+import { layoutIndented } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('layout d3 force', () => {

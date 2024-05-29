@@ -1,4 +1,4 @@
-import { pluginBackground } from '@@/demos';
+import { pluginBackground } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin background', () => {

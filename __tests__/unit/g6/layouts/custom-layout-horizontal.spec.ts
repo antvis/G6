@@ -1,4 +1,4 @@
-import { layoutCustomHorizontal } from '@@/demos';
+import { layoutCustomHorizontal } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('custom layout horizontal', () => {

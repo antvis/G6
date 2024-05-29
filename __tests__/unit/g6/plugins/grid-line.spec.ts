@@ -1,4 +1,4 @@
-import { pluginGridLine } from '@@/demos';
+import { pluginGridLine } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { Graph } from '@antv/g6';
 

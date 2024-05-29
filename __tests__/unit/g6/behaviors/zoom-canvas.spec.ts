@@ -1,4 +1,4 @@
-import { behaviorZoomCanvas } from '@@/demos';
+import { behaviorZoomCanvas } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { Graph, ZoomCanvasOptions } from '@antv/g6';
 import { CanvasEvent, CommonEvent, ContainerEvent } from '@antv/g6';

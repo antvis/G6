@@ -1,4 +1,4 @@
-import { layoutForceCollision } from '@@/demos';
+import { layoutForceCollision } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import { clear as clearMockRandom, mock as mockRandom } from 'jest-random-mock';
 

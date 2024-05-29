@@ -1,4 +1,4 @@
-import { layoutAntVDagreFlow, layoutAntVDagreFlowCombo, layoutDagre } from '@@/demos';
+import { layoutAntVDagreFlow, layoutAntVDagreFlowCombo, layoutDagre } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('antv dagre flow', () => {

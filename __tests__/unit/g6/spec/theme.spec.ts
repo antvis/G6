@@ -1,4 +1,4 @@
-import { theme } from '@@/demos';
+import { theme } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { Graph, ThemeOptions } from '@antv/g6';
 

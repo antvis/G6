@@ -1,4 +1,4 @@
-import { layoutMDS } from '@@/demos/layout-mds';
+import { layoutMDS } from '@@/demos/g6/layout-mds';
 import { createDemoGraph } from '@@/utils';
 import type { Graph } from '@antv/g6';
 

@@ -1,4 +1,4 @@
-import { behaviorScrollCanvas } from '@@/demos';
+import { behaviorScrollCanvas } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { Graph, ScrollCanvasOptions } from '@antv/g6';
 import { CommonEvent } from '@antv/g6';

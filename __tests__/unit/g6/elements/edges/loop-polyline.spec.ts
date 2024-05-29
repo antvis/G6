@@ -1,4 +1,4 @@
-import { elementEdgeLoopPolyline } from '@@/demos';
+import { elementEdgeLoopPolyline } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('element edge loop polyline', () => {

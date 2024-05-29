@@ -1,4 +1,4 @@
-import { pluginCameraSetting } from '@@/demos';
+import { pluginCameraSetting } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import { CameraProjectionMode } from '@antv/g';
 

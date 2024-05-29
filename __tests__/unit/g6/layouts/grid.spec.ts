@@ -1,4 +1,4 @@
-import { layoutGrid } from '@@/demos/layout-grid';
+import { layoutGrid } from '@@/demos/g6/layout-grid';
 import { createDemoGraph } from '@@/utils';
 import type { Graph } from '@antv/g6';
 

@@ -1,4 +1,4 @@
-import { elementEdgeLoopCurve } from '@@/demos';
+import { elementEdgeLoopCurve } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('element edge loop curve', () => {

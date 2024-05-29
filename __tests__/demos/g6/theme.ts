@@ -1,5 +1,5 @@
 import { Graph } from '@antv/g6';
-import data from '../dataset/cluster.json';
+import data from '../../dataset/cluster.json';
 
 export const theme: TestCase = async (context) => {
   const graph = new Graph({

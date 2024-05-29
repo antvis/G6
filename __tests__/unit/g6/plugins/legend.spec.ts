@@ -1,4 +1,4 @@
-import { pluginLegend } from '@@/demos';
+import { pluginLegend } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import { Legend } from '@antv/g6';
 

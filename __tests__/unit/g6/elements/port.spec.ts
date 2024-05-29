@@ -1,4 +1,4 @@
-import { elementPort } from '@@/demos';
+import { elementPort } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { Graph } from '@antv/g6';
 

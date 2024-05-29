@@ -1,4 +1,4 @@
-import { elementNodeCircle } from '@@/demos';
+import { elementNodeCircle } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('element label oversized', () => {

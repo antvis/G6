@@ -1,4 +1,4 @@
-import { transformProcessParallelEdges } from '@@/demos';
+import { transformProcessParallelEdges } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { Graph } from '@antv/g6';
 import { getParallelEdges, groupByEndpoints, isParallelEdges } from '@g6/transforms/process-parallel-edges';

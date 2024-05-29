@@ -1,4 +1,4 @@
-import { layoutConcentric } from '@@/demos';
+import { layoutConcentric } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('layout concentric', () => {

@@ -1,4 +1,4 @@
-import { behaviorBrushSelect } from '@@/demos';
+import { behaviorBrushSelect } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { Graph } from '@antv/g6';
 import { CommonEvent } from '@antv/g6';

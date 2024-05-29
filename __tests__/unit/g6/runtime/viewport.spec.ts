@@ -1,5 +1,5 @@
-import { controllerViewport } from '@@/demos/controller-viewport';
-import { viewportFit } from '@@/demos/viewport-fit';
+import { controllerViewport } from '@@/demos/g6/controller-viewport';
+import { viewportFit } from '@@/demos/g6/viewport-fit';
 import { createDemoGraph } from '@@/utils';
 import { AABB } from '@antv/g';
 import { Graph } from '@antv/g6';

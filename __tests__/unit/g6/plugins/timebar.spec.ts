@@ -1,4 +1,4 @@
-import { pluginTimebar } from '@@/demos';
+import { pluginTimebar } from '@@/demos/g6';
 import { createDemoGraph, sleep } from '@@/utils';
 import type { Timebar } from '@antv/g6';
 

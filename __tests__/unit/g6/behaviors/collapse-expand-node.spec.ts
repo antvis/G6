@@ -1,4 +1,4 @@
-import { behaviorExpandCollapseNode } from '@@/demos/behavior-expand-collapse-node';
+import { behaviorExpandCollapseNode } from '@@/demos/g6/behavior-expand-collapse-node';
 import { createDemoGraph } from '@@/utils';
 import type { Graph } from '@antv/g6';
 import { NodeEvent } from '@antv/g6';

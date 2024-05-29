@@ -1,4 +1,4 @@
-import { pluginHull } from '@@/demos';
+import { pluginHull } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { HullOptions } from '@antv/g6';
 import { CommonEvent, type Graph, type Hull } from '@antv/g6';

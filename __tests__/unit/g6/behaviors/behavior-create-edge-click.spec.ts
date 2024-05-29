@@ -1,4 +1,4 @@
-import { behaviorCreateEdge } from '@@/demos';
+import { behaviorCreateEdge } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { EdgeData, Graph } from '@antv/g6';
 import { CommonEvent } from '@antv/g6';

@@ -1,4 +1,4 @@
-import { elementPosition } from '@@/demos';
+import { elementPosition } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { Graph } from '@antv/g6';
 

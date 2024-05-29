@@ -1,4 +1,4 @@
-import { elementEdgeQuadratic } from '@@/demos';
+import { elementEdgeQuadratic } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('element edge quadratic', () => {

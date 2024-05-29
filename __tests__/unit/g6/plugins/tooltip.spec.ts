@@ -1,4 +1,4 @@
-import { pluginTooltip } from '@@/demos';
+import { pluginTooltip } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import { idOf, type Tooltip } from '@antv/g6';
 

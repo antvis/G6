@@ -1,4 +1,4 @@
-import { behaviorHoverElement } from '@@/demos';
+import { behaviorHoverElement } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import { CommonEvent, type Graph } from '@antv/g6';
 

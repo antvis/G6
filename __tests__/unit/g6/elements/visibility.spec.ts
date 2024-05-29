@@ -1,4 +1,4 @@
-import { elementVisibility } from '@@/demos';
+import { elementVisibility } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { Graph } from '@antv/g6';
 

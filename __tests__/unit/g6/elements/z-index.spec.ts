@@ -1,4 +1,4 @@
-import { elementZIndex } from '@@/demos';
+import { elementZIndex } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import { CommonEvent, type Graph } from '@antv/g6';
 

@@ -1,4 +1,4 @@
-import { pluginHistory } from '@@/demos';
+import { pluginHistory } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { History } from '@antv/g6';
 import { Graph } from '@antv/g6';

@@ -1,5 +1,5 @@
 import data from '@@/dataset/cluster.json';
-import { commonGraph } from '@@/demos/common-graph';
+import { commonGraph } from '@@/demos/g6/common-graph';
 import { createDemoGraph } from '@@/utils';
 import { Graph, idOf } from '@antv/g6';
 

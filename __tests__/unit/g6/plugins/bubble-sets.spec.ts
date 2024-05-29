@@ -1,4 +1,4 @@
-import { pluginBubbleSets } from '@@/demos';
+import { pluginBubbleSets } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import { CommonEvent, type BubbleSets, type Graph, type ID } from '@antv/g6';
 

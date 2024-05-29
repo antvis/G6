@@ -1,4 +1,4 @@
-import { animationElementPosition } from '@@/demos';
+import { animationElementPosition } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('animation element position', () => {

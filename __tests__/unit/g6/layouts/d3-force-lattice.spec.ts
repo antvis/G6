@@ -1,4 +1,4 @@
-import { layoutForceLattice } from '@@/demos';
+import { layoutForceLattice } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('layout d3 force lattice', () => {

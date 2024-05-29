@@ -1,4 +1,4 @@
-import { elementNodeDonut } from '@@/demos';
+import { elementNodeDonut } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('element label oversized', () => {

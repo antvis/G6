@@ -1,4 +1,4 @@
-import { behaviorExpandCollapseCombo } from '@@/demos';
+import { behaviorExpandCollapseCombo } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import { CommonEvent, type Graph } from '@antv/g6';
 

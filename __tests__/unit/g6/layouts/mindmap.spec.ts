@@ -1,4 +1,4 @@
-import { layoutMindmapH, layoutMindmapHCustomSide, layoutMindmapHLeft, layoutMindmapHRight } from '@@/demos';
+import { layoutMindmapH, layoutMindmapHCustomSide, layoutMindmapHLeft, layoutMindmapHRight } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 
 describe('mindmap', () => {

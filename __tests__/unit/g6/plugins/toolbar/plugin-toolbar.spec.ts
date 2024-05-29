@@ -1,4 +1,4 @@
-import { pluginToolbarBuildIn } from '@@/demos';
+import { pluginToolbarBuildIn } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import { get } from '@antv/util';
 

@@ -1,4 +1,4 @@
-import { behaviorDragCanvas } from '@@/demos';
+import { behaviorDragCanvas } from '@@/demos/g6';
 import { createDemoGraph } from '@@/utils';
 import type { Graph } from '@antv/g6';
 import { CommonEvent } from '@antv/g6';
