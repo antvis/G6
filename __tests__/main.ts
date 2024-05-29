@@ -21,7 +21,7 @@ const DefaultLib = Object.keys(Demos)[0];
 const options: Options = {
   Search: '',
   Lib: DefaultLib,
-  Demo: Object.keys(DefaultLib)[0],
+  Demo: Object.keys(Demos[DefaultLib])[0],
   Renderer: 'default',
   GridLine: true,
   Theme: 'light',
@@ -47,7 +47,7 @@ function initPanel() {
   });
   const Demo = panel.add(options, 'Demo', Object.keys(Demos[options.Lib])).onChange(render);
   const Search = panel.add(options, 'Search').onChange((keyword: string) => {
-    const keys = Object.keys(Demos);
+    const keys = Object.keys(Demos[options.Lib]);
     const filtered = keys.filter((key) => key.toLowerCase().includes(keyword.toLowerCase()));
     Demo.options(filtered);
   });
