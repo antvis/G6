@@ -47,7 +47,7 @@ export interface CreateEdgeOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when create edge, return EdgeData.
    */
-  onCreate?: (edge: EdgeData) => EdgeData;
+  onCreate?: (edge: EdgeData) => EdgeData | null;
 }
 
 /**
@@ -170,8 +170,10 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     const id = `${this.source}-${target}-${uniqueId()}`;
 
     const edgeData = onCreate({ id, source: this.source, target, style });
-    graph.addEdgeData([edgeData]);
-    onFinish(edgeData);
+    if (edgeData) {
+      graph.addEdgeData([edgeData]);
+      onFinish(edgeData);
+    }
   };
 
   private cancelEdge = async () => {
