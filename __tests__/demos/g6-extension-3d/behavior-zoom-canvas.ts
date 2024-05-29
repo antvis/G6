@@ -1,12 +1,12 @@
 import { CameraSetting, ExtensionCategory, Graph, register } from '@antv/g6';
-import { Light, Line3D, RollCanvas3D, Sphere, renderer } from '../../src';
-import data from '../dataset/cubic.json';
+import { Light, Line3D, Sphere, ZoomCanvas3D, renderer } from '@antv/g6-extension-3d';
+import data from '../../dataset/cubic.json';
 
-export const behaviorRollCanvas: TestCase = async (context) => {
+export const behaviorZoomCanvas: TestCase = async (context) => {
   register(ExtensionCategory.PLUGIN, '3d-light', Light);
   register(ExtensionCategory.NODE, 'sphere', Sphere);
   register(ExtensionCategory.EDGE, 'line3d', Line3D);
-  register(ExtensionCategory.BEHAVIOR, 'roll-canvas-3d', RollCanvas3D);
+  register(ExtensionCategory.BEHAVIOR, 'zoom-canvas-3d', ZoomCanvas3D);
   register(ExtensionCategory.PLUGIN, 'camera-setting', CameraSetting);
 
   const graph = new Graph({
@@ -26,7 +26,7 @@ export const behaviorRollCanvas: TestCase = async (context) => {
     edge: {
       type: 'line3d',
     },
-    behaviors: ['roll-canvas-3d'],
+    behaviors: ['zoom-canvas-3d'],
     plugins: [
       {
         type: 'camera-setting',

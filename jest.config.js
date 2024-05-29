@@ -10,7 +10,7 @@ module.exports = {
     '^.+\\.[tj]s$': ['@swc/jest'],
     '^.+\\.svg$': ['<rootDir>/__tests__/utils/svg-transformer.js'],
   },
-  collectCoverageFrom: ['<rootDir>/packages/g6/src/**/*.ts'],
+  collectCoverageFrom: ['<rootDir>/packages/g6/src/**/*.ts', '<rootDir>/packages/g6-extension-3d/src/**/*.ts'],
   coveragePathIgnorePatterns: ['<rootDir>/packages/g6/src/elements/nodes/html.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   collectCoverage: true,
@@ -19,6 +19,8 @@ module.exports = {
   moduleNameMapper: {
     '^@@/(.*)$': '<rootDir>/__tests__/$1',
     '^@g6/(.*)$': '<rootDir>/packages/g6/src/$1',
+    '^@3d/(.*)$': '<rootDir>/packages/g6-extension-3d/src/$1',
     '@antv/g6': '<rootDir>/packages/g6/src',
+    '@antv/g6-extension-3d': '<rootDir>/packages/g6-extension-3d/src',
   },
 };

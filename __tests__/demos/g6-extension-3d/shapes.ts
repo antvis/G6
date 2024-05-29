@@ -1,6 +1,17 @@
 import type { NodeData } from '@antv/g6';
 import { ExtensionCategory, Graph, register } from '@antv/g6';
-import { Capsule, Cone, Cube, Cylinder, Light, ObserveCanvas3D, Plane, Sphere, Torus, renderer } from '../../src';
+import {
+  Capsule,
+  Cone,
+  Cube,
+  Cylinder,
+  Light,
+  ObserveCanvas3D,
+  Plane,
+  Sphere,
+  Torus,
+  renderer,
+} from '@antv/g6-extension-3d';
 
 export const shapes: TestCase = async (context) => {
   register(ExtensionCategory.PLUGIN, '3d-light', Light);

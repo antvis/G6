@@ -1,4 +1,4 @@
-import { createTexture } from '../../../src/utils/texture';
+import { createTexture } from '@3d/utils/texture';
 
 describe('texture', () => {
   it('createTexture', () => {

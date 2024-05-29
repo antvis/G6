@@ -40,7 +40,6 @@
     "ci": "run-s lint type-check build",
     "coverage": "jest --coverage",
     "coverage:open": "open coverage/lcov-report/index.html",
-    "dev": "vite",
     "fix": "eslint ./src ./__tests__ --fix && prettier ./src __tests__ --write ",
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
     "prepublishOnly": "npm run ci",

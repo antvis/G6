@@ -1,5 +1,5 @@
 import { CameraSetting, ExtensionCategory, Graph, register } from '@antv/g6';
-import { DragCanvas3D, Light, Line3D, Sphere, renderer } from '../../src';
+import { DragCanvas3D, Light, Line3D, Sphere, renderer } from '@antv/g6-extension-3d';
 
 export const positionValidate: TestCase = async (context) => {
   register(ExtensionCategory.PLUGIN, '3d-light', Light);

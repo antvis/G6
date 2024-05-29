@@ -1,4 +1,4 @@
-import { getCacheKey } from '../../../src/utils/cache';
+import { getCacheKey } from '@3d/utils/cache';
 
 describe('cache', () => {
   it('getCacheKey plain', () => {

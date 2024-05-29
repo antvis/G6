@@ -15,9 +15,11 @@
     "target": "esnext",
     "types": ["node", "@types/jest"],
     "paths": {
-      "@g6/*": ["./packages/g6/src/*"],
       "@@/*": ["./__tests__/*"],
-      "@antv/g6": ["./packages/g6/src"]
+      "@g6/*": ["./packages/g6/src/*"],
+      "@3d/*": ["./packages/g6-extension-3d/src/*"],
+      "@antv/g6": ["./packages/g6/src"],
+      "@antv/g6-extension-3d": ["./packages/g6-extension-3d/src"]
     }
   },
   "exclude": ["node_modules"]

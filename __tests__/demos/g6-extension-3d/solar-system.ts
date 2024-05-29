@@ -1,7 +1,7 @@
 import type { DisplayObject } from '@antv/g';
 import type { Vector3 } from '@antv/g6';
 import { Graph, register } from '@antv/g6';
-import { Light, Sphere, renderer } from '../../src';
+import { Light, Sphere, renderer } from '@antv/g6-extension-3d';
 
 export const solarSystem: TestCase = async (context) => {
   register('plugin', '3d-light', Light);

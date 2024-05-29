@@ -1,6 +1,6 @@
 import type { GraphData } from '@antv/g6';
 import { ExtensionCategory, Graph, register } from '@antv/g6';
-import { Light, Line3D, ObserveCanvas3D, Plane, Sphere, renderer } from '../../src';
+import { Light, Line3D, ObserveCanvas3D, Plane, Sphere, renderer } from '@antv/g6-extension-3d';
 
 export const layerTop: TestCase = async (context) => {
   register(ExtensionCategory.PLUGIN, '3d-light', Light);

@@ -4,7 +4,10 @@ import '../packages/g6/src/preset';
 import * as demos from './demos';
 import { createGraphCanvas } from './utils';
 
+const Demos = demos as Record<string, Record<string, TestCase>>;
+
 type Options = {
+  Lib: string;
   Search: string;
   Demo: string;
   Renderer: string;
@@ -13,10 +16,13 @@ type Options = {
   [keys: string]: any;
 };
 
+const DefaultLib = Object.keys(Demos)[0];
+
 const options: Options = {
   Search: '',
-  Demo: Object.keys(demos)[0],
-  Renderer: 'canvas',
+  Lib: DefaultLib,
+  Demo: Object.keys(DefaultLib)[0],
+  Renderer: 'default',
   GridLine: true,
   Theme: 'light',
   Animation: true,
@@ -35,13 +41,19 @@ window.onload = render;
 
 function initPanel() {
   const panel = new GUI({ container: document.getElementById('panel')!, autoPlace: true });
-  const Demo = panel.add(options, 'Demo', Object.keys(demos)).onChange(render);
+  const Lib = panel.add(options, 'Lib', Object.keys(Demos)).onChange((lib: string) => {
+    syncParamsToSearch();
+    Demo.options(Object.keys(Demos[lib]));
+  });
+  const Demo = panel.add(options, 'Demo', Object.keys(Demos[options.Lib])).onChange(render);
   const Search = panel.add(options, 'Search').onChange((keyword: string) => {
-    const keys = Object.keys(demos);
+    const keys = Object.keys(Demos);
     const filtered = keys.filter((key) => key.toLowerCase().includes(keyword.toLowerCase()));
     Demo.options(filtered);
   });
-  const Renderer = panel.add(options, 'Renderer', { Canvas: 'canvas', SVG: 'svg', WebGL: 'webgl' }).onChange(render);
+  const Renderer = panel
+    .add(options, 'Renderer', { Canvas: 'canvas', SVG: 'svg', WebGL: 'webgl', Default: 'default' })
+    .onChange(render);
   const Theme = panel.add(options, 'Theme', { Light: 'light', Dark: 'dark' }).onChange(render);
   const GridLine = panel.add(options, 'GridLine').onChange(() => {
     syncParamsToSearch();
@@ -49,7 +61,7 @@ function initPanel() {
   });
   const Animation = panel.add(options, 'Animation').onChange(render);
   const reload = panel.add(options, 'Reload').onChange(render);
-  return { panel, Demo, Search, Renderer, GridLine, Theme, Animation, reload };
+  return { panel, Lib, Demo, Search, Renderer, GridLine, Theme, Animation, reload };
 }
 
 async function render() {
@@ -62,13 +74,19 @@ async function render() {
   applyGridLine();
 
   // render
-  const { Renderer, Demo, Animation, Theme } = options;
-  const canvas = createGraphCanvas($container, 500, 500, Renderer);
-  await canvas.init();
-  const testCase = demos[Demo as keyof typeof demos];
+  const { Renderer, Lib, Demo, Animation, Theme } = options;
+
+  let container: any = 'container';
+  if (Renderer !== 'default') {
+    const canvas = createGraphCanvas($container, 500, 500, Renderer);
+    await canvas.init();
+    container = canvas;
+  }
+
+  const testCase = Demos[Lib][Demo as keyof typeof Demos];
   if (!testCase) return;
 
-  const result = await testCase({ container: canvas, animation: Animation, theme: Theme });
+  const result = await testCase({ container, animation: Animation, theme: Theme });
 
   Object.assign(window, { graph: result });
 

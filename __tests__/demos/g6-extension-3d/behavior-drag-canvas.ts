@@ -1,6 +1,6 @@
 import { CameraSetting, ExtensionCategory, Graph, register } from '@antv/g6';
-import { DragCanvas3D, Light, Line3D, Sphere, renderer } from '../../src';
-import data from '../dataset/cubic.json';
+import { DragCanvas3D, Light, Line3D, Sphere, renderer } from '@antv/g6-extension-3d';
+import data from '../../dataset/cubic.json';
 
 export const behaviorDragCanvas: TestCase = async (context) => {
   register(ExtensionCategory.PLUGIN, '3d-light', Light);

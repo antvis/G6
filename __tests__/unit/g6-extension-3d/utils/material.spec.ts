@@ -1,4 +1,4 @@
-import { createMaterial } from '../../../src/utils/material';
+import { createMaterial } from '@3d/utils/material';
 
 describe('material', () => {
   it('createMaterial', () => {

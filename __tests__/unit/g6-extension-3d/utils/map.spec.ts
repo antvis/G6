@@ -1,4 +1,4 @@
-import { TupleMap } from '../../../src/utils/map';
+import { TupleMap } from '@3d/utils/map';
 
 describe('map', () => {
   it('TupleMap', () => {

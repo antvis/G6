@@ -29,8 +29,9 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@antv/g6': path.resolve(__dirname, './packages/g6/src'),
       '@@': path.resolve(__dirname, './__tests__'),
+      '@antv/g6': path.resolve(__dirname, './packages/g6/src'),
+      '@antv/g6-extension-3d': path.resolve(__dirname, './packages/g6-extension-3d/src'),
     },
   },
 });

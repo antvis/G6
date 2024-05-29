@@ -1,33 +1,38 @@
 import { CameraSetting, ExtensionCategory, Graph, register } from '@antv/g6';
-import { Light, Line3D, ObserveCanvas3D, Sphere, ZoomCanvas3D, renderer } from '../../src';
-import data from '../dataset/cubic.json';
+import { Light, Line3D, ObserveCanvas3D, Sphere, ZoomCanvas3D, renderer } from '@antv/g6-extension-3d';
+import data from '../../dataset/force-3d.json';
 
-export const behaviorObserveCanvas: TestCase = async (context) => {
+export const layoutD3Force3D: TestCase = async (context) => {
   register(ExtensionCategory.PLUGIN, '3d-light', Light);
   register(ExtensionCategory.NODE, 'sphere', Sphere);
   register(ExtensionCategory.EDGE, 'line3d', Line3D);
-  register(ExtensionCategory.BEHAVIOR, 'observe-canvas-3d', ObserveCanvas3D);
-  register(ExtensionCategory.BEHAVIOR, 'zoom-canvas-3d', ZoomCanvas3D);
   register(ExtensionCategory.PLUGIN, 'camera-setting', CameraSetting);
+  register(ExtensionCategory.BEHAVIOR, 'zoom-canvas-3d', ZoomCanvas3D);
+  register(ExtensionCategory.BEHAVIOR, 'observe-canvas-3d', ObserveCanvas3D);
 
   const graph = new Graph({
     ...context,
+    animation: true,
     renderer,
     data,
+    layout: {
+      type: 'd3-force-3d',
+    },
     node: {
       type: 'sphere',
       style: {
         materialType: 'phong',
-        labelText: '',
-        x: (d) => +d.style!.x! + 250,
-        y: (d) => +d.style!.y! + 250,
       },
-      palette: 'spectral',
+      palette: {
+        color: 'tableau',
+        type: 'group',
+        field: 'group',
+      },
     },
     edge: {
       type: 'line3d',
     },
-    behaviors: ['zoom-canvas-3d', { key: 'observe-canvas-3d', type: 'observe-canvas-3d' }],
+    behaviors: ['observe-canvas-3d', 'zoom-canvas-3d'],
     plugins: [
       {
         type: 'camera-setting',
@@ -47,16 +52,5 @@ export const behaviorObserveCanvas: TestCase = async (context) => {
   });
 
   await graph.render();
-
-  behaviorObserveCanvas.form = (panel) => [
-    panel.add({ mode: 'orbiting' }, 'mode', ['orbiting', 'exploring', 'tracking']).onChange((mode: string) => {
-      graph.updateBehavior({
-        key: 'observe-canvas-3d',
-        type: 'observe-canvas-3d',
-        mode,
-      });
-    }),
-  ];
-
   return graph;
 };

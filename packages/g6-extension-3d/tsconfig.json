@@ -7,5 +7,5 @@
     }
   },
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*", "__tests__/**/*"]
+  "include": ["src/**/*"]
 }
