@@ -1,3 +1,4 @@
+import type { DisplayObjectConfig } from '@antv/g';
 import { isFunction } from '@antv/util';
 import type { CallableObject, ElementDatum, StyleIterationContext } from '../types';
 import { inferDefaultValue } from './animation';
@@ -35,4 +36,21 @@ export function computeElementCallbackStyle(
  */
 export function zIndexOf(datum: ElementDatum) {
   return datum.style?.zIndex ?? (inferDefaultValue('zIndex') as number) ?? 0;
+}
+
+/**
+ * <zh/> 合并图形配置项
+ *
+ * <en/> Merge graphic configuration
+ * @param options - <zh/> 图形配置项数组 | <en/> graphic configuration array
+ * @returns <zh/> 合并后的配置项 | <en/> merged configuration
+ */
+export function mergeOptions(...options: DisplayObjectConfig<any>[]): DisplayObjectConfig<any> {
+  const option = { style: {} };
+  for (const opt of options) {
+    const { style, ..._ } = opt;
+    Object.assign(option.style, style);
+    Object.assign(option, _);
+  }
+  return option;
 }
