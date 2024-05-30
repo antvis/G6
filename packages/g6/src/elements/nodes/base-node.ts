@@ -6,7 +6,6 @@ import type { NodeData } from '../../spec';
 import type {
   BaseElementStyleProps,
   ID,
-  Keyframe,
   NodeBadgeStyleProps,
   NodeLabelStyleProps,
   NodePortStyleProps,
@@ -25,8 +24,9 @@ import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { getWordWrapWidthByBox } from '../../utils/text';
 import { replaceTranslateInTransform } from '../../utils/transform';
+import { BaseElement } from '../base-element';
 import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
-import { Badge, BaseShape, Icon, Label } from '../shapes';
+import { Badge, Icon, Label } from '../shapes';
 
 /**
  * <zh/> 节点通用样式配置项
@@ -184,7 +184,7 @@ export interface BaseNodeStyleProps
  *
  * <en/> Design document: https://www.yuque.com/antv/g6/gl1iof1xpzg6ed98
  */
-export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps> extends BaseShape<S> {
+export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps> extends BaseElement<S> {
   public type = 'node';
 
   static defaultStyleProps: Partial<BaseNodeStyleProps> = {
@@ -219,10 +219,6 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
 
   constructor(options: DisplayObjectConfig<S>) {
     super(deepMix({}, { style: BaseNode.defaultStyleProps }, options));
-  }
-
-  public get parsedAttributes() {
-    return this.attributes as Required<S>;
   }
 
   protected getSize(attributes = this.attributes) {
@@ -430,43 +426,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     this.drawPortShapes(attributes, container);
   }
 
-  /**
-   * <zh/> 在元素完成创建并执行完入场动画后调用
-   *
-   * <en/> Called after the element is created and the entrance animation is completed
-   * @override
-   */
-  public onCreate() {}
-
-  /**
-   * <zh/> 在元素更新并执行完过渡动画后调用
-   *
-   * <en/> Called after the element is updated and the transition animation is completed
-   * @override
-   */
-  public onUpdate() {}
-
-  /**
-   * <zh/> 在元素完成退场动画并销毁后调用
-   *
-   * <en/> Called after the element completes the exit animation and is destroyed
-   * @override
-   */
-  public onDestroy() {}
-
   protected onframe() {
     this.drawBadgeShapes(this.parsedAttributes, this);
     this.drawLabelShape(this.parsedAttributes, this);
-  }
-
-  public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
-    const animation = super.animate(keyframes, options);
-
-    if (animation) {
-      animation.onframe = () => this.onframe();
-      animation.finished.then(() => this.onframe());
-    }
-
-    return animation;
   }
 }

@@ -120,32 +120,79 @@ export const ReactNodeDemo = () => {
             />
           </Form.Item>
           <Form.Item>
-            <Button
-              style={{ width: '100%' }}
-              type="primary"
-              onClick={() => {
-                if (!graphRef.current || graphRef.current.destroyed) return;
-                const type = form.getFieldValue('serverType');
-                const status = 'warning';
-                const length = (options.data?.nodes || []).filter((node) => node?.data?.type === type).length;
-                setOptions((prev) => ({
-                  ...prev,
-                  data: {
-                    ...prev.data,
-                    nodes: [
-                      ...graphRef.current!.getNodeData(),
-                      {
-                        id: `${type}-server-${length + 1}`,
-                        data: { type, status },
-                        style: { x: type === 'local' ? 50 : 350, y: 50 + length * 120 },
-                      },
-                    ],
-                  },
-                }));
-              }}
-            >
-              Add Node
-            </Button>
+            <Button.Group>
+              <Button
+                style={{ width: '100%' }}
+                type="primary"
+                onClick={() => {
+                  if (!graphRef.current || graphRef.current.destroyed) return;
+                  const type = form.getFieldValue('serverType');
+                  const status = 'warning';
+                  const length = (options.data?.nodes || []).filter((node) => node?.data?.type === type).length;
+                  setOptions((options) => ({
+                    ...options,
+                    data: {
+                      ...options.data,
+                      nodes: [
+                        ...graphRef.current!.getNodeData(),
+                        {
+                          id: `${type}-server-${length + 1}`,
+                          data: { type, status },
+                          style: { x: type === 'local' ? 50 : 350, y: 50 + length * 120 },
+                        },
+                      ],
+                    },
+                  }));
+                }}
+              >
+                Add Node
+              </Button>
+              <Button
+                onClick={() => {
+                  const { data } = options;
+                  const nodes = data?.nodes || [];
+                  setOptions((options) => ({
+                    ...options,
+                    data: {
+                      ...options.data,
+                      nodes: nodes.map((node, index) => {
+                        // return node;
+                        if (index === nodes.length - 1) {
+                          return {
+                            ...node,
+                            data: {
+                              ...node.data,
+                              status: node.data!.status === 'success' ? 'warning' : 'success',
+                            },
+                          };
+                        }
+                        return node;
+                      }),
+                    },
+                  }));
+
+                  graphRef.current?.draw();
+                }}
+              >
+                Update Node
+              </Button>
+              <Button
+                danger
+                onClick={() => {
+                  const { data } = options;
+                  const nodes = data?.nodes || [];
+                  setOptions((options) => ({
+                    ...options,
+                    data: {
+                      ...options.data,
+                      nodes: nodes.filter((node, index) => index !== nodes.length - 1),
+                    },
+                  }));
+                }}
+              >
+                Remove Node
+              </Button>
+            </Button.Group>
           </Form.Item>
         </Form>
 
