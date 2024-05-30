@@ -1,9 +1,9 @@
 import type { DisplayObjectConfig, EllipseStyleProps as GEllipseStyleProps, Group } from '@antv/g';
 import { Ellipse as GEllipse } from '@antv/g';
-import { deepMix } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
+import { mergeOptions } from '../../utils/style';
 import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
@@ -26,7 +26,7 @@ export class Ellipse extends BaseNode {
   };
 
   constructor(options: DisplayObjectConfig<EllipseStyleProps>) {
-    super(deepMix({}, { style: Ellipse.defaultStyleProps }, options));
+    super(mergeOptions({ style: Ellipse.defaultStyleProps }, options));
   }
 
   protected drawKeyShape(attributes: Required<EllipseStyleProps>, container: Group) {

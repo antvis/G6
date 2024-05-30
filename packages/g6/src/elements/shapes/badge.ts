@@ -1,5 +1,5 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
-import { deepMix } from '@antv/util';
+import { mergeOptions } from '../../utils/style';
 import { BaseShape } from './base-shape';
 import type { LabelStyleProps } from './label';
 import { Label } from './label';
@@ -18,7 +18,7 @@ export class Badge extends BaseShape<BadgeStyleProps> {
   };
 
   constructor(options: BadgeOptions) {
-    super(deepMix({}, { style: Badge.defaultStyleProps }, options));
+    super(mergeOptions({ style: Badge.defaultStyleProps }, options));
   }
 
   protected getBadgeStyle(attributes: ParsedBadgeStyleProps) {

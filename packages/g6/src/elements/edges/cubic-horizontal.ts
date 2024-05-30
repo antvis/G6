@@ -1,6 +1,6 @@
 import type { DisplayObjectConfig } from '@antv/g';
-import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
+import { mergeOptions } from '../../utils/style';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { Cubic } from './cubic';
 
@@ -42,7 +42,7 @@ export class CubicHorizontal extends Cubic {
   };
 
   constructor(options: DisplayObjectConfig<CubicHorizontalStyleProps>) {
-    super(deepMix({}, { style: CubicHorizontal.defaultStyleProps }, options));
+    super(mergeOptions({ style: CubicHorizontal.defaultStyleProps }, options));
   }
 
   protected getControlPoints(

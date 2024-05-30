@@ -1,6 +1,6 @@
 import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
-import { deepMix, isEmpty } from '@antv/util';
+import { isEmpty } from '@antv/util';
 import type { CategoricalPalette } from '../../palettes/types';
 import type { NodeData } from '../../spec';
 import type {
@@ -22,6 +22,7 @@ import { getRectIntersectPoint } from '../../utils/point';
 import { getXYByPlacement } from '../../utils/position';
 import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
+import { mergeOptions } from '../../utils/style';
 import { getWordWrapWidthByBox } from '../../utils/text';
 import { replaceTranslateInTransform } from '../../utils/transform';
 import { BaseElement } from '../base-element';
@@ -218,7 +219,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   };
 
   constructor(options: DisplayObjectConfig<S>) {
-    super(deepMix({}, { style: BaseNode.defaultStyleProps }, options));
+    super(mergeOptions({ style: BaseNode.defaultStyleProps }, options));
   }
 
   protected getSize(attributes = this.attributes) {

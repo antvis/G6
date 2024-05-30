@@ -1,9 +1,9 @@
 import type { DisplayObjectConfig, Group, PathStyleProps } from '@antv/g';
 import { Path } from '@antv/g';
-import { deepMix } from '@antv/util';
 import type { CardinalPlacement, Prefix } from '../../types';
 import { getPolygonTextStyleByPlacement } from '../../utils/polygon';
 import { subStyleProps } from '../../utils/prefix';
+import { mergeOptions } from '../../utils/style';
 import { getWordWrapWidthByBox } from '../../utils/text';
 import type { LabelStyleProps } from '../shapes';
 import { BaseShape } from './base-shape';
@@ -76,7 +76,7 @@ export class Contour extends BaseShape<ContourStyleProps> {
   };
 
   constructor(options: ContourOptions) {
-    super(deepMix({}, { style: Contour.defaultStyleProps }, options));
+    super(mergeOptions({ style: Contour.defaultStyleProps }, options));
   }
 
   protected getLabelStyle(attributes: ParsedContourStyleProps): LabelStyleProps | false {

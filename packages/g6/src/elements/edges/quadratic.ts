@@ -1,8 +1,8 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
 import { getCurveControlPoint, getQuadraticPath } from '../../utils/edge';
+import { mergeOptions } from '../../utils/style';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
@@ -48,7 +48,7 @@ export class Quadratic extends BaseEdge {
   };
 
   constructor(options: DisplayObjectConfig<QuadraticStyleProps>) {
-    super(deepMix({}, { style: Quadratic.defaultStyleProps }, options));
+    super(mergeOptions({ style: Quadratic.defaultStyleProps }, options));
   }
 
   protected getKeyPath(attributes: ParsedQuadraticStyleProps): PathArray {

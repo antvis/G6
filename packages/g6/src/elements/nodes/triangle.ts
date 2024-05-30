@@ -1,10 +1,11 @@
 import type { DisplayObjectConfig } from '@antv/g';
-import { deepMix, isEmpty } from '@antv/util';
+import { isEmpty } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { NodePortStyleProps, Point, TriangleDirection, TrianglePortPlacement } from '../../types';
 import { getIncircleRadius, getTriangleCenter } from '../../utils/bbox';
 import { getPortXYByPlacement, getTrianglePoints, getTrianglePorts } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
+import { mergeOptions } from '../../utils/style';
 import type { PolygonStyleProps } from '../shapes';
 import { IconStyleProps } from '../shapes';
 import { Polygon } from '../shapes/polygon';
@@ -36,7 +37,7 @@ export class Triangle extends Polygon<TriangleStyleProps> {
   };
 
   constructor(options: DisplayObjectConfig<TriangleStyleProps>) {
-    super(deepMix({}, { style: Triangle.defaultStyleProps }, options));
+    super(mergeOptions({ style: Triangle.defaultStyleProps }, options));
   }
 
   protected getPoints(attributes: Required<TriangleStyleProps>): Point[] {

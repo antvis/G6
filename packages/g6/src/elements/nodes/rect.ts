@@ -1,7 +1,7 @@
 import type { DisplayObjectConfig, RectStyleProps as GRectStyleProps, Group } from '@antv/g';
 import { Rect as GRect } from '@antv/g';
-import { deepMix } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
+import { mergeOptions } from '../../utils/style';
 import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
@@ -25,7 +25,7 @@ export class Rect extends BaseNode<RectStyleProps> {
   };
 
   constructor(options: DisplayObjectConfig<RectStyleProps>) {
-    super(deepMix({}, { style: Rect.defaultStyleProps }, options));
+    super(mergeOptions({ style: Rect.defaultStyleProps }, options));
   }
 
   protected getKeyStyle(attributes: ParsedRectStyleProps): GRectStyleProps {
