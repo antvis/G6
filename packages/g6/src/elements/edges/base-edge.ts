@@ -303,7 +303,7 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
         ? (['markerStart', 'markerStartOffset', 'startArrowOffset'] as const)
         : (['markerEnd', 'markerEndOffset', 'endArrowOffset'] as const);
 
-      const arrow = keyShape.style[marker];
+      const arrow = keyShape.parsedStyle[marker];
       // update
       if (arrow) arrow.attr(arrowStyle);
       // create
