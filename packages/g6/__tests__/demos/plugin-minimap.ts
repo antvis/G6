@@ -1,5 +1,5 @@
 import { ExtensionCategory, Graph, Minimap, PluginOptions, register } from '@/src';
-import data from '@@/dataset/cluster.json';
+import data from '@@/dataset/combo.json';
 import { isObject } from '@antv/util';
 import { MinimapOptions } from '../../src/plugins';
 
@@ -33,8 +33,9 @@ export const pluginMinimap: TestCase = async (context) => {
       follow: false,
       mode: 'default',
       size: [20, 20],
-      fresh: true,
+      refresh: true,
       zoom: 1,
+      hideEdge: false,
     };
 
     return [
@@ -45,6 +46,9 @@ export const pluginMinimap: TestCase = async (context) => {
       panel.add(config, 'zoom', 0.01, 10, 1).onChange((zoom: number) => graph.zoomTo(zoom)),
       panel.add(config, 'refresh', [true, false]).onChange((refresh: MinimapOptions['refresh']) => {
         graph.setPlugins(updatePlugin('minimap', { refresh }));
+      }),
+      panel.add(config, 'hideEdge', [true, false]).onChange((hideEdge: MinimapOptions['hideEdge']) => {
+        graph.setPlugins(updatePlugin('minimap', { hideEdge }));
       }),
     ];
   };

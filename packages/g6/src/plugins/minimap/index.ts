@@ -62,7 +62,6 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     ID,
     {
       minimapItem: DisplayObject;
-      graphItem: DisplayObject;
     }
   > = new Map();
 
@@ -200,6 +199,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const {
       options: { refresh, size, padding, mode, hideEdge },
     } = this;
+    console.log('drawerCanvas:hideEdge', hideEdge);
     this.canvas.removeChildren();
     const nodes = this.context.element?.getNodes() || [];
     const edges = hideEdge ? [] : this.context.element?.getEdges() || [];
@@ -243,25 +243,28 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     this.ratio = zoomRatio;
 
     this.updateViewport();
-    // Delete unused itemMap
-    this.deleteDestroyedShapes();
   }
 
   private cloneShapes(shapes: (Node | Edge | Combo)[], group: Group = new Group()) {
     // 建立 minimap shape 到 main shape 的映射关系到实例, 后面走入更新流程就不需要再clone了
 
     shapes.forEach((shape) => {
-      let { minimapItem, graphItem } = this.itemMap.get(shape.id) || {};
+      let { minimapItem } = this.itemMap.get(shape.id) || {};
+      if (shape.destroyed) {
+        minimapItem && minimapItem.remove();
+        this.itemMap.delete(shape.id);
+        return;
+      }
       if (!minimapItem) {
         minimapItem = shape.cloneNode(true);
       }
-      if (!graphItem) {
-        graphItem = shape;
-      }
+      minimapItem.attr({
+        ...minimapItem.attributes,
+        ...shape.attributes,
+      });
 
       group.appendChild(minimapItem);
       this.itemMap.set(shape.id, {
-        graphItem: graphItem,
         minimapItem: minimapItem,
       });
     });
@@ -270,25 +273,28 @@ export class Minimap extends BasePlugin<MinimapOptions> {
   private cloneKeyShapes(shapes: (Node | Edge | Combo)[], group: Group = new Group()) {
     // 建立 minimap shape 到 main shape 的映射关系到实例, 后面走入更新流程就不需要再clone了
     shapes.forEach((shape) => {
-      let { minimapItem, graphItem } = this.itemMap.get(shape.id) || {};
-      if (!minimapItem) {
-        minimapItem = shape.getKey().cloneNode(true);
-        minimapItem.id = `minimap-keyShape-${shape.id}`;
-      }
-      if (!graphItem) {
-        graphItem = shape.getKey();
+      const id = `minimap-keyShape-${shape.id}`;
+      let { minimapItem } = this.itemMap.get(id) || {};
+      if (shape.destroyed) {
+        minimapItem && minimapItem.remove();
+        this.itemMap.delete(id);
+        return;
       }
 
-      if (!minimapItem.destroyed) {
-        minimapItem.attr({
-          ...minimapItem.attributes,
-          ...graphItem.attributes,
-        });
+      if (!minimapItem) {
+        const keyShape = shape.getShape('key');
+        if (!keyShape) return;
+
+        minimapItem = keyShape.cloneNode(true);
+        minimapItem.id = id;
       }
+      minimapItem.attr({
+        ...minimapItem.attributes,
+        ...shape.attributes,
+      });
 
       group.appendChild(minimapItem);
-      this.itemMap.set(shape.id, {
-        graphItem: graphItem,
+      this.itemMap.set(id, {
         minimapItem: minimapItem,
       });
     });
@@ -305,32 +311,28 @@ export class Minimap extends BasePlugin<MinimapOptions> {
         ...this.options.delegateStyle,
       };
 
-      let { minimapItem, graphItem } = this.itemMap.get(shape.id) || {};
-      if (!minimapItem || minimapItem.destroyed) {
+      const id = `minimap-delegate-${shape.id}`;
+      let { minimapItem } = this.itemMap.get(id) || {};
+      if (shape.destroyed) {
+        minimapItem && minimapItem.remove();
+        this.itemMap.delete(id);
+        return;
+      }
+      if (!minimapItem) {
         minimapItem = new Rect({
-          style: {
-            ...shape.attributes,
-            ...attrs,
-          },
-          id: `minimap-delegate-${shape.id}`,
+          id,
         });
       }
       minimapItem.attr({
         ...minimapItem.attributes,
-        ...graphItem?.attributes,
+        ...shape?.attributes,
         ...attrs,
       });
 
       minimapItem.toFront();
-
-      if (!graphItem) {
-        graphItem = shape.getKey();
-      }
-
       group.appendChild(minimapItem);
 
-      this.itemMap.set(shape.id, {
-        graphItem: graphItem,
+      this.itemMap.set(id, {
         minimapItem: minimapItem,
       });
     });
@@ -381,16 +383,6 @@ export class Minimap extends BasePlugin<MinimapOptions> {
         height: `${50 || height}px`,
       });
     }
-  }
-
-  // 更新时使用
-  private deleteDestroyedShapes() {
-    this.itemMap.forEach(({ graphItem, minimapItem }, id) => {
-      if (graphItem.destroyed && minimapItem) {
-        minimapItem.remove();
-        this.itemMap.delete(id);
-      }
-    });
   }
 
   private addEventListener() {
