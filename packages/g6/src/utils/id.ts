@@ -1,7 +1,5 @@
-import { isNumber, isString } from '@antv/util';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type { DataID, ID } from '../types';
-import { isEdgeData } from './is';
 
 /**
  * <zh/> 获取节点/边/Combo 的 ID
@@ -11,8 +9,8 @@ import { isEdgeData } from './is';
  * @returns <zh/> 节点/边/Combo 的 ID | <en/> ID of node/edge/combo
  */
 export function idOf(data: Partial<NodeData | EdgeData | ComboData>): ID {
-  if (isString(data.id) || isNumber(data.id)) return data.id;
-  if (isEdgeData(data)) return `${data.source}-${data.target}`;
+  if (data.id !== undefined) return data.id;
+  if (data.source !== undefined && data.target !== undefined) return `${data.source}-${data.target}`;
 
   throw new Error('The data does not have available id.');
 }
