@@ -141,11 +141,13 @@ export class ElementController {
 
   private computeElementsDefaultStyle(ids?: ID[]) {
     this.forEachElementData((elementType, elementData) => {
-      elementData
-        .filter((datum) => ids === undefined || ids.includes(idOf(datum)))
-        .forEach((datum) => {
+      const length = elementData.length;
+      for (let i = 0; i < length; i++) {
+        const datum = elementData[i];
+        if (ids === undefined || ids.includes(idOf(datum))) {
           this.computeElementDefaultStyle(elementType, { datum });
-        });
+        }
+      }
     });
   }
 
@@ -195,12 +197,14 @@ export class ElementController {
    */
   private computeElementsStatesStyle(ids?: ID[]) {
     this.forEachElementData((elementType, elementData) => {
-      elementData
-        .filter((datum) => ids === undefined || ids.includes(idOf(datum)))
-        .forEach((datum) => {
+      const length = elementData.length;
+      for (let i = 0; i < length; i++) {
+        const datum = elementData[i];
+        if (ids === undefined || ids.includes(idOf(datum))) {
           const states = this.getElementState(idOf(datum));
           this.computeElementStatesStyle(elementType, states, { datum });
-        });
+        }
+      }
     });
   }
 

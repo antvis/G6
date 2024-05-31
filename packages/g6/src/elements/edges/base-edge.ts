@@ -8,7 +8,7 @@ import type {
 } from '@antv/g';
 import { Image, Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { deepMix, isEmpty, isFunction } from '@antv/util';
+import { isEmpty, isFunction } from '@antv/util';
 import type {
   BaseElementStyleProps,
   EdgeArrowStyleProps,
@@ -26,6 +26,7 @@ import { getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
 import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
+import { mergeOptions } from '../../utils/style';
 import * as Symbol from '../../utils/symbol';
 import { getWordWrapWidthByEnds } from '../../utils/text';
 import { BaseElement } from '../base-element';
@@ -206,7 +207,7 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
   };
 
   constructor(options: DisplayObjectConfig<BaseEdgeStyleProps>) {
-    super(deepMix({}, { style: BaseEdge.defaultStyleProps }, options));
+    super(mergeOptions({ style: BaseEdge.defaultStyleProps }, options));
   }
 
   protected get sourceNode() {

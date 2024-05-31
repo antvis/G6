@@ -1,8 +1,8 @@
 import type { DisplayObjectConfig, RectStyleProps as GRectStyleProps, Group } from '@antv/g';
 import { Image as GImage, ImageStyleProps as GImageStyleProps, Rect as GRect } from '@antv/g';
-import { deepMix } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
 import { subStyleProps } from '../../utils/prefix';
+import { mergeOptions } from '../../utils/style';
 import { add } from '../../utils/vector';
 import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
@@ -39,7 +39,7 @@ export class Image extends BaseNode<ImageStyleProps> {
   };
 
   constructor(options: DisplayObjectConfig<ImageStyleProps>) {
-    super(deepMix({}, { style: Image.defaultStyleProps }, options));
+    super(mergeOptions({ style: Image.defaultStyleProps }, options));
   }
 
   protected getKeyStyle(attributes: Required<ImageStyleProps>): GImageStyleProps {

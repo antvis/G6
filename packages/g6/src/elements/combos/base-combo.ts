@@ -1,5 +1,5 @@
 import { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
-import { deepMix, isFunction } from '@antv/util';
+import { isFunction } from '@antv/util';
 import { COMBO_KEY } from '../../constants';
 import type {
   CollapsedMarkerStyleProps,
@@ -17,6 +17,7 @@ import { parsePadding } from '../../utils/padding';
 import { getXYByPlacement, positionOf } from '../../utils/position';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
+import { mergeOptions } from '../../utils/style';
 import { add, divide } from '../../utils/vector';
 import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
@@ -99,7 +100,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     collapsedMarkerType: 'child-count',
   };
   constructor(options: DisplayObjectConfig<BaseComboStyleProps>) {
-    super(deepMix({}, { style: BaseCombo.defaultStyleProps }, options));
+    super(mergeOptions({ style: BaseCombo.defaultStyleProps }, options));
   }
 
   /**

@@ -1,12 +1,12 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { deepMix } from '@antv/util';
 import type { LoopStyleProps, Padding, Point, Port } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getPolylineLoopPath, getPolylinePath } from '../../utils/edge';
 import { findPorts, getConnectionPoint, getPortPosition } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { orth } from '../../utils/router/orth';
+import { mergeOptions } from '../../utils/style';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
@@ -70,7 +70,7 @@ export class Polyline extends BaseEdge {
   };
 
   constructor(options: DisplayObjectConfig<PolylineStyleProps>) {
-    super(deepMix({}, { style: Polyline.defaultStyleProps }, options));
+    super(mergeOptions({ style: Polyline.defaultStyleProps }, options));
   }
 
   protected getKeyPath(attributes: ParsedPolylineStyleProps): PathArray {

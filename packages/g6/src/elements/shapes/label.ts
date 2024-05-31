@@ -1,9 +1,9 @@
 import { DisplayObjectConfig, Group, Rect, RectStyleProps, Text, TextStyleProps } from '@antv/g';
-import { deepMix } from '@antv/util';
 import type { Padding } from '../../types/padding';
 import type { Prefix } from '../../types/prefix';
 import { parsePadding } from '../../utils/padding';
 import { omitStyleProps, startsWith, subStyleProps } from '../../utils/prefix';
+import { mergeOptions } from '../../utils/style';
 import { BaseShape } from './base-shape';
 
 export interface LabelStyleProps extends TextStyleProps, Prefix<'background', RectStyleProps> {
@@ -39,7 +39,7 @@ export class Label extends BaseShape<LabelStyleProps> {
   };
 
   constructor(options: LabelOptions) {
-    super(deepMix({}, { style: Label.defaultStyleProps }, options));
+    super(mergeOptions({ style: Label.defaultStyleProps }, options));
   }
 
   protected isTextStyle(key: string) {
