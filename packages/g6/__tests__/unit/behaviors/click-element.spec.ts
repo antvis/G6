@@ -31,8 +31,32 @@ describe('behavior click element', () => {
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
   });
 
+  it('selectedState and neighborSelectedState', async () => {
+    graph.setBehaviors([
+      {
+        type: 'click-element',
+        selectedState: 'selected',
+        neighborSelectedState: 'active',
+        unselectedState: 'inactive',
+        degree: 1,
+      },
+    ]);
+
+    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+    await expect(graph).toMatchSnapshot(__filename, 'custom-neighborSelectedState');
+    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+  });
+
   it('1 degree', async () => {
-    graph.setBehaviors([{ type: 'click-element', degree: 1, selectedState: 'selected', unselectedState: undefined }]);
+    graph.setBehaviors([
+      {
+        type: 'click-element',
+        degree: 1,
+        selectedState: 'selected',
+        neighborSelectedState: 'selected',
+        unselectedState: undefined,
+      },
+    ]);
 
     graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'node-1-degree');

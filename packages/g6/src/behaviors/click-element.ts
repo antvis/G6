@@ -53,16 +53,23 @@ export interface ClickElementOptions extends BaseBehaviorOptions {
    */
   trigger?: ShortcutKey;
   /**
-   * <zh/> 选中时应用的状态
+   * <zh/> 当元素被选中时应用的状态
    *
-   * <en/> The state to be applied when select.
+   * <en/> The state to be applied when an element is selected
    * @defaultValue 'selected'
    */
   selectedState?: State;
   /**
-   * <zh/> 当有元素被选中时，其他未选中的元素应用的状态
+   * <zh/> 当有元素选中时，其相邻 n 度关系的元素应用的状态。n 的值由属性 degree 控制，例如 degree 为 1 时表示直接相邻的元素
    *
-   * <en/> The state to be applied on other unselected elements when some elements are selected
+   * <en/> The state to be applied to the neighboring elements within n degrees when an element is selected. The value of n is controlled by the degree property, for instance, a degree of 1 indicates direct neighbors
+   * @defaultValue 'selected'
+   */
+  neighborSelectedState?: State;
+  /**
+   * <zh/> 当有元素被选中时，除了选中元素及其受影响的邻居元素外，其他所有元素应用的状态。
+   *
+   * <en/> The state to be applied to all unselected elements when some elements are selected, excluding the selected element and its affected neighbors
    * @defaultValue undefined
    */
   unselectedState?: State;
@@ -80,7 +87,14 @@ export interface ClickElementOptions extends BaseBehaviorOptions {
    *
    * <en/> For edges, `0 `means only the current edge is selected,`1` means the current edge and its directly adjacent nodes are selected, etc.
    */
-  degree?: number;
+  degree?: number | ((event: IPointerEvent) => number);
+  /**
+   * <zh/> 点击元素时的回调
+   *
+   * <en/> Callback when the element is clicked
+   * @param event - <zh/> 点击事件 | <en/> click event
+   */
+  onClick?: (event: IPointerEvent) => void;
 }
 
 /**
@@ -93,7 +107,9 @@ export interface ClickElementOptions extends BaseBehaviorOptions {
  * <en/> When the mouse clicks on an element, you can activate the state of the element, such as selecting nodes or edges. When the degree is 1, clicking on a node will highlight the current node and its directly adjacent nodes and edges.
  */
 export class ClickElement extends BaseBehavior<ClickElementOptions> {
-  private selectedElementIds: ID[] = [];
+  private selectedElementIds: Set<ID> = new Set<ID>();
+
+  private neighborSelectedElementIds: Set<ID> = new Set<ID>();
 
   private shortcut: Shortcut;
 
@@ -103,6 +119,7 @@ export class ClickElement extends BaseBehavior<ClickElementOptions> {
     multiple: false,
     trigger: ['shift'],
     selectedState: 'selected',
+    neighborSelectedState: 'selected',
     unselectedState: undefined,
     degree: 0,
   };
@@ -126,48 +143,75 @@ export class ClickElement extends BaseBehavior<ClickElementOptions> {
     if (!this.validate(event)) return;
     this.updateElementsState(event, false);
     this.updateElementsState(event, true);
+    this.options.onClick?.(event);
   };
 
   private onClickCanvas = (event: IPointerEvent) => {
     if (!this.validate(event)) return;
     this.updateElementsState(event, false);
-    this.selectedElementIds = [];
+    this.selectedElementIds.clear();
+    this.neighborSelectedElementIds.clear();
+    this.options.onClick?.(event);
   };
 
   private updateElementsState = (event: IPointerEvent, add: boolean) => {
     if (!this.options.selectedState && !this.options.unselectedState) return;
 
     const { graph } = this.context;
-    const { targetType, target } = event as { targetType: ElementType; target: Element };
+    const { target } = event as { target: Element };
 
     if (add) {
       // 如果当前元素已经被选中，则取消选中 | If the current element is already selected, deselect it
-      if (this.selectedElementIds.includes(target.id)) {
-        this.selectedElementIds = this.selectedElementIds.filter((id) => id !== target.id);
+      if (this.selectedElementIds.has(target.id)) {
+        this.selectedElementIds.delete(target.id);
       } else {
-        const selectedElementIds = getElementNthDegreeIds(graph, targetType, target.id, this.options.degree);
         const isMultiple = this.options.multiple && this.shortcut.match(this.options.trigger);
-        if (!isMultiple) {
-          this.selectedElementIds = selectedElementIds;
-        } else {
-          this.selectedElementIds.push(...selectedElementIds);
-        }
+        if (!isMultiple) this.selectedElementIds.clear();
+        this.selectedElementIds.add(target.id);
+        this.updateNeighborSelectedElementIds(event);
       }
     }
-    if (!this.selectedElementIds.length) return;
+    if (!this.selectedElementIds.size) return;
 
     const states: Record<ID, State[]> = {};
 
     if (this.options.selectedState) {
-      Object.assign(states, this.getElementsState(this.selectedElementIds, this.options.selectedState, add));
+      Object.assign(
+        states,
+        this.getElementsState(Array.from(this.selectedElementIds), this.options.selectedState, add),
+      );
+    }
+
+    if (this.options.neighborSelectedState && this.neighborSelectedElementIds.size > 0) {
+      Object.assign(
+        states,
+        this.getElementsState(Array.from(this.neighborSelectedElementIds), this.options.neighborSelectedState, add),
+      );
     }
 
     if (this.options.unselectedState) {
-      const inactiveIds = idsOf(graph.getData(), true).filter((id) => !this.selectedElementIds.includes(id));
+      const inactiveIds = idsOf(graph.getData(), true).filter(
+        (id) => !this.selectedElementIds.has(id) && !this.neighborSelectedElementIds.has(id),
+      );
       Object.assign(states, this.getElementsState(inactiveIds, this.options.unselectedState, add));
     }
 
     graph.setElementState(states, this.options.animation);
+  };
+
+  private updateNeighborSelectedElementIds = (event: IPointerEvent) => {
+    this.neighborSelectedElementIds.clear();
+
+    const degree = isFunction(this.options.degree) ? this.options.degree(event) : this.options.degree;
+    if (degree) {
+      const { targetType } = event as { targetType: ElementType };
+      this.selectedElementIds.forEach((id) => {
+        const neighborIds = getElementNthDegreeIds(this.context.graph, targetType, id, degree);
+        this.neighborSelectedElementIds = new Set(
+          [...this.neighborSelectedElementIds, ...neighborIds].filter((id) => !this.selectedElementIds.has(id)),
+        );
+      });
+    }
   };
 
   private getElementsState = (ids: ID[], state: State, add: boolean) => {
