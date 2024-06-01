@@ -42,15 +42,14 @@ export function zIndexOf(datum: ElementDatum) {
  * <zh/> 合并图形配置项
  *
  * <en/> Merge graphic configuration
- * @param options - <zh/> 图形配置项数组 | <en/> graphic configuration array
+ * @param opt1 - <zh/> 配置项1 | <en/> configuration 1
+ * @param opt2 - <zh/> 配置项2 | <en/> configuration 2
  * @returns <zh/> 合并后的配置项 | <en/> merged configuration
  */
-export function mergeOptions(...options: DisplayObjectConfig<any>[]): DisplayObjectConfig<any> {
-  const option = { style: {} };
-  for (const opt of options) {
-    const { style, ..._ } = opt;
-    Object.assign(option.style, style);
-    Object.assign(option, _);
-  }
-  return option;
+export function mergeOptions(opt1: DisplayObjectConfig<any>, opt2: DisplayObjectConfig<any>): DisplayObjectConfig<any> {
+  const s1 = opt1?.style || {};
+  const s2 = opt2?.style || {};
+  return Object.assign({}, opt1, opt2, {
+    style: Object.assign({}, s1, s2),
+  });
 }

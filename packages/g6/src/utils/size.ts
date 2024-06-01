@@ -1,4 +1,3 @@
-import { isNumber } from '@antv/util';
 import type { STDSize, Size } from '../types';
 
 /**
@@ -7,7 +6,7 @@ import type { STDSize, Size } from '../types';
  * @returns <zh/> 标准尺寸格式 | <en/> standard size format
  */
 export function parseSize(size: Size = 0): STDSize {
-  if (isNumber(size)) return Array(3).fill(size) as STDSize;
+  if (typeof size === 'number') return [size, size, size] as STDSize;
   const [x, y = x, z = x] = size;
   return [x, y, z];
 }

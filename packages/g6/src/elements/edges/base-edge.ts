@@ -8,7 +8,7 @@ import type {
 } from '@antv/g';
 import { Image, Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { isEmpty, isFunction } from '@antv/util';
+import { isFunction } from '@antv/util';
 import type {
   BaseElementStyleProps,
   EdgeArrowStyleProps,
@@ -272,7 +272,7 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
   }
 
   protected getLabelStyle(attributes: ParsedBaseEdgeStyleProps): false | LabelStyleProps {
-    if (attributes.label === false || isEmpty(attributes.labelText)) return false;
+    if (attributes.label === false || !attributes.labelText) return false;
 
     const labelStyle = subStyleProps<Required<EdgeLabelStyleProps>>(this.getGraphicStyle(attributes), 'label');
     const { placement, offsetX, offsetY, autoRotate, maxWidth, ...restStyle } = labelStyle;
@@ -299,7 +299,7 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
 
     if (enable) {
       const arrowStyle = this.getArrowStyle(attributes, isStart);
-      const Ctor = !isEmpty(arrowStyle.src) ? Image : Path;
+      const Ctor = arrowStyle.src ? Image : Path;
       const [marker, markerOffset, arrowOffset] = isStart
         ? (['markerStart', 'markerStartOffset', 'startArrowOffset'] as const)
         : (['markerEnd', 'markerEndOffset', 'endArrowOffset'] as const);

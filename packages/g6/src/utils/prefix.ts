@@ -1,4 +1,4 @@
-import { isString, lowerFirst, upperFirst } from '@antv/util';
+import { lowerFirst, upperFirst } from '@antv/util';
 import type { ReplacePrefix } from '../types';
 
 /**
@@ -106,14 +106,15 @@ export function subObject(obj: Record<string, any>, prefix: string): Record<stri
  * @param prefix - <zh/> 子样式前缀 | <en/> sub style prefix
  * @returns <zh/> 排除子样式后的样式 | <en/> style without sub style
  */
-export function omitStyleProps<T extends object>(style: object, prefix: string | string[]) {
-  const prefixArray = isString(prefix) ? [prefix] : prefix;
-  return Object.entries(style).reduce((acc, [key, value]) => {
+export function omitStyleProps<T extends Record<string, any>>(style: Record<string, any>, prefix: string | string[]) {
+  const prefixArray = typeof prefix === 'string' ? [prefix] : prefix;
+  const omitStyle: Record<string, any> = {};
+  Object.keys(style).forEach((key) => {
     if (!prefixArray.find((p) => key.startsWith(p))) {
-      acc[key as keyof T] = value;
+      omitStyle[key] = style[key];
     }
-    return acc;
-  }, {} as T);
+  });
+  return omitStyle as T;
 }
 
 /**
