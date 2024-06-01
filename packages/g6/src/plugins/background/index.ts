@@ -24,7 +24,6 @@ export class Background extends BasePlugin<BackgroundOptions> {
   static defaultOptions: Partial<BackgroundOptions> = {
     transition: 'background 0.5s',
     backgroundSize: 'cover',
-    opacity: '0.35',
   };
 
   private $element: HTMLElement = createPluginContainer('background');
@@ -33,7 +32,7 @@ export class Background extends BasePlugin<BackgroundOptions> {
     super(context, Object.assign({}, Background.defaultOptions, options));
 
     const $container = this.context.canvas.getContainer();
-    $container!.appendChild(this.$element);
+    $container!.prepend(this.$element);
 
     this.update(options);
   }
