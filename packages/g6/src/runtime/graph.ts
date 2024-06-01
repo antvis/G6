@@ -872,6 +872,7 @@ export class Graph extends EventEmitter {
   public async draw(): Promise<void> {
     await this.prepare();
     await this.context.element!.draw()?.finished;
+    await this.autoFit();
   }
 
   /**
