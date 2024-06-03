@@ -10,7 +10,6 @@ export const solarSystem: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     renderer,
-    background: 'black',
     data: {
       nodes: [
         {
@@ -67,6 +66,10 @@ export const solarSystem: TestCase = async (context) => {
         directional: {
           direction: [0, 0, 1],
         },
+      },
+      {
+        type: 'background',
+        background: 'black',
       },
     ],
   });
