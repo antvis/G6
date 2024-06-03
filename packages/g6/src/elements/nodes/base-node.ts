@@ -235,7 +235,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   protected getLabelStyle(attributes: Required<S>): false | LabelStyleProps {
     if (attributes.label === false || !attributes.labelText) return false;
 
-    const { placement, maxWidth, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
+    const { placement, maxWidth, offsetX, offsetY, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
       this.getGraphicStyle(attributes),
       'label',
     );
@@ -243,7 +243,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     const keyBounds = keyShape.getLocalBounds();
 
     return Object.assign(
-      getTextStyleByPlacement(keyBounds, placement),
+      getTextStyleByPlacement(keyBounds, placement, offsetX, offsetY),
       { wordWrapWidth: getWordWrapWidthByBox(keyBounds, maxWidth) },
       labelStyle,
     );
