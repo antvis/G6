@@ -10,7 +10,7 @@ export const commonGraph: TestCase = async (context) => {
         fill: (d) => (d.id === '33' ? '#d4414c' : '#2f363d'),
       },
     },
-    layout: { type: 'd3force' },
+    layout: { type: 'd3-force' },
     behaviors: ['zoom-canvas', 'drag-canvas'],
     plugins: [],
   });

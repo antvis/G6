@@ -24,7 +24,7 @@ createGraph(
     },
     behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
     layout: {
-      type: 'd3force',
+      type: 'd3-force',
     },
   },
   { width: 200, height: 200 },

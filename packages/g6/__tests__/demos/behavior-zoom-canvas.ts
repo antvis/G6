@@ -6,7 +6,7 @@ export const behaviorZoomCanvas: TestCase = async (context) => {
     ...context,
     data,
     layout: {
-      type: 'd3force',
+      type: 'd3-force',
     },
     node: {
       style: {

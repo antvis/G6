@@ -125,7 +125,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'force-atlas2': ForceAtlas2Layout,
     circular: CircularLayout,
     concentric: ConcentricLayout,
-    d3force: D3ForceLayout,
+    'd3-force': D3ForceLayout,
     dagre: DagreLayout,
     dendrogram,
     force: ForceLayout,

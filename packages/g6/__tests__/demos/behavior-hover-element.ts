@@ -6,7 +6,7 @@ export const behaviorHoverElement: TestCase = async (context) => {
     ...context,
     data: data,
     layout: {
-      type: 'd3force',
+      type: 'd3-force',
       linkDistance: 150,
     },
     node: {

@@ -38,7 +38,7 @@ order: 0
           },
         },
         layout: {
-          type: 'd3force',
+          type: 'd3-force',
           manyBody: {},
           x: {},
           y: {},
@@ -92,7 +92,7 @@ const graph = new Graph({
     },
   },
   layout: {
-    type: 'd3force',
+    type: 'd3-force',
     manyBody: {},
     x: {},
     y: {},

@@ -22,7 +22,7 @@ export const pluginLegend: TestCase = async (context) => {
         };
       }),
     },
-    layout: { type: 'd3force' },
+    layout: { type: 'd3-force' },
     behaviors: ['drag-canvas', 'drag-element'],
     node: {
       type: (item: any) => {

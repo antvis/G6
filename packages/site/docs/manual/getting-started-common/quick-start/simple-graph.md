@@ -16,7 +16,7 @@ fetch('https://assets.antv.antgroup.com/g6/graph.json')
           },
         },
         layout: {
-          type: 'd3force',
+          type: 'd3-force',
           manyBody: {},
           x: {},
           y: {},

@@ -38,7 +38,7 @@ Copy the following code into an HTML file and then open this file in a browser:
           },
         },
         layout: {
-          type: 'd3force',
+          type: 'd3-force',
           manyBody: {},
           x: {},
           y: {},
@@ -92,7 +92,7 @@ const graph = new Graph({
     },
   },
   layout: {
-    type: 'd3force',
+    type: 'd3-force',
     manyBody: {},
     x: {},
     y: {},
