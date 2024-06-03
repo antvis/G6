@@ -279,6 +279,14 @@ export default defineConfig({
           en: 'Algorithm',
         },
       },
+      {
+        slug: 'performance',
+        icon: 'net',
+        title: {
+          zh: '性能',
+          en: 'Performance',
+        },
+      },
     ],
     mdPlayground: {
       // 第一个分块的大小

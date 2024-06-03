@@ -11,6 +11,14 @@
         "en": "England"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*dTxvSL2wgDIAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "music-festival.js",
+      "title": {
+        "zh": "音乐节",
+        "en": "Music Festival"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IytGRZ8WaSMAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

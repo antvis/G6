@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "switch.js",
+      "title": {
+        "zh": "主题切换",
+        "en": "Switch Theme"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*jCYaT7L2E7sAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "lite-solar-system.js",
+      "title": {
+        "zh": "精简太阳系",
+        "en": "Lite Solar System"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*lEL3TrCLnPsAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "3d-massive.js",
+      "title": {
+        "zh": "3D大数据",
+        "en": "3D Massive Data"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ZQoEQLKazPIAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
