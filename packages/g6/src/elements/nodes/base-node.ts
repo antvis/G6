@@ -1,6 +1,5 @@
 import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
-import { isEmpty } from '@antv/util';
 import type { CategoricalPalette } from '../../palettes/types';
 import type { NodeData } from '../../spec';
 import type {
@@ -234,7 +233,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   }
 
   protected getLabelStyle(attributes: Required<S>): false | LabelStyleProps {
-    if (attributes.label === false || isEmpty(attributes.labelText)) return false;
+    if (attributes.label === false || !attributes.labelText) return false;
 
     const { placement, maxWidth, ...labelStyle } = subStyleProps<Required<NodeLabelStyleProps>>(
       this.getGraphicStyle(attributes),
@@ -260,7 +259,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   }
 
   protected getIconStyle(attributes: Required<S>): false | IconStyleProps {
-    if (attributes.icon === false || isEmpty(attributes.iconText || attributes.iconSrc)) return false;
+    if (attributes.icon === false || (!attributes.iconText && !attributes.iconSrc)) return false;
 
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
     const keyShape = this.getKey();
@@ -276,7 +275,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     Object.keys(badges).forEach((key) => {
       badgesShapeStyle[key] = false;
     });
-    if (attributes.badge === false || isEmpty(attributes.badges)) return badgesShapeStyle;
+    if (attributes.badge === false || !attributes.badges?.length) return badgesShapeStyle;
 
     const { badges: badgeOptions = [], badgePalette, opacity = 1, ...restAttributes } = attributes;
     const colors = getPaletteColors(badgePalette);
@@ -309,7 +308,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
       portsShapeStyle[key] = false;
     });
 
-    if (attributes.port === false || isEmpty(attributes.ports)) return portsShapeStyle;
+    if (attributes.port === false || !attributes.ports?.length) return portsShapeStyle;
 
     const portStyle = subStyleProps<PortStyleProps>(this.getGraphicStyle(attributes), 'port');
     const { ports: portOptions = [] } = attributes;

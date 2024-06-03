@@ -7,6 +7,7 @@ export const perfFCP: TestCase = async (context) => {
 
   const graph = new Graph({
     ...context,
+    animation: false,
     data,
     node: {
       type: 'circle', // 👈🏻 Node shape type.

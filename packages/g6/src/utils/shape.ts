@@ -12,7 +12,7 @@ export function getDescendantShapes<T extends DisplayObject>(shape: T) {
 
   // 遍历所有子元素，并将子元素的子元素加入到数组中
   const traverse = (shape: DisplayObject) => {
-    if (shape.children && shape.children.length) {
+    if (shape?.children.length) {
       (shape.children as DisplayObject[]).forEach((child) => {
         succeeds.push(child);
         traverse(child);

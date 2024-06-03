@@ -2,6 +2,7 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { ProceduralGeometry as GGeometry, SphereGeometryProps } from '@antv/g-plugin-3d';
 import { SphereGeometry } from '@antv/g-plugin-3d';
 import { deepMix } from '@antv/util';
+import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
@@ -22,6 +23,6 @@ export class Sphere extends BaseNode3D<SphereStyleProps> {
   protected getGeometry(attributes: Required<SphereStyleProps>): GGeometry<any> | undefined {
     const size = this.getSize();
     const { radius = size[0] / 2, latitudeBands, longitudeBands } = attributes;
-    return new SphereGeometry(this.device, { radius, latitudeBands, longitudeBands });
+    return createGeometry('sphere', this.device, SphereGeometry, { radius, latitudeBands, longitudeBands });
   }
 }

@@ -2,6 +2,7 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { CapsuleGeometryProps, ProceduralGeometry as GGeometry } from '@antv/g-plugin-3d';
 import { CapsuleGeometry } from '@antv/g-plugin-3d';
 import { deepMix } from '@antv/util';
+import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
@@ -22,6 +23,6 @@ export class Capsule extends BaseNode3D<CapsuleStyleProps> {
   protected getGeometry(attributes: Required<CapsuleStyleProps>): GGeometry<any> | undefined {
     const size = this.getSize();
     const { radius = size[0] / 2, height = size[1], heightSegments, sides } = attributes;
-    return new CapsuleGeometry(this.device, { radius, height, heightSegments, sides });
+    return createGeometry('capsule', this.device, CapsuleGeometry, { radius, height, heightSegments, sides });
   }
 }

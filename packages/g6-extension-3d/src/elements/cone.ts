@@ -2,6 +2,7 @@ import type { DisplayObjectConfig } from '@antv/g';
 import type { ConeGeometryProps, ProceduralGeometry as GGeometry } from '@antv/g-plugin-3d';
 import { ConeGeometry } from '@antv/g-plugin-3d';
 import { deepMix } from '@antv/util';
+import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
@@ -28,6 +29,12 @@ export class Cone extends BaseNode3D<ConeStyleProps> {
       heightSegments,
       capSegments,
     } = attributes;
-    return new ConeGeometry(this.device, { baseRadius, peakRadius, height, heightSegments, capSegments });
+    return createGeometry('cone', this.device, ConeGeometry, {
+      baseRadius,
+      peakRadius,
+      height,
+      heightSegments,
+      capSegments,
+    });
   }
 }

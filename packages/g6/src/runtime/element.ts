@@ -2,7 +2,7 @@
 /* eslint-disable jsdoc/require-param */
 import type { BaseStyleProps } from '@antv/g';
 import { Group } from '@antv/g';
-import { groupBy, isEmpty, isString } from '@antv/util';
+import { groupBy } from '@antv/util';
 import { AnimationType, COMBO_KEY, ChangeType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry';
@@ -80,9 +80,11 @@ export class ElementController {
     const userDefinedType = options[elementType]?.type || datum.type;
 
     if (!userDefinedType) {
-      return { node: 'circle', edge: 'line', combo: 'circle' }[elementType];
+      if (elementType === 'edge') return 'line';
+      // node / combo
+      else return 'circle';
     }
-    if (isString(userDefinedType)) return userDefinedType;
+    if (typeof userDefinedType === 'string') return userDefinedType;
     return userDefinedType(datum as any);
   }
 
@@ -112,7 +114,7 @@ export class ElementController {
         parsePalette(this.getTheme(elementType)?.palette),
         parsePalette(options[elementType]?.palette),
       );
-      if (!isEmpty(palette) && palette?.field) {
+      if (palette?.field) {
         Object.assign(this.paletteStyle, assignColorByPalette(elementData, palette));
       }
     });
@@ -453,7 +455,6 @@ export class ElementController {
             if (exactStage === 'show') updateStyle(element, { visibility: 'visible' });
           }
         },
-        afterAnimate: () => {},
         after: () => {
           if (stage === 'collapse') updateStyle(element, style);
           if (exactStage === 'hide') updateStyle(element, { visibility: getCachedStyle(element, 'visibility') });
