@@ -113,13 +113,11 @@ const graph = new Graph({
 
 G6 5.0 comes with two built-in themes: light and dark, and allows for flexible customization based on the use case. For details, please refer to [Custom Theme](/en/manual/custom-extension/theme).
 
-## 💻 Information Layering
-
-Under Construction...
-
 ## 🌍 3D Large Graphs
 
-Under Construction...
+G6 5.0 provides 3D rendering, layout, interaction capabilities, and can be used by import 3d elements, renderer, and behaviors from `@antv/g6-extension-3D` registration, see: [Using 3D](/manual/further-reading/3d).
+
+<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ZQoEQLKazPIAAAAAAAAAAAAADmJ7AQ/original"></image>
 
 ## 💪 Plugin Optimization and Enhancement
 
@@ -130,3 +128,5 @@ Please visit [Plugin](/en/api/plugins/bubble-sets) to experience the capabilitie
 ## 💼 Optimized Package Size
 
 Thanks to the well-modularized design and extension registration mechanism of G6 5.0, modules that are not used will not be packaged into the final build file, reducing the package size.
+
+Compared to 4.0, the UMD package size has been reduced from 1.8 MB to 0.96 MB, a reduction of nearly 50%.
