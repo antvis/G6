@@ -1,3 +1,4 @@
+export { D3Force3DLayout } from '@antv/layout';
 export { DragCanvas3D, ObserveCanvas3D, RollCanvas3D, ZoomCanvas3D } from './behaviors';
 export { BaseNode3D, Capsule, Cone, Cube, Cylinder, Line3D, Plane, Sphere, Torus } from './elements';
 export { Light } from './plugins';
