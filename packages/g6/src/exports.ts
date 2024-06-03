@@ -46,7 +46,6 @@ export {
   CircularLayout,
   ComboCombinedLayout,
   ConcentricLayout,
-  D3Force3DLayout,
   D3ForceLayout,
   DagreLayout,
   ForceAtlas2Layout,

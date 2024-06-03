@@ -15,7 +15,7 @@ function getData(size = 10) {
 const graph = new Graph({
   data: getData(),
   layout: {
-    type: 'd3force',
+    type: 'd3-force',
     manyBody: {
       strength: -30,
     },

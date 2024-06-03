@@ -52,7 +52,7 @@ const graph = new Graph({
   container,
   data: getData(width),
   layout: {
-    type: 'd3force',
+    type: 'd3-force',
     alphaTarget: 0.3,
     velocityDecay: 0.1,
     x: {

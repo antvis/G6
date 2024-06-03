@@ -79,11 +79,11 @@ interface FruchtermanLayout extends BaseLayoutOptions, FruchtermanLayoutOptions 
 }
 
 interface D3ForceLayout extends BaseLayoutOptions, D3ForceLayoutOptions {
-  type: 'd3force';
+  type: 'd3-force';
 }
 
 interface D3Force3DLayout extends BaseLayoutOptions, D3Force3DLayoutOptions {
-  type: 'd3force3d';
+  type: 'd3-force3d';
 }
 
 interface ForceLayout extends BaseLayoutOptions, ForceLayoutOptions {

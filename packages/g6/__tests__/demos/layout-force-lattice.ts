@@ -6,7 +6,7 @@ export const layoutForceLattice: TestCase = async (context) => {
     ...context,
     data: getData(),
     layout: {
-      type: 'd3force',
+      type: 'd3-force',
       manyBody: {
         strength: -30,
       },

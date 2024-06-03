@@ -17,7 +17,7 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
         },
       },
       layout: {
-        type: 'd3force',
+        type: 'd3-force',
         collide: {
           strength: 0.5,
         },

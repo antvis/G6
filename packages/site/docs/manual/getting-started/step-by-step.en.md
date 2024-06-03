@@ -233,12 +233,12 @@ const data = {
 
 By default, if a node does not have position information, G6 will place the node at the top-left corner, that is, at the coordinates `(0, 0)`.
 
-Next, we will use the `d3force` layout algorithm, which is a force-directed layout algorithm that can simulate the forces of attraction and repulsion between nodes, allowing the nodes to automatically adjust to suitable positions.
+Next, we will use the `d3-force` layout algorithm, which is a force-directed layout algorithm that can simulate the forces of attraction and repulsion between nodes, allowing the nodes to automatically adjust to suitable positions.
 
 ```js
 {
   layout: {
-    type: 'd3force',
+    type: 'd3-force',
   },
 }
 ```
@@ -270,7 +270,7 @@ const graph = new Graph({
   },
   behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
   layout: {
-    type: 'd3force',
+    type: 'd3-force',
   },
 });
 

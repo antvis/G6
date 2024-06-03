@@ -61,7 +61,7 @@ describe('Graph', () => {
   });
 
   it('getLayout', () => {
-    expect(graph.getLayout()).toEqual({ type: 'd3force' });
+    expect(graph.getLayout()).toEqual({ type: 'd3-force' });
   });
 
   it('getBehaviors/setBehaviors/updateBehavior', () => {

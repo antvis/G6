@@ -9,7 +9,7 @@ export const layoutD3Force: TestCase = async (context) => {
     autoFit: 'view',
     behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element', 'click-select'],
     layout: {
-      type: 'd3force',
+      type: 'd3-force',
       collide: {
         strength: 0.5,
       },

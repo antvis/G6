@@ -24,7 +24,7 @@ createGraph(
     },
     behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
     layout: {
-      type: 'd3force',
+      type: 'd3-force',
     },
     plugins: [{ type: 'grid-line', follow: true }],
   },

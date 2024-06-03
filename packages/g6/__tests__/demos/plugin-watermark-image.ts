@@ -6,7 +6,7 @@ export const pluginWatermarkImage: TestCase = async (context) => {
     ...context,
     autoResize: true,
     data,
-    layout: { type: 'd3force' },
+    layout: { type: 'd3-force' },
     plugins: [
       {
         type: 'watermark',

@@ -233,12 +233,12 @@ const data = {
 
 默认情况下，如果节点没有位置信息，G6 会将节点放置在左上角，即 `(0, 0)`。
 
-接下来我们使用 `d3force` 布局算法，它是一种力导向布局算法，可以模拟节点之间的引力和斥力，使得节点自动调整到合适的位置。
+接下来我们使用 `d3-force` 布局算法，它是一种力导向布局算法，可以模拟节点之间的引力和斥力，使得节点自动调整到合适的位置。
 
 ```js
 {
   layout: {
-    type: 'd3force',
+    type: 'd3-force',
   },
 }
 ```
@@ -270,7 +270,7 @@ const graph = new Graph({
   },
   behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
   layout: {
-    type: 'd3force',
+    type: 'd3-force',
   },
 });
 

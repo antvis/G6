@@ -35,7 +35,7 @@ export const layoutForceCollision: TestCase = async (context) => {
     ...context,
     data: getData(500),
     layout: {
-      type: 'd3force',
+      type: 'd3-force',
       alphaTarget: 0.3,
       velocityDecay: 0.1,
       x: {

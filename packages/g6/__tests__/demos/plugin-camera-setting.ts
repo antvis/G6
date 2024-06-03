@@ -7,7 +7,7 @@ export const pluginCameraSetting: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
-    layout: { type: 'd3force' },
+    layout: { type: 'd3-force' },
     plugins: [{ key: 'camera-setting', type: 'camera-setting' }],
   });
 
