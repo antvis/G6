@@ -134,13 +134,11 @@ const graph = new Graph({
 
 G6 5.0 内置了亮色、暗色两套主题，并可基于使用场景进行灵活定制，具体可参考[自定义主题](/manual/custom-extension/theme)。
 
-## 💻 信息分层
-
-建设中...
-
 ## 🌍 3D 大图
 
-建设中...
+G6 5.0 提供了 3D 大图渲染、布局、交互能力，从 `@antv/g6-extension-3d` 中引入 3D 元素、渲染器、交互等注册即可使用，详见：[使用 3D](/manual/further-reading/3d)。
+
+<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ZQoEQLKazPIAAAAAAAAAAAAADmJ7AQ/original"></image>
 
 ## 💪 插件优化增强
 
@@ -151,3 +149,5 @@ G6 5.0 对现有插件进行了优化增强，解除了 Graph 与插件之间的
 ## 💼 优化包体积
 
 得益于 G6 5.0 良好的模块化的设计以及扩展注册机制，对于未使用的模块，不会被打包到最终的构建文件中，减小了包体积。
+
+与 4.0 相比，UMD 包体积从 1.8MB 减小到 0.96 MB，减小了近 50%。
