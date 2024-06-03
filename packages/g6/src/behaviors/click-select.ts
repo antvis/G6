@@ -15,7 +15,7 @@ import { BaseBehavior } from './base-behavior';
  *
  * <en/> Click element behavior options
  */
-export interface ClickElementOptions extends BaseBehaviorOptions {
+export interface ClickSelectOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用动画
    *
@@ -58,14 +58,14 @@ export interface ClickElementOptions extends BaseBehaviorOptions {
    * <en/> The state to be applied when an element is selected
    * @defaultValue 'selected'
    */
-  selectedState?: State;
+  state?: State;
   /**
    * <zh/> 当有元素选中时，其相邻 n 度关系的元素应用的状态。n 的值由属性 degree 控制，例如 degree 为 1 时表示直接相邻的元素
    *
    * <en/> The state to be applied to the neighboring elements within n degrees when an element is selected. The value of n is controlled by the degree property, for instance, a degree of 1 indicates direct neighbors
    * @defaultValue 'selected'
    */
-  neighborSelectedState?: State;
+  neighborState?: State;
   /**
    * <zh/> 当有元素被选中时，除了选中元素及其受影响的邻居元素外，其他所有元素应用的状态。
    *
@@ -106,26 +106,26 @@ export interface ClickElementOptions extends BaseBehaviorOptions {
  *
  * <en/> When the mouse clicks on an element, you can activate the state of the element, such as selecting nodes or edges. When the degree is 1, clicking on a node will highlight the current node and its directly adjacent nodes and edges.
  */
-export class ClickElement extends BaseBehavior<ClickElementOptions> {
+export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
   private selectedElementIds: Set<ID> = new Set<ID>();
 
   private neighborSelectedElementIds: Set<ID> = new Set<ID>();
 
   private shortcut: Shortcut;
 
-  static defaultOptions: Partial<ClickElementOptions> = {
+  static defaultOptions: Partial<ClickSelectOptions> = {
     animation: true,
     enable: true,
     multiple: false,
     trigger: ['shift'],
-    selectedState: 'selected',
-    neighborSelectedState: 'selected',
+    state: 'selected',
+    neighborState: 'selected',
     unselectedState: undefined,
     degree: 0,
   };
 
-  constructor(context: RuntimeContext, options: ClickElementOptions) {
-    super(context, Object.assign({}, ClickElement.defaultOptions, options));
+  constructor(context: RuntimeContext, options: ClickSelectOptions) {
+    super(context, Object.assign({}, ClickSelect.defaultOptions, options));
     this.shortcut = new Shortcut(context.graph);
     this.bindEvents();
   }
@@ -134,12 +134,12 @@ export class ClickElement extends BaseBehavior<ClickElementOptions> {
     const { graph } = this.context;
     this.unbindEvents();
     ELEMENT_TYPES.forEach((type) => {
-      graph.on(`${type}:${CommonEvent.CLICK}`, this.onClickElement);
+      graph.on(`${type}:${CommonEvent.CLICK}`, this.onClickSelect);
     });
     graph.on(`canvas:${CommonEvent.CLICK}`, this.onClickCanvas);
   }
 
-  private onClickElement = (event: IPointerEvent) => {
+  private onClickSelect = (event: IPointerEvent) => {
     if (!this.validate(event)) return;
     this.updateElementsState(event, false);
     this.updateElementsState(event, true);
@@ -155,7 +155,7 @@ export class ClickElement extends BaseBehavior<ClickElementOptions> {
   };
 
   private updateElementsState = (event: IPointerEvent, add: boolean) => {
-    if (!this.options.selectedState && !this.options.unselectedState) return;
+    if (!this.options.state && !this.options.unselectedState) return;
 
     const { graph } = this.context;
     const { target } = event as { target: Element };
@@ -175,17 +175,14 @@ export class ClickElement extends BaseBehavior<ClickElementOptions> {
 
     const states: Record<ID, State[]> = {};
 
-    if (this.options.selectedState) {
-      Object.assign(
-        states,
-        this.getElementsState(Array.from(this.selectedElementIds), this.options.selectedState, add),
-      );
+    if (this.options.state) {
+      Object.assign(states, this.getElementsState(Array.from(this.selectedElementIds), this.options.state, add));
     }
 
-    if (this.options.neighborSelectedState && this.neighborSelectedElementIds.size > 0) {
+    if (this.options.neighborState && this.neighborSelectedElementIds.size > 0) {
       Object.assign(
         states,
-        this.getElementsState(Array.from(this.neighborSelectedElementIds), this.options.neighborSelectedState, add),
+        this.getElementsState(Array.from(this.neighborSelectedElementIds), this.options.neighborState, add),
       );
     }
 
@@ -236,7 +233,7 @@ export class ClickElement extends BaseBehavior<ClickElementOptions> {
     const { graph } = this.context;
 
     ELEMENT_TYPES.forEach((type) => {
-      graph.off(`${type}:${CommonEvent.CLICK}`, this.onClickElement);
+      graph.off(`${type}:${CommonEvent.CLICK}`, this.onClickSelect);
     });
     graph.off(`canvas:${CommonEvent.CLICK}`, this.onClickCanvas);
   }

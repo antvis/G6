@@ -16,13 +16,13 @@ G6 5.x 已经移除了“交互模式”(Mode)这一概念，用户只需要管�
 G6 提供了丰富的交互功能，用户可以根据自己的需求选择合适的交互行为，包括：
 
 - [Brush Select](/api/behaviors/brush-select)：框选
-- [Click Element](/api/behaviors/click-element)：单击选中
+- [Click Element](/api/behaviors/click-select)：单击选中
 - [Collapse Expand](/api/behaviors/collapse-expand)：展开收起
 - [Create Edge](/api/behaviors/create-edge)：创建边
 - [Drag Canvas](/api/behaviors/drag-canvas)：拖拽画布
 - [Drag Element](/api/behaviors/drag-element)：拖拽元素
 - [Focus Element](/api/behaviors/focus-element)：聚焦元素
-- [Hover Element](/api/behaviors/hover-element)：悬停元素
+- [Hover Element](/api/behaviors/hover-activate)：悬停元素
 - [Lasso Select](/api/behaviors/lasso-select)：套索选择
 - [Zoom Canvas](/api/behaviors/zoom-canvas)：缩放画布
 

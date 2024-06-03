@@ -31,8 +31,8 @@ createGraph(
     },
     behaviors: [
       {
-        type: 'click-element',
-        key: 'click-element',
+        type: 'click-select',
+        key: 'click-select',
       },
     ],
     plugins: ['grid-line'],
@@ -41,13 +41,13 @@ createGraph(
   { width: 600, height: 300 },
   (gui, graph) => {
     const options = {
-      key: 'click-element',
-      type: 'click-element',
+      key: 'click-select',
+      type: 'click-select',
       animation: true,
       enable: true,
       multiple: false,
       trigger: 'shift+click',
-      selectedState: 'selected',
+      state: 'selected',
       unselectedState: undefined,
       degree: 0,
     };
@@ -56,7 +56,7 @@ createGraph(
     optionFolder.add(options, 'animation');
     optionFolder.add(options, 'enable');
     optionFolder.add(options, 'degree', 0, 2, 1);
-    optionFolder.add(options, 'selectedState', ['active', 'selected', 'custom']);
+    optionFolder.add(options, 'state', ['active', 'selected', 'custom']);
     optionFolder.add(options, 'unselectedState', [undefined, 'inactive']);
     optionFolder.add(options, 'multiple').onChange((v) => trigger.show(v));
     const trigger = optionFolder
@@ -68,7 +68,7 @@ createGraph(
 
     optionFolder.onChange(({ property, value }) => {
       graph.updateBehavior({
-        key: 'click-element',
+        key: 'click-select',
         [property]: value,
       });
       graph.render();

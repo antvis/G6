@@ -37,10 +37,10 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
       },
       behaviors: [
         {
-          type: 'hover-element',
+          type: 'hover-activate',
           enable: (event) => event.targetType === 'node',
           degree: 1, // 👈🏻 Activate relations.
-          activeState: 'highlight',
+          state: 'highlight',
           inactiveState: 'dim',
           onHover: (event) => {
             event.view.setCursor('pointer');

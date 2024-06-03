@@ -15,7 +15,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
       container: 'container',
       autoFit: 'view',
       data: format(data),
-      behaviors: ['hover-element'],
+      behaviors: ['hover-activate'],
       layout: {
         type: 'force',
         preventOverlap: true,
