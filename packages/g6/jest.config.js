@@ -13,10 +13,9 @@ module.exports = {
   collectCoverageFrom: ['src/**/*.ts'],
   coveragePathIgnorePatterns: ['<rootDir>/src/elements/nodes/html.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
-  collectCoverage: false,
+  collectCoverage: true,
   testRegex: '(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$',
-  // Transform esm to cjs.
-  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`],
+  transformIgnorePatterns: [`<rootDir>/node_modules/.pnpm/(?!(${esm}))`],
   testPathIgnorePatterns: ['/(lib|esm)/__tests__/'],
   moduleNameMapper: {
     '^@@/(.*)$': '<rootDir>/__tests__/$1',

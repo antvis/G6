@@ -40,6 +40,21 @@ export function createGraphCanvas(
   container.style.height = `${height}px`;
 
   resetEntityCounter();
+
+  let extraOptions = {};
+
+  if (globalThis.process) {
+    const offscreenNodeCanvas = {
+      getContext: () => context,
+    } as unknown as HTMLCanvasElement;
+    const context = new OffscreenCanvasContext(offscreenNodeCanvas);
+    // 下列参数仅在 node 环境下需要传入 / These parameters only need to be passed in the node environment
+    extraOptions = {
+      document: container.ownerDocument,
+      offscreenCanvas: offscreenNodeCanvas,
+    };
+  }
+
   const offscreenNodeCanvas = {
     getContext: () => context,
   } as unknown as HTMLCanvasElement;
@@ -51,9 +66,7 @@ export function createGraphCanvas(
     width,
     height,
     renderer: () => instance,
-    // @ts-expect-error document offscreenCanvas is not in the type definition
-    document: container.ownerDocument,
-    offscreenCanvas: offscreenNodeCanvas,
+    ...extraOptions,
   });
 }
 

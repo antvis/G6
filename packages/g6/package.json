@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "5.0.0-beta.37",
+  "version": "5.0.0-beta.38",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -42,14 +42,13 @@
     "coverage:open": "open coverage/lcov-report/index.html",
     "dev": "vite",
     "fix": "eslint ./src ./__tests__ --fix && prettier ./src __tests__ --write ",
-    "jest": "node --expose-gc --max-old-space-size=1024 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles",
-    "jest:inspect": "node --inspect --expose-gc --max-old-space-size=1024 --unhandled-rejections=strict --experimental-vm-modules ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles --runInBand",
+    "jest": "node --expose-gc --max-old-space-size=1024 --unhandled-rejections=strict ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles",
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
     "prepublishOnly": "npm run ci",
     "size": "limit-size",
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
     "tag": "node ./scripts/tag.mjs",
-    "test": "npm run jest __tests__",
+    "test": "jest",
     "test:integration": "npm run jest __tests__/integration",
     "test:unit": "npm run jest __tests__/unit",
     "type-check": "tsc --noEmit"

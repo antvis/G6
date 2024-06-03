@@ -8,7 +8,7 @@ import type {
 } from '@antv/g';
 import { Image, Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { deepMix, isEmpty, isFunction } from '@antv/util';
+import { isEmpty, isFunction } from '@antv/util';
 import type {
   BaseElementStyleProps,
   EdgeArrowStyleProps,
@@ -26,11 +26,12 @@ import { getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
 import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
+import { mergeOptions } from '../../utils/style';
 import * as Symbol from '../../utils/symbol';
 import { getWordWrapWidthByEnds } from '../../utils/text';
+import { BaseElement } from '../base-element';
 import type { LabelStyleProps } from '../shapes';
 import { Label } from '../shapes';
-import { BaseShape } from '../shapes/base-shape';
 
 /**
  * <zh/> 边的通用样式属性
@@ -167,7 +168,7 @@ type ParsedBaseEdgeStyleProps = Required<BaseEdgeStyleProps>;
  *
  * <en/> Base class of the edge
  */
-export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
+export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
   public type = 'edge';
 
   static defaultStyleProps: Partial<BaseEdgeStyleProps> = {
@@ -206,7 +207,7 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
   };
 
   constructor(options: DisplayObjectConfig<BaseEdgeStyleProps>) {
-    super(deepMix({}, { style: BaseEdge.defaultStyleProps }, options));
+    super(mergeOptions({ style: BaseEdge.defaultStyleProps }, options));
   }
 
   protected get sourceNode() {
@@ -303,7 +304,7 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
         ? (['markerStart', 'markerStartOffset', 'startArrowOffset'] as const)
         : (['markerEnd', 'markerEndOffset', 'endArrowOffset'] as const);
 
-      const arrow = keyShape.style[marker];
+      const arrow = keyShape.parsedStyle[marker];
       // update
       if (arrow) arrow.attr(arrowStyle);
       // create
@@ -365,30 +366,6 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
     this.drawHaloShape(attributes, container);
   }
 
-  /**
-   * <zh/> 在元素完成创建并执行完入场动画后调用
-   *
-   * <en/> Called after the element is created and the entrance animation is completed
-   * @override
-   */
-  public onCreate() {}
-
-  /**
-   * <zh/> 在元素更新并执行完过渡动画后调用
-   *
-   * <en/> Called after the element is updated and the transition animation is completed
-   * @override
-   */
-  public onUpdate() {}
-
-  /**
-   * <zh/> 在元素完成退场动画并销毁后调用
-   *
-   * <en/> Called after the element completes the exit animation and is destroyed
-   * @override
-   */
-  public onDestroy() {}
-
   protected onframe() {
     this.drawKeyShape(this.parsedAttributes, this);
     this.drawHaloShape(this.parsedAttributes, this);
@@ -397,10 +374,6 @@ export abstract class BaseEdge extends BaseShape<BaseEdgeStyleProps> {
 
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {
     const animation = super.animate(keyframes, options);
-
-    if (animation) {
-      animation.onframe = () => this.onframe();
-    }
 
     if (!animation) return animation;
 

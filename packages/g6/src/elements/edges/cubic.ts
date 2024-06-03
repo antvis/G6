@@ -1,8 +1,8 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { deepMix } from '@antv/util';
 import type { Point } from '../../types';
 import { getCubicPath, getCurveControlPoint, parseCurveOffset, parseCurvePosition } from '../../utils/edge';
+import { mergeOptions } from '../../utils/style';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
@@ -48,7 +48,7 @@ export class Cubic extends BaseEdge {
   };
 
   constructor(options: DisplayObjectConfig<CubicStyleProps>) {
-    super(deepMix({}, { style: Cubic.defaultStyleProps }, options));
+    super(mergeOptions({ style: Cubic.defaultStyleProps }, options));
   }
 
   /**

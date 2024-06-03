@@ -1,4 +1,4 @@
-import { computeElementCallbackStyle, zIndexOf } from '@/src/utils/style';
+import { computeElementCallbackStyle, mergeOptions, zIndexOf } from '@/src/utils/style';
 
 describe('style', () => {
   it('computeElementCallbackStyle', () => {
@@ -44,5 +44,14 @@ describe('style', () => {
     expect(zIndexOf({ id: 'node-1', style: {} })).toBe(0);
     expect(zIndexOf({ id: 'node-1', style: { zIndex: 1 } })).toBe(1);
     expect(zIndexOf({ id: 'node-1', style: { zIndex: -1 } })).toBe(-1);
+  });
+
+  it('mergeOptions', () => {
+    expect(
+      mergeOptions(
+        { style: { a: 1, b: [1, 2], c: { d: 1 } }, id: '1' },
+        { style: { a: 2, b: [2, 3], c: { f: 1 } }, id: '2' },
+      ),
+    ).toEqual({ style: { a: 2, b: [2, 3], c: { f: 1 } }, id: '2' });
   });
 });

@@ -1,6 +1,6 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { deepMix } from '@antv/util';
+import { mergeOptions } from '../../utils/style';
 import type { BaseEdgeStyleProps } from './base-edge';
 import { BaseEdge } from './base-edge';
 
@@ -24,7 +24,7 @@ export class Line extends BaseEdge {
   static defaultStyleProps: Partial<LineStyleProps> = {};
 
   constructor(options: DisplayObjectConfig<LineStyleProps>) {
-    super(deepMix({}, { style: Line.defaultStyleProps }, options));
+    super(mergeOptions({ style: Line.defaultStyleProps }, options));
   }
 
   protected getKeyPath(attributes: ParsedLineStyleProps): PathArray {

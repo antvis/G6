@@ -87,13 +87,13 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
    * @internal
    */
   public update(options: Partial<DragCanvasOptions>): void {
+    this.unbindEvents();
     super.update(options);
     this.bindEvents();
   }
 
   private bindEvents() {
     const { trigger } = this.options;
-    this.shortcut.unbindAll();
     const { graph } = this.context;
 
     if (isObject(trigger)) {
@@ -142,6 +142,11 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
+  }
+
+  private unbindEvents() {
+    this.shortcut.unbindAll();
+    this.context.graph.off(CanvasEvent.DRAG, this.onDrag);
   }
 
   public destroy(): void {

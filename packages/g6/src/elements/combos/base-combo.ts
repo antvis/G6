@@ -1,5 +1,5 @@
 import { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
-import { deepMix, isFunction } from '@antv/util';
+import { isFunction } from '@antv/util';
 import { COMBO_KEY } from '../../constants';
 import type {
   CollapsedMarkerStyleProps,
@@ -17,6 +17,7 @@ import { parsePadding } from '../../utils/padding';
 import { getXYByPlacement, positionOf } from '../../utils/position';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
+import { mergeOptions } from '../../utils/style';
 import { add, divide } from '../../utils/vector';
 import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
@@ -99,7 +100,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     collapsedMarkerType: 'child-count',
   };
   constructor(options: DisplayObjectConfig<BaseComboStyleProps>) {
-    super(deepMix({}, { style: BaseCombo.defaultStyleProps }, options));
+    super(mergeOptions({ style: BaseCombo.defaultStyleProps }, options));
   }
 
   /**
@@ -226,30 +227,6 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     // collapsed marker
     this.drawCollapsedMarkerShape(attributes, container);
   }
-
-  /**
-   * <zh/> 在元素完成创建并执行完入场动画后调用
-   *
-   * <en/> Called after the element is created and the entrance animation is completed
-   * @override
-   */
-  public onCreate() {}
-
-  /**
-   * <zh/> 在元素更新并执行完过渡动画后调用
-   *
-   * <en/> Called after the element is updated and the transition animation is completed
-   * @override
-   */
-  public onUpdate() {}
-
-  /**
-   * <zh/> 在元素完成退场动画并销毁后调用
-   *
-   * <en/> Called after the element completes the exit animation and is destroyed
-   * @override
-   */
-  public onDestroy() {}
 
   protected hostingAnimation = false;
 

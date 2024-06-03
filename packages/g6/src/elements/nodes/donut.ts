@@ -1,5 +1,5 @@
 import { Path } from '@antv/g';
-import { deepMix, isNumber, isString } from '@antv/util';
+import { isNumber, isString } from '@antv/util';
 import { getPaletteColors } from '../../utils/palette';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
@@ -8,6 +8,7 @@ import { Circle } from './circle';
 import type { BaseStyleProps, DisplayObjectConfig, Group } from '@antv/g';
 import type { CategoricalPalette } from '../../palettes/types';
 import type { DonutRound, Prefix } from '../../types';
+import { mergeOptions } from '../../utils/style';
 import type { CircleStyleProps } from './circle';
 
 /**
@@ -51,7 +52,7 @@ export class Donut extends Circle {
   };
 
   constructor(options: DisplayObjectConfig<DonutStyleProps>) {
-    super(deepMix({}, { style: Donut.defaultStyleProps }, options));
+    super(mergeOptions({ style: Donut.defaultStyleProps }, options));
   }
 
   private parseOuterR() {

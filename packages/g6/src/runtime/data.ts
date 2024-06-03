@@ -143,6 +143,10 @@ export class DataController {
     }, [] as NodeData[]);
   }
 
+  public getEdgeDatum(id: ID) {
+    return toG6Data(this.model.getEdge(id));
+  }
+
   public getEdgeData(ids?: ID[]) {
     return this.model.getAllEdges().reduce((acc, edge) => {
       const data = toG6Data(edge);
@@ -224,9 +228,20 @@ export class DataController {
    */
   public getElementDataById(id: ID): ElementDatum {
     const type = this.getElementType(id);
-    if (type === 'node') return this.getNodeData([id])[0];
-    else if (type === 'edge') return this.getEdgeData([id])[0];
-    return this.getComboData([id])[0];
+    if (type === 'edge') return this.getEdgeDatum(id);
+    return this.getNodeLikeDatum(id);
+  }
+
+  /**
+   * <zh/> 获取节点的数据
+   *
+   * <en/> Get node data
+   * @param id - <zh/> 节点 ID | <en/> node ID
+   * @returns <zh/> 节点数据 | <en/> node data
+   */
+  public getNodeLikeDatum(id: ID) {
+    const data = this.model.getNode(id);
+    return toG6Data(data);
   }
 
   /**
@@ -496,7 +511,7 @@ export class DataController {
    */
   public setParent(id: ID, parent: ID | undefined, hierarchyKey: HierarchyKey, update: boolean = true) {
     if (id === parent) return;
-    const originalParentId = parentIdOf(this.getNodeLikeData([id])[0]);
+    const originalParentId = parentIdOf(this.getNodeLikeDatum(id));
 
     // Sync data
     if (originalParentId !== parent && hierarchyKey === COMBO_KEY) {
@@ -681,7 +696,7 @@ export class DataController {
    */
   protected removeNodeLikeHierarchy(id: ID) {
     if (this.model.hasTreeStructure(COMBO_KEY)) {
-      const grandParent = parentIdOf(this.getNodeLikeData([id])[0]);
+      const grandParent = parentIdOf(this.getNodeLikeDatum(id));
 
       // 从父节点的 children 列表中移除
       // remove from its parent's children list

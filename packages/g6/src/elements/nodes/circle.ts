@@ -1,9 +1,9 @@
 import type { DisplayObjectConfig, CircleStyleProps as GCircleStyleProps, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
-import { deepMix } from '@antv/util';
 import { ICON_SIZE_RATIO } from '../../constants/element';
 import type { Point } from '../../types';
 import { getEllipseIntersectPoint } from '../../utils/point';
+import { mergeOptions } from '../../utils/style';
 import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
@@ -26,7 +26,7 @@ export class Circle extends BaseNode {
   };
 
   constructor(options: DisplayObjectConfig<CircleStyleProps>) {
-    super(deepMix({}, { style: Circle.defaultStyleProps }, options));
+    super(mergeOptions({ style: Circle.defaultStyleProps }, options));
   }
 
   protected drawKeyShape(attributes: Required<CircleStyleProps>, container: Group) {
