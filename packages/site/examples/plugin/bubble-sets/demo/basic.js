@@ -24,7 +24,6 @@ fetch('https://assets.antv.antgroup.com/g6/collection.json')
       data,
       behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
       node: {
-        style: { size: 15 },
         palette: { field: 'cluster' },
       },
       layout: {
