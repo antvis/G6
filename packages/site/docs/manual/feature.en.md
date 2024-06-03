@@ -129,4 +129,4 @@ Please visit [Plugin](/en/api/plugins/bubble-sets) to experience the capabilitie
 
 Thanks to the well-modularized design and extension registration mechanism of G6 5.0, modules that are not used will not be packaged into the final build file, reducing the package size.
 
-Compared to 4.0, the UMD package size has been reduced from 1.8MB to 0.96 MB, a reduction of nearly 50%.
+Compared to 4.0, the UMD package size has been reduced from 1.8 MB to 0.96 MB, a reduction of nearly 50%.
