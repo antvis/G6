@@ -14,6 +14,7 @@ if (window) {
   window.stats = require('stats.js');
   window.g = require('@antv/g');
   window.gSvg = require('@antv/g-svg');
+  window.gWebgl = require('@antv/g-webgl');
   window.g2 = require('@antv/g2');
   window.antd = require('antd');
   window.icons = require('@ant-design/icons');
