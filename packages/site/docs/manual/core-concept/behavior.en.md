@@ -16,13 +16,13 @@ In G6 5.x, the concept of "interaction mode" (Mode) has been removed. Users only
 G6 provides a rich set of interactive features, and users can choose the appropriate interactive behaviors according to their needs, including:
 
 - [Brush Select](/en/api/behaviors/brush-select): Box Selection
-- [Click Select](/en/api/behaviors/click-element): Single Click Selection
+- [Click Select](/en/api/behaviors/click-select): Single Click Selection
 - [Collapse Expand](/en/api/behaviors/collapse-expand): Expand and Collapse
 - [Create Edge](/en/api/behaviors/create-edge): Create an Edge
 - [Drag Canvas](/en/api/behaviors/drag-canvas): Drag the Canvas
 - [Drag Element](/en/api/behaviors/drag-element): Drag an Element
 - [Focus Element](/en/api/behaviors/focus-element): Focus on an Element
-- [Hover Element](/en/api/behaviors/hover-element): Hover Over an Element
+- [Hover Element](/en/api/behaviors/hover-activate): Hover Over an Element
 - [Lasso Select](/en/api/behaviors/lasso-select): Lasso Selection
 - [Zoom Canvas](/en/api/behaviors/zoom-canvas): Zoom the Canvas
 

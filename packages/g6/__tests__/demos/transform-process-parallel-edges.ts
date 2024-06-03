@@ -9,8 +9,8 @@ export const transformProcessParallelEdges: TestCase = async (context) => {
     behaviors: [
       'drag-element',
       {
-        type: 'hover-element',
-        key: 'hover-element',
+        type: 'hover-activate',
+        key: 'hover-activate',
         enable: (event: any) => event.targetType === 'edge',
       },
     ],

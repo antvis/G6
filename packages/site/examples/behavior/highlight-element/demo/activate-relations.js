@@ -17,7 +17,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
       data: format(data),
       behaviors: [
         {
-          type: 'hover-element',
+          type: 'hover-activate',
           degree: 1, // 👈🏻 Activate relations.
         },
       ],

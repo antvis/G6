@@ -1,7 +1,7 @@
 import { Graph } from '@/src';
 import data from '@@/dataset/cluster.json';
 
-export const behaviorHoverElement: TestCase = async (context) => {
+export const behaviorHoverActivate: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: data,
@@ -15,7 +15,7 @@ export const behaviorHoverElement: TestCase = async (context) => {
       },
     },
     zoomRange: [0.5, 5],
-    behaviors: [{ type: 'hover-element' }],
+    behaviors: [{ type: 'hover-activate' }],
   });
 
   await graph.render();
@@ -24,11 +24,11 @@ export const behaviorHoverElement: TestCase = async (context) => {
     degree: 0,
   };
 
-  behaviorHoverElement.form = (panel) => [
+  behaviorHoverActivate.form = (panel) => [
     panel
       .add(config, 'degree', 0, 3, 1)
       .name('Degree')
-      .onChange((degree: number) => graph.setBehaviors([{ type: 'hover-element', degree }])),
+      .onChange((degree: number) => graph.setBehaviors([{ type: 'hover-activate', degree }])),
   ];
 
   return graph;

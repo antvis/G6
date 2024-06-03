@@ -10,7 +10,7 @@ const data = {
 
 const graph = new Graph({
   data,
-  behaviors: [{ type: 'click-element', multiple: true, trigger: ['shift'] }, 'drag-element'],
+  behaviors: [{ type: 'click-select', multiple: true, trigger: ['shift'] }, 'drag-element'],
   autoFit: 'center',
 });
 

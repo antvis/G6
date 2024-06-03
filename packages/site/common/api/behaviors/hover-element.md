@@ -31,8 +31,8 @@ createGraph(
     },
     behaviors: [
       {
-        type: 'hover-element',
-        key: 'hover-element',
+        type: 'hover-activate',
+        key: 'hover-activate',
       },
     ],
     plugins: ['grid-line'],
@@ -41,12 +41,12 @@ createGraph(
   { width: 600, height: 300 },
   (gui, graph) => {
     const options = {
-      key: 'hover-element',
-      type: 'hover-element',
+      key: 'hover-activate',
+      type: 'hover-activate',
       animation: true,
       enable: true,
       degree: 0,
-      activeState: 'active',
+      state: 'active',
       inactiveState: undefined,
     };
     const optionFolder = gui.addFolder('ZoomCanvas Options');
@@ -54,12 +54,12 @@ createGraph(
     optionFolder.add(options, 'animation');
     optionFolder.add(options, 'enable');
     optionFolder.add(options, 'degree', 0, 2, 1);
-    optionFolder.add(options, 'activeState', ['active', 'selected', 'custom']);
+    optionFolder.add(options, 'state', ['active', 'selected', 'custom']);
     optionFolder.add(options, 'inactiveState', [undefined, 'inactive']);
 
     optionFolder.onChange(({ property, value }) => {
       graph.updateBehavior({
-        key: 'hover-element',
+        key: 'hover-activate',
         [property]: value,
       });
       graph.render();

@@ -1,12 +1,12 @@
-import { behaviorHoverElement } from '@/__tests__/demos';
+import { behaviorHoverActivate } from '@/__tests__/demos';
 import { CommonEvent, type Graph } from '@/src';
 import { createDemoGraph } from '@@/utils';
 
-describe('behavior hover element', () => {
+describe('behavior hover-activate element', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createDemoGraph(behaviorHoverElement, { animation: false });
+    graph = await createDemoGraph(behaviorHoverActivate, { animation: false });
   });
 
   afterAll(() => {
@@ -25,8 +25,8 @@ describe('behavior hover element', () => {
     await expect(graph).toMatchSnapshot(__filename, 'after-hover-out');
   });
 
-  it('activeState and inactiveState', async () => {
-    graph.setBehaviors([{ type: 'hover-element', activeState: 'active', inactiveState: 'inactive' }]);
+  it('state and inactiveState', async () => {
+    graph.setBehaviors([{ type: 'hover-activate', state: 'active', inactiveState: 'inactive' }]);
 
     graph.emit(`node:${CommonEvent.POINTER_OVER}`, { target: { id: '0' }, targetType: 'node' });
 
@@ -36,7 +36,7 @@ describe('behavior hover element', () => {
   });
 
   it('1 degree', async () => {
-    graph.setBehaviors([{ type: 'hover-element', activeState: 'active', inactiveState: 'inactive', degree: 1 }]);
+    graph.setBehaviors([{ type: 'hover-activate', state: 'active', inactiveState: 'inactive', degree: 1 }]);
 
     graph.emit(`node:${CommonEvent.POINTER_OVER}`, { target: { id: '0' }, targetType: 'node' });
 
@@ -52,7 +52,7 @@ describe('behavior hover element', () => {
   });
 
   it('2 degree', async () => {
-    graph.setBehaviors([{ type: 'hover-element', activeState: 'active', inactiveState: 'inactive', degree: 2 }]);
+    graph.setBehaviors([{ type: 'hover-activate', state: 'active', inactiveState: 'inactive', degree: 2 }]);
 
     graph.emit(`node:${CommonEvent.POINTER_OVER}`, { target: { id: '0' }, targetType: 'node' });
 

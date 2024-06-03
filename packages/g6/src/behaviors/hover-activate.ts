@@ -13,7 +13,7 @@ import { BaseBehavior } from './base-behavior';
  *
  * <en/> Hover element behavior options
  */
-export interface HoverElementOptions extends BaseBehaviorOptions {
+export interface HoverActivateOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用动画
    *
@@ -45,7 +45,7 @@ export interface HoverElementOptions extends BaseBehaviorOptions {
    * <en/> Active element state, default to`active`
    * @defaultValue 'active'
    */
-  activeState?: State;
+  state?: State;
   /**
    * <zh/> 非激活元素的状态，默认为不改变
    *
@@ -75,19 +75,19 @@ export interface HoverElementOptions extends BaseBehaviorOptions {
  *
  * <en/> When the mouse hovers over an element, you can activate the state of the element, such as highlighting nodes or edges.
  */
-export class HoverElement extends BaseBehavior<HoverElementOptions> {
-  static defaultOptions: Partial<HoverElementOptions> = {
+export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
+  static defaultOptions: Partial<HoverActivateOptions> = {
     animation: false,
     enable: true,
     degree: 0,
-    activeState: 'active',
+    state: 'active',
     inactiveState: undefined,
   };
 
   private isFrozen = false;
 
-  constructor(context: RuntimeContext, options: HoverElementOptions) {
-    super(context, Object.assign({}, HoverElement.defaultOptions, options));
+  constructor(context: RuntimeContext, options: HoverActivateOptions) {
+    super(context, Object.assign({}, HoverActivate.defaultOptions, options));
     this.bindEvents();
   }
 
@@ -122,7 +122,7 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
   };
 
   private updateElementsState = (event: IPointerEvent, add: boolean) => {
-    if (!this.options.activeState && !this.options.inactiveState) return;
+    if (!this.options.state && !this.options.inactiveState) return;
 
     const { graph } = this.context;
     const { targetType, target } = event;
@@ -136,8 +136,8 @@ export class HoverElement extends BaseBehavior<HoverElementOptions> {
 
     const states: Record<ID, State[]> = {};
 
-    if (this.options.activeState) {
-      Object.assign(states, this.getElementsState(activeIds, this.options.activeState, add));
+    if (this.options.state) {
+      Object.assign(states, this.getElementsState(activeIds, this.options.state, add));
     }
 
     if (this.options.inactiveState) {

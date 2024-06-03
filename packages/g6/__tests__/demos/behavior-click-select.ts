@@ -1,8 +1,8 @@
 import { Graph } from '@/src';
-import type { ClickElementOptions } from '@/src/behaviors';
+import type { ClickSelectOptions } from '@/src/behaviors';
 import data from '@@/dataset/cluster.json';
 
-export const behaviorClickElement: TestCase = async (context) => {
+export const behaviorClickSelect: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
@@ -15,7 +15,7 @@ export const behaviorClickElement: TestCase = async (context) => {
       },
     },
     zoomRange: [0.5, 5],
-    behaviors: [{ type: 'click-element', key: 'click-element' }, 'drag-element'],
+    behaviors: [{ type: 'click-select', key: 'click-select' }, 'drag-element'],
   });
 
   await graph.render();
@@ -24,27 +24,27 @@ export const behaviorClickElement: TestCase = async (context) => {
     multiple: false,
     trigger: ['shift'],
     degree: 0,
-    selectedState: 'selected',
+    state: 'selected',
     unselectedState: undefined,
   };
 
-  const updateClickElementOption = (options: Partial<ClickElementOptions>) => {
-    graph.updateBehavior({ key: 'click-element', ...options });
+  const updateClickSelectOption = (options: Partial<ClickSelectOptions>) => {
+    graph.updateBehavior({ key: 'click-select', ...options });
   };
 
-  behaviorClickElement.form = (panel) => [
+  behaviorClickSelect.form = (panel) => [
     panel
       .add(config, 'multiple')
       .name('Multiple')
-      .onChange((multiple: boolean) => updateClickElementOption({ multiple })),
+      .onChange((multiple: boolean) => updateClickSelectOption({ multiple })),
     panel
       .add(config, 'trigger', ['shift', 'ctrl', 'alt', 'meta'])
       .name('Trigger')
-      .onChange((trigger: string) => updateClickElementOption({ trigger: [trigger] })),
+      .onChange((trigger: string) => updateClickSelectOption({ trigger: [trigger] })),
     panel
       .add(config, 'degree', [0, 1, 2, 3])
       .name('Degree')
-      .onChange((degree: number) => updateClickElementOption({ degree })),
+      .onChange((degree: number) => updateClickSelectOption({ degree })),
   ];
 
   return graph;
