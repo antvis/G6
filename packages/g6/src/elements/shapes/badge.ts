@@ -28,8 +28,4 @@ export class Badge extends BaseShape<BadgeStyleProps> {
   public render(attributes: ParsedBadgeStyleProps = this.parsedAttributes, container: Group = this) {
     this.upsert('label', Label, this.getBadgeStyle(attributes), container);
   }
-
-  connectedCallback() {
-    this.upsert('label', Label, this.getBadgeStyle(this.parsedAttributes), this);
-  }
 }
