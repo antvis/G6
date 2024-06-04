@@ -9,9 +9,9 @@
           <g>
             <circle fill="rgba(128,0,128,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="20"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,20)">
+          <g fill="none" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 default
               </text>
             </g>
@@ -21,7 +21,9 @@
           </g>
           <g fill="none" width="20" height="20" x="0" y="0">
             <g>
-              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-10" y="-10" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" width="20" height="20" font-size="16"/>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
+                
+              </text>
             </g>
           </g>
         </g>
@@ -32,9 +34,9 @@
           <g>
             <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="20"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,20)">
+          <g fill="none" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 halo
               </text>
             </g>
@@ -47,7 +49,9 @@
           </g>
           <g fill="none" width="20" height="20" x="0" y="0">
             <g>
-              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-10" y="-10" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" width="20" height="20" font-size="16"/>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
+                
+              </text>
             </g>
           </g>
         </g>
@@ -55,9 +59,9 @@
           <g>
             <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="20"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,20)">
+          <g fill="none" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 badges
               </text>
             </g>
@@ -73,7 +77,9 @@
           </g>
           <g fill="none" width="20" height="20" x="0" y="0">
             <g>
-              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-10" y="-10" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" width="20" height="20" font-size="16"/>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
+                
+              </text>
             </g>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,20,-20)">
@@ -91,7 +97,7 @@
           <g fill="none" transform="matrix(1,0,0,1,20,0)">
             <g fill="none">
               <g>
-                <path fill="rgba(245,34,45,1)" d="M 5.5,-9.5 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" stroke-width="0" x="-4" y="-9.5" width="46.52" height="19"/>
+                <path fill="rgba(244,102,74,1)" d="M 5.5,-9.5 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" stroke-width="0" x="-4" y="-9.5" width="46.52" height="19"/>
               </g>
               <g>
                 <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="8" text-anchor="left">
@@ -103,7 +109,7 @@
           <g fill="none" transform="matrix(1,0,0,1,20,20)">
             <g fill="none">
               <g>
-                <path fill="rgba(250,173,20,1)" d="M 5.5,-18 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" stroke-width="0" x="-4" y="-18" width="34.120000000000005" height="19"/>
+                <path fill="rgba(255,190,58,1)" d="M 5.5,-18 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" stroke-width="0" x="-4" y="-18" width="34.120000000000005" height="19"/>
               </g>
               <g>
                 <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-8.5px" font-size="8" text-anchor="left">
@@ -117,9 +123,9 @@
           <g>
             <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="20"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,20)">
+          <g fill="none" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 ports
               </text>
             </g>
@@ -135,7 +141,9 @@
           </g>
           <g fill="none" width="20" height="20" x="0" y="0">
             <g>
-              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-10" y="-10" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" width="20" height="20" font-size="16"/>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
+                
+              </text>
             </g>
           </g>
           <g transform="matrix(1,0,0,1,-20,0)">
@@ -153,14 +161,14 @@
         </g>
         <g fill="none" x="250" y="250" transform="matrix(1,0,0,1,250,250)">
           <g>
-            <circle fill="none" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" r="20" stroke-dasharray="0,0" pointer-events="none"/>
+            <circle fill="none" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" r="20" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
             <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="20"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,20)">
+          <g fill="none" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 active
               </text>
             </g>
@@ -173,20 +181,22 @@
           </g>
           <g fill="none" width="20" height="20" x="0" y="0">
             <g>
-              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-10" y="-10" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" width="20" height="20" font-size="16"/>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
+                
+              </text>
             </g>
           </g>
         </g>
         <g fill="none" x="416.66666666666663" y="250" transform="matrix(1,0,0,1,416.666656,250)">
           <g>
-            <circle fill="none" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" r="20" stroke-dasharray="0,0" pointer-events="none"/>
+            <circle fill="none" stroke-width="24" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" r="20" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="3" stroke="rgba(0,0,0,1)" r="20"/>
+            <circle fill="rgba(23,131,255,1)" stroke-width="4" stroke="rgba(0,0,0,1)" r="20"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,20)">
+          <g fill="none" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="13.5px" font-size="14" text-anchor="middle" font-weight="700">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
                 selected
               </text>
             </g>
@@ -199,17 +209,19 @@
           </g>
           <g fill="none" width="20" height="20" x="0" y="0">
             <g>
-              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-10" y="-10" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" width="20" height="20" font-size="16"/>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
+                
+              </text>
             </g>
           </g>
         </g>
         <g fill="none" x="83.33333333333333" y="416.66666666666663" transform="matrix(1,0,0,1,83.333336,416.666656)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="3" stroke="rgba(0,0,0,1)" stroke-opacity="0.85" r="20"/>
+            <circle fill="rgba(23,131,255,1)" stroke-width="4" stroke="rgba(0,0,0,1)" stroke-opacity="0.85" r="20"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,20)">
+          <g fill="none" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="700">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
                 highlight
               </text>
             </g>
@@ -225,7 +237,9 @@
           </g>
           <g fill="none" width="20" height="20" x="0" y="0">
             <g>
-              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-10" y="-10" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" width="20" height="20" font-size="16"/>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
+                
+              </text>
             </g>
           </g>
         </g>
@@ -233,9 +247,9 @@
           <g>
             <circle fill="rgba(23,131,255,1)" fill-opacity="0.25" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25" r="20"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,20)">
+          <g fill="none" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" opacity="0.25">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.25" font-weight="400">
                 inactive
               </text>
             </g>
@@ -248,30 +262,34 @@
           </g>
           <g fill="none" width="20" height="20" x="0" y="0">
             <g>
-              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-10" y="-10" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" width="20" height="20" font-size="16" opacity="0.25"/>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="20" height="20" font-size="20" opacity="0.85" font-family="iconfont">
+                
+              </text>
             </g>
           </g>
         </g>
         <g fill="none" x="416.66666666666663" y="416.66666666666663" transform="matrix(1,0,0,1,416.666656,416.666656)">
           <g>
-            <circle fill="rgba(240,240,240,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="20"/>
+            <circle fill="rgba(27,50,79,1)" fill-opacity="0.06" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.06" r="20"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,20)">
+          <g fill="none" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" font-weight="400" opacity="0.25">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.25" font-weight="400">
                 disabled
               </text>
             </g>
           </g>
           <g>
-            <path fill="rgba(0,128,0,1)" d="M 0,-10 L 0,-20 A 20 20 0 0 1 2.4492935982947065e-15 20 L 1.2246467991473533e-15,10 A 10 10 0 0 0 0 -10 Z" opacity="0.25"/>
+            <path fill="rgba(0,128,0,1)" d="M 0,-10 L 0,-20 A 20 20 0 0 1 2.4492935982947065e-15 20 L 1.2246467991473533e-15,10 A 10 10 0 0 0 0 -10 Z" opacity="0.06"/>
           </g>
           <g>
-            <path fill="rgba(255,0,0,1)" d="M 1.2246467991473533e-15,10 L 2.4492935982947065e-15,20 A 20 20 0 0 1 -4.898587196589413e-15 -20 L -2.4492935982947065e-15,-10 A 10 10 0 0 0 1.2246467991473533e-15 10 Z" opacity="0.25"/>
+            <path fill="rgba(255,0,0,1)" d="M 1.2246467991473533e-15,10 L 2.4492935982947065e-15,20 A 20 20 0 0 1 -4.898587196589413e-15 -20 L -2.4492935982947065e-15,-10 A 10 10 0 0 0 1.2246467991473533e-15 10 Z" opacity="0.06"/>
           </g>
           <g fill="none" width="20" height="20" x="0" y="0">
             <g>
-              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-10" y="-10" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" width="20" height="20" font-size="16"/>
+              <text fill="rgba(27,50,79,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="20" height="20" font-size="20" opacity="0.25" font-family="iconfont">
+                
+              </text>
             </g>
           </g>
         </g>

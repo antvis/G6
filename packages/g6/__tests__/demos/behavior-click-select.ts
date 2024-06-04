@@ -6,7 +6,7 @@ export const behaviorClickSelect: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
-    layout: { type: 'd3force' },
+    layout: { type: 'd3-force' },
     behaviors: [{ type: 'click-select', key: 'click-select' }, 'drag-element'],
   });
 

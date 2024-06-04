@@ -15,7 +15,7 @@
               <path fill="rgba(255,0,0,1)" d="M -63.38000000000001,-46 l 127.76000000000002,0 a 4,4,0,0,1,4,4 l 0,38 a 4,4,0,0,1,-4,4 l -127.76000000000002,0 a 4,4,0,0,1,-4,-4 l 0,-38 a 4,4,0,0,1,4,-4 z" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-67.38000000000001" y="-46" width="135.76000000000002" height="46"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="text-after-edge" paint-order="stroke" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="text-after-edge" paint-order="stroke" font-size="12" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-23">
                   This label is too long to
                 </tspan>
@@ -32,19 +32,19 @@
           <g>
             <path fill="rgba(23,131,255,1)" d="M -50,-50 l 100,0 l 0,100 l-100 0 z" stroke-width="0" stroke="rgba(0,0,0,1)" width="100" height="100" x="-50" y="-50"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,50)">
+          <g fill="none" transform="matrix(1,0,0,1,0,52)">
             <g>
-              <path fill="rgba(238,238,238,1)" d="M -38.06,0 l 77.12,0 a 4,4,0,0,1,4,4 l 0,61 a 4,4,0,0,1,-4,4 l -77.12,0 a 4,4,0,0,1,-4,-4 l 0,-61 a 4,4,0,0,1,4,-4 z" opacity="0.5" stroke-width="0" fill-opacity="0.5" x="-42.06" y="0" width="85.12" height="69"/>
+              <path fill="rgba(238,238,238,1)" d="M -40.06,0 l 81.12,0 a 4,4,0,0,1,4,4 l 0,47 a 4,4,0,0,1,-4,4 l -81.12,0 a 4,4,0,0,1,-4,-4 l 0,-47 a 4,4,0,0,1,4,-4 z" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-44.06" y="0" width="89.12" height="55"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="hanging" paint-order="stroke" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 <tspan x="0" dx="0.5" dy="0">
                   This label is
                 </tspan>
-                <tspan x="0" dx="0.5" dy="23">
+                <tspan x="0" dx="0.5" dy="16">
                   too  long to be
                 </tspan>
-                <tspan x="0" dx="0.5" dy="23">
+                <tspan x="0" dx="0.5" dy="16">
                   displayed
                 </tspan>
               </text>
@@ -55,16 +55,16 @@
           <g>
             <path fill="rgba(23,131,255,1)" d="M -75,-75 l 150,0 l 0,150 l-150 0 z" stroke-width="0" stroke="rgba(0,0,0,1)" width="150" height="150" x="-75" y="-75"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,75)">
+          <g fill="none" transform="matrix(1,0,0,1,0,77)">
             <g>
-              <path fill="rgba(238,238,238,1)" d="M -63.38000000000001,0 l 127,0 a 4,4,0,0,1,4,4 l 0,38 a 4,4,0,0,1,-4,4 l -127,0 a 4,4,0,0,1,-4,-4 l 0,-38 a 4,4,0,0,1,4,-4 z" opacity="0.5" stroke-width="0" fill-opacity="0.5" x="-67.38000000000001" y="0" width="135" height="46"/>
+              <path fill="rgba(238,238,238,1)" d="M -65.38000000000001,0 l 127,0 a 4,4,0,0,1,4,4 l 0,31 a 4,4,0,0,1,-4,4 l -127,0 a 4,4,0,0,1,-4,-4 l 0,-31 a 4,4,0,0,1,4,-4 z" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-69.38000000000001" y="0" width="135" height="39"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="hanging" paint-order="stroke" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 <tspan x="0" dx="0.5" dy="0">
                   This label is too long to
                 </tspan>
-                <tspan x="0" dx="0.5" dy="23">
+                <tspan x="0" dx="0.5" dy="16">
                   be displayed
                 </tspan>
               </text>

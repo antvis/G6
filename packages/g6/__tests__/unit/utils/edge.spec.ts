@@ -94,13 +94,13 @@ describe('edge', () => {
 
   it('getBadgePositionStyle', () => {
     const shapeMap = {
-      key: new Line({ x1: 0, y1: 0, x2: 100, y2: 0 }),
-      label: new Label({ text: 'label', background: true }),
-      badge: new Badge({ text: 'badge', background: true }),
+      key: new Line({ style: { x1: 0, y1: 0, x2: 100, y2: 0 } }),
+      label: new Label({ style: { text: 'label', background: true } }),
+      badge: new Badge({ style: { text: 'badge', background: true } }),
     };
     expect(getBadgePositionStyle(shapeMap, 'prefix', 'center', 10, 0)).toEqual({
       textAlign: 'center',
-      transform: 'translate(10, 0)',
+      transform: 'translate(50, 0)',
     });
   });
 
