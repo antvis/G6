@@ -22,7 +22,7 @@ export interface EllipseStyleProps extends BaseNodeStyleProps {}
  */
 export class Ellipse extends BaseNode {
   static defaultStyleProps: Partial<EllipseStyleProps> = {
-    size: [80, 40],
+    size: [45, 35],
   };
 
   constructor(options: DisplayObjectConfig<EllipseStyleProps>) {

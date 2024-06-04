@@ -33,6 +33,7 @@ export { elementEdgePolyline } from './element-edge-polyline';
 export { elementEdgePolylineAnimation } from './element-edge-polyline-animation';
 export { elementEdgePort } from './element-edge-port';
 export { elementEdgeQuadratic } from './element-edge-quadratic';
+export { elementEdgeSize } from './element-edge-size';
 export { elementLabelBackground } from './element-label-background';
 export { elementLabelOversized } from './element-label-oversized';
 export { elementNodeBadges } from './element-node-badges';

@@ -1,8 +1,9 @@
-import type { AABB } from '@antv/g';
+import type { AABB, DisplayObject } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
 import type { EdgeData } from '../spec';
 import type {
+  EdgeBadgeStyleProps,
   EdgeKey,
   EdgeLabelStyleProps,
   ID,
@@ -11,6 +12,7 @@ import type {
   NodeLikeData,
   Point,
   Port,
+  Size,
   Vector2,
 } from '../types';
 import { getBBoxHeight, getBBoxSize, getBBoxWidth, getNearestSideToPoint, getNodeBBox } from './bbox';
@@ -74,6 +76,36 @@ export function getLabelPositionStyle(
     textAlign,
     transform,
   };
+}
+
+/**
+ * <zh/> 获取边上徽标的位置样式
+ *
+ * <en/> Get the position style of the badge on the edge
+ * @param shapeMap - <zh/> 边上的图形映射 | <en/> Shape map on the edge
+ * @param placement - <zh/> 徽标位置 | <en/> Badge position
+ * @param labelPlacement - <zh/> 标签位置 | <en/> Label position
+ * @param offsetX - <zh/> 水平偏移量 | <en/> Horizontal offset
+ * @param offsetY - <zh/> 垂直偏移量 | <en/> Vertical offset
+ * @returns <zh/> 徽标的位置样式 | <en/> Position style of the badge
+ */
+export function getBadgePositionStyle(
+  shapeMap: Record<string, DisplayObject<any, any>>,
+  placement: EdgeBadgeStyleProps['placement'],
+  labelPlacement: EdgeLabelStyleProps['placement'],
+  offsetX: number,
+  offsetY: number,
+) {
+  const badgeWidth = shapeMap.badge?.getGeometryBounds().halfExtents[0] * 2 || 0;
+  const labelWidth = shapeMap.label?.getGeometryBounds().halfExtents[0] * 2 || 0;
+
+  return getLabelPositionStyle(
+    shapeMap.key as EdgeKey,
+    labelPlacement,
+    true,
+    (labelWidth ? (labelWidth / 2 + badgeWidth / 2) * (placement === 'suffix' ? 1 : -1) : 0) + offsetX,
+    offsetY,
+  );
 }
 
 /**
@@ -570,4 +602,20 @@ export function findActualConnectNodeData(node: NodeLikeData, getParentData: (id
   }
 
   return node;
+}
+
+/**
+ * <zh/> 获取箭头大小，若用户未指定，则根据线宽自动计算
+ *
+ * <en/> Get the size of the arrow
+ * @param lineWidth - <zh/> 箭头所在边的线宽 | <en/> The line width of the edge where the arrow is located
+ * @param size - <zh/> 自定义箭头大小 | <en/> Custom arrow size
+ * @returns <zh/> 箭头大小 | <en/> Arrow size
+ */
+export function getArrowSize(lineWidth: number, size?: Size): Size {
+  if (size) return size;
+
+  if (lineWidth < 4) return 10;
+  if (lineWidth === 4) return 12;
+  return lineWidth * 2.5;
 }

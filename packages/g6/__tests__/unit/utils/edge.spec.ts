@@ -1,7 +1,9 @@
 import type { ID } from '@/src';
 import { Rect } from '@/src/elements';
+import { Badge, Label } from '@/src/elements/shapes';
 import {
   findActualConnectNodeData,
+  getBadgePositionStyle,
   getCubicPath,
   getCurveControlPoint,
   getLabelPositionStyle,
@@ -87,6 +89,18 @@ describe('edge', () => {
       expect(labelPosition9.transform).toEqual(
         `translate(${50 + 5 * Math.cos(-Math.PI / 4) - 5 * Math.sin(-Math.PI / 4)}, ${150 + 5 * Math.sin(-Math.PI / 4) + 5 * Math.cos(-Math.PI / 4)}) rotate(-45deg)`,
       );
+    });
+  });
+
+  it('getBadgePositionStyle', () => {
+    const shapeMap = {
+      key: new Line({ x1: 0, y1: 0, x2: 100, y2: 0 }),
+      label: new Label({ text: 'label', background: true }),
+      badge: new Badge({ text: 'badge', background: true }),
+    };
+    expect(getBadgePositionStyle(shapeMap, 'prefix', 'center', 10, 0)).toEqual({
+      textAlign: 'center',
+      transform: 'translate(10, 0)',
     });
   });
 

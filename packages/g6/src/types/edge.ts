@@ -1,6 +1,6 @@
 import { ImageStyleProps, Line, Path, PathStyleProps, Polyline } from '@antv/g';
 import { PathArray } from '@antv/util';
-import type { LabelStyleProps } from '../elements/shapes';
+import type { BadgeStyleProps, LabelStyleProps } from '../elements/shapes';
 import type { CardinalPlacement, CornerPlacement } from './placement';
 import { Size } from './size';
 
@@ -49,6 +49,36 @@ export interface EdgeLabelStyleProps extends LabelStyleProps {
    * @defaultValue '80%'
    */
   maxWidth?: string | number;
+}
+
+/**
+ * <zh/> 边上徽标样式配置项
+ *
+ * <en/> Edge badge style properties
+ */
+export interface EdgeBadgeStyleProps extends BadgeStyleProps {
+  /**
+   * <zh/> 徽标的位置
+   * - `'prefix'`: 置于标签前
+   * - `'suffix'`: 置于标签后
+   *
+   * <en/> The position of the badge
+   * - `'prefix'`: Placed before the label
+   * - `'suffix'`: Placed after the label
+   */
+  placement: 'prefix' | 'suffix';
+  /**
+   * <zh/> 徽标在 X 轴上的偏移量
+   *
+   * <en/> The offset of the badge on the X-axis
+   */
+  offsetX?: number;
+  /**
+   * <zh/> 徽标在 Y 轴上的偏移量
+   *
+   * <en/> The offset of the badge on the Y-axis
+   */
+  offsetY?: number;
 }
 
 /**

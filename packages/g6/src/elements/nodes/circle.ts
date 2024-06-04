@@ -22,7 +22,7 @@ export interface CircleStyleProps extends BaseNodeStyleProps {}
  */
 export class Circle extends BaseNode {
   static defaultStyleProps: Partial<CircleStyleProps> = {
-    size: 24,
+    size: 32,
   };
 
   constructor(options: DisplayObjectConfig<CircleStyleProps>) {

@@ -2,7 +2,7 @@ import type { CategoricalPalette } from '../palettes/types';
 import type { PaletteOptions } from '../spec/element/palette';
 import type { Theme } from './types';
 
-const BADGE_PALETTE: CategoricalPalette = ['#7E92B5', '#f5222d', '#faad14'];
+const BADGE_PALETTE: CategoricalPalette = ['#7E92B5', '#F4664A', '#FFBE3A'];
 
 const NODE_PALETTE_OPTIONS: PaletteOptions = {
   type: 'group',
@@ -34,9 +34,15 @@ type ThemeTokens = {
   nodeStroke: string;
   nodeBadgePalette?: string[];
   nodePaletteOptions?: PaletteOptions;
+  nodeHaloStrokeOpacityActive?: number;
+  nodeHaloStrokeOpacitySelected?: number;
+  nodeOpacityDisabled?: number;
+  nodeOpacityInactive?: number;
+  nodeIconOpacityInactive?: number;
   donutPaletteOptions?: PaletteOptions;
   edgeColor: string;
   edgeColorDisabled: string;
+  edgeColorInactive: string;
   edgePaletteOptions?: PaletteOptions;
   comboColor: string;
   comboColorDisabled: string;
@@ -58,6 +64,11 @@ export function create(tokens: ThemeTokens): Theme {
     nodeColor,
     nodeColorDisabled,
     nodeStroke,
+    nodeHaloStrokeOpacityActive = 0.15,
+    nodeHaloStrokeOpacitySelected = 0.25,
+    nodeOpacityDisabled = 0.06,
+    nodeIconOpacityInactive = 0.85,
+    nodeOpacityInactive = 0.25,
     nodeBadgePalette = BADGE_PALETTE,
     nodePaletteOptions = NODE_PALETTE_OPTIONS,
     edgeColor,
@@ -67,6 +78,7 @@ export function create(tokens: ThemeTokens): Theme {
     comboColorDisabled,
     comboStroke,
     comboStrokeDisabled,
+    edgeColorInactive,
   } = tokens;
 
   return {
@@ -74,63 +86,76 @@ export function create(tokens: ThemeTokens): Theme {
     node: {
       palette: nodePaletteOptions,
       style: {
-        badgeFill: bgColor,
+        badgeFill: '#fff',
         badgeFontSize: 8,
-        badgePadding: [1, 4],
+        badgePadding: [0, 4],
         badgePalette: nodeBadgePalette,
         fill: nodeColor,
         fillOpacity: 1,
         halo: false,
-        haloLineWidth: 12,
-        haloStrokeOpacity: 0.25,
-        iconFill: bgColor,
-        iconFontSize: 16,
+        iconFill: '#fff',
         iconOpacity: 1,
         labelBackground: false,
         labelBackgroundFill: bgColor,
         labelBackgroundLineWidth: 0,
-        labelBackgroundOpacity: 0.5,
-        labelBackgroundPadding: [0, 2],
+        labelBackgroundOpacity: 0.75,
         labelFill: textColor,
+        labelFillOpacity: 0.85,
+        labelLineHeight: 16,
+        labelPadding: [0, 2],
         labelFontSize: 12,
         labelFontWeight: 400,
         labelOpacity: 1,
+        labelOffsetY: 2,
         lineWidth: 0,
         portFill: nodeColor,
         portLineWidth: 1,
         portStroke: nodeStroke,
         portStrokeOpacity: 0.65,
+        size: 32,
         stroke: nodeStroke,
         strokeOpacity: 1,
       },
       state: {
         selected: {
           halo: true,
-          labelFontSize: 14,
-          labelFontWeight: 700,
-          lineWidth: 3,
+          haloLineWidth: 24,
+          haloStrokeOpacity: nodeHaloStrokeOpacitySelected,
+          labelFontSize: 12,
+          labelFontWeight: 'bold',
+          lineWidth: 4,
           stroke: nodeStroke,
         },
         active: {
           halo: true,
+          haloLineWidth: 12,
+          haloStrokeOpacity: nodeHaloStrokeOpacityActive,
         },
         highlight: {
-          labelFontWeight: 700,
-          lineWidth: 3,
+          labelFontWeight: 'bold',
+          lineWidth: 4,
           stroke: nodeStroke,
           strokeOpacity: 0.85,
         },
         inactive: {
-          donutOpacity: 0.25,
-          fillOpacity: 0.25,
-          iconOpacity: 0.25,
-          labelOpacity: 0.25,
-          strokeOpacity: 0.25,
+          badgeBackgroundOpacity: nodeOpacityInactive,
+          donutOpacity: nodeOpacityInactive,
+          fillOpacity: nodeOpacityInactive,
+          iconOpacity: nodeIconOpacityInactive,
+          labelFill: textColor,
+          labelFillOpacity: nodeOpacityInactive,
+          strokeOpacity: nodeOpacityInactive,
         },
         disabled: {
+          badgeBackgroundOpacity: 0.25,
+          donutOpacity: nodeOpacityDisabled,
           fill: nodeColorDisabled,
-          labelOpacity: 0.25,
-          donutOpacity: 0.25,
+          fillOpacity: nodeOpacityDisabled,
+          iconFill: nodeColorDisabled,
+          iconOpacity: 0.25,
+          labelFill: textColor,
+          labelFillOpacity: 0.25,
+          strokeOpacity: nodeOpacityDisabled,
         },
       },
       animation: {
@@ -146,10 +171,14 @@ export function create(tokens: ThemeTokens): Theme {
     edge: {
       palette: edgePaletteOptions,
       style: {
+        badgeBackgroundFill: edgeColor,
+        badgeFill: '#fff',
+        badgeFontSize: 8,
+        badgeOffsetX: 10,
         fillOpacity: 1,
         halo: false,
         haloLineWidth: 12,
-        haloStrokeOpacity: 0.25,
+        haloStrokeOpacity: 1,
         increasedLineWidthForHitTesting: 2,
         labelBackground: false,
         labelBackgroundFill: bgColor,
@@ -169,25 +198,32 @@ export function create(tokens: ThemeTokens): Theme {
       state: {
         selected: {
           halo: true,
+          haloStrokeOpacity: 0.25,
           labelFontSize: 14,
-          labelFontWeight: 700,
-          lineWidth: 2,
+          labelFontWeight: 'bold',
+          lineWidth: 3,
         },
         active: {
           halo: true,
+          haloStrokeOpacity: 0.15,
         },
         highlight: {
-          labelFontWeight: 700,
-          lineWidth: 2,
+          labelFontWeight: 'bold',
+          lineWidth: 3,
         },
         inactive: {
-          fillOpacity: 0.25,
+          stroke: edgeColorInactive,
+          fillOpacity: 0.08,
           labelOpacity: 0.25,
-          strokeOpacity: 0.25,
+          strokeOpacity: 0.08,
+          badgeBackgroundOpacity: 0.25,
         },
         disabled: {
           stroke: edgeColorDisabled,
+          fillOpacity: 0.45,
+          strokeOpacity: 0.45,
           labelOpacity: 0.25,
+          badgeBackgroundOpacity: 0.45,
         },
       },
       animation: {

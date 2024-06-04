@@ -10,9 +10,8 @@ export const elementNodeCircle: TestCase = async (context) => {
       style: {
         size: 40,
         labelText: (d) => d.id!,
-        iconHeight: 20,
-        iconWidth: 20,
-        iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+        iconFontFamily: 'iconfont',
+        iconText: '\ue602',
       },
     },
     layout: {

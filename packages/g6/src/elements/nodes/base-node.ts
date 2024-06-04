@@ -16,6 +16,7 @@ import type {
   Size,
 } from '../../types';
 import { getPortXYByPlacement, getTextStyleByPlacement, isSimplePort } from '../../utils/element';
+import { getIconSizeStyle } from '../../utils/node';
 import { getPaletteColors } from '../../utils/palette';
 import { getRectIntersectPoint } from '../../utils/point';
 import { getXYByPlacement } from '../../utils/position';
@@ -158,7 +159,7 @@ export interface BaseNodeStyleProps
    *      { text: 'Important', placement: 'right' },
    *      { text: 'Notice', placement: 'right-bottom' },
    *    ],
-   *    badgePalette: ['#7E92B5', '#f5222d', '#faad14'],
+   *    badgePalette: ['#7E92B5', '#F4664A', '#FFBE3A'],
    * }
    * ```
    */
@@ -190,7 +191,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   static defaultStyleProps: Partial<BaseNodeStyleProps> = {
     x: 0,
     y: 0,
-    size: 24,
+    size: 32,
     droppable: true,
     draggable: true,
     port: true,
@@ -265,7 +266,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     const keyShape = this.getShape('key');
     const [x, y] = getXYByPlacement(keyShape.getLocalBounds(), 'center');
 
-    return { x, y, ...iconStyle };
+    return Object.assign({ x, y }, getIconSizeStyle(attributes.size!, iconStyle), iconStyle);
   }
 
   protected getBadgesStyle(attributes: Required<S>): Record<string, NodeBadgeStyleProps | false> {
