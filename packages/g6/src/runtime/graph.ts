@@ -443,6 +443,28 @@ export class Graph extends EventEmitter {
   }
 
   /**
+   * <zh/> 获取单个元素数据
+   *
+   * <en/> Get element data by ID
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @returns <zh/> 元素数据 | <en/> element data
+   * @apiCategory data
+   */
+  public getElementData(id: ID): ElementDatum;
+  /**
+   * <zh/> 批量获取多个元素数据
+   *
+   * <en/> Get multiple element data in batch
+   * @param ids - <zh/> 元素 ID 数组 | <en/> element ID array
+   * @apiCategory data
+   */
+  public getElementData(ids: ID[]): ElementDatum[];
+  public getElementData(ids: ID | ID[]): ElementDatum | ElementDatum[] {
+    if (Array.isArray(ids)) return ids.map((id) => this.context.model.getElementDataById(id));
+    return this.context.model.getElementDataById(ids);
+  }
+
+  /**
    * <zh/> 获取所有节点数据
    *
    * <en/> Get all node data
