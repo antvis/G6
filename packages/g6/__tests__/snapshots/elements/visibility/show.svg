@@ -11,7 +11,6 @@
             <path fill="none" d="M 60,50 L 185,50" stroke-width="3" stroke="transparent" visibility="visible"/>
             <g transform="matrix(-1,0,-0,-1,185,50)">
               <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0" visibility="visible"/>
-              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0" visibility="visible"/>
             </g>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,129,50)">
@@ -29,7 +28,6 @@
             <path fill="none" d="M 194,58 L 134,138" stroke-width="3" stroke="transparent" visibility="hidden"/>
             <g transform="matrix(0.600000,-0.800000,0.800000,0.600000,134,138)">
               <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0" visibility="hidden"/>
-              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0" visibility="hidden"/>
             </g>
           </g>
           <g fill="none" transform="matrix(0.600005,-0.799997,0.799997,0.600005,160.099976,103.199989)">
@@ -47,7 +45,6 @@
             <path fill="none" d="M 119,142 L 59,62" stroke-width="3" stroke="transparent" visibility="hidden"/>
             <g transform="matrix(0.600000,0.800000,-0.800000,0.600000,59,62)">
               <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0" visibility="hidden"/>
-              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0" visibility="hidden"/>
             </g>
           </g>
           <g fill="none" transform="matrix(0.600000,0.800000,-0.800000,0.600000,85.099998,96.800003)">

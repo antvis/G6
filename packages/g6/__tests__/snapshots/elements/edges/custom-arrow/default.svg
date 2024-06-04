@@ -11,7 +11,6 @@
             <path fill="none" d="M 12,0 L 12,0" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(-1,0,-0,-1,363,83.333336)">
               <path fill="rgba(246,189,22,1)" d="M 0,0 L 10,4 L 14,14 L 18,4 L 28,0 L 18,-4 L 14,-14 L 10,-4 Z" stroke-width="1" stroke="rgba(246,189,22,1)" width="8" height="8" stroke-dasharray="0,0"/>
-              <path fill="transparent" d="M 0,0 L 10,4 L 14,14 L 18,4 L 28,0 L 18,-4 L 14,-14 L 10,-4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
             </g>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,254,83.333336)">
@@ -32,7 +31,6 @@
             <path fill="none" d="M 12,0 L 12,0" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(-1,0,-0,-1,361,250)">
               <path fill="rgba(246,189,22,1)" d="M 3,-5 L 3,5 L 15,10 L 15,-10 Z" stroke-width="1" stroke="rgba(246,189,22,1)" width="8" height="8" stroke-dasharray="0,0"/>
-              <path fill="transparent" d="M 3,-5 L 3,5 L 15,10 L 15,-10 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
             </g>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,254,250)">
@@ -53,7 +51,6 @@
             <path fill="none" d="M 12,0 L 12,0" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(-0,-1,1,-0,348,416.666656)">
               <image fill="rgba(246,189,22,1)" preserveAspectRatio="none" x="-14" y="-14" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" stroke-width="1" stroke="rgba(246,189,22,1)" width="28" height="28" stroke-dasharray="0,0"/>
-              <image fill="transparent" preserveAspectRatio="none" x="-14" y="-14" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" stroke-width="3" stroke="transparent" width="28" height="28" stroke-dasharray="0,0"/>
             </g>
           </g>
           <g fill="none" transform="matrix(1,0,0,1,254,416.666656)">
