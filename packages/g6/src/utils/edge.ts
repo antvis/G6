@@ -289,8 +289,6 @@ export const getRadians = (bbox: AABB): Record<LoopPlacement, [number, number]> 
  * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
  * @param sourcePort - <zh/> 起点连接桩 | <en/> Source port
  * @param targetPort - <zh/> 终点连接桩 | <en/> Target port
- * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
- * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
  * @returns <zh/> 起点和终点 | <en/> Start and end points
  */
 export function getLoopEndpoints(
@@ -336,8 +334,6 @@ export function getLoopEndpoints(
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
  * @param sourcePortKey - <zh/> 起点连接桩 key | <en/> Source port key
  * @param targetPortKey - <zh/> 终点连接桩 key | <en/> Target port key
- * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
- * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
  * @returns <zh/> 返回绘制环形边的路径 | <en/> Returns the path of the loop edge
  */
 export function getCubicLoopPath(
@@ -409,8 +405,6 @@ export function getCubicLoopControlPoints(
  * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
  * @param sourcePortKey - <zh/> 起点连接桩 key | <en/> Source port key
  * @param targetPortKey - <zh/> 终点连接桩 key | <en/> Target port key
- * @param rawSourcePoint - <zh/> 起点 | <en/> Source point
- * @param rawTargetPoint - <zh/> 终点 | <en/> Target point
  * @returns <zh/> 返回绘制环形折线边的路径 | <en/> Returns the path of the loop polyline edge
  */
 export function getPolylineLoopPath(

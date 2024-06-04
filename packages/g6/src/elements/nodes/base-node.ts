@@ -239,7 +239,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
       this.getGraphicStyle(attributes),
       'label',
     );
-    const keyShape = this.getKey();
+    const keyShape = this.getShape('key');
     const keyBounds = keyShape.getLocalBounds();
 
     return Object.assign(
@@ -262,7 +262,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     if (attributes.icon === false || (!attributes.iconText && !attributes.iconSrc)) return false;
 
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
-    const keyShape = this.getKey();
+    const keyShape = this.getShape('key');
     const [x, y] = getXYByPlacement(keyShape.getLocalBounds(), 'center');
 
     return { x, y, ...iconStyle };
@@ -294,7 +294,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   }
 
   protected getBadgeStyle(style: NodeBadgeStyleProps): NodeBadgeStyleProps {
-    const keyShape = this.getKey();
+    const keyShape = this.getShape('key');
     const { placement = 'top', offsetX, offsetY, ...restStyle } = style;
     const textStyle = getTextStyleByPlacement(keyShape.getLocalBounds(), placement, offsetX, offsetY, true);
     return { ...textStyle, ...restStyle };
@@ -327,16 +327,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
 
   protected getPortXY(attributes: Required<S>, style: NodePortStyleProps): Point {
     const { placement = 'left' } = style;
-    const bounds = this.getKey().getLocalBounds();
+    const bounds = this.getShape('key').getLocalBounds();
     return getPortXYByPlacement(bounds, placement as PortPlacement);
-  }
-
-  /**
-   * Get the key shape for the node.
-   * @returns Key shape.
-   */
-  public getKey<T extends DisplayObject>(): T {
-    return this.shapeMap.key as T;
   }
 
   /**
@@ -352,7 +344,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
    * @returns The center point of the node.
    */
   public getCenter(): Point {
-    return this.getKey().getBounds().center;
+    return this.getShape('key').getBounds().center;
   }
 
   /**
@@ -361,12 +353,12 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
    * @returns The intersection point.
    */
   public getIntersectPoint(point: Point): Point {
-    const keyShapeBounds = this.getKey().getBounds();
+    const keyShapeBounds = this.getShape('key').getBounds();
     return getRectIntersectPoint(point, keyShapeBounds);
   }
 
   protected drawHaloShape(attributes: Required<S>, container: Group): void {
-    const keyShape = this.getKey();
+    const keyShape = this.getShape('key');
     this.upsert(
       'halo',
       keyShape.constructor as new (...args: unknown[]) => DisplayObject,

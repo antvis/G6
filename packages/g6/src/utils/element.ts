@@ -122,7 +122,7 @@ export function getAllPorts(node: Node): Record<string, Port> {
   portsStyle.forEach((portStyle: NodePortStyleProps, i: number) => {
     const { key, placement } = portStyle;
     if (isSimplePort(portStyle)) {
-      ports[key || i] ||= getXYByPlacement(node.getKey().getBounds(), placement);
+      ports[key || i] ||= getXYByPlacement(node.getShape('key').getBounds(), placement);
     }
   });
   return ports;

@@ -65,7 +65,7 @@ export class HTML extends BaseNode<HTMLStyleProps> {
   }
 
   protected getDomElement() {
-    return this.getKey<GHTML>().getDomElement();
+    return this.getShape<GHTML>('key').getDomElement();
   }
 
   protected getKeyStyle(attributes: Required<HTMLStyleProps>): GHTMLStyleProps {

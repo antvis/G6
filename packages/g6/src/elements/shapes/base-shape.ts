@@ -183,8 +183,8 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     return createAnimationsProxy(animationMap);
   }
 
-  public getShape(key: string): DisplayObject | undefined {
-    return this.shapeMap[key];
+  public getShape<T extends DisplayObject>(name: string): T {
+    return this.shapeMap[name] as T;
   }
 
   private setVisibility() {

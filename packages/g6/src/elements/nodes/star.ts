@@ -49,7 +49,7 @@ export class Star extends Polygon<StarStyleProps> {
 
   protected getPortXY(attributes: Required<StarStyleProps>, style: NodePortStyleProps): Point {
     const { placement = 'top' } = style;
-    const bbox = this.getKey().getLocalBounds();
+    const bbox = this.getShape('key').getLocalBounds();
     const ports = getStarPorts(this.getOuterR(attributes), this.getInnerR(attributes));
     return getPortXYByPlacement(bbox, placement as StarPortPlacement, ports, false);
   }

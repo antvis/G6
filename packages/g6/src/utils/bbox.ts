@@ -45,7 +45,7 @@ export function getBBoxSize(bbox: AABB): [number, number] {
  * @returns <zh/> 包围盒 | <en/> bounding box
  */
 export function getNodeBBox(node: Point | Node, padding?: Padding): AABB {
-  const bbox = isPoint(node) ? getPointBBox(node) : node.getKey().getBounds();
+  const bbox = isPoint(node) ? getPointBBox(node) : node.getShape('key').getBounds();
   return padding ? getExpandedBBox(bbox, padding) : bbox;
 }
 
