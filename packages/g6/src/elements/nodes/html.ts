@@ -10,7 +10,7 @@ import {
   Rect,
 } from '@antv/g';
 import { isNil, isUndefined, pick } from '@antv/util';
-import { NodeEvent } from '../../constants';
+import { CommonEvent } from '../../constants';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
@@ -55,12 +55,12 @@ export class HTML extends BaseNode<HTMLStyleProps> {
 
   private get events() {
     return [
-      NodeEvent.CLICK,
-      NodeEvent.POINTER_DOWN,
-      NodeEvent.POINTER_MOVE,
-      NodeEvent.POINTER_UP,
-      NodeEvent.POINTER_OVER,
-      NodeEvent.POINTER_LEAVE,
+      CommonEvent.CLICK,
+      CommonEvent.POINTER_DOWN,
+      CommonEvent.POINTER_MOVE,
+      CommonEvent.POINTER_UP,
+      CommonEvent.POINTER_OVER,
+      CommonEvent.POINTER_LEAVE,
     ];
   }
 
