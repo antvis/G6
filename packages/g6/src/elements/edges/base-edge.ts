@@ -1,14 +1,7 @@
-import type {
-  BaseStyleProps,
-  DisplayObject,
-  DisplayObjectConfig,
-  Group,
-  LineStyleProps,
-  PathStyleProps,
-} from '@antv/g';
+import type { DisplayObject, DisplayObjectConfig, Group, LineStyleProps, PathStyleProps } from '@antv/g';
 import { Image, Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { isFunction } from '@antv/util';
+import { isFunction, pick } from '@antv/util';
 import type {
   BaseElementStyleProps,
   EdgeArrowStyleProps,
@@ -299,7 +292,6 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
 
     if (enable) {
       const arrowStyle = this.getArrowStyle(attributes, isStart);
-      const Ctor = arrowStyle.src ? Image : Path;
       const [marker, markerOffset, arrowOffset] = isStart
         ? (['markerStart', 'markerStartOffset', 'startArrowOffset'] as const)
         : (['markerEnd', 'markerEndOffset', 'endArrowOffset'] as const);
@@ -308,7 +300,11 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
       // update
       if (arrow) arrow.attr(arrowStyle);
       // create
-      else keyShape.style[marker] = new Ctor({ style: arrowStyle });
+      else {
+        const Ctor = arrowStyle.src ? Image : Path;
+        const arrowShape = new Ctor({ style: arrowStyle });
+        keyShape.style[marker] = arrowShape;
+      }
       keyShape.style[markerOffset] = attributes[arrowOffset] || arrowStyle.width / 2 + +arrowStyle.lineWidth;
     } else {
       // destroy
@@ -319,7 +315,7 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
   }
 
   private getArrowStyle(attributes: ParsedBaseEdgeStyleProps, isStart: boolean) {
-    const keyStyle = this.getKeyStyle(attributes) as BaseStyleProps;
+    const keyStyle = this.getShape('key')!.attributes;
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const { size, type, ...arrowStyle } = subStyleProps<Required<EdgeArrowStyleProps>>(
       this.getGraphicStyle(attributes),
@@ -330,7 +326,7 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
     const d = arrowFn(width, height);
 
     return {
-      ...keyStyle,
+      ...pick(keyStyle, ['lineWidth', 'stroke']),
       width,
       height,
       ...(d && { d, fill: type === 'simple' ? '' : keyStyle.stroke }),
@@ -347,7 +343,10 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
   }
 
   protected drawKeyShape(attributes: ParsedBaseEdgeStyleProps, container: Group): Path | undefined {
-    return this.upsert('key', Path, this.getKeyStyle(attributes), container);
+    const key = this.upsert('key', Path, this.getKeyStyle(attributes), container);
+    this.drawArrow(attributes, 'start');
+    this.drawArrow(attributes, 'end');
+    return key;
   }
 
   public render(attributes = this.parsedAttributes, container: Group = this): void {
@@ -355,14 +354,10 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
     const keyShape = this.drawKeyShape(attributes, container);
     if (!keyShape) return;
 
-    // 2. arrows
-    this.drawArrow(attributes, 'start');
-    this.drawArrow(attributes, 'end');
-
-    // 3. label
+    // 2. label
     this.drawLabelShape(attributes, container);
 
-    // 4. halo
+    // 3. halo
     this.drawHaloShape(attributes, container);
   }
 

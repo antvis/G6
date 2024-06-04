@@ -11,7 +11,6 @@
             <path fill="none" d="M 258.1714110813942,91.99877569759411 Q 273.9984696219926 149.78573614825726,259.8285889186058 208.0012243024059 L 261.01108399967296,203.14306566118677" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(0.446644,-0.894712,0.894712,0.446644,262.061798,203.527664)">
               <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
-              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
             </g>
           </g>
         </g>
@@ -169,7 +168,6 @@
             <path fill="none" d="M 258.5078001791815,203.17882685862236 L 259.8285889186058,208.0012243024059 Q 244.00153037800735 150.21426385174274,258.1714110813942 91.99877569759411" stroke-width="4" stroke="transparent"/>
             <g transform="matrix(-0.014284,-0.999898,0.999898,-0.014284,259.757172,203.001740)">
               <path fill="rgba(133,118,255,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(133,118,255,1)" width="8" height="8" stroke-dasharray="0,0"/>
-              <path fill="transparent" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="3" stroke="transparent" width="8" height="8" stroke-dasharray="0,0"/>
             </g>
           </g>
         </g>

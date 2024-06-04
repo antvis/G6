@@ -15,4 +15,26 @@ describe('shape', () => {
 
     expect(getDescendantShapes(circle)).toEqual([]);
   });
+
+  it('getDescendantShapes with marker', () => {
+    const marker = new Rect({
+      style: {
+        width: 10,
+        height: 10,
+      },
+    });
+
+    const line = new Line({
+      style: {
+        x1: 0,
+        y1: 0,
+        x2: 100,
+        y2: 100,
+        markerEnd: marker,
+      },
+    });
+
+    expect(getDescendantShapes(line)[0]).not.toBe(marker);
+    expect(getDescendantShapes(line)[0]).toBe(line.parsedStyle.markerEnd);
+  });
 });
