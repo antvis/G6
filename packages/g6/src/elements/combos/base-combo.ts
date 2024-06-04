@@ -151,7 +151,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
       this.getGraphicStyle(attributes),
       'collapsedMarker',
     );
-    const keyShape = this.getKey();
+    const keyShape = this.getShape('key');
     const [x, y] = getXYByPlacement(keyShape.getLocalBounds(), 'center');
 
     const style = { ...collapsedMarkerStyle, x, y };

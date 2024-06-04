@@ -77,7 +77,7 @@ export function createGraphCanvas(
  */
 class CenterConnectCircle extends Circle {
   public getIntersectPoint(): Point {
-    const bounds = this.getKey().getBounds();
+    const bounds = this.getShape('key').getBounds();
     return bounds.center;
   }
 }

@@ -49,7 +49,7 @@ export class Triangle extends Polygon<TriangleStyleProps> {
   protected getPortXY(attributes: Required<TriangleStyleProps>, style: NodePortStyleProps): Point {
     const { direction } = attributes;
     const { placement = 'top' } = style;
-    const bbox = this.getKey().getLocalBounds();
+    const bbox = this.getShape('key').getLocalBounds();
     const [width, height] = this.getSize(attributes);
     const ports = getTrianglePorts(width, height, direction);
     return getPortXYByPlacement(bbox, placement as TrianglePortPlacement, ports, false);
@@ -63,7 +63,7 @@ export class Triangle extends Polygon<TriangleStyleProps> {
     if (icon === false || isEmpty(iconText || iconSrc)) return false;
 
     const iconStyle = subStyleProps<IconStyleProps>(this.getGraphicStyle(attributes), 'icon');
-    const bbox = this.getKey().getLocalBounds();
+    const bbox = this.getShape('key').getLocalBounds();
     const [x, y] = getTriangleCenter(bbox, direction);
     const size = getIncircleRadius(bbox, direction) * 2 * ICON_SIZE_RATIO;
 
