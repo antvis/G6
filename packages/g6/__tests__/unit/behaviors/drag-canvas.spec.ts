@@ -1,6 +1,6 @@
 import { behaviorDragCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
-import { CommonEvent } from '@/src';
+import { CanvasEvent, CommonEvent } from '@/src';
 import { createDemoGraph } from '@@/utils';
 import { isObject } from '@antv/util';
 
@@ -61,7 +61,7 @@ describe('behavior drag canvas', () => {
 
   it('drag', () => {
     const [x, y] = graph.getPosition();
-    graph.emit(CommonEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
+    graph.emit(CanvasEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
     expect(graph.getPosition()).toBeCloseTo([x + 10, y + 10]);
   });
 

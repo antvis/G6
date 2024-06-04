@@ -1,7 +1,7 @@
 import type { BaseStyleProps } from '@antv/g';
 import { Rect } from '@antv/g';
 import { isFunction } from '@antv/util';
-import { COMBO_KEY, CommonEvent } from '../constants';
+import { COMBO_KEY, CanvasEvent, ComboEvent, CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeDirection, ID, IElementDragEvent, Point, Prefix, State } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
@@ -160,8 +160,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     });
 
     if (['link'].includes(this.options.dropEffect)) {
-      graph.on(`combo:${CommonEvent.DROP}`, this.onDrop);
-      graph.on(`canvas:${CommonEvent.DROP}`, this.onDrop);
+      graph.on(ComboEvent.DROP, this.onDrop);
+      graph.on(CanvasEvent.DROP, this.onDrop);
     }
   }
 

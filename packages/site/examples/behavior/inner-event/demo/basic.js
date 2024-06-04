@@ -35,7 +35,7 @@ const graph = new Graph({
 
 graph.render();
 
-graph.on(`node:${NodeEvent.CLICK}`, (event) => {
+graph.on(NodeEvent.CLICK, (event) => {
   const { target, originalTarget } = event;
   if (originalTarget.id === 'light') {
     graph.updateNodeData([{ id: target.id, states: ['selected'], style: { labelText: 'Clicked!' } }]);
@@ -43,7 +43,7 @@ graph.on(`node:${NodeEvent.CLICK}`, (event) => {
   }
 });
 
-graph.on(`canvas:${CanvasEvent.CLICK}`, () => {
+graph.on(CanvasEvent.CLICK, () => {
   const selectedIds = graph.getElementDataByState('node', 'selected').map((node) => node.id);
   graph.updateNodeData(selectedIds.map((id) => ({ id, states: [], style: { labelText: 'Click the Light' } })));
   graph.draw();

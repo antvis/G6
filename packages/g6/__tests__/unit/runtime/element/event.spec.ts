@@ -14,7 +14,7 @@ describe('element event', () => {
 
     const click = jest.fn();
 
-    graph.on<IPointerEvent>(`node:${NodeEvent.CLICK}`, click);
+    graph.on<IPointerEvent>(NodeEvent.CLICK, click);
 
     await graph.draw();
 

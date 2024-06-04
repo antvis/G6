@@ -26,7 +26,7 @@ describe('behavior node expand collapse', () => {
       __filename,
       [0, 500, 1000],
       () => {
-        graph.emit(`node:${NodeEvent.CLICK}`, { target: B, targetType: 'node' });
+        graph.emit(NodeEvent.CLICK, { target: B, targetType: 'node' });
       },
       'collapse-B',
     );
@@ -40,7 +40,7 @@ describe('behavior node expand collapse', () => {
       __filename,
       [0, 500, 1000],
       () => {
-        graph.emit(`node:${NodeEvent.CLICK}`, { target: C, targetType: 'node' });
+        graph.emit(NodeEvent.CLICK, { target: C, targetType: 'node' });
       },
       'expand-C',
     );
@@ -54,7 +54,7 @@ describe('behavior node expand collapse', () => {
       __filename,
       [0, 500, 1000],
       () => {
-        graph.emit(`node:${NodeEvent.CLICK}`, { target: B, targetType: 'node' });
+        graph.emit(NodeEvent.CLICK, { target: B, targetType: 'node' });
       },
       'expand-B-again',
     );
@@ -68,7 +68,7 @@ describe('behavior node expand collapse', () => {
       __filename,
       [0, 500, 1000],
       () => {
-        graph.emit(`node:${NodeEvent.CLICK}`, { target: A, targetType: 'node' });
+        graph.emit(NodeEvent.CLICK, { target: A, targetType: 'node' });
       },
       'collapse-A',
     );
@@ -82,7 +82,7 @@ describe('behavior node expand collapse', () => {
       __filename,
       [0, 500, 1000],
       () => {
-        graph.emit(`node:${NodeEvent.CLICK}`, { target: A, targetType: 'node' });
+        graph.emit(NodeEvent.CLICK, { target: A, targetType: 'node' });
       },
       'expand-A',
     );

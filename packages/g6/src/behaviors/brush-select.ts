@@ -1,7 +1,7 @@
 import type { RectStyleProps } from '@antv/g';
 import { Rect } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
-import { CommonEvent } from '../constants';
+import { CanvasEvent, CommonEvent } from '../constants';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
 import type { ElementDatum, ElementType, ID, IPointerEvent, Point, State } from '../types';
@@ -354,7 +354,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
     graph.on(CommonEvent.POINTER_DOWN, this.onPointerDown);
     graph.on(CommonEvent.POINTER_MOVE, this.onPointerMove);
     graph.on(CommonEvent.POINTER_UP, this.onPointerUp);
-    graph.on(`canvas:${CommonEvent.CLICK}`, this.clearStates);
+    graph.on(CanvasEvent.CLICK, this.clearStates);
   }
 
   private unbindEvents() {
@@ -363,7 +363,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
     graph.off(CommonEvent.POINTER_DOWN, this.onPointerDown);
     graph.off(CommonEvent.POINTER_MOVE, this.onPointerMove);
     graph.off(CommonEvent.POINTER_UP, this.onPointerUp);
-    graph.off(`canvas:${CommonEvent.CLICK}`, this.clearStates);
+    graph.off(CanvasEvent.CLICK, this.clearStates);
   }
 
   /**

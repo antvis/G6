@@ -41,7 +41,7 @@ graph.on(GraphEvent.AFTER_RENDER, () => {
 
 #### 监听画布事件
 
-监听画布事件需要以 `canvas:${CanvasEvent}` 的形式，即携带 `canvas:` 前缀。例如监听画布的点击事件：
+例如监听画布的点击事件：
 
 ```typescript
 import { Graph, CanvasEvent } from '@antv/g6';
@@ -50,7 +50,7 @@ const graph = new Graph({
   // ...
 });
 
-graph.on(`canvas:${CanvasEvent.CLICK}`, (event) => {
+graph.on(CanvasEvent.CLICK, (event) => {
   // event handler
 });
 ```
@@ -61,9 +61,7 @@ graph.on(`canvas:${CanvasEvent.CLICK}`, (event) => {
 
 #### 监听元素事件
 
-与画布事件类似，你需要以 `node:${NodeEvent}`、`edge:${EdgeEvent}`、`combo:${ComboEvent}` 的形式监听元素事件。
-
-例如监听节点的拖拽和边的点击事件：
+与画布事件类似，例如监听节点的拖拽和边的点击事件：
 
 ```ts
 import { Graph, NodeEvent, EdgeEvent, ComboEvent } from '@antv/g6';
@@ -72,15 +70,15 @@ const graph = new Graph({
   // ...
 });
 
-graph.on(`node:${NodeEvent.DRAG}`, (event) => {
+graph.on(NodeEvent.DRAG, (event) => {
   // event handler
 });
 
-graph.on(`edge:${EdgeEvent.CLICK}`, (event) => {
+graph.on(EdgeEvent.CLICK, (event) => {
   // event handler
 });
 
-graph.on(`combo:${ComboEvent.CLICK}`, (event) => {
+graph.on(ComboEvent.CLICK, (event) => {
   // event handler
 });
 ```

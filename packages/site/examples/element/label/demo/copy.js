@@ -44,10 +44,10 @@ graph.on('node:click', (e) => {
   alert('copied to clipboard!');
 });
 
-graph.on(`node:${NodeEvent.POINTER_ENTER}`, (e) => {
+graph.on(NodeEvent.POINTER_ENTER, (e) => {
   graph.setElementState({ [e.target.id]: 'active' });
 });
 
-graph.on(`node:${NodeEvent.POINTER_OUT}`, (e) => {
+graph.on(NodeEvent.POINTER_OUT, (e) => {
   graph.setElementState({ [e.target.id]: [] });
 });

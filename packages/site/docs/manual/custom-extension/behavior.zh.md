@@ -26,7 +26,7 @@ class ClickAddNode extends BaseBehavior<ClickAddNodeOptions> {
     super(context, options);
 
     const { graph } = this.context;
-    graph.on(`canvas:${CanvasEvent.CLICK}`, (event: IPointerEvent) => {
+    graph.on(CanvasEvent.CLICK, (event: IPointerEvent) => {
       const { layerX, layerY } = event.nativeEvent as PointerEvent;
       graph.addNodeData([
         {

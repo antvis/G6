@@ -1,5 +1,5 @@
 import type { Graph } from '@/src';
-import { CommonEvent } from '@/src';
+import { CanvasEvent, CommonEvent } from '@/src';
 import { behaviorBrushSelect } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
@@ -27,7 +27,7 @@ describe('behavior brush select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selected-1');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-1');
 
@@ -40,7 +40,7 @@ describe('behavior brush select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selected-2');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-2');
 
     graph.setBehaviors([
@@ -56,7 +56,7 @@ describe('behavior brush select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selected-3');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-3');
 
     graph.setBehaviors([{ type: 'brush-select', trigger: 'shift' }]);
@@ -72,7 +72,7 @@ describe('behavior brush select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selected-4');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-4');
 
     graph.setBehaviors([{ type: 'brush-select', state: 'active', trigger: 'shift', immediately: true }]);
@@ -87,7 +87,7 @@ describe('behavior brush select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selected-5');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-5');
 
     graph.setBehaviors([{ type: 'brush-select', mode: 'union', trigger: 'drag' }]);
@@ -100,7 +100,7 @@ describe('behavior brush select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selected-mode-union');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-mode-union');
 
     graph.setBehaviors([{ type: 'brush-select', mode: 'diff' }]);
@@ -113,7 +113,7 @@ describe('behavior brush select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selected-mode-diff');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-mode-diff');
 
     graph.setBehaviors([{ type: 'brush-select', mode: 'intersect' }]);
@@ -126,7 +126,7 @@ describe('behavior brush select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'brush-selected-mode-intersect');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-mode-intersect');
   });
 

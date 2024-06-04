@@ -1,6 +1,6 @@
 import { behaviorZoomCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
-import { CanvasEvent, CommonEvent, ContainerEvent } from '@/src';
+import { CommonEvent, ContainerEvent } from '@/src';
 import type { ZoomCanvasOptions } from '@/src/behaviors/zoom-canvas';
 import { createDemoGraph } from '@@/utils';
 
@@ -165,25 +165,25 @@ describe('behavior zoom canvas', () => {
 
     // pointerenter / pointerleave
     graph.once('canvas:pointermove', pointermoveListener);
-    canvas.document.emit(CanvasEvent.POINTER_MOVE, {});
+    canvas.document.emit(CommonEvent.POINTER_MOVE, {});
     expect(pointermoveListener).toHaveBeenCalledTimes(1);
 
     // common event
     graph.once('canvas:click', clickListener);
     graph.once('canvas:wheel', wheelListener);
-    canvas.document.emit(CanvasEvent.CLICK, {});
-    canvas.document.emit(CanvasEvent.WHEEL, {});
+    canvas.document.emit(CommonEvent.CLICK, {});
+    canvas.document.emit(CommonEvent.WHEEL, {});
     expect(clickListener).toHaveBeenCalledTimes(1);
     expect(wheelListener).toHaveBeenCalledTimes(1);
 
     // double click
     graph.once('canvas:dblclick', dblclickListener);
-    canvas.document.emit(CanvasEvent.CLICK, { detail: 2 });
+    canvas.document.emit(CommonEvent.CLICK, { detail: 2 });
     expect(dblclickListener).toHaveBeenCalledTimes(1);
 
     // contextmenu
     graph.once('canvas:contextmenu', contextmenuListener);
-    canvas.document.emit(CanvasEvent.POINTER_DOWN, { button: 2 });
+    canvas.document.emit(CommonEvent.POINTER_DOWN, { button: 2 });
     expect(contextmenuListener).toHaveBeenCalledTimes(1);
   });
 

@@ -1,5 +1,5 @@
 import { isFunction, uniqueId } from '@antv/util';
-import { CommonEvent } from '../constants';
+import { CanvasEvent, ComboEvent, CommonEvent, EdgeEvent, NodeEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
 import type { EdgeStyle } from '../spec/element/edge';
@@ -92,13 +92,13 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     this.unbindEvents();
 
     if (trigger === 'click') {
-      graph.on(`node:${CommonEvent.CLICK}`, this.handleCreateEdge);
-      graph.on(`combo:${CommonEvent.CLICK}`, this.handleCreateEdge);
-      graph.on(`canvas:${CommonEvent.CLICK}`, this.cancelEdge);
-      graph.on(`edge:${CommonEvent.CLICK}`, this.cancelEdge);
+      graph.on(NodeEvent.CLICK, this.handleCreateEdge);
+      graph.on(ComboEvent.CLICK, this.handleCreateEdge);
+      graph.on(CanvasEvent.CLICK, this.cancelEdge);
+      graph.on(EdgeEvent.CLICK, this.cancelEdge);
     } else {
-      graph.on(`node:${CommonEvent.DRAG_START}`, this.handleCreateEdge);
-      graph.on(`combo:${CommonEvent.DRAG_START}`, this.handleCreateEdge);
+      graph.on(NodeEvent.DRAG_START, this.handleCreateEdge);
+      graph.on(ComboEvent.DRAG_START, this.handleCreateEdge);
       graph.on(CommonEvent.POINTER_UP, this.drop);
     }
 
@@ -207,12 +207,12 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   private unbindEvents() {
     const { graph } = this.context;
 
-    graph.off(`node:${CommonEvent.CLICK}`, this.handleCreateEdge);
-    graph.off(`combo:${CommonEvent.CLICK}`, this.handleCreateEdge);
-    graph.off(`canvas:${CommonEvent.CLICK}`, this.cancelEdge);
-    graph.off(`edge:${CommonEvent.CLICK}`, this.cancelEdge);
-    graph.off(`node:${CommonEvent.DRAG_START}`, this.handleCreateEdge);
-    graph.off(`combo:${CommonEvent.DRAG_START}`, this.handleCreateEdge);
+    graph.off(NodeEvent.CLICK, this.handleCreateEdge);
+    graph.off(ComboEvent.CLICK, this.handleCreateEdge);
+    graph.off(CanvasEvent.CLICK, this.cancelEdge);
+    graph.off(EdgeEvent.CLICK, this.cancelEdge);
+    graph.off(NodeEvent.DRAG_START, this.handleCreateEdge);
+    graph.off(ComboEvent.DRAG_START, this.handleCreateEdge);
     graph.off(CommonEvent.POINTER_UP, this.drop);
     graph.off(CommonEvent.POINTER_MOVE, this.updateAssistEdge);
   }

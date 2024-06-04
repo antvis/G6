@@ -1,6 +1,6 @@
 import type { PointLike } from '@antv/g';
 import { clamp, isArray, isFunction, isObject } from '@antv/util';
-import { CanvasEvent } from '../constants';
+import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { IKeyboardEvent, IWheelEvent, Point, ViewportAnimationEffectTiming } from '../types';
 import { parsePoint } from '../utils/point';
@@ -100,8 +100,8 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     this.shortcut.unbindAll();
 
     if (isArray(trigger)) {
-      this.preventDefault(CanvasEvent.WHEEL);
-      this.shortcut.bind([...trigger, CanvasEvent.WHEEL], (event) => {
+      this.preventDefault(CommonEvent.WHEEL);
+      this.shortcut.bind([...trigger, CommonEvent.WHEEL], (event) => {
         const { deltaX, deltaY } = event;
         this.zoom(-(deltaY ?? deltaX), event, false);
       });
