@@ -1,5 +1,6 @@
 import { behaviorClickSelect } from '@/__tests__/demos';
-import { CommonEvent, type Graph } from '@/src';
+import type { Graph } from '@/src';
+import { CanvasEvent, CommonEvent, EdgeEvent, NodeEvent } from '@/src';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior click-select element', () => {
@@ -16,19 +17,19 @@ describe('behavior click-select element', () => {
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename);
 
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'after-select');
 
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'after-deselect');
   });
 
   it('state and unselectedState', async () => {
     graph.setBehaviors([{ type: 'click-select', state: 'active', unselectedState: 'inactive' }]);
 
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'custom-state');
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
   });
 
   it('state and neighborState', async () => {
@@ -42,9 +43,9 @@ describe('behavior click-select element', () => {
       },
     ]);
 
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'custom-neighborState');
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
   });
 
   it('1 degree', async () => {
@@ -58,30 +59,30 @@ describe('behavior click-select element', () => {
       },
     ]);
 
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'node-1-degree');
-    graph.emit(`canvas:${CommonEvent.CLICK}`, { target: {}, targetType: 'canvas' });
+    graph.emit(CanvasEvent.CLICK, { target: {}, targetType: 'canvas' });
 
-    graph.emit(`edge:${CommonEvent.CLICK}`, { target: { id: '0-1' }, targetType: 'edge' });
+    graph.emit(EdgeEvent.CLICK, { target: { id: '0-1' }, targetType: 'edge' });
     await expect(graph).toMatchSnapshot(__filename, 'edge-1-degree');
-    graph.emit(`canvas:${CommonEvent.CLICK}`, { target: {}, targetType: 'canvas' });
+    graph.emit(CanvasEvent.CLICK, { target: {}, targetType: 'canvas' });
   });
 
   it('multiple', async () => {
     graph.setBehaviors([{ type: 'click-select', multiple: true, degree: 0 }]);
 
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     graph.emit(CommonEvent.KEY_DOWN, { key: 'shift' });
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '1' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '1' }, targetType: 'node' });
     graph.emit(CommonEvent.KEY_UP, { key: 'shift' });
 
     await expect(graph).toMatchSnapshot(__filename, 'multiple-shift');
 
     graph.setBehaviors([{ type: 'click-select', multiple: true, trigger: ['meta'] }]);
 
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '0' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     graph.emit(CommonEvent.KEY_DOWN, { key: 'meta' });
-    graph.emit(`node:${CommonEvent.CLICK}`, { target: { id: '1' }, targetType: 'node' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '1' }, targetType: 'node' });
     graph.emit(CommonEvent.KEY_UP, { key: 'meta' });
 
     await expect(graph).toMatchSnapshot(__filename, 'multiple-meta');

@@ -26,7 +26,7 @@ describe('behavior combo expand collapse', () => {
       __filename,
       [0, 500, 1000],
       () => {
-        graph.emit(`combo:${ComboEvent.DBLCLICK}`, { target: combo1, targetType: 'combo' });
+        graph.emit(ComboEvent.DBLCLICK, { target: combo1, targetType: 'combo' });
       },
       'expand-combo-1',
     );
@@ -40,7 +40,7 @@ describe('behavior combo expand collapse', () => {
       __filename,
       [0, 500, 1000],
       () => {
-        graph.emit(`combo:${ComboEvent.DBLCLICK}`, { target: combo2, targetType: 'combo' });
+        graph.emit(ComboEvent.DBLCLICK, { target: combo2, targetType: 'combo' });
       },
       'collapse-combo-2',
     );
@@ -56,7 +56,7 @@ describe('behavior combo expand collapse', () => {
       __filename,
       [0, 500, 1000],
       () => {
-        graph.emit(`combo:${ComboEvent.DBLCLICK}`, { target: combo2, targetType: 'combo' });
+        graph.emit(ComboEvent.DBLCLICK, { target: combo2, targetType: 'combo' });
       },
       'collapse-combo-1-expand-combo-2',
     );

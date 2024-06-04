@@ -1,4 +1,5 @@
-import { CommonEvent, type BubbleSets, type Graph, type ID } from '@/src';
+import type { BubbleSets, Graph, ID } from '@/src';
+import { NodeEvent } from '@/src';
 import { pluginBubbleSets } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
@@ -57,9 +58,9 @@ describe('plugin bubble-sets', () => {
   });
 
   it('update element', async () => {
-    graph.emit(`node:${CommonEvent.DRAG_START}`, { target: { id: 'node11' }, targetType: 'node' });
-    graph.emit(`node:${CommonEvent.DRAG}`, { dx: 50, dy: 50 });
-    graph.emit(`node:${CommonEvent.DRAG_END}`);
+    graph.emit(NodeEvent.DRAG_START, { target: { id: 'node11' }, targetType: 'node' });
+    graph.emit(NodeEvent.DRAG, { dx: 50, dy: 50 });
+    graph.emit(NodeEvent.DRAG_END);
 
     await expect(graph).toMatchSnapshot(__filename, 'element-position-update');
   });

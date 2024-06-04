@@ -1,5 +1,5 @@
 import { isFunction, isObject } from '@antv/util';
-import { CanvasEvent } from '../constants';
+import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { IKeyboardEvent, Point } from '../types';
 import { Shortcut, ShortcutKey } from '../utils/shortcut';
@@ -93,9 +93,8 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
   private bindEvents() {
     const { trigger } = this.options;
     this.shortcut.unbindAll();
-    const { graph } = this.context;
     if (isObject(trigger)) {
-      graph.off(CanvasEvent.WHEEL, this.onWheel);
+      this.graphDom?.removeEventListener(CommonEvent.WHEEL, this.onWheel);
       const { up = [], down = [], left = [], right = [] } = trigger;
 
       this.shortcut.bind(up, (event) => this.scroll([0, -10], event));
@@ -107,7 +106,7 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
        * 这里必需在原生canvas上绑定wheel事件，参考：
        * https://g.antv.antgroup.com/api/event/faq#%E5%9C%A8-chrome-%E4%B8%AD%E7%A6%81%E6%AD%A2%E9%A1%B5%E9%9D%A2%E9%BB%98%E8%AE%A4%E6%BB%9A%E5%8A%A8%E8%A1%8C%E4%B8%BA
        */
-      this.graphDom?.addEventListener(CanvasEvent.WHEEL, this.onWheel, { passive: false });
+      this.graphDom?.addEventListener(CommonEvent.WHEEL, this.onWheel, { passive: false });
     }
   }
 
@@ -161,7 +160,7 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
    */
   public destroy(): void {
     this.shortcut.destroy();
-    this.graphDom?.removeEventListener(CanvasEvent.WHEEL, this.onWheel);
+    this.graphDom?.removeEventListener(CommonEvent.WHEEL, this.onWheel);
     super.destroy();
   }
 }

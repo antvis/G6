@@ -41,7 +41,7 @@ Canvas events refer to events associated with the canvas, such as the canvas's c
 
 #### Listening to Canvas Events
 
-Listening to canvas events requires the use of the form `canvas:${CanvasEvent}`, which means carrying the `canvas:` prefix. For example, to listen to the canvas's click event:
+For example, to listen to the canvas's click event:
 
 ```typescript
 import { Graph, CanvasEvent } from '@antv/g6';
@@ -50,7 +50,7 @@ const graph = new Graph({
   // ...
 });
 
-graph.on(`canvas:${CanvasEvent.CLICK}`, (event) => {
+graph.on(CanvasEvent.CLICK, (event) => {
   // event handler
 });
 ```
@@ -61,9 +61,7 @@ Element events primarily refer to events that are triggered on element objects, 
 
 #### Listening to Element Events
 
-Similar to canvas events, you need to listen to element events in the form of `node:${NodeEvent}`, `edge:${EdgeEvent}`, or `combo:${ComboEvent}`.
-
-For example, to listen to a node's drag event and an edge's click event:
+Similar to canvas events, for example, to listen to a node's drag event and an edge's click event:
 
 ```ts
 import { Graph, NodeEvent, EdgeEvent, ComboEvent } from '@antv/g6';
@@ -72,15 +70,15 @@ const graph = new Graph({
   // ...
 });
 
-graph.on(`node:${NodeEvent.DRAG}`, (event) => {
+graph.on(NodeEvent.DRAG, (event) => {
   // event handler
 });
 
-graph.on(`edge:${EdgeEvent.CLICK}`, (event) => {
+graph.on(EdgeEvent.CLICK, (event) => {
   // event handler
 });
 
-graph.on(`combo:${ComboEvent.CLICK}`, (event) => {
+graph.on(ComboEvent.CLICK, (event) => {
   // event handler
 });
 ```

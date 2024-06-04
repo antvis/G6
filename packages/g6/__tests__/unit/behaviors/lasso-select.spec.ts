@@ -1,5 +1,5 @@
 import type { Graph } from '@/src';
-import { CommonEvent } from '@/src';
+import { CanvasEvent, CommonEvent } from '@/src';
 import { behaviorLassoSelect } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
@@ -29,7 +29,7 @@ describe('behavior lasso select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'lasso-selected-1');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
 
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-1');
 
@@ -43,7 +43,7 @@ describe('behavior lasso select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'lasso-selected-2');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-2');
 
     graph.updateBehavior({
@@ -62,7 +62,7 @@ describe('behavior lasso select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'lasso-selected-3');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-3');
 
     graph.updateBehavior({ key: 'lasso-select', trigger: 'shift' });
@@ -80,7 +80,7 @@ describe('behavior lasso select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'lasso-selected-4');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-4');
 
     graph.updateBehavior({ key: 'lasso-select', state: 'active', trigger: 'shift', immediately: true });
@@ -98,7 +98,7 @@ describe('behavior lasso select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'lasso-selected-5');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-5');
 
     graph.updateBehavior({ key: 'lasso-select', mode: 'union', trigger: 'drag' });
@@ -114,7 +114,7 @@ describe('behavior lasso select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'lasso-selected-mode-union');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-mode-union');
 
     graph.updateBehavior({ key: 'lasso-select', mode: 'diff' });
@@ -130,7 +130,7 @@ describe('behavior lasso select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'lasso-selected-mode-diff');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-mode-diff');
 
     graph.updateBehavior({ key: 'lasso-select', mode: 'intersect' });
@@ -146,7 +146,7 @@ describe('behavior lasso select', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'lasso-selected-mode-intersect');
 
-    graph.emit(`canvas:${CommonEvent.CLICK}`);
+    graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'lasso-clear-mode-intersect');
   });
 

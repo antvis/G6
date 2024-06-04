@@ -22,7 +22,7 @@ const graph = new Graph({
 
 graph.render();
 
-graph.on(`node:${NodeEvent.POINTER_ENTER}`, (event) => {
+graph.on(NodeEvent.POINTER_ENTER, (event) => {
   const { target } = event;
   graph.updateNodeData([
     { id: target.id, style: { labelText: 'Hovered', fill: 'lightgreen', labelFill: 'lightgreen' } },
@@ -30,7 +30,7 @@ graph.on(`node:${NodeEvent.POINTER_ENTER}`, (event) => {
   graph.draw();
 });
 
-graph.on(`edge:${EdgeEvent.POINTER_ENTER}`, (event) => {
+graph.on(EdgeEvent.POINTER_ENTER, (event) => {
   const { target } = event;
   graph.updateEdgeData([
     { id: target.id, style: { labelText: 'Hovered', stroke: 'lightgreen', labelFill: 'lightgreen', lineWidth: 3 } },
@@ -38,13 +38,13 @@ graph.on(`edge:${EdgeEvent.POINTER_ENTER}`, (event) => {
   graph.draw();
 });
 
-graph.on(`node:${NodeEvent.POINTER_OUT}`, (event) => {
+graph.on(NodeEvent.POINTER_OUT, (event) => {
   const { target } = event;
   graph.updateNodeData([{ id: target.id, style: { labelText: 'Hover me!', fill: '#5B8FF9', labelFill: 'black' } }]);
   graph.draw();
 });
 
-graph.on(`edge:${EdgeEvent.POINTER_OUT}`, (event) => {
+graph.on(EdgeEvent.POINTER_OUT, (event) => {
   const { target } = event;
   graph.updateEdgeData([
     { id: target.id, style: { labelText: 'Hover me!', stroke: '#5B8FF9', labelFill: 'black', lineWidth: 1 } },

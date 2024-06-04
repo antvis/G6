@@ -52,13 +52,13 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
       );
     };
 
-    graph.on(`canvas:${CanvasEvent.CLICK}`, (e) => {
+    graph.on(CanvasEvent.CLICK, (e) => {
       clearStates();
     });
 
     // store the selected nodes according to the clicked order
     let selectedNodeIds = [];
-    graph.on(`node:${NodeEvent.CLICK}`, (event) => {
+    graph.on(NodeEvent.CLICK, (event) => {
       const {
         target: { id },
       } = event;
@@ -73,7 +73,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
       }
     });
 
-    graph.on(`canvas:${CanvasEvent.CLICK}`, (e) => {
+    graph.on(CanvasEvent.CLICK, (e) => {
       selectedNodeIds = [];
     });
 

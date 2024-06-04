@@ -1,5 +1,5 @@
 import { isFunction } from '@antv/util';
-import { CommonEvent } from '../constants';
+import { CanvasEvent, CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
 import type { Element, ElementType, ID, IPointerEvent, State } from '../types';
@@ -136,7 +136,7 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
     ELEMENT_TYPES.forEach((type) => {
       graph.on(`${type}:${CommonEvent.CLICK}`, this.onClickSelect);
     });
-    graph.on(`canvas:${CommonEvent.CLICK}`, this.onClickCanvas);
+    graph.on(CanvasEvent.CLICK, this.onClickCanvas);
   }
 
   private onClickSelect = (event: IPointerEvent) => {
@@ -235,7 +235,7 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
     ELEMENT_TYPES.forEach((type) => {
       graph.off(`${type}:${CommonEvent.CLICK}`, this.onClickSelect);
     });
-    graph.off(`canvas:${CommonEvent.CLICK}`, this.onClickCanvas);
+    graph.off(CanvasEvent.CLICK, this.onClickCanvas);
   }
 
   public destroy() {

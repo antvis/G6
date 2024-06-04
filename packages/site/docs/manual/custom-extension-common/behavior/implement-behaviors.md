@@ -7,7 +7,7 @@
       super(context, options);
 
       const { graph } = this.context;
-      graph.on(`canvas:${CanvasEvent.CLICK}`, (event) => {
+      graph.on(CanvasEvent.CLICK, (event) => {
         const { layerX, layerY } = event.nativeEvent;
         graph.addNodeData([
           {

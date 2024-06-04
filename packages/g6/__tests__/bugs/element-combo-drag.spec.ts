@@ -25,14 +25,14 @@ describe('bugs:element-combo-drag', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'collapse-combo-0');
 
-    graph.emit(`node:${NodeEvent.DRAG_START}`, { target: { id: 'node-2' }, targetType: 'node' });
-    graph.emit(`node:${NodeEvent.DRAG}`, { dx: 50, dy: 50 });
-    graph.emit(`node:${NodeEvent.DRAG_END}`, { target: { id: 'node-2' }, targetType: 'node' });
+    graph.emit(NodeEvent.DRAG_START, { target: { id: 'node-2' }, targetType: 'node' });
+    graph.emit(NodeEvent.DRAG, { dx: 50, dy: 50 });
+    graph.emit(NodeEvent.DRAG_END, { target: { id: 'node-2' }, targetType: 'node' });
     await expect(graph).toMatchSnapshot(__filename, 'drag-node-2');
 
-    graph.emit(`node:${NodeEvent.DRAG_START}`, { target: { id: 'combo-0' }, targetType: 'combo' });
-    graph.emit(`node:${NodeEvent.DRAG}`, { dx: 50, dy: 50 });
-    graph.emit(`node:${NodeEvent.DRAG_END}`, { target: { id: 'combo-0' }, targetType: 'combo' });
+    graph.emit(NodeEvent.DRAG_START, { target: { id: 'combo-0' }, targetType: 'combo' });
+    graph.emit(NodeEvent.DRAG, { dx: 50, dy: 50 });
+    graph.emit(NodeEvent.DRAG_END, { target: { id: 'combo-0' }, targetType: 'combo' });
     await expect(graph).toMatchSnapshot(__filename, 'drag-combo-0');
   });
 });
