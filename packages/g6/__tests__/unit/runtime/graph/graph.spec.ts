@@ -134,6 +134,11 @@ describe('Graph', () => {
     });
   });
 
+  it('getElementData', () => {
+    expect(graph.getElementData('node-1').id).toEqual('node-1');
+    expect(graph.getElementData(['node-1']).map(idOf)).toEqual(['node-1']);
+  });
+
   it('getXxxData/addXxxData/updateXxxData/removeXxxData', () => {
     expect(graph.getNodeData('node-1').id).toEqual('node-1');
     expect(graph.getNodeData(['node-1']).map(idOf)).toEqual(['node-1']);
