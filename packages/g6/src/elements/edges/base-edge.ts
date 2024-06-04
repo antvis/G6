@@ -315,7 +315,7 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
   }
 
   private getArrowStyle(attributes: ParsedBaseEdgeStyleProps, isStart: boolean) {
-    const keyStyle = this.getShape('key')?.attributes || {};
+    const keyStyle = this.getShape('key')!.attributes;
     const arrowType = isStart ? 'startArrow' : 'endArrow';
     const { size, type, ...arrowStyle } = subStyleProps<Required<EdgeArrowStyleProps>>(
       this.getGraphicStyle(attributes),
@@ -346,7 +346,6 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
     const key = this.upsert('key', Path, this.getKeyStyle(attributes), container);
     this.drawArrow(attributes, 'start');
     this.drawArrow(attributes, 'end');
-
     return key;
   }
 
