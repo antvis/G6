@@ -3,13 +3,13 @@ title: Feature
 order: 1
 ---
 
-## 🏖️ Brand New Design Paradigm for Graphs
+## 🏖️ Brand New Design Specification for Graphs
 
-G6 version 5.0 has redesigned the Options paradigm. While ensuring comprehensive capabilities, it optimizes the options structure to be more intuitive and easier to understand.
+G6 version 5.0 has redesigned the Options specification. While ensuring comprehensive capabilities, it optimizes the options structure to be more intuitive and easier to understand.
 
 You only need to quickly grasp the basic [core concepts](/en/manual/core-concept/graph) to get started with G6 quickly and achieve graph visualization without delay.
 
-**😰 The 4.0 Paradigm** had a complex nested structure and was less semantically capable
+**😰 The 4.0 Options** had a complex nested structure and was less semantically capable
 
 ```typescript
 {
@@ -37,7 +37,7 @@ You only need to quickly grasp the basic [core concepts](/en/manual/core-concept
 }
 ```
 
-**😄 The 5.0 Paradigm** has a clear structure and is easy to understand
+**😄 The 5.0 Options** has a clear structure and is easy to understand
 
 ```typescript
 {
@@ -55,13 +55,13 @@ You only need to quickly grasp the basic [core concepts](/en/manual/core-concept
       }
     }
   },
-  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node'],
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
 }
 ```
 
 ## 🔨 Brand New API Design
 
-G6 5.0 has redesigned its API, adopting a consistent naming convention.
+G6 5.0 features a cleaner, easy-to-use API design that is more in line with modern front-end frameworks.
 
 ## 🌲 Merging Graphs with Tree Graphs
 
@@ -112,6 +112,8 @@ const graph = new Graph({
 ## 🎨 Multiple Themes Mechanism
 
 G6 5.0 comes with two built-in themes: light and dark, and allows for flexible customization based on the use case. For details, please refer to [Custom Theme](/en/manual/custom-extension/theme).
+
+<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gASzQbsbAaIAAAAAAAAAAAAADmJ7AQ/original"></image>
 
 ## 🌍 3D Large Graphs
 
