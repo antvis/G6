@@ -3,12 +3,13 @@ import { isNumber, isString } from '@antv/util';
 import { getPaletteColors } from '../../utils/palette';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
+import { mergeOptions } from '../../utils/style';
 import { Circle } from './circle';
 
 import type { BaseStyleProps, DisplayObjectConfig, Group } from '@antv/g';
+import type { PathArray } from '@antv/util';
 import type { CategoricalPalette } from '../../palettes/types';
 import type { DonutRound, Prefix } from '../../types';
-import { mergeOptions } from '../../utils/style';
 import type { CircleStyleProps } from './circle';
 
 /**
@@ -109,7 +110,7 @@ export class Donut extends Circle {
 
 const point = (x: number, y: number, r: number, angel: number) => [x + Math.sin(angel) * r, y - Math.cos(angel) * r];
 
-const full = (x: number, y: number, R: number, r: number) => {
+const full = (x: number, y: number, R: number, r: number): PathArray => {
   if (r <= 0 || R <= r) {
     return [['M', x - R, y], ['A', R, R, 0, 1, 1, x + R, y], ['A', R, R, 0, 1, 1, x - R, y], ['Z']];
   }
@@ -125,7 +126,7 @@ const full = (x: number, y: number, R: number, r: number) => {
   ];
 };
 
-const part = (x: number, y: number, R: number, r: number, start: number, end: number) => {
+const part = (x: number, y: number, R: number, r: number, start: number, end: number): PathArray => {
   const [s, e] = [(start / 360) * 2 * Math.PI, (end / 360) * 2 * Math.PI];
   const P = [point(x, y, r, s), point(x, y, R, s), point(x, y, R, e), point(x, y, r, e)];
   const flag = e - s > Math.PI ? 1 : 0;
@@ -139,7 +140,7 @@ const part = (x: number, y: number, R: number, r: number, start: number, end: nu
   ];
 };
 
-const arc = (R = 0, r = 0, start: number, end: number) => {
+const arc = (R = 0, r = 0, start: number, end: number): PathArray => {
   const [x, y] = [0, 0];
   if (Math.abs(start - end) % 360 < 0.000001) return full(x, y, R, r);
   return part(x, y, R, r, start, end);

@@ -7,18 +7,18 @@
       <g fill="none">
         <g fill="none" x="83.33333333333333" y="83.33333333333333" transform="matrix(1,0,0,1,83.333336,83.333336)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,18.180340)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 default
               </text>
             </g>
           </g>
-          <g fill="none" width="12" height="12" x="0" y="-1.9098300562505273">
+          <g fill="none" class="icon" width="12" height="12" x="0" y="-1.9098300562505273">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
                 
               </text>
             </g>
@@ -26,21 +26,21 @@
         </g>
         <g fill="none" x="250" y="83.33333333333333" transform="matrix(1,0,0,1,250,83.333336)">
           <g>
-            <polygon fill="none" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
+            <polygon fill="none" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,18.180340)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 halo
               </text>
             </g>
           </g>
-          <g fill="none" width="12" height="12" x="0" y="-1.9098300562505273">
+          <g fill="none" class="icon" width="12" height="12" x="0" y="-1.9098300562505273">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
                 
               </text>
             </g>
@@ -48,53 +48,53 @@
         </g>
         <g fill="none" x="416.66666666666663" y="83.33333333333333" transform="matrix(1,0,0,1,416.666656,83.333336)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,18.180340)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 badges
               </text>
             </g>
           </g>
-          <g fill="none" width="12" height="12" x="0" y="-1.9098300562505273">
+          <g fill="none" class="icon" width="12" height="12" x="0" y="-1.9098300562505273">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
                 
               </text>
             </g>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,16.021130,-20)">
-            <g fill="none">
+          <g fill="none" class="badge-0" transform="matrix(1,0,0,1,16.021130,-20)">
+            <g fill="none" class="label">
               <g>
-                <path fill="rgba(126,146,181,1)" d="M 4.5,2.5 l 0,0 a 6,6,0,0,1,6,6 l 0,0 a 6,6,0,0,1,-6,6 l 0,0 a 6,6,0,0,1,-6,-6 l 0,0 a 6,6,0,0,1,6,-6 z" stroke-width="0" width="12" height="12" x="-1.5" y="2.5"/>
+                <path fill="rgba(126,146,181,1)" d="M 4.5,2.5 l 0,0 a 6,6,0,0,1,6,6 l 0,0 a 6,6,0,0,1,-6,6 l 0,0 a 6,6,0,0,1,-6,-6 l 0,0 a 6,6,0,0,1,6,-6 z" class="background" stroke-width="0" width="12" height="12" x="-1.5" y="2.5"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="8.5px" font-size="8" text-anchor="left" font-family="iconfont">
+                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="8.5px" class="text" font-size="8" text-anchor="left" font-family="iconfont">
                   
                 </text>
               </g>
             </g>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,19.021130,-1.909830)">
-            <g fill="none">
+          <g fill="none" class="badge-1" transform="matrix(1,0,0,1,19.021130,-1.909830)">
+            <g fill="none" class="label">
               <g>
-                <path fill="rgba(244,102,74,1)" d="M 5.5,-9.5 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" stroke-width="0" x="-4" y="-9.5" width="46.52" height="19"/>
+                <path fill="rgba(244,102,74,1)" d="M 5.5,-9.5 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" class="background" stroke-width="0" x="-4" y="-9.5" width="46.52" height="19"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="8" text-anchor="left">
+                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="8" text-anchor="left">
                   Important
                 </text>
               </g>
             </g>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,19.021130,16.180340)">
-            <g fill="none">
+          <g fill="none" class="badge-2" transform="matrix(1,0,0,1,19.021130,16.180340)">
+            <g fill="none" class="label">
               <g>
-                <path fill="rgba(255,190,58,1)" d="M 5.5,-18 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" stroke-width="0" x="-4" y="-18" width="34.120000000000005" height="19"/>
+                <path fill="rgba(255,190,58,1)" d="M 5.5,-18 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" class="background" stroke-width="0" x="-4" y="-18" width="34.120000000000005" height="19"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-8.5px" font-size="8" text-anchor="left">
+                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-8.5px" class="text" font-size="8" text-anchor="left">
                   Notice
                 </text>
               </g>
@@ -103,52 +103,52 @@
         </g>
         <g fill="none" x="83.33333333333333" y="250" transform="matrix(1,0,0,1,83.333336,250)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,18.180340)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 ports
               </text>
             </g>
           </g>
-          <g fill="none" width="12" height="12" x="0" y="-1.9098300562505415">
+          <g fill="none" class="icon" width="12" height="12" x="0" y="-1.9098300562505415">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
                 
               </text>
             </g>
           </g>
           <g transform="matrix(1,0,0,1,-19.021130,-6.180340)">
-            <circle fill="rgba(23,131,255,1)" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle fill="rgba(23,131,255,1)" class="port-0" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
           </g>
           <g transform="matrix(1,0,0,1,19.021130,-6.180340)">
-            <circle fill="rgba(23,131,255,1)" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle fill="rgba(23,131,255,1)" class="port-1" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
           </g>
           <g transform="matrix(1,0,0,1,0,-20)">
-            <circle fill="rgba(23,131,255,1)" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle fill="rgba(23,131,255,1)" class="port-2" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
           </g>
           <g transform="matrix(1,0,0,1,0,7.500000)">
-            <circle fill="rgba(23,131,255,1)" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle fill="rgba(23,131,255,1)" class="port-3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
           </g>
         </g>
         <g fill="none" x="250" y="250" transform="matrix(1,0,0,1,250,250)">
           <g>
-            <polygon fill="none" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
+            <polygon fill="none" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,18.180340)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 active
               </text>
             </g>
           </g>
-          <g fill="none" width="12" height="12" x="0" y="-1.9098300562505415">
+          <g fill="none" class="icon" width="12" height="12" x="0" y="-1.9098300562505415">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
                 
               </text>
             </g>
@@ -156,21 +156,21 @@
         </g>
         <g fill="none" x="416.66666666666663" y="250" transform="matrix(1,0,0,1,416.666656,250)">
           <g>
-            <polygon fill="none" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" stroke-width="24" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
+            <polygon fill="none" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="halo" stroke-width="24" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" stroke-width="4" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="4" stroke="rgba(0,0,0,1)"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,18.180340)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
                 selected
               </text>
             </g>
           </g>
-          <g fill="none" width="12" height="12" x="0" y="-1.9098300562505415">
+          <g fill="none" class="icon" width="12" height="12" x="0" y="-1.9098300562505415">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
                 
               </text>
             </g>
@@ -178,18 +178,18 @@
         </g>
         <g fill="none" x="83.33333333333333" y="416.66666666666663" transform="matrix(1,0,0,1,83.333336,416.666656)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" stroke-width="4" stroke="rgba(0,0,0,1)" stroke-opacity="0.85"/>
+            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" stroke-opacity="0.85"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,18.180340)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
                 highlight
               </text>
             </g>
           </g>
-          <g fill="none" width="12" height="12" x="0" y="-1.9098300562505415">
+          <g fill="none" class="icon" width="12" height="12" x="0" y="-1.9098300562505415">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="12" height="12" font-size="20" font-family="iconfont">
                 
               </text>
             </g>
@@ -197,18 +197,18 @@
         </g>
         <g fill="none" x="250" y="416.66666666666663" transform="matrix(1,0,0,1,250,416.666656)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" fill-opacity="0.25" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25"/>
+            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" fill-opacity="0.25" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,18.180340)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.25" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.25" font-weight="400">
                 inactive
               </text>
             </g>
           </g>
-          <g fill="none" width="12" height="12" x="0" y="-1.9098300562505415">
+          <g fill="none" class="icon" width="12" height="12" x="0" y="-1.9098300562505415">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="12" height="12" font-size="20" opacity="0.85" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="12" height="12" font-size="20" opacity="0.85" font-family="iconfont">
                 
               </text>
             </g>
@@ -216,18 +216,18 @@
         </g>
         <g fill="none" x="416.66666666666663" y="416.66666666666663" transform="matrix(1,0,0,1,416.666656,416.666656)">
           <g>
-            <polygon fill="rgba(27,50,79,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" fill-opacity="0.06" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.06"/>
+            <polygon fill="rgba(27,50,79,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" fill-opacity="0.06" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.06"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,18.180340)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.25" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.25" font-weight="400">
                 disabled
               </text>
             </g>
           </g>
-          <g fill="none" width="12" height="12" x="0" y="-1.9098300562505415">
+          <g fill="none" class="icon" width="12" height="12" x="0" y="-1.9098300562505415">
             <g>
-              <text fill="rgba(27,50,79,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" text-anchor="middle" width="12" height="12" font-size="20" opacity="0.25" font-family="iconfont">
+              <text fill="rgba(27,50,79,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="12" height="12" font-size="20" opacity="0.25" font-family="iconfont">
                 
               </text>
             </g>

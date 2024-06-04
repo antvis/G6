@@ -29,10 +29,6 @@ export class Badge extends BaseShape<BadgeStyleProps> {
     this.upsert('label', Label, this.getBadgeStyle(attributes), container);
   }
 
-  connectedCallback() {
-    this.upsert('label', Label, this.getBadgeStyle(this.parsedAttributes), this);
-  }
-
   public getGeometryBounds() {
     const labelShape = this.getShape('label') as BaseShape<LabelStyleProps>;
     const shape = labelShape.getShape('background') || labelShape.getShape('text');

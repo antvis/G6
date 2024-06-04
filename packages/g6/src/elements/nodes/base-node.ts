@@ -1,4 +1,4 @@
-import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
+import type { BaseStyleProps, CircleStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
 import type { CategoricalPalette } from '../../palettes/types';
 import type { NodeData } from '../../spec';
@@ -382,7 +382,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   protected drawPortShapes(attributes: Required<S>, container: Group): void {
     const portsStyle = this.getPortsStyle(attributes);
     Object.keys(portsStyle).forEach((key) => {
-      this.upsert(`port-${key}`, GCircle, portsStyle[key], container);
+      this.upsert(`port-${key}`, GCircle, portsStyle[key] as CircleStyleProps, container);
     });
   }
 

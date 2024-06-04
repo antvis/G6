@@ -7,15 +7,15 @@
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 60,50 L 184,50" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="visible"/>
-            <path fill="none" d="M 60,50 L 184,50" stroke-width="3" stroke="transparent" visibility="visible"/>
+            <path fill="none" d="M 60,50 L 184,50" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="visible"/>
+            <path fill="none" d="M 60,50 L 184,50" class="key" stroke-width="3" stroke="transparent" visibility="visible"/>
             <g transform="matrix(-1,0,-0,-1,184,50)">
               <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-width="1" visibility="visible"/>
             </g>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,129,50)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,129,50)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle" font-weight="400" visibility="visible">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" text-anchor="middle" font-weight="400" visibility="visible">
                 edge-1
               </text>
             </g>
@@ -24,15 +24,15 @@
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 194,58 L 134.6,137.2" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="hidden"/>
-            <path fill="none" d="M 194,58 L 134.6,137.2" stroke-width="3" stroke="transparent" visibility="hidden"/>
+            <path fill="none" d="M 194,58 L 134.6,137.2" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="hidden"/>
+            <path fill="none" d="M 194,58 L 134.6,137.2" class="key" stroke-width="3" stroke="transparent" visibility="hidden"/>
             <g transform="matrix(0.600000,-0.800000,0.800000,0.600000,134.600006,137.199997)">
               <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-width="1" visibility="hidden"/>
             </g>
           </g>
-          <g fill="none" transform="matrix(0.600005,-0.799997,0.799997,0.600005,160.099976,103.199989)">
+          <g fill="none" class="label" transform="matrix(0.600005,-0.799997,0.799997,0.600005,160.099976,103.199989)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
                 edge-2
               </text>
             </g>
@@ -41,15 +41,15 @@
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 119,142 L 59.6,62.8" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="hidden"/>
-            <path fill="none" d="M 119,142 L 59.6,62.8" stroke-width="3" stroke="transparent" visibility="hidden"/>
+            <path fill="none" d="M 119,142 L 59.6,62.8" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="hidden"/>
+            <path fill="none" d="M 119,142 L 59.6,62.8" class="key" stroke-width="3" stroke="transparent" visibility="hidden"/>
             <g transform="matrix(0.600000,0.800000,-0.800000,0.600000,59.599998,62.799999)">
               <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-width="1" visibility="hidden"/>
             </g>
           </g>
-          <g fill="none" transform="matrix(0.600000,0.800000,-0.800000,0.600000,85.099998,96.800003)">
+          <g fill="none" class="label" transform="matrix(0.600000,0.800000,-0.800000,0.600000,85.099998,96.800003)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
                 edge-3
               </text>
             </g>
@@ -59,11 +59,11 @@
       <g fill="none">
         <g fill="none" x="50" y="50" transform="matrix(1,0,0,1,50,50)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="10" visibility="visible"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10" visibility="visible"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,12)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="visible">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="visible">
                 1
               </text>
             </g>
@@ -71,11 +71,11 @@
         </g>
         <g fill="none" x="200" y="50" transform="matrix(1,0,0,1,200,50)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="10" visibility="visible"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10" visibility="visible"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,12)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="visible">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="visible">
                 2
               </text>
             </g>
@@ -83,11 +83,11 @@
         </g>
         <g fill="none" x="125" y="150" transform="matrix(1,0,0,1,125,150)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="10" visibility="hidden"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10" visibility="hidden"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,12)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
                 3
               </text>
             </g>
@@ -95,11 +95,11 @@
         </g>
         <g fill="none" x="125" y="200" transform="matrix(1,0,0,1,125,200)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" visibility="hidden" r="10"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" visibility="hidden" r="10"/>
           </g>
-          <g fill="none" transform="matrix(1,0,0,1,0,12)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
                 4
               </text>
             </g>

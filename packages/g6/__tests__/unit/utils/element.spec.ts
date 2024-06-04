@@ -151,8 +151,8 @@ describe('element', () => {
     const sourcePortKey = 'left';
     const targetPortKey = 'top';
     const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
-    expect((sourcePort as DisplayObject<PortStyleProps>)?.id).toEqual('port-left');
-    expect((targetPort as DisplayObject<PortStyleProps>)?.id).toEqual('port-top');
+    expect((sourcePort as DisplayObject<PortStyleProps>).className).toEqual('port-left');
+    expect((targetPort as DisplayObject<PortStyleProps>).className).toEqual('port-top');
   });
 
   it('getPortConnectionPoint', () => {
