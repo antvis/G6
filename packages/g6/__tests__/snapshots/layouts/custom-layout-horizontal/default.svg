@@ -7,52 +7,52 @@
       <g fill="none">
         <g fill="none" x="12" y="100" transform="matrix(1,0,0,1,12,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
         <g fill="none" x="46" y="100" transform="matrix(1,0,0,1,46,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
         <g fill="none" x="80" y="100" transform="matrix(1,0,0,1,80,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
         <g fill="none" x="114" y="100" transform="matrix(1,0,0,1,114,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
         <g fill="none" x="148" y="100" transform="matrix(1,0,0,1,148,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
         <g fill="none" x="182" y="100" transform="matrix(1,0,0,1,182,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
         <g fill="none" x="216" y="100" transform="matrix(1,0,0,1,216,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
         <g fill="none" x="250" y="100" transform="matrix(1,0,0,1,250,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
         <g fill="none" x="284" y="100" transform="matrix(1,0,0,1,284,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
         <g fill="none" x="318" y="100" transform="matrix(1,0,0,1,318,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
           </g>
         </g>
       </g>
