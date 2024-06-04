@@ -16,14 +16,10 @@
         transition: all 0.5s;
       }
 
-      #app {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: flex-end;
-      }
-
       #panel {
         z-index: 1;
+        position: absolute;
+        right: 0;
       }
 
       #container {
@@ -49,9 +45,8 @@
   </head>
 
   <body style="font-family: Arial, Helvetica, sans-serif">
-    <div id="app">
-      <div id="panel"></div>
-    </div>
+    <div id="panel"></div>
+    <div id="app"></div>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>

@@ -39,6 +39,11 @@ createGraph(
       type: 'compact-box',
       direction: 'TB',
     },
+    node: {
+      style: {
+        ports: [{ placement: 'center' }],
+      },
+    },
     edge: {
       type: 'cubic-vertical',
     },

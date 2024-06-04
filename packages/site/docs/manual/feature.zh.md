@@ -3,13 +3,13 @@ title: 特性
 order: 1
 ---
 
-## 🏖️ 全新设计图范式
+## 🏖️ 全新设计图配置范式
 
-G6 5.0 重新设计了 Options 范式，在保证能力完善的基础上，优化配置项结构，更加直观、易于理解。
+G6 5.0 重新设计了图配置范式，在保证能力完善的基础上，优化配置项结构，更加直观、易于理解。
 
 仅需快速了解基本[核心概念](/manual/core-concept/graph)，即可快速上手 G6，快速实现图可视化。
 
-**😰 4.0 范式** 嵌套结构复杂，语义化能力较弱
+**😰 4.0 配置项** 嵌套结构复杂，语义化能力较弱
 
 ```typescript
 {
@@ -37,7 +37,7 @@ G6 5.0 重新设计了 Options 范式，在保证能力完善的基础上，优�
 }
 ```
 
-**😄 5.0 范式** 结构清晰，易于理解
+**😄 5.0 配置项** 结构清晰，易于理解
 
 ```typescript
 {
@@ -55,13 +55,13 @@ G6 5.0 重新设计了 Options 范式，在保证能力完善的基础上，优�
       }
     }
   },
-  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-node'],
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
 }
 ```
 
 ## 🔨 全新 API 设计
 
-G6 5.0 重新设计了 API，采用了一致的命名规范
+G6 5.0 采用了更加简洁、易用的 API 设计，更加符合现代前端框架的设计风格。
 
 ## 🌲 合并图与树图
 
@@ -133,6 +133,8 @@ const graph = new Graph({
 ## 🎨 多主题机制
 
 G6 5.0 内置了亮色、暗色两套主题，并可基于使用场景进行灵活定制，具体可参考[自定义主题](/manual/custom-extension/theme)。
+
+<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gASzQbsbAaIAAAAAAAAAAAAADmJ7AQ/original"></image>
 
 ## 🌍 3D 大图
 
