@@ -29,7 +29,7 @@ export class GNode extends Rect {
     const { component } = attributes;
     const [width, height] = this.getSize();
 
-    const dom = this.upsert('key', Group, { width, height }, container);
+    const dom = this.upsert('key', Group, { width, height }, container)!;
 
     dom.isMutationObserved = true;
     dom.addEventListener(ElementEvent.MOUNTED, () => {

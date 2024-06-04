@@ -7,8 +7,8 @@
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 94.1039877493438,194.89338374592725 L 220.29867075021875,149.20220541802425" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 94.1039877493438,194.89338374592725 L 220.29867075021875,149.20220541802425" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 94.1039877493438,194.89338374592725 L 220.29867075021875,149.20220541802425" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 94.1039877493438,194.89338374592725 L 220.29867075021875,149.20220541802425" class="key" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(-0.940266,0.340441,-0.340441,-0.940266,220.298676,149.202209)">
               <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
             </g>
@@ -17,8 +17,8 @@
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 95,200 L 220,200" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 95,200 L 220,200" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 95,200 L 220,200" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 95,200 L 220,200" class="key" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(-1,0,-0,-1,220,200)">
               <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
             </g>
@@ -27,8 +27,8 @@
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 94.1039877493438,205.10661625407275 L 220.29867075021875,250.79779458197575" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 94.1039877493438,205.10661625407275 L 220.29867075021875,250.79779458197575" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 94.1039877493438,205.10661625407275 L 220.29867075021875,250.79779458197575" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 94.1039877493438,205.10661625407275 L 220.29867075021875,250.79779458197575" class="key" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(-0.940266,-0.340441,0.340441,-0.940266,220.298676,250.797791)">
               <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 4,4 Z" stroke-width="1" stroke="rgba(153,173,209,1)" width="8" height="8" stroke-dasharray="0,0"/>
             </g>
@@ -38,12 +38,12 @@
       <g fill="none">
         <g fill="none" x="80" y="200" transform="matrix(1,0,0,1,80,200)">
           <g>
-            <circle fill="rgba(23,131,255,1)" stroke-width="0" stroke="rgba(0,0,0,1)" r="15"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="15"/>
           </g>
         </g>
         <g fill="none" x="250" y="200" transform="matrix(1,0,0,1,250,200)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -25,-75 l 50,0 l 0,150 l-50 0 z" stroke-width="0" stroke="rgba(0,0,0,1)" width="50" height="150" x="-25" y="-75"/>
+            <path fill="rgba(23,131,255,1)" d="M -25,-75 l 50,0 l 0,150 l-50 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="50" height="150" x="-25" y="-75"/>
           </g>
         </g>
       </g>

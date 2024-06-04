@@ -36,8 +36,4 @@ export class Icon extends BaseShape<IconStyleProps> {
   public render(attributes = this.attributes, container: Group = this): void {
     this.upsert('icon', (this.isGImage() ? GImage : GText) as any, this.getIconStyle(attributes), container);
   }
-
-  connectedCallback() {
-    this.upsert('icon', (this.isGImage() ? GImage : GText) as any, this.getIconStyle(this.attributes), this);
-  }
 }

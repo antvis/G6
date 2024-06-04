@@ -39,35 +39,34 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
    * <zh> 创建、更新或删除图形
    *
    * <en> create, update or remove shape
-   * @param key - <zh> 图形名称 | <en> shape name
+   * @param className - <zh> 图形名称 | <en> shape name
    * @param Ctor - <zh> 图形类型 | <en> shape type
    * @param style - <zh> 图形样式 | <en> shape style
    * @param container - <zh> 容器 | <en> container
    * @returns <zh> 图形实例 | <en> shape instance
    */
-  protected upsert(
-    key: string,
-    Ctor: { new (...args: any[]): DisplayObject },
-    style: DisplayObject['attributes'] | false,
+  protected upsert<T extends DisplayObject>(
+    className: string,
+    Ctor: { new (...args: any[]): T },
+    style: T['attributes'] | false,
     container: DisplayObject,
-  ): any | undefined {
-    const target = this.shapeMap[key];
+  ): T | undefined {
+    const target = this.shapeMap[className] as T | undefined;
     // remove
     // 如果 style 为 false，则删除图形 / remove shape if style is false
     if (style === false) {
       if (target) {
         container.removeChild(target);
-        delete this.shapeMap[key];
+        delete this.shapeMap[className];
       }
       return;
     }
 
     // create
     if (!target) {
-      const instance = new Ctor({ style });
-      instance.id = key;
+      const instance = new Ctor({ className, style });
       container.appendChild(instance);
-      this.shapeMap[key] = instance;
+      this.shapeMap[className] = instance;
       return instance;
     }
 
@@ -104,8 +103,8 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
    */
   public getGraphicStyle<T extends Record<string, any>>(
     attributes: T,
-  ): Omit<T, 'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'context' | 'zIndex'> {
-    const { x, y, z, className, transform, transformOrigin, context, zIndex, ...style } = attributes;
+  ): Omit<T, 'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'class' | 'context' | 'zIndex'> {
+    const { x, y, z, class: cls, className, transform, transformOrigin, context, zIndex, ...style } = attributes;
     return style;
   }
 
