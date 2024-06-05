@@ -34,7 +34,7 @@ const singleNode: ShapeOptions = {
    * @return {Array} 宽高
    */
   getSize(cfg: ModelConfig): number[] {
-    let size: number | number[] = this.mergeStyle?.size || cfg.size || this.getOptions({})!.size || Global.defaultNode.size; // Global.defaultNode.size; //  
+    let size: number | number[] = this.mergeStyle?.size || cfg.size || this.getOptions({})!.size || Global.defaultNode.size; // Global.defaultNode.size; //
 
     // size 是数组，但长度为1，则补长度为2
     if (isArray(size) && size.length === 1) {

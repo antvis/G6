@@ -95,7 +95,7 @@ describe('graph', () => {
       expect(Math.abs(meanCenter.x - point.x) < 10).toBe(true);
       expect(Math.abs(meanCenter.y - point.y) < 10).toBe(true);
       done();
-    })
+    });
     graph.updateLayout(
       {
         type: 'force',

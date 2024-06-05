@@ -124,7 +124,7 @@ describe('text background label', () => {
       graph.updateItem('node3', {
         x: 250,
         y: 200,
-      })
+      });
       setTimeout(() => {
         edge1bgMatrix = edge1bg.getMatrix();
         expect(edge1bgMatrix[0]).toBe(1);
@@ -132,9 +132,9 @@ describe('text background label', () => {
         expect(edge1bgMatrix[7]).toBe(0);
         expect(edge1bg.attr('x')).toBe(258);
         expect(edge1bg.attr('y')).toBe(164);
-        done()
+        done();
       }, 30);
-    }, 100)
+    }, 100);
   });
   it('text background with autoRotate false and clearItemStates', (done) => {
     let edge = graph.getEdges()[0];
@@ -154,7 +154,7 @@ describe('text background label', () => {
       const { x: newX, y: newY } = labelBgShape.attr();
       expect(numberEqual(newX, 226, 2)).toBe(true);
       expect(numberEqual(newY, 166, 2)).toBe(true);
-      done()
+      done();
     }, 16);
   });
 });

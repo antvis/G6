@@ -116,7 +116,7 @@ export default class LayoutController extends AbstractLayout {
       layoutCfg.onLayoutEnd = () => {
         graph.emit('aftersublayout', { type: layoutType });
         reslove();
-      }
+      };
 
       // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 gForce），使用 gpu 版本的布局
       if (layoutType && this.isGPU) {
@@ -149,7 +149,7 @@ export default class LayoutController extends AbstractLayout {
       try {
         layoutMethod = new Layout[layoutType](layoutCfg);
         if (this.layoutMethods[order]) {
-          this.layoutMethods[order].destroy()
+          this.layoutMethods[order].destroy();
         }
         this.layoutMethods[order] = layoutMethod;
       } catch (e) {
@@ -189,7 +189,7 @@ export default class LayoutController extends AbstractLayout {
       layoutCfg.onLayoutEnd = () => {
         graph.emit('aftersublayout', { type: layoutType });
         reslove();
-      }
+      };
 
       if (Util.isForce(layoutType)) {
         const { onTick, animate } = layoutCfg;
@@ -340,18 +340,18 @@ export default class LayoutController extends AbstractLayout {
     });
     edges.forEach(edge => {
       const { source, target } = edge;
-      const sourcePosition = positionMap[source]
-      const targetPosition = positionMap[target]
+      const sourcePosition = positionMap[source];
+      const targetPosition = positionMap[target];
       if (!sourcePosition && targetPosition) {
         positionMap[source] = {
           x: targetPosition.x + (Math.random() - 0.5) * 80,
           y: targetPosition.y + (Math.random() - 0.5) * 80
-        }
+        };
       } else if (!targetPosition && sourcePosition) {
         positionMap[target] = {
           x: sourcePosition.x + (Math.random() - 0.5) * 80,
           y: sourcePosition.y + (Math.random() - 0.5) * 80
-        }
+        };
       }
     });
     const width = graph.get('width');
@@ -360,7 +360,7 @@ export default class LayoutController extends AbstractLayout {
       const position = positionMap[node.id] || { x: width / 2 + (Math.random() - 0.5) * 20, y: height / 2 + (Math.random() - 0.5) * 20 };
       node.x = position.x;
       node.y = position.y;
-    })
+    });
   }
 
   public initWithPreset(hasPresetCallback, noPresetCallback): Promise<void> {
@@ -629,7 +629,7 @@ export default class LayoutController extends AbstractLayout {
           });
         });
         resolve();
-      }
+      };
 
       const layoutMethod = new Layout[adjust](layoutCfg);
       layoutMethod.layout({ nodes: layoutNodes });
