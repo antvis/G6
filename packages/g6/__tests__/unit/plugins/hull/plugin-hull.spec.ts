@@ -89,4 +89,9 @@ describe('plugin hull', () => {
     graph.emit(NodeEvent.DRAG_END);
     await expect(graph).toMatchSnapshot(__filename, 'updateMember__position');
   });
+
+  it('empty members', async () => {
+    hull.updateMember([]);
+    await expect(graph).toMatchSnapshot(__filename, 'emptyMembers');
+  });
 });

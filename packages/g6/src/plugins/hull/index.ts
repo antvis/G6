@@ -127,9 +127,12 @@ export class Hull extends BasePlugin<HullOptions> {
     this.shape.update({ d: this.getHullPath(true) });
   };
 
-  private getHullPath = (forceUpdate = false): PathArray => {
+  private getHullPath = (forceUpdate = false): string | PathArray => {
     const { graph } = this.context;
-    const data = this.options.members.map((id) => graph.getNodeData(id));
+    const members = this.getMember();
+    if (members.length === 0) return '';
+
+    const data = members.map((id) => graph.getNodeData(id));
     const vertices = hull(data.map(positionOf), this.options.concavity).slice(1).reverse() as Point[];
     const hullMemberIds = vertices.flatMap((point) => data.filter((m) => isEqual(positionOf(m), point)).map(idOf));
     if (isEqual(hullMemberIds, this.hullMemberIds) && !forceUpdate) return this.path;
