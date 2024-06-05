@@ -114,6 +114,7 @@ export function getPortXYByPlacement(
  * @returns <zh/> 所有连接桩 | <en/> All Ports
  */
 export function getAllPorts(node: Node): Record<string, Port> {
+  if (!node) return {};
   // 1. 需要绘制的连接桩 | Get the ports that need to be drawn
   const ports = node.getPorts();
 
