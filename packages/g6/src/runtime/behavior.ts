@@ -15,6 +15,8 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
    */
   private currentTarget: Target | null = null;
 
+  private currentTargetType: string | null = null;
+
   public category = 'behavior' as const;
 
   constructor(context: RuntimeContext) {
@@ -74,13 +76,19 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
     if (type === CommonEvent.POINTER_MOVE) {
       if (this.currentTarget !== targetElement) {
         if (this.currentTarget) {
-          graph.emit(`${targetType}:${CommonEvent.POINTER_LEAVE}`, { ...stdEvent, target: this.currentTarget });
+          graph.emit(`${this.currentTargetType}:${CommonEvent.POINTER_LEAVE}`, {
+            ...stdEvent,
+            type: CommonEvent.POINTER_LEAVE,
+            target: this.currentTarget,
+          });
         }
         if (targetElement) {
+          Object.assign(stdEvent, { type: CommonEvent.POINTER_ENTER });
           graph.emit(`${targetType}:${CommonEvent.POINTER_ENTER}`, stdEvent);
         }
       }
       this.currentTarget = targetElement;
+      this.currentTargetType = targetType;
     }
 
     // 非右键点击事件 / Click event except right click
@@ -91,22 +99,23 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
 
     // 双击事件 / Double click event
     if (type === CommonEvent.CLICK && detail === 2) {
+      Object.assign(stdEvent, { type: CommonEvent.DBLCLICK });
       graph.emit(`${targetType}:${CommonEvent.DBLCLICK}`, stdEvent);
       graph.emit(CommonEvent.DBLCLICK, stdEvent);
     }
 
     // 右键菜单 / Contextmenu
     if (type === CommonEvent.POINTER_DOWN && button === 2) {
-      const contextMenuEvent = {
-        ...stdEvent,
+      Object.assign(stdEvent, {
+        type: CommonEvent.CONTEXT_MENU,
         preventDefault: () => {
           canvas.getContainer()?.addEventListener(CommonEvent.CONTEXT_MENU, (e) => e.preventDefault(), {
             once: true,
           });
         },
-      };
-      graph.emit(`${targetType}:${CommonEvent.CONTEXT_MENU}`, contextMenuEvent);
-      graph.emit(CommonEvent.CONTEXT_MENU, contextMenuEvent);
+      });
+      graph.emit(`${targetType}:${CommonEvent.CONTEXT_MENU}`, stdEvent);
+      graph.emit(CommonEvent.CONTEXT_MENU, stdEvent);
     }
   };
 
