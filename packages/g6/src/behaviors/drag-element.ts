@@ -170,14 +170,13 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
    * @internal
    */
   public update(options: Partial<DragElementOptions>): void {
+    this.unbindEvents();
     super.update(options);
     this.bindEvents();
   }
 
   private bindEvents() {
     const { graph } = this.context;
-    this.unbindEvents();
-
     this.enableElements.forEach((type) => {
       graph.on(`${type}:${CommonEvent.DRAG_START}`, this.onDragStart);
       graph.on(`${type}:${CommonEvent.DRAG}`, this.onDrag);
@@ -415,6 +414,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
       graph.off(`${type}:${CommonEvent.DRAG_START}`, this.onDragStart);
       graph.off(`${type}:${CommonEvent.DRAG}`, this.onDrag);
       graph.off(`${type}:${CommonEvent.DRAG_END}`, this.onDragEnd);
+      graph.off(`${type}:${CommonEvent.POINTER_ENTER}`, this.setCursor);
+      graph.off(`${type}:${CommonEvent.POINTER_LEAVE}`, this.setCursor);
     });
 
     graph.off(`combo:${CommonEvent.DROP}`, this.onDrop);
