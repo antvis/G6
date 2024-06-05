@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "switch.js",
+      "filename": "theme.js",
       "title": {
         "zh": "主题切换",
         "en": "Switch Theme"

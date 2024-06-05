@@ -58,7 +58,7 @@ fetch('https://assets.antv.antgroup.com/g6/20000.json')
       theme: 'light',
       data,
       node: {
-        style: { size: 8 },
+        style: { size: 4 },
         palette: {
           type: 'group',
           field: 'cluster',
