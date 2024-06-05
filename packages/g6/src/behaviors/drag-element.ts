@@ -95,6 +95,12 @@ export interface DragElementOptions extends BaseBehaviorOptions, Prefix<'shadow'
    */
   cursor?: {
     /**
+     * <zh/> 默认指针样式
+     *
+     * <en/> Default cursor style
+     */
+    default?: Cursor;
+    /**
      * <zh/> 可抓取指针样式
      *
      * <en/> Cursor style that can be grabbed
@@ -129,6 +135,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     shadowStrokeOpacity: 0.9,
     shadowLineDash: [5, 5],
     cursor: {
+      default: 'default',
       grab: 'grab',
       grabbing: 'grabbing',
     },
@@ -307,9 +314,10 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     if (this.isDragging) return;
     const { type } = event;
     const { canvas } = this.context;
+    const { cursor } = this.options;
 
-    if (type === CommonEvent.POINTER_ENTER) canvas.setCursor('grab');
-    else canvas.setCursor('default');
+    if (type === CommonEvent.POINTER_ENTER) canvas.setCursor(cursor?.grab || 'grab');
+    else canvas.setCursor(cursor?.default || 'default');
   };
 
   /**
