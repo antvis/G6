@@ -25,6 +25,7 @@
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
     "build": "npm run doc && dumi build",
+    "build:memo": "node --expose-gc --max-old-space-size=8192 ./node_modules/dumi/bin/dumi build",
     "deploy": "gh-pages -d dist -b v5-site",
     "dev": "dumi dev",
     "doc": "ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
