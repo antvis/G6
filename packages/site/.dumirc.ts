@@ -13,12 +13,12 @@ export default defineConfig({
     { name: 'keywords', content: 'G6' },
     {
       name: 'description',
-      content: 'A collection of charts made with the Grammar of Graphics',
+      content: 'A Graph Visualization Framework in JavaScript',
     },
   ],
   themeConfig: {
     title: 'G6',
-    description: 'A collection of charts made with the Grammar of Graphics',
+    description: 'A Graph Visualization Framework in JavaScript',
     defaultLanguage: 'zh', // 默认语言
     isAntVSite: false, // 是否是 AntV 的大官网
     siteUrl: homepage, // 官网地址
@@ -31,8 +31,7 @@ export default defineConfig({
     showLanguageSwitcher: true, // 是否显示官网语言切换
     showWxQrcode: true, // 是否显示头部菜单的微信公众号
     showChartResize: true, // 是否在 demo 页展示图表视图切换
-    showAPIDoc: true, // 是否在 demo 页展示API文档
-    themeSwitcher: 'g2',
+    showAPIDoc: false, // 是否在 demo 页展示API文档
     prefersColor: {
       default: 'light',
       switch: false,
