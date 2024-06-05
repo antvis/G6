@@ -243,6 +243,7 @@ export function getConnectionPoint(node: Port | Node | Combo, opposite: Node | P
  * @returns <zh/> 连接桩的连接点 | <en/> Port Point
  */
 export function getPortConnectionPoint(port: Port, opposite: Node | Port): Point {
+  if (!port || !opposite) return [0, 0, 0];
   if (isPoint(port)) return port;
 
   // 1. linkToCenter 为 true，则返回连接桩的中心 | If linkToCenter is true, return the center of the port
@@ -270,6 +271,7 @@ export function getPortConnectionPoint(port: Port, opposite: Node | Port): Point
  * @returns <zh/> 节点的连接点 | <en/> Node Point
  */
 export function getNodeConnectionPoint(node: Node, opposite: Node | Port): Point {
+  if (!node || !opposite) return [0, 0, 0];
   const oppositePosition = isPoint(opposite)
     ? opposite
     : isNode(opposite)
