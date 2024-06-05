@@ -8,10 +8,10 @@ export const elementNodeCircle: TestCase = async (context) => {
     node: {
       type: 'circle', // 👈🏻 Node shape type.
       style: {
-        size: 40,
-        labelText: (d) => d.id!,
         iconFontFamily: 'iconfont',
         iconText: '\ue602',
+        labelText: (d) => d.id!,
+        size: 40,
       },
     },
     layout: {

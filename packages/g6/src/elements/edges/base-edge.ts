@@ -24,7 +24,7 @@ import { mergeOptions } from '../../utils/style';
 import * as Symbol from '../../utils/symbol';
 import { getWordWrapWidthByEnds } from '../../utils/text';
 import { BaseElement } from '../base-element';
-import type { LabelStyleProps } from '../shapes';
+import type { BadgeStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Label } from '../shapes';
 
 /**
@@ -294,7 +294,7 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
     return Object.assign({ wordWrapWidth }, labelPositionStyle, restStyle);
   }
 
-  protected getBadgeStyle(attributes: ParsedBaseEdgeStyleProps): false | PathStyleProps {
+  protected getBadgeStyle(attributes: ParsedBaseEdgeStyleProps): false | BadgeStyleProps {
     if (attributes.badge === false || !attributes.badgeText) return false;
 
     const { offsetX, offsetY, placement, ...badgeStyle } = subStyleProps<Required<EdgeBadgeStyleProps>>(
@@ -352,7 +352,7 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
 
     return Object.assign(
       pick(keyStyle, ['stroke', 'strokeOpacity', 'fillOpacity']),
-      { d, width, height },
+      { width, height },
       { ...(d && { d, fill: type === 'simple' ? '' : keyStyle.stroke }) },
       arrowStyle,
     );
@@ -396,10 +396,6 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
     this.drawKeyShape(this.parsedAttributes, this);
     this.drawHaloShape(this.parsedAttributes, this);
     this.drawLabelShape(this.parsedAttributes, this);
-    this.drawBadgeShape(this.parsedAttributes, this);
-  }
-
-  onCreate() {
     this.drawBadgeShape(this.parsedAttributes, this);
   }
 

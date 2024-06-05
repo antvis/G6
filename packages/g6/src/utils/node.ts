@@ -10,7 +10,7 @@ import { parseSize } from './size';
  * @param iconStyle - <zh/> 图标样式 | <en/> Icon style
  * @returns <zh/> 图标样式 | <en/> Icon style
  */
-export function getIconSizeStyle(size: Size, iconStyle: IconStyleProps): IconStyleProps {
+export function inferIconStyle(size: Size, iconStyle: IconStyleProps): IconStyleProps {
   const stdSize = parseSize(size);
   let style = {};
 

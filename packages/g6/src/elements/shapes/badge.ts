@@ -30,7 +30,7 @@ export class Badge extends BaseShape<BadgeStyleProps> {
   }
 
   public getGeometryBounds() {
-    const labelShape = this.getShape('label') as BaseShape<LabelStyleProps>;
+    const labelShape = this.getShape<BaseShape<LabelStyleProps>>('label');
     const shape = labelShape.getShape('background') || labelShape.getShape('text');
     return shape.getGeometryBounds();
   }

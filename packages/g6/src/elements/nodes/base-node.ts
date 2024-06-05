@@ -16,7 +16,7 @@ import type {
   Size,
 } from '../../types';
 import { getPortXYByPlacement, getTextStyleByPlacement, isSimplePort } from '../../utils/element';
-import { getIconSizeStyle } from '../../utils/node';
+import { inferIconStyle } from '../../utils/node';
 import { getPaletteColors } from '../../utils/palette';
 import { getRectIntersectPoint } from '../../utils/point';
 import { getXYByPlacement } from '../../utils/position';
@@ -266,7 +266,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     const keyShape = this.getShape('key');
     const [x, y] = getXYByPlacement(keyShape.getLocalBounds(), 'center');
 
-    return Object.assign({ x, y }, getIconSizeStyle(attributes.size!, iconStyle), iconStyle);
+    return Object.assign({ x, y }, inferIconStyle(attributes.size!, iconStyle), iconStyle);
   }
 
   protected getBadgesStyle(attributes: Required<S>): Record<string, NodeBadgeStyleProps | false> {
