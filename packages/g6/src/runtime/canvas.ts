@@ -156,6 +156,7 @@ export class Canvas {
   }
 
   public setCursor(cursor: Cursor) {
+    this.config.cursor = cursor;
     Object.values(this.canvas).forEach((canvas) => {
       canvas.setCursor(cursor);
     });

@@ -1,6 +1,6 @@
 import { behaviorDragNode } from '@/__tests__/demos';
 import type { Graph } from '@/src';
-import { ComboEvent, NodeEvent } from '@/src';
+import { ComboEvent, CommonEvent, NodeEvent } from '@/src';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior drag element', () => {
@@ -14,11 +14,28 @@ describe('behavior drag element', () => {
     graph.destroy();
   });
 
+  it('pointer cursor', () => {
+    graph.emit(NodeEvent.POINTER_ENTER, {
+      target: { id: 'node-4' },
+      targetType: 'node',
+      type: CommonEvent.POINTER_ENTER,
+    });
+    expect(graph.getCanvas().getConfig().cursor).toBe('grab');
+
+    graph.emit(NodeEvent.POINTER_LEAVE, {
+      target: { id: 'node-4' },
+      targetType: 'node',
+      type: CommonEvent.POINTER_LEAVE,
+    });
+    expect(graph.getCanvas().getConfig().cursor).toBe('default');
+  });
+
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename);
 
     graph.emit(NodeEvent.DRAG_START, { target: { id: 'node-4' }, targetType: 'node' });
     graph.emit(NodeEvent.DRAG, { dx: 20, dy: 20 });
+    expect(graph.getCanvas().getConfig().cursor).toBe('grabbing');
     graph.emit(NodeEvent.DRAG_END);
 
     await expect(graph).toMatchSnapshot(__filename, 'after-drag');

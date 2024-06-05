@@ -1,9 +1,9 @@
-import type { BaseStyleProps } from '@antv/g';
+import type { BaseStyleProps, Cursor } from '@antv/g';
 import { Rect } from '@antv/g';
 import { isFunction } from '@antv/util';
 import { COMBO_KEY, CanvasEvent, ComboEvent, CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { EdgeDirection, ID, IElementDragEvent, Point, Prefix, State } from '../types';
+import type { EdgeDirection, ID, IElementDragEvent, IPointerEvent, Point, Prefix, State } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { idOf } from '../utils/id';
 import { subStyleProps } from '../utils/prefix';
@@ -88,6 +88,25 @@ export interface DragElementOptions extends BaseBehaviorOptions, Prefix<'shadow'
    * <en/> Callback when dragging is completed
    */
   onFinish?: (ids: ID[]) => void;
+  /**
+   * <zh/> 指针样式
+   *
+   * <en/> Cursor style
+   */
+  cursor?: {
+    /**
+     * <zh/> 可抓取指针样式
+     *
+     * <en/> Cursor style that can be grabbed
+     */
+    grab: Cursor;
+    /**
+     * <zh/> 抓取中指针样式
+     *
+     * <en/> Cursor style when grabbing
+     */
+    grabbing: Cursor;
+  };
 }
 
 /**
@@ -109,6 +128,10 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     shadowStroke: '#1890FF',
     shadowStrokeOpacity: 0.9,
     shadowLineDash: [5, 5],
+    cursor: {
+      grab: 'grab',
+      grabbing: 'grabbing',
+    },
   };
 
   protected enable: boolean = false;
@@ -122,6 +145,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   private shadowOrigin: Point = [0, 0];
 
   private hiddenEdges: ID[] = [];
+
+  private isDragging: boolean = false;
 
   private get animation() {
     if (!this.options.shadow) return false;
@@ -157,6 +182,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
       graph.on(`${type}:${CommonEvent.DRAG_START}`, this.onDragStart);
       graph.on(`${type}:${CommonEvent.DRAG}`, this.onDrag);
       graph.on(`${type}:${CommonEvent.DRAG_END}`, this.onDragEnd);
+      graph.on(`${type}:${CommonEvent.POINTER_ENTER}`, this.setCursor);
+      graph.on(`${type}:${CommonEvent.POINTER_LEAVE}`, this.setCursor);
     });
 
     if (['link'].includes(this.options.dropEffect)) {
@@ -206,7 +233,10 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     this.enable = this.validate(event);
     if (!this.enable) return;
 
-    this.context.batch?.startBatch();
+    const { batch, canvas } = this.context;
+    canvas.setCursor(this.options!.cursor?.grabbing || 'grabbing');
+    this.isDragging = true;
+    batch!.startBatch();
     this.target = this.getSelectedNodeIDs([event.target.id]);
     this.hideEdge();
     this.context.graph.frontElement(this.target);
@@ -245,7 +275,10 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     }
     this.showEdges();
     this.options.onFinish?.(this.target);
-    this.context.batch?.endBatch();
+    const { batch, canvas } = this.context;
+    batch!.endBatch();
+    canvas.setCursor(this.options!.cursor?.grab || 'grab');
+    this.isDragging = false;
     this.target = [];
   }
 
@@ -269,6 +302,15 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
       model.setParent(id, modifiedParentId, COMBO_KEY);
     });
     await element?.draw({ animation: true })?.finished;
+  };
+
+  private setCursor = (event: IPointerEvent) => {
+    if (this.isDragging) return;
+    const { type } = event;
+    const { canvas } = this.context;
+
+    if (type === CommonEvent.POINTER_ENTER) canvas.setCursor('grab');
+    else canvas.setCursor('default');
   };
 
   /**
