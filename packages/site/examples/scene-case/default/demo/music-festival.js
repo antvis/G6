@@ -1,6 +1,6 @@
 import { Graph } from '@antv/g6';
 
-fetch('https://site-data-pre.alipay.com/g6/music-festival.json')
+fetch('https://assets.antv.antgroup.com/g6/music-festival.json')
   .then((res) => res.json())
   .then((data) => {
     const map = new Map();
@@ -71,7 +71,7 @@ fetch('https://site-data-pre.alipay.com/g6/music-festival.json')
         sortBy: 'order',
         cols: 5,
       },
-      behaviors: ['scroll-canvas'],
+      behaviors: [{ type: 'scroll-canvas', direction: 'y' }],
       plugins: [
         {
           type: 'background',

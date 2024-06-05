@@ -47,7 +47,7 @@ const themes = {
   },
 };
 
-fetch('http://127.0.0.1:5500/20000.json')
+fetch('https://assets.antv.antgroup.com/g6/20000.json')
   .then((res) => res.json())
   .then((data) => {
     const graph = new Graph({
@@ -58,7 +58,7 @@ fetch('http://127.0.0.1:5500/20000.json')
       theme: 'light',
       data,
       node: {
-        style: { size: 8 },
+        style: { size: 4 },
         palette: {
           type: 'group',
           field: 'cluster',
