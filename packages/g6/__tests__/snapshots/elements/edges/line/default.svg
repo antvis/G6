@@ -10,7 +10,7 @@
             <path fill="none" d="M 234.3033744233815,253.1009588045387 L 55.75425833069224,288.37436523750927" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(0.981039,-0.193810,0.193810,0.981039,55.754257,288.374359)">
-              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
           <g fill="none" class="label" transform="matrix(0.981040,-0.193804,0.193804,0.981040,138.161530,272.094299)">
@@ -46,7 +46,7 @@
             <path fill="none" d="M 260.876537756464,238.26539619619766 L 384.5971592665026,104.78427304028682" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(-0.679784,0.733413,-0.733413,-0.679784,384.597168,104.784271)">
-              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
           <g fill="none" class="label" transform="matrix(0.679790,-0.733407,0.733407,0.679790,327.495331,166.390976)">
@@ -82,7 +82,7 @@
             <path fill="none" d="M 248.0986084719637,265.88662047941955 L 226.47027882956553,446.5969368798606" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="5" stroke="transparent"/>
             <g transform="matrix(0.118837,-0.992914,0.992914,0.118837,226.470276,446.596924)">
-              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
           <g fill="none" class="label" transform="matrix(0.118841,-0.992913,0.992913,0.118841,236.452576,363.192169)">
@@ -114,7 +114,7 @@
             <path fill="none" d="M 242.20076458273422,236.02960534179272 L 153.48446200440452,77.1163666296444" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="5" stroke="transparent"/>
             <g transform="matrix(0.487452,0.873150,-0.873150,0.487452,153.484467,77.116364)">
-              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
           <g fill="none" class="label" transform="matrix(0.487446,0.873153,-0.873153,0.487446,194.430466,150.460922)">
@@ -146,7 +146,7 @@
             <path fill="none" d="M 264.52153176339675,256.7175229991909 L 429.7039448507201,333.12934215540935" class="key" fill-opacity="0.08" stroke-width="1" stroke="rgba(27,50,79,1)" stroke-opacity="0.08"/>
             <path fill="none" d="M 16,0 L 16,0" class="key" fill-opacity="0.08" stroke-width="3" stroke="transparent" stroke-opacity="0.08"/>
             <g transform="matrix(-0.907596,-0.419845,0.419845,-0.907596,429.703949,333.129333)">
-              <path fill="rgba(27,50,79,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(27,50,79,1)" stroke-opacity="0.08" fill-opacity="0.08" width="10" height="10" stroke-dasharray="0,0" stroke-width="1"/>
+              <path fill="rgba(27,50,79,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(27,50,79,1)" stroke-opacity="0.08" fill-opacity="0.08" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
           <g fill="none" class="label" transform="matrix(0.907598,0.419840,-0.419840,0.907598,353.465912,297.862335)">

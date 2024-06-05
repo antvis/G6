@@ -5,7 +5,7 @@
       <g fill="none">
         <g fill="none" x="250.98000000000002" y="262.5" transform="matrix(1,0,0,1,250.979996,262.500000)">
           <g>
-            <circle fill="rgba(253,253,253,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="155.87903130312299"/>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="155.87903130312299"/>
           </g>
         </g>
       </g>
@@ -90,7 +90,7 @@
         </g>
       </g>
       <g>
-        <path fill="rgba(238,246,255,1)" d="M 100,100 l 300,0 l 0,300 l-300 0 z" width="300" height="300" stroke-width="1" stroke="rgba(221,238,254,1)" fill-opacity="0.4" pointer-events="none" x="100" y="100"/>
+        <path fill="rgba(22,119,255,1)" d="M 100,100 l 300,0 l 0,300 l-300 0 z" width="300" height="300" stroke-width="1" stroke="rgba(22,119,255,1)" fill-opacity="0.1" pointer-events="none" x="100" y="100"/>
       </g>
     </g>
   </g>

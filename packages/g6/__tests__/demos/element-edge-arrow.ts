@@ -34,6 +34,7 @@ export const elementEdgeArrow: TestCase = async (context) => {
         endArrowType: (d: any) => idOf(d).toString().split('-')[0] as any,
       },
     },
+    behaviors: ['drag-element'],
     layout: {
       type: 'grid',
       cols: 2,

@@ -10,10 +10,10 @@
             <path fill="none" d="M 122,100 L 116,100 L 178,100" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 122,100 L 116,100 L 178,100" class="key" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(1,0,0,1,122,100)">
-              <path fill="rgba(128,0,128,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(0,0,255,1)" width="10" height="10" stroke-dasharray="0,0" stroke-width="1"/>
+              <path fill="rgba(128,0,128,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(0,0,255,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
             <g transform="matrix(-1,0,-0,-1,178,100)">
-              <path fill="rgba(255,192,203,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(255,255,0,1)" width="10" height="10" stroke-dasharray="0,0" stroke-width="1"/>
+              <path fill="rgba(255,192,203,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(255,255,0,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
         </g>

@@ -59,6 +59,8 @@ describe('Symbol Functions', () => {
       expect(path).toEqual([
         ['M', 5, -5],
         ['L', -5, 0],
+        ['L', 5, 0],
+        ['L', -5, 0],
         ['L', 5, 5],
       ]);
     });
