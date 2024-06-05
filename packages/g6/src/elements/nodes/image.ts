@@ -35,7 +35,7 @@ export interface ImageStyleProps extends BaseNodeStyleProps {
  */
 export class Image extends BaseNode<ImageStyleProps> {
   static defaultStyleProps: Partial<ImageStyleProps> = {
-    size: 50,
+    size: 32,
   };
 
   constructor(options: DisplayObjectConfig<ImageStyleProps>) {

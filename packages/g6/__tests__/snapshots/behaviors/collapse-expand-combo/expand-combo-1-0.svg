@@ -3,25 +3,25 @@
   <g >
     <g fill="none">
       <g fill="none">
-        <g fill="none" x="190.98000000000002" y="203" transform="matrix(1,0,0,1,190.979996,203)">
+        <g fill="none" x="190.98000000000002" y="204" transform="matrix(1,0,0,1,190.979996,204)">
           <g>
-            <circle fill="rgba(253,253,253,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="160.8304697499824"/>
+            <circle fill="rgba(253,253,253,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="164.7465932879949"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,160.830475)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,164.746597)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" font-weight="400">
                 combo-2
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" x="250.5" y="261.5" transform="matrix(1,0,0,1,250.500000,261.500000)">
+        <g fill="none" x="250.5" y="262.5" transform="matrix(1,0,0,1,250.500000,262.500000)">
           <g>
-            <path fill="rgba(253,253,253,1)" d="M -31.680000000000007,-33.5 l 63.360000000000014,0 l 0,67 l-63.360000000000014 0 z" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" width="63.360000000000014" height="67" x="-31.680000000000007" y="-33.5"/>
+            <path fill="rgba(253,253,253,1)" d="M -31.680000000000007,-38.5 l 63.360000000000014,0 l 0,77 l-63.360000000000014 0 z" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" width="63.360000000000014" height="77" x="-31.680000000000007" y="-38.5"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,33.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,38.500000)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" font-weight="400">
                 combo-1
               </text>
             </g>
@@ -32,26 +32,26 @@
         <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 127.8591664610141,109.06826899347782 L 242.1408335389859,240.9317310065222" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 127.8591664610141,109.06826899347782 L 227.46666666666667,224" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 130.47888861468547,112.09102532463709 L 239.52111138531453,237.9089746753629" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 130.47888861468547,112.09102532463709 L 227.46666666666667,224" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 262,250 L 262,250" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 291.5147186257614,208.48528137423858 L 208.48528137423858,291.5147186257614" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 266,250 L 266,250" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 288.68629150101526,211.31370849898477 L 211.31370849898477,288.68629150101526" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
       </g>
       <g fill="none">
         <g fill="none" x="120" y="100" transform="matrix(1,0,0,1,120,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 node-1
               </text>
             </g>
@@ -59,11 +59,11 @@
         </g>
         <g fill="none" x="250" y="250" transform="matrix(1,0,0,1,250,250)">
           <g>
-            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 node-2
               </text>
             </g>
@@ -71,11 +71,11 @@
         </g>
         <g fill="none" x="250" y="250" transform="matrix(1,0,0,1,250,250)">
           <g>
-            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
-              <text fill="rgba(0,0,0,0.8509803921568627)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 node-3
               </text>
             </g>

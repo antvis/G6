@@ -6,12 +6,25 @@
       "id": "badges",
       "style": {
         "badges": [
-          { "text": "A", "placement": "right-top" },
+          {
+            "text": "\ue603",
+            "fontFamily": "iconfont",
+            "backgroundWidth": 12,
+            "backgroundHeight": 12,
+            "placement": "right-top",
+            "offsetX": -3
+          },
           { "text": "Important", "placement": "right" },
           { "text": "Notice", "placement": "right-bottom" }
         ],
         "badgeFontSize": 8,
         "badgePadding": [1, 4]
+      }
+    },
+    {
+      "id": "icon",
+      "style": {
+        "iconSrc": "https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg"
       }
     },
     {
@@ -25,6 +38,9 @@
     { "id": "selected", "states": ["selected"] },
     { "id": "highlight", "states": ["highlight"] },
     { "id": "inactive", "states": ["inactive"] },
-    { "id": "disabled", "states": ["disabled"] }
+    {
+      "id": "disabled",
+      "states": ["disabled"]
+    }
   ]
 }

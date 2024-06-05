@@ -166,7 +166,7 @@ describe('element', () => {
         portLinkToCenter: true,
       },
     });
-    expect(getPortConnectionPoint(node.getPorts()['left'], [0, 0])).toEqual([88, 100, 0]);
+    expect(getPortConnectionPoint(node.getPorts()['left'], [0, 0])).toEqual([84, 100, 0]);
   });
 
   it('getTextStyleByPlacement', () => {

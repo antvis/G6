@@ -28,4 +28,10 @@ export class Badge extends BaseShape<BadgeStyleProps> {
   public render(attributes: ParsedBadgeStyleProps = this.parsedAttributes, container: Group = this) {
     this.upsert('label', Label, this.getBadgeStyle(attributes), container);
   }
+
+  public getGeometryBounds() {
+    const labelShape = this.getShape<BaseShape<LabelStyleProps>>('label');
+    const shape = labelShape.getShape('background') || labelShape.getShape('text');
+    return shape.getGeometryBounds();
+  }
 }

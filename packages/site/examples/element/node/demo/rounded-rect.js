@@ -1,5 +1,9 @@
 import { Graph } from '@antv/g6';
 
+const style = document.createElement('style');
+style.innerHTML = "@import url('//at.alicdn.com/t/a/font_470089_tmp5emp4d9.css');";
+document.head.appendChild(style);
+
 fetch('https://assets.antv.antgroup.com/g6/element-nodes.json')
   .then((res) => res.json())
   .then((data) => {
@@ -14,7 +18,8 @@ fetch('https://assets.antv.antgroup.com/g6/element-nodes.json')
           labelText: (d) => d.id,
           iconWidth: 20,
           iconHeight: 20,
-          iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+                iconFontFamily: 'iconfont',
+        iconText: '\ue602',
         },
       },
       layout: {

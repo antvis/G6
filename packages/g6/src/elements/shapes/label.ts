@@ -64,18 +64,24 @@ export class Label extends BaseShape<LabelStyleProps> {
 
     const {
       min: [minX, minY],
+      center: [centerX, centerY],
       halfExtents: [halfWidth, halfHeight],
     } = this.shapeMap.text.getGeometryBounds();
 
     const [top, right, bottom, left] = parsePadding(padding);
     const totalWidth = halfWidth * 2 + left + right;
 
-    Object.assign(backgroundStyle, {
-      x: minX - left,
-      y: minY - top,
-      width: wordWrap ? Math.min(totalWidth, wordWrapWidth) : totalWidth,
-      height: halfHeight * 2 + top + bottom,
-    });
+    const { width, height } = backgroundStyle;
+    if (width && height) {
+      Object.assign(backgroundStyle, { x: centerX - Number(width) / 2, y: centerY - Number(height) / 2 });
+    } else {
+      Object.assign(backgroundStyle, {
+        x: minX - left,
+        y: minY - top,
+        width: wordWrap ? Math.min(totalWidth, wordWrapWidth) : totalWidth,
+        height: halfHeight * 2 + top + bottom,
+      });
+    }
 
     // parse percentage radius
     const { radius } = backgroundStyle;
@@ -91,5 +97,10 @@ export class Label extends BaseShape<LabelStyleProps> {
   public render(attributes: ParsedLabelStyleProps = this.parsedAttributes, container: Group = this): void {
     this.upsert('text', Text, this.getTextStyle(attributes), container);
     this.upsert('background', Rect, this.getBackgroundStyle(attributes), container);
+  }
+
+  public getGeometryBounds() {
+    const shape = this.getShape('background') || this.getShape('text');
+    return shape.getGeometryBounds();
   }
 }

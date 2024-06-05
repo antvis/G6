@@ -11,6 +11,11 @@ export const elementEdgeLine: TestCase = async (context) => {
         labelText: (d) => d.id!,
         labelBackground: true,
         endArrow: true,
+        badge: true,
+        badgeText: '\ue603',
+        badgeFontFamily: 'iconfont',
+        badgeBackgroundWidth: 12,
+        badgeBackgroundHeight: 12,
       },
     },
     layout: {

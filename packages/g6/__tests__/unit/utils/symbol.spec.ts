@@ -25,7 +25,7 @@ describe('Symbol Functions', () => {
   describe('vee', () => {
     it('should return the correct path for a vee', () => {
       const path = vee(10, 10);
-      expect(path).toEqual([['M', -5, 0], ['L', 5, -5], ['L', 1.666666666666667, 0], ['L', 5, 5], ['Z']]);
+      expect(path).toEqual([['M', -5, 0], ['L', 5, -5], ['L', 3, 0], ['L', 5, 5], ['Z']]);
     });
   });
 

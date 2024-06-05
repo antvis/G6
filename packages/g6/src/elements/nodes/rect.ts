@@ -1,7 +1,6 @@
 import type { DisplayObjectConfig, RectStyleProps as GRectStyleProps, Group } from '@antv/g';
 import { Rect as GRect } from '@antv/g';
 import { ICON_SIZE_RATIO } from '../../constants/element';
-import { mergeOptions } from '../../utils/style';
 import type { IconStyleProps } from '../shapes';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
@@ -20,12 +19,8 @@ type ParsedRectStyleProps = Required<RectStyleProps>;
  * <en/> Rect node
  */
 export class Rect extends BaseNode<RectStyleProps> {
-  static defaultStyleProps: Partial<RectStyleProps> = {
-    size: [48, 24],
-  };
-
   constructor(options: DisplayObjectConfig<RectStyleProps>) {
-    super(mergeOptions({ style: Rect.defaultStyleProps }, options));
+    super(options);
   }
 
   protected getKeyStyle(attributes: ParsedRectStyleProps): GRectStyleProps {

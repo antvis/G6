@@ -428,7 +428,7 @@
       <g fill="none">
         <g fill="none" x="330.209605228419" y="280.2450627294096" transform="matrix(1,0,0,1,330.209595,280.245056)">
           <g>
-            <circle fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" r="10" stroke-dasharray="0,0" pointer-events="none"/>
+            <circle fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" r="10" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>

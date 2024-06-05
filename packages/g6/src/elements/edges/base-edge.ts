@@ -5,6 +5,7 @@ import { isFunction, pick } from '@antv/util';
 import type {
   BaseElementStyleProps,
   EdgeArrowStyleProps,
+  EdgeBadgeStyleProps,
   EdgeKey,
   EdgeLabelStyleProps,
   ID,
@@ -15,7 +16,7 @@ import type {
   Prefix,
 } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
-import { getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
+import { getArrowSize, getBadgePositionStyle, getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
 import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
@@ -23,8 +24,8 @@ import { mergeOptions } from '../../utils/style';
 import * as Symbol from '../../utils/symbol';
 import { getWordWrapWidthByEnds } from '../../utils/text';
 import { BaseElement } from '../base-element';
-import type { LabelStyleProps } from '../shapes';
-import { Label } from '../shapes';
+import type { BadgeStyleProps, LabelStyleProps } from '../shapes';
+import { Badge, Label } from '../shapes';
 
 /**
  * <zh/> 边的通用样式属性
@@ -35,6 +36,7 @@ export interface BaseEdgeStyleProps
   extends BaseElementStyleProps,
     Prefix<'label', EdgeLabelStyleProps>,
     Prefix<'halo', PathStyleProps>,
+    Prefix<'badge', EdgeBadgeStyleProps>,
     Prefix<'startArrow', EdgeArrowStyleProps>,
     Prefix<'endArrow', EdgeArrowStyleProps>,
     Prefix<'loop', LoopStyleProps> {
@@ -59,6 +61,13 @@ export interface BaseEdgeStyleProps
    * @defaultValue false
    */
   halo?: boolean;
+  /**
+   * <zh/> 是否显示边的徽标
+   *
+   * <en/> Whether to display the badge of the edge
+   * @defaultValue true
+   */
+  badge?: boolean;
   /**
    * <zh/> 是否显示边的起始箭头
    *
@@ -165,6 +174,10 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
   public type = 'edge';
 
   static defaultStyleProps: Partial<BaseEdgeStyleProps> = {
+    badge: true,
+    badgeOffsetX: 0,
+    badgeOffsetY: 0,
+    badgePlacement: 'suffix',
     isBillboard: true,
     label: true,
     labelAutoRotate: true,
@@ -184,17 +197,15 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
     haloZIndex: -1,
     loop: true,
     startArrow: false,
-    startArrowSize: 8,
     startArrowLineDash: 0,
     startArrowLineWidth: 1,
     startArrowTransformOrigin: 'center',
-    startArrowType: 'triangle',
+    startArrowType: 'vee',
     endArrow: false,
-    endArrowSize: 8,
     endArrowLineDash: 0,
     endArrowLineWidth: 1,
     endArrowTransformOrigin: 'center',
-    endArrowType: 'triangle',
+    endArrowType: 'vee',
     loopPlacement: 'top',
     loopClockwise: true,
   };
@@ -283,6 +294,20 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
     return Object.assign({ wordWrapWidth }, labelPositionStyle, restStyle);
   }
 
+  protected getBadgeStyle(attributes: ParsedBaseEdgeStyleProps): false | BadgeStyleProps {
+    if (attributes.badge === false || !attributes.badgeText) return false;
+
+    const { offsetX, offsetY, placement, ...badgeStyle } = subStyleProps<Required<EdgeBadgeStyleProps>>(
+      attributes,
+      'badge',
+    );
+
+    return Object.assign(
+      badgeStyle,
+      getBadgePositionStyle(this.shapeMap, placement, attributes.labelPlacement, offsetX, offsetY),
+    );
+  }
+
   protected drawArrow(attributes: ParsedBaseEdgeStyleProps, type: 'start' | 'end') {
     const isStart = type === 'start';
     const arrowType = type === 'start' ? 'startArrow' : 'endArrow';
@@ -321,17 +346,16 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
       this.getGraphicStyle(attributes),
       arrowType,
     );
-    const [width, height] = parseSize(size);
+    const [width, height] = parseSize(getArrowSize(keyStyle.lineWidth, size));
     const arrowFn = isFunction(type) ? type : Symbol[type] || Symbol.triangle;
     const d = arrowFn(width, height);
 
-    return {
-      ...pick(keyStyle, ['lineWidth', 'stroke']),
-      width,
-      height,
-      ...(d && { d, fill: type === 'simple' ? '' : keyStyle.stroke }),
-      ...arrowStyle,
-    };
+    return Object.assign(
+      pick(keyStyle, ['stroke', 'strokeOpacity', 'fillOpacity']),
+      { width, height },
+      { ...(d && { d, fill: type === 'simple' ? '' : keyStyle.stroke }) },
+      arrowStyle,
+    );
   }
 
   protected drawLabelShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
@@ -340,6 +364,10 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
 
   protected drawHaloShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
     this.upsert('halo', Path, this.getHaloStyle(attributes), container);
+  }
+
+  protected drawBadgeShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
+    this.upsert('badge', Badge, this.getBadgeStyle(attributes), container);
   }
 
   protected drawKeyShape(attributes: ParsedBaseEdgeStyleProps, container: Group): Path | undefined {
@@ -359,12 +387,16 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
 
     // 3. halo
     this.drawHaloShape(attributes, container);
+
+    // 4. badge
+    this.drawBadgeShape(attributes, container);
   }
 
   protected onframe() {
     this.drawKeyShape(this.parsedAttributes, this);
     this.drawHaloShape(this.parsedAttributes, this);
     this.drawLabelShape(this.parsedAttributes, this);
+    this.drawBadgeShape(this.parsedAttributes, this);
   }
 
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions) {

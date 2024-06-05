@@ -2,17 +2,23 @@ import { create } from './base';
 import type { Theme } from './types';
 
 const tokens = {
-  bgColor: '#fff',
-  textColor: '#000000d9',
-  nodeColor: '#1783ff',
-  nodeColorDisabled: '#f0f0f0',
-  nodeStroke: '#000000',
-  edgeColor: '#99add1',
-  edgeColorDisabled: '#d9d9d9',
+  bgColor: '#ffffff',
   comboColor: '#fdfdfd',
   comboColorDisabled: '#f0f0f0',
   comboStroke: '#99add1',
   comboStrokeDisabled: '#d9d9d9',
+  edgeColor: '#99add1',
+  edgeColorDisabled: '#d9d9d9',
+  edgeColorInactive: '#1B324F',
+  nodeColor: '#1783ff',
+  nodeColorDisabled: '#1B324F',
+  nodeHaloStrokeOpacityActive: 0.15,
+  nodeHaloStrokeOpacitySelected: 0.25,
+  nodeIconOpacityInactive: 0.85,
+  nodeOpacityDisabled: 0.06,
+  nodeOpacityInactive: 0.25,
+  nodeStroke: '#000000',
+  textColor: '#000000',
 };
 
 export const light: Theme = create(tokens);

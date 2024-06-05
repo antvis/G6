@@ -33,7 +33,7 @@ export const vee: SymbolFactor = (width: number, height: number) => {
   return [
     ['M', -width / 2, 0],
     ['L', width / 2, -height / 2],
-    ['L', (2 * width) / 3 - width / 2, 0],
+    ['L', (4 * width) / 5 - width / 2, 0],
     ['L', width / 2, height / 2],
     ['Z'],
   ];
