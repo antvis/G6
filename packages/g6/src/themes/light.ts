@@ -3,7 +3,7 @@ import type { Theme } from './types';
 
 const tokens = {
   bgColor: '#ffffff',
-  comboColor: '#fdfdfd',
+  comboColor: '#99ADD1',
   comboColorDisabled: '#f0f0f0',
   comboStroke: '#99add1',
   comboStrokeDisabled: '#d9d9d9',
