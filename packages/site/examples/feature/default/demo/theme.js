@@ -4,6 +4,7 @@ const themes = {
   '🌞 Light': {
     theme: 'light',
     node: {
+      style: { size: 4 },
       palette: {
         type: 'group',
         field: 'cluster',
@@ -14,6 +15,7 @@ const themes = {
   '🌚 Dark': {
     theme: 'dark',
     node: {
+      style: { size: 4 },
       palette: {
         type: 'group',
         field: 'cluster',
@@ -24,6 +26,7 @@ const themes = {
   '🌎 Blue': {
     theme: 'light',
     node: {
+      style: { size: 4 },
       palette: {
         type: 'group',
         field: 'cluster',
@@ -37,6 +40,7 @@ const themes = {
     background: '#fcf9f1',
     theme: 'light',
     node: {
+      style: { size: 4 },
       palette: {
         type: 'group',
         field: 'cluster',
