@@ -31,17 +31,17 @@ export interface FullscreenOptions extends BasePluginOptions {
    */
   autoFit?: boolean;
   /**
-   * <zh/> 请求全屏后的回调
+   * <zh/> 进入全屏后的回调
    *
-   * <en/> Callback when requesting full screen
+   * <en/> Callback after entering full screen
    */
-  onRequestFinish?: () => void;
+  onEnter?: () => void;
   /**
    * <zh/> 退出全屏后的回调
    *
-   * <en/> Callback when exiting full screen
+   * <en/> Callback after exiting full screen
    */
-  onExitFinish?: () => void;
+  onExit?: () => void;
 }
 
 /**
@@ -109,9 +109,9 @@ export class Fullscreen extends BasePlugin<FullscreenOptions> {
     const isFull = !!document.fullscreenElement;
     if (this.options.autoFit) this.setGraphSize(isFull);
     if (isFull) {
-      this.options.onRequestFinish?.();
+      this.options.onEnter?.();
     } else {
-      this.options.onExitFinish?.();
+      this.options.onExit?.();
     }
   };
 
@@ -160,6 +160,7 @@ export class Fullscreen extends BasePlugin<FullscreenOptions> {
 function isFullscreenEnabled() {
   return (
     document.fullscreenEnabled ||
+    // <zh/> 使用 Reflect 语法规避 ts 检查 | <en/> use Reflect to avoid ts checking
     Reflect.get(document, 'webkitFullscreenEnabled') ||
     Reflect.get(document, 'mozFullscreenEnabled') ||
     Reflect.get(document, 'msFullscreenEnabled')
