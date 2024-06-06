@@ -1,20 +1,5 @@
-/**
- * 图模式匹配
- */
 import { GADDI } from '@antv/algorithm';
 import { Graph } from '@antv/g6';
-
-const colors = ['#5F95FF', '#61DDAA', '#65789B'];
-
-const defaultPalette = {
-  type: 'group',
-  field: 'cluster',
-  color: colors,
-};
-
-const button = document.createElement('button');
-button.innerHTML = `Click Here to Match 点此开始匹配`;
-document.getElementById('container').appendChild(button);
 
 const pattern = {
   nodes: [
@@ -53,20 +38,27 @@ fetch('https://assets.antv.antgroup.com/g6/gaddi.json')
           stroke: '#5F95FF',
           lineWidth: 1,
         },
-        palette: defaultPalette,
+        palette: {
+          type: 'group',
+          field: 'cluster',
+          color: ['#5F95FF', '#61DDAA', '#65789B'],
+        },
       },
       edge: {
         style: {
           endArrow: true,
         },
-        palette: defaultPalette,
+        palette: {
+          type: 'group',
+          field: 'cluster',
+          color: ['#5F95FF', '#61DDAA', '#65789B'],
+        },
       },
       plugins: [
         {
           type: 'legend',
           nodeField: 'cluster',
-          edgeField: 'cluster',
-          position: 'top',
+          position: 'bottom',
         },
         {
           key: 'hull-0',
@@ -82,17 +74,21 @@ fetch('https://assets.antv.antgroup.com/g6/gaddi.json')
     });
     graph.render();
 
-    button.addEventListener('click', (e) => {
-      const matches = GADDI(data, pattern, true, undefined, undefined, 'cluster', 'cluster');
-
-      matches.forEach((match, i) => {
-        graph.updatePlugin({
-          key: `hull-${i}`,
-          members: match.nodes.map((node) => node.id),
-        });
-      });
-      graph.render();
-      button.innerHTML = `The results are marked with hulls 结果已用轮廓标记`;
-      button.disabled = true;
+    window.addPanel((gui) => {
+      gui.add(
+        {
+          match: () => {
+            const matches = GADDI(data, pattern, true, undefined, undefined, 'cluster', 'cluster');
+            matches.forEach((match, i) => {
+              graph.updatePlugin({
+                key: `hull-${i}`,
+                members: match.nodes.map((node) => node.id),
+              });
+            });
+            graph.render();
+          },
+        },
+        'match',
+      );
     });
   });

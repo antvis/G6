@@ -1,15 +1,8 @@
-/**
- * LP 自动聚类
- */
 import { labelPropagation } from '@antv/algorithm';
 import { Graph } from '@antv/g6';
 
-const button = document.createElement('button');
-button.innerHTML = `Click Here to Clustering 点此自动聚类`;
-document.getElementById('container').appendChild(button);
-
-const subjectColors = [
-  '#5F95FF', // blue
+const colors = [
+  '#5F95FF',
   '#61DDAA',
   '#65789B',
   '#F6BD16',
@@ -32,24 +25,34 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       layout: {
         type: 'force',
         linkDistance: 50,
+        animation: false,
       },
     });
+    
     graph.render();
 
-    button.addEventListener('click', (e) => {
-      const clusteredData = labelPropagation(data, false);
-      let newNodeData = [];
-      clusteredData.clusters.forEach((cluster, i) => {
-        const color = subjectColors[i % subjectColors.length];
-        const nodes = cluster.nodes.map((node) => ({
-          id: node.id,
-          style: {
-            fill: color,
+    window.addPanel((gui) => {
+      gui.add(
+        {
+          Cluster: () => {
+            const clusteredData = labelPropagation(data, false);
+            const result = clusteredData.clusters
+              .map((cluster, i) => {
+                const color = colors[i % colors.length];
+                const nodes = cluster.nodes.map((node) => ({
+                  id: node.id,
+                  style: {
+                    fill: color,
+                  },
+                }));
+                return nodes;
+              })
+              .flat();
+            graph.updateNodeData(result);
+            graph.draw();
           },
-        }));
-        newNodeData.push(...nodes);
-      });
-      graph.updateNodeData(newNodeData);
-      graph.draw();
+        },
+        'Cluster',
+      );
     });
   });
