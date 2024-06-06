@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "5.0.0-beta.40",
+  "version": "5.0.0",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -42,6 +42,7 @@
     "coverage:open": "open coverage/lcov-report/index.html",
     "dev": "vite",
     "fix": "eslint ./src ./__tests__ --fix && prettier ./src __tests__ --write ",
+    "postinstall": "node ./scripts/tips.mjs",
     "jest": "node --expose-gc --max-old-space-size=1024 --unhandled-rejections=strict ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles",
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
     "prepublishOnly": "npm run ci",
@@ -78,8 +79,7 @@
     "xmlserializer": "^0.6.1"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "tag": "beta"
+    "registry": "https://registry.npmjs.org/"
   },
   "limit-size": [
     {
