@@ -5,7 +5,7 @@
       <g fill="none">
         <g fill="none" x="249.3440200805664" y="267.56617736816406" transform="matrix(1,0,0,1,249.344025,267.566162)">
           <g>
-            <circle fill="rgba(253,253,253,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="148.83913610941644"/>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="148.83913610941644"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,199.840683)">
             <g>
@@ -17,7 +17,7 @@
         </g>
         <g fill="none" x="217.01597351074219" y="223.93382263183594" transform="matrix(1,0,0,1,217.015976,223.933823)">
           <g>
-            <path fill="rgba(253,253,253,1)" d="M -43.05382263183594,-49.93382263183594 l 86.10764526367188,0 l 0,99.86764526367188 l-86.10764526367188 0 z" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" width="86.10764526367188" height="99.86764526367188" x="-43.05382263183594" y="-49.93382263183594"/>
+            <path fill="rgba(153,173,209,1)" d="M -43.05382263183594,-49.93382263183594 l 86.10764526367188,0 l 0,99.86764526367188 l-86.10764526367188 0 z" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" width="86.10764526367188" height="99.86764526367188" x="-43.05382263183594" y="-49.93382263183594" fill-opacity="0.04"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,88.500000)">
             <g>

@@ -5,22 +5,22 @@
       <g fill="none">
         <g fill="none" x="62.707279920578" y="303.5454406738281" transform="matrix(1,0,0,1,62.707279,303.545441)">
           <g>
-            <circle fill="rgba(253,253,253,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="163.9627769530793"/>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="163.9627769530793"/>
           </g>
         </g>
         <g fill="none" x="-14.123782341136916" y="-146.91608351911543" transform="matrix(1,0,0,1,-14.123782,-146.916077)">
           <g>
-            <circle fill="rgba(253,253,253,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="271.2377572276114"/>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="271.2377572276114"/>
           </g>
         </g>
         <g fill="none" x="39.63929319381714" y="-241.01950073242188" transform="matrix(1,0,0,1,39.639294,-241.019501)">
           <g>
-            <circle fill="rgba(253,253,253,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="85.33283372087375"/>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="85.33283372087375"/>
           </g>
         </g>
         <g fill="none" x="-177.47698974609375" y="-216.56280517578125" transform="matrix(1,0,0,1,-177.476990,-216.562805)">
           <g>
-            <circle fill="rgba(253,253,253,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="59.48319090297695"/>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="59.48319090297695"/>
           </g>
         </g>
       </g>

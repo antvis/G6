@@ -3,17 +3,16 @@ import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { isArray, isDate, isNumber } from '@antv/util';
 import { idOf } from '../utils/id';
+import { parsePadding } from '../utils/padding';
 import { BasePlugin } from './base-plugin';
 
 import type { TimebarStyleProps as TimebarComponentStyleProps } from '@antv/component';
 import type { RuntimeContext } from '../runtime/types';
 import type { GraphData } from '../spec';
-import type { ElementDatum, ElementType, ID } from '../types';
+import type { ElementDatum, ElementType, ID, Padding } from '../types';
 import type { BasePluginOptions } from './base-plugin';
 
 const prospectiveTimeKeys = ['timestamp', 'time', 'date', 'datetime'];
-
-const PADDING = 10;
 
 /**
  * <zh/> Timebar 时间条的配置项。
@@ -68,6 +67,12 @@ export interface TimebarOptions extends BasePluginOptions {
    * @defaultValue 'bottom'
    */
   position?: 'bottom' | 'top';
+  /**
+   * <zh/> 边距
+   *
+   * <en/> Padding
+   */
+  padding?: Padding;
   /**
    * <zh/> 获取元素时间
    *
@@ -190,6 +195,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     height: 60,
     zIndex: 3,
     elementTypes: ['node'],
+    padding: 10,
     mode: 'modify',
     getTime: (datum) => inferTime(datum, prospectiveTimeKeys, undefined),
     loop: false,
@@ -202,6 +208,10 @@ export class Timebar extends BasePlugin<TimebarOptions> {
   private wrapper?: HTMLElement;
 
   private originalData?: GraphData;
+
+  private get padding() {
+    return parsePadding(this.options.padding);
+  }
 
   constructor(context: RuntimeContext, options: TimebarOptions) {
     super(context, Object.assign({}, Timebar.defaultOptions, options));
@@ -289,13 +299,13 @@ export class Timebar extends BasePlugin<TimebarOptions> {
   private upsertTimebar() {
     const { canvas } = this.context;
     const { onChange, timebarType, data, x, y, width, height, mode, ...restOptions } = this.options;
-
     const canvasSize = canvas.getSize();
+    const [top] = this.padding;
 
     this.upsertCanvas().ready.then(() => {
       const style: TimebarComponentStyleProps = {
         x: canvasSize[0] / 2 - width / 2,
-        y: PADDING,
+        y: top,
         onChange: (value) => {
           const range = (isArray(value) ? value : [value, value]).map((time) =>
             isDate(time) ? time.getTime() : time,
@@ -354,11 +364,12 @@ export class Timebar extends BasePlugin<TimebarOptions> {
 
     const { height } = this.options;
     const [width] = this.context.canvas.getSize();
+    const [top, , bottom] = this.padding;
 
     this.canvas = new Canvas({
       container: wrapper,
       width,
-      height: height + PADDING,
+      height: height + top + bottom,
       renderer: this.context.options.renderer?.('main') || new CanvasRenderer(),
       supportsMutipleCanvasesInOneContainer: true,
     });

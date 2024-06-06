@@ -62,7 +62,7 @@ export const pluginTimebar: TestCase = async (context) => {
       rows,
     },
     autoFit: 'view',
-    padding: [10, 0, 65, 0],
+    padding: [10, 0, 90, 0],
     behaviors: ['drag-element'],
     plugins: [
       {
@@ -70,6 +70,7 @@ export const pluginTimebar: TestCase = async (context) => {
         key: 'timebar',
         data: timebarData,
         mode: 'modify',
+        padding: 40,
       },
     ],
   });

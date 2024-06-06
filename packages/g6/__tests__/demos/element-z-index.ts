@@ -32,6 +32,7 @@ export const elementZIndex: TestCase = async (context) => {
     combo: {
       style: {
         labelText: (d) => d.id,
+        fillOpacity: 1,
       },
       palette: 'tableau',
     },

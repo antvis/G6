@@ -35,10 +35,9 @@ export const behaviorExpandCollapseCombo: TestCase = async (context) => {
       style: {
         labelText: (d) => d.id,
         lineDash: 0,
-        collapsedLineDash: [5, 5],
       },
     },
-    behaviors: [{ type: 'drag-element' }, 'collapse-expand'],
+    behaviors: [{ type: 'drag-element' }, 'collapse-expand', 'click-select'],
   });
 
   await graph.render();

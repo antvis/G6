@@ -238,9 +238,11 @@ export function create(tokens: ThemeTokens): Theme {
     },
     combo: {
       style: {
-        collapsedMaskFill: comboColor,
-        collapsedMaskFontSize: 12,
+        collapsedMarkerFill: bgColor,
+        collapsedMarkerFontSize: 12,
+        collapsedMarkerFillOpacity: 1,
         collapsedSize: 32,
+        collapsedFillOpacity: 1,
         fill: comboColor,
         halo: false,
         haloLineWidth: 12,
@@ -257,7 +259,7 @@ export function create(tokens: ThemeTokens): Theme {
         labelOpacity: 1,
         lineDash: 0,
         lineWidth: 1,
-        fillOpacity: 1,
+        fillOpacity: 0.04,
         strokeOpacity: 1,
         padding: 10,
         stroke: comboStroke,

@@ -5,7 +5,7 @@
       <g fill="none">
         <g fill="none" x="250.22" y="261.5" transform="matrix(1,0,0,1,250.220001,261.500000)">
           <g>
-            <circle fill="rgba(253,253,253,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="59.73389657472548"/>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="59.73389657472548"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,59.733898)">
             <g>
@@ -17,7 +17,7 @@
         </g>
         <g fill="none" x="250" y="250" transform="matrix(1,0,0,1,250,250)">
           <g>
-            <path fill="rgba(253,253,253,1)" d="M -26,-26 l 52,0 l 0,52 l-52 0 z" class="key" stroke-dasharray="5,5" stroke-width="1" stroke="rgba(153,173,209,1)" width="52" height="52" x="-26" y="-26"/>
+            <path fill="rgba(153,173,209,1)" d="M -26,-26 l 52,0 l 0,52 l-52 0 z" class="key" stroke-dasharray="5,5" stroke-width="1" stroke="rgba(153,173,209,1)" width="52" height="52" x="-26" y="-26"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,26)">
             <g>
@@ -28,7 +28,7 @@
           </g>
           <g fill="none" class="collapsed-marker" x="0" y="0">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="12">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="12">
                 2
               </text>
             </g>

@@ -79,6 +79,8 @@ export const simple: SymbolFactor = (width: number, height: number) => {
   return [
     ['M', width / 2, -height / 2],
     ['L', -width / 2, 0],
+    ['L', width / 2, 0],
+    ['L', -width / 2, 0],
     ['L', width / 2, height / 2],
   ];
 };
