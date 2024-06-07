@@ -18,7 +18,7 @@ order: 0
 <div id="container" style="width: 500px; height: 500px"></div>
 
 <!-- 引入 G6 的 JS 文件 -->
-<script src="https://unpkg.com/@antv/g6@beta/dist/g6.min.js"></script>
+<script src="https://unpkg.com/@antv/g6@5/dist/g6.min.js"></script>
 
 <script>
   fetch('https://assets.antv.antgroup.com/g6/graph.json')
@@ -66,7 +66,7 @@ order: 0
 2. 然后引入 G6 的 JS 文件：
 
 ```html
-<script src="https://unpkg.com/@antv/g6@beta/dist/g6.min.js"></script>
+<script src="https://unpkg.com/@antv/g6@5/dist/g6.min.js"></script>
 ```
 
 3. 使用 `fetch` 方法获取图的数据：

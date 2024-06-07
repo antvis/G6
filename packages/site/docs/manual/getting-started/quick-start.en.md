@@ -18,7 +18,7 @@ Copy the following code into an HTML file and then open this file in a browser:
 <div id="container" style="width: 500px; height: 500px"></div>
 
 <!-- Import G6's JS file -->
-<script src="https://unpkg.com/@antv/g6@beta/dist/g6.min.js"></script>
+<script src="https://unpkg.com/@antv/g6@5/dist/g6.min.js"></script>
 
 <script>
   fetch('https://assets.antv.antgroup.com/g6/graph.json')
@@ -66,7 +66,7 @@ Let's analyze the following code snippet:
 2. Then, include the G6's JS file:
 
 ```html
-<script src="https://unpkg.com/@antv/g6@beta/dist/g6.min.js"></script>
+<script src="https://unpkg.com/@antv/g6@5/dist/g6.min.js"></script>
 ```
 
 3. Use the `fetch` method to obtain the graph's data:

@@ -28,7 +28,7 @@ npm init -y
 Install G6:
 
 ```bash
-npm install @antv/g6@beta --save
+npm install @antv/g6 --save
 ```
 
 Vite is a new type of front-end build tool that is based on ESModule and can quickly start up projects.
