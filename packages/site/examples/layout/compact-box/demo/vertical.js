@@ -26,9 +26,15 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
             },
           ],
         },
+        animation: {
+          enter: false,
+        },
       },
       edge: {
         type: 'cubic-vertical',
+        animation: {
+          enter: false,
+        },
       },
       layout: {
         type: 'compact-box',
@@ -49,8 +55,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           return 20;
         },
       },
-      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
-      animation: false,
+      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand'],
     });
 
     graph.render();

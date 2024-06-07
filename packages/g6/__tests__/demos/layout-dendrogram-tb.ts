@@ -29,7 +29,7 @@ export const layoutDendrogramTb: TestCase = async (context) => {
       nodeSep: 40,
       rankSep: 100,
     },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand-tree'],
+    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand'],
   });
 
   await graph.render();

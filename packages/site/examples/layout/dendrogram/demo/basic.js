@@ -13,9 +13,15 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           labelPlacement: (model) => (model.children?.length ? 'left' : 'right'),
           ports: [{ placement: 'right' }, { placement: 'left' }],
         },
+        animation: {
+          enter: false,
+        },
       },
       edge: {
         type: 'cubic-horizontal',
+        animation: {
+          enter: false,
+        },
       },
       layout: {
         type: 'dendrogram',
@@ -23,7 +29,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         nodeSep: 36,
         rankSep: 250,
       },
-      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
+      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand'],
     });
 
     graph.render();

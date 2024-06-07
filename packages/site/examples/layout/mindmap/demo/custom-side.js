@@ -22,9 +22,15 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
             ports: [{ placement: 'right' }, { placement: 'left' }],
           };
         },
+        animation: {
+          enter: false,
+        },
       },
       edge: {
         type: 'cubic-horizontal',
+        animation: {
+          enter: false,
+        },
       },
       layout: {
         type: 'mindmap',
