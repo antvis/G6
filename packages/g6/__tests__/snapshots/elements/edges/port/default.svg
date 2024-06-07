@@ -15,7 +15,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,129,50)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-11.5">
                   sourcePort❓
                 </tspan>
@@ -37,7 +37,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(0.980580,0.196118,-0.196118,0.980580,391.422333,63.284473)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-11.5">
                   sourcePort✅
                 </tspan>
@@ -59,7 +59,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(0.980580,-0.196119,0.196119,0.980580,141.422318,136.715530)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-11.5">
                   sourcePort✖️
                 </tspan>
@@ -81,7 +81,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(0.980580,0.196121,-0.196121,0.980580,391.422333,163.284485)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-11.5">
                   sourcePort✖️
                 </tspan>
@@ -103,7 +103,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(0.989949,-0.141425,0.141425,0.989949,116.459793,236.934296)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-11.5">
                   sourcePort✅
                 </tspan>
@@ -125,7 +125,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(0.986393,0.164407,-0.164407,0.986393,389.302704,264.883820)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-11.5">
                   sourcePort❓
                 </tspan>
@@ -147,7 +147,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,152,350)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-11.5">
                   sourcePort❓
                 </tspan>
@@ -169,7 +169,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,381,350)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-11.5">
                   sourcePort✖️
                 </tspan>
@@ -191,7 +191,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(0.986393,-0.164404,0.164404,0.986393,118.588432,463.568573)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-11.5">
                   sourcePort✅
                 </tspan>
@@ -213,7 +213,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(0.994556,0.104203,-0.104203,0.994556,375.687256,463.433990)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-11.5">
                   sourcePort✅
                 </tspan>

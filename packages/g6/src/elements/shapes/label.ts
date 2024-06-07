@@ -28,6 +28,7 @@ export class Label extends BaseShape<LabelStyleProps> {
   static defaultStyleProps: Partial<LabelStyleProps> = {
     padding: 0,
     fontSize: 12,
+    fontFamily: 'system-ui, sans-serif',
     wordWrap: true,
     maxLines: 1,
     wordWrapWidth: 128,
