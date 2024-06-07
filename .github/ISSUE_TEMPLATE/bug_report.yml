@@ -1,85 +1,96 @@
-name: 'Bug report'
-description: Create a report to help us improve
+name: '🐞 Bug report'
+description: Create a report to help us improve / 创建一个问题报告以帮助我们改进
 body:
   - type: markdown
     attributes:
       value: |
         Thank you for reporting an issue :pray:.
 
-        This issue tracker is for reporting bugs found in G6 (https://github.com/antvis/G6).
-        If you have a question about how to achieve something and are struggling, please post a question
-        inside of G6's Discussion's tab: https://github.com/antvis/G6/discussions
+        This issue tracker is for reporting bugs found in G6.
+        **⚠️ If you have a question about how to achieve something and are struggling, please post a question
+        inside of G6's [Discussions](https://github.com/antvis/G6/discussions).**
 
         Before submitting a new bug/issue, please check the links below to see if there is a solution or question posted there already:
-         - G6's Issue's tab: https://github.com/antvis/G6/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc
-         - G6's closed issues tab: https://github.com/antvis/G6/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aclosed
-         - G6 Discussion's tab: https://github.com/antvis/G6/discussions
+         - [G6 Issues](https://github.com/antvis/G6/issues)
+         - [G6 Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed)
+         - [G6 Discussions](https://github.com/antvis/G6/discussions)
 
         The more information you fill in, the better the community can help you.
+        ---
+
+        感谢您报告问题 :pray:。
+
+        此问题跟踪器用于报告在 G6 中发现的错误。
+        **⚠️ 如果您对如何实现某些功能有疑问并且遇到困难，请在 G6 的 [Discussions](https://github.com/antvis/G6/discussions) 中发布问题。**
+
+        在提交新 issue 之前，先通过以下链接查看有没有类似的问题:
+         - [G6 Issues](https://github.com/antvis/G6/issues)
+         - [G6 Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed)
+         - [G6 Discussions](https://github.com/antvis/G6/discussions)
+
+        您提供的信息越多，社区就能更好地帮助您。
   - type: textarea
     id: description
     attributes:
-      label: Describe the bug
-      description: Provide a clear and concise description of the challenge you are running into.
+      label: Describe the bug / 问题描述
+      description: Describe your problem succinctly and clearly / 简洁清晰地描述你遇到的问题
     validations:
       required: true
   - type: input
     id: link
     attributes:
-      label: Your Example Website or App
+      label: Reproduction link / 重现链接
       description: |
-        Which website or app were you using when the bug happened?
-        Note:
-        - Your bug will may get fixed much faster if we can run your code and it doesn't have dependencies other than the G6 npm package.
-        - To create a shareable code example you can use Stackblitz (https://stackblitz.com/) or CodeSandbox (https://codesandbox.io/s/new). Please no localhost URLs.
-        - Please read these tips for providing a minimal example: https://stackoverflow.com/help/mcve.
+        Please provide a link to reproduce the problem / 请提供重现问题的链接
       placeholder: |
-        e.g. Stackblitz, Code Sandbox app url
+        e.g. CodeSandbox or StackBlitz URL / 例如 CodeSandbox 或 StackBlitz 链接
     validations:
-      required: true
+      required: false
   - type: textarea
     id: steps
     attributes:
-      label: Steps to Reproduce the Bug or Issue
-      description: Describe the steps we have to take to reproduce the behavior.
-      placeholder: |
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
+      label: Steps to Reproduce the Bug or Issue / 重现步骤
+      description: Describe the steps we have to take to reproduce the behavior / 描述重现问题的步骤
+    validations:
+      required: false
+  - type: dropdown
+    id: version
+    attributes:
+      label: G6 Version / G6 版本
+      options:
+        - 🆕 5.x
+        - 4.x
+        - 3.x or below / 3.x 或更低版本
     validations:
       required: true
-  - type: textarea
-    id: expected
+  - type: dropdown
+    id: OS
     attributes:
-      label: Expected behavior
-      description: Provide a clear and concise description of what you expected to happen.
-      placeholder: |
-        As a user, I expected ___ behavior but i am seeing ___
+      label: Operating System / 操作系统
+      multiple: true
+      options:
+        - macOS
+        - Windows
+        - Linux
+        - Others / 其他
     validations:
       required: true
-  - type: textarea
-    id: screenshots_or_videos
+  - type: dropdown
+    id: Browser
     attributes:
-      label: Screenshots or Videos
-      description: |
-        If applicable, add screenshots or a video to help explain your problem.
-        For more information on the supported file image/file types and the file size limits, please refer
-        to the following link: https://docs.github.com/en/github/writing-on-github/working-with-advanced-formatting/attaching-files
-      placeholder: |
-        You can drag your video or image files inside of this editor ↓
-  - type: textarea
-    id: platform
-    attributes:
-      label: Platform
-      value: |
-        - OS: [e.g. macOS, Windows, Linux]
-        - Browser: [e.g. Chrome, Safari, Firefox]
-        - Version: [e.g. 91.1]
+      label: Browser / 浏览器
+      multiple: true
+      options:
+        - Chrome
+        - Edge
+        - Firefox
+        - Safari (Limited support / 有限支持)
+        - IE (Nonsupport / 不支持)
+        - Others / 其他
     validations:
       required: true
   - type: textarea
     id: additional
     attributes:
-      label: Additional context
-      description: Add any other context about the problem here.
+      label: Additional context / 补充说明
+      description: Add any other context about the problem here / 添加关于问题的其他上下文
