@@ -11,7 +11,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 default
               </text>
             </g>
@@ -33,7 +33,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 halo
               </text>
             </g>
@@ -52,7 +52,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 badges
               </text>
             </g>
@@ -70,7 +70,7 @@
                 <path fill="rgba(126,146,181,1)" d="M 4.5,2.5 l 0,0 a 6,6,0,0,1,6,6 l 0,0 a 6,6,0,0,1,-6,6 l 0,0 a 6,6,0,0,1,-6,-6 l 0,0 a 6,6,0,0,1,6,-6 z" class="background" stroke-width="0" width="12" height="12" x="-1.5" y="2.5"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="8.5px" class="text" font-size="8" text-anchor="left" font-family="iconfont">
+                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="8.5px" class="text" font-size="8" font-family="iconfont" text-anchor="left">
                   
                 </text>
               </g>
@@ -82,7 +82,7 @@
                 <path fill="rgba(244,102,74,1)" d="M 5.5,-9.5 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" class="background" stroke-width="0" x="-4" y="-9.5" width="46.52" height="19"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="8" text-anchor="left">
+                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left">
                   Important
                 </text>
               </g>
@@ -94,7 +94,7 @@
                 <path fill="rgba(255,190,58,1)" d="M 5.5,-18 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" class="background" stroke-width="0" x="-4" y="-18" width="34.120000000000005" height="19"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-8.5px" class="text" font-size="8" text-anchor="left">
+                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-8.5px" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left">
                   Notice
                 </text>
               </g>
@@ -107,7 +107,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 icon
               </text>
             </g>
@@ -124,7 +124,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 ports
               </text>
             </g>
@@ -158,7 +158,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 active
               </text>
             </g>
@@ -180,7 +180,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
                 selected
               </text>
             </g>
@@ -199,7 +199,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
                 highlight
               </text>
             </g>
@@ -218,7 +218,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.25" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.25" font-weight="400">
                 inactive
               </text>
             </g>
@@ -237,7 +237,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.25" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.25" font-weight="400">
                 disabled
               </text>
             </g>

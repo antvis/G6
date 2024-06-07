@@ -15,7 +15,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,129,50)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400" visibility="hidden">
                 edge-1
               </text>
             </g>
@@ -32,7 +32,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(0.600005,-0.799997,0.799997,0.600005,160.099976,103.199989)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" text-anchor="middle" font-weight="400" visibility="visible">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400" visibility="visible">
                 edge-2
               </text>
             </g>
@@ -49,7 +49,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(0.600000,0.800000,-0.800000,0.600000,85.099998,96.800003)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" text-anchor="middle" font-weight="400" visibility="hidden">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400" visibility="hidden">
                 edge-3
               </text>
             </g>
@@ -63,7 +63,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
                 1
               </text>
             </g>
@@ -75,7 +75,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="visible">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="visible">
                 2
               </text>
             </g>
@@ -87,7 +87,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="visible">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="visible">
                 3
               </text>
             </g>
@@ -99,7 +99,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
                 4
               </text>
             </g>

@@ -15,7 +15,7 @@
               <path fill="rgba(255,0,0,1)" d="M -63.38000000000001,-46 l 127.76000000000002,0 a 4,4,0,0,1,4,4 l 0,38 a 4,4,0,0,1,-4,4 l -127.76000000000002,0 a 4,4,0,0,1,-4,-4 l 0,-38 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-67.38000000000001" y="-46" width="135.76000000000002" height="46"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="text-after-edge" paint-order="stroke" class="text" font-size="12" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="text-after-edge" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 <tspan x="0" dx="0.5" dy="-23">
                   This label is too long to
                 </tspan>
@@ -37,7 +37,7 @@
               <path fill="rgba(238,238,238,1)" d="M -40.06,0 l 81.12,0 a 4,4,0,0,1,4,4 l 0,47 a 4,4,0,0,1,-4,4 l -81.12,0 a 4,4,0,0,1,-4,-4 l 0,-47 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-44.06" y="0" width="89.12" height="55"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 <tspan x="0" dx="0.5" dy="0">
                   This label is
                 </tspan>
@@ -60,7 +60,7 @@
               <path fill="rgba(238,238,238,1)" d="M -65.38000000000001,0 l 127,0 a 4,4,0,0,1,4,4 l 0,31 a 4,4,0,0,1,-4,4 l -127,0 a 4,4,0,0,1,-4,-4 l 0,-31 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-69.38000000000001" y="0" width="135" height="39"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 <tspan x="0" dx="0.5" dy="0">
                   This label is too long to
                 </tspan>
