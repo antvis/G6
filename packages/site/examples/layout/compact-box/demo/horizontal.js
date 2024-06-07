@@ -7,7 +7,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       container: 'container',
       autoFit: 'view',
       data: treeToGraphData(data),
-      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
+      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand'],
       node: {
         style: {
           labelText: (data) => data.id,
@@ -25,9 +25,15 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
             },
           ],
         },
+        animation: {
+          enter: false,
+        },
       },
       edge: {
         type: 'cubic-horizontal',
+        animation: {
+          enter: false,
+        },
       },
       layout: {
         type: 'compact-box',
@@ -48,7 +54,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           return d.id.length + 20;
         },
       },
-      animation: false,
     });
 
     graph.render();

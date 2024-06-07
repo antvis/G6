@@ -30,9 +30,15 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           },
           ports: [{ position: 'center' }],
         },
+        animation: {
+          enter: false,
+        },
       },
       edge: {
         type: 'cubic-horizontal',
+        animation: {
+          enter: false,
+        },
       },
       layout: {
         type: 'indented',

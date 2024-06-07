@@ -22,7 +22,7 @@ export const layoutDendrogramBasic: TestCase = async (context) => {
       nodeSep: 36,
       rankSep: 250,
     },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand-tree'],
+    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand'],
   });
 
   await graph.render();
