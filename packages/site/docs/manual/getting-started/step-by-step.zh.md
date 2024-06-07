@@ -28,7 +28,7 @@ npm init -y
 安装 G6：
 
 ```bash
-npm install @antv/g6@beta --save
+npm install @antv/g6 --save
 ```
 
 Vite 是一个新型的前端构建工具，它基于 ESModule，可以快速启动项目。
