@@ -1,16 +1,7 @@
 import { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { isFunction } from '@antv/util';
 import { COMBO_KEY } from '../../constants';
-import type {
-  CollapsedMarkerStyleProps,
-  ID,
-  NodeLikeData,
-  Padding,
-  Position,
-  Prefix,
-  STDSize,
-  Size,
-} from '../../types';
+import type { CollapsedMarkerStyleProps, ID, NodeLikeData, Padding, Point, Prefix, STDSize, Size } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getCombinedBBox, getExpandedBBox } from '../../utils/bbox';
 import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
@@ -184,7 +175,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     return ancestors.length;
   }
 
-  public getComboPosition(attributes: Required<S>): Position {
+  public getComboPosition(attributes: Required<S>): Point {
     const { x = 0, y = 0, collapsed, context, childrenData = [] } = attributes;
 
     if (childrenData.length === 0) return [+x, +y, 0];
@@ -195,7 +186,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
 
       if (descendants.length > 0) {
         // combo 被收起，返回平均中心位置 / combo is collapsed, return the average center position
-        const totalPosition = descendants.reduce((acc, datum) => add(acc, positionOf(datum)), [0, 0, 0] as Position);
+        const totalPosition = descendants.reduce((acc, datum) => add(acc, positionOf(datum)), [0, 0, 0] as Point);
         return divide(totalPosition, descendants.length);
       }
       // empty combo

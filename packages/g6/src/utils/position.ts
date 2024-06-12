@@ -1,5 +1,5 @@
 import type { AABB } from '@antv/g';
-import type { Anchor, NodeLikeData, Placement, Points, Position, RelativePlacement } from '../types';
+import type { Anchor, NodeLikeData, Placement, Point, RelativePlacement } from '../types';
 import { parseAnchor } from './anchor';
 import { parsePlacement } from './placement';
 
@@ -10,7 +10,7 @@ import { parsePlacement } from './placement';
  * @param datum - <zh/> 节点/ combo 的数据 | <en/> data of node/combo
  * @returns - <zh/> 坐标 | <en/> position
  */
-export function positionOf(datum: NodeLikeData): Position {
+export function positionOf(datum: NodeLikeData): Point {
   const { x = 0, y = 0, z = 0 } = datum.style || {};
   return [+x, +y, +z];
 }
@@ -20,10 +20,10 @@ export function positionOf(datum: NodeLikeData): Position {
  *
  * <en/> Get position by relative placement
  * @param bbox - <zh/> 元素包围盒 | <en/> element bounding box
- * @param placement - <zh/> 相对于元素的位置 | <en/> Position relative to element
+ * @param placement - <zh/> 相对于元素的位置 | <en/> Point relative to element
  * @returns - <zh/> 坐标 | <en/> position
  */
-export function getXYByRelativePlacement(bbox: AABB, placement: RelativePlacement): Position {
+export function getXYByRelativePlacement(bbox: AABB, placement: RelativePlacement): Point {
   const [x, y] = placement;
   const { min, max } = bbox;
   return [min[0] + x * (max[0] - min[0]), min[1] + y * (max[1] - min[1])];
@@ -34,10 +34,10 @@ export function getXYByRelativePlacement(bbox: AABB, placement: RelativePlacemen
  *
  * <en/> Get position by placement
  * @param bbox - <zh/> 元素包围盒 | <en/> element bounding box
- * @param placement - <zh/> 相对于元素的位置 | <en/> Position relative to element
+ * @param placement - <zh/> 相对于元素的位置 | <en/> Point relative to element
  * @returns - <zh/> 坐标 | <en/> position
  */
-export function getXYByPlacement(bbox: AABB, placement: Placement = 'center'): Position {
+export function getXYByPlacement(bbox: AABB, placement: Placement = 'center'): Point {
   const relativePlacement = parsePlacement(placement);
   return getXYByRelativePlacement(bbox, relativePlacement);
 }
@@ -50,7 +50,7 @@ export function getXYByPlacement(bbox: AABB, placement: Placement = 'center'): P
  * @param anchor - <zh/> 锚点位置 | <en/> Anchor
  * @returns - <zh/> 坐标 | <en/> position
  */
-export function getXYByAnchor(bbox: AABB, anchor: Anchor): Position {
+export function getXYByAnchor(bbox: AABB, anchor: Anchor): Point {
   const parsedAnchor = parseAnchor(anchor);
   return getXYByRelativePlacement(bbox, parsedAnchor as RelativePlacement);
 }
@@ -62,7 +62,7 @@ export function getXYByAnchor(bbox: AABB, anchor: Anchor): Position {
  * @param points Points
  * @returns `{ left: number; right: number; top: number; bottom: number }`
  */
-export const getPositionByRectPoints = (points: Points) => {
+export const getPositionByRectPoints = (points: Point[]) => {
   const [p1, p2] = points;
   return {
     left: Math.min(p1[0], p2[0]),
