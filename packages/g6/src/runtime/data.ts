@@ -752,25 +752,27 @@ export class DataController {
    */
   public getFrontZIndex(id: ID) {
     const elementType = this.getElementType(id);
-    let elementsToCompare: NodeLikeData[] = [];
+    const elementData = this.getElementDataById(id);
+    const data = this.getData();
+
+    // 排除当前元素 / Exclude the current element
+    Object.assign(data, {
+      [`${elementType}s`]: data[`${elementType}s`].filter((element) => idOf(element) !== id),
+    });
 
     if (elementType === 'combo') {
-      const ancestors = [id, ...this.getAncestorsData(id, COMBO_KEY).map(idOf)];
-      // 过滤掉以下 combo 不参与 zIndex 计算
-      // - 未展开的 combo
-      // - 当前 combo 及其祖先和后代
-      // The following combos do not participate in zIndex calculation
-      // - collapsed combo
-      // - current combo and its ancestors and descendants
-      elementsToCompare = this.getComboData().filter((combo) => {
-        const comboId = idOf(combo);
-        const comboAncestors = this.getAncestorsData(comboId, COMBO_KEY);
-        const comboAncestorIds = comboAncestors.map(idOf);
-        return !comboAncestors.some(isCollapsed) && !ancestors.includes(comboId) && !comboAncestorIds.includes(comboId);
-      });
-    } else elementsToCompare = this.getNodeData().filter((node) => idOf(node) !== id);
-
-    return Math.max(0, ...elementsToCompare.map(zIndexOf)) + 1;
+      // 如果 combo 展开，则排除 combo 的子节点/combo 及内部边
+      // If the combo is expanded, exclude the child nodes/combos of the combo and the internal edges
+      if (!isCollapsed(elementData as ComboData)) {
+        const ancestors = this.getAncestorsData(id, COMBO_KEY).map(idOf);
+        data.nodes = data.nodes.filter((element) => !ancestors.includes(idOf(element)));
+        data.combos = data.combos.filter((element) => !ancestors.includes(idOf(element)));
+        data.edges = data.edges.filter(
+          ({ source, target }) => ancestors.includes(source) && ancestors.includes(target),
+        );
+      }
+    }
+    return Math.max(0, ...Object.values(data).flat().map(zIndexOf)) + 1;
   }
 
   public destroy() {

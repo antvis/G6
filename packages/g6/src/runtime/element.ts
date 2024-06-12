@@ -38,11 +38,7 @@ import type { RuntimeContext } from './types';
 export class ElementController {
   private context: RuntimeContext;
 
-  private container!: {
-    node: Group;
-    edge: Group;
-    combo: Group;
-  };
+  private container!: Group;
 
   private elementMap: Record<ID, Element> = {};
 
@@ -55,11 +51,7 @@ export class ElementController {
   public init() {
     if (!this.container) {
       const { canvas } = this.context;
-      this.container = {
-        node: canvas.appendChild(new Group({ style: { zIndex: 2 } })),
-        edge: canvas.appendChild(new Group({ style: { zIndex: 1 } })),
-        combo: canvas.appendChild(new Group({ style: { zIndex: 0 } })),
-      };
+      this.container = canvas.appendChild(new Group());
     }
   }
 
@@ -225,15 +217,15 @@ export class ElementController {
   }
 
   public getNodes() {
-    return this.container.node.children as Node[];
+    return this.context.model.getNodeData().map(({ id }) => this.elementMap[id]) as Node[];
   }
 
   public getEdges() {
-    return this.container.edge.children as Edge[];
+    return this.context.model.getEdgeData().map((edge) => this.elementMap[idOf(edge)]) as Edge[];
   }
 
   public getCombos() {
-    return this.container.combo.children as Combo[];
+    return this.context.model.getComboData().map(({ id }) => this.elementMap[id]) as Combo[];
   }
 
   public getElementComputedStyle(elementType: ElementType, datum: ElementDatum) {
@@ -365,7 +357,7 @@ export class ElementController {
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum), context);
 
-    const element = this.container[elementType].appendChild(
+    const element = this.container.appendChild(
       new Ctor({
         id,
         style: {
@@ -714,8 +706,7 @@ export class ElementController {
   }
 
   public destroy() {
-    // @ts-expect-error force delete
-    this.container = {};
+    this.container.destroy();
     this.elementMap = {};
     this.shapeTypeMap = {};
     this.defaultStyle = {};
