@@ -1405,10 +1405,8 @@ export class Graph extends EventEmitter {
       const elementType = model.getElementType(_id);
       if (elementType === 'combo') {
         const ancestor = model.getAncestorsData(_id, COMBO_KEY).at(-1) || this.getComboData(_id);
-        const combos = [ancestor, ...model.getDescendantsData(idOf(ancestor))].filter((datum) =>
-          model.isCombo(idOf(datum)),
-        );
-        const delta = zIndex - zIndexOf(ancestor);
+        const combos = [ancestor, ...model.getDescendantsData(idOf(ancestor))];
+        const delta = zIndex - element!.getElementZIndex(_id);
         combos.forEach((combo) => {
           config[idOf(combo)] = zIndexOf(combo) + delta;
         });

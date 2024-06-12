@@ -216,6 +216,12 @@ export class ElementController {
     return this.elementMap[id] as T;
   }
 
+  public getElementZIndex(id: ID) {
+    const element = this.getElement(id);
+    if (!element) return 0;
+    return element.style.zIndex ?? 0;
+  }
+
   public getNodes() {
     return this.context.model.getNodeData().map(({ id }) => this.elementMap[id]) as Node[];
   }
@@ -743,7 +749,7 @@ export class ElementController {
           .flat()
           .map((datum) => {
             const id = idOf(datum);
-            return this.getElement(id)?.style.zIndex ?? 0;
+            return this.getElementZIndex(id);
           }),
       ) + 1
     );
