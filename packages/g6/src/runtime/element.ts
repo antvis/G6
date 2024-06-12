@@ -705,6 +705,50 @@ export class ElementController {
     )?.finished;
   }
 
+  /**
+   * <zh/> 计算元素置顶后的 zIndex
+   *
+   * <en/> Calculate the zIndex after the element is placed on top
+   * @param id - <zh/> 元素 ID | <en/> ID of the element
+   * @returns <zh/> zIndex | <en/> zIndex
+   */
+  public getFrontZIndex(id: ID) {
+    const { model } = this.context;
+
+    const elementType = model.getElementType(id);
+    const elementData = model.getElementDataById(id);
+    const data = model.getData();
+
+    // 排除当前元素 / Exclude the current element
+    Object.assign(data, {
+      [`${elementType}s`]: data[`${elementType}s`].filter((element) => idOf(element) !== id),
+    });
+
+    if (elementType === 'combo') {
+      // 如果 combo 展开，则排除 combo 的子节点/combo 及内部边
+      // If the combo is expanded, exclude the child nodes/combos of the combo and the internal edges
+      if (!isCollapsed(elementData as ComboData)) {
+        const ancestors = model.getAncestorsData(id, COMBO_KEY).map(idOf);
+        data.nodes = data.nodes.filter((element) => !ancestors.includes(idOf(element)));
+        data.combos = data.combos.filter((element) => !ancestors.includes(idOf(element)));
+        data.edges = data.edges.filter(
+          ({ source, target }) => ancestors.includes(source) && ancestors.includes(target),
+        );
+      }
+    }
+    return (
+      Math.max(
+        0,
+        ...Object.values(data)
+          .flat()
+          .map((datum) => {
+            const id = idOf(datum);
+            return this.getElement(id)?.style.zIndex ?? 0;
+          }),
+      ) + 1
+    );
+  }
+
   public destroy() {
     this.container.destroy();
     this.elementMap = {};

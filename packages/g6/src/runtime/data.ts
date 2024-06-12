@@ -20,13 +20,11 @@ import type {
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
 import type { Point } from '../types/point';
-import { isCollapsed } from '../utils/collapsibility';
 import { cloneElementData, mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf, parentIdOf } from '../utils/id';
 import { positionOf } from '../utils/position';
-import { zIndexOf } from '../utils/style';
 import { dfs } from '../utils/traverse';
 import { add } from '../utils/vector';
 
@@ -741,38 +739,6 @@ export class DataController {
     if (this.model.hasEdge(id)) return 'edge';
 
     throw new Error(`Unknown element type of id: ${id}`);
-  }
-
-  /**
-   * <zh/> 计算元素置顶后的 zIndex
-   *
-   * <en/> Calculate the zIndex after the element is placed on top
-   * @param id - <zh/> 元素 ID | <en/> ID of the element
-   * @returns <zh/> zIndex | <en/> zIndex
-   */
-  public getFrontZIndex(id: ID) {
-    const elementType = this.getElementType(id);
-    const elementData = this.getElementDataById(id);
-    const data = this.getData();
-
-    // 排除当前元素 / Exclude the current element
-    Object.assign(data, {
-      [`${elementType}s`]: data[`${elementType}s`].filter((element) => idOf(element) !== id),
-    });
-
-    if (elementType === 'combo') {
-      // 如果 combo 展开，则排除 combo 的子节点/combo 及内部边
-      // If the combo is expanded, exclude the child nodes/combos of the combo and the internal edges
-      if (!isCollapsed(elementData as ComboData)) {
-        const ancestors = this.getAncestorsData(id, COMBO_KEY).map(idOf);
-        data.nodes = data.nodes.filter((element) => !ancestors.includes(idOf(element)));
-        data.combos = data.combos.filter((element) => !ancestors.includes(idOf(element)));
-        data.edges = data.edges.filter(
-          ({ source, target }) => ancestors.includes(source) && ancestors.includes(target),
-        );
-      }
-    }
-    return Math.max(0, ...Object.values(data).flat().map(zIndexOf)) + 1;
   }
 
   public destroy() {

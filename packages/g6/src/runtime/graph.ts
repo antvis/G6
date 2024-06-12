@@ -1397,11 +1397,11 @@ export class Graph extends EventEmitter {
    */
   public async frontElement(id: ID | ID[]): Promise<void> {
     const ids = Array.isArray(id) ? id : [id];
-    const { model } = this.context;
+    const { model, element } = this.context;
     const config: Record<ID, number> = {};
 
     ids.map((_id) => {
-      const zIndex = model.getFrontZIndex(_id);
+      const zIndex = element!.getFrontZIndex(_id);
       const elementType = model.getElementType(_id);
       if (elementType === 'combo') {
         const ancestor = model.getAncestorsData(_id, COMBO_KEY).at(-1) || this.getComboData(_id);
