@@ -44,16 +44,8 @@ export const dataValidation = (data?: GraphData | TreeGraphData): boolean => {
 
   // 3. 边的 source 和 target 必须存在于节点 或 Combo中
   const ids = new Set<string>();
-  if (nodes && (nodes as NodeConfig[]).length) {
-	  for (let i = 0; i < (nodes as NodeConfig[]).length; i++) {
-		  ids.add(nodes[i].id);
-	  }
-  }
-  if ((combos as ComboConfig[]).length) {
-	  for (let i = 0; i < (combos as ComboConfig[]).length; i++) {
-		  ids.add(combos[i].id);
-	  }
-  }
+  ((nodes as NodeConfig[]) || []).forEach(node => ids.add(node.id));
+  ((nodes as ComboConfig[]) || []).forEach(combo => ids.add(combo.id));
   const nonEdges = ((edges as EdgeConfig[]) || []).find(function (edge) {
     return !ids.has(edge.source) || !ids.has(edge.target);
   });
