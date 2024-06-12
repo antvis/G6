@@ -235,16 +235,19 @@ import type { BaseNodeStyleProps } from '@antv/g6';
 class ExtendBaseEdge extends BaseEdge {
   // 重写 getKeyStyle 方法
   protected getKeyStyle(attributes: Required<BaseNodeStyleProps>) {
-    const { sourceNode, targetNode } = attributes;
+    return { ...super.getKeyStyle(attributes), lineWidth: 2, stroke: '#000' };
+  }
+
+  // 实现 getKeyPath 方法
+  protected getKeyPath(attributes) {
+    const { sourceNode, targetNode } = this;
     const [x1, y1] = sourceNode.getPosition();
     const [x2, y2] = targetNode.getPosition();
 
-    return { ...super.getKeyStyle(attributes), x1, y1, x2, y2 };
-  }
-
-  // 重写 drawKeyShape 方法
-  protected drawKeyShape(attributes: Required<BaseNodeStyleProps>, container: Group) {
-    return this.upsert('key', Line, this.getKeyStyle(attributes), container);
+    return [
+      ['M', x1, y1],
+      ['L', x2, y2],
+    ];
   }
 }
 ```
