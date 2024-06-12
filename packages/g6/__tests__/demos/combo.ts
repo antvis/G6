@@ -39,19 +39,6 @@ export const combo: TestCase = async (context) => {
       },
     },
     behaviors: ['drag-element'],
-    plugins: [
-      {
-        type: 'contextmenu',
-        trigger: 'contextmenu',
-        getItems: () => {
-          return [
-            { name: '展开一度关系', value: 'spread' },
-            { name: '查看详情', value: 'detail' },
-          ];
-        },
-        // enable: (e: any) => e.targetType === 'node',
-      },
-    ],
   });
 
   await graph.render();
