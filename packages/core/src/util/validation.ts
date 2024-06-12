@@ -45,12 +45,12 @@ export const dataValidation = (data?: GraphData | TreeGraphData): boolean => {
   // 3. 边的 source 和 target 必须存在于节点 或 Combo中
   const ids = new Set<string>();
   if (nodes && (nodes as NodeConfig[]).length) {
-	  for (var i = 0; i < (nodes as NodeConfig[]).length; i++) {
+	  for (let i = 0; i < (nodes as NodeConfig[]).length; i++) {
 		  ids.add(nodes[i].id);
 	  }
   }
   if ((combos as ComboConfig[]).length) {
-	  for (var i = 0; i < (combos as ComboConfig[]).length; i++) {
+	  for (let i = 0; i < (combos as ComboConfig[]).length; i++) {
 		  ids.add(combos[i].id);
 	  }
   }
