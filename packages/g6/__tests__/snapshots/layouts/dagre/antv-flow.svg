@@ -2,7 +2,6 @@
   <defs/>
   <g transform="matrix(0.485437,0,0,0.485437,-36.407745,-41.262115)">
     <g fill="none">
-      <g fill="none"/>
       <g fill="none">
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="4"/>
@@ -124,8 +123,6 @@
             </g>
           </g>
         </g>
-      </g>
-      <g fill="none">
         <g fill="none" x="680" y="100" transform="matrix(1,0,0,1,680,100)">
           <g>
             <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>

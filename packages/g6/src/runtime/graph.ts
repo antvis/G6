@@ -46,7 +46,6 @@ import { sizeOf } from '../utils/dom';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
 import { parsePoint, toPointObject } from '../utils/point';
-import { zIndexOf } from '../utils/style';
 import { subtract } from '../utils/vector';
 import { Animation } from './animation';
 import { BatchController } from './batch';
@@ -1397,20 +1396,18 @@ export class Graph extends EventEmitter {
    */
   public async frontElement(id: ID | ID[]): Promise<void> {
     const ids = Array.isArray(id) ? id : [id];
-    const { model } = this.context;
+    const { model, element } = this.context;
     const config: Record<ID, number> = {};
 
     ids.map((_id) => {
-      const zIndex = model.getFrontZIndex(_id);
+      const zIndex = element!.getFrontZIndex(_id);
       const elementType = model.getElementType(_id);
       if (elementType === 'combo') {
         const ancestor = model.getAncestorsData(_id, COMBO_KEY).at(-1) || this.getComboData(_id);
-        const combos = [ancestor, ...model.getDescendantsData(idOf(ancestor))].filter((datum) =>
-          model.isCombo(idOf(datum)),
-        );
-        const delta = zIndex - zIndexOf(ancestor);
+        const combos = [ancestor, ...model.getDescendantsData(idOf(ancestor))];
+        const delta = zIndex - element!.getElementZIndex(_id);
         combos.forEach((combo) => {
-          config[idOf(combo)] = zIndexOf(combo) + delta;
+          config[idOf(combo)] = this.getElementZIndex(idOf(combo)) + delta;
         });
       } else config[_id] = zIndex;
     });
@@ -1427,7 +1424,8 @@ export class Graph extends EventEmitter {
    * @apiCategory element
    */
   public getElementZIndex(id: ID): number {
-    return zIndexOf(this.context.model.getElementDataById(id));
+    const { model, element } = this.context;
+    return model.getElementDataById(id)?.style?.zIndex ?? element!.getElementZIndex(id);
   }
 
   /**

@@ -20,13 +20,11 @@ import type {
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
 import type { Point } from '../types/point';
-import { isCollapsed } from '../utils/collapsibility';
 import { cloneElementData, mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf, parentIdOf } from '../utils/id';
 import { positionOf } from '../utils/position';
-import { zIndexOf } from '../utils/style';
 import { dfs } from '../utils/traverse';
 import { add } from '../utils/vector';
 
@@ -741,36 +739,6 @@ export class DataController {
     if (this.model.hasEdge(id)) return 'edge';
 
     throw new Error(`Unknown element type of id: ${id}`);
-  }
-
-  /**
-   * <zh/> 计算元素置顶后的 zIndex
-   *
-   * <en/> Calculate the zIndex after the element is placed on top
-   * @param id - <zh/> 元素 ID | <en/> ID of the element
-   * @returns <zh/> zIndex | <en/> zIndex
-   */
-  public getFrontZIndex(id: ID) {
-    const elementType = this.getElementType(id);
-    let elementsToCompare: NodeLikeData[] = [];
-
-    if (elementType === 'combo') {
-      const ancestors = [id, ...this.getAncestorsData(id, COMBO_KEY).map(idOf)];
-      // 过滤掉以下 combo 不参与 zIndex 计算
-      // - 未展开的 combo
-      // - 当前 combo 及其祖先和后代
-      // The following combos do not participate in zIndex calculation
-      // - collapsed combo
-      // - current combo and its ancestors and descendants
-      elementsToCompare = this.getComboData().filter((combo) => {
-        const comboId = idOf(combo);
-        const comboAncestors = this.getAncestorsData(comboId, COMBO_KEY);
-        const comboAncestorIds = comboAncestors.map(idOf);
-        return !comboAncestors.some(isCollapsed) && !ancestors.includes(comboId) && !comboAncestorIds.includes(comboId);
-      });
-    } else elementsToCompare = this.getNodeData().filter((node) => idOf(node) !== id);
-
-    return Math.max(0, ...elementsToCompare.map(zIndexOf)) + 1;
   }
 
   public destroy() {

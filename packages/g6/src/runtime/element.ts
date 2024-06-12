@@ -38,11 +38,7 @@ import type { RuntimeContext } from './types';
 export class ElementController {
   private context: RuntimeContext;
 
-  private container!: {
-    node: Group;
-    edge: Group;
-    combo: Group;
-  };
+  private container!: Group;
 
   private elementMap: Record<ID, Element> = {};
 
@@ -55,11 +51,7 @@ export class ElementController {
   public init() {
     if (!this.container) {
       const { canvas } = this.context;
-      this.container = {
-        node: canvas.appendChild(new Group({ style: { zIndex: 2 } })),
-        edge: canvas.appendChild(new Group({ style: { zIndex: 1 } })),
-        combo: canvas.appendChild(new Group({ style: { zIndex: 0 } })),
-      };
+      this.container = canvas.appendChild(new Group());
     }
   }
 
@@ -224,16 +216,22 @@ export class ElementController {
     return this.elementMap[id] as T;
   }
 
+  public getElementZIndex(id: ID) {
+    const element = this.getElement(id);
+    if (!element) return 0;
+    return element.style.zIndex ?? 0;
+  }
+
   public getNodes() {
-    return this.container.node.children as Node[];
+    return this.context.model.getNodeData().map(({ id }) => this.elementMap[id]) as Node[];
   }
 
   public getEdges() {
-    return this.container.edge.children as Edge[];
+    return this.context.model.getEdgeData().map((edge) => this.elementMap[idOf(edge)]) as Edge[];
   }
 
   public getCombos() {
-    return this.container.combo.children as Combo[];
+    return this.context.model.getComboData().map(({ id }) => this.elementMap[id]) as Combo[];
   }
 
   public getElementComputedStyle(elementType: ElementType, datum: ElementDatum) {
@@ -365,7 +363,7 @@ export class ElementController {
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum), context);
 
-    const element = this.container[elementType].appendChild(
+    const element = this.container.appendChild(
       new Ctor({
         id,
         style: {
@@ -713,9 +711,52 @@ export class ElementController {
     )?.finished;
   }
 
+  /**
+   * <zh/> 计算元素置顶后的 zIndex
+   *
+   * <en/> Calculate the zIndex after the element is placed on top
+   * @param id - <zh/> 元素 ID | <en/> ID of the element
+   * @returns <zh/> zIndex | <en/> zIndex
+   */
+  public getFrontZIndex(id: ID) {
+    const { model } = this.context;
+
+    const elementType = model.getElementType(id);
+    const elementData = model.getElementDataById(id);
+    const data = model.getData();
+
+    // 排除当前元素 / Exclude the current element
+    Object.assign(data, {
+      [`${elementType}s`]: data[`${elementType}s`].filter((element) => idOf(element) !== id),
+    });
+
+    if (elementType === 'combo') {
+      // 如果 combo 展开，则排除 combo 的子节点/combo 及内部边
+      // If the combo is expanded, exclude the child nodes/combos of the combo and the internal edges
+      if (!isCollapsed(elementData as ComboData)) {
+        const ancestors = model.getAncestorsData(id, COMBO_KEY).map(idOf);
+        data.nodes = data.nodes.filter((element) => !ancestors.includes(idOf(element)));
+        data.combos = data.combos.filter((element) => !ancestors.includes(idOf(element)));
+        data.edges = data.edges.filter(
+          ({ source, target }) => ancestors.includes(source) && ancestors.includes(target),
+        );
+      }
+    }
+    return (
+      Math.max(
+        0,
+        ...Object.values(data)
+          .flat()
+          .map((datum) => {
+            const id = idOf(datum);
+            return this.getElementZIndex(id);
+          }),
+      ) + 1
+    );
+  }
+
   public destroy() {
-    // @ts-expect-error force delete
-    this.container = {};
+    this.container.destroy();
     this.elementMap = {};
     this.shapeTypeMap = {};
     this.defaultStyle = {};

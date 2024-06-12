@@ -2,12 +2,6 @@
   <defs/>
   <g transform="matrix(0.738356,0,0,0.738356,82.873116,59.688713)">
     <g fill="none">
-      <g fill="none"/>
-      <g fill="none">
-        <g>
-          <path fill="rgba(173,216,230,1)" d="" class="key" fill-opacity="0.2" stroke="rgba(0,0,255,1)" stroke-opacity="0.2" stroke-width="5"/>
-        </g>
-      </g>
       <g fill="none">
         <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
@@ -121,8 +115,6 @@
             <path fill="none" d="M -24.773813685114824,267.16635497669256 L -86.61309315744259,352.9168225116537" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-      </g>
-      <g fill="none">
         <g fill="none" x="220" y="326" transform="matrix(1,0,0,1,220,326)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="25"/>
@@ -326,6 +318,11 @@
               </text>
             </g>
           </g>
+        </g>
+      </g>
+      <g fill="none">
+        <g>
+          <path fill="rgba(173,216,230,1)" d="" class="key" fill-opacity="0.2" stroke="rgba(0,0,255,1)" stroke-opacity="0.2" stroke-width="5"/>
         </g>
       </g>
     </g>

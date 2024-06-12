@@ -1,4 +1,4 @@
-import { computeElementCallbackStyle, mergeOptions, zIndexOf } from '@/src/utils/style';
+import { computeElementCallbackStyle, mergeOptions } from '@/src/utils/style';
 
 describe('style', () => {
   it('computeElementCallbackStyle', () => {
@@ -37,13 +37,6 @@ describe('style', () => {
     expect(computeElementCallbackStyle(style1, { datum })).toEqual({
       fill: 'red',
     });
-  });
-
-  it('zIndexOf', () => {
-    expect(zIndexOf({ id: 'node-1' })).toBe(0);
-    expect(zIndexOf({ id: 'node-1', style: {} })).toBe(0);
-    expect(zIndexOf({ id: 'node-1', style: { zIndex: 1 } })).toBe(1);
-    expect(zIndexOf({ id: 'node-1', style: { zIndex: -1 } })).toBe(-1);
   });
 
   it('mergeOptions', () => {

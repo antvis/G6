@@ -115,6 +115,7 @@ export function create(tokens: ThemeTokens): Theme {
         size: 32,
         stroke: nodeStroke,
         strokeOpacity: 1,
+        zIndex: 2,
       },
       state: {
         selected: {
@@ -194,6 +195,7 @@ export function create(tokens: ThemeTokens): Theme {
         lineWidth: 1,
         stroke: edgeColor,
         strokeOpacity: 1,
+        zIndex: 1,
       },
       state: {
         selected: {

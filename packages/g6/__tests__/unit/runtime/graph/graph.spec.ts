@@ -233,9 +233,10 @@ describe('Graph', () => {
     await graph.setElementZIndex({ 'node-1': 0 });
     expect(graph.getElementZIndex('node-1')).toBe(0);
 
+    const baseNodeZIndex = 2;
     await graph.frontElement('node-1');
-    expect(graph.getElementZIndex('node-1')).toBe(1);
-    expect(graph.getElementZIndex('node-2')).toBe(0);
+    expect(graph.getElementZIndex('node-1')).toBe(baseNodeZIndex + 1);
+    expect(graph.getElementZIndex('node-2')).toBe(baseNodeZIndex);
   });
 
   it('setElementVisibility/getElementVisibility', async () => {
