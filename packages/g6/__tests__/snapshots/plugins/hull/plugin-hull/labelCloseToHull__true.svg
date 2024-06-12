@@ -2,22 +2,6 @@
   <defs/>
   <g transform="matrix(0.738356,0,0,0.738356,82.873093,59.688713)">
     <g fill="none">
-      <g fill="none"/>
-      <g fill="none">
-        <g>
-          <path fill="rgba(173,216,230,1)" d="M 365.00363064411835,77.51245593850007 A 37.5 37.5 0 0 0 294.9055489220218 72.38531442227051 L 185.90554892202184,310.3853144222705 A 37.5 37.5 0 0 0 204.29580199494953 360.05331356884625 L 410.29580199494956,455.05331356884625 A 37.5 37.5 0 0 0 462.00363064411835 410.51245593850007 L 365.00363064411835,77.51245593850007" class="key" fill-opacity="0.2" stroke="rgba(0,0,255,1)" stroke-opacity="0.2" stroke-width="5"/>
-        </g>
-        <g fill="none" class="label" transform="matrix(0.908088,0.418779,-0.418779,0.908088,342.309326,423.700317)">
-          <g>
-            <path fill="rgba(255,192,203,1)" d="M -32.7,0 l 66.4,0 l 0,23 l-66.4 0 z" class="background" opacity="0.75" stroke-width="0" x="-32.7" y="0" width="66.4" height="23"/>
-          </g>
-          <g>
-            <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="700">
-              convex hull
-            </text>
-          </g>
-        </g>
-      </g>
       <g fill="none">
         <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
@@ -131,8 +115,6 @@
             <path fill="none" d="M -24.773813685114824,267.16635497669256 L -86.61309315744259,352.9168225116537" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-      </g>
-      <g fill="none">
         <g fill="none" x="220" y="326" transform="matrix(1,0,0,1,220,326)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="25"/>
@@ -335,6 +317,21 @@
                 node16
               </text>
             </g>
+          </g>
+        </g>
+      </g>
+      <g fill="none">
+        <g>
+          <path fill="rgba(173,216,230,1)" d="M 365.00363064411835,77.51245593850007 A 37.5 37.5 0 0 0 294.9055489220218 72.38531442227051 L 185.90554892202184,310.3853144222705 A 37.5 37.5 0 0 0 204.29580199494953 360.05331356884625 L 410.29580199494956,455.05331356884625 A 37.5 37.5 0 0 0 462.00363064411835 410.51245593850007 L 365.00363064411835,77.51245593850007" class="key" fill-opacity="0.2" stroke="rgba(0,0,255,1)" stroke-opacity="0.2" stroke-width="5"/>
+        </g>
+        <g fill="none" class="label" transform="matrix(0.908088,0.418779,-0.418779,0.908088,342.309326,423.700317)">
+          <g>
+            <path fill="rgba(255,192,203,1)" d="M -32.7,0 l 66.4,0 l 0,23 l-66.4 0 z" class="background" opacity="0.75" stroke-width="0" x="-32.7" y="0" width="66.4" height="23"/>
+          </g>
+          <g>
+            <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="700">
+              convex hull
+            </text>
           </g>
         </g>
       </g>

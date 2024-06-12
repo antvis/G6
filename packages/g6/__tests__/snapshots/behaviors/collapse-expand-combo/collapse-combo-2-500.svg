@@ -27,8 +27,6 @@
             </g>
           </g>
         </g>
-      </g>
-      <g fill="none">
         <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g>
@@ -43,8 +41,6 @@
             <path fill="none" d="M 288.68629150101526,211.31370849898477 L 211.31370849898477,288.68629150101526" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-      </g>
-      <g fill="none">
         <g fill="none" x="186.8480420613608" y="177.13235622464705" transform="matrix(1,0,0,1,186.848038,177.132355)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>

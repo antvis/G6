@@ -2,7 +2,6 @@
   <defs/>
   <g >
     <g fill="none">
-      <g fill="none"/>
       <g fill="none">
         <g fill="none" marker-start="true" marker-end="true">
           <g fill="none" marker-start="true" marker-end="true" stroke="transparent" stroke-width="3"/>
@@ -17,8 +16,6 @@
             </g>
           </g>
         </g>
-      </g>
-      <g fill="none">
         <g fill="none" x="100" y="100" transform="matrix(1,0,0,1,100,100)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>

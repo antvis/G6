@@ -2,7 +2,6 @@
   <defs/>
   <g >
     <g fill="none">
-      <g fill="none"/>
       <g fill="none">
         <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
@@ -25,8 +24,6 @@
             <path fill="none" d="M 119,142 L 56,58" class="key" stroke-width="3" stroke="transparent" visibility="hidden"/>
           </g>
         </g>
-      </g>
-      <g fill="none">
         <g fill="none" x="50" y="50" transform="matrix(1,0,0,1,50,50)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>

@@ -27,8 +27,6 @@
             </g>
           </g>
         </g>
-      </g>
-      <g fill="none">
         <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g>
@@ -43,20 +41,6 @@
             <path fill="none" d="M 288.68629150101526,211.31370849898477 L 211.31370849898477,288.68629150101526" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-      </g>
-      <g fill="none">
-        <g fill="none" x="200" y="300" transform="matrix(1,0,0,1,200,300)">
-          <g>
-            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
-            <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                node-3
-              </text>
-            </g>
-          </g>
-        </g>
         <g fill="none" x="380" y="260" transform="matrix(1,0,0,1,380,260)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
@@ -65,6 +49,18 @@
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 node-2
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="200" y="300" transform="matrix(1,0,0,1,200,300)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                node-3
               </text>
             </g>
           </g>

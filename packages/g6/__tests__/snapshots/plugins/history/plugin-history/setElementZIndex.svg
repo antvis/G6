@@ -22,20 +22,6 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="188.11" y="191.5" transform="matrix(1,0,0,1,188.110001,191.500000)">
-          <g>
-            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="153.21566140574532" fill-opacity="0.04"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,153.215668)">
-            <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
-                combo-2
-              </text>
-            </g>
-          </g>
-        </g>
-      </g>
-      <g fill="none">
         <g fill="none" marker-start="false" marker-end="false">
           <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
           <g>
@@ -43,8 +29,6 @@
             <path fill="none" d="M 130.47888861468547,112.09102532463709 L 227.46666666666667,224" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-      </g>
-      <g fill="none">
         <g fill="none" x="120" y="100" transform="matrix(1,0,0,1,120,100)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16" visibility="visible"/>
@@ -53,6 +37,18 @@
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="visible">
                 node-1
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="188.11" y="191.5" transform="matrix(1,0,0,1,188.110001,191.500000)">
+          <g>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="153.21566140574532" fill-opacity="0.04"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,153.215668)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
+                combo-2
               </text>
             </g>
           </g>
