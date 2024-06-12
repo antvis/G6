@@ -1,7 +1,6 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import { isFunction } from '@antv/util';
 import type { CallableObject, ElementDatum, StyleIterationContext } from '../types';
-import { inferDefaultValue } from './animation';
 
 /**
  * <zh/> 计算支持回调的动态样式
@@ -25,17 +24,6 @@ export function computeElementCallbackStyle(
       return [key, style];
     }),
   );
-}
-
-/**
- * <zh/> 获取元素的 z-index
- *
- * <en/> Get the z-index of the element
- * @param datum - <zh/> 元素数据 | <en/> element data
- * @returns <zh/> z-index | <en/> z-index
- */
-export function zIndexOf(datum: ElementDatum) {
-  return datum.style?.zIndex ?? (inferDefaultValue('zIndex') as number) ?? 0;
 }
 
 /**

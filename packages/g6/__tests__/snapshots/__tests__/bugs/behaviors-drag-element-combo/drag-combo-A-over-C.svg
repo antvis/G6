@@ -255,6 +255,18 @@
             </g>
           </g>
         </g>
+        <g fill="none" x="244.5" y="400" transform="matrix(1,0,0,1,244.500000,400)">
+          <g>
+            <path fill="rgba(153,173,209,1)" d="M -107,-25 l 214,0 a 8,8,0,0,1,8,8 l 0,34 a 8,8,0,0,1,-8,8 l -214,0 a 8,8,0,0,1,-8,-8 l 0,-34 a 8,8,0,0,1,8,-8 z" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" width="230" height="50" x="-115" y="-25"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,25)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
+                A
+              </text>
+            </g>
+          </g>
+        </g>
         <g fill="none" x="169.5000058412552" y="400" transform="matrix(1,0,0,1,169.500000,400)">
           <g>
             <path fill="rgba(0,201,201,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
@@ -287,18 +299,6 @@
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 9
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="244.5" y="400" transform="matrix(1,0,0,1,244.500000,400)">
-          <g>
-            <path fill="rgba(153,173,209,1)" d="M -107,-25 l 214,0 a 8,8,0,0,1,8,8 l 0,34 a 8,8,0,0,1,-8,8 l -214,0 a 8,8,0,0,1,-8,-8 l 0,-34 a 8,8,0,0,1,8,-8 z" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" width="230" height="50" x="-115" y="-25"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,25)">
-            <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
-                A
               </text>
             </g>
           </g>

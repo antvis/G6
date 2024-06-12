@@ -46,7 +46,6 @@ import { sizeOf } from '../utils/dom';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
 import { parsePoint, toPointObject } from '../utils/point';
-import { zIndexOf } from '../utils/style';
 import { subtract } from '../utils/vector';
 import { Animation } from './animation';
 import { BatchController } from './batch';
@@ -1408,7 +1407,7 @@ export class Graph extends EventEmitter {
         const combos = [ancestor, ...model.getDescendantsData(idOf(ancestor))];
         const delta = zIndex - element!.getElementZIndex(_id);
         combos.forEach((combo) => {
-          config[idOf(combo)] = zIndexOf(combo) + delta;
+          config[idOf(combo)] = this.getElementZIndex(idOf(combo)) + delta;
         });
       } else config[_id] = zIndex;
     });
@@ -1425,7 +1424,8 @@ export class Graph extends EventEmitter {
    * @apiCategory element
    */
   public getElementZIndex(id: ID): number {
-    return zIndexOf(this.context.model.getElementDataById(id));
+    const { model, element } = this.context;
+    return model.getElementDataById(id)?.style?.zIndex ?? element!.getElementZIndex(id);
   }
 
   /**
