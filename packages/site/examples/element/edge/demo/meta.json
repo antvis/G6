@@ -36,14 +36,7 @@
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*C9apQa9NioMAAAAAAAAAAAAADmJ7AQ/original"
     },
-    {
-      "filename": "loop-polyline.js",
-      "title": {
-        "zh": "折线自环边",
-        "en": "Polyline Loop"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*OReBSqIkp_cAAAAAAAAAAAAADmJ7AQ/original"
-    },
+
     {
       "filename": "quadratic.js",
       "title": {
@@ -77,12 +70,20 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6Gj2R50AJ8AAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
+      "filename": "loop-polyline.js",
+      "title": {
+        "zh": "折线自环边",
+        "en": "Polyline Loop"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*eCLSSIiRDVEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
       "filename": "loop-curve.js",
       "title": {
         "zh": "曲线自环边",
         "en": "Curve Loop"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6Gj2R50AJ8AAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*OReBSqIkp_cAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "arrows.js",
