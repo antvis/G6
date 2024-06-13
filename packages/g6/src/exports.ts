@@ -201,6 +201,8 @@ export type {
   EdgeLabelStyleProps,
   Element,
   ElementDatum,
+  ElementHooks,
+  ElementMethods,
   ElementType,
   FitViewOptions,
   IAnimateEvent,

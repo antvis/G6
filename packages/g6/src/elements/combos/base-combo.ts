@@ -1,7 +1,17 @@
 import { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { isFunction } from '@antv/util';
 import { COMBO_KEY } from '../../constants';
-import type { CollapsedMarkerStyleProps, ID, NodeLikeData, Padding, Point, Prefix, STDSize, Size } from '../../types';
+import type {
+  CollapsedMarkerStyleProps,
+  Combo,
+  ID,
+  NodeLikeData,
+  Padding,
+  Point,
+  Prefix,
+  STDSize,
+  Size,
+} from '../../types';
 import { getBBoxHeight, getBBoxWidth, getCombinedBBox, getExpandedBBox } from '../../utils/bbox';
 import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
@@ -74,7 +84,10 @@ export interface BaseComboStyleProps
  *
  * <en/> When customizing a combo, it is recommended to use this class as the base class. In this way, users only need to focus on the logic of drawing keyShape
  */
-export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStyleProps> extends BaseNode<S> {
+export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStyleProps>
+  extends BaseNode<S>
+  implements Combo
+{
   public type = 'combo';
 
   static defaultStyleProps: Partial<BaseComboStyleProps> = {
