@@ -1,17 +1,7 @@
 import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isString, set } from '@antv/util';
 import { BaseCombo, BaseEdge, BaseNode } from '../elements';
-import type {
-  Combo,
-  Edge,
-  Element,
-  Node,
-  NodePortStyleProps,
-  Placement,
-  Point,
-  Position,
-  TriangleDirection,
-} from '../types';
+import type { Combo, Edge, Element, Node, NodePortStyleProps, Placement, Point, TriangleDirection } from '../types';
 import type { NodeLabelStyleProps, Port } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import { isPoint } from './is';
@@ -148,7 +138,7 @@ export function isSimplePort(portStyle: NodePortStyleProps): boolean {
  * @param port - <zh/> 连接桩 | <en/> Port
  * @returns <zh/> 连接桩的位置 | <en/> Port Position
  */
-export function getPortPosition(port: Port): Position {
+export function getPortPosition(port: Port): Point {
   return isPoint(port) ? port : port.getPosition();
 }
 
@@ -212,7 +202,7 @@ export function findPort(node: Node, oppositeNode: Node, portKey?: string, oppos
  * @param portKey
  * @returns <zh/> 连接点 | <en/> Connection Point
  */
-function findConnectionPoints(node: Node, portKey?: string): Position[] {
+function findConnectionPoints(node: Node, portKey?: string): Point[] {
   const allPortsMap = getAllPorts(node);
   if (portKey) return [getPortPosition(allPortsMap[portKey])];
   const oppositePorts = Object.values(allPortsMap);

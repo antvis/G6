@@ -14,12 +14,11 @@ import type {
   PartialEdgeData,
   PartialGraphData,
   PartialNodeLikeData,
-  Position,
+  Point,
   State,
 } from '../types';
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
-import type { Point } from '../types/point';
 import { cloneElementData, mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
@@ -563,25 +562,25 @@ export class DataController {
     model.mergeNodeData(id, value);
   }
 
-  public getElementPosition(id: ID): Position {
+  public getElementPosition(id: ID): Point {
     const datum = this.getElementDataById(id) as NodeLikeData;
     return positionOf(datum);
   }
 
-  public translateNodeBy(id: ID, offset: Position) {
+  public translateNodeBy(id: ID, offset: Point) {
     const curr = this.getElementPosition(id);
     const position = add(curr, [...offset, 0].slice(0, 3) as Point);
     this.translateNodeTo(id, position);
   }
 
-  public translateNodeTo(id: ID, position: Position) {
+  public translateNodeTo(id: ID, position: Point) {
     const [x = 0, y = 0, z = 0] = position;
     this.preventUpdateNodeLikeHierarchy(() => {
       this.updateNodeData([{ id, style: { x, y, z } }]);
     });
   }
 
-  public translateComboBy(id: ID, offset: Position) {
+  public translateComboBy(id: ID, offset: Point) {
     const [dx = 0, dy = 0, dz = 0] = offset;
     if ([dx, dy, dz].some(isNaN) || [dx, dy, dz].every((o) => o === 0)) return;
     const combo = this.getComboData([id])[0];
@@ -608,7 +607,7 @@ export class DataController {
     );
   }
 
-  public translateComboTo(id: ID, position: Position) {
+  public translateComboTo(id: ID, position: Point) {
     if (position.some(isNaN)) return;
     const [tx = 0, ty = 0, tz = 0] = position;
     const combo = this.getComboData([id])?.[0];

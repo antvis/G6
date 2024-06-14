@@ -5,6 +5,7 @@ import type { NodeData } from '../../spec';
 import type {
   BaseElementStyleProps,
   ID,
+  Node,
   NodeBadgeStyleProps,
   NodeLabelStyleProps,
   NodePortStyleProps,
@@ -185,7 +186,10 @@ export interface BaseNodeStyleProps
  *
  * <en/> Design document: https://www.yuque.com/antv/g6/gl1iof1xpzg6ed98
  */
-export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps> extends BaseElement<S> {
+export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps>
+  extends BaseElement<S>
+  implements Node
+{
   public type = 'node';
 
   static defaultStyleProps: Partial<BaseNodeStyleProps> = {

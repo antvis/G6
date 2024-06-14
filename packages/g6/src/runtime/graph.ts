@@ -36,7 +36,6 @@ import type {
   PartialGraphData,
   PartialNodeLikeData,
   Point,
-  Position,
   State,
   Vector2,
   ViewportAnimationEffectTiming,
@@ -1184,7 +1183,7 @@ export class Graph extends EventEmitter {
    * @param animation - <zh/> 是否启用动画 | <en/> whether to enable animation
    * @apiCategory element
    */
-  public async translateElementBy(id: ID, offset: Position, animation?: boolean): Promise<void>;
+  public async translateElementBy(id: ID, offset: Point, animation?: boolean): Promise<void>;
   /**
    * <zh/> 批量将元素平移指定距离
    *
@@ -1193,15 +1192,15 @@ export class Graph extends EventEmitter {
    * @param animation - <zh/> 是否启用动画 | <en/> whether to enable animation
    * @apiCategory element
    */
-  public async translateElementBy(offsets: Record<ID, Position>, animation?: boolean): Promise<void>;
+  public async translateElementBy(offsets: Record<ID, Point>, animation?: boolean): Promise<void>;
   public async translateElementBy(
-    args1: ID | Record<ID, Position>,
-    args2?: Position | boolean,
+    args1: ID | Record<ID, Point>,
+    args2?: Point | boolean,
     args3: boolean = true,
   ): Promise<void> {
     const [config, animation] = isObject(args1)
       ? [args1, (args2 as boolean) ?? true]
-      : [{ [args1 as ID]: args2 as Position }, args3];
+      : [{ [args1 as ID]: args2 as Point }, args3];
 
     Object.entries(config).forEach(([id, offset]) => this.context.model.translateNodeBy(id, offset));
     await this.context.element!.draw({ animation })?.finished;
@@ -1216,7 +1215,7 @@ export class Graph extends EventEmitter {
    * @param animation - <zh/> 是否启用动画 | <en/> whether to enable animation
    * @apiCategory element
    */
-  public async translateElementTo(id: ID, position: Position, animation?: boolean): Promise<void>;
+  public async translateElementTo(id: ID, position: Point, animation?: boolean): Promise<void>;
   /**
    * <zh/> 批量将元素平移至指定位置
    *
@@ -1225,15 +1224,15 @@ export class Graph extends EventEmitter {
    * @param animation - <zh/> 是否启用动画 | <en/> whether to enable animation
    * @apiCategory element
    */
-  public async translateElementTo(positions: Record<ID, Position>, animation?: boolean): Promise<void>;
+  public async translateElementTo(positions: Record<ID, Point>, animation?: boolean): Promise<void>;
   public async translateElementTo(
-    args1: ID | Record<ID, Position>,
-    args2?: boolean | Position,
+    args1: ID | Record<ID, Point>,
+    args2?: boolean | Point,
     args3: boolean = true,
   ): Promise<void> {
     const [config, animation] = isObject(args1)
       ? [args1, (args2 as boolean) ?? true]
-      : [{ [args1 as ID]: args2 as Position }, args3];
+      : [{ [args1 as ID]: args2 as Point }, args3];
 
     Object.entries(config).forEach(([id, position]) => this.context.model.translateNodeTo(id, position));
     await this.context.element!.draw({ animation })?.finished;
@@ -1247,7 +1246,7 @@ export class Graph extends EventEmitter {
    * @returns <zh/> 元素位置 | <en/> element position
    * @apiCategory element
    */
-  public getElementPosition(id: ID): Position {
+  public getElementPosition(id: ID): Point {
     return this.context.model.getElementPosition(id);
   }
 

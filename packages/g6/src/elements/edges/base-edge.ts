@@ -4,6 +4,7 @@ import type { PathArray } from '@antv/util';
 import { isFunction, pick } from '@antv/util';
 import type {
   BaseElementStyleProps,
+  Edge,
   EdgeArrowStyleProps,
   EdgeBadgeStyleProps,
   EdgeKey,
@@ -170,7 +171,7 @@ type ParsedBaseEdgeStyleProps = Required<BaseEdgeStyleProps>;
  *
  * <en/> Base class of the edge
  */
-export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> {
+export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implements Edge {
   public type = 'edge';
 
   static defaultStyleProps: Partial<BaseEdgeStyleProps> = {

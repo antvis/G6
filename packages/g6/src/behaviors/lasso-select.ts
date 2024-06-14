@@ -1,5 +1,5 @@
 import { Path } from '@antv/g';
-import type { IPointerEvent, Points } from '../types';
+import type { IPointerEvent, Point } from '../types';
 import { pointsToPath } from '../utils/path';
 import type { BrushSelectOptions } from './brush-select';
 import { BrushSelect, getCursorPoint } from './brush-select';
@@ -21,7 +21,7 @@ export interface LassoSelectOptions extends BrushSelectOptions {}
  * <en/> Select a group of elements with an irregular polygon.
  */
 export class LassoSelect extends BrushSelect {
-  private points?: Points;
+  private points?: Point[];
   private pathShape?: Path;
 
   /**

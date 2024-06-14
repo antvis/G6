@@ -3,10 +3,11 @@ import { isFunction } from '@antv/util';
 import { COMBO_KEY } from '../../constants';
 import type {
   CollapsedMarkerStyleProps,
+  Combo,
   ID,
   NodeLikeData,
   Padding,
-  Position,
+  Point,
   Prefix,
   STDSize,
   Size,
@@ -83,7 +84,10 @@ export interface BaseComboStyleProps
  *
  * <en/> When customizing a combo, it is recommended to use this class as the base class. In this way, users only need to focus on the logic of drawing keyShape
  */
-export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStyleProps> extends BaseNode<S> {
+export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStyleProps>
+  extends BaseNode<S>
+  implements Combo
+{
   public type = 'combo';
 
   static defaultStyleProps: Partial<BaseComboStyleProps> = {
@@ -184,7 +188,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     return ancestors.length;
   }
 
-  public getComboPosition(attributes: Required<S>): Position {
+  public getComboPosition(attributes: Required<S>): Point {
     const { x = 0, y = 0, collapsed, context, childrenData = [] } = attributes;
 
     if (childrenData.length === 0) return [+x, +y, 0];
@@ -195,7 +199,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
 
       if (descendants.length > 0) {
         // combo 被收起，返回平均中心位置 / combo is collapsed, return the average center position
-        const totalPosition = descendants.reduce((acc, datum) => add(acc, positionOf(datum)), [0, 0, 0] as Position);
+        const totalPosition = descendants.reduce((acc, datum) => add(acc, positionOf(datum)), [0, 0, 0] as Point);
         return divide(totalPosition, descendants.length);
       }
       // empty combo

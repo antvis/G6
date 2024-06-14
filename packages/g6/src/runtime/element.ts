@@ -389,7 +389,7 @@ export class ElementController {
       {
         after: () => {
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_CREATE, elementType, datum), context);
-          element.onCreate();
+          element.onCreate?.();
         },
       },
     );
@@ -457,7 +457,7 @@ export class ElementController {
           if (stage === 'collapse') updateStyle(element, style);
           if (exactStage === 'hide') updateStyle(element, { visibility: getCachedStyle(element, 'visibility') });
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum), context);
-          element.onUpdate();
+          element.onUpdate?.();
         },
       },
     );
@@ -496,7 +496,7 @@ export class ElementController {
         after: () => {
           this.clearElement(id);
           element.destroy();
-          element.onDestroy();
+          element.onDestroy?.();
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_DESTROY, elementType, datum), context);
         },
       },

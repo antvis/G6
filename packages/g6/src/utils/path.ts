@@ -1,15 +1,15 @@
 import type { PathArray, PathCommand } from '@antv/util';
-import type { Point, Points } from '../types';
+import type { Point } from '../types';
 
 /**
  * <zh/> points 转化为 path 路径
  *
- * <en/> points transfrom path.
+ * <en/> points transform path.
  * @param points Point[]
  * @param isClose boolean
  * @returns path string[][]
  */
-export function pointsToPath(points: Points, isClose = true): PathArray {
+export function pointsToPath(points: Point[], isClose = true): PathArray {
   const path = [];
 
   points.forEach((point, index) => {
