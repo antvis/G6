@@ -218,20 +218,19 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
     super(mergeOptions({ style: BaseEdge.defaultStyleProps }, options));
   }
 
+  protected get sourceNode() {
+    const { context, sourceNode: source } = this.parsedAttributes;
+    return context.element!.getElement<Node>(source)!;
+  }
+
   protected get targetNode() {
     const { context, targetNode: target } = this.parsedAttributes;
     return context.element!.getElement<Node>(target)!;
   }
 
-  protected getNode(id: ID) {
-    return this.parsedAttributes.context.element!.getElement<Node>(id)!;
-  }
-
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps): PathStyleProps {
-    const { sourceNode: source, targetNode: target } = attributes;
     const { loop, ...style } = this.getGraphicStyle(attributes);
-    const sourceNode = this.getNode(source);
-    const targetNode = this.getNode(target);
+    const { sourceNode, targetNode } = this;
 
     const d = loop && isSameNode(sourceNode, targetNode) ? this.getLoopPath(attributes) : this.getKeyPath(attributes);
 
@@ -244,8 +243,8 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
   protected abstract getKeyPath(attributes: ParsedBaseEdgeStyleProps): PathArray;
 
   protected getLoopPath(attributes: ParsedBaseEdgeStyleProps): PathArray {
-    const { sourceNode, sourcePort, targetPort } = attributes;
-    const node = this.getNode(sourceNode);
+    const { sourcePort, targetPort } = attributes;
+    const node = this.sourceNode;
 
     const bbox = getNodeBBox(node);
     const defaultDist = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
@@ -260,9 +259,8 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
   }
 
   protected getEndpoints(attributes: ParsedBaseEdgeStyleProps): [Point, Point] {
-    const { sourceNode: source, targetNode: target, sourcePort: sourcePortKey, targetPort: targetPortKey } = attributes;
-    const sourceNode = this.getNode(source);
-    const targetNode = this.getNode(target);
+    const { sourcePort: sourcePortKey, targetPort: targetPortKey } = attributes;
+    const { sourceNode, targetNode } = this;
 
     const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
 
