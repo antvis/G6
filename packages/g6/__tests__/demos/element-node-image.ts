@@ -11,6 +11,7 @@ export const elementNodeImage: TestCase = async (context) => {
         size: 40,
         labelText: (d) => d.id!,
         src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+        iconSrc: '',
         haloStroke: '#227eff',
       },
       state: {

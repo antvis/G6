@@ -58,12 +58,12 @@ export class Image extends BaseNode<ImageStyleProps> {
 
   protected getHaloStyle(attributes: Required<ImageStyleProps>): false | GRectStyleProps {
     if (attributes.halo === false) return false;
-    const { fill: keyStyleFill, stroke: keyStyleStroke, ...keyStyle } = this.getKeyStyle(attributes);
+    const { fill: keyStyleFill, stroke: keyStyleStroke, ...keyStyle } = this.getShape<GRect>('key').attributes;
     const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo');
     const haloLineWidth = Number(haloStyle.lineWidth);
     const [width, height] = add(this.getSize(attributes), [haloLineWidth, haloLineWidth]);
     const fill = 'transparent';
-    return { ...keyStyle, ...haloStyle, width, height, fill, x: -width / 2, y: -height / 2 };
+    return { ...haloStyle, width, height, fill, x: -width / 2, y: -height / 2 };
   }
 
   protected getIconStyle(attributes: Required<ImageStyleProps>): false | IconStyleProps {
