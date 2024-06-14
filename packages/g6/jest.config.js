@@ -7,7 +7,17 @@ module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['./__tests__/setup.ts'],
   transform: {
-    '^.+\\.[tj]s$': ['@swc/jest'],
+    '^.+\\.[tj]s$': [
+      '@swc/jest',
+      {
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            decorators: true,
+          },
+        },
+      },
+    ],
     '^.+\\.svg$': ['<rootDir>/__tests__/utils/svg-transformer.js'],
   },
   collectCoverageFrom: ['src/**/*.ts'],
