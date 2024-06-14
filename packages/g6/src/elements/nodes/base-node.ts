@@ -20,7 +20,6 @@ import { getPortXYByPlacement, getTextStyleByPlacement, isSimplePort } from '../
 import { inferIconStyle } from '../../utils/node';
 import { getPaletteColors } from '../../utils/palette';
 import { getRectIntersectPoint } from '../../utils/point';
-import { getXYByPlacement } from '../../utils/position';
 import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { mergeOptions } from '../../utils/style';
@@ -243,8 +242,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
       this.getGraphicStyle(attributes),
       'label',
     );
-    const keyShape = this.getShape('key');
-    const keyBounds = keyShape.getLocalBounds();
+    const keyBounds = this.getShape('key').getLocalBounds();
 
     return Object.assign(
       getTextStyleByPlacement(keyBounds, placement, offsetX, offsetY),
@@ -266,10 +264,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     if (attributes.icon === false || (!attributes.iconText && !attributes.iconSrc)) return false;
 
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
-    const keyShape = this.getShape('key');
-    const [x, y] = getXYByPlacement(keyShape.getLocalBounds(), 'center');
 
-    return Object.assign({ x, y }, inferIconStyle(attributes.size!, iconStyle), iconStyle);
+    return Object.assign(inferIconStyle(attributes.size!, iconStyle), iconStyle);
   }
 
   protected getBadgesStyle(attributes: Required<S>): Record<string, NodeBadgeStyleProps | false> {

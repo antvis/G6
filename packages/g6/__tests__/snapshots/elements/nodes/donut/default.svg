@@ -17,7 +17,7 @@
           <g>
             <path fill="rgba(255,165,0,1)" d="M -20,0 A 20 20 0 1 1 20 0 A 20 20 0 1 1 -20 0 Z M 12,0 A 12 12 0 1 0 -12 0 A 12 12 0 1 0 12 0 Z" class="round0" stroke-width="2"/>
           </g>
-          <g fill="none" class="icon" width="20" height="20" x="0" y="0">
+          <g fill="none" class="icon" width="20" height="20">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
                 
@@ -45,7 +45,7 @@
           <g>
             <path fill="rgba(0,128,0,1)" d="M 1.2246467991473533e-15,10 L 2.4492935982947065e-15,20 A 20 20 0 0 1 -4.898587196589413e-15 -20 L -2.4492935982947065e-15,-10 A 10 10 0 0 0 1.2246467991473533e-15 10 Z" class="round1"/>
           </g>
-          <g fill="none" class="icon" width="20" height="20" x="0" y="0">
+          <g fill="none" class="icon" width="20" height="20">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
                 
@@ -73,7 +73,7 @@
           <g>
             <path fill="rgba(225,87,89,1)" d="M 1.2246467991473533e-15,10 L 2.4492935982947065e-15,20 A 20 20 0 0 1 -4.898587196589413e-15 -20 L -2.4492935982947065e-15,-10 A 10 10 0 0 0 1.2246467991473533e-15 10 Z" class="round2"/>
           </g>
-          <g fill="none" class="icon" width="20" height="20" x="0" y="0">
+          <g fill="none" class="icon" width="20" height="20">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
                 
@@ -137,7 +137,7 @@
           <g>
             <path fill="rgba(225,87,89,1)" d="M -8.660254037844386,5.000000000000004 L -17.32050807568877,10.000000000000009 A 20 20 0 0 1 -4.898587196589413e-15 -20 L -2.4492935982947065e-15,-10 A 10 10 0 0 0 -8.660254037844386 5.000000000000004 Z" class="round2"/>
           </g>
-          <g fill="none" class="icon" width="20" height="20" x="0" y="0">
+          <g fill="none" class="icon" width="20" height="20">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
                 
@@ -177,7 +177,7 @@
           <g>
             <path fill="rgba(242,142,44,1)" d="M 1.2288829066471412,-9.924205096719357 L 2.4577658132942823,-19.848410193438713 A 20 20 0 1 1 -4.898587196589413e-15 -20 L -2.4492935982947065e-15,-10 A 10 10 0 1 0 1.2288829066471412 -9.924205096719357 Z" class="round1"/>
           </g>
-          <g fill="none" class="icon" width="20" height="20" x="0" y="0">
+          <g fill="none" class="icon" width="20" height="20">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
                 
@@ -205,7 +205,7 @@
           <g>
             <path fill="rgba(242,142,44,1)" d="M -1.228882906647149,-9.924205096719357 L -2.457765813294298,-19.848410193438713 A 20 20 0 0 1 -4.898587196589413e-15 -20 L -2.4492935982947065e-15,-10 A 10 10 0 0 0 -1.228882906647149 -9.924205096719357 Z" class="round1"/>
           </g>
-          <g fill="none" class="icon" width="20" height="20" x="0" y="0">
+          <g fill="none" class="icon" width="20" height="20">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
                 
@@ -233,7 +233,7 @@
           <g>
             <path fill="rgba(225,87,89,1)" d="M 1.2246467991473533e-15,10 L 2.4492935982947065e-15,20 A 20 20 0 0 1 -4.898587196589413e-15 -20 L -2.4492935982947065e-15,-10 A 10 10 0 0 0 1.2246467991473533e-15 10 Z" class="round2" stroke-width="1" stroke="rgba(255,255,255,1)"/>
           </g>
-          <g fill="none" class="icon" width="20" height="20" x="0" y="0">
+          <g fill="none" class="icon" width="20" height="20">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="20" height="20" font-size="20" font-family="iconfont">
                 
@@ -258,7 +258,7 @@
           <g>
             <path fill="rgba(0,128,0,1)" d="M 0,0 L 2.4492935982947065e-15,20 A 20 20 0 0 1 -4.898587196589413e-15 -20 L 0,0 A 0 0 0 0 0 0 0 Z" class="round1" opacity="0.25"/>
           </g>
-          <g fill="none" class="icon" width="20" height="20" x="0" y="0">
+          <g fill="none" class="icon" width="20" height="20">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="20" height="20" font-size="20" opacity="0.85" font-family="iconfont">
                 
@@ -283,7 +283,7 @@
           <g>
             <path fill="rgba(255,0,0,1)" d="M 1.2246467991473533e-15,10 L 2.4492935982947065e-15,20 A 20 20 0 0 1 -4.898587196589413e-15 -20 L -2.4492935982947065e-15,-10 A 10 10 0 0 0 1.2246467991473533e-15 10 Z" class="round1" opacity="0.06"/>
           </g>
-          <g fill="none" class="icon" width="20" height="20" x="0" y="0">
+          <g fill="none" class="icon" width="20" height="20">
             <g>
               <text fill="rgba(27,50,79,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="20" height="20" font-size="20" opacity="0.25" font-family="iconfont">
                 
