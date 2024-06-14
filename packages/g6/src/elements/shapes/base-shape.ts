@@ -5,6 +5,7 @@ import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
 import { updateStyle } from '../../utils/element';
 import { subObject } from '../../utils/prefix';
+import { getSubShapeStyle } from '../../utils/style';
 import { replaceTranslateInTransform } from '../../utils/transform';
 import { setVisibility } from '../../utils/visibility';
 
@@ -118,14 +119,13 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
    *
    * <en/> Extracts the graphic style properties from a given attribute object.
    * Removes specific properties like position, transformation, and class name.
-   * @param attributes - <zh/> 属性对象 | <en/> attribute object
+   * @param style - <zh/> 属性对象 | <en/> attribute object
    * @returns <zh/> 仅包含样式属性的对象 | <en/> An object containing only the style properties.
    */
   public getGraphicStyle<T extends Record<string, any>>(
-    attributes: T,
+    style: T,
   ): Omit<T, 'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'class' | 'context' | 'zIndex'> {
-    const { x, y, z, class: cls, className, transform, transformOrigin, context, zIndex, ...style } = attributes;
-    return style;
+    return getSubShapeStyle(style);
   }
 
   /**
