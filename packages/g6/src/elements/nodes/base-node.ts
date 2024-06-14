@@ -25,6 +25,7 @@ import { parseSize } from '../../utils/size';
 import { mergeOptions } from '../../utils/style';
 import { getWordWrapWidthByBox } from '../../utils/text';
 import { BaseElement } from '../base-element';
+import { effect } from '../effect';
 import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Icon, Label } from '../shapes';
 
@@ -357,6 +358,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     return getRectIntersectPoint(point, keyShapeBounds);
   }
 
+  @effect((self, attributes) => self.getHaloStyle(attributes))
   protected drawHaloShape(attributes: Required<S>, container: Group): void {
     const keyShape = this.getShape('key');
     this.upsert(
@@ -367,10 +369,12 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     );
   }
 
+  @effect((self, attributes) => self.getIconStyle(attributes))
   protected drawIconShape(attributes: Required<S>, container: Group): void {
     this.upsert('icon', Icon, this.getIconStyle(attributes), container);
   }
 
+  @effect((self, attributes) => self.getBadgesStyle(attributes))
   protected drawBadgeShapes(attributes: Required<S>, container: Group): void {
     const badgesStyle = this.getBadgesStyle(attributes);
     Object.keys(badgesStyle).forEach((key) => {
@@ -378,6 +382,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     });
   }
 
+  @effect((self, attributes) => self.getPortsStyle(attributes))
   protected drawPortShapes(attributes: Required<S>, container: Group): void {
     const portsStyle = this.getPortsStyle(attributes);
     Object.keys(portsStyle).forEach((key) => {
@@ -385,16 +390,23 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     });
   }
 
+  @effect((self, attributes) => self.getLabelStyle(attributes))
   protected drawLabelShape(attributes: Required<S>, container: Group): void {
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
   }
 
   protected abstract drawKeyShape(attributes: Required<S>, container: Group): DisplayObject | undefined;
 
+  // 用于装饰抽象方法 / Used to decorate abstract methods
+  @effect((self, attributes) => self.getKeyStyle(attributes))
+  private _drawKeyShape(attributes: Required<S>, container: Group) {
+    return this.drawKeyShape(attributes, container);
+  }
+
   public render(attributes = this.parsedAttributes, container: Group = this) {
     // 1. key shape
-    const keyShape = this.drawKeyShape(attributes, container);
-    if (!keyShape) return;
+    this._drawKeyShape(attributes, container);
+    if (!this.getShape('key')) return;
 
     // 2. halo, use shape same with keyShape
     this.drawHaloShape(attributes, container);

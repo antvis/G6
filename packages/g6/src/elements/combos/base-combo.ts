@@ -20,6 +20,7 @@ import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { mergeOptions } from '../../utils/style';
 import { add, divide } from '../../utils/vector';
+import { effect } from '../effect';
 import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
 import { Icon, IconStyleProps } from '../shapes';
@@ -145,6 +146,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     return getExpandedBBox(childrenBBox, padding);
   }
 
+  @effect((self, attributes) => self.getCollapsedMarkerStyle(attributes))
   protected drawCollapsedMarkerShape(attributes: Required<S>, container: Group): void {
     this.upsert('collapsed-marker', Icon, this.getCollapsedMarkerStyle(attributes), container);
   }
@@ -220,9 +222,9 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   protected updateComboPosition(attributes: Required<S>) {
     const comboStyle = this.getComboStyle(attributes);
     Object.assign(this.style, comboStyle);
-
     // Sync combo position to model
-    attributes.context!.model.syncComboDatum({ id: this.id, style: comboStyle });
+    const { x, y } = comboStyle;
+    attributes.context!.model.syncComboDatum({ id: this.id, style: { x, y } });
   }
 
   public render(attributes: Required<S>, container: Group = this) {
@@ -236,8 +238,6 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     super.update(attr);
     this.updateComboPosition(this.parsedAttributes);
   }
-
-  protected hostingAnimation = false;
 
   protected onframe() {
     super.onframe();

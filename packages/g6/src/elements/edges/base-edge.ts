@@ -25,6 +25,7 @@ import { mergeOptions } from '../../utils/style';
 import * as Symbol from '../../utils/symbol';
 import { getWordWrapWidthByEnds } from '../../utils/text';
 import { BaseElement } from '../base-element';
+import { effect } from '../effect';
 import type { BadgeStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Label } from '../shapes';
 
@@ -363,42 +364,60 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
     );
   }
 
+  @effect((self, attributes) => self.getLabelStyle(attributes))
   protected drawLabelShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
   }
 
+  @effect((self, attributes) => self.getHaloStyle(attributes))
   protected drawHaloShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
     this.upsert('halo', Path, this.getHaloStyle(attributes), container);
   }
 
+  @effect((self, attributes) => self.getBadgeStyle(attributes))
   protected drawBadgeShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
     this.upsert('badge', Badge, this.getBadgeStyle(attributes), container);
   }
 
+  @effect((self, attributes) => self.getArrowStyle(attributes, 'start'))
+  protected drawSourceArrow(attributes: ParsedBaseEdgeStyleProps) {
+    this.drawArrow(attributes, 'start');
+  }
+
+  @effect((self, attributes) => self.getArrowStyle(attributes, 'end'))
+  protected drawTargetArrow(attributes: ParsedBaseEdgeStyleProps) {
+    this.drawArrow(attributes, 'end');
+  }
+
+  @effect((self, attributes) => self.getKeyStyle(attributes))
   protected drawKeyShape(attributes: ParsedBaseEdgeStyleProps, container: Group): Path | undefined {
     const key = this.upsert('key', Path, this.getKeyStyle(attributes), container);
-    this.drawArrow(attributes, 'start');
-    this.drawArrow(attributes, 'end');
     return key;
   }
 
   public render(attributes = this.parsedAttributes, container: Group = this): void {
     // 1. key shape
-    const keyShape = this.drawKeyShape(attributes, container);
-    if (!keyShape) return;
+    this.drawKeyShape(attributes, container);
+    if (!this.getShape('key')) return;
 
-    // 2. label
+    // 2. arrows
+    this.drawSourceArrow(attributes);
+    this.drawTargetArrow(attributes);
+
+    // 3. label
     this.drawLabelShape(attributes, container);
 
-    // 3. halo
+    // 4. halo
     this.drawHaloShape(attributes, container);
 
-    // 4. badge
+    // 5. badges
     this.drawBadgeShape(attributes, container);
   }
 
   protected onframe() {
     this.drawKeyShape(this.parsedAttributes, this);
+    this.drawSourceArrow(this.parsedAttributes);
+    this.drawTargetArrow(this.parsedAttributes);
     this.drawHaloShape(this.parsedAttributes, this);
     this.drawLabelShape(this.parsedAttributes, this);
     this.drawBadgeShape(this.parsedAttributes, this);
