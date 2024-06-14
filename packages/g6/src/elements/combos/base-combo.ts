@@ -105,6 +105,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   };
   constructor(options: DisplayObjectConfig<BaseComboStyleProps>) {
     super(mergeOptions({ style: BaseCombo.defaultStyleProps }, options));
+    this.updateComboPosition(this.parsedAttributes);
   }
 
   /**
@@ -226,10 +227,14 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
 
   public render(attributes: Required<S>, container: Group = this) {
     super.render(attributes, container);
-    this.updateComboPosition(attributes);
 
     // collapsed marker
     this.drawCollapsedMarkerShape(attributes, container);
+  }
+
+  public update(attr: Partial<S> = {}): void {
+    super.update(attr);
+    this.updateComboPosition(this.parsedAttributes);
   }
 
   protected hostingAnimation = false;

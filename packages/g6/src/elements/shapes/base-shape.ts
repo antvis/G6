@@ -5,6 +5,7 @@ import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
 import { updateStyle } from '../../utils/element';
 import { subObject } from '../../utils/prefix';
+import { replaceTranslateInTransform } from '../../utils/transform';
 import { setVisibility } from '../../utils/visibility';
 
 export interface BaseShapeStyleProps extends BaseStyleProps {}
@@ -12,6 +13,7 @@ export interface BaseShapeStyleProps extends BaseStyleProps {}
 export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends CustomElement<StyleProps> {
   constructor(options: DisplayObjectConfig<StyleProps>) {
     super(options);
+    this.transformPosition(this.attributes);
     this.render(this.attributes as Required<StyleProps>, this);
     this.setVisibility();
     this.bindEvents();
@@ -76,9 +78,27 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     return target;
   }
 
+  /**
+   * <zh/> 使用 transform 更新图形位置
+   *
+   * <en/> Update the position of the shape using transform
+   * @param attributes - <zh/> 样式属性 | <en/> style attributes
+   */
+  protected transformPosition(attributes: Partial<StyleProps>) {
+    // Use `transform: translate3d()` instead of `x/y/z`
+    const { x = 0, y = 0, z = 0, transform } = attributes as any;
+    if (x !== 0 || y !== 0 || z !== 0) {
+      this.style.transform = replaceTranslateInTransform(+x, +y, +z, transform);
+    }
+  }
+
   public update(attr: Partial<StyleProps> = {}): void {
-    this.attr(Object.assign({}, this.attributes, attr) as StyleProps);
-    this.render(this.attributes as Required<StyleProps>, this);
+    const attributes = Object.assign({}, this.attributes, attr) as Required<StyleProps>;
+    // 先执行 render，才能检查 attributes 和 this.attributes 之间的差异
+    // Execute render first to check the difference between attributes and this.attributes
+    this.render(attributes, this);
+    this.attr(attributes);
+    this.transformPosition(attributes);
     this.setVisibility();
   }
 

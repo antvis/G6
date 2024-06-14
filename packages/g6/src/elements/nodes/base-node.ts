@@ -25,7 +25,6 @@ import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { mergeOptions } from '../../utils/style';
 import { getWordWrapWidthByBox } from '../../utils/text';
-import { replaceTranslateInTransform } from '../../utils/transform';
 import { BaseElement } from '../base-element';
 import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Icon, Label } from '../shapes';
@@ -47,13 +46,13 @@ export interface BaseNodeStyleProps
    *
    * <en/> The x-coordinate of node
    */
-  x?: number | string;
+  x?: number;
   /**
    * <zh/> y 坐标
    *
    * <en/> The y-coordinate of node
    */
-  y?: number | string;
+  y?: number;
   /**
    * <zh/> z 坐标
    *
@@ -397,12 +396,6 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   protected abstract drawKeyShape(attributes: Required<S>, container: Group): DisplayObject | undefined;
 
   public render(attributes = this.parsedAttributes, container: Group = this) {
-    // Use `transform: translate3d()` instead of `x/y/z`
-    const { x = 0, y = 0, z = 0, transform } = attributes;
-    if (x !== 0 || y !== 0 || z !== 0) {
-      this.style.transform = replaceTranslateInTransform(x as number, y as number, z as number, transform);
-    }
-
     // 1. key shape
     const keyShape = this.drawKeyShape(attributes, container);
     if (!keyShape) return;
