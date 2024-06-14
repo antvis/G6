@@ -1,4 +1,4 @@
-import { combo } from '@/__tests__/demos';
+import { elementCombo } from '@/__tests__/demos';
 import { type Graph } from '@/src';
 import { createDemoGraph } from '@@/utils';
 
@@ -6,7 +6,7 @@ describe('combo', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createDemoGraph(combo, { animation: false });
+    graph = await createDemoGraph(elementCombo, { animation: false });
   });
 
   afterAll(() => {
@@ -19,27 +19,18 @@ describe('combo', () => {
 
   it('collapse circle combo', async () => {
     const expandCombo = async () => {
-      graph.updateComboData([
-        {
-          id: 'combo-2',
-          style: {
-            collapsed: false,
-          },
-        },
-      ]);
-      await graph.render();
+      await graph.expandElement('combo-2');
     };
     const collapseCombo = async () => {
       graph.updateComboData([
         {
           id: 'combo-2',
           style: {
-            collapsed: true,
             collapsedMarker: false,
           },
         },
       ]);
-      await graph.render();
+      await graph.collapseElement('combo-2');
     };
     await collapseCombo();
     await expect(graph).toMatchSnapshot(__filename, 'circle-collapse-center');
@@ -48,16 +39,7 @@ describe('combo', () => {
 
   it('collapse rect combo', async () => {
     const expandCombo = async () => {
-      graph.updateComboData([
-        {
-          id: 'combo-1',
-          type: 'rect',
-          style: {
-            collapsed: false,
-          },
-        },
-      ]);
-      await graph.render();
+      await graph.expandElement('combo-1');
     };
     const collapseCombo = async () => {
       graph.updateComboData([
@@ -65,12 +47,11 @@ describe('combo', () => {
           id: 'combo-1',
           type: 'rect',
           style: {
-            collapsed: true,
             collapsedMarker: false,
           },
         },
       ]);
-      await graph.render();
+      await graph.collapseElement('combo-1');
     };
 
     await collapseCombo();

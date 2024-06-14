@@ -17,7 +17,7 @@ export { behaviorHoverActivate } from './behavior-hover-activate';
 export { behaviorLassoSelect } from './behavior-lasso-select';
 export { behaviorScrollCanvas } from './behavior-scroll-canvas';
 export { behaviorZoomCanvas } from './behavior-zoom-canvas';
-export { combo } from './combo';
+export { elementCombo } from './combo';
 export { commonGraph } from './common-graph';
 export { controllerViewport } from './controller-viewport';
 export { elementChangeType } from './element-change-type';
