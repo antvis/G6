@@ -37,18 +37,24 @@ Currently, G6 supports configuring state styles within style mappings, for examp
 {
   node: {
     style: {/** Default State Style */},
-    selected: {/** Selected State Style */},
-    [State name]: {/** State Style */}
+    state: {
+      selected: {/** Selected State Style */},
+      [State name]: {/** State Style */}
+    }
   },
   edge: {
-   style: {/** Default State Style */},
-    selected: {/** Selected State Style */},
-    [State name]: {/** State Style */}
+    style: {/** Default State Style */},
+    state: {
+      selected: {/** Selected State Style */},
+      [State name]: {/** State Style */}
+    }
   },
   combo: {
     style: {/** Default State Style */},
-    selected: {/** Selected State Style */},
-    [State name]: {/** State Style */}
+    state: {
+      selected: {/** Selected State Style */},
+      [State name]: {/** State Style */}
+    }
   }
 }
 ```
@@ -136,7 +142,9 @@ To customize states, simply add them to the style mapping, for example:
 {
   node: {
     // Custom state name: 'custom-state'
-    'custom-state': {/** Custom State Style */}
+    state: {
+       'custom-state': {/** Custom State Style */}
+    }
   },
 }
 ```
