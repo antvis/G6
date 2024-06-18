@@ -51,5 +51,5 @@ export interface StaticEdgeOptions {
 }
 
 export interface EdgeStyle extends Partial<BaseEdgeStyleProps> {
-  [key: string]: any;
+  [key: string]: unknown;
 }

@@ -51,5 +51,5 @@ export interface StaticNodeOptions {
 }
 
 export interface NodeStyle extends Partial<BaseNodeStyleProps> {
-  [key: string]: any;
+  [key: string]: unknown;
 }
