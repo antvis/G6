@@ -20,7 +20,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
         },
       },
       layout: {
-        type: 'fruchterman',
+        type: 'fruchterman-gpu',
         speed: 20,
         gravity: 1,
         maxIteration: 10000,
