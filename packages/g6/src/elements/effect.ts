@@ -1,4 +1,3 @@
-import { isEqual } from '@antv/util';
 import type { Element } from '../types';
 import { getCachedStyle, setCacheStyle } from '../utils/cache';
 
@@ -34,9 +33,42 @@ export function effect(styler: (self: any, attributes: Record<string, unknown>) 
       const modified = styler(this, attr);
       setCacheStyle(this, styleKey, modified);
 
-      if (isEqual(original, modified)) return null;
+      if (isStyleEqual(original, modified)) return null;
+
       return fn.call(this, attr, ...rest);
     };
     return descriptor;
   };
 }
+
+/**
+ * <zh/> 比较两个样式属性是否相等
+ *
+ * <en/> Compare whether two style attributes are equal
+ * @param a - <zh/> 样式属性 a | <en/> Style attribute a
+ * @param b - <zh/> 样式属性 b | <en/> Style attribute b
+ * @param depth - <zh/> 比较深度 | <en/> Comparison depth
+ * @returns <zh/> 是否相等 | <en/> Whether they are equal
+ * @description
+ * <zh/> 进行第二层浅比较用于比较 badges、ports 等复合图形属性
+ *
+ * <en/> Perform a second-level shallow comparison to compare complex shape attributes such as badges and ports
+ */
+const isStyleEqual = (a: Record<string, unknown>, b: Record<string, unknown>, depth = 2): boolean => {
+  if (typeof a !== 'object' || typeof b !== 'object') return a === b;
+
+  const keys1 = Object.keys(a);
+  const keys2 = Object.keys(b);
+
+  if (keys1.length !== keys2.length) return false;
+
+  for (const key of keys1) {
+    const val1 = a[key];
+    const val2 = b[key];
+    if (depth > 1 && typeof val1 === 'object' && typeof val2 === 'object') {
+      if (!isStyleEqual(val1 as Record<string, unknown>, val2 as Record<string, unknown>, depth - 1)) return false;
+    } else if (val1 !== val2) return false;
+  }
+
+  return true;
+};
