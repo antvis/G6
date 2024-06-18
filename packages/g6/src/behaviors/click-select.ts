@@ -2,7 +2,7 @@ import { isFunction } from '@antv/util';
 import { CanvasEvent, CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
-import type { Element, ElementType, ID, IPointerEvent, State } from '../types';
+import type { ElementType, ID, IPointerEvent, State } from '../types';
 import { idsOf } from '../utils/id';
 import { getElementNthDegreeIds } from '../utils/relation';
 import type { ShortcutKey } from '../utils/shortcut';
@@ -107,9 +107,9 @@ export interface ClickSelectOptions extends BaseBehaviorOptions {
  * <en/> When the mouse clicks on an element, you can activate the state of the element, such as selecting nodes or edges. When the degree is 1, clicking on a node will highlight the current node and its directly adjacent nodes and edges.
  */
 export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
-  private selectedElementIds: Set<ID> = new Set<ID>();
+  private select: Set<ID> = new Set<ID>();
 
-  private neighborSelectedElementIds: Set<ID> = new Set<ID>();
+  private neighbor: Set<ID> = new Set<ID>();
 
   private shortcut: Shortcut;
 
@@ -141,86 +141,83 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
 
   private onClickSelect = (event: IPointerEvent) => {
     if (!this.validate(event)) return;
-    this.updateElementsState(event, false);
-    this.updateElementsState(event, true);
+    this.updateState(event);
     this.options.onClick?.(event);
   };
 
   private onClickCanvas = (event: IPointerEvent) => {
     if (!this.validate(event)) return;
-    this.updateElementsState(event, false);
-    this.selectedElementIds.clear();
-    this.neighborSelectedElementIds.clear();
+    this.updateState(event);
+    this.select.clear();
+    this.neighbor.clear();
     this.options.onClick?.(event);
   };
 
-  private updateElementsState = (event: IPointerEvent, add: boolean) => {
-    if (!this.options.state && !this.options.unselectedState) return;
+  private get isMultipleSelect() {
+    const { multiple, trigger } = this.options;
+    return multiple && this.shortcut.match(trigger);
+  }
 
+  private updateState(event: IPointerEvent) {
+    const { state: select, unselectedState: unselect, neighborState: neighbor, animation, degree } = this.options;
+    if (!select && !unselect) return;
+
+    const target = event.target;
     const { graph } = this.context;
-    const { target } = event as { target: Element };
 
-    if (add) {
-      // 如果当前元素已经被选中，则取消选中 | If the current element is already selected, deselect it
-      if (this.selectedElementIds.has(target.id)) {
-        this.selectedElementIds.delete(target.id);
+    if ('id' in target) {
+      const id = target.id;
+      const datum = graph.getElementData(id);
+      if (datum?.states?.includes(select)) {
+        this.select.delete(id);
       } else {
-        const isMultiple = this.options.multiple && this.shortcut.match(this.options.trigger);
-        if (!isMultiple) this.selectedElementIds.clear();
-        this.selectedElementIds.add(target.id);
-        this.updateNeighborSelectedElementIds(event);
+        if (!this.isMultipleSelect) this.select.clear();
+        this.select.add(id);
       }
     }
-    if (!this.selectedElementIds.size) return;
+    // 点击了空白处 / click canvas
+    else this.select.clear();
 
     const states: Record<ID, State[]> = {};
 
-    if (this.options.state) {
-      Object.assign(states, this.getElementsState(Array.from(this.selectedElementIds), this.options.state, add));
-    }
-
-    if (this.options.neighborState && this.neighborSelectedElementIds.size > 0) {
-      Object.assign(
-        states,
-        this.getElementsState(Array.from(this.neighborSelectedElementIds), this.options.neighborState, add),
-      );
-    }
-
-    if (this.options.unselectedState) {
-      const inactiveIds = idsOf(graph.getData(), true).filter(
-        (id) => !this.selectedElementIds.has(id) && !this.neighborSelectedElementIds.has(id),
-      );
-      Object.assign(states, this.getElementsState(inactiveIds, this.options.unselectedState, add));
-    }
-
-    graph.setElementState(states, this.options.animation);
-  };
-
-  private updateNeighborSelectedElementIds = (event: IPointerEvent) => {
-    this.neighborSelectedElementIds.clear();
-
-    const degree = isFunction(this.options.degree) ? this.options.degree(event) : this.options.degree;
-    if (degree) {
-      const { targetType } = event as { targetType: ElementType };
-      this.selectedElementIds.forEach((id) => {
-        const neighborIds = getElementNthDegreeIds(this.context.graph, targetType, id, degree);
-        this.neighborSelectedElementIds = new Set(
-          [...this.neighborSelectedElementIds, ...neighborIds].filter((id) => !this.selectedElementIds.has(id)),
-        );
+    if (select) {
+      const exclude = [unselect, neighbor];
+      this.select.forEach((id) => {
+        const state = graph.getElementState(id);
+        states[id] = uniq([...state.filter((s) => !exclude.includes(s)), select]);
       });
     }
-  };
 
-  private getElementsState = (ids: ID[], state: State, add: boolean) => {
-    const { graph } = this.context;
-    const states: Record<ID, State[]> = {};
-    ids.forEach((id) => {
-      const currentState = graph.getElementState(id);
-      const updatedState = add ? [...currentState, state] : currentState.filter((s) => s !== state);
-      states[id] = updatedState;
+    let neighborIds: Set<ID> | undefined;
+    if (neighbor) {
+      const d = typeof degree === 'function' ? degree(event) : degree;
+      if (d) {
+        const targetType = event.targetType as ElementType;
+        this.select.forEach((id) => {
+          neighborIds = new Set(getElementNthDegreeIds(graph, targetType, id, d).filter((id) => !this.select.has(id)));
+        });
+      }
+      const exclude = [select, unselect];
+      neighborIds?.forEach((id) => {
+        const state = graph.getElementState(id);
+        states[id] = uniq([...state.filter((s) => !exclude.includes(s)), neighbor]);
+      });
+    }
+
+    const exclude = [select, neighbor, unselect];
+    idsOf(graph.getData(), true).forEach((id) => {
+      if (!this.select.has(id) && !neighborIds?.has(id)) {
+        const state = graph.getElementState(id);
+        const filtered = state.filter((s) => !exclude.includes(s));
+        // 仅在有选中元素时应用 unselect 状态
+        // Apply unselect state only when there are selected elements
+        if (unselect && this.select.size) states[id] = uniq([...filtered, unselect]);
+        else states[id] = filtered;
+      }
     });
-    return states;
-  };
+
+    graph.setElementState(states, animation);
+  }
 
   private validate(event: IPointerEvent) {
     if (this.destroyed) return false;
@@ -243,3 +240,5 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
     super.destroy();
   }
 }
+
+const uniq = <T>(array: T[]): T[] => Array.from(new Set(array));
