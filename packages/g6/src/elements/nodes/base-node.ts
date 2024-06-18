@@ -20,13 +20,12 @@ import { getPortXYByPlacement, getTextStyleByPlacement, isSimplePort } from '../
 import { inferIconStyle } from '../../utils/node';
 import { getPaletteColors } from '../../utils/palette';
 import { getRectIntersectPoint } from '../../utils/point';
-import { getXYByPlacement } from '../../utils/position';
 import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { mergeOptions } from '../../utils/style';
 import { getWordWrapWidthByBox } from '../../utils/text';
-import { replaceTranslateInTransform } from '../../utils/transform';
 import { BaseElement } from '../base-element';
+import { effect } from '../effect';
 import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Icon, Label } from '../shapes';
 
@@ -47,13 +46,13 @@ export interface BaseNodeStyleProps
    *
    * <en/> The x-coordinate of node
    */
-  x?: number | string;
+  x?: number;
   /**
    * <zh/> y 坐标
    *
    * <en/> The y-coordinate of node
    */
-  y?: number | string;
+  y?: number;
   /**
    * <zh/> z 坐标
    *
@@ -244,8 +243,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
       this.getGraphicStyle(attributes),
       'label',
     );
-    const keyShape = this.getShape('key');
-    const keyBounds = keyShape.getLocalBounds();
+    const keyBounds = this.getShape('key').getLocalBounds();
 
     return Object.assign(
       getTextStyleByPlacement(keyBounds, placement, offsetX, offsetY),
@@ -267,10 +265,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     if (attributes.icon === false || (!attributes.iconText && !attributes.iconSrc)) return false;
 
     const iconStyle = subStyleProps(this.getGraphicStyle(attributes), 'icon');
-    const keyShape = this.getShape('key');
-    const [x, y] = getXYByPlacement(keyShape.getLocalBounds(), 'center');
 
-    return Object.assign({ x, y }, inferIconStyle(attributes.size!, iconStyle), iconStyle);
+    return Object.assign(inferIconStyle(attributes.size!, iconStyle), iconStyle);
   }
 
   protected getBadgesStyle(attributes: Required<S>): Record<string, NodeBadgeStyleProps | false> {
@@ -362,6 +358,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     return getRectIntersectPoint(point, keyShapeBounds);
   }
 
+  @effect((self, attributes) => self.getHaloStyle(attributes))
   protected drawHaloShape(attributes: Required<S>, container: Group): void {
     const keyShape = this.getShape('key');
     this.upsert(
@@ -372,10 +369,12 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     );
   }
 
+  @effect((self, attributes) => self.getIconStyle(attributes))
   protected drawIconShape(attributes: Required<S>, container: Group): void {
     this.upsert('icon', Icon, this.getIconStyle(attributes), container);
   }
 
+  @effect((self, attributes) => self.getBadgesStyle(attributes))
   protected drawBadgeShapes(attributes: Required<S>, container: Group): void {
     const badgesStyle = this.getBadgesStyle(attributes);
     Object.keys(badgesStyle).forEach((key) => {
@@ -383,6 +382,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     });
   }
 
+  @effect((self, attributes) => self.getPortsStyle(attributes))
   protected drawPortShapes(attributes: Required<S>, container: Group): void {
     const portsStyle = this.getPortsStyle(attributes);
     Object.keys(portsStyle).forEach((key) => {
@@ -390,22 +390,23 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     });
   }
 
+  @effect((self, attributes) => self.getLabelStyle(attributes))
   protected drawLabelShape(attributes: Required<S>, container: Group): void {
     this.upsert('label', Label, this.getLabelStyle(attributes), container);
   }
 
   protected abstract drawKeyShape(attributes: Required<S>, container: Group): DisplayObject | undefined;
 
-  public render(attributes = this.parsedAttributes, container: Group = this) {
-    // Use `transform: translate3d()` instead of `x/y/z`
-    const { x = 0, y = 0, z = 0, transform } = attributes;
-    if (x !== 0 || y !== 0 || z !== 0) {
-      this.style.transform = replaceTranslateInTransform(x as number, y as number, z as number, transform);
-    }
+  // 用于装饰抽象方法 / Used to decorate abstract methods
+  @effect((self, attributes) => self.getKeyStyle(attributes))
+  private _drawKeyShape(attributes: Required<S>, container: Group) {
+    return this.drawKeyShape(attributes, container);
+  }
 
+  public render(attributes = this.parsedAttributes, container: Group = this) {
     // 1. key shape
-    const keyShape = this.drawKeyShape(attributes, container);
-    if (!keyShape) return;
+    this._drawKeyShape(attributes, container);
+    if (!this.getShape('key')) return;
 
     // 2. halo, use shape same with keyShape
     this.drawHaloShape(attributes, container);

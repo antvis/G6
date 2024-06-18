@@ -41,3 +41,22 @@ export function mergeOptions(opt1: DisplayObjectConfig<any>, opt2: DisplayObject
     style: Object.assign({}, s1, s2),
   });
 }
+
+/**
+ * <zh/> 获取图形子图形样式
+ *
+ * <en/> Get the style of the sub-shape of the graphic
+ * @param style - <zh/> 图形样式 | <en/> graphic style
+ * @returns <zh/> 子图形样式 | <en/> sub-shape style
+ * @description
+ * <zh/> 从给定的属性对象中提取图形样式属性。删除特定的属性，如位置、变换和类名
+ *
+ * <en/> Extracts the graphic style properties from a given attribute object.
+ * Removes specific properties like position, transformation, and class name.
+ */
+export function getSubShapeStyle<T extends Record<string, any>>(
+  style: T,
+): Omit<T, 'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'class' | 'context' | 'zIndex'> {
+  const { x, y, z, class: cls, className, transform, transformOrigin, context, zIndex, ...rest } = style;
+  return rest;
+}

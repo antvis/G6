@@ -45,7 +45,7 @@ export class Ellipse extends BaseNode {
 
   protected getIconStyle(attributes: Required<EllipseStyleProps>): false | IconStyleProps {
     const style = super.getIconStyle(attributes);
-    const { rx, ry } = this.getKeyStyle(attributes);
+    const { rx, ry } = this.getShape<GEllipse>('key').attributes;
     const size = Math.min(+rx, +ry) * 2 * ICON_SIZE_RATIO;
 
     return style ? ({ width: size, height: size, ...style } as IconStyleProps) : false;

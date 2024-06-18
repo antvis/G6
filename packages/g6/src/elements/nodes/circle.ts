@@ -40,7 +40,7 @@ export class Circle extends BaseNode {
 
   protected getIconStyle(attributes: Required<CircleStyleProps>): false | IconStyleProps {
     const style = super.getIconStyle(attributes);
-    const { r } = this.getKeyStyle(attributes);
+    const { r } = this.getShape<GCircle>('key').attributes;
     const size = (r as number) * 2 * ICON_SIZE_RATIO;
     return style ? ({ width: size, height: size, ...style } as IconStyleProps) : false;
   }

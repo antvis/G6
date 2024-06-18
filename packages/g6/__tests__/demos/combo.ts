@@ -1,6 +1,6 @@
 import { Graph } from '@/src';
 
-export const combo: TestCase = async (context) => {
+export const elementCombo: TestCase = async (context) => {
   const data = {
     nodes: [
       { id: 'node-1', combo: 'combo-2', style: { x: 120, y: 100 } },
@@ -46,66 +46,22 @@ export const combo: TestCase = async (context) => {
   const COMBO_TYPE = ['circle', 'rect'];
   const COLLAPSED_MARKER_TYPE = ['child-count', 'descendant-count', 'node-count', 'custom'];
 
-  combo.form = (panel) => {
+  elementCombo.form = (panel) => {
     const config: Record<string, any> = {
       combo2Type: 'circle',
       collapsedMarker: true,
       collapsedMarkerType: 'child-count',
       collapseCombo1: () => {
-        graph.updateComboData([
-          {
-            id: 'combo-1',
-            style: {
-              collapsed: true,
-              collapsedMarker: config.collapsedMarker,
-              collapsedMarkerType:
-                config.collapsedMarkerType === 'custom'
-                  ? (children) => children.length.toString() + 'nodes'
-                  : config.collapsedMarkerType,
-            },
-          },
-        ]);
-        graph.render();
+        graph.collapseElement('combo-1');
       },
       expandCombo1: () => {
-        graph.updateComboData([
-          {
-            id: 'combo-1',
-            style: {
-              collapsed: false,
-              collapsedMarker: config.collapsedMarker,
-            },
-          },
-        ]);
-        graph.render();
+        graph.expandElement('combo-1');
       },
       collapseCombo2: () => {
-        graph.updateComboData([
-          {
-            id: 'combo-2',
-            style: {
-              collapsed: true,
-              collapsedMarker: config.collapsedMarker,
-              collapsedMarkerType:
-                config.collapsedMarkerType === 'custom'
-                  ? (children) => children.length.toString() + 'nodes'
-                  : config.collapsedMarkerType,
-            },
-          },
-        ]);
-        graph.render();
+        graph.collapseElement('combo-2');
       },
       expandCombo2: () => {
-        graph.updateComboData([
-          {
-            id: 'combo-2',
-            style: {
-              collapsed: false,
-              collapsedMarker: config.collapsedMarker,
-            },
-          },
-        ]);
-        graph.render();
+        graph.expandElement('combo-2');
       },
       addRemoveNode: async () => {
         const node4 = graph.getNodeData('node-4');

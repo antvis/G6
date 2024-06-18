@@ -241,7 +241,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000003,18.000010)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Logistic regression
@@ -253,7 +253,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000001,17.999979)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Linear discriminant analysis
@@ -265,7 +265,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000015,17.999979)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Rules
@@ -277,7 +277,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000014,17.999979)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Decision trees
@@ -289,7 +289,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000013,17.999979)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Naive Bayes
@@ -301,7 +301,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000011,17.999979)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 K nearest neighbor
@@ -313,7 +313,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000010,17.999979)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Probabilistic neural network
@@ -325,7 +325,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000008,17.999994)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Support vector machine
@@ -361,7 +361,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000007,17.999994)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Different initializations
@@ -373,7 +373,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000005,17.999994)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Different parameter choices
@@ -385,7 +385,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000004,17.999994)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Different architectures
@@ -397,7 +397,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000003,18.000002)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Different modeling methods
@@ -409,7 +409,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000001,17.999998)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Different training sets
@@ -421,7 +421,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000015,18)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Different feature sets
@@ -445,7 +445,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000013,18.000002)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Classifier selection
@@ -457,7 +457,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000012,18.000002)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Classifier fusion
@@ -481,7 +481,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000010,18.000010)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Bagging
@@ -493,7 +493,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000009,18.000010)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Boosting
@@ -505,7 +505,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000008,18.000010)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 AdaBoost
@@ -529,7 +529,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000006,18.000010)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Multiple linear regression
@@ -541,7 +541,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000005,18.000010)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Partial least squares
@@ -553,7 +553,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000003,18.000010)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Multi-layer feed forward neural network
@@ -565,7 +565,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000002,18.000010)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 General regression neural network
@@ -577,7 +577,7 @@
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,-0.000016,18.000010)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="left" fill-opacity="0.85" font-weight="400">
                 Support vector regression

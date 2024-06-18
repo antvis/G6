@@ -36,7 +36,7 @@ export class Rect extends BaseNode<RectStyleProps> {
 
   protected getIconStyle(attributes: ParsedRectStyleProps): false | IconStyleProps {
     const style = super.getIconStyle(attributes);
-    const { width, height } = this.getKeyStyle(attributes);
+    const { width, height } = this.getShape<GRect>('key').attributes;
 
     return style
       ? ({

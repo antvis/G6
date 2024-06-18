@@ -1,4 +1,4 @@
-import { computeElementCallbackStyle, mergeOptions } from '@/src/utils/style';
+import { computeElementCallbackStyle, getSubShapeStyle, mergeOptions } from '@/src/utils/style';
 
 describe('style', () => {
   it('computeElementCallbackStyle', () => {
@@ -46,5 +46,17 @@ describe('style', () => {
         { style: { a: 2, b: [2, 3], c: { f: 1 } }, id: '2' },
       ),
     ).toEqual({ style: { a: 2, b: [2, 3], c: { f: 1 } }, id: '2' });
+  });
+
+  it('getSubShapeStyle', () => {
+    const style = {
+      x: 100,
+      y: 100,
+      class: 'node',
+      transform: 'translate(100, 100)',
+      zIndex: 100,
+      fill: 'pink',
+    };
+    expect(getSubShapeStyle(style)).toEqual({ fill: 'pink' });
   });
 });

@@ -5,6 +5,8 @@ import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
 import { updateStyle } from '../../utils/element';
 import { subObject } from '../../utils/prefix';
+import { getSubShapeStyle } from '../../utils/style';
+import { replaceTranslateInTransform } from '../../utils/transform';
 import { setVisibility } from '../../utils/visibility';
 
 export interface BaseShapeStyleProps extends BaseStyleProps {}
@@ -12,6 +14,7 @@ export interface BaseShapeStyleProps extends BaseStyleProps {}
 export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends CustomElement<StyleProps> {
   constructor(options: DisplayObjectConfig<StyleProps>) {
     super(options);
+    this.transformPosition(this.attributes);
     this.render(this.attributes as Required<StyleProps>, this);
     this.setVisibility();
     this.bindEvents();
@@ -63,7 +66,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     }
 
     // create
-    if (!target) {
+    if (!target || target.destroyed) {
       const instance = new Ctor({ className, style });
       container.appendChild(instance);
       this.shapeMap[className] = instance;
@@ -76,9 +79,25 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     return target;
   }
 
+  /**
+   * <zh/> 使用 transform 更新图形位置
+   *
+   * <en/> Update the position of the shape using transform
+   * @param attributes - <zh/> 样式属性 | <en/> style attributes
+   */
+  protected transformPosition(attributes: Partial<StyleProps>) {
+    // Use `transform: translate3d()` instead of `x/y/z`
+    const { x = 0, y = 0, z = 0, transform } = attributes as any;
+    if (x !== 0 || y !== 0 || z !== 0) {
+      this.style.transform = replaceTranslateInTransform(+x, +y, +z, transform);
+    }
+  }
+
   public update(attr: Partial<StyleProps> = {}): void {
-    this.attr(Object.assign({}, this.attributes, attr) as StyleProps);
-    this.render(this.attributes as Required<StyleProps>, this);
+    const attributes = Object.assign({}, this.attributes, attr) as Required<StyleProps>;
+    this.attr(attributes);
+    this.render(attributes, this);
+    this.transformPosition(attributes);
     this.setVisibility();
   }
 
@@ -98,14 +117,13 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
    *
    * <en/> Extracts the graphic style properties from a given attribute object.
    * Removes specific properties like position, transformation, and class name.
-   * @param attributes - <zh/> 属性对象 | <en/> attribute object
+   * @param style - <zh/> 属性对象 | <en/> attribute object
    * @returns <zh/> 仅包含样式属性的对象 | <en/> An object containing only the style properties.
    */
   public getGraphicStyle<T extends Record<string, any>>(
-    attributes: T,
+    style: T,
   ): Omit<T, 'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'class' | 'context' | 'zIndex'> {
-    const { x, y, z, class: cls, className, transform, transformOrigin, context, zIndex, ...style } = attributes;
-    return style;
+    return getSubShapeStyle(style);
   }
 
   /**
@@ -119,19 +137,11 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     ];
   }
 
-  /*
-   * <zh/> 是否自动托管动画
-   *
-   * <en/> Whether to automatically host animation
-   */
-  protected hostingAnimation = true;
-
   public animate(keyframes: Keyframe[], options?: number | KeyframeAnimationOptions): IAnimation | null {
     if (keyframes.length === 0) return null;
     const animationMap: IAnimation[] = [];
 
     const result = super.animate(keyframes, options);
-    if (!this.hostingAnimation) return result;
     if (result) animationMap.push(result);
 
     if (Array.isArray(keyframes) && keyframes.length > 0) {
