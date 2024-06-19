@@ -24,7 +24,7 @@ order: 0
   fetch('https://assets.antv.antgroup.com/g6/graph.json')
     .then((res) => res.json())
     .then((data) => {
-      const graph = new Graph({
+      const graph = new G6.Graph({
         container: 'container',
         autoFit: 'view',
         data,
@@ -78,7 +78,7 @@ fetch('https://assets.antv.antgroup.com/g6/graph.json').then((res) => res.json()
 4. 最后创建一个图实例，传入配置对象，并调用 `render` 方法渲染图：
 
 ```js
-const graph = new Graph({
+const graph = new G6.Graph({
   container: 'container',
   autoFit: 'view',
   data,
