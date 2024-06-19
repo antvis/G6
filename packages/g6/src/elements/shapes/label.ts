@@ -6,6 +6,11 @@ import { omitStyleProps, startsWith, subStyleProps } from '../../utils/prefix';
 import { mergeOptions } from '../../utils/style';
 import { BaseShape } from './base-shape';
 
+/**
+ * <zh/> 标签样式
+ *
+ * <en/> Label style
+ */
 export interface LabelStyleProps extends TextStyleProps, Prefix<'background', RectStyleProps> {
   /**
    * <zh/> 是否显示背景
@@ -21,9 +26,16 @@ export interface LabelStyleProps extends TextStyleProps, Prefix<'background', Re
    */
   padding?: Padding;
 }
-type ParsedLabelStyleProps = Required<LabelStyleProps>;
-type LabelOptions = DisplayObjectConfig<LabelStyleProps>;
 
+/**
+ * <zh/> 标签
+ *
+ * <en/> Label
+ * @description
+ * <zh/> 标签是一种具有背景的文本图形。
+ *
+ * <en/> Label is a text shape with background.
+ */
 export class Label extends BaseShape<LabelStyleProps> {
   static defaultStyleProps: Partial<LabelStyleProps> = {
     padding: 0,
@@ -39,7 +51,7 @@ export class Label extends BaseShape<LabelStyleProps> {
     backgroundLineWidth: 0,
   };
 
-  constructor(options: LabelOptions) {
+  constructor(options: DisplayObjectConfig<LabelStyleProps>) {
     super(mergeOptions({ style: Label.defaultStyleProps }, options));
   }
 
@@ -51,12 +63,12 @@ export class Label extends BaseShape<LabelStyleProps> {
     return startsWith(key, 'background');
   }
 
-  protected getTextStyle(attributes: ParsedLabelStyleProps) {
+  protected getTextStyle(attributes: Required<LabelStyleProps>) {
     const { padding, ...style } = this.getGraphicStyle(attributes);
     return omitStyleProps<TextStyleProps>(style, 'background');
   }
 
-  protected getBackgroundStyle(attributes: ParsedLabelStyleProps) {
+  protected getBackgroundStyle(attributes: Required<LabelStyleProps>) {
     if (attributes.background === false) return false;
 
     const style = this.getGraphicStyle(attributes);
@@ -95,7 +107,7 @@ export class Label extends BaseShape<LabelStyleProps> {
     return backgroundStyle;
   }
 
-  public render(attributes: ParsedLabelStyleProps = this.parsedAttributes, container: Group = this): void {
+  public render(attributes: Required<LabelStyleProps> = this.parsedAttributes, container: Group = this): void {
     this.upsert('text', Text, this.getTextStyle(attributes), container);
     this.upsert('background', Rect, this.getBackgroundStyle(attributes), container);
   }

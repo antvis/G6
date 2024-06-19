@@ -4,10 +4,22 @@ import { BaseShape } from './base-shape';
 import type { LabelStyleProps } from './label';
 import { Label } from './label';
 
+/**
+ * <zh/> 徽标样式
+ *
+ * <en/> Badge style
+ */
 export interface BadgeStyleProps extends LabelStyleProps {}
-type ParsedBadgeStyleProps = Required<BadgeStyleProps>;
-type BadgeOptions = DisplayObjectConfig<BadgeStyleProps>;
 
+/**
+ * <zh/> 徽标
+ *
+ * <en/> Badge
+ * @description
+ * <zh/> 徽标是一种特殊的标签，通常用于展示数量或状态信息。
+ *
+ * <en/> Badge is a special label, usually used to display quantity or status information.
+ */
 export class Badge extends BaseShape<BadgeStyleProps> {
   static defaultStyleProps: Partial<BadgeStyleProps> = {
     padding: [2, 4, 2, 4],
@@ -17,15 +29,15 @@ export class Badge extends BaseShape<BadgeStyleProps> {
     backgroundOpacity: 1,
   };
 
-  constructor(options: BadgeOptions) {
+  constructor(options: DisplayObjectConfig<BadgeStyleProps>) {
     super(mergeOptions({ style: Badge.defaultStyleProps }, options));
   }
 
-  protected getBadgeStyle(attributes: ParsedBadgeStyleProps) {
+  protected getBadgeStyle(attributes: Required<BadgeStyleProps>) {
     return this.getGraphicStyle(attributes);
   }
 
-  public render(attributes: ParsedBadgeStyleProps = this.parsedAttributes, container: Group = this) {
+  public render(attributes: Required<BadgeStyleProps> = this.parsedAttributes, container: Group = this) {
     this.upsert('label', Label, this.getBadgeStyle(attributes), container);
   }
 
