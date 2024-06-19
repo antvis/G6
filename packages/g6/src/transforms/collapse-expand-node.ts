@@ -46,8 +46,9 @@ export class CollapseExpandNode extends BaseTransform {
   }
 
   public beforeDraw(input: DrawData): DrawData {
+    const { graph, model } = this.context;
     const {
-      add: { nodes: nodesToAdd },
+      add: { nodes: nodesToAdd, edges: edgesToAdd },
       update: { nodes: nodesToUpdate },
     } = input;
     const nodesToCollapse = new Map<ID, NodeData>();
@@ -55,6 +56,14 @@ export class CollapseExpandNode extends BaseTransform {
 
     nodesToAdd.forEach((node, id) => {
       if (isCollapsed(node)) nodesToCollapse.set(id, node);
+    });
+
+    // 如果创建了一条连接到收起的节点的边，则将其添加到待展开列表
+    // If an edge is created that connects to a collapsed node, add it to the list to be expanded
+    edgesToAdd.forEach((edge) => {
+      if (graph.getElementType(edge.source) !== 'node') return;
+      const source = graph.getNodeData(edge.source);
+      if (isCollapsed(source)) nodesToCollapse.set(edge.source, source);
     });
 
     nodesToUpdate.forEach((node, id) => {
@@ -74,13 +83,13 @@ export class CollapseExpandNode extends BaseTransform {
     nodesToCollapse.forEach((node, id) => {
       // 将子节点添加到待删除列表，并删除关联的边
       // Add child nodes to the list to be deleted，and delete the associated edges
-      const descendants = this.context.model!.getDescendantsData(id);
+      const descendants = model.getDescendantsData(id);
       descendants.forEach((descendant) => {
         const id = idOf(descendant);
         if (handledNodes.has(id)) return;
 
         reassignTo(input, 'remove', 'node', descendant);
-        const relatedEdges = this.context.model.getRelatedEdgesData(id);
+        const relatedEdges = model.getRelatedEdgesData(id);
         relatedEdges.forEach((edge) => {
           reassignTo(input, 'remove', 'edge', edge);
         });
@@ -90,7 +99,7 @@ export class CollapseExpandNode extends BaseTransform {
     });
 
     nodesToExpand.forEach((node, id) => {
-      const ancestors = this.context.model.getAncestorsData(id, TREE_KEY);
+      const ancestors = model.getAncestorsData(id, TREE_KEY);
 
       // 如果祖先节点是收起的，添加到移除列表
       // If the ancestor node is collapsed, add it to the removal list

@@ -267,6 +267,7 @@ export class ElementController {
     if (!data) return null;
 
     const { dataChanges, drawData } = data;
+    this.markDestroyElement(drawData);
     // 计算样式 / Calculate style
     this.computeStyle();
     // 创建渲染任务 / Create render task
@@ -476,6 +477,22 @@ export class ElementController {
     });
   }
 
+  /**
+   * <zh/> 标记销毁元素
+   *
+   * <en/> mark destroy element
+   * @param data - <zh/> 绘制数据 | <en/> draw data
+   */
+  private markDestroyElement(data: DrawData) {
+    Object.values(data.remove).forEach((elementData) => {
+      elementData.forEach((datum) => {
+        const id = idOf(datum);
+        const element = this.getElement(id);
+        if (element) markToBeDestroyed(element);
+      });
+    });
+  }
+
   private destroyElement(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
     const { stage = 'exit' } = context;
     const id = idOf(datum);
@@ -538,11 +555,7 @@ export class ElementController {
 
     const preprocess = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
 
-    preprocess.drawData.remove.nodes.forEach((datum) => {
-      const id = idOf(datum);
-      const element = this.getElement(id);
-      if (element) markToBeDestroyed(element);
-    });
+    this.markDestroyElement(preprocess.drawData);
 
     // 进行预布局，计算出所有元素的位置
     // Perform pre-layout to calculate the position of all elements
@@ -552,7 +565,7 @@ export class ElementController {
     // 重新计算数据 / Recalculate data
     const { drawData } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
     const { add, remove, update } = drawData;
-
+    this.markDestroyElement(drawData);
     const context = { animation, stage: 'collapse', data: drawData } as const;
 
     this.destroyElements(remove, context);
@@ -647,7 +660,7 @@ export class ElementController {
     });
 
     const { dataChanges, drawData } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
-
+    this.markDestroyElement(drawData);
     const { update, remove } = drawData;
     const context = { animation, stage: 'collapse', data: drawData } as const;
 
