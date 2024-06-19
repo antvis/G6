@@ -4,8 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>G6: Preview</title>
+    <script type="module">
+      import { iconfont } from '@/src';
+      const style = document.createElement('style');
+      style.innerHTML = `@import url('${iconfont.css}');`;
+      document.head.appendChild(style);
+    </script>
     <style>
-      @import url('//at.alicdn.com/t/a/font_470089_tmp5emp4d9.css');
       body {
         margin: 0;
         font-size: 14px;
