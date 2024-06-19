@@ -47,7 +47,7 @@ export class CollapseExpandNode extends BaseTransform {
 
   public beforeDraw(input: DrawData): DrawData {
     const {
-      add: { nodes: nodesToAdd },
+      add: { nodes: nodesToAdd, edges: edgesToAdd },
       update: { nodes: nodesToUpdate },
     } = input;
     const nodesToCollapse = new Map<ID, NodeData>();
@@ -55,6 +55,13 @@ export class CollapseExpandNode extends BaseTransform {
 
     nodesToAdd.forEach((node, id) => {
       if (isCollapsed(node)) nodesToCollapse.set(id, node);
+    });
+
+    // 如果创建了一条连接到收起的节点的边，则将其添加到待展开列表
+    // If an edge is created that connects to a collapsed node, add it to the list to be expanded
+    edgesToAdd.forEach((edge) => {
+      const source = this.context.graph.getNodeData(edge.source);
+      if (isCollapsed(source)) nodesToCollapse.set(edge.source, source);
     });
 
     nodesToUpdate.forEach((node, id) => {
