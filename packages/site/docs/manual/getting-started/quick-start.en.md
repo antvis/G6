@@ -24,7 +24,7 @@ Copy the following code into an HTML file and then open this file in a browser:
   fetch('https://assets.antv.antgroup.com/g6/graph.json')
     .then((res) => res.json())
     .then((data) => {
-      const graph = new Graph({
+      const graph = new G6.Graph({
         container: 'container',
         autoFit: 'view',
         data,
@@ -78,7 +78,7 @@ fetch('https://assets.antv.antgroup.com/g6/graph.json').then((res) => res.json()
 4. Finally, create an instance of the graph, pass in the configuration object, and call the `render` method to render the graph:
 
 ```js
-const graph = new Graph({
+const graph = new G6.Graph({
   container: 'container',
   autoFit: 'view',
   data,
