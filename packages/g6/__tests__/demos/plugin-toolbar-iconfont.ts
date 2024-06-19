@@ -1,10 +1,10 @@
-import { Graph } from '@/src';
+import { Graph, iconfont } from '@/src';
 import data from '@@/dataset/cluster.json';
 
 export const pluginToolbarIconfont: TestCase = async (context) => {
   // Use iconfont for toolbar items.
   const iconFont = document.createElement('script');
-  iconFont.src = '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js';
+  iconFont.src = iconfont.js;
   document.head.appendChild(iconFont);
 
   const graph = new Graph({
