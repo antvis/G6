@@ -39,7 +39,7 @@ export {
   Star,
   Triangle,
 } from './elements/nodes';
-export { BaseShape } from './elements/shapes';
+export { Badge, BaseShape, Icon, Label } from './elements/shapes';
 export {
   AntVDagreLayout,
   BaseLayout,
