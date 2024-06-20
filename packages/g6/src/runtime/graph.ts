@@ -750,7 +750,7 @@ export class Graph extends EventEmitter {
    * <en/> Add child node data to the tree node
    * @param parentId - <zh/> 父节点 ID | <en/> parent node ID
    * @param childrenData - <zh/> 子节点数据 | <en/> child node data
-   * @description
+   * @remarks
    * <zh/> 为组合添加子节点使用 addNodeData / addComboData 方法
    *
    * <en/> Use addNodeData / addComboData method to add child nodes to the combo
