@@ -21,10 +21,12 @@ Copy the following code into an HTML file and then open this file in a browser:
 <script src="https://unpkg.com/@antv/g6@5/dist/g6.min.js"></script>
 
 <script>
+  const { Graph } = G6;
+
   fetch('https://assets.antv.antgroup.com/g6/graph.json')
     .then((res) => res.json())
     .then((data) => {
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: 'container',
         autoFit: 'view',
         data,
@@ -78,7 +80,9 @@ fetch('https://assets.antv.antgroup.com/g6/graph.json').then((res) => res.json()
 4. Finally, create an instance of the graph, pass in the configuration object, and call the `render` method to render the graph:
 
 ```js
-const graph = new G6.Graph({
+const { Graph } = G6;
+
+const graph = new Graph({
   container: 'container',
   autoFit: 'view',
   data,
