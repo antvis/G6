@@ -67,6 +67,7 @@ export { layoutCompactBoxBasic } from './layout-compact-box-basic';
 export { layoutCompactBoxTopToBottom } from './layout-compact-box-left-align';
 export { layoutCompactBoxLeftAlign } from './layout-compact-box-top-to-bottom';
 export { layoutConcentric } from './layout-concentric';
+export { layoutCustomDagre } from './layout-custom-dagre';
 export { layoutCustomHorizontal } from './layout-custom-horizontal';
 export { layoutCustomIterative } from './layout-custom-iterative';
 export { layoutD3Force } from './layout-d3-force';

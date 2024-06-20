@@ -258,9 +258,9 @@ export class LayoutController {
     const STDCtor =
       Object.getPrototypeOf(Ctor.prototype) === BaseLayout.prototype
         ? Ctor
-        : layoutAdapter(Ctor as new (...args: any[]) => AntVLayout, this.context);
+        : layoutAdapter(Ctor as new (options?: Record<string, unknown>) => AntVLayout, this.context);
 
-    const layout = new STDCtor();
+    const layout = new STDCtor(this.context);
     const config = { nodeSize, width, height, center };
 
     switch (layout.id) {

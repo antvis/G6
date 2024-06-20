@@ -103,16 +103,16 @@ export function layoutMapping2GraphData(layoutMapping: LayoutMapping): GraphData
  * @returns <zh/> G6 布局类 | <en/> G6 layout class
  */
 export function layoutAdapter(
-  Ctor: new (options?: any) => AntVLayout,
+  Ctor: new (options?: Record<string, unknown>) => AntVLayout,
   context: RuntimeContext,
-): new (options?: any) => BaseLayout {
+): new (context: RuntimeContext, options?: Record<string, unknown>) => BaseLayout {
   class AdaptLayout extends BaseLayout implements AdaptiveLayout {
     public instance: AntVLayout;
 
     public id: string;
 
-    constructor(options?: Record<string, unknown>) {
-      super(options);
+    constructor(context: RuntimeContext, options?: Record<string, unknown>) {
+      super(context, options);
       this.instance = new Ctor();
       this.id = this.instance.id;
 
