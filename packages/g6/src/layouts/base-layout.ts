@@ -1,3 +1,4 @@
+import type { RuntimeContext } from '../runtime/types';
 import type { GraphData } from '../spec';
 import type { BaseLayoutOptions } from './types';
 
@@ -6,7 +7,10 @@ export abstract class BaseLayout<O extends BaseLayoutOptions = any> {
 
   public options: O;
 
-  constructor(options?: O) {
+  protected context: RuntimeContext;
+
+  constructor(context: RuntimeContext, options?: O) {
+    this.context = context;
     this.options = options || ({} as O);
   }
 

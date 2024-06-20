@@ -36,6 +36,7 @@
     "bubblesets",
     "cancelviewportanimate",
     "convexhull",
+    "Dagre",
     "dendrogram",
     "elementstatechange",
     "elementtranslate",
