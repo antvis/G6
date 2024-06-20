@@ -88,9 +88,10 @@ describe('layout', () => {
         },
       },
     } as any;
+    // @ts-ignore
     const AdaptiveDagreLayout = layoutAdapter(DagreLayout, context);
 
-    const layout = new AdaptiveDagreLayout();
+    const layout = new AdaptiveDagreLayout(context);
 
     const result = await layout.execute(dagreData);
     expect(result).toEqual({
@@ -167,7 +168,7 @@ describe('layout', () => {
 
     const onTick = jest.fn();
 
-    const layout = new AdaptiveDagreLayout({
+    const layout = new AdaptiveDagreLayout(context, {
       onTick,
     });
 
@@ -186,9 +187,10 @@ describe('layout', () => {
         },
       },
     } as any;
+    // @ts-ignore
     const AdaptiveDagreLayout = layoutAdapter(DagreLayout, context);
 
-    const layout = new AdaptiveDagreLayout();
+    const layout = new AdaptiveDagreLayout(context);
 
     expect(invokeLayoutMethod(layout, 'execute', dagreData)).toBeTruthy();
     expect(invokeLayoutMethod(layout, 'null')).toBe(null);
