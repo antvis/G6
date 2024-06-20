@@ -137,9 +137,16 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
 
   protected getContentBBox(attributes: Required<S>): AABB {
     const { context, childrenNode = [], padding } = attributes;
-    const childrenBBox = getCombinedBBox(
-      childrenNode.map((id) => context!.element!.getElement(id)).map((child) => child!.getBounds()),
-    );
+    const children = childrenNode.map((id) => context!.element!.getElement(id)).filter(Boolean);
+    if (children.length === 0) {
+      const bbox = new AABB();
+      const { x = 0, y = 0, size } = attributes;
+      const [width, height] = parseSize(size);
+      bbox.setMinMax([x - width / 2, y - height / 2, 0], [x + width / 2, y + height / 2, 0]);
+      return bbox;
+    }
+
+    const childrenBBox = getCombinedBBox(children.map((child) => child!.getBounds()));
 
     if (!padding) return childrenBBox;
 

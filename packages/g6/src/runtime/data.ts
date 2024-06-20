@@ -378,9 +378,13 @@ export class DataController {
       const children = (datum as NodeData).children;
       if (children !== undefined) {
         model.attachTreeStructure(TREE_KEY);
-        children.forEach((child) => {
-          if (model.hasNode(child)) this.setParent(child, id, TREE_KEY);
-        });
+        const _children = children.filter((child) => model.hasNode(child));
+        _children.forEach((child) => this.setParent(child, id, TREE_KEY));
+        if (_children.length !== children.length) {
+          // 从数据中移除不存在的子节点
+          // Remove non-existent child nodes from the data
+          this.updateNodeData([{ id, children: _children }]);
+        }
       }
     });
   }
