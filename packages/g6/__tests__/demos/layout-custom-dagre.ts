@@ -12,7 +12,6 @@ class CustomLayout extends BaseLayout<CustomLayoutOptions> {
   id = 'custom-layout';
 
   async execute(data: GraphData): Promise<GraphData> {
-    // @ts-ignore
     const AdaptiveDagreLayout = layoutAdapter(DagreLayout, this.context);
     const layout = new AdaptiveDagreLayout(this.context, this.options);
     const model = await layout.execute(data);

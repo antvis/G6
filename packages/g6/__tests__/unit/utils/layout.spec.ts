@@ -88,7 +88,6 @@ describe('layout', () => {
         },
       },
     } as any;
-    // @ts-ignore
     const AdaptiveDagreLayout = layoutAdapter(DagreLayout, context);
 
     const layout = new AdaptiveDagreLayout(context);
@@ -187,7 +186,6 @@ describe('layout', () => {
         },
       },
     } as any;
-    // @ts-ignore
     const AdaptiveDagreLayout = layoutAdapter(DagreLayout, context);
 
     const layout = new AdaptiveDagreLayout(context);
