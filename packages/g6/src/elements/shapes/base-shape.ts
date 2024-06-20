@@ -141,6 +141,16 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     if (keyframes.length === 0) return null;
     const animationMap: IAnimation[] = [];
 
+    // 如果 keyframes 中存在 x/y/z ，替换为 transform
+    // if x/y/z exists in keyframes, replace them with transform
+    if (keyframes[0].x !== undefined || keyframes[0].y !== undefined || keyframes[0].z !== undefined) {
+      const { x: _x = 0, y: _y = 0, z: _z = 0 } = this.attributes as Record<string, any>;
+      keyframes.forEach((keyframe) => {
+        const { x = _x, y = _y, z = _z } = keyframe;
+        Object.assign(keyframe, { transform: replaceTranslateInTransform(+x, +y, +z) });
+      });
+    }
+
     const result = super.animate(keyframes, options);
     if (result) animationMap.push(result);
 

@@ -1282,7 +1282,7 @@ export class Graph extends EventEmitter {
    * @returns <zh/> 元素渲染样式 | <en/> element rendering style
    * @apiCategory element
    */
-  public getElementRenderStyle(id: ID) {
+  public getElementRenderStyle(id: ID): Record<string, any> {
     return omit(this.context.element!.getElement(id)!.attributes, ['context']);
   }
 

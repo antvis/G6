@@ -1,7 +1,7 @@
-import { Graph } from '@antv/g6';
+import { Graph, iconfont } from '@antv/g6';
 
 const style = document.createElement('style');
-style.innerHTML = "@import url('//at.alicdn.com/t/a/font_470089_tmp5emp4d9.css');";
+style.innerHTML = `@import url('${iconfont.css}');`;
 document.head.appendChild(style);
 
 fetch('https://assets.antv.antgroup.com/g6/element-nodes.json')
@@ -16,8 +16,8 @@ fetch('https://assets.antv.antgroup.com/g6/element-nodes.json')
           size: 40,
           direction: (d) => (d.id === 'ports' ? 'left' : undefined),
           labelText: (d) => d.id,
-                iconFontFamily: 'iconfont',
-        iconText: '\ue602',
+          iconFontFamily: 'iconfont',
+          iconText: '\ue602',
           ports: (d) =>
             d.id === 'ports' ? [{ placement: 'left' }, { placement: 'top' }, { placement: 'bottom' }] : [],
         },
