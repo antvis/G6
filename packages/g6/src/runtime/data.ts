@@ -379,7 +379,7 @@ export class DataController {
       if (children !== undefined) {
         model.attachTreeStructure(TREE_KEY);
         children.forEach((child) => {
-          this.setParent(child, id, TREE_KEY);
+          if (model.hasNode(child)) this.setParent(child, id, TREE_KEY);
         });
       }
     });
