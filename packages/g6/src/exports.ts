@@ -167,6 +167,7 @@ export type {
   TooltipOptions,
   WatermarkOptions,
 } from './plugins';
+export type { DataURLOptions } from './runtime/canvas';
 export type { RuntimeContext } from './runtime/types';
 export type {
   BehaviorOptions,
@@ -197,6 +198,7 @@ export type {
   DirectionalPlacement,
   Edge,
   EdgeArrowStyleProps,
+  EdgeDirection,
   EdgeLabelStyleProps,
   Element,
   ElementDatum,
@@ -204,6 +206,7 @@ export type {
   ElementMethods,
   ElementType,
   FitViewOptions,
+  HierarchyKey,
   IAnimateEvent,
   ID,
   IDragEvent,

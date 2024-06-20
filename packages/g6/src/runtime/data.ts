@@ -9,6 +9,7 @@ import type {
   DataRemoved,
   DataUpdated,
   ElementDatum,
+  HierarchyKey,
   ID,
   NodeLikeData,
   PartialEdgeData,
@@ -764,5 +765,3 @@ export class DataController {
     this.context = {};
   }
 }
-
-export type HierarchyKey = typeof TREE_KEY | typeof COMBO_KEY;

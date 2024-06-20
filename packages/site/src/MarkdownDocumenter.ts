@@ -907,6 +907,8 @@ export class MarkdownDocumenter {
                 this._writeHeritageTypes(output, apiMember);
               }
 
+              this._writeRemarksSection(output, apiMember);
+
               const detailSection = new DocSection({ configuration });
 
               const hasParameterAndReturn = this._writeParameterTables(

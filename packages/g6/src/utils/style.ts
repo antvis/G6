@@ -48,7 +48,7 @@ export function mergeOptions(opt1: DisplayObjectConfig<any>, opt2: DisplayObject
  * <en/> Get the style of the sub-shape of the graphic
  * @param style - <zh/> 图形样式 | <en/> graphic style
  * @returns <zh/> 子图形样式 | <en/> sub-shape style
- * @description
+ * @remarks
  * <zh/> 从给定的属性对象中提取图形样式属性。删除特定的属性，如位置、变换和类名
  *
  * <en/> Extracts the graphic style properties from a given attribute object.

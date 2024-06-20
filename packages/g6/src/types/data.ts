@@ -51,3 +51,16 @@ export type PartialGraphData = {
   edges?: PartialEdgeData<EdgeData>[];
   combos?: PartialNodeLikeData<ComboData>[];
 };
+
+/**
+ * <zh/> 层级结构类别
+ *
+ * <en/> Hierarchy structure category
+ * @remarks
+ * <zh/> G6 中树形层级结构和组合层级结构是相互独立的，分别对应不同的数据结构
+ * 一些 API 需要指定层级结构类别，例如 getAncestorsData、getParentData
+ *
+ * <en/> The tree hierarchy structure and the combo hierarchy structure in G6 are independent of each other, corresponding to different data structures
+ * Some APIs need to specify the hierarchy structure category, such as getAncestorsData, getParentData
+ */
+export type HierarchyKey = 'tree' | 'combo';
