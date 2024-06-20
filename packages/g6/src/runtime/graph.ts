@@ -613,6 +613,21 @@ export class Graph extends EventEmitter {
   }
 
   /**
+   * <zh/> 为树图节点添加子节点数据
+   *
+   * <en/> Add child node data to the tree node
+   * @param parentId - <zh/> 父节点 ID | <en/> parent node ID
+   * @param childrenData - <zh/> 子节点数据 | <en/> child node data
+   * @description
+   * <zh/> 为组合添加子节点使用 addNodeData / addComboData 方法
+   *
+   * <en/> Use addNodeData / addComboData method to add child nodes to the combo
+   */
+  public addChildrenData(parentId: ID, childrenData: NodeData[]) {
+    this.context.model.addChildrenData(parentId, childrenData);
+  }
+
+  /**
    * <zh/> 更新元素数据
    *
    * <en/> Update element data

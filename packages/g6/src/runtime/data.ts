@@ -365,6 +365,14 @@ export class DataController {
     this.updateNodeLikeHierarchy(combos);
   }
 
+  public addChildrenData(parentId: ID, childrenData: NodeData[]) {
+    const parentData = this.getNodeLikeDatum(parentId) as NodeData;
+    const childrenId = childrenData.map(idOf);
+    this.addNodeData(childrenData);
+    this.updateNodeData([{ id: parentId, children: [...(parentData.children || []), ...childrenId] }]);
+    this.addEdgeData(childrenId.map((childId) => ({ source: parentId, target: childId })));
+  }
+
   protected updateNodeLikeHierarchy(data: NodeLikeData[]) {
     if (!this.enableUpdateNodeLikeHierarchy) return;
     const { model } = this;
