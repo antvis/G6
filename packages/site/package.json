@@ -49,7 +49,7 @@
     "@antv/g6-extension-3d": "workspace:*",
     "@antv/g6-extension-react": "workspace:*",
     "@antv/graphlib": "^2.0.2",
-    "@antv/layout": "1.2.14-beta.4",
+    "@antv/layout": "^1.2.14-beta.4",
     "@antv/layout-gpu": "^1.1.5",
     "@antv/layout-wasm": "^1.4.0",
     "@antv/util": "^3.3.7",

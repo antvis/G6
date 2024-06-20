@@ -61,7 +61,7 @@
     "@antv/g-plugin-dragndrop": "^2.0.5",
     "@antv/graphlib": "^2.0.2",
     "@antv/hierarchy": "^0.6.12",
-    "@antv/layout": "1.2.14-beta.4",
+    "@antv/layout": "^1.2.14-beta.4",
     "@antv/util": "^3.3.7",
     "bubblesets-js": "^2.3.3",
     "hull.js": "^1.0.6"
