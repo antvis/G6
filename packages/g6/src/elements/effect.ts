@@ -7,7 +7,7 @@ import { getCachedStyle, setCacheStyle } from '../utils/cache';
  * <en/> Control whether the function is executed based on whether the style attribute changes
  * @param styler - <zh/> 获取样式属性函数 | <en/> Get style attribute function
  * @returns <zh/> 装饰器 | <en/> Decorator
- * @description
+ * @remarks
  * <zh/> 仅指定 getStyle 的情况下，会分别使用当前的 attributes 和 新的 attributes 调用函数，若两者相同，则不执行函数。
  *
  * 如果指定了 shapeKey, 则会直接获取该图形的 attributes 作为原始样式属性，通常在 getStyle 函数中获取了包围盒时使用。
@@ -49,7 +49,7 @@ export function effect(styler: (self: any, attributes: Record<string, unknown>) 
  * @param b - <zh/> 样式属性 b | <en/> Style attribute b
  * @param depth - <zh/> 比较深度 | <en/> Comparison depth
  * @returns <zh/> 是否相等 | <en/> Whether they are equal
- * @description
+ * @remarks
  * <zh/> 进行第二层浅比较用于比较 badges、ports 等复合图形属性
  *
  * <en/> Perform a second-level shallow comparison to compare complex shape attributes such as badges and ports

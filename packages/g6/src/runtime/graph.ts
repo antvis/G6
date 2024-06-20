@@ -161,7 +161,7 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取当前图容器的大小
+   * <zh/> 获取当前画布容器的尺寸
    *
    * <en/> Get the size of the current canvas container
    * @returns <zh/> 画布尺寸 | <en/> canvas size
@@ -173,7 +173,7 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取当前图容器的大小
+   * <zh/> 获取当前画布容器的尺寸
    *
    * <en/> Get the size of the current canvas container
    * @param width - <zh/> 画布宽度 | <en/> canvas width
@@ -211,7 +211,11 @@ export class Graph extends EventEmitter {
    * <zh/> 设置节点样式映射
    *
    * <en/> Set node mapper
-   * @param node - <zh/> 节点配置 | <en/> node configuration
+   * @param node - <zh/> 节点配置 | <en/> node options
+   * @remarks
+   * <zh/> 即 `options.node` 的值
+   *
+   * <en/> The value of `options.node`
    * @apiCategory element
    */
   public setNode(node: NodeOptions): void {
@@ -223,7 +227,11 @@ export class Graph extends EventEmitter {
    * <zh/> 设置边样式映射
    *
    * <en/> Set edge mapper
-   * @param edge - <zh/> 边配置 | <en/> edge configuration
+   * @param edge - <zh/> 边配置 | <en/> edge options
+   * @remarks
+   * <zh/> 即 `options.edge` 的值
+   *
+   * <en/> The value of `options.edge`
    * @apiCategory element
    */
   public setEdge(edge: EdgeOptions): void {
@@ -235,7 +243,11 @@ export class Graph extends EventEmitter {
    * <zh/> 设置组合样式映射
    *
    * <en/> Set combo mapper
-   * @param combo - <zh/> 组合配置 | <en/> combo configuration
+   * @param combo - <zh/> 组合配置 | <en/> combo options
+   * @remarks
+   * <zh/> 即 `options.combo` 的值
+   *
+   * <en/> The value of `options.combo`
    * @apiCategory element
    */
   public setCombo(combo: ComboOptions): void {
@@ -247,7 +259,7 @@ export class Graph extends EventEmitter {
    * <zh/> 获取主题
    *
    * <en/> Get theme
-   * @returns <zh/> 主题配置 | <en/> theme configuration
+   * @returns <zh/> 当前主题 | <en/> current theme
    * @apiCategory theme
    */
   public getTheme(): ThemeOptions {
@@ -258,7 +270,11 @@ export class Graph extends EventEmitter {
    * <zh/> 设置主题
    *
    * <en/> Set theme
-   * @param theme - <zh/> 主题配置 | <en/> theme configuration
+   * @param theme - <zh/> 主题名 | <en/> theme name
+   * @example
+   * ```ts
+   * graph.setTheme('dark');
+   * ```
    * @apiCategory theme
    */
   public setTheme(theme: ThemeOptions | ((prev: ThemeOptions) => ThemeOptions)): void {
@@ -274,7 +290,13 @@ export class Graph extends EventEmitter {
    * <zh/> 设置布局
    *
    * <en/> Set layout
-   * @param layout - <zh/> 布局配置 | <en/> layout configuration
+   * @param layout - <zh/> 布局配置 | <en/> layout options
+   * @example
+   * ```ts
+   * graph.setLayout({
+   *  type: 'dagre',
+   * })
+   * ```
    * @apiCategory layout
    */
   public setLayout(layout: LayoutOptions | ((prev: LayoutOptions) => LayoutOptions)): void {
@@ -282,10 +304,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取布局
+   * <zh/> 获取布局配置
    *
-   * <en/> Get layout
-   * @returns <zh/> 布局配置 | <en/> layout configuration
+   * <en/> Get layout options
+   * @returns <zh/> 布局配置 | <en/> layout options
    * @apiCategory layout
    */
   public getLayout(): LayoutOptions {
@@ -296,7 +318,15 @@ export class Graph extends EventEmitter {
    * <zh/> 设置交互
    *
    * <en/> Set behaviors
-   * @param behaviors - <zh/> 交互配置 | <en/> behavior configuration
+   * @param behaviors - <zh/> 交互配置 | <en/> behavior options
+   * @remarks
+   * <zh/> 设置的交互会全量替换原有的交互，如果需要新增交互可以使用如下方式：
+   *
+   * <en/> The set behavior will completely replace the original behavior. If you need to add behavior, you can use the following method:
+   *
+   * ```ts
+   * graph.setBehaviors((behaviors) => [...behaviors, { type: 'zoom-canvas' }])
+   * ```
    * @apiCategory behavior
    */
   public setBehaviors(behaviors: BehaviorOptions | ((prev: BehaviorOptions) => BehaviorOptions)): void {
@@ -305,10 +335,21 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 更新交互
+   * <zh/> 更新指定的交互配置
    *
-   * <en/> Update behavior
-   * @param behavior - <zh/> 交互配置 | <en/> behavior configuration
+   * <en/> Update specified behavior options
+   * @param behavior - <zh/> 交互配置 | <en/> behavior options
+   * @remarks
+   * <zh/> 如果要更新一个交互，那么必须在交互配置中指定 key 字段，例如：
+   *
+   * <en/> If you want to update a behavior, you must specify the key field in the behavior options, for example:
+   * ```ts
+   * {
+   *   behaviors: [{ type: 'zoom-canvas', key: 'zoom-canvas' }]
+   * }
+   *
+   * graph.updateBehavior({ key: 'zoom-canvas', enable: false })
+   * ```
    * @apiCategory behavior
    */
   public updateBehavior(behavior: UpdateBehaviorOption): void {
@@ -323,10 +364,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取交互
+   * <zh/> 获取交互配置
    *
-   * <en/> Get behaviors
-   * @returns <zh/> 交互配置 | <en/> behavior configuration
+   * <en/> Get behaviors options
+   * @returns <zh/> 交互配置 | <en/> behavior options
    * @apiCategory behavior
    */
   public getBehaviors(): BehaviorOptions {
@@ -334,10 +375,17 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 设置插件
+   * <zh/> 设置插件配置
    *
-   * <en/> Set plugins
-   * @param plugins - <zh/> 插件配置 | <en/> plugin configuration
+   * <en/> Set plugins options
+   * @param plugins - <zh/> 插件配置 | <en/> plugin options
+   * @remarks
+   * <zh/> 设置的插件会全量替换原有的插件配置，如果需要新增插件可以使用如下方式：
+   *
+   * <en/> The set plugin will completely replace the original plugin configuration. If you need to add a plugin, you can use the following method:
+   * ```ts
+   * graph.setPlugins((plugins) => [...plugins, { key: 'grid-line' }])
+   * ```
    * @apiCategory plugin
    */
   public setPlugins(plugins: PluginOptions | ((prev: PluginOptions) => PluginOptions)): void {
@@ -346,10 +394,21 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 更新插件
+   * <zh/> 更新插件配置
    *
-   * <en/> Update plugin
-   * @param plugin - <zh/> 插件配置 | <en/> plugin configuration
+   * <en/> Update plugin options
+   * @param plugin - <zh/> 插件配置 | <en/> plugin options
+   * @remarks
+   * <zh/> 如果要更新一个插件，那么必须在插件配置中指定 key 字段，例如：
+   *
+   * <en/> If you want to update a plugin, you must specify the key field in the plugin options, for example:
+   * ```ts
+   * {
+   *   plugins: [{ key: 'grid-line' }]
+   * }
+   *
+   * graph.updatePlugin({ key: 'grid-line', follow: true })
+   * ```
    * @apiCategory plugin
    */
   public updatePlugin(plugin: UpdatePluginOption): void {
@@ -364,10 +423,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取插件
+   * <zh/> 获取插件配置
    *
-   * <en/> Get plugins
-   * @returns <zh/> 插件配置 | <en/> plugin configuration
+   * <en/> Get plugins options
+   * @returns <zh/> 插件配置 | <en/> plugin options
    * @apiCategory plugin
    */
   public getPlugins(): PluginOptions {
@@ -380,6 +439,17 @@ export class Graph extends EventEmitter {
    * <en/> Get plugin instance
    * @param key - <zh/> 插件 key | <en/> plugin key
    * @returns <zh/> 插件实例 | <en/> plugin instance
+   * @remarks
+   * <zh/> 一些插件提供了 API 方法可供调用，例如全屏插件可以调用 `request` 和 `exit` 方法来请求和退出全屏
+   *
+   * <en/> Some plugins provide API methods for calling, such as the full-screen plugin can call the `request` and `exit` methods to request and exit full-screen
+   * ```ts
+   * const fullscreen = graph.getPluginInstance('fullscreen');
+   *
+   * fullscreen.request();
+   *
+   * fullscreen.exit();
+   * ```
    * @apiCategory plugin
    */
   public getPluginInstance<T extends Plugin>(key: string) {
@@ -390,7 +460,11 @@ export class Graph extends EventEmitter {
    * <zh/> 设置数据转换器
    *
    * <en/> Set data transforms
-   * @param transforms - <zh/> 数据转换配置 | <en/> data transform configuration
+   * @param transforms - <zh/> 数据转换配置 | <en/> data transform options
+   * @remarks
+   * <zh/> 数据转换器能够在图渲染过程中执行数据转换，目前支持在渲染前对绘制数据进行转化。
+   *
+   * <en/> Data transforms can perform data transformation during the rendering process of the graph. Currently, it supports transforming the drawing data before rendering.
    * @apiCategory transform
    */
   public setTransforms(transforms: TransformOptions | ((prev: TransformOptions) => TransformOptions)): void {
@@ -402,7 +476,7 @@ export class Graph extends EventEmitter {
    * <zh/> 更新数据转换器
    *
    * <en/> Update data transform
-   * @param transform - <zh/> 数据转换配置 | <en/> data transform configuration
+   * @param transform - <zh/> 数据转换器配置 | <en/> data transform options
    * @apiCategory transform
    */
   public updateTransform(transform: UpdateTransformOption): void {
@@ -418,10 +492,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取数据转换器
+   * <zh/> 获取数据转换器配置
    *
-   * <en/> Get data transforms
-   * @returns <zh/> 数据转换器实例 | <en/> data transform instance
+   * <en/> Get data transforms options
+   * @returns <zh/> 数据转换配置 | <en/> data transform options
    * @apiCategory transform
    */
   public getTransforms(): TransformOptions {
@@ -429,10 +503,13 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取数据
+   * <zh/> 获取图数据
    *
-   * <en/> Get data
-   * @returns <zh/> 数据 | <en/> data
+   * <en/> Get graph data
+   * @returns <zh/> 图数据 | <en/> Graph data
+   * <zh/> 获取当前图的数据，包括节点、边、组合数据
+   *
+   * <en/> Get the data of the current graph, including node, edge, and combo data
    * @apiCategory data
    */
   public getData(): GraphData {
@@ -445,6 +522,10 @@ export class Graph extends EventEmitter {
    * <en/> Get element data by ID
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @returns <zh/> 元素数据 | <en/> element data
+   * @remarks
+   * <zh/> 直接获取元素的数据而不必考虑元素类型
+   *
+   * <en/> Get element data directly without considering the element type
    * @apiCategory data
    */
   public getElementData(id: ID): ElementDatum;
@@ -453,6 +534,10 @@ export class Graph extends EventEmitter {
    *
    * <en/> Get multiple element data in batch
    * @param ids - <zh/> 元素 ID 数组 | <en/> element ID array
+   * @remarks
+   * <zh/> 直接获取元素的数据而不必考虑元素类型
+   *
+   * <en/> Get element data directly without considering the element type
    * @apiCategory data
    */
   public getElementData(ids: ID[]): ElementDatum[];
@@ -475,6 +560,10 @@ export class Graph extends EventEmitter {
    * <en/> Get single node data
    * @param id - <zh/> 节点 ID | <en/> node ID
    * @returns <zh/> 节点数据 | <en/> node data
+   * @example
+   * ```ts
+   * const node1 = graph.getNodeData('node-1');
+   * ```
    * @apiCategory data
    */
   public getNodeData(id: ID): NodeData;
@@ -484,6 +573,10 @@ export class Graph extends EventEmitter {
    * <en/> Get multiple node data in batch
    * @param ids - <zh/> 节点 ID 数组 | <en/> node ID array
    * @returns <zh/> 节点数据 | <en/> node data
+   * @example
+   * ```ts
+   * const [node1, node2] = graph.getNodeData(['node-1', 'node-2']);
+   * ```
    * @apiCategory data
    */
   public getNodeData(ids: ID[]): NodeData[];
@@ -507,6 +600,10 @@ export class Graph extends EventEmitter {
    * <en/> Get single edge data
    * @param id - <zh/> 边 ID | <en/> edge ID
    * @returns <zh/> 边数据 | <en/> edge data
+   * @example
+   * ```ts
+   * const edge1 = graph.getEdgeData('edge-1');
+   * ```
    * @apiCategory data
    */
   public getEdgeData(id: ID): EdgeData;
@@ -516,6 +613,10 @@ export class Graph extends EventEmitter {
    * <en/> Get multiple edge data in batch
    * @param ids - <zh/> 边 ID 数组 | <en/> edge ID array
    * @returns <zh/> 边数据 | <en/> edge data
+   * @example
+   * ```ts
+   * const [edge1, edge2] = graph.getEdgeData(['edge-1', 'edge-2']);
+   * ```
    * @apiCategory data
    */
   public getEdgeData(ids: ID[]): EdgeData[];
@@ -539,6 +640,10 @@ export class Graph extends EventEmitter {
    * <en/> Get single combo data
    * @param id - <zh/> 组合ID | <en/> combo ID
    * @returns <zh/> 组合数据 | <en/> combo data
+   * @example
+   * ```ts
+   * const combo1 = graph.getComboData('combo-1');
+   * ```
    * @apiCategory data
    */
   public getComboData(id: ID): ComboData;
@@ -548,6 +653,10 @@ export class Graph extends EventEmitter {
    * <en/> Get multiple combo data in batch
    * @param ids - <zh/> 组合ID 数组 | <en/> combo ID array
    * @returns <zh/> 组合数据 | <en/> combo data
+   * @example
+   * ```ts
+   * const [combo1, combo2] = graph.getComboData(['combo-1', 'combo-2']);
+   * ```
    * @apiCategory data
    */
   public getComboData(ids: ID[]): ComboData[];
@@ -562,6 +671,10 @@ export class Graph extends EventEmitter {
    *
    * <en/> Set full data
    * @param data - <zh/> 数据 | <en/> data
+   * @remarks
+   * <zh/> 设置全量数据会替换当前图中的所有数据，G6 会自动进行数据差异计算
+   *
+   * <en/> Setting full data will replace all data in the current graph, and G6 will automatically calculate the data difference
    * @apiCategory data
    */
   public setData(data: GraphData | ((prev: GraphData) => GraphData)): void {
@@ -573,6 +686,13 @@ export class Graph extends EventEmitter {
    *
    * <en/> Add element data
    * @param data - <zh/> 元素数据 | <en/> element data
+   * @example
+   * ```ts
+   * graph.addData({
+   *  nodes: [{ id: 'node-1' }, { id: 'node-2' }],
+   *  edges: [{ source: 'node-1', target: 'node-2' }],
+   * });
+   * ```
    * @apiCategory data
    */
   public addData(data: GraphData | ((prev: GraphData) => GraphData)): void {
@@ -584,6 +704,10 @@ export class Graph extends EventEmitter {
    *
    * <en/> Add node data
    * @param data - <zh/> 节点数据 | <en/> node data
+   * @example
+   * ```ts
+   * graph.addNodeData([{ id: 'node-1' }, { id: 'node-2' }]);
+   * ```
    * @apiCategory data
    */
   public addNodeData(data: NodeData[] | ((prev: NodeData[]) => NodeData[])): void {
@@ -595,6 +719,10 @@ export class Graph extends EventEmitter {
    *
    * <en/> Add edge data
    * @param data - <zh/> 边数据 | <en/> edge data
+   * @example
+   * ```ts
+   * graph.addEdgeData([{ source: 'node-1', target: 'node-2' }]);
+   * ```
    * @apiCategory data
    */
   public addEdgeData(data: EdgeData[] | ((prev: EdgeData[]) => EdgeData[])): void {
@@ -606,6 +734,10 @@ export class Graph extends EventEmitter {
    *
    * <en/> Add combo data
    * @param data - <zh/> 组合数据 | <en/> combo data
+   * @example
+   * ```ts
+   * graph.addComboData([{ id: 'combo-1' }]);
+   * ```
    * @apiCategory data
    */
   public addComboData(data: ComboData[] | ((prev: ComboData[]) => ComboData[])): void {
@@ -617,9 +749,20 @@ export class Graph extends EventEmitter {
    *
    * <en/> Update element data
    * @param data - <zh/> 元素数据 | <en/> element data
+   * @remarks
+   * <zh/> 只需要传入需要更新的数据即可，不必传入完整的数据
+   *
+   * <en/> Just pass in the data that needs to be updated, no need to pass in the complete data
+   * @example
+   * ```ts
+   * graph.updateData({
+   *   nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
+   *   edges: [{ id: 'edge-1', style: { lineWidth: 2 } }]
+   * });
+   * ```
    * @apiCategory data
    */
-  public updateData(data: PartialGraphData | ((prev: PartialGraphData) => PartialGraphData)): void {
+  public updateData(data: PartialGraphData | ((prev: GraphData) => PartialGraphData)): void {
     this.context.model.updateData(isFunction(data) ? data(this.getData()) : data);
   }
 
@@ -628,12 +771,18 @@ export class Graph extends EventEmitter {
    *
    * <en/> Update node data
    * @param data - <zh/> 节点数据 | <en/> node data
+   * @remarks
+   * <zh/> 只需要传入需要更新的数据即可，不必传入完整的数据
+   *
+   * <en/> Just pass in the data that needs to be updated, no need to pass in the complete data
+   * @example
+   * ```ts
+   * graph.updateNodeData([{ id: 'node-1', style: { x: 100, y: 100 } }]);
+   * ```
    * @apiCategory data
    */
   public updateNodeData(
-    data:
-      | PartialNodeLikeData<NodeData>[]
-      | ((prev: PartialNodeLikeData<NodeData>[]) => PartialNodeLikeData<NodeData>[]),
+    data: PartialNodeLikeData<NodeData>[] | ((prev: NodeData[]) => PartialNodeLikeData<NodeData>[]),
   ): void {
     this.context.model.updateNodeData(isFunction(data) ? data(this.getNodeData()) : data);
   }
@@ -643,11 +792,17 @@ export class Graph extends EventEmitter {
    *
    * <en/> Update edge data
    * @param data - <zh/> 边数据 | <en/> edge data
+   * @remarks
+   * <zh/> 只需要传入需要更新的数据即可，不必传入完整的数据
+   *
+   * <en/> Just pass in the data that needs to be updated, no need to pass in the complete data
+   * @example
+   * ```ts
+   * graph.updateEdgeData([{ id: 'edge-1', style: { lineWidth: 2 } }]);
+   * ```
    * @apiCategory data
    */
-  public updateEdgeData(
-    data: PartialEdgeData<EdgeData>[] | ((prev: PartialEdgeData<EdgeData>[]) => PartialEdgeData<EdgeData>[]),
-  ): void {
+  public updateEdgeData(data: PartialEdgeData<EdgeData>[] | ((prev: EdgeData[]) => PartialEdgeData<EdgeData>[])): void {
     this.context.model.updateEdgeData(isFunction(data) ? data(this.getEdgeData()) : data);
   }
 
@@ -656,21 +811,34 @@ export class Graph extends EventEmitter {
    *
    * <en/> Update combo data
    * @param data - <zh/> 组合数据 | <en/> combo data
+   * @remarks
+   * <zh/> 只需要传入需要更新的数据即可，不必传入完整的数据
+   *
+   * <en/> Just pass in the data that needs to be updated, no need to pass in the complete data
+   * @example
+   * ```ts
+   * graph.updateComboData([{ id: 'combo-1', style: { x: 100, y: 100 } }]);
+   * ```
    * @apiCategory data
    */
   public updateComboData(
-    data:
-      | PartialNodeLikeData<ComboData>[]
-      | ((prev: PartialNodeLikeData<ComboData>[]) => PartialNodeLikeData<ComboData>[]),
+    data: PartialNodeLikeData<ComboData>[] | ((prev: ComboData[]) => PartialNodeLikeData<ComboData>[]),
   ): void {
     this.context.model.updateComboData(isFunction(data) ? data(this.getComboData()) : data);
   }
 
   /**
-   * <zh/> 删除多条元素数据
+   * <zh/> 删除元素数据
    *
-   * <en/> Remove multiple element data
+   * <en/> Remove element data
    * @param ids - <zh/> 元素 ID 数组 | <en/> element ID array
+   * @example
+   * ```ts
+   * graph.removeData({
+   *   nodes: ['node-1', 'node-2'],
+   *   edges: ['edge-1'],
+   * });
+   * ```
    * @apiCategory data
    */
   public removeData(ids: DataID | ((data: GraphData) => DataID)): void {
@@ -678,10 +846,14 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 删除多条节点数据
+   * <zh/> 删除节点数据
    *
-   * <en/> Remove multiple node data
+   * <en/> Remove node data
    * @param ids - <zh/> 节点 ID 数组 | <en/> node ID array
+   * @example
+   * ```ts
+   * graph.removeNodeData(['node-1', 'node-2']);
+   * ```
    * @apiCategory data
    */
   public removeNodeData(ids: ID[] | ((data: NodeData[]) => ID[])): void {
@@ -689,10 +861,18 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 删除多条边数据
+   * <zh/> 删除边数据
    *
-   * <en/> Remove multiple edge data
+   * <en/> Remove edge data
    * @param ids - <zh/> 边 ID 数组 | <en/> edge ID array
+   * @remarks
+   * <zh/> 如果传入边数据时仅提供了 source 和 target，那么需要通过 `idOf` 方法获取边的实际 ID
+   *
+   * <en/> If only the source and target are provided when passing in the edge data, you need to get the actual ID of the edge through the `idOf` method
+   * @example
+   * ```ts
+   * graph.removeEdgeData(['edge-1']);
+   * ```
    * @apiCategory data
    */
   public removeEdgeData(ids: ID[] | ((data: EdgeData[]) => ID[])): void {
@@ -700,10 +880,14 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 删除多条组合数据
+   * <zh/> 删除组合数据
    *
-   * <en/> Remove multiple combo data
+   * <en/> Remove combo data
    * @param ids - <zh/> 组合 ID 数组 | <en/> 组合 ID array
+   * @example
+   * ```ts
+   * graph.removeComboData(['combo-1']);
+   * ```
    * @apiCategory data
    */
   public removeComboData(ids: ID[] | ((data: ComboData[]) => ID[])): void {
@@ -795,6 +979,10 @@ export class Graph extends EventEmitter {
    * <en/> Get node data in a specific state
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 节点数据 | <en/> node data
+   * @example
+   * ```ts
+   * const nodes = graph.getElementDataByState('node', 'selected');
+   * ```
    * @apiCategory data
    */
   public getElementDataByState(elementType: 'node', state: State): NodeData[];
@@ -804,6 +992,10 @@ export class Graph extends EventEmitter {
    * <en/> Get edge data in a specific state
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 边数据 | <en/> edge data
+   * @example
+   * ```ts
+   * const nodes = graph.getElementDataByState('edge', 'selected');
+   * ```
    * @apiCategory data
    */
   public getElementDataByState(elementType: 'edge', state: State): EdgeData[];
@@ -813,6 +1005,10 @@ export class Graph extends EventEmitter {
    * <en/> Get combo data in a specific state
    * @param state - <zh/> 状态 | <en/> state
    * @returns <zh/> 组合数据 | <en/> combo data
+   * @example
+   * ```ts
+   * const nodes = graph.getElementDataByState('node', 'selected');
+   * ```
    * @apiCategory data
    */
   public getElementDataByState(elementType: 'combo', state: State): ComboData[];
@@ -879,7 +1075,11 @@ export class Graph extends EventEmitter {
    * @remarks
    * <zh/> 此过程会执行数据更新、绘制元素、执行布局
    *
+   * > ⚠️ render 为异步方法，如果需要在 render 后执行一些操作，可以使用 `await graph.render()` 或者监听 GraphEvent.AFTER_RENDER 事件
+   *
    * <en/> This process will execute data update, element rendering, and layout execution
+   *
+   * > ⚠️ render is an asynchronous method. If you need to perform some operations after render, you can use `await graph.render()` or listen to the GraphEvent.AFTER_RENDER event
    * @apiCategory render
    */
   public async render(): Promise<void> {
@@ -896,7 +1096,15 @@ export class Graph extends EventEmitter {
    *
    * <en/> Draw elements
    * @returns <zh/> 渲染结果 | <en/> draw result
-   * @apiCategory element
+   * @remarks
+   * <zh/> 仅执行元素绘制，不会重新布局
+   *
+   * <zh/> ⚠️ draw 为异步方法，如果需要在 draw 后执行一些操作，可以使用 `await graph.draw()` 或者监听 GraphEvent.AFTER_DRAW 事件
+   *
+   * <en/> Only execute element drawing, no re-layout
+   *
+   * <en/> ⚠️ draw is an asynchronous method. If you need to perform some operations after draw, you can use `await graph.draw()` or listen to the GraphEvent.AFTER_DRAW event
+   * @apiCategory render
    */
   public async draw(): Promise<void> {
     await this.prepare();
@@ -943,6 +1151,10 @@ export class Graph extends EventEmitter {
    * <zh/> 销毁当前图实例
    *
    * <en/> Destroy the current graph instance
+   * @remarks
+   * <zh/> 销毁后无法进行任何操作，如果需要重新使用，需要重新创建一个新的图实例
+   *
+   * <en/> After destruction, no operations can be performed. If you need to reuse it, you need to create a new graph instance
    * @apiCategory instance
    */
   public destroy(): void {
@@ -1008,7 +1220,7 @@ export class Graph extends EventEmitter {
    *
    * <en/> Zoom the graph to fit the viewport and move it to the center of the viewport
    * @param options - <zh/> 适配配置 | <en/> fit options
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @apiCategory viewport
    */
   public async fitView(options?: FitViewOptions, animation?: ViewportAnimationEffectTiming): Promise<void> {
@@ -1019,7 +1231,7 @@ export class Graph extends EventEmitter {
    * <zh/> 将图平移至视口中心
    *
    * <en/> Move the graph to the center of the viewport
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @apiCategory viewport
    */
   public async fitCenter(animation?: ViewportAnimationEffectTiming): Promise<void> {
@@ -1041,11 +1253,15 @@ export class Graph extends EventEmitter {
   }
 
   /**
+   * <zh/> 聚焦元素
+   *
+   * <en/> Focus on element
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param animation - <zh/> 动画配置 | <en/> animation options
+   * @remarks
    * <zh/> 移动图，使得元素对齐到视口中心
    *
    * <en/> Move the graph so that the element is aligned to the center of the viewport
-   * @param id - <zh/> 元素 ID | <en/> element ID
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
    * @apiCategory viewport
    */
   public async focusElement(id: ID | ID[], animation?: ViewportAnimationEffectTiming): Promise<void> {
@@ -1053,11 +1269,11 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 基于当前缩放比例进行缩放
+   * <zh/> 基于当前缩放比例进行缩放（相对缩放）
    *
-   * <en/> Zoom based on the current zoom ratio
+   * <en/> Zoom based on the current zoom ratio (relative zoom)
    * @param ratio - <zh/> 缩放比例 | <en/> zoom ratio
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @param origin - <zh/> 缩放中心(视口坐标) | <en/> zoom center(viewport coordinates)
    * @remarks
    * <zh/>
@@ -1074,11 +1290,11 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 缩放画布至指定比例
+   * <zh/> 缩放画布至指定比例（绝对缩放）
    *
-   * <en/> Zoom the canvas to the specified ratio
+   * <en/> Zoom the canvas to the specified ratio (absolute zoom)
    * @param zoom - <zh/> 指定缩放比例 | <en/> specified zoom ratio
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @param origin - <zh/> 缩放中心(视口坐标) | <en/> zoom center(viewport coordinates)
    * @remarks
    * <zh/>
@@ -1108,11 +1324,11 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 基于当前旋转角度进行旋转
+   * <zh/> 基于当前旋转角度进行旋转（相对旋转）
    *
-   * <en/> Rotate based on the current rotation angle
+   * <en/> Rotate based on the current rotation angle (relative rotation)
    * @param angle - <zh/> 旋转角度 | <en/> rotation angle
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @param origin - <zh/> 旋转中心(视口坐标) | <en/> rotation center(viewport coordinates)
    * @apiCategory viewport
    */
@@ -1121,11 +1337,11 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 旋转画布至指定角度
+   * <zh/> 旋转画布至指定角度 (绝对旋转)
    *
-   * <en/> Rotate the canvas to the specified angle
+   * <en/> Rotate the canvas to the specified angle (absolute rotation)
    * @param angle - <zh/> 目标角度 | <en/> target angle
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @param origin - <zh/> 旋转中心(视口坐标) | <en/> rotation center(viewport coordinates)
    * @apiCategory viewport
    */
@@ -1145,11 +1361,11 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 将图平移指定距离
+   * <zh/> 将图平移指定距离 (相对平移)
    *
-   * <en/> Translate the graph by the specified distance
+   * <en/> Translate the graph by the specified distance (relative translation)
    * @param offset - <zh/> 偏移量 | <en/> offset
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @apiCategory viewport
    */
   public async translateBy(offset: Point, animation?: ViewportAnimationEffectTiming): Promise<void> {
@@ -1157,11 +1373,11 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 将图平移至指定位置
+   * <zh/> 将图平移至指定位置 (绝对平移)
    *
-   * <en/> Translate the graph to the specified position
+   * <en/> Translate the graph to the specified position (absolute translation)
    * @param position - <zh/> 指定位置 | <en/> specified position
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @apiCategory viewport
    */
   public async translateTo(position: Point, animation?: ViewportAnimationEffectTiming): Promise<void> {
@@ -1184,9 +1400,9 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 将元素平移指定距离
+   * <zh/> 将元素平移指定距离 (相对平移)
    *
-   * <en/> Translate the element by the specified distance
+   * <en/> Translate the element by the specified distance (relative translation)
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @param offset - <zh/> 偏移量 | <en/> offset
    * @param animation - <zh/> 是否启用动画 | <en/> whether to enable animation
@@ -1194,10 +1410,10 @@ export class Graph extends EventEmitter {
    */
   public async translateElementBy(id: ID, offset: Point, animation?: boolean): Promise<void>;
   /**
-   * <zh/> 批量将元素平移指定距离
+   * <zh/> 批量将元素平移指定距离 (相对平移)
    *
-   * <en/> Batch translate elements by the specified distance
-   * @param offsets - <zh/> 偏移量配置 | <en/> offset configuration
+   * <en/> Batch translate elements by the specified distance (relative translation)
+   * @param offsets - <zh/> 偏移量配置 | <en/> offset options
    * @param animation - <zh/> 是否启用动画 | <en/> whether to enable animation
    * @apiCategory element
    */
@@ -1216,9 +1432,9 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 将元素平移至指定位置
+   * <zh/> 将元素平移至指定位置 (绝对平移)
    *
-   * <en/> Translate the element to the specified position
+   * <en/> Translate the element to the specified position (absolute translation)
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @param position - <zh/> 指定位置 | <en/> specified position
    * @param animation - <zh/> 是否启用动画 | <en/> whether to enable animation
@@ -1226,10 +1442,10 @@ export class Graph extends EventEmitter {
    */
   public async translateElementTo(id: ID, position: Point, animation?: boolean): Promise<void>;
   /**
-   * <zh/> 批量将元素平移至指定位置
+   * <zh/> 批量将元素平移至指定位置 (绝对平移)
    *
-   * <en/> Batch translate elements to the specified position
-   * @param positions - <zh/> 位置配置 | <en/> position configuration
+   * <en/> Batch translate elements to the specified position (absolute translation)
+   * @param positions - <zh/> 位置配置 | <en/> position options
    * @param animation - <zh/> 是否启用动画 | <en/> whether to enable animation
    * @apiCategory element
    */
@@ -1267,7 +1483,7 @@ export class Graph extends EventEmitter {
    * @returns <zh/> 元素渲染样式 | <en/> element rendering style
    * @apiCategory element
    */
-  public getElementRenderStyle(id: ID) {
+  public getElementRenderStyle(id: ID): Record<string, any> {
     return omit(this.context.element!.getElement(id)!.attributes, ['context']);
   }
 
@@ -1277,7 +1493,11 @@ export class Graph extends EventEmitter {
    * <en/> Set element visibility
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @param visibility - <zh/> 可见性 | <en/> visibility
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation options
+   * @remarks
+   * <zh/> 可见性配置包括 `visible` 和 `hidden` 两种状态
+   *
+   * <en/> Visibility configuration includes two states: `visible` and `hidden`
    * @apiCategory element
    */
   public async setElementVisibility(
@@ -1289,8 +1509,8 @@ export class Graph extends EventEmitter {
    * <zh/> 批量设置元素可见性
    *
    * <en/> Batch set element visibility
-   * @param visibility - <zh/> 可见性配置 | <en/> visibility configuration
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param visibility - <zh/> 可见性配置 | <en/> visibility options
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @apiCategory element
    */
   public async setElementVisibility(
@@ -1377,7 +1597,7 @@ export class Graph extends EventEmitter {
    * <zh/> 批量设置元素层级
    *
    * <en/> Batch set element z-index
-   * @param zIndex - <zh/> 层级配置 | <en/> z-index configuration
+   * @param zIndex - <zh/> 层级配置 | <en/> z-index options
    * @apiCategory element
    */
   public async setElementZIndex(zIndex: Record<ID, number>): Promise<void>;
@@ -1442,7 +1662,7 @@ export class Graph extends EventEmitter {
    * <en/> Set element state
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @param state - <zh/> 状态 | <en/> state
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @apiCategory element
    */
   public async setElementState(id: ID, state: State | State[], animation?: boolean): Promise<void>;
@@ -1450,8 +1670,8 @@ export class Graph extends EventEmitter {
    * <zh/> 批量设置元素状态
    *
    * <en/> Batch set element state
-   * @param state - <zh/> 状态配置 | <en/> state configuration
-   * @param animation - <zh/> 动画配置 | <en/> animation configuration
+   * @param state - <zh/> 状态配置 | <en/> state options
+   * @param animation - <zh/> 动画配置 | <en/> animation options
    * @apiCategory element
    */
   public async setElementState(state: Record<ID, State | State[]>, animation?: boolean): Promise<void>;
@@ -1506,7 +1726,7 @@ export class Graph extends EventEmitter {
   private isCollapsingExpanding = false;
 
   /**
-   * <zh/> 收起 Combo
+   * <zh/> 收起组合
    *
    * <en/> Collapse Combo
    * @param id - <zh/> 元素 ID | <en/> element ID
@@ -1530,7 +1750,7 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 展开 Combo
+   * <zh/> 展开组合
    *
    * <en/> Expand Combo
    * @param id - <zh/> 元素 ID | <en/> element ID
@@ -1563,7 +1783,7 @@ export class Graph extends EventEmitter {
    * <zh/> 导出画布内容为 DataURL
    *
    * <en/> Export canvas content as DataURL
-   * @param options - <zh/> 导出配置 | <en/> export configuration
+   * @param options - <zh/> 导出配置 | <en/> export options
    * @returns <zh/> DataURL | <en/> DataURL
    * @apiCategory exportImage
    */
@@ -1678,6 +1898,7 @@ export class Graph extends EventEmitter {
    *
    * <en/> Remove all event listeners
    * @returns <zh/> Graph 实例 | <en/> Graph instance
+   * @apiCategory event
    */
   public off(): this;
   /**
@@ -1686,6 +1907,7 @@ export class Graph extends EventEmitter {
    * <en/> Remove all listeners for the specified event
    * @param eventName - <zh/> 事件名称 | <en/> event name
    * @returns <zh/> Graph 实例 | <en/> Graph instance
+   * @apiCategory event
    */
   public off(eventName: string): this;
   /**
@@ -1695,9 +1917,10 @@ export class Graph extends EventEmitter {
    * @param eventName - <zh/> 事件名称 | <en/> event name
    * @param callback - <zh/> 回调函数 | <en/> callback function
    * @returns <zh/> Graph 实例 | <en/> Graph instance
+   * @apiCategory event
    */
-  public off(eventName: string, callback: (event: IEvent) => void): this;
-  public off(eventName?: string, callback?: (event: IEvent) => void) {
+  public off(eventName: string, callback: (...args: any[]) => void): this;
+  public off(eventName?: string, callback?: (...args: any[]) => void) {
     return super.off(eventName, callback);
   }
 }

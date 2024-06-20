@@ -56,7 +56,7 @@ export type PartialGraphData = {
  * <zh/> 层级结构类别
  *
  * <en/> Hierarchy structure category
- * @description
+ * @remarks
  * <zh/> G6 中树形层级结构和组合层级结构是相互独立的，分别对应不同的数据结构
  * 一些 API 需要指定层级结构类别，例如 getAncestorsData、getParentData
  *

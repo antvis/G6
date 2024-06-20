@@ -31,7 +31,7 @@ export interface LabelStyleProps extends TextStyleProps, Prefix<'background', Re
  * <zh/> 标签
  *
  * <en/> Label
- * @description
+ * @remarks
  * <zh/> 标签是一种具有背景的文本图形。
  *
  * <en/> Label is a text shape with background.

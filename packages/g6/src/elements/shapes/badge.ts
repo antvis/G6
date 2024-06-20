@@ -15,7 +15,7 @@ export interface BadgeStyleProps extends LabelStyleProps {}
  * <zh/> 徽标
  *
  * <en/> Badge
- * @description
+ * @remarks
  * <zh/> 徽标是一种特殊的标签，通常用于展示数量或状态信息。
  *
  * <en/> Badge is a special label, usually used to display quantity or status information.

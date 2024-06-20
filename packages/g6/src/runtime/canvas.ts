@@ -1,12 +1,4 @@
-import type {
-  Cursor,
-  DisplayObject,
-  CanvasConfig as GCanvasConfig,
-  DataURLOptions as GDataURLOptions,
-  IAnimation,
-  IRenderer,
-  PointLike,
-} from '@antv/g';
+import type { Cursor, DisplayObject, CanvasConfig as GCanvasConfig, IAnimation, IRenderer, PointLike } from '@antv/g';
 import { CanvasEvent, Canvas as GCanvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
@@ -21,7 +13,7 @@ export interface CanvasConfig
   background?: string;
 }
 
-export interface DataURLOptions extends GDataURLOptions {
+export interface DataURLOptions {
   /**
    * <zh/> 导出模式
    *  - viewport: 导出视口内容
@@ -32,6 +24,19 @@ export interface DataURLOptions extends GDataURLOptions {
    *  - overall: export the entire canvas
    */
   mode?: 'viewport' | 'overall';
+  /**
+   * <zh/> 图片类型
+   *
+   * <en/> image type
+   * @defaultValue 'image/png'
+   */
+  type: 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
+  /**
+   * <zh/> 图片质量, 仅对 image/jpeg 和 image/webp 有效，取值范围 0 ~ 1
+   *
+   * <en/> image quality, only valid for image/jpeg and image/webp, range 0 ~ 1
+   */
+  encoderOptions: number;
 }
 
 /**

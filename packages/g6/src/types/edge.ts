@@ -4,6 +4,17 @@ import type { BadgeStyleProps, LabelStyleProps } from '../elements/shapes';
 import type { CardinalPlacement, CornerPlacement } from './placement';
 import { Size } from './size';
 
+/**
+ * <zh/> 边的方向
+ * - `'in'`: 入边
+ * - `'out'`: 出边
+ * - `'both'`: 双向边
+ *
+ * <en/> Edge direction
+ * - `'in'`: Inbound edge
+ * - `'out'`: Outbound edge
+ * - `'both'`: Bidirectional edge
+ */
 export type EdgeDirection = 'in' | 'out' | 'both';
 
 export type EdgeKey = Line | Path | Polyline;
