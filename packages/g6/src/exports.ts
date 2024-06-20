@@ -204,6 +204,7 @@ export type {
   ElementMethods,
   ElementType,
   FitViewOptions,
+  HierarchyKey,
   IAnimateEvent,
   ID,
   IDragEvent,

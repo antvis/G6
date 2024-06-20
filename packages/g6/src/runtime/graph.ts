@@ -28,6 +28,7 @@ import type {
   ElementDatum,
   ElementType,
   FitViewOptions,
+  HierarchyKey,
   ID,
   IEvent,
   NodeLikeData,
@@ -50,7 +51,6 @@ import { BatchController } from './batch';
 import { BehaviorController } from './behavior';
 import type { DataURLOptions } from './canvas';
 import { Canvas } from './canvas';
-import type { HierarchyKey } from './data';
 import { DataController } from './data';
 import { ElementController } from './element';
 import { LayoutController } from './layout';
