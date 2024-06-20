@@ -23,7 +23,6 @@ import type { UpdateBehaviorOption } from '../spec/behavior';
 import type { UpdatePluginOption } from '../spec/plugin';
 import type { UpdateTransformOption } from '../spec/transform';
 import type {
-  CallableValue,
   DataID,
   EdgeDirection,
   ElementDatum,
@@ -262,7 +261,7 @@ export class Graph extends EventEmitter {
    * @param theme - <zh/> 主题配置 | <en/> theme configuration
    * @apiCategory theme
    */
-  public setTheme(theme: CallableValue<ThemeOptions>): void {
+  public setTheme(theme: ThemeOptions | ((prev: ThemeOptions) => ThemeOptions)): void {
     this.options.theme = isFunction(theme) ? theme(this.getTheme()) : theme;
 
     const { background } = getExtension('theme', this.options.theme) || {};
@@ -278,7 +277,7 @@ export class Graph extends EventEmitter {
    * @param layout - <zh/> 布局配置 | <en/> layout configuration
    * @apiCategory layout
    */
-  public setLayout(layout: CallableValue<LayoutOptions>): void {
+  public setLayout(layout: LayoutOptions | ((prev: LayoutOptions) => LayoutOptions)): void {
     this.options.layout = isFunction(layout) ? layout(this.getLayout()) : layout;
   }
 
@@ -300,7 +299,7 @@ export class Graph extends EventEmitter {
    * @param behaviors - <zh/> 交互配置 | <en/> behavior configuration
    * @apiCategory behavior
    */
-  public setBehaviors(behaviors: CallableValue<BehaviorOptions>): void {
+  public setBehaviors(behaviors: BehaviorOptions | ((prev: BehaviorOptions) => BehaviorOptions)): void {
     this.options.behaviors = isFunction(behaviors) ? behaviors(this.getBehaviors()) : behaviors;
     this.context.behavior?.setBehaviors(this.options.behaviors);
   }
@@ -341,7 +340,7 @@ export class Graph extends EventEmitter {
    * @param plugins - <zh/> 插件配置 | <en/> plugin configuration
    * @apiCategory plugin
    */
-  public setPlugins(plugins: CallableValue<PluginOptions>): void {
+  public setPlugins(plugins: PluginOptions | ((prev: PluginOptions) => PluginOptions)): void {
     this.options.plugins = isFunction(plugins) ? plugins(this.getPlugins()) : plugins;
     this.context.plugin?.setPlugins(this.options.plugins);
   }
@@ -394,7 +393,7 @@ export class Graph extends EventEmitter {
    * @param transforms - <zh/> 数据转换配置 | <en/> data transform configuration
    * @apiCategory transform
    */
-  public setTransforms(transforms: CallableValue<TransformOptions>): void {
+  public setTransforms(transforms: TransformOptions | ((prev: TransformOptions) => TransformOptions)): void {
     this.options.transforms = isFunction(transforms) ? transforms(this.getTransforms()) : transforms;
     this.context.transform?.setTransforms(this.options.transforms);
   }
@@ -565,7 +564,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 数据 | <en/> data
    * @apiCategory data
    */
-  public setData(data: CallableValue<GraphData>): void {
+  public setData(data: GraphData | ((prev: GraphData) => GraphData)): void {
     this.context.model.setData(isFunction(data) ? data(this.getData()) : data);
   }
 
@@ -576,7 +575,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 元素数据 | <en/> element data
    * @apiCategory data
    */
-  public addData(data: CallableValue<GraphData>): void {
+  public addData(data: GraphData | ((prev: GraphData) => GraphData)): void {
     this.context.model.addData(isFunction(data) ? data(this.getData()) : data);
   }
 
@@ -587,7 +586,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 节点数据 | <en/> node data
    * @apiCategory data
    */
-  public addNodeData(data: CallableValue<NodeData[]>): void {
+  public addNodeData(data: NodeData[] | ((prev: NodeData[]) => NodeData[])): void {
     this.context.model.addNodeData(isFunction(data) ? data(this.getNodeData()) : data);
   }
 
@@ -598,7 +597,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 边数据 | <en/> edge data
    * @apiCategory data
    */
-  public addEdgeData(data: CallableValue<EdgeData[]>): void {
+  public addEdgeData(data: EdgeData[] | ((prev: EdgeData[]) => EdgeData[])): void {
     this.context.model.addEdgeData(isFunction(data) ? data(this.getEdgeData()) : data);
   }
 
@@ -609,7 +608,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 组合数据 | <en/> combo data
    * @apiCategory data
    */
-  public addComboData(data: CallableValue<ComboData[]>): void {
+  public addComboData(data: ComboData[] | ((prev: ComboData[]) => ComboData[])): void {
     this.context.model.addComboData(isFunction(data) ? data(this.getComboData()) : data);
   }
 
@@ -620,7 +619,7 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 元素数据 | <en/> element data
    * @apiCategory data
    */
-  public updateData(data: CallableValue<PartialGraphData>): void {
+  public updateData(data: PartialGraphData | ((prev: PartialGraphData) => PartialGraphData)): void {
     this.context.model.updateData(isFunction(data) ? data(this.getData()) : data);
   }
 
@@ -631,7 +630,11 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 节点数据 | <en/> node data
    * @apiCategory data
    */
-  public updateNodeData(data: CallableValue<PartialNodeLikeData<NodeData>[]>): void {
+  public updateNodeData(
+    data:
+      | PartialNodeLikeData<NodeData>[]
+      | ((prev: PartialNodeLikeData<NodeData>[]) => PartialNodeLikeData<NodeData>[]),
+  ): void {
     this.context.model.updateNodeData(isFunction(data) ? data(this.getNodeData()) : data);
   }
 
@@ -642,7 +645,9 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 边数据 | <en/> edge data
    * @apiCategory data
    */
-  public updateEdgeData(data: CallableValue<PartialEdgeData<EdgeData>[]>): void {
+  public updateEdgeData(
+    data: PartialEdgeData<EdgeData>[] | ((prev: PartialEdgeData<EdgeData>[]) => PartialEdgeData<EdgeData>[]),
+  ): void {
     this.context.model.updateEdgeData(isFunction(data) ? data(this.getEdgeData()) : data);
   }
 
@@ -653,7 +658,11 @@ export class Graph extends EventEmitter {
    * @param data - <zh/> 组合数据 | <en/> combo data
    * @apiCategory data
    */
-  public updateComboData(data: CallableValue<PartialNodeLikeData<ComboData>[]>): void {
+  public updateComboData(
+    data:
+      | PartialNodeLikeData<ComboData>[]
+      | ((prev: PartialNodeLikeData<ComboData>[]) => PartialNodeLikeData<ComboData>[]),
+  ): void {
     this.context.model.updateComboData(isFunction(data) ? data(this.getComboData()) : data);
   }
 

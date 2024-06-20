@@ -190,7 +190,6 @@ export type { CustomPluginOption } from './spec/plugin';
 export type { BaseTransformOptions } from './transforms';
 export type {
   BaseElementStyleProps,
-  CallableValue,
   CardinalPlacement,
   CollapsedMarkerStyleProps,
   Combo,
