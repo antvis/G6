@@ -21,10 +21,12 @@ order: 0
 <script src="https://unpkg.com/@antv/g6@5/dist/g6.min.js"></script>
 
 <script>
+  const { Graph } = G6;
+
   fetch('https://assets.antv.antgroup.com/g6/graph.json')
     .then((res) => res.json())
     .then((data) => {
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: 'container',
         autoFit: 'view',
         data,
@@ -78,7 +80,9 @@ fetch('https://assets.antv.antgroup.com/g6/graph.json').then((res) => res.json()
 4. 最后创建一个图实例，传入配置对象，并调用 `render` 方法渲染图：
 
 ```js
-const graph = new G6.Graph({
+const { Graph } = G6;
+
+const graph = new Graph({
   container: 'container',
   autoFit: 'view',
   data,
