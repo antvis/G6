@@ -2,7 +2,7 @@ import type { PathStyleProps } from '@antv/g';
 import { isBoolean, isEmpty, isEqual, isFunction } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
-import type { CallableValue, ID, LoopPlacement, NodeLikeData } from '../types';
+import type { ID, LoopPlacement, NodeLikeData } from '../types';
 import { groupByChangeType, reduceDataChanges } from '../utils/change';
 import { idOf } from '../utils/id';
 import { reassignTo } from '../utils/transform';
@@ -55,7 +55,7 @@ export interface ProcessParallelEdgesOptions extends BaseTransformOptions {
    *
    * <en/> The style of the merged edge, only valid for merging mode
    */
-  style?: CallableValue<PathStyleProps, EdgeData[]>;
+  style?: PathStyleProps | ((prev: EdgeData[]) => PathStyleProps);
 }
 
 /**

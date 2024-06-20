@@ -4,7 +4,7 @@ import { GraphEvent } from '../../constants';
 import type { ContourStyleProps } from '../../elements/shapes';
 import { Contour } from '../../elements/shapes';
 import type { RuntimeContext } from '../../runtime/types';
-import type { CallableValue, ID, Point } from '../../types';
+import type { ID, Point } from '../../types';
 import type { ElementLifeCycleEvent } from '../../utils/event';
 import { idOf } from '../../utils/id';
 import { positionOf } from '../../utils/position';
@@ -185,7 +185,7 @@ export class Hull extends BasePlugin<HullOptions> {
    * <en/> Update Hull member
    * @param members - <zh/> 元素 Ids | <en/> Element Ids
    */
-  public updateMember(members: CallableValue<ID[]>) {
+  public updateMember(members: ID[] | ((prev: ID[]) => ID[])) {
     this.options.members = isFunction(members) ? members(this.options.members) : members;
     this.shape.update(this.getHullStyle(true));
   }

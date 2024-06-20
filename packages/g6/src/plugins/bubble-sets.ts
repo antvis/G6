@@ -7,7 +7,7 @@ import type { ContourStyleProps } from '../elements/shapes';
 import { Contour } from '../elements/shapes';
 import type { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
-import type { CallableValue, ID } from '../types';
+import type { ID } from '../types';
 import { getBBoxHeight, getBBoxWidth } from '../utils/bbox';
 import { arrayDiff } from '../utils/diff';
 import type { ElementLifeCycleEvent } from '../utils/event';
@@ -225,7 +225,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
    * <en/> Update member elements
    * @param members - <zh/> 值或者回调函数 | <en/> value or callback function
    */
-  public updateMember(members: CallableValue<ID[]>) {
+  public updateMember(members: ID[] | ((prev: ID[]) => ID[])) {
     this.options.members = isFunction(members) ? members(this.options.members) : members;
     this.drawBubbleSets();
   }
