@@ -101,7 +101,7 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
 
     ELEMENT_TYPES.forEach((type) => {
       graph.on(`${type}:${CommonEvent.POINTER_OVER}`, this.hoverElement);
-      graph.on(`${type}:${CommonEvent.POINTER_OUT}`, this.hoverEndElement);
+      graph.on(`${type}:${CommonEvent.POINTER_OUT}`, this.hoverElement);
     });
 
     const canvas = this.context.canvas.document;
@@ -109,42 +109,38 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
     canvas.addEventListener(`${CommonEvent.DRAG_END}`, this.toggleFrozen);
   }
 
-  private hoverElement = (event: IPointerEvent) => {
+  private hoverElement = (event: IPointerEvent<Element>) => {
     if (!this.validate(event)) return;
-    this.updateElementsState(event, true);
-    this.options.onHover?.(event);
+    const isOver = event.type === CommonEvent.POINTER_OVER;
+    this.updateElementsState(event, isOver);
+
+    const { onHover, onHoverEnd } = this.options;
+    if (isOver) onHover?.(event);
+    else onHoverEnd?.(event);
   };
 
-  private hoverEndElement = (event: IPointerEvent) => {
-    if (!this.validate(event)) return;
-    this.updateElementsState(event, false);
-    this.options.onHoverEnd?.(event);
-  };
-
-  private updateElementsState = (event: IPointerEvent, add: boolean) => {
+  private updateElementsState = (event: IPointerEvent<Element>, add: boolean) => {
     if (!this.options.state && !this.options.inactiveState) return;
 
     const { graph } = this.context;
+    const { state, degree, animation, inactiveState } = this.options;
     const { targetType, target } = event;
 
-    const activeIds = getElementNthDegreeIds(
-      graph,
-      targetType as ElementType,
-      (target as Element).id,
-      this.options.degree,
-    );
+    const activeIds = degree
+      ? getElementNthDegreeIds(graph, targetType as ElementType, target.id, degree)
+      : [target.id];
 
     const states: Record<ID, State[]> = {};
 
-    if (this.options.state) {
-      Object.assign(states, this.getElementsState(activeIds, this.options.state, add));
+    if (state) {
+      Object.assign(states, this.getElementsState(activeIds, state, add));
     }
 
-    if (this.options.inactiveState) {
+    if (inactiveState) {
       const inactiveIds = idsOf(graph.getData(), true).filter((id) => !activeIds.includes(id));
-      Object.assign(states, this.getElementsState(inactiveIds, this.options.inactiveState, add));
+      Object.assign(states, this.getElementsState(inactiveIds, inactiveState, add));
     }
-    graph.setElementState(states, this.options.animation);
+    graph.setElementState(states, animation);
   };
 
   private getElementsState = (ids: ID[], state: State, add: boolean) => {
@@ -170,7 +166,7 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
 
     ELEMENT_TYPES.forEach((type) => {
       graph.off(`${type}:${CommonEvent.POINTER_OVER}`, this.hoverElement);
-      graph.off(`${type}:${CommonEvent.POINTER_OUT}`, this.hoverEndElement);
+      graph.off(`${type}:${CommonEvent.POINTER_OUT}`, this.hoverElement);
     });
 
     const canvas = this.context.canvas.document;

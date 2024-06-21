@@ -580,6 +580,16 @@ export class DataController {
     return positionOf(datum);
   }
 
+  public translateNodeLikeBy(id: ID, offset: Point) {
+    if (this.isCombo(id)) this.translateComboBy(id, offset);
+    else this.translateNodeBy(id, offset);
+  }
+
+  public translateNodeLikeTo(id: ID, position: Point) {
+    if (this.isCombo(id)) this.translateComboTo(id, position);
+    else this.translateNodeTo(id, position);
+  }
+
   public translateNodeBy(id: ID, offset: Point) {
     const curr = this.getElementPosition(id);
     const position = add(curr, [...offset, 0].slice(0, 3) as Point);
