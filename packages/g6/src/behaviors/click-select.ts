@@ -188,17 +188,19 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
       });
     }
 
-    let neighborIds: Set<ID> | undefined;
+    const neighborIds = new Set<ID>();
     if (neighbor) {
       const d = typeof degree === 'function' ? degree(event) : degree;
       if (d) {
         const targetType = event.targetType as ElementType;
         this.select.forEach((id) => {
-          neighborIds = new Set(getElementNthDegreeIds(graph, targetType, id, d).filter((id) => !this.select.has(id)));
+          getElementNthDegreeIds(graph, targetType, id, d).forEach((id) => {
+            if (!this.select.has(id)) neighborIds.add(id);
+          });
         });
       }
       const exclude = [select, unselect];
-      neighborIds?.forEach((id) => {
+      neighborIds.forEach((id) => {
         const state = graph.getElementState(id);
         states[id] = uniq([...state.filter((s) => !exclude.includes(s)), neighbor]);
       });
@@ -206,7 +208,7 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
 
     const exclude = [select, neighbor, unselect];
     idsOf(graph.getData(), true).forEach((id) => {
-      if (!this.select.has(id) && !neighborIds?.has(id)) {
+      if (!this.select.has(id) && !neighborIds.has(id)) {
         const state = graph.getElementState(id);
         const filtered = state.filter((s) => !exclude.includes(s));
         // 仅在有选中元素时应用 unselect 状态
