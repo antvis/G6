@@ -16,6 +16,7 @@ export default defineConfig({
       content: 'A Graph Visualization Framework in JavaScript',
     },
   ],
+  mako: {},
   themeConfig: {
     title: 'G6',
     description: 'A Graph Visualization Framework in JavaScript',
