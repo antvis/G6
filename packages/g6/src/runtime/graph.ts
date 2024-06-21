@@ -754,6 +754,7 @@ export class Graph extends EventEmitter {
    * <zh/> 为组合添加子节点使用 addNodeData / addComboData 方法
    *
    * <en/> Use addNodeData / addComboData method to add child nodes to the combo
+   * @apiCategory data
    */
   public addChildrenData(parentId: ID, childrenData: NodeData[]) {
     this.context.model.addChildrenData(parentId, childrenData);
