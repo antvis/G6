@@ -167,6 +167,7 @@ export function create(tokens: ThemeTokens): Theme {
         expand: 'node-expand',
         collapse: 'node-collapse',
         update: [{ fields: ['x', 'y', 'fill', 'stroke'] }],
+        translate: [{ fields: ['x', 'y'] }],
       },
     },
     edge: {
@@ -236,6 +237,7 @@ export function create(tokens: ThemeTokens): Theme {
         show: 'fade',
         hide: 'fade',
         update: [{ fields: ['sourceNode', 'targetNode'] }, { fields: ['stroke'], shape: 'key' }],
+        translate: [{ fields: ['sourceNode', 'targetNode'] }],
       },
     },
     combo: {
@@ -301,6 +303,7 @@ export function create(tokens: ThemeTokens): Theme {
         expand: 'combo-expand',
         collapse: 'combo-collapse',
         update: [{ fields: ['x', 'y'] }, { fields: ['fill', 'stroke', 'lineWidth'], shape: 'key' }],
+        translate: [{ fields: ['x', 'y'] }],
       },
     },
   };

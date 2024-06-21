@@ -206,7 +206,10 @@ export class ElementController {
     return this.stateStyle[id] || {};
   }
 
-  private computeStyle(ids?: ID[]) {
+  private computeStyle(stage?: string, ids?: ID[]) {
+    const skip = ['translate', 'zIndex'];
+    if (stage && skip.includes(stage)) return;
+
     this.computePaletteStyle();
     this.computeElementsDefaultStyle(ids);
     this.computeElementsStatesStyle(ids);
@@ -269,7 +272,7 @@ export class ElementController {
     const { dataChanges, drawData } = data;
     this.markDestroyElement(drawData);
     // 计算样式 / Calculate style
-    this.computeStyle();
+    this.computeStyle(context.stage);
     // 创建渲染任务 / Create render task
     const { add, update, remove } = drawData;
     this.destroyElements(remove, context);
@@ -616,7 +619,7 @@ export class ElementController {
     model.updateData(result);
 
     // 重新计算数据 / Recalculate data
-    this.computeStyle();
+    this.computeStyle('expand');
     const { drawData } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
     const { update } = drawData;
 
@@ -694,7 +697,7 @@ export class ElementController {
     const position = positionOf(model.getComboData([id])[0]);
 
     // 重新计算数据 / Recalculate data
-    this.computeStyle();
+    this.computeStyle('expand');
     const { dataChanges, drawData } = this.computeChangesAndDrawData({ stage: 'expand', animation })!;
     const { add, update } = drawData;
     const context = { animation, stage: 'expand', data: drawData } as const;

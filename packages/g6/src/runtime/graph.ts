@@ -1443,8 +1443,8 @@ export class Graph extends EventEmitter {
       ? [args1, (args2 as boolean) ?? true]
       : [{ [args1 as ID]: args2 as Point }, args3];
 
-    Object.entries(config).forEach(([id, offset]) => this.context.model.translateNodeBy(id, offset));
-    await this.context.element!.draw({ animation })?.finished;
+    Object.entries(config).forEach(([id, offset]) => this.context.model.translateNodeLikeBy(id, offset));
+    await this.context.element!.draw({ animation, stage: 'translate' })?.finished;
   }
 
   /**
@@ -1475,8 +1475,8 @@ export class Graph extends EventEmitter {
       ? [args1, (args2 as boolean) ?? true]
       : [{ [args1 as ID]: args2 as Point }, args3];
 
-    Object.entries(config).forEach(([id, position]) => this.context.model.translateNodeTo(id, position));
-    await this.context.element!.draw({ animation })?.finished;
+    Object.entries(config).forEach(([id, position]) => this.context.model.translateNodeLikeTo(id, position));
+    await this.context.element!.draw({ animation, stage: 'translate' })?.finished;
   }
 
   /**
@@ -1628,7 +1628,7 @@ export class Graph extends EventEmitter {
 
     const { model, element } = this.context;
     model.preventUpdateNodeLikeHierarchy(() => model.updateData(dataToUpdate));
-    await element!.draw({ animation: false })?.finished;
+    await element!.draw({ animation: false, stage: 'zIndex' })?.finished;
   }
 
   /**

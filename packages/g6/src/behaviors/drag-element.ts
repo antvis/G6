@@ -344,16 +344,11 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
    * @internal
    */
   protected async moveElement(ids: ID[], offset: Point) {
-    const { model, element } = this.context;
+    const { graph, model } = this.context;
     const { dropEffect } = this.options;
-    ids.forEach((id) => {
-      const elementType = model.getElementType(id);
-      if (elementType === 'node') model.translateNodeBy(id, offset);
-      else if (elementType === 'combo') model.translateComboBy(id, offset);
-    });
 
     if (dropEffect === 'move') ids.forEach((id) => model.refreshComboData(id));
-    await element!.draw({ animation: this.animation })?.finished;
+    graph.translateElementBy(Object.fromEntries(ids.map((id) => [id, offset])), false);
   }
 
   private moveShadow(offset: Point) {
