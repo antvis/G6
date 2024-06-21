@@ -10,6 +10,7 @@ export const pluginContextmenu: TestCase = async (context) => {
     behaviors: ['drag-canvas'],
     plugins: [
       {
+        key: 'contextmenu',
         type: 'contextmenu',
         trigger: 'contextmenu',
         className: 'custom-class-name',
