@@ -59,7 +59,7 @@
     "@antv/g": "^6.0.6",
     "@antv/g-canvas": "^2.0.7",
     "@antv/g-plugin-dragndrop": "^2.0.5",
-    "@antv/graphlib": "^2.0.2",
+    "@antv/graphlib": "^2.0.3",
     "@antv/hierarchy": "^0.6.12",
     "@antv/layout": "^1.2.14-beta.4",
     "@antv/util": "^3.3.7",

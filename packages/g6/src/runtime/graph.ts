@@ -186,7 +186,7 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取当前图的缩放区间
+   * <zh/> 设置当前图的缩放区间
    *
    * <en/> Get the zoom range of the current graph
    * @param zoomRange - <zh/> 缩放区间 | <en/> zoom range

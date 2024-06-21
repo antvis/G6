@@ -6,7 +6,7 @@ export const layoutCompactBoxBasic: TestCase = async (context) => {
     ...context,
     autoFit: 'view',
     data: treeToGraphData(data),
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
+    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand'],
     node: {
       style: {
         labelText: (data) => data.id,
