@@ -54,10 +54,11 @@
     "@antv/layout-wasm": "^1.4.0",
     "@antv/util": "^3.3.7",
     "antd": "^5.18.0",
-    "dumi": "~2.2.17",
+    "dumi": "2.4.0-alpha.17",
     "insert-css": "^2.0.0",
     "lodash": "^4.17.21",
     "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "stats.js": "^0.17.0",
     "styled-components": "^6.1.11"
   },
