@@ -13,9 +13,9 @@ import { CONTEXTMENU_CSS, getContentFromItems } from './util';
  */
 export interface ContextmenuOptions extends BasePluginOptions {
   /**
-   * <zh/> 给菜单的 DOM 追加的 classname，便于自定义样式。默认是包含 `g6-contextmenu`
+   * <zh/> 给菜单的 DOM 追加的类名
    *
-   * <en/> The classname appended to the menu DOM for custom styles. The default is `g6-contextmenu`
+   * <en/> The class name appended to the menu DOM for custom styles
    * @defaultValue 'g6-contextmenu'
    */
   className?: string;
@@ -42,7 +42,7 @@ export interface ContextmenuOptions extends BasePluginOptions {
    *
    * <en/> The callback method triggered when the menu is clicked
    */
-  onClick?: (v: string, target: HTMLElement) => void;
+  onClick?: (value: string, target: HTMLElement) => void;
   /**
    * <zh/> 返回菜单的项目列表，支持 `Promise` 类型的返回值。是 `getContent` 的快捷配置
    *
@@ -88,18 +88,24 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     enable: () => true,
   };
 
-  private $element: HTMLElement = createPluginContainer('contextmenu', false);
+  private $element!: HTMLElement;
 
   constructor(context: RuntimeContext, options: ContextmenuOptions) {
     super(context, Object.assign({}, Contextmenu.defaultOptions, options));
 
+    this.initElement();
+    this.update(options);
+  }
+
+  private initElement() {
+    this.$element = createPluginContainer('contextmenu', false);
+    const { className } = this.options;
+    if (className) this.$element.classList.add(className);
+
     const $container = this.context.canvas.getContainer();
     $container!.appendChild(this.$element);
 
-    // 设置样式
     insertDOM('g6-contextmenu-css', 'style', {}, CONTEXTMENU_CSS, document.head);
-
-    this.update(options);
   }
 
   /**
@@ -210,16 +216,10 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     const { onClick } = this.options;
     if (event.target instanceof HTMLElement) {
       if (event.target.className.includes('g6-contextmenu-li')) {
-        const v = event.target.getAttribute('value') as string;
-        onClick && onClick(v, event.target);
-
-        this.hide();
-      }
-
-      // 点击其他地方，隐藏菜单
-      if (!this.context.graph.getCanvas().getContainer()!.contains(event.target)) {
-        this.hide();
+        const value = event.target.getAttribute('value') as string;
+        onClick?.(value, event.target);
       }
     }
+    this.hide();
   };
 }
