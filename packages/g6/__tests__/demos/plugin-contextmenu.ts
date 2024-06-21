@@ -7,10 +7,13 @@ export const pluginContextmenu: TestCase = async (context) => {
     autoResize: true,
     data,
     layout: { type: 'd3-force' },
+    behaviors: ['drag-canvas'],
     plugins: [
       {
+        key: 'contextmenu',
         type: 'contextmenu',
         trigger: 'contextmenu',
+        className: 'custom-class-name',
         getItems: () => {
           return [
             { name: '展开一度关系', value: 'spread' },
