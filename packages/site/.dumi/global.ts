@@ -7,7 +7,6 @@ if (window) {
   window.layoutGpu = require('@antv/layout-gpu');
   window.algorithm = require('@antv/algorithm');
   window.layoutWasm = require('@antv/layout-wasm');
-  window.graphlib = require('@antv/graphlib');
 
   window.insertCss = require('insert-css');
   window.util = require('@antv/util');
