@@ -137,12 +137,12 @@ export class CameraSetting extends BasePlugin<CameraSettingOptions> {
       azimuth: 'setAzimuth',
     } as const;
 
-    const valueMapper = <T extends keyof CameraSettingOptions>(key: T, value: CameraSettingOptions[T]) => {
+    const valueMapper = (key: string, value: string) => {
       switch (key) {
         case 'projectionMode':
           return value === 'perspective' ? 1 : 0;
         case 'cameraType':
-          return { orbiting: 0, exploring: 1, tracking: 2 }[value];
+          return { orbiting: 0, exploring: 1, tracking: 2 }[value]!;
         case 'aspect':
           if (typeof value === 'number') return value;
           return this.getCanvasAspect();

@@ -1,6 +1,5 @@
 import { Graph } from '@/src';
 import data from '@@/dataset/cluster.json';
-import { isObject } from '@antv/util';
 
 export const pluginLegend: TestCase = async (context) => {
   const { nodes, edges } = data;
@@ -67,7 +66,7 @@ export const pluginLegend: TestCase = async (context) => {
         .onChange((trigger: string) => {
           graph.setPlugins((plugins) =>
             plugins.map((plugin) => {
-              if (isObject(plugin) && plugin.type === 'legend') return { ...plugin, trigger };
+              if (typeof plugin === 'object' && plugin.type === 'legend') return { ...plugin, trigger };
               return plugin;
             }),
           );

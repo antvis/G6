@@ -63,7 +63,7 @@ export interface ScrollCanvasOptions extends BaseBehaviorOptions {
  * <en/> Scroll canvas behavior
  */
 export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
-  static defaultOptions: ScrollCanvasOptions = {
+  static defaultOptions: Partial<ScrollCanvasOptions> = {
     enable: true,
     sensitivity: 1,
   };

@@ -2,7 +2,6 @@ import { behaviorDragCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { CanvasEvent, CommonEvent } from '@/src';
 import { createDemoGraph } from '@@/utils';
-import { isObject } from '@antv/util';
 
 describe('behavior drag canvas', () => {
   let graph: Graph;
@@ -68,7 +67,7 @@ describe('behavior drag canvas', () => {
   it('sensitivity', async () => {
     graph.setBehaviors((behaviors) =>
       behaviors.map((behavior) => {
-        if (isObject(behavior)) {
+        if (typeof behavior === 'object') {
           return { ...behavior, sensitivity: 20 };
         }
         return behavior;

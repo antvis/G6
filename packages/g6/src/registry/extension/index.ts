@@ -1,17 +1,18 @@
 import type EventEmitter from '@antv/event-emitter';
 import { getExtension } from '..';
+import type { Graph } from '../../runtime/graph';
 import type { RuntimeContext } from '../../runtime/types';
 import type { IEvent } from '../../types';
 import { arrayDiff } from '../../utils/diff';
 import { parseExtensions } from '../../utils/extension';
-import type { ExtensionOptions, LooselyExtensionOption, STDExtensionOption } from './types';
+import type { STDExtensionOption } from './types';
 
-export abstract class ExtensionController<Extension extends BaseExtension<LooselyExtensionOption>> {
+export abstract class ExtensionController<E extends BaseExtension<any>> {
   protected context: RuntimeContext;
 
   protected extensions: STDExtensionOption[] = [];
 
-  protected extensionMap: Record<string, Extension> = {};
+  protected extensionMap: Record<string, E> = {};
 
   public abstract category: 'plugin' | 'behavior' | 'transform';
 
@@ -19,8 +20,14 @@ export abstract class ExtensionController<Extension extends BaseExtension<Loosel
     this.context = context;
   }
 
-  public setExtensions(extensions: ExtensionOptions) {
-    const stdExtensions = parseExtensions(this.category, extensions) as STDExtensionOption[];
+  public setExtensions(
+    extensions: (
+      | string
+      | { type: string; [keys: string]: unknown }
+      | ((this: Graph) => { type: string; [keys: string]: unknown })
+    )[],
+  ) {
+    const stdExtensions = parseExtensions(this.context.graph, this.category, extensions) as STDExtensionOption[];
     const { enter, update, exit, keep } = arrayDiff(this.extensions, stdExtensions, (extension) => extension.key);
 
     this.createExtensions(enter);
@@ -38,7 +45,7 @@ export abstract class ExtensionController<Extension extends BaseExtension<Loosel
     if (!Ctor) return;
 
     const instance = new Ctor(this.context, extension);
-    this.extensionMap[key] = instance as Extension;
+    this.extensionMap[key] = instance as E;
   }
 
   protected createExtensions(extensions: STDExtensionOption[]) {
@@ -83,7 +90,7 @@ export abstract class ExtensionController<Extension extends BaseExtension<Loosel
  *
  * <en/> Base class for extension instance
  */
-export class BaseExtension<T extends LooselyExtensionOption> {
+export class BaseExtension<T extends { type: string; key?: string; [key: string]: unknown }> {
   protected context: RuntimeContext;
 
   protected options: Required<T>;
@@ -92,7 +99,7 @@ export class BaseExtension<T extends LooselyExtensionOption> {
 
   public destroyed = false;
 
-  constructor(context: RuntimeContext, options: T) {
+  constructor(context: RuntimeContext, options: Partial<T>) {
     this.context = context;
     this.options = options as Required<T>;
   }

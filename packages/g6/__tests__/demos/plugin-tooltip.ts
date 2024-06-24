@@ -1,6 +1,5 @@
 import { Graph } from '@/src';
 import data from '@@/dataset/combo.json';
-import { isObject } from '@antv/util';
 
 export const pluginTooltip: TestCase = async (context) => {
   const graph = new Graph({
@@ -42,7 +41,7 @@ export const pluginTooltip: TestCase = async (context) => {
         .onChange((trigger: string) => {
           graph.setPlugins((plugins) =>
             plugins.map((plugin) => {
-              if (isObject(plugin) && plugin.type === 'tooltip') return { ...plugin, trigger };
+              if (typeof plugin === 'object' && plugin.type === 'tooltip') return { ...plugin, trigger };
               return plugin;
             }),
           );

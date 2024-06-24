@@ -1,8 +1,7 @@
 import type { ComboData, EdgeData, NodeData } from '../spec';
 import type { ID } from '../types';
-import type { BaseTransform, BaseTransformOptions } from './base-transform';
+import type { BaseTransform } from './base-transform';
 
-export type BuiltInTransformOptions = BaseTransformOptions;
 export type Transform = BaseTransform<any>;
 
 /**

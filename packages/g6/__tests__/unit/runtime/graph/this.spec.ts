@@ -83,4 +83,37 @@ describe('this pointer', () => {
 
     await graph.render();
   });
+
+  it('behavior, plugin, transform', async () => {
+    const graph = createGraph({
+      behaviors: [
+        'click-select',
+        function () {
+          expect(this).toBe(graph);
+          return {
+            type: 'drag-element',
+          };
+        },
+      ],
+      plugins: [
+        'history',
+        function () {
+          expect(this).toBe(graph);
+          return {
+            type: 'tooltip',
+          };
+        },
+      ],
+      transforms: [
+        function () {
+          expect(this).toBe(graph);
+          return {
+            type: 'parallel-edges',
+          };
+        },
+      ],
+    });
+
+    await graph.render();
+  });
 });
