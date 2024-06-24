@@ -68,7 +68,7 @@ export class ElementController {
   }
 
   public getElementType(elementType: ElementType, datum: ElementDatum) {
-    const { options } = this.context;
+    const { options, graph } = this.context;
     const userDefinedType = options[elementType]?.type || datum.type;
 
     if (!userDefinedType) {
@@ -77,7 +77,8 @@ export class ElementController {
       else return 'circle';
     }
     if (typeof userDefinedType === 'string') return userDefinedType;
-    return userDefinedType(datum as any);
+    // @ts-expect-error skip type check
+    return userDefinedType.call(graph, datum);
   }
 
   private getTheme(elementType: ElementType) {
@@ -134,12 +135,13 @@ export class ElementController {
   }
 
   private computeElementsDefaultStyle(ids?: ID[]) {
+    const { graph } = this.context;
     this.forEachElementData((elementType, elementData) => {
       const length = elementData.length;
       for (let i = 0; i < length; i++) {
         const datum = elementData[i];
         if (ids === undefined || ids.includes(idOf(datum))) {
-          this.computeElementDefaultStyle(elementType, { datum });
+          this.computeElementDefaultStyle(elementType, { datum, graph });
         }
       }
     });
@@ -190,13 +192,14 @@ export class ElementController {
    * @param ids - <zh/> 计算指定元素的状态样式 | <en/> compute state style of specified elements
    */
   private computeElementsStatesStyle(ids?: ID[]) {
+    const { graph } = this.context;
     this.forEachElementData((elementType, elementData) => {
       const length = elementData.length;
       for (let i = 0; i < length; i++) {
         const datum = elementData[i];
         if (ids === undefined || ids.includes(idOf(datum))) {
           const states = this.getElementState(idOf(datum));
-          this.computeElementStatesStyle(elementType, states, { datum });
+          this.computeElementStatesStyle(elementType, states, { datum, graph });
         }
       }
     });

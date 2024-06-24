@@ -1,6 +1,6 @@
 import type { AnimationOptions } from '../../animations/types';
 import type { BaseNodeStyleProps } from '../../elements/nodes';
-import type { CallableObject } from '../../types';
+import type { Graph } from '../../runtime/graph';
 import type { NodeData } from '../data';
 import type { AnimationStage } from './animation';
 import type { PaletteOptions } from './palette';
@@ -16,19 +16,31 @@ export interface NodeOptions {
    *
    * <en/> Node type
    */
-  type?: string | ((datum: NodeData) => string);
+  type?: string | ((this: Graph, datum: NodeData) => string);
   /**
    * <zh/> 节点样式
    *
    * <en/> Node style
    */
-  style?: CallableObject<NodeStyle, NodeData>;
+  style?:
+    | NodeStyle
+    | ((this: Graph, data: NodeData) => NodeStyle)
+    | {
+        [K in keyof NodeStyle]: NodeStyle[K] | ((this: Graph, data: NodeData) => NodeStyle[K]);
+      };
   /**
    * <zh/> 节点状态样式
    *
    * <en/> Node state style
    */
-  state?: Record<string, CallableObject<NodeStyle, NodeData>>;
+  state?: Record<
+    string,
+    | NodeStyle
+    | ((this: Graph, data: NodeData) => NodeStyle)
+    | {
+        [K in keyof NodeStyle]: NodeStyle[K] | ((this: Graph, data: NodeData) => NodeStyle[K]);
+      }
+  >;
   /**
    * <zh/> 节点动画
    *

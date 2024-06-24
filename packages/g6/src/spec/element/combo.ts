@@ -1,6 +1,6 @@
 import type { AnimationOptions } from '../../animations/types';
 import type { BaseComboStyleProps } from '../../elements/combos';
-import type { CallableObject } from '../../types';
+import type { Graph } from '../../runtime/graph';
 import type { ComboData } from '../data';
 import type { AnimationStage } from './animation';
 import type { PaletteOptions } from './palette';
@@ -16,19 +16,31 @@ export interface ComboOptions {
    *
    * <en/> Combo type
    */
-  type?: string | ((datum: ComboData) => string);
+  type?: string | ((this: Graph, datum: ComboData) => string);
   /**
    * <zh/> 组合样式
    *
    * <en/> Combo style
    */
-  style?: CallableObject<ComboStyle, ComboData>;
+  style?:
+    | ComboStyle
+    | ((this: Graph, data: ComboData) => ComboStyle)
+    | {
+        [K in keyof ComboStyle]: ComboStyle[K] | ((this: Graph, data: ComboData) => ComboStyle[K]);
+      };
   /**
    * <zh/> 组合状态样式
    *
    * <en/> Combo state style
    */
-  state?: Record<string, CallableObject<ComboStyle, ComboData>>;
+  state?: Record<
+    string,
+    | ComboStyle
+    | ((this: Graph, data: ComboData) => ComboStyle)
+    | {
+        [K in keyof ComboStyle]: ComboStyle[K] | ((this: Graph, data: ComboData) => ComboStyle[K]);
+      }
+  >;
   /**
    * <zh/> 组合动画
    *
