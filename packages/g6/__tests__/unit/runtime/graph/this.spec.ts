@@ -2,7 +2,7 @@ import { createGraph } from '@@/utils';
 
 describe('this pointer', () => {
   it('element mapper', async () => {
-    const graph = await createGraph({
+    const graph = createGraph({
       data: {
         nodes: [
           { id: 'node-0', combo: 'combo-0', style: { x: 100, y: 100 }, states: ['selected'] },
@@ -16,21 +16,25 @@ describe('this pointer', () => {
 
     await graph.render();
 
+    const test = jest.fn((instance) => {
+      expect(instance).toBe(graph);
+    });
+
     const node = {
       type: function () {
-        expect(this).toBe(graph);
+        test(this); // 3 times
         return 'circle';
       },
       style: {
         fill: function () {
-          expect(this).toBe(graph);
+          test(this); // 3 times
           return 'red';
         },
       },
       state: {
         selected: {
           fill: function () {
-            expect(this).toBe(graph);
+            test(this); // 1 time
             return 'yellow';
           },
         },
@@ -38,19 +42,19 @@ describe('this pointer', () => {
     };
     const edge = {
       type: function () {
-        expect(this).toBe(graph);
+        test(this); // 1 time
         return 'line';
       },
       style: {
         stroke: function () {
-          expect(this).toBe(graph);
+          test(this); // 1 time
           return 'blue';
         },
       },
       state: {
         activate: {
           stroke: function () {
-            expect(this).toBe(graph);
+            test(this); // 1 time
             return 'orange';
           },
         },
@@ -58,19 +62,19 @@ describe('this pointer', () => {
     };
     const combo = {
       type: function () {
-        expect(this).toBe(graph);
+        test(this); // 1 time
         return 'circle';
       },
       style: {
         fill: function () {
-          expect(this).toBe(graph);
+          test(this); // 1 time
           return 'green';
         },
       },
       state: {
         disabled: {
           fill: function () {
-            expect(this).toBe(graph);
+            test(this); // 1 time
             return 'purple';
           },
         },
@@ -82,14 +86,48 @@ describe('this pointer', () => {
     graph.setCombo(combo);
 
     await graph.render();
+
+    graph.setNode({
+      style: function () {
+        test(this); // 3 times
+        return {};
+      },
+      state: {
+        selected: function () {
+          test(this); // 1 time
+          return {};
+        },
+      },
+    });
+
+    graph.setEdge({
+      state: {
+        activate: {
+          fill: function () {
+            test(this); // 1 time
+            return 'pink';
+          },
+        },
+      },
+    });
+
+    graph.setCombo({});
+
+    await graph.render();
+
+    expect(test).toHaveBeenCalledTimes(18);
   });
 
   it('behavior, plugin, transform', async () => {
+    const test = jest.fn((instance) => {
+      expect(instance).toBe(graph);
+    });
+
     const graph = createGraph({
       behaviors: [
         'click-select',
         function () {
-          expect(this).toBe(graph);
+          test(this);
           return {
             type: 'drag-element',
           };
@@ -98,7 +136,7 @@ describe('this pointer', () => {
       plugins: [
         'history',
         function () {
-          expect(this).toBe(graph);
+          test(this);
           return {
             type: 'tooltip',
           };
@@ -106,7 +144,7 @@ describe('this pointer', () => {
       ],
       transforms: [
         function () {
-          expect(this).toBe(graph);
+          test(this);
           return {
             type: 'parallel-edges',
           };
@@ -115,5 +153,7 @@ describe('this pointer', () => {
     });
 
     await graph.render();
+
+    expect(test).toHaveBeenCalledTimes(3);
   });
 });
