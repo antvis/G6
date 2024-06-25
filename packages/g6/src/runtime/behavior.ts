@@ -4,6 +4,7 @@ import { CommonEvent, ContainerEvent } from '../constants';
 import { ExtensionController } from '../registry/extension';
 import type { BehaviorOptions, CustomBehaviorOption } from '../spec/behavior';
 import type { Target } from '../types';
+import { isToBeDestroyed } from '../utils/element';
 import { eventTargetOf } from '../utils/event';
 import type { RuntimeContext } from './types';
 
@@ -70,6 +71,10 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
     if (!target) return;
     const { graph, canvas } = this.context;
     const { type: targetType, element: targetElement } = target;
+    // 即将销毁或已销毁的元素不再触发事件
+    // Elements that are about to be destroyed or have been destroyed no longer trigger events
+    if ('destroyed' in targetElement && (isToBeDestroyed(targetElement) || targetElement.destroyed)) return;
+
     const { type, detail, button } = event;
     const stdEvent = { ...event, target: targetElement, targetType, originalTarget };
 
