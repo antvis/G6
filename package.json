@@ -10,7 +10,7 @@
     "build": "turbo build --filter=!@antv/g6-site",
     "ci": "turbo run ci --filter=!@antv/g6-site",
     "contribute": "node ./scripts/contribute.mjs",
-    "publish": "pnpm publish -r"
+    "publish": "pnpm publish -r --publish-branch v5"
   },
   "commitlint": {
     "extends": [
