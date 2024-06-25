@@ -70,6 +70,7 @@ export {
   History,
   Hull,
   Legend,
+  Minimap,
   Timebar,
   Toolbar,
   Tooltip,
