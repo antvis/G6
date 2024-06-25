@@ -1,11 +1,8 @@
-
 <img src="https://gw.alipayobjects.com/zos/antfincdn/R8sN%24GNdh6/language.svg" width="18"> [English](./README.en-US.md) | 简体中文
 
 <h1 align="center">
 <b>G6：图可视分析引擎</b>
 </h1>
-
-> G6 5.0 beta 版本已经发布，还有不少的细节体验问题，欢迎试用和反馈，线上产品暂时谨慎使用，6.6 发布正式版本！
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
@@ -35,7 +32,6 @@
 
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150 alt='' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150 alt='' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xoufSYcjK2AAAAAAAAAAAABkARQnAQ" height=150 alt='' />
 
-
 ## ✨ 特性
 
 G6 作为一款专业的图可视化引擎，具有以下特性：
@@ -48,17 +44,12 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 - **多环境渲染**：发挥 [G](https://github.com/antvis/g) 能力， 支持 Canvas、SVG 以及 WebGL，和 Node.js 服务端渲染；基于 WebGL 提供强大 3D 渲染和空间交互的插件包。
 - **React 体系**：利用 React 前端生态，支持 React 节点，大大丰富 G6 的节点呈现样式。
 
-
 ## 🔨 开始使用
 
 可以通过 NPM 或 Yarn 等包管理器来安装。
 
 ```bash
-$ npm install @antv/g6@next
-```
-
-```bash
-$ yarn add @antv/g6@next
+$ npm install @antv/g6
 ```
 
 成功安装之后，可以通过 import 导入 `Graph` 对象。
@@ -72,20 +63,23 @@ import { Graph } from '@antv/g6';
 
 // 准备数据
 const data = {
-  nodes: [/* your nodes data */],
-  edges: [/* your edges data */],
+  nodes: [
+    /* your nodes data */
+  ],
+  edges: [
+    /* your edges data */
+  ],
 };
 
 // 初始化图表实例
 const graph = new Graph({
   container: 'container',
-  autoFit: 'view',
   data,
   node: {
     palette: {
       type: 'group',
       field: 'cluster',
-    }
+    },
   },
   layout: {
     type: 'force',
@@ -101,14 +95,12 @@ graph.render();
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ue4iTYurc6sAAAAAAAAAAAAADmJ7AQ/fmt.webp" height="300" />
 
-
 ## 🌍 生态
 
- - **Ant Design Charts**： React 图表库，基于 G2、G6、X6、L7。
- - **Graphin**：基于 G6 的 React 简单封装，以及图可视化应用研发的 SDK。
+- **Ant Design Charts**： React 图表库，基于 G2、G6、X6、L7。
+- **Graphin**：基于 G6 的 React 简单封装，以及图可视化应用研发的 SDK。
 
 更多生态开源项目，欢迎 PR 收录进来。
-
 
 ## 📮 贡献
 
@@ -120,7 +112,6 @@ graph.render();
   <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CQoGSoFBzaUAAAAAAAAAAAAADmJ7AQ/fmt.webp" height="256" />
   <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yXJGSY8RC68AAAAAAAAAAAAADmJ7AQ/fmt.webp" height="256" />
 </div>
-
 
 ## 📄 License
 

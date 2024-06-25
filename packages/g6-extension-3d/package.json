@@ -1,7 +1,7 @@
 {
   "name": "@antv/g6-extension-3d",
   "version": "0.1.1",
-  "description": "",
+  "description": "3D extension for G6",
   "keywords": [
     "antv",
     "g6",
@@ -17,7 +17,8 @@
     "src",
     "esm",
     "lib",
-    "dist"
+    "dist",
+    "README"
   ],
   "scripts": {
     "build": "run-p build:*",

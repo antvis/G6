@@ -19,7 +19,8 @@
     "src",
     "esm",
     "lib",
-    "dist"
+    "dist",
+    "README"
   ],
   "scripts": {
     "build": "run-p build:*",
