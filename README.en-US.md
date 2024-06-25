@@ -1,11 +1,8 @@
-
 <img src="https://gw.alipayobjects.com/zos/antfincdn/R8sN%24GNdh6/language.svg" width="18"> English | [简体中文](./README.md)
 
 <h1 align="center">
 <b>G6: A Graph Visualization Framework in TypeScript</b>
 </h1>
-
-> The G6 5.0 beta version has been released. There are still many details and experience issues, and we welcome you to try it out and provide feedback. Use it with caution in production environments for now. The official version will be released with 6.6!
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
@@ -35,7 +32,6 @@
 
 <img src="https://user-images.githubusercontent.com/6113694/44995293-02858600-afd5-11e8-840c-349e4730d63d.gif" height=150 alt='' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*I9OdTbXJIi0AAAAAAAAAAABkARQnAQ" height=150 alt='' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xoufSYcjK2AAAAAAAAAAAABkARQnAQ" height=150 alt='' />
 
-
 ## ✨ Features
 
 G6, as a professional graph visualization engine, boasts the following features:
@@ -48,17 +44,12 @@ G6, as a professional graph visualization engine, boasts the following features:
 - **Multi-Environment Rendering**: Harnessing the power of [G](https://github.com/antvis/g), it supports rendering in Canvas, SVG, and WebGL, as well as server-side rendering with Node.js; it also offers plugin packages that provide powerful 3D rendering and spatial interactions based on WebGL.
 - **React Ecosystem**: By utilizing the React front-end ecosystem, it supports React nodes, significantly enriching the presentational styles of G6 nodes.
 
-
 ## 🔨 Getting Started
 
 G6 is usually installed via a package manager such as npm or Yarn.
 
 ```bash
-$ npm install @antv/g6@next
-```
-
-```bash
-$ yarn add @antv/g6@next
+$ npm install @antv/g6
 ```
 
 The `Graph` object then can be imported from G6.
@@ -67,26 +58,28 @@ The `Graph` object then can be imported from G6.
 <div id="container"></div>
 ```
 
-
 ```ts
 import { Graph } from '@antv/g6';
 
 // Get the Data.
 const data = {
-  nodes: [/* your nodes data */],
-  edges: [/* your edges data */],
+  nodes: [
+    /* your nodes data */
+  ],
+  edges: [
+    /* your edges data */
+  ],
 };
 
 // Create the Graph instance.
 const graph = new Graph({
   container: 'container',
-  autoFit: 'view',
   data,
   node: {
     palette: {
       type: 'group',
       field: 'cluster',
-    }
+    },
   },
   layout: {
     type: 'force',
@@ -102,14 +95,12 @@ All goes well, you can get the following lovely graph!
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ue4iTYurc6sAAAAAAAAAAAAADmJ7AQ/fmt.webp" height="300" />
 
-
 ## 🌍 Ecosystem
 
 - **Ant Design Charts**: A React chart library based on G2, G6, X6, L7.
 - **Graphin**: A simple React wrapper based on G6, as well as an SDK for developing graph visualization applications.
 
 For more ecosystem open-source projects, contributions are welcome. Please feel free to submit a PR for inclusion.
-
 
 ## 📮 Contributing
 
