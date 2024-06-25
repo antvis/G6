@@ -9,7 +9,8 @@
     "prepare": "husky install",
     "build": "turbo build --filter=!@antv/g6-site",
     "ci": "turbo run ci --filter=!@antv/g6-site",
-    "contribute": "node ./scripts/contribute.mjs"
+    "contribute": "node ./scripts/contribute.mjs",
+    "publish": "pnpm publish -r --publish-branch v5"
   },
   "commitlint": {
     "extends": [
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@babel/core": "^7.24.5",
     "@babel/plugin-transform-typescript": "^7.24.5",
+    "@changesets/cli": "^2.27.6",
     "@commitlint/cli": "^18.6.1",
     "@commitlint/config-conventional": "^18.6.3",
     "@rollup/plugin-commonjs": "^25.0.7",

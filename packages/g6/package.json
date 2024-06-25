@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -39,21 +39,22 @@
     "build:umd": "rimraf ./dist && rollup -c && npm run size",
     "bundle-vis": "cross-env BUNDLE_VIS=1 npm run build:umd",
     "ci": "run-s lint type-check build test",
-    "readme": "cp ../../README.* ./",
     "coverage": "jest --coverage",
     "coverage:open": "open coverage/lcov-report/index.html",
     "dev": "vite",
     "fix": "eslint ./src ./__tests__ --fix && prettier ./src __tests__ --write ",
     "jest": "node --expose-gc --max-old-space-size=1024 --unhandled-rejections=strict ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles",
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
-    "prepublishOnly": "run-s ci readme",
+    "prepublishOnly": "run-s version ci readme",
+    "readme": "cp ../../README.* ./",
     "size": "limit-size",
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",
     "tag": "node ./scripts/tag.mjs",
     "test": "jest",
     "test:integration": "npm run jest __tests__/integration",
     "test:unit": "npm run jest __tests__/unit",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "version": "node ./scripts/version.mjs"
   },
   "dependencies": {
     "@antv/component": "^2.0.1",
