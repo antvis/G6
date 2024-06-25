@@ -1,3 +1,4 @@
+import type { Graph } from '../runtime/graph';
 import type { ElementDatum } from './data';
 
 /**
@@ -7,4 +8,5 @@ import type { ElementDatum } from './data';
  */
 export type StyleIterationContext = {
   datum: ElementDatum;
+  graph: Graph;
 };

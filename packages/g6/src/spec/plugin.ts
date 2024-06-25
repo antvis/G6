@@ -1,11 +1,10 @@
-import type { BuiltInPluginOptions } from '../plugins/types';
-import type { ExtensionOptions } from '../registry/extension/types';
+import type { Graph } from '../runtime/graph';
 
-export type PluginOptions = ExtensionOptions<BuiltInPluginOptions>;
+export type PluginOptions = (string | CustomPluginOption | ((this: Graph) => CustomPluginOption))[];
 
 export interface UpdatePluginOption {
   key: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface CustomPluginOption extends Record<string, any> {
@@ -14,7 +13,7 @@ export interface CustomPluginOption extends Record<string, any> {
    *
    * <en/> Plugin type
    */
-  type?: string;
+  type: string;
   /**
    * <zh/> 插件 key，即唯一标识
    *

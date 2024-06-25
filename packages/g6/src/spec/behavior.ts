@@ -1,11 +1,10 @@
-import type { BuiltInBehaviorOptions } from '../behaviors/types';
-import type { ExtensionOptions } from '../registry/extension/types';
+import type { Graph } from '../runtime/graph';
 
-export type BehaviorOptions = ExtensionOptions<BuiltInBehaviorOptions>;
+export type BehaviorOptions = (string | CustomBehaviorOption | ((this: Graph) => CustomBehaviorOption))[];
 
 export interface UpdateBehaviorOption {
   key: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface CustomBehaviorOption extends Record<string, any> {
@@ -14,7 +13,7 @@ export interface CustomBehaviorOption extends Record<string, any> {
    *
    * <en/> Behavior type
    */
-  type?: string;
+  type: string;
   /**
    * <zh/> 交互 key，即唯一标识
    *

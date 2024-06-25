@@ -355,7 +355,7 @@ export class Graph extends EventEmitter {
   public updateBehavior(behavior: UpdateBehaviorOption): void {
     this.setBehaviors((behaviors) =>
       behaviors.map((_behavior) => {
-        if (isObject(_behavior) && _behavior.key === behavior.key) {
+        if (typeof _behavior === 'object' && _behavior.key === behavior.key) {
           return { ..._behavior, ...behavior };
         }
         return _behavior;
@@ -414,7 +414,7 @@ export class Graph extends EventEmitter {
   public updatePlugin(plugin: UpdatePluginOption): void {
     this.setPlugins((plugins) =>
       plugins.map((_plugin) => {
-        if (isObject(_plugin) && _plugin.key === plugin.key) {
+        if (typeof _plugin === 'object' && _plugin.key === plugin.key) {
           return { ..._plugin, ...plugin };
         }
         return _plugin;
@@ -482,7 +482,7 @@ export class Graph extends EventEmitter {
   public updateTransform(transform: UpdateTransformOption): void {
     this.setTransforms((transforms) =>
       transforms.map((_transform) => {
-        if (isObject(_transform) && _transform.key === transform.key) {
+        if (typeof _transform === 'object' && _transform.key === transform.key) {
           return { ..._transform, ...transform };
         }
         return _transform;

@@ -2,7 +2,6 @@ import { behaviorScrollCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { CommonEvent } from '@/src';
 import { createDemoGraph } from '@@/utils';
-import { isObject } from '@antv/util';
 import { ScrollCanvasOptions } from '../../../src/behaviors';
 
 describe('behavior scroll canvas', () => {
@@ -12,10 +11,10 @@ describe('behavior scroll canvas', () => {
     graph = await createDemoGraph(behaviorScrollCanvas, { animation: false });
   });
 
-  function setBehavior(options?: ScrollCanvasOptions) {
+  function setBehavior(options?: Partial<ScrollCanvasOptions>) {
     graph.setBehaviors((behaviors) =>
       behaviors.map((behavior) => {
-        if (isObject(behavior) && behavior.type === 'scroll-canvas') {
+        if (typeof behavior === 'object' && behavior.type === 'scroll-canvas') {
           return { ...behavior, ...options };
         }
         return behavior;

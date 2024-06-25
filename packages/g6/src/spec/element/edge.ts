@@ -1,6 +1,6 @@
 import type { AnimationOptions } from '../../animations/types';
 import type { BaseEdgeStyleProps } from '../../elements/edges';
-import type { CallableObject } from '../../types';
+import type { Graph } from '../../runtime/graph';
 import type { EdgeData } from '../data';
 import type { AnimationStage } from './animation';
 import type { PaletteOptions } from './palette';
@@ -16,19 +16,31 @@ export interface EdgeOptions {
    *
    * <en/> Edge type
    */
-  type?: string | ((datum: EdgeData) => string);
+  type?: string | ((this: Graph, datum: EdgeData) => string);
   /**
    * <zh/> 边样式
    *
    * <en/> Edge style
    */
-  style?: CallableObject<EdgeStyle, EdgeData>;
+  style?:
+    | EdgeStyle
+    | ((this: Graph, data: EdgeData) => EdgeStyle)
+    | {
+        [K in keyof EdgeStyle]: EdgeStyle[K] | ((this: Graph, data: EdgeData) => EdgeStyle[K]);
+      };
   /**
    * <zh/> 边状态样式
    *
    * <en/> Edge state style
    */
-  state?: Record<string, CallableObject<EdgeStyle, EdgeData>>;
+  state?: Record<
+    string,
+    | EdgeStyle
+    | ((this: Graph, data: EdgeData) => EdgeStyle)
+    | {
+        [K in keyof EdgeStyle]: EdgeStyle[K] | ((this: Graph, data: EdgeData) => EdgeStyle[K]);
+      }
+  >;
   /**
    * <zh/> 边动画
    *

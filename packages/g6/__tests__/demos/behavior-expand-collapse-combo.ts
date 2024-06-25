@@ -1,5 +1,4 @@
 import { Graph } from '@/src';
-import { isObject } from '@antv/util';
 
 export const behaviorExpandCollapseCombo: TestCase = async (context) => {
   const graph = new Graph({
@@ -64,7 +63,7 @@ export const behaviorExpandCollapseCombo: TestCase = async (context) => {
       panel.add(config, 'dropEffect', ['link', 'move', 'none']).onChange((value: string) => {
         graph.setBehaviors((behaviors) => {
           return behaviors.map((behavior) => {
-            if (isObject(behavior) && behavior.type === 'drag-element') {
+            if (typeof behavior === 'object' && behavior.type === 'drag-element') {
               return {
                 ...behavior,
                 dropEffect: value,

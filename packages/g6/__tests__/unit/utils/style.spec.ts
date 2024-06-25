@@ -20,7 +20,7 @@ describe('style', () => {
       fill: (data: any) => (data.data.type === 'B' ? 'green' : 'red'),
     };
 
-    const computedStyle = computeElementCallbackStyle(style, { datum });
+    const computedStyle = computeElementCallbackStyle(style, { datum, graph: {} as any });
 
     expect(computedStyle).toEqual({
       stroke: 'blue',
@@ -34,7 +34,7 @@ describe('style', () => {
       };
     };
 
-    expect(computeElementCallbackStyle(style1, { datum })).toEqual({
+    expect(computeElementCallbackStyle(style1, { datum, graph: {} as any })).toEqual({
       fill: 'red',
     });
   });

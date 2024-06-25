@@ -1,6 +1,5 @@
 import { Graph, PluginOptions } from '@/src';
 import data from '@@/dataset/cluster.json';
-import { isObject } from '@antv/util';
 
 export const pluginWatermark: TestCase = async (context) => {
   const graph = new Graph({
@@ -22,7 +21,7 @@ export const pluginWatermark: TestCase = async (context) => {
   function updatePlugin(type: string, config: object) {
     return (plugins: PluginOptions) => {
       return plugins.map((plugin) => {
-        if (isObject(plugin) && plugin.type === type) return { ...plugin, ...config };
+        if (typeof plugin === 'object' && plugin.type === type) return { ...plugin, ...config };
         return plugin;
       });
     };

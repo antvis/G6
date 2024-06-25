@@ -6,7 +6,7 @@ import { invokeLayoutMethod } from '@/src/utils/layout';
 export const layoutForceCollision: TestCase = async (context) => {
   const width = 500;
 
-  class CollisionElement extends BaseBehavior<{}> {
+  class CollisionElement extends BaseBehavior {
     constructor(context: RuntimeContext) {
       super(context, {});
       this.onPointerMove = this.onPointerMove.bind(this);
