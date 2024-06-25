@@ -9,7 +9,8 @@
     "prepare": "husky install",
     "build": "turbo build --filter=!@antv/g6-site",
     "ci": "turbo run ci --filter=!@antv/g6-site",
-    "contribute": "node ./scripts/contribute.mjs"
+    "contribute": "node ./scripts/contribute.mjs",
+    "publish": "pnpm publish -r"
   },
   "commitlint": {
     "extends": [
