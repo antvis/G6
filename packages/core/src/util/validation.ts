@@ -43,12 +43,12 @@ export const dataValidation = (data?: GraphData | TreeGraphData): boolean => {
   }
 
   // 3. 边的 source 和 target 必须存在于节点 或 Combo中
-  const nodeIds = ((nodes as NodeConfig[]) || []).map(node => node.id);
-  const comboIds = (combos as ComboConfig[])?.map(combo => combo.id);
-  const ids = [...nodeIds, ...comboIds];
-  const nonEdges = ((edges as EdgeConfig[]) || []).find(
-    edge => !ids.includes(edge.source) || !ids.includes(edge.target),
-  );
+  const ids = new Set<string>();
+  ((nodes as NodeConfig[]) || []).forEach(node => ids.add(node.id));
+  ((nodes as ComboConfig[]) || []).forEach(combo => ids.add(combo.id));
+  const nonEdges = ((edges as EdgeConfig[]) || []).find(function (edge) {
+    return !ids.has(edge.source) || !ids.has(edge.target);
+  });
   if (nonEdges) {
     console.warn(
       `G6 Warning Tips: The source %c${nonEdges.source}%c or the target %c${nonEdges.target}%c of the edge do not exist in the nodes or combos.`,
