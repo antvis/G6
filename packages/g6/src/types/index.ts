@@ -1,6 +1,5 @@
 export type * from './anchor';
 export type * from './animation';
-export type * from './callable';
 export type * from './canvas';
 export type * from './change';
 export type * from './combo';

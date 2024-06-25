@@ -1,6 +1,6 @@
 import type { DisplayObjectConfig } from '@antv/g';
-import { isFunction } from '@antv/util';
-import type { CallableObject, ElementDatum, StyleIterationContext } from '../types';
+import type { Graph } from '../runtime/graph';
+import type { ElementDatum, StyleIterationContext } from '../types';
 
 /**
  * <zh/> 计算支持回调的动态样式
@@ -11,16 +11,21 @@ import type { CallableObject, ElementDatum, StyleIterationContext } from '../typ
  * @returns <zh/> 静态样式 | <en/> static style
  */
 export function computeElementCallbackStyle(
-  callableStyle: CallableObject<Record<string, unknown>, ElementDatum>,
+  callableStyle:
+    | Record<string, unknown>
+    | ((this: Graph, datum: ElementDatum) => Record<string, unknown>)
+    | {
+        [key: string]: (this: Graph, datum: ElementDatum) => unknown;
+      },
   context: StyleIterationContext,
 ) {
   const { datum, graph } = context;
 
-  if (isFunction(callableStyle)) return callableStyle.call(graph, datum);
+  if (typeof callableStyle === 'function') return callableStyle.call(graph, datum);
 
   return Object.fromEntries(
     Object.entries(callableStyle).map(([key, style]) => {
-      if (isFunction(style)) return [key, style.call(graph, datum)];
+      if (typeof style === 'function') return [key, style.call(graph, datum)];
       return [key, style];
     }),
   );
