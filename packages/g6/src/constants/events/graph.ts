@@ -120,6 +120,18 @@ export enum GraphEvent {
    */
   AFTER_LAYOUT = 'afterlayout',
   /**
+   * <zh/> 布局过程之前，用于流水线布局过程获取当前执行的布局
+   *
+   * <en/> Before the layout process, used to get the current layout being executed in the pipeline layout process
+   */
+  BEFORE_LAYOUT_PROCEDURE = 'beforelayoutprocedure',
+  /**
+   * <zh/> 布局过程之后，用于流水线布局过程获取当前执行的布局
+   *
+   * <en/> After the layout process, used to get the current layout being executed in the pipeline layout process
+   */
+  AFTER_LAYOUT_PROCEDURE = 'afterlayoutprocedure',
+  /**
    * <zh/> 可视区域变化之前
    *
    * <en/> Before the visible area changes
