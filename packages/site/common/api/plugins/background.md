@@ -28,7 +28,7 @@ createGraph(
       type: 'background',
       key: 'background',
       backgroundImage: 'url(https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0Qq0ToQm1rEAAAAAAAAAAAAADmJ7AQ/original)',
-      backgrounfRepeat: 'no-repeat',
+      backgroundRepeat: 'no-repeat',
       backgroundSize: 'contain',
     }],
   },

@@ -28,7 +28,7 @@ const graph = new Graph({
       width: '800px',
       height: '600px',
       backgroundImage: 'url(https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0Qq0ToQm1rEAAAAAAAAAAAAADmJ7AQ/original)',
-      backgrounfRepeat: 'no-repeat',
+      backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
       opacity: 0.2,
     },
