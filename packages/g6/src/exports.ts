@@ -78,6 +78,7 @@ export {
 export { getExtension, getExtensions, register } from './registry';
 export { Graph } from './runtime/graph';
 export { BaseTransform } from './transforms';
+export { isCollapsed } from './utils/collapsibility';
 export { idOf } from './utils/id';
 export { invokeLayoutMethod } from './utils/layout';
 export { omitStyleProps, subStyleProps } from './utils/prefix';
@@ -189,6 +190,7 @@ export type { AnimationStage } from './spec/element/animation';
 export type { LayoutOptions, STDLayoutOptions, SingleLayoutOptions } from './spec/layout';
 export type { CustomPluginOption } from './spec/plugin';
 export type { BaseTransformOptions } from './transforms';
+export type { DrawData } from './transforms/types';
 export type {
   BaseElementStyleProps,
   CardinalPlacement,
