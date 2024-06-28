@@ -301,23 +301,33 @@ export const caseIndentedTree: TestCase = async (context) => {
       this.status = 'busy';
       const { id, collapsed } = event;
       const { graph } = this.context;
+      await graph.frontElement(id);
       if (collapsed) await graph.collapseElement(id);
       else await graph.expandElement(id);
       this.status = 'idle';
     };
 
-    private addChild(event: any) {
-      const { onCreateChild = () => ({ id: `${Date.now()}`, style: { labelText: 'new node' } }) } = this.options;
+    private addChild = async (event: any) => {
+      this.status = 'busy';
+      const {
+        onCreateChild = (id) => {
+          const parent = this.context.graph.getNodeData(id);
+          const { x = 0, y = 0 } = parent.style || {};
+          return { id: `${Date.now()}`, style: { x, y, labelText: 'new node' } };
+        },
+      } = this.options;
       const { graph } = this.context;
       const datum = onCreateChild(event.id);
+      const parent = graph.getNodeData(event.id);
+
       graph.addNodeData([datum]);
       graph.addEdgeData([{ source: event.id, target: datum.id }]);
-      const parent = graph.getNodeData(event.id);
       graph.updateNodeData([
         { id: event.id, children: [...(parent.children || []), datum.id], style: { collapsed: false } },
       ]);
-      graph.render();
-    }
+      await graph.render();
+      this.status = 'idle';
+    };
   }
 
   interface DragBranchOptions extends BaseBehaviorOptions, Prefix<'shadow', BaseStyleProps> {
@@ -497,12 +507,12 @@ export const caseIndentedTree: TestCase = async (context) => {
       type: 'indented',
       style: {
         size: (d) => [d.id.length * 6 + 10, 20],
-        labelBackground: (datum) => datum.id === rootId,
+        labelBackground: true,
         labelBackgroundRadius: 0,
-        labelBackgroundFill: '#576286',
-        labelFill: (datum) => (datum.id === rootId ? '#fff' : '#666'),
+        labelBackgroundFill: (d) => (d.id === rootId ? '#576286' : '#fff'),
+        labelFill: (d) => (d.id === rootId ? '#fff' : '#666'),
         labelText: (d) => d.style?.labelText || d.id,
-        labelTextAlign: (datum) => (datum.id === rootId ? 'center' : 'left'),
+        labelTextAlign: (d) => (d.id === rootId ? 'center' : 'left'),
         labelTextBaseline: 'top',
         color: (datum: NodeData) => {
           const depth = graph.getAncestorsData(datum.id, 'tree').length - 1;
