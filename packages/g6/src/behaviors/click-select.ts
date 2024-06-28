@@ -1,9 +1,10 @@
 import { isFunction } from '@antv/util';
-import { CanvasEvent, CommonEvent } from '../constants';
+import { CanvasEvent, CommonEvent, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
 import type { ElementType, ID, IPointerEvent, State } from '../types';
-import { idsOf } from '../utils/id';
+import type { ElementLifeCycleEvent } from '../utils/event';
+import { idOf, idsOf } from '../utils/id';
 import { getElementNthDegreeIds } from '../utils/relation';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
@@ -137,6 +138,7 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
       graph.on(`${type}:${CommonEvent.CLICK}`, this.onClickSelect);
     });
     graph.on(CanvasEvent.CLICK, this.onClickCanvas);
+    graph.on(GraphEvent.AFTER_ELEMENT_UPDATE, this.syncState);
   }
 
   private onClickSelect = (event: IPointerEvent) => {
@@ -158,7 +160,14 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
     return multiple && this.shortcut.match(trigger);
   }
 
-  private updateState(event: IPointerEvent) {
+  /**
+   * <zh/> syncState 会忽略因交互操作导致的状态更新
+   *
+   * <en/> syncState will ignore state updates caused by interactive operations
+   */
+  private updating = false;
+
+  private async updateState(event: IPointerEvent) {
     const { state: select, unselectedState: unselect, neighborState: neighbor, animation, degree } = this.options;
     if (!select && !unselect) return;
 
@@ -218,8 +227,29 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
       }
     });
 
-    graph.setElementState(states, animation);
+    this.updating = true;
+    await graph.setElementState(states, animation);
+    this.updating = false;
   }
+
+  /**
+   * <zh/> 同步状态
+   *
+   * <en/> Sync state
+   * @remarks
+   * <zh/> 避免其他操作更新状态后，this.select 与实际状态不一致
+   *
+   * <en/> Avoid inconsistency between this.select and the actual state after other operations update the state
+   * @param event - <zh/> 元素生命周期事件 | <en/> Element life cycle event
+   */
+  private syncState = (event: ElementLifeCycleEvent) => {
+    if (this.updating) return;
+    const { data } = event;
+    const id = idOf(data);
+    const states = data.states || [];
+    if (states.includes(this.options.state)) this.select.add(id);
+    else this.select.delete(id);
+  };
 
   private validate(event: IPointerEvent) {
     if (this.destroyed) return false;
@@ -235,6 +265,7 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
       graph.off(`${type}:${CommonEvent.CLICK}`, this.onClickSelect);
     });
     graph.off(CanvasEvent.CLICK, this.onClickCanvas);
+    graph.off(GraphEvent.AFTER_ELEMENT_UPDATE, this.syncState);
   }
 
   public destroy() {
