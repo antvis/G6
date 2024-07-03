@@ -261,17 +261,17 @@ describe('Graph', () => {
 
   it('translateBy/translateTo', async () => {
     const [px, py] = graph.getPosition();
-    graph.translateBy([100, 100]);
+    await graph.translateBy([100, 100]);
     expect(graph.getPosition()).toBeCloseTo([px + 100, py + 100]);
     await expect(graph).toMatchSnapshot(__filename, 'after-translate');
-    graph.translateTo([0, 0]);
+    await graph.translateTo([0, 0]);
     expect(graph.getPosition()).toBeCloseTo([px, py]);
   });
 
   it('zoomTo/zoomBy', async () => {
     const zoom = graph.getZoom();
     expect(zoom).toBeCloseTo(1);
-    graph.zoomTo(2);
+    await graph.zoomTo(2);
     expect(graph.getZoom()).toBeCloseTo(2);
     await expect(graph).toMatchSnapshot(__filename, 'after-zoom-2');
     graph.zoomBy(0.5);

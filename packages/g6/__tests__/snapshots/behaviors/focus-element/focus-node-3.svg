@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
   <defs/>
-  <g transform="matrix(1,0,0,1,150,50)">
+  <g transform="matrix(1,0,0,1,150,49.999985)">
     <g fill="none">
       <g fill="none">
         <g fill="none" x="200" y="150" transform="matrix(1,0,0,1,200,150)">

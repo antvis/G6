@@ -33,9 +33,9 @@ export const viewportFit: TestCase = async (context) => {
       focusElement: () => graph.focusElement('1'),
     };
     return [
-      panel.add(config, 'x', -100, 100, 1).onChange((x: number) => graph.translateTo([x, config.y])),
-      panel.add(config, 'y', -100, 100, 1).onChange((y: number) => graph.translateTo([config.x, y])),
-      panel.add(config, 'zoom', 0.01, 10, 0.1).onChange((zoom: number) => graph.zoomTo(zoom)),
+      panel.add(config, 'x', -100, 100, 1).onChange((x: number) => graph.translateTo([x, config.y], false)),
+      panel.add(config, 'y', -100, 100, 1).onChange((y: number) => graph.translateTo([config.x, y], false)),
+      panel.add(config, 'zoom', 0.01, 10, 0.1).onChange((zoom: number) => graph.zoomTo(zoom, false)),
       panel.add(config, 'fitView'),
       panel.add(config, 'fitCenter'),
       panel.add(config, 'focusElement'),
