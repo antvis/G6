@@ -35,7 +35,7 @@ const graph = new Graph({
 graph.render();
 
 window.addPanel((gui) => {
-  gui.add({ trigger: 'shift' }, 'trigger', ['shift', 'alt', 'ctrl', 'drag', 'meta']).onChange((value) => {
+  gui.add({ trigger: 'shift' }, 'trigger', ['Shift', 'Alt', 'Control', 'Drag', 'Meta']).onChange((value) => {
     graph.updateBehavior({ key: 'lasso-select', trigger: value });
   });
 });
