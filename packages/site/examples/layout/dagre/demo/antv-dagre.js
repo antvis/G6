@@ -29,10 +29,8 @@ const data = {
   ],
 };
 
-const container = document.getElementById('container');
-
 const graph = new Graph({
-  container,
+  container: 'container',
   animation: false,
   data,
   layout: {
@@ -42,8 +40,8 @@ const graph = new Graph({
     controlPoints: true,
   },
   node: {
+    type: 'rect',
     style: {
-      type: 'rect',
       size: [60, 30],
       radius: 8,
       labelPlacement: 'center',

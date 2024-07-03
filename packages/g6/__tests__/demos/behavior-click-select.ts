@@ -30,7 +30,7 @@ export const behaviorClickSelect: TestCase = async (context) => {
       .name('Multiple')
       .onChange((multiple: boolean) => updateClickSelectOption({ multiple })),
     panel
-      .add(config, 'trigger', ['shift', 'ctrl', 'alt', 'meta'])
+      .add(config, 'trigger', ['Shift', 'Control', 'Alt', 'Meta'])
       .name('Trigger')
       .onChange((trigger: string) => updateClickSelectOption({ trigger: [trigger] })),
     panel
