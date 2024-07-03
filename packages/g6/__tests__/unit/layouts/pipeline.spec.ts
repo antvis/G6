@@ -23,11 +23,11 @@ describe('pipeline', () => {
     const before = jest.fn();
     const after = jest.fn();
 
-    graph.on(GraphEvent.BEFORE_LAYOUT_PROCEDURE, (e) => {
+    graph.on(GraphEvent.BEFORE_STAGE_LAYOUT, (e) => {
       before(e);
     });
 
-    graph.on(GraphEvent.AFTER_LAYOUT_PROCEDURE, (e) => {
+    graph.on(GraphEvent.AFTER_STAGE_LAYOUT, (e) => {
       after(e);
     });
 
