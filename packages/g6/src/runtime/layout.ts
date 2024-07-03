@@ -56,9 +56,12 @@ export class LayoutController {
     emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT));
     for (const options of pipeline) {
       const index = pipeline.indexOf(options);
-
       const data = this.getLayoutData(options);
-      const result = await this.stepLayout(data, { ...this.presetOptions, ...options }, index);
+      const opts = { ...this.presetOptions, ...options };
+
+      emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_STAGE_LAYOUT, { options: opts, index }));
+      const result = await this.stepLayout(data, opts, index);
+      emit(graph, new GraphLifeCycleEvent(GraphEvent.AFTER_STAGE_LAYOUT, { options: opts, index }));
 
       if (!options.animation) {
         this.updateElementPosition(result, false);
