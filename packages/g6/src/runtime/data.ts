@@ -570,6 +570,7 @@ export class DataController {
     const { model } = this;
 
     const id = idOf(datum);
+    if (!model.hasNode(id)) return;
     const original = toG6Data(model.getNode(id));
     const value = mergeElementsData(original, datum);
     model.mergeNodeData(id, value);
