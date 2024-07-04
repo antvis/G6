@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
   <defs/>
-  <g transform="matrix(0.738356,0,0,0.738356,82.873116,59.688713)">
+  <g transform="matrix(0.738356,0,0,0.738356,82.873100,59.688713)">
     <g fill="none">
       <g fill="none">
         <g fill="none" marker-start="false" marker-end="false">
@@ -307,7 +307,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="302.71799912589677" y="472.28200087410323" transform="matrix(1,0,0,1,302.717987,472.282013)">
+        <g fill="none" x="302.7179991258976" y="472.2820008741024" transform="matrix(1,0,0,1,302.717987,472.282013)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="15"/>
           </g>
@@ -322,7 +322,7 @@
       </g>
       <g fill="none">
         <g>
-          <path fill="rgba(173,216,230,1)" d="M 288.6319609879662,495.9005006058128 L 413.9139618620694,570.6184997317096 A 27.5 27.5 0 0 0 442.0860381379306 523.3815002682904 L 316.80403726382735,448.66350114239367 A 27.5 27.5 0 0 0 288.6319609879662 495.9005006058128" class="key" fill-opacity="0.2" stroke="rgba(0,0,255,1)" stroke-opacity="0.2" stroke-width="5"/>
+          <path fill="rgba(173,216,230,1)" d="M 288.63196098796686,495.9005006058118 L 413.91396186206924,570.6184997317094 A 27.5 27.5 0 0 0 442.08603813793076 523.3815002682906 L 316.8040372638284,448.66350114239293 A 27.5 27.5 0 0 0 288.63196098796686 495.9005006058118" class="key" fill-opacity="0.2" stroke="rgba(0,0,255,1)" stroke-opacity="0.2" stroke-width="5"/>
         </g>
         <g fill="none" class="label" transform="matrix(0.858855,0.512220,-0.512220,0.858855,382.916595,552.131714)">
           <g>

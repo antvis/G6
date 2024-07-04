@@ -1,7 +1,7 @@
 import { AABB } from '@antv/g';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
-import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
+import type { FitViewOptions, ID, Point, TransformOptions, ViewportAnimationEffectTiming } from '../types';
 import { getAnimationOptions } from '../utils/animation';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
@@ -96,28 +96,14 @@ export class ViewportController {
     return this.camera.getRoll();
   }
 
-  private getTranslateArgs(options: TransformOptions) {
-    const currentZoom = this.getZoom();
-    const { camera } = this;
-    const { mode, translate = [] } = options;
-    const [x = 0, y = 0] = translate;
-    const [cx = 0, cy = 0] = this.getCanvasCenter();
-    const [px, py] = camera.getPosition();
-
-    const delta = divide([-x, -y], currentZoom);
-
-    const value = mode === 'relative' ? delta : add([cx - px, cy - py], delta);
-    return value as [number, number];
-  }
-
-  private getAnimationTranslateArgs(options: TransformOptions) {
+  private getTranslateOptions(options: TransformOptions) {
     const { camera } = this;
     const { mode, translate = [] } = options;
     const currentZoom = this.getZoom();
 
     const position = camera.getPosition();
     const focalPoint = camera.getFocalPoint();
-    const canvasCenter = this.getCanvasCenter();
+    const [cx, cy] = this.getCanvasCenter();
 
     const [x = 0, y = 0, z = 0] = translate;
 
@@ -129,23 +115,18 @@ export class ViewportController {
           focalPoint: add(focalPoint, delta),
         }
       : {
-          position: add(canvasCenter, delta),
-          focalPoint: add(focalPoint, delta),
+          position: add([cx, cy, position[2]], delta),
+          focalPoint: add([cx, cy, focalPoint[2]], delta),
         };
   }
 
-  private getRotateArgs(options: TransformOptions) {
-    const { mode, rotate = 0 } = options;
-    return mode === 'relative' ? rotate : rotate - this.camera.getRoll();
-  }
-
-  private getAnimationRotateArgs(options: TransformOptions) {
+  private getRotateOptions(options: TransformOptions) {
     const { mode, rotate = 0 } = options;
     const roll = mode === 'relative' ? this.camera.getRoll() + rotate : rotate;
     return { roll };
   }
 
-  private getZoomArgs(options: TransformOptions) {
+  private getZoomOptions(options: TransformOptions) {
     const { zoomRange } = this.context.options;
     const currentZoom = this.camera.getZoom();
     const { mode, scale = 1 } = options;
@@ -153,20 +134,19 @@ export class ViewportController {
   }
 
   public async transform(options: TransformOptions, animation?: ViewportAnimationEffectTiming) {
-    const { camera } = this;
     const { graph } = this.context;
-    const { translate, rotate, scale, origin = this.getGraphCenter() } = options;
+    const { translate, rotate, scale } = options;
     this.cancelAnimation();
 
     emit(graph, new ViewportEvent(GraphEvent.BEFORE_TRANSFORM, options));
     const _animation = this.getAnimation(animation);
 
-    if (_animation) {
-      const landmarkOptions: Parameters<typeof this.camera.createLandmark>[1] = {};
-      if (translate) Object.assign(landmarkOptions, this.getAnimationTranslateArgs(options));
-      if (isNumber(rotate)) Object.assign(landmarkOptions, this.getAnimationRotateArgs(options));
-      if (isNumber(scale)) Object.assign(landmarkOptions, { zoom: this.getZoomArgs(options) });
+    const landmarkOptions: Parameters<typeof this.camera.createLandmark>[1] = {};
+    if (translate) Object.assign(landmarkOptions, this.getTranslateOptions(options));
+    if (isNumber(rotate)) Object.assign(landmarkOptions, this.getRotateOptions(options));
+    if (isNumber(scale)) Object.assign(landmarkOptions, { zoom: this.getZoomOptions(options) });
 
+    if (_animation) {
       emit(graph, new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.TRANSFORM, null, options));
 
       return new Promise<void>((resolve) => {
@@ -180,18 +160,9 @@ export class ViewportController {
         });
       });
     } else {
-      if (translate) camera.pan(...this.getTranslateArgs(options));
-      if (isNumber(rotate)) {
-        const [x, y] = camera.getFocalPoint();
-        if (origin) camera.pan(origin[0] - x, origin[1] - y);
-        const value = this.getRotateArgs(options);
-        camera.rotate(0, 0, value);
-        if (origin) camera.pan(x - origin[0], y - origin[1]);
-      }
-      if (isNumber(scale)) {
-        const targetZoom = this.getZoomArgs(options);
-        camera.setZoomByViewportPoint(targetZoom, origin as Vector2);
-      }
+      this.camera.gotoLandmark(this.createLandmark(landmarkOptions), {
+        duration: 0,
+      });
 
       emit(graph, new ViewportEvent(GraphEvent.AFTER_TRANSFORM, options));
     }
@@ -227,9 +198,7 @@ export class ViewportController {
         scale,
         translate: add(
           subtract(this.getCanvasCenter(), this.getBBoxInViewport(canvasBounds).center),
-          // 启用动画时， zoom 和 translate 是同时进行的，因此需要除以缩放比例
-          // When animation is enabled, zoom and translate are performed simultaneously, so they need to be divided by the scaling ratio
-          _animation ? divide(this.paddingOffset, scale) : this.paddingOffset,
+          divide(this.paddingOffset, scale),
         ),
       },
       _animation,

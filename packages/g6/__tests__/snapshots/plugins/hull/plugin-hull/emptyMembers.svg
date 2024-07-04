@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
   <defs/>
-  <g transform="matrix(0.738356,0,0,0.738356,82.873116,59.688713)">
+  <g transform="matrix(0.738356,0,0,0.738356,82.873100,59.688713)">
     <g fill="none">
       <g fill="none">
         <g fill="none" marker-start="false" marker-end="false">
@@ -307,7 +307,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="302.71799912589677" y="472.28200087410323" transform="matrix(1,0,0,1,302.717987,472.282013)">
+        <g fill="none" x="302.7179991258976" y="472.2820008741024" transform="matrix(1,0,0,1,302.717987,472.282013)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="15"/>
           </g>
