@@ -86,13 +86,19 @@ export function preprocessKeyframes(keyframes: Keyframe[]): Keyframe[] {
 
   // 将 PropertyIndexedKeyframes 转化为 Keyframe 格式
   // convert PropertyIndexedKeyframes to Keyframe format
-  return Object.entries(propertyIndexedKeyframes).reduce((acc, [key, values]) => {
+  const output = Object.entries(propertyIndexedKeyframes).reduce((acc, [key, values]) => {
     values.forEach((value, index) => {
       if (!acc[index]) acc[index] = { [key]: value };
       else acc[index][key] = value;
     });
     return acc;
   }, [] as Keyframe[]);
+
+  // 如果处理后所有的属性都被过滤掉，则添加一个没有实际作用的属性用于触发动画
+  // If all properties are filtered out after processing, add a property that has no actual effect to trigger the animation
+  if (keyframes.length !== 0 && output.length === 0) output.push(...[{ _: 0 }, { _: 0 }]);
+
+  return output;
 }
 
 /**
