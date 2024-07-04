@@ -40,7 +40,7 @@ export const layoutAntVDagreFlowCombo: TestCase = async (context) => {
       nodesep: 5,
       sortByCombo: true,
     },
-    behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
+    behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas', 'collapse-expand'],
   });
 
   await graph.render();
