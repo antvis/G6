@@ -30,12 +30,13 @@ function checkStagingArea() {
 }
 
 function parseGithubUrl(url) {
-  const regex = /https:\/\/github\.com\/([^/]+)\/([^/]+)\/tree\/([^/]+)\/(.+)/;
+  const regex = /https:\/\/github\.com\/([^/]+)\/([^/]+)\/tree\/([^/]+)(\/(.+))*/;
   const match = url.match(regex);
   if (!match) {
     throw new Error('无法解析 GitHub URL');
   }
-  return { username: match[1], repository: match[2], branch: match[3] + '/' + match[4] };
+  const [, username, repository, ...branch] = match;
+  return { username, repository, branch: branch.filter(Boolean).join('/') };
 }
 
 function addRemoteAndCheckoutBranch(username, branch) {
