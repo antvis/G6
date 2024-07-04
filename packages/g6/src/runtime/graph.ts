@@ -1889,11 +1889,12 @@ export class Graph extends EventEmitter {
    * <en/> Listen to events
    * @param eventName - <zh/> 事件名称 | <en/> event name
    * @param callback - <zh/> 回调函数 | <en/> callback function
+   * @param once - <zh/> 是否只监听一次 | <en/> whether to listen only once
    * @returns <zh/> Graph 实例 | <en/> Graph instance
    * @apiCategory event
    */
-  public on<T extends IEvent = IEvent>(eventName: string, callback: (event: T) => void): this {
-    return super.on(eventName, callback);
+  public on<T extends IEvent = IEvent>(eventName: string, callback: (event: T) => void, once?: boolean): this {
+    return super.on(eventName, callback, once);
   }
 
   /**
