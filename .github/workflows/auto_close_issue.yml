@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Close Outdate issue
-        if: ${{ github.event.label.name == 'Outdate' }}
+        if: ${{ github.event.label.name == 'Outdate' || github.event.label.name == 'stale' }}
         uses: peter-evans/close-issue@v1
         with:
           comment: |
