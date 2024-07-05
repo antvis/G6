@@ -13,10 +13,10 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
-      - uses: pnpm/action-setup@v2
+          node-version: 18
+      - uses: pnpm/action-setup@v4
         with:
-          version: 8     
+          version: 9
       - uses: actions/checkout@v2
       - run: pnpm install
       - run: pnpm build
