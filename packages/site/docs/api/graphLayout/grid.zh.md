@@ -16,7 +16,7 @@ const graph = new G6.Graph({
     type: 'grid',
     begin: [ 0, 0 ],          // 可选，
     preventOverlap: true,     // 可选，必须配合 nodeSize
-    preventOverlapPdding: 20, // 可选
+    preventOverlapPadding: 20, // 可选
     nodeSize: 30,             // 可选
     condense: false,          // 可选
     rows: 5,                  // 可选

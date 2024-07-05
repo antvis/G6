@@ -16,7 +16,7 @@ const graph = new G6.Graph({
     type: 'grid',
     begin: [0, 0],
     preventOverlap: true, // nodeSize or size in data is required for preventOverlap: true
-    preventOverlapPdding: 20,
+    preventOverlapPadding: 20,
     nodeSize: 30,
     condense: false,
     rows: 5,
