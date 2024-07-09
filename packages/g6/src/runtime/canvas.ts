@@ -1,9 +1,10 @@
-import type { Cursor, DisplayObject, CanvasConfig as GCanvasConfig, IAnimation, IRenderer, PointLike } from '@antv/g';
+import type { Cursor, DisplayObject, CanvasConfig as GCanvasConfig, IAnimation, IRenderer } from '@antv/g';
 import { CanvasEvent, Canvas as GCanvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
 import { createDOM, isFunction, isString } from '@antv/util';
 import type { CanvasOptions } from '../spec/canvas';
+import type { PointObject } from '../types';
 import type { CanvasLayer } from '../types/canvas';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 
@@ -208,19 +209,19 @@ export class Canvas {
     return this.main.getContextService();
   }
 
-  public viewport2Client(viewport: PointLike) {
+  public viewport2Client(viewport: PointObject) {
     return this.main.viewport2Client(viewport);
   }
 
-  public viewport2Canvas(viewport: PointLike) {
+  public viewport2Canvas(viewport: PointObject) {
     return this.main.viewport2Canvas(viewport);
   }
 
-  public client2Viewport(client: PointLike) {
+  public client2Viewport(client: PointObject) {
     return this.main.client2Viewport(client);
   }
 
-  public canvas2Viewport(canvas: PointLike) {
+  public canvas2Viewport(canvas: PointObject) {
     return this.main.canvas2Viewport(canvas);
   }
 

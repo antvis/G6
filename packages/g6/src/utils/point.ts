@@ -1,5 +1,5 @@
-import type { AABB, PointLike } from '@antv/g';
-import type { Point } from '../types';
+import type { AABB } from '@antv/g';
+import type { Point, PointObject } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import type { LineSegment } from './line';
 import { getLinesIntersection, isLinesParallel } from './line';
@@ -12,8 +12,8 @@ import { add, distance, divide, normalize, subtract, toVector2 } from './vector'
  * @param point - <zh/> 对象坐标 | <en/> object coordinates
  * @returns <zh/> 数组坐标 | <en/> array coordinates
  */
-export function parsePoint(point: PointLike): Point {
-  return [point.x, point.y];
+export function parsePoint(point: PointObject): Point {
+  return [point.x, point.y, point.z ?? 0];
 }
 
 /**
@@ -23,8 +23,8 @@ export function parsePoint(point: PointLike): Point {
  * @param point - <zh/> 数组坐标 | <en/> array coordinates
  * @returns <zh/> 对象坐标 | <en/> object coordinates
  */
-export function toPointObject(point: Point): PointLike {
-  return { x: point[0], y: point[1] };
+export function toPointObject(point: Point): PointObject {
+  return { x: point[0], y: point[1], z: point[2] ?? 0 };
 }
 
 /**

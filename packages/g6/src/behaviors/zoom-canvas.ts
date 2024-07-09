@@ -1,8 +1,7 @@
-import type { PointLike } from '@antv/g';
 import { clamp, isArray, isFunction, isObject } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { IKeyboardEvent, IWheelEvent, Point, ViewportAnimationEffectTiming } from '../types';
+import type { IKeyboardEvent, IWheelEvent, Point, PointObject, ViewportAnimationEffectTiming } from '../types';
 import { parsePoint } from '../utils/point';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
@@ -141,7 +140,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
 
     let origin: Point | undefined;
     if ('viewport' in event) {
-      origin = parsePoint(event.viewport as PointLike);
+      origin = parsePoint(event.viewport as PointObject);
     }
 
     const { sensitivity, onFinish } = this.options;
