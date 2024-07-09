@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.7
+
+### Patch Changes
+
+- fix plugin and behaviors
+
 ## 5.0.5
 
 ### Patch Changes
