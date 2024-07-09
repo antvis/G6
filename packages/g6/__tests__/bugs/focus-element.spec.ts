@@ -17,7 +17,9 @@ describe('focus element', () => {
 
     await graph.draw();
 
+    graph.emit(CanvasEvent.DRAG_START, { targetType: 'canvas' });
     graph.emit(CanvasEvent.DRAG, { movement: { x: 100, y: 100 }, targetType: 'canvas' });
+    graph.emit(CanvasEvent.DRAG_END);
 
     await expect(graph).toMatchSnapshot(__filename, 'focus-before-drag');
 
