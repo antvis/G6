@@ -133,6 +133,8 @@ export class ViewportController {
     return clamp(mode === 'relative' ? currentZoom * scale : scale, ...zoomRange!);
   }
 
+  private transformResolver?: () => void;
+
   public async transform(options: TransformOptions, animation?: ViewportAnimationEffectTiming) {
     const { graph } = this.context;
     const { translate, rotate, scale } = options;
@@ -150,11 +152,13 @@ export class ViewportController {
       emit(graph, new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.TRANSFORM, null, options));
 
       return new Promise<void>((resolve) => {
+        this.transformResolver = resolve;
         this.camera.gotoLandmark(this.createLandmark(landmarkOptions), {
           ..._animation,
           onfinish: () => {
             emit(graph, new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.TRANSFORM, null, options));
             emit(graph, new ViewportEvent(GraphEvent.AFTER_TRANSFORM, options));
+            this.transformResolver = undefined;
             resolve();
           },
         });
@@ -247,5 +251,6 @@ export class ViewportController {
     if (this.camera.landmarks?.length) {
       this.camera.cancelLandmarkAnimation();
     }
+    this.transformResolver?.();
   }
 }
