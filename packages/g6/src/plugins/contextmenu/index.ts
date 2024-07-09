@@ -213,13 +213,15 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
   };
 
   private onMenuItemClick = (event: MouseEvent) => {
-    const { onClick } = this.options;
+    const { onClick, trigger } = this.options;
     if (event.target instanceof HTMLElement) {
       if (event.target.className.includes('g6-contextmenu-li')) {
         const value = event.target.getAttribute('value') as string;
         onClick?.(value, event.target);
+        this.hide();
       }
     }
-    this.hide();
+
+    if (trigger !== 'click') this.hide();
   };
 }
