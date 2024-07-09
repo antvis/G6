@@ -17,6 +17,7 @@ export const behaviorDragCanvas: TestCase = async (context) => {
       'drag-canvas',
       {
         type: 'drag-canvas',
+        key: 'drag-canvas',
         trigger: {
           up: ['ArrowUp'],
           down: ['ArrowDown'],

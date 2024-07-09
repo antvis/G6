@@ -1,5 +1,5 @@
 import type { Cursor } from '@antv/g';
-import { isFunction, isObject } from '@antv/util';
+import { debounce, isFunction, isObject } from '@antv/util';
 import { CanvasEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
@@ -76,7 +76,6 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
     this.bindEvents();
     this.defaultCursor = this.context.canvas.getConfig().cursor || 'default';
-    context.canvas.setCursor('grab');
   }
 
   /**
@@ -97,7 +96,6 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     const { graph } = this.context;
 
     if (isObject(trigger)) {
-      graph.off(CanvasEvent.DRAG, this.onDrag);
       const { up = [], down = [], left = [], right = [] } = trigger;
 
       this.shortcut.bind(up, (event) => this.onTranslate([0, 1], event));
@@ -105,24 +103,46 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
       this.shortcut.bind(left, (event) => this.onTranslate([1, 0], event));
       this.shortcut.bind(right, (event) => this.onTranslate([-1, 0], event));
     } else {
+      graph.on(CanvasEvent.DRAG_START, this.onDragStart);
       graph.on(CanvasEvent.DRAG, this.onDrag);
+      graph.on(CanvasEvent.DRAG_END, this.onDragEnd);
     }
   }
 
-  private onDrag = (event: IPointerEvent) => {
+  private isDragging = false;
+
+  private onDragStart = (event: IPointerEvent) => {
     if (!this.validate(event)) return;
-    if (event.targetType === 'canvas') {
-      this.translate([event.movement.x, event.movement.y], false);
-      this.options.onFinish?.();
+    if (event.targetType !== 'canvas') return;
+    this.isDragging = true;
+    this.context.canvas.setCursor('grabbing');
+  };
+
+  private onDrag = (event: IPointerEvent) => {
+    if (!this.isDragging) return;
+    const { x, y } = event.movement;
+    if ((x | y) !== 0) {
+      this.translate([x, y], false);
     }
   };
+
+  private onDragEnd = () => {
+    this.isDragging = false;
+    this.context.canvas.setCursor(this.defaultCursor);
+    this.options.onFinish?.();
+  };
+
+  private invokeOnFinish = debounce(() => {
+    this.options.onFinish?.();
+  }, 300);
 
   private async onTranslate(value: Vector2, event: IPointerEvent | IKeyboardEvent) {
     if (!this.validate(event)) return;
     const { sensitivity } = this.options;
     const delta = sensitivity * -1;
     await this.translate(multiply(value, delta) as Vector2, this.options.animation);
-    this.options.onFinish?.();
+
+    this.invokeOnFinish();
   }
 
   /**
@@ -146,7 +166,10 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
   private unbindEvents() {
     this.shortcut.unbindAll();
-    this.context.graph.off(CanvasEvent.DRAG, this.onDrag);
+    const { graph } = this.context;
+    graph.off(CanvasEvent.DRAG_START, this.onDragStart);
+    graph.off(CanvasEvent.DRAG, this.onDrag);
+    graph.off(CanvasEvent.DRAG_END, this.onDragEnd);
   }
 
   public destroy(): void {

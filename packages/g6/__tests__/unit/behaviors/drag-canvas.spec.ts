@@ -1,7 +1,7 @@
 import { behaviorDragCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { CanvasEvent, CommonEvent } from '@/src';
-import { createDemoGraph } from '@@/utils';
+import { createDemoGraph, sleep } from '@@/utils';
 
 describe('behavior drag canvas', () => {
   let graph: Graph;
@@ -19,6 +19,7 @@ describe('behavior drag canvas', () => {
       'drag-canvas',
       {
         type: 'drag-canvas',
+        key: 'drag-canvas',
         trigger: {
           up: ['ArrowUp'],
           down: ['ArrowDown'],
@@ -60,19 +61,14 @@ describe('behavior drag canvas', () => {
 
   it('drag', () => {
     const [x, y] = graph.getPosition();
+    graph.emit(CanvasEvent.DRAG_START, { targetType: 'canvas' });
     graph.emit(CanvasEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
+    graph.emit(CanvasEvent.DRAG_END);
     expect(graph.getPosition()).toBeCloseTo([x + 10, y + 10]);
   });
 
   it('sensitivity', async () => {
-    graph.setBehaviors((behaviors) =>
-      behaviors.map((behavior) => {
-        if (typeof behavior === 'object') {
-          return { ...behavior, sensitivity: 20 };
-        }
-        return behavior;
-      }),
-    );
+    graph.updateBehavior({ key: 'drag-canvas', sensitivity: 20 });
 
     const [x, y] = graph.getPosition();
     graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
@@ -80,5 +76,38 @@ describe('behavior drag canvas', () => {
     expect(graph.getPosition()).toBeCloseTo([x + 20, y]);
 
     await expect(graph).toMatchSnapshot(__filename);
+  });
+
+  it('onFinish with key', async () => {
+    const onFinish = jest.fn();
+    graph.updateBehavior({ key: 'drag-canvas', onFinish });
+
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
+
+    await sleep(500);
+    expect(onFinish).toHaveBeenCalledTimes(1);
+
+    onFinish.mockReset();
+
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
+
+    await sleep(500);
+    expect(onFinish).toHaveBeenCalledTimes(1);
+  });
+
+  it('onFinish with drag', async () => {
+    const onFinish = jest.fn();
+    graph.updateBehavior({ key: 'drag-canvas', trigger: 'drag', onFinish });
+
+    graph.emit(CanvasEvent.DRAG_START, { targetType: 'canvas' });
+    graph.emit(CanvasEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
+    graph.emit(CanvasEvent.DRAG_END);
+    expect(onFinish).toHaveBeenCalledTimes(1);
   });
 });
