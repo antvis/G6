@@ -16,7 +16,7 @@
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="4"/>
           <g>
-            <path fill="none" d="M 710,108.10810810810811 L 1034.2553191489362,195.74468085106383 Q 1050 200,1050 220 L 1050,220 L 1050,300 L 1050,400 L 1050,500 L 1050,600 L 1050,700 L 1050,800 L 1050,879" class="key" stroke-width="2" stroke="rgba(194,200,213,1)"/>
+            <path fill="none" d="M 710,108.10810810810811 L 1034.2553191489362,195.74468085106383 Q 1050 200,1050 220 L 1050,220 L 1050,300 L 1050,400 L 1050,500 L 1050,600 L 1050,700 L 1050,780 Q 1050 800,1050 820 L 1050,820 L 1050,879" class="key" stroke-width="2" stroke="rgba(194,200,213,1)"/>
             <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="4" stroke="transparent"/>
             <g transform="matrix(0,-1,1,0,1050,879)">
               <path fill="rgba(194,200,213,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(194,200,213,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
@@ -116,7 +116,7 @@
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="4"/>
           <g>
-            <path fill="none" d="M 851.5,315 L 858.1818181818181,381.8181818181818 Q 860 400,860 420 L 860,420 L 860,500 L 860,600 L 860,700 L 860,800 L 860,900 L 860,1000 L 860,1079" class="key" stroke-width="2" stroke="rgba(194,200,213,1)"/>
+            <path fill="none" d="M 851.5,315 L 858.1818181818181,381.8181818181818 Q 860 400,860 420 L 860,420 L 860,500 L 860,600 L 860,700 L 860,800 L 860,900 L 860,980 Q 860 1000,860 1020 L 860,1020 L 860,1079" class="key" stroke-width="2" stroke="rgba(194,200,213,1)"/>
             <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="4" stroke="transparent"/>
             <g transform="matrix(0,-1,1,0,860,1079)">
               <path fill="rgba(194,200,213,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(194,200,213,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
