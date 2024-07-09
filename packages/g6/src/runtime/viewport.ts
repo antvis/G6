@@ -1,7 +1,7 @@
 import { AABB } from '@antv/g';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
-import type { FitViewOptions, ID, Point, TransformOptions, ViewportAnimationEffectTiming } from '../types';
+import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
 import { getAnimationOptions } from '../utils/animation';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
@@ -137,11 +137,19 @@ export class ViewportController {
 
   public async transform(options: TransformOptions, animation?: ViewportAnimationEffectTiming) {
     const { graph } = this.context;
-    const { translate, rotate, scale } = options;
+    const { translate, rotate, scale, origin } = options;
     this.cancelAnimation();
 
-    emit(graph, new ViewportEvent(GraphEvent.BEFORE_TRANSFORM, options));
     const _animation = this.getAnimation(animation);
+
+    // 针对缩放操作，且不涉及平移、旋转、中心点、动画时，直接调用 setZoomByViewportPoint
+    // For zoom operations, and no translation, rotation, center point, and animation involved, call setZoomByViewportPoint directly
+    if (!rotate && scale && !translate && origin && !_animation) {
+      this.camera.setZoomByViewportPoint(scale, origin as Vector2);
+      return;
+    }
+
+    emit(graph, new ViewportEvent(GraphEvent.BEFORE_TRANSFORM, options));
 
     const landmarkOptions: Parameters<typeof this.camera.createLandmark>[1] = {};
     if (translate) Object.assign(landmarkOptions, this.getTranslateOptions(options));
@@ -222,7 +230,7 @@ export class ViewportController {
   }
 
   private async focus(bbox: AABB, animation?: ViewportAnimationEffectTiming) {
-    const { center } = this.getBBoxInViewport(bbox);
+    const center = this.context.graph.getViewportByCanvas(bbox.center);
     const canvasCenter = this.getCanvasCenter();
     const delta = subtract(canvasCenter, center);
     await this.transform({ mode: 'relative', translate: add(delta, this.paddingOffset) }, animation);

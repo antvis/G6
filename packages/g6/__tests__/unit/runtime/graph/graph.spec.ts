@@ -298,19 +298,19 @@ describe('Graph', () => {
   });
 
   it('getCanvasByViewport', () => {
-    expect(graph.getCanvasByViewport([250, 250])).toBeCloseTo([250, 250]);
+    expect(graph.getCanvasByViewport([250, 250])).toBeCloseTo([250, 250, 0]);
   });
 
   it('getViewportByCanvas', () => {
-    expect(graph.getViewportByCanvas([250, 250])).toBeCloseTo([250, 250]);
+    expect(graph.getViewportByCanvas([250, 250])).toBeCloseTo([250, 250, 0]);
   });
 
   it('getClientByCanvas', () => {
-    expect(graph.getClientByCanvas([250, 250])).toBeCloseTo([250, 250]);
+    expect(graph.getClientByCanvas([250, 250])).toBeCloseTo([250, 250, 0]);
   });
 
   it('getCanvasByClient', () => {
-    expect(graph.getCanvasByClient([250, 250])).toBeCloseTo([250, 250]);
+    expect(graph.getCanvasByClient([250, 250])).toBeCloseTo([250, 250, 0]);
   });
 
   it('getViewportCenter', () => {

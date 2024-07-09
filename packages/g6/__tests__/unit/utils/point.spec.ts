@@ -25,11 +25,11 @@ import { Circle, Rect } from '@antv/g';
 
 describe('Point Functions', () => {
   it('parsePoint', () => {
-    expect(parsePoint({ x: 100, y: 100 })).toEqual([100, 100]);
+    expect(parsePoint({ x: 100, y: 100 })).toEqual([100, 100, 0]);
   });
 
   it('toPointObject', () => {
-    expect(toPointObject([100, 100])).toEqual({ x: 100, y: 100 });
+    expect(toPointObject([100, 100])).toEqual({ x: 100, y: 100, z: 0 });
   });
 
   it('sortByX', () => {

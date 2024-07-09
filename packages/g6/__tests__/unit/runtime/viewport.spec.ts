@@ -76,12 +76,12 @@ describe('ViewportController', () => {
 
   it('coordinate transform', async () => {
     expect(graph.getPosition()).toBeCloseTo([0, 0]);
-    expect(graph.getClientByCanvas([0, 0])).toBeCloseTo([0, 0]);
+    expect(graph.getClientByCanvas([0, 0])).toBeCloseTo([0, 0, 0]);
 
     expect(graph.getCanvasCenter()).toBeCloseTo([250, 250, 0]);
     expect(graph.getViewportCenter()).toBeCloseTo([250, 250, 0]);
-    expect(graph.getCanvasByViewport([0, 0])).toBeCloseTo([0, 0]);
-    expect(graph.getViewportByCanvas([0, 0])).toBeCloseTo([0, 0]);
+    expect(graph.getCanvasByViewport([0, 0])).toBeCloseTo([0, 0, 0]);
+    expect(graph.getViewportByCanvas([0, 0])).toBeCloseTo([0, 0, 0]);
 
     // without animation
     await graph.translateTo([100, 100]);
@@ -89,8 +89,8 @@ describe('ViewportController', () => {
     expect(graph.getPosition()).toBeCloseTo([100, 100]);
     expect(graph.getCanvasCenter()).toBeCloseTo([250, 250, 0]);
     expect(graph.getViewportCenter()).toBeCloseTo([250 - 100, 250 - 100, 0]);
-    expect(graph.getCanvasByViewport([0, 0])).toBeCloseTo([-100, -100]);
-    expect(graph.getViewportByCanvas([0, 0])).toBeCloseTo([100, 100]);
+    expect(graph.getCanvasByViewport([0, 0])).toBeCloseTo([-100, -100, 0]);
+    expect(graph.getViewportByCanvas([0, 0])).toBeCloseTo([100, 100, 0]);
   });
 
   it('getViewportSize', async () => {
