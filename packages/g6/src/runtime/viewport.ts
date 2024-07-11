@@ -135,7 +135,7 @@ export class ViewportController {
 
   private transformResolver?: () => void;
 
-  public async transform(options: TransformOptions, animation?: ViewportAnimationEffectTiming) {
+  public async transform(options: TransformOptions, animation?: ViewportAnimationEffectTiming): Promise<void> {
     const { graph } = this.context;
     const { translate, rotate, scale, origin } = options;
     this.cancelAnimation();
@@ -145,7 +145,7 @@ export class ViewportController {
     // 针对缩放操作，且不涉及平移、旋转、中心点、动画时，直接调用 setZoomByViewportPoint
     // For zoom operations, and no translation, rotation, center point, and animation involved, call setZoomByViewportPoint directly
     if (!rotate && scale && !translate && origin && !_animation) {
-      this.camera.setZoomByViewportPoint(scale, origin as Vector2);
+      this.camera.setZoomByViewportPoint(this.getZoomOptions(options), origin as Vector2);
       return;
     }
 
