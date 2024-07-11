@@ -54,6 +54,10 @@ export class Shortcut {
     emitter.on(CommonEvent.KEY_UP, this.onKeyUp);
     emitter.on(CommonEvent.WHEEL, this.onWheel);
     emitter.on(CommonEvent.DRAG, this.onDrag);
+
+    // 窗口重新获得焦点后清空按键，避免按键状态异常
+    // Clear the keys when the window regains focus to avoid abnormal key states
+    window.addEventListener('focus', this.onFocus);
   }
 
   private onKeyDown = (event: KeyboardEvent) => {
@@ -103,11 +107,16 @@ export class Shortcut {
     this.triggerExtendKey(CommonEvent.DRAG, event);
   };
 
+  private onFocus = () => {
+    this.recordKey.clear();
+  };
+
   public destroy() {
     this.unbindAll();
     this.emitter.off(CommonEvent.KEY_DOWN, this.onKeyDown);
     this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
+    window.removeEventListener('blur', this.onFocus);
   }
 }
