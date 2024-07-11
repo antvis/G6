@@ -290,7 +290,7 @@ export class DataController {
 
   public setData(data: GraphData) {
     const { nodes: modifiedNodes = [], edges: modifiedEdges = [], combos: modifiedCombos = [] } = data;
-    const { nodes: originalNodes = [], edges: originalEdges = [], combos: originalCombos = [] } = this.getData();
+    const { nodes: originalNodes, edges: originalEdges, combos: originalCombos } = this.getData();
 
     const nodeDiff = arrayDiff(originalNodes, modifiedNodes, (node) => idOf(node));
     const edgeDiff = arrayDiff(originalEdges, modifiedEdges, (edge) => idOf(edge));

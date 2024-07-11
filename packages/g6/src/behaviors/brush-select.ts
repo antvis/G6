@@ -288,8 +288,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
 
     const graphData = graph.getData();
     itemTypes.forEach((itemType) => {
-      const data = graphData[`${itemType}s`];
-      data?.forEach((datum) => {
+      graphData[`${itemType}s`].forEach((datum) => {
         const id = idOf(datum);
         if (graph.getElementVisibility(id) !== 'hidden' && isPointInPolygon(graph.getElementPosition(id), points)) {
           elements.push(id);
