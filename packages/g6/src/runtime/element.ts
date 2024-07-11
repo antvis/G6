@@ -31,6 +31,7 @@ import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '
 import { idOf } from '../utils/id';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
 import { positionOf } from '../utils/position';
+import { print } from '../utils/print';
 import { computeElementCallbackStyle } from '../utils/style';
 import { themeOf } from '../utils/theme';
 import type { RuntimeContext } from './types';
@@ -366,7 +367,7 @@ export class ElementController {
 
     // get shape constructor
     const Ctor = getExtension(elementType, type);
-    if (!Ctor) return;
+    if (!Ctor) return print.warn(`The element ${type} of ${elementType} is not registered.`);
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum), context);
 
@@ -791,7 +792,7 @@ export interface DrawContext {
   animation: boolean;
   /** <zh/> 当前绘制阶段 | <en/> Current draw stage */
   stage?: AnimationStage;
-  /** <zh/> 是否不抛出事件 | <en/> Whether not to throw events */
+  /** <zh/> 是否不抛出事件 | <en/> Whether not to dispatch events */
   silence?: boolean;
   /** <zh/> 收起/展开的对象 ID | <en/> ID of the object to collapse/expand */
   collapseExpandTarget?: ID;

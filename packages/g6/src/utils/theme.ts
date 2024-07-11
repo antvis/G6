@@ -1,6 +1,7 @@
 import { ExtensionCategory } from '../constants';
 import { getExtension } from '../registry';
 import type { GraphOptions } from '../spec';
+import { print } from './print';
 
 /**
  * <zh/> 获取主题配置
@@ -14,5 +15,9 @@ export function themeOf(options: GraphOptions) {
   if (!theme) return {};
 
   const themeOptions = getExtension(ExtensionCategory.THEME, theme);
-  return themeOptions ?? {};
+
+  if (themeOptions) return themeOptions;
+
+  print.warn(`The theme of ${theme} is not registered.`);
+  return {};
 }

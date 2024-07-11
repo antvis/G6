@@ -1,4 +1,5 @@
 import type { RuntimeContext } from '../../runtime/types';
+import { print } from '../../utils/print';
 import type { ShortcutKey } from '../../utils/shortcut';
 import { Shortcut } from '../../utils/shortcut';
 import type { BasePluginOptions } from '../base-plugin';
@@ -123,7 +124,7 @@ export class Fullscreen extends BasePlugin<FullscreenOptions> {
   public request() {
     if (document.fullscreenElement || !isFullscreenEnabled()) return;
     this.$el.requestFullscreen().catch((err: Error) => {
-      console.debug(`Error attempting to enable full-screen: ${err.message} (${err.name})`);
+      print.warn(`Error attempting to enable full-screen: ${err.message} (${err.name})`);
     });
   }
 

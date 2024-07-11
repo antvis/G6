@@ -1,5 +1,6 @@
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type { DataID, ID } from '../types';
+import { format } from './print';
 
 /**
  * <zh/> 获取节点/边/Combo 的 ID
@@ -12,7 +13,7 @@ export function idOf(data: Partial<NodeData | EdgeData | ComboData>): ID {
   if (data.id !== undefined) return data.id;
   if (data.source !== undefined && data.target !== undefined) return `${data.source}-${data.target}`;
 
-  throw new Error('The data does not have available id.');
+  throw new Error(format('The datum does not have available id.'));
 }
 
 /**

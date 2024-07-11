@@ -5,6 +5,7 @@ import type { RuntimeContext } from '../../runtime/types';
 import type { IEvent } from '../../types';
 import { arrayDiff } from '../../utils/diff';
 import { parseExtensions } from '../../utils/extension';
+import { print } from '../../utils/print';
 import type { STDExtensionOption } from './types';
 
 export abstract class ExtensionController<E extends BaseExtension<any>> {
@@ -42,7 +43,7 @@ export abstract class ExtensionController<E extends BaseExtension<any>> {
 
     const { key, type } = extension;
     const Ctor = getExtension(category, type);
-    if (!Ctor) return;
+    if (!Ctor) return print.warn(`The extension ${type} of ${category} is not registered.`);
 
     const instance = new Ctor(this.context, extension);
     this.extensionMap[key] = instance as E;
