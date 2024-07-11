@@ -126,6 +126,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     const content = await this.getDOMContent(event);
 
     if (content instanceof HTMLElement) {
+      this.$element.innerHTML = '';
       this.$element.appendChild(content);
     } else {
       this.$element.innerHTML = content;
