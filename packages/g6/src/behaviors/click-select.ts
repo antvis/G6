@@ -1,13 +1,13 @@
 import { isFunction } from '@antv/util';
-import { CanvasEvent, CommonEvent, GraphEvent } from '../constants';
+import { CanvasEvent, CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
-import type { ElementType, ID, IPointerEvent, State } from '../types';
-import type { ElementLifeCycleEvent } from '../utils/event';
-import { idOf, idsOf } from '../utils/id';
+import type { Element, ElementType, ID, IPointerEvent, State } from '../types';
+import { idOf } from '../utils/id';
 import { getElementNthDegreeIds } from '../utils/relation';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
+import { statesOf } from '../utils/state';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -108,10 +108,6 @@ export interface ClickSelectOptions extends BaseBehaviorOptions {
  * <en/> When the mouse clicks on an element, you can activate the state of the element, such as selecting nodes or edges. When the degree is 1, clicking on a node will highlight the current node and its directly adjacent nodes and edges.
  */
 export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
-  private select: Set<ID> = new Set<ID>();
-
-  private neighbor: Set<ID> = new Set<ID>();
-
   private shortcut: Shortcut;
 
   static defaultOptions: Partial<ClickSelectOptions> = {
@@ -138,20 +134,17 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
       graph.on(`${type}:${CommonEvent.CLICK}`, this.onClickSelect);
     });
     graph.on(CanvasEvent.CLICK, this.onClickCanvas);
-    graph.on(GraphEvent.AFTER_ELEMENT_UPDATE, this.syncState);
   }
 
-  private onClickSelect = (event: IPointerEvent) => {
+  private onClickSelect = async (event: IPointerEvent<Element>) => {
     if (!this.validate(event)) return;
-    this.updateState(event);
+    await this.updateState(event);
     this.options.onClick?.(event);
   };
 
-  private onClickCanvas = (event: IPointerEvent) => {
+  private onClickCanvas = async (event: IPointerEvent) => {
     if (!this.validate(event)) return;
-    this.updateState(event);
-    this.select.clear();
-    this.neighbor.clear();
+    await this.clearState();
     this.options.onClick?.(event);
   };
 
@@ -160,96 +153,135 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
     return multiple && this.shortcut.match(trigger);
   }
 
-  /**
-   * <zh/> syncState 会忽略因交互操作导致的状态更新
-   *
-   * <en/> syncState will ignore state updates caused by interactive operations
-   */
-  private updating = false;
+  private getNeighborIds(event: IPointerEvent<Element>) {
+    const { target, targetType } = event;
+    const { graph } = this.context;
+    const { degree } = this.options;
+    return getElementNthDegreeIds(
+      graph,
+      targetType as ElementType,
+      target.id,
+      typeof degree === 'function' ? degree(event) : degree,
+    ).filter((id) => id !== target.id);
+  }
 
-  private async updateState(event: IPointerEvent) {
-    const { state: select, unselectedState: unselect, neighborState: neighbor, animation, degree } = this.options;
-    if (!select && !unselect) return;
+  private async updateState(event: IPointerEvent<Element>) {
+    const { state: selectState, unselectedState, neighborState, animation } = this.options;
+    if (!selectState && !neighborState && !unselectedState) return;
 
-    const target = event.target;
+    const { target } = event;
     const { graph } = this.context;
 
-    if ('id' in target) {
-      const id = target.id;
-      const datum = graph.getElementData(id);
-      if (datum?.states?.includes(select)) {
-        this.select.delete(id);
-      } else {
-        if (!this.isMultipleSelect) this.select.clear();
-        this.select.add(id);
-      }
-    }
-    // 点击了空白处 / click canvas
-    else this.select.clear();
+    const datum = graph.getElementData(target.id);
+
+    const type = statesOf(datum).includes(selectState) ? 'unselect' : 'select';
 
     const states: Record<ID, State[]> = {};
 
-    if (select) {
-      const exclude = [unselect, neighbor];
-      this.select.forEach((id) => {
-        const state = graph.getElementState(id);
-        states[id] = uniq([...state.filter((s) => !exclude.includes(s)), select]);
-      });
-    }
+    const isMultipleSelect = this.isMultipleSelect;
 
-    const neighborIds = new Set<ID>();
-    if (neighbor) {
-      const d = typeof degree === 'function' ? degree(event) : degree;
-      if (d) {
-        const targetType = event.targetType as ElementType;
-        this.select.forEach((id) => {
-          getElementNthDegreeIds(graph, targetType, id, d).forEach((id) => {
-            if (!this.select.has(id)) neighborIds.add(id);
+    const click = [target.id];
+    const neighbor = this.getNeighborIds(event);
+
+    if (!isMultipleSelect) {
+      if (type === 'select') {
+        Object.assign(states, this.getClearStates(!!unselectedState));
+        const addState = (list: ID[], state: State) => {
+          list.forEach((id) => {
+            if (!states[id]) states[id] = [];
+            states[id].push(state);
           });
+        };
+        addState(click, selectState);
+        addState(neighbor, neighborState);
+        if (unselectedState) {
+          Object.keys(states).forEach((id) => {
+            if (!click.includes(id) && !neighbor.includes(id)) states[id].push(unselectedState);
+          });
+        }
+      } else Object.assign(states, this.getClearStates());
+    } else {
+      Object.assign(states, this.getDataStates());
+
+      if (type === 'select') {
+        const addState = (list: ID[], state: State) => {
+          list.forEach((id) => {
+            const datum = graph.getElementData(id);
+            const dataStatesSet = new Set(statesOf(datum));
+            dataStatesSet.add(state);
+            dataStatesSet.delete(unselectedState);
+            states[id] = Array.from(dataStatesSet);
+          });
+        };
+
+        addState(click, selectState);
+        addState(neighbor, neighborState);
+        if (unselectedState) {
+          Object.keys(states).forEach((id) => {
+            const _states = states[id];
+            if (
+              !_states.includes(selectState) &&
+              !_states.includes(neighborState) &&
+              !_states.includes(unselectedState)
+            ) {
+              states[id].push(unselectedState);
+            }
+          });
+        }
+      } else {
+        const targetState = states[target.id];
+        states[target.id] = targetState.filter((s) => s !== selectState && s !== neighborState);
+        if (!targetState.includes(unselectedState)) states[target.id].push(unselectedState);
+        neighbor.forEach((id) => {
+          states[id] = states[id].filter((s) => s !== neighborState);
+          if (!states[id].includes(selectState)) states[id].push(unselectedState);
         });
       }
-      const exclude = [select, unselect];
-      neighborIds.forEach((id) => {
-        const state = graph.getElementState(id);
-        states[id] = uniq([...state.filter((s) => !exclude.includes(s)), neighbor]);
-      });
     }
 
-    const exclude = [select, neighbor, unselect];
-    idsOf(graph.getData(), true).forEach((id) => {
-      if (!this.select.has(id) && !neighborIds.has(id)) {
-        const state = graph.getElementState(id);
-        const filtered = state.filter((s) => !exclude.includes(s));
-        // 仅在有选中元素时应用 unselect 状态
-        // Apply unselect state only when there are selected elements
-        if (unselect && this.select.size) states[id] = uniq([...filtered, unselect]);
-        else states[id] = filtered;
-      }
+    await graph.setElementState(states, animation);
+  }
+
+  private getDataStates() {
+    const { graph } = this.context;
+    const { nodes, edges, combos } = graph.getData();
+
+    const states: Record<ID, State[]> = {};
+    [...nodes, ...edges, ...combos].forEach((data) => {
+      states[idOf(data)] = statesOf(data);
     });
 
-    this.updating = true;
-    await graph.setElementState(states, animation);
-    this.updating = false;
+    return states;
   }
 
   /**
-   * <zh/> 同步状态
+   * <zh/> 获取需要清除的状态
    *
-   * <en/> Sync state
-   * @remarks
-   * <zh/> 避免其他操作更新状态后，this.select 与实际状态不一致
-   *
-   * <en/> Avoid inconsistency between this.select and the actual state after other operations update the state
-   * @param event - <zh/> 元素生命周期事件 | <en/> Element life cycle event
+   * <en/> Get the states that need to be cleared
+   * @param complete - <zh/> 是否返回所有状态 | <en/> Whether to return all states
+   * @returns - <zh/> 需要清除的状态 | <en/> States that need to be cleared
    */
-  private syncState = (event: ElementLifeCycleEvent) => {
-    if (this.updating) return;
-    const { data } = event;
-    const id = idOf(data);
-    const states = data.states || [];
-    if (states.includes(this.options.state)) this.select.add(id);
-    else this.select.delete(id);
-  };
+  private getClearStates(complete = false) {
+    const { graph } = this.context;
+    const { state, unselectedState, neighborState } = this.options;
+    const statesToClear = new Set([state, unselectedState, neighborState]);
+    const { nodes, edges, combos } = graph.getData();
+
+    const states: Record<ID, State[]> = {};
+    [...nodes, ...edges, ...combos].forEach((data) => {
+      const datumStates = statesOf(data);
+      const newStates = datumStates.filter((s) => !statesToClear.has(s));
+      if (complete) states[idOf(data)] = newStates;
+      else if (newStates.length !== datumStates.length) states[idOf(data)] = newStates;
+    });
+
+    return states;
+  }
+
+  private async clearState() {
+    const { graph } = this.context;
+    await graph.setElementState(this.getClearStates(), this.options.animation);
+  }
 
   private validate(event: IPointerEvent) {
     if (this.destroyed) return false;
@@ -265,7 +297,6 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
       graph.off(`${type}:${CommonEvent.CLICK}`, this.onClickSelect);
     });
     graph.off(CanvasEvent.CLICK, this.onClickCanvas);
-    graph.off(GraphEvent.AFTER_ELEMENT_UPDATE, this.syncState);
   }
 
   public destroy() {
@@ -273,5 +304,3 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
     super.destroy();
   }
 }
-
-const uniq = <T>(array: T[]): T[] => Array.from(new Set(array));
