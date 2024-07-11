@@ -152,7 +152,10 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     }
 
     const result = super.animate(keyframes, options);
-    if (result) animationMap.push(result);
+    if (result) {
+      releaseAnimation(this, result);
+      animationMap.push(result);
+    }
 
     if (Array.isArray(keyframes) && keyframes.length > 0) {
       // 如果 keyframes 中仅存在 skippedAttrs 中的属性，则仅更新父元素属性（跳过子图形）
@@ -170,7 +173,10 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
               method.call(this, { ...this.attributes, ...style }),
             );
             const result = shape.animate(preprocessKeyframes(subKeyframes), options);
-            if (result) animationMap.push(result);
+            if (result) {
+              releaseAnimation(shape, result);
+              animationMap.push(result);
+            }
           }
         });
 
@@ -185,7 +191,10 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
                 const shape = shapeSet[key];
                 if (shape) {
                   const result = shape.animate(preprocessKeyframes(subKeyframes), options);
-                  if (result) animationMap.push(result);
+                  if (result) {
+                    releaseAnimation(shape, result);
+                    animationMap.push(result);
+                  }
                 }
               });
             }
@@ -216,4 +225,22 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     this.animateMap = {};
     super.destroy();
   }
+}
+
+/**
+ * <zh/> 释放动画
+ *
+ * <en/> Release animation
+ * @param target - <zh/> 目标对象 | <en/> target object
+ * @param animation - <zh/> 动画实例 | <en/> animation instance
+ * @description see: https://github.com/antvis/G/issues/1731
+ */
+function releaseAnimation(target: DisplayObject, animation: IAnimation) {
+  animation.oncancel = () => console.log('cancel');
+  animation?.finished.then(() => {
+    // @ts-expect-error private property
+    const index = target.activeAnimations.findIndex((_) => _ === animation);
+    // @ts-expect-error private property
+    if (index > -1) target.activeAnimations.splice(index, 1);
+  });
 }
