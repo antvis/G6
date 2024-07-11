@@ -81,4 +81,23 @@ describe('shortcut', () => {
     expect(drag.mock.calls[0][0].deltaX).toBe(10);
     expect(drag.mock.calls[0][0].deltaY).toBe(0);
   });
+
+  it('focus', () => {
+    const wheel = jest.fn();
+    shortcut.bind(['Control', 'wheel'], wheel);
+
+    emitter.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+    emitter.emit(CommonEvent.WHEEL, { deltaX: 0, deltaY: 10 });
+    expect(wheel).toHaveBeenCalledTimes(1);
+
+    emitter.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+    window.dispatchEvent(new FocusEvent('focus'));
+
+    // @ts-expect-error private property
+    expect(shortcut.recordKey.size).toBe(0);
+
+    emitter.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+    emitter.emit(CommonEvent.WHEEL, { deltaX: 0, deltaY: 10 });
+    expect(wheel).toHaveBeenCalledTimes(2);
+  });
 });
