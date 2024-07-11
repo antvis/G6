@@ -25,6 +25,7 @@ import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf, parentIdOf } from '../utils/id';
 import { positionOf } from '../utils/position';
+import { format, print } from '../utils/print';
 import { dfs } from '../utils/traverse';
 import { add } from '../utils/vector';
 
@@ -188,7 +189,7 @@ export class DataController {
   public getParentData(id: ID, hierarchyKey: HierarchyKey): NodeLikeData | undefined {
     const { model } = this;
     if (!hierarchyKey) {
-      console.error('The hierarchy structure key is not specified');
+      print.warn('The hierarchy structure key is not specified');
       return undefined;
     }
     if (!model.hasNode(id) || !model.hasTreeStructure(hierarchyKey)) return undefined;
@@ -761,7 +762,7 @@ export class DataController {
 
     if (this.model.hasEdge(id)) return 'edge';
 
-    throw new Error(`Unknown element type of id: ${id}`);
+    throw new Error(format(`Unknown element type of id: ${id}`));
   }
 
   public destroy() {

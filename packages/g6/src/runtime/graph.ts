@@ -45,6 +45,7 @@ import { sizeOf } from '../utils/dom';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
 import { parsePoint, toPointObject } from '../utils/point';
+import { format } from '../utils/print';
 import { subtract } from '../utils/vector';
 import { Animation } from './animation';
 import { BatchController } from './batch';
@@ -1078,7 +1079,7 @@ export class Graph extends EventEmitter {
     // Wait for synchronous tasks to complete, to avoid problems caused by calling destroy immediately after render
     await Promise.resolve();
 
-    if (this.destroyed) throw new Error('Graph has been destroyed');
+    if (this.destroyed) throw new Error(format('The graph instance has been destroyed'));
 
     await this.initCanvas();
     this.initRuntime();

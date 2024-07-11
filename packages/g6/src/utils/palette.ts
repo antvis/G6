@@ -5,6 +5,7 @@ import type { PaletteOptions, STDPaletteOptions } from '../spec/element/palette'
 import type { ID } from '../types';
 import type { ElementData, ElementDatum } from '../types/data';
 import { idOf } from './id';
+import { format } from './print';
 
 /**
  * <zh/> 解析色板配置
@@ -99,7 +100,7 @@ export function assignColorByPalette(data: ElementData, palette?: STDPaletteOpti
     const [min, max] = data.reduce(
       ([min, max], datum) => {
         const value = parseField(field, datum);
-        if (typeof value !== 'number') throw new Error(`Palette field ${field} is not a number`);
+        if (typeof value !== 'number') throw new Error(format(`Palette field ${field} is not a number`));
         return [Math.min(min, value), Math.max(max, value)];
       },
       [Infinity, -Infinity],

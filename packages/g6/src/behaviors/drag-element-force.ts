@@ -1,6 +1,7 @@
 import type { ID, IElementDragEvent, Point } from '../types';
 import { idOf } from '../utils/id';
 import { getLayoutProperty, invokeLayoutMethod } from '../utils/layout';
+import { print } from '../utils/print';
 import { add } from '../utils/vector';
 import type { DragElementOptions } from './drag-element';
 import { DragElement } from './drag-element';
@@ -37,7 +38,7 @@ export class DragElementForce extends DragElement {
 
     // 未使用力导布局 / The force layout is not used
     if (!this.forceLayoutInstance) {
-      console.warn('DragElementForce only works with d3-force or d3-force-3d layout');
+      print.warn('DragElementForce only works with d3-force or d3-force-3d layout');
       return false;
     }
 

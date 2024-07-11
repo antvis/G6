@@ -15,6 +15,7 @@ import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
 import { idOf } from '../utils/id';
 import { isTreeLayout, layoutAdapter, layoutMapping2GraphData } from '../utils/layout';
+import { print } from '../utils/print';
 import { parseSize } from '../utils/size';
 import { dfs } from '../utils/traverse';
 import type { RuntimeContext } from './types';
@@ -103,6 +104,8 @@ export class LayoutController {
     const { animation, enableWorker, iterations = 300 } = options;
 
     const layout = this.initGraphLayout(options);
+    if (!layout) return {};
+
     this.instances[index] = layout;
     this.instance = layout;
 
@@ -142,7 +145,7 @@ export class LayoutController {
     // @ts-expect-error @antv/hierarchy 布局格式与 @antv/layout 不一致，其导出的是一个方法，而非 class
     // The layout format of @antv/hierarchy is inconsistent with @antv/layout, it exports a method instead of a class
     const layout = getExtension('layout', type) as (tree: TreeData, options: STDLayoutOptions) => TreeData;
-    if (!layout) throw new Error(`The layout type ${type} is not found`);
+    if (!layout) return {};
 
     const { nodes = [], edges = [] } = data;
 
@@ -256,7 +259,7 @@ export class LayoutController {
       });
 
     const Ctor = getExtension('layout', type);
-    if (!Ctor) throw new Error(`The layout type ${type} is not found`);
+    if (!Ctor) return print.warn(`The layout of ${type} is not registered.`);
 
     const STDCtor =
       Object.getPrototypeOf(Ctor.prototype) === BaseLayout.prototype

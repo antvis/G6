@@ -1,11 +1,12 @@
 import type { IAnimation } from '@antv/g';
-import { isEqual, isNil, isObject, isString } from '@antv/util';
+import { isEqual, isNil, isObject } from '@antv/util';
 import type { AnimationEffectTiming, AnimationOptions, STDAnimation } from '../animations/types';
 import { DEFAULT_ANIMATION_OPTIONS, DEFAULT_ELEMENTS_ANIMATION_OPTIONS, ExtensionCategory } from '../constants';
 import { getExtension } from '../registry';
 import type { GraphOptions } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { ElementType, Keyframe } from '../types';
+import { print } from './print';
 import { themeOf } from './theme';
 
 export function createAnimationsProxy(animations: IAnimation[]): IAnimation | null;
@@ -161,7 +162,13 @@ export function getAnimationOptions(
  * @returns <zh/> 动画配置 | <en/> animation configuration
  */
 function animationOf(options: string | AnimationOptions[]): STDAnimation {
-  if (isString(options)) return getExtension(ExtensionCategory.ANIMATION, options) || [];
+  if (typeof options === 'string') {
+    const animation = getExtension(ExtensionCategory.ANIMATION, options);
+    if (animation) return animation;
+
+    print.warn(`The animation of ${options} is not registered.`);
+    return [];
+  }
   return options;
 }
 

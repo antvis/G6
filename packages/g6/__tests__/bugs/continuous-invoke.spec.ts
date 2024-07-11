@@ -8,6 +8,6 @@ describe('bugs:continuous-invoke', () => {
       await graph.render();
     });
 
-    expect(fn).rejects.toThrow('Graph has been destroyed');
+    expect(fn).rejects.toThrow();
   });
 });

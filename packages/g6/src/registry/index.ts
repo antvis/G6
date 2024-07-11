@@ -1,5 +1,6 @@
 import { ExtensionCategory } from '../constants';
 import type { Loosen } from '../types';
+import { print } from '../utils/print';
 import { BUILT_IN_EXTENSIONS } from './build-in';
 import type { ExtensionRegistry } from './types';
 
@@ -58,7 +59,7 @@ export function register<T extends ExtensionCategory>(
 ) {
   const ext = EXTENSION_REGISTRY[category][type];
   if (ext) {
-    if (ext !== Ctor) console.error(`The extension ${type} of ${category} has been registered before.`);
+    if (ext !== Ctor) print.warn(`The extension ${type} of ${category} has been registered before.`);
   } else Object.assign(EXTENSION_REGISTRY[category]!, { [type]: Ctor });
 }
 
