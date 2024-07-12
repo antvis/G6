@@ -46,6 +46,7 @@ export class Animation {
           animation.finished.then(() => {
             cb?.afterAnimate?.(animation);
             cb?.after?.();
+            this.animations.delete(animation);
           });
         } else cb?.after?.();
 
@@ -63,6 +64,7 @@ export class Animation {
       animation.finished.then(() => {
         callbacks?.afterAnimate?.(animation);
         callbacks?.after?.();
+        this.release();
       });
     } else callbacks?.after?.();
 
@@ -145,6 +147,25 @@ export class Animation {
 
   public clear() {
     this.tasks = [];
+  }
+
+  /**
+   * <zh/> 释放存量动画对象
+   *
+   * <en/> Release stock animation objects
+   * @description see: https://github.com/antvis/G/issues/1731
+   */
+  private release() {
+    const { canvas } = this.context;
+
+    // @ts-expect-error private property
+    const animationsWithPromises = canvas.document?.timeline?.animationsWithPromises;
+    if (animationsWithPromises) {
+      // @ts-expect-error private property
+      canvas.document.timeline.animationsWithPromises = animationsWithPromises.filter(
+        (animation: IAnimation) => animation.playState !== 'finished',
+      );
+    }
   }
 
   public destroy() {
