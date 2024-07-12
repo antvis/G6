@@ -71,8 +71,8 @@ describe('behavior click-select element', () => {
   it('multiple', async () => {
     graph.setBehaviors([{ type: 'click-select', multiple: true, degree: 0 }]);
 
-    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     graph.emit(CommonEvent.KEY_DOWN, { key: 'shift' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     graph.emit(NodeEvent.CLICK, { target: { id: '1' }, targetType: 'node' });
     graph.emit(CommonEvent.KEY_UP, { key: 'shift' });
 
@@ -80,8 +80,8 @@ describe('behavior click-select element', () => {
 
     graph.setBehaviors([{ type: 'click-select', multiple: true, trigger: ['meta'] }]);
 
-    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     graph.emit(CommonEvent.KEY_DOWN, { key: 'meta' });
+    graph.emit(NodeEvent.CLICK, { target: { id: '0' }, targetType: 'node' });
     graph.emit(NodeEvent.CLICK, { target: { id: '1' }, targetType: 'node' });
     graph.emit(CommonEvent.KEY_UP, { key: 'meta' });
 

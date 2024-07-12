@@ -513,7 +513,7 @@ export class Graph extends EventEmitter {
    * <en/> Get the data of the current graph, including node, edge, and combo data
    * @apiCategory data
    */
-  public getData(): GraphData {
+  public getData(): Required<GraphData> {
     return this.context.model.getData();
   }
 
