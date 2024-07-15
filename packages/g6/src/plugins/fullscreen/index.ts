@@ -58,7 +58,10 @@ export class Fullscreen extends BasePlugin<FullscreenOptions> {
 
   private shortcut: Shortcut;
 
+  private style: HTMLStyleElement;
+
   private $el = this.context.canvas.getContainer()!;
+
   private graphSize: [number, number] = [0, 0];
 
   constructor(context: RuntimeContext, options: FullscreenOptions) {
@@ -68,7 +71,13 @@ export class Fullscreen extends BasePlugin<FullscreenOptions> {
 
     this.bindEvents();
 
-    this.$el.style.backgroundColor = this.context.graph.getBackground()!;
+    this.style = document.createElement('style');
+    document.head.appendChild(this.style);
+    this.style.innerHTML = `
+      :not(:root):fullscreen::backdrop {
+        background: transparent;
+      }
+    `;
   }
 
   private bindEvents() {
@@ -149,6 +158,12 @@ export class Fullscreen extends BasePlugin<FullscreenOptions> {
     this.unbindEvents();
     super.update(options);
     this.bindEvents();
+  }
+
+  public destroy(): void {
+    this.exit();
+    this.style.remove();
+    super.destroy();
   }
 }
 
