@@ -1,5 +1,6 @@
 import { GraphEvent } from '@/src';
-import { createGraph } from '@@/utils';
+import { layoutPipelineMdsForce } from '@@/demos';
+import { createDemoGraph, createGraph } from '@@/utils';
 
 describe('pipeline', () => {
   it('event', async () => {
@@ -43,5 +44,11 @@ describe('pipeline', () => {
     expect(after.mock.calls[0][0].data.options.type).toBe('force');
     expect(after.mock.calls[1][0].data.options.type).toBe('d3-force');
     expect(after.mock.calls[2][0].data.options.type).toBe('grid');
+  });
+
+  it('layout-pipeline-mds-force', async () => {
+    const graph = await createDemoGraph(layoutPipelineMdsForce);
+    await expect(graph).toMatchSnapshot(__filename, 'layout-pipeline-mds-force');
+    graph.destroy();
   });
 });
