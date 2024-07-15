@@ -375,8 +375,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
       });
     } else {
       this.shadow = new Rect({
-        $layer: 'transient',
         style: {
+          $layer: 'transient',
           ...shadowStyle,
           ...positionStyle,
           pointerEvents: 'none',

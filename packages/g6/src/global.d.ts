@@ -1,15 +1,7 @@
 import '@antv/g';
 
 declare module '@antv/g' {
-  interface DisplayObject {
-    $layer?: string;
-  }
-
-  interface IChildNode {
-    $layer?: string;
-  }
-
-  interface DisplayObjectConfig {
+  interface BaseStyleProps {
     /**
      * <zh/> 图形所在的图层，默认为 'main'。
      *

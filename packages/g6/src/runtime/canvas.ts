@@ -1,4 +1,4 @@
-import type { CanvasConfig as GCanvasConfig, IChildNode } from '@antv/g';
+import type { DisplayObject, CanvasConfig as GCanvasConfig, IChildNode } from '@antv/g';
 import { CanvasEvent, Canvas as GCanvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
@@ -130,7 +130,7 @@ export class Canvas extends GCanvas {
   }
 
   public appendChild<T extends IChildNode>(child: T, index?: number): T {
-    const layer = (child.$layer || 'main') as CanvasLayer;
+    const layer = ((child as unknown as DisplayObject).style?.$layer || 'main') as CanvasLayer;
     if (layer === 'main') return super.appendChild(child, index);
     return this.getLayer(layer).appendChild(child, index);
   }
