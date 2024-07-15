@@ -194,7 +194,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   }
 
   protected getComboZIndex(attributes: Required<S>): number {
-    const ancestors = attributes.context!.model.getAncestorsData(this.id, COMBO_KEY) || [];
+    const ancestors = this.context.model.getAncestorsData(this.id, COMBO_KEY) || [];
     return ancestors.length;
   }
 
@@ -231,7 +231,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     Object.assign(this.style, comboStyle);
     // Sync combo position to model
     const { x, y } = comboStyle;
-    attributes.context!.model.syncComboDatum({ id: this.id, style: { x, y } });
+    this.context.model.syncComboDatum({ id: this.id, style: { x, y } });
   }
 
   public render(attributes: Required<S>, container: Group = this) {

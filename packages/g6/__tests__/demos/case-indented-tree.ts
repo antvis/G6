@@ -78,7 +78,7 @@ export const caseIndentedTree: TestCase = async (context) => {
     }
 
     protected get childrenData() {
-      return this.attributes.context!.model.getChildrenData(this.id);
+      return this.context!.model.getChildrenData(this.id);
     }
 
     protected getKeyStyle(attributes: Required<IndentedNodeStyleProps>): RectStyleProps {
@@ -147,7 +147,7 @@ export const caseIndentedTree: TestCase = async (context) => {
 
       this.forwardEvent(btn, CommonEvent.CLICK, (event: IPointerEvent) => {
         event.stopPropagation();
-        attributes.context!.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
+        this.context.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
           id: this.id,
           collapsed: false,
         });
@@ -184,7 +184,7 @@ export const caseIndentedTree: TestCase = async (context) => {
 
       this.forwardEvent(btn, CommonEvent.CLICK, (event: IPointerEvent) => {
         event.stopPropagation();
-        attributes.context!.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
+        this.context.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
           id: this.id,
           collapsed: !attributes.collapsed,
         });
@@ -221,7 +221,7 @@ export const caseIndentedTree: TestCase = async (context) => {
 
       this.forwardEvent(btn, CommonEvent.CLICK, (event: IPointerEvent) => {
         event.stopPropagation();
-        attributes.context!.graph.emit(TreeEvent.ADD_CHILD, { id: this.id });
+        this.context.graph.emit(TreeEvent.ADD_CHILD, { id: this.id });
       });
     }
 

@@ -43,10 +43,6 @@ describe('Graph', () => {
     });
   });
 
-  it('setBackground/getBackground', () => {
-    expect(graph.getBackground()).toEqual('#ffffff');
-  });
-
   it('getSize', () => {
     expect(graph.getSize()).toEqual([500, 500]);
   });

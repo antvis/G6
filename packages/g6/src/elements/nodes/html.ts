@@ -50,7 +50,7 @@ export class HTML extends BaseNode<HTMLStyleProps> {
   private rootPointerEvent = new FederatedPointerEvent(null);
 
   private get eventService() {
-    return this.attributes.context!.canvas.context.eventService;
+    return this.context.canvas.context.eventService;
   }
 
   private get events() {
@@ -105,7 +105,7 @@ export class HTML extends BaseNode<HTMLStyleProps> {
   }
 
   private forwardEvents = (nativeEvent: PointerEvent) => {
-    const canvas = this.attributes.context!.canvas.main;
+    const canvas = this.context.canvas;
     const iCanvas = canvas.context.renderingContext.root!.ownerDocument!.defaultView!;
 
     const normalizedEvents = this.normalizeToPointerEvent(nativeEvent, iCanvas);
@@ -232,11 +232,7 @@ export class HTML extends BaseNode<HTMLStyleProps> {
     let x: number;
     let y: number;
     const { offsetX, offsetY, clientX, clientY } = nativeEvent;
-    if (
-      this.attributes.context?.canvas.main.context.config.supportsCSSTransform &&
-      !isNil(offsetX) &&
-      !isNil(offsetY)
-    ) {
+    if (this.context.canvas.context.config.supportsCSSTransform && !isNil(offsetX) && !isNil(offsetY)) {
       x = offsetX;
       y = offsetY;
     } else {

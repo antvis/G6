@@ -376,11 +376,10 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     } else {
       this.shadow = new Rect({
         style: {
+          $layer: 'transient',
           ...shadowStyle,
           ...positionStyle,
           pointerEvents: 'none',
-          // @ts-expect-error $layer is not in the type definition
-          $layer: 'transient',
         },
       });
       this.context.canvas.appendChild(this.shadow);

@@ -3,7 +3,6 @@ import type { AABB, BaseStyleProps } from '@antv/g';
 import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
 import { COMBO_KEY, GraphEvent } from '../constants';
 import type { Plugin } from '../plugins/types';
-import { getExtension } from '../registry';
 import type {
   BehaviorOptions,
   ComboData,
@@ -119,12 +118,10 @@ export class Graph extends EventEmitter {
    * @apiCategory option
    */
   public setOptions(options: GraphOptions): void {
-    const { background, behaviors, combo, data, edge, height, layout, node, plugins, theme, transforms, width } =
-      options;
+    const { behaviors, combo, data, edge, height, layout, node, plugins, theme, transforms, width, renderer } = options;
 
     Object.assign(this.options, options);
 
-    if (background) this.setBackground(background);
     if (behaviors) this.setBehaviors(behaviors);
     if (combo) this.setCombo(combo);
     if (data) this.setData(data);
@@ -136,29 +133,7 @@ export class Graph extends EventEmitter {
     if (transforms) this.setTransforms(transforms);
     if (isNumber(width) || isNumber(height))
       this.setSize(width ?? this.options.width ?? 0, height ?? this.options.height ?? 0);
-  }
-
-  /**
-   * <zh/> 设置画布背景色
-   *
-   * <en/> Set canvas background color
-   * @param background - <zh/> 背景色 | <en/> background color
-   * @apiCategory canvas
-   */
-  public setBackground(background: GraphOptions['background']): void {
-    this.options.background = background;
-    this.context.canvas?.setBackground(background);
-  }
-
-  /**
-   * <zh/> 获取画布背景色
-   *
-   * <en/> Get canvas background color
-   * @returns <zh/> 背景色 | <en/> background color
-   * @apiCategory canvas
-   */
-  public getBackground(): GraphOptions['background'] {
-    return this.options.background;
+    if (renderer) this.context.canvas.setRenderer(renderer);
   }
 
   /**
@@ -280,11 +255,6 @@ export class Graph extends EventEmitter {
    */
   public setTheme(theme: ThemeOptions | ((prev: ThemeOptions) => ThemeOptions)): void {
     this.options.theme = isFunction(theme) ? theme(this.getTheme()) : theme;
-
-    const { background } = getExtension('theme', this.options.theme) || {};
-    if (background && !this.options.background) {
-      this.setBackground(background);
-    }
   }
 
   /**
@@ -1034,14 +1004,13 @@ export class Graph extends EventEmitter {
   }
 
   private async initCanvas() {
-    if (this.context.canvas) return await this.context.canvas.init();
+    if (this.context.canvas) return await this.context.canvas.ready;
 
     const { container = 'container', width, height, renderer, background } = this.options;
 
     if (container instanceof Canvas) {
       this.context.canvas = container;
-      container.setBackground(background);
-      await container.init();
+      await container.ready;
     } else {
       const $container = isString(container) ? document.getElementById(container!) : container;
       const containerSize = sizeOf($container!);
@@ -1057,7 +1026,7 @@ export class Graph extends EventEmitter {
       });
 
       this.context.canvas = canvas;
-      await canvas.init();
+      await canvas.ready;
       this.emit(GraphEvent.AFTER_CANVAS_INIT, { canvas });
     }
   }
