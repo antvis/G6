@@ -142,14 +142,15 @@ export class ViewportController {
 
     const _animation = this.getAnimation(animation);
 
+    emit(graph, new ViewportEvent(GraphEvent.BEFORE_TRANSFORM, options));
+
     // 针对缩放操作，且不涉及平移、旋转、中心点、动画时，直接调用 setZoomByViewportPoint
     // For zoom operations, and no translation, rotation, center point, and animation involved, call setZoomByViewportPoint directly
     if (!rotate && scale && !translate && origin && !_animation) {
       this.camera.setZoomByViewportPoint(this.getZoomOptions(options), origin as Vector2);
+      emit(graph, new ViewportEvent(GraphEvent.AFTER_TRANSFORM, options));
       return;
     }
-
-    emit(graph, new ViewportEvent(GraphEvent.BEFORE_TRANSFORM, options));
 
     const landmarkOptions: Parameters<typeof this.camera.createLandmark>[1] = {};
     if (translate) Object.assign(landmarkOptions, this.getTranslateOptions(options));
