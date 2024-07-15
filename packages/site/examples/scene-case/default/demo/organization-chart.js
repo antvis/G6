@@ -13,7 +13,7 @@ const DEFAULT_LEVEL = 'detailed';
  */
 class ChartNode extends Rect {
   get data() {
-    return this.attributes.context.model.getElementDataById(this.id).data;
+    return this.context.model.getElementDataById(this.id).data;
   }
 
   get level() {
@@ -153,6 +153,11 @@ class LevelOfDetail extends BaseBehavior {
   unbindEvents() {
     const { graph } = this.context;
     graph.off(GraphEvent.AFTER_TRANSFORM, this.updateZoomLevel);
+  }
+
+  destroy() {
+    this.unbindEvents();
+    super.destroy();
   }
 }
 

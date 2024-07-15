@@ -21,7 +21,7 @@ export const caseOrgChart: TestCase = async (context) => {
    */
   class ChartNode extends Rect {
     protected get data() {
-      return this.attributes.context!.model.getElementDataById(this.id).data as Record<string, string>;
+      return this.context.model.getElementDataById(this.id).data as Record<string, string>;
     }
 
     protected get level() {
@@ -163,6 +163,11 @@ export const caseOrgChart: TestCase = async (context) => {
     private unbindEvents() {
       const { graph } = this.context;
       graph.off(GraphEvent.AFTER_TRANSFORM, this.updateZoomLevel);
+    }
+
+    public destroy() {
+      this.unbindEvents();
+      super.destroy();
     }
   }
 
