@@ -38,7 +38,7 @@
     "@antv/g-plugin-device-renderer": "^2.0.10",
     "@antv/g-plugin-dragndrop": "^2.0.6",
     "@antv/g-webgl": "^2.0.11",
-    "@antv/layout": "^1.2.14-beta.4",
+    "@antv/layout": "^1.2.14-beta.5",
     "@antv/util": "^3.3.7"
   },
   "devDependencies": {

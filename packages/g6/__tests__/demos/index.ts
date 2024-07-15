@@ -91,6 +91,7 @@ export { layoutMindmapH } from './layout-mindmap-h';
 export { layoutMindmapHCustomSide } from './layout-mindmap-h-custom-side';
 export { layoutMindmapHLeft } from './layout-mindmap-h-left';
 export { layoutMindmapHRight } from './layout-mindmap-h-right';
+export { layoutPipelineMdsForce } from './layout-pipeline-mds-force';
 export { layoutRadialBasic } from './layout-radial-basic';
 export { layoutRadialConfigurationTranslate } from './layout-radial-configuration-translate';
 export { layoutRadialPreventOverlap } from './layout-radial-prevent-overlap';

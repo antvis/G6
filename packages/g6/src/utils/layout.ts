@@ -148,7 +148,7 @@ export function layoutAdapter(
       const nodesToLayout: LayoutNodeData[] = nodes.map((datum) => {
         const id = idOf(datum);
         const { data, style, combo } = datum;
-        return {
+        const result = {
           id,
           data: {
             ...data,
@@ -158,6 +158,12 @@ export function layoutAdapter(
           },
           style: { ...style },
         };
+        // 一些布局会从 data 中读取位置信息
+        if (style?.x) Object.assign(result.data, { x: style.x });
+        if (style?.y) Object.assign(result.data, { y: style.y });
+        if (style?.z) Object.assign(result.data, { z: style.z });
+
+        return result;
       });
       const nodesIdMap = new Map(nodesToLayout.map((node) => [node.id, node]));
 
