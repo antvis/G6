@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.8
+
+### Patch Changes
+
+- bugfix
+
 ## 5.0.7
 
 ### Patch Changes
