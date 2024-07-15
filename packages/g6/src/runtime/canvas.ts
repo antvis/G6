@@ -80,8 +80,6 @@ export class Canvas extends GCanvas {
           background: layer === 'background' ? background : undefined,
         });
 
-        Object.assign(canvas, { __ID__: layer });
-
         return [layer, canvas];
       }),
     ) as Record<CanvasLayer, GCanvas>;
