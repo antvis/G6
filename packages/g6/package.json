@@ -64,15 +64,15 @@
     "@antv/g-plugin-dragndrop": "^2.0.6",
     "@antv/graphlib": "^2.0.3",
     "@antv/hierarchy": "^0.6.12",
-    "@antv/layout": "^1.2.14-beta.4",
+    "@antv/layout": "^1.2.14-beta.5",
     "@antv/util": "^3.3.7",
     "bubblesets-js": "^2.3.3",
     "hull.js": "^1.0.6"
   },
   "devDependencies": {
     "@antv/g-svg": "^2.0.8",
-    "@antv/layout-gpu": "^1.1.5",
-    "@antv/layout-wasm": "^1.4.0",
+    "@antv/layout-gpu": "^1.1.6",
+    "@antv/layout-wasm": "^1.4.1",
     "@types/hull.js": "^1.0.4",
     "@types/xmlserializer": "^0.6.6",
     "cross-env": "^7.0.3",
