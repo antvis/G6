@@ -80,4 +80,12 @@ describe('registry', () => {
       'rect-node': RectNode,
     });
   });
+
+  it('override', () => {
+    class CircleNode {}
+    class RectNode {}
+    register('node', 'circle-node', CircleNode as any);
+    register('node', 'circle-node', RectNode as any, true);
+    expect(getExtension('node', 'circle-node')).toEqual(RectNode);
+  });
 });
