@@ -62,6 +62,17 @@ export class Canvas extends GCanvas {
     return this.extends.layers;
   }
 
+  /**
+   * <zh/> 获取渲染器
+   *
+   * <en/> Get renderer
+   * @param layer - <zh/> 图层 <en/> Layer
+   * @returns <zh/> 渲染器 <en/> Renderer
+   */
+  public getRenderer(layer: CanvasLayer) {
+    return this.extends.renderers[layer];
+  }
+
   constructor(config: CanvasConfig) {
     const { renderer, background, cursor, ...restConfig } = config;
     const renderers = createRenderers(renderer);

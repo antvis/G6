@@ -23,7 +23,7 @@ export abstract class BaseNode3D<S extends BaseNode3DStyleProps> extends BaseNod
   public type = 'node-3d';
 
   protected get plugin() {
-    const renderer = this.attributes.context!.canvas.renderers['main'];
+    const renderer = this.context.canvas.getRenderer('main');
     const plugin = renderer.getPlugin('device-renderer');
     return plugin as unknown as Plugin;
   }
