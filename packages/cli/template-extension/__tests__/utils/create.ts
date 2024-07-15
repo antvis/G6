@@ -1,4 +1,3 @@
-import type { IRenderer } from '@antv/g';
 import { resetEntityCounter } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
@@ -41,12 +40,11 @@ export function createGraphCanvas(
   } as unknown as HTMLCanvasElement;
   const context = new OffscreenCanvasContext(offscreenNodeCanvas);
 
-  const instance = getRenderer(renderer) as any as IRenderer;
   return {
     container,
     width,
     height,
-    renderer: () => instance,
+    renderer: () => getRenderer(renderer),
     document: container.ownerDocument,
     offscreenCanvas: offscreenNodeCanvas,
   };

@@ -1,17 +1,15 @@
-import type { Cursor, DisplayObject, CanvasConfig as GCanvasConfig, IAnimation, IRenderer } from '@antv/g';
+import type { CanvasConfig as GCanvasConfig, IChildNode } from '@antv/g';
 import { CanvasEvent, Canvas as GCanvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
-import { createDOM, isFunction, isString } from '@antv/util';
+import { createDOM } from '@antv/util';
 import type { CanvasOptions } from '../spec/canvas';
-import type { PointObject } from '../types';
-import type { CanvasLayer } from '../types/canvas';
+import type { CanvasLayer } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 
 export interface CanvasConfig
-  extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'cursor'> {
+  extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'cursor' | 'background'> {
   renderer?: CanvasOptions['renderer'];
-  background?: string;
 }
 
 export interface DataURLOptions {
@@ -40,153 +38,84 @@ export interface DataURLOptions {
   encoderOptions: number;
 }
 
-/**
- * @deprecated this canvas will be replace by layered canvas
- */
-export class Canvas {
-  protected config: CanvasConfig;
+const layersName: CanvasLayer[] = ['background', 'main', 'label', 'transient'];
 
-  public background!: GCanvas;
-  public main!: GCanvas;
-  public label!: GCanvas;
-  public transient!: GCanvas;
+export class Canvas extends GCanvas {
+  private extends: {
+    config: CanvasConfig;
+    renderer: CanvasOptions['renderer'];
+    renderers: Record<CanvasLayer, CanvasRenderer>;
+    layers: Record<CanvasLayer, GCanvas>;
+  };
 
-  public get canvas() {
-    return {
-      main: this.main,
-      label: this.label,
-      transient: this.transient,
-      background: this.background,
+  public getLayer(layer: CanvasLayer) {
+    return this.extends.layers[layer];
+  }
+
+  /**
+   * <zh/> 获取所有图层
+   *
+   * <en/> Get all layers
+   * @returns <zh/> 图层 <en/> Layer
+   */
+  public getLayers() {
+    return this.extends.layers;
+  }
+
+  constructor(config: CanvasConfig) {
+    const { renderer, background, cursor, ...restConfig } = config;
+    const renderers = createRenderers(renderer);
+
+    // init main canvas
+    super({ ...restConfig, supportsMutipleCanvasesInOneContainer: true, cursor, renderer: renderers.main });
+
+    const layers = Object.fromEntries(
+      layersName.map((layer) => {
+        if (layer === 'main') return [layer, this];
+
+        const canvas = new GCanvas({
+          ...restConfig,
+          supportsMutipleCanvasesInOneContainer: true,
+          renderer: renderers[layer],
+          background: layer === 'background' ? background : undefined,
+        });
+
+        Object.assign(canvas, { __ID__: layer });
+
+        return [layer, canvas];
+      }),
+    ) as Record<CanvasLayer, GCanvas>;
+
+    configCanvasDom(layers);
+
+    this.extends = {
+      config,
+      renderer,
+      renderers,
+      layers,
     };
   }
 
-  public get document() {
-    return this.main.document;
-  }
-
-  public renderers!: Record<CanvasLayer, IRenderer>;
-
-  private initialized = false;
-
-  constructor(config: CanvasConfig) {
-    this.config = config;
-  }
-
-  public async init() {
-    if (this.initialized) return;
-
-    const { renderer: getRenderer, background, ...restConfig } = this.config;
-    const names: CanvasLayer[] = ['main', 'label', 'transient', 'background'];
-
-    const { renderers, canvas } = names.reduce(
-      (acc, name) => {
-        const renderer = isFunction(getRenderer) ? getRenderer?.(name) : new CanvasRenderer();
-
-        if (name === 'main') {
-          renderer.registerPlugin(
-            new DragNDropPlugin({
-              isDocumentDraggable: true,
-              isDocumentDroppable: true,
-              dragstartDistanceThreshold: 10,
-              dragstartTimeThreshold: 100,
-            }),
-          );
-        } else {
-          renderer.unregisterPlugin(renderer.getPlugin('dom-interaction'));
-        }
-
-        const canvas = new GCanvas({
-          renderer,
-          supportsMutipleCanvasesInOneContainer: true,
-          ...restConfig,
-        });
-
-        acc.renderers[name] = renderer;
-        acc.canvas[name] = canvas;
-        this[name] = canvas;
-
-        return acc;
-      },
-      { renderers: {}, canvas: {} } as {
-        renderers: Record<CanvasLayer, IRenderer>;
-        canvas: Record<CanvasLayer, GCanvas>;
-      },
-    );
-
-    this.renderers = renderers;
-
-    Object.entries(canvas).forEach(([name, canvas]) => {
-      const domElement = canvas.getContextService().getDomElement() as unknown as HTMLElement;
-
-      domElement.style.position = 'absolute';
-      domElement.style.outline = 'none';
-      domElement.tabIndex = 1;
-
-      if (name !== 'main') domElement.style.pointerEvents = 'none';
-    });
-
-    this.setBackground();
-
-    await Promise.all(Object.values(this.canvas).map((canvas) => canvas.ready));
-
-    this.initialized = true;
-  }
-
-  public getRendererType(layer: CanvasLayer = 'main') {
-    const plugins = this.renderers[layer].getPlugins();
-
-    for (const plugin of plugins) {
-      if (plugin.name === 'canvas-renderer') return 'canvas';
-      if (plugin.name === 'svg-renderer') return 'svg';
-      if (plugin.name === 'device-renderer') return 'gpu';
-    }
-
-    return 'unknown';
-  }
-
-  public get context() {
-    return this.main.context;
-  }
-
-  public getDevice() {
-    // @ts-expect-error deviceRendererPlugin is private
-    return this.main.context?.deviceRendererPlugin?.getDevice();
-  }
-
-  public getConfig() {
-    return this.config;
-  }
-
-  public setBackground(background = this.config.background) {
-    this.config.background = background;
-  }
-
-  public setCursor(cursor: Cursor) {
-    this.config.cursor = cursor;
-    Object.values(this.canvas).forEach((canvas) => {
-      canvas.setCursor(cursor);
-    });
-  }
-
-  public getSize(): [number, number] {
-    return [this.config.width || 0, this.config.height || 0];
+  public get ready() {
+    return Promise.all([
+      super.ready,
+      ...Object.entries(this.getLayers()).map(([layer, canvas]) =>
+        layer === 'main' ? Promise.resolve() : canvas.ready,
+      ),
+    ]);
   }
 
   public resize(width: number, height: number) {
-    this.config.width = width;
-    this.config.height = height;
-    Object.values(this.canvas).forEach((canvas) => {
-      canvas.resize(width, height);
+    Object.assign(this.extends.config, { width, height });
+    Object.values(this.getLayers()).forEach((canvas) => {
+      if (canvas === this) super.resize(width, height);
+      else canvas.resize(width, height);
     });
-  }
-
-  public getCamera() {
-    return this.main.getCamera();
   }
 
   public getBounds() {
     return getCombinedBBox(
-      Object.values(this.canvas)
+      Object.values(this.getLayers())
         .map((canvas) => canvas.document.documentElement)
         .filter((el) => el.childNodes.length > 0)
         .map((el) => el.getBounds()),
@@ -194,48 +123,38 @@ export class Canvas {
   }
 
   public getContainer() {
-    const container = this.config.container!;
-
-    return isString(container) ? document.getElementById(container!) : container;
+    const container = this.extends.config.container!;
+    return typeof container === 'string' ? document.getElementById(container!) : container;
   }
 
-  public appendChild<T extends DisplayObject>(child: T): T {
-    const layer = (child.style?.$layer || 'main') as CanvasLayer;
-
-    return this[layer].appendChild(child);
+  public getSize(): [number, number] {
+    return [this.extends.config.width || 0, this.extends.config.height || 0];
   }
 
-  public getContextService() {
-    return this.main.getContextService();
+  public appendChild<T extends IChildNode>(child: T, index?: number): T {
+    const layer = (child.$layer || 'main') as CanvasLayer;
+    if (layer === 'main') return super.appendChild(child, index);
+    return this.getLayer(layer).appendChild(child, index);
   }
 
-  public viewport2Client(viewport: PointObject) {
-    return this.main.viewport2Client(viewport);
-  }
+  public setRenderer(renderer: any) {
+    if (renderer === this.extends.renderer) return;
+    const renderers = createRenderers(renderer);
+    this.extends.renderers = renderers;
 
-  public viewport2Canvas(viewport: PointObject) {
-    return this.main.viewport2Canvas(viewport);
-  }
-
-  public client2Viewport(client: PointObject) {
-    return this.main.client2Viewport(client);
-  }
-
-  public canvas2Viewport(canvas: PointObject) {
-    return this.main.canvas2Viewport(canvas);
+    Object.entries(renderers).forEach(([layer, instance]) => {
+      if (layer === 'main') super.setRenderer(instance);
+      else this.getLayer(layer as CanvasLayer).setRenderer(instance);
+    });
   }
 
   public async toDataURL(options: Partial<DataURLOptions> = {}) {
     const devicePixelRatio = window.devicePixelRatio || 1;
     const { mode = 'viewport', ...restOptions } = options;
-
-    let startX = 0;
-    let startY = 0;
-    let width = 0;
-    let height = 0;
+    let [startX, startY, width, height] = [0, 0, 0, 0];
 
     if (mode === 'viewport') {
-      [width, height] = [this.config.width || 0, this.config.height || 0];
+      [width, height] = this.getSize();
     } else if (mode === 'overall') {
       const bounds = this.getBounds();
       const size = getBBoxSize(bounds);
@@ -251,28 +170,28 @@ export class Canvas {
       renderer: new CanvasRenderer(),
       devicePixelRatio,
       container,
-      background: this.config.background,
+      background: this.extends.config.background,
     });
 
     await offscreenCanvas.ready;
 
-    offscreenCanvas.appendChild(this.background.getRoot().cloneNode(true));
-    offscreenCanvas.appendChild(this.main.getRoot().cloneNode(true));
+    offscreenCanvas.appendChild(this.getLayer('background').getRoot().cloneNode(true));
+    offscreenCanvas.appendChild(this.getRoot().cloneNode(true));
 
     // Handle label canvas
-    const label = this.label.getRoot().cloneNode(true);
+    const label = this.getLayer('label').getRoot().cloneNode(true);
     const originCanvasPosition = offscreenCanvas.viewport2Canvas({ x: 0, y: 0 });
-    const currentCanvasPosition = this.main.viewport2Canvas({ x: 0, y: 0 });
+    const currentCanvasPosition = this.viewport2Canvas({ x: 0, y: 0 });
     label.translate([
       currentCanvasPosition.x - originCanvasPosition.x,
       currentCanvasPosition.y - originCanvasPosition.y,
     ]);
-    label.scale(1 / this.main.getCamera().getZoom());
+    label.scale(1 / this.getCamera().getZoom());
     offscreenCanvas.appendChild(label);
 
-    offscreenCanvas.appendChild(this.transient.getRoot().cloneNode(true));
+    offscreenCanvas.appendChild(this.getLayer('transient').getRoot().cloneNode(true));
 
-    const camera = this.main.getCamera();
+    const camera = this.getCamera();
     const offscreenCamera = offscreenCanvas.getCamera();
 
     if (mode === 'viewport') {
@@ -289,7 +208,7 @@ export class Canvas {
     const contextService = offscreenCanvas.getContextService();
 
     return new Promise<string>((resolve) => {
-      offscreenCanvas.on(CanvasEvent.RERENDER, async () => {
+      offscreenCanvas.addEventListener(CanvasEvent.RERENDER, async () => {
         // 等待图片渲染完成 / Wait for the image to render
         await new Promise((r) => setTimeout(r, 300));
         const url = await contextService.toDataURL(restOptions);
@@ -298,57 +217,60 @@ export class Canvas {
     });
   }
 
-  public destroy() {
-    this.config = {};
-    // @ts-expect-error force delete
-    this.renderers = {};
-    Object.entries(this.canvas).forEach(([name, canvas]) => {
+  public destroy(cleanUp?: boolean, skipTriggerEvent?: boolean) {
+    Object.values(this.getLayers()).forEach((canvas) => {
       const camera = canvas.getCamera();
-      // @ts-expect-error landmark is private
-      if (camera.landmarks?.length) {
-        camera.cancelLandmarkAnimation();
-      }
-
-      destroyCanvas(canvas);
-      // @ts-expect-error force delete
-      this[name] = undefined;
+      camera.cancelLandmarkAnimation();
+      if (canvas === this) super.destroy(cleanUp, skipTriggerEvent);
+      else canvas.destroy(cleanUp, skipTriggerEvent);
     });
   }
 }
 
 /**
- * <zh/> G Canvas destroy 未处理动画对象，导致内存泄漏
+ * <zh/> 创建渲染器
  *
- * <en/> G Canvas destroy does not handle animation objects, causing memory leaks
- * @param canvas GCanvas
- * @remarks
- * <zh/> 这些操作都应该在 G 中完成，这里只是一个临时的解决方案
- * 此操作大概能在测试环节降低 10～20% 的内存占用（从 2800MB 降低到 2200MB）
- *
- * <en/> These operations should be completed in G, this is just a temporary solution
- * This operation can reduce memory usage by 10-20% in the test environment (from 2800MB to 2200MB)
+ * <en/> Create renderers
+ * @param renderer - <zh/> 渲染器创建器 <en/> Renderer creator
+ * @returns <zh/> 渲染器 <en/> Renderer
  */
-function destroyCanvas(canvas: GCanvas) {
-  canvas.destroy();
+function createRenderers(renderer: CanvasConfig['renderer']) {
+  return Object.fromEntries(
+    layersName.map((layer) => {
+      const instance = renderer?.(layer) || new CanvasRenderer();
 
-  // 移除相机事件 / Remove camera events
-  const camera = canvas.getCamera();
-  camera.eventEmitter.removeAllListeners();
+      if (layer === 'main') {
+        instance.registerPlugin(
+          new DragNDropPlugin({
+            isDocumentDraggable: true,
+            isDocumentDroppable: true,
+            dragstartDistanceThreshold: 10,
+            dragstartTimeThreshold: 100,
+          }),
+        );
+      } else {
+        instance.unregisterPlugin(instance.getPlugin('dom-interaction'));
+      }
 
-  canvas.document.timeline.destroy();
-  // @ts-expect-error private property
-  const { animationsWithPromises } = canvas.document.timeline;
-  // 释放 target 对象图形 / Release target object graphics
-  animationsWithPromises.forEach((animation: IAnimation) => {
-    if (animation.effect.target) animation.effect.target = null;
-    // @ts-expect-error private property
-    if (animation.effect.computedTiming) animation.effect.computedTiming = null;
+      return [layer, instance];
+    }),
+  ) as Record<CanvasLayer, CanvasRenderer>;
+}
+
+/**
+ * <zh/> 配置画布 DOM
+ *
+ * <en/> Configure canvas DOM
+ * @param layers - <zh/> 画布 <en/> Canvas
+ */
+function configCanvasDom(layers: Record<CanvasLayer, GCanvas>) {
+  Object.entries(layers).forEach(([layer, canvas]) => {
+    const domElement = canvas.getContextService().getDomElement() as unknown as HTMLElement;
+
+    domElement.style.position = 'absolute';
+    domElement.style.outline = 'none';
+    domElement.tabIndex = 1;
+
+    if (layer !== 'main') domElement.style.pointerEvents = 'none';
   });
-
-  // @ts-expect-error private property
-  canvas.document.timeline.animationsWithPromises = [];
-  // @ts-expect-error private property
-  canvas.document.timeline.rafCallbacks = [];
-  // @ts-expect-error private property
-  canvas.document.timeline = null;
 }

@@ -4,11 +4,7 @@ import { createGraphCanvas } from '@@/utils';
 describe('Canvas', () => {
   const svg = createGraphCanvas(null, 500, 500, 'svg');
   beforeAll(async () => {
-    await svg.init();
-  });
-
-  it('getRendererType', () => {
-    expect(svg.getRendererType()).toBe('svg');
+    await svg.ready;
   });
 
   it('context', () => {

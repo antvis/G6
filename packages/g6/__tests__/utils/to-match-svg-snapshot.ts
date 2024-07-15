@@ -1,4 +1,5 @@
 import type { Graph, IAnimateEvent } from '@/src';
+import type { CanvasLayer } from '@/src/types';
 import type { Canvas, IAnimation } from '@antv/g';
 import chalk from 'chalk';
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
@@ -21,7 +22,7 @@ const formatSVG = (svg: string, keepSVGElementId: boolean) => {
 
 // @see https://jestjs.io/docs/26.x/expect#expectextendmatchers
 export async function toMatchSVGSnapshot(
-  gCanvas: Canvas | Canvas[],
+  gCanvas: Record<CanvasLayer, Canvas>,
   dir: string,
   name: string,
   options: ToMatchSVGSnapshotOptions = {},
@@ -32,15 +33,15 @@ export async function toMatchSVGSnapshot(
   const namePath = join(dir, name);
   const actualPath = join(dir, `${name}-actual.${fileFormat}`);
   const expectedPath = join(dir, `${name}.${fileFormat}`);
-  const gCanvases = Array.isArray(gCanvas) ? gCanvas : [gCanvas];
 
   let actual: string = '';
 
   // Clone <svg>
-  const svg = (gCanvases[0].getContextService().getDomElement() as unknown as SVGElement).cloneNode(true) as SVGElement;
+  const svg = (gCanvas.main.getContextService().getDomElement() as unknown as SVGElement).cloneNode(true) as SVGElement;
   const gRoot = svg.querySelector('#g-root');
 
-  gCanvases.slice(1).forEach((gCanvas) => {
+  Object.entries(gCanvas).forEach(([key, gCanvas]) => {
+    if (key === 'main') return;
     const dom = (gCanvas.getContextService().getDomElement() as unknown as SVGElement).cloneNode(true) as SVGElement;
     // @ts-expect-error dom is SVGElement
     gRoot?.append(...(dom.querySelector('#g-root')?.childNodes || []));
@@ -99,7 +100,7 @@ export async function toMatchSnapshot(
   detail?: string,
   options: ToMatchSVGSnapshotOptions = {},
 ) {
-  return await toMatchSVGSnapshot(Object.values(graph.getCanvas().canvas), ...getSnapshotDir(dir, detail), options);
+  return await toMatchSVGSnapshot(graph.getCanvas().getLayers(), ...getSnapshotDir(dir, detail), options);
 }
 
 export async function toMatchAnimation(
@@ -127,7 +128,7 @@ export async function toMatchAnimation(
 
     await sleep(32);
     const result = await toMatchSVGSnapshot(
-      Object.values(graph.getCanvas().canvas),
+      graph.getCanvas().getLayers(),
       ...getSnapshotDir(dir, `${detail}-${frame}`),
       options,
     );

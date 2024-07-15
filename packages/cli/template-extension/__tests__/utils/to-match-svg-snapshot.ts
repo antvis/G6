@@ -99,7 +99,11 @@ export async function toMatchSnapshot(
   detail?: string,
   options: ToMatchSVGSnapshotOptions = {},
 ) {
-  return await toMatchSVGSnapshot(Object.values(graph.getCanvas().canvas), ...getSnapshotDir(dir, detail), options);
+  return await toMatchSVGSnapshot(
+    Object.values(graph.getCanvas().getLayers()),
+    ...getSnapshotDir(dir, detail),
+    options,
+  );
 }
 
 export async function toMatchAnimation(
@@ -126,7 +130,7 @@ export async function toMatchAnimation(
     animation.currentTime = frame;
     await sleep(32);
     const result = await toMatchSVGSnapshot(
-      Object.values(graph.getCanvas().canvas),
+      Object.values(graph.getCanvas().getCanvases().canvas),
       ...getSnapshotDir(dir, `${detail}-${frame}`),
       options,
     );
