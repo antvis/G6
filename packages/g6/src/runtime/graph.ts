@@ -133,7 +133,7 @@ export class Graph extends EventEmitter {
     if (transforms) this.setTransforms(transforms);
     if (isNumber(width) || isNumber(height))
       this.setSize(width ?? this.options.width ?? 0, height ?? this.options.height ?? 0);
-    if (renderer) this.context.canvas.setRenderer(renderer);
+    if (renderer) this.context.canvas?.setRenderer(renderer);
   }
 
   /**
