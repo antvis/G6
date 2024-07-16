@@ -11,6 +11,7 @@ import {
   getPointBBox,
   getTriangleCenter,
   isPointInBBox,
+  isPointOnBBoxBoundary,
   isPointOutsideBBox,
 } from '@/src/utils/bbox';
 import { AABB } from '@antv/g';
@@ -71,6 +72,12 @@ describe('bbox', () => {
   it('isPointOutsideBBox', () => {
     expect(isPointOutsideBBox([2, 2, 2], bbox)).toBe(true);
     expect(isPointOutsideBBox([0.5, 0.5, 0], bbox)).toBe(false);
+  });
+
+  it('isPointOnBBoxBoundary', () => {
+    expect(isPointOnBBoxBoundary([0, 0.5, 0], bbox)).toEqual(true);
+    expect(isPointOnBBoxBoundary([0, 2, 0], bbox)).toEqual(false);
+    expect(isPointOnBBoxBoundary([0, 2, 0], bbox, true)).toEqual(true);
   });
 
   it('getNearestSideToPoint', () => {

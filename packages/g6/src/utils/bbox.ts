@@ -118,6 +118,27 @@ export function isPointInBBox(point: Point, bbox: AABB) {
 }
 
 /**
+ * <zh/> 判断点是否在给定的包围盒的边界或边界的延长线上
+ *
+ * <en/> Whether the point is on the boundary or extension line of the given box
+ * @param point - <zh/> 点 | <en/> Point
+ * @param bbox - <zh/> 包围盒 | <en/> Bounding box
+ * @param extended - <zh/> 是否判断边界的延长线 | <en/> Whether to judge the extension line of the boundary
+ * @returns <zh/> 如果点在包围盒的边界或边界的延长线上返回 true，否则返回 false | <en/> Returns true if the point is on the boundary or extension line of the bounding box, false otherwise
+ */
+export function isPointOnBBoxBoundary(point: Point, bbox: AABB, extended = false): boolean {
+  const {
+    min: [minX, minY],
+    max: [maxX, maxY],
+  } = bbox;
+
+  const onTopOrBottomLine = (point[1] === minY || point[1] === maxY) && (extended || isBetween(point[0], minX, maxX));
+  const onLeftOrRightLine = (point[0] === minX || point[0] === maxX) && (extended || isBetween(point[1], minY, maxY));
+
+  return onTopOrBottomLine || onLeftOrRightLine;
+}
+
+/**
  * <zh/> 判断点是否在给定的包围盒外
  *
  * <en/> Whether the point is outside the given box
