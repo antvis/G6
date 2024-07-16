@@ -8,6 +8,7 @@ import {
   getNearestPointToPoint,
   getNodeBBox,
   isPointInBBox,
+  isPointOnBBoxBoundary,
   isPointOutsideBBox,
 } from '../bbox';
 import { isOrthogonal, moveTo, round } from '../point';
@@ -199,7 +200,8 @@ export function pointToNode(from: Point, to: Point, toBBox: AABB, direction: Dir
     [to[0], from[1]],
     [from[0], to[1]],
   ];
-  const freePoints = points.filter((p) => isPointOutsideBBox(p, toBBox));
+  const freePoints = points.filter((p) => isPointOutsideBBox(p, toBBox) && !isPointOnBBoxBoundary(p, toBBox, true));
+
   const freeDirectionPoints = freePoints.filter((p) => getDirection(p, from) !== direction);
 
   if (freeDirectionPoints.length > 0) {
