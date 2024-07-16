@@ -243,8 +243,8 @@ export function nodeToNode(from: Point, to: Point, fromBBox: AABB, toBBox: AABB)
     const p2 = toVector3(route.points[0]);
 
     if (isPointInBBox(p2, fromBBox)) {
-      const fromBorder = moveTo(from, p2, getBBoxSize(fromBBox, getDirection(from, p2)) / 2);
-      const toBorder = moveTo(to, p1, getBBoxSize(toBBox, getDirection(to, p1)) / 2);
+      const fromBorder = moveTo(from, p1, getBBoxSize(fromBBox, getDirection(from, p1)) / 2);
+      const toBorder = moveTo(to, p2, getBBoxSize(toBBox, getDirection(to, p2)) / 2);
       const midPoint: Point = [(fromBorder[0] + toBorder[0]) / 2, (fromBorder[1] + toBorder[1]) / 2];
 
       const startRoute = nodeToPoint(from, midPoint, fromBBox);
