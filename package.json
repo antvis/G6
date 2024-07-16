@@ -3,15 +3,16 @@
   "private": true,
   "repository": "https://github.com/antvis/G6.git",
   "scripts": {
-    "site": "pnpm -r --stream --filter=./packages/site run dev",
-    "watch": "pnpm -r --stream --filter=!./site run start",
-    "postinstall": "husky install",
-    "prepare": "husky install",
     "build": "turbo build --filter=!@antv/g6-site",
     "ci": "turbo run ci --filter=!@antv/g6-site",
     "contribute": "node ./scripts/contribute.mjs",
+    "postinstall": "husky install",
+    "prepare": "husky install",
     "publish": "pnpm publish -r --publish-branch v5",
-    "release": "changeset release"
+    "release": "changeset release",
+    "site": "pnpm -r --stream --filter=./packages/site run dev",
+    "version": "changeset version && turbo version",
+    "watch": "pnpm -r --stream --filter=!./site run start"
   },
   "commitlint": {
     "extends": [
