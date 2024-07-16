@@ -1,0 +1,27 @@
+# 创建发布分支和 PR / Create release branch and PR
+name: Create release PR
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create_release_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create release branch
+        run: |
+          git checkout -b release
+          git add .
+          git commit -m "Update for automated release PR" || true
+          git push --set-upstream origin release
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: v5
+          title: '[Bot] Automated PR from release to v5'
+          body: 'This PR was created automatically by GitHub Actions.'

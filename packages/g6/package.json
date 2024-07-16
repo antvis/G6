@@ -45,7 +45,7 @@
     "fix": "eslint ./src ./__tests__ --fix && prettier ./src __tests__ --write ",
     "jest": "node --expose-gc --max-old-space-size=1024 --unhandled-rejections=strict ../../node_modules/jest/bin/jest --coverage --logHeapUsage --detectOpenHandles",
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
-    "prepublishOnly": "run-s version ci readme",
+    "prepublishOnly": "run-s ci readme",
     "readme": "cp ../../README.* ./",
     "size": "limit-size",
     "start": "rimraf ./lib && tsc --module commonjs --outDir lib --watch",

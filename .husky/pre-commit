@@ -1,4 +1,13 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+protected_branches="master v5"
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+for branch in $protected_branches; do
+  if [ "$current_branch" == "$branch" ]; then
+    echo "\033[31mDirect commit to '$branch' branch are not allowed!\033[0m"
+    exit 1
+  fi
+done
+
 npx lint-staged
