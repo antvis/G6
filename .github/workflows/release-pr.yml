@@ -1,0 +1,45 @@
+# 自动创建发布分支和 PR / Automatically create release branch and PR
+name: Create release PR
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  create_release_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check if PR from release to v5 exists
+        id: check_pr
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: pullRequests } = await github.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              base: 'v5',
+              head: 'release'
+            });
+
+            return { exists: pullRequests.length > 0 };
+
+      - name: Create release branch
+        if: steps.check_pr.outputs.exists == 'false'
+        run: |
+          git fetch origin release
+          git checkout -b release origin/release
+          git push origin release
+
+      - name: Create PR from release to v5
+        if: steps.check_pr.outputs.exists == 'false'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: v5
+          title: '[Bot] Automated PR from release to v5'
+          body: 'This PR was created automatically by GitHub Actions.'

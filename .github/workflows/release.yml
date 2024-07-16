@@ -1,0 +1,31 @@
+# 合并 release 分支到 v5 分支时自动发布到 npm
+name: Auto Release
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - v5
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.ref == 'release' && github.event.pull_request.merged == true
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install pnpm and dependencies
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN} & pnpm release
