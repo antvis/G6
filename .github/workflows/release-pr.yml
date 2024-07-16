@@ -1,10 +1,8 @@
-# 自动创建发布分支和 PR / Automatically create release branch and PR
+# 创建发布分支和 PR / Create release branch and PR
 name: Create release PR
 
 on:
-  push:
-    branches:
-      - '**'
+  workflow_dispatch:
 
 jobs:
   create_release_pr:
@@ -13,30 +11,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Check if PR from release to v5 exists
-        id: check_pr
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const { data: pullRequests } = await github.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              base: 'v5',
-              head: 'release'
-            });
-
-            return { exists: pullRequests.length > 0 };
-
       - name: Create release branch
-        if: steps.check_pr.outputs.exists == 'false'
         run: |
-          git fetch origin release
-          git checkout -b release origin/release
-          git push origin release
+          git checkout -b release
+          git add .
+          git commit -m "Update for automated release PR" || true
+          git push --set-upstream origin release
 
-      - name: Create PR from release to v5
-        if: steps.check_pr.outputs.exists == 'false'
+      - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
