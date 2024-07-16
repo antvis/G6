@@ -1,6 +1,6 @@
 import { pluginHistory } from '@/__tests__/demos';
 import type { History } from '@/src';
-import { Graph } from '@/src';
+import { ComboEvent, Graph, NodeEvent } from '@/src';
 import { createDemoGraph } from '@@/utils';
 
 describe('history plugin', () => {
@@ -103,6 +103,21 @@ describe('history plugin', () => {
     await expect(graph).toMatchSnapshot(__filename, 'setElementZIndex-undo');
     history.redo();
     await expect(graph).toMatchSnapshot(__filename, 'setElementZIndex-redo');
+    history.undo();
+  });
+
+  it('create-edge', async () => {
+    graph.setBehaviors((prev) => [
+      ...prev,
+      { type: 'create-edge', trigger: 'click', style: { stroke: 'red', lineWidth: 2 } },
+    ]);
+    graph.emit(NodeEvent.CLICK, { target: { id: 'node-1' }, targetType: 'node' });
+    graph.emit(ComboEvent.CLICK, { target: { id: 'combo-2' }, targetType: 'combo' });
+    await expect(graph).toMatchSnapshot(__filename, 'create-edge');
+    history.undo();
+    await expect(graph).toMatchSnapshot(__filename, 'create-edge-undo');
+    history.redo();
+    await expect(graph).toMatchSnapshot(__filename, 'create-edge-redo');
     history.undo();
   });
 

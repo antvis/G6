@@ -116,7 +116,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
   private handleCreateEdge = async (event: IElementEvent) => {
     if (!this.validate(event)) return;
-    const { graph, canvas } = this.context;
+    const { graph, canvas, batch, element } = this.context;
     const { style } = this.options;
 
     if (this.source) {
@@ -125,6 +125,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
       return;
     }
 
+    batch!.startBatch();
     canvas.setCursor('crosshair');
     this.source = this.getSelectedNodeIDs([event.target.id])[0];
 
@@ -149,6 +150,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
         },
       },
     ]);
+    await element!.draw({ animation: false })?.finished;
   };
 
   private updateAssistEdge = async (event: IPointerEvent) => {
@@ -176,14 +178,14 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
   private cancelEdge = async () => {
     if (!this.source) return;
-    const { graph, element, canvas } = this.context;
-    canvas.setCursor('default');
+    const { graph, element, batch } = this.context;
 
     graph.removeNodeData([ASSIST_NODE_ID]);
 
     this.source = undefined;
 
-    await element!.draw({ animation: false, silence: true })?.finished;
+    await element!.draw({ animation: false })?.finished;
+    batch!.endBatch();
   };
 
   private getSelectedNodeIDs(currTarget: ID[]) {
