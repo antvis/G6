@@ -28,13 +28,13 @@ export interface HistoryOptions extends BasePluginOptions {
    *
    * <en/> Called before a command is added to the Undo/Redo queue. If this method returns false, the command will not be added to the queue. revert is true for undo operations and false for redo operations
    */
-  beforeAddCommand?: (cmd: Command, revert?: boolean) => boolean | void;
+  beforeAddCommand?: (cmd: Command, revert: boolean) => boolean | void;
   /**
    * <zh/> 当一个命令被添加到 Undo/Redo 队列后被调用。revert 为 true 时表示撤销操作，为 false 时表示重做操作
    *
    * <en/> Called after a command is added to the Undo/Redo queue. revert is true for undo operations and false for redo operations
    */
-  afterAddCommand?: (cmd: Command, revert?: boolean) => void;
+  afterAddCommand?: (cmd: Command, revert: boolean) => void;
   /**
    * <zh/> 执行命令时的回调函数
    *
@@ -61,7 +61,6 @@ export class History extends BasePlugin<HistoryOptions> {
   private batchAnimation = false;
   public undoStack: Command[] = [];
   public redoStack: Command[] = [];
-  private isFirstDraw = true;
   private freezed = false;
 
   constructor(context: RuntimeContext, options: HistoryOptions) {
@@ -105,7 +104,10 @@ export class History extends BasePlugin<HistoryOptions> {
     const cmd = this.undoStack.pop();
     if (cmd) {
       this.executeCommand(cmd);
-      this.options.beforeAddCommand?.(cmd, false);
+
+      const before = this.options.beforeAddCommand?.(cmd, false);
+      if (before === false) return;
+
       this.redoStack.push(cmd);
       this.options.afterAddCommand?.(cmd, false);
       this.notify(HistoryEvent.UNDO, cmd);
@@ -160,11 +162,6 @@ export class History extends BasePlugin<HistoryOptions> {
   };
 
   private addCommand = (event: GraphLifeCycleEvent) => {
-    if (this.isFirstDraw) {
-      this.isFirstDraw = false;
-      return;
-    }
-
     if (this.freezed) return;
 
     if (event.type === GraphEvent.AFTER_DRAW) {
@@ -202,7 +199,9 @@ export class History extends BasePlugin<HistoryOptions> {
       this.undoStack.shift();
     }
 
-    this.options.beforeAddCommand?.(cmd, true);
+    const before = this.options.beforeAddCommand?.(cmd, true);
+    if (before === false) return;
+
     this.undoStack.push(cmd);
     this.options.afterAddCommand?.(cmd, true);
   }
