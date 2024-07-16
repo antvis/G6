@@ -1,14 +1,16 @@
 # 自动更新版本号 / Auto Update Version
 name: Auto Update Version
+
 on:
-  push:
-    branches:
-      - release
+  pull_request_target:
+    types: [labeled, synchronize]
 
 jobs:
   version:
     name: Update Package Version
     runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'version')
+
     steps:
       - uses: actions/checkout@v3
 
@@ -23,7 +25,7 @@ jobs:
           version: 9
           run_install: true
 
-      - name: Update Version
+      - name: Update G6 Version
         run: |
           cd ./packages/g6
           npm run version
@@ -32,5 +34,6 @@ jobs:
         uses: changesets/action@v1
         with:
           commit: 'chore(release): update version'
+          branch: ${GITHUB_REF#refs/heads/}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

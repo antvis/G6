@@ -1,6 +1,6 @@
 # 当具有 publish 标签的 PR 被合并时，自动发布新版本
-# Automatically release a new version when a PR with the release label is merged
-name: Auto Release
+# Automatically publish a new version when a PR with the publish label is merged
+name: Auto Publish
 on:
   pull_request:
     types: [closed]
@@ -8,7 +8,7 @@ on:
       - v5
 
 jobs:
-  release:
+  publish:
     runs-on: ubuntu-latest
     if: contains(github.event.pull_request.labels.*.name, 'publish') && github.event.pull_request.merged == true
 
@@ -26,7 +26,7 @@ jobs:
           version: 9
           run_install: true
 
-      - name: Release
+      - name: Publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
