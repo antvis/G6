@@ -119,4 +119,13 @@ describe('history plugin', () => {
     await graph.draw();
     expect(history.undoStack.length).toEqual(undoStackLen + 1);
   });
+
+  it('canUndo/canRedo/clear', async () => {
+    expect(history.canUndo()).toBeTruthy();
+    expect(history.canRedo()).toBeTruthy();
+    history.clear();
+    expect(history.undoStack.length).toEqual(0);
+    expect(history.canUndo()).toBeFalsy();
+    expect(history.canRedo()).toBeFalsy();
+  });
 });
