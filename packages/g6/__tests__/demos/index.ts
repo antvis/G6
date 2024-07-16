@@ -18,6 +18,7 @@ export { behaviorLassoSelect } from './behavior-lasso-select';
 export { behaviorScrollCanvas } from './behavior-scroll-canvas';
 export { behaviorZoomCanvas } from './behavior-zoom-canvas';
 export { caseIndentedTree } from './case-indented-tree';
+export { caseOrgChart } from './case-org-chart';
 export { elementCombo } from './combo';
 export { commonGraph } from './common-graph';
 export { controllerViewport } from './controller-viewport';
