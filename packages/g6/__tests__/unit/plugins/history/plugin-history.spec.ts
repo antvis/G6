@@ -105,4 +105,27 @@ describe('history plugin', () => {
     await expect(graph).toMatchSnapshot(__filename, 'setElementZIndex-redo');
     history.undo();
   });
+
+  it('beforeAddCommand', async () => {
+    const undoStackLen = history.undoStack.length;
+
+    graph.updatePlugin({ key: 'history', beforeAddCommand: () => false });
+    graph.setElementVisibility('node-1', 'hidden');
+    await graph.draw();
+    expect(history.undoStack.length).toEqual(undoStackLen);
+
+    graph.updatePlugin({ key: 'history', beforeAddCommand: () => true });
+    graph.setElementVisibility('node-1', 'visible');
+    await graph.draw();
+    expect(history.undoStack.length).toEqual(undoStackLen + 1);
+  });
+
+  it('canUndo/canRedo/clear', async () => {
+    expect(history.canUndo()).toBeTruthy();
+    expect(history.canRedo()).toBeTruthy();
+    history.clear();
+    expect(history.undoStack.length).toEqual(0);
+    expect(history.canUndo()).toBeFalsy();
+    expect(history.canRedo()).toBeFalsy();
+  });
 });
