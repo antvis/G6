@@ -1,4 +1,5 @@
-# 合并 release 分支到 v5 分支时自动发布到 npm
+# 当具有 publish 标签的 PR 被合并时，自动发布新版本
+# Automatically release a new version when a PR with the release label is merged
 name: Auto Release
 on:
   pull_request:
@@ -9,7 +10,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.head.ref == 'release' && github.event.pull_request.merged == true
+    if: contains(github.event.pull_request.labels.*.name, 'publish') && github.event.pull_request.merged == true
 
     steps:
       - uses: actions/checkout@v3
@@ -23,6 +24,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9
+          run_install: true
 
       - name: Release
         env:
