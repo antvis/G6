@@ -1,5 +1,6 @@
 {
   "optimization": {
     "skipModules": false, "concatenateModules": false
-  }
+  },
+  "moduleIdStrategy": "hashed"
 }
