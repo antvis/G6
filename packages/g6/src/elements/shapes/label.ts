@@ -91,7 +91,7 @@ export class Label extends BaseShape<LabelStyleProps> {
       Object.assign(backgroundStyle, {
         x: minX - left,
         y: minY - top,
-        width: wordWrap ? Math.min(totalWidth, wordWrapWidth) : totalWidth,
+        width: wordWrap ? Math.min(totalWidth, wordWrapWidth + left + right) : totalWidth,
         height: halfHeight * 2 + top + bottom,
       });
     }
