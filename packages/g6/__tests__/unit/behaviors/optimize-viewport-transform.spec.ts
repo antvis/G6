@@ -27,6 +27,7 @@ describe('behavior optimize canvas', () => {
         translate: [0, -1],
       },
     });
+    await expect(graph).toMatchSnapshot(__filename, 'after-viewport-change');
   });
 
   it('destroy', () => {
