@@ -15,6 +15,7 @@ export { behaviorExpandCollapseNode } from './behavior-expand-collapse-node';
 export { behaviorFocusElement } from './behavior-focus-element';
 export { behaviorHoverActivate } from './behavior-hover-activate';
 export { behaviorLassoSelect } from './behavior-lasso-select';
+export { behaviorOptimizeCanvas } from './behavior-optimize-canvas';
 export { behaviorScrollCanvas } from './behavior-scroll-canvas';
 export { behaviorZoomCanvas } from './behavior-zoom-canvas';
 export { caseIndentedTree } from './case-indented-tree';
