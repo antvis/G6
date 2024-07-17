@@ -2,7 +2,7 @@ import type { BaseStyleProps, DisplayObject } from '@antv/g';
 import { debounce, isFunction } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { ViewportEvent } from '../utils/event';
+import type { IViewportEvent } from '../types/event';
 import { setVisibility } from '../utils/visibility';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
@@ -19,7 +19,7 @@ export interface OptimizeViewportTransformOptions extends BaseBehaviorOptions {
    * <en/> Whether to enable canvas optimization function
    * @defaultValue true
    */
-  enable?: boolean | ((event: ViewportEvent) => boolean);
+  enable?: boolean | ((event: IViewportEvent) => boolean);
   /**
    * <zh/> 始终保留的图形类名。操作画布过程中会隐藏元素reservedShapes（除了指定类名的图形），以提高性能
    *
@@ -77,7 +77,7 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
     });
   };
 
-  private hideShapes = (event: ViewportEvent) => {
+  private hideShapes = (event: IViewportEvent) => {
     if (!this.validate(event) || !this.isVisible) return;
 
     const { element } = this.context;
@@ -88,7 +88,7 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
     this.isVisible = false;
   };
 
-  private showShapes = debounce((event: ViewportEvent) => {
+  private showShapes = debounce((event: IViewportEvent) => {
     if (!this.validate(event) || this.isVisible) return;
 
     const { element } = this.context;
@@ -112,7 +112,7 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
     graph.off(GraphEvent.AFTER_TRANSFORM, this.showShapes);
   }
 
-  private validate(event: ViewportEvent) {
+  private validate(event: IViewportEvent) {
     if (this.destroyed) return false;
 
     const { enable } = this.options;
