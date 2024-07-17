@@ -9,6 +9,7 @@ export { DragElementForce } from './drag-element-force';
 export { FocusElement } from './focus-element';
 export { HoverActivate } from './hover-activate';
 export { LassoSelect } from './lasso-select';
+export { OptimizeViewportTransform } from './optimize-viewport-transform';
 export { ScrollCanvas } from './scroll-canvas';
 export { ZoomCanvas } from './zoom-canvas';
 
@@ -23,5 +24,6 @@ export type { DragElementForceOptions } from './drag-element-force';
 export type { FocusElementOptions } from './focus-element';
 export type { HoverActivateOptions } from './hover-activate';
 export type { LassoSelectOptions } from './lasso-select';
+export type { OptimizeViewportTransformOptions } from './optimize-viewport-transform';
 export type { ScrollCanvasOptions } from './scroll-canvas';
 export type { ZoomCanvasOptions } from './zoom-canvas';

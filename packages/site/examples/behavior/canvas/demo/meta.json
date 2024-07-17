@@ -27,6 +27,22 @@
         "en": "Scroll Y"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*c5DCSoAYsZQAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "zoom.js",
+      "title": {
+        "zh": "缩放画布",
+        "en": "Zoom Canvas"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1AXoRY9Bw-0AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "optimize.js",
+      "title": {
+        "zh": "拖拽缩放画布时隐藏元素",
+        "en": "Hide Elements When Dragging and Zooming"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*AZ4IRJkIZr8AAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
