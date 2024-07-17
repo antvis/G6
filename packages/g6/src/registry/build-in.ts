@@ -10,7 +10,7 @@ import {
   FocusElement,
   HoverActivate,
   LassoSelect,
-  OptimizeCanvas,
+  OptimizeViewportTransform,
   ScrollCanvas,
   ZoomCanvas,
 } from '../behaviors';
@@ -105,7 +105,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'focus-element': FocusElement,
     'hover-activate': HoverActivate,
     'lasso-select': LassoSelect,
-    'optimize-canvas': OptimizeCanvas,
+    'optimize-viewport-transform': OptimizeViewportTransform,
     'scroll-canvas': ScrollCanvas,
     'zoom-canvas': ZoomCanvas,
   },

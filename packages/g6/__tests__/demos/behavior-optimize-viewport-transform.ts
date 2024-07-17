@@ -1,7 +1,7 @@
 import { Graph } from '@/src';
 import data from '@@/dataset/cluster.json';
 
-export const behaviorOptimizeCanvas: TestCase = async (context) => {
+export const behaviorOptimizeViewportTransform: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
@@ -22,7 +22,7 @@ export const behaviorOptimizeCanvas: TestCase = async (context) => {
         labelText: (datum) => datum.id,
       },
     },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'scroll-canvas', 'optimize-canvas'],
+    behaviors: ['drag-canvas', 'zoom-canvas', 'scroll-canvas', 'optimize-viewport-transform'],
   });
 
   await graph.render();

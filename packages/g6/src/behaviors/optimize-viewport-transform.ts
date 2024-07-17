@@ -12,7 +12,7 @@ import { BaseBehavior } from './base-behavior';
  *
  * <en/> Canvas optimization behavior options
  */
-export interface OptimizeCanvasOptions extends BaseBehaviorOptions {
+export interface OptimizeViewportTransformOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用画布优化功能
    *
@@ -45,8 +45,8 @@ export interface OptimizeCanvasOptions extends BaseBehaviorOptions {
  *
  * <en/> Hide elements during canvas operations (dragging, zooming, scrolling)
  */
-export class OptimizeCanvas extends BaseBehavior<OptimizeCanvasOptions> {
-  static defaultOptions: Partial<OptimizeCanvasOptions> = {
+export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTransformOptions> {
+  static defaultOptions: Partial<OptimizeViewportTransformOptions> = {
     enable: true,
     debounce: 200,
     shapes: { node: ['key'] },
@@ -54,13 +54,8 @@ export class OptimizeCanvas extends BaseBehavior<OptimizeCanvasOptions> {
 
   private isVisible: boolean = true;
 
-  constructor(context: RuntimeContext, options: OptimizeCanvasOptions) {
-    super(context, Object.assign({}, OptimizeCanvas.defaultOptions, options));
-    this.bindEvents();
-  }
-
-  public update(options: Partial<OptimizeCanvasOptions>) {
-    super.update(options);
+  constructor(context: RuntimeContext, options: OptimizeViewportTransformOptions) {
+    super(context, Object.assign({}, OptimizeViewportTransform.defaultOptions, options));
     this.bindEvents();
   }
 
@@ -84,7 +79,6 @@ export class OptimizeCanvas extends BaseBehavior<OptimizeCanvasOptions> {
 
   private hideShapes = (event: ViewportEvent) => {
     if (!this.validate(event) || !this.isVisible) return;
-    console.log('before event', event);
 
     const { element } = this.context;
     const { shapes = {} } = this.options;
@@ -96,7 +90,6 @@ export class OptimizeCanvas extends BaseBehavior<OptimizeCanvasOptions> {
 
   private showShapes = debounce((event: ViewportEvent) => {
     if (!this.validate(event) || this.isVisible) return;
-    console.log('after event', event);
 
     const { element } = this.context;
     this.setElementsVisibility(element!.getNodes(), 'visible');
@@ -107,7 +100,6 @@ export class OptimizeCanvas extends BaseBehavior<OptimizeCanvasOptions> {
 
   private bindEvents() {
     const { graph } = this.context;
-    this.unbindEvents();
 
     graph.on(GraphEvent.BEFORE_TRANSFORM, this.hideShapes);
     graph.on(GraphEvent.AFTER_TRANSFORM, this.showShapes);

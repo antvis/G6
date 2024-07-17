@@ -1,4 +1,4 @@
-import { behaviorOptimizeCanvas } from '@/__tests__/demos';
+import { behaviorOptimizeViewportTransform } from '@/__tests__/demos';
 import { GraphEvent, type Graph } from '@/src';
 import { createDemoGraph } from '@@/utils';
 
@@ -6,7 +6,7 @@ describe('behavior optimize canvas', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createDemoGraph(behaviorOptimizeCanvas, { animation: false });
+    graph = await createDemoGraph(behaviorOptimizeViewportTransform, { animation: false });
   });
 
   it('viewport', async () => {

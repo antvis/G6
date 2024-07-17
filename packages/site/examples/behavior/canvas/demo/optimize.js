@@ -21,7 +21,7 @@ const graph = new Graph({
       labelText: (datum) => datum.id,
     },
   },
-  behaviors: ['zoom-canvas', 'drag-canvas', 'scroll-canvas', 'optimize-canvas'],
+  behaviors: ['zoom-canvas', 'drag-canvas', 'scroll-canvas', 'optimize-viewport-transform'],
 });
 
 graph.render();
