@@ -124,6 +124,7 @@ export type {
   ScrollCanvasOptions,
   ZoomCanvasOptions,
 } from './behaviors';
+export type { FixShapeConfig } from './behaviors/fix-element-size';
 export type { BaseComboStyleProps, CircleComboStyleProps, RectComboStyleProps } from './elements/combos';
 export type {
   BaseEdgeStyleProps,
