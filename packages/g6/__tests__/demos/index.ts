@@ -12,6 +12,7 @@ export { behaviorDragCanvas } from './behavior-drag-canvas';
 export { behaviorDragNode } from './behavior-drag-element';
 export { behaviorExpandCollapseCombo } from './behavior-expand-collapse-combo';
 export { behaviorExpandCollapseNode } from './behavior-expand-collapse-node';
+export { behaviorFixElementSize } from './behavior-fix-element-size';
 export { behaviorFocusElement } from './behavior-focus-element';
 export { behaviorHoverActivate } from './behavior-hover-activate';
 export { behaviorLassoSelect } from './behavior-lasso-select';

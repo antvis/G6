@@ -134,12 +134,6 @@ export const caseOrgChart: TestCase = async (context) => {
       this.bindEvents();
     }
 
-    public update(options: Partial<BaseBehaviorOptions>) {
-      this.unbindEvents();
-      super.update(options);
-      this.bindEvents();
-    }
-
     private updateZoomLevel = async (e: IViewportEvent) => {
       if ('scale' in e.data) {
         const scale = e.data.scale!;
