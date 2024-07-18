@@ -124,7 +124,7 @@ export class FixElementSize extends BaseBehavior {
         if (type === 'edge') {
           el.style.transformOrigin = 'center';
         }
-        // FIXME: 修改 Path 的 localScale 属性时遇到问题，导致边偏移
+        // FIXME: 修改 Path 的 localScale 属性时遇到问题，导致边会偏移错位
         el.setLocalScale(1 / currentScale);
         return;
       }
@@ -147,7 +147,7 @@ export class FixElementSize extends BaseBehavior {
 
   private resetTransform = async () => {
     if (this.elementCache) {
-      Array.from(this.elementCache.values()).forEach((el) => el.setLocalScale(1));
+      this.elementCache.forEach((el) => el.setLocalScale(1));
       this.elementCache.clear();
     }
   };
