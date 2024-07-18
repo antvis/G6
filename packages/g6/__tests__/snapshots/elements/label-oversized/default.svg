@@ -31,15 +31,18 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,52)">
             <g>
-              <path fill="rgba(238,238,238,1)" d="M -40.06,0 l 81.12,0 a 4,4,0,0,1,4,4 l 0,47 a 4,4,0,0,1,-4,4 l -81.12,0 a 4,4,0,0,1,-4,-4 l 0,-47 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-44.06" y="0" width="89.12" height="55"/>
+              <path fill="rgba(238,238,238,1)" d="M -49.019999999999996,0 l 99.03999999999999,0 a 4,4,0,0,1,4,4 l 0,63 a 4,4,0,0,1,-4,4 l -99.03999999999999,0 a 4,4,0,0,1,-4,-4 l 0,-63 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-53.019999999999996" y="0" width="107.03999999999999" height="71"/>
             </g>
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 <tspan x="0" dx="0.5" dy="0">
-                  This label is
+                  This label with
                 </tspan>
                 <tspan x="0" dx="0.5" dy="16">
-                  too  long to be
+                  padding is too
+                </tspan>
+                <tspan x="0" dx="0.5" dy="16">
+                  long to be
                 </tspan>
                 <tspan x="0" dx="0.5" dy="16">
                   displayed
@@ -54,15 +57,18 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,77)">
             <g>
-              <path fill="rgba(238,238,238,1)" d="M -65.38000000000001,0 l 127,0 a 4,4,0,0,1,4,4 l 0,31 a 4,4,0,0,1,-4,4 l -127,0 a 4,4,0,0,1,-4,-4 l 0,-31 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-69.38000000000001" y="0" width="135" height="39"/>
+              <path fill="rgba(238,238,238,1)" d="M -72.96000000000001,0 l 146.92000000000002,0 a 4,4,0,0,1,4,4 l 0,47 a 4,4,0,0,1,-4,4 l -146.92000000000002,0 a 4,4,0,0,1,-4,-4 l 0,-47 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-76.96000000000001" y="0" width="154.92000000000002" height="55"/>
             </g>
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 <tspan x="0" dx="0.5" dy="0">
-                  This label is too long to
+                  This label with padding
                 </tspan>
                 <tspan x="0" dx="0.5" dy="16">
-                  be displayed
+                  is too long to be
+                </tspan>
+                <tspan x="0" dx="0.5" dy="16">
+                  displayed
                 </tspan>
               </text>
             </g>
