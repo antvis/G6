@@ -8,7 +8,7 @@ export const elementLabelOversized: TestCase = async (context) => {
         data: {
           x: 100,
           y: 150,
-          label: `This label is too  long to be displayed`,
+          label: `This label with padding is too  long to be displayed`,
           size: 100,
         },
       },
@@ -17,7 +17,7 @@ export const elementLabelOversized: TestCase = async (context) => {
         data: {
           x: 400,
           y: 150,
-          label: 'This label is too long to be displayed',
+          label: 'This label with padding is too long to be displayed',
           size: 150,
         },
       },
@@ -50,6 +50,7 @@ export const elementLabelOversized: TestCase = async (context) => {
         labelBackgroundFill: '#eee',
         labelBackgroundFillOpacity: 0.5,
         labelBackgroundRadius: 4,
+        labelPadding: [0, 10, 0, 10],
         labelWordWrap: true,
         labelMaxLines: 4,
       },
