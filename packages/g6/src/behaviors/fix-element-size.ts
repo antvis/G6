@@ -69,6 +69,12 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
    * <en/> Edge configuration for defining which edge attributes should remain fixed in size visually. By default, the lineWidth and labelFontSize attributes are fixed
    */
   edge?: FixShapeConfig | FixShapeConfig[];
+  /**
+   * <zh/> Combo 配置项，用于定义哪些属性在视觉上保持固定大小。默认整个 Combo 将被固定
+   *
+   * <en/> Combo configuration for defining which combo attributes should remain fixed in size visually. By default, the entire combo will be fixed
+   */
+  combo?: FixShapeConfig | FixShapeConfig[];
 }
 
 /**
@@ -88,7 +94,7 @@ export class FixElementSize extends BaseBehavior {
       {
         shape: (shapes: DisplayObject[]) =>
           shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text')!,
-        fields: ['fontSize'],
+        fields: ['fontSize', 'lineHeight'],
       },
     ],
   };
@@ -106,8 +112,14 @@ export class FixElementSize extends BaseBehavior {
     if (!this.isZoomEvent(event) || !this.validate(event)) return;
 
     const { graph, element } = this.context;
-    const { node, edge, state } = this.options;
-    const elementData = [...graph.getElementDataByState('node', state), ...graph.getElementDataByState('edge', state)];
+    const { state } = this.options;
+    const elementData = state
+      ? [
+          ...graph.getElementDataByState('node', state),
+          ...graph.getElementDataByState('edge', state),
+          ...graph.getElementDataByState('combo', state),
+        ]
+      : Object.values(graph.getData()).flat();
 
     if (!elementData.length) return;
 
@@ -117,7 +129,7 @@ export class FixElementSize extends BaseBehavior {
       const el = element?.getElement(id) as Element;
       const type = graph.getElementType(id);
 
-      const config = type === 'edge' ? edge : node;
+      const config = this.options[type];
 
       if (!config) {
         this.elementCache.set(id, el);
