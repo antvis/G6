@@ -7,9 +7,11 @@ export {
   DragCanvas,
   DragElement,
   DragElementForce,
+  FixElementSize,
   FocusElement,
   HoverActivate,
   LassoSelect,
+  OptimizeViewportTransform,
   ScrollCanvas,
   ZoomCanvas,
 } from './behaviors';
@@ -114,12 +116,15 @@ export type {
   DragCanvasOptions,
   DragElementForceOptions,
   DragElementOptions,
+  FixElementSizeOptions,
   FocusElementOptions,
   HoverActivateOptions,
   LassoSelectOptions,
+  OptimizeViewportTransformOptions,
   ScrollCanvasOptions,
   ZoomCanvasOptions,
 } from './behaviors';
+export type { FixShapeConfig } from './behaviors/fix-element-size';
 export type { BaseComboStyleProps, CircleComboStyleProps, RectComboStyleProps } from './elements/combos';
 export type {
   BaseEdgeStyleProps,
