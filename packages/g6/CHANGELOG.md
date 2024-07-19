@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.10
+
+### Patch Changes
+
+- support switch renderer
+
 ## 5.0.9
 
 ### Patch Changes
