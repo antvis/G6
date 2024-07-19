@@ -72,6 +72,8 @@ export class Light extends BasePlugin<LightOptions> {
   }
 
   public destroy() {
+    this.ambient?.remove();
+    this.directional?.remove();
     this.unbindEvents();
     super.destroy();
   }
