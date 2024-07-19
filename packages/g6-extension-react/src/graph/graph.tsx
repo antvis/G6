@@ -37,6 +37,7 @@ export const Graph = (props: GraphProps) => {
     graph
       .render()
       .then(() => onRender?.(graph))
+      // eslint-disable-next-line no-console
       .catch((error) => console.debug(error));
   }, [options]);
 
