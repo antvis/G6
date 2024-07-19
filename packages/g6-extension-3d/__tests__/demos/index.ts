@@ -8,3 +8,4 @@ export { massiveElements } from './massive-elements';
 export * from './position';
 export * from './shapes';
 export * from './solar-system';
+export { switchRenderer } from './switch-renderer';
