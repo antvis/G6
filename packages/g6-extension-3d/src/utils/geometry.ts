@@ -1,6 +1,8 @@
 import type { Device } from '@antv/g-device-api';
 import type { ProceduralGeometry } from '@antv/g-plugin-3d';
 
+let DEVICE: Device;
+
 const GEOMETRY_CACHE = new Map<string, unknown>();
 
 /**
@@ -19,6 +21,12 @@ export function createGeometry<T extends ProceduralGeometry<any>>(
   Ctor: new (...args: any[]) => T,
   style: Record<string, unknown>,
 ) {
+  if (!DEVICE) DEVICE = device;
+  else if (DEVICE !== device) {
+    DEVICE = device;
+    GEOMETRY_CACHE.clear();
+  }
+
   const cacheKey =
     type +
     '|' +

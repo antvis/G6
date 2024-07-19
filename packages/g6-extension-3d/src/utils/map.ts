@@ -15,4 +15,8 @@ export class TupleMap<K1, K2, V> {
     }
     this.map.get(key1)!.set(key2, value);
   }
+
+  clear() {
+    this.map.clear();
+  }
 }

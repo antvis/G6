@@ -6,6 +6,8 @@ import { getCacheKey } from './cache';
 import { TupleMap } from './map';
 import { createTexture } from './texture';
 
+let PLUGIN: Plugin;
+
 const MATERIAL_CACHE = new TupleMap<symbol, string | TexImageSource | undefined, GMaterial>();
 
 const MATERIAL_MAP = {
@@ -25,6 +27,12 @@ const MATERIAL_MAP = {
  * @returns <zh/> 材质对象 <en/> material object
  */
 export function createMaterial(plugin: Plugin, options: Material, texture?: string | TexImageSource): GMaterial {
+  if (!PLUGIN) PLUGIN = plugin;
+  else if (PLUGIN !== plugin) {
+    PLUGIN = plugin;
+    MATERIAL_CACHE.clear();
+  }
+
   const key = getCacheKey(options);
 
   if (MATERIAL_CACHE.has(key, texture)) {
