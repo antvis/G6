@@ -1,5 +1,6 @@
 import { GraphEvent } from '@/src';
 import { createGraph } from '@@/utils';
+import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 
 describe('event', () => {
   it('canvas ready', async () => {
@@ -152,5 +153,34 @@ describe('event', () => {
     expect(update.mock.calls[1][0].data.id).toEqual('edge-1');
 
     graph.destroy();
+  });
+
+  it('renderer change event', async () => {
+    const graph = createGraph({
+      data: {
+        nodes: [{ id: 'node-1' }, { id: 'node-2' }],
+        edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2' }],
+      },
+    });
+
+    const beforeRendererChange = jest.fn();
+    const afterRendererChange = jest.fn();
+
+    graph.on(GraphEvent.BEFORE_RENDERER_CHANGE, beforeRendererChange);
+    graph.on(GraphEvent.AFTER_RENDERER_CHANGE, afterRendererChange);
+
+    await graph.render();
+
+    expect(beforeRendererChange).toHaveBeenCalledTimes(0);
+    expect(afterRendererChange).toHaveBeenCalledTimes(0);
+
+    const renderer = () => new CanvasRenderer();
+
+    graph.setOptions({
+      renderer,
+    });
+
+    expect(beforeRendererChange).toHaveBeenCalledTimes(1);
+    expect(afterRendererChange).toHaveBeenCalledTimes(1);
   });
 });

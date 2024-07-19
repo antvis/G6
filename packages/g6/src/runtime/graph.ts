@@ -120,6 +120,15 @@ export class Graph extends EventEmitter {
   public setOptions(options: GraphOptions): void {
     const { behaviors, combo, data, edge, height, layout, node, plugins, theme, transforms, width, renderer } = options;
 
+    if (renderer) {
+      const canvas = this.context.canvas;
+      if (canvas) {
+        this.emit(GraphEvent.BEFORE_RENDERER_CHANGE, { renderer: this.options.renderer });
+        canvas.setRenderer(renderer);
+        this.emit(GraphEvent.AFTER_RENDERER_CHANGE, { renderer });
+      }
+    }
+
     Object.assign(this.options, options);
 
     if (behaviors) this.setBehaviors(behaviors);
@@ -133,7 +142,6 @@ export class Graph extends EventEmitter {
     if (transforms) this.setTransforms(transforms);
     if (isNumber(width) || isNumber(height))
       this.setSize(width ?? this.options.width ?? 0, height ?? this.options.height ?? 0);
-    if (renderer) this.context.canvas?.setRenderer(renderer);
   }
 
   /**
