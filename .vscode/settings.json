@@ -18,6 +18,7 @@
     "aftertransform",
     "afterviewportanimate",
     "antv",
+    "autosize",
     "batchend",
     "batchstart",
     "bbox",

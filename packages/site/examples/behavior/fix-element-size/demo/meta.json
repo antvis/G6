@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "fix-size.js",
+      "title": {
+        "zh": "缩放过程中固定选中元素",
+        "en": "Fix Element Size While Zooming"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ipfbT61guFYAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "autosize-label.js",
+      "title": {
+        "zh": "缩放过程中动态调整标签的最大长度",
+        "en": "Auto Size Label While Zooming"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*PnrKRYX70pIAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

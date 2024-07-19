@@ -25,6 +25,7 @@ export { caseOrgChart } from './case-org-chart';
 export { elementCombo } from './combo';
 export { commonGraph } from './common-graph';
 export { controllerViewport } from './controller-viewport';
+export { demoAutosizeElementLabel } from './demo-autosize-element-label';
 export { elementChangeType } from './element-change-type';
 export { elementEdgeArrow } from './element-edge-arrow';
 export { elementEdgeCubic } from './element-edge-cubic';
