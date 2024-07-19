@@ -236,7 +236,6 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
  * @description see: https://github.com/antvis/G/issues/1731
  */
 function releaseAnimation(target: DisplayObject, animation: IAnimation) {
-  animation.oncancel = () => console.log('cancel');
   animation?.finished.then(() => {
     // @ts-expect-error private property
     const index = target.activeAnimations.findIndex((_) => _ === animation);

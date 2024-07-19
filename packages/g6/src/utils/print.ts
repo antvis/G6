@@ -1,3 +1,5 @@
+/* global console */
+/* eslint no-console: "off" */
 import { version } from '../version';
 
 const BRAND = 'G6';

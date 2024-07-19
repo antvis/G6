@@ -45,6 +45,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['warn', { ignoreRestSiblings: true }],
     'jsdoc/require-param-type': 0,
     '@typescript-eslint/no-this-alias': 'off',
+    'no-console': 'error',
 
     // TODO: rules below will be set to 2 in the future
     'jsdoc/require-jsdoc': 1,
