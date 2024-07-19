@@ -43,7 +43,6 @@ import { isCollapsed } from '../utils/collapsibility';
 import { sizeOf } from '../utils/dom';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
-import { parsePoint, toPointObject } from '../utils/point';
 import { format } from '../utils/print';
 import { subtract } from '../utils/vector';
 import { Animation } from './animation';
@@ -1793,7 +1792,7 @@ export class Graph extends EventEmitter {
    * @apiCategory viewport
    */
   public getCanvasByViewport(point: Point): Point {
-    return parsePoint(this.context.canvas!.viewport2Canvas(toPointObject(point)));
+    return this.context.canvas.getCanvasByViewport(point);
   }
 
   /**
@@ -1805,7 +1804,7 @@ export class Graph extends EventEmitter {
    * @apiCategory viewport
    */
   public getViewportByCanvas(point: Point): Point {
-    return parsePoint(this.context.canvas.canvas2Viewport(toPointObject(point)));
+    return this.context.canvas.getViewportByCanvas(point);
   }
 
   /**
@@ -1817,8 +1816,7 @@ export class Graph extends EventEmitter {
    * @apiCategory viewport
    */
   public getClientByCanvas(point: Point): Point {
-    const viewportPoint = this.context.canvas.canvas2Viewport(toPointObject(point));
-    return parsePoint(this.context.canvas.viewport2Canvas(viewportPoint));
+    return this.context.canvas.getClientByCanvas(point);
   }
 
   /**
@@ -1830,8 +1828,7 @@ export class Graph extends EventEmitter {
    * @apiCategory viewport
    */
   public getCanvasByClient(point: Point): Point {
-    const viewportPoint = this.context.canvas.client2Viewport(toPointObject(point));
-    return parsePoint(this.context.canvas.viewport2Canvas(viewportPoint));
+    return this.context.canvas.getCanvasByClient(point);
   }
 
   /**

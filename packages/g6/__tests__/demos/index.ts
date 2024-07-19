@@ -19,6 +19,7 @@ export { behaviorLassoSelect } from './behavior-lasso-select';
 export { behaviorOptimizeViewportTransform } from './behavior-optimize-viewport-transform';
 export { behaviorScrollCanvas } from './behavior-scroll-canvas';
 export { behaviorZoomCanvas } from './behavior-zoom-canvas';
+export { canvasSwitchRenderer } from './canvas-switch-renderer';
 export { caseIndentedTree } from './case-indented-tree';
 export { caseOrgChart } from './case-org-chart';
 export { elementCombo } from './combo';
