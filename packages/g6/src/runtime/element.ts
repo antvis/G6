@@ -451,6 +451,9 @@ export class ElementController {
       },
       {
         before: () => {
+          // 通过 elementMap[id] 访问最新的 element，防止 type 不同导致的 element 丢失
+          // Access the latest element through elementMap[id] to prevent the loss of element caused by different types
+          const element = this.elementMap[id];
           if (stage !== 'collapse') updateStyle(element, style);
 
           if (stage === 'visibility') {
@@ -462,6 +465,7 @@ export class ElementController {
           }
         },
         after: () => {
+          const element = this.elementMap[id];
           if (stage === 'collapse') updateStyle(element, style);
           if (exactStage === 'hide') updateStyle(element, { visibility: getCachedStyle(element, 'visibility') });
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum), context);

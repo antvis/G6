@@ -6,6 +6,7 @@ import type { Node, Point } from '@/src/types';
 import { resetEntityCounter } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
+import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import { OffscreenCanvasContext } from './offscreen-canvas-context';
 
 function getRenderer(renderer: string) {
@@ -13,6 +14,7 @@ function getRenderer(renderer: string) {
     case 'svg':
       return new SVGRenderer();
     case 'webgl':
+      return new WebGLRenderer();
     case 'canvas':
       return new CanvasRenderer();
     default:

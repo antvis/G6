@@ -1,11 +1,12 @@
-import type { DisplayObject, CanvasConfig as GCanvasConfig, IChildNode } from '@antv/g';
+import type { Cursor, DisplayObject, CanvasConfig as GCanvasConfig, IChildNode } from '@antv/g';
 import { CanvasEvent, Canvas as GCanvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as DragNDropPlugin } from '@antv/g-plugin-dragndrop';
 import { createDOM } from '@antv/util';
 import type { CanvasOptions } from '../spec/canvas';
-import type { CanvasLayer } from '../types';
+import type { CanvasLayer, Point } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
+import { parsePoint, toPointObject } from '../utils/point';
 
 export interface CanvasConfig
   extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'cursor' | 'background'> {
@@ -40,7 +41,7 @@ export interface DataURLOptions {
 
 const layersName: CanvasLayer[] = ['background', 'main', 'label', 'transient'];
 
-export class Canvas extends GCanvas {
+export class Canvas {
   private extends: {
     config: CanvasConfig;
     renderer: CanvasOptions['renderer'];
@@ -48,7 +49,13 @@ export class Canvas extends GCanvas {
     layers: Record<CanvasLayer, GCanvas>;
   };
 
-  public getLayer(layer: CanvasLayer) {
+  private config: CanvasConfig;
+
+  public getConfig() {
+    return this.config;
+  }
+
+  public getLayer(layer: CanvasLayer = 'main') {
     return this.extends.layers[layer];
   }
 
@@ -73,17 +80,46 @@ export class Canvas extends GCanvas {
     return this.extends.renderers[layer];
   }
 
+  /**
+   * <zh/> 获取相机
+   *
+   * <en/> Get camera
+   * @param layer - <zh/> 图层 <en/> Layer
+   * @returns <zh/> 相机 <en/> Camera
+   */
+  public getCamera(layer: CanvasLayer = 'main') {
+    return this.getLayer(layer).getCamera();
+  }
+
+  public getRoot(layer: CanvasLayer = 'main') {
+    return this.getLayer(layer).getRoot();
+  }
+
+  public getContextService(layer: CanvasLayer = 'main') {
+    return this.getLayer(layer).getContextService();
+  }
+
+  public setCursor(cursor: Cursor): void {
+    this.config.cursor = cursor;
+    this.getLayer().setCursor(cursor);
+  }
+
+  public get document() {
+    return this.getLayer().document;
+  }
+
+  public get context() {
+    return this.getLayer().context;
+  }
+
   constructor(config: CanvasConfig) {
+    this.config = config;
+
     const { renderer, background, cursor, ...restConfig } = config;
     const renderers = createRenderers(renderer);
 
-    // init main canvas
-    super({ ...restConfig, supportsMutipleCanvasesInOneContainer: true, cursor, renderer: renderers.main });
-
     const layers = Object.fromEntries(
       layersName.map((layer) => {
-        if (layer === 'main') return [layer, this];
-
         const canvas = new GCanvas({
           ...restConfig,
           supportsMutipleCanvasesInOneContainer: true,
@@ -106,20 +142,12 @@ export class Canvas extends GCanvas {
   }
 
   public get ready() {
-    return Promise.all([
-      super.ready,
-      ...Object.entries(this.getLayers()).map(([layer, canvas]) =>
-        layer === 'main' ? Promise.resolve() : canvas.ready,
-      ),
-    ]);
+    return Promise.all(Object.entries(this.getLayers()).map(([, canvas]) => canvas.ready));
   }
 
   public resize(width: number, height: number) {
     Object.assign(this.extends.config, { width, height });
-    Object.values(this.getLayers()).forEach((canvas) => {
-      if (canvas === this) super.resize(width, height);
-      else canvas.resize(width, height);
-    });
+    Object.values(this.getLayers()).forEach((canvas) => canvas.resize(width, height));
   }
 
   public getBounds() {
@@ -142,19 +170,41 @@ export class Canvas extends GCanvas {
 
   public appendChild<T extends IChildNode>(child: T, index?: number): T {
     const layer = ((child as unknown as DisplayObject).style?.$layer || 'main') as CanvasLayer;
-    if (layer === 'main') return super.appendChild(child, index);
     return this.getLayer(layer).appendChild(child, index);
   }
 
-  public setRenderer(renderer: any) {
+  public setRenderer(renderer: CanvasOptions['renderer']) {
     if (renderer === this.extends.renderer) return;
     const renderers = createRenderers(renderer);
     this.extends.renderers = renderers;
+    Object.entries(renderers).forEach(([layer, instance]) => this.getLayer(layer as CanvasLayer).setRenderer(instance));
+    configCanvasDom(this.getLayers());
+  }
 
-    Object.entries(renderers).forEach(([layer, instance]) => {
-      if (layer === 'main') super.setRenderer(instance);
-      else this.getLayer(layer as CanvasLayer).setRenderer(instance);
-    });
+  public getCanvasByViewport(point: Point): Point {
+    return parsePoint(this.getLayer().viewport2Canvas(toPointObject(point)));
+  }
+
+  public getViewportByCanvas(point: Point): Point {
+    return parsePoint(this.getLayer().canvas2Viewport(toPointObject(point)));
+  }
+
+  public getViewportByClient(point: Point): Point {
+    return parsePoint(this.getLayer().client2Viewport(toPointObject(point)));
+  }
+
+  public getClientByViewport(point: Point): Point {
+    return parsePoint(this.getLayer().viewport2Client(toPointObject(point)));
+  }
+
+  public getClientByCanvas(point: Point): Point {
+    return this.getClientByViewport(this.getViewportByCanvas(point));
+  }
+
+  public getCanvasByClient(point: Point): Point {
+    const main = this.getLayer();
+    const viewportPoint = main.client2Viewport(toPointObject(point));
+    return parsePoint(main.viewport2Canvas(viewportPoint));
   }
 
   public async toDataURL(options: Partial<DataURLOptions> = {}) {
@@ -190,10 +240,10 @@ export class Canvas extends GCanvas {
     // Handle label canvas
     const label = this.getLayer('label').getRoot().cloneNode(true);
     const originCanvasPosition = offscreenCanvas.viewport2Canvas({ x: 0, y: 0 });
-    const currentCanvasPosition = this.viewport2Canvas({ x: 0, y: 0 });
+    const currentCanvasPosition = this.getCanvasByViewport([0, 0]);
     label.translate([
-      currentCanvasPosition.x - originCanvasPosition.x,
-      currentCanvasPosition.y - originCanvasPosition.y,
+      currentCanvasPosition[0] - originCanvasPosition.x,
+      currentCanvasPosition[1] - originCanvasPosition.y,
     ]);
     label.scale(1 / this.getCamera().getZoom());
     offscreenCanvas.appendChild(label);
@@ -226,12 +276,11 @@ export class Canvas extends GCanvas {
     });
   }
 
-  public destroy(cleanUp?: boolean, skipTriggerEvent?: boolean) {
+  public destroy() {
     Object.values(this.getLayers()).forEach((canvas) => {
       const camera = canvas.getCamera();
       camera.cancelLandmarkAnimation();
-      if (canvas === this) super.destroy(cleanUp, skipTriggerEvent);
-      else canvas.destroy(cleanUp, skipTriggerEvent);
+      canvas.destroy();
     });
   }
 }

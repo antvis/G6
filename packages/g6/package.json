@@ -71,6 +71,7 @@
   },
   "devDependencies": {
     "@antv/g-svg": "^2.0.8",
+    "@antv/g-webgl": "^2.0.11",
     "@antv/layout-gpu": "^1.1.6",
     "@antv/layout-wasm": "^1.4.1",
     "@types/hull.js": "^1.0.4",

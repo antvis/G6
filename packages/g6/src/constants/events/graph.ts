@@ -167,4 +167,16 @@ export enum GraphEvent {
    * <en/> After destruction
    */
   AFTER_DESTROY = 'afterdestroy',
+  /**
+   * <zh/> 渲染器变更之前
+   *
+   * <en/> Before the renderer changes
+   */
+  BEFORE_RENDERER_CHANGE = 'beforerendererchange',
+  /**
+   * <zh/> 渲染器变更之后
+   *
+   * <en/> After the renderer changes
+   */
+  AFTER_RENDERER_CHANGE = 'afterrendererchange',
 }

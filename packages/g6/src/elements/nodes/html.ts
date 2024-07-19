@@ -215,7 +215,7 @@ export class HTML extends BaseNode<HTMLStyleProps> {
     const { x, y } = this.getViewportXY(normalizedEvent);
     event.viewport.x = x;
     event.viewport.y = y;
-    const { x: canvasX, y: canvasY } = this.attributes.context!.canvas.viewport2Canvas(event.viewport);
+    const [canvasX, canvasY] = this.context.canvas.getCanvasByViewport([x, y]);
     event.canvas.x = canvasX;
     event.canvas.y = canvasY;
     event.global.copyFrom(event.canvas);
