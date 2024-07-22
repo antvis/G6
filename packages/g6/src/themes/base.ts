@@ -86,6 +86,8 @@ export function create(tokens: ThemeTokens): Theme {
     node: {
       palette: nodePaletteOptions,
       style: {
+        donutOpacity: 1,
+        badgeBackgroundOpacity: 1,
         badgeFill: '#fff',
         badgeFontSize: 8,
         badgePadding: [0, 4],
