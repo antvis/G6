@@ -155,7 +155,14 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
   };
 
   private validate(event: IPointerEvent) {
-    if (this.destroyed || this.isFrozen) return false;
+    if (
+      this.destroyed ||
+      this.isFrozen ||
+      // @ts-expect-error private property
+      // 避免动画冲突，在combo折叠展开过程中不触发悬停事件 | To prevent animation conflicts, hover events are disabled during combo expand/collapse actions
+      this.context.graph.isCollapsingExpanding
+    )
+      return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
