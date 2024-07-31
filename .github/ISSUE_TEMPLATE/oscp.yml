@@ -1,5 +1,5 @@
 name: 'AntV OSCP 计划 / AntV OSCP Plan'
-description: AntV 开源共建计划 / AntV Open Source Contribution Plan (简称 AntV OSCP)
+description: AntV 开源共建计划(仅供管理员使用) / AntV Open Source Contribution Plan(For administrators only)
 body:
   - type: checkboxes
     id: AntV_OSCP_program
