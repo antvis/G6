@@ -183,4 +183,42 @@ describe('event', () => {
     expect(beforeRendererChange).toHaveBeenCalledTimes(1);
     expect(afterRendererChange).toHaveBeenCalledTimes(1);
   });
+
+  it('draw event', async () => {
+    const graph = createGraph({
+      data: {
+        nodes: [{ id: 'node-1' }, { id: 'node-2' }],
+        edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2' }],
+      },
+    });
+
+    const beforeDraw = jest.fn();
+    const afterDraw = jest.fn();
+
+    graph.on(GraphEvent.BEFORE_DRAW, (event: any) => {
+      beforeDraw(event.data.render);
+    });
+    graph.on(GraphEvent.AFTER_DRAW, (event: any) => {
+      afterDraw(event.data.render);
+    });
+
+    await graph.render();
+
+    expect(beforeDraw).toHaveBeenCalledTimes(1);
+    expect(beforeDraw.mock.calls[0][0]).toBe(true);
+    expect(afterDraw).toHaveBeenCalledTimes(1);
+    expect(afterDraw.mock.calls[0][0]).toBe(true);
+
+    beforeDraw.mockClear();
+    afterDraw.mockClear();
+
+    graph.addNodeData([{ id: 'node-3' }]);
+
+    await graph.draw();
+
+    expect(beforeDraw).toHaveBeenCalledTimes(1);
+    expect(beforeDraw.mock.calls[0][0]).toBe(false);
+    expect(afterDraw).toHaveBeenCalledTimes(1);
+    expect(afterDraw.mock.calls[0][0]).toBe(false);
+  });
 });

@@ -1078,7 +1078,7 @@ export class Graph extends EventEmitter {
   public async render(): Promise<void> {
     await this.prepare();
     emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_RENDER));
-    const animation = this.context.element!.draw();
+    const animation = this.context.element!.draw({ type: 'render' });
     await Promise.all([animation?.finished, this.context.layout!.layout()]);
     await this.autoFit();
     emit(this, new GraphLifeCycleEvent(GraphEvent.AFTER_RENDER));
