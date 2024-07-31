@@ -64,6 +64,7 @@ import {
   History,
   Hull,
   Legend,
+  Minimap,
   Timebar,
   Toolbar,
   Tooltip,
@@ -178,6 +179,7 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     toolbar: Toolbar,
     tooltip: Tooltip,
     watermark: Watermark,
+    minimap: Minimap,
   },
   transform: {
     'update-related-edges': UpdateRelatedEdge,
