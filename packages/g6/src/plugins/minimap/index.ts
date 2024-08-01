@@ -1,4 +1,4 @@
-import { Canvas, DisplayObject } from '@antv/g';
+import { Canvas, DisplayObject, IRenderer } from '@antv/g';
 import { Renderer } from '@antv/g-canvas';
 import { throttle } from '@antv/util';
 import { GraphEvent } from '../../constants';
@@ -88,6 +88,12 @@ export interface MinimapOptions extends BasePluginOptions {
    * <en/> The style of the mask
    */
   maskStyle?: Partial<CSSStyleDeclaration>;
+  /**
+   * <zh/> 渲染器，默认使用 Canvas 渲染器
+   *
+   * <en/> Renderer, default to use Canvas renderer
+   */
+  renderer?: IRenderer;
 }
 
 export class Minimap extends BasePlugin<MinimapOptions> {
@@ -97,11 +103,11 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     padding: 10,
     position: 'right-bottom',
     maskStyle: {
-      // border: '1px solid #1890ff',
+      border: '1px solid #ddd',
       background: 'rgba(0, 0, 0, 0.1)',
     },
     containerStyle: {
-      // border: '1px solid #1890ff',
+      border: '1px solid #ddd',
       background: '#fff',
     },
   };
@@ -275,11 +281,13 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
   private initCanvas() {
     const {
+      renderer,
       size: [width, height],
     } = this.options;
 
     if (this.canvas) {
       this.canvas.resize(width, height);
+      if (renderer) this.canvas.setRenderer(renderer);
     } else {
       const dom = document.createElement('div');
 
@@ -291,7 +299,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
         width,
         height,
         container: dom,
-        renderer: new Renderer(),
+        renderer: renderer || new Renderer(),
       });
     }
 
@@ -329,7 +337,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
   private mask: HTMLElement | null = null;
 
-  private get maskBBox(): DOMRect {
+  private get maskBBox(): [number, number, number, number] {
     const { canvas: graphCanvas } = this.context;
     const canvasSize = graphCanvas.getSize();
     const canvasMin = graphCanvas.getCanvasByViewport([0, 0]);
@@ -348,7 +356,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const x = maskMin.x - width * ratio;
     const y = maskMin.y - height * ratio;
 
-    return new DOMRect(x, y, width, height);
+    return [x, y, width, height];
   }
 
   /**
@@ -357,12 +365,12 @@ export class Minimap extends BasePlugin<MinimapOptions> {
    * <en/> Calculate the bounding box of the mask
    * @returns <zh/> 遮罩包围盒 | <en/> Mask bounding box
    */
-  private calculateMaskBBox(): DOMRect {
+  private calculateMaskBBox(): [number, number, number, number] {
     const {
       size: [minimapWidth, minimapHeight],
     } = this.options;
 
-    let { x, y, width, height } = this.maskBBox;
+    let [x, y, width, height] = this.maskBBox;
 
     // clamp x, y, width, height
     if (x < 0) (width = upper(width + x, minimapWidth)), (x = 0);
@@ -370,7 +378,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     if (x + width > minimapWidth) width = lower(minimapWidth - x, 0);
     if (y + height > minimapHeight) height = lower(minimapHeight - y, 0);
 
-    return new DOMRect(upper(x, minimapWidth), upper(y, minimapHeight), lower(width, 0), lower(height, 0));
+    return [upper(x, minimapWidth), upper(y, minimapHeight), lower(width, 0), lower(height, 0)];
   }
 
   /**
@@ -417,7 +425,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const { movementX, movementY } = event;
 
     const { left, top, width: w, height: h } = this.mask.style;
-    const { width: fullWidth, height: fullHeight } = this.maskBBox;
+    const [, , fullWidth, fullHeight] = this.maskBBox;
 
     let x = parseInt(left) + movementX;
     let y = parseInt(top) + movementY;
@@ -483,7 +491,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
   private updateMask() {
     if (!this.mask) return;
-    const { x, y, width, height } = this.calculateMaskBBox();
+    const [x, y, width, height] = this.calculateMaskBBox();
 
     Object.assign(this.mask.style, {
       top: y + 'px',
