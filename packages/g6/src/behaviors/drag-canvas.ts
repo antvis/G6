@@ -174,6 +174,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
   public destroy(): void {
     this.shortcut.destroy();
+    this.unbindEvents();
     this.context.canvas.setCursor(this.defaultCursor);
     super.destroy();
   }
