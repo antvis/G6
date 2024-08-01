@@ -77,6 +77,12 @@ export interface MinimapOptions extends BasePluginOptions {
    */
   container?: HTMLElement | string;
   /**
+   * <zh/> 缩略图的容器样式，传入外置容器时不生效
+   *
+   * <en/> The style of the minimap container, which does not take effect when an external container is passed in
+   */
+  containerStyle?: Partial<CSSStyleDeclaration>;
+  /**
    * <zh/> 遮罩的样式
    *
    * <en/> The style of the mask
@@ -91,8 +97,12 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     padding: 10,
     position: 'right-bottom',
     maskStyle: {
+      // border: '1px solid #1890ff',
       background: 'rgba(0, 0, 0, 0.1)',
-      border: '1px solid #1890ff',
+    },
+    containerStyle: {
+      // border: '1px solid #1890ff',
+      background: '#fff',
     },
   };
 
@@ -240,6 +250,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       container,
       className,
       size: [width, height],
+      containerStyle,
     } = this.options;
     if (container) {
       return typeof container === 'string' ? document.querySelector(container)! : container;
@@ -256,8 +267,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       top: y + 'px',
       width: width + 'px',
       height: height + 'px',
-      border: '1px solid #1890ff',
-      background: '#fff',
+      ...containerStyle,
     });
 
     return this.context.canvas.getContainer()!.appendChild($container);
@@ -332,9 +342,13 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const height = maskMax.y - maskMin.y;
 
     const zoom = this.context.canvas.getCamera().getZoom();
-    const ratio = zoom * 0.5;
 
-    return new DOMRect(maskMin.x - width * ratio, maskMin.y - height * ratio, width, height);
+    // magic number
+    const ratio = zoom * 0.5;
+    const x = maskMin.x - width * ratio;
+    const y = maskMin.y - height * ratio;
+
+    return new DOMRect(x, y, width, height);
   }
 
   /**
