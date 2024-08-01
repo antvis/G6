@@ -1,5 +1,5 @@
-import { CanvasEvent, CommonEvent, NodeEvent } from '@/src';
-import { createGraph } from '@@/utils';
+import { CommonEvent, NodeEvent } from '@/src';
+import { createGraph, dispatchCanvasEvent } from '@@/utils';
 
 describe('focus element', () => {
   it('focus after drag', async () => {
@@ -17,9 +17,9 @@ describe('focus element', () => {
 
     await graph.draw();
 
-    graph.emit(CanvasEvent.DRAG_START, { targetType: 'canvas' });
-    graph.emit(CanvasEvent.DRAG, { movement: { x: 100, y: 100 }, targetType: 'canvas' });
-    graph.emit(CanvasEvent.DRAG_END);
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { movement: { x: 100, y: 100 }, targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
 
     await expect(graph).toMatchSnapshot(__filename, 'focus-before-drag');
 

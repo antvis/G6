@@ -1,7 +1,7 @@
 import { behaviorDragCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
-import { CanvasEvent, CommonEvent } from '@/src';
-import { createDemoGraph, sleep } from '@@/utils';
+import { CommonEvent } from '@/src';
+import { createDemoGraph, dispatchCanvasEvent, sleep } from '@@/utils';
 
 describe('behavior drag canvas', () => {
   let graph: Graph;
@@ -61,9 +61,11 @@ describe('behavior drag canvas', () => {
 
   it('drag', () => {
     const [x, y] = graph.getPosition();
-    graph.emit(CanvasEvent.DRAG_START, { targetType: 'canvas' });
-    graph.emit(CanvasEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
-    graph.emit(CanvasEvent.DRAG_END);
+
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
+
     expect(graph.getPosition()).toBeCloseTo([x + 10, y + 10]);
   });
 
@@ -105,9 +107,10 @@ describe('behavior drag canvas', () => {
     const onFinish = jest.fn();
     graph.updateBehavior({ key: 'drag-canvas', trigger: 'drag', onFinish });
 
-    graph.emit(CanvasEvent.DRAG_START, { targetType: 'canvas' });
-    graph.emit(CanvasEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
-    graph.emit(CanvasEvent.DRAG_END);
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
+
     expect(onFinish).toHaveBeenCalledTimes(1);
   });
 });
