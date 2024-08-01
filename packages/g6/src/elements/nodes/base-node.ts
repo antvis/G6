@@ -1,6 +1,7 @@
 import type { BaseStyleProps, CircleStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { Circle as GCircle } from '@antv/g';
 import type { CategoricalPalette } from '../../palettes/types';
+import type { RuntimeContext } from '../../runtime/types';
 import type { NodeData } from '../../spec';
 import type {
   BaseElementStyleProps,
@@ -24,6 +25,7 @@ import { omitStyleProps, subObject, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { mergeOptions } from '../../utils/style';
 import { getWordWrapWidthByBox } from '../../utils/text';
+import { setVisibility } from '../../utils/visibility';
 import { BaseElement } from '../base-element';
 import { effect } from '../effect';
 import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
@@ -328,8 +330,8 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
 
   protected getPortXY(attributes: Required<S>, style: NodePortStyleProps): Point {
     const { placement = 'left' } = style;
-    const bounds = this.getShape('key').getLocalBounds();
-    return getPortXYByPlacement(bounds, placement as PortPlacement);
+    const keyShape = this.getShape('key');
+    return getPortXYByPlacement(getBoundsInOffscreen(this.context, keyShape), placement as PortPlacement);
   }
 
   /**
@@ -385,6 +387,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   @effect((self, attributes) => self.getPortsStyle(attributes))
   protected drawPortShapes(attributes: Required<S>, container: Group): void {
     const portsStyle = this.getPortsStyle(attributes);
+
     Object.keys(portsStyle).forEach((key) => {
       this.upsert(`port-${key}`, GCircle, portsStyle[key] as CircleStyleProps, container);
     });
@@ -428,4 +431,26 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     this.drawBadgeShapes(this.parsedAttributes, this);
     this.drawLabelShape(this.parsedAttributes, this);
   }
+}
+
+/**
+ *
+ * @param context
+ * @param shape
+ */
+function getBoundsInOffscreen(context: RuntimeContext, shape: DisplayObject) {
+  if (!context) return shape.getLocalBounds();
+
+  // 将主图形靠背至全局空间，避免受到父级 transform 的影响
+  // 合理的操作应该是靠背至离屏画布，但目前 G 有点问题
+  // Move the main graphic to the global space to avoid being affected by the parent transform
+  // The reasonable operation should be moved to the off-screen canvas, but there is a problem with G at present
+  const canvas = context.canvas.getLayer();
+  const substitute = shape.cloneNode();
+  setVisibility(substitute, 'hidden');
+  canvas.appendChild(substitute);
+  const bounds = substitute.getLocalBounds();
+  canvas.removeChild(substitute);
+
+  return bounds;
 }
