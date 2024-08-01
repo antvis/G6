@@ -33,7 +33,7 @@ jobs:
 
       - name: Run Playwright tests
         run: |
-          pnpm exec playwright install --with-deps
+          pnpm exec playwright install chromium
           pnpm exec playwright test
 
       - name: Upload blob report to GitHub Actions Artifacts
