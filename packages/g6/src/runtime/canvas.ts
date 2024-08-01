@@ -147,7 +147,16 @@ export class Canvas {
 
   public resize(width: number, height: number) {
     Object.assign(this.extends.config, { width, height });
-    Object.values(this.getLayers()).forEach((canvas) => canvas.resize(width, height));
+    Object.values(this.getLayers()).forEach((canvas) => {
+      const camera = canvas.getCamera();
+      const position = camera.getPosition();
+      const focalPoint = camera.getFocalPoint();
+
+      canvas.resize(width, height);
+
+      camera.setPosition(position);
+      camera.setFocalPoint(focalPoint);
+    });
   }
 
   public getBounds() {
