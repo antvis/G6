@@ -1,4 +1,4 @@
-import { clamp, isArray, isFunction, isObject } from '@antv/util';
+import { clamp, isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { IKeyboardEvent, IWheelEvent, Point, PointObject, ViewportAnimationEffectTiming } from '../types';
@@ -98,15 +98,15 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     const { trigger } = this.options;
     this.shortcut.unbindAll();
 
-    if (isArray(trigger)) {
-      this.preventDefault(CommonEvent.WHEEL);
+    if (Array.isArray(trigger)) {
+      this.context.canvas.getContainer()?.addEventListener(CommonEvent.WHEEL, this.preventDefault);
       this.shortcut.bind([...trigger, CommonEvent.WHEEL], (event) => {
         const { deltaX, deltaY } = event;
         this.zoom(-(deltaY ?? deltaX), event, false);
       });
     }
 
-    if (isObject(trigger)) {
+    if (typeof trigger === 'object') {
       const {
         zoomIn = [],
         zoomOut = [],
@@ -170,12 +170,9 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     return !!enable;
   }
 
-  private preventDefault(eventName: string) {
-    const listener = (e: Event) => e.preventDefault();
-    const container = this.context.canvas.getContainer();
-    if (!container) return;
-    container.addEventListener(eventName, listener);
-  }
+  private preventDefault = (event: Event) => {
+    event.preventDefault();
+  };
 
   /**
    * <zh/> 销毁缩放画布
@@ -184,6 +181,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    */
   public destroy() {
     this.shortcut.destroy();
+    this.context.canvas.getContainer()?.removeEventListener(CommonEvent.WHEEL, this.preventDefault);
     super.destroy();
   }
 }
