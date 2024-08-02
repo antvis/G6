@@ -21,7 +21,7 @@ module.exports = {
     '^.+\\.svg$': ['<rootDir>/__tests__/utils/svg-transformer.js'],
   },
   collectCoverageFrom: ['src/**/*.ts'],
-  coveragePathIgnorePatterns: ['<rootDir>/src/elements/nodes/html.ts'],
+  coveragePathIgnorePatterns: ['<rootDir>/src/elements/nodes/html.ts', '<rootDir>/src/plugins/minimap'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   collectCoverage: true,
   testRegex: '(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$',

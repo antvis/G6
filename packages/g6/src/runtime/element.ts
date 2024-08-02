@@ -285,18 +285,28 @@ export class ElementController {
 
     const { animation, silence } = context;
 
+    const { type = 'draw' } = context;
+    const willRender = type === 'render';
+
     return this.context.animation!.animate(
       animation,
       silence
         ? {}
         : {
             before: () =>
-              this.emit(new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation }), context),
+              this.emit(
+                new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation, render: willRender }),
+                context,
+              ),
             beforeAnimate: (animation) =>
               this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.DRAW, animation, drawData), context),
             afterAnimate: (animation) =>
               this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData), context),
-            after: () => this.emit(new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation }), context),
+            after: () =>
+              this.emit(
+                new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation, render: willRender }),
+                context,
+              ),
           },
     );
   }
@@ -793,11 +803,13 @@ export class ElementController {
 
 export interface DrawContext {
   /** <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true */
-  animation: boolean;
+  animation?: boolean;
   /** <zh/> 当前绘制阶段 | <en/> Current draw stage */
   stage?: AnimationStage;
   /** <zh/> 是否不抛出事件 | <en/> Whether not to dispatch events */
   silence?: boolean;
   /** <zh/> 收起/展开的对象 ID | <en/> ID of the object to collapse/expand */
   collapseExpandTarget?: ID;
+  /** <zh/> 绘制类型 | <en/> Draw type */
+  type?: 'render' | 'draw';
 }

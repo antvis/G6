@@ -31,13 +31,19 @@ jobs:
         run: |
           npm run ci
 
+      - name: Run Playwright tests
+        run: |
+          pnpm exec playwright install chromium
+          pnpm exec playwright test
+
       - name: Upload blob report to GitHub Actions Artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: snapshots
+          name: report
           path: |
             packages/g6/__tests__/snapshots/**/*-actual.svg
+            playwright-report/
           retention-days: 1
 
       - name: Coveralls GitHub Action
