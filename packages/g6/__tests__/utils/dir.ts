@@ -10,7 +10,11 @@ import path from 'path';
  */
 export function getSnapshotDir(dir: string, detail: string = 'default'): [string, string] {
   const root = process.cwd();
-  const subDir = dir.replace(root, '').replace('__tests__/unit/', '').replace('.spec.ts', '');
+  const subDir = dir
+    .replace(root, '')
+    .replace('__tests__/unit/', '')
+    .replace('__tests__/bugs/', 'bugs/')
+    .replace('.spec.ts', '');
   const outputDir = path.join(root, '__tests__', 'snapshots', subDir);
   return [outputDir, detail];
 }
