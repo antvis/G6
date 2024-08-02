@@ -50,7 +50,7 @@
     "styled-components": "^6.1.11"
   },
   "peerDependencies": {
-    "@antv/g6": "^5.0.10",
+    "@antv/g6": "^5.0.11",
     "react": ">=16.8",
     "react-dom": ">=16.8"
   },
