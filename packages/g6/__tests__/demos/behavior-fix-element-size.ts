@@ -1,4 +1,4 @@
-import { Graph, GraphData } from '@/src';
+import { Graph, GraphData } from '@antv/g6';
 
 const data: GraphData = {
   nodes: [

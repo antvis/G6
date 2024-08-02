@@ -1,4 +1,4 @@
-import { Graph, treeToGraphData } from '@/src';
+import { Graph, treeToGraphData } from '@antv/g6';
 
 export const behaviorExpandCollapseNode: TestCase = async (context) => {
   const graph = new Graph({

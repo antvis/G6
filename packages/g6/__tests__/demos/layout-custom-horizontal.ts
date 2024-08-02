@@ -1,6 +1,6 @@
-import { BaseLayout, ExtensionCategory, Graph, idOf, register } from '@/src';
+import { BaseLayout, ExtensionCategory, Graph, idOf, register } from '@antv/g6';
 
-import type { BaseLayoutOptions, GraphData, NodeData } from '@/src';
+import type { BaseLayoutOptions, GraphData, NodeData } from '@antv/g6';
 
 interface CustomLayoutOptions extends BaseLayoutOptions {
   gap?: number;

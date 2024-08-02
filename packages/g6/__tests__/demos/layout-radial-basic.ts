@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import data from '@@/dataset/radial.json';
+import { Graph } from '@antv/g6';
 
 export const layoutRadialBasic: TestCase = async (context) => {
   const graph = new Graph({

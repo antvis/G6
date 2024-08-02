@@ -1,5 +1,5 @@
-import type { GraphData, Timebar } from '@/src';
-import { Graph } from '@/src';
+import type { GraphData, Timebar } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const formatId = (index: number) => `0${index}`.slice(-2);
 const formatTime = (time: number) => {

@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import { idOf } from '@/src/utils/id';
+import { Graph } from '@antv/g6';
 
 export const elementEdgeArrow: TestCase = async (context) => {
   const edgeIds = [

@@ -1,5 +1,5 @@
-import { Fullscreen, Graph } from '@/src';
 import data from '@@/dataset/cluster.json';
+import { Fullscreen, Graph } from '@antv/g6';
 
 export const pluginFullscreen: TestCase = async (context) => {
   const graph = new Graph({

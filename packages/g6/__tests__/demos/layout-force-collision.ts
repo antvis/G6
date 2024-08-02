@@ -1,7 +1,7 @@
 // ref: https://observablehq.com/@d3/collision-detection
-import type { IPointerEvent, RuntimeContext } from '@/src';
-import { BaseBehavior, ExtensionCategory, Graph, register } from '@/src';
 import { invokeLayoutMethod } from '@/src/utils/layout';
+import type { IPointerEvent, RuntimeContext } from '@antv/g6';
+import { BaseBehavior, ExtensionCategory, Graph, register } from '@antv/g6';
 
 export const layoutForceCollision: TestCase = async (context) => {
   const width = 500;

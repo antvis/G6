@@ -1,5 +1,5 @@
-import { CameraSetting, ExtensionCategory, Graph, register } from '@/src';
 import data from '@@/dataset/cluster.json';
+import { CameraSetting, ExtensionCategory, Graph, register } from '@antv/g6';
 
 export const pluginCameraSetting: TestCase = async (context) => {
   register(ExtensionCategory.PLUGIN, 'camera-setting', CameraSetting);

@@ -1,5 +1,5 @@
-import { Graph, treeToGraphData } from '@/src';
 import data from '@@/dataset/algorithm-category.json';
+import { Graph, treeToGraphData } from '@antv/g6';
 
 export const layoutDendrogramBasic: TestCase = async (context) => {
   const graph = new Graph({

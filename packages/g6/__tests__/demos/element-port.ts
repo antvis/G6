@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import { idOf } from '@/src/utils/id';
+import { Graph } from '@antv/g6';
 
 export const elementPort: TestCase = async (context) => {
   const graph = new Graph({

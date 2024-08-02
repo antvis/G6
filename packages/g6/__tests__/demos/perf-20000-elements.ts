@@ -1,5 +1,5 @@
-import type { GraphOptions } from '@/src';
-import { Graph } from '@/src';
+import type { GraphOptions } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 export const perf20000Elements: TestCase = async (context) => {
   const data = await fetch('https://assets.antv.antgroup.com/g6/20000.json').then((res) => res.json());

@@ -1,4 +1,4 @@
-import { Graph } from '@/src';
+import { Graph } from '@antv/g6';
 
 export const elementEdgePort: TestCase = async (context) => {
   const nodes: Record<string, any> = {

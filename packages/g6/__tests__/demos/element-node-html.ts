@@ -1,5 +1,5 @@
-import type { NodeData } from '@/src';
-import { Graph } from '@/src';
+import type { NodeData } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 export const elementNodeHTML: TestCase = async (context) => {
   const data = {

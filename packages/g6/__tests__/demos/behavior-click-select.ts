@@ -1,6 +1,6 @@
-import { Graph } from '@/src';
 import type { ClickSelectOptions } from '@/src/behaviors';
 import data from '@@/dataset/cluster.json';
+import { Graph } from '@antv/g6';
 
 export const behaviorClickSelect: TestCase = async (context) => {
   const graph = new Graph({

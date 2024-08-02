@@ -1,5 +1,5 @@
-import type { GraphOptions } from '@/src';
-import { Graph } from '@/src';
+import type { GraphOptions } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 export const animationElementPosition: TestCase = async (context) => {
   const options: GraphOptions = {

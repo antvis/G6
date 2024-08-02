@@ -1,5 +1,5 @@
-import type { EdgeData } from '@/src';
-import { Graph } from '@/src';
+import type { EdgeData } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const urls: Record<string, string> = {
   container: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ldqFQLTPIwwAAAAAAAAAAAAADmJ7AQ/original',

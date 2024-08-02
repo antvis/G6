@@ -1,7 +1,7 @@
-import type { BaseBehaviorOptions, IViewportEvent, LabelStyleProps, RectStyleProps, RuntimeContext } from '@/src';
-import { Badge, BaseBehavior, ExtensionCategory, Graph, GraphEvent, Label, Rect, register } from '@/src';
 import data from '@@/dataset/organization-chart.json';
 import type { RectStyleProps as GRectStyleProps, Group } from '@antv/g';
+import type { BaseBehaviorOptions, IViewportEvent, LabelStyleProps, RectStyleProps, RuntimeContext } from '@antv/g6';
+import { Badge, BaseBehavior, ExtensionCategory, Graph, GraphEvent, Label, Rect, register } from '@antv/g6';
 enum ZoomLevel {
   OVERVIEW = 'overview',
   DETAILED = 'detailed',

@@ -1,4 +1,4 @@
-import { Graph, type GraphOptions } from '@/src';
+import { Graph, type GraphOptions } from '@antv/g6';
 
 export const animationElementStylePosition: TestCase = async (context) => {
   const options: GraphOptions = {

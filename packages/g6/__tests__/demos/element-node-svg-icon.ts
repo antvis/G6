@@ -1,6 +1,6 @@
-import { Graph } from '@/src';
 import comment from '@@/assets/comment.svg';
 import user from '@@/assets/user.svg';
+import { Graph } from '@antv/g6';
 
 export const elementNodeSVGIcon: TestCase = async (context) => {
   const graph = new Graph({

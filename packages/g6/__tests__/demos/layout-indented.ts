@@ -1,6 +1,6 @@
-import type { GraphOptions } from '@/src';
-import { Graph, treeToGraphData } from '@/src';
 import tree from '@@/dataset/file-system.json';
+import type { GraphOptions } from '@antv/g6';
+import { Graph, treeToGraphData } from '@antv/g6';
 
 export const layoutIndented: TestCase = async (context) => {
   const options: GraphOptions = {

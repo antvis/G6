@@ -1,6 +1,6 @@
-import type { NodeData } from '@/src';
-import { Graph, treeToGraphData } from '@/src';
 import data from '@@/dataset/algorithm-category.json';
+import type { NodeData } from '@antv/g6';
+import { Graph, treeToGraphData } from '@antv/g6';
 
 export const layoutCompactBoxLeftAlign: TestCase = async (context) => {
   const graph = new Graph({

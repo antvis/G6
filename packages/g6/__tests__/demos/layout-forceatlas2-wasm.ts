@@ -1,6 +1,6 @@
-import type { GraphOptions } from '@/src';
-import { Graph, register } from '@/src';
 import data from '@@/dataset/soccer.json';
+import type { GraphOptions } from '@antv/g6';
+import { Graph, register } from '@antv/g6';
 
 export const layoutForceatlas2WASM: TestCase = async (context) => {
   const { ForceAtlas2Layout, initThreads, supportsThreads } = await import('@antv/layout-wasm');

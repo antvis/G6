@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import data from '@@/dataset/relations.json';
+import { Graph } from '@antv/g6';
 
 export const layoutFruchtermanFix: TestCase = async (context) => {
   const graph = new Graph({
