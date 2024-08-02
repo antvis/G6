@@ -1,7 +1,7 @@
 import { behaviorDragCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
-import { CanvasEvent, CommonEvent } from '@/src';
-import { createDemoGraph, sleep } from '@@/utils';
+import { CommonEvent } from '@/src';
+import { createDemoGraph, createGraph, dispatchCanvasEvent, sleep } from '@@/utils';
 
 describe('behavior drag canvas', () => {
   let graph: Graph;
@@ -61,9 +61,11 @@ describe('behavior drag canvas', () => {
 
   it('drag', () => {
     const [x, y] = graph.getPosition();
-    graph.emit(CanvasEvent.DRAG_START, { targetType: 'canvas' });
-    graph.emit(CanvasEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
-    graph.emit(CanvasEvent.DRAG_END);
+
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
+
     expect(graph.getPosition()).toBeCloseTo([x + 10, y + 10]);
   });
 
@@ -105,9 +107,34 @@ describe('behavior drag canvas', () => {
     const onFinish = jest.fn();
     graph.updateBehavior({ key: 'drag-canvas', trigger: 'drag', onFinish });
 
-    graph.emit(CanvasEvent.DRAG_START, { targetType: 'canvas' });
-    graph.emit(CanvasEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
-    graph.emit(CanvasEvent.DRAG_END);
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
+
     expect(onFinish).toHaveBeenCalledTimes(1);
+  });
+
+  it('trigger on element', async () => {
+    const graph = createGraph({
+      data: {
+        nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
+      },
+      node: {
+        style: {
+          size: 20,
+        },
+      },
+      behaviors: [{ type: 'drag-canvas', enable: true }],
+    });
+
+    await graph.draw();
+
+    await expect(graph).toMatchSnapshot(__filename, 'drag-on-element-default');
+
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'node' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { movement: { x: -50, y: -50 }, targetType: 'node' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
+
+    await expect(graph).toMatchSnapshot(__filename, 'drag-on-element');
   });
 });
