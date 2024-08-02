@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.11
+
+### Patch Changes
+
+- publish
+
 ## 5.0.10
 
 ### Patch Changes
