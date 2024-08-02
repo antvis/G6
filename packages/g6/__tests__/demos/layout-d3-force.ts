@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import data from '@@/dataset/force.json';
+import { Graph } from '@antv/g6';
 
 export const layoutD3Force: TestCase = async (context) => {
   const graph = new Graph({

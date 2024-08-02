@@ -1,6 +1,6 @@
-import { behaviorClickSelect } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { CanvasEvent, NodeEvent } from '@/src';
+import { behaviorClickSelect } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior click-select element', () => {

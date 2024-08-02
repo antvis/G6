@@ -1,4 +1,4 @@
-import { elementEdgeCustomArrow } from '@/__tests__/demos';
+import { elementEdgeCustomArrow } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element edge custom arrow', () => {

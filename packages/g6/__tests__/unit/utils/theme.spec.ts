@@ -1,4 +1,4 @@
-import { register } from '@/src/registry';
+import { register } from '@/src/registry/register';
 import { themeOf } from '@/src/utils/theme';
 
 describe('theme', () => {

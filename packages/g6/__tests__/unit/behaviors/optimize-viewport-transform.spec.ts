@@ -1,5 +1,5 @@
-import { behaviorOptimizeViewportTransform } from '@/__tests__/demos';
 import { GraphEvent, type Graph } from '@/src';
+import { behaviorOptimizeViewportTransform } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior optimize canvas', () => {

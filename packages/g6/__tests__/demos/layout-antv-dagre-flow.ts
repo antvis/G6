@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import data from '@@/dataset/dagre.json';
+import { Graph } from '@antv/g6';
 
 export const layoutAntVDagreFlow: TestCase = async (context) => {
   const graph = new Graph({

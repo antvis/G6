@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import { Renderer } from '@antv/g-svg';
+import { Graph } from '@antv/g6';
 
 export const pluginMinimap: TestCase = async (context) => {
   const graph = new Graph({

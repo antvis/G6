@@ -1,5 +1,5 @@
-import type { FixShapeConfig } from '@/src';
-import { Graph } from '@/src';
+import type { FixShapeConfig } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const mockText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit';
 

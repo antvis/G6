@@ -1,4 +1,4 @@
-import { Circle, ExtensionCategory, Graph, Line, register } from '@/src';
+import { Circle, ExtensionCategory, Graph, Line, register } from '@antv/g6';
 
 export const animationElementState: TestCase = async (context) => {
   class BreathingCircle extends Circle {

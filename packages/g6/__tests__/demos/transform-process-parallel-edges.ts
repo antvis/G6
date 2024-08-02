@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import data from '@@/dataset/parallel-edges.json';
+import { Graph } from '@antv/g6';
 
 export const transformProcessParallelEdges: TestCase = async (context) => {
   const graph = new Graph({

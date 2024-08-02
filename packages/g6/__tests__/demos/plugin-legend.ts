@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import data from '@@/dataset/cluster.json';
+import { Graph } from '@antv/g6';
 
 export const pluginLegend: TestCase = async (context) => {
   const { nodes, edges } = data;

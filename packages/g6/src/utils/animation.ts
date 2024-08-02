@@ -2,7 +2,7 @@ import type { IAnimation } from '@antv/g';
 import { isEqual, isNil, isObject } from '@antv/util';
 import type { AnimationEffectTiming, AnimationOptions, STDAnimation } from '../animations/types';
 import { DEFAULT_ANIMATION_OPTIONS, DEFAULT_ELEMENTS_ANIMATION_OPTIONS, ExtensionCategory } from '../constants';
-import { getExtension } from '../registry';
+import { getExtension } from '../registry/get';
 import type { GraphOptions } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { ElementType, Keyframe } from '../types';

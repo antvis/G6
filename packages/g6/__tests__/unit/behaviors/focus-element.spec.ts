@@ -1,6 +1,6 @@
-import { behaviorFocusElement } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { ComboEvent, NodeEvent } from '@/src';
+import { behaviorFocusElement } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior focus element', () => {

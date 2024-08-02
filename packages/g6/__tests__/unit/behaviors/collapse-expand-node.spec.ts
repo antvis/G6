@@ -1,6 +1,6 @@
-import { behaviorExpandCollapseNode } from '@/__tests__/demos/behavior-expand-collapse-node';
 import type { Graph } from '@/src';
 import { NodeEvent } from '@/src';
+import { behaviorExpandCollapseNode } from '@@/demos/behavior-expand-collapse-node';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior node expand collapse', () => {

@@ -4,7 +4,7 @@ import {
   layoutRadialPreventOverlap,
   layoutRadialPreventOverlapUnstrict,
   layoutRadialSort,
-} from '@/__tests__/demos';
+} from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('radial layout', () => {
@@ -14,7 +14,7 @@ describe('radial layout', () => {
     graph.destroy();
   });
 
-  it.skip('configuration translate', async () => {
+  it('configuration translate', async () => {
     const graph = await createDemoGraph(layoutRadialConfigurationTranslate);
     await expect(graph).toMatchSnapshot(__filename, 'configuration-translate');
     graph.destroy();

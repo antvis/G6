@@ -1,7 +1,7 @@
-import { behaviorZoomCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { CommonEvent, ContainerEvent } from '@/src';
 import type { ZoomCanvasOptions } from '@/src/behaviors/zoom-canvas';
+import { behaviorZoomCanvas } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior zoom canvas', () => {

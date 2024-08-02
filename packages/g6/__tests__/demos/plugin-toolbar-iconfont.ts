@@ -1,5 +1,5 @@
-import { Graph, iconfont } from '@/src';
 import data from '@@/dataset/cluster.json';
+import { Graph, iconfont } from '@antv/g6';
 
 export const pluginToolbarIconfont: TestCase = async (context) => {
   // Use iconfont for toolbar items.

@@ -78,7 +78,8 @@ export {
   Tooltip,
   Watermark,
 } from './plugins';
-export { getExtension, getExtensions, register } from './registry';
+export { getExtension, getExtensions } from './registry/get';
+export { register } from './registry/register';
 export { Graph } from './runtime/graph';
 export { BaseTransform } from './transforms';
 export { isCollapsed } from './utils/collapsibility';

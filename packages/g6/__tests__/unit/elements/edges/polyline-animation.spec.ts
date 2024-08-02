@@ -1,5 +1,5 @@
-import { elementEdgePolylineAnimation } from '@/__tests__/demos';
 import { type Graph } from '@/src';
+import { elementEdgePolylineAnimation } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 const updateEdgeStyle = (graph: Graph, id: string, attr: string, value: any) => {

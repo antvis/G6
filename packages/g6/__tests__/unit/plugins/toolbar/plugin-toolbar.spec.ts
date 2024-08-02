@@ -1,4 +1,4 @@
-import { pluginToolbarBuildIn } from '@/__tests__/demos';
+import { pluginToolbarBuildIn } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 import { get } from '@antv/util';
 

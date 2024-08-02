@@ -1,6 +1,6 @@
-import { behaviorDragCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { CommonEvent } from '@/src';
+import { behaviorDragCanvas } from '@@/demos';
 import { createDemoGraph, createGraph, dispatchCanvasEvent, sleep } from '@@/utils';
 
 describe('behavior drag canvas', () => {

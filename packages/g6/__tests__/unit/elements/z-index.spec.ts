@@ -1,6 +1,6 @@
-import { elementZIndex } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { ComboEvent, NodeEvent } from '@/src';
+import { elementZIndex } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element zIndex', () => {

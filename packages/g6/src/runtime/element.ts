@@ -5,7 +5,7 @@ import { Group } from '@antv/g';
 import { groupBy } from '@antv/util';
 import { AnimationType, COMBO_KEY, ChangeType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
-import { getExtension } from '../registry';
+import { getExtension } from '../registry/get';
 import type { ComboData, EdgeData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { DrawData, ProcedureData } from '../transforms/types';

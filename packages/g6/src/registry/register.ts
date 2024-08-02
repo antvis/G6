@@ -1,26 +1,8 @@
-import { ExtensionCategory } from '../constants';
+import type { ExtensionCategory } from '../constants';
 import type { Loosen } from '../types';
 import { print } from '../utils/print';
-import { BUILT_IN_EXTENSIONS } from './build-in';
+import { EXTENSION_REGISTRY } from './store';
 import type { ExtensionRegistry } from './types';
-
-/**
- * <zh/> 扩展注册表
- *
- * <en/> Extension registry
- */
-const EXTENSION_REGISTRY: ExtensionRegistry = {
-  animation: {},
-  behavior: {},
-  combo: {},
-  edge: {},
-  layout: {},
-  node: {},
-  palette: {},
-  theme: {},
-  plugin: {},
-  transform: {},
-};
 
 /**
  * <zh/> 注册一个新的扩展。
@@ -66,50 +48,4 @@ export function register<T extends ExtensionCategory>(
   if (!override && ext) {
     if (ext !== Ctor) print.warn(`The extension ${type} of ${category} has been registered before.`);
   } else Object.assign(EXTENSION_REGISTRY[category]!, { [type]: Ctor });
-}
-
-/**
- * <zh/> 根据类别和类型获取扩展
- *
- * <en/> Get the extension by category and type
- * @param category - <zh/> 扩展类别 | <en/> Extension category
- * @param type - <zh/> 扩展类型 | <en/> Extension type
- * @returns <zh/> 注册的扩展 | <en/> Registered extension
- * @internal
- */
-export function getExtension<T extends ExtensionCategory>(
-  category: Loosen<T>,
-  type: string,
-): ExtensionRegistry[T][string] | undefined {
-  const extension = EXTENSION_REGISTRY[category]?.[type];
-
-  if (extension) {
-    return extension as ExtensionRegistry[T][string];
-  }
-  return undefined;
-}
-
-/**
- * <zh/> 根据类别获取扩展
- *
- * <en/> Get the extension by category and type
- * @param category - <zh/> 扩展类别 | <en/> Extension category
- * @returns <zh/> 注册的扩展 | <en/> Registered extension
- * @internal
- */
-export function getExtensions<T extends Loosen<ExtensionCategory>>(category: T): ExtensionRegistry[T] {
-  return EXTENSION_REGISTRY[category];
-}
-
-/**
- * <zh/> 注册内置扩展
- *
- * <en/> Register built-in extensions
- */
-export function registerBuiltInExtensions() {
-  Object.entries(BUILT_IN_EXTENSIONS).forEach(([category, extensions]) => {
-    Object.entries(extensions).forEach(([type, extension]) => {
-      register(category as ExtensionCategory, type, extension as any);
-    });
-  });
 }

@@ -1,5 +1,5 @@
-import type { History } from '@/src';
-import { Graph } from '@/src';
+import type { History } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 export const pluginHistory: TestCase = async (context) => {
   const graph = new Graph({

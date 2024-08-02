@@ -1,4 +1,4 @@
-import { layoutFruchtermanBasic, layoutFruchtermanCluster } from '@/__tests__/demos';
+import { layoutFruchtermanBasic, layoutFruchtermanCluster } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 import { clear as clearMockRandom, mock as mockRandom } from 'jest-random-mock';
 

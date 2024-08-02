@@ -30,5 +30,6 @@ module.exports = {
   moduleNameMapper: {
     '^@@/(.*)$': '<rootDir>/__tests__/$1',
     '^@/(.*)$': '<rootDir>/$1',
+    '@antv/g6': '<rootDir>/src',
   },
 };

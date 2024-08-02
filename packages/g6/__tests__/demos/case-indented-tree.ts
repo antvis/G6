@@ -1,3 +1,6 @@
+import data from '@@/dataset/algorithm-category.json';
+import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, RectStyleProps } from '@antv/g';
+import { Rect } from '@antv/g';
 import type {
   BadgeStyleProps,
   BaseBehaviorOptions,
@@ -14,7 +17,7 @@ import type {
   Prefix,
   RuntimeContext,
   Vector2,
-} from '@/src';
+} from '@antv/g6';
 import {
   Badge,
   BaseBehavior,
@@ -28,10 +31,7 @@ import {
   register,
   subStyleProps,
   treeToGraphData,
-} from '@/src';
-import data from '@@/dataset/algorithm-category.json';
-import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, RectStyleProps } from '@antv/g';
-import { Rect } from '@antv/g';
+} from '@antv/g6';
 
 export const caseIndentedTree: TestCase = async (context) => {
   const rootId = data.id;

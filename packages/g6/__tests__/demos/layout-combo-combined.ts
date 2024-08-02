@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import data from '@@/dataset/combo.json';
+import { Graph } from '@antv/g6';
 
 export const layoutComboCombined: TestCase = async (context) => {
   const graph = new Graph({

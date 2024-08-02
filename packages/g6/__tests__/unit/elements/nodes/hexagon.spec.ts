@@ -1,4 +1,4 @@
-import { elementNodeHexagon } from '@/__tests__/demos';
+import { elementNodeHexagon } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element label oversized', () => {

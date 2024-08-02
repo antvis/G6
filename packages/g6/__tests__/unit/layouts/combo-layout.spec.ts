@@ -1,4 +1,4 @@
-import { layoutComboCombined } from '@/__tests__/demos';
+import { layoutComboCombined } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('combo layout', () => {

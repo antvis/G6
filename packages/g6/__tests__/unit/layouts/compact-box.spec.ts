@@ -1,4 +1,4 @@
-import { layoutCompactBoxBasic, layoutCompactBoxLeftAlign, layoutCompactBoxTopToBottom } from '@/__tests__/demos';
+import { layoutCompactBoxBasic, layoutCompactBoxLeftAlign, layoutCompactBoxTopToBottom } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('compact box', () => {

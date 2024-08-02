@@ -1,6 +1,6 @@
 import { groupBy } from '@antv/util';
 import type { CategoricalPalette } from '../palettes/types';
-import { getExtension } from '../registry';
+import { getExtension } from '../registry/get';
 import type { PaletteOptions, STDPaletteOptions } from '../spec/element/palette';
 import type { ID } from '../types';
 import type { ElementData, ElementDatum } from '../types/data';

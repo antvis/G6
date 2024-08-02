@@ -6,7 +6,8 @@
     "outDir": "lib",
     "paths": {
       "@/*": ["./*"],
-      "@@/*": ["__tests__/*"]
+      "@@/*": ["__tests__/*"],
+      "@antv/g6": ["./src/index.ts"]
     },
     "sourceRoot": "src"
   },

@@ -1,4 +1,4 @@
-import { animationElementStateSwitch } from '@/__tests__/demos';
+import { animationElementStateSwitch } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('animation element state switch', () => {

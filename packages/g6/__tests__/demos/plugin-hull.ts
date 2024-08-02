@@ -1,6 +1,6 @@
-import { Graph, Hull } from '@/src';
 import { HullOptions } from '@/src/plugins';
 import type { CardinalPlacement } from '@/src/types';
+import { Graph, Hull } from '@antv/g6';
 
 const data = {
   nodes: [

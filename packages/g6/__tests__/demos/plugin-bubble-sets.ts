@@ -1,6 +1,6 @@
-import { BubbleSets, Graph } from '@/src';
 import type { BubbleSetsOptions } from '@/src/plugins';
 import { idOf } from '@/src/utils/id';
+import { BubbleSets, Graph } from '@antv/g6';
 
 const data = {
   nodes: [

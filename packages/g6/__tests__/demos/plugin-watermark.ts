@@ -1,5 +1,5 @@
-import { Graph, PluginOptions } from '@/src';
 import data from '@@/dataset/cluster.json';
+import { Graph, PluginOptions } from '@antv/g6';
 
 export const pluginWatermark: TestCase = async (context) => {
   const graph = new Graph({

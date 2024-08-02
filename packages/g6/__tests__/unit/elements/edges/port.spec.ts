@@ -1,4 +1,4 @@
-import { elementEdgePort } from '@/__tests__/demos';
+import { elementEdgePort } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element edge port', () => {

@@ -1,6 +1,6 @@
-import { behaviorHoverActivate } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { CommonEvent, EdgeEvent, NodeEvent } from '@/src';
+import { behaviorHoverActivate } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior hover-activate element', () => {

@@ -1,6 +1,6 @@
-import { transformProcessParallelEdges } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { getParallelEdges, groupByEndpoints, isParallelEdges } from '@/src/transforms/process-parallel-edges';
+import { transformProcessParallelEdges } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('transform-process-parallel-edges', () => {

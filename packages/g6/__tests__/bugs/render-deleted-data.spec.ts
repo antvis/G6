@@ -1,4 +1,4 @@
-import { layoutCompactBoxBasic } from '@/__tests__/demos';
+import { layoutCompactBoxBasic } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('render deleted data', () => {

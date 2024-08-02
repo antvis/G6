@@ -1,4 +1,4 @@
-import { elementEdgeSize } from '@/__tests__/demos';
+import { elementEdgeSize } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element edge line size', () => {

@@ -1,4 +1,4 @@
-import { Graph } from '@/src';
+import { Graph } from '@antv/g6';
 
 export const elementZIndex: TestCase = async (context) => {
   const graph = new Graph({

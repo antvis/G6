@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import data from '@@/dataset/element-edges.json';
+import { Graph } from '@antv/g6';
 
 export const elementEdgeCubic: TestCase = async (context) => {
   const graph = new Graph({

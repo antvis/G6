@@ -1,5 +1,5 @@
-import { Graph } from '@/src';
 import icon from '@@/assets/user.svg';
+import { Graph } from '@antv/g6';
 
 export const graphToDataURL: TestCase = async (context) => {
   const graph = new Graph({

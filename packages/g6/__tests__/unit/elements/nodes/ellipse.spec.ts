@@ -1,4 +1,4 @@
-import { elementNodeEllipse } from '@/__tests__/demos';
+import { elementNodeEllipse } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element label oversized', () => {

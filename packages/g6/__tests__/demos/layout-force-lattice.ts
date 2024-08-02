@@ -1,5 +1,5 @@
 // ref: https://observablehq.com/@d3/force-directed-lattice
-import { Graph } from '@/src';
+import { Graph } from '@antv/g6';
 
 export const layoutForceLattice: TestCase = async (context) => {
   const graph = new Graph({

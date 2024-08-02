@@ -1,6 +1,6 @@
-import { BaseLayout, ExtensionCategory, Graph, register } from '@/src';
+import { BaseLayout, ExtensionCategory, Graph, register } from '@antv/g6';
 
-import type { BaseLayoutOptions, GraphData } from '@/src';
+import type { BaseLayoutOptions, GraphData } from '@antv/g6';
 
 interface CustomLayoutOptions extends BaseLayoutOptions {
   onTick: (data: GraphData) => void;
