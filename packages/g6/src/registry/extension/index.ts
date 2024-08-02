@@ -1,11 +1,11 @@
 import type EventEmitter from '@antv/event-emitter';
-import { getExtension } from '..';
 import type { Graph } from '../../runtime/graph';
 import type { RuntimeContext } from '../../runtime/types';
 import type { IEvent } from '../../types';
 import { arrayDiff } from '../../utils/diff';
 import { parseExtensions } from '../../utils/extension';
 import { print } from '../../utils/print';
+import { getExtension } from '../get';
 import type { STDExtensionOption } from './types';
 
 export abstract class ExtensionController<E extends BaseExtension<any>> {

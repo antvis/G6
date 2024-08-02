@@ -2,7 +2,7 @@ import type { GraphOptions } from '@/src';
 import { AnimationEffectTiming } from '@/src';
 import { STDAnimation } from '@/src/animations/types';
 import { DEFAULT_ANIMATION_OPTIONS, DEFAULT_ELEMENTS_ANIMATION_OPTIONS } from '@/src/constants';
-import { register } from '@/src/registry';
+import { register } from '@/src/registry/register';
 import {
   createAnimationsProxy,
   getAnimationOptions,

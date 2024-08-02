@@ -1,5 +1,5 @@
 import { ExtensionCategory } from '../constants';
-import { getExtension } from '../registry';
+import { getExtension } from '../registry/get';
 import type { GraphOptions } from '../spec';
 import { print } from './print';
 

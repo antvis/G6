@@ -5,7 +5,7 @@ import { deepMix } from '@antv/util';
 import { GraphEvent, TREE_KEY } from '../constants';
 import { BaseLayout } from '../layouts';
 import type { AntVLayout } from '../layouts/types';
-import { getExtension } from '../registry';
+import { getExtension } from '../registry/get';
 import type { GraphData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
 import type { AdaptiveLayout, Combo, ID, Node, TreeData } from '../types';

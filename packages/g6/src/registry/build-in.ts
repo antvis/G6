@@ -85,7 +85,7 @@ import type { ExtensionRegistry } from './types';
  * <zh/> 内置插件统一在这里注册。
  * <en/> Built-in extensions are registered here.
  */
-export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
+const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   animation: {
     'combo-collapse': ComboCollapse,
     'combo-expand': ComboExpand,
@@ -190,3 +190,19 @@ export const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'get-edge-actual-ends': GetEdgeActualEnds,
   },
 };
+
+import type { ExtensionCategory } from '../constants';
+import { register } from './register';
+
+/**
+ * <zh/> 注册内置扩展
+ *
+ * <en/> Register built-in extensions
+ */
+export function registerBuiltInExtensions() {
+  Object.entries(BUILT_IN_EXTENSIONS).forEach(([category, extensions]) => {
+    Object.entries(extensions).forEach(([type, extension]) => {
+      register(category as ExtensionCategory, type, extension as any);
+    });
+  });
+}
