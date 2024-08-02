@@ -1382,9 +1382,9 @@ export class Graph extends EventEmitter {
    * <en/> Get the position of the graph
    * @returns <zh/> 图的位置 | <en/> position of the graph
    * @remarks
-   * <zh/> 默认状态下，图的位置为 [0, 0]
+   * <zh/> 即画布原点在视口坐标系下的位置。默认状态下，图的位置为 [0, 0]
    *
-   * <en/> By default, the position of the graph is [0, 0]
+   * <en/> That is, the position of the canvas origin in the viewport coordinate system. By default, the position of the graph is [0, 0]
    * @apiCategory viewport
    */
   public getPosition(): Point {
@@ -1843,10 +1843,10 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取画布中心的画布坐标
+   * <zh/> 获取视口中心的视口坐标
    *
-   * <en/> Get the canvas coordinates of the canvas center
-   * @returns <zh/> 画布中心的画布坐标 | <en/> Canvas coordinates of the canvas center
+   * <en/> Get the viewport coordinates of the viewport center
+   * @returns <zh/> 视口中心的视口坐标 | <en/> Viewport coordinates of the viewport center
    * @apiCategory viewport
    */
   public getCanvasCenter(): Point {
