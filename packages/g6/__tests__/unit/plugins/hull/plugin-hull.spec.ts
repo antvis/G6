@@ -1,7 +1,7 @@
-import { pluginHull } from '@/__tests__/demos';
 import type { Graph, Hull } from '@/src';
 import { NodeEvent } from '@/src';
 import type { HullOptions } from '@/src/plugins';
+import { pluginHull } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin hull', () => {

@@ -1,4 +1,4 @@
-import { elementLabelOversized } from '@/__tests__/demos';
+import { elementLabelOversized } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element label oversized', () => {

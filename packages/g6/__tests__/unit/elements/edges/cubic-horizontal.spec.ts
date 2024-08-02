@@ -1,4 +1,4 @@
-import { elementEdgeCubicHorizontal } from '@/__tests__/demos';
+import { elementEdgeCubicHorizontal } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element edge cubic horizontal', () => {

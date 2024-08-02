@@ -1,5 +1,5 @@
-import { behaviorFixElementSize } from '@/__tests__/demos';
 import { CanvasEvent, CommonEvent, EdgeEvent, NodeEvent, type Graph } from '@/src';
+import { behaviorFixElementSize } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 import type { DisplayObject } from '@antv/g';
 

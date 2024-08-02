@@ -1,6 +1,6 @@
-import { pluginHistory } from '@/__tests__/demos';
 import type { History } from '@/src';
 import { ComboEvent, Graph, NodeEvent } from '@/src';
+import { pluginHistory } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('history plugin', () => {

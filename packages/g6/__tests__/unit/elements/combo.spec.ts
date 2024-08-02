@@ -1,5 +1,5 @@
-import { elementCombo } from '@/__tests__/demos';
 import { type Graph } from '@/src';
+import { elementCombo } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('combo', () => {

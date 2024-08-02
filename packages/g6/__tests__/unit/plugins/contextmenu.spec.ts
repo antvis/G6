@@ -1,6 +1,6 @@
-import { pluginContextmenu } from '@/__tests__/demos';
 import type { Contextmenu } from '@/src';
 import { NodeEvent } from '@/src';
+import { pluginContextmenu } from '@@/demos';
 import { createDemoGraph, sleep } from '@@/utils';
 
 describe('plugin contextmenu', () => {

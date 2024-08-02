@@ -1,4 +1,4 @@
-import { createGraph } from '../utils';
+import { createGraph } from '@@/utils';
 
 describe('bug: element-node-update-badge', () => {
   it('should update node badge', async () => {

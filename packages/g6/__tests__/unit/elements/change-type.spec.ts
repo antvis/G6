@@ -1,5 +1,5 @@
-import { elementChangeType } from '@/__tests__/demos';
 import type { Graph } from '@/src';
+import { elementChangeType } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element change type', () => {

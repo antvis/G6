@@ -1,8 +1,8 @@
-import { behaviorScrollCanvas } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { CommonEvent } from '@/src';
+import { ScrollCanvasOptions } from '@/src/behaviors';
+import { behaviorScrollCanvas } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
-import { ScrollCanvasOptions } from '../../../src/behaviors';
 
 describe('behavior scroll canvas', () => {
   let graph: Graph;

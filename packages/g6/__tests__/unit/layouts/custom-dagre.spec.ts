@@ -1,4 +1,4 @@
-import { layoutCustomDagre } from '@/__tests__/demos';
+import { layoutCustomDagre } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('custom dagre', () => {

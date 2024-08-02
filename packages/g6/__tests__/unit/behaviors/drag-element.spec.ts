@@ -1,6 +1,6 @@
-import { behaviorDragNode } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { ComboEvent, CommonEvent, NodeEvent } from '@/src';
+import { behaviorDragNode } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior drag element', () => {

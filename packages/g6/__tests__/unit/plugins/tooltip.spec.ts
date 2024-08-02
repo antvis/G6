@@ -1,6 +1,6 @@
-import { pluginTooltip } from '@/__tests__/demos';
 import type { Tooltip } from '@/src';
 import { ComboEvent, EdgeEvent, NodeEvent, idOf } from '@/src';
+import { pluginTooltip } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin tooltip', () => {
@@ -11,7 +11,7 @@ describe('plugin tooltip', () => {
     graph.destroy();
   });
 
-  it.skip('combo', async () => {
+  it('combo', async () => {
     const graph = await createDemoGraph(pluginTooltip);
     graph.emit(ComboEvent.CLICK, { targetType: 'combo', target: { id: 'a' } });
     await expect(graph).toMatchSnapshot(__filename, 'combo');

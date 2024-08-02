@@ -1,5 +1,5 @@
-import { elementPort } from '@/__tests__/demos';
 import type { Graph } from '@/src';
+import { elementPort } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 const updatePort = (graph: Graph, attr: string, value: string | boolean | number) => {

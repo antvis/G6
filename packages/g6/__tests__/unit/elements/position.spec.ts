@@ -1,5 +1,5 @@
-import { elementPosition } from '@/__tests__/demos';
 import type { Graph } from '@/src';
+import { elementPosition } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element position', () => {

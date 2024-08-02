@@ -1,4 +1,4 @@
-import { pluginWatermark, pluginWatermarkImage } from '@/__tests__/demos';
+import { pluginWatermark, pluginWatermarkImage } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin watermark', () => {

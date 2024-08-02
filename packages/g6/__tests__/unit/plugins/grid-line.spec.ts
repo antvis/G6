@@ -1,5 +1,5 @@
-import { pluginGridLine } from '@/__tests__/demos';
 import type { Graph } from '@/src';
+import { pluginGridLine } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin grid line', () => {

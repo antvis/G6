@@ -1,4 +1,4 @@
-import { animationElementStylePosition } from '@/__tests__/demos';
+import { animationElementStylePosition } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('animation element style and position', () => {

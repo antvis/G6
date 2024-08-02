@@ -1,6 +1,6 @@
-import { behaviorExpandCollapseCombo } from '@/__tests__/demos';
 import type { Graph } from '@/src';
 import { ComboEvent } from '@/src';
+import { behaviorExpandCollapseCombo } from '@@/demos';
 import { createDemoGraph, sleep } from '@@/utils';
 
 describe('behavior combo expand collapse', () => {

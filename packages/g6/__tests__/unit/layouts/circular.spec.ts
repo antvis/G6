@@ -4,7 +4,7 @@ import {
   layoutCircularDegree,
   layoutCircularDivision,
   layoutCircularSpiral,
-} from '@/__tests__/demos';
+} from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('layout circular', () => {

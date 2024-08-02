@@ -1,4 +1,4 @@
-import { elementEdgeLine } from '@/__tests__/demos';
+import { elementEdgeLine } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element edge line', () => {

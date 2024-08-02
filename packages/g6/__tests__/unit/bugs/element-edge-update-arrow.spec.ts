@@ -1,4 +1,4 @@
-import { createGraph } from '../utils';
+import { createGraph } from '@@/utils';
 
 describe('bug: element-edge-update-arrow', () => {
   it('should update edge arrow', async () => {

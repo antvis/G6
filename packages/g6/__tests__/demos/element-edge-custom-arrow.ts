@@ -1,4 +1,4 @@
-import { Graph } from '../../src';
+import { Graph } from '@/src';
 
 export const elementEdgeCustomArrow: TestCase = async (context) => {
   const data = {

@@ -1,5 +1,5 @@
-import { elementState } from '@/__tests__/demos';
 import type { Graph } from '@/src';
+import { elementState } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element state', () => {

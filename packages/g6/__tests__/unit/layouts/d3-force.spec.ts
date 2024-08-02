@@ -1,4 +1,4 @@
-import { layoutD3Force } from '@/__tests__/demos';
+import { layoutD3Force } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('layout d3 force', () => {

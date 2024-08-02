@@ -1,5 +1,5 @@
-import { layoutGrid } from '@/__tests__/demos/layout-grid';
 import type { Graph } from '@/src';
+import { layoutGrid } from '@@/demos/layout-grid';
 import { createDemoGraph } from '@@/utils';
 
 describe('grid', () => {

@@ -1,5 +1,5 @@
-import { layoutAntVDagreFlowCombo } from '@/__tests__/demos';
 import { ComboEvent, Graph } from '@/src';
+import { layoutAntVDagreFlowCombo } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior drag element combo', () => {

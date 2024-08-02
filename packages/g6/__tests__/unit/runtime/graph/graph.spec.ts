@@ -1,6 +1,6 @@
-import { commonGraph } from '@/__tests__/demos/common-graph';
 import { Graph, idOf } from '@/src';
 import data from '@@/dataset/cluster.json';
+import { commonGraph } from '@@/demos/common-graph';
 import { createDemoGraph } from '@@/utils';
 
 describe('Graph', () => {

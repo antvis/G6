@@ -1,4 +1,4 @@
-import { elementLabelBackground } from '@/__tests__/demos';
+import { elementLabelBackground } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('element label background', () => {
