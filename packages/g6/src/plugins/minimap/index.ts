@@ -187,7 +187,9 @@ export class Minimap extends BasePlugin<MinimapOptions> {
         const id = idOf(datum);
         ids.add(id);
 
-        const target = element!.getElement(id)!;
+        const target = element!.getElement(id);
+        if (!target) return;
+
         const shape = target.getShape('key');
         const cloneShape = this.shapes.get(id) || shape.cloneNode();
 
