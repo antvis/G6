@@ -1,6 +1,6 @@
 import type { Cursor } from '@antv/g';
 import { debounce, isObject } from '@antv/util';
-import { CanvasEvent, CommonEvent } from '../constants';
+import { CanvasEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
 import type { ShortcutKey } from '../utils/shortcut';
@@ -108,10 +108,9 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
       this.shortcut.bind(left, (event) => this.onTranslate([1, 0], event));
       this.shortcut.bind(right, (event) => this.onTranslate([-1, 0], event));
     } else {
-      const canvas = this.canvas;
-      canvas.addEventListener(CommonEvent.DRAG_START, this.onDragStart);
-      canvas.addEventListener(CommonEvent.DRAG, this.onDrag);
-      canvas.addEventListener(CommonEvent.DRAG_END, this.onDragEnd);
+      this.context.graph.on(CanvasEvent.DRAG_START, this.onDragStart);
+      this.context.graph.on(CanvasEvent.DRAG, this.onDrag);
+      this.context.graph.on(CanvasEvent.DRAG_END, this.onDragEnd);
     }
   }
 
