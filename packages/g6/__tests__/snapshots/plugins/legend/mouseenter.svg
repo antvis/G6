@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; position: absolute; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
   <defs>
-    <clipPath transform="matrix(1,0,0,1,-139.240005,-27)" >
+    <clipPath transform="matrix(1,0,0,1,-139.240005,-27)" id="clip-path-550-414">
       <use href="#g-svg-550" transform="matrix(1,0,0,1,139.240005,27)"/>
     </clipPath>
   </defs>
@@ -889,7 +889,7 @@
           <g fill="none" transform="matrix(1,0,0,1,0,27)" class="legend-items-group">
             <g fill="none" width="500" height="473" x="0" y="0" class="legend-items">
               <g fill="none" x="0" y="0" class="items-navigator">
-                <g fill="none" class="navigator-content-group" >
+                <g fill="none" class="navigator-content-group" clip-path="url(#clip-path-550-414)">
                   <g fill="none" class="navigator-play-window">
                     <g fill="none" class="items-item-page">
                       <g fill="none" class="items-item" x="0" y="0" width="29.95999999999998" height="31">
@@ -1161,7 +1161,7 @@
                 </g>
                 <g fill="none" class="navigator-controller"/>
                 <g>
-                  <path fill="none" d="M 0,0 l 221.51999267578128,0 l 0,113 l-221.51999267578128 0 z" class="navigator-clip-path" width="221.51999267578128" height="113"/>
+                  <path id="g-svg-550" fill="none" d="M 0,0 l 221.51999267578128,0 l 0,113 l-221.51999267578128 0 z" class="navigator-clip-path" width="221.51999267578128" height="113"/>
                 </g>
               </g>
             </g>
