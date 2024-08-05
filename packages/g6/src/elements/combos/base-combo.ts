@@ -24,6 +24,7 @@ import { effect } from '../effect';
 import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
 import { Icon, IconStyleProps } from '../shapes';
+import { connectImage, dispatchPositionChange } from '../shapes/image';
 
 /**
  * <zh/> 组合通用样式配置项
@@ -156,6 +157,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   @effect((self, attributes) => self.getCollapsedMarkerStyle(attributes))
   protected drawCollapsedMarkerShape(attributes: Required<S>, container: Group): void {
     this.upsert('collapsed-marker', Icon, this.getCollapsedMarkerStyle(attributes), container);
+    connectImage(this);
   }
 
   protected getCollapsedMarkerStyle(attributes: Required<S>): IconStyleProps | false {
@@ -232,6 +234,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     // Sync combo position to model
     const { x, y } = comboStyle;
     this.context.model.syncComboDatum({ id: this.id, style: { x, y } });
+    dispatchPositionChange(this);
   }
 
   public render(attributes: Required<S>, container: Group = this) {

@@ -41,6 +41,7 @@ export { elementEdgeQuadratic } from './element-edge-quadratic';
 export { elementEdgeSize } from './element-edge-size';
 export { elementLabelBackground } from './element-label-background';
 export { elementLabelOversized } from './element-label-oversized';
+export { elementNodeAvatar } from './element-node-avatar';
 export { elementNodeBadges } from './element-node-badges';
 export { elementNodeCircle } from './element-node-circle';
 export { elementNodeDiamond } from './element-node-diamond';
