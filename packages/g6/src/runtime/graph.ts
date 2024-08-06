@@ -1733,6 +1733,7 @@ export class Graph extends EventEmitter {
 
     const elementType = model.getElementType(id);
 
+    await this.frontElement(id);
     this.isCollapsingExpanding = true;
     this.setElementCollapsibility(id, true);
     if (elementType === 'node') await element!.collapseNode(id, animation);
