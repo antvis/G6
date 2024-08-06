@@ -1,4 +1,4 @@
-import { Rect } from '@antv/g';
+import { Text as GText, Rect } from '@antv/g';
 import {
   Badge,
   BaseBehavior,
@@ -37,6 +37,13 @@ const COLORS = [
 const TreeEvent = {
   COLLAPSE_EXPAND: 'collapse-expand',
   ADD_CHILD: 'add-child',
+};
+
+let textShape;
+const measureText = (text) => {
+  if (!textShape) textShape = new GText({ style: text });
+  textShape.attr(text);
+  return textShape.getBBox().width;
 };
 
 class IndentedNode extends BaseNode {
@@ -465,7 +472,7 @@ fetch('https://assets.antv.antgroup.com/g6/algorithm-category.json')
       node: {
         type: 'indented',
         style: {
-          size: (d) => [d.id.length * 6 + 10, 20],
+          size: (d) => [measureText({ text: d.id, fontSize: 12 }) + 6, 20],
           labelBackground: (datum) => datum.id === rootId,
           labelBackgroundRadius: 0,
           labelBackgroundFill: '#576286',

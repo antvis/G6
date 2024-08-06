@@ -1,6 +1,13 @@
 import data from '@@/dataset/algorithm-category.json';
-import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, RectStyleProps } from '@antv/g';
-import { Rect } from '@antv/g';
+import type {
+  BaseStyleProps,
+  DisplayObject,
+  DisplayObjectConfig,
+  Group,
+  RectStyleProps,
+  TextStyleProps,
+} from '@antv/g';
+import { Text as GText, Rect } from '@antv/g';
 import type {
   BadgeStyleProps,
   BaseBehaviorOptions,
@@ -47,6 +54,13 @@ export const caseIndentedTree: TestCase = async (context) => {
     '#FF9845',
     '#5D7092',
   ];
+
+  let textShape: GText | null;
+  const measureText = (text: TextStyleProps) => {
+    if (!textShape) textShape = new GText({ style: text });
+    textShape.attr(text);
+    return textShape.getBBox().width;
+  };
 
   interface IndentedNodeStyleProps extends BaseNodeStyleProps {
     showIcon: boolean;
@@ -506,7 +520,7 @@ export const caseIndentedTree: TestCase = async (context) => {
     node: {
       type: 'indented',
       style: {
-        size: (d) => [d.id.length * 6 + 10, 20],
+        size: (d) => [measureText({ text: d.id, fontSize: 12 }) + 6, 20],
         labelBackground: true,
         labelBackgroundRadius: 0,
         labelBackgroundFill: (d) => (d.id === rootId ? '#576286' : '#fff'),
