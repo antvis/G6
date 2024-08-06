@@ -246,6 +246,7 @@ export type {
   Size,
   State,
   TransformOptions,
+  TreeData,
   TriangleDirection,
   Vector2,
   Vector3,

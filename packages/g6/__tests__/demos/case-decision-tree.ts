@@ -1,7 +1,7 @@
 import data from '@@/dataset/decision-tree.json';
-import type { DisplayObject, RectStyleProps as GRectStyleProps, TextStyleProps as GTextStyleProps } from '@antv/g';
+import type { RectStyleProps as GRectStyleProps, TextStyleProps as GTextStyleProps } from '@antv/g';
 import { Rect as GRect, Group, Text as GText } from '@antv/g';
-import type { BadgeStyleProps, LabelStyleProps, NodeData, RectStyleProps } from '@antv/g6';
+import type { BadgeStyleProps, LabelStyleProps, NodeData, RectStyleProps, TreeData } from '@antv/g6';
 import {
   Badge,
   CommonEvent,
@@ -13,7 +13,6 @@ import {
   register,
   treeToGraphData,
 } from '@antv/g6';
-import { TreeData } from '../../src/types';
 
 export const caseDecisionTree: TestCase = async (context) => {
   const COLORS: Record<string, string> = {
@@ -24,13 +23,10 @@ export const caseDecisionTree: TestCase = async (context) => {
     DI: '#A7A7A7',
   };
   const GREY_COLOR = '#CED4D9';
-  const NODE_HEIGHT = 60;
-  const NODE_WIDTH = 202;
-  const NODE_RADIUS = 4;
 
   class TreeNode extends Rect {
     get data() {
-      return this.context.model.getNodeData([this.id])[0] as Record<string, string>;
+      return this.context.model.getNodeLikeData([this.id])[0] as Record<string, string>;
     }
 
     get childrenData() {
@@ -38,7 +34,10 @@ export const caseDecisionTree: TestCase = async (context) => {
     }
 
     protected getLabelStyle(attributes: Required<RectStyleProps>): LabelStyleProps {
+      const [width, height] = this.getSize(attributes);
       return {
+        x: -width / 2 + 8,
+        y: -height / 2 + 16,
         text: this.data.name,
         fontSize: 12,
         opacity: 0.85,
@@ -48,8 +47,10 @@ export const caseDecisionTree: TestCase = async (context) => {
     }
 
     protected getPriceStyle(attributes: Required<RectStyleProps>): GTextStyleProps {
+      const [width, height] = this.getSize(attributes);
       return {
-        y: NODE_HEIGHT - 24,
+        x: -width / 2 + 8,
+        y: height / 2 - 8,
         text: this.data.label,
         fontSize: 16,
         fill: '#000',
@@ -63,9 +64,10 @@ export const caseDecisionTree: TestCase = async (context) => {
     }
 
     protected getCurrencyStyle(attributes: Required<RectStyleProps>): GTextStyleProps {
+      const [, height] = this.getSize(attributes);
       return {
         x: this.shapeMap['price'].getLocalBounds().max[0] + 4,
-        y: NODE_HEIGHT - 24,
+        y: height / 2 - 8,
         text: this.data.currency,
         fontSize: 12,
         fill: '#000',
@@ -79,9 +81,10 @@ export const caseDecisionTree: TestCase = async (context) => {
     }
 
     protected getPercentStyle(attributes: Required<RectStyleProps>): GTextStyleProps {
+      const [width, height] = this.getSize(attributes);
       return {
-        x: NODE_WIDTH - 24,
-        y: NODE_HEIGHT - 24,
+        x: width / 2 - 4,
+        y: height / 2 - 8,
         text: `${((Number(this.data.variableValue) || 0) * 100).toFixed(2)}%`,
         fontSize: 12,
         textAlign: 'right',
@@ -96,10 +99,11 @@ export const caseDecisionTree: TestCase = async (context) => {
 
     protected getTriangleStyle(attributes: Required<RectStyleProps>): LabelStyleProps {
       const percentMinX = this.shapeMap['percent'].getLocalBounds().min[0];
+      const [, height] = this.getSize(attributes);
       return {
         fill: COLORS[this.data.status],
         x: this.data.variableUp ? percentMinX - 18 : percentMinX,
-        y: NODE_HEIGHT - 32,
+        y: height / 2 - 16,
         fontFamily: 'iconfont',
         fontSize: 16,
         text: '\ue62d',
@@ -113,6 +117,7 @@ export const caseDecisionTree: TestCase = async (context) => {
     }
 
     protected getVariableStyle(attributes: Required<RectStyleProps>): GTextStyleProps {
+      const [, height] = this.getSize(attributes);
       return {
         fill: '#000',
         fontSize: 12,
@@ -120,7 +125,7 @@ export const caseDecisionTree: TestCase = async (context) => {
         text: this.data.variableName,
         textAlign: 'right',
         x: this.shapeMap['triangle'].getLocalBounds().min[0] - 4,
-        y: NODE_HEIGHT - 24,
+        y: height / 2 - 8,
       };
     }
 
@@ -132,6 +137,7 @@ export const caseDecisionTree: TestCase = async (context) => {
     protected getCollapseStyle(attributes: Required<RectStyleProps>): BadgeStyleProps | false {
       if (this.childrenData.length === 0) return false;
       const { collapsed } = attributes;
+      const [width, height] = this.getSize(attributes);
       return {
         backgroundFill: '#fff',
         backgroundHeight: 16,
@@ -145,8 +151,8 @@ export const caseDecisionTree: TestCase = async (context) => {
         text: collapsed ? '+' : '-',
         textAlign: 'center',
         textBaseline: 'middle',
-        x: NODE_WIDTH - 16,
-        y: NODE_HEIGHT / 2 - 16,
+        x: width / 2,
+        y: 0,
       };
     }
 
@@ -154,31 +160,30 @@ export const caseDecisionTree: TestCase = async (context) => {
       const collapseStyle = this.getCollapseStyle(attributes);
       const btn = this.upsert('collapse', Badge, collapseStyle, container);
 
-      this.forwardEvent(btn, CommonEvent.CLICK, () => {
-        const { collapsed } = this.attributes;
-        const graph = this.context.graph;
-        if (collapsed) graph.expandElement(this.id);
-        else graph.collapseElement(this.id);
-      });
-    }
-
-    private forwardEvent(target: DisplayObject | undefined, type: string, listener: (event: any) => void) {
-      if (target && !Reflect.has(target, '__bind__')) {
-        Reflect.set(target, '__bind__', true);
-        target.addEventListener(type, listener);
+      if (btn && !Reflect.has(btn, '__bind__')) {
+        Reflect.set(btn, '__bind__', true);
+        btn.addEventListener(CommonEvent.CLICK, () => {
+          const { collapsed } = this.attributes;
+          const graph = this.context.graph;
+          if (collapsed) graph.expandElement(this.id);
+          else graph.collapseElement(this.id);
+        });
       }
     }
 
     protected getProcessBarStyle(attributes: Required<RectStyleProps>): GRectStyleProps {
       const { rate, status } = this.data;
+      // @ts-ignore
+      const { radius } = attributes;
       const color = COLORS[status];
       const percent = `${Number(rate) * 100}%`;
+      const [width, height] = this.getSize(attributes);
       return {
-        x: -16,
-        y: NODE_HEIGHT - 20,
-        width: NODE_WIDTH,
+        x: -width / 2,
+        y: height / 2 - 4,
+        width: width,
         height: 4,
-        radius: [0, 0, NODE_RADIUS, NODE_RADIUS],
+        radius: [0, 0, radius, radius],
         fill: `linear-gradient(to right, ${color} ${percent}, ${GREY_COLOR} ${percent})`,
       };
     }
@@ -193,10 +198,7 @@ export const caseDecisionTree: TestCase = async (context) => {
       return {
         ...keyStyle,
         fill: '#fff',
-        height: NODE_HEIGHT,
-        width: NODE_WIDTH,
         lineWidth: 1,
-        radius: NODE_RADIUS,
         stroke: GREY_COLOR,
       };
     }
@@ -229,7 +231,11 @@ export const caseDecisionTree: TestCase = async (context) => {
     }),
     node: {
       type: 'tree-node',
-      style: { ports: [{ placement: 'left' }, { placement: 'right' }] },
+      style: {
+        size: [202, 60],
+        ports: [{ placement: 'left' }, { placement: 'right' }],
+        radius: 4,
+      },
     },
     edge: {
       type: 'cubic-horizontal',
@@ -241,8 +247,8 @@ export const caseDecisionTree: TestCase = async (context) => {
       type: 'indented',
       direction: 'LR',
       dropCap: false,
-      indent: NODE_WIDTH + 100,
-      getHeight: () => NODE_HEIGHT,
+      indent: 300,
+      getHeight: () => 60,
     },
     behaviors: ['zoom-canvas', 'drag-canvas'],
   });
