@@ -1,4 +1,4 @@
-import { Rect } from '@antv/g';
+import { Rect, Text } from '@antv/g';
 import {
   Badge,
   BaseBehavior,
@@ -45,7 +45,10 @@ const NodeStyle = {
   fill: 'transparent',
   labelPlacement: 'center',
   labelFontSize: 12,
-  ports: [{ placement: 'right-bottom' }, { placement: 'left-bottom' }],
+  ports: [
+    { placement: 'right-bottom', key: 'right-bottom' },
+    { placement: 'left-bottom', key: 'left-bottom' },
+  ],
 };
 
 const TreeEvent = {
@@ -312,8 +315,8 @@ class MindmapEdge extends CubicHorizontal {
     const isRoot = this.targetNode.id === findRootNode(this.context.graph).id;
     const labelWidth = getNodeWidth(this.targetNode.id, isRoot);
 
-    const [sp, tp] = this.getEndpoints(attributes);
-    const sign = tp[0] > sp[0] ? 1 : -1;
+    const [, tp] = this.getEndpoints(attributes);
+    const sign = this.sourceNode.getCenter()[0] < this.targetNode.getCenter()[0] ? 1 : -1;
     return [...path, ['L', tp[0] + labelWidth * sign, tp[1]]];
   }
 }
@@ -435,8 +438,17 @@ fetch('https://assets.antv.antgroup.com/g6/algorithm-category.json')
         type: 'mindmap',
         style: {
           lineWidth: 2,
+          sourcePort: function (d) {
+            if (d.source === rootId) return undefined;
+            const direction = getDirection(this, d.target);
+            return direction === 'right' ? 'right-bottom' : 'left-bottom';
+          },
+          targetPort: function (d) {
+            const direction = getDirection(this, d.target);
+            return direction === 'right' ? 'left-bottom' : 'right-bottom';
+          },
           stroke: function (d) {
-            return getColor(graph, d.target);
+            return getColor(this, d.target);
           },
         },
       },
