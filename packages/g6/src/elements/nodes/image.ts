@@ -1,10 +1,12 @@
 import type { DisplayObjectConfig, RectStyleProps as GRectStyleProps, Group } from '@antv/g';
-import { Image as GImage, ImageStyleProps as GImageStyleProps, Rect as GRect } from '@antv/g';
+import { ImageStyleProps as GImageStyleProps, Rect as GRect } from '@antv/g';
 import { ICON_SIZE_RATIO } from '../../constants/element';
 import { subStyleProps } from '../../utils/prefix';
 import { mergeOptions } from '../../utils/style';
 import { add } from '../../utils/vector';
 import type { IconStyleProps } from '../shapes';
+import { Image as ImageShape } from '../shapes';
+import { connectImage, dispatchPositionChange } from '../shapes/image';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
 
@@ -79,11 +81,20 @@ export class Image extends BaseNode<ImageStyleProps> {
       : false;
   }
 
-  protected drawKeyShape(attributes: Required<ImageStyleProps>, container: Group): GImage | undefined {
-    return this.upsert('key', GImage, this.getKeyStyle(attributes), container);
+  protected drawKeyShape(attributes: Required<ImageStyleProps>, container: Group): ImageShape | undefined {
+    const image = this.upsert('key', ImageShape, this.getKeyStyle(attributes), container);
+    connectImage(this);
+    return image;
   }
 
   protected drawHaloShape(attributes: Required<ImageStyleProps>, container: Group): void {
     this.upsert('halo', GRect, this.getHaloStyle(attributes), container);
+  }
+
+  public update(attr?: Partial<ImageStyleProps>): void {
+    super.update(attr);
+    if (attr && ('x' in attr || 'y' in attr || 'z' in attr)) {
+      dispatchPositionChange(this);
+    }
   }
 }

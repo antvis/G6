@@ -30,6 +30,7 @@ import { BaseElement } from '../base-element';
 import { effect } from '../effect';
 import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Icon, Label } from '../shapes';
+import { connectImage, dispatchPositionChange } from '../shapes/image';
 
 /**
  * <zh/> 节点通用样式配置项
@@ -374,6 +375,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   @effect((self, attributes) => self.getIconStyle(attributes))
   protected drawIconShape(attributes: Required<S>, container: Group): void {
     this.upsert('icon', Icon, this.getIconStyle(attributes), container);
+    connectImage(this);
   }
 
   @effect((self, attributes) => self.getBadgesStyle(attributes))
@@ -427,6 +429,13 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     this.drawPortShapes(attributes, container);
   }
 
+  public update(attr?: Partial<S>): void {
+    super.update(attr);
+    if (attr && ('x' in attr || 'y' in attr || 'z' in attr)) {
+      dispatchPositionChange(this);
+    }
+  }
+
   protected onframe() {
     this.drawBadgeShapes(this.parsedAttributes, this);
     this.drawLabelShape(this.parsedAttributes, this);
@@ -434,9 +443,12 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
 }
 
 /**
+ * <zh/> 在离屏画布中获取图形包围盒
  *
- * @param context
- * @param shape
+ * <en/> Get the bounding box of the graphic in the off-screen canvas
+ * @param context - <zh/> 运行时上下文 <en/> Runtime context
+ * @param shape - <zh/> 图形实例 <en/> Graphic instance
+ * @returns <zh/> 图形包围盒 <en/> Graphic bounding box
  */
 function getBoundsInOffscreen(context: RuntimeContext, shape: DisplayObject) {
   if (!context) return shape.getLocalBounds();

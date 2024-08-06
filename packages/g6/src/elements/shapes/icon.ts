@@ -1,6 +1,8 @@
-import { DisplayObjectConfig, Image as GImage, Text as GText, Group, ImageStyleProps, TextStyleProps } from '@antv/g';
+import { DisplayObjectConfig, Text as GText, Group, TextStyleProps } from '@antv/g';
 import type { BaseShapeStyleProps } from './base-shape';
 import { BaseShape } from './base-shape';
+import type { ImageStyleProps } from './image';
+import { Image as GImage } from './image';
 
 /**
  * <zh/> 图标样式

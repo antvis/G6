@@ -11,13 +11,21 @@ import { sleep } from './sleep';
 
 export type ToMatchSVGSnapshotOptions = {
   fileFormat?: string;
-  keepSVGElementId?: boolean;
 };
-const formatSVG = (svg: string, keepSVGElementId: boolean) => {
-  return (keepSVGElementId ? svg : svg.replace(/ *id="[^"]*" */g, ' ').replace(/clip-path="[^"]*"/g, '')).replace(
-    '\r\n',
-    '\n',
-  );
+
+const removeId = (svg: string, reserved?: Set<string>) => {
+  if (!reserved) return svg.replace(/ *id="[^"]*" */g, ' ');
+  return svg.replace(/ *id="([^"]*)" */g, (match, id) => (reserved.has(id) ? match : ' '));
+};
+const formatSVG = (svg: string) => {
+  if (!svg.includes('<defs>')) return removeId(svg).replace('\r\n', '\n');
+
+  const refs = new Set<string>();
+
+  svg.match(/href="#[^"]*"/g)?.forEach((ref) => refs.add(ref.slice(7, -1)));
+
+  const [before, after] = svg.split('</defs>');
+  return (before + '</defs>' + removeId(after, refs)).replace('\r\n', '\n');
 };
 
 // @see https://jestjs.io/docs/26.x/expect#expectextendmatchers
@@ -29,7 +37,7 @@ export async function toMatchSVGSnapshot(
 ): Promise<{ message: () => string; pass: boolean }> {
   await sleep(300);
 
-  const { fileFormat = 'svg', keepSVGElementId = false } = options;
+  const { fileFormat = 'svg' } = options;
   const namePath = join(dir, name);
   const actualPath = join(dir, `${name}-actual.${fileFormat}`);
   const expectedPath = join(dir, `${name}.${fileFormat}`);
@@ -47,9 +55,7 @@ export async function toMatchSVGSnapshot(
     gRoot?.append(...(dom.querySelector('#g-root')?.childNodes || []));
   });
 
-  actual += svg
-    ? formatSVG(format(xmlserializer.serializeToString(svg as any), { indentation: '  ' }), keepSVGElementId)
-    : '';
+  actual += svg ? formatSVG(format(xmlserializer.serializeToString(svg as any), { indentation: '  ' })) : '';
 
   try {
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
