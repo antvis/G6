@@ -172,7 +172,7 @@ export const caseDecisionTree: TestCase = async (context) => {
     protected getProcessBarStyle(attributes: Required<RectStyleProps>): GRectStyleProps {
       const { rate, status } = this.data;
       const color = COLORS[status];
-      const percent = `${rate * 100}%`;
+      const percent = `${Number(rate) * 100}%`;
       return {
         x: -16,
         y: NODE_HEIGHT - 20,
