@@ -34,16 +34,16 @@
   },
   "dependencies": {
     "@antv/g-device-api": "^1.6.12",
-    "@antv/g-plugin-3d": "^2.0.10",
-    "@antv/g-plugin-device-renderer": "^2.0.10",
-    "@antv/g-plugin-dragndrop": "^2.0.6",
-    "@antv/g-webgl": "^2.0.11",
-    "@antv/layout": "^1.2.14-beta.5",
+    "@antv/g-plugin-3d": "^2.0.12",
+    "@antv/g-plugin-device-renderer": "^2.0.12",
+    "@antv/g-plugin-dragndrop": "^2.0.8",
+    "@antv/g-webgl": "^2.0.13",
+    "@antv/layout": "1.2.14-beta.5",
     "@antv/util": "^3.3.7"
   },
   "devDependencies": {
-    "@antv/g": "^6.0.10",
-    "@antv/g-canvas": "^2.0.8",
+    "@antv/g": "^6.0.12",
+    "@antv/g-canvas": "^2.0.10",
     "@antv/g6": "workspace:*"
   },
   "peerDependencies": {
