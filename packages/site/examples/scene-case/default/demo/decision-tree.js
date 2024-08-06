@@ -27,7 +27,7 @@ const GREY_COLOR = '#CED4D9';
 
 class TreeNode extends Rect {
   get data() {
-    return this.context.model.getNodeLikeData([this.id])[0];
+    return this.context.model.getNodeLikeDatum(this.id);
   }
 
   get childrenData() {

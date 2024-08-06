@@ -26,7 +26,7 @@ export const caseDecisionTree: TestCase = async (context) => {
 
   class TreeNode extends Rect {
     get data() {
-      return this.context.model.getNodeLikeData([this.id])[0] as Record<string, string>;
+      return this.context.model.getNodeLikeDatum(this.id) as Record<string, string>;
     }
 
     get childrenData() {
