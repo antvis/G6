@@ -156,6 +156,7 @@ export class LayoutController {
 
     createTreeStructure(model);
 
+    const layoutPreset: GraphData = { nodes: [], edges: [] };
     const layoutResult: GraphData = { nodes: [], edges: [] };
 
     const roots = model.getRoots(TREE_KEY) as unknown as TreeData[];
@@ -170,11 +171,13 @@ export class LayoutController {
       );
 
       const result = layout(root, options);
+      const { x: rx, y: ry, z: rz = 0 } = result;
       // 将布局结果转化为 LayoutMapping 格式 / Convert the layout result to LayoutMapping format
       dfs(
         result,
         (node) => {
           const { id, x, y, z = 0 } = node;
+          layoutPreset.nodes!.push({ id, style: { x: rx, y: ry, z: rz } });
           layoutResult.nodes!.push({ id, style: { x, y, z } });
         },
         (node) => node.children,
@@ -182,11 +185,43 @@ export class LayoutController {
       );
     });
 
+    const offset = this.inferTreeLayoutOffset(layoutResult);
+    applyTreeLayoutOffset(layoutResult, offset);
+
     if (animation) {
+      // 先将所有节点移动到根节点位置 / Move all nodes to the root node position first
+      applyTreeLayoutOffset(layoutPreset, offset);
+      this.updateElementPosition(layoutPreset, false);
+
       this.updateElementPosition(layoutResult, animation);
     }
 
     return layoutResult;
+  }
+
+  private inferTreeLayoutOffset(data: GraphData) {
+    let [minX, maxX] = [Infinity, -Infinity];
+    let [minY, maxY] = [Infinity, -Infinity];
+
+    data.nodes?.forEach((node) => {
+      const { x = 0, y = 0 } = node.style || {};
+      minX = Math.min(minX, x);
+      maxX = Math.max(maxX, x);
+      minY = Math.min(minY, y);
+      maxY = Math.max(maxY, y);
+    });
+
+    const { canvas } = this.context;
+    const canvasSize = canvas.getSize();
+    const [x1, y1] = canvas.getCanvasByViewport([0, 0]);
+    const [x2, y2] = canvas.getCanvasByViewport(canvasSize);
+
+    if (minX >= x1 && maxX <= x2 && minY >= y1 && maxY <= y2) return [0, 0] as [number, number];
+
+    const cx = (x1 + x2) / 2;
+    const cy = (y1 + y2) / 2;
+
+    return [cx - (minX + maxX) / 2, cy - (minY + maxY) / 2] as [number, number];
   }
 
   public stopLayout() {
@@ -303,3 +338,23 @@ export class LayoutController {
     this.animationResult = undefined;
   }
 }
+
+/**
+ * <zh/> 对树形布局结果应用偏移
+ *
+ * <en/> Apply offset to tree layout result
+ * @param data - <zh/> 布局数据 | <en/> Layout data
+ * @param offset - <zh/> 偏移量 | <en/> Offset
+ */
+const applyTreeLayoutOffset = (data: GraphData, offset: [number, number]) => {
+  const [ox, oy] = offset;
+  data.nodes?.forEach((node) => {
+    if (node.style) {
+      const { x = 0, y = 0 } = node.style;
+      node.style.x = x + ox;
+      node.style.y = y + oy;
+    } else {
+      node.style = { x: ox, y: oy };
+    }
+  });
+};
