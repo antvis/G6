@@ -25,14 +25,15 @@ export class Icon extends BaseShape<IconStyleProps> {
     super(options);
   }
 
-  private isGImage() {
-    return !!this.getAttribute('src');
+  private isImage() {
+    const { src } = this.attributes;
+    return !!src;
   }
 
   protected getIconStyle(attributes: IconStyleProps = this.attributes): IconStyleProps {
     const { width = 0, height = 0 } = attributes;
     const style = this.getGraphicStyle(attributes);
-    if (this.isGImage()) {
+    if (this.isImage()) {
       return {
         x: -width / 2,
         y: -height / 2,
@@ -47,6 +48,6 @@ export class Icon extends BaseShape<IconStyleProps> {
   }
 
   public render(attributes = this.attributes, container: Group = this): void {
-    this.upsert('icon', (this.isGImage() ? GImage : GText) as any, this.getIconStyle(attributes), container);
+    this.upsert('icon', (this.isImage() ? GImage : GText) as any, this.getIconStyle(attributes), container);
   }
 }
