@@ -1,0 +1,260 @@
+import { Rect as GRect, Text as GText } from '@antv/g';
+import {
+  Badge,
+  CommonEvent,
+  ExtensionCategory,
+  Graph,
+  GraphEvent,
+  iconfont,
+  Label,
+  Rect,
+  register,
+  treeToGraphData,
+} from '@antv/g6';
+
+const style = document.createElement('style');
+style.innerHTML = `@import url('${iconfont.css}');`;
+document.head.appendChild(style);
+
+const COLORS = {
+  B: '#1783FF',
+  R: '#F46649',
+  Y: '#DB9D0D',
+  G: '#60C42D',
+  DI: '#A7A7A7',
+};
+const GREY_COLOR = '#CED4D9';
+const NODE_HEIGHT = 60;
+const NODE_WIDTH = 202;
+const NODE_RADIUS = 4;
+
+class TreeNode extends Rect {
+  get data() {
+    return this.context.model.getNodeData([this.id])[0];
+  }
+
+  get childrenData() {
+    return this.context.model.getChildrenData(this.id);
+  }
+
+  getLabelStyle() {
+    return {
+      text: this.data.name,
+      fontSize: 12,
+      opacity: 0.85,
+      fill: '#000',
+      cursor: 'pointer',
+    };
+  }
+
+  getPriceStyle() {
+    return {
+      y: NODE_HEIGHT - 24,
+      text: this.data.label,
+      fontSize: 16,
+      fill: '#000',
+      opacity: 0.85,
+    };
+  }
+
+  drawPriceShape(attributes, container) {
+    const priceStyle = this.getPriceStyle(attributes);
+    this.upsert('price', GText, priceStyle, container);
+  }
+
+  getCurrencyStyle() {
+    return {
+      x: this.shapeMap['price'].getLocalBounds().max[0] + 4,
+      y: NODE_HEIGHT - 24,
+      text: this.data.currency,
+      fontSize: 12,
+      fill: '#000',
+      opacity: 0.75,
+    };
+  }
+
+  drawCurrencyShape(attributes, container) {
+    const currencyStyle = this.getCurrencyStyle(attributes);
+    this.upsert('currency', GText, currencyStyle, container);
+  }
+
+  getPercentStyle() {
+    return {
+      x: NODE_WIDTH - 24,
+      y: NODE_HEIGHT - 24,
+      text: `${((Number(this.data.variableValue) || 0) * 100).toFixed(2)}%`,
+      fontSize: 12,
+      textAlign: 'right',
+      fill: COLORS[this.data.status],
+    };
+  }
+
+  drawPercentShape(attributes, container) {
+    const percentStyle = this.getPercentStyle(attributes);
+    this.upsert('percent', GText, percentStyle, container);
+  }
+
+  getTriangleStyle() {
+    const percentMinX = this.shapeMap['percent'].getLocalBounds().min[0];
+    return {
+      fill: COLORS[this.data.status],
+      x: this.data.variableUp ? percentMinX - 18 : percentMinX,
+      y: NODE_HEIGHT - 32,
+      fontFamily: 'iconfont',
+      fontSize: 16,
+      text: '\ue62d',
+      transform: this.data.variableUp ? '' : 'rotate(180deg)',
+    };
+  }
+
+  drawTriangleShape(attributes, container) {
+    const triangleStyle = this.getTriangleStyle(attributes);
+    this.upsert('triangle', Label, triangleStyle, container);
+  }
+
+  getVariableStyle() {
+    return {
+      fill: '#000',
+      fontSize: 12,
+      opacity: 0.45,
+      text: this.data.variableName,
+      textAlign: 'right',
+      x: this.shapeMap['triangle'].getLocalBounds().min[0] - 4,
+      y: NODE_HEIGHT - 24,
+    };
+  }
+
+  drawVariableShape(attributes, container) {
+    const variableStyle = this.getVariableStyle(attributes);
+    this.upsert('variable', GText, variableStyle, container);
+  }
+
+  getCollapseStyle(attributes) {
+    if (this.childrenData.length === 0) return false;
+    const { collapsed } = attributes;
+    return {
+      backgroundFill: '#fff',
+      backgroundHeight: 16,
+      backgroundLineWidth: 1,
+      backgroundRadius: 0,
+      backgroundStroke: GREY_COLOR,
+      backgroundWidth: 16,
+      cursor: 'pointer',
+      fill: GREY_COLOR,
+      fontSize: 16,
+      text: collapsed ? '+' : '-',
+      textAlign: 'center',
+      textBaseline: 'middle',
+      x: NODE_WIDTH - 16,
+      y: NODE_HEIGHT / 2 - 16,
+    };
+  }
+
+  drawCollapseShape(attributes, container) {
+    const collapseStyle = this.getCollapseStyle(attributes);
+    const btn = this.upsert('collapse', Badge, collapseStyle, container);
+
+    this.forwardEvent(btn, CommonEvent.CLICK, () => {
+      const { collapsed } = this.attributes;
+      const graph = this.context.graph;
+      if (collapsed) graph.expandElement(this.id);
+      else graph.collapseElement(this.id);
+    });
+  }
+
+  forwardEvent(target, type, listener) {
+    if (target && !Reflect.has(target, '__bind__')) {
+      Reflect.set(target, '__bind__', true);
+      target.addEventListener(type, listener);
+    }
+  }
+
+  getProcessBarStyle() {
+    const { rate, status } = this.data;
+    const color = COLORS[status];
+    const percent = `${rate * 100}%`;
+    return {
+      x: -16,
+      y: NODE_HEIGHT - 20,
+      width: NODE_WIDTH,
+      height: 4,
+      radius: [0, 0, NODE_RADIUS, NODE_RADIUS],
+      fill: `linear-gradient(to right, ${color} ${percent}, ${GREY_COLOR} ${percent})`,
+    };
+  }
+
+  drawProcessBarShape(attributes, container) {
+    const processBarStyle = this.getProcessBarStyle(attributes);
+    this.upsert('process-bar', GRect, processBarStyle, container);
+  }
+
+  getKeyStyle(attributes) {
+    const keyStyle = super.getKeyStyle(attributes);
+    return {
+      ...keyStyle,
+      fill: '#fff',
+      height: NODE_HEIGHT,
+      width: NODE_WIDTH,
+      lineWidth: 1,
+      radius: NODE_RADIUS,
+      stroke: GREY_COLOR,
+    };
+  }
+
+  render(attributes = this.parsedAttributes, container) {
+    super.render(attributes, container);
+
+    this.drawPriceShape(attributes, container);
+    this.drawCurrencyShape(attributes, container);
+    this.drawPercentShape(attributes, container);
+    this.drawTriangleShape(attributes, container);
+    this.drawVariableShape(attributes, container);
+    this.drawProcessBarShape(attributes, container);
+    this.drawCollapseShape(attributes, container);
+  }
+}
+
+register(ExtensionCategory.NODE, 'tree-node', TreeNode);
+
+fetch('https://assets.antv.antgroup.com/g6/decision-tree.json')
+  .then((res) => res.json())
+  .then((data) => {
+    const graph = new Graph({
+      container: 'container',
+      data: treeToGraphData(data, {
+        getNodeData: (datum, depth) => {
+          if (!datum.style) datum.style = {};
+          // 层级大于 1 的节点默认收起
+          // Nodes with a depth greater than 2 are collapsed by default
+          datum.style.collapsed = depth >= 2;
+          if (!datum.children) return datum;
+          const { children, ...restDatum } = datum;
+          return { ...restDatum, children: children.map((child) => child.id) };
+        },
+      }),
+      node: {
+        type: 'tree-node',
+        style: { ports: [{ placement: 'left' }, { placement: 'right' }] },
+      },
+      edge: {
+        type: 'cubic-horizontal',
+        style: {
+          stroke: GREY_COLOR,
+        },
+      },
+      layout: {
+        type: 'indented',
+        direction: 'LR',
+        dropCap: false,
+        indent: NODE_WIDTH + 100,
+        getHeight: () => NODE_HEIGHT,
+      },
+      behaviors: ['zoom-canvas', 'drag-canvas'],
+    });
+
+    graph.once(GraphEvent.AFTER_RENDER, () => {
+      graph.fitView();
+    });
+
+    graph.render();
+  });
