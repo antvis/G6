@@ -1,5 +1,6 @@
 import { defineConfig } from 'dumi';
-import { homepage, repository, version } from './package.json';
+import { version } from '../g6/package.json';
+import { homepage, repository } from './package.json';
 
 export default defineConfig({
   locales: [
