@@ -66,7 +66,9 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     }
 
     // create
-    if (!target || target.destroyed) {
+    if (!target || target.destroyed || !(target instanceof Ctor)) {
+      target?.destroy();
+
       const instance = new Ctor({ className, style });
       container.appendChild(instance);
       this.shapeMap[className] = instance;
