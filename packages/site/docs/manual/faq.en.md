@@ -13,7 +13,7 @@ order: 6
 
 Taking `label` as an example, you can set `labelWordWrap` and `labelWordWrapWidth` to achieve text overflow ellipsis.
 
-```typescript
+```typescript {3-4}
 {
   labelText: 'This is a long text',
   labelWordWrap: true,
@@ -37,7 +37,7 @@ When multiple interactions conflict with each other, you can set the enable timi
 
 Taking `drag-canvas` and `brush-select` as an example, if you directly configure these two interactions, dragging on the canvas will cause interaction exceptions. You can disable the `drag-canvas` interaction when the `shift` key is pressed.
 
-```typescript
+```typescript {4}
 behaviors: [
   {
     type: 'drag-canvas',
@@ -56,3 +56,32 @@ At this point, when the `shift` key is pressed, the `drag-canvas` interaction wi
 Both `draw` and `render` execute drawing operations, but `render` additionally performs **layout** and **auto fit** operations based on `draw`.
 
 You can simply understand it as: `render` = `draw` + `layout` + `fitView`/`fitCenter`.
+
+### Style in Data Not Effective
+
+Reason 1: The style in the data is overridden by the style in the style mapping.
+
+```typescript {5}
+{
+  data: [{ id: 'node-1', style: { fill: 'orange' } }],
+  node: {
+    style: {
+      fill: 'pink', // No matter what the style in the data is, it will be overridden by the style here
+    }
+  }
+}
+```
+
+Solution: Use a callback method to prioritize obtaining styles from the data to improve data priority.
+
+```typescript {5}
+{
+  node: {
+    style: (data) => {
+      return {
+        fill: data.style?.fill || 'pink',
+      };
+    };
+  }
+}
+```

@@ -13,7 +13,7 @@ order: 6
 
 以 label 为例，设置 `labelWordWrap` 和 `labelWordWrapWidth` 即可实现文本超出省略。
 
-```typescript
+```typescript {3-4}
 {
   labelText: 'This is a long text',
   labelWordWrap: true,
@@ -37,7 +37,7 @@ order: 6
 
 以 `drag-canvas` 和 `brush-select` 为例，如果直接配置这两个交互，当指针在画布上进行拖拽时，会导致交互异常。可以设置为在按下 `shift` 键时禁用 `drag-canvas` 交互。
 
-```typescript
+```typescript {4}
 behaviors: [
   {
     type: 'drag-canvas',
@@ -56,3 +56,32 @@ behaviors: [
 `draw` 和 `render` 都会执行绘制操作，但 `render` 会在 `draw` 的基础上额外进行**布局**、**视图自适应**操作。
 
 可以简单理解为：`render` = `draw` + `layout` + `fitView`/`fitCenter`。
+
+### 数据中的样式不生效
+
+原因一：被样式映射中的样式覆盖
+
+```typescript {5}
+{
+  data: [{ id: 'node-1', style: { fill: 'orange' } }],
+  node: {
+    style: {
+      fill: 'pink', // 无论数据中的样式如何，都会被这里的样式覆盖
+    }
+  }
+}
+```
+
+解决方式：使用回调方法，优先从数据中获取样式以提高数据优先级
+
+```typescript {5}
+{
+  node: {
+    style: (data) => {
+      return {
+        fill: data.style?.fill || 'pink',
+      }
+    }
+  }
+}
+```
