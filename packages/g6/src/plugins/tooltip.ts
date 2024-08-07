@@ -3,6 +3,7 @@ import { Tooltip as TooltipComponent } from '@antv/component';
 import { get } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { ElementDatum, ElementType, ID, IElementEvent } from '../types';
+import { isToBeDestroyed } from '../utils/element';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
@@ -235,8 +236,10 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
       client,
       target: { id },
     } = event;
-    const targetType = this.context.graph.getElementType(id);
+    if (isToBeDestroyed(event.target)) return;
     if (!this.tooltipElement || !this.isEnable(event)) return;
+
+    const targetType = this.context.graph.getElementType(id);
     const { getContent, title } = this.options;
     this.currentTarget = id;
     const items: ElementDatum[] = this.getElementData(id, targetType as ElementType);
