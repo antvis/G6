@@ -108,9 +108,10 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
       this.shortcut.bind(left, (event) => this.onTranslate([1, 0], event));
       this.shortcut.bind(right, (event) => this.onTranslate([-1, 0], event));
     } else {
-      this.context.graph.on(CanvasEvent.DRAG_START, this.onDragStart);
-      this.context.graph.on(CanvasEvent.DRAG, this.onDrag);
-      this.context.graph.on(CanvasEvent.DRAG_END, this.onDragEnd);
+      const { graph } = this.context;
+      graph.on(CanvasEvent.DRAG_START, this.onDragStart);
+      graph.on(CanvasEvent.DRAG, this.onDrag);
+      graph.on(CanvasEvent.DRAG_END, this.onDragEnd);
     }
   }
 
@@ -170,10 +171,10 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
   private unbindEvents() {
     this.shortcut.unbindAll();
-    const canvas = this.canvas;
-    canvas.removeEventListener(CanvasEvent.DRAG_START, this.onDragStart);
-    canvas.removeEventListener(CanvasEvent.DRAG, this.onDrag);
-    canvas.removeEventListener(CanvasEvent.DRAG_END, this.onDragEnd);
+    const { graph } = this.context;
+    graph.off(CanvasEvent.DRAG_START, this.onDragStart);
+    graph.off(CanvasEvent.DRAG, this.onDrag);
+    graph.off(CanvasEvent.DRAG_END, this.onDragEnd);
   }
 
   public destroy(): void {
