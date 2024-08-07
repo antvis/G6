@@ -3,7 +3,7 @@ import type { TreeData } from '../types';
 import { dfs } from './traverse';
 
 type TreeDataGetter = {
-  getNodeData?: (datum: TreeData) => NodeData;
+  getNodeData?: (datum: TreeData, depth: number) => NodeData;
   getEdgeData?: (source: TreeData, target: TreeData) => EdgeData;
   getChildren?: (datum: TreeData) => TreeData[];
 };
@@ -32,8 +32,8 @@ export function treeToGraphData(treeData: TreeData, getter?: TreeDataGetter): Gr
 
   dfs(
     treeData,
-    (node) => {
-      nodes.push(getNodeData(node));
+    (node, depth) => {
+      nodes.push(getNodeData(node, depth));
       const children = getChildren(node);
       for (const child of children) {
         edges.push(getEdgeData(node, child));
