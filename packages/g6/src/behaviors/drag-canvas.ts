@@ -1,6 +1,6 @@
 import type { Cursor } from '@antv/g';
 import { debounce, isObject } from '@antv/util';
-import { CanvasEvent } from '../constants';
+import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
 import type { ShortcutKey } from '../utils/shortcut';
@@ -72,10 +72,6 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
   private defaultCursor: Cursor;
 
-  private get canvas() {
-    return this.context.canvas.getLayer();
-  }
-
   constructor(context: RuntimeContext, options: DragCanvasOptions) {
     super(context, Object.assign({}, DragCanvas.defaultOptions, options));
 
@@ -109,9 +105,9 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
       this.shortcut.bind(right, (event) => this.onTranslate([-1, 0], event));
     } else {
       const { graph } = this.context;
-      graph.on(CanvasEvent.DRAG_START, this.onDragStart);
-      graph.on(CanvasEvent.DRAG, this.onDrag);
-      graph.on(CanvasEvent.DRAG_END, this.onDragEnd);
+      graph.on(CommonEvent.DRAG_START, this.onDragStart);
+      graph.on(CommonEvent.DRAG, this.onDrag);
+      graph.on(CommonEvent.DRAG_END, this.onDragEnd);
     }
   }
 
@@ -172,9 +168,9 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   private unbindEvents() {
     this.shortcut.unbindAll();
     const { graph } = this.context;
-    graph.off(CanvasEvent.DRAG_START, this.onDragStart);
-    graph.off(CanvasEvent.DRAG, this.onDrag);
-    graph.off(CanvasEvent.DRAG_END, this.onDragEnd);
+    graph.off(CommonEvent.DRAG_START, this.onDragStart);
+    graph.off(CommonEvent.DRAG, this.onDrag);
+    graph.off(CommonEvent.DRAG_END, this.onDragEnd);
   }
 
   public destroy(): void {
