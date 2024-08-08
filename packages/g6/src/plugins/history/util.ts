@@ -18,7 +18,7 @@ export function alignFields(refObject: Record<string, any>, targetObject: Record
     if (isObject(refObject[key]) && !Array.isArray(refObject[key]) && refObject[key] !== null) {
       if (!targetObject[key]) targetObject[key] = {};
       alignFields(refObject[key], targetObject[key]);
-    } else if (!targetObject[key]) {
+    } else if (targetObject[key] === undefined) {
       targetObject[key] = inferDefaultValue(key);
     }
   }
