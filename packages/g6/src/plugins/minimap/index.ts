@@ -201,7 +201,11 @@ export class Minimap extends BasePlugin<MinimapOptions> {
         if (!this.shapes.has(id)) {
           canvas.appendChild(cloneShape);
           this.shapes.set(id, cloneShape);
-        } else this.shapes.get(id)!.attr(shape.attributes);
+        } else {
+          Object.entries(shape.attributes).forEach(([key, value]) => {
+            if (cloneShape.style[key] !== value) cloneShape.style[key] = value;
+          });
+        }
       };
 
       // 注意执行顺序 / Note the execution order
