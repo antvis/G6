@@ -1,4 +1,4 @@
-import type { IRenderer } from '@antv/g';
+import type { Cursor, IRenderer } from '@antv/g';
 import type { Canvas } from '../runtime/canvas';
 
 /**
@@ -51,4 +51,10 @@ export interface CanvasOptions {
    * <en/> device pixel ratio
    */
   devicePixelRatio?: number;
+  /**
+   * <zh/> 指针样式
+   *
+   * <en/> cursor style
+   */
+  cursor?: Cursor;
 }

@@ -10,6 +10,7 @@ export const animationEdgeLine: TestCase = async (context) => {
       ],
       edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2' }],
     },
+    cursor: 'grab',
     edge: {
       style: {
         lineWidth: 2,
