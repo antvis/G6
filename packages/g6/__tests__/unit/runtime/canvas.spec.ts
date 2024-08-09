@@ -1,4 +1,4 @@
-import { createGraphCanvas } from '@@/utils';
+import { createGraph, createGraphCanvas } from '@@/utils';
 
 describe('Canvas', () => {
   const svg = createGraphCanvas(null, 500, 500, 'svg');
@@ -87,5 +87,15 @@ describe('Canvas', () => {
 
     expect([...camera.getFocalPoint()]).toBeCloseTo([150, 150, 0]);
     expect([...camera.getPosition()]).toBeCloseTo([150, 150, 500]);
+  });
+
+  it('cursor', async () => {
+    const graph = createGraph({
+      cursor: 'progress',
+    });
+
+    await graph.draw();
+
+    expect(graph.getCanvas().getConfig().cursor).toEqual('progress');
   });
 });

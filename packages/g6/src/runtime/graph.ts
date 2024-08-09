@@ -117,7 +117,8 @@ export class Graph extends EventEmitter {
    * @apiCategory option
    */
   public setOptions(options: GraphOptions): void {
-    const { behaviors, combo, data, edge, height, layout, node, plugins, theme, transforms, width, renderer } = options;
+    const { behaviors, combo, data, edge, height, layout, node, plugins, theme, transforms, width, cursor, renderer } =
+      options;
 
     if (renderer) {
       const canvas = this.context.canvas;
@@ -130,6 +131,7 @@ export class Graph extends EventEmitter {
 
     Object.assign(this.options, options);
 
+    if (cursor) this.context.canvas?.setCursor(cursor);
     if (behaviors) this.setBehaviors(behaviors);
     if (combo) this.setCombo(combo);
     if (data) this.setData(data);
@@ -1013,10 +1015,10 @@ export class Graph extends EventEmitter {
   private async initCanvas() {
     if (this.context.canvas) return await this.context.canvas.ready;
 
-    const { container = 'container', width, height, renderer, background } = this.options;
-
+    const { container = 'container', width, height, renderer, cursor, background } = this.options;
     if (container instanceof Canvas) {
       this.context.canvas = container;
+      if (cursor) container.setCursor(cursor);
       await container.ready;
     } else {
       const $container = isString(container) ? document.getElementById(container!) : container;
@@ -1030,6 +1032,7 @@ export class Graph extends EventEmitter {
         height: height || containerSize[1],
         background,
         renderer,
+        cursor,
       });
 
       this.context.canvas = canvas;
