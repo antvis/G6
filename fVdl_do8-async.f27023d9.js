@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["fVdl_do8"],{fVdl_do8:function(e,l,n){"use strict";n.d(l,"__esModule",{value:!0}),n.d(l,"demos",{enumerable:!0,get:function(){return o;}}),n("eLOskY9B"),n("JR04U2k_");let o={};}}]);
+//# sourceMappingURL=fVdl_do8-async.f27023d9.js.map

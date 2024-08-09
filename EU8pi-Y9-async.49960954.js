@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["EU8pi-Y9"],{"EU8pi-Y9":function(e,l,n){"use strict";n.d(l,"__esModule",{value:!0}),n.d(l,"demos",{enumerable:!0,get:function(){return s;}}),n("eLOskY9B"),n("K-gzrQZ9");let s={};}}]);
+//# sourceMappingURL=EU8pi-Y9-async.49960954.js.map

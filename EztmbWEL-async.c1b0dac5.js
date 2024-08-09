@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["EztmbWEL"],{EztmbWEL:function(e,s,t){"use strict";t.d(s,"__esModule",{value:!0}),t.d(s,"demos",{enumerable:!0,get:function(){return l;}}),t("eLOskY9B"),t("s4h-X90N");let l={};}}]);
+//# sourceMappingURL=EztmbWEL-async.c1b0dac5.js.map

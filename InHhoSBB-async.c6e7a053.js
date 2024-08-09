@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["InHhoSBB"],{InHhoSBB:function(e,n,l){"use strict";l.d(n,"__esModule",{value:!0}),l.d(n,"demos",{enumerable:!0,get:function(){return o;}}),l("eLOskY9B"),l("UK05yW2E");let o={};}}]);
+//# sourceMappingURL=InHhoSBB-async.c6e7a053.js.map

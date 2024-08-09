@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["Eei_RFuU"],{Eei_RFuU:function(e,a,t){"use strict";t.d(a,"__esModule",{value:!0}),t.d(a,"texts",{enumerable:!0,get:function(){return l;}}),t("FiI8Fids");let l=[{value:"@antv/g6",paraId:0},{value:" > ",paraId:1},{value:"RelativePlacement",paraId:2},{value:"export type RelativePlacement = [number, number];\n",paraId:3,tocIndex:0}];}}]);
+//# sourceMappingURL=Eei_RFuU-async.5d3c6a53.js.map

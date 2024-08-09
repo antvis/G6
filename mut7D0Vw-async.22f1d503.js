@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["mut7D0Vw"],{mut7D0Vw:function(a,e,t){"use strict";t.d(e,"__esModule",{value:!0}),t.d(e,"texts",{enumerable:!0,get:function(){return u;}}),t("Hr4tgVU_");let u=[{value:"@antv/g6",paraId:0},{value:" > ",paraId:1},{value:"History_2",paraId:2},{value:" > ",paraId:1},{value:"undoStack",paraId:3},{value:"undoStack: Command[];\n",paraId:4,tocIndex:0}];}}]);
+//# sourceMappingURL=mut7D0Vw-async.22f1d503.js.map

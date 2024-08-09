@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["WYCe4ola"],{WYCe4ola:function(e,l,a){"use strict";a.d(l,"__esModule",{value:!0}),a.d(l,"demos",{enumerable:!0,get:function(){return n;}}),a("eLOskY9B"),a("OvauQQca");let n={};}}]);
+//# sourceMappingURL=WYCe4ola-async.53d65b58.js.map

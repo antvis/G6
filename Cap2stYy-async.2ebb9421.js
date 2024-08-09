@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["Cap2stYy"],{Cap2stYy:function(e,a,t){"use strict";t.d(a,"__esModule",{value:!0}),t.d(a,"texts",{enumerable:!0,get:function(){return l;}}),t("KCKyVqVM");let l=[{value:"boolean",paraId:0,tocIndex:0},{value:"\u5F53\u524D\u56FE\u5B9E\u4F8B\u662F\u5426\u5DF2\u7ECF\u88AB\u9500\u6BC1",paraId:1,tocIndex:0}];}}]);
+//# sourceMappingURL=Cap2stYy-async.2ebb9421.js.map

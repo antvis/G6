@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["ipmU36Sc"],{ipmU36Sc:function(e,i,l){"use strict";l.d(i,"__esModule",{value:!0}),l.d(i,"demos",{enumerable:!0,get:function(){return n;}}),l("eLOskY9B"),l("N23v-vi9");let n={};}}]);
+//# sourceMappingURL=ipmU36Sc-async.5e710ead.js.map

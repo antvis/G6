@@ -1,0 +1,1 @@
+{"version":3,"sources":["docs/manual/further-reading/iconfont.en.md?type=demo"],"sourcesContent":["import React from 'react';\n     import '/home/runner/work/G6/G6/packages/site/docs/manual/further-reading/iconfont.en.md?watch=parent';\nexport const demos = {\n};"],"names":[],"mappings":"6PAEa,6CAAA,QAFK,cACN,YACL,IAAM,EAAQ,CACrB"}

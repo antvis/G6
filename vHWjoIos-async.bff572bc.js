@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["vHWjoIos"],{vHWjoIos:function(e,o,s){"use strict";s.d(o,"__esModule",{value:!0}),s.d(o,"demos",{enumerable:!0,get:function(){return l;}}),s("eLOskY9B"),s("C2EeTfmm");let l={};}}]);
+//# sourceMappingURL=vHWjoIos-async.bff572bc.js.map

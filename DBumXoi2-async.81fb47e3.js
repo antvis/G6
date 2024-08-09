@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["DBumXoi2"],{DBumXoi2:function(e,l,u){"use strict";u.d(l,"__esModule",{value:!0}),u.d(l,"demos",{enumerable:!0,get:function(){return n;}}),u("eLOskY9B"),u("Ok1Uwl0u");let n={};}}]);
+//# sourceMappingURL=DBumXoi2-async.81fb47e3.js.map

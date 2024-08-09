@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["dylVIaat"],{dylVIaat:function(e,l,a){"use strict";a.d(l,"__esModule",{value:!0}),a.d(l,"demos",{enumerable:!0,get:function(){return t;}}),a("eLOskY9B"),a("kqo1da0K");let t={};}}]);
+//# sourceMappingURL=dylVIaat-async.42806795.js.map

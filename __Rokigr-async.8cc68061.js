@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["__Rokigr"],{__Rokigr:function(e,o,s){"use strict";s.d(o,"__esModule",{value:!0}),s.d(o,"demos",{enumerable:!0,get:function(){return l;}}),s("eLOskY9B"),s("0Noehus9");let l={};}}]);
+//# sourceMappingURL=__Rokigr-async.8cc68061.js.map

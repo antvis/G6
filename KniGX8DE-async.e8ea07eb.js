@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["KniGX8DE"],{KniGX8DE:function(e,n,i){"use strict";i.d(n,"__esModule",{value:!0}),i.d(n,"demos",{enumerable:!0,get:function(){return l;}}),i("eLOskY9B"),i("jJdmXiMk");let l={};}}]);
+//# sourceMappingURL=KniGX8DE-async.e8ea07eb.js.map

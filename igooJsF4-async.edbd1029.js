@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["igooJsF4"],{igooJsF4:function(e,o,s){"use strict";s.d(o,"__esModule",{value:!0}),s.d(o,"demos",{enumerable:!0,get:function(){return l;}}),s("eLOskY9B"),s("xARo4q6e");let l={};}}]);
+//# sourceMappingURL=igooJsF4-async.edbd1029.js.map
