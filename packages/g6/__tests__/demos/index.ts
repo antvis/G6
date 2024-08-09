@@ -61,6 +61,7 @@ export { elementPosition } from './element-position';
 export { elementPositionCombo } from './element-position-combo';
 export { elementState } from './element-state';
 export { elementVisibility } from './element-visibility';
+export { elementVisibilityPart } from './element-visibility-part';
 export { elementZIndex } from './element-z-index';
 export { graphToDataURL } from './graph-to-data-url';
 export { layoutAntVDagreFlow } from './layout-antv-dagre-flow';

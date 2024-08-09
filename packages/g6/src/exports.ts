@@ -89,6 +89,7 @@ export { omitStyleProps, subStyleProps } from './utils/prefix';
 export { Shortcut } from './utils/shortcut';
 export { parseSize } from './utils/size';
 export { treeToGraphData } from './utils/tree';
+export { setVisibility } from './utils/visibility';
 
 export type { BaseStyleProps } from '@antv/g';
 export type {
