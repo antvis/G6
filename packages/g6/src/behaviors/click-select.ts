@@ -188,7 +188,7 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
         Object.assign(states, this.getClearStates(!!unselectedState));
         const addState = (list: ID[], state: State) => {
           list.forEach((id) => {
-            if (!states[id]) states[id] = [];
+            if (!states[id]) states[id] = graph.getElementState(id);
             states[id].push(state);
           });
         };
@@ -206,8 +206,7 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
       if (type === 'select') {
         const addState = (list: ID[], state: State) => {
           list.forEach((id) => {
-            const datum = graph.getElementData(id);
-            const dataStatesSet = new Set(statesOf(datum));
+            const dataStatesSet = new Set(graph.getElementState(id));
             dataStatesSet.add(state);
             dataStatesSet.delete(unselectedState);
             states[id] = Array.from(dataStatesSet);
