@@ -61,7 +61,10 @@ export function mergeOptions(opt1: DisplayObjectConfig<any>, opt2: DisplayObject
  */
 export function getSubShapeStyle<T extends Record<string, any>>(
   style: T,
-): Omit<T, 'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'class' | 'context' | 'zIndex'> {
-  const { x, y, z, class: cls, className, transform, transformOrigin, context, zIndex, ...rest } = style;
+): Omit<
+  T,
+  'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'class' | 'context' | 'zIndex' | 'visibility'
+> {
+  const { x, y, z, class: cls, className, transform, transformOrigin, context, zIndex, visibility, ...rest } = style;
   return rest;
 }
