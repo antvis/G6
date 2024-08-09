@@ -68,9 +68,9 @@ async function render() {
   const testCase = demos[Demo as keyof typeof demos];
   if (!testCase) return;
 
-  const result = await testCase({ container: canvas, animation: Animation, theme: Theme });
+  const graph = await testCase({ container: canvas, animation: Animation, theme: Theme });
 
-  Object.assign(window, { graph: result });
+  Object.assign(window, { graph, __g_instances__: Object.values(graph.getCanvas().getLayers()) });
 
   renderForm(panels.panel, testCase.form);
 }
