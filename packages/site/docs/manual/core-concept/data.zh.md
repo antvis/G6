@@ -28,7 +28,6 @@ G6 提供了一系列的 API 来访问和操作数据，包括：
 
 - [getData](/api/graph/method#graphgetdata)
 - [setData](/api/graph/method#graphsetdatadata)
-- [updateData](/api/graph/method#graphupdatedatadata)
 - [getNodeData](/api/graph/method#graphgetnodedata)
 - [getEdgeData](/api/graph/method#graphgetedgedata)
 - [getComboData](/api/graph/method#graphgetcombodata)
