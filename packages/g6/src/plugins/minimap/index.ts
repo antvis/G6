@@ -1,10 +1,10 @@
-import { Canvas, DisplayObject, IRenderer } from '@antv/g';
+import { Canvas, DisplayObject, IRenderer, Landmark } from '@antv/g';
 import { Renderer } from '@antv/g-canvas';
 import { throttle } from '@antv/util';
 import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
 import { GraphData } from '../../spec';
-import type { ElementDatum, ElementType, ID, IGraphLifeCycleEvent, Padding, Placement } from '../../types';
+import type { ElementDatum, ElementType, ID, IGraphLifeCycleEvent, Padding, Placement, Vector3 } from '../../types';
 import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
 import { parsePlacement } from '../../utils/placement';
@@ -201,7 +201,11 @@ export class Minimap extends BasePlugin<MinimapOptions> {
         if (!this.shapes.has(id)) {
           canvas.appendChild(cloneShape);
           this.shapes.set(id, cloneShape);
-        } else this.shapes.get(id)!.attr(shape.attributes);
+        } else {
+          Object.entries(shape.attributes).forEach(([key, value]) => {
+            if (cloneShape.style[key] !== value) cloneShape.style[key] = value;
+          });
+        }
       };
 
       // 注意执行顺序 / Note the execution order
@@ -308,6 +312,23 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     return this.canvas;
   }
 
+  private landmarkMap = new Map<string, Landmark>();
+
+  private createLandmark(position: Vector3, focalPoint: Vector3, zoom: number) {
+    const key = `${position.join(',')}-${focalPoint.join(',')}-${zoom}`;
+
+    if (this.landmarkMap.has(key)) return this.landmarkMap.get(key)!;
+
+    const camera = this.canvas.getCamera();
+    const landmark = camera.createLandmark(key, {
+      position,
+      focalPoint,
+      zoom,
+    });
+    this.landmarkMap.set(key, landmark);
+    return landmark;
+  }
+
   private setCamera() {
     const { canvas } = this.context;
 
@@ -319,7 +340,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       padding,
     } = this.options;
     const [top, right, bottom, left] = parsePadding(padding);
-    const { min: boundsMin, max: boundsMax, center } = canvas.getBounds();
+    const { min: boundsMin, max: boundsMax, center } = canvas.getBounds('elements');
     const boundsWidth = boundsMax[0] - boundsMin[0];
     const boundsHeight = boundsMax[1] - boundsMin[1];
 
@@ -330,9 +351,8 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const scaleY = availableHeight / boundsHeight;
     const scale = Math.min(scaleX, scaleY);
 
-    camera.setPosition(center);
-    camera.setFocalPoint(center);
-    camera.setZoom(scale);
+    const landmark = this.createLandmark(center, center, scale);
+    camera.gotoLandmark(landmark, 0);
   }
 
   private mask: HTMLElement | null = null;
@@ -349,14 +369,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const width = maskMax.x - maskMin.x;
     const height = maskMax.y - maskMin.y;
 
-    const zoom = this.context.canvas.getCamera().getZoom();
-
-    // magic number
-    const ratio = zoom * 0.5;
-    const x = maskMin.x - width * ratio;
-    const y = maskMin.y - height * ratio;
-
-    return [x, y, width, height];
+    return [maskMin.x, maskMin.y, width, height];
   }
 
   /**
