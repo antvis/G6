@@ -2,7 +2,7 @@
   <defs/>
   <g transform="matrix(3.333333,0,0,3.333333,-583.333313,-583.333374)">
     <g fill="none">
-      <g fill="none">
+      <g fill="none" class="elements">
         <g fill="none" x="200" y="250" transform="matrix(1,0,0,1,200,250)">
           <g>
             <circle fill="rgba(212,65,76,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="25"/>

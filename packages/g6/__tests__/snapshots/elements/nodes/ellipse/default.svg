@@ -2,7 +2,7 @@
   <defs/>
   <g >
     <g fill="none">
-      <g fill="none">
+      <g fill="none" class="elements">
         <g fill="none" x="83.33333333333333" y="62.5" transform="matrix(1,0,0,1,83.333336,62.500000)">
           <g>
             <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5" ry="17.5"/>

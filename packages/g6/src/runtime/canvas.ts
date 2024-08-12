@@ -159,11 +159,34 @@ export class Canvas {
     });
   }
 
-  public getBounds() {
+  /**
+   * <zh/> 获取画布边界
+   *
+   * <en/> Get canvas boundary
+   * @param group
+   * <zh/> 元素分组
+   * - undefined: 获取整个画布边界
+   * - 'elements': 仅获取元素边界
+   * - 'plugins': 仅获取插件边界
+   *
+   * <en/> Element group
+   * - undefined: Get the entire canvas boundary
+   * - 'elements': Get only the element boundary
+   * - 'plugins': Get only the plugin boundary
+   * @returns <zh/> 边界 <en/> Boundary
+   */
+  public getBounds(group?: 'elements' | 'plugins') {
     return getCombinedBBox(
       Object.values(this.getLayers())
-        .map((canvas) => canvas.document.documentElement)
-        .filter((el) => el.childNodes.length > 0)
+        .map((canvas) => {
+          const g = group
+            ? (canvas
+                .getRoot()
+                .childNodes.find((node) => (node as DisplayObject).classList.includes(group)) as DisplayObject)
+            : canvas.getRoot();
+          return g;
+        })
+        .filter((el) => el?.childNodes.length > 0)
         .map((el) => el.getBounds()),
     );
   }

@@ -52,7 +52,7 @@ export class ElementController {
   public init() {
     if (!this.container) {
       const { canvas } = this.context;
-      this.container = canvas.appendChild(new Group());
+      this.container = canvas.appendChild(new Group({ className: 'elements' }));
     }
   }
 
