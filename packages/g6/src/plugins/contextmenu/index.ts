@@ -1,11 +1,11 @@
 import type { RuntimeContext } from '../../runtime/types';
+import type { Element } from '../../types';
 import type { IElementEvent } from '../../types/event';
 import { createPluginContainer, insertDOM } from '../../utils/dom';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 import type { Item } from './util';
 import { CONTEXTMENU_CSS, getContentFromItems } from './util';
-
 /**
  * <zh/> 上下文菜单配置项
  *
@@ -42,7 +42,7 @@ export interface ContextmenuOptions extends BasePluginOptions {
    *
    * <en/> The callback method triggered when the menu is clicked
    */
-  onClick?: (value: string, target: HTMLElement) => void;
+  onClick?: (value: string, target: HTMLElement, current: Element) => void;
   /**
    * <zh/> 返回菜单的项目列表，支持 `Promise` 类型的返回值。是 `getContent` 的快捷配置
    *
@@ -89,6 +89,8 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
   };
 
   private $element!: HTMLElement;
+
+  private targetElement: Element | null = null;
 
   constructor(context: RuntimeContext, options: ContextmenuOptions) {
     super(context, Object.assign({}, Contextmenu.defaultOptions, options));
@@ -138,6 +140,8 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     this.$element.style.left = `${event.client.x - clientRect.left + offset[0]}px`;
     this.$element.style.top = `${event.client.y - clientRect.top + offset[1]}px`;
     this.$element.style.display = 'block';
+
+    this.targetElement = event.target;
   }
 
   /**
@@ -147,6 +151,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
    */
   public hide() {
     this.$element.style.display = 'none';
+    this.targetElement = null;
   }
 
   /**
@@ -218,7 +223,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     if (event.target instanceof HTMLElement) {
       if (event.target.className.includes('g6-contextmenu-li')) {
         const value = event.target.getAttribute('value') as string;
-        onClick?.(value, event.target);
+        onClick?.(value, event.target, this.targetElement!);
         this.hide();
       }
     }
