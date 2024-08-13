@@ -2,7 +2,7 @@
   <defs/>
   <g transform="matrix(0.819672,0,0,0.819672,-6.147559,-25.819689)">
     <g fill="none">
-      <g fill="none">
+      <g fill="none" class="elements">
         <g fill="none" x="122.5" y="400" transform="matrix(1,0,0,1,122.500000,400)">
           <g>
             <path fill="rgba(153,173,209,1)" d="M -107,-25 l 214,0 a 8,8,0,0,1,8,8 l 0,34 a 8,8,0,0,1,-8,8 l -214,0 a 8,8,0,0,1,-8,-8 l 0,-34 a 8,8,0,0,1,8,-8 z" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" width="230" height="50" x="-115" y="-25"/>
