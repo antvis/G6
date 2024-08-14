@@ -18,7 +18,7 @@ import type {
 } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getArrowSize, getBadgePositionStyle, getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
-import { findPorts, getConnectionPoint, isSameNode } from '../../utils/element';
+import { findPorts, getConnectionPoint, getPortPosition, isSameNode } from '../../utils/element';
 import { omitStyleProps, subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { mergeOptions } from '../../utils/style';
@@ -153,7 +153,7 @@ export interface BaseEdgeStyleProps
   /**
    * <zh/> 在路径除了 “起点” 和 “终点” 之外的每一个顶点上放置标记图形。在内部实现中，由于我们会把路径中部分命令转换成 C 命令，因此这些顶点实际是三阶贝塞尔曲线的控制点
    *
-   * <en/> Place a marker graphic on each vertex of the path except for the "start point" and "end point". In the internal implementation, because we will convert some commands in the path to C commands, these vertices are actually the control points of the cubic Bezier curve
+   * <en/> Place a marker graphic on each vertex of the path except for the "start point" and "end point". In the internal implementation, because we will convert some commands in the path to C commands, these controlPoints are actually the control points of the cubic Bezier curve
    */
   markerMid?: DisplayObject | null;
   /**
@@ -258,14 +258,28 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
     return getCubicLoopPath(node, placement, clockwise, dist, sourcePort, targetPort);
   }
 
-  protected getEndpoints(attributes: ParsedBaseEdgeStyleProps): [Point, Point] {
+  protected getEndpoints(
+    attributes: ParsedBaseEdgeStyleProps,
+    optimize = true,
+    controlPoints: Point[] | (() => Point[]) = [],
+  ): [Point, Point] {
     const { sourcePort: sourcePortKey, targetPort: targetPortKey } = attributes;
     const { sourceNode, targetNode } = this;
 
     const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
 
-    const sourcePoint = getConnectionPoint(sourcePort || sourceNode, targetPort || targetNode);
-    const targetPoint = getConnectionPoint(targetPort || targetNode, sourcePort || sourceNode);
+    if (!optimize) {
+      const sourcePoint = sourcePort ? getPortPosition(sourcePort) : sourceNode.getCenter();
+      const targetPoint = targetPort ? getPortPosition(targetPort) : targetNode.getCenter();
+      return [sourcePoint, targetPoint];
+    }
+
+    const _controlPoints = typeof controlPoints === 'function' ? controlPoints() : controlPoints;
+    const sourcePoint = getConnectionPoint(sourcePort || sourceNode, _controlPoints[0] || targetPort || targetNode);
+    const targetPoint = getConnectionPoint(
+      targetPort || targetNode,
+      _controlPoints[_controlPoints.length - 1] || sourcePort || sourceNode,
+    );
 
     return [sourcePoint, targetPoint];
   }

@@ -1,3 +1,4 @@
+import { Rect } from '@/src';
 import type { Point } from '@/src/types';
 import {
   freeJoin,
@@ -20,89 +21,76 @@ describe('router', () => {
     bbox.setMinMax([0, 0, 0], [1, 2, 0]);
 
     it('orth', () => {
-      const sourceBBox = new AABB();
-      sourceBBox.setMinMax([-10, -10, 0], [20, 20, 0]);
+      const sourceNode = new Rect({ style: { size: 15, x: 5, y: 5 } });
       const sourcePoint: Point = [5, 5];
-      const targetBBox = new AABB();
-      targetBBox.setMinMax([10, 10, 0], [40, 40, 0]);
+      const targetNode = new Rect({ style: { size: 15, x: 25, y: 25 } });
       const targetPoint: Point = [25, 25];
       const controlPoints: Point[] = [[5, 10]];
-      expect(orth(sourcePoint, targetPoint, sourceBBox, targetBBox, controlPoints, 10)).toEqual([
-        [-10.01, 5],
-        [-10.01, 20.01],
-        [5, 20.01],
+      expect(orth(sourcePoint, targetPoint, sourceNode, targetNode, controlPoints, { padding: 10 })).toEqual([
+        [-12.51, 5],
+        [-12.51, 22.51],
+        [5, 22.51],
         [5, 10],
-        [5, 10],
-        [25, 10],
+        [5, 7.5],
+        [25, 7.5],
       ]);
 
-      const sourceBBox2 = new AABB();
-      sourceBBox2.setMinMax([0, 0, 0], [10, 10, 0]);
-      const targetBBox2 = new AABB();
-      targetBBox2.setMinMax([0, 0, 0], [20, 20, 0]);
-      const controlPoints2: Point[] = [[5, 5]];
-      expect(orth([5, 5], [15, 15], sourceBBox2, targetBBox2, controlPoints2, 10)).toEqual([
-        [-5.01, 5],
-        [-5.01, -5.01],
-        [5, -5.01],
-        [5, 5],
-        [5, 20.01],
-        [15, 20.01],
+      const sourceNode2 = new Rect({ style: { size: 25, x: 100, y: 100 } });
+      const targetNode2 = new Rect({ style: { size: 25, x: 150, y: 150 } });
+      const controlPoints2: Point[] = [[160, 100]];
+      expect(orth([100, 100], [150, 150], sourceNode2, targetNode2, controlPoints2, { padding: 10 })).toEqual([
+        [160, 100],
+        [172.5, 100],
+        [172.5, 150],
       ]);
-      expect(orth([5, 5], [15, 15], sourceBBox2, targetBBox2, [], 10)).toEqual([
-        [-0.01, 5],
-        [-0.01, 15],
-      ]);
+      expect(orth([100, 100], [150, 150], sourceNode2, targetNode2, [], { padding: 10 })).toEqual([[100, 150]]);
 
-      const sourceBBox3 = new AABB();
-      sourceBBox3.setMinMax([0, 0, 0], [10, 10, 0]);
-      const targetBBox3 = new AABB();
-      targetBBox3.setMinMax([20, 20, 0], [30, 30, 0]);
-      expect(orth([10, 5], [25, 30], sourceBBox3, targetBBox3, [], 10)).toEqual([[10, 30]]);
-      expect(orth([10, 5], [25, 30], sourceBBox3, targetBBox3, [[20, 20]], 10)).toEqual([
+      const sourceNode3 = new Rect({ style: { size: 5, x: 5, y: 0 } });
+      const targetNode3 = new Rect({ style: { size: 5, x: 20, y: 25 } });
+      expect(orth([10, 5], [25, 30], sourceNode3, targetNode3, [], { padding: 0 })).toEqual([[10, 30]]);
+      expect(orth([10, 5], [25, 30], sourceNode3, targetNode3, [[20, 20]], { padding: 0 })).toEqual([
         [10, 20],
         [20, 20],
-        [30.01, 20],
-        [30.01, 30],
+        [25, 20],
       ]);
       expect(
         orth(
           [10, 5],
           [25, 30],
-          sourceBBox3,
-          targetBBox3,
+          sourceNode3,
+          targetNode3,
           [
             [20, 20],
             [22, 22],
           ],
-          10,
+          { padding: 10 },
         ),
       ).toEqual([
         [10, 20],
         [20, 20],
         [22, 20],
         [22, 22],
-        [22, 32.01],
-        [25, 32.01],
+        [22, 37.51],
+        [25, 37.51],
       ]);
       expect(
         orth(
           [10, 5],
           [25, 30],
-          sourceBBox3,
-          targetBBox3,
+          sourceNode3,
+          targetNode3,
           [
             [20, 20],
             [20, 22],
           ],
-          10,
+          { padding: 10 },
         ),
       ).toEqual([
         [10, 20],
         [20, 20],
         [20, 22],
-        [20, 32.01],
-        [25, 32.01],
+        [20, 37.51],
+        [25, 37.51],
       ]);
     });
 

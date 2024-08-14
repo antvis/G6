@@ -3,7 +3,6 @@ import type { PathArray } from '@antv/util';
 import type { LoopStyleProps, Point, PolylineRouter } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getPolylineLoopPath, getPolylinePath } from '../../utils/edge';
-import { findPorts, getConnectionPoint, getPortPosition } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { orth } from '../../utils/router/orth';
 import { aStarSearch } from '../../utils/router/shortest-path';
@@ -58,31 +57,30 @@ export class Polyline extends BaseEdge {
   }
 
   protected getPoints(attributes: ParsedPolylineStyleProps): Point[] {
-    const { controlPoints, router } = attributes;
+    const { router } = attributes;
     const { sourceNode, targetNode } = this;
+    const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false);
 
-    const { sourcePort: sourcePortKey, targetPort: targetPortKey } = attributes;
-    const [sourcePort, targetPort] = findPorts(sourceNode, targetNode, sourcePortKey, targetPortKey);
+    let controlPoints: Point[] = [];
 
-    const sourcePoint = sourcePort ? getPortPosition(sourcePort) : sourceNode.getCenter();
-    const targetPoint = targetPort ? getPortPosition(targetPort) : targetNode.getCenter();
-
-    if (!router) return [sourcePoint, ...controlPoints, targetPoint];
-
-    if (router.type === 'orth') {
-      const vertices = orth(sourcePoint, targetPoint, sourceNode, targetNode, controlPoints, router);
-
-      const newSourcePoint = getConnectionPoint(sourcePort || sourceNode, vertices[0] || targetPort || targetNode);
-      const newTargetPoint = getConnectionPoint(
-        targetPort || targetNode,
-        vertices[vertices.length - 1] || sourcePort || sourceNode,
-      );
-
-      return [newSourcePoint, ...vertices, newTargetPoint];
+    if (!router) {
+      controlPoints = attributes.controlPoints;
+    } else {
+      if (router.type === 'shortest-path') {
+        const nodes = this.context.element!.getNodes();
+        controlPoints = aStarSearch(sourceNode, targetNode, nodes, router);
+        if (!controlPoints.length) {
+          controlPoints = orth(sourcePoint, targetPoint, sourceNode, targetNode, attributes.controlPoints, {
+            padding: router.offset,
+          });
+        }
+      } else if (router.type === 'orth') {
+        controlPoints = orth(sourcePoint, targetPoint, sourceNode, targetNode, attributes.controlPoints, router);
+      }
     }
 
-    const nodes = this.context.element!.getNodes();
-    return aStarSearch(sourceNode, targetNode, nodes, router);
+    const [newSourcePoint, newTargetPoint] = this.getEndpoints(attributes, true, controlPoints);
+    return [newSourcePoint, ...controlPoints, newTargetPoint];
   }
 
   protected getKeyPath(attributes: ParsedPolylineStyleProps): PathArray {

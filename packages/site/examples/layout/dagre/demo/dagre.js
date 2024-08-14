@@ -34,7 +34,9 @@ const graph = new Graph({
   edge: {
     type: 'polyline',
     style: {
-      router: true,
+      router: {
+        type: 'orth',
+      },
     },
   },
   layout: {

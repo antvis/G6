@@ -8,7 +8,7 @@ const defaultCfg: ShortestPathRouterOptions = {
   enableObstacleAvoidance: false,
   offset: 10,
   maxAllowedDirectionChange: Math.PI / 2,
-  maximumLoops: 2000,
+  maximumLoops: 3000,
   gridSize: 5,
   startDirections: ['top', 'right', 'bottom', 'left'],
   endDirections: ['top', 'right', 'bottom', 'left'],
@@ -318,7 +318,7 @@ export function aStarSearch(
   }
 
   while (Object.keys(openList).length > 0 && remainLoops > 0) {
-    const minId = sortedOpenSet.minId((remainLoops + 1) % 30 === 0);
+    const minId = sortedOpenSet.minId(false);
     if (minId) {
       current = openList[minId];
     } else {

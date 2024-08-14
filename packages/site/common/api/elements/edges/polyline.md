@@ -27,7 +27,9 @@ createGraph(
           target: 'node2',
           type: 'polyline',
           style: {
-            router: true,
+            router: {
+              type: 'orth',
+            },
           },
         },
       ],
@@ -42,7 +44,9 @@ createGraph(
     let index = 3;
     const options = {
       radius: 0,
-      router: true,
+      router: {
+        type: 'orth',
+      },
       random: () => {
         const x = Math.floor(Math.random() * 600);
         const y = Math.floor(Math.random() * 300);
@@ -74,7 +78,7 @@ createGraph(
 
     optionFolder.onChange(({ property, value }) => {
       if (property === 'random') return;
- graph.updateEdgeData([{ id: 'edge1', style: { [property]: value } }]);
+      graph.updateEdgeData([{ id: 'edge1', style: { [property]: value } }]);
       graph.render();
     });
   },

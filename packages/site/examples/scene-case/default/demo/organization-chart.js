@@ -187,7 +187,9 @@ fetch('https://assets.antv.antgroup.com/g6/organization-chart.json')
       edge: {
         type: 'polyline',
         style: {
-          router: true,
+          router: {
+            type: 'orth',
+          },
           stroke: '#C0C0C0',
         },
       },
