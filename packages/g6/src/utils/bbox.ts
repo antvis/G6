@@ -247,3 +247,27 @@ export function getIncircleRadius(bbox: AABB, direction: TriangleDirection): num
   // 三角形的内切圆半径
   return (h ** 2 - (Math.sqrt((w / 2) ** 2 + h ** 2) - w / 2) ** 2) / (2 * h);
 }
+
+/**
+ * <zh/> 获取包围盒的四条边，顺序依次为上、右、下、左
+ *
+ * <en/> Get the four segments of the bounding box, in order from top, right, bottom, left
+ * @param bbox - <zh/> 包围盒 | <en/> Bounding box
+ * @returns <zh/> 包围盒的四条边 | <en/> The four segments of the bounding box
+ */
+export function getBBoxSegments(bbox: AABB): [Point, Point][] {
+  const {
+    min: [minX, minY],
+    max: [maxX, maxY],
+  } = bbox;
+  const topLeftCorner: Point = [minX, maxY];
+  const topRightCorner: Point = [maxX, maxY];
+  const bottomRightCorner: Point = [maxX, minY];
+  const bottomLeftCorner: Point = [minX, minY];
+
+  const top = [topLeftCorner, topRightCorner];
+  const right = [topRightCorner, bottomRightCorner];
+  const bottom = [bottomRightCorner, bottomLeftCorner];
+  const left = [bottomLeftCorner, topLeftCorner];
+  return [top, right, bottom, left] as [Point, Point][];
+}

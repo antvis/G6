@@ -10,6 +10,8 @@ import {
   pointToNode,
   pointToPoint,
 } from '@/src/utils/router/orth';
+import { estimateCost, getNearestPoint } from '@/src/utils/router/shortest-path';
+import { manhattanDistance } from '@/src/utils/vector';
 import { AABB } from '@antv/g';
 
 describe('router', () => {
@@ -179,6 +181,37 @@ describe('router', () => {
       const sourcePoint: Point = [5, 10];
       const targetPoint: Point = [20, 5];
       expect(freeJoin(sourcePoint, targetPoint, sourceBBox)).toEqual([20, 10]);
+    });
+  });
+
+  describe('shortestPath', () => {
+    it('estimateCost', () => {
+      expect(
+        estimateCost(
+          [0, 0],
+          [
+            [1, 0],
+            [0, 1],
+            [1, 1],
+          ],
+          manhattanDistance,
+        ),
+      ).toEqual(1);
+    });
+
+    it('getNearestPoint', () => {
+      expect(
+        getNearestPoint(
+          [
+            [0, 0],
+            [1, 0],
+            [0, 1],
+            [1, 1],
+          ],
+          [2, 0],
+          manhattanDistance,
+        ),
+      ).toEqual([1, 0]);
     });
   });
 });
