@@ -58,6 +58,7 @@
     "pointset",
     "Polyline",
     "ranksep",
+    "Snapline",
     "Timebar"
   ],
   "javascript.preferences.importModuleSpecifier": "relative",

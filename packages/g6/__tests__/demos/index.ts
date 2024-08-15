@@ -118,6 +118,7 @@ export { pluginHistory } from './plugin-history';
 export { pluginHull } from './plugin-hull';
 export { pluginLegend } from './plugin-legend';
 export { pluginMinimap } from './plugin-minimap';
+export { pluginSnapline } from './plugin-snapline';
 export { pluginTimebar } from './plugin-timebar';
 export { pluginToolbarBuildIn } from './plugin-toolbar-build-in';
 export { pluginToolbarIconfont } from './plugin-toolbar-iconfont';
