@@ -75,6 +75,15 @@ describe('element edge polyline astar', () => {
     await graph.render();
     await expect(graph).toMatchSnapshot(__filename, 'obstacle-move-node-3');
 
+    graph.updateNodeData([
+      {
+        id: 'node-2',
+        style: { x: 2000, y: 200 },
+      },
+    ]);
+    await graph.render();
+    await expect(graph).toMatchSnapshot(__filename, 'obstacle-move-node-4');
+
     graph.destroy();
   });
 });
