@@ -239,7 +239,7 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
         }
 
         if (verticalX !== null) {
-          verticalMinY = Math.min(snapMinY, snapMinY);
+          verticalMinY = Math.min(snapMinY, nodeMinY);
           verticalMaxY = Math.max(snapMaxY, nodeMaxY);
         }
       }
@@ -263,7 +263,7 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
         }
       }
 
-      return verticalX !== null || horizontalY !== null;
+      return verticalX !== null && horizontalY !== null;
     });
 
     this.hideSnapline();

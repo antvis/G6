@@ -26,6 +26,7 @@ export const pluginSnapline: TestCase = async (context) => {
         key: 'snapline',
         verticalLineStyle: { stroke: '#F08F56', lineWidth: 2 },
         horizontalLineStyle: { stroke: '#17C76F', lineWidth: 2 },
+        auto: false,
       },
     ],
   });
