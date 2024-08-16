@@ -1,4 +1,4 @@
-import { Graph } from '@antv/g6';
+import { Graph, Node } from '@antv/g6';
 
 export const pluginSnapline: TestCase = async (context) => {
   const graph = new Graph({
@@ -46,7 +46,7 @@ export const pluginSnapline: TestCase = async (context) => {
         .onChange((filter: boolean) => {
           graph.updatePlugin({
             key: 'snapline',
-            filter: (nodeId: string) => (filter ? nodeId !== 'node3' : true),
+            filter: (node: Node) => (filter ? node.id !== 'node3' : true),
           });
           graph.render();
         }),

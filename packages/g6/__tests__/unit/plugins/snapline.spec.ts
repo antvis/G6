@@ -1,4 +1,4 @@
-import { NodeEvent, type Graph } from '@/src';
+import { Node, NodeEvent, type Graph } from '@/src';
 import { pluginSnapline } from '@@/demos';
 import { createDemoGraph } from '../../utils';
 
@@ -61,7 +61,7 @@ describe('plugin snapline', () => {
     await expect(graph).toMatchSnapshot(__filename, `offset-infinity`);
     graph.emit(NodeEvent.DRAG_END, { target: node });
 
-    graph.updatePlugin({ key: 'snapline', filter: (nodeId: string) => nodeId !== 'node2' });
+    graph.updatePlugin({ key: 'snapline', filter: (node: Node) => node.id !== 'node2' });
     graph.render();
     graph.emit(NodeEvent.DRAG_START, { target: node, targetType: 'node' });
     graph.emit(NodeEvent.DRAG, { target: node, dx: 0, dy: 0 });

@@ -1,18 +1,11 @@
 import { AABB, ICamera } from '@antv/g';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
-import type {
-  FitViewOptions,
-  ID,
-  Node,
-  Point,
-  TransformOptions,
-  Vector2,
-  ViewportAnimationEffectTiming,
-} from '../types';
+import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
 import { getAnimationOptions } from '../utils/animation';
-import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
+import { getBBoxSize, getCombinedBBox, isPointInBBox } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
+import { isPoint } from '../utils/is';
 import { parsePadding } from '../utils/padding';
 import { add, divide, subtract } from '../utils/vector';
 import type { RuntimeContext } from './types';
@@ -276,7 +269,14 @@ export class ViewportController {
     return bboxInViewport;
   }
 
-  public isNodeInViewport(node: Node) {
+  /**
+   * <zh/> 判断点或包围盒是否在视口中
+   *
+   * <en/> Determine whether the point or bounding box is in the viewport
+   * @param target - <zh/> 点或包围盒 | <en/> Point or bounding box
+   * @returns - <zh/> 是否在视口中 | <en/> Whether it is in the viewport
+   */
+  public isInViewport(target: Point | AABB) {
     const { graph } = this.context;
     const size = this.getCanvasSize();
 
@@ -286,8 +286,7 @@ export class ViewportController {
     const viewportBBox = new AABB();
     viewportBBox.setMinMax([x1, y1, 0], [x2, y2, 0]);
 
-    const nodeBBox = node.getRenderBounds();
-    return viewportBBox.intersects(nodeBBox);
+    return isPoint(target) ? isPointInBBox(target, viewportBBox) : viewportBBox.intersects(target);
   }
 
   public cancelAnimation() {

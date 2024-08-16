@@ -64,7 +64,7 @@ export interface SnaplineOptions extends BasePluginOptions {
    * <en/> Filter, used to filter nodes that do not need to be used as references
    * @defaultValue `() => true`
    */
-  filter?: (nodeId: string, node: Node) => boolean;
+  filter?: (node: Node) => boolean;
 }
 
 const defaultLineStyle: LineStyleProps = { x1: 0, y1: 0, x2: 0, y2: 0, visibility: 'hidden' };
@@ -120,12 +120,12 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
     // 不考虑超出画布视口范围、不可见的节点
     // Nodes that are out of the canvas viewport range, invisible are not considered
     const nodes = allNodes.filter((node) => {
-      return isVisible(node) && this.context.viewport?.isNodeInViewport(node);
+      return isVisible(node) && this.context.viewport?.isInViewport(node.getRenderBounds());
     });
 
     if (!filter) return nodes;
 
-    return nodes.filter((node) => filter(node.id, node));
+    return nodes.filter((node) => filter(node));
   }
 
   private hideSnapline() {
