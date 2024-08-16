@@ -1,7 +1,15 @@
-import { AABB } from '@antv/g';
+import { AABB, ICamera } from '@antv/g';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
-import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
+import type {
+  FitViewOptions,
+  ID,
+  Node,
+  Point,
+  TransformOptions,
+  Vector2,
+  ViewportAnimationEffectTiming,
+} from '../types';
 import { getAnimationOptions } from '../utils/animation';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
@@ -30,7 +38,20 @@ export class ViewportController {
   }
 
   private get camera() {
-    return this.context.canvas.getCamera();
+    const { canvas } = this.context;
+    return new Proxy(canvas.getCamera(), {
+      get: (target, prop: keyof ICamera) => {
+        const transientCamera = canvas.getLayer('transient').getCamera();
+        const value = target[prop];
+        if (typeof value === 'function') {
+          return (...args: any[]) => {
+            const result = (value as (...args: any[]) => any).apply(target, args);
+            (transientCamera[prop] as (...args: any[]) => any).apply(transientCamera, args);
+            return result;
+          };
+        }
+      },
+    });
   }
 
   private landmarkCounter = 0;
@@ -253,6 +274,20 @@ export class ViewportController {
     const bboxInViewport = new AABB();
     bboxInViewport.setMinMax([x1, y1, 0], [x2, y2, 0]);
     return bboxInViewport;
+  }
+
+  public isNodeInViewport(node: Node) {
+    const { graph } = this.context;
+    const size = this.getCanvasSize();
+
+    const [x1, y1] = graph.getCanvasByViewport([0, 0]);
+    const [x2, y2] = graph.getCanvasByViewport(size);
+
+    const viewportBBox = new AABB();
+    viewportBBox.setMinMax([x1, y1, 0], [x2, y2, 0]);
+
+    const nodeBBox = node.getRenderBounds();
+    return viewportBBox.intersects(nodeBBox);
   }
 
   public cancelAnimation() {

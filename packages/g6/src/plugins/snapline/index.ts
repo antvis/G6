@@ -2,10 +2,8 @@ import { AABB, BaseStyleProps, DisplayObject, Line, LineStyleProps } from '@antv
 import { isEqual } from '@antv/util';
 import { NodeEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
-import type { ID, Node } from '../../types';
-import { IPointerEvent } from '../../types';
-import { idOf } from '../../utils/id';
-import { positionOf } from '../../utils/position';
+import type { ID, IDragEvent, Node } from '../../types';
+import { isVisible } from '../../utils/element';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 
@@ -30,7 +28,7 @@ export interface SnaplineOptions extends BasePluginOptions {
    * <en/> Whether to enable automatic adsorption
    * @defaultValue true
    */
-  auto?: boolean;
+  autoSnap?: boolean;
   /**
    * <zh/> 指定元素上的哪个图形作为参照图形
    *
@@ -66,7 +64,7 @@ export interface SnaplineOptions extends BasePluginOptions {
    * <en/> Filter, used to filter nodes that do not need to be used as references
    * @defaultValue `() => true`
    */
-  filter?: (nodeId: string) => boolean;
+  filter?: (nodeId: string, node: Node) => boolean;
 }
 
 const defaultLineStyle: LineStyleProps = { x1: 0, y1: 0, x2: 0, y2: 0, visibility: 'hidden' };
@@ -84,7 +82,7 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
   static defaultOptions: Partial<SnaplineOptions> = {
     tolerance: 5,
     offset: 20,
-    auto: true,
+    autoSnap: true,
     shape: 'key',
     verticalLineStyle: { stroke: '#1783FF' },
     horizontalLineStyle: { stroke: '#1783FF' },
@@ -93,8 +91,6 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
 
   private horizontalLine!: Line;
   private verticalLine!: Line;
-
-  private isFrozen = false;
 
   constructor(context: RuntimeContext, options: SnaplineOptions) {
     super(context, Object.assign({}, Snapline.defaultOptions, options));
@@ -117,14 +113,19 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
     }
   };
 
-  private getNodes() {
+  private getNodes(): Node[] {
     const { filter } = this.options;
-    const { model } = this.context;
-    const nodeData = model.getNodeData();
+    const allNodes = this.context.element?.getNodes() || [];
 
-    if (!filter) return nodeData;
+    // 不考虑超出画布视口范围、不可见的节点
+    // Nodes that are out of the canvas viewport range, invisible are not considered
+    const nodes = allNodes.filter((node) => {
+      return isVisible(node) && this.context.viewport?.isNodeInViewport(node);
+    });
 
-    return nodeData.filter((datum) => filter(datum.id));
+    if (!filter) return nodes;
+
+    return nodes.filter((node) => filter(node.id, node));
   }
 
   private hideSnapline() {
@@ -158,7 +159,11 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
     }
   }
 
-  private snapToLine = async (nodeId: ID, bbox: AABB, metadata: Metadata) => {
+  private isHorizontalSticking = false;
+  private isVerticalSticking = false;
+  private enableStick = true;
+
+  private autoSnapToLine = async (nodeId: ID, bbox: AABB, metadata: Metadata) => {
     const { verticalX, horizontalY } = metadata;
     const { tolerance } = this.options;
     const {
@@ -173,32 +178,63 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
       if (distance(nodeMaxX, verticalX) < tolerance) dx = verticalX - nodeMaxX;
       if (distance(nodeMinX, verticalX) < tolerance) dx = verticalX - nodeMinX;
       if (distance(nodeCenterX, verticalX) < tolerance) dx = verticalX - nodeCenterX;
+
+      if (dx !== 0) this.isVerticalSticking = true;
     }
     if (horizontalY !== null) {
       if (distance(nodeMaxY, horizontalY) < tolerance) dy = horizontalY - nodeMaxY;
       if (distance(nodeMinY, horizontalY) < tolerance) dy = horizontalY - nodeMinY;
       if (distance(nodeCenterY, horizontalY) < tolerance) dy = horizontalY - nodeCenterY;
-    }
-    if ((dx !== 0 || dy !== 0) && !this.isFrozen) {
-      const nodeDatum = this.context.model.getNodeLikeDatum(nodeId);
-      const [x, y] = positionOf(nodeDatum);
-      this.context.model.updateNodeData([{ id: nodeId, style: { x: x + dx, y: y + dy } }]);
-      await this.context.element?.draw({ silence: true, animation: false });
-      this.isFrozen = true;
 
-      setTimeout(() => {
-        this.isFrozen = false;
-      }, 200);
+      if (dy !== 0) this.isHorizontalSticking = true;
+    }
+    if (dx !== 0 || dy !== 0) {
+      // Stick to the line
+      await this.context.graph.translateElementBy({ [nodeId]: [dx, dy] }, false);
     }
   };
 
-  protected onDragStart = () => {
-    this.initSnapline();
-  };
-
-  protected onDrag = async (event: IPointerEvent<Node>) => {
+  private enableSnap = (event: IDragEvent<Node>) => {
     const { target } = event;
+
+    const threshold = 0.5;
+
+    if (this.isHorizontalSticking || this.isVerticalSticking) {
+      if (
+        this.isHorizontalSticking &&
+        this.isVerticalSticking &&
+        Math.abs(event.dx) <= threshold &&
+        Math.abs(event.dy) <= threshold
+      ) {
+        this.context.graph.translateElementBy({ [target.id]: [-event.dx, -event.dy] }, false);
+        return false;
+      } else if (this.isHorizontalSticking && Math.abs(event.dy) <= threshold) {
+        this.context.graph.translateElementBy({ [target.id]: [0, -event.dy] }, false);
+        return false;
+      } else if (this.isVerticalSticking && Math.abs(event.dx) <= threshold) {
+        this.context.graph.translateElementBy({ [target.id]: [-event.dx, 0] }, false);
+        return false;
+      } else {
+        this.isHorizontalSticking = false;
+        this.isVerticalSticking = false;
+        this.enableStick = false;
+        setTimeout(() => {
+          this.enableStick = true;
+        }, 200);
+      }
+    }
+
+    return this.enableStick;
+  };
+
+  private calcSnaplineMetadata = (target: Node, nodeBBox: AABB): Metadata => {
     const { tolerance, shape } = this.options;
+
+    const {
+      min: [nodeMinX, nodeMinY],
+      max: [nodeMaxX, nodeMaxY],
+      center: [nodeCenterX, nodeCenterY],
+    } = nodeBBox;
 
     let verticalX: number | null = null;
     let verticalMinY: number | null = null;
@@ -207,18 +243,10 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
     let horizontalMinX: number | null = null;
     let horizontalMaxX: number | null = null;
 
-    const nodeBBox = getShape(target, shape).getRenderBounds();
-    const {
-      min: [nodeMinX, nodeMinY],
-      max: [nodeMaxX, nodeMaxY],
-      center: [nodeCenterX, nodeCenterY],
-    } = nodeBBox;
+    this.getNodes().some((snapNode: Node) => {
+      if (isEqual(target.id, snapNode.id)) return false;
 
-    this.getNodes().some((targetNode) => {
-      if (isEqual(target.id, idOf(targetNode))) return false;
-
-      const snapElement = this.context.element?.getElement(idOf(targetNode)) as Node;
-      const snapBBox = getShape(snapElement, shape).getRenderBounds();
+      const snapBBox = getShape(snapNode, shape).getRenderBounds();
       const {
         min: [snapMinX, snapMinY],
         max: [snapMaxX, snapMaxY],
@@ -265,17 +293,32 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
 
       return verticalX !== null && horizontalY !== null;
     });
+    return { verticalX, verticalMinY, verticalMaxY, horizontalY, horizontalMinX, horizontalMaxX };
+  };
+
+  protected onDragStart = () => {
+    this.initSnapline();
+  };
+
+  protected onDrag = async (event: IDragEvent<Node>) => {
+    const { target } = event;
+
+    if (this.options.autoSnap) {
+      const enable = this.enableSnap(event);
+      if (!enable) return;
+    }
+
+    const nodeBBox = getShape(target, this.options.shape).getRenderBounds();
+    const metadata = this.calcSnaplineMetadata(target, nodeBBox);
 
     this.hideSnapline();
 
-    const metadata: Metadata = { verticalX, verticalMinY, verticalMaxY, horizontalY, horizontalMinX, horizontalMaxX };
-
-    if (verticalX !== null || horizontalY !== null) {
+    if (metadata.verticalX !== null || metadata.horizontalY !== null) {
       this.updateSnapline(metadata);
     }
 
-    if (this.options.auto) {
-      await this.snapToLine(target.id, nodeBBox, metadata);
+    if (this.options.autoSnap) {
+      await this.autoSnapToLine(target.id, nodeBBox, metadata);
     }
   };
 
@@ -283,7 +326,7 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
     this.hideSnapline();
   };
 
-  private bindEvents() {
+  private async bindEvents() {
     const { graph } = this.context;
     graph.on(NodeEvent.DRAG_START, this.onDragStart);
     graph.on(NodeEvent.DRAG, this.onDrag);
@@ -297,14 +340,13 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
     graph.off(NodeEvent.DRAG_END, this.onDragEnd);
   }
 
-  private remove() {
-    const canvas = this.context.canvas.getLayer('transient');
-    canvas.removeChild(this.horizontalLine);
-    canvas.removeChild(this.verticalLine);
+  private destroyElements() {
+    this.horizontalLine.destroy();
+    this.verticalLine.destroy();
   }
 
   public destroy() {
-    this.remove();
+    this.destroyElements();
     this.unbindEvents();
     super.destroy();
   }

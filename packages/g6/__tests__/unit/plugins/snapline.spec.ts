@@ -68,7 +68,7 @@ describe('plugin snapline', () => {
     await expect(graph).toMatchSnapshot(__filename, `filter-node2`);
     graph.emit(NodeEvent.DRAG_END, { target: node });
 
-    graph.updatePlugin({ key: 'snapline', filter: () => true, auto: true });
+    graph.updatePlugin({ key: 'snapline', filter: () => true, autoSnap: true });
     graph.updateNodeData([{ id: 'node3', style: { x: 96, y: 304 } }]);
     graph.render();
     graph.emit(NodeEvent.DRAG_START, { target: node, targetType: 'node' });
