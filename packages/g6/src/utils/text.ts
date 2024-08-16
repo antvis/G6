@@ -1,5 +1,5 @@
 import { AABB } from '@antv/g';
-import { Point } from '../types';
+import type { Point } from '../types';
 import { distance } from './vector';
 
 /**
