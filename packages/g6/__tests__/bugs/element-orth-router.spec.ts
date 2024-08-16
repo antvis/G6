@@ -20,7 +20,7 @@ describe('element orth router', () => {
       edge: {
         type: 'polyline',
         style: {
-          router: true,
+          router: { type: 'orth' },
         },
       },
     });

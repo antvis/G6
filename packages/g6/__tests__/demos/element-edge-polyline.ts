@@ -116,7 +116,7 @@ export const elementEdgePolyline: TestCase = async (context) => {
         {
           source: 'node-1',
           target: 'node-2',
-          style: { router: true },
+          style: { router: { type: 'orth' } },
         },
         {
           source: 'node-3',
@@ -126,17 +126,17 @@ export const elementEdgePolyline: TestCase = async (context) => {
         {
           source: 'node-5',
           target: 'node-6',
-          style: { router: true, controlPoints: [[100, 300]] },
+          style: { router: { type: 'orth' }, controlPoints: [[100, 300]] },
         },
         {
           source: 'node-7',
           target: 'node-8',
-          style: { router: true },
+          style: { router: { type: 'orth' } },
         },
         {
           source: 'node-9',
           target: 'node-10',
-          style: { router: true, controlPoints: [[340, 390]] },
+          style: { router: { type: 'orth' }, controlPoints: [[340, 390]] },
         },
       ],
     },

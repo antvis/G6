@@ -16,6 +16,7 @@ export type * from './padding';
 export type * from './placement';
 export type * from './point';
 export type * from './prefix';
+export type * from './router';
 export type * from './size';
 export type * from './state';
 export type * from './style';

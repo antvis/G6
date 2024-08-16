@@ -22,7 +22,9 @@ const graph = new Graph({
   edge: {
     type: 'polyline',
     style: {
-      router: true,
+      router: {
+        type: 'orth',
+      },
       controlPoints: (d) => d.style.controlPoints,
     },
   },

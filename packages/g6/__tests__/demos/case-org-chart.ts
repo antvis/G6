@@ -188,7 +188,9 @@ export const caseOrgChart: TestCase = async (context) => {
     edge: {
       type: 'polyline',
       style: {
-        router: true,
+        router: {
+          type: 'orth',
+        },
         stroke: '#C0C0C0',
       },
     },

@@ -45,7 +45,7 @@ describe('element edge polyline animation', () => {
   });
 
   it('Router', async () => {
-    updateEdgeStyle(graph, 'edge-1', 'router', true);
+    updateEdgeStyle(graph, 'edge-1', 'router', { type: 'orth' });
 
     await expect(graph).toMatchSnapshot(__filename, 'edge-polyline-router-has-controlPoints');
 

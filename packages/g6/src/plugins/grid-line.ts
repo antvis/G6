@@ -1,6 +1,6 @@
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import { Point } from '../types';
+import type { Point } from '../types';
 import { createPluginContainer, insertBefore } from '../utils/dom';
 import { ViewportEvent } from '../utils/event';
 import { add, mod } from '../utils/vector';

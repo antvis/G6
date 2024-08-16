@@ -1,6 +1,6 @@
 import type { AABB } from '@antv/g';
 import { difference, isEqual } from '@antv/util';
-import type { Padding, Point } from '../../types';
+import type { Node, OrthRouterOptions, Point } from '../../types';
 import {
   getBBoxHeight,
   getBBoxWidth,
@@ -21,26 +21,35 @@ type Route = {
   direction: Direction;
 };
 
+const defaultOptions: OrthRouterOptions = {
+  padding: 10,
+};
+
 /**
- * <zh/> 获取两点之间的直角线段路径
+ * <zh/> 获取两点之间的正交线段路径
  *
- * <en/> Get the orthogonal line segment path between two points
+ * <en/> Get orthogonal line segments between two points
  * @param sourcePoint - <zh/> 起始点 | <en/> start point
  * @param targetPoint - <zh/> 终止点 | <en/> end point
- * @param sourceBBox - <zh/> 起始节点的包围盒 | <en/> bounding box of the start node
- * @param targetBBox - <zh/> 终止节点的包围盒 | <en/> bounding box of the end node
+ * @param sourceNode - <zh/> 起始节点 | <en/> source node
+ * @param targetNode - <zh/> 终止节点 | <en/> target node
  * @param controlPoints - <zh/> 控制点 | <en/> control points
- * @param padding - <zh/> 内边距 | <en/> padding
- * @returns <zh/> 直角线段路径 | <en/> orthogonal line segment path
+ * @param options - <zh/> 配置项 | <en/> options
+ * @returns <zh/> 路径点集 | <en/> vertices
  */
 export function orth(
   sourcePoint: Point,
   targetPoint: Point,
-  sourceBBox: AABB,
-  targetBBox: AABB,
+  sourceNode: Node,
+  targetNode: Node,
   controlPoints: Point[],
-  padding: Padding,
+  options: OrthRouterOptions,
 ) {
+  const { padding } = Object.assign(defaultOptions, options);
+
+  const sourceBBox = getNodeBBox(sourceNode, padding);
+  const targetBBox = getNodeBBox(targetNode, padding);
+
   const points: Point[] = [sourcePoint, ...controlPoints, targetPoint];
 
   // direction of previous route segment
