@@ -109,6 +109,18 @@ describe('ViewportController', () => {
     // @ts-expect-error
     expect(graph.context.viewport.getBBoxInViewport(bbox).halfExtents).toBeCloseTo([100, 100, 0]);
   });
+
+  it('isInViewport', async () => {
+    await graph.translateTo([100, 100]);
+    // @ts-expect-error
+    expect(graph.context.viewport?.isInViewport([0, 0])).toBe(false);
+    // @ts-expect-error
+    expect(graph.context.viewport?.isInViewport([100, 100])).toBe(true);
+    const bbox = new AABB();
+    bbox.setMinMax([0, 0, 0], [100, 100, 0]);
+    // @ts-expect-error
+    expect(graph.context.viewport?.isInViewport(bbox)).toBe(true);
+  });
 });
 
 describe('Viewport Fit without Animation', () => {

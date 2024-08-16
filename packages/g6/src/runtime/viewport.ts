@@ -1,10 +1,11 @@
-import { AABB } from '@antv/g';
+import { AABB, ICamera } from '@antv/g';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
 import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
 import { getAnimationOptions } from '../utils/animation';
-import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
+import { getBBoxSize, getCombinedBBox, isPointInBBox } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
+import { isPoint } from '../utils/is';
 import { parsePadding } from '../utils/padding';
 import { add, divide, subtract } from '../utils/vector';
 import type { RuntimeContext } from './types';
@@ -30,7 +31,20 @@ export class ViewportController {
   }
 
   private get camera() {
-    return this.context.canvas.getCamera();
+    const { canvas } = this.context;
+    return new Proxy(canvas.getCamera(), {
+      get: (target, prop: keyof ICamera) => {
+        const transientCamera = canvas.getLayer('transient').getCamera();
+        const value = target[prop];
+        if (typeof value === 'function') {
+          return (...args: any[]) => {
+            const result = (value as (...args: any[]) => any).apply(target, args);
+            (transientCamera[prop] as (...args: any[]) => any).apply(transientCamera, args);
+            return result;
+          };
+        }
+      },
+    });
   }
 
   private landmarkCounter = 0;
@@ -253,6 +267,26 @@ export class ViewportController {
     const bboxInViewport = new AABB();
     bboxInViewport.setMinMax([x1, y1, 0], [x2, y2, 0]);
     return bboxInViewport;
+  }
+
+  /**
+   * <zh/> 判断点或包围盒是否在视口中
+   *
+   * <en/> Determine whether the point or bounding box is in the viewport
+   * @param target - <zh/> 点或包围盒 | <en/> Point or bounding box
+   * @returns - <zh/> 是否在视口中 | <en/> Whether it is in the viewport
+   */
+  public isInViewport(target: Point | AABB) {
+    const { graph } = this.context;
+    const size = this.getCanvasSize();
+
+    const [x1, y1] = graph.getCanvasByViewport([0, 0]);
+    const [x2, y2] = graph.getCanvasByViewport(size);
+
+    const viewportBBox = new AABB();
+    viewportBBox.setMinMax([x1, y1, 0], [x2, y2, 0]);
+
+    return isPoint(target) ? isPointInBBox(target, viewportBBox) : viewportBBox.intersects(target);
   }
 
   public cancelAnimation() {
