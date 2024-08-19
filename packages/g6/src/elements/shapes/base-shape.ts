@@ -222,7 +222,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
 
   private setVisibility() {
     const { visibility } = this.attributes;
-    setVisibility(this, visibility);
+    setVisibility(this, visibility, true);
   }
 
   public destroy(): void {
