@@ -1,0 +1,229 @@
+{
+  "version": "1.0",
+  "device": {
+    "os": {
+      "arch": "arm64",
+      "distro": "macOS",
+      "serial": "9821ed36011eee5abf6c71d6fc2c03fb4bf4655e674c56b7f50e2560cb6e924a"
+    },
+    "cpu": {
+      "manufacturer": "Apple",
+      "brand": "M1 Pro",
+      "speed": 2.4,
+      "cores": 10
+    },
+    "memory": {
+      "total": 16384,
+      "free": 58.015625
+    },
+    "gpu": {
+      "vendor": "Apple",
+      "model": "Apple M1 Pro",
+      "cores": "16"
+    }
+  },
+  "repo": "ab97b6a84c9b1ac7f599e34568714376278583f0",
+  "client": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",
+  "reports": {
+    "dataDiff1000": {
+      "time": [
+        {
+          "min": 1.8999999999068677,
+          "max": 9,
+          "median": 2.8999999999068677,
+          "avg": 7.25,
+          "variance": 32.390000000039585,
+          "reliable": false,
+          "memory": 30.162158966064453,
+          "key": "data diff"
+        }
+      ],
+      "status": "passed"
+    },
+    "dataDiff10000": {
+      "time": [
+        {
+          "min": 12.199999999953434,
+          "max": 7.900000000139698,
+          "median": 6.7999999998137355,
+          "avg": 6.324999999982538,
+          "variance": 1.35437500005326,
+          "reliable": true,
+          "memory": 62.23182191848755,
+          "key": "data diff"
+        }
+      ],
+      "status": "passed"
+    },
+    "dataDiff100000": {
+      "time": [
+        {
+          "min": 29.300000000046566,
+          "max": 67.10000000009313,
+          "median": 36.10000000009313,
+          "avg": 35.64999999999418,
+          "variance": 16.877500000362634,
+          "reliable": true,
+          "memory": 369.5241134643555,
+          "key": "data diff"
+        }
+      ],
+      "status": "passed"
+    },
+    "dataDiff5000": {
+      "time": [
+        {
+          "min": 2.6000000000931323,
+          "max": 7.599999999860302,
+          "median": 3,
+          "avg": 3.5125000000116415,
+          "variance": 2.188593750007858,
+          "reliable": false,
+          "memory": 585.6023946762085,
+          "key": "data diff"
+        }
+      ],
+      "status": "passed"
+    },
+    "dataDiff50000": {
+      "time": [
+        {
+          "min": 13.699999999953434,
+          "max": 55.199999999953434,
+          "median": 17.600000000093132,
+          "avg": 22.66250000000582,
+          "variance": 132.55484375006213,
+          "reliable": true,
+          "memory": 722.3826655387878,
+          "key": "data diff"
+        }
+      ],
+      "status": "passed"
+    },
+    "elementDrawing100": {
+      "time": [
+        {
+          "min": 10.5,
+          "max": 9.5,
+          "median": 15.800000000046566,
+          "avg": 16.57500000006985,
+          "variance": 163.99937499927708,
+          "reliable": true,
+          "memory": 826.2329563140869,
+          "key": "element drawing"
+        },
+        {
+          "min": 10.399999999906868,
+          "max": 8.5,
+          "median": 7.7999999998137355,
+          "avg": 8.450000000011642,
+          "variance": 4.637500000128056,
+          "reliable": true,
+          "memory": 826.4959269523621,
+          "key": "grid layout"
+        }
+      ],
+      "status": "passed"
+    },
+    "elementDrawing1000": {
+      "time": [
+        {
+          "min": 100.79999999981374,
+          "max": 84.69999999995343,
+          "median": 117.39999999990687,
+          "avg": 100.46250000002328,
+          "variance": 255.6148437497992,
+          "reliable": true,
+          "memory": 830.0374026298523,
+          "key": "element drawing"
+        },
+        {
+          "min": 59.5999999998603,
+          "max": 77.29999999981374,
+          "median": 67.30000000004657,
+          "avg": 66.9375000000291,
+          "variance": 12.824843750080472,
+          "reliable": true,
+          "memory": 829.3771424293518,
+          "key": "grid layout"
+        }
+      ],
+      "status": "passed"
+    },
+    "elementDrawing10000": {
+      "time": [
+        {
+          "min": 416.30000000004657,
+          "max": 649.0999999998603,
+          "median": 596.5,
+          "avg": 593.7874999999185,
+          "variance": 450.70359375090015,
+          "reliable": true,
+          "memory": 1099.1369720458983,
+          "key": "element drawing"
+        },
+        {
+          "min": 352.60000000009313,
+          "max": 377.70000000018626,
+          "median": 366.5,
+          "avg": 366.3125,
+          "variance": 5.318593750001164,
+          "reliable": true,
+          "memory": 1131.638009262085,
+          "key": "grid layout"
+        }
+      ],
+      "status": "passed"
+    },
+    "elementDrawing500": {
+      "time": [
+        {
+          "min": 126.39999999990687,
+          "max": 49.60000000009313,
+          "median": 42.300000000046566,
+          "avg": 40.97500000000582,
+          "variance": 7.959374999943247,
+          "reliable": true,
+          "memory": 1362.0711398124695,
+          "key": "element drawing"
+        },
+        {
+          "min": 29.300000000046566,
+          "max": 42.89999999990687,
+          "median": 34.39999999990687,
+          "avg": 34.299999999959255,
+          "variance": 5.03999999981257,
+          "reliable": true,
+          "memory": 1362.0711398124695,
+          "key": "grid layout"
+        }
+      ],
+      "status": "passed"
+    },
+    "elementDrawing5000": {
+      "time": [
+        {
+          "min": 381.19999999995343,
+          "max": 548.1999999999534,
+          "median": 408.80000000004657,
+          "avg": 428.375,
+          "variance": 1986.7618749965764,
+          "reliable": true,
+          "memory": 1483.8886072158814,
+          "key": "element drawing"
+        },
+        {
+          "min": 208.19999999995343,
+          "max": 291.80000000004657,
+          "median": 264.60000000009313,
+          "avg": 262.70000000001164,
+          "variance": 166.63749999852735,
+          "reliable": true,
+          "memory": 1479.9850234985352,
+          "key": "grid layout"
+        }
+      ],
+      "status": "passed"
+    }
+  }
+}
