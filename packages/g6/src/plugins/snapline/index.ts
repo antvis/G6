@@ -4,6 +4,7 @@ import { NodeEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
 import type { ID, IDragEvent, Node } from '../../types';
 import { isVisible } from '../../utils/element';
+import { divide } from '../../utils/vector';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 
@@ -133,27 +134,38 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
     this.verticalLine.style.visibility = 'hidden';
   }
 
+  private getLineWidth(direction: 'horizontal' | 'vertical') {
+    const { lineWidth } = this.options[`${direction}LineStyle`] as LineStyleProps;
+    return +(lineWidth || defaultLineStyle.lineWidth || 1) / this.context.graph.getZoom();
+  }
+
   private updateSnapline(metadata: Metadata) {
     const { verticalX, verticalMinY, verticalMaxY, horizontalY, horizontalMinX, horizontalMaxX } = metadata;
     const [canvasWidth, canvasHeight] = this.context.canvas.getSize();
     const { offset } = this.options;
 
     if (horizontalY !== null) {
-      this.horizontalLine.style.x1 = offset === Infinity ? 0 : horizontalMinX! - offset;
-      this.horizontalLine.style.y1 = horizontalY;
-      this.horizontalLine.style.x2 = offset === Infinity ? canvasWidth : horizontalMaxX! + offset;
-      this.horizontalLine.style.y2 = horizontalY;
-      this.horizontalLine.style.visibility = 'visible';
+      Object.assign(this.horizontalLine.style, {
+        x1: offset === Infinity ? 0 : horizontalMinX! - offset,
+        y1: horizontalY,
+        x2: offset === Infinity ? canvasWidth : horizontalMaxX! + offset,
+        y2: horizontalY,
+        visibility: 'visible',
+        lineWidth: this.getLineWidth('horizontal'),
+      });
     } else {
       this.horizontalLine.style.visibility = 'hidden';
     }
 
     if (verticalX !== null) {
-      this.verticalLine.style.x1 = verticalX;
-      this.verticalLine.style.y1 = offset === Infinity ? 0 : verticalMinY! - offset;
-      this.verticalLine.style.x2 = verticalX;
-      this.verticalLine.style.y2 = offset === Infinity ? canvasHeight : verticalMaxY! + offset;
-      this.verticalLine.style.visibility = 'visible';
+      Object.assign(this.verticalLine.style, {
+        x1: verticalX,
+        y1: offset === Infinity ? 0 : verticalMinY! - offset,
+        x2: verticalX,
+        y2: offset === Infinity ? canvasHeight : verticalMaxY! + offset,
+        visibility: 'visible',
+        lineWidth: this.getLineWidth('vertical'),
+      });
     } else {
       this.verticalLine.style.visibility = 'hidden';
     }
@@ -194,25 +206,37 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
     }
   };
 
+  /**
+   * Get the delta of the drag
+   * @param event - drag event object
+   * @returns delta
+   * @internal
+   */
+  protected getDelta(event: IDragEvent<Node>) {
+    const zoom = this.context.graph.getZoom();
+    return divide([event.dx, event.dy], zoom);
+  }
+
   private enableSnap = (event: IDragEvent<Node>) => {
     const { target } = event;
 
     const threshold = 0.5;
 
     if (this.isHorizontalSticking || this.isVerticalSticking) {
+      const [dx, dy] = this.getDelta(event);
       if (
         this.isHorizontalSticking &&
         this.isVerticalSticking &&
-        Math.abs(event.dx) <= threshold &&
-        Math.abs(event.dy) <= threshold
+        Math.abs(dx) <= threshold &&
+        Math.abs(dy) <= threshold
       ) {
-        this.context.graph.translateElementBy({ [target.id]: [-event.dx, -event.dy] }, false);
+        this.context.graph.translateElementBy({ [target.id]: [-dx, -dy] }, false);
         return false;
-      } else if (this.isHorizontalSticking && Math.abs(event.dy) <= threshold) {
-        this.context.graph.translateElementBy({ [target.id]: [0, -event.dy] }, false);
+      } else if (this.isHorizontalSticking && Math.abs(dy) <= threshold) {
+        this.context.graph.translateElementBy({ [target.id]: [0, -dy] }, false);
         return false;
-      } else if (this.isVerticalSticking && Math.abs(event.dx) <= threshold) {
-        this.context.graph.translateElementBy({ [target.id]: [-event.dx, 0] }, false);
+      } else if (this.isVerticalSticking && Math.abs(dx) <= threshold) {
+        this.context.graph.translateElementBy({ [target.id]: [-dx, 0] }, false);
         return false;
       } else {
         this.isHorizontalSticking = false;

@@ -1,4 +1,5 @@
-import { Node, NodeEvent, type Graph } from '@/src';
+import type { Graph, Node } from '@/src';
+import { NodeEvent } from '@/src';
 import { pluginSnapline } from '@@/demos';
 import { createDemoGraph } from '../../utils';
 
@@ -74,6 +75,16 @@ describe('plugin snapline', () => {
     graph.emit(NodeEvent.DRAG_START, { target: node, targetType: 'node' });
     graph.emit(NodeEvent.DRAG, { target: node, dx: 0, dy: 0 });
     await expect(graph).toMatchSnapshot(__filename, `auto-snap`);
+    graph.emit(NodeEvent.DRAG_END, { target: node });
+
+    // zoom to test lineWidth
+    graph.zoomTo(5, false, [300, 300]);
+    graph.updatePlugin({ key: 'snapline', autoSnap: false });
+    graph.updateNodeData([{ id: 'node3', style: { x: 260, y: 300 } }]);
+    graph.render();
+    graph.emit(NodeEvent.DRAG_START, { target: node, targetType: 'node' });
+    graph.emit(NodeEvent.DRAG, { target: node, dx: 0, dy: 0 });
+    await expect(graph).toMatchSnapshot(__filename, 'zoom-5');
     graph.emit(NodeEvent.DRAG_END, { target: node });
   });
 

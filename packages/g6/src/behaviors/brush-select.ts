@@ -144,9 +144,16 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
    */
   protected onPointerDown(event: IPointerEvent) {
     if (!this.validate(event) || !this.isKeydown() || this.startPoint) return;
-    const { canvas } = this.context;
+    const { canvas, graph } = this.context;
+    const style = { ...this.options.style };
 
-    this.rectShape = new Rect({ id: 'g6-brush-select', style: this.options.style });
+    // 根据缩放比例调整 lineWidth
+    // Adjust lineWidth according to the zoom ratio
+    if (this.options.style.lineWidth) {
+      style.lineWidth = +this.options.style.lineWidth / graph.getZoom();
+    }
+
+    this.rectShape = new Rect({ id: 'g6-brush-select', style });
     canvas.appendChild(this.rectShape);
 
     this.startPoint = [event.canvas.x, event.canvas.y];
@@ -327,8 +334,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
   protected isKeydown(): boolean {
     const { trigger } = this.options;
     const keys = (Array.isArray(trigger) ? trigger : [trigger]) as string[];
-    if (!trigger || keys.includes('drag')) return true;
-    return this.shortcut!.match(keys);
+    return this.shortcut!.match(keys.filter((key) => key !== 'drag'));
   }
 
   /**
@@ -348,7 +354,6 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
 
   private bindEvents() {
     const { graph } = this.context;
-    this.unbindEvents();
 
     graph.on(CommonEvent.POINTER_DOWN, this.onPointerDown);
     graph.on(CommonEvent.POINTER_MOVE, this.onPointerMove);
@@ -373,7 +378,9 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
    * @internal
    */
   public update(options: Partial<BrushSelectOptions>) {
+    this.unbindEvents();
     this.options = deepMix(this.options, options);
+    this.bindEvents();
   }
 
   /**
