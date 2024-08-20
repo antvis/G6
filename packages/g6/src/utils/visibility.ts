@@ -8,6 +8,7 @@ const ORIGINAL_MAP = new WeakMap<DisplayObject, BaseStyleProps['visibility']>();
  * <en/> Set the visibility of the shape instance
  * @param shape - <zh/> 图形实例 | <en/> shape instance
  * @param value - <zh/> 可见性 | <en/> visibility
+ * @param inherited - <zh/> 是否是来自继承样式 | <en/> Whether it is from inherited styles
  * @param filter - <zh/> 筛选出需要设置可见性的图形 | <en/> Filter out the shapes that need to set visibility
  * @remarks
  * <zh/> 在设置 enableCSSParsing 为 false 的情况下，复合图形无法继承父属性，因此需要对所有子图形应用相同的可见性
@@ -17,6 +18,7 @@ const ORIGINAL_MAP = new WeakMap<DisplayObject, BaseStyleProps['visibility']>();
 export function setVisibility(
   shape: DisplayObject,
   value: BaseStyleProps['visibility'],
+  inherited = false,
   filter?: (shape: DisplayObject) => boolean,
 ) {
   if (value === undefined) return;
@@ -26,7 +28,7 @@ export function setVisibility(
 
     if (filter && !filter(current)) return walk();
 
-    if (current === shape) {
+    if (!inherited && current === shape) {
       shape.style.visibility = value;
       ORIGINAL_MAP.delete(shape);
       walk(value);

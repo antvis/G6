@@ -19,12 +19,12 @@ describe('visibility', () => {
     expect(vShape.style.visibility).toBe(undefined);
     expect(hShape.style.visibility).toBe('hidden');
 
-    shape.update({ visibility: 'hidden' });
+    setVisibility(shape, 'hidden');
     expect(shape.style.visibility).toBe('hidden');
     expect(vShape.style.visibility).toBe('hidden');
     expect(hShape.style.visibility).toBe('hidden');
 
-    shape.update({ visibility: 'visible' });
+    setVisibility(shape, 'visible');
     expect(shape.style.visibility).toBe('visible');
     expect(vShape.style.visibility).toBe('visible');
     expect(hShape.style.visibility).toBe('hidden');
@@ -39,7 +39,7 @@ describe('visibility', () => {
     expect(vShape.style.visibility).toBe('hidden');
     expect(hShape.style.visibility).toBe('hidden');
 
-    shape.update({ visibility: 'visible' });
+    setVisibility(shape, 'visible');
     expect(shape.style.visibility).toBe('visible');
     expect(vShape.style.visibility).toBe('visible');
     expect(hShape.style.visibility).toBe('hidden');

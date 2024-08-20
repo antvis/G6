@@ -22,7 +22,7 @@ import type {
   State,
   StyleIterationContext,
 } from '../types';
-import { cacheStyle, getCachedStyle, hasCachedStyle, setCacheStyle } from '../utils/cache';
+import { cacheStyle, hasCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
 import { isCollapsed } from '../utils/collapsibility';
 import { markToBeDestroyed, updateStyle } from '../utils/element';
@@ -34,6 +34,7 @@ import { positionOf } from '../utils/position';
 import { print } from '../utils/print';
 import { computeElementCallbackStyle } from '../utils/style';
 import { themeOf } from '../utils/theme';
+import { setVisibility } from '../utils/visibility';
 import type { RuntimeContext } from './types';
 
 export class ElementController {
@@ -451,6 +452,10 @@ export class ElementController {
 
     const exactStage = stage !== 'visibility' ? stage : style.visibility === 'hidden' ? 'hide' : 'show';
 
+    // 避免立即将 visibility 设置为 hidden，导致元素不可见，而是在 after 阶段再设置
+    // Avoid setting visibility to hidden immediately, causing the element to be invisible, but set it in the after phase
+    if (exactStage === 'hide') delete style['visibility'];
+
     this.context.animation?.add(
       {
         element,
@@ -470,14 +475,14 @@ export class ElementController {
             // 缓存原始透明度 / Cache original opacity
             // 会在 animation controller 中访问该缓存值 / The cached value will be accessed in the animation controller
             if (!hasCachedStyle(element, 'opacity')) cacheStyle(element, 'opacity');
-            setCacheStyle(element, 'visibility', exactStage === 'show' ? 'visible' : 'hidden');
-            if (exactStage === 'show') updateStyle(element, { visibility: 'visible' });
+            this.visibilityCache.set(element, exactStage === 'show' ? 'visible' : 'hidden');
+            if (exactStage === 'show') setVisibility(element, 'visible');
           }
         },
         after: () => {
           const element = this.elementMap[id];
           if (stage === 'collapse') updateStyle(element, style);
-          if (exactStage === 'hide') updateStyle(element, { visibility: getCachedStyle(element, 'visibility') });
+          if (exactStage === 'hide') setVisibility(element, this.visibilityCache.get(element));
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_UPDATE, elementType, datum), context);
           element.onUpdate?.();
         },
@@ -497,6 +502,8 @@ export class ElementController {
       elementData.forEach((datum) => this.updateElement(elementType, datum, context));
     });
   }
+
+  private visibilityCache = new WeakMap<Element, BaseStyleProps['visibility']>();
 
   /**
    * <zh/> 标记销毁元素

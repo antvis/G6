@@ -72,6 +72,7 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
       setVisibility(
         element,
         visibility,
+        false,
         (shape) => !!shape.className && !excludedClassnames?.includes(shape.className),
       );
     });
