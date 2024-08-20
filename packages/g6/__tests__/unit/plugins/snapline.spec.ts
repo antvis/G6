@@ -75,6 +75,15 @@ describe('plugin snapline', () => {
     graph.emit(NodeEvent.DRAG, { target: node, dx: 0, dy: 0 });
     await expect(graph).toMatchSnapshot(__filename, `auto-snap`);
     graph.emit(NodeEvent.DRAG_END, { target: node });
+
+    // zoom to test lineWidth
+    graph.zoomTo(5, false, [300, 100]);
+    graph.updateNodeData([{ id: 'node3', style: { x: 300, y: 100 } }]);
+    graph.render();
+    graph.emit(NodeEvent.DRAG_START, { target: node, targetType: 'node' });
+    graph.emit(NodeEvent.DRAG, { target: node, dx: 0, dy: 0 });
+    await expect(graph).toMatchSnapshot(__filename, `zoom-5`);
+    graph.emit(NodeEvent.DRAG_END, { target: node });
   });
 
   afterAll(() => {

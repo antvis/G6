@@ -128,6 +128,14 @@ describe('behavior brush select', () => {
 
     graph.emit(CanvasEvent.CLICK);
     await expect(graph).toMatchSnapshot(__filename, 'brush-clear-mode-intersect');
+
+    // zoom to test line width
+    graph.zoomTo(5);
+    graph.emit(CommonEvent.POINTER_DOWN, { canvas: { x: 100, y: 100 }, targetType: 'canvas' });
+    graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 250, y: 400 } });
+
+    await expect(graph).toMatchSnapshot(__filename, 'brush-selecting-zoom');
+    graph.emit(CommonEvent.POINTER_UP, { canvas: { x: 250, y: 400 } });
   });
 
   afterAll(() => {

@@ -19,7 +19,7 @@ export const pluginSnapline: TestCase = async (context) => {
         labelText: (datum) => datum.id,
       },
     },
-    behaviors: ['drag-element', 'drag-canvas'],
+    behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
     plugins: [
       {
         type: 'snapline',
