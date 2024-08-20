@@ -80,6 +80,24 @@ describe('shortcut', () => {
     expect(drag).toHaveBeenCalledTimes(1);
     expect(drag.mock.calls[0][0].deltaX).toBe(10);
     expect(drag.mock.calls[0][0].deltaY).toBe(0);
+
+    drag.mockClear();
+
+    // shift drag
+    emitter.emit(CommonEvent.KEY_DOWN, { key: 'Shift' });
+    emitter.emit(CommonEvent.DRAG, { deltaX: 10, deltaY: 0 });
+    emitter.emit(CommonEvent.KEY_UP, { key: 'Shift' });
+    expect(drag).toHaveBeenCalledTimes(0);
+
+    shortcut.unbindAll();
+    shortcut.bind(['Shift', 'drag'], drag);
+
+    emitter.emit(CommonEvent.KEY_DOWN, { key: 'Shift' });
+    emitter.emit(CommonEvent.DRAG, { deltaX: 10, deltaY: 0 });
+    emitter.emit(CommonEvent.KEY_UP, { key: 'Shift' });
+    expect(drag).toHaveBeenCalledTimes(1);
+    expect(drag.mock.calls[0][0].deltaX).toBe(10);
+    expect(drag.mock.calls[0][0].deltaY).toBe(0);
   });
 
   it('focus', () => {
