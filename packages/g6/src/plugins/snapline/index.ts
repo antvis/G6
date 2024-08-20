@@ -133,27 +133,38 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
     this.verticalLine.style.visibility = 'hidden';
   }
 
+  private getLineWidth(direction: 'horizontal' | 'vertical') {
+    const { lineWidth } = this.options[`${direction}LineStyle`] as LineStyleProps;
+    return +(lineWidth || defaultLineStyle.lineWidth || 1) / this.context.graph.getZoom();
+  }
+
   private updateSnapline(metadata: Metadata) {
     const { verticalX, verticalMinY, verticalMaxY, horizontalY, horizontalMinX, horizontalMaxX } = metadata;
     const [canvasWidth, canvasHeight] = this.context.canvas.getSize();
     const { offset } = this.options;
 
     if (horizontalY !== null) {
-      this.horizontalLine.style.x1 = offset === Infinity ? 0 : horizontalMinX! - offset;
-      this.horizontalLine.style.y1 = horizontalY;
-      this.horizontalLine.style.x2 = offset === Infinity ? canvasWidth : horizontalMaxX! + offset;
-      this.horizontalLine.style.y2 = horizontalY;
-      this.horizontalLine.style.visibility = 'visible';
+      Object.assign(this.horizontalLine.style, {
+        x1: offset === Infinity ? 0 : horizontalMinX! - offset,
+        y1: horizontalY,
+        x2: offset === Infinity ? canvasWidth : horizontalMaxX! + offset,
+        y2: horizontalY,
+        visibility: 'visible',
+        lineWidth: this.getLineWidth('horizontal'),
+      });
     } else {
       this.horizontalLine.style.visibility = 'hidden';
     }
 
     if (verticalX !== null) {
-      this.verticalLine.style.x1 = verticalX;
-      this.verticalLine.style.y1 = offset === Infinity ? 0 : verticalMinY! - offset;
-      this.verticalLine.style.x2 = verticalX;
-      this.verticalLine.style.y2 = offset === Infinity ? canvasHeight : verticalMaxY! + offset;
-      this.verticalLine.style.visibility = 'visible';
+      Object.assign(this.verticalLine.style, {
+        x1: verticalX,
+        y1: offset === Infinity ? 0 : verticalMinY! - offset,
+        x2: verticalX,
+        y2: offset === Infinity ? canvasHeight : verticalMaxY! + offset,
+        visibility: 'visible',
+        lineWidth: this.getLineWidth('vertical'),
+      });
     } else {
       this.verticalLine.style.visibility = 'hidden';
     }
