@@ -34,12 +34,17 @@ export class ViewportController {
     const { canvas } = this.context;
     return new Proxy(canvas.getCamera(), {
       get: (target, prop: keyof ICamera) => {
-        const transientCamera = canvas.getLayer('transient').getCamera();
+        const layers = Object.entries(canvas.getLayers()).filter(([name]) => !['main'].includes(name));
+        const cameras = layers.map(([, layer]) => layer.getCamera());
+
         const value = target[prop];
         if (typeof value === 'function') {
           return (...args: any[]) => {
             const result = (value as (...args: any[]) => any).apply(target, args);
-            (transientCamera[prop] as (...args: any[]) => any).apply(transientCamera, args);
+            cameras.forEach((camera) => {
+              (camera[prop] as (...args: any[]) => any).apply(camera, args);
+            });
+
             return result;
           };
         }
