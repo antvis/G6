@@ -36,6 +36,7 @@ export const pluginSnapline: TestCase = async (context) => {
   const config = {
     filter: false,
     offset: 20,
+    autoSnap: false,
   };
 
   pluginSnapline.form = (panel) => {
@@ -48,7 +49,6 @@ export const pluginSnapline: TestCase = async (context) => {
             key: 'snapline',
             filter: (node: Node) => (filter ? node.id !== 'node3' : true),
           });
-          graph.render();
         }),
       panel
         .add(config, 'offset', [0, 20, Infinity])
@@ -58,7 +58,15 @@ export const pluginSnapline: TestCase = async (context) => {
             key: 'snapline',
             offset,
           });
-          graph.render();
+        }),
+      panel
+        .add(config, 'autoSnap')
+        .name('Auto Snap')
+        .onChange((autoSnap: boolean) => {
+          graph.updatePlugin({
+            key: 'snapline',
+            autoSnap,
+          });
         }),
     ];
   };

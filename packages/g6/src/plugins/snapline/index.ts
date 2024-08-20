@@ -4,6 +4,7 @@ import { NodeEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
 import type { ID, IDragEvent, Node } from '../../types';
 import { isVisible } from '../../utils/element';
+import { divide } from '../../utils/vector';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 
@@ -205,25 +206,37 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
     }
   };
 
+  /**
+   * Get the delta of the drag
+   * @param event - drag event object
+   * @returns delta
+   * @internal
+   */
+  protected getDelta(event: IDragEvent<Node>) {
+    const zoom = this.context.graph.getZoom();
+    return divide([event.dx, event.dy], zoom);
+  }
+
   private enableSnap = (event: IDragEvent<Node>) => {
     const { target } = event;
 
     const threshold = 0.5;
 
     if (this.isHorizontalSticking || this.isVerticalSticking) {
+      const [dx, dy] = this.getDelta(event);
       if (
         this.isHorizontalSticking &&
         this.isVerticalSticking &&
-        Math.abs(event.dx) <= threshold &&
-        Math.abs(event.dy) <= threshold
+        Math.abs(dx) <= threshold &&
+        Math.abs(dy) <= threshold
       ) {
-        this.context.graph.translateElementBy({ [target.id]: [-event.dx, -event.dy] }, false);
+        this.context.graph.translateElementBy({ [target.id]: [-dx, -dy] }, false);
         return false;
-      } else if (this.isHorizontalSticking && Math.abs(event.dy) <= threshold) {
-        this.context.graph.translateElementBy({ [target.id]: [0, -event.dy] }, false);
+      } else if (this.isHorizontalSticking && Math.abs(dy) <= threshold) {
+        this.context.graph.translateElementBy({ [target.id]: [0, -dy] }, false);
         return false;
-      } else if (this.isVerticalSticking && Math.abs(event.dx) <= threshold) {
-        this.context.graph.translateElementBy({ [target.id]: [-event.dx, 0] }, false);
+      } else if (this.isVerticalSticking && Math.abs(dx) <= threshold) {
+        this.context.graph.translateElementBy({ [target.id]: [-dx, 0] }, false);
         return false;
       } else {
         this.isHorizontalSticking = false;
