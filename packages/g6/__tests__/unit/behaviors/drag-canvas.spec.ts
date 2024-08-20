@@ -80,6 +80,31 @@ describe('behavior drag canvas', () => {
     await expect(graph).toMatchSnapshot(__filename);
   });
 
+  it('use shortcut to drag in the x-axis direction', () => {
+    graph.updateBehavior({ key: 'drag-canvas', direction: 'x' });
+
+    const [x, y] = graph.getPosition();
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowDown' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowDown' });
+
+    expect(graph.getPosition()).toBeCloseTo([x + 20, y]);
+  });
+
+  it('use shortcut to drag in the y-axis direction', () => {
+    graph.updateBehavior({ key: 'drag-canvas', direction: 'y' });
+
+    const [x, y] = graph.getPosition();
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowDown' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowDown' });
+
+    expect(graph.getPosition()).toBeCloseTo([x, y + 20]);
+    graph.updateBehavior({ key: 'drag-canvas', direction: 'both' });
+  });
+
   it('onFinish with key', async () => {
     const onFinish = jest.fn();
     graph.updateBehavior({ key: 'drag-canvas', onFinish });
@@ -112,6 +137,28 @@ describe('behavior drag canvas', () => {
     dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
 
     expect(onFinish).toHaveBeenCalledTimes(1);
+  });
+
+  it('drag in the x-axis direction', () => {
+    graph.setBehaviors([{ type: 'drag-canvas', key: 'drag-canvas', trigger: 'drag', direction: 'x' }]);
+
+    const [x, y] = graph.getPosition();
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
+
+    expect(graph.getPosition()).toBeCloseTo([x + 10, y]);
+  });
+
+  it('drag in the y-axis direction', () => {
+    graph.updateBehavior({ key: 'drag-canvas', trigger: 'drag', direction: 'y' });
+
+    const [x, y] = graph.getPosition();
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { movement: { x: 10, y: 10 }, targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
+
+    expect(graph.getPosition()).toBeCloseTo([x, y + 10]);
   });
 
   it('trigger on element', async () => {
