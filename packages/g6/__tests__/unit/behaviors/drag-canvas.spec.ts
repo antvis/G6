@@ -80,6 +80,31 @@ describe('behavior drag canvas', () => {
     await expect(graph).toMatchSnapshot(__filename);
   });
 
+  it('drag in the x-axis direction', () => {
+    graph.updateBehavior({ key: 'drag-canvas', direction: 'x' });
+
+    const [x, y] = graph.getPosition();
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowDown' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowDown' });
+
+    expect(graph.getPosition()).toBeCloseTo([x + 20, y]);
+  });
+
+  it('drag in the y-axis direction', () => {
+    graph.updateBehavior({ key: 'drag-canvas', direction: 'y' });
+
+    const [x, y] = graph.getPosition();
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowDown' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowDown' });
+
+    expect(graph.getPosition()).toBeCloseTo([x, y + 20]);
+    graph.updateBehavior({ key: 'drag-canvas', direction: 'both' });
+  });
+
   it('onFinish with key', async () => {
     const onFinish = jest.fn();
     graph.updateBehavior({ key: 'drag-canvas', onFinish });

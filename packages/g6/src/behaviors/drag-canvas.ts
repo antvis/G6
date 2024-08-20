@@ -29,6 +29,19 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    */
   enable?: boolean | ((event: IPointerEvent | IKeyboardEvent) => boolean);
   /**
+   * <zh/> 允许拖拽方向
+   * - `'x'`: 只允许水平拖拽
+   * - `'y'`: 只允许垂直拖拽
+   * - `'both'`: 不受限制，允许水平和垂直拖拽
+   *
+   * <en/> Allowed drag direction
+   * - `'x'`: Only allow horizontal drag
+   * - `'y'`: Only allow vertical drag
+   * - `'both'`: Allow horizontal and vertical drag
+   * @defaultValue `'both'`
+   */
+  direction?: 'x' | 'y' | 'both';
+  /**
    * <zh/> 触发拖拽的方式，默认使用指针按下拖拽
    *
    * <en/> The way to trigger dragging, default to dragging with the pointer pressed
@@ -66,6 +79,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
       return true;
     },
     sensitivity: 10,
+    direction: 'both',
   };
 
   private shortcut: Shortcut;
@@ -155,7 +169,16 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
    * @internal
    */
   protected async translate(offset: Vector2, animation?: ViewportAnimationEffectTiming) {
-    await this.context.graph.translateBy(offset, animation);
+    let [dx, dy] = offset;
+
+    const { direction } = this.options;
+    if (direction === 'x') {
+      dy = 0;
+    } else if (direction === 'y') {
+      dx = 0;
+    }
+
+    await this.context.graph.translateBy([dx, dy], animation);
   }
 
   private validate(event: IPointerEvent | IKeyboardEvent) {
