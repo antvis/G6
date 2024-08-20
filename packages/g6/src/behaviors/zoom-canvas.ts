@@ -57,6 +57,13 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    * <en/> Callback when zooming is completed
    */
   onFinish?: () => void;
+  /**
+   * <zh/> 是否阻止默认事件
+   *
+   * <en/> Whether to prevent the default event
+   * @defaultValue true
+   */
+  preventDefault?: boolean;
 }
 
 /**
@@ -70,6 +77,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     enable: true,
     sensitivity: 1,
     trigger: [],
+    preventDefault: true,
   };
 
   private shortcut: Shortcut;
@@ -171,7 +179,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
   }
 
   private preventDefault = (event: Event) => {
-    event.preventDefault();
+    if (this.options.preventDefault) event.preventDefault();
   };
 
   /**
