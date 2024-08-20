@@ -55,6 +55,13 @@ export interface ScrollCanvasOptions extends BaseBehaviorOptions {
    * <en/> Callback when scrolling is completed
    */
   onFinish?: () => void;
+  /**
+   * <zh/> 是否阻止默认事件
+   *
+   * <en/> Whether to prevent the default event
+   * @defaultValue true
+   */
+  preventDefault?: boolean;
 }
 
 /**
@@ -66,6 +73,7 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
   static defaultOptions: Partial<ScrollCanvasOptions> = {
     enable: true,
     sensitivity: 1,
+    preventDefault: true,
   };
 
   private shortcut: Shortcut;
@@ -115,7 +123,7 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
   }
 
   private onWheel = async (event: WheelEvent) => {
-    event.preventDefault();
+    if (this.options.preventDefault) event.preventDefault();
     const diffX = event.deltaX;
     const diffY = event.deltaY;
 
