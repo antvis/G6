@@ -59,4 +59,10 @@ export enum ExtensionCategory {
    * <en/> Data transform
    */
   TRANSFORM = 'transform',
+  /**
+   * <zh/> 图形
+   *
+   * <en/> Shape
+   */
+  SHAPE = 'shape',
 }

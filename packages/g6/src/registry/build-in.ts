@@ -1,3 +1,15 @@
+import {
+  Circle as GCircle,
+  Ellipse as GEllipse,
+  Group as GGroup,
+  HTML as GHTML,
+  Line as GLine,
+  Path as GPath,
+  Polygon as GPolygon,
+  Polyline as GPolyline,
+  Rect as GRect,
+  Text as GText,
+} from '@antv/g';
 import { ComboCollapse, ComboExpand, Fade, NodeCollapse, NodeExpand, PathIn, PathOut, Translate } from '../animations';
 import {
   BrushSelect,
@@ -35,6 +47,7 @@ import {
   Star,
   Triangle,
 } from '../elements';
+import { Badge as BadgeShape, Image as ImageShape, Label as LabelShape } from '../elements/shapes';
 import {
   AntVDagreLayout,
   CircularLayout,
@@ -192,6 +205,21 @@ const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'collapse-expand-node': CollapseExpandNode,
     'process-parallel-edges': ProcessParallelEdges,
     'get-edge-actual-ends': GetEdgeActualEnds,
+  },
+  shape: {
+    circle: GCircle,
+    ellipse: GEllipse,
+    group: GGroup,
+    html: GHTML,
+    image: ImageShape,
+    line: GLine,
+    path: GPath,
+    polygon: GPolygon,
+    polyline: GPolyline,
+    rect: GRect,
+    text: GText,
+    label: LabelShape,
+    badge: BadgeShape,
   },
 };
 

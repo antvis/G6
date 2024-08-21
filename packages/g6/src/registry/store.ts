@@ -16,4 +16,5 @@ export const EXTENSION_REGISTRY: ExtensionRegistry = {
   theme: {},
   plugin: {},
   transform: {},
+  shape: {},
 };
