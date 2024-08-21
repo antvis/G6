@@ -12,7 +12,8 @@
     "publish": "pnpm publish -r --publish-branch v5",
     "site": "pnpm -r --stream --filter=./packages/site run dev",
     "version": "changeset version && turbo version",
-    "watch": "pnpm -r --stream --filter=!./site run start"
+    "watch": "pnpm -r --stream --filter=!./site run start",
+    "perf": "npm run perf"
   },
   "commitlint": {
     "extends": [
@@ -22,6 +23,9 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
       "prettier --write"
     ]
   },
@@ -47,6 +51,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-jsdoc": "^46.10.1",
     "husky": "^8.0.3",
+    "iperf": "^0.1.0-beta.7",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^23.2.0",
