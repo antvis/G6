@@ -1,5 +1,5 @@
 import type { DisplayObjectConfig } from '@antv/g';
-import { ElementEvent, Group } from '@antv/g';
+import { Group } from '@antv/g';
 import type { BaseNodeStyleProps } from '@antv/g6';
 import { Rect } from '@antv/g6';
 import { render } from '@antv/react-g';
@@ -29,15 +29,13 @@ export class GNode extends Rect {
     const { component } = attributes;
     const [width, height] = this.getSize();
 
-    const dom = this.upsert('key', Group, { width, height }, container)!;
-
-    dom.isMutationObserved = true;
-    dom.addEventListener(ElementEvent.MOUNTED, () => {
-      // component 已经被回调机制自动创建为 ReactNode
-      // component has been automatically created as ReactNode by the callback mechanism
-      render(component as unknown as ReactNode, dom);
+    return this.upsert('key', Group, { width, height }, container, {
+      afterCreate: (dom) => {
+        render(component as unknown as ReactNode, dom);
+      },
+      afterUpdate: (dom) => {
+        render(component as unknown as ReactNode, dom);
+      },
     });
-
-    return dom;
   }
 }
