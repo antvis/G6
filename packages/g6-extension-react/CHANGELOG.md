@@ -1,5 +1,13 @@
 # @antv/g6-extension-react
 
+## 0.1.4
+
+### Patch Changes
+
+- daily maintenance and bugfix
+- Updated dependencies
+  - @antv/g6@5.0.17
+
 ## 0.1.3
 
 ### Patch Changes

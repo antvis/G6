@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.17
+
+### Patch Changes
+
+- daily maintenance and bugfix
+
 ## 5.0.16
 
 ### Patch Changes
