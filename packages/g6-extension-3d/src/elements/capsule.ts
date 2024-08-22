@@ -20,7 +20,7 @@ export class Capsule extends BaseNode3D<CapsuleStyleProps> {
     super(deepMix({}, { style: Capsule.defaultStyleProps }, options));
   }
 
-  protected getGeometry(attributes: Required<CapsuleStyleProps>): GGeometry<any> | undefined {
+  protected getGeometry(attributes: Required<CapsuleStyleProps>): GGeometry<any> {
     const size = this.getSize();
     const { radius = size[0] / 2, height = size[1], heightSegments, sides } = attributes;
     return createGeometry('capsule', this.device, CapsuleGeometry, { radius, height, heightSegments, sides });

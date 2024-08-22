@@ -1,3 +1,4 @@
+import type { DisplayObject } from '@antv/g';
 import type { STDAnimation } from '../animations/types';
 import type { Behavior } from '../behaviors/types';
 import type { Layout } from '../layouts/types';
@@ -23,4 +24,5 @@ export interface ExtensionRegistry {
   plugin: Record<string, { new (...args: any[]): Plugin }>;
   animation: Record<string, STDAnimation>; // animation spec
   transform: Record<string, { new (...args: any[]): Transform }>;
+  shape: Record<string, { new (...args: any[]): DisplayObject }>;
 }

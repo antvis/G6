@@ -20,7 +20,7 @@ export class Cone extends BaseNode3D<ConeStyleProps> {
     super(deepMix({}, { style: Cone.defaultStyleProps }, options));
   }
 
-  protected getGeometry(attributes: Required<ConeStyleProps>): GGeometry<any> | undefined {
+  protected getGeometry(attributes: Required<ConeStyleProps>): GGeometry<any> {
     const size = this.getSize();
     const {
       baseRadius = size[0] / 2,

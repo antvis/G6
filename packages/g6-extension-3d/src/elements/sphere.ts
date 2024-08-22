@@ -20,7 +20,7 @@ export class Sphere extends BaseNode3D<SphereStyleProps> {
     super(deepMix({}, { style: Sphere.defaultStyleProps }, options));
   }
 
-  protected getGeometry(attributes: Required<SphereStyleProps>): GGeometry<any> | undefined {
+  protected getGeometry(attributes: Required<SphereStyleProps>): GGeometry<any> {
     const size = this.getSize();
     const { radius = size[0] / 2, latitudeBands, longitudeBands } = attributes;
     return createGeometry('sphere', this.device, SphereGeometry, { radius, latitudeBands, longitudeBands });

@@ -1,13 +1,16 @@
 import type { BaseStyleProps, DisplayObject, DisplayObjectConfig, Group, IAnimation } from '@antv/g';
 import { CustomElement } from '@antv/g';
 import { isEmpty, isFunction, upperFirst } from '@antv/util';
+import { ExtensionCategory } from '../../constants';
 import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
 import { updateStyle } from '../../utils/element';
 import { subObject } from '../../utils/prefix';
+import { format } from '../../utils/print';
 import { getSubShapeStyle } from '../../utils/style';
 import { replaceTranslateInTransform } from '../../utils/transform';
 import { setVisibility } from '../../utils/visibility';
+import { getExtension } from './../../registry/get';
 
 export interface BaseShapeStyleProps extends BaseStyleProps {}
 
@@ -51,7 +54,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
    */
   protected upsert<T extends DisplayObject>(
     className: string,
-    Ctor: { new (...args: any[]): T },
+    Ctor: string | { new (...args: any[]): T },
     style: T['attributes'] | false,
     container: DisplayObject,
     hooks?: UpsertHooks,
@@ -69,8 +72,14 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
       return;
     }
 
+    const _Ctor = typeof Ctor === 'string' ? getExtension(ExtensionCategory.SHAPE, Ctor) : Ctor;
+
+    if (!_Ctor) {
+      throw new Error(format(`Shape ${Ctor} not found`));
+    }
+
     // create
-    if (!target || target.destroyed || !(target instanceof Ctor)) {
+    if (!target || target.destroyed || !(target instanceof _Ctor)) {
       if (target) {
         hooks?.beforeDestroy?.(target);
         target?.destroy();
@@ -78,11 +87,11 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
       }
 
       hooks?.beforeCreate?.();
-      const instance = new Ctor({ className, style });
+      const instance = new _Ctor({ className, style });
       container.appendChild(instance);
       this.shapeMap[className] = instance;
       hooks?.afterCreate?.(instance);
-      return instance;
+      return instance as T;
     }
 
     // update

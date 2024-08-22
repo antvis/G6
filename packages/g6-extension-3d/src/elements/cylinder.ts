@@ -20,7 +20,7 @@ export class Cylinder extends BaseNode3D<CylinderStyleProps> {
     super(deepMix({}, { style: Cylinder.defaultStyleProps }, options));
   }
 
-  protected getGeometry(attributes: Required<CylinderStyleProps>): GGeometry<any> | undefined {
+  protected getGeometry(attributes: Required<CylinderStyleProps>): GGeometry<any> {
     const size = this.getSize();
     const { radius = size[0] / 2, height = size[1], heightSegments, capSegments } = attributes;
     return createGeometry('cylinder', this.device, CylinderGeometry, { radius, height, heightSegments, capSegments });
