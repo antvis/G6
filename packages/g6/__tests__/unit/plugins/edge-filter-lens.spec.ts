@@ -1,12 +1,15 @@
 import { pluginEdgeFilterLens } from '@@/demos';
-import { CanvasEvent, CommonEvent, Graph } from '@antv/g6';
-import { createDemoGraph } from '../../utils';
+import type { Canvas } from '@antv/g';
+import { CommonEvent, Graph } from '@antv/g6';
+import { createDemoGraph, dispatchCanvasEvent } from '../../utils';
 
 describe('edge-filter-lens', () => {
   let graph: Graph;
+  let canvas: Canvas;
 
   beforeAll(async () => {
     graph = await createDemoGraph(pluginEdgeFilterLens, { animation: false });
+    canvas = graph.getCanvas().getLayer();
   });
 
   afterAll(() => {
@@ -16,7 +19,7 @@ describe('edge-filter-lens', () => {
   it('move lens by pointermove', async () => {
     await expect(graph).toMatchSnapshot(__filename);
 
-    graph.emit(CanvasEvent.POINTER_MOVE, { canvas: { x: 200, y: 100 } });
+    dispatchCanvasEvent(graph, CommonEvent.POINTER_MOVE, { canvas: { x: 200, y: 100 } });
 
     await expect(graph).toMatchSnapshot(__filename, 'move-lens-pointermove');
   });
@@ -24,20 +27,20 @@ describe('edge-filter-lens', () => {
   it('move lens by click', async () => {
     graph.updatePlugin({ key: 'edge-filter-lens', trigger: 'click' });
 
-    graph.emit(CanvasEvent.CLICK, { canvas: { x: 180, y: 100 } });
+    dispatchCanvasEvent(graph, CommonEvent.CLICK, { canvas: { x: 180, y: 100 } });
     await expect(graph).toMatchSnapshot(__filename, 'move-lens-click-1');
 
-    graph.emit(CanvasEvent.CLICK, { canvas: { x: 200, y: 100 } });
+    dispatchCanvasEvent(graph, CommonEvent.CLICK, { canvas: { x: 200, y: 100 } });
     await expect(graph).toMatchSnapshot(__filename, 'move-lens-click-2');
   });
 
   it('move lens by drag', async () => {
     graph.updatePlugin({ key: 'edge-filter-lens', trigger: 'drag' });
 
-    graph.emit(CanvasEvent.CLICK, { canvas: { x: 180, y: 100 } });
-    graph.emit(CanvasEvent.DRAG_START, { canvas: { x: 200, y: 100 } });
-    graph.emit(CanvasEvent.DRAG, { canvas: { x: 220, y: 100 } });
-    graph.emit(CanvasEvent.DRAG_END);
+    dispatchCanvasEvent(graph, CommonEvent.CLICK, { canvas: { x: 180, y: 100 } });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { canvas: { x: 200, y: 100 } });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { canvas: { x: 220, y: 100 } });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
 
     await expect(graph).toMatchSnapshot(__filename, 'move-lens-drag');
   });
