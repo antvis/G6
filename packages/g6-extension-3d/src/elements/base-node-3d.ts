@@ -51,9 +51,9 @@ export abstract class BaseNode3D<S extends BaseNode3DStyleProps> extends BaseNod
     return this.upsert('key', Mesh, this.getKeyStyle(attributes), container);
   }
 
-  protected abstract getGeometry(attributes: Required<S>): GGeometry<any> | undefined;
+  protected abstract getGeometry(attributes: Required<S>): GGeometry<any>;
 
-  protected getMaterial(attributes: Required<S>): GMaterial<any> | undefined {
+  protected getMaterial(attributes: Required<S>): GMaterial<any> {
     const { texture } = attributes;
     const materialStyle = subStyleProps<Material>(attributes, 'material');
     return createMaterial(this.plugin, materialStyle, texture);
@@ -63,6 +63,6 @@ export interface MeshStyleProps extends BaseStyleProps {
   x?: number | string;
   y?: number | string;
   z?: number | string;
-  geometry?: GGeometry<any>;
-  material?: GMaterial<any>;
+  geometry: GGeometry<any>;
+  material: GMaterial<any>;
 }

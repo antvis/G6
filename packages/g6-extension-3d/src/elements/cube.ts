@@ -19,7 +19,7 @@ export class Cube extends BaseNode3D<CubeStyleProps> {
     super(deepMix({}, { style: Cube.defaultStyleProps }, options));
   }
 
-  protected getGeometry(attributes: Required<CubeStyleProps>): GGeometry<any> | undefined {
+  protected getGeometry(attributes: Required<CubeStyleProps>): GGeometry<any> {
     const size = this.getSize();
     const {
       width = size[0],

@@ -17,7 +17,7 @@ export class Plane extends BaseNode3D<PlaneStyleProps> {
     super(deepMix({}, { style: Plane.defaultStyleProps }, options));
   }
 
-  protected getGeometry(attributes: Required<PlaneStyleProps>): GGeometry<any> | undefined {
+  protected getGeometry(attributes: Required<PlaneStyleProps>): GGeometry<any> {
     const size = this.getSize();
     const { width = size[0], depth = size[1], widthSegments, depthSegments } = attributes;
     return createGeometry('plane', this.device, PlaneGeometry, { width, depth, widthSegments, depthSegments });
