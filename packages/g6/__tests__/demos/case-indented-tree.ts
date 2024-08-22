@@ -251,7 +251,8 @@ export const caseIndentedTree: TestCase = async (context) => {
   }
 
   class IndentedEdge extends Polyline {
-    protected getControlPoints(attributes: Required<PolylineStyleProps>, sourcePoint: Point, targetPoint: Point) {
+    protected getControlPoints(attributes: Required<PolylineStyleProps>) {
+      const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false);
       const [sx] = sourcePoint;
       const [, ty] = targetPoint;
       return [[sx, ty]] as Point[];
