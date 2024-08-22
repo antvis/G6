@@ -159,6 +159,7 @@ export type {
   LabelStyleProps,
   PolygonStyleProps,
 } from './elements/shapes';
+export type { UpsertHooks } from './elements/shapes/base-shape';
 export type { ContourLabelStyleProps, ContourStyleProps } from './elements/shapes/contour';
 export type { BaseLayoutOptions, WebWorkerLayoutOptions } from './layouts/types';
 export type { CategoricalPalette } from './palettes/types';

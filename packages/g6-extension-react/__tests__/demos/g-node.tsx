@@ -1,4 +1,4 @@
-import type { NodeData } from '@antv/g6';
+import type { Graph as G6Graph, NodeData } from '@antv/g6';
 import { ExtensionCategory, register } from '@antv/g6';
 import { GNode, Group, Image, Rect, Text } from '../../src';
 import { Graph } from '../../src/graph';
@@ -14,8 +14,9 @@ type Datum = {
   failure: number;
 };
 
-const Node = ({ data, size }: { data: NodeData; size: [number, number] }) => {
+const Node = ({ graph, data, size }: { graph: G6Graph; data: NodeData; size: [number, number] }) => {
   const [width, height] = size;
+  const { lineWidth = 1 } = graph.getElementRenderStyle(data.id);
 
   const { name, type, status, success, time, failure } = data.data as Datum;
   const color = status === 'success' ? '#30BF78' : '#F4664A';
@@ -51,7 +52,14 @@ const Node = ({ data, size }: { data: NodeData; size: [number, number] }) => {
 
   return (
     <Group>
-      <Rect width={width} height={height} stroke={color} fill={'white'} radius={radius}>
+      <Rect
+        width={width}
+        height={height}
+        stroke={color}
+        fill={'white'}
+        radius={radius}
+        lineWidth={lineWidth ? lineWidth : 1}
+      >
         <Rect width={width} height={20} fill={color} radius={[radius, radius, 0, 0]}>
           <Image
             src={
@@ -102,10 +110,12 @@ export const GNodeDemo = () => {
           type: 'g',
           style: {
             size: [180, 60],
-            component: (data: NodeData) => <Node data={data} size={[180, 60]} />,
+            component: function (this: G6Graph, data: NodeData) {
+              return <Node graph={this} data={data} size={[180, 60]} />;
+            },
           },
         },
-        behaviors: ['drag-element', 'zoom-canvas', 'drag-canvas'],
+        behaviors: ['drag-element', 'zoom-canvas', 'drag-canvas', 'click-select'],
       }}
     />
   );

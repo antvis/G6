@@ -46,6 +46,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
    * @param Ctor - <zh> 图形类型 | <en> shape type
    * @param style - <zh> 图形样式 | <en> shape style
    * @param container - <zh> 容器 | <en> container
+   * @param hooks - <zh> 钩子函数 | <en> hooks
    * @returns <zh> 图形实例 | <en> shape instance
    */
   protected upsert<T extends DisplayObject>(
@@ -53,30 +54,41 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     Ctor: { new (...args: any[]): T },
     style: T['attributes'] | false,
     container: DisplayObject,
+    hooks?: UpsertHooks,
   ): T | undefined {
     const target = this.shapeMap[className] as T | undefined;
     // remove
     // 如果 style 为 false，则删除图形 / remove shape if style is false
     if (style === false) {
       if (target) {
+        hooks?.beforeDestroy?.(target);
         container.removeChild(target);
         delete this.shapeMap[className];
+        hooks?.afterDestroy?.(target);
       }
       return;
     }
 
     // create
     if (!target || target.destroyed || !(target instanceof Ctor)) {
-      target?.destroy();
+      if (target) {
+        hooks?.beforeDestroy?.(target);
+        target?.destroy();
+        hooks?.afterDestroy?.(target);
+      }
 
+      hooks?.beforeCreate?.();
       const instance = new Ctor({ className, style });
       container.appendChild(instance);
       this.shapeMap[className] = instance;
+      hooks?.afterCreate?.(instance);
       return instance;
     }
 
     // update
+    hooks?.beforeUpdate?.(target);
     updateStyle(target, style);
+    hooks?.afterUpdate?.(target);
 
     return target;
   }
@@ -247,4 +259,53 @@ function releaseAnimation(target: DisplayObject, animation: IAnimation) {
     // @ts-expect-error private property
     if (index > -1) target.activeAnimations.splice(index, 1);
   });
+}
+
+/**
+ * <zh/> 图形 upsert 方法生命周期钩子
+ *
+ * <en/> Shape upsert method lifecycle hooks
+ */
+export interface UpsertHooks {
+  /**
+   * <zh/> 图形创建前
+   *
+   * <en/> Before creating the shape
+   */
+  beforeCreate?: () => void;
+  /**
+   * <zh/> 图形创建后
+   *
+   * <en/> After creating the shape
+   * @param instance - <zh/> 图形实例 | <en/> shape instance
+   */
+  afterCreate?: (instance: DisplayObject) => void;
+  /**
+   * <zh/> 图形更新前
+   *
+   * <en/> Before updating the shape
+   * @param instance - <zh/> 图形实例 | <en/> shape instance
+   */
+  beforeUpdate?: (instance: DisplayObject) => void;
+  /**
+   * <zh/> 图形更新后
+   *
+   * <en/> After updating the shape
+   * @param instance - <zh/> 图形实例 | <en/> shape instance
+   */
+  afterUpdate?: (instance: DisplayObject) => void;
+  /**
+   * <zh/> 图形销毁前
+   *
+   * <en/> Before destroying the shape
+   * @param instance - <zh/> 图形实例 | <en/> shape instance
+   */
+  beforeDestroy?: (instance: DisplayObject) => void;
+  /**
+   * <zh/> 图形销毁后
+   *
+   * <en/> After destroying the shape
+   * @param instance - <zh/> 图形实例 | <en/> shape instance
+   */
+  afterDestroy?: (instance: DisplayObject) => void;
 }
