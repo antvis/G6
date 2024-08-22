@@ -22,6 +22,7 @@ export const pluginEdgeFilterLens: TestCase = async (context) => {
       {
         key: 'edge-filter-lens',
         type: 'edge-filter-lens',
+        // trigger: 'drag',
       },
     ],
     autoFit: 'view',

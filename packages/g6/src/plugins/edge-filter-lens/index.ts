@@ -1,9 +1,10 @@
-import { type BaseStyleProps } from '@antv/g';
-import { CanvasEvent, ComboEvent, CommonEvent, EdgeEvent, NodeEvent } from '../../constants';
-import type { BaseEdgeStyleProps, BaseNodeStyleProps } from '../../elements';
+import type { BaseStyleProps } from '@antv/g';
+import { CommonEvent } from '../../constants';
 import { Circle } from '../../elements';
 import type { RuntimeContext } from '../../runtime/types';
-import type { GraphData } from '../../spec';
+import type { EdgeData, GraphData, NodeData } from '../../spec';
+import type { EdgeStyle } from '../../spec/element/edge';
+import type { NodeStyle } from '../../spec/element/node';
 import type {
   Element,
   ElementDatum,
@@ -32,6 +33,7 @@ export interface EdgeFilterLensOptions extends BasePluginOptions {
    * - `'pointermove'`: always follow the mouse movement
    * - `'click'`: move the lens when the mouse clicks
    * - `'drag'`: drag the lens
+   * @defaultValue 'pointermove'
    */
   trigger?: 'pointermove' | 'click' | 'drag';
   /**
@@ -68,6 +70,13 @@ export interface EdgeFilterLensOptions extends BasePluginOptions {
    * - `'source'`：只有起始节点在透镜中时，边才会显示
    * - `'target'`：只有目标节点在透镜中时，边才会显示
    * - `'either'`：只要起始节点或目标节点有一个在透镜中时，边就会显示
+   *
+   * <zh/> The condition for displaying the edge
+   * - `'both'`: The edge is displayed only when both the source node and the target node are in the lens
+   * - `'source'`: The edge is displayed only when the source node is in the lens
+   * - `'target'`: The edge is displayed only when the target node is in the lens
+   * - `'either'`: The edge is displayed when either the source node or the target node is in the lens
+   * @defaultValue 'both'
    */
   nodeType?: 'both' | 'source' | 'target' | 'either';
   /**
@@ -86,14 +95,24 @@ export interface EdgeFilterLensOptions extends BasePluginOptions {
    */
   style?: BaseStyleProps;
   /**
-   * <zh/> 在透镜中显示的元素的样式
+   * <zh/> 在透镜中节点的样式
    *
-   * <en/> The style of the elements displayed in the lens
+   * <en/> The style of the nodes displayed in the lens
    */
-  elementStyle?:
-    | BaseNodeStyleProps
-    | BaseEdgeStyleProps
-    | ((elementType: ElementType, datum: ElementDatum) => BaseNodeStyleProps | BaseEdgeStyleProps);
+  nodeStyle?: NodeStyle | ((datum: NodeData) => NodeStyle);
+  /**
+   * <zh/> 在透镜中边的样式
+   *
+   * <en/> The style of the edges displayed in the lens
+   */
+  edgeStyle?: EdgeStyle | ((datum: EdgeData) => EdgeStyle);
+  /**
+   * <zh/> 是否阻止默认事件
+   *
+   * <en/> Whether to prevent the default event
+   * @defaultValue true
+   */
+  preventDefault?: boolean;
 }
 
 const defaultLensStyle: BaseStyleProps = {
@@ -113,8 +132,10 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
     nodeType: 'both',
     filter: () => true,
     style: { lineWidth: 2 },
-    elementStyle: { label: true },
+    nodeStyle: { label: false },
+    edgeStyle: { label: true },
     scaleRByWheel: true,
+    preventDefault: true,
   };
 
   constructor(context: RuntimeContext, options: EdgeFilterLensOptions) {
@@ -211,7 +232,7 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
 
     const ids = new Set<ID>();
 
-    const { elementStyle } = this.options;
+    const { nodeStyle, edgeStyle } = this.options;
 
     const iterate = (datum: ElementDatum) => {
       const id = idOf(datum);
@@ -234,8 +255,9 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
         });
       }
 
-      const elementType = graph.getElementType(id);
-      const style = typeof elementStyle === 'function' ? elementStyle(elementType, datum) : elementStyle;
+      const elementType = graph.getElementType(id) as Exclude<ElementType, 'combo'>;
+      const style = this.getElementStyle(elementType, datum);
+
       // @ts-ignore
       cloneShape.update(style);
     };
@@ -251,8 +273,14 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
     });
   };
 
+  private getElementStyle(elementType: ElementType, datum: ElementDatum) {
+    const styler = elementType === 'node' ? this.options.nodeStyle : this.options.edgeStyle;
+    if (typeof styler === 'function') return styler(datum as any);
+    return styler;
+  }
+
   private scaleRByWheel = (event: WheelEvent) => {
-    event.preventDefault();
+    if (this.options.preventDefault) event.preventDefault();
     const { clientX, clientY, deltaX, deltaY } = event;
     const { graph, canvas } = this.context;
     const scaleOrigin = graph.getCanvasByClient([clientX, clientY]);
@@ -302,19 +330,18 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
     const { graph } = this.context;
     const { trigger, scaleRByWheel } = this.options;
 
+    const canvas = graph.getCanvas().getLayer();
+
     if (['click', 'drag'].includes(trigger)) {
-      graph.on(CanvasEvent.CLICK, this.onEdgeFilter);
-      graph.on(ComboEvent.CLICK, this.onEdgeFilter);
-      graph.on(NodeEvent.CLICK, this.onEdgeFilter);
-      graph.on(EdgeEvent.CLICK, this.onEdgeFilter);
+      canvas.addEventListener(CommonEvent.CLICK, this.onEdgeFilter);
     }
 
     if (trigger === 'pointermove') {
-      graph.on(CanvasEvent.POINTER_MOVE, this.onEdgeFilter);
+      canvas.addEventListener(CommonEvent.POINTER_MOVE, this.onEdgeFilter);
     } else if (trigger === 'drag') {
-      graph.on(CanvasEvent.DRAG_START, this.onDragStart);
-      graph.on(CanvasEvent.DRAG, this.onDrag);
-      graph.on(CanvasEvent.DRAG_END, this.onDragEnd);
+      canvas.addEventListener(CommonEvent.DRAG_START, this.onDragStart);
+      canvas.addEventListener(CommonEvent.DRAG, this.onDrag);
+      canvas.addEventListener(CommonEvent.DRAG_END, this.onDragEnd);
     }
 
     if (scaleRByWheel) {
@@ -325,20 +352,18 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
   private unbindEvents() {
     const { graph } = this.context;
     const { trigger, scaleRByWheel } = this.options;
+    const canvas = graph.getCanvas().getLayer();
 
     if (['click', 'drag'].includes(trigger)) {
-      graph.off(CanvasEvent.CLICK, this.onEdgeFilter);
-      graph.off(ComboEvent.CLICK, this.onEdgeFilter);
-      graph.off(NodeEvent.CLICK, this.onEdgeFilter);
-      graph.off(EdgeEvent.CLICK, this.onEdgeFilter);
+      canvas.removeEventListener(CommonEvent.CLICK, this.onEdgeFilter);
     }
 
     if (trigger === 'pointermove') {
-      graph.off(CanvasEvent.POINTER_MOVE, this.onEdgeFilter);
+      canvas.removeEventListener(CommonEvent.POINTER_MOVE, this.onEdgeFilter);
     } else if (trigger === 'drag') {
-      graph.off(CanvasEvent.DRAG_START, this.onDragStart);
-      graph.off(CanvasEvent.DRAG, this.onDrag);
-      graph.off(CanvasEvent.DRAG_END, this.onDragEnd);
+      canvas.removeEventListener(CommonEvent.DRAG_START, this.onDragStart);
+      canvas.removeEventListener(CommonEvent.DRAG, this.onDrag);
+      canvas.removeEventListener(CommonEvent.DRAG_END, this.onDragEnd);
     }
 
     if (scaleRByWheel) {
