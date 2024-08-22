@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": {
+        "zh": "边过滤镜",
+        "en": "Edge Filter Lens"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*62FuSY-LFEIAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

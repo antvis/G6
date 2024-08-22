@@ -113,6 +113,7 @@ export { pluginBackground } from './plugin-background';
 export { pluginBubbleSets } from './plugin-bubble-sets';
 export { pluginCameraSetting } from './plugin-camera-setting';
 export { pluginContextmenu } from './plugin-contextmenu';
+export { pluginEdgeFilterLens } from './plugin-edge-filter-lens';
 export { pluginFullscreen } from './plugin-fullscreen';
 export { pluginGridLine } from './plugin-grid-line';
 export { pluginHistory } from './plugin-history';

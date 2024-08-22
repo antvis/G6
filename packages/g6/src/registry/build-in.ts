@@ -59,6 +59,7 @@ import {
   Background,
   BubbleSets,
   Contextmenu,
+  EdgeFilterLens,
   Fullscreen,
   GridLine,
   History,
@@ -169,6 +170,7 @@ const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
   },
   plugin: {
     'bubble-sets': BubbleSets,
+    'edge-filter-lens': EdgeFilterLens,
     'grid-line': GridLine,
     background: Background,
     contextmenu: Contextmenu,
