@@ -1,6 +1,6 @@
 import { Graph } from '@antv/g6';
 
-fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
+fetch('https://assets.antv.antgroup.com/g6/relations.json')
   .then((res) => res.json())
   .then((data) => {
     const graph = new Graph({

@@ -1,15 +1,12 @@
 import { pluginEdgeFilterLens } from '@@/demos';
-import type { Canvas } from '@antv/g';
 import { CommonEvent, Graph } from '@antv/g6';
 import { createDemoGraph, dispatchCanvasEvent } from '../../utils';
 
 describe('edge-filter-lens', () => {
   let graph: Graph;
-  let canvas: Canvas;
 
   beforeAll(async () => {
     graph = await createDemoGraph(pluginEdgeFilterLens, { animation: false });
-    canvas = graph.getCanvas().getLayer();
   });
 
   afterAll(() => {
@@ -62,5 +59,19 @@ describe('edge-filter-lens', () => {
     emitWheelEvent({ deltaX: -1, deltaY: -2, clientX: 200, clientY: 100 });
 
     await expect(graph).toMatchSnapshot(__filename, 'scale-smaller');
+  });
+
+  it('show edge when only its source/target node in lens', async () => {
+    graph.updatePlugin({ key: 'edge-filter-lens', trigger: 'click', nodeType: 'source' });
+    dispatchCanvasEvent(graph, CommonEvent.CLICK, { canvas: { x: 200, y: 200 } });
+    await expect(graph).toMatchSnapshot(__filename, 'node-type-source');
+
+    graph.updatePlugin({ key: 'edge-filter-lens', trigger: 'click', nodeType: 'target' });
+    dispatchCanvasEvent(graph, CommonEvent.CLICK, { canvas: { x: 200, y: 200 } });
+    await expect(graph).toMatchSnapshot(__filename, 'node-type-target');
+
+    graph.updatePlugin({ key: 'edge-filter-lens', trigger: 'click', nodeType: 'either' });
+    dispatchCanvasEvent(graph, CommonEvent.CLICK, { canvas: { x: 200, y: 200 } });
+    await expect(graph).toMatchSnapshot(__filename, 'node-type-either');
   });
 });

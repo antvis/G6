@@ -6,15 +6,15 @@ export const pluginEdgeFilterLens: TestCase = async (context) => {
     ...context,
     data,
     node: {
-      style: { size: 22 },
+      style: { size: 16 },
       palette: {
-        field: (datum) => Math.floor((datum.style?.y as number) / 50),
+        field: (datum) => Math.floor(Number(datum.style?.y) / 60),
       },
     },
     edge: {
       style: {
         label: false,
-        labelText: (d) => d.value?.toString(),
+        labelText: (d) => d.data!.value?.toString(),
         stroke: '#ccc',
       },
     },
@@ -22,7 +22,6 @@ export const pluginEdgeFilterLens: TestCase = async (context) => {
       {
         key: 'edge-filter-lens',
         type: 'edge-filter-lens',
-        // trigger: 'drag',
       },
     ],
     autoFit: 'view',
