@@ -56,7 +56,7 @@ export class Polyline extends BaseEdge {
     super(mergeOptions({ style: Polyline.defaultStyleProps }, options));
   }
 
-  protected getPoints(attributes: ParsedPolylineStyleProps): Point[] {
+  protected getControlPoints(attributes: ParsedPolylineStyleProps): Point[] {
     const { router } = attributes;
     const { sourceNode, targetNode } = this;
     const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false);
@@ -78,6 +78,12 @@ export class Polyline extends BaseEdge {
         controlPoints = orth(sourcePoint, targetPoint, sourceNode, targetNode, attributes.controlPoints, router);
       }
     }
+
+    return controlPoints;
+  }
+
+  protected getPoints(attributes: ParsedPolylineStyleProps): Point[] {
+    const controlPoints = this.getControlPoints(attributes);
 
     const [newSourcePoint, newTargetPoint] = this.getEndpoints(attributes, true, controlPoints);
     return [newSourcePoint, ...controlPoints, newTargetPoint];

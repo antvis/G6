@@ -225,7 +225,8 @@ class IndentedNode extends BaseNode {
 }
 
 class IndentedEdge extends Polyline {
-  getControlPoints(attributes, sourcePoint, targetPoint) {
+  getControlPoints(attributes) {
+    const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false);
     const [sx] = sourcePoint;
     const [, ty] = targetPoint;
     return [[sx, ty]];
