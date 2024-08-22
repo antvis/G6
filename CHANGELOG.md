@@ -102,7 +102,7 @@
 - feat: beforechangedata and afterchagnedata for graph changeData;
 - feat: Annotation supports icon events callbacks;
 - feat: Annotation supports defaultBegin position configuration for new annotation cards;
-- perf: Annotation updated automatically when graph data changed and graph item visiblity changed;
+- perf: Annotation updated automatically when graph data changed and graph item visibility changed;
 - fix: Destroy legend canvas when the plugin is destroyed, closes: #3931;
 
 ### 4.7.2
@@ -1373,7 +1373,7 @@
 - feat: itemmouseleave、itemmouseenter
 - remove: graph.refresh()
 - remove: graph.changeNodes()
-- remove: graph attributes -- zoomable、dragable、resizeable、selectable
+- remove: graph attributes -- zoomable、draggable、resizeable、selectable
 - improve: anchor mechanism
 - improve: hide G6.GraphUtil functions, unified in G6.Util
 - improve: replace g-canvas-core to g-canvas to improve performance
@@ -1385,7 +1385,7 @@
 
 `2017-03-2`
 
-- fix: dragable for controlling dragable under default mode
+- fix: draggable for controlling draggable under default mode
 - feat: graph.converPoint()
 - feat: graph.autoSize()
 - feat: rightmousedown leftmousedown wheeldown
@@ -1417,7 +1417,7 @@
 - feat: mouseover
 - feat: multiSelectable, default false
 - feat: set forceFit to true while width is undefined
-- improve: zoomable、dragable、resizeable、selectable default true
+- improve: zoomable、draggable、resizeable、selectable default true
 
 #### 0.2.0
 
