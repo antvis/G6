@@ -365,8 +365,8 @@ export class Snapline extends BasePlugin<SnaplineOptions> {
   }
 
   private destroyElements() {
-    this.horizontalLine.destroy();
-    this.verticalLine.destroy();
+    this.horizontalLine?.destroy();
+    this.verticalLine?.destroy();
   }
 
   public destroy() {
