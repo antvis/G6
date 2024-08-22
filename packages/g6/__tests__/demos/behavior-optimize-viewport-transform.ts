@@ -20,6 +20,7 @@ export const behaviorOptimizeViewportTransform: TestCase = async (context) => {
       style: {
         labelFontSize: 8,
         labelText: (datum) => datum.id,
+        startArrow: true,
       },
     },
     behaviors: ['drag-canvas', 'zoom-canvas', 'scroll-canvas', 'optimize-viewport-transform'],

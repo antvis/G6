@@ -59,22 +59,16 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
     this.bindEvents();
   }
 
-  private filterShapes = (shapes: DisplayObject[], classnames?: string[]) => {
-    return shapes.filter((shape) => shape.className && !classnames?.includes(shape.className));
-  };
-
   private setElementsVisibility = (
     elements: DisplayObject[],
     visibility: BaseStyleProps['visibility'],
     excludedClassnames?: string[],
   ) => {
     elements.forEach((element) => {
-      setVisibility(
-        element,
-        visibility,
-        false,
-        (shape) => !!shape.className && !excludedClassnames?.includes(shape.className),
-      );
+      setVisibility(element, visibility, false, (shape) => {
+        if (!shape.className) return true;
+        return !excludedClassnames?.includes(shape.className);
+      });
     });
   };
 
