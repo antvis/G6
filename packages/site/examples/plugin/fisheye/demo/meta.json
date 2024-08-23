@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": {
+        "zh": "鱼眼放大镜",
+        "en": "Fisheye"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SPqiTLwdZ9MAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "custom.js",
+      "title": {
+        "zh": "自定义鱼眼放大镜",
+        "en": "Custom Fisheye"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-VyPRY-2dMIAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
