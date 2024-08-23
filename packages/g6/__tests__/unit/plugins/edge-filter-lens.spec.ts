@@ -74,4 +74,10 @@ describe('edge-filter-lens', () => {
     dispatchCanvasEvent(graph, CommonEvent.CLICK, { canvas: { x: 200, y: 200 } });
     await expect(graph).toMatchSnapshot(__filename, 'node-type-either');
   });
+
+  it('lens style', async () => {
+    graph.updatePlugin({ key: 'edge-filter-lens', edgeStyle: () => ({ stroke: '#f00' }) });
+    dispatchCanvasEvent(graph, CommonEvent.CLICK, { canvas: { x: 200, y: 200 } });
+    await expect(graph).toMatchSnapshot(__filename, 'lens-style');
+  });
 });
