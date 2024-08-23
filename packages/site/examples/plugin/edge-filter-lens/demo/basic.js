@@ -31,7 +31,7 @@ fetch('https://assets.antv.antgroup.com/g6/relations.json')
 
     const config = {
       trigger: 'pointermove',
-      scaleRByWheel: true,
+      scaleRBy: 'wheel',
       nodeType: 'both',
     };
 
@@ -46,12 +46,12 @@ fetch('https://assets.antv.antgroup.com/g6/relations.json')
           });
         });
       gui
-        .add(config, 'scaleRByWheel')
-        .name('Scale R by Wheel')
+        .add(config, 'scaleRBy', ['wheel', 'unset'])
+        .name('Scale R by')
         .onChange((value) => {
           graph.updatePlugin({
             key: 'edge-filter-lens',
-            scaleRByWheel: value,
+            scaleRBy: value,
           });
         });
       gui

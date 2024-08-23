@@ -16,12 +16,17 @@ import type {
   PointObject,
 } from '../../types';
 import { idOf } from '../../utils/id';
-import { parsePoint } from '../../utils/point';
+import { parsePoint, toPointObject } from '../../utils/point';
 import { positionOf } from '../../utils/position';
 import { distance } from '../../utils/vector';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 
+/**
+ * <zh/> 边过滤镜插件配置项
+ *
+ * <en/> Edge filter lens plugin options
+ */
 export interface EdgeFilterLensOptions extends BasePluginOptions {
   /**
    * <zh/> 移动透镜的方式
@@ -44,16 +49,16 @@ export interface EdgeFilterLensOptions extends BasePluginOptions {
    */
   r?: number;
   /**
-   * <zh/> 透镜的最大半径。只有在开启 `scaleRByWheel` 时生效
+   * <zh/> 透镜的最大半径。只有在 `scaleRBy` 为 `wheel` 时生效
    *
-   * <en/> The maximum radius of the lens. Only valid when `scaleRByWheel` is enabled
+   * <en/> The maximum radius of the lens. Only valid when `scaleRBy` is `wheel`
    * @defaultValue canvas 宽高最小值的一半
    */
   maxR?: number;
   /**
-   * <zh/> 透镜的最小半径。只有在开启 `scaleRByWheel` 时生效
+   * <zh/> 透镜的最小半径。只有在 `scaleRBy` 为 `wheel` 时生效
    *
-   * <en/> The minimum radius of the lens. Only valid when `scaleRByWheel` is enabled
+   * <en/> The minimum radius of the lens. Only valid when `scaleRBy` is `wheel`
    * @defaultValue 0
    */
   minR?: number;
@@ -63,7 +68,7 @@ export interface EdgeFilterLensOptions extends BasePluginOptions {
    * <en/> Whether to scale the radius of the lens by wheel
    * @defaultValue true
    */
-  scaleRByWheel?: boolean;
+  scaleRBy?: 'wheel' | 'unset';
   /**
    * <zh/> 边显示的条件
    * - `'both'`：只有起始节点和目标节点都在透镜中时，边才会显示
@@ -71,7 +76,7 @@ export interface EdgeFilterLensOptions extends BasePluginOptions {
    * - `'target'`：只有目标节点在透镜中时，边才会显示
    * - `'either'`：只要起始节点或目标节点有一个在透镜中时，边就会显示
    *
-   * <zh/> The condition for displaying the edge
+   * <en/> The condition for displaying the edge
    * - `'both'`: The edge is displayed only when both the source node and the target node are in the lens
    * - `'source'`: The edge is displayed only when the source node is in the lens
    * - `'target'`: The edge is displayed only when the target node is in the lens
@@ -125,6 +130,15 @@ const defaultLensStyle: BaseStyleProps = {
 
 const DELTA = 0.05;
 
+/**
+ * <zh/> 边过滤镜插件
+ *
+ * <en/> Edge filter lens plugin
+ * @remarks
+ * <zh/> 边过滤镜可以将关注的边保留在过滤镜范围内，其他边将在该范围内不显示。
+ *
+ * <en/> EdgeFilterLens can keep the focused edges within the lens range, while other edges will not be displayed within that range.
+ */
 export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
   static defaultOptions: Partial<EdgeFilterLensOptions> = {
     trigger: 'pointermove',
@@ -134,7 +148,7 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
     style: { lineWidth: 2 },
     nodeStyle: { label: false },
     edgeStyle: { label: true },
-    scaleRByWheel: true,
+    scaleRBy: 'wheel',
     preventDefault: true,
   };
 
@@ -166,17 +180,16 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
   };
 
   private renderLens = (origin: Point) => {
-    const [x, y] = origin;
-    const positionStyle = { size: this.r * 2, x, y };
+    const style = Object.assign({}, defaultLensStyle, this.options.style);
 
     if (!this.isLensOn) {
-      const style = Object.assign({}, defaultLensStyle, this.options.style, positionStyle);
       this.lens = new Circle({ style });
-    } else {
-      this.lens.update(positionStyle);
+      this.canvas.appendChild(this.lens);
     }
 
-    this.canvas.appendChild(this.lens);
+    Object.assign(style, toPointObject(origin), { size: this.r * 2 });
+
+    this.lens.update(style);
   };
 
   private getFilterData = (): Required<GraphData> => {
@@ -231,8 +244,6 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
     const { nodes, edges } = this.getFocusElements(origin);
 
     const ids = new Set<ID>();
-
-    const { nodeStyle, edgeStyle } = this.options;
 
     const iterate = (datum: ElementDatum) => {
       const id = idOf(datum);
@@ -328,7 +339,7 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
 
   private bindEvents() {
     const { graph } = this.context;
-    const { trigger, scaleRByWheel } = this.options;
+    const { trigger, scaleRBy } = this.options;
 
     const canvas = graph.getCanvas().getLayer();
 
@@ -344,14 +355,14 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
       canvas.addEventListener(CommonEvent.DRAG_END, this.onDragEnd);
     }
 
-    if (scaleRByWheel) {
+    if (scaleRBy === 'wheel') {
       this.graphDom?.addEventListener(CommonEvent.WHEEL, this.scaleRByWheel, { passive: false });
     }
   }
 
   private unbindEvents() {
     const { graph } = this.context;
-    const { trigger, scaleRByWheel } = this.options;
+    const { trigger, scaleRBy } = this.options;
     const canvas = graph.getCanvas().getLayer();
 
     if (['click', 'drag'].includes(trigger)) {
@@ -366,7 +377,7 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
       canvas.removeEventListener(CommonEvent.DRAG_END, this.onDragEnd);
     }
 
-    if (scaleRByWheel) {
+    if (scaleRBy === 'wheel') {
       this.graphDom?.removeEventListener(CommonEvent.WHEEL, this.scaleRByWheel);
     }
   }
