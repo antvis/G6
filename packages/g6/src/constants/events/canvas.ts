@@ -21,7 +21,7 @@ export enum CanvasEvent {
    *
    * <en/> Triggered when the pointer enters
    */
-  POINTER_OVER = 'canvas:canvas:pointerover',
+  POINTER_OVER = 'canvas:pointerover',
   /**
    * <zh/> 指针移出时触发
    *

@@ -80,6 +80,13 @@ export interface BaseElementStyleProps extends BaseShapeStyleProps {
  */
 export interface ElementMethods {
   /**
+   * <zh/> 更新元素属性
+   *
+   * <en/> Update element attributes
+   * @param attr - <zh/> 属性 | <en/> Attributes
+   */
+  update(attr: any): void;
+  /**
    * <zh/> 获取当前元素内的子图形
    *
    * <en/> Get the subgraph in the current element
