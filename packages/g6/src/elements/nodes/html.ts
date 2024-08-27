@@ -94,8 +94,8 @@ export class HTML extends BaseNode<HTMLStyleProps> {
 
   protected drawKeyShape(attributes: Required<HTMLStyleProps>, container: Group) {
     const style = this.getKeyStyle(attributes);
-    const { width = 0, height = 0 } = style;
-    const bounds = this.upsert('key-container', Rect, { width, height, opacity: 0 }, container)!;
+    const { x, y, width = 0, height = 0 } = style;
+    const bounds = this.upsert('key-container', Rect, { x, y, width, height, opacity: 0 }, container)!;
     return this.upsert('key', GHTML, style, bounds);
   }
 
