@@ -100,7 +100,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
   }
 
   private initElement() {
-    this.$element = createPluginContainer('contextmenu', false);
+    this.$element = createPluginContainer('contextmenu', false, { zIndex: '99' });
     const { className } = this.options;
     if (className) this.$element.classList.add(className);
 
