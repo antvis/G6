@@ -63,12 +63,14 @@ export interface EdgeFilterLensOptions extends BasePluginOptions {
    */
   minR?: number;
   /**
-   * <zh/> 是否通过滚轮缩放透镜的半径
+   * <zh/> 缩放透镜半径的方式
+   * - `'wheel'`：通过滚轮缩放透镜的半径
    *
-   * <en/> Whether to scale the radius of the lens by wheel
-   * @defaultValue true
+   * <en/> The way to scale the radius of the lens
+   * - `'wheel'`: scale the radius of the lens by the wheel
+   * @defaultValue `'wheel'`
    */
-  scaleRBy?: 'wheel' | 'unset';
+  scaleRBy?: 'wheel';
   /**
    * <zh/> 边显示的条件
    * - `'both'`：只有起始节点和目标节点都在透镜中时，边才会显示
