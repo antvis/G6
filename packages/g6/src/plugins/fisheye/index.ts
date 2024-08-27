@@ -59,20 +59,18 @@ export interface FisheyeOptions extends BasePluginOptions {
   /**
    * <zh/> 调整鱼眼放大镜范围半径的方式
    * - `'wheel'`：滚轮调整
-   * - `'drag'`：拖拽调整，
-   * - `'unset'`：不可调整
+   * - `'drag'`：拖拽调整
    *
    * <en/> The way to adjust the range radius of the fisheye lens
    * - `'wheel'`: adjust by wheel
    * - `'drag'`: adjust by drag
-   * - `'unset'`: not adjustable
-   * @defaultValue 'unset'
+   * @defaultValue undefined
    * @remarks
    * <zh/> 如果 `trigger`、`scaleRBy` 和 `scaleDBy` 同时设置为 `'drag'`，优先级顺序为 `trigger` > `scaleRBy` > `scaleDBy`，只会为优先级最高的配置项绑定拖拽事件。同理，如果 `scaleRBy` 和 `scaleDBy` 同时设置为 `'wheel'`，只会为 `scaleRBy` 绑定滚轮事件
    *
    * <en/> If `trigger`, `scaleRBy`, and `scaleDBy` are set to `'drag'` at the same time, the priority order is `trigger` > `scaleRBy` > `scaleDBy`, and only the configuration item with the highest priority will be bound to the drag event. Similarly, if `scaleRBy` and `scaleDBy` are set to `'wheel'` at the same time, only `scaleRBy` will be bound to the wheel event
    */
-  scaleRBy?: 'wheel' | 'drag' | 'unset';
+  scaleRBy?: 'wheel' | 'drag';
   /**
    * <zh/> 畸变因子
    *
@@ -100,15 +98,13 @@ export interface FisheyeOptions extends BasePluginOptions {
    * <zh/> 调整鱼眼放大镜畸变因子的方式
    * - `'wheel'`：滚轮调整
    * - `'drag'`：拖拽调整
-   * - `'unset'`：不可调整
    *
    * <en/> The way to adjust the distortion factor of the fisheye lens
    * - `'wheel'`: adjust by wheel
    * - `'drag'`: adjust by drag
-   * - `'unset'`: not adjustable
-   * @defaultValue 'unset'
+   * @defaultValue undefined
    */
-  scaleDBy?: 'wheel' | 'drag' | 'unset';
+  scaleDBy?: 'wheel' | 'drag';
   /**
    * <zh/> 是否在鱼眼放大镜中显示畸变因子数值
    *
@@ -162,11 +158,9 @@ export class Fisheye extends BasePlugin<FisheyeOptions> {
   static defaultOptions: Partial<FisheyeOptions> = {
     trigger: 'pointermove',
     r: 120,
-    scaleRBy: 'unset',
     d: 1.5,
     maxD: 5,
     minD: 0,
-    scaleDBy: 'unset',
     showDPercent: true,
     style: {},
     nodeStyle: { label: true },
