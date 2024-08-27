@@ -71,7 +71,6 @@ export interface ClickSelectOptions extends BaseBehaviorOptions {
    * <zh/> 当有元素被选中时，除了选中元素及其受影响的邻居元素外，其他所有元素应用的状态。
    *
    * <en/> The state to be applied to all unselected elements when some elements are selected, excluding the selected element and its affected neighbors
-   * @defaultValue undefined
    */
   unselectedState?: State;
   /**
