@@ -26,6 +26,20 @@ export interface HTMLStyleProps extends BaseNodeStyleProps {
    * <en/> HTML content, can be a string or `HTMLElement`
    */
   innerHTML: string | HTMLElement;
+  /**
+   * <zh/> 横行偏移量。HTML 容器默认以左上角为原点，通过 dx 来进行横向偏移
+   *
+   * <en/> Horizontal offset. The HTML container defaults to the upper left corner as the origin, and the horizontal offset is performed through dx
+   * @defaultValue 0
+   */
+  dx?: number;
+  /**
+   * <zh/> 纵向偏移量。HTML 容器默认以左上角为原点，通过 dy 来进行纵向偏移
+   *
+   * <en/> Vertical offset. The HTML container defaults to the upper left corner as the origin, and the vertical offset is performed through dy
+   * @defaultValue 0
+   */
+  dy?: number;
 }
 
 /**
@@ -69,9 +83,13 @@ export class HTML extends BaseNode<HTMLStyleProps> {
   }
 
   protected getKeyStyle(attributes: Required<HTMLStyleProps>): GHTMLStyleProps {
-    const style = pick(attributes, ['innerHTML', 'pointerEvents', 'cursor']) as unknown as HTMLStyleProps;
+    const {
+      dx = 0,
+      dy = 0,
+      ...style
+    } = pick(attributes, ['dx', 'dy', 'innerHTML', 'pointerEvents', 'cursor']) as unknown as HTMLStyleProps;
     const [width, height] = this.getSize(attributes);
-    return { ...style, width, height };
+    return { x: dx, y: dy, ...style, width, height };
   }
 
   protected drawKeyShape(attributes: Required<HTMLStyleProps>, container: Group) {
