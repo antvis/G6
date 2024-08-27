@@ -37,6 +37,12 @@ describe('sizeOf', () => {
     expect(el.style.pointerEvents).not.toBe('none');
   });
 
+  it('createPluginContainer with style', () => {
+    const el = createPluginContainer('test', false, { color: 'red' });
+    expect(el.getAttribute('class')).toBe('g6-test');
+    expect(el.style.color).toBe('red');
+  });
+
   it('insertDOM', () => {
     insertDOM('g6-test', 'div', { color: 'red' }, 'test', document.body);
 
