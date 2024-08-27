@@ -9,6 +9,7 @@ import {
   IEventTarget,
   Rect,
 } from '@antv/g';
+import { Renderer } from '@antv/g-canvas';
 import { isNil, isUndefined, pick } from '@antv/util';
 import { CommonEvent } from '../../constants';
 import type { BaseNodeStyleProps } from './base-node';
@@ -100,6 +101,11 @@ export class HTML extends BaseNode<HTMLStyleProps> {
   }
 
   public connectedCallback() {
+    // only enable in canvas renderer
+    const renderer = this.context.canvas.getRenderer('main');
+    const isCanvasRenderer = renderer instanceof Renderer;
+    if (!isCanvasRenderer) return;
+
     const element = this.getDomElement();
     this.events.forEach((eventName) => {
       // @ts-expect-error assert event is PointerEvent
