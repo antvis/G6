@@ -224,7 +224,7 @@ export class ElementController {
     return this.elementMap[id] as T;
   }
 
-  public getElementZIndex(id: ID) {
+  public getElementZIndex(id: ID): number {
     const element = this.getElement(id);
     if (!element) return 0;
     return element.style.zIndex ?? 0;
@@ -381,6 +381,12 @@ export class ElementController {
     if (!Ctor) return print.warn(`The element ${type} of ${elementType} is not registered.`);
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum), context);
+
+    if (context.stage === 'expand') {
+      // 如果是展开的元素，需要将其 zIndex 提升至目标元素的上层
+      const targetZIndex = this.getElementZIndex(context.target!);
+      if (!style.zIndex || style.zIndex < targetZIndex) style.zIndex = targetZIndex + (style.zIndex ?? 0);
+    }
 
     const element = this.container.appendChild(
       new Ctor({
@@ -636,7 +642,7 @@ export class ElementController {
     const {
       drawData: { add },
     } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
-    this.createElements(add, { animation: false, stage: 'expand' });
+    this.createElements(add, { animation: false, stage: 'expand', target: id });
     // 重置动画 / Reset animation
     this.context.animation!.clear();
 
@@ -725,7 +731,7 @@ export class ElementController {
     this.computeStyle('expand');
     const { dataChanges, drawData } = this.computeChangesAndDrawData({ stage: 'expand', animation })!;
     const { add, update } = drawData;
-    const context = { animation, stage: 'expand', data: drawData } as const;
+    const context = { animation, stage: 'expand', data: drawData, target: id } as const;
 
     this.createElements(add, context);
     this.updateElements(update, context);
@@ -819,4 +825,6 @@ export interface DrawContext {
   collapseExpandTarget?: ID;
   /** <zh/> 绘制类型 | <en/> Draw type */
   type?: 'render' | 'draw';
+  /** <zh/> 展开阶段的目标元素 id | <en/> ID of the target element in the expand stage */
+  target?: ID;
 }
