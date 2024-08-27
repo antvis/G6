@@ -2,9 +2,9 @@ import type { Element } from '../types';
 import { getCachedStyle, setCacheStyle } from '../utils/cache';
 
 /**
- * <zh/> 基于样式属性是否变化控制函数是否执行
+ * <zh/> 优化方法执行次数，仅在样式属性发生变化时执行函数
  *
- * <en/> Control whether the function is executed based on whether the style attribute changes
+ * <en/> Optimize the number of method executions, and only execute the function when the style attributes change
  * @param styler - <zh/> 获取样式属性函数 | <en/> Get style attribute function
  * @returns <zh/> 装饰器 | <en/> Decorator
  * @remarks
@@ -15,6 +15,23 @@ import { getCachedStyle, setCacheStyle } from '../utils/cache';
  * <en/> Only when getStyle is specified, the function will be called with the current attributes and the new attributes respectively. If they are the same, the function will not be executed.
  *
  * If shapeKey is specified, the attributes of the shape will be directly obtained as the original style attributes, which is usually used when the bounding box of the element is used in the getStyle function.
+ * @example
+ * <zh/> 仅当 value 发生变化时执行函数
+ *
+ * <en/> Execute the function only when value changes
+ *
+ * ```typescript
+ * class CustomNode extends BaseNode {
+ *
+ *  @effect((self, attributes) => {
+ *    const { value } = attributes;
+ *    return { value }
+ *  })
+ *  drawCustomShape(attributes, container) {
+ *    this.upsert('custom', 'circle', { ...attributes }, container);
+ *  }
+ * }
+ * ```
  */
 export function effect(styler: (self: any, attributes: Record<string, unknown>) => Record<string, unknown>) {
   return function (target: Element, propertyKey: string, descriptor: PropertyDescriptor) {
