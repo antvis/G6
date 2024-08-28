@@ -42,7 +42,7 @@ test.describe('plugin minimap', () => {
     // 因此这里直接调用 graph 实例的方法
     // playwright mouse simulation operation cannot trigger the drag event of g canvas normally
     // So here directly call the method of the graph instance
-    await page.evaluate(() => (window as any).graph.translateTo([100, 100]));
+    await page.evaluate(() => (window as any).graph.translateTo([100, 100], false));
 
     await expect(page).toHaveScreenshot({ clip, maxDiffPixels: 100 });
   });
