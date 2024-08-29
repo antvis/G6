@@ -4,6 +4,7 @@ if (window) {
   window.g6Extension3d = require('@antv/g6-extension-3d');
   window.g6ExtensionReact = require('@antv/g6-extension-react');
 
+  window.layout = require('@antv/layout');
   window.layoutGpu = require('@antv/layout-gpu');
   window.algorithm = require('@antv/algorithm');
   window.layoutWasm = require('@antv/layout-wasm');
