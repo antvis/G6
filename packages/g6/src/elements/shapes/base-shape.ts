@@ -47,7 +47,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
    * <en> create, update or remove shape
    * @param className - <zh> 图形名称 | <en> shape name
    * @param Ctor - <zh> 图形类型 | <en> shape type
-   * @param style - <zh> 图形样式 | <en> shape style
+   * @param style - <zh> 图形样式。若要删除图形，传入 false | <en> shape style. Pass false to remove the shape
    * @param container - <zh> 容器 | <en> container
    * @param hooks - <zh> 钩子函数 | <en> hooks
    * @returns <zh> 图形实例 | <en> shape instance

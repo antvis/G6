@@ -154,9 +154,10 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     return getExpandedBBox(childrenBBox, padding);
   }
 
-  @effect((self, attributes) => self.getCollapsedMarkerStyle(attributes))
   protected drawCollapsedMarkerShape(attributes: Required<S>, container: Group): void {
-    this.upsert('collapsed-marker', Icon, this.getCollapsedMarkerStyle(attributes), container);
+    const style = this.getCollapsedMarkerStyle(attributes);
+    if (!effect(this, 'collapsedMarker', style)) return;
+    this.upsert('collapsed-marker', Icon, style, container);
     connectImage(this);
   }
 

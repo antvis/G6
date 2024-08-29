@@ -335,6 +335,8 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
 
     if (enable) {
       const arrowStyle = this.getArrowStyle(attributes, isStart);
+      if (!effect(this, `arrow-${type}`, arrowStyle)) return;
+
       const [marker, markerOffset, arrowOffset] = isStart
         ? (['markerStart', 'markerStartOffset', 'startArrowOffset'] as const)
         : (['markerEnd', 'markerEndOffset', 'endArrowOffset'] as const);
@@ -376,35 +378,36 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
     );
   }
 
-  @effect((self, attributes) => self.getLabelStyle(attributes))
   protected drawLabelShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
-    this.upsert('label', Label, this.getLabelStyle(attributes), container);
+    const style = this.getLabelStyle(attributes);
+    if (!effect(this, 'label', style)) return;
+    this.upsert('label', Label, style, container);
   }
 
-  @effect((self, attributes) => self.getHaloStyle(attributes))
   protected drawHaloShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
-    this.upsert('halo', Path, this.getHaloStyle(attributes), container);
+    const style = this.getHaloStyle(attributes);
+    if (!effect(this, 'halo', style)) return;
+    this.upsert('halo', Path, style, container);
   }
 
-  @effect((self, attributes) => self.getBadgeStyle(attributes))
   protected drawBadgeShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
-    this.upsert('badge', Badge, this.getBadgeStyle(attributes), container);
+    const style = this.getBadgeStyle(attributes);
+    if (!effect(this, 'badge', style)) return;
+    this.upsert('badge', Badge, style, container);
   }
 
-  @effect((self, attributes) => self.getArrowStyle(attributes, 'start'))
   protected drawSourceArrow(attributes: ParsedBaseEdgeStyleProps) {
     this.drawArrow(attributes, 'start');
   }
 
-  @effect((self, attributes) => self.getArrowStyle(attributes, 'end'))
   protected drawTargetArrow(attributes: ParsedBaseEdgeStyleProps) {
     this.drawArrow(attributes, 'end');
   }
 
-  @effect((self, attributes) => self.getKeyStyle(attributes))
   protected drawKeyShape(attributes: ParsedBaseEdgeStyleProps, container: Group): Path | undefined {
-    const key = this.upsert('key', Path, this.getKeyStyle(attributes), container);
-    return key;
+    const style = this.getKeyStyle(attributes);
+    if (!effect(this, 'key', style)) return;
+    return this.upsert('key', Path, style, container);
   }
 
   public render(attributes = this.parsedAttributes, container: Group = this): void {

@@ -1,0 +1,246 @@
+{
+  "version": "1.0",
+  "device": {
+    "os": {
+      "arch": "arm64",
+      "distro": "macOS",
+      "serial": "9821ed36011eee5abf6c71d6fc2c03fb4bf4655e674c56b7f50e2560cb6e924a"
+    },
+    "cpu": {
+      "manufacturer": "Apple",
+      "brand": "M1 Pro",
+      "speed": 2.4,
+      "cores": 10
+    },
+    "memory": {
+      "total": 16384,
+      "free": 540.28125
+    },
+    "gpu": {
+      "vendor": "Apple",
+      "model": "Apple M1 Pro",
+      "cores": "16"
+    }
+  },
+  "repo": "aa87ec67c38f03808c72d82caaa3d064b4ee9c01",
+  "client": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/128.0.6613.18 Safari/537.36",
+  "reports": {
+    "UpdateElementState": {
+      "time": [
+        {
+          "min": 167.09999999403954,
+          "max": 202.29999999701977,
+          "median": 171.79999999701977,
+          "avg": 172.86250000447035,
+          "variance": 18.562343744896353,
+          "reliable": true,
+          "key": "update element state to selected"
+        },
+        {
+          "min": 102.20000000298023,
+          "max": 116.09999999403954,
+          "median": 104.30000001192093,
+          "avg": 105.06250000186265,
+          "variance": 3.0598437559511513,
+          "reliable": true,
+          "key": "update element state to default"
+        },
+        {
+          "min": 86,
+          "max": 105.8999999910593,
+          "median": 88.5,
+          "avg": 88.51249999925494,
+          "variance": 2.073593743089587,
+          "reliable": true,
+          "key": "update element position"
+        }
+      ],
+      "status": "passed"
+    },
+    "dataDiff1000": {
+      "time": [
+        {
+          "min": 2.7000000029802322,
+          "max": 11.300000011920929,
+          "median": 5.5,
+          "avg": 5.512499997392297,
+          "variance": 2.638593754386529,
+          "reliable": false,
+          "key": "data diff"
+        }
+      ],
+      "status": "passed"
+    },
+    "dataDiff10000": {
+      "time": [
+        {
+          "min": 2.8999999910593033,
+          "max": 12.099999994039536,
+          "median": 6,
+          "avg": 6.325000004842877,
+          "variance": 4.859374997671694,
+          "reliable": false,
+          "key": "data diff"
+        }
+      ],
+      "status": "passed"
+    },
+    "dataDiff100000": {
+      "time": [
+        {
+          "min": 11,
+          "max": 39.29999999701977,
+          "median": 12.700000002980232,
+          "avg": 16.387499999254942,
+          "variance": 60.1160937285237,
+          "reliable": true,
+          "key": "data diff"
+        }
+      ],
+      "status": "passed"
+    },
+    "dataDiff5000": {
+      "time": [
+        {
+          "min": 1.8999999910593033,
+          "max": 9.5,
+          "median": 8.099999994039536,
+          "avg": 6.374999998137355,
+          "variance": 6.324374991413206,
+          "reliable": false,
+          "key": "data diff"
+        }
+      ],
+      "status": "passed"
+    },
+    "dataDiff50000": {
+      "time": [
+        {
+          "min": 5.700000002980232,
+          "max": 17.899999991059303,
+          "median": 8.299999997019768,
+          "avg": 9.5,
+          "variance": 16.31750000014901,
+          "reliable": true,
+          "key": "data diff"
+        }
+      ],
+      "status": "passed"
+    },
+    "elementDrawing100": {
+      "time": [
+        {
+          "min": 12.700000002980232,
+          "max": 24.600000008940697,
+          "median": 18.899999991059303,
+          "avg": 19.199999999254942,
+          "variance": 8.127499995231629,
+          "reliable": true,
+          "key": "element drawing"
+        },
+        {
+          "min": 7.9000000059604645,
+          "max": 14.100000008940697,
+          "median": 11.900000005960464,
+          "avg": 11.237500000745058,
+          "variance": 3.8348437521792946,
+          "reliable": true,
+          "key": "grid layout"
+        }
+      ],
+      "status": "passed"
+    },
+    "elementDrawing1000": {
+      "time": [
+        {
+          "min": 48.099999994039536,
+          "max": 73.20000000298023,
+          "median": 61.70000000298023,
+          "avg": 61.374999998137355,
+          "variance": 13.14437501249835,
+          "reliable": true,
+          "key": "element drawing"
+        },
+        {
+          "min": 39.20000000298023,
+          "max": 59.1000000089407,
+          "median": 43.29999999701977,
+          "avg": 44.212499998509884,
+          "variance": 14.278593749292193,
+          "reliable": true,
+          "key": "grid layout"
+        }
+      ],
+      "status": "passed"
+    },
+    "elementDrawing10000": {
+      "time": [
+        {
+          "min": 409.3999999910593,
+          "max": 536.2000000029802,
+          "median": 434.3999999910593,
+          "avg": 442.1124999951571,
+          "variance": 829.2260936078895,
+          "reliable": true,
+          "key": "element drawing"
+        },
+        {
+          "min": 372.90000000596046,
+          "max": 414.20000000298023,
+          "median": 393.29999999701977,
+          "avg": 389.8499999977648,
+          "variance": 108.12999993681908,
+          "reliable": true,
+          "key": "grid layout"
+        }
+      ],
+      "status": "passed"
+    },
+    "elementDrawing500": {
+      "time": [
+        {
+          "min": 28.400000005960464,
+          "max": 51.099999994039536,
+          "median": 41.79999999701977,
+          "avg": 41.07499999925494,
+          "variance": 15.709374984912573,
+          "reliable": true,
+          "key": "element drawing"
+        },
+        {
+          "min": 22.400000005960464,
+          "max": 29,
+          "median": 25.599999994039536,
+          "avg": 25.399999998509884,
+          "variance": 3.570000005811453,
+          "reliable": true,
+          "key": "grid layout"
+        }
+      ],
+      "status": "passed"
+    },
+    "elementDrawing5000": {
+      "time": [
+        {
+          "min": 213.79999999701977,
+          "max": 266.5,
+          "median": 223.09999999403954,
+          "avg": 230.39999999850988,
+          "variance": 165.17250003792344,
+          "reliable": true,
+          "key": "element drawing"
+        },
+        {
+          "min": 185.79999999701977,
+          "max": 224.1000000089407,
+          "median": 195.70000000298023,
+          "avg": 193.41250000149012,
+          "variance": 35.76859376054257,
+          "reliable": true,
+          "key": "grid layout"
+        }
+      ],
+      "status": "passed"
+    }
+  }
+}
