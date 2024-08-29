@@ -44,28 +44,37 @@ export function sizeOf(container: HTMLElement): [number, number] {
 }
 
 /**
- * Create a plugin DOM element.
- * @param type - plugin type
- * @param cover - cover the container
- * @returns plugin DOM element
+ * <zh/> 创建插件容器
+ *
+ * <en/> Create a plugin container
+ * @param type - <zh/> 插件类型 | <en/> plugin type
+ * @param cover - <zh/> 容器是否覆盖整个画布 | <en/> Whether the container covers the entire canvas
+ * @param style - <zh/> 额外样式 | <en/> Additional style
+ * @returns <zh/> 插件容器 | <en/> plugin container
  */
-export function createPluginContainer(type: string, cover = true) {
-  const el = document.createElement('div');
+export function createPluginContainer(type: string, cover = true, style?: Partial<CSSStyleDeclaration>): HTMLElement {
+  const container = document.createElement('div');
 
-  el.setAttribute('class', `g6-${type}`);
+  container.setAttribute('class', `g6-${type}`);
 
-  el.style.position = 'absolute';
-  el.style.display = 'block';
+  Object.assign(container.style, {
+    position: 'absolute',
+    display: 'block',
+  });
 
   if (cover) {
-    el.style.inset = '0px';
-    el.style.height = '100%';
-    el.style.width = '100%';
-    el.style.overflow = 'hidden';
-    el.style.pointerEvents = 'none';
+    Object.assign(container.style, {
+      inset: '0px',
+      height: '100%',
+      width: '100%',
+      overflow: 'hidden',
+      pointerEvents: 'none',
+    });
   }
 
-  return el;
+  if (style) Object.assign(container.style, style);
+
+  return container;
 }
 
 /**

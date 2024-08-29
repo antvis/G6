@@ -44,6 +44,7 @@ export { elementEdgePolylineAstar } from './element-edge-polyline-astar';
 export { elementEdgePort } from './element-edge-port';
 export { elementEdgeQuadratic } from './element-edge-quadratic';
 export { elementEdgeSize } from './element-edge-size';
+export { elementHTMLSubGraph } from './element-html-sub-graph';
 export { elementLabelBackground } from './element-label-background';
 export { elementLabelOversized } from './element-label-oversized';
 export { elementNodeAvatar } from './element-node-avatar';

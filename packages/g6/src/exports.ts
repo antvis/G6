@@ -28,6 +28,7 @@ export {
 } from './constants';
 export { BaseCombo, CircleCombo, RectCombo } from './elements/combos';
 export { BaseEdge, Cubic, CubicHorizontal, CubicVertical, Line, Polyline, Quadratic } from './elements/edges';
+export { effect } from './elements/effect';
 export {
   BaseNode,
   Circle,

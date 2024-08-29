@@ -51,6 +51,14 @@
         "en": "Organization Chart"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wgoUR6dnVcsAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "sub-graph.js",
+      "title": {
+        "zh": "子图",
+        "en": "Sub Graph"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*2HzDTrQZ910AAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
