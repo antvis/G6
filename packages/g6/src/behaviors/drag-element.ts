@@ -183,9 +183,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     // @ts-expect-error internal property
     const $canvas: HTMLCanvasElement = canvas.getLayer().getContextService().$canvas;
     if ($canvas) {
-      ['contextmenu', 'blur'].forEach((type) => {
-        $canvas.addEventListener(type, this.onDragEnd);
-      });
+      $canvas.addEventListener('blur', this.onDragEnd);
+      $canvas.addEventListener('contextmenu', this.onDragEnd);
     }
 
     this.enableElements.forEach((type) => {
@@ -419,9 +418,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     // @ts-expect-error internal property
     const $canvas: HTMLCanvasElement = canvas.getLayer().getContextService().$canvas;
     if ($canvas) {
-      ['contextmenu', 'blur'].forEach((type) => {
-        $canvas.removeEventListener(type, this.onDragEnd);
-      });
+      $canvas.removeEventListener('blur', this.onDragEnd);
+      $canvas.removeEventListener('contextmenu', this.onDragEnd);
     }
 
     this.enableElements.forEach((type) => {
