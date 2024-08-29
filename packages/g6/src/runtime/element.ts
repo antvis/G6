@@ -587,9 +587,10 @@ export class ElementController {
   public async collapseNode(id: ID, animation: boolean): Promise<void> {
     const { model, layout } = this.context;
 
-    const preprocess = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
+    const preLayoutData = this.computeChangesAndDrawData({ stage: 'collapse', animation });
+    if (!preLayoutData) return;
 
-    this.markDestroyElement(preprocess.drawData);
+    this.markDestroyElement(preLayoutData.drawData);
 
     // 进行预布局，计算出所有元素的位置
     // Perform pre-layout to calculate the position of all elements
@@ -597,7 +598,9 @@ export class ElementController {
     model.updateData(result);
 
     // 重新计算数据 / Recalculate data
-    const { drawData } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
+    const data = this.computeChangesAndDrawData({ stage: 'collapse', animation });
+    if (!data) return;
+    const { drawData } = data;
     const { add, remove, update } = drawData;
     this.markDestroyElement(drawData);
     const context = { animation, stage: 'collapse', data: drawData } as const;
@@ -637,11 +640,14 @@ export class ElementController {
 
     const position = positionOf(model.getNodeData([id])[0]);
 
+    const preLayoutData = this.computeChangesAndDrawData({ stage: 'expand', animation });
+    if (!preLayoutData) return;
+
     // 首先创建展开的元素，然后进行预布局
     // First create the expanded element, then perform pre-layout
     const {
       drawData: { add },
-    } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
+    } = preLayoutData;
     this.createElements(add, { animation: false, stage: 'expand', target: id });
     // 重置动画 / Reset animation
     this.context.animation!.clear();
@@ -651,7 +657,9 @@ export class ElementController {
 
     // 重新计算数据 / Recalculate data
     this.computeStyle('expand');
-    const { drawData } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
+    const data = this.computeChangesAndDrawData({ stage: 'collapse', animation });
+    if (!data) return;
+    const { drawData } = data;
     const { update } = drawData;
 
     const context = { animation, stage: 'expand', data: drawData } as const;
@@ -693,7 +701,10 @@ export class ElementController {
       collapsed: true,
     });
 
-    const { dataChanges, drawData } = this.computeChangesAndDrawData({ stage: 'collapse', animation })!;
+    const data = this.computeChangesAndDrawData({ stage: 'collapse', animation });
+    if (!data) return;
+
+    const { dataChanges, drawData } = data;
     this.markDestroyElement(drawData);
     const { update, remove } = drawData;
     const context = { animation, stage: 'collapse', data: drawData } as const;
@@ -729,7 +740,10 @@ export class ElementController {
 
     // 重新计算数据 / Recalculate data
     this.computeStyle('expand');
-    const { dataChanges, drawData } = this.computeChangesAndDrawData({ stage: 'expand', animation })!;
+    const data = this.computeChangesAndDrawData({ stage: 'expand', animation });
+    if (!data) return;
+
+    const { dataChanges, drawData } = data;
     const { add, update } = drawData;
     const context = { animation, stage: 'expand', data: drawData, target: id } as const;
 
