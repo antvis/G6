@@ -361,49 +361,54 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     return getRectIntersectPoint(point, keyShapeBounds);
   }
 
-  @effect((self, attributes) => self.getHaloStyle(attributes))
   protected drawHaloShape(attributes: Required<S>, container: Group): void {
+    const style = this.getHaloStyle(attributes);
+    if (!effect(this, 'halo', style)) return;
+
     const keyShape = this.getShape('key');
-    this.upsert(
-      'halo',
-      keyShape.constructor as new (...args: unknown[]) => DisplayObject,
-      this.getHaloStyle(attributes),
-      container,
-    );
+    this.upsert('halo', keyShape.constructor as new (...args: unknown[]) => DisplayObject, style, container);
   }
 
-  @effect((self, attributes) => self.getIconStyle(attributes))
   protected drawIconShape(attributes: Required<S>, container: Group): void {
-    this.upsert('icon', Icon, this.getIconStyle(attributes), container);
+    const style = this.getIconStyle(attributes);
+    if (!effect(this, 'icon', style)) return;
+
+    this.upsert('icon', Icon, style, container);
     connectImage(this);
   }
 
-  @effect((self, attributes) => self.getBadgesStyle(attributes))
   protected drawBadgeShapes(attributes: Required<S>, container: Group): void {
     const badgesStyle = this.getBadgesStyle(attributes);
     Object.keys(badgesStyle).forEach((key) => {
-      this.upsert(`badge-${key}`, Badge, badgesStyle[key], container);
+      const style = badgesStyle[key];
+      if (!effect(this, `badge-${key}`, style)) return;
+
+      this.upsert(`badge-${key}`, Badge, style, container);
     });
   }
 
-  @effect((self, attributes) => self.getPortsStyle(attributes))
   protected drawPortShapes(attributes: Required<S>, container: Group): void {
     const portsStyle = this.getPortsStyle(attributes);
 
     Object.keys(portsStyle).forEach((key) => {
-      this.upsert(`port-${key}`, GCircle, portsStyle[key] as CircleStyleProps, container);
+      const style = portsStyle[key] as CircleStyleProps;
+      const shapeKey = `port-${key}`;
+      if (!effect(this, shapeKey, style)) return;
+
+      this.upsert(shapeKey, GCircle, style, container);
     });
   }
 
-  @effect((self, attributes) => self.getLabelStyle(attributes))
   protected drawLabelShape(attributes: Required<S>, container: Group): void {
-    this.upsert('label', Label, this.getLabelStyle(attributes), container);
+    const style = this.getLabelStyle(attributes);
+    if (!effect(this, 'label', style)) return;
+
+    this.upsert('label', Label, style, container);
   }
 
   protected abstract drawKeyShape(attributes: Required<S>, container: Group): DisplayObject | undefined;
 
   // 用于装饰抽象方法 / Used to decorate abstract methods
-  @effect((self, attributes) => self.getKeyStyle(attributes))
   private _drawKeyShape(attributes: Required<S>, container: Group) {
     return this.drawKeyShape(attributes, container);
   }

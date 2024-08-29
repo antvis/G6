@@ -1,61 +1,27 @@
 import type { Element } from '../types';
-import { getCachedStyle, setCacheStyle } from '../utils/cache';
+
+const EFFECT_WEAKMAP = new WeakMap<Element, Record<string, any>>();
 
 /**
- * <zh/> 优化方法执行次数，仅在样式属性发生变化时执行函数
+ * <zh/> 判定给定样式是否与上一次的样式相同
  *
- * <en/> Optimize the number of method executions, and only execute the function when the style attributes change
- * @param styler - <zh/> 获取样式属性函数 | <en/> Get style attribute function
- * @returns <zh/> 装饰器 | <en/> Decorator
- * @remarks
- * <zh/> 仅指定 getStyle 的情况下，会分别使用当前的 attributes 和 新的 attributes 调用函数，若两者相同，则不执行函数。
- *
- * 如果指定了 shapeKey, 则会直接获取该图形的 attributes 作为原始样式属性，通常在 getStyle 函数中获取了包围盒时使用。
- *
- * <en/> Only when getStyle is specified, the function will be called with the current attributes and the new attributes respectively. If they are the same, the function will not be executed.
- *
- * If shapeKey is specified, the attributes of the shape will be directly obtained as the original style attributes, which is usually used when the bounding box of the element is used in the getStyle function.
- * @example
- * <zh/> 仅当 value 发生变化时执行函数
- *
- * <en/> Execute the function only when value changes
- *
- * ```typescript
- * class CustomNode extends BaseNode {
- *
- *  @effect((self, attributes) => {
- *    const { value } = attributes;
- *    return { value }
- *  })
- *  drawCustomShape(attributes, container) {
- *    this.upsert('custom', 'circle', { ...attributes }, container);
- *  }
- * }
- * ```
+ * <en/> Determine whether the given style are the same as the previous ones
+ * @param target - <zh/> 目标元素 | <en/> Target element
+ * @param key - <zh/> 缓存 key | <en/> Cache key
+ * @param style - <zh/> 样式属性 | <en/> Style attribute
+ * @returns <zh/> 是否执行函数 | <en/> Whether to execute the function
  */
-export function effect(styler: (self: any, attributes: Record<string, unknown>) => Record<string, unknown>) {
-  return function (target: Element, propertyKey: string, descriptor: PropertyDescriptor) {
-    const fn = descriptor.value;
-
-    descriptor.value = function (this: Element, attr: Record<string, unknown>, ...rest: unknown[]) {
-      // 初始化后需要执行首次调用 / First call after initialization
-      const initKey = `${propertyKey}_invoke`;
-      if (!getCachedStyle(this, initKey)) {
-        setCacheStyle(this, initKey, true);
-        return fn.call(this, attr, ...rest);
-      }
-
-      const styleKey = `${propertyKey}_style`;
-      const original = getCachedStyle(this, styleKey);
-      const modified = styler(this, attr);
-      setCacheStyle(this, styleKey, modified);
-
-      if (isStyleEqual(original, modified)) return null;
-
-      return fn.call(this, attr, ...rest);
-    };
-    return descriptor;
-  };
+export function effect<T extends false | Record<string, any>>(target: Element, key: string, style: T): boolean {
+  if (!EFFECT_WEAKMAP.has(target)) EFFECT_WEAKMAP.set(target, {});
+  const cache = EFFECT_WEAKMAP.get(target)!;
+  if (!cache[key]) {
+    cache[key] = style;
+    return true;
+  }
+  const original = cache[key];
+  if (isStyleEqual(original, style)) return false;
+  cache[key] = style;
+  return true;
 }
 
 /**
@@ -71,7 +37,7 @@ export function effect(styler: (self: any, attributes: Record<string, unknown>) 
  *
  * <en/> Perform a second-level shallow comparison to compare complex shape attributes such as badges and ports
  */
-const isStyleEqual = (a: Record<string, unknown>, b: Record<string, unknown>, depth = 2): boolean => {
+const isStyleEqual = (a: false | Record<string, unknown>, b: false | Record<string, unknown>, depth = 2): boolean => {
   if (typeof a !== 'object' || typeof b !== 'object') return a === b;
 
   const keys1 = Object.keys(a);
