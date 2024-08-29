@@ -271,6 +271,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
       };
     }
     this.tooltipElement.update({
+      ...this.tooltipStyleProps,
       x,
       y,
       style: {
@@ -300,7 +301,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.tooltipElement.hide(x, y);
   };
 
-  private initTooltip = () => {
+  private get tooltipStyleProps() {
     const { canvas } = this.context;
     const { center } = canvas.getBounds();
     const $container = canvas.getContainer() as HTMLElement;
@@ -308,24 +309,24 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     const { style, position, enterable, container = { x: -left, y: -top }, title, offset } = this.options;
     const [x, y] = center;
     const [width, height] = canvas.getSize();
+
+    return {
+      x,
+      y,
+      container,
+      title,
+      bounding: { x: 0, y: 0, width, height },
+      position,
+      enterable,
+      offset,
+      style,
+    };
+  }
+
+  private initTooltip = () => {
     const tooltipElement = new TooltipComponent({
       className: 'tooltip',
-      style: {
-        x,
-        y,
-        container,
-        title,
-        bounding: {
-          x: 0,
-          y: 0,
-          width,
-          height,
-        },
-        position,
-        enterable,
-        offset,
-        style,
-      },
+      style: this.tooltipStyleProps,
     });
     this.container?.appendChild(tooltipElement.HTMLTooltipElement);
     return tooltipElement;
