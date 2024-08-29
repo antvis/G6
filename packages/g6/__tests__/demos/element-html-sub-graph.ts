@@ -1,6 +1,7 @@
 import type { DisplayObject, Group } from '@antv/g';
 import type { BaseComboStyleProps, GraphData, HTMLStyleProps, IElementEvent, NodeData } from '@antv/g6';
-import { BaseCombo, effect, ExtensionCategory, Graph, HTML, isCollapsed, register } from '@antv/g6';
+import { BaseCombo, ExtensionCategory, Graph, HTML, isCollapsed, register } from '@antv/g6';
+import { isEqual } from '@antv/util';
 
 export const elementHTMLSubGraph: TestCase = async (context) => {
   interface CardNodeData {
@@ -38,13 +39,14 @@ export const elementHTMLSubGraph: TestCase = async (context) => {
 
     private graph?: Graph;
 
-    @effect((self, attributes) => {
-      const { data } = self.data;
-      return { data };
-    })
+    private previousData?: Record<string, unknown>;
+
     private drawSubGraph() {
       if (!this.isConnected) return;
       const data = this.data;
+      if (isEqual(this.previousData, data)) return;
+      this.previousData = data;
+
       this.drawGraphNode(data!.data as GraphData);
     }
 
