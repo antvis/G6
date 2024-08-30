@@ -1,5 +1,9 @@
 // @ts-nocheck
 if (window) {
+  window.d3Hierarchy = require('d3-hierarchy');
+  window.gCanvas = require('@antv/g-canvas');
+  window.gPluginRoughCanvasRenderer = require('@antv/g-plugin-rough-canvas-renderer');
+
   window.g6 = require('@antv/g6');
   window.g6Extension3d = require('@antv/g6-extension-3d');
   window.g6ExtensionReact = require('@antv/g6-extension-react');
