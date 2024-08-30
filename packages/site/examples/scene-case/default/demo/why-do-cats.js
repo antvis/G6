@@ -1,3 +1,4 @@
+// ref: https://whydocatsanddogs.com/cats
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as PluginRoughCanvasRenderer } from '@antv/g-plugin-rough-canvas-renderer';
 import { BaseLayout, ExtensionCategory, Graph, register } from '@antv/g6';
