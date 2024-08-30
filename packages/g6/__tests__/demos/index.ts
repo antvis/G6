@@ -25,6 +25,7 @@ export { caseDecisionTree } from './case-decision-tree';
 export { caseIndentedTree } from './case-indented-tree';
 export { caseMindmap } from './case-mindmap';
 export { caseOrgChart } from './case-org-chart';
+export { caseWhyDoCats } from './case-why-do-cats';
 export { commonGraph } from './common-graph';
 export { controllerViewport } from './controller-viewport';
 export { demoAutosizeElementLabel } from './demo-autosize-element-label';
