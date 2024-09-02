@@ -8,3 +8,5 @@ export { ProcessParallelEdges } from './process-parallel-edges';
 export { UpdateRelatedEdge } from './update-related-edge';
 
 export type { BaseTransformOptions } from './base-transform';
+export type { PositionRadialLabelsOptions } from './position-radial-labels';
+export type { ProcessParallelEdgesOptions } from './process-parallel-edges';

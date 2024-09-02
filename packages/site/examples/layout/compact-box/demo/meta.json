@@ -10,7 +10,7 @@
         "zh": "紧凑树",
         "en": "CompactBox Layout"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-FgIT7w4OXwAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Hu02Ro6UCegAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "vertical.js",
@@ -18,15 +18,15 @@
         "zh": "从上向下布局",
         "en": "Top to Bottom CompactBox"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KrAqTrFbNjMAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YFO6Rb1hM24AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "horizontal.js",
+      "filename": "radial.js",
       "title": {
-        "zh": "节点左对齐的紧凑树",
-        "en": "CompactBox with Left Align Nodes"
+        "zh": "径向布局",
+        "en": "Radial Layout"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*X26MRo25GKgAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*nwPmQqzJprwAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

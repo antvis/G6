@@ -13,7 +13,7 @@ import { BaseTransform } from './base-transform';
  *
  * <en/> Options for automatically adjusting the style of node labels according to the radial layout
  */
-interface PositionRadialLabelsOptions extends BaseTransformOptions {
+export interface PositionRadialLabelsOptions extends BaseTransformOptions {
   /**
    * <zh/> 偏移量
    *
