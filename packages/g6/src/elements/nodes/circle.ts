@@ -45,8 +45,8 @@ export class Circle extends BaseNode {
     return style ? ({ width: size, height: size, ...style } as IconStyleProps) : false;
   }
 
-  public getIntersectPoint(point: Point): Point {
+  public getIntersectPoint(point: Point, useExtendedLine = false): Point {
     const keyShapeBounds = this.getShape('key').getBounds();
-    return getEllipseIntersectPoint(point, keyShapeBounds);
+    return getEllipseIntersectPoint(point, keyShapeBounds, useExtendedLine);
   }
 }

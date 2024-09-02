@@ -206,3 +206,16 @@ export function toVector2(a: Vector2 | Vector3): Vector2 {
 export function toVector3(a: Vector2 | Vector3): Vector3 {
   return isVector2(a) ? [a[0], a[1], 0] : a;
 }
+
+/**
+ * <zh/> 计算向量与 x 轴正方向的夹角（弧度制）
+ *
+ * <en/> The angle between the vector and the positive direction of the x-axis (radians)
+ * @param a - <zh/> 向量 | <en/> The vector
+ * @returns <zh/> 弧度值 | <en/> The angle in radians
+ */
+export function rad(a: Vector2 | Vector3): number {
+  const [x, y] = a;
+  if (!x && !y) return 0;
+  return Math.atan2(y, x);
+}

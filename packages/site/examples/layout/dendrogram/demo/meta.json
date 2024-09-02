@@ -10,7 +10,7 @@
         "zh": "生态树",
         "en": "Dendrogram Layout"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*P-qOSoDNuckAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7tDPSa-LHbAAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "vertical.js",
@@ -18,7 +18,15 @@
         "zh": "垂直布局",
         "en": "Vertical Layout"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nTKmRKkyUVUAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*mp3BRbyBzCEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "radial.js",
+      "title": {
+        "zh": "径向布局",
+        "en": "Radial Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*nBIIR5yhTlQAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

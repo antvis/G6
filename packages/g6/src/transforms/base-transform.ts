@@ -9,4 +9,6 @@ export abstract class BaseTransform<T extends BaseTransformOptions = BaseTransfo
   public beforeDraw(data: DrawData, context: DrawContext): DrawData {
     return data;
   }
+
+  public afterLayout() {}
 }

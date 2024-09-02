@@ -354,11 +354,12 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
   /**
    * Get the point on the outer contour of the node that is the intersection with a line starting in the center the ending in the point `p`.
    * @param point - The point to intersect with the node.
+   * @param useExtendedLine - Whether to use the extended line.
    * @returns The intersection point.
    */
-  public getIntersectPoint(point: Point): Point {
+  public getIntersectPoint(point: Point, useExtendedLine = false): Point {
     const keyShapeBounds = this.getShape('key').getBounds();
-    return getRectIntersectPoint(point, keyShapeBounds);
+    return getRectIntersectPoint(point, keyShapeBounds, useExtendedLine);
   }
 
   protected drawHaloShape(attributes: Required<S>, container: Group): void {

@@ -32,11 +32,15 @@ describe('relation', () => {
     expect(getElementNthDegreeIds(graph, 'edge', '1-2', 1)).toEqual(['1', '2', '1-2']);
     expect(getElementNthDegreeIds(graph, 'edge', '1-2', 2)).toEqual(['1', '1-2', '1-3', '2', '3', '2-4', '4']);
     expect(getElementNthDegreeIds(graph, 'combo', 'combo1', 1)).toEqual(['combo1', 'combo1-6', '6']);
+    expect(getElementNthDegreeIds(graph, 'node', '1', 1, 'in')).toEqual(['1']);
+    expect(getElementNthDegreeIds(graph, 'node', '1', 1, 'out')).toEqual(['1', '1-2', '1-3', '2', '3']);
   });
 
   it('getNodeNthDegreeIds', () => {
     expect(getNodeNthDegreeIds(graph, '1', 0)).toEqual(['1']);
     expect(getNodeNthDegreeIds(graph, '1', 1)).toEqual(['1', '1-2', '1-3', '2', '3']);
     expect(getNodeNthDegreeIds(graph, '1', 2)).toEqual(['1', '1-2', '1-3', '2', '2-4', '3', '3-5', '4', '5']);
+    expect(getNodeNthDegreeIds(graph, '1', 1, 'in')).toEqual(['1']);
+    expect(getNodeNthDegreeIds(graph, '1', 1, 'out')).toEqual(['1', '1-2', '1-3', '2', '3']);
   });
 });

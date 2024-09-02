@@ -54,8 +54,8 @@ export class CircleCombo extends BaseCombo<CircleComboStyleProps> {
     return [expandedR * 2, expandedR * 2, 0];
   }
 
-  public getIntersectPoint(point: Point): Point {
+  public getIntersectPoint(point: Point, useExtendedLine = false): Point {
     const keyShapeBounds = this.getShape('key').getBounds();
-    return getEllipseIntersectPoint(point, keyShapeBounds);
+    return getEllipseIntersectPoint(point, keyShapeBounds, useExtendedLine);
   }
 }

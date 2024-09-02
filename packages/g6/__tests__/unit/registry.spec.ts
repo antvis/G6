@@ -3,6 +3,7 @@ import {
   CircleCombo,
   Cubic,
   CubicHorizontal,
+  CubicRadial,
   CubicVertical,
   Diamond,
   Donut,
@@ -47,6 +48,7 @@ describe('registry', () => {
       quadratic: Quadratic,
       'cubic-horizontal': CubicHorizontal,
       'cubic-vertical': CubicVertical,
+      'cubic-radial': CubicRadial,
     });
     expect(getExtensions(ExtensionCategory.COMBO)).toEqual({
       circle: CircleCombo,
