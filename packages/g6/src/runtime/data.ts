@@ -381,13 +381,16 @@ export class DataController {
 
     data.forEach((datum) => {
       const id = idOf(datum);
+      const parent = parentIdOf(datum);
 
-      model.attachTreeStructure(COMBO_KEY);
-      this.setParent(id, parentIdOf(datum), COMBO_KEY);
+      if (parent) {
+        if (!model.hasTreeStructure(COMBO_KEY)) model.attachTreeStructure(COMBO_KEY);
+        this.setParent(id, parentIdOf(datum), COMBO_KEY);
+      }
 
-      const children = (datum as NodeData).children;
-      if (children !== undefined) {
-        model.attachTreeStructure(TREE_KEY);
+      const children = (datum as NodeData).children || [];
+      if (children.length) {
+        if (!model.hasTreeStructure(TREE_KEY)) model.attachTreeStructure(TREE_KEY);
         const _children = children.filter((child) => model.hasNode(child));
         _children.forEach((child) => this.setParent(child, id, TREE_KEY));
         if (_children.length !== children.length) {
