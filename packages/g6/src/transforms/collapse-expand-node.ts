@@ -47,6 +47,9 @@ export class CollapseExpandNode extends BaseTransform {
 
   public beforeDraw(input: DrawData): DrawData {
     const { graph, model } = this.context;
+
+    if (!model.model.hasTreeStructure(TREE_KEY)) return input;
+
     const {
       add: { nodes: nodesToAdd, edges: edgesToAdd },
       update: { nodes: nodesToUpdate },
