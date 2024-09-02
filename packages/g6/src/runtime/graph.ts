@@ -1019,6 +1019,7 @@ export class Graph extends EventEmitter {
     if (container instanceof Canvas) {
       this.context.canvas = container;
       if (cursor) container.setCursor(cursor);
+      if (renderer) container.setRenderer(renderer);
       await container.ready;
     } else {
       const $container = isString(container) ? document.getElementById(container!) : container;
