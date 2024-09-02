@@ -155,11 +155,6 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
 
   private isDragging: boolean = false;
 
-  private get animation() {
-    if (!this.options.shadow) return false;
-    return this.options.animation;
-  }
-
   constructor(context: RuntimeContext, options: DragElementOptions) {
     super(context, Object.assign({}, DragElement.defaultOptions, options));
     this.onDragStart = this.onDragStart.bind(this);
@@ -183,7 +178,15 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   }
 
   private bindEvents() {
-    const { graph } = this.context;
+    const { graph, canvas } = this.context;
+
+    // @ts-expect-error internal property
+    const $canvas: HTMLCanvasElement = canvas.getLayer().getContextService().$canvas;
+    if ($canvas) {
+      $canvas.addEventListener('blur', this.onDragEnd);
+      $canvas.addEventListener('contextmenu', this.onDragEnd);
+    }
+
     this.enableElements.forEach((type) => {
       graph.on(`${type}:${CommonEvent.DRAG_START}`, this.onDragStart);
       graph.on(`${type}:${CommonEvent.DRAG}`, this.onDrag);
@@ -410,7 +413,14 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   }
 
   private unbindEvents() {
-    const { graph } = this.context;
+    const { graph, canvas } = this.context;
+
+    // @ts-expect-error internal property
+    const $canvas: HTMLCanvasElement = canvas.getLayer().getContextService().$canvas;
+    if ($canvas) {
+      $canvas.removeEventListener('blur', this.onDragEnd);
+      $canvas.removeEventListener('contextmenu', this.onDragEnd);
+    }
 
     this.enableElements.forEach((type) => {
       graph.off(`${type}:${CommonEvent.DRAG_START}`, this.onDragStart);
