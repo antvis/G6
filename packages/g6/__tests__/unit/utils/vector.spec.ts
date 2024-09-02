@@ -11,6 +11,7 @@ import {
   multiply,
   normalize,
   perpendicular,
+  rad,
   scale,
   subtract,
   toVector2,
@@ -104,5 +105,10 @@ describe('Vector Functions', () => {
   it('toVector3', () => {
     expect(toVector3([1, 2, 3])).toEqual([1, 2, 3]);
     expect(toVector3([1, 2])).toEqual([1, 2, 0]);
+  });
+
+  it('rad', () => {
+    expect(rad([1, 0])).toEqual(0);
+    expect(rad([0, 1])).toEqual(Math.PI / 2);
   });
 });

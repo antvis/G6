@@ -590,6 +590,14 @@ describe('DataController', () => {
     expect(controller.getNodeLikeData()).toEqual([...data.combos, ...data.nodes]);
   });
 
+  it('getRootsData', () => {
+    const controller = new DataController();
+
+    controller.addData(treeToGraphData(tree));
+
+    expect(controller.getRootsData('tree').map(idOf)).toEqual(['Modeling Methods']);
+  });
+
   it('getAncestorsData getParentData getChildrenData', () => {
     const controller = new DataController();
 

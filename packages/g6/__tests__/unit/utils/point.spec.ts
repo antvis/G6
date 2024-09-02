@@ -9,6 +9,7 @@ import {
   getEllipseIntersectPoint,
   getPolygonIntersectPoint,
   getRectIntersectPoint,
+  getSymmetricPoint,
   isCollinear,
   isHorizontal,
   isOrthogonal,
@@ -100,6 +101,11 @@ describe('Point Functions', () => {
     expect(isCollinear([100, 100], [50, 50], [150, 100])).toEqual(false);
   });
 
+  it('getSymmetricPoint', () => {
+    expect(getSymmetricPoint([50, 50], [100, 100])).toEqual([150, 150]);
+    expect(getSymmetricPoint([-50, -50], [0, 0])).toEqual([50, 50]);
+  });
+
   it('getRectIntersectPoint', () => {
     const rect = new Rect({
       style: {
@@ -110,6 +116,7 @@ describe('Point Functions', () => {
       },
     });
     expect(getRectIntersectPoint([110, 110], rect.getBounds())).toEqual([102, 102]);
+    expect(getRectIntersectPoint([110, 110], rect.getBounds(), true)).toEqual([100, 100]);
   });
 
   it('getEllipseIntersectPoint', () => {
@@ -121,6 +128,7 @@ describe('Point Functions', () => {
       },
     });
     expect(getEllipseIntersectPoint([110, 100], circle.getBounds())).toEqual([101, 100]);
+    expect(getEllipseIntersectPoint([110, 100], circle.getBounds(), true)).toEqual([99, 100]);
 
     const circle2 = new Circle({
       style: {
@@ -128,6 +136,7 @@ describe('Point Functions', () => {
       },
     });
     expect(getEllipseIntersectPoint([0, 0], circle2.getBounds())).toEqual([20, 0]);
+    expect(getEllipseIntersectPoint([0, 0], circle2.getBounds(), true)).toEqual([-20, 0]);
 
     const circle3 = new Circle({
       style: {
