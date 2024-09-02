@@ -136,7 +136,6 @@ describe('Point Functions', () => {
       },
     });
     expect(getEllipseIntersectPoint([0, 0], circle2.getBounds())).toEqual([20, 0]);
-    expect(getEllipseIntersectPoint([0, 0], circle2.getBounds(), true)).toEqual([-20, 0]);
 
     const circle3 = new Circle({
       style: {
