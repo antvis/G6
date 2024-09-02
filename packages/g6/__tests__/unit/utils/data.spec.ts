@@ -1,5 +1,5 @@
 import type { EdgeData, NodeData } from '@/src';
-import { cloneElementData, isEmptyData, mergeElementsData } from '@/src/utils/data';
+import { cloneElementData, isElementDataEqual, isEmptyData, mergeElementsData } from '@/src/utils/data';
 
 describe('data', () => {
   it('mergeElementsData', () => {
@@ -98,5 +98,57 @@ describe('data', () => {
     expect(isEmptyData({ nodes: [{ id: 'node-1' }] })).toBe(false);
     expect(isEmptyData({ edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2' }] })).toBe(false);
     expect(isEmptyData({ combos: [{ id: 'combo-1' }] })).toBe(false);
+  });
+
+  it('isElementDataEqual', () => {
+    expect(isElementDataEqual({ id: 'node-1' }, { id: 'node-1' })).toBe(true);
+    expect(isElementDataEqual({ id: 'node-1' }, { id: 'node-2' })).toBe(false);
+
+    // children
+    expect(isElementDataEqual({ id: 'node-1', children: ['a', 'b'] }, { id: 'node-1', children: ['a', 'b'] })).toBe(
+      true,
+    );
+    expect(isElementDataEqual({ id: 'node-1', children: ['a', 'b'] }, { id: 'node-1', children: ['a', 'c'] })).toBe(
+      false,
+    );
+    expect(
+      isElementDataEqual({ id: 'node-1', children: ['a', 'b'] }, { id: 'node-1', children: ['a', 'b', 'c'] }),
+    ).toBe(false);
+    expect(isElementDataEqual({ id: 'node-1' }, { id: 'node-1', data: {} })).toBe(true);
+    expect(isElementDataEqual({ id: 'node-1', data: { value: 1 } }, { id: 'node-1', data: { value: 1 } })).toBe(true);
+
+    // states
+    expect(isElementDataEqual({ id: 'node-1' }, { id: 'node-1', states: [] })).toBe(true);
+    expect(isElementDataEqual({ id: 'node-1', states: [] }, { id: 'node-1', states: [] })).toBe(true);
+    expect(isElementDataEqual({ id: 'node-1', states: ['selected'] }, { id: 'node-1', states: ['selected'] })).toBe(
+      true,
+    );
+    expect(
+      isElementDataEqual({ id: 'node-1', states: ['selected'] }, { id: 'node-1', states: ['selected', 'hover'] }),
+    ).toBe(false);
+
+    // too deep
+    const obj = { a: 1 };
+    expect(
+      isElementDataEqual({ id: 'node-1', data: { value: { ...obj } } }, { id: 'node-1', data: { value: { ...obj } } }),
+    ).toBe(false);
+    expect(isElementDataEqual({ id: 'node-1', data: { value: obj } }, { id: 'node-1', data: { value: obj } })).toBe(
+      true,
+    );
+
+    // style
+    expect(isElementDataEqual({ id: 'node-1' }, { id: 'node-1', style: {} })).toBe(true);
+    expect(isElementDataEqual({ id: 'node-1', style: { fill: 'red' } }, { id: 'node-1', style: { fill: 'red' } })).toBe(
+      true,
+    );
+    expect(
+      isElementDataEqual({ id: 'node-1', style: { fill: 'red' } }, { id: 'node-1', style: { fill: 'blue' } }),
+    ).toBe(false);
+    expect(
+      isElementDataEqual(
+        { id: 'node-1', style: { fill: 'red' } },
+        { id: 'node-1', style: { fill: 'red', stroke: 'red' } },
+      ),
+    ).toBe(false);
   });
 });

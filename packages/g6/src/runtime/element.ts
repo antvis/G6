@@ -664,11 +664,9 @@ export class ElementController {
 
     const context = { animation, stage: 'expand', data: drawData } as const;
 
-    // 将新增边添加到更新列表 / Add new edges to the update list
-    add.edges.forEach((edge) => {
-      const id = idOf(edge);
-      if (!update.edges.has(id)) update.edges.set(id, edge);
-    });
+    // 将新增节点/边添加到更新列表 / Add new nodes/edges to the update list
+    add.edges.forEach((edge) => update.edges.set(idOf(edge), edge));
+    add.nodes.forEach((node) => update.nodes.set(idOf(node), node));
 
     this.updateElements(update, context);
 
