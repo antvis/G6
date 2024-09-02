@@ -43,9 +43,9 @@ export abstract class Polygon<T extends PolygonStyleProps = PolygonStyleProps> e
 
   protected abstract getPoints(attributes: Required<T>): Point[];
 
-  public getIntersectPoint(point: Point): Point {
+  public getIntersectPoint(point: Point, useExtendedLine = false): Point {
     const { points } = this.getShape<GPolygon>('key').attributes;
     const center: Point = [+(this.attributes?.x || 0), +(this.attributes?.y || 0)];
-    return getPolygonIntersectPoint(point, center, points!).point;
+    return getPolygonIntersectPoint(point, center, points!, true, useExtendedLine).point;
   }
 }

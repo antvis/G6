@@ -133,6 +133,18 @@ export function isCollinear(p1: Point, p2: Point, p3: Point): boolean {
 }
 
 /**
+ * <zh/> 计算一个点相对于另一个点的中心对称点
+ *
+ * <en/> Calculate the center symmetric point of a point relative to another point
+ * @param p - <zh/> 要计算的点 | <en/> the point to calculate
+ * @param center - <zh/> 中心点 | <en/> the center point
+ * @returns <zh/> 中心对称点 | <en/> the center symmetric point
+ */
+export function getSymmetricPoint(p: Point, center: Point): Point {
+  return [2 * center[0] - p[0], 2 * center[1] - p[1]];
+}
+
+/**
  * <zh/> 获取从多边形中心到给定点的连线与多边形边缘的交点
  *
  * <en/> Gets the intersection point between the line from the center of a polygon to a given point and the polygon's edge
@@ -140,6 +152,7 @@ export function isCollinear(p1: Point, p2: Point, p3: Point): boolean {
  * @param center - <zh/> 多边形中心 | <en/> the center of the polygon
  * @param points - <zh/> 多边形顶点 | <en/> the vertices of the polygon
  * @param isRelativePos - <zh/> 顶点坐标是否相对中心点 | <en/> whether the vertex coordinates are relative to the center point
+ * @param useExtendedLine - <zh/> 是否使用延长线 | <en/> whether to use the extended line
  * @returns <zh/> 交点与相交线段 | <en/> intersection and intersecting line segment
  */
 export function getPolygonIntersectPoint(
@@ -147,6 +160,7 @@ export function getPolygonIntersectPoint(
   center: Point,
   points: Point[],
   isRelativePos = true,
+  useExtendedLine = false,
 ): { point: Point; line?: LineSegment } {
   for (let i = 0; i < points.length; i++) {
     let start = points[i];
@@ -157,7 +171,8 @@ export function getPolygonIntersectPoint(
       end = add(center, end);
     }
 
-    const intersect = getLinesIntersection([center, p], [start, end]);
+    const refP = useExtendedLine ? getSymmetricPoint(p, center) : p;
+    const intersect = getLinesIntersection([center, refP], [start, end]);
     if (intersect) {
       return {
         point: intersect,
@@ -200,14 +215,15 @@ export function isPointInPolygon(point: Point, points: Point[], start?: number, 
 }
 
 /**
- * <zh/> 获取从矩形中心到给定点的连线与矩形边缘的交点
+ * <zh/> 获取给定点到矩形中心的连线与矩形边缘的交点
  *
  * <en/> Gets the intersection point between the line from the center of a rectangle to a given point and the rectangle's edge
  * @param p - <zh/> 从矩形中心到矩形边缘的连线的外部点 | <en/> The point outside the rectangle from which the line to the rectangle's center is drawn
  * @param bbox - <zh/> 矩形包围盒 | <en/> the bounding box of the rectangle
+ * @param useExtendedLine - <zh/> 是否使用延长线 | <en/> whether to use the extended line
  * @returns <zh/> 交点 | <en/> intersection
  */
-export function getRectIntersectPoint(p: Point, bbox: AABB): Point {
+export function getRectIntersectPoint(p: Point, bbox: AABB, useExtendedLine = false): Point {
   const center = getXYByPlacement(bbox, 'center');
   const corners = [
     getXYByPlacement(bbox, 'left-top'),
@@ -215,21 +231,23 @@ export function getRectIntersectPoint(p: Point, bbox: AABB): Point {
     getXYByPlacement(bbox, 'right-bottom'),
     getXYByPlacement(bbox, 'left-bottom'),
   ];
-  return getPolygonIntersectPoint(p, center, corners, false).point;
+  return getPolygonIntersectPoint(p, center, corners, false, useExtendedLine).point;
 }
 
 /**
- * <zh/> 获取从椭圆中心到给定点的连线与椭圆边缘的交点
+ * <zh/> 获取给定点到椭圆中心的连线与椭圆边缘的交点
  *
  * <en/> Gets the intersection point between the line from the center of an ellipse to a given point and the ellipse's edge
  * @param p - <zh/> 从椭圆中心到椭圆边缘的连线的外部点 | <en/> The point outside the ellipse from which the line to the ellipse's center is drawn
  * The point outside the ellipse from which the line to the ellipse's center is drawn.
  * @param bbox - <zh/> 椭圆包围盒 | <en/> the bounding box of the ellipse
+ * @param useExtendedLine - <zh/> 是否使用延长线 | <en/> whether to use the extended line
  * @returns <zh/> 交点 | <en/> intersection
  */
-export function getEllipseIntersectPoint(p: Point, bbox: AABB): Point {
+export function getEllipseIntersectPoint(p: Point, bbox: AABB, useExtendedLine = false): Point {
   const center = bbox.center;
-  const vec = subtract(p, bbox.center);
+  const refP = useExtendedLine ? getSymmetricPoint(p, center) : p;
+  const vec = subtract(refP, bbox.center);
   const angle = Math.atan2(vec[1], vec[0]);
   if (isNaN(angle)) return center;
 

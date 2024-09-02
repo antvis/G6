@@ -29,13 +29,14 @@ export interface Node extends DisplayObject, ElementHooks, ElementMethods {
    *
    * <en/> Get the intersection point
    * @param point - <zh/> 外部位置 | <en/> external position
+   * @param useExtendedLine - <zh/> 是否使用延长线 | <en/> whether to use the extended line
    * @returns <zh/> 交点位置 | <en/> intersection point
    * @remarks
    * <zh/> 给定一个外部位置，返回当前节点与该位置的连边与节点的交点位置
    *
    * <en/> Given an external position, return the intersection point of the edge between the current node and the position and the node
    */
-  getIntersectPoint(point: Point): Point;
+  getIntersectPoint(point: Point, useExtendedLine?: boolean): Point;
 }
 
 /**

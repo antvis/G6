@@ -166,6 +166,10 @@ export class DataController {
     }, [] as ComboData[]);
   }
 
+  public getRootsData(hierarchyKey: HierarchyKey = TREE_KEY) {
+    return this.model.getRoots(hierarchyKey).map(toG6Data);
+  }
+
   public getAncestorsData(id: ID, hierarchyKey: HierarchyKey): NodeLikeData[] {
     const { model } = this;
     if (!model.hasNode(id) || !model.hasTreeStructure(hierarchyKey)) return [];

@@ -27,7 +27,17 @@ export {
   NodeEvent,
 } from './constants';
 export { BaseCombo, CircleCombo, RectCombo } from './elements/combos';
-export { BaseEdge, Cubic, CubicHorizontal, CubicVertical, Line, Polyline, Quadratic } from './elements/edges';
+export {
+  BaseEdge,
+  Cubic,
+  CubicHorizontal,
+  CubicRadial,
+  CubicVertical,
+  Line,
+  Polyline,
+  Quadratic,
+} from './elements/edges';
+export { effect } from './elements/effect';
 export {
   BaseNode,
   Circle,
@@ -47,20 +57,20 @@ export {
   BaseLayout,
   CircularLayout,
   ComboCombinedLayout,
+  compactBox as CompactBoxLayout,
   ConcentricLayout,
   D3ForceLayout,
   DagreLayout,
+  dendrogram as DendrogramLayout,
   ForceAtlas2Layout,
   ForceLayout,
   FruchtermanLayout,
   GridLayout,
+  indented as IndentedLayout,
   MDSLayout,
+  mindmap as MindmapLayout,
   RadialLayout,
   RandomLayout,
-  compactBox,
-  dendrogram,
-  indented,
-  mindmap,
 } from './layouts';
 export {
   BasePlugin,
@@ -88,6 +98,7 @@ export { BaseTransform } from './transforms';
 export { isCollapsed } from './utils/collapsibility';
 export { idOf } from './utils/id';
 export { invokeLayoutMethod } from './utils/layout';
+export { positionOf } from './utils/position';
 export { omitStyleProps, subStyleProps } from './utils/prefix';
 export { Shortcut } from './utils/shortcut';
 export { parseSize } from './utils/size';
@@ -135,6 +146,7 @@ export type { BaseComboStyleProps, CircleComboStyleProps, RectComboStyleProps } 
 export type {
   BaseEdgeStyleProps,
   CubicHorizontalStyleProps,
+  CubicRadialStyleProps,
   CubicStyleProps,
   CubicVerticalStyleProps,
   LineStyleProps,

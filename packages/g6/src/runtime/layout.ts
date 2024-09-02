@@ -69,6 +69,13 @@ export class LayoutController {
       }
     }
     emit(graph, new GraphLifeCycleEvent(GraphEvent.AFTER_LAYOUT));
+    this.transformDataAfterLayout();
+  }
+
+  private transformDataAfterLayout() {
+    const transforms = this.context.transform.getTransformInstance();
+
+    Object.values(transforms).forEach((transform) => transform.afterLayout());
   }
 
   /**

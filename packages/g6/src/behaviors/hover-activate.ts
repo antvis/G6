@@ -2,7 +2,7 @@ import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
-import type { Element, ElementType, ID, IDragEvent, IPointerEvent, State } from '../types';
+import type { EdgeDirection, Element, ElementType, ID, IDragEvent, IPointerEvent, State } from '../types';
 import { idsOf } from '../utils/id';
 import { getElementNthDegreeIds } from '../utils/relation';
 import type { BaseBehaviorOptions } from './base-behavior';
@@ -39,6 +39,19 @@ export interface HoverActivateOptions extends BaseBehaviorOptions {
    * @defaultValue 0
    */
   degree?: number;
+  /**
+   * <zh/> 指定边的方向
+   * - `'both'`: 表示激活当前节点的所有关系
+   * - `'in'`: 表示激活当前节点的入边和入节点
+   * - `'out'`: 表示激活当前节点的出边和出节点
+   *
+   * <en/> Specify the direction of the edge
+   * - `'both'`: Activate all relationships of the current node
+   * - `'in'`: Activate the incoming edges and nodes of the current node
+   * - `'out'`: Activate the outgoing edges and nodes of the current node
+   * @defaultValue 'both'
+   */
+  direction?: EdgeDirection;
   /**
    * <zh/> 激活元素的状态，默认为 `active`
    *
@@ -80,6 +93,7 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
     animation: false,
     enable: true,
     degree: 0,
+    direction: 'both',
     state: 'active',
     inactiveState: undefined,
   };
@@ -123,11 +137,11 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
     if (!this.options.state && !this.options.inactiveState) return;
 
     const { graph } = this.context;
-    const { state, degree, animation, inactiveState } = this.options;
+    const { state, degree, direction, animation, inactiveState } = this.options;
     const { targetType, target } = event;
 
     const activeIds = degree
-      ? getElementNthDegreeIds(graph, targetType as ElementType, target.id, degree)
+      ? getElementNthDegreeIds(graph, targetType as ElementType, target.id, degree, direction)
       : [target.id];
 
     const states: Record<ID, State[]> = {};

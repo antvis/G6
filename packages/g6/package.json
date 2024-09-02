@@ -63,7 +63,7 @@
     "@antv/g-canvas": "^2.0.10",
     "@antv/g-plugin-dragndrop": "^2.0.8",
     "@antv/graphlib": "^2.0.3",
-    "@antv/hierarchy": "^0.6.12",
+    "@antv/hierarchy": "^0.6.13",
     "@antv/layout": "^1.2.14-beta.6",
     "@antv/util": "^3.3.7",
     "bubblesets-js": "^2.3.3",

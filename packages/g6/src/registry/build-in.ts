@@ -32,6 +32,7 @@ import {
   CircleCombo,
   Cubic,
   CubicHorizontal,
+  CubicRadial,
   CubicVertical,
   Diamond,
   Donut,
@@ -92,6 +93,7 @@ import {
   CollapseExpandCombo,
   CollapseExpandNode,
   GetEdgeActualEnds,
+  PositionRadialLabels,
   ProcessParallelEdges,
   UpdateRelatedEdge,
 } from '../transforms';
@@ -138,6 +140,7 @@ const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     polyline: Polyline,
     quadratic: Quadratic,
     'cubic-horizontal': CubicHorizontal,
+    'cubic-radial': CubicRadial,
     'cubic-vertical': CubicVertical,
   },
   layout: {
@@ -207,6 +210,7 @@ const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'collapse-expand-node': CollapseExpandNode,
     'process-parallel-edges': ProcessParallelEdges,
     'get-edge-actual-ends': GetEdgeActualEnds,
+    'position-radial-labels': PositionRadialLabels,
   },
   shape: {
     circle: GCircle,
