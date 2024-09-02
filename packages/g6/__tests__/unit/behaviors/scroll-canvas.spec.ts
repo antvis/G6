@@ -98,6 +98,14 @@ describe('behavior scroll canvas', () => {
     expect(graph.getPosition()).toBeCloseTo([x + 10, y]);
   });
 
+  it('range', () => {
+    graph.setBehaviors((behavior) => [...behavior, { ...shortcutScrollCanvasOptions, range: 0 }]);
+    const [x, y] = graph.getPosition();
+    graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
+    graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
+    expect(graph.getPosition()).toBeCloseTo([x, y]);
+  });
+
   it('destroy', () => {
     graph.destroy();
   });
