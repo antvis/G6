@@ -151,8 +151,8 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     } = event;
     // click the same item twice, tooltip will be hidden
     if (this.currentTarget === id) {
-      this.currentTarget = null;
       this.hide(event);
+      this.currentTarget = null;
     } else {
       this.currentTarget = id;
       this.show(event);
@@ -294,7 +294,9 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
       this.tooltipElement?.hide();
       return;
     }
-    if (!this.tooltipElement || !this.isEnable(event)) return;
+    if (!this.tooltipElement) return;
+    // No target node: tooltip has been hidden. No need for duplicated call.
+    if (!this.currentTarget) return;
     const {
       client: { x, y },
     } = event;
