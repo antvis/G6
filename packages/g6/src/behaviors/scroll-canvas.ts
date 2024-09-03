@@ -1,10 +1,8 @@
-import type { Tuple3Number } from '@antv/g';
-import { AABB } from '@antv/g';
 import { isFunction, isObject } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { IKeyboardEvent, Padding, Point } from '../types';
-import { getExpandedBBox, isPointInBBox } from '../utils/bbox';
+import { getExpandedBBox, getPointBBox, isPointInBBox } from '../utils/bbox';
 import { parsePadding } from '../utils/padding';
 import { Shortcut, ShortcutKey } from '../utils/shortcut';
 import { multiply, subtract } from '../utils/vector';
@@ -48,9 +46,9 @@ export interface ScrollCanvasOptions extends BaseBehaviorOptions {
    */
   direction?: 'x' | 'y';
   /**
-   * <zh/> 可滚动的视口范围，默认最多可以滚动一屏的位置。可以分别设置上右下左，单个方向范围在 [0, Infinity] 之间
+   * <zh/> 可滚动的视口范围，默认最多可滚动一屏。可以分别设置上、右、下、左四个方向的范围，每个方向的范围在 [0, Infinity] 之间
    *
-   * <en/> The range of the scrollable viewport, by default, you can scroll to the position of one screen at most. The four directions can be set separately, and the range of a single direction is between [0, Infinity]
+   * <en/> The scrollable viewport range allows you to scroll up to one screen by default. You can set the range for each direction (top, right, bottom, left) individually, with each direction's range between [0, Infinity]
    * @defaultValue 1
    */
   range?: Padding;
@@ -86,7 +84,7 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
     enable: true,
     sensitivity: 1,
     preventDefault: true,
-    range: 1,
+    range: 0.5,
   };
 
   private shortcut: Shortcut;
@@ -166,21 +164,17 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
   private clampByRange([dx, dy]: Point) {
     const { viewport, canvas } = this.context;
 
-    const canvasCenter = [...viewport!.getCanvasCenter(), 0] as Tuple3Number;
-    const bbox = new AABB();
-    bbox.setMinMax(canvasCenter, canvasCenter);
-
     const [canvasWidth, canvasHeight] = canvas.getSize();
     const [top, right, bottom, left] = parsePadding(this.options.range);
     const range = [canvasHeight * top, canvasWidth * right, canvasHeight * bottom, canvasWidth * left];
-    const area = getExpandedBBox(bbox, range);
+    const scrollableArea = getExpandedBBox(getPointBBox(viewport!.getCanvasCenter()), range);
 
     const nextViewportCenter = subtract(viewport!.getViewportCenter(), [dx, dy, 0]);
-    if (!isPointInBBox(nextViewportCenter, area)) {
+    if (!isPointInBBox(nextViewportCenter, scrollableArea)) {
       const {
         min: [minX, minY],
         max: [maxX, maxY],
-      } = area;
+      } = scrollableArea;
 
       if ((nextViewportCenter[0] < minX && dx > 0) || (nextViewportCenter[0] > maxX && dx < 0)) {
         dx = 0;
