@@ -1,3 +1,4 @@
+import { COMBO_KEY } from '../constants';
 import type { DrawContext } from '../runtime/element';
 import type { ComboData } from '../spec';
 import { isCollapsed } from '../utils/collapsibility';
@@ -16,6 +17,7 @@ import { reassignTo } from './utils';
 export class CollapseExpandCombo extends BaseTransform {
   public beforeDraw(input: DrawData, context: DrawContext): DrawData {
     if (context.stage === 'visibility') return input;
+    if (!this.context.model.model.hasTreeStructure(COMBO_KEY)) return input;
 
     const { model } = this.context;
     const { add, update } = input;

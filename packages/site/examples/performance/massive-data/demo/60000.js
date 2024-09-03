@@ -1,4 +1,3 @@
-import { Renderer } from '@antv/g-webgl';
 import { Graph } from '@antv/g6';
 
 fetch('https://assets.antv.antgroup.com/g6/60000.json')
@@ -8,7 +7,6 @@ fetch('https://assets.antv.antgroup.com/g6/60000.json')
       container: 'container',
       animation: false,
       autoFit: 'view',
-      renderer: () => new Renderer(),
       data,
       node: {
         style: {

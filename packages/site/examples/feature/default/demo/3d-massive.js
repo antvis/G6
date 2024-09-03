@@ -31,6 +31,7 @@ fetch('https://assets.antv.antgroup.com/g6/eva-3d-data.json')
       container: 'container',
       renderer,
       data,
+      animation: false,
       node: {
         type: 'sphere',
         style: {

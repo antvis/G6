@@ -19,6 +19,7 @@ import type {
   ElementType,
   ID,
   Node,
+  NodeLikeData,
   State,
   StyleIterationContext,
 } from '../types';
@@ -287,7 +288,6 @@ export class ElementController {
     const { animation, silence } = context;
 
     const { type = 'draw' } = context;
-    const willRender = type === 'render';
 
     return this.context.animation!.animate(
       animation,
@@ -296,7 +296,7 @@ export class ElementController {
         : {
             before: () =>
               this.emit(
-                new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation, render: willRender }),
+                new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation, render: type === 'render' }),
                 context,
               ),
             beforeAnimate: (animation) =>
@@ -305,7 +305,7 @@ export class ElementController {
               this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData), context),
             after: () =>
               this.emit(
-                new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation, render: willRender }),
+                new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation, render: type === 'render' }),
                 context,
               ),
           },
@@ -433,8 +433,24 @@ export class ElementController {
     });
   }
 
+  private getUpdateStageStyle(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
+    const { stage = 'update' } = context;
+
+    // 优化 translate 阶段，直接返回 x, y, z，避免计算样式
+    // Optimize the translate stage, return x, y, z directly to avoid calculating style
+    if (stage === 'translate') {
+      if (elementType === 'node' || elementType === 'combo') {
+        const { style: { x = 0, y = 0, z = 0 } = {} } = datum as NodeLikeData;
+        return { x, y, z };
+      } else return {};
+    }
+
+    return this.getElementComputedStyle(elementType, datum);
+  }
+
   private updateElement(elementType: ElementType, datum: ElementDatum, context: DrawContext) {
     const id = idOf(datum);
+    const { stage = 'update' } = context;
 
     const element = this.getElement(id);
     if (!element) return () => null;
@@ -442,7 +458,7 @@ export class ElementController {
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_UPDATE, elementType, datum), context);
 
     const type = this.getElementType(elementType, datum);
-    const style = this.getElementComputedStyle(elementType, datum);
+    const style = this.getUpdateStageStyle(elementType, datum, context);
 
     // 如果类型不同，需要先销毁原有元素，再创建新元素
     // If the type is different, you need to destroy the original element first, and then create a new element
@@ -453,8 +469,6 @@ export class ElementController {
 
       this.createElement(elementType, datum, { animation: false, silence: true });
     }
-
-    const { stage = 'update' } = context;
 
     const exactStage = stage !== 'visibility' ? stage : style.visibility === 'hidden' ? 'hide' : 'show';
 
@@ -664,11 +678,9 @@ export class ElementController {
 
     const context = { animation, stage: 'expand', data: drawData } as const;
 
-    // 将新增边添加到更新列表 / Add new edges to the update list
-    add.edges.forEach((edge) => {
-      const id = idOf(edge);
-      if (!update.edges.has(id)) update.edges.set(id, edge);
-    });
+    // 将新增节点/边添加到更新列表 / Add new nodes/edges to the update list
+    add.edges.forEach((edge) => update.edges.set(idOf(edge), edge));
+    add.nodes.forEach((node) => update.nodes.set(idOf(node), node));
 
     this.updateElements(update, context);
 

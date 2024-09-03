@@ -1,5 +1,5 @@
 import { Graph as GraphLib } from '@antv/graphlib';
-import { isEqual, isUndefined, uniq } from '@antv/util';
+import { isUndefined, uniq } from '@antv/util';
 import { COMBO_KEY, ChangeType, TREE_KEY } from '../constants';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type {
@@ -20,7 +20,7 @@ import type {
 } from '../types';
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
-import { cloneElementData, mergeElementsData } from '../utils/data';
+import { cloneElementData, isElementDataEqual, mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf, parentIdOf } from '../utils/id';
@@ -296,9 +296,9 @@ export class DataController {
     const { nodes: modifiedNodes = [], edges: modifiedEdges = [], combos: modifiedCombos = [] } = data;
     const { nodes: originalNodes, edges: originalEdges, combos: originalCombos } = this.getData();
 
-    const nodeDiff = arrayDiff(originalNodes, modifiedNodes, (node) => idOf(node));
-    const edgeDiff = arrayDiff(originalEdges, modifiedEdges, (edge) => idOf(edge));
-    const comboDiff = arrayDiff(originalCombos, modifiedCombos, (combo) => idOf(combo));
+    const nodeDiff = arrayDiff(originalNodes, modifiedNodes, (node) => idOf(node), isElementDataEqual);
+    const edgeDiff = arrayDiff(originalEdges, modifiedEdges, (edge) => idOf(edge), isElementDataEqual);
+    const comboDiff = arrayDiff(originalCombos, modifiedCombos, (combo) => idOf(combo), isElementDataEqual);
 
     this.batch(() => {
       this.addData({
@@ -385,13 +385,16 @@ export class DataController {
 
     data.forEach((datum) => {
       const id = idOf(datum);
+      const parent = parentIdOf(datum);
 
-      model.attachTreeStructure(COMBO_KEY);
-      this.setParent(id, parentIdOf(datum), COMBO_KEY);
+      if (parent) {
+        if (!model.hasTreeStructure(COMBO_KEY)) model.attachTreeStructure(COMBO_KEY);
+        this.setParent(id, parentIdOf(datum), COMBO_KEY);
+      }
 
-      const children = (datum as NodeData).children;
-      if (children !== undefined) {
-        model.attachTreeStructure(TREE_KEY);
+      const children = (datum as NodeData).children || [];
+      if (children.length) {
+        if (!model.hasTreeStructure(TREE_KEY)) model.attachTreeStructure(TREE_KEY);
         const _children = children.filter((child) => model.hasNode(child));
         _children.forEach((child) => this.setParent(child, id, TREE_KEY));
         if (_children.length !== children.length) {
@@ -434,7 +437,7 @@ export class DataController {
       nodes.forEach((modifiedNode) => {
         const id = idOf(modifiedNode);
         const originalNode = toG6Data(model.getNode(id));
-        if (isEqual(originalNode, modifiedNode)) return;
+        if (isElementDataEqual(originalNode, modifiedNode)) return;
 
         const value = mergeElementsData(originalNode, modifiedNode);
         this.pushChange({ value, original: originalNode, type: ChangeType.NodeUpdated });
@@ -480,7 +483,7 @@ export class DataController {
       edges.forEach((modifiedEdge) => {
         const id = idOf(modifiedEdge);
         const originalEdge = toG6Data(model.getEdge(id));
-        if (isEqual(originalEdge, modifiedEdge)) return;
+        if (isElementDataEqual(originalEdge, modifiedEdge)) return;
 
         if (modifiedEdge.source && originalEdge.source !== modifiedEdge.source) {
           model.updateEdgeSource(id, modifiedEdge.source);
@@ -503,7 +506,7 @@ export class DataController {
       combos.forEach((modifiedCombo) => {
         const id = idOf(modifiedCombo);
         const originalCombo = toG6Data(model.getNode(id)) as ComboData;
-        if (isEqual(originalCombo, modifiedCombo)) return;
+        if (isElementDataEqual(originalCombo, modifiedCombo)) return;
 
         const value = mergeElementsData(originalCombo, modifiedCombo);
         this.pushChange({ value, original: originalCombo, type: ChangeType.ComboUpdated });

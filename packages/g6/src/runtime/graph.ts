@@ -87,7 +87,7 @@ export class Graph extends EventEmitter {
   constructor(options: GraphOptions) {
     super();
     this.options = Object.assign({}, Graph.defaultOptions, options);
-    this.setOptions(this.options);
+    this._setOptions(this.options, true);
     this.context.graph = this;
 
     // Listening window.resize to autoResize.
@@ -117,32 +117,28 @@ export class Graph extends EventEmitter {
    * @apiCategory option
    */
   public setOptions(options: GraphOptions): void {
-    const { behaviors, combo, data, edge, height, layout, node, plugins, theme, transforms, width, cursor, renderer } =
-      options;
+    this._setOptions(options, false);
+  }
 
-    if (renderer) {
-      const canvas = this.context.canvas;
-      if (canvas) {
-        this.emit(GraphEvent.BEFORE_RENDERER_CHANGE, { renderer: this.options.renderer });
-        canvas.setRenderer(renderer);
-        this.emit(GraphEvent.AFTER_RENDERER_CHANGE, { renderer });
-      }
+  private _setOptions(options: GraphOptions, isInit: boolean) {
+    this.updateCanvas(options);
+
+    if (isInit) {
+      const { data } = options;
+      if (data) this.addData(data);
+      return;
     }
-
     Object.assign(this.options, options);
-
-    if (cursor) this.context.canvas?.setCursor(cursor);
+    const { behaviors, combo, data, edge, layout, node, plugins, theme, transforms } = options;
     if (behaviors) this.setBehaviors(behaviors);
-    if (combo) this.setCombo(combo);
     if (data) this.setData(data);
-    if (edge) this.setEdge(edge);
-    if (layout) this.setLayout(layout);
     if (node) this.setNode(node);
+    if (edge) this.setEdge(edge);
+    if (combo) this.setCombo(combo);
+    if (layout) this.setLayout(layout);
     if (theme) this.setTheme(theme);
     if (plugins) this.setPlugins(plugins);
     if (transforms) this.setTransforms(transforms);
-    if (isNumber(width) || isNumber(height))
-      this.setSize(width ?? this.options.width ?? 0, height ?? this.options.height ?? 0);
   }
 
   /**
@@ -1015,7 +1011,15 @@ export class Graph extends EventEmitter {
   private async initCanvas() {
     if (this.context.canvas) return await this.context.canvas.ready;
 
-    const { container = 'container', width, height, renderer, cursor, background } = this.options;
+    const {
+      container = 'container',
+      width,
+      height,
+      renderer,
+      cursor,
+      background,
+      devicePixelRatio = window.devicePixelRatio ?? 1,
+    } = this.options;
     if (container instanceof Canvas) {
       this.context.canvas = container;
       if (cursor) container.setCursor(cursor);
@@ -1034,12 +1038,30 @@ export class Graph extends EventEmitter {
         background,
         renderer,
         cursor,
+        devicePixelRatio,
       });
 
       this.context.canvas = canvas;
       await canvas.ready;
       this.emit(GraphEvent.AFTER_CANVAS_INIT, { canvas });
     }
+  }
+
+  private updateCanvas(options: GraphOptions) {
+    const { renderer, cursor, height, width } = options;
+    const canvas = this.context.canvas;
+    if (!canvas) return;
+
+    if (renderer) {
+      this.emit(GraphEvent.BEFORE_RENDERER_CHANGE, { renderer: this.options.renderer });
+      canvas.setRenderer(renderer);
+      this.emit(GraphEvent.AFTER_RENDERER_CHANGE, { renderer });
+    }
+
+    if (cursor) canvas.setCursor(cursor);
+
+    if (isNumber(width) || isNumber(height))
+      this.setSize(width ?? this.options.width ?? 0, height ?? this.options.height ?? 0);
   }
 
   private initRuntime() {
