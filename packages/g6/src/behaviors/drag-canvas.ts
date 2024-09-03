@@ -3,9 +3,11 @@ import { debounce, isObject } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
+import { getExpandedBBox, getPointBBox, isPointInBBox } from '../utils/bbox';
+import { parsePadding } from '../utils/padding';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
-import { multiply } from '../utils/vector';
+import { multiply, subtract } from '../utils/vector';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -41,6 +43,13 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    * @defaultValue `'both'`
    */
   direction?: 'x' | 'y' | 'both';
+  /**
+   * <zh/> 可拖拽的视口范围，默认最多可拖拽一屏。可以分别设置上、右、下、左四个方向的范围，每个方向的范围在 [0, Infinity] 之间
+   *
+   * <en/> The draggable viewport range allows you to drag up to one screen by default. You can set the range for each direction (top, right, bottom, left) individually, with each direction's range between [0, Infinity]
+   * @defaultValue 1
+   */
+  range?: number | number[];
   /**
    * <zh/> 触发拖拽的方式，默认使用指针按下拖拽
    *
@@ -80,6 +89,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     },
     sensitivity: 10,
     direction: 'both',
+    range: 1,
   };
 
   private shortcut: Shortcut;
@@ -169,16 +179,45 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
    * @internal
    */
   protected async translate(offset: Vector2, animation?: ViewportAnimationEffectTiming) {
-    let [dx, dy] = offset;
+    offset = this.clampByDirection(offset);
+    offset = this.clampByRange(offset);
 
+    await this.context.graph.translateBy(offset, animation);
+  }
+
+  private clampByDirection([dx, dy]: Vector2): Vector2 {
     const { direction } = this.options;
     if (direction === 'x') {
       dy = 0;
     } else if (direction === 'y') {
       dx = 0;
     }
+    return [dx, dy];
+  }
 
-    await this.context.graph.translateBy([dx, dy], animation);
+  private clampByRange([dx, dy]: Vector2): Vector2 {
+    const { viewport, canvas } = this.context;
+
+    const [canvasWidth, canvasHeight] = canvas.getSize();
+    const [top, right, bottom, left] = parsePadding(this.options.range);
+    const range = [canvasHeight * top, canvasWidth * right, canvasHeight * bottom, canvasWidth * left];
+    const draggableArea = getExpandedBBox(getPointBBox(viewport!.getCanvasCenter()), range);
+
+    const nextViewportCenter = subtract(viewport!.getViewportCenter(), [dx, dy, 0]);
+    if (!isPointInBBox(nextViewportCenter, draggableArea)) {
+      const {
+        min: [minX, minY],
+        max: [maxX, maxY],
+      } = draggableArea;
+
+      if ((nextViewportCenter[0] < minX && dx > 0) || (nextViewportCenter[0] > maxX && dx < 0)) {
+        dx = 0;
+      }
+      if ((nextViewportCenter[1] < minY && dy > 0) || (nextViewportCenter[1] > maxY && dy < 0)) {
+        dy = 0;
+      }
+    }
+    return [dx, dy];
   }
 
   private validate(event: IPointerEvent | IKeyboardEvent) {

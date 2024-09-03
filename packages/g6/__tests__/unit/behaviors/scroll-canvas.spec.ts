@@ -46,9 +46,14 @@ describe('behavior scroll canvas', () => {
 
   it('direction', async () => {
     setBehavior({ direction: 'x' });
-    const [x, y] = graph.getPosition();
+    let [x, y] = graph.getPosition();
     emitWheelEvent({ deltaX: -10, deltaY: -10 });
     expect(graph.getPosition()).toBeCloseTo([x + 10, y]);
+
+    setBehavior({ direction: 'y' });
+    [x, y] = graph.getPosition();
+    emitWheelEvent({ deltaX: -10, deltaY: -10 });
+    expect(graph.getPosition()).toBeCloseTo([x, y + 10]);
 
     setBehavior({ direction: undefined });
   });
@@ -96,6 +101,25 @@ describe('behavior scroll canvas', () => {
     graph.emit(CommonEvent.KEY_DOWN, { key: 'ArrowRight' });
     graph.emit(CommonEvent.KEY_UP, { key: 'ArrowRight' });
     expect(graph.getPosition()).toBeCloseTo([x + 10, y]);
+  });
+
+  it('range', () => {
+    graph.setBehaviors((behavior) => [...behavior, { ...shortcutScrollCanvasOptions, range: 0.5 }]);
+
+    const emitArrow = (key: 'ArrowRight' | 'ArrowLeft' | 'ArrowUp' | 'ArrowDown', count: number) => {
+      for (let i = 0; i < count; i++) {
+        graph.emit(CommonEvent.KEY_DOWN, { key });
+        graph.emit(CommonEvent.KEY_UP, { key });
+      }
+    };
+
+    const [canvasWidth, canvasHeight] = graph.getCanvas().getSize();
+    emitArrow('ArrowRight', 50);
+    expect(graph.getPosition()[0]).toBeCloseTo(canvasWidth / 2);
+    emitArrow('ArrowLeft', 50);
+    expect(graph.getPosition()[0]).toBeCloseTo(-canvasWidth / 2);
+    emitArrow('ArrowUp', 50);
+    expect(graph.getPosition()[1]).toBeCloseTo(-canvasHeight / 2);
   });
 
   it('destroy', () => {
