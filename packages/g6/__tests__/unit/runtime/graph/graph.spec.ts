@@ -1,7 +1,7 @@
 import { Graph, idOf } from '@/src';
 import data from '@@/dataset/cluster.json';
 import { commonGraph } from '@@/demos/common-graph';
-import { createDemoGraph } from '@@/utils';
+import { createDemoGraph, createGraph } from '@@/utils';
 
 describe('Graph', () => {
   let graph: Graph;
@@ -43,8 +43,14 @@ describe('Graph', () => {
     });
   });
 
-  it('getSize', () => {
+  it('setSize/getSize', () => {
     expect(graph.getSize()).toEqual([500, 500]);
+    expect(createGraph({}).getSize()).toEqual([0, 0]);
+
+    const g = createGraph({ width: 100, height: 50 });
+    expect(g.getSize()).toEqual([100, 50]);
+    g.setSize(400, 100);
+    expect(g.getSize()).toEqual([400, 100]);
   });
 
   it('setTheme', () => {
@@ -68,6 +74,8 @@ describe('Graph', () => {
     expect(graph.getBehaviors()).toEqual([{ key: 'behavior-1', type: 'zoom-canvas', enable: false }]);
     graph.updateBehavior({ key: 'behavior-1', enable: true });
     expect(graph.getBehaviors()).toEqual([{ key: 'behavior-1', type: 'zoom-canvas', enable: true }]);
+
+    expect(createGraph({}).getBehaviors()).toEqual([]);
   });
 
   it('getPlugins/setPlugins/updatePlugin', () => {
@@ -79,6 +87,18 @@ describe('Graph', () => {
     graph.updatePlugin({ key: 'plugin-1', enable: false });
     expect(graph.getPlugins()).toEqual([{ key: 'plugin-1', type: 'test', enable: false }]);
     graph.setPlugins([]);
+
+    const g = createGraph({});
+    expect(g.getPlugins()).toEqual([]);
+    g.setPlugins([
+      { type: 'test', key: 'test' },
+      { type: 'test2', key: 'test2' },
+    ]);
+    g.updatePlugin({ key: 'test', enable: false });
+    expect(g.getPlugins()).toEqual([
+      { type: 'test', key: 'test', enable: false },
+      { type: 'test2', key: 'test2' },
+    ]);
   });
 
   it('getTransforms/setTransforms/updateTransform', () => {
@@ -130,6 +150,47 @@ describe('Graph', () => {
     });
   });
 
+  it('addData/updateData/setData callback', () => {
+    const g = createGraph({
+      data: {
+        nodes: [{ id: 'node-1' }, { id: 'node-2' }],
+        edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2' }],
+      },
+    });
+    g.updateData((data) => {
+      expect(data).toEqual({
+        nodes: [
+          { id: 'node-1', data: {}, style: {} },
+          { id: 'node-2', data: {}, style: {} },
+        ],
+        edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: {} }],
+        combos: [],
+      });
+      return { nodes: [{ id: 'node-1', data: { value: 1 } }] };
+    });
+    expect(g.getNodeData('node-1')).toEqual({ id: 'node-1', data: { value: 1 }, style: {} });
+    g.setData((data) => {
+      expect(data).toEqual({
+        nodes: [
+          { id: 'node-1', data: { value: 1 }, style: {} },
+          { id: 'node-2', data: {}, style: {} },
+        ],
+        edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: {} }],
+        combos: [],
+      });
+      return { nodes: [], edges: [] };
+    });
+    g.addData((data) => {
+      expect(data).toEqual({
+        nodes: [],
+        edges: [],
+        combos: [],
+      });
+      return { nodes: [{ id: 'node-1' }] };
+    });
+    expect(g.getNodeData('node-1')).toEqual({ id: 'node-1', data: {}, style: {} });
+  });
+
   it('getElementData', () => {
     expect(graph.getElementData('node-1').id).toEqual('node-1');
     expect(graph.getElementData(['node-1']).map(idOf)).toEqual(['node-1']);
@@ -174,6 +235,72 @@ describe('Graph', () => {
     expect(graph.getComboData()).toEqual([]);
   });
 
+  it('getXxxData/addXxxData/updateXxxData/removeXxxData callback', () => {
+    const g = createGraph({
+      data: {
+        nodes: [{ id: 'node-1' }],
+      },
+    });
+    g.addNodeData((data) => {
+      expect(data).toEqual([{ id: 'node-1', data: {}, style: {} }]);
+      return [{ id: 'node-2' }];
+    });
+    expect(g.getNodeData().map(idOf)).toEqual(['node-1', 'node-2']);
+    g.updateNodeData((data) => {
+      expect(data).toEqual([
+        { id: 'node-1', data: {}, style: {} },
+        { id: 'node-2', data: {}, style: {} },
+      ]);
+      return [{ id: 'node-2', style: { x: 100 } }];
+    });
+    expect(g.getNodeData()).toEqual([
+      { id: 'node-1', data: {}, style: {} },
+      { id: 'node-2', data: {}, style: { x: 100 } },
+    ]);
+
+    g.addEdgeData((data) => {
+      expect(data).toEqual([]);
+      return [{ id: 'edge-1', source: 'node-1', target: 'node-2' }];
+    });
+    expect(g.getEdgeData().map(idOf)).toEqual(['edge-1']);
+    g.updateEdgeData((data) => {
+      expect(data).toEqual([{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: {} }]);
+      return [{ id: 'edge-1', style: { lineWidth: 5 } }];
+    });
+    expect(g.getEdgeData()).toEqual([
+      { id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { lineWidth: 5 } },
+    ]);
+
+    g.addComboData((data) => {
+      expect(data).toEqual([]);
+      return [{ id: 'combo-1' }];
+    });
+    expect(g.getComboData().map(idOf)).toEqual(['combo-1']);
+    g.updateComboData((data) => {
+      expect(data).toEqual([{ id: 'combo-1', data: {}, style: {} }]);
+      return [{ id: 'combo-1', style: { stroke: 'red' } }];
+    });
+    expect(g.getComboData()).toEqual([{ id: 'combo-1', data: {}, style: { stroke: 'red' } }]);
+
+    g.removeEdgeData((data) => {
+      expect(data.length).toBe(1);
+      return ['edge-1'];
+    });
+    expect(g.getEdgeData()).toEqual([]);
+
+    g.removeNodeData((data) => {
+      expect(data.length).toBe(2);
+      return ['node-1'];
+    });
+    expect(g.getNodeData().map(idOf)).toEqual(['node-2']);
+
+    g.removeComboData((data) => {
+      expect(data.length).toBe(1);
+      return ['combo-1'];
+    });
+    expect(g.getComboData()).toEqual([]);
+  });
+
   it('draw', async () => {
     await expect(graph).toMatchSnapshot(__filename, 'before-draw');
     await graph.draw();
@@ -200,6 +327,31 @@ describe('Graph', () => {
 
   it('getParentData', () => {
     expect(graph.getParentData('node-1', 'combo')).toBeUndefined();
+  });
+
+  it('getAncestors', () => {
+    const tree = createGraph({
+      data: {
+        nodes: [{ id: 'node-1', children: ['node-2'] }, { id: 'node-2', children: ['node-3'] }, { id: 'node-3' }],
+      },
+    });
+    expect(tree.getAncestorsData('node-3', 'tree').map(idOf)).toEqual(['node-2', 'node-1']);
+    expect(tree.getAncestorsData('node-2', 'tree').map(idOf)).toEqual(['node-1']);
+    expect(tree.getAncestorsData('node-1', 'tree')).toEqual([]);
+
+    const combo = createGraph({
+      data: {
+        nodes: [
+          { id: 'node-1', combo: 'combo-1' },
+          { id: 'node-2', combo: 'combo-1' },
+        ],
+        combos: [{ id: 'combo-1' }, { id: 'combo-2', combo: 'combo-1' }],
+      },
+    });
+    expect(combo.getAncestorsData('node-1', 'combo').map(idOf)).toEqual(['combo-1']);
+    expect(combo.getAncestorsData('node-2', 'combo').map(idOf)).toEqual(['combo-1']);
+    expect(combo.getAncestorsData('combo-1', 'combo')).toEqual([]);
+    expect(combo.getAncestorsData('combo-2', 'combo').map(idOf)).toEqual(['combo-1']);
   });
 
   it('getElementRenderBounds', () => {
