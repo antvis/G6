@@ -2,7 +2,7 @@ import type { Cursor } from '@antv/g';
 import { debounce, isObject } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { IKeyboardEvent, IPointerEvent, Padding, Vector2, ViewportAnimationEffectTiming } from '../types';
+import type { IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
 import { getExpandedBBox, getPointBBox, isPointInBBox } from '../utils/bbox';
 import { parsePadding } from '../utils/padding';
 import type { ShortcutKey } from '../utils/shortcut';
@@ -49,7 +49,7 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    * <en/> The draggable viewport range allows you to drag up to one screen by default. You can set the range for each direction (top, right, bottom, left) individually, with each direction's range between [0, Infinity]
    * @defaultValue 1
    */
-  range?: Padding;
+  range?: number | number[];
   /**
    * <zh/> 触发拖拽的方式，默认使用指针按下拖拽
    *

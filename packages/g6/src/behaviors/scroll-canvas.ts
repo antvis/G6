@@ -1,7 +1,7 @@
 import { isFunction, isObject } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { IKeyboardEvent, Padding, Point } from '../types';
+import type { IKeyboardEvent, Point } from '../types';
 import { getExpandedBBox, getPointBBox, isPointInBBox } from '../utils/bbox';
 import { parsePadding } from '../utils/padding';
 import { Shortcut, ShortcutKey } from '../utils/shortcut';
@@ -51,7 +51,7 @@ export interface ScrollCanvasOptions extends BaseBehaviorOptions {
    * <en/> The scrollable viewport range allows you to scroll up to one screen by default. You can set the range for each direction (top, right, bottom, left) individually, with each direction's range between [0, Infinity]
    * @defaultValue 1
    */
-  range?: Padding;
+  range?: number | number[];
   /**
    * <zh/> 滚动灵敏度
    *
