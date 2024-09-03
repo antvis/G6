@@ -79,12 +79,14 @@ export class Animation {
    * @param options - <zh/> 扩展选项 | <en/> Extend options
    * @returns <zh/> 始态样式与终态样式 | <en/> Initial style and final style
    */
-  public inferStyle(context: AnimationContext, options?: ExtendOptions) {
+  public inferStyle(
+    context: AnimationContext,
+    options?: ExtendOptions,
+  ): [Record<string, unknown>, Record<string, unknown>] {
     const { element, elementType, stage, originalStyle, modifiedStyle } = context;
 
-    const fromStyle = { ...originalStyle };
-    const toStyle = { ...modifiedStyle };
-    const getCacheOpacity = () => getCachedStyle(element, 'opacity') ?? inferDefaultValue('opacity');
+    const fromStyle: Record<string, unknown> = {};
+    const toStyle: Record<string, unknown> = {};
 
     if (stage === 'enter') {
       Object.assign(fromStyle, { opacity: 0 });
@@ -92,9 +94,9 @@ export class Animation {
       Object.assign(toStyle, { opacity: 0 });
     } else if (stage === 'show') {
       Object.assign(fromStyle, { opacity: 0 });
-      Object.assign(toStyle, { opacity: getCacheOpacity() });
+      Object.assign(toStyle, { opacity: getCachedStyle(element, 'opacity') ?? inferDefaultValue('opacity') });
     } else if (stage === 'hide') {
-      Object.assign(fromStyle, { opacity: getCacheOpacity() });
+      Object.assign(fromStyle, { opacity: getCachedStyle(element, 'opacity') ?? inferDefaultValue('opacity') });
       Object.assign(toStyle, { opacity: 0 });
     } else if (stage === 'collapse') {
       const { collapse } = options || {};
@@ -109,10 +111,10 @@ export class Animation {
       } else if (elementType === 'combo') {
         if (element.id === target || descendants.includes(element.id)) {
           const [x, y] = position;
-          Object.assign(toStyle, { x, y, childrenNode: fromStyle.childrenNode });
+          Object.assign(toStyle, { x, y, childrenNode: originalStyle.childrenNode });
         }
       } else if (elementType === 'edge') {
-        Object.assign(toStyle, { sourceNode: fromStyle.sourceNode, targetNode: fromStyle.targetNode });
+        Object.assign(toStyle, { sourceNode: modifiedStyle.sourceNode, targetNode: modifiedStyle.targetNode });
       }
     } else if (stage === 'expand') {
       const { expand } = options || {};
@@ -129,16 +131,19 @@ export class Animation {
         // Set the child elements of the expanded combo
         if (element.id === target || descendants.includes(element.id)) {
           const [x, y, z] = position;
-          Object.assign(fromStyle, { x, y, z, childrenNode: toStyle.childrenNode });
+          Object.assign(fromStyle, { x, y, z, childrenNode: modifiedStyle.childrenNode });
         }
       } else if (elementType === 'edge') {
         // 设置展开后的边的起点和终点
         // Set the starting point and end point of the edge after expansion
-        Object.assign(fromStyle, { sourceNode: toStyle.sourceNode, targetNode: toStyle.targetNode });
+        Object.assign(fromStyle, { sourceNode: modifiedStyle.sourceNode, targetNode: modifiedStyle.targetNode });
       }
     }
 
-    return [fromStyle, toStyle] as [Record<string, unknown>, Record<string, unknown>];
+    return [
+      Object.keys(fromStyle).length > 0 ? Object.assign({}, originalStyle, fromStyle) : originalStyle,
+      Object.keys(toStyle).length > 0 ? Object.assign({}, modifiedStyle, toStyle) : modifiedStyle,
+    ];
   }
 
   public stop() {
