@@ -184,4 +184,24 @@ describe('behavior drag canvas', () => {
 
     await expect(graph).toMatchSnapshot(__filename, 'drag-on-element');
   });
+
+  it('range', () => {
+    graph.updateBehavior({ key: 'drag-canvas', trigger: 'drag', direction: 'both', range: 0.5 });
+
+    const emitDragEvent = (dx: number, dy: number, count: number) => {
+      for (let i = 0; i < count; i++) {
+        dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'canvas' });
+        dispatchCanvasEvent(graph, CommonEvent.DRAG, { movement: { x: dx, y: dy }, targetType: 'canvas' });
+        dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
+      }
+    };
+
+    const [canvasWidth, canvasHeight] = graph.getCanvas().getSize();
+    emitDragEvent(10, 0, 60);
+    expect(graph.getPosition()[0]).toBeCloseTo(canvasWidth / 2);
+    emitDragEvent(-10, 0, 60);
+    expect(graph.getPosition()[0]).toBeCloseTo(-canvasWidth / 2);
+    emitDragEvent(0, -10, 60);
+    expect(graph.getPosition()[0]).toBeCloseTo(-canvasHeight / 2);
+  });
 });
