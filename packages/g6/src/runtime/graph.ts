@@ -1011,7 +1011,15 @@ export class Graph extends EventEmitter {
   private async initCanvas() {
     if (this.context.canvas) return await this.context.canvas.ready;
 
-    const { container = 'container', width, height, renderer, cursor, background } = this.options;
+    const {
+      container = 'container',
+      width,
+      height,
+      renderer,
+      cursor,
+      background,
+      devicePixelRatio = window.devicePixelRatio ?? 1,
+    } = this.options;
     if (container instanceof Canvas) {
       this.context.canvas = container;
       if (cursor) container.setCursor(cursor);
@@ -1030,6 +1038,7 @@ export class Graph extends EventEmitter {
         background,
         renderer,
         cursor,
+        devicePixelRatio,
       });
 
       this.context.canvas = canvas;
