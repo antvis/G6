@@ -78,5 +78,10 @@
     "typescript": "^5.5.4",
     "vite": "^5.3.5",
     "xml-formatter": "^3.6.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@umijs/mako": "0.8.8-canary.20240903.3"
+    }
   }
 }
