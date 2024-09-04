@@ -1,6 +1,6 @@
-import { type Graph } from '@/src';
+import type { Graph } from '@/src';
 import { elementCombo } from '@@/demos';
-import { createDemoGraph } from '@@/utils';
+import { createDemoGraph, createGraph } from '@@/utils';
 
 describe('combo', () => {
   let graph: Graph;
@@ -95,5 +95,57 @@ describe('combo', () => {
     await expandCombo();
     await collapseCombo((children: any) => children.length.toString() + 'nodes');
     await expect(graph).toMatchSnapshot(__filename, 'circle-marker-custom');
+  });
+});
+
+describe('combo drag zIndex', () => {
+  it('drag combo will bring related edges forward', async () => {
+    const graph = createGraph({
+      data: {
+        nodes: [
+          { id: 'node-1', combo: 'combo-2', style: { x: 120, y: 100 } },
+          { id: 'node-2', combo: 'combo-1', style: { x: 300, y: 200 } },
+          { id: 'node-3', combo: 'combo-1', style: { x: 200, y: 300 } },
+        ],
+        edges: [
+          { id: 'edge-1', source: 'node-1', target: 'node-2' },
+          { id: 'edge-2', source: 'node-2', target: 'node-3' },
+        ],
+        combos: [
+          {
+            id: 'combo-1',
+            type: 'rect',
+            combo: 'combo-2',
+          },
+          {
+            id: 'combo-2',
+          },
+        ],
+      },
+      edge: {
+        style: {
+          stroke: 'red',
+        },
+      },
+      combo: {
+        style: {
+          lineWidth: 1,
+          fillOpacity: 1,
+          stroke: 'black',
+        },
+      },
+    });
+
+    await graph.render();
+
+    await expect(graph).toMatchSnapshot(__filename, 'combo-zIndex');
+
+    await graph.frontElement('combo-1');
+
+    await expect(graph).toMatchSnapshot(__filename, 'combo-zIndex');
+
+    await graph.frontElement('combo-2');
+
+    await expect(graph).toMatchSnapshot(__filename, 'combo-zIndex');
   });
 });
