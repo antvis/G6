@@ -41,6 +41,7 @@ import type {
 } from '../types';
 import { isCollapsed } from '../utils/collapsibility';
 import { sizeOf } from '../utils/dom';
+import { getSubgraphRelatedEdges } from '../utils/edge';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
 import { format } from '../utils/print';
@@ -1643,7 +1644,7 @@ export class Graph extends EventEmitter {
   public async frontElement(id: ID | ID[]): Promise<void> {
     const ids = Array.isArray(id) ? id : [id];
     const { model, element } = this.context;
-    const config: Record<ID, number> = {};
+    const zIndexes: Record<ID, number> = {};
 
     ids.map((_id) => {
       const zIndex = element!.getFrontZIndex(_id);
@@ -1653,12 +1654,18 @@ export class Graph extends EventEmitter {
         const combos = [ancestor, ...model.getDescendantsData(idOf(ancestor))];
         const delta = zIndex - element!.getElementZIndex(_id);
         combos.forEach((combo) => {
-          config[idOf(combo)] = this.getElementZIndex(idOf(combo)) + delta;
+          zIndexes[idOf(combo)] = this.getElementZIndex(idOf(combo)) + delta;
         });
-      } else config[_id] = zIndex;
+
+        const { internal } = getSubgraphRelatedEdges(combos.map(idOf), (id) => model.getRelatedEdgesData(id));
+        internal.forEach((edge) => {
+          const edgeId = idOf(edge);
+          zIndexes[edgeId] = this.getElementZIndex(edgeId) + delta;
+        });
+      } else zIndexes[_id] = zIndex;
     });
 
-    await this.setElementZIndex(config);
+    await this.setElementZIndex(zIndexes);
   }
 
   /**
