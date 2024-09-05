@@ -3,20 +3,6 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
-          <g>
-            <path fill="none" d="M 197.36961620311428,164.21769721868571 L 182.63038379688572,75.7823027813143" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 130.47888861468547,112.09102532463709 L 227.46666666666667,224" class="key" stroke-width="3" stroke="transparent"/>
-          </g>
-        </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
-          <g>
-            <path fill="none" d="M 166.84492493369953,69.10735966128493 L 63.155075066300455,140.89264033871507" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 288.68629150101526,211.31370849898477 L 211.31370849898477,288.68629150101526" class="key" stroke-width="3" stroke="transparent"/>
-          </g>
-        </g>
         <g fill="none" x="162.8230971345027" y="144.0000002470891" transform="matrix(1,0,0,1,162.823090,144)">
           <g>
             <path fill="rgba(153,173,209,1)" d="M -144.0030971345027,-128.2461926850398 l 288.0061942690054,0 l 0,256.4923853700796 l-288.0061942690054 0 z" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" width="288.0061942690054" height="256.4923853700796" x="-144.0030971345027" y="-128.2461926850398" fill-opacity="0.04"/>
@@ -27,6 +13,13 @@
                 combo-1
               </text>
             </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 166.84492493369953,69.10735966128493 L 63.155075066300455,140.89264033871507" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 288.68629150101526,211.31370849898477 L 211.31370849898477,288.68629150101526" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" x="50" y="150" transform="matrix(1,0,0,1,50,150)">
@@ -51,6 +44,13 @@
                 combo-2
               </text>
             </g>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 197.36961620311428,164.21769721868571 L 182.63038379688572,75.7823027813143" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 130.47888861468547,112.09102532463709 L 227.46666666666667,224" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" x="180" y="60" transform="matrix(1,0,0,1,180,60)">
