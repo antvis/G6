@@ -15,7 +15,7 @@ import type {
 import { getBBoxHeight, getBBoxWidth, getCombinedBBox, getExpandedBBox } from '../../utils/bbox';
 import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
-import { getXYByPlacement, positionOf } from '../../utils/position';
+import { getXYByPlacement, hasPosition, positionOf } from '../../utils/position';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { mergeOptions } from '../../utils/style';
@@ -210,7 +210,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
       const { model } = context!;
       const descendants = model.getDescendantsData(this.id).filter((datum) => !model.isCombo(idOf(datum)));
 
-      if (descendants.length > 0) {
+      if (descendants.length > 0 && descendants.some(hasPosition)) {
         // combo 被收起，返回平均中心位置 / combo is collapsed, return the average center position
         const totalPosition = descendants.reduce((acc, datum) => add(acc, positionOf(datum)), [0, 0, 0] as Point);
         return divide(totalPosition, descendants.length);
