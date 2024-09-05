@@ -1,11 +1,11 @@
 import type { Padding, STDPadding } from '../types/padding';
 
 /**
- * <zh> 解析 padding
+ * <zh/> 解析 padding
  *
- * <en> parse padding
- * @param padding - <zh> padding | <en> padding
- * @returns <zh> 标准 padding | <en> standard padding
+ * <en/> parse padding
+ * @param padding - <zh/> padding | <en/> padding
+ * @returns <zh/> 标准 padding | <en/> standard padding
  */
 export function parsePadding(padding: Padding = 0): STDPadding {
   if (Array.isArray(padding)) {

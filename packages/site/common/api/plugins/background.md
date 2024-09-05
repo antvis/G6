@@ -1,7 +1,7 @@
 ```js | ob { pin: false }
 createGraph(
   {
-   data: {
+    data: {
       nodes: [
         { id: 'node-0' },
         { id: 'node-1' },
@@ -22,15 +22,20 @@ createGraph(
         { source: 'node-5', target: 'node-0' },
       ],
     },
+    node: { style: { fill: '#7e3feb' } },
+    edge: { style: { stroke: '#8b9baf' } },
     layout: { type: 'grid' },
     behaviors: ['drag-canvas'],
-    plugins: ['grid-line', {
-      type: 'background',
-      key: 'background',
-      backgroundImage: 'url(https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0Qq0ToQm1rEAAAAAAAAAAAAADmJ7AQ/original)',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'contain',
-    }],
+    plugins: [
+      {
+        type: 'background',
+        key: 'background',
+        backgroundImage:
+          'url(https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0Qq0ToQm1rEAAAAAAAAAAAAADmJ7AQ/original)',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'contain',
+      },
+    ],
   },
   { width: 600, height: 300 },
   (gui, graph) => {

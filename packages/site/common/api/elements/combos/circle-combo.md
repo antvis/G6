@@ -12,6 +12,7 @@ createGraph(
         { id: 'combo2', style: {} },
       ],
     },
+    node: { style: { fill: '#7e3feb' } },
     behaviors: ['collapse-expand'],
     plugins: ['grid-line'],
     animation: true,

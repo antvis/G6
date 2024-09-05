@@ -73,6 +73,7 @@ export {
   RandomLayout,
 } from './layouts';
 export {
+  Background,
   BasePlugin,
   BubbleSets,
   CameraSetting,
@@ -178,6 +179,7 @@ export type { ContourLabelStyleProps, ContourStyleProps } from './elements/shape
 export type { BaseLayoutOptions, WebWorkerLayoutOptions } from './layouts/types';
 export type { CategoricalPalette } from './palettes/types';
 export type {
+  BackgroundOptions,
   BasePluginOptions,
   BubbleSetsOptions,
   CameraSettingOptions,

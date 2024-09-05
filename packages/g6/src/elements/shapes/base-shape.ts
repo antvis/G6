@@ -14,6 +14,11 @@ import { getExtension } from './../../registry/get';
 
 export interface BaseShapeStyleProps extends BaseStyleProps {}
 
+/**
+ * <zh/> 图形基类
+ *
+ * <en/> Base class for shapes
+ */
 export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends CustomElement<StyleProps> {
   constructor(options: DisplayObjectConfig<StyleProps>) {
     super(options);
@@ -23,34 +28,43 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     this.bindEvents();
   }
 
+  /**
+   * <zh/> 解析后的属性
+   *
+   * <en/> parsed attributes
+   * @returns <zh/> 解析后的属性 | <en/> parsed attributes
+   * @internal
+   */
   protected get parsedAttributes() {
     return this.attributes as Required<StyleProps>;
   }
 
   /**
-   * <zh> 图形实例映射表
+   * <zh/> 图形实例映射表
    *
-   * <en> shape instance map
+   * <en/> shape instance map
+   * @internal
    */
   protected shapeMap: Record<string, DisplayObject> = {};
 
   /**
-   * <zh> 动画实例映射表
+   * <zh/> 动画实例映射表
    *
-   * <en> animation instance map
+   * <en/> animation instance map
+   * @internal
    */
   protected animateMap: Record<string, IAnimation> = {};
 
   /**
-   * <zh> 创建、更新或删除图形
+   * <zh/> 创建、更新或删除图形
    *
-   * <en> create, update or remove shape
-   * @param className - <zh> 图形名称 | <en> shape name
-   * @param Ctor - <zh> 图形类型 | <en> shape type
-   * @param style - <zh> 图形样式。若要删除图形，传入 false | <en> shape style. Pass false to remove the shape
-   * @param container - <zh> 容器 | <en> container
-   * @param hooks - <zh> 钩子函数 | <en> hooks
-   * @returns <zh> 图形实例 | <en> shape instance
+   * <en/> create, update or remove shape
+   * @param className - <zh/> 图形名称 | <en/> shape name
+   * @param Ctor - <zh/> 图形类型 | <en/> shape type
+   * @param style - <zh/> 图形样式。若要删除图形，传入 false | <en/> shape style. Pass false to remove the shape
+   * @param container - <zh/> 容器 | <en/> container
+   * @param hooks - <zh/> 钩子函数 | <en/> hooks
+   * @returns <zh/> 图形实例 | <en/> shape instance
    */
   protected upsert<T extends DisplayObject>(
     className: string,
@@ -125,9 +139,9 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
   }
 
   /**
-   * <zh> 在初始化时会被自动调用
+   * <zh/> 在初始化时会被自动调用
    *
-   * <en> will be called automatically when initializing
+   * <en/> will be called automatically when initializing
    * @param attributes
    * @param container
    */
@@ -155,6 +169,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
   /**
    * Get the prefix pairs for composite shapes used to handle animation
    * @returns tuples array where each tuple contains a key corresponding to a method `get${key}Style` and its shape prefix
+   * @internal
    */
   protected get compositeShapes(): [string, string][] {
     return [

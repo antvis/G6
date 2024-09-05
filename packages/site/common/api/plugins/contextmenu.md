@@ -22,6 +22,7 @@ createGraph(
         { source: 'node-5', target: 'node-0' },
       ],
     },
+    node: { style: { fill: '#7e3feb' } },
     layout: { type: 'grid' },
     behaviors: ['drag-canvas'],
     plugins: ['grid-line', { type: 'contextmenu', key: 'contextmenu' }],

@@ -1,9 +1,10 @@
 ```js | ob { pin: false }
 createGraph(
   {
-    data: { nodes: [{ id: 'node1', style: { x: 300, y: 110 } }] },
+    autoFit: 'center',
+    data: { nodes: [{ id: 'node1', style: { size: 40, fill: '#7e3feb' } }] },
     node: { type: 'rect' },
-    plugins: ['grid-line'],
+    plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 220 },
   (gui, graph) => {

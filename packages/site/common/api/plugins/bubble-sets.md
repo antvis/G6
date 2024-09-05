@@ -1,6 +1,7 @@
 ```js | ob { pin: false }
 createGraph(
   {
+    autoFit: 'center',
     data: {
       nodes: [
         {
@@ -74,7 +75,7 @@ createGraph(
     },
     node: {
       style: { labelText: (d) => d.id },
-      palette: { field: 'cluster', color: ['#00C9C9', '#D580FF'] },
+      palette: { field: 'cluster', color: ['#7e3feb', '#ffa940'] },
     },
     behaviors: ['drag-canvas', 'drag-element'],
     plugins: [
@@ -84,11 +85,13 @@ createGraph(
         key: 'bubble-sets',
         members: ['node-0', 'node-1', 'node-2', 'node-3'],
         labelText: 'bubblesets-a',
-        fill: '#00C9C9',
-        stroke: '#00C9C9',
+        fill: '#7e3feb',
+        fillOpacity: 0.1,
+        stroke: '#7e3feb',
+        strokeOpacity: 1,
         labelFill: '#fff',
         labelPadding: 2,
-        labelBackgroundFill: '#00C9C9',
+        labelBackgroundFill: '#7e3feb',
         labelBackgroundRadius: 5,
       },
     ],
@@ -100,9 +103,10 @@ createGraph(
       members: ['node-0', 'node-1', 'node-2', 'node-3'],
       avoidMembers: [],
       // style
-      fill: '#00C9C9',
-      stroke: '#00C9C9',
-      opacity: 0.2,
+      fill: '#7e3feb',
+      fillOpacity: 0.1,
+      stroke: '#7e3feb',
+      strokeOpacity: 1,
       // label
       label: true,
       labelCloseToPath: true,
@@ -130,7 +134,8 @@ createGraph(
     optionFolder.add(options, 'type').disable();
     optionFolder.addColor(options, 'fill');
     optionFolder.addColor(options, 'stroke');
-    optionFolder.add(options, 'opacity', 0, 1, 0.1);
+    optionFolder.add(options, 'fillOpacity', 0, 1, 0.1);
+    optionFolder.add(options, 'strokeOpacity', 0, 1, 0.1);
     optionFolder.add(options, 'label');
     optionFolder.add(options, 'labelCloseToPath');
     optionFolder.add(options, 'labelAutoRotate');

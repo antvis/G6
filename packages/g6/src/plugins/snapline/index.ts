@@ -8,6 +8,11 @@ import { divide } from '../../utils/vector';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 
+/**
+ * <zh/> 对齐线插件配置项
+ *
+ * <en/> Snapline plugin options
+ */
 export interface SnaplineOptions extends BasePluginOptions {
   /**
    * <zh/> 对齐精度，即移动节点时与目标位置的距离小于 tolerance 时触发显示对齐线
@@ -79,6 +84,11 @@ type Metadata = {
   horizontalMaxX: number | null;
 };
 
+/**
+ * <zh/> 对齐线插件
+ *
+ * <en/> Snapline plugin
+ */
 export class Snapline extends BasePlugin<SnaplineOptions> {
   static defaultOptions: Partial<SnaplineOptions> = {
     tolerance: 5,

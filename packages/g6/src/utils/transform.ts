@@ -26,11 +26,11 @@ export function replaceTranslateInTransform(x: number, y: number, z: number, tra
  * <zh/> 重新分配绘制任务
  *
  * <en/> Reassign drawing tasks
- * @param input - <zh>绘制数据 | <en>DrawData
- * @param type - <zh>类型 | <en>type
- * @param elementType - <zh>元素类型 | <en>element type
- * @param datum - <zh>数据 | <en>data
- * @param merge - <zh>是否合并 | <en>whether to merge
+ * @param input - <zh/>绘制数据 | <en/>DrawData
+ * @param type - <zh/>类型 | <en/>type
+ * @param elementType - <zh/>元素类型 | <en/>element type
+ * @param datum - <zh/>数据 | <en/>data
+ * @param merge - <zh/>是否合并 | <en/>whether to merge
  */
 export const reassignTo = (
   input: DrawData,

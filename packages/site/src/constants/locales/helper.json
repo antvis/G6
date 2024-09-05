@@ -1,13 +1,15 @@
 {
-  "prefixHelper": ["More about `Prefix` generic usage, see [Prefix]", "关于 `Prefix` 泛型的使用信息，见 [Prefix]"],
-  "basePropsStyleHelper": [
+  "base-props-style-tip": [
     "If the element has its specific properties, we will list them below. For all generic style attributes, see",
     "如果元素有其特定的属性，我们将在下面列出。对于所有的通用样式属性，见"
   ],
-  "advancedPropsHelper": [
-    "Except for the properties explicitly listed below, other supported properties are seen",
-    "除了下面显式列出的属性，其他支持属性见"
-  ],
   "includes": ["Includes", "其中的"],
-  "excludes": ["Excludes", "除了"]
+  "excludes": ["Excludes", "除了"],
+  "style": ["Style", "样式"],
+  "prefix-summary": [
+    "An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.",
+    "形如 icon{TextStyleProps} 的表达式表示在 TextStyleProps 属性名前以小驼峰形式加上 icon 前缀"
+  ],
+  "prefix-description-1": ["includes the following properties:", "包含以下属性："],
+  "prefix-description-2": ["means you need to use the following property names:", "表示你需要使用以下属性名："]
 }

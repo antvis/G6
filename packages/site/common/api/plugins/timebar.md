@@ -21,9 +21,10 @@ createGraph(
     },
     layout: { type: 'grid', cols: 5 },
     node: {
-      style: { size: 24 },
+      style: { size: 24, fill: '#7e3feb' },
       palette: { field: 'cluster' },
     },
+    edge: { style: { stroke: '#8b9baf' } },
     behaviors: ['drag-canvas'],
     plugins: [
       'grid-line',

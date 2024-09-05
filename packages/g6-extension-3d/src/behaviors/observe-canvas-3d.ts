@@ -2,6 +2,11 @@ import { CameraType } from '@antv/g';
 import type { BaseBehaviorOptions, IDragEvent, RuntimeContext, ShortcutKey } from '@antv/g6';
 import { BaseBehavior, GraphEvent, Shortcut } from '@antv/g6';
 
+/**
+ * <zh/> 观察 3D 画布交互配置项
+ *
+ * <en/> Observe 3D canvas options
+ */
 export interface ObserveCanvas3DOptions extends BaseBehaviorOptions {
   enable?: boolean;
   /**

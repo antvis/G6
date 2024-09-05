@@ -230,6 +230,7 @@ export class Watermark extends BasePlugin<WatermarkOptions> {
    * <zh/> 销毁水印
    *
    * <en/> Destroy the watermark
+   * @internal
    */
   public destroy(): void {
     super.destroy();

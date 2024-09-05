@@ -13,15 +13,16 @@ import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 
 /**
- * <zh/> 缩略图插件的配置项
+ * <zh/> 缩略图插件配置项
  *
- * <en/> The configuration item of the Minimap plugin
+ * <en/> Minimap plugin options
  */
 export interface MinimapOptions extends BasePluginOptions {
   /**
    * <zh/> 宽度和高度
    *
    * <en/> Width and height
+   * @defaultValue [240, 160]
    */
   size?: [number, number];
   /**
@@ -94,6 +95,11 @@ export interface MinimapOptions extends BasePluginOptions {
   renderer?: IRenderer;
 }
 
+/**
+ * <zh/> 缩略图插件
+ *
+ * <en/> Minimap plugin
+ */
 export class Minimap extends BasePlugin<MinimapOptions> {
   static defaultOptions: Partial<MinimapOptions> = {
     size: [240, 160],

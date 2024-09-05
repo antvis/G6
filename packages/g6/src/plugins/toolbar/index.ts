@@ -97,6 +97,7 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
    * <zh/> 销毁工具栏
    *
    * <en/> Destroy the toolbar
+   * @internal
    */
   public destroy(): void {
     this.$element.removeEventListener('click', this.onToolbarItemClick);

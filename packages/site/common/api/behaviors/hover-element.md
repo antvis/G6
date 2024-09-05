@@ -14,19 +14,15 @@ createGraph(
       ],
     },
     node: {
+      style: { fill: '#7e3feb' },
       state: {
-        custom: {
-          fill: '#D580FF',
-          halo: true,
-        },
+        custom: { fill: '#ffa940' },
       },
     },
     edge: {
+      stroke: '#8b9baf',
       state: {
-        custom: {
-          stroke: '#D580FF',
-          halo: true,
-        },
+        custom: { stroke: '#ffa940' },
       },
     },
     behaviors: [
@@ -35,7 +31,7 @@ createGraph(
         key: 'hover-activate',
       },
     ],
-    plugins: ['grid-line'],
+    plugins: [{ type: 'grid-line', size: 30 }],
     animation: true,
   },
   { width: 600, height: 300 },

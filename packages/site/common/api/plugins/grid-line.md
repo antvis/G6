@@ -2,9 +2,11 @@
 createGraph(
   {
     data: { nodes: [{ id: 'node-1' }] },
+    node: { style: { fill: '#7e3feb' } },
+    edge: { style: { stroke: '#8b9baf' } },
     layout: { type: 'force' },
     behaviors: ['drag-canvas'],
-    plugins: [{ type: 'grid-line', key: 'grid-line' }],
+    plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 300 },
   (gui, graph) => {

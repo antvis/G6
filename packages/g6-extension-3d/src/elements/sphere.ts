@@ -6,8 +6,18 @@ import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
+/**
+ * <zh/> 球体节点样式
+ *
+ * <en/> Sphere Node Style Props
+ */
 export type SphereStyleProps = BaseNode3DStyleProps & SphereGeometryProps;
 
+/**
+ * <zh/> 球体节点
+ *
+ * <en/> Sphere Node
+ */
 export class Sphere extends BaseNode3D<SphereStyleProps> {
   static defaultStyleProps: Partial<SphereStyleProps> = {
     // radius

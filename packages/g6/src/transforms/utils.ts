@@ -6,11 +6,11 @@ import type { DrawData, ProcedureData } from './types';
  * <zh/> 重新分配绘制任务
  *
  * <en/> Reassign drawing tasks
- * @param input - <zh>绘制数据 | <en>DrawData
- * @param type - <zh>类型 | <en>type
- * @param elementType - <zh>元素类型 | <en>element type
- * @param datum - <zh>数据 | <en>data
- * @param overwrite - <zh>是否覆盖现有数据 | <en>whether to overwrite existing data
+ * @param input - <zh/>绘制数据 | <en/>DrawData
+ * @param type - <zh/>类型 | <en/>type
+ * @param elementType - <zh/>元素类型 | <en/>element type
+ * @param datum - <zh/>数据 | <en/>data
+ * @param overwrite - <zh/>是否覆盖现有数据 | <en/>whether to overwrite existing data
  */
 export function reassignTo(
   input: DrawData,

@@ -22,6 +22,8 @@ createGraph(
         { source: 'node-5', target: 'node-0' },
       ],
     },
+    node: { style: { fill: '#7e3feb' } },
+    edge: { style: { stroke: '#8b9baf' } },
     layout: { type: 'grid' },
     behaviors: ['drag-canvas'],
     plugins: ['grid-line', { type: 'tooltip', key: 'tooltip' }],

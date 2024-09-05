@@ -430,6 +430,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
    * <zh/> 销毁时间条
    *
    * <en/> Destroy the timebar
+   * @internal
    */
   public destroy(): void {
     const { graph } = this.context;

@@ -9,7 +9,9 @@ createGraph(
         key: 'zoom-canvas',
       },
     ],
-    plugins: ['grid-line'],
+    node: { style: { fill: '#873bf4' } },
+    edge: { style: { stroke: '#8b9baf' } },
+    plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 300 },
   (gui, graph) => {

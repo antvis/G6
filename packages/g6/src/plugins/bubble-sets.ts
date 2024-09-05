@@ -289,6 +289,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
    * <zh/> 销毁
    *
    * <en/> Destroy
+   * @internal
    */
   public destroy(): void {
     this.context.graph.off(GraphEvent.AFTER_RENDER, this.drawBubbleSets);

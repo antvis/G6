@@ -10,7 +10,7 @@ createGraph(
             y: 110,
             size: [120, 40],
             innerHTML: `
-<div style="width: 100%; height: 100%; background: #7863FF; display: flex; justify-content: center; align-items: center;">
+<div style="width: 100%; height: 100%; background: #7e3feb; display: flex; justify-content: center; align-items: center;">
   <span style="color: #fff; font-size: 12px;">
     HTML Node
   </span>
@@ -20,7 +20,7 @@ createGraph(
       ],
     },
     node: { type: 'html' },
-    plugins: ['grid-line'],
+    plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 220 },
   (gui, graph) => {

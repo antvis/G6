@@ -6,8 +6,18 @@ import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
+/**
+ * <zh/> 圆柱节点样式
+ *
+ * <en/> Cylinder Node Style Props
+ */
 export type CylinderStyleProps = BaseNode3DStyleProps & CylinderGeometryProps;
 
+/**
+ * <zh/> 圆柱节点
+ *
+ * <en/> Cylinder Node
+ */
 export class Cylinder extends BaseNode3D<CylinderStyleProps> {
   static defaultStyleProps: Partial<CylinderStyleProps> = {
     // radius, height

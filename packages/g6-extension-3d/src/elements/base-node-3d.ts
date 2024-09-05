@@ -8,6 +8,11 @@ import { deepMix } from '@antv/util';
 import { Material } from '../types';
 import { createMaterial } from '../utils/material';
 
+/**
+ * <zh/> 3D 节点样式
+ *
+ * <en/> 3D node style props
+ */
 export interface BaseNode3DStyleProps extends BaseNodeStyleProps, Prefix<'material', IMaterial> {
   geometry?: GGeometry<any>;
   material?: GMaterial<any>;
@@ -15,6 +20,11 @@ export interface BaseNode3DStyleProps extends BaseNodeStyleProps, Prefix<'materi
   materialType?: Material['type'];
 }
 
+/**
+ * <zh/> 3D 节点基类
+ *
+ * <en/> 3D node base class
+ */
 export abstract class BaseNode3D<S extends BaseNode3DStyleProps> extends BaseNode<S> {
   static defaultStyleProps: Partial<BaseNode3DStyleProps> = {
     materialType: 'basic',
