@@ -1,35 +1,33 @@
 ```js | ob { pin: false }
 createGraph(
   {
+    autoFit: 'center',
     data: {
       nodes: [
         {
           id: 'node1',
           style: {
-            x: 300,
-            y: 150,
+            fill: '#7e3feb',
             size: 40,
-            label: false,
+            label: true,
             labelText: 'node',
-            icon: false,
+            labelBackground: false,
+            icon: true,
             iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
             donuts: [30, 30, 20, 20],
             donutPalette: ['#1783FF', '#00C9C9', '#F08F56', '#D580FF'],
-            badge: false,
-            badges: [{ text: 'Important' }],
-            port: false,
-            ports: [
-              { key: 'left', placement: [0, 0.5] },
-              { key: 'right', placement: [1, 0.5] },
-            ],
-            portFill: '#00C9C9',
+            badge: true,
+            badges: [{ placement: 'top-right', text: 'Important', offsetX: -4 }],
+            port: true,
+            ports: [{ placement: 'left' }, { placement: 'right' }],
+            portFill: '#f9f0ff',
             portR: 3,
-            portStroke: '#00C9C9',
+            portStroke: '#7e3feb',
           },
         },
       ],
     },
-    plugins: ['grid-line'],
+    plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 600 },
   (gui, graph) => {
@@ -42,9 +40,7 @@ createGraph(
       });
 
     const options = {
-      x: 300,
-      y: 150,
-      fill: '#1783FF',
+      fill: '#7e3feb',
       fillOpacity: 1,
       lineWidth: 0,
       'size[0]': 40,
@@ -52,7 +48,7 @@ createGraph(
       stroke: '#000000',
       strokeOpacity: 1,
 
-      label: false,
+      label: true,
       labelFill: '000000d9',
       labelMaxWidth: '200%',
       labelPadding: 0,
@@ -61,7 +57,7 @@ createGraph(
       labelWordWrap: false,
       labelOpacity: 1,
 
-      labelBackground: false,
+      labelBackground: true,
       labelBackgroundFill: '#fff',
       labelBackgroundLineDash: 0,
       labelBackgroundLineWidth: 0,
@@ -74,7 +70,7 @@ createGraph(
       haloLineWidth: 12,
       haloStrokeOpacity: 0.25,
 
-      icon: false,
+      icon: true,
       iconFill: '#fff',
       iconFontSize: 16,
       iconOpacity: 1,
@@ -83,12 +79,12 @@ createGraph(
       iconWidth: 20,
       iconHeight: 20,
 
-      badge: false,
+      badge: true,
       badgeFill: '000000d9',
       badgeMaxWidth: '200%',
       badgeOpacity: 1,
       badgePadding: 0,
-      badgePlacement: 'top',
+      badgePlacement: 'top-right',
       badgeText: 'Important',
       badgeWordWrap: false,
 
@@ -100,15 +96,13 @@ createGraph(
       badgeBackgroundRadius: 0,
       badgeBackgroundStroke: '#fff',
 
-      port: false,
-      portFill: '#00C9C9',
+      port: true,
+      portFill: '#f9f0ff',
       portR: 3,
-      portStroke: '#00C9C9',
+      portStroke: '#7e3feb',
     };
     const optionFolder = gui.addFolder('node.style');
 
-    optionFolder.add(options, 'x', 0, 600, 1);
-    optionFolder.add(options, 'y', 0, 300, 1);
     optionFolder.add(options, 'size[0]', 0, 100).name('width(size[0])');
     optionFolder.add(options, 'size[1]', 0, 100).name('height(size[1])');
     optionFolder.add(options, 'lineWidth', 0, 20);

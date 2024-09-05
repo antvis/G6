@@ -118,7 +118,7 @@ export function omitStyleProps<T extends Record<string, any>>(style: Record<stri
 }
 
 /**
- * <zh> 替换前缀
+ * <zh/> 替换前缀
  *
  * <en/> Replace prefix
  * @param style - <zh/> 样式 | <en/> style

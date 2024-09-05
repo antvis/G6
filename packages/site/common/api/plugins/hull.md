@@ -68,7 +68,7 @@ createGraph(
     },
     node: {
       style: { labelText: (d) => d.id },
-      palette: { field: 'cluster', color: ['#00C9C9', '#D580FF'] },
+      palette: { field: 'cluster', color: ['#7e3feb', '#ffa940'] },
     },
     behaviors: ['drag-canvas', 'drag-element'],
     plugins: [
@@ -78,11 +78,13 @@ createGraph(
         key: 'hull-a',
         members: ['node-0', 'node-1', 'node-2', 'node-3'],
         labelText: 'hull-a',
-        fill: '#00C9C9',
-        stroke: '#00C9C9',
+        fill: '#7e3feb',
+        stroke: '#7e3feb',
+        fillOpacity: 0.1,
+        strokeOpacity: 1,
         labelFill: '#fff',
         labelPadding: 2,
-        labelBackgroundFill: '#00C9C9',
+        labelBackgroundFill: '#7e3feb',
         labelBackgroundRadius: 5,
       },
     ],
@@ -96,9 +98,10 @@ createGraph(
       corner: 'rounded',
       padding: 10,
       // style
-      fill: '#00C9C9',
-      stroke: '#00C9C9',
-      opacity: 0.2,
+      fill: '#7e3feb',
+      stroke: '#7e3feb',
+      fillOpacity: 0.1,
+      strokeOpacity: 1,
       // label
       label: true,
       labelCloseToPath: true,
@@ -115,7 +118,8 @@ createGraph(
     optionFolder.add(options, 'padding', 0, 20, 1);
     optionFolder.addColor(options, 'fill');
     optionFolder.addColor(options, 'stroke');
-    optionFolder.add(options, 'opacity', 0, 1, 0.1);
+    optionFolder.add(options, 'fillOpacity', 0, 1, 0.1);
+    optionFolder.add(options, 'strokeOpacity', 0, 1, 0.1);
     optionFolder.add(options, 'label');
     optionFolder.add(options, 'labelCloseToPath');
     optionFolder.add(options, 'labelAutoRotate');

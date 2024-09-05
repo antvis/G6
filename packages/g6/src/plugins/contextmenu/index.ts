@@ -171,6 +171,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
    * <zh/> 销毁上下文菜单
    *
    * <en/> Destroy the contextmenu
+   * @internal
    */
   public destroy(): void {
     this.unbindEvents();

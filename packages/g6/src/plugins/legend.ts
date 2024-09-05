@@ -396,6 +396,7 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <zh/>销毁图例
    *
    * <en/> Destroy the legend
+   * @internal
    */
   public destroy(): void {
     this.clear();

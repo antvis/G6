@@ -1,6 +1,11 @@
 import type { BaseBehaviorOptions, IWheelEvent, RuntimeContext, ShortcutKey } from '@antv/g6';
 import { BasePlugin, Shortcut } from '@antv/g6';
 
+/**
+ * <zh/> 滚动画布配置项
+ *
+ * <en/> Roll Canvas Options
+ */
 export interface RollCanvas3DOptions extends BaseBehaviorOptions {
   enable?: boolean;
   /**
@@ -17,6 +22,11 @@ export interface RollCanvas3DOptions extends BaseBehaviorOptions {
   sensitivity?: number;
 }
 
+/**
+ * <zh/> 滚动画布
+ *
+ * <en/> Roll Canvas
+ */
 export class RollCanvas3D extends BasePlugin<RollCanvas3DOptions> {
   static defaultOptions: Partial<RollCanvas3DOptions> = {
     enable: true,

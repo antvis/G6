@@ -2,8 +2,18 @@ import type { IKeyboardEvent, IWheelEvent, ViewportAnimationEffectTiming, ZoomCa
 import { ZoomCanvas } from '@antv/g6';
 import { clamp } from '@antv/util';
 
+/**
+ * <zh/> 缩放画布配置项
+ *
+ * <en/> Zoom Canvas Options
+ */
 export interface ZoomCanvas3DOptions extends ZoomCanvasOptions {}
 
+/**
+ * <zh/> 缩放画布
+ *
+ * <en/> Zoom Canvas
+ */
 export class ZoomCanvas3D extends ZoomCanvas {
   protected zoom = async (
     value: number,

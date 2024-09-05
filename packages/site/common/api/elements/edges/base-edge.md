@@ -2,22 +2,45 @@
 createGraph(
   {
     data: {
-      nodes: [
-        { id: 'node1', style: { x: 150, y: 250 } },
-        { id: 'node2', style: { x: 400, y: 250 } },
+      nodes: [{ id: 'node1' }, { id: 'node2' }],
+      edges: [
+        {
+          id: 'edge1',
+          source: 'node1',
+          target: 'node2',
+          style: {
+            stroke: '#7e3feb',
+            lineWidth: 2,
+            labelText: 'node1 👉 node2',
+            labelBackground: true,
+            labelBackgroundFill: '#f9f0ff',
+            labelBackgroundOpacity: 1,
+            labelBackgroundLineWidth: 2,
+            labelBackgroundStroke: '#7e3feb',
+            labelPadding: [1, 10],
+            labelBackgroundRadius: 4,
+          },
+        },
       ],
-      edges: [{ id: 'edge1', source: 'node1', target: 'node2', style: { labelText: 'node1 👉 node2' } }],
     },
-    node: { style: { labelText: (d) => d.id } },
+    node: {
+      style: {
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        lineWidth: 1,
+        labelText: (d) => d.id,
+      },
+    },
     behaviors: ['drag-canvas', 'drag-element'],
-    plugins: ['grid-line'],
+    layout: { type: 'grid', cols: 2 },
+    plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 500 },
   (gui, graph) => {
     const options = {
-      lineWidth: 1,
+      lineWidth: 2,
       opacity: 1,
-      stroke: '#99add1',
+      stroke: '#7e3feb',
 
       startArrow: false,
       startArrowSize: 8,
@@ -36,13 +59,13 @@ createGraph(
       labelPlacement: 'center',
       labelText: 'node1 👉 node2',
 
-      labelBackground: false,
-      labelBackgroundFill: '#fff',
-      labelBackgroundStroke: '#fff',
+      labelBackground: true,
+      labelBackgroundFill: '#f9f0ff',
+      labelBackgroundStroke: '#7e3feb',
       labelBackgroundLineDash: 0,
-      labelBackgroundLineWidth: 0,
-      labelBackgroundOpacity: 0.5,
-      labelBackgroundRadius: 0,
+      labelBackgroundLineWidth: 2,
+      labelBackgroundOpacity: 1,
+      labelBackgroundRadius: 4,
 
       halo: false,
       haloLineDash: 0,

@@ -239,6 +239,7 @@ export class History extends BasePlugin<HistoryOptions> {
    * <zh/> 销毁
    *
    * <en/> Destroy
+   * @internal
    */
   public destroy(): void {
     const { graph } = this.context;

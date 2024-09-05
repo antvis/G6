@@ -13,13 +13,15 @@ createGraph(
         { id: 'combo2', style: {} },
       ],
     },
+    node: { style: { fill: '#7e3feb' } },
+    edge: { style: { stroke: '#8b9baf' } },
     behaviors: [
       {
         type: 'collapse-expand',
         key: 'collapse-expand',
       },
     ],
-    plugins: ['grid-line'],
+    plugins: [{ type: 'grid-line', size: 30 }],
     animation: true,
   },
   { width: 600, height: 400 },

@@ -26,16 +26,14 @@ const CUBIC_LOOP_PLACEMENTS: LoopPlacement[] = [
 
 export interface ProcessParallelEdgesOptions extends BaseTransformOptions {
   /**
-   * <zh/> 处理模式，默认为捆绑
+   * <zh/> 处理模式
+   * - `'merge'`: 将平行边合并为一条边，适用于不需要区分平行边的情况
+   * - '`bundle`': 每条边都会与其他所有平行边捆绑在一起，并通过改变曲率与其他边分开。如果一组平行边的数量是奇数，那么中心的边将被绘制为直线，其他的边将被绘制为曲线
    *
-   * <en/> Processing mode, default is bundle
-   * @remarks
-   * <zh/>
-   * - merge: 将平行边合并为一条边，适用于不需要区分平行边的情况
-   * - bundle: 每条边都会与其他所有平行边捆绑在一起，并通过改变曲率与其他边分开。如果一组平行边的数量是奇数，那么中心的边将被绘制为直线，其他的边将被绘制为曲线
-   * <en/>
-   * - merge: Merge parallel edges into one edge which is suitable for cases where parallel edges do not need to be distinguished
-   * - bundle: Each edge will be bundled with all other parallel edges and separated from them by varying the curvature. If the number of parallel edges in a group is odd, the central edge will be drawn as a straight line, and the others will be drawn as curves
+   * <en/> Processing mode
+   * - '`merge`': Merge parallel edges into one edge which is suitable for cases where parallel edges do not need to be distinguished
+   * - '`bundle`': Each edge will be bundled with all other parallel edges and separated from them by varying the curvature. If the number of parallel edges in a group is odd, the central edge will be drawn as a straight line, and the others will be drawn as curves
+   * @defaultValue 'bundle'
    */
   mode: 'bundle' | 'merge';
   /**

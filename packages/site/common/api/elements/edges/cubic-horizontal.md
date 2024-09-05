@@ -1,29 +1,49 @@
 ```js | ob { pin: false }
 createGraph(
   {
+    autoFit: 'center',
     data: {
       nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }, { id: 'node6' }],
       edges: [
         { source: 'node1', target: 'node2' },
         { source: 'node1', target: 'node3' },
-        { source: 'node1', target: 'node4' },
+        { source: 'node1', target: 'node4', text: 'cubic-horizontal' },
         { source: 'node1', target: 'node5' },
         { source: 'node1', target: 'node6' },
       ],
     },
     node: {
-      style: { port: true, ports: [{ placement: 'left' }, { placement: 'right' }] },
+      style: {
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        lineWidth: 1,
+        port: true,
+        ports: [{ placement: 'left' }, { placement: 'right' }],
+      },
     },
-    edge: { type: 'cubic-horizontal' },
+    edge: {
+      type: 'cubic-horizontal',
+      style: {
+        stroke: '#7e3feb',
+        lineWidth: 2,
+        labelText: (d) => d.text,
+        labelBackground: true,
+        labelBackgroundFill: '#f9f0ff',
+        labelBackgroundOpacity: 1,
+        labelBackgroundLineWidth: 2,
+        labelBackgroundStroke: '#7e3feb',
+        labelPadding: [1, 10],
+        labelBackgroundRadius: 4,
+      },
+    },
     behaviors: ['drag-canvas', 'drag-element'],
-    plugins: ['grid-line'],
     layout: {
       type: 'antv-dagre',
-      begin: [100, 50],
       rankdir: 'LR',
       nodesep: 15,
       ranksep: 100,
     },
+    plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 400 },
   (gui, graph) => {

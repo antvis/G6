@@ -1,13 +1,12 @@
 ```js | ob { pin: false }
 createGraph(
   {
+    autoFit: 'center',
     data: {
       nodes: [
         {
           id: 'node1',
           style: {
-            x: 300,
-            y: 110,
             fill: 'transparent',
             size: 60,
             donuts: [30, 30, 20, 20],
@@ -17,7 +16,7 @@ createGraph(
       ],
     },
     node: { type: 'donut' },
-    plugins: ['grid-line'],
+    plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 220 },
   (gui, graph) => {

@@ -6,8 +6,18 @@ import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
+/**
+ * <zh/> 平面节点样式配置项
+ *
+ * <en/> Plane Node Style Props
+ */
 export type PlaneStyleProps = BaseNode3DStyleProps & PlaneGeometryProps;
 
+/**
+ * <zh/> 平面节点
+ *
+ * <en/> Plane Node
+ */
 export class Plane extends BaseNode3D<PlaneStyleProps> {
   static defaultStyleProps: Partial<PlaneStyleProps> = {
     materialCullMode: CullMode.NONE,

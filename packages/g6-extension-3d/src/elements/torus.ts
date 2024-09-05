@@ -6,8 +6,18 @@ import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
+/**
+ * <zh/> 圆环节点样式配置项
+ *
+ * <en/> Torus Node Style Props
+ */
 export type TorusStyleProps = BaseNode3DStyleProps & TorusGeometryProps;
 
+/**
+ * <zh/> 圆环节点
+ *
+ * <en/> Torus Node
+ */
 export class Torus extends BaseNode3D<TorusStyleProps> {
   static defaultStyleProps: Partial<TorusStyleProps> = {
     // tubeRadius, ringRadius

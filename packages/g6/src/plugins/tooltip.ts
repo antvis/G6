@@ -7,6 +7,11 @@ import { isToBeDestroyed } from '../utils/element';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
 
+/**
+ * <zh/> 提示框插件配置项
+ *
+ * <en/> Tooltip plugin options
+ */
 export interface TooltipOptions
   extends BasePluginOptions,
     Pick<TooltipStyleProps, 'position' | 'offset' | 'enterable' | 'style' | 'container' | 'title'> {
@@ -36,6 +41,11 @@ export interface TooltipOptions
   enable?: boolean | ((event: IElementEvent) => boolean);
 }
 
+/**
+ * <zh/> 提示框插件
+ *
+ * <en/> Tooltip plugin
+ */
 export class Tooltip extends BasePlugin<TooltipOptions> {
   static defaultOptions: Partial<TooltipOptions> = {
     trigger: 'hover',
@@ -338,6 +348,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <zh/> 销毁tooltip
    *
    * <en/> Destroy tooltip
+   * @internal
    */
   public destroy(): void {
     this.unbindEvents();

@@ -25,17 +25,35 @@ createGraph(
           id: 'edge1',
           source: 'node1',
           target: 'node2',
-          type: 'polyline',
-          style: {
-            router: {
-              type: 'orth',
-            },
-          },
+          text: 'polyline',
         },
       ],
     },
+    node: {
+      style: {
+        fill: '#f8f8f8',
+        stroke: '#8b9baf',
+        lineWidth: 1,
+      },
+    },
+    edge: {
+      type: 'polyline',
+      style: {
+        stroke: '#7e3feb',
+        lineWidth: 2,
+        labelText: (d) => d.text,
+        labelBackground: true,
+        labelBackgroundFill: '#f9f0ff',
+        labelBackgroundOpacity: 1,
+        labelBackgroundLineWidth: 2,
+        labelBackgroundStroke: '#7e3feb',
+        labelPadding: [1, 10],
+        labelBackgroundRadius: 4,
+        router: { type: 'orth' },
+      },
+    },
     behaviors: ['drag-canvas', 'drag-element'],
-    plugins: ['grid-line'],
+    plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 300 },
   (gui, graph) => {
@@ -55,7 +73,7 @@ createGraph(
             id: `node-${index}`,
             style: {
               size: 5,
-              fill: '#D580FF',
+              fill: '#7e3feb',
               x,
               y,
             },

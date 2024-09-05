@@ -13,13 +13,15 @@ createGraph(
         { source: 'node-2', target: 'node-3' },
       ],
     },
+    node: { style: { fill: '#7e3feb' } },
+    edge: { style: { stroke: '#8b9baf' } },
     behaviors: [
       {
         type: 'focus-element',
         key: 'focus-element',
       },
     ],
-    plugins: ['grid-line'],
+    plugins: [{ type: 'grid-line', size: 30 }],
     animation: true,
   },
   { width: 600, height: 300 },

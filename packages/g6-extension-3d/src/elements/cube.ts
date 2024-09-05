@@ -6,8 +6,18 @@ import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
+/**
+ * <zh/> 立方体节点样式配置项
+ *
+ * <en/> Cube Node Style Props
+ */
 export type CubeStyleProps = BaseNode3DStyleProps & CubeGeometryProps;
 
+/**
+ * <zh/> 立方体节点
+ *
+ * <en/> Cube Node
+ */
 export class Cube extends BaseNode3D<CubeStyleProps> {
   static defaultStyleProps: Partial<CubeStyleProps> = {
     widthSegments: 1,

@@ -204,6 +204,7 @@ export class Hull extends BasePlugin<HullOptions> {
    * <zh/> 销毁 Hull
    *
    * <en/> Destroy Hull
+   * @internal
    */
   public destroy(): void {
     this.context.graph.off(GraphEvent.AFTER_DRAW, this.drawHull);

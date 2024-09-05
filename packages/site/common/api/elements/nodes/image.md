@@ -1,27 +1,27 @@
 ```js | ob { pin: false }
 createGraph(
   {
+    autoFit: 'center',
     data: {
       nodes: [
         {
           id: 'node1',
           style: {
-            x: 300,
-            y: 110,
+            size: 60,
             src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
           },
         },
       ],
     },
     node: { type: 'image' },
-    plugins: ['grid-line'],
+    plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 220 },
   (gui, graph) => {
     gui.add({ type: 'image' }, 'type').disable();
 
     const options = {
-      size: 50,
+      size: 60,
       src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
     };
     const optionFolder = gui.addFolder('image.style');

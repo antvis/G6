@@ -2,6 +2,8 @@
 createGraph(
   {
     data: { nodes: [{ id: 'node-1' }] },
+    node: { style: { fill: '#7e3feb' } },
+    edge: { style: { stroke: '#8b9baf' } },
     layout: { type: 'force' },
     behaviors: ['drag-canvas'],
     plugins: [{ type: 'watermark', key: 'watermark', text: 'G6: Graph Visualization' }],

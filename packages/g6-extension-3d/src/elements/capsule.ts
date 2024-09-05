@@ -6,8 +6,18 @@ import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
+/**
+ * <zh/> 胶囊节点样式配置项
+ *
+ * <en/> Capsule Node Style Props
+ */
 export type CapsuleStyleProps = BaseNode3DStyleProps & CapsuleGeometryProps;
 
+/**
+ * <zh/> 胶囊节点
+ *
+ * <en/> Capsule Node
+ */
 export class Capsule extends BaseNode3D<CapsuleStyleProps> {
   static defaultStyleProps: Partial<CapsuleStyleProps> = {
     // radius, height

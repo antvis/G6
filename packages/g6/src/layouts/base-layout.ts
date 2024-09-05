@@ -2,6 +2,11 @@ import type { RuntimeContext } from '../runtime/types';
 import type { GraphData } from '../spec';
 import type { BaseLayoutOptions } from './types';
 
+/**
+ * <zh/> 布局的基类
+ *
+ * <en/> Base class for layout
+ */
 export abstract class BaseLayout<O extends BaseLayoutOptions = any> {
   public abstract id: string;
 

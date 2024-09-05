@@ -6,8 +6,18 @@ import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
+/**
+ * <zh/> 圆锥节点样式配置项
+ *
+ * <en/> Cone Node Style Props
+ */
 export type ConeStyleProps = BaseNode3DStyleProps & ConeGeometryProps;
 
+/**
+ * <zh/> 圆锥节点
+ *
+ * <en/> Cone Node
+ */
 export class Cone extends BaseNode3D<ConeStyleProps> {
   static defaultStyleProps: Partial<ConeStyleProps> = {
     // baseRadius, peakRadius, height

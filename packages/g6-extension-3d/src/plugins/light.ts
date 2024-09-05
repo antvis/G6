@@ -4,6 +4,11 @@ import type { BasePluginOptions, RuntimeContext } from '@antv/g6';
 import { BasePlugin, GraphEvent } from '@antv/g6';
 import { deepMix } from '@antv/util';
 
+/**
+ * <zh/> 光照插件配置项
+ *
+ * <en/> Light plugin options
+ */
 export interface LightOptions extends BasePluginOptions {
   /**
    * <zh/> 环境光
@@ -19,6 +24,11 @@ export interface LightOptions extends BasePluginOptions {
   directional?: DirectionalLightProps;
 }
 
+/**
+ * <zh/> 光照插件
+ *
+ * <en/> Light plugin
+ */
 export class Light extends BasePlugin<LightOptions> {
   static defaultOptions: Partial<LightOptions> = {
     ambient: {

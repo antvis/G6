@@ -156,6 +156,7 @@ export class GridLine extends BasePlugin<GridLineOptions> {
    * <zh/> 销毁网格线
    *
    * <en/> Destroy the grid line
+   * @internal
    */
   public destroy(): void {
     this.context.graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);

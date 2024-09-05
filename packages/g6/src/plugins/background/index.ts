@@ -55,6 +55,7 @@ export class Background extends BasePlugin<BackgroundOptions> {
    * <zh/> 销毁背景图
    *
    * <en/> Destroy the background image
+   * @internal
    */
   public destroy(): void {
     super.destroy();

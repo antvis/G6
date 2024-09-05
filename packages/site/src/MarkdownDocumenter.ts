@@ -47,7 +47,7 @@ import {
   TSDocConfiguration,
 } from '@microsoft/tsdoc';
 import { FileSystem, NewlineKind, PackageName } from '@rushstack/node-core-library';
-import { camelCase, isBoolean, kebabCase, upperFirst } from 'lodash';
+import { camelCase, isBoolean, kebabCase, startCase, upperFirst } from 'lodash';
 import * as path from 'path';
 import prettier from 'prettier';
 import { intl } from './constants';
@@ -55,7 +55,6 @@ import { links } from './constants/link';
 import { Keyword, LocaleLanguage, LocaleType } from './constants/locales/enum';
 import { CustomMarkdownEmitter } from './markdown/CustomMarkdownEmitter';
 import { CustomDocNodes } from './nodes/CustomDocNodeKind';
-import { DocContainer } from './nodes/DocContainer';
 import { DocDetails } from './nodes/DocDetails';
 import { DocEmphasisSpan } from './nodes/DocEmphasisSpan';
 import { DocHeading } from './nodes/DocHeading';
@@ -146,15 +145,17 @@ export class MarkdownDocumenter {
 
     // Write the API pages classified by extension
     for (const [_, pageData] of collectedData.pagesByName.entries()) {
-      // 对于交互、插件、布局
-      if (['behaviors', 'plugins', 'layouts'].includes(pageData.group) && !pageData.name.startsWith('Base')) {
+      // 对于交互、插件、布局、数据处理
+      const extensions = ['behaviors', 'plugins', 'layouts', 'transforms'];
+      if (extensions.includes(pageData.group) && !pageData.name.startsWith('Base')) {
         this.referenceLevel = 1;
         await this._generateBilingualPages(this._writeExtensionPage.bind(this), pageData);
       }
 
       // 对于数据
       if (pageData.group === 'spec' && pageData.name === 'Data') {
-        ['GraphData', 'NodeData', 'EdgeData', 'ComboData'].forEach(async (name) => {
+        const dataTypes = ['GraphData', 'NodeData', 'EdgeData', 'ComboData'];
+        dataTypes.forEach(async (name) => {
           this.referenceLevel = 1;
           const apiInterface = pageData.apiItems.find(
             (apiItem) => apiItem instanceof ApiInterface && apiItem.displayName === name,
@@ -371,12 +372,8 @@ export class MarkdownDocumenter {
     }
 
     if (decoratorBlocks.length > 0) {
-      output.appendNode(
-        new DocParagraph({ configuration }, [
-          new DocEmphasisSpan({ configuration, bold: true }, [
-            new DocPlainText({ configuration, text: 'Decorators:' }),
-          ]),
-        ]),
+      output.appendNodeInParagraph(
+        new DocEmphasisSpan({ configuration, bold: true }, [new DocPlainText({ configuration, text: 'Decorators:' })]),
       );
       for (const decoratorBlock of decoratorBlocks) {
         output.appendNodes(decoratorBlock.content.nodes);
@@ -532,17 +529,11 @@ export class MarkdownDocumenter {
     if (!isBase) {
       const elementType = pageData.group.split('/')[1].slice(0, -1);
       const baseStyleFileName = upperFirst(camelCase(`base ${elementType}`));
-      output.appendNode(
-        new DocParagraph({ configuration }, [
-          new DocText({
-            configuration,
-            text:
-              '> ' +
-              intl(LocaleType.HELPER, 'basePropsStyleHelper', this.locale) +
-              ` [${baseStyleFileName}](./${baseStyleFileName}.${this._getLang()}.md)`,
-          }),
-        ]),
-      );
+      const quoteText =
+        '> ' +
+        this._intl('base-props-style-tip', LocaleType.HELPER) +
+        this._getLinkInMarkdownFormat(baseStyleFileName, `./${baseStyleFileName}.${this._getLang()}.md`);
+      output.appendNodeInParagraph(new DocText({ configuration, text: quoteText }));
     }
 
     this._writeOptions(output, apiInterface, { showTitle: false, includeExcerptTokens: true });
@@ -693,25 +684,22 @@ export class MarkdownDocumenter {
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
 
     for (const customExcerptToken of customExcerptTokens) {
-      const textNodes: DocPlainText[] = [];
+      const texts: { text: string; minor?: string }[] = [];
 
-      if (customExcerptToken.type === 'Prefix') {
-        const link = this._getLinkFromExcerptToken(customExcerptToken);
-        const linkMd = link ? `[${customExcerptToken.text}](${link})` : customExcerptToken.text;
+      const { type, text } = customExcerptToken;
+
+      if (type === 'Prefix') {
+        const { prefix } = customExcerptToken;
         output.appendNode(
           new DocHeading({
             configuration: this._tsdocConfiguration,
-            title: `[Prefix](../../reference/g6.prefix.${this._getLang()}.md)<'${customExcerptToken.prefix}', ${linkMd}>`,
+            title: startCase(prefix) + ' ' + this._intl('style', LocaleType.HELPER),
             escaped: false,
           }),
         );
         if (!customExcerptToken.interface) {
-          textNodes.push(
-            new DocPlainText({
-              configuration,
-              text: linkMd,
-            }),
-          );
+          const link = this._getLinkFromExcerptToken(customExcerptToken);
+          texts.push({ text: this._getLinkInMarkdownFormat(text, link) });
         }
       }
 
@@ -728,36 +716,19 @@ export class MarkdownDocumenter {
       const formattedTokens = flattenTokens([customExcerptToken]).filter((token) => token.type !== 'Prefix');
       formattedTokens.forEach((token) => {
         const link = this._getLinkFromExcerptToken(token);
-        const linkMd = link ? `[${token.text}](${link})` : token.text;
+        const linkMd = this._getLinkInMarkdownFormat(token.text, link);
         switch (token.type) {
           case 'Omit':
           case 'Pick': {
             const fieldString = token.fields.join(',');
-            const helper = (key: string) =>
-              linkMd +
-              this._intl(Keyword.LEFT_PARENTHESIS) +
-              intl(LocaleType.HELPER, key, this.locale) +
-              ' ' +
-              fieldString +
-              ' ' +
-              this._intl(Keyword.RIGHT_PARENTHESIS);
-            const text = token.type === 'Omit' ? helper('excludes') : helper('includes');
-            textNodes.push(
-              new DocPlainText({
-                configuration,
-                text,
-              }),
-            );
+            texts.push({
+              text: linkMd,
+              minor: this._intl(token.type === 'Omit' ? 'excludes' : 'includes', LocaleType.HELPER) + ' ' + fieldString,
+            });
             break;
           }
           case 'Default': {
-            if (!token.interface) {
-              const textNode = new DocPlainText({
-                configuration,
-                text: linkMd,
-              });
-              textNodes.push(textNode);
-            }
+            if (!token.interface) texts.push({ text: linkMd });
             break;
           }
           default:
@@ -765,40 +736,41 @@ export class MarkdownDocumenter {
         }
       });
 
-      const content: DocParagraph[] = [];
-
-      if (textNodes.length > 0) {
-        content.push(
-          new DocParagraph({ configuration }, [
-            new DocPlainText({
-              configuration,
-              text: intl(LocaleType.HELPER, 'advancedPropsHelper', this.locale) + this._intl(Keyword.COLON),
-            }),
-            ...textNodes
-              .map((node) => [node, new DocPlainText({ configuration, text: ', ' })])
-              .flat()
-              .slice(0, -1),
-          ]),
-        );
-      }
-
       if (customExcerptToken.type === 'Prefix') {
-        content.push(
-          new DocParagraph({ configuration }, [
-            new DocPlainText({
-              configuration,
-              text:
-                intl(LocaleType.HELPER, 'prefixHelper', this.locale) +
-                `(../../reference/g6.prefix.${this._getLang()}.md)`,
-            }),
-          ]),
-        );
-      }
+        texts.forEach(({ text, minor }) => {
+          const title = `${customExcerptToken.prefix}{${text}}`;
+          const template = `TextStyleProps ${this._intl('prefix-description-1', LocaleType.HELPER)}
 
-      if (content.length > 0) {
-        output.appendNode(
-          new DocContainer({ configuration, status: 'info', title: this._intl(Keyword.REMARKS) }, content),
-        );
+- fill
+- fontSize
+- fontWeight
+- ...
+
+icon{TextStyleProps} ${this._intl('prefix-description-2', LocaleType.HELPER)}
+
+- iconFill
+- iconFontSize
+- iconFontWeight
+- ...
+`;
+
+          const nodes: DocNode[] = [
+            new DocHeading({ configuration, title, level: 2 }),
+            new DocDetails({ configuration }, this._intl('prefix-summary', LocaleType.HELPER), [
+              new DocParagraph({ configuration }, [new DocText({ configuration, text: template })]),
+            ]),
+          ];
+
+          if (minor) {
+            nodes.splice(
+              1,
+              0,
+              new DocParagraph({ configuration }, [new DocText({ configuration, text: '> ' + minor })]),
+            );
+          }
+
+          output.appendNodes(nodes);
+        });
       }
 
       const cache = new Set();
@@ -870,7 +842,7 @@ export class MarkdownDocumenter {
 
     Object.entries(groupMembers).forEach(([category, apiMembers]) => {
       if (category !== 'undeclared' && showSubTitle) {
-        const title = intl(LocaleType.API_CATEGORY, category, this.locale);
+        const title = this._intl(category, LocaleType.API_CATEGORY);
         output.appendNode(new DocHeading({ configuration, title, level: 1 }));
       }
       if (apiMembers.length > 0) {
@@ -2298,7 +2270,7 @@ export class MarkdownDocumenter {
 
     // Log the messages for diagnostic purposes.
     for (const message of result.messages) {
-      console.log(`Diagnostic message for findMembersWithInheritance: ${message.text}`);
+      // console.log(`Diagnostic message for findMembersWithInheritance: ${message.text}`);
     }
 
     return result.items;
@@ -2386,12 +2358,18 @@ export class MarkdownDocumenter {
     return trimmed;
   }
 
-  private _intl(keyword: Keyword) {
-    return intl(LocaleType.KEYWORD, keyword, this.locale);
+  private _intl(keyword: Keyword): string;
+  private _intl(keyword: string, type: LocaleType): string;
+  private _intl(keyword: string, type: LocaleType = LocaleType.KEYWORD): string {
+    return intl(type, keyword, this.locale);
   }
 
   private _getLang() {
     return this.locale === LocaleLanguage.ZH ? 'zh' : 'en';
+  }
+
+  private _getLinkInMarkdownFormat(text: string, url?: string) {
+    return url ? `[${text}](${url})` : text;
   }
 
   private _assertDemo(output: DocSection, pageData: IPageData): void {

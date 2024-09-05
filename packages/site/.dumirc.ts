@@ -201,6 +201,13 @@ export default defineConfig({
         },
       },
       {
+        slug: 'api/transforms',
+        title: {
+          zh: 'Transform - 数据处理',
+          en: 'Transform',
+        },
+      },
+      {
         slug: 'api/extension',
         title: {
           zh: 'Extension - 扩展',
