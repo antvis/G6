@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.20
+
+### Patch Changes
+
+- bugfix, new feat, site demo
+
 ## 5.0.19
 
 ### Patch Changes
