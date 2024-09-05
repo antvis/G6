@@ -16,6 +16,18 @@ export function positionOf(datum: NodeLikeData): Point {
 }
 
 /**
+ * <zh/> 检查数据是否有位置坐标
+ *
+ * <en/> Check if the data has a position coordinate
+ * @param datum - <zh/> 节点/ combo 的数据 | <en/> data of node/combo
+ * @returns - <zh/> 是否有位置坐标 | <en/> Whether there is a position coordinate
+ */
+export function hasPosition(datum: NodeLikeData): boolean {
+  const { x, y, z } = datum.style || {};
+  return x !== undefined || y !== undefined || z !== undefined;
+}
+
+/**
  * <zh/> 获取相对位置坐标
  *
  * <en/> Get position by relative placement
