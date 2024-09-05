@@ -2,9 +2,9 @@ import type { DragCanvasOptions, Vector2, ViewportAnimationEffectTiming } from '
 import { DragCanvas } from '@antv/g6';
 
 /**
- * <zh/> 平移画布配置项
+ * <zh/> 拖拽 3D 画布交互
  *
- * <en/> Drag Canvas Options
+ * <en/> Drag 3D canvas behavior
  */
 export interface DragCanvas3DOptions extends DragCanvasOptions {}
 

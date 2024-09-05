@@ -7,7 +7,7 @@ import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
 /**
- * <zh/> 球体节点样式配置项
+ * <zh/> 球体节点样式
  *
  * <en/> Sphere Node Style Props
  */

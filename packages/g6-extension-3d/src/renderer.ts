@@ -4,9 +4,9 @@ import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import type { CanvasOptions } from '@antv/g6';
 
 /**
- * <zh/> 创建渲染器
+ * <zh/> 3D 渲染器
  *
- * <en/> Create renderer
+ * <en/> 3D renderer
  * @param layer - <zh/> 图层 | <en/> Layer
  * @returns <zh/> 渲染器实例 | <en/> Renderer instance
  */

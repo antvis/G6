@@ -9,7 +9,7 @@ import { Material } from '../types';
 import { createMaterial } from '../utils/material';
 
 /**
- * <zh/> 3D 节点样式配置项
+ * <zh/> 3D 节点样式
  *
  * <en/> 3D node style props
  */

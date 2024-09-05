@@ -81,6 +81,12 @@ export class Light extends BasePlugin<LightOptions> {
     } else this[type]?.remove();
   }
 
+  /**
+   * <zh/> 销毁插件
+   *
+   * <en/> Destroy the plugin
+   * @internal
+   */
   public destroy() {
     this.ambient?.remove();
     this.directional?.remove();

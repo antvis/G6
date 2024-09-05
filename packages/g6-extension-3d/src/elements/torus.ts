@@ -7,7 +7,7 @@ import type { BaseNode3DStyleProps } from './base-node-3d';
 import { BaseNode3D } from './base-node-3d';
 
 /**
- * <zh/> 圆环节点样式配置项
+ * <zh/> 圆环节点样式
  *
  * <en/> Torus Node Style Props
  */

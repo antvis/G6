@@ -4,7 +4,7 @@ import type { BaseEdgeStyleProps } from '@antv/g6';
 import { BaseEdge } from '@antv/g6';
 
 /**
- * <zh/> 3D 直线样式配置项
+ * <zh/> 3D 直线样式
  *
  * <en/> 3D Line Style Props
  */
