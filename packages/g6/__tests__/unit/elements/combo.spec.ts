@@ -149,3 +149,36 @@ describe('combo drag zIndex', () => {
     await expect(graph).toMatchSnapshot(__filename, 'combo-zIndex');
   });
 });
+
+describe('combo with position', () => {
+  it('combo with position', async () => {
+    const graph = createGraph({
+      data: {
+        nodes: [
+          { id: 'node-1', combo: 'combo-1', style: { x: 50, y: 100 } },
+          { id: 'node-2', combo: 'combo-2' },
+          { id: 'node-3', combo: 'combo-3' },
+        ],
+        combos: [
+          { id: 'combo-1', style: { x: 0, y: 0, collapsed: true } },
+          { id: 'combo-2', style: { x: 100, y: 100, collapsed: true } },
+          { id: 'combo-3', style: { collapsed: true } },
+        ],
+      },
+      node: {
+        style: {
+          labelText: (d) => d.id,
+        },
+      },
+      combo: {
+        style: {
+          labelText: (d) => d.id,
+        },
+      },
+    });
+
+    await graph.draw();
+
+    await expect(graph).toMatchSnapshot(__filename, 'combo-with-position');
+  });
+});
