@@ -14,7 +14,7 @@ import {
   treeToGraphData,
 } from '@antv/g6';
 
-export const caseDecisionTree: TestCase = async (context) => {
+export const caseFundFlow: TestCase = async (context) => {
   const COLORS: Record<string, string> = {
     B: '#1783FF',
     R: '#F46649',
