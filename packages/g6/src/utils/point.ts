@@ -1,4 +1,5 @@
 import type { AABB } from '@antv/g';
+import { isEqual } from '@antv/util';
 import type { Point, PointObject } from '../types';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
 import type { LineSegment } from './line';
@@ -77,6 +78,7 @@ export function round(point: Point, digits = 0): Point {
  * @returns <zh/> 移动后的点 | <en/> the moved point
  */
 export function moveTo(p: Point, ref: Point, distance: number, reverse = false): Point {
+  if (isEqual(p, ref)) return p;
   const direction = reverse ? subtract(p, ref) : subtract(ref, p);
   const normalizedDirection = normalize(direction);
   const moveVector: Point = [normalizedDirection[0] * distance, normalizedDirection[1] * distance];

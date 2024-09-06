@@ -44,6 +44,7 @@ export { elementEdgeLoopPolyline } from './element-edge-loop-polyline';
 export { elementEdgePolyline } from './element-edge-polyline';
 export { elementEdgePolylineAnimation } from './element-edge-polyline-animation';
 export { elementEdgePolylineAstar } from './element-edge-polyline-astar';
+export { elementEdgePolylineOrth } from './element-edge-polyline-orth';
 export { elementEdgePort } from './element-edge-port';
 export { elementEdgeQuadratic } from './element-edge-quadratic';
 export { elementEdgeSize } from './element-edge-size';

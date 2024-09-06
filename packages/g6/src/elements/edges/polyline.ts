@@ -69,6 +69,7 @@ export class Polyline extends BaseEdge {
       if (router.type === 'shortest-path') {
         const nodes = this.context.element!.getNodes();
         controlPoints = aStarSearch(sourceNode, targetNode, nodes, router);
+
         if (!controlPoints.length) {
           controlPoints = orth(sourcePoint, targetPoint, sourceNode, targetNode, attributes.controlPoints, {
             padding: router.offset,
@@ -91,6 +92,7 @@ export class Polyline extends BaseEdge {
 
   protected getKeyPath(attributes: ParsedPolylineStyleProps): PathArray {
     const points = this.getPoints(attributes);
+
     return getPolylinePath(points, attributes.radius);
   }
 
