@@ -1,5 +1,6 @@
 ---
 title: 渲染器
+order: 1
 ---
 
 G6 默认使用 Canvas 作为渲染器，但也支持通过 SVG 和 WebGL 进行渲染，要切换到 SVG 或 WebGL 渲染器，只需在初始化时传入 `renderer` 参数即可。

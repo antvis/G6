@@ -29,8 +29,9 @@ if (!path) {
 const orderRegex = /order: ([\d]+)/;
 
 /**
- *
- * @param file
+ * Get the order of the file
+ * @param file file path
+ * @returns order
  */
 function getOrder(file: string) {
   const content = fs.readFileSync(file, 'utf-8');
@@ -45,7 +46,7 @@ function getOrder(file: string) {
 const docs: [number, string][] = [];
 
 /**
- *
+ * Sort the docs
  */
 function sortDocs() {
   // list all files in the directory
@@ -67,7 +68,7 @@ function sortDocs() {
 let currentLine = 0;
 
 /**
- *
+ * Print the docs
  */
 function printDocs() {
   readline.cursorTo(process.stdout, 0, 0);
@@ -78,12 +79,12 @@ function printDocs() {
     else console.log(`  [${index}] ${name}`);
   });
 
-  console.log(chalk.greenBright('Press ↑/↓ to move, Press ⌘ + ↑/↓ to swap, Press Ctrl + C to exit'));
+  console.log(chalk.greenBright('Press ↑/↓ to move, Press alt + ↑/↓ to swap, Press Ctrl + C to exit'));
   console.log(chalk.green('Enter ' + chalk.bold('y') + ' to apply sorted order'));
 }
 
 /**
- *
+ * Handle keypress event
  */
 function onKeypress() {
   process.stdin.on('keypress', (ch, key) => {
