@@ -7,12 +7,12 @@ import { Graph } from '../../src/graph';
 
 const { Text } = Typography;
 
-const ACTIVE_COLOR = '#ffa500';
+const ACTIVE_COLOR = '#f6c523';
 const COLOR_MAP: Record<string, string> = {
-  'pre-inspection': '#a7b99e',
+  'pre-inspection': '#3fc1c9',
   problem: '#8983f3',
-  inspection: '#ff98da',
-  solution: '#6bd5e1',
+  inspection: '#f48db4',
+  solution: '#ffaa64',
 };
 
 class HoverElement extends HoverActivate {
@@ -41,23 +41,28 @@ const Node = ({ data }: { data: NodeData }) => {
   const { text, type } = data.data as { text: string; type: string };
 
   const isHovered = data.states?.includes('active');
+  const isSelected = data.states?.includes('selected');
+  const color = isHovered ? ACTIVE_COLOR : COLOR_MAP[type];
 
   const containerStyle: CSSProperties = {
     width: '100%',
     height: '100%',
-    background: isHovered ? ACTIVE_COLOR : COLOR_MAP[type],
+    background: color,
+    border: `3px solid ${color}`,
     borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    padding: '8px',
     cursor: 'pointer',
   };
 
+  if (isSelected) {
+    Object.assign(containerStyle, { border: `3px solid #000` });
+  }
+
   return (
-    <Flex style={containerStyle} vertical>
-      {type === 'problem' && <BugOutlined style={{ color: '#fff', fontSize: 24, marginBottom: 8 }} />}
-      <Text style={{ color: '#fff', fontWeight: 500 }}>{text}</Text>
+    <Flex style={containerStyle} align="center" justify="center">
+      <Flex vertical style={{ padding: '8px 16px', textAlign: 'center' }} align="center" justify="center">
+        {type === 'problem' && <BugOutlined style={{ color: '#fff', fontSize: 24, marginBottom: 8 }} />}
+        <Text style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>{text}</Text>
+      </Flex>
     </Flex>
   );
 };
@@ -82,15 +87,15 @@ export const PerformanceDiagnosis = () => {
       style: (d: NodeData) => {
         const style: NodeData['style'] = {
           component: <Node data={d} />,
-          ports: [{ placement: 'left' }, { placement: 'right' }],
+          ports: [{ placement: 'top' }, { placement: 'bottom' }],
         };
 
         const size = {
-          'pre-inspection': [200, 40],
+          'pre-inspection': [240, 80],
           problem: [200, 80],
-          inspection: [200, 100],
-          solution: [200, 60],
-        }[(d.data!.type || 'default') as string] || [200, 80];
+          inspection: [330, 100],
+          solution: [240, 60],
+        }[d.data!.type as string] || [200, 80];
 
         Object.assign(style, {
           size,
@@ -103,20 +108,25 @@ export const PerformanceDiagnosis = () => {
         active: {
           halo: false,
         },
+        selected: {
+          halo: false,
+        },
       },
     },
     edge: {
       type: 'polyline',
       style: {
-        lineWidth: 2,
-        radius: 12,
+        lineWidth: 3,
+        radius: 20,
         stroke: '#8b9baf',
         endArrow: true,
         labelText: (d: EdgeData) => d.data!.text as string,
+        labelFill: '#8b9baf',
+        labelFontWeight: 600,
         labelBackground: true,
         labelBackgroundFill: '#f8f8f8',
         labelBackgroundOpacity: 1,
-        labelBackgroundLineWidth: 2,
+        labelBackgroundLineWidth: 3,
         labelBackgroundStroke: '#8b9baf',
         labelPadding: [1, 10],
         labelBackgroundRadius: 4,
@@ -134,10 +144,9 @@ export const PerformanceDiagnosis = () => {
     },
     layout: {
       type: 'antv-dagre',
-      nodeSize: [200, 80],
-      rankdir: 'LR',
-      nodesep: 20,
-      ranksep: 40,
+      nodeSize: [200, 40],
+      nodesep: 70,
+      ranksep: 5,
     },
     behaviors: ['zoom-canvas', 'drag-canvas', 'hover-element', 'click-select'],
   };
