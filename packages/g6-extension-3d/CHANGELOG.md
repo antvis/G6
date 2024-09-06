@@ -1,5 +1,13 @@
 # @antv/g6-extension-3d
 
+## 0.1.5
+
+### Patch Changes
+
+- docs,bugfix,feat
+- Updated dependencies
+  - @antv/g6@5.0.21
+
 ## 0.1.4
 
 ### Patch Changes
