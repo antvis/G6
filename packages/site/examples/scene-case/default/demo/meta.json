@@ -53,10 +53,10 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uKYKSYJ6iMYAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "decision-tree.js",
+      "filename": "fund-flow.js",
       "title": {
-        "zh": "决策树",
-        "en": "Decision Tree"
+        "zh": "资金流向图",
+        "en": "Fund Flow"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ImBoQIveCtYAAAAAAAAAAAAADmJ7AQ/original"
     },
@@ -67,6 +67,14 @@
         "en": "Organization Chart"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wgoUR6dnVcsAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "performance-diagnosis-flowchart.js",
+      "title": {
+        "zh": "系统性能诊断流程图",
+        "en": "System Performance Diagnosis Flowchart"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gS6BQbU7a0UAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "sub-graph.js",

@@ -74,6 +74,7 @@ export const ReactNodeDemo = () => {
           style: { x: 350, y: 50 },
         },
       ],
+      edges: [{ source: 'local-server-1', target: 'remote-server-1' }],
     },
     node: {
       type: 'react',

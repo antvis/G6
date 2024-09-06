@@ -38,7 +38,7 @@ export interface HoverActivateOptions extends BaseBehaviorOptions {
    * - `1` means the current node and its directly adjacent nodes and edges are activated, etc
    * @defaultValue 0
    */
-  degree?: number;
+  degree?: number | ((event: IPointerEvent) => number);
   /**
    * <zh/> 指定边的方向
    * - `'both'`: 表示激活当前节点的所有关系
@@ -133,16 +133,29 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
     else onHoverEnd?.(event);
   };
 
+  protected getActiveIds(event: IPointerEvent<Element>) {
+    const { graph } = this.context;
+    const { degree, direction } = this.options;
+    const { targetType, target } = event;
+
+    return degree
+      ? getElementNthDegreeIds(
+          graph,
+          targetType as ElementType,
+          target.id,
+          typeof degree === 'function' ? degree(event) : degree,
+          direction,
+        )
+      : [target.id];
+  }
+
   private updateElementsState = (event: IPointerEvent<Element>, add: boolean) => {
     if (!this.options.state && !this.options.inactiveState) return;
 
     const { graph } = this.context;
-    const { state, degree, direction, animation, inactiveState } = this.options;
-    const { targetType, target } = event;
+    const { state, animation, inactiveState } = this.options;
 
-    const activeIds = degree
-      ? getElementNthDegreeIds(graph, targetType as ElementType, target.id, degree, direction)
-      : [target.id];
+    const activeIds = this.getActiveIds(event);
 
     const states: Record<ID, State[]> = {};
 
@@ -162,8 +175,11 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
     const states: Record<ID, State[]> = {};
     ids.forEach((id) => {
       const currentState = graph.getElementState(id);
-      const updatedState = add ? [...currentState, state] : currentState.filter((s) => s !== state);
-      states[id] = updatedState;
+      if (add) {
+        states[id] = currentState.includes(state) ? currentState : [...currentState, state];
+      } else {
+        states[id] = currentState.filter((s) => s !== state);
+      }
     });
     return states;
   };

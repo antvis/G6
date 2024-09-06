@@ -15,7 +15,7 @@ import type {
   Size,
   Vector2,
 } from '../types';
-import { getBBoxHeight, getBBoxSize, getBBoxWidth, getNearestSideToPoint, getNodeBBox } from './bbox';
+import { getBBoxHeight, getBBoxSize, getBBoxWidth, getNearestBoundarySide, getNodeBBox } from './bbox';
 import { isCollapsed } from './collapsibility';
 import { getAllPorts, getNodeConnectionPoint, getPortConnectionPoint, getPortPosition } from './element';
 import { idOf } from './id';
@@ -481,7 +481,7 @@ export function getPolylineLoopControlPoints(node: Node, sourcePoint: Point, tar
 
   // 1. 起点和终点相同 | The start and end points are the same
   if (isEqual(sourcePoint, targetPoint)) {
-    const side = getNearestSideToPoint(bbox, sourcePoint);
+    const side = getNearestBoundarySide(sourcePoint, bbox);
     switch (side) {
       case 'left':
         controlPoints.push([sourcePoint[0] - dist, sourcePoint[1]]);
@@ -505,8 +505,8 @@ export function getPolylineLoopControlPoints(node: Node, sourcePoint: Point, tar
         break;
     }
   } else {
-    const sourceSide = getNearestSideToPoint(bbox, sourcePoint);
-    const targetSide = getNearestSideToPoint(bbox, targetPoint);
+    const sourceSide = getNearestBoundarySide(sourcePoint, bbox);
+    const targetSide = getNearestBoundarySide(targetPoint, bbox);
     // 2. 起点与终点同边 | The start and end points are on the same side
     if (sourceSide === targetSide) {
       const side = sourceSide;

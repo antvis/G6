@@ -151,6 +151,19 @@ export function isPointOutsideBBox(point: Point, bbox: AABB) {
 }
 
 /**
+ * <zh/> 判断点是否位于包围盒中心
+ *
+ * <en/> When the point is at the center of the bounding box
+ * @param point - <zh/> 点 | <en/> Point
+ * @param bbox - <zh/> 包围盒 | <en/> Bounding box
+ * @returns <zh/> 如果点在包围盒中心返回 true，否则返回 false | <en/> Returns true if the point is at the center of the bounding box, false otherwise
+ */
+export function isPointBBoxCenter(point: Point, bbox: AABB) {
+  const { center } = bbox;
+  return point[0] === center[0] && point[1] === center[1];
+}
+
+/**
  * <zh/> 获取包围盒上离点 `p` 最近的边
  *
  * <en/> Get a side of the boundary which is nearest to the point `p`
@@ -158,7 +171,7 @@ export function isPointOutsideBBox(point: Point, bbox: AABB) {
  * @param p - <zh/> 点 | <en/> Point
  * @returns <zh/> 离点 `p` 最近的边 | <en/> The side nearest to the point `p`
  */
-export function getNearestSideToPoint(bbox: AABB, p: Point): 'left' | 'right' | 'top' | 'bottom' {
+export function getNearestBoundarySide(p: Point, bbox: AABB): 'left' | 'right' | 'top' | 'bottom' {
   const [x, y] = p;
   const [minX, minY] = bbox.min;
   const [maxX, maxY] = bbox.max;
@@ -171,17 +184,17 @@ export function getNearestSideToPoint(bbox: AABB, p: Point): 'left' | 'right' | 
 }
 
 /**
- * <zh/> 获取包围盒上离点 `p` 最近的点
+ * <zh/> 获取包围盒上离点 `p` 最近的边界点
  *
  * <en/> Get a point on the boundary nearest to the point `p`
  * @param bbox - <zh/> 包围盒 | <en/> Bounding box
  * @param p - <zh/> 点 | <en/> Point
  * @returns <zh/> 离点 `p` 最近的点 | <en/> The point nearest to the point `p`
  */
-export function getNearestPointToPoint(bbox: AABB, p: Point): Point {
+export function getNearestBoundaryPoint(p: Point, bbox: AABB): Point {
   const ref = clone(p);
   if (isPointInBBox(p, bbox)) {
-    const side = getNearestSideToPoint(bbox, p);
+    const side = getNearestBoundarySide(p, bbox);
     switch (side) {
       case 'left':
         ref[0] = bbox.min[0];
