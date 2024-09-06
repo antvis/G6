@@ -85,3 +85,15 @@ Solution: Use a callback method to prioritize obtaining styles from the data to 
   }
 }
 ```
+
+### Residual content in the canvas
+
+When using the Canvas renderer for drawing, residual content may appear in the canvas, which is referred to as "dirty rectangles". This phenomenon occurs because the underlying rendering engine improves performance by only drawing the parts that have changed each time, rather than clearing the entire canvas.
+
+However, when the graphics in the canvas change, there may be cases where some graphics are not correctly cleared, resulting in residual content.
+
+You can solve this issue by:
+
+1. Using the SVG or WebGL renderer;
+2. Checking whether there are illegal values in the element of the nodes, such as null, NaN, and so on;
+3. Using integers as much as possible for numeric style values, such as r, width, height, fontSize, and so on.

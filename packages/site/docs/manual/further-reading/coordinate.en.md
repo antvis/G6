@@ -1,6 +1,6 @@
 ---
 title: coordinate
-order: 1
+order: 2
 ---
 
 ## Overview
@@ -43,5 +43,3 @@ Other related APIs are also provided:
 - Get the viewport center in viewport coordinates: [getCanvasCenter](/en/api/graph/method#graphgetcanvascenter)
 - Get the viewport center in canvas coordinates: [getViewportCenter](/en/api/graph/method#graphgetviewportcenter)
 - Get the position of the graph origin in the viewport coordinate system: [getPosition](/en/api/graph/method#graphgetposition)
-
-

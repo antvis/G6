@@ -1,6 +1,6 @@
 ---
 title: 下载图片
-order: 2
+order: 3
 ---
 
 G6 5.0 仅提供导出画布为 Base64 图片的 API([toDataURL](/api/graph/method#graphtodataurloptions))，如果需要下载图片，可以使用以下方法：

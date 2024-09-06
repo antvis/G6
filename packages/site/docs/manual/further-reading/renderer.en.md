@@ -1,5 +1,6 @@
 ---
 title: renderer
+order: 1
 ---
 
 G6 uses Canvas as the default renderer, but also supports rendering with SVG and WebGL. To switch to the SVG or WebGL renderer, simply pass the `renderer` parameter during initialization.

@@ -1,6 +1,6 @@
 ---
 title: download-image
-order: 2
+order: 3
 ---
 
 G6 5.0 only provides an API for exporting the canvas as a Base64 image ([toDataURL](/en/api/graph/method#graphtodataurloptions)). If you need to download the image, you can use the following method:
