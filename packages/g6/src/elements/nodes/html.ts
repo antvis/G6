@@ -10,7 +10,7 @@ import {
   Rect,
 } from '@antv/g';
 import { Renderer } from '@antv/g-canvas';
-import { isNil, isUndefined, pick } from '@antv/util';
+import { isNil, isUndefined, pick, set } from '@antv/util';
 import { CommonEvent } from '../../constants';
 import type { BaseNodeStyleProps } from './base-node';
 import { BaseNode } from './base-node';
@@ -136,6 +136,9 @@ export class HTML extends BaseNode<HTMLStyleProps> {
 
     normalizedEvents.forEach((normalizedEvent) => {
       const event = this.bootstrapEvent(this.rootPointerEvent, normalizedEvent, iCanvas, nativeEvent);
+      // 当点击到 html 元素时，避免触发 pointerupoutside 事件
+      // When clicking on the html element, avoid triggering the pointerupoutside event
+      set(canvas.context.eventService, 'mappingTable.pointerupoutside', []);
       canvas.context.eventService.mapEvent(event);
     });
   };
