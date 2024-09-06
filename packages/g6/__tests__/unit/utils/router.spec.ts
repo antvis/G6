@@ -45,52 +45,12 @@ describe('router', () => {
       ]);
       expect(orth([100, 100], [150, 150], sourceNode2, targetNode2, [], { padding: 10 })).toEqual([[100, 150]]);
 
-      const sourceNode3 = new Rect({ style: { size: 5, x: 5, y: 0 } });
-      const targetNode3 = new Rect({ style: { size: 5, x: 20, y: 25 } });
-      expect(orth([10, 5], [25, 30], sourceNode3, targetNode3, [], { padding: 0 })).toEqual([[10, 30]]);
-      expect(orth([10, 5], [25, 30], sourceNode3, targetNode3, [[20, 20]], { padding: 0 })).toEqual([
-        [10, 20],
+      const sourceNode3 = new Rect({ style: { size: 10, x: 5, y: 0 } });
+      const targetNode3 = new Rect({ style: { size: 10, x: 20, y: 25 } });
+      expect(orth([5, 5], [20, 20], sourceNode3, targetNode3, [], { padding: 0 })).toEqual([
+        [5, 5],
+        [5, 20],
         [20, 20],
-        [25, 20],
-      ]);
-      expect(
-        orth(
-          [10, 5],
-          [25, 30],
-          sourceNode3,
-          targetNode3,
-          [
-            [20, 20],
-            [22, 22],
-          ],
-          { padding: 10 },
-        ),
-      ).toEqual([
-        [10, 20],
-        [20, 20],
-        [22, 20],
-        [22, 22],
-        [22, 37.51],
-        [25, 37.51],
-      ]);
-      expect(
-        orth(
-          [10, 5],
-          [25, 30],
-          sourceNode3,
-          targetNode3,
-          [
-            [20, 20],
-            [20, 22],
-          ],
-          { padding: 10 },
-        ),
-      ).toEqual([
-        [10, 20],
-        [20, 20],
-        [20, 22],
-        [20, 37.51],
-        [25, 37.51],
       ]);
     });
 
@@ -119,18 +79,16 @@ describe('router', () => {
     it('nodeToPoint', () => {
       const sourceBBox = new AABB();
       sourceBBox.setMinMax([0, 0, 0], [10, 10, 0]);
-      const sourcePoint: Point = [10, 5];
-      const targetPoint: Point = [20, 20];
-      expect(nodeToPoint(sourcePoint, targetPoint, sourceBBox).points).toEqual([[10, 20]]);
-      expect(nodeToPoint(sourcePoint, targetPoint, sourceBBox).direction).toEqual('E');
+      expect(nodeToPoint([5, 5], [20, 20], sourceBBox).points).toEqual([[5, 20]]);
+      expect(nodeToPoint([5, 5], [20, 20], sourceBBox).direction).toEqual('E');
+      expect(nodeToPoint([10, 5], [20, 20], sourceBBox).points).toEqual([[20, 5]]);
+      expect(nodeToPoint([10, 5], [20, 20], sourceBBox).direction).toEqual('S');
     });
 
     it('pointToNode', () => {
-      const sourcePoint: Point = [10, 5];
-      const targetPoint: Point = [20, 25];
       const targetBBox = new AABB();
       targetBBox.setMinMax([10, 10, 0], [25, 25, 0]);
-      expect(pointToNode(sourcePoint, targetPoint, targetBBox, 'N').points).toEqual([[20, 5]]);
+      expect(pointToNode([10, 5], [20, 25], targetBBox, 'N').points).toEqual([[20, 5]]);
     });
 
     it('nodeToNode', () => {

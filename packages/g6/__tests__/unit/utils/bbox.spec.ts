@@ -5,8 +5,8 @@ import {
   getCombinedBBox,
   getExpandedBBox,
   getIncircleRadius,
-  getNearestPointToPoint,
-  getNearestSideToPoint,
+  getNearestBoundaryPoint,
+  getNearestBoundarySide,
   getNodeBBox,
   getPointBBox,
   getTriangleCenter,
@@ -80,20 +80,20 @@ describe('bbox', () => {
     expect(isPointOnBBoxBoundary([0, 2, 0], bbox, true)).toEqual(true);
   });
 
-  it('getNearestSideToPoint', () => {
-    expect(getNearestSideToPoint(bbox, [0.2, 0.5, 0])).toBe('left');
-    expect(getNearestSideToPoint(bbox, [0.5, 0.2, 0])).toBe('top');
-    expect(getNearestSideToPoint(bbox, [0.8, 0.5, 0])).toBe('right');
-    expect(getNearestSideToPoint(bbox, [0.5, 0.8, 0])).toBe('bottom');
+  it('getNearestBoundarySide', () => {
+    expect(getNearestBoundarySide([0.2, 0.5, 0], bbox)).toBe('left');
+    expect(getNearestBoundarySide([0.5, 0.2, 0], bbox)).toBe('top');
+    expect(getNearestBoundarySide([0.8, 0.5, 0], bbox)).toBe('right');
+    expect(getNearestBoundarySide([0.5, 0.8, 0], bbox)).toBe('bottom');
   });
 
-  it('getNearestPointToPoint', () => {
-    expect(getNearestPointToPoint(bbox, [0.2, 0.5, 0])).toEqual([0, 0.5, 0]);
-    expect(getNearestPointToPoint(bbox, [0.5, 0.2, 0])).toEqual([0.5, 0, 0]);
-    expect(getNearestPointToPoint(bbox, [0.8, 0.5, 0])).toEqual([1, 0.5, 0]);
-    expect(getNearestPointToPoint(bbox, [0.5, 0.8, 0])).toEqual([0.5, 1, 0]);
-    expect(getNearestPointToPoint(bbox, [1.8, 0.5, 0])).toEqual([1, 0.5, 0]);
-    expect(getNearestPointToPoint(bbox, [0.5, 1.8, 0])).toEqual([0.5, 1, 0]);
+  it('getNearestBoundaryPoint', () => {
+    expect(getNearestBoundaryPoint([0.2, 0.5, 0], bbox)).toEqual([0, 0.5, 0]);
+    expect(getNearestBoundaryPoint([0.5, 0.2, 0], bbox)).toEqual([0.5, 0, 0]);
+    expect(getNearestBoundaryPoint([0.8, 0.5, 0], bbox)).toEqual([1, 0.5, 0]);
+    expect(getNearestBoundaryPoint([0.5, 0.8, 0], bbox)).toEqual([0.5, 1, 0]);
+    expect(getNearestBoundaryPoint([1.8, 0.5, 0], bbox)).toEqual([1, 0.5, 0]);
+    expect(getNearestBoundaryPoint([0.5, 1.8, 0], bbox)).toEqual([0.5, 1, 0]);
   });
 
   it('getTriangleCenter', () => {
