@@ -64,7 +64,7 @@
     "@antv/g-plugin-dragndrop": "^2.0.9",
     "@antv/graphlib": "^2.0.3",
     "@antv/hierarchy": "^0.6.13",
-    "@antv/layout": "1.2.14-beta.6",
+    "@antv/layout": "^1.2.14-beta.7",
     "@antv/util": "^3.3.8",
     "bubblesets-js": "^2.3.3",
     "hull.js": "^1.0.6"
@@ -72,8 +72,8 @@
   "devDependencies": {
     "@antv/g-svg": "^2.0.11",
     "@antv/g-webgl": "^2.0.16",
-    "@antv/layout-gpu": "^1.1.6",
-    "@antv/layout-wasm": "^1.4.1",
+    "@antv/layout-gpu": "^1.1.7",
+    "@antv/layout-wasm": "^1.4.2",
     "@types/hull.js": "^1.0.4",
     "@types/xmlserializer": "^0.6.6",
     "cross-env": "^7.0.3",
