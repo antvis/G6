@@ -27,16 +27,28 @@ If you want to fix a bug or add a new feature, you need to first fork a copy of 
                   <small>Test Static Resources</small>
                 </li>
                 <li>
+                  bugs
+                  <small>Bugfix Test Case</small>
+                </li>
+                <li>
                   dataset
                   <small>Test Dataset</small>
                 </li>
                 <li>
                   demos
-                  <small>Test Demos</small>
+                  <small>Development Demos</small>
                 </li>
                 <li>
                   snapshots
                   <small>Test Snapshots</small>
+                </li>
+                <li>
+                  perf
+                  <small>Performance Test Case</small>
+                </li>
+                <li>
+                  perf-report
+                  <small>Performance Test Reports</small>
                 </li>
                 <li>
                   unit
@@ -264,6 +276,9 @@ Validate Your Code with Tests：
 ```bash
 pnpm test
 ```
+
+> G6 extends Jest tests and provides the `toMatchSnapshot` assertion for generating and comparing snapshots.
+> If your PR has changes to the view, please delete the old snapshots first, and then execute `pnpm test` to regenerate the snapshots.
 
 6. Submit a Pull Request (PR)
 
