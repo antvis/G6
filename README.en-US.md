@@ -105,7 +105,7 @@ For more ecosystem open-source projects, contributions are welcome. Please feel 
 ## 📮 Contributing
 
 - **Issue Reporting**: If you encounter any issues with G6 during use, please feel free to submit an issue, along with the minimal sample code that can reproduce the problem.
-- **Contribution Guide**: Information on how to get involved in the [development and contribution](./CONTRIBUTING.en-US.md) to G6.
+- **Contribution Guide**: Information on how to get involved in the [development and contribution](https://g6-next.antv.antgroup.com/en/manual/contribute) to G6.
 - **Ideas Discussion**: Discuss your ideas on GitHub Discussions or in the DingTalk group.
 
 <div align="center">
