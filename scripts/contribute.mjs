@@ -39,18 +39,18 @@ function parseGithubUrl(url) {
   return { username, repository, branch: branch.filter(Boolean).join('/') };
 }
 
-function addRemoteAndCheckoutBranch(username, branch) {
+function addRemoteAndCheckoutBranch(username, localBranch, remoteBranch) {
   const remoteUrl = `https://github.com/${username}/G6.git`;
   const originalBranch = getCurrentBranch();
 
   try {
     console.log(`添加远程源: ${remoteUrl}`);
     execSync(`git remote add ${username} ${remoteUrl}`);
-    console.log(`获取分支: ${branch}`);
+    console.log(`获取分支: ${localBranch}(本地) / ${remoteBranch}(远程)`);
     execSync(`git fetch ${username}`);
-    console.log(`切换到分支: ${branch}`);
-    execSync(`git checkout -b ${branch} ${username}/${branch}`);
-    console.log(`成功切换到分支: ${branch}`);
+    console.log(`切换到本地分支: ${localBranch}`);
+    execSync(`git checkout -b ${localBranch} ${username}/${remoteBranch}`);
+    console.log(`成功切换到分支: ${localBranch}`);
   } catch (error) {
     console.error('执行 git 命令时出错:', error);
     process.exit(1);
@@ -83,7 +83,7 @@ function addRemoteAndCheckoutBranch(username, branch) {
       if (['', '0'].includes(answer)) {
         try {
           execSync(`git checkout ${originalBranch}`);
-          execSync(`git branch -D ${branch}`);
+          execSync(`git branch -D ${localBranch}`);
         } catch (error) {
           console.error('执行 git 命令时出错:', error);
           process.exit(1);
@@ -104,8 +104,8 @@ function startAndConfirmInfo() {
       console.log(`  贡献者: ${chalk.red(username)}`);
       console.log(`  分支: ${chalk.red(branch)}`);
       // 按回车键继续
-      rl.question(`\n按回车键继续...`, () => {
-        addRemoteAndCheckoutBranch(username, branch);
+      rl.question(`\n输入本地分支名: (按回车键继续)\n:`, (modifiedBranch) => {
+        addRemoteAndCheckoutBranch(username, modifiedBranch || branch, branch);
       });
     },
   );

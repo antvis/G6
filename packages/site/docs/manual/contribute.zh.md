@@ -27,16 +27,28 @@ order: 8
                   <small>测试静态资源</small>
                 </li>
                 <li>
+                  bugs
+                  <small>Bug 修复测试用例</small>
+                </li>
+                <li>
                   dataset
                   <small>测试数据集</small>
                 </li>
                 <li>
                   demos
-                  <small>测试示例</small>
+                  <small>开发示例</small>
                 </li>
                 <li>
                   snapshots
                   <small>测试截图</small>
+                </li>
+                <li>
+                  perf
+                  <small>性能测试用例</small>
+                </li>
+                <li>
+                  perf-report
+                  <small>性能测试报告</small>
                 </li>
                 <li>
                   unit
@@ -264,6 +276,9 @@ git checkout -b [branch name]
 ```bash
 pnpm test
 ```
+
+> G6 扩展了 Jest 测试，提供了 `toMatchSnapshot` 断言用于生成以及对比快照。
+> 如果你的 PR 对视图有变动，请先删除旧的快照，然后执行 `pnpm test` 重新生成快照。
 
 6. 提交 PR
 

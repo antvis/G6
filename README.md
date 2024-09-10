@@ -105,7 +105,7 @@ graph.render();
 ## 📮 贡献
 
 - **问题反馈**：使用过程遇到的 G6 的问题，欢迎提交 Issue，并附上可以复现问题的最小案例代码。
-- **贡献指南**：如何参与到 G6 的[开发和贡献](./CONTRIBUTING.md)。
+- **贡献指南**：如何参与到 G6 的[开发和贡献](https://g6-next.antv.antgroup.com/manual/contribute)。
 - **想法讨论**：在 GitHub Discussion 上或者钉钉群里面讨论。
 
 <div>

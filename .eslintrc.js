@@ -19,7 +19,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/__tests__/**'],
+      files: ['**/__tests__/**', '*.js', '*.mjs'],
       rules: {
         'jsdoc/require-jsdoc': 0,
       },
@@ -31,7 +31,7 @@ module.exports = {
       },
     },
     {
-      files: ['./packages/site/**'],
+      files: ['./packages/site/**', './scripts/**'],
       rules: {
         'no-console': 'off',
       },
