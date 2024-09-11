@@ -47,10 +47,10 @@ describe('focus element', () => {
 
     await graph.focusElement('node-1');
 
-    graph.emit(NodeEvent.POINTER_OVER, {
+    graph.emit(NodeEvent.POINTER_ENTER, {
       target: { id: 'node-2' },
       targetType: 'node',
-      type: CommonEvent.POINTER_OVER,
+      type: CommonEvent.POINTER_ENTER,
     });
 
     await expect(graph).toMatchSnapshot(__filename, 'hover-after-focus');
