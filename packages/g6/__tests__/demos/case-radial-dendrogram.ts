@@ -49,7 +49,7 @@ export const caseRadialDendrogram: TestCase = async (context) => {
         inactiveState: 'inactive',
       },
     ],
-    transforms: ['position-radial-labels'],
+    transforms: ['place-radial-labels'],
   });
 
   await graph.render();

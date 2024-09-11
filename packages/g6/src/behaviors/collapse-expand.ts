@@ -49,13 +49,13 @@ export interface CollapseExpandOptions extends BaseBehaviorOptions {
 }
 
 /**
- * <zh/> 展开/收起组合元素交互
+ * <zh/> 展开/收起元素交互
  *
- * <en/> Collapse/Expand Combo behavior
+ * <en/> Collapse/Expand Element behavior
  * @remarks
- * <zh/> 通过双击 Combo 进行展开或收起 Combo。
+ * <zh/> 通过操作展开/收起元素。
  *
- * <en/> Expand or collapse a Combo by double-clicking on it.
+ * <en/> Expand/collapse elements by operation.
  */
 export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
   static defaultOptions: Partial<CollapseExpandOptions> = {

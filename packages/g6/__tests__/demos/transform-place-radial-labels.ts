@@ -1,7 +1,7 @@
 import data from '@@/dataset/algorithm-category.json';
 import { Graph, treeToGraphData } from '@antv/g6';
 
-export const transformPositionRadialLabels: TestCase = async (context) => {
+export const transformPlaceRadialLabels: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     autoFit: 'view',
@@ -19,7 +19,7 @@ export const transformPositionRadialLabels: TestCase = async (context) => {
         rankSep: 200,
       },
     ],
-    transforms: ['position-radial-labels'],
+    transforms: ['place-radial-labels'],
   });
 
   await graph.render();

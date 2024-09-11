@@ -13,7 +13,7 @@ import { BaseTransform } from './base-transform';
  *
  * <en/> Options for automatically adjusting the style of node labels according to the radial layout
  */
-export interface PositionRadialLabelsOptions extends BaseTransformOptions {
+export interface PlaceRadialLabelsOptions extends BaseTransformOptions {
   /**
    * <zh/> 偏移量
    *
@@ -27,13 +27,13 @@ export interface PositionRadialLabelsOptions extends BaseTransformOptions {
  *
  * <en/> Automatically adjust the style of node labels according to the radial layout, including position and rotation angle
  */
-export class PositionRadialLabels extends BaseTransform<PositionRadialLabelsOptions> {
-  static defaultOptions: Partial<PositionRadialLabelsOptions> = {
+export class PlaceRadialLabels extends BaseTransform<PlaceRadialLabelsOptions> {
+  static defaultOptions: Partial<PlaceRadialLabelsOptions> = {
     offset: 5,
   };
 
-  constructor(context: RuntimeContext, options: PositionRadialLabelsOptions) {
-    super(context, Object.assign({}, PositionRadialLabels.defaultOptions, options));
+  constructor(context: RuntimeContext, options: PlaceRadialLabelsOptions) {
+    super(context, Object.assign({}, PlaceRadialLabels.defaultOptions, options));
   }
 
   private get ref(): NodeData {
