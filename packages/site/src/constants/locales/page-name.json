@@ -41,12 +41,12 @@
   "FruchtermanLayout": ["Fruchterman", "力导向布局"],
   "GridLayout": ["Grid", "网格布局"],
   "MdsLayout": ["Mds", "高维数据降维布局"],
-  "RadialLayout": ["Radial", "镭射布局"],
+  "RadialLayout": ["Radial", "径向布局"],
   "RandomLayout": ["Random", "随机布局"],
   "BaseBehavior": ["BaseBehavior", "基础交互"],
   "BrushSelect": ["BrushSelect", "框选"],
   "ClickSelect": ["ClickSelect", "点击选中"],
-  "CollapseExpand": ["CollapseExpand", "展开折叠Combo"],
+  "CollapseExpand": ["CollapseExpand", "展开/收起元素"],
   "CreateEdge": ["CreateEdge", "创建边"],
   "DragCanvas": ["DragCanvas", "拖拽画布"],
   "DragElement": ["DragElement", "拖拽元素"],
@@ -76,5 +76,5 @@
   "Tooltip": ["Tooltip", "提示框"],
   "Watermark": ["Watermark", "水印"],
   "ProcessParallelEdges": ["ProcessParallelEdges", "平行边"],
-  "PositionRadialLabels": ["PositionRadialLabels", "径向标签"]
+  "PlaceRadialLabels": ["PlaceRadialLabels", "径向标签"]
 }

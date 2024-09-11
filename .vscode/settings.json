@@ -38,6 +38,7 @@
     "beforestagelayout",
     "beforetransform",
     "beforeviewportanimate",
+    "Bezier",
     "bubblesets",
     "cancelviewportanimate",
     "convexhull",
