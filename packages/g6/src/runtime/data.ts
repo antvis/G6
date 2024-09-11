@@ -1,5 +1,5 @@
 import { Graph as GraphLib } from '@antv/graphlib';
-import { isUndefined, uniq } from '@antv/util';
+import { get, isUndefined, set, uniq } from '@antv/util';
 import { COMBO_KEY, ChangeType, TREE_KEY } from '../constants';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type {
@@ -529,7 +529,16 @@ export class DataController {
    */
   public setParent(id: ID, parent: ID | undefined, hierarchyKey: HierarchyKey, update: boolean = true) {
     if (id === parent) return;
-    const originalParentId = parentIdOf(this.getNodeLikeDatum(id));
+    const elementData = this.getNodeLikeDatum(id);
+    const originalParentId = parentIdOf(elementData);
+
+    if (parent) {
+      const parentData = this.getNodeLikeDatum(parent);
+      if (parentData.style?.zIndex !== undefined) {
+        const zIndex = get(parentData, ['style', 'zIndex'], 0) + (this.isCombo(parent) ? 1 : 0);
+        set(elementData, ['style', 'zIndex'], zIndex);
+      }
+    }
 
     // Sync data
     if (originalParentId !== parent && hierarchyKey === COMBO_KEY) {
@@ -617,17 +626,19 @@ export class DataController {
     if ([dx, dy, dz].some(isNaN) || [dx, dy, dz].every((o) => o === 0)) return;
     const combo = this.getComboData([id])[0];
     if (!combo) return;
+    const seenNodeLikeIds = new Set<ID>();
     dfs<NodeLikeData>(
       combo,
       (succeed) => {
         const succeedID = idOf(succeed);
+        if (seenNodeLikeIds.has(succeedID)) return;
+        seenNodeLikeIds.add(succeedID);
         const [x, y, z] = positionOf(succeed);
         const value = mergeElementsData(succeed, {
           style: { x: x + dx, y: y + dy, z: z + dz },
         });
         this.pushChange({
           value,
-          // @ts-ignore
           original: succeed,
           type: this.isCombo(succeedID) ? ChangeType.ComboUpdated : ChangeType.NodeUpdated,
         });
@@ -660,7 +671,6 @@ export class DataController {
         });
         this.pushChange({
           value,
-          // @ts-ignore
           original: succeed,
           type: this.isCombo(succeedId) ? ChangeType.ComboUpdated : ChangeType.NodeUpdated,
         });

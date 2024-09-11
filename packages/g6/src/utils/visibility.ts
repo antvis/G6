@@ -23,8 +23,8 @@ export function setVisibility(
 ) {
   if (value === undefined) return;
 
-  const traverse = (current: DisplayObject, scope = value) => {
-    const walk = (val = scope) => (current.childNodes as DisplayObject[]).forEach((node) => traverse(node, val));
+  const traverse = (current: DisplayObject, scope = value): void => {
+    const walk = (val = scope): void => (current.childNodes as DisplayObject[]).forEach((node) => traverse(node, val));
 
     if (filter && !filter(current)) return walk();
 
