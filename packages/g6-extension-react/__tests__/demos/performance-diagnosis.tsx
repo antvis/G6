@@ -18,15 +18,15 @@ const COLOR_MAP: Record<string, string> = {
 class HoverElement extends HoverActivate {
   protected getActiveIds(event: IPointerEvent<Element>) {
     const { model, graph } = this.context;
-    const { targetType, target } = event;
-    const targetId = target.id;
+    const elementId = event.target.id;
+    const elementType = graph.getElementType(elementId);
 
-    const ids = [targetId];
-    if (targetType === 'edge') {
-      const edge = model.getEdgeDatum(targetId);
+    const ids = [elementId];
+    if (elementType === 'edge') {
+      const edge = model.getEdgeDatum(elementId);
       ids.push(edge.source, edge.target);
-    } else if (targetType === 'node') {
-      ids.push(...model.getRelatedEdgesData(targetId).map(idOf));
+    } else if (elementType === 'node') {
+      ids.push(...model.getRelatedEdgesData(elementId).map(idOf));
     }
 
     graph.frontElement(ids);

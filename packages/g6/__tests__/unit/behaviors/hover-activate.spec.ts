@@ -17,11 +17,11 @@ describe('behavior hover-activate element', () => {
   it('default status', async () => {
     await expect(graph).toMatchSnapshot(__filename);
 
-    graph.emit(NodeEvent.POINTER_OVER, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_OVER });
+    graph.emit(NodeEvent.POINTER_ENTER, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_ENTER });
 
     await expect(graph).toMatchSnapshot(__filename, 'after-hover');
 
-    graph.emit(NodeEvent.POINTER_OUT, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_OUT });
+    graph.emit(NodeEvent.POINTER_LEAVE, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_LEAVE });
 
     await expect(graph).toMatchSnapshot(__filename, 'after-hover-out');
   });
@@ -29,42 +29,42 @@ describe('behavior hover-activate element', () => {
   it('state and inactiveState', async () => {
     graph.setBehaviors([{ type: 'hover-activate', state: 'active', inactiveState: 'inactive' }]);
 
-    graph.emit(NodeEvent.POINTER_OVER, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_OVER });
+    graph.emit(NodeEvent.POINTER_ENTER, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_ENTER });
 
     await expect(graph).toMatchSnapshot(__filename, 'state');
 
-    graph.emit(NodeEvent.POINTER_OUT, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_OUT });
+    graph.emit(NodeEvent.POINTER_LEAVE, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_LEAVE });
   });
 
   it('1 degree', async () => {
     graph.setBehaviors([{ type: 'hover-activate', state: 'active', inactiveState: 'inactive', degree: 1 }]);
 
-    graph.emit(NodeEvent.POINTER_OVER, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_OVER });
+    graph.emit(NodeEvent.POINTER_ENTER, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_ENTER });
 
     await expect(graph).toMatchSnapshot(__filename, '1-degree-node');
 
-    graph.emit(NodeEvent.POINTER_OUT, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_OUT });
+    graph.emit(NodeEvent.POINTER_LEAVE, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_LEAVE });
 
-    graph.emit(EdgeEvent.POINTER_OVER, { target: { id: '0-1' }, targetType: 'edge', type: CommonEvent.POINTER_OVER });
+    graph.emit(EdgeEvent.POINTER_ENTER, { target: { id: '0-1' }, targetType: 'edge', type: CommonEvent.POINTER_ENTER });
 
     await expect(graph).toMatchSnapshot(__filename, '1-degree-edge');
 
-    graph.emit(EdgeEvent.POINTER_OUT, { target: { id: '0-1' }, targetType: 'edge', type: CommonEvent.POINTER_OUT });
+    graph.emit(EdgeEvent.POINTER_LEAVE, { target: { id: '0-1' }, targetType: 'edge', type: CommonEvent.POINTER_LEAVE });
   });
 
   it('2 degree', async () => {
     graph.setBehaviors([{ type: 'hover-activate', state: 'active', inactiveState: 'inactive', degree: 2 }]);
 
-    graph.emit(NodeEvent.POINTER_OVER, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_OVER });
+    graph.emit(NodeEvent.POINTER_ENTER, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_ENTER });
 
     await expect(graph).toMatchSnapshot(__filename, '2-degree-node');
 
-    graph.emit(NodeEvent.POINTER_OUT, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_OUT });
+    graph.emit(NodeEvent.POINTER_LEAVE, { target: { id: '0' }, targetType: 'node', type: CommonEvent.POINTER_LEAVE });
 
-    graph.emit(EdgeEvent.POINTER_OVER, { target: { id: '0-1' }, targetType: 'edge', type: CommonEvent.POINTER_OVER });
+    graph.emit(EdgeEvent.POINTER_ENTER, { target: { id: '0-1' }, targetType: 'edge', type: CommonEvent.POINTER_ENTER });
 
     await expect(graph).toMatchSnapshot(__filename, '2-degree-edge');
 
-    graph.emit(EdgeEvent.POINTER_OUT, { target: { id: '0-1' }, targetType: 'edge', type: CommonEvent.POINTER_OUT });
+    graph.emit(EdgeEvent.POINTER_LEAVE, { target: { id: '0-1' }, targetType: 'edge', type: CommonEvent.POINTER_LEAVE });
   });
 });

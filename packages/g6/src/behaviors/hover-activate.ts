@@ -2,7 +2,7 @@ import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
-import type { EdgeDirection, Element, ElementType, ID, IDragEvent, IPointerEvent, State } from '../types';
+import type { EdgeDirection, Element, ID, IDragEvent, IPointerEvent, State } from '../types';
 import { idsOf } from '../utils/id';
 import { getElementNthDegreeIds } from '../utils/relation';
 import type { BaseBehaviorOptions } from './base-behavior';
@@ -114,8 +114,8 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
     this.unbindEvents();
 
     ELEMENT_TYPES.forEach((type) => {
-      graph.on(`${type}:${CommonEvent.POINTER_OVER}`, this.hoverElement);
-      graph.on(`${type}:${CommonEvent.POINTER_OUT}`, this.hoverElement);
+      graph.on(`${type}:${CommonEvent.POINTER_ENTER}`, this.hoverElement);
+      graph.on(`${type}:${CommonEvent.POINTER_LEAVE}`, this.hoverElement);
     });
 
     const canvas = this.context.canvas.document;
@@ -125,28 +125,29 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
 
   private hoverElement = (event: IPointerEvent<Element>) => {
     if (!this.validate(event)) return;
-    const isOver = event.type === CommonEvent.POINTER_OVER;
-    this.updateElementsState(event, isOver);
+    const isEnter = event.type === CommonEvent.POINTER_ENTER;
+    this.updateElementsState(event, isEnter);
 
     const { onHover, onHoverEnd } = this.options;
-    if (isOver) onHover?.(event);
+    if (isEnter) onHover?.(event);
     else onHoverEnd?.(event);
   };
 
   protected getActiveIds(event: IPointerEvent<Element>) {
     const { graph } = this.context;
     const { degree, direction } = this.options;
-    const { targetType, target } = event;
+    const elementId = event.target.id;
+    const elementType = graph.getElementType(elementId);
 
     return degree
       ? getElementNthDegreeIds(
           graph,
-          targetType as ElementType,
-          target.id,
+          elementType,
+          elementId,
           typeof degree === 'function' ? degree(event) : degree,
           direction,
         )
-      : [target.id];
+      : [elementId];
   }
 
   private updateElementsState = (event: IPointerEvent<Element>, add: boolean) => {
@@ -156,7 +157,6 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
     const { state, animation, inactiveState } = this.options;
 
     const activeIds = this.getActiveIds(event);
-
     const states: Record<ID, State[]> = {};
 
     if (state) {
@@ -202,8 +202,8 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
     const { graph } = this.context;
 
     ELEMENT_TYPES.forEach((type) => {
-      graph.off(`${type}:${CommonEvent.POINTER_OVER}`, this.hoverElement);
-      graph.off(`${type}:${CommonEvent.POINTER_OUT}`, this.hoverElement);
+      graph.off(`${type}:${CommonEvent.POINTER_ENTER}`, this.hoverElement);
+      graph.off(`${type}:${CommonEvent.POINTER_LEAVE}`, this.hoverElement);
     });
 
     const canvas = this.context.canvas.document;
