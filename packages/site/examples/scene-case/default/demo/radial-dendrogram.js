@@ -48,7 +48,7 @@ fetch('https://assets.antv.antgroup.com/g6/flare.json')
           inactiveState: 'inactive',
         },
       ],
-      transforms: ['position-radial-labels'],
+      transforms: ['place-radial-labels'],
     });
 
     graph.render();

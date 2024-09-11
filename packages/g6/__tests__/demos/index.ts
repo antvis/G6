@@ -136,6 +136,6 @@ export { pluginTooltip } from './plugin-tooltip';
 export { pluginWatermark } from './plugin-watermark';
 export { pluginWatermarkImage } from './plugin-watermark-image';
 export { theme } from './theme';
-export { transformPositionRadialLabels } from './transform-position-radial-labels';
+export { transformPlaceRadialLabels } from './transform-place-radial-labels';
 export { transformProcessParallelEdges } from './transform-process-parallel-edges';
 export { viewportFit } from './viewport-fit';
