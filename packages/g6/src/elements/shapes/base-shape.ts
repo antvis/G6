@@ -124,8 +124,8 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
    */
   protected transformPosition(attributes: Partial<StyleProps>) {
     // Use `transform: translate3d()` instead of `x/y/z`
-    const { x = 0, y = 0, z = 0, transform } = attributes as any;
-    if (x !== 0 || y !== 0 || z !== 0) {
+    if ('x' in attributes || 'y' in attributes || 'z' in attributes) {
+      const { x = 0, y = 0, z = 0, transform } = attributes as any;
       this.style.transform = replaceTranslateInTransform(+x, +y, +z, transform);
     }
   }
