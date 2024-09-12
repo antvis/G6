@@ -255,6 +255,10 @@ export default class ModeController {
   }
 
   public destroy() {
+    each(this.currentBehaves, behave => {
+      if (behave.delegate) behave.delegate.remove();
+      behave.unbind(this.graph);
+    });
     (this.graph as IAbstractGraph | null) = null;
     (this.modes as Modes | null) = null;
     (this.currentBehaves as IBehaviorOption[] | null) = null;
