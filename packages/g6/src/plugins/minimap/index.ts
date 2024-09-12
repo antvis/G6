@@ -1,6 +1,6 @@
 import { Canvas, DisplayObject, IRenderer, Landmark } from '@antv/g';
 import { Renderer } from '@antv/g-canvas';
-import { throttle } from '@antv/util';
+import { debounce, throttle } from '@antv/util';
 import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
 import { GraphData } from '../../spec';
@@ -93,6 +93,13 @@ export interface MinimapOptions extends BasePluginOptions {
    * <en/> Renderer, default to use Canvas renderer
    */
   renderer?: IRenderer;
+  /**
+   * <zh/> 延迟更新时间(毫秒)，用于性能优化
+   *
+   * <en/> Delay update time(ms), used for performance optimization
+   * @defaultValue 128
+   */
+  delay?: number;
 }
 
 /**
@@ -114,13 +121,33 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       border: '1px solid #ddd',
       background: '#fff',
     },
+    delay: 128,
   };
 
   private canvas!: Canvas;
 
   constructor(context: RuntimeContext, options: MinimapOptions) {
     super(context, Object.assign({}, Minimap.defaultOptions, options));
+    this.setOnRender();
     this.bindEvents();
+  }
+
+  public update(options: Partial<MinimapOptions>): void {
+    this.unbindEvents();
+    super.update(options);
+    if ('delay' in options) this.setOnRender();
+    this.bindEvents();
+  }
+
+  private setOnRender() {
+    this.onRender = debounce(
+      () => {
+        this.renderMinimap();
+        this.renderMask();
+      },
+      this.options.delay,
+      true,
+    );
   }
 
   private bindEvents() {
@@ -142,14 +169,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     this.onRender();
   };
 
-  private onRender = throttle(
-    () => {
-      this.renderMinimap();
-      this.renderMask();
-    },
-    32,
-    { leading: true },
-  ) as () => void;
+  private onRender!: () => void;
 
   private shapes = new Map<ID, DisplayObject>();
 
@@ -296,7 +316,8 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     } = this.options;
 
     if (this.canvas) {
-      this.canvas.resize(width, height);
+      const { width: w, height: h } = this.canvas.getConfig();
+      if (width !== w || height !== h) this.canvas.resize(width, height);
       if (renderer) this.canvas.setRenderer(renderer);
     } else {
       const dom = document.createElement('div');

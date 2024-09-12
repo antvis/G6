@@ -5,7 +5,7 @@ export const pluginMinimap: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: { nodes: Array.from({ length: 20 }).map((_, i) => ({ id: `node${i}` })) },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
+    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'hover-activate'],
     plugins: [
       {
         key: 'minimap',
