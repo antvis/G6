@@ -47,7 +47,7 @@ export interface DragCanvasOptions extends BaseBehaviorOptions {
    * <zh/> 可拖拽的视口范围，默认最多可拖拽一屏。可以分别设置上、右、下、左四个方向的范围，每个方向的范围在 [0, Infinity] 之间
    *
    * <en/> The draggable viewport range allows you to drag up to one screen by default. You can set the range for each direction (top, right, bottom, left) individually, with each direction's range between [0, Infinity]
-   * @defaultValue 1
+   * @defaultValue Infinity
    */
   range?: number | number[];
   /**
@@ -89,7 +89,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
     },
     sensitivity: 10,
     direction: 'both',
-    range: 1,
+    range: Infinity,
   };
 
   private shortcut: Shortcut;
