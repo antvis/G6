@@ -277,9 +277,6 @@ git checkout -b [branch name]
 pnpm test
 ```
 
-> G6 扩展了 Jest 测试，提供了 `toMatchSnapshot` 断言用于生成以及对比快照。
-> 如果你的 PR 对视图有变动，请先删除旧的快照，然后执行 `pnpm test` 重新生成快照。
-
 6. 提交 PR
 
 ```bash
@@ -302,6 +299,28 @@ G6 使用 Jest 进行单元测试，测试用例位于 `packages/g6/__tests__/un
 我们要求所有的代码提交都需要通过测试，确保代码质量。
 
 当前 PR 提交的覆盖率不建议低于当前代码库的覆盖率，且<text style="color: red;">不得低于 90%</text>。
+
+### 更新测试截图
+
+G6 扩展了 Jest 测试，提供了 `toMatchSnapshot` 断言用于生成以及对比快照。
+
+如果当前可能修改影响了部分截图的生成，需要通过执行 `pnpm test` 检查是否有测试用例失败。
+
+当发现测试失败的用例时，控制台会打印出失败的测试路径，以及基准截图和当前截图的路径信息。你可以按住 `Ctrl` 或 `Command` 键并点击路径，查看具体的测试用例或截图。
+
+<img width="500px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*39j5TKAePWsAAAAAAAAAAAAADmJ7AQ/original"/>
+
+如果确认本次修改是正确的，那么请手动删除对应的基准截图，并重新生成截图：
+
+**重新生成全部截图**：
+
+1. 删除 `packages/g6/__tests__/unit/snapshots` 目录下的所有文件
+2. 执行 `pnpm test`
+
+**重新生成单个截图**：
+
+1. 删除 `packages/g6/__tests__/snapshots` 目录下对应的文件（`unit`目录下测试用例会在`snapshots`下生成对应的目录）
+2. 执行 `npx jest __tests__/unit/xx/xxx.spec.ts`
 
 ## 代码规范
 

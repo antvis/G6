@@ -277,9 +277,6 @@ Validate Your Code with Tests：
 pnpm test
 ```
 
-> G6 extends Jest tests and provides the `toMatchSnapshot` assertion for generating and comparing snapshots.
-> If your PR has changes to the view, please delete the old snapshots first, and then execute `pnpm test` to regenerate the snapshots.
-
 6. Submit a Pull Request (PR)
 
 ```bash
@@ -302,6 +299,28 @@ G6 utilizes Jest for conducting unit tests, with the test cases situated in the 
 We require that all code submissions must pass tests to ensure code quality.
 
 The coverage rate for the current PR (Pull Request) submission is advised not to fall below the coverage rate of the existing codebase, and it is <text style="color: red;">not to fall below 90%</text>.
+
+### Update Test Snapshots
+
+G6 extends Jest tests and provides the `toMatchSnapshot` assertion for generating and comparing snapshots.
+
+If the current possible modification affects the generation of some screenshots, it is necessary to check whether there are failed test cases by executing `pnpm test`.
+
+When a failed test case is found, the console will print the path of the failed test, as well as the path information of the benchmark screenshot and the current screenshot. You can hold the `Ctrl` or `Command` key and click the path to view the specific test case or screenshot.
+
+<img width="500px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*39j5TKAePWsAAAAAAAAAAAAADmJ7AQ/original"/>
+
+If it is confirmed that this modification is correct, then please manually delete the corresponding benchmark screenshots and regenerate the screenshots:
+
+**Regenerate all screenshots**:
+
+1. Delete all files in the `packages/g6/__tests__/unit/snapshots` directory
+2. Execute `pnpm test`
+
+**Regenerate a single screenshot**:
+
+1. Delete the corresponding file in the `packages/g6/__tests__/snapshots` directory (test cases in the `unit` directory will generate the corresponding directory under `snapshots`)
+2. Execute `npx jest __tests__/unit/xx/xxx.spec.ts`
 
 ## Code Standards
 
