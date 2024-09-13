@@ -6,23 +6,28 @@ import type {
   BaseBehaviorOptions,
   BaseNodeStyleProps,
   CubicStyleProps,
+  DrawData,
   ID,
   IPointerEvent,
   Node,
   NodeData,
   PathArray,
   RuntimeContext,
+  TreeData,
 } from '@antv/g6';
 import {
   Badge,
   BaseBehavior,
   BaseNode,
+  BaseTransform,
   CommonEvent,
   CubicHorizontal,
   ExtensionCategory,
   Graph,
   GraphEvent,
+  idOf,
   NodeEvent,
+  positionOf,
   register,
   treeToGraphData,
 } from '@antv/g6';
@@ -55,76 +60,12 @@ export const caseMindmap: TestCase = async (context) => {
     fill: 'transparent',
     labelPlacement: 'center',
     labelFontSize: 12,
-    ports: [
-      { placement: 'right-bottom', key: 'right-bottom' },
-      { placement: 'left-bottom', key: 'left-bottom' },
-    ],
+    ports: [{ placement: 'right-bottom' }, { placement: 'left-bottom' }],
   };
 
   const TreeEvent = {
     COLLAPSE_EXPAND: 'collapse-expand',
     ADD_CHILD: 'add-child',
-  };
-
-  const ancestorsOf = (graph: Graph, nodeId: ID) => {
-    const ancestors: ID[] = [];
-    const data = graph.getNodeData();
-
-    const findAncestors = (data: NodeData[], nodeId: ID) => {
-      for (const child of data) {
-        if (
-          child.id === nodeId ||
-          (child.children &&
-            findAncestors(
-              child.children.map((child) => graph.getNodeData(child)),
-              nodeId,
-            ))
-        ) {
-          ancestors.push(String(child.id));
-          return true;
-        }
-      }
-
-      return false;
-    };
-
-    findAncestors(data, nodeId);
-    return ancestors.reverse();
-  };
-
-  const rootChildOf = (graph: Graph, nodeId: ID) => {
-    return ancestorsOf(graph, nodeId)[1];
-  };
-
-  const findRootNode = (graph: Graph) => {
-    const data = graph.getNodeData();
-    for (const node of data) {
-      const ancestors = ancestorsOf(graph, node.id);
-      if (ancestors.length === 1) return node;
-    }
-    return undefined;
-  };
-
-  const getColor = (graph: Graph, nodeId: ID) => {
-    const rootNode = findRootNode(graph);
-    if (!rootNode) return null;
-
-    const oneLevelNodeIds = rootNode.children || [];
-    const ancestorNode = rootChildOf(graph, nodeId) || nodeId;
-
-    const order = oneLevelNodeIds.findIndex((id) => ancestorNode === id);
-    return COLORS[order % COLORS.length];
-  };
-
-  const getDirection = (graph: Graph, nodeId: ID) => {
-    const rootNode = findRootNode(graph);
-    if (!rootNode) return null;
-
-    const rootId = rootNode.id;
-    if (nodeId === rootId) return 'right';
-
-    const ancestorNode = rootChildOf(graph, nodeId) || nodeId;
-    return ancestorNode.charCodeAt(ancestorNode.length - 1) % 2 === 0 ? 'right' : 'left';
   };
 
   let textShape: Text | null;
@@ -137,7 +78,7 @@ export const caseMindmap: TestCase = async (context) => {
   const getNodeWidth = (nodeId: ID, isRoot: boolean) => {
     return isRoot
       ? measureText({ text: nodeId, fontSize: RootNodeStyle.labelFontSize }) + 20
-      : measureText({ text: nodeId, fontSize: NodeStyle.labelFontSize });
+      : measureText({ text: nodeId, fontSize: NodeStyle.labelFontSize }) + 30;
   };
 
   interface MindmapNodeStyleProps extends BaseNodeStyleProps {
@@ -161,17 +102,19 @@ export const caseMindmap: TestCase = async (context) => {
     }
 
     get rootId() {
-      return findRootNode(this.context.graph)!.id;
+      return idOf(this.context.model.getRootsData()[0]);
     }
 
     private isShowCollapse(attributes: Required<MindmapNodeStyleProps>) {
-      return !attributes.collapsed && this.childrenData.length > 0;
+      const { collapsed, showIcon } = attributes;
+      return !collapsed && showIcon && this.childrenData.length > 0;
     }
 
     protected getCollapseStyle(attributes: Required<MindmapNodeStyleProps>): BadgeStyleProps | false {
       const { showIcon, color, direction } = attributes;
       if (!this.isShowCollapse(attributes)) return false;
       const [width, height] = this.getSize(attributes);
+
       return {
         backgroundFill: color,
         backgroundHeight: 12,
@@ -327,7 +270,7 @@ export const caseMindmap: TestCase = async (context) => {
 
   class MindmapEdge extends CubicHorizontal {
     get rootId() {
-      return findRootNode(this.context.graph)!.id;
+      return idOf(this.context.model.getRootsData()[0]);
     }
 
     protected getKeyPath(attributes: Required<CubicStyleProps>): PathArray {
@@ -431,63 +374,99 @@ export const caseMindmap: TestCase = async (context) => {
     };
   }
 
+  class AssignElementColor extends BaseTransform {
+    beforeDraw(data: DrawData): DrawData {
+      const { nodes = [], edges = [] } = this.context.graph.getData();
+
+      const nodeColorMap = new Map<string, string>();
+
+      let colorIndex = 0;
+      const dfs = (nodeId: string, color?: string) => {
+        const node = nodes.find((datum) => datum.id == nodeId)!;
+        if (!node) return;
+
+        if (node.data?.depth !== 0) {
+          const nodeColor = color || COLORS[colorIndex++ % COLORS.length];
+          node.style ||= {};
+          node.style.color = nodeColor;
+          nodeColorMap.set(nodeId, nodeColor);
+        }
+
+        node.children?.forEach((childId) => dfs(childId, node.style!.color as string));
+      };
+
+      nodes.filter((node) => node.data?.depth === 0).forEach((rootNode) => dfs(rootNode.id));
+
+      edges.forEach((edge) => {
+        edge.style ||= {};
+        edge.style.stroke = nodeColorMap.get(edge.target);
+      });
+
+      return data;
+    }
+  }
+
   register(ExtensionCategory.NODE, 'mindmap', MindmapNode);
   register(ExtensionCategory.EDGE, 'mindmap', MindmapEdge);
   register(ExtensionCategory.BEHAVIOR, 'collapse-expand-tree', CollapseExpandTree);
+  register(ExtensionCategory.TRANSFORM, 'assign-element-color', AssignElementColor);
 
   const rootId = data.id;
 
+  const getNodeSide = (nodeData: NodeData, parentData?: NodeData): 'center' | 'left' | 'right' => {
+    if (!parentData) return 'center';
+
+    const nodePositionX = positionOf(nodeData)[0];
+    const parentPositionX = positionOf(parentData)[0];
+    return parentPositionX > nodePositionX ? 'left' : 'right';
+  };
+
   const graph = new Graph({
     ...context,
-    data: treeToGraphData(data),
+    data: treeToGraphData(data, {
+      getNodeData: (datum: TreeData, depth: number) => {
+        datum.data ||= {};
+        datum.data.depth = depth;
+        if (!datum.children) return datum as NodeData;
+        const { children, ...restDatum } = datum;
+        return { ...restDatum, children: children.map((child) => child.id) } as NodeData;
+      },
+    }),
     node: {
       type: 'mindmap',
-      style: function (this, d) {
-        const direction = getDirection(this, d.id);
-        const labelPadding = direction === 'right' ? [2, 40, 10, 0] : [2, 0, 10, 40];
-        const isRoot = d.id === rootId;
+      style: function (d: NodeData) {
+        const direction = getNodeSide(d, this.getParentData(idOf(d), 'tree'));
+        const isRoot = idOf(d) === rootId;
+
         return {
-          color: getColor(this, d.id),
           direction,
-          labelText: d.id,
-          size: [getNodeWidth(d.id, isRoot), 30],
+          labelText: idOf(d),
+          size: [getNodeWidth(idOf(d), isRoot), 30],
           // 通过设置节点标签背景来扩大节点的交互区域
           // Enlarge the interactive area of the node by setting label background
           labelBackground: true,
           labelBackgroundFill: 'transparent',
-          labelPadding,
+          labelPadding: direction === 'left' ? [2, 0, 10, 40] : [2, 40, 10, 0],
           ...(isRoot ? RootNodeStyle : NodeStyle),
         };
       },
     },
     edge: {
       type: 'mindmap',
-      style: {
-        sourcePort: function (d) {
-          if (d.source === rootId) return undefined;
-          const direction = getDirection(this, d.target);
-          return direction === 'right' ? 'right-bottom' : 'left-bottom';
-        },
-        targetPort: function (d) {
-          const direction = getDirection(this, d.target);
-          return direction === 'right' ? 'left-bottom' : 'right-bottom';
-        },
-        lineWidth: 2,
-        stroke: function (d) {
-          return getColor(this, d.target);
-        },
-      },
+      style: { lineWidth: 2 },
     },
     layout: {
       type: 'mindmap',
       direction: 'H',
-      getHeight: () => 16,
+      getHeight: () => 30,
       getWidth: (node: NodeData) => getNodeWidth(node.id, node.id === rootId),
-      getVGap: () => 10,
+      getVGap: () => 6,
       getHGap: () => 60,
-      getSide: (node: NodeData) => getDirection(graph, node.id),
+      animation: false,
     },
     behaviors: ['drag-canvas', 'zoom-canvas', 'collapse-expand-tree'],
+    transforms: ['assign-element-color'],
+    animation: false,
   });
 
   graph.once(GraphEvent.AFTER_RENDER, () => {
