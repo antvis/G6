@@ -379,6 +379,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     } else {
       this.shadow = new Rect({
         style: {
+          // @ts-ignore $layer is not in the type definition
           $layer: 'transient',
           ...shadowStyle,
           ...positionStyle,
