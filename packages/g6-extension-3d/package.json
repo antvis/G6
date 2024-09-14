@@ -49,7 +49,7 @@
   "peerDependencies": {
     "@antv/g": "^6.0.13",
     "@antv/g-canvas": "^2.0.4",
-    "@antv/g6": "^5.0.21"
+    "@antv/g6": "^5.0.22"
   },
   "publishConfig": {
     "access": "public",
