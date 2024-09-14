@@ -6,6 +6,7 @@ fetch('https://assets.antv.antgroup.com/g6/graph.json')
       {
         data,
         autoFit: 'view',
+        animation: false,
         node: {
           style: {
             size: 10,
@@ -17,6 +18,7 @@ fetch('https://assets.antv.antgroup.com/g6/graph.json')
         },
         layout: {
           type: 'd3-force',
+          animation: false,
           manyBody: {},
           x: {},
           y: {},

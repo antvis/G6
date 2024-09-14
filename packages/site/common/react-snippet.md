@@ -5,7 +5,7 @@
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
-```tsx
+```jsx
 import { Graph } from '@antv/g6';
 import { useEffect, useRef } from 'react';
 
