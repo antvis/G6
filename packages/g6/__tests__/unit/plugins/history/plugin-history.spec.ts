@@ -98,6 +98,7 @@ describe('history plugin', () => {
 
   it('setElementZIndex', async () => {
     graph.setElementZIndex('combo-2', 100);
+    graph.setElementZIndex('node-1', 101);
     await expect(graph).toMatchSnapshot(__filename, 'setElementZIndex');
     history.undo();
     await expect(graph).toMatchSnapshot(__filename, 'setElementZIndex-undo');
