@@ -1,4 +1,4 @@
-import { Graph } from '../../src/graph';
+import { Graph } from '../graph';
 
 export const G6Graph = () => {
   return (

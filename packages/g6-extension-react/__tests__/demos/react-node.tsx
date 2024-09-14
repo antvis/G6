@@ -1,10 +1,10 @@
 import { DatabaseFilled } from '@ant-design/icons';
 import type { Graph as G6Graph, GraphOptions, NodeData } from '@antv/g6';
 import { ExtensionCategory, register } from '@antv/g6';
+import { ReactNode } from '@antv/g6-extension-react';
 import { Badge, Button, Flex, Form, Input, Layout, Select, Table, Tag, Typography } from 'antd';
 import { useRef, useState } from 'react';
-import { ReactNode } from '../../src';
-import { Graph } from '../../src/graph';
+import { Graph } from '../graph';
 
 const { Content, Footer } = Layout;
 const { Text } = Typography;

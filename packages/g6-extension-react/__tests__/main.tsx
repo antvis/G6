@@ -1,6 +1,6 @@
+import { render } from '@antv/g6-extension-react';
 import { Alert, Flex, Select } from 'antd';
 import React from 'react';
-import { createRoot } from 'react-dom/client';
 import { Outlet, RouterProvider, createBrowserRouter, useMatch, useNavigate } from 'react-router-dom';
 import * as demos from './demos';
 
@@ -38,10 +38,10 @@ const router = createBrowserRouter([
 ]);
 
 const container = document.getElementById('root')!;
-const root = createRoot(container);
 
-root.render(
+render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>,
+  container,
 );

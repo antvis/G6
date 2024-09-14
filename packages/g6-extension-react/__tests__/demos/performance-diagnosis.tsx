@@ -3,7 +3,7 @@ import type { EdgeData, Element, GraphData, GraphOptions, IPointerEvent, NodeDat
 import { ExtensionCategory, HoverActivate, idOf, register } from '@antv/g6';
 import { Flex, Typography } from 'antd';
 import { CSSProperties, useEffect, useState } from 'react';
-import { Graph } from '../../src/graph';
+import { Graph } from '../graph';
 
 const { Text } = Typography;
 
