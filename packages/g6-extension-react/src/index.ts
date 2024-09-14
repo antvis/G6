@@ -13,6 +13,8 @@ export {
   ReactNode,
   Rect,
   Text,
+  render,
+  unmount,
 } from './elements';
 
 export type { GNodeStyleProps, ReactNodeStyleProps } from './elements';
