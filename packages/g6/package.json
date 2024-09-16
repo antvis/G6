@@ -57,6 +57,7 @@
     "version": "node ./scripts/version.mjs"
   },
   "dependencies": {
+    "@antv/algorithm": "^0.1.26",
     "@antv/component": "^2.0.4",
     "@antv/event-emitter": "^0.1.3",
     "@antv/g": "^6.0.13",
@@ -64,7 +65,7 @@
     "@antv/g-plugin-dragndrop": "^2.0.9",
     "@antv/graphlib": "^2.0.3",
     "@antv/hierarchy": "^0.6.13",
-    "@antv/layout": "^1.2.14-beta.7",
+    "@antv/layout": "^1.2.14-beta.8",
     "@antv/util": "^3.3.8",
     "bubblesets-js": "^2.3.3",
     "hull.js": "^1.0.6"

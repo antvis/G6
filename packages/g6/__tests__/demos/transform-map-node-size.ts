@@ -1,0 +1,47 @@
+import { Graph } from '@antv/g6';
+
+export const transformMapNodeSize: TestCase = async (context) => {
+  const graph = new Graph({
+    ...context,
+    data: {
+      nodes: [{ id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }, { id: 'node-4' }, { id: 'node-5' }],
+      edges: [
+        { source: 'node-1', target: 'node-2' },
+        { source: 'node-1', target: 'node-3' },
+        { source: 'node-1', target: 'node-4' },
+        { source: 'node-4', target: 'node-5' },
+      ],
+    },
+    node: {
+      style: {
+        labelText: (d) => d.id,
+      },
+    },
+    layout: {
+      type: 'force',
+    },
+    transforms: [
+      {
+        key: 'map-node-size',
+        type: 'map-node-size',
+      },
+    ],
+    animation: false,
+  });
+
+  await graph.render();
+
+  const config = { 'centrality.type': 'eigenvector' };
+
+  transformMapNodeSize.form = (panel) => [
+    panel
+      .add(config, 'centrality.type', ['degree', 'betweenness', 'closeness', 'eigenvector', 'pagerank'])
+      .name('Centrality Type')
+      .onChange((type: string) => {
+        graph.updateTransform({ key: 'map-node-size', centrality: { type } });
+        graph.draw();
+      }),
+  ];
+
+  return graph;
+};
