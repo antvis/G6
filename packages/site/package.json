@@ -48,7 +48,7 @@
     "@antv/g6": "workspace:*",
     "@antv/g6-extension-3d": "workspace:*",
     "@antv/g6-extension-react": "workspace:*",
-    "@antv/layout": "^1.2.14-beta.7",
+    "@antv/layout": "^1.2.14-beta.8",
     "@antv/layout-gpu": "^1.1.7",
     "@antv/layout-wasm": "^1.4.2",
     "@antv/util": "^3.3.8",
