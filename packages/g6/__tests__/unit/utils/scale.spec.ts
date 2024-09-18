@@ -1,4 +1,4 @@
-import { linear, log, powerLaw, sqrt } from '@/src/utils/scale';
+import { linear, log, pow, sqrt } from '@/src/utils/scale';
 
 describe('scale', () => {
   it('linear', () => {
@@ -14,10 +14,11 @@ describe('scale', () => {
     expect(log(1, [0, 1], [0, 100])).toEqual(100);
   });
 
-  it('powerLaw', () => {
-    expect(powerLaw(0, [0, 1], [0, 100], 2)).toEqual(0);
-    expect(powerLaw(0.5, [0, 1], [0, 100], 2)).toEqual(25);
-    expect(powerLaw(1, [0, 1], [0, 100], 2)).toEqual(100);
+  it('pow', () => {
+    expect(pow(0, [0, 1], [0, 100], 2)).toEqual(0);
+    expect(pow(0.5, [0, 1], [0, 100])).toEqual(25);
+    expect(pow(0.5, [0, 1], [0, 100], 2)).toEqual(25);
+    expect(pow(1, [0, 1], [0, 100], 2)).toEqual(100);
   });
 
   it('sqrt', () => {

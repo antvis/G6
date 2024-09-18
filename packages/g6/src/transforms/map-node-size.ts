@@ -4,8 +4,7 @@ import type { RuntimeContext } from '../runtime/types';
 import type { GraphData } from '../spec';
 import type { EdgeDirection, ID, Node, Size, STDSize } from '../types';
 import { idOf } from '../utils/id';
-import { deepMemoize } from '../utils/memoize';
-import { linear, log, powerLaw, sqrt } from '../utils/scale';
+import { linear, log, pow, sqrt } from '../utils/scale';
 import { parseSize } from '../utils/size';
 import { reassignTo } from '../utils/transform';
 import type { BaseTransformOptions } from './base-transform';
@@ -89,7 +88,7 @@ type CentralityResult = Map<ID, number>;
  */
 export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
   static defaultOptions: Partial<MapNodeSizeOptions> = {
-    centrality: { type: 'eigenvector' },
+    centrality: { type: 'degree' },
     maxSize: 80,
     minSize: 20,
     scale: 'log',
@@ -153,41 +152,39 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
     }
   }
 
-  private assignSizeByCentrality = deepMemoize(
-    (
-      centrality: number,
-      minCentrality: number,
-      maxCentrality: number,
-      minSize: STDSize,
-      maxSize: STDSize,
-      scale: MapNodeSizeOptions['scale'],
-    ): STDSize => {
-      const domain: [number, number] = [minCentrality, maxCentrality];
-      const rangeX: [number, number] = [minSize[0], maxSize[0]];
-      const rangeY: [number, number] = [minSize[1], maxSize[1]];
-      const rangeZ: [number, number] = [minSize[2], maxSize[2]];
+  private assignSizeByCentrality = (
+    centrality: number,
+    minCentrality: number,
+    maxCentrality: number,
+    minSize: STDSize,
+    maxSize: STDSize,
+    scale: MapNodeSizeOptions['scale'],
+  ): STDSize => {
+    const domain: [number, number] = [minCentrality, maxCentrality];
+    const rangeX: [number, number] = [minSize[0], maxSize[0]];
+    const rangeY: [number, number] = [minSize[1], maxSize[1]];
+    const rangeZ: [number, number] = [minSize[2], maxSize[2]];
 
-      const interpolate = (centrality: number, range: [number, number]): number => {
-        if (typeof scale === 'function') {
-          return scale(centrality, domain, range);
-        }
-        switch (scale) {
-          case 'linear':
-            return linear(centrality, domain, range);
-          case 'log':
-            return log(centrality, domain, range);
-          case 'pow':
-            return powerLaw(centrality, domain, range, 2);
-          case 'sqrt':
-            return sqrt(centrality, domain, range);
-          default:
-            return range[0];
-        }
-      };
+    const interpolate = (centrality: number, range: [number, number]): number => {
+      if (typeof scale === 'function') {
+        return scale(centrality, domain, range);
+      }
+      switch (scale) {
+        case 'linear':
+          return linear(centrality, domain, range);
+        case 'log':
+          return log(centrality, domain, range);
+        case 'pow':
+          return pow(centrality, domain, range, 2);
+        case 'sqrt':
+          return sqrt(centrality, domain, range);
+        default:
+          return range[0];
+      }
+    };
 
-      return [interpolate(centrality, rangeX), interpolate(centrality, rangeY), interpolate(centrality, rangeZ)];
-    },
-  );
+    return [interpolate(centrality, rangeX), interpolate(centrality, rangeY), interpolate(centrality, rangeZ)];
+  };
 }
 
 const initCentralityResult = (graphData: GraphData): CentralityResult => {
@@ -207,26 +204,28 @@ const initCentralityResult = (graphData: GraphData): CentralityResult => {
  * @param weightPropertyName - <zh/> 边的权重属性名 | <en/>The weight property name of the edge
  * @returns <zh/> 每个节点的中介中心性值 | <en/>The betweenness centrality for each node
  */
-const calculateBetweennessCentrality = deepMemoize(
-  (graphData: GraphData, directed?: boolean, weightPropertyName?: string): CentralityResult => {
-    const centralityResult = initCentralityResult(graphData);
-    const { nodes = [] } = graphData;
-    nodes.forEach((source) => {
-      nodes.forEach((target) => {
-        if (source !== target) {
-          const { allPath } = findShortestPath(graphData, idOf(source), idOf(target), directed, weightPropertyName);
-          const pathCount = allPath.length;
-          (allPath as ID[][]).flat().forEach((nodeId) => {
-            if (nodeId !== idOf(source) && nodeId !== idOf(target)) {
-              centralityResult.set(nodeId, centralityResult.get(nodeId)! + 1 / pathCount);
-            }
-          });
-        }
-      });
+const calculateBetweennessCentrality = (
+  graphData: GraphData,
+  directed?: boolean,
+  weightPropertyName?: string,
+): CentralityResult => {
+  const centralityResult = initCentralityResult(graphData);
+  const { nodes = [] } = graphData;
+  nodes.forEach((source) => {
+    nodes.forEach((target) => {
+      if (source !== target) {
+        const { allPath } = findShortestPath(graphData, idOf(source), idOf(target), directed, weightPropertyName);
+        const pathCount = allPath.length;
+        (allPath as ID[][]).flat().forEach((nodeId) => {
+          if (nodeId !== idOf(source) && nodeId !== idOf(target)) {
+            centralityResult.set(nodeId, centralityResult.get(nodeId)! + 1 / pathCount);
+          }
+        });
+      }
     });
-    return centralityResult;
-  },
-);
+  });
+  return centralityResult;
+};
 
 /**
  * <zh/> 计算图中每个节点的接近中心性
@@ -237,23 +236,25 @@ const calculateBetweennessCentrality = deepMemoize(
  * @param weightPropertyName - <zh/> 边的权重属性名 | <en/>The weight property name of the edge
  * @returns <zh/> 每个节点的接近中心性值 | <en/>The closeness centrality for each node
  */
-const calculateClosenessCentrality = deepMemoize(
-  (graphData: GraphData, directed?: boolean, weightPropertyName?: string): CentralityResult => {
-    const centralityResult = new Map<ID, number>();
-    const { nodes = [] } = graphData;
-    nodes.forEach((source) => {
-      const totalLength = nodes.reduce((acc, target) => {
-        if (source !== target) {
-          const { length } = findShortestPath(graphData, idOf(source), idOf(target), directed, weightPropertyName);
-          acc += length;
-        }
-        return acc;
-      }, 0);
-      centralityResult.set(idOf(source), 1 / totalLength);
-    });
-    return centralityResult;
-  },
-);
+const calculateClosenessCentrality = (
+  graphData: GraphData,
+  directed?: boolean,
+  weightPropertyName?: string,
+): CentralityResult => {
+  const centralityResult = new Map<ID, number>();
+  const { nodes = [] } = graphData;
+  nodes.forEach((source) => {
+    const totalLength = nodes.reduce((acc, target) => {
+      if (source !== target) {
+        const { length } = findShortestPath(graphData, idOf(source), idOf(target), directed, weightPropertyName);
+        acc += length;
+      }
+      return acc;
+    }, 0);
+    centralityResult.set(idOf(source), 1 / totalLength);
+  });
+  return centralityResult;
+};
 
 /**
  * <zh/> 计算图中每个节点的 PageRank 中心性
@@ -264,16 +265,14 @@ const calculateClosenessCentrality = deepMemoize(
  * @param linkProb - <zh/> PageRank 算法的阻尼系数，指任意时刻，用户访问到某节点后继续访问该节点链接的下一个节点的概率，经验值 0.85 | <en/>The damping factor of the PageRank algorithm, which refers to the probability that a user will continue to visit the next node linked to a node at any time, with an empirical value of 0.85
  * @returns <zh/> 每个节点的 PageRank 中心性值 | <en/>The PageRank centrality for each node
  */
-const calculatePageRankCentrality = deepMemoize(
-  (graphData: GraphData, epsilon?: number, linkProb?: number): CentralityResult => {
-    const centralityResult = new Map<ID, number>();
-    const data = pageRank(graphData, epsilon, linkProb);
-    graphData.nodes?.forEach((node) => {
-      centralityResult.set(idOf(node), data[idOf(node)]);
-    });
-    return centralityResult;
-  },
-);
+const calculatePageRankCentrality = (graphData: GraphData, epsilon?: number, linkProb?: number): CentralityResult => {
+  const centralityResult = new Map<ID, number>();
+  const data = pageRank(graphData, epsilon, linkProb);
+  graphData.nodes?.forEach((node) => {
+    centralityResult.set(idOf(node), data[idOf(node)]);
+  });
+  return centralityResult;
+};
 
 /**
  * <zh/> 计算图中每个节点的特征向量中心性
@@ -283,7 +282,7 @@ const calculatePageRankCentrality = deepMemoize(
  * @param directed - <zh/> 是否为有向图 | <en/>Whether the graph is directed
  * @returns 每个节点的特征向量中心性值 The eigenvector centrality for each node.
  */
-const calculateEigenvectorCentrality = deepMemoize((graphData: GraphData, directed?: boolean): CentralityResult => {
+const calculateEigenvectorCentrality = (graphData: GraphData, directed?: boolean): CentralityResult => {
   const { nodes = [] } = graphData;
   const adjacencyMatrix = createAdjacencyMatrix(graphData, directed);
   const eigenvector = powerIteration(adjacencyMatrix, nodes.length);
@@ -294,7 +293,7 @@ const calculateEigenvectorCentrality = deepMemoize((graphData: GraphData, direct
   });
 
   return centralityResult;
-});
+};
 
 /**
  * <zh/> 创建图的邻接矩阵

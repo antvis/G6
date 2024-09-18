@@ -44,12 +44,7 @@ export const log = (value: number, domain: [number, number], range: [number, num
  * @param exponent - <zh/> 幂指数 | <en/> The exponent
  * @returns <zh/> 映射后的值 | <en/> The mapped value
  */
-export const powerLaw = (
-  value: number,
-  domain: [number, number],
-  range: [number, number],
-  exponent: number,
-): number => {
+export const pow = (value: number, domain: [number, number], range: [number, number], exponent: number = 2): number => {
   const [d0, d1] = domain;
   const [r0, r1] = range;
 
