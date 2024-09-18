@@ -142,7 +142,8 @@ export class LayoutController {
     // 无迭代的布局，直接返回终态位置 / Layout without iteration, return final position directly
     const layoutResult = await layout.execute(data);
     if (animation) {
-      this.updateElementPosition(layoutResult, animation);
+      const animationResult = this.updateElementPosition(layoutResult, animation);
+      await animationResult?.finished;
     }
     return layoutResult;
   }
@@ -200,7 +201,8 @@ export class LayoutController {
       applyTreeLayoutOffset(layoutPreset, offset);
       this.updateElementPosition(layoutPreset, false);
 
-      this.updateElementPosition(layoutResult, animation);
+      const animationResult = this.updateElementPosition(layoutResult, animation);
+      await animationResult?.finished;
     }
 
     return layoutResult;
