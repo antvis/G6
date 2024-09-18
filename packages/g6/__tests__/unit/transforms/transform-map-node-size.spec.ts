@@ -17,6 +17,8 @@ describe('transform map node size', () => {
   });
 
   it('centrality', async () => {
+    await expect(graph).toMatchSnapshot(__filename);
+
     graph.updateTransform({
       key: 'map-node-size',
       centrality: { type: 'degree' },

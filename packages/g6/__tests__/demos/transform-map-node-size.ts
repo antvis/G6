@@ -18,7 +18,7 @@ export const transformMapNodeSize: TestCase = async (context) => {
       },
     },
     layout: {
-      type: 'force',
+      type: 'grid',
     },
     transforms: [
       {
