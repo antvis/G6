@@ -19,7 +19,7 @@ export interface MapNodeSizeOptions extends BaseTransformOptions {
    * - `'closeness'`：接近中心性，通过节点到其他所有节点的最短路径长度总和的倒数来衡量其重要性。接近中心性高的节点通常能够更快地到达网络中的其他节点
    * - `'eigenvector'`：特征向量中心性，通过节点与其他中心节点的连接程度来衡量其重要性。特征向量中心性高的节点通常连接着其他重要节点
    * - `'pagerank'`：PageRank 中心性，通过节点被其他节点引用的次数来衡量其重要性，常用于有向图。PageRank 中心性高的节点通常在网络中具有较高的影响力，类似于网页排名算法
-   * - 自定义中心性计算方法：`(graphData: GraphData) => CentralityResult`，其中 `graphData` 为图数据，`CentralityResult` 为节点 ID 到中心性值的映射
+   * - 自定义中心性计算方法：`(graphData: GraphData) => Map<ID, number>`，其中 `graphData` 为图数据，`Map<ID, number>` 为节点 ID 到中心性值的映射
    *
    * <en/> The method of measuring the node centrality
    * - `'degree'`: Degree centrality, measures centrality by the degree (number of connected edges) of a node. Nodes with high degree centrality usually have more direct connections and may play important roles in the network
@@ -28,7 +28,7 @@ export interface MapNodeSizeOptions extends BaseTransformOptions {
    * - `'eigenvector'`: Eigenvector centrality, measures centrality by the degree of connection between a node and other central nodes. Nodes with high eigenvector centrality usually connect to other important nodes
    * - `'pagerank'`: PageRank centrality, measures centrality by the number of times a node is referenced by other nodes, commonly used in directed graphs. Nodes with high PageRank centrality usually have high influence in the network, similar to the page ranking algorithm
    * - Custom centrality calculation method: `(graphData: GraphData) => Map<ID, number>`, where `graphData` is the graph data, and `Map<ID, number>` is the mapping from node ID to centrality value
-   * @defaultValue `{ type: 'eigenvector' }`
+   * @defaultValue { type: 'eigenvector' }
    */
   centrality?:
     | { type: 'degree'; direction?: EdgeDirection }
@@ -41,14 +41,14 @@ export interface MapNodeSizeOptions extends BaseTransformOptions {
    * <zh/> 节点最大尺寸
    *
    * <en/> The maximum size of the node
-   * @defaultValue `80`
+   * @defaultValue 80
    */
   maxSize?: Size;
   /**
    * <zh/> 节点最小尺寸
    *
    * <en/> The minimum size of the node
-   * @defaultValue `20`
+   * @defaultValue 20
    */
   minSize?: Size;
   /**
@@ -65,7 +65,7 @@ export interface MapNodeSizeOptions extends BaseTransformOptions {
    * - `'pow'`: Power-law scale, maps a value from one range to another range using power law, commonly used for cases where the difference in centrality values is large
    * - `'sqrt'`: Square root scale, maps a value from one range to another range using square root, commonly used for cases where the difference in centrality values is large
    * - Custom scale: `(value: number, domain: [number, number], range: [number, number]) => number`，where `value` is the value to be mapped, `domain` is the input range, and `range` is the output range
-   * @defaultValue `'log'`
+   * @defaultValue 'log'
    */
   scale?:
     | 'linear'
@@ -327,6 +327,7 @@ const createAdjacencyMatrix = (graphData: GraphData, directed?: boolean): number
  * <zh/> 使用幂迭代法计算主特征向量
  *
  * <en/> Calculate the principal eigenvector using the power iteration method
+ * @see https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors
  * @param matrix - <zh/> 邻接矩阵 | <en/> The adjacency matrix
  * @param numNodes - <zh/> 节点数量 | <en/> The number of nodes
  * @param maxIterations - <zh/> 最大迭代次数 | <en/> The maximum number of iterations
