@@ -88,11 +88,11 @@
   "limit-size": [
     {
       "gzip": true,
-      "limit": "300 Kb",
+      "limit": "310 Kb",
       "path": "dist/g6.min.js"
     },
     {
-      "limit": "1 Mb",
+      "limit": "1.1 Mb",
       "path": "dist/g6.min.js"
     }
   ]

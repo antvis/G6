@@ -17,7 +17,7 @@ export function deepMemoize<T extends (...args: any[]) => any>(func: T): T {
       }
     }
 
-    // @ts-expect-error this
+    // @ts-expect-error ignore
     const result = func.apply(this, args);
     cache.set(args, result);
     return result;
