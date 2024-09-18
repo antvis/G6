@@ -148,17 +148,18 @@ export function layoutAdapter(
       const nodesToLayout: LayoutNodeData[] = nodes.map((datum) => {
         const id = idOf(datum);
         const { data, style, combo, ...rest } = datum;
+
         const result = {
           id,
           data: {
             // grid 布局会直接读取 data[sortBy]，兼容处理，需要避免用户 data 下使用 data, style 等字段
             // The grid layout will directly read data[sortBy], compatible processing, need to avoid users using data, style and other fields under data
             ...data,
-            data: { ...data },
+            data,
             // antv-dagre 会读取 data.parentId
             // antv-dagre will read data.parentId
             ...(combo ? { parentId: combo } : {}),
-            style: { ...style },
+            style,
             ...rest,
           },
         };
