@@ -76,5 +76,6 @@
   "Tooltip": ["Tooltip", "提示框"],
   "Watermark": ["Watermark", "水印"],
   "ProcessParallelEdges": ["ProcessParallelEdges", "平行边"],
-  "PlaceRadialLabels": ["PlaceRadialLabels", "径向标签"]
+  "PlaceRadialLabels": ["PlaceRadialLabels", "径向标签"],
+  "MapNodeSize": ["MapNodeSize", "动态调整节点大小"]
 }

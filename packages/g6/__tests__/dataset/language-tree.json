@@ -1,0 +1,956 @@
+{
+  "nodes": [
+    {
+      "id": "Proto Indo-European",
+      "children": [
+        "Balto-Slavic",
+        "Germanic",
+        "Celtic",
+        "Italic",
+        "Hellenic",
+        "Anatolian",
+        "Indo-Iranian",
+        "Tocharian",
+        "Phrygian",
+        "Armenian",
+        "Albanian",
+        "Thracian"
+      ]
+    },
+    {
+      "id": "Balto-Slavic",
+      "children": ["Baltic", "Slavic"]
+    },
+    {
+      "id": "Baltic",
+      "children": ["Old Prussian", "Lithuanian", "Latvian"]
+    },
+    {
+      "id": "Old Prussian"
+    },
+    {
+      "id": "Lithuanian"
+    },
+    {
+      "id": "Latvian"
+    },
+    {
+      "id": "Slavic",
+      "children": ["East Slavic", "West Slavic", "South Slavic"]
+    },
+    {
+      "id": "East Slavic",
+      "children": ["Bulgarian", "Old Church Slavonic", "Macedonian", "Serbo-Croatian", "Slovene"]
+    },
+    {
+      "id": "Bulgarian"
+    },
+    {
+      "id": "Old Church Slavonic"
+    },
+    {
+      "id": "Macedonian"
+    },
+    {
+      "id": "Serbo-Croatian"
+    },
+    {
+      "id": "Slovene"
+    },
+    {
+      "id": "West Slavic",
+      "children": ["Polish", "Slovak", "Czech", "Wendish"]
+    },
+    {
+      "id": "Polish"
+    },
+    {
+      "id": "Slovak"
+    },
+    {
+      "id": "Czech"
+    },
+    {
+      "id": "Wendish"
+    },
+    {
+      "id": "South Slavic",
+      "children": ["Russian", "Ukrainian", "Belarusian", "Rusyn"]
+    },
+    {
+      "id": "Russian"
+    },
+    {
+      "id": "Ukrainian"
+    },
+    {
+      "id": "Belarusian"
+    },
+    {
+      "id": "Rusyn"
+    },
+    {
+      "id": "Germanic",
+      "children": ["North Germanic", "West Germanic", "East Germanic"]
+    },
+    {
+      "id": "North Germanic",
+      "children": ["Old Norse", "Old Swedish", "Old Danish"]
+    },
+    {
+      "id": "Old Norse",
+      "children": ["Old Icelandic", "Old Norwegian", "Faroese"]
+    },
+    {
+      "id": "Old Icelandic",
+      "children": ["Icelandic"]
+    },
+    {
+      "id": "Icelandic"
+    },
+    {
+      "id": "Old Norwegian",
+      "children": ["Middle Norwegian"]
+    },
+    {
+      "id": "Middle Norwegian",
+      "children": ["Norwegian"]
+    },
+    {
+      "id": "Norwegian"
+    },
+    {
+      "id": "Faroese"
+    },
+    {
+      "id": "Old Swedish",
+      "children": ["Middle Swedish"]
+    },
+    {
+      "id": "Middle Swedish",
+      "children": ["Swedish"]
+    },
+    {
+      "id": "Swedish"
+    },
+    {
+      "id": "Old Danish",
+      "children": ["Middle Danish"]
+    },
+    {
+      "id": "Middle Danish",
+      "children": ["Danish"]
+    },
+    {
+      "id": "Danish"
+    },
+    {
+      "id": "West Germanic",
+      "children": ["Old English", "Old Frisian", "Old Dutch", "Old Low German", "Old High German"]
+    },
+    {
+      "id": "Old English",
+      "children": ["Middle English"]
+    },
+    {
+      "id": "Middle English",
+      "children": ["English"]
+    },
+    {
+      "id": "English"
+    },
+    {
+      "id": "Old Frisian",
+      "children": ["Frisian"]
+    },
+    {
+      "id": "Frisian"
+    },
+    {
+      "id": "Old Dutch",
+      "children": ["Middle Dutch"]
+    },
+    {
+      "id": "Middle Dutch",
+      "children": ["Hollandic", "Flemish", "Dutch", "Limburgish", "Brabantian", "Rhinelandic"]
+    },
+    {
+      "id": "Hollandic"
+    },
+    {
+      "id": "Flemish"
+    },
+    {
+      "id": "Dutch"
+    },
+    {
+      "id": "Limburgish"
+    },
+    {
+      "id": "Brabantian"
+    },
+    {
+      "id": "Rhinelandic"
+    },
+    {
+      "id": "Old Low German",
+      "children": ["Middle Low German"]
+    },
+    {
+      "id": "Middle Low German",
+      "children": ["Low German"]
+    },
+    {
+      "id": "Low German"
+    },
+    {
+      "id": "Old High German",
+      "children": ["Middle High German"]
+    },
+    {
+      "id": "Middle High German",
+      "children": ["(High) German", "Yiddish"]
+    },
+    {
+      "id": "(High) German"
+    },
+    {
+      "id": "Yiddish"
+    },
+    {
+      "id": "East Germanic",
+      "children": ["Gothic"]
+    },
+    {
+      "id": "Gothic"
+    },
+    {
+      "id": "Celtic",
+      "children": ["Brythonic", "Goidelic"]
+    },
+    {
+      "id": "Brythonic",
+      "children": ["Welsh", "Breton", "Cornish", "Cuymbric"]
+    },
+    {
+      "id": "Welsh"
+    },
+    {
+      "id": "Breton"
+    },
+    {
+      "id": "Cornish"
+    },
+    {
+      "id": "Cuymbric"
+    },
+    {
+      "id": "Goidelic",
+      "children": ["Modern Irish", "Scottish Gaelic", "Manx"]
+    },
+    {
+      "id": "Modern Irish"
+    },
+    {
+      "id": "Scottish Gaelic"
+    },
+    {
+      "id": "Manx"
+    },
+    {
+      "id": "Italic",
+      "children": ["Osco-Umbrian", "Latino-Faliscan"]
+    },
+    {
+      "id": "Osco-Umbrian",
+      "children": ["Umbrian", "Oscan"]
+    },
+    {
+      "id": "Umbrian"
+    },
+    {
+      "id": "Oscan"
+    },
+    {
+      "id": "Latino-Faliscan",
+      "children": ["Latin", "Faliscan"]
+    },
+    {
+      "id": "Latin",
+      "children": [
+        "Portugese",
+        "Spanish",
+        "French",
+        "Romanian",
+        "Italian",
+        "Catalan",
+        "Franco-Provençal",
+        "Rhaeto-Romance"
+      ]
+    },
+    {
+      "id": "Portugese"
+    },
+    {
+      "id": "Spanish"
+    },
+    {
+      "id": "French"
+    },
+    {
+      "id": "Romanian"
+    },
+    {
+      "id": "Italian"
+    },
+    {
+      "id": "Catalan"
+    },
+    {
+      "id": "Franco-Provençal"
+    },
+    {
+      "id": "Rhaeto-Romance"
+    },
+    {
+      "id": "Faliscan"
+    },
+    {
+      "id": "Hellenic",
+      "children": ["Greek"]
+    },
+    {
+      "id": "Greek"
+    },
+    {
+      "id": "Anatolian",
+      "children": ["Hittite", "Palaic", "Luwic", "Lydian"]
+    },
+    {
+      "id": "Hittite"
+    },
+    {
+      "id": "Palaic"
+    },
+    {
+      "id": "Luwic"
+    },
+    {
+      "id": "Lydian"
+    },
+    {
+      "id": "Indo-Iranian",
+      "children": ["Dardic", "Indic", "Iranian"]
+    },
+    {
+      "id": "Dardic",
+      "children": ["Dard"]
+    },
+    {
+      "id": "Dard"
+    },
+    {
+      "id": "Indic",
+      "children": ["Sanskrit"]
+    },
+    {
+      "id": "Sanskrit",
+      "children": [
+        "Sindhi",
+        "Romani",
+        "Urdu",
+        "Hindi",
+        "Bihari",
+        "Assamese",
+        "Bengali",
+        "Marathi",
+        "Gujarati",
+        "Punjabi",
+        "Sinhalese"
+      ]
+    },
+    {
+      "id": "Sindhi"
+    },
+    {
+      "id": "Romani"
+    },
+    {
+      "id": "Urdu"
+    },
+    {
+      "id": "Hindi"
+    },
+    {
+      "id": "Bihari"
+    },
+    {
+      "id": "Assamese"
+    },
+    {
+      "id": "Bengali"
+    },
+    {
+      "id": "Marathi"
+    },
+    {
+      "id": "Gujarati"
+    },
+    {
+      "id": "Punjabi"
+    },
+    {
+      "id": "Sinhalese"
+    },
+    {
+      "id": "Iranian",
+      "children": ["Old Persian", "Balochi", "Kurdish", "Pashto", "Sogdian"]
+    },
+    {
+      "id": "Old Persian",
+      "children": ["Middle Persian", "Pahlavi"]
+    },
+    {
+      "id": "Middle Persian",
+      "children": ["Persian"]
+    },
+    {
+      "id": "Persian"
+    },
+    {
+      "id": "Pahlavi"
+    },
+    {
+      "id": "Balochi"
+    },
+    {
+      "id": "Kurdish"
+    },
+    {
+      "id": "Pashto"
+    },
+    {
+      "id": "Sogdian"
+    },
+    {
+      "id": "Tocharian",
+      "children": ["Tocharian A", "Tocharian B"]
+    },
+    {
+      "id": "Tocharian A"
+    },
+    {
+      "id": "Tocharian B"
+    },
+    {
+      "id": "Phrygian"
+    },
+    {
+      "id": "Armenian"
+    },
+    {
+      "id": "Albanian"
+    },
+    {
+      "id": "Thracian"
+    }
+  ],
+  "edges": [
+    {
+      "source": "Proto Indo-European",
+      "target": "Balto-Slavic"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Germanic"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Celtic"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Italic"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Hellenic"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Anatolian"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Indo-Iranian"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Tocharian"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Phrygian"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Armenian"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Albanian"
+    },
+    {
+      "source": "Proto Indo-European",
+      "target": "Thracian"
+    },
+    {
+      "source": "Balto-Slavic",
+      "target": "Baltic"
+    },
+    {
+      "source": "Balto-Slavic",
+      "target": "Slavic"
+    },
+    {
+      "source": "Baltic",
+      "target": "Old Prussian"
+    },
+    {
+      "source": "Baltic",
+      "target": "Lithuanian"
+    },
+    {
+      "source": "Baltic",
+      "target": "Latvian"
+    },
+    {
+      "source": "Slavic",
+      "target": "East Slavic"
+    },
+    {
+      "source": "Slavic",
+      "target": "West Slavic"
+    },
+    {
+      "source": "Slavic",
+      "target": "South Slavic"
+    },
+    {
+      "source": "East Slavic",
+      "target": "Bulgarian"
+    },
+    {
+      "source": "East Slavic",
+      "target": "Old Church Slavonic"
+    },
+    {
+      "source": "East Slavic",
+      "target": "Macedonian"
+    },
+    {
+      "source": "East Slavic",
+      "target": "Serbo-Croatian"
+    },
+    {
+      "source": "East Slavic",
+      "target": "Slovene"
+    },
+    {
+      "source": "West Slavic",
+      "target": "Polish"
+    },
+    {
+      "source": "West Slavic",
+      "target": "Slovak"
+    },
+    {
+      "source": "West Slavic",
+      "target": "Czech"
+    },
+    {
+      "source": "West Slavic",
+      "target": "Wendish"
+    },
+    {
+      "source": "South Slavic",
+      "target": "Russian"
+    },
+    {
+      "source": "South Slavic",
+      "target": "Ukrainian"
+    },
+    {
+      "source": "South Slavic",
+      "target": "Belarusian"
+    },
+    {
+      "source": "South Slavic",
+      "target": "Rusyn"
+    },
+    {
+      "source": "Germanic",
+      "target": "North Germanic"
+    },
+    {
+      "source": "Germanic",
+      "target": "West Germanic"
+    },
+    {
+      "source": "Germanic",
+      "target": "East Germanic"
+    },
+    {
+      "source": "North Germanic",
+      "target": "Old Norse"
+    },
+    {
+      "source": "North Germanic",
+      "target": "Old Swedish"
+    },
+    {
+      "source": "North Germanic",
+      "target": "Old Danish"
+    },
+    {
+      "source": "Old Norse",
+      "target": "Old Icelandic"
+    },
+    {
+      "source": "Old Norse",
+      "target": "Old Norwegian"
+    },
+    {
+      "source": "Old Norse",
+      "target": "Faroese"
+    },
+    {
+      "source": "Old Icelandic",
+      "target": "Icelandic"
+    },
+    {
+      "source": "Old Norwegian",
+      "target": "Middle Norwegian"
+    },
+    {
+      "source": "Middle Norwegian",
+      "target": "Norwegian"
+    },
+    {
+      "source": "Old Swedish",
+      "target": "Middle Swedish"
+    },
+    {
+      "source": "Middle Swedish",
+      "target": "Swedish"
+    },
+    {
+      "source": "Old Danish",
+      "target": "Middle Danish"
+    },
+    {
+      "source": "Middle Danish",
+      "target": "Danish"
+    },
+    {
+      "source": "West Germanic",
+      "target": "Old English"
+    },
+    {
+      "source": "West Germanic",
+      "target": "Old Frisian"
+    },
+    {
+      "source": "West Germanic",
+      "target": "Old Dutch"
+    },
+    {
+      "source": "West Germanic",
+      "target": "Old Low German"
+    },
+    {
+      "source": "West Germanic",
+      "target": "Old High German"
+    },
+    {
+      "source": "Old English",
+      "target": "Middle English"
+    },
+    {
+      "source": "Middle English",
+      "target": "English"
+    },
+    {
+      "source": "Old Frisian",
+      "target": "Frisian"
+    },
+    {
+      "source": "Old Dutch",
+      "target": "Middle Dutch"
+    },
+    {
+      "source": "Middle Dutch",
+      "target": "Hollandic"
+    },
+    {
+      "source": "Middle Dutch",
+      "target": "Flemish"
+    },
+    {
+      "source": "Middle Dutch",
+      "target": "Dutch"
+    },
+    {
+      "source": "Middle Dutch",
+      "target": "Limburgish"
+    },
+    {
+      "source": "Middle Dutch",
+      "target": "Brabantian"
+    },
+    {
+      "source": "Middle Dutch",
+      "target": "Rhinelandic"
+    },
+    {
+      "source": "Old Low German",
+      "target": "Middle Low German"
+    },
+    {
+      "source": "Middle Low German",
+      "target": "Low German"
+    },
+    {
+      "source": "Old High German",
+      "target": "Middle High German"
+    },
+    {
+      "source": "Middle High German",
+      "target": "(High) German"
+    },
+    {
+      "source": "Middle High German",
+      "target": "Yiddish"
+    },
+    {
+      "source": "East Germanic",
+      "target": "Gothic"
+    },
+    {
+      "source": "Celtic",
+      "target": "Brythonic"
+    },
+    {
+      "source": "Celtic",
+      "target": "Goidelic"
+    },
+    {
+      "source": "Brythonic",
+      "target": "Welsh"
+    },
+    {
+      "source": "Brythonic",
+      "target": "Breton"
+    },
+    {
+      "source": "Brythonic",
+      "target": "Cornish"
+    },
+    {
+      "source": "Brythonic",
+      "target": "Cuymbric"
+    },
+    {
+      "source": "Goidelic",
+      "target": "Modern Irish"
+    },
+    {
+      "source": "Goidelic",
+      "target": "Scottish Gaelic"
+    },
+    {
+      "source": "Goidelic",
+      "target": "Manx"
+    },
+    {
+      "source": "Italic",
+      "target": "Osco-Umbrian"
+    },
+    {
+      "source": "Italic",
+      "target": "Latino-Faliscan"
+    },
+    {
+      "source": "Osco-Umbrian",
+      "target": "Umbrian"
+    },
+    {
+      "source": "Osco-Umbrian",
+      "target": "Oscan"
+    },
+    {
+      "source": "Latino-Faliscan",
+      "target": "Latin"
+    },
+    {
+      "source": "Latino-Faliscan",
+      "target": "Faliscan"
+    },
+    {
+      "source": "Latin",
+      "target": "Portugese"
+    },
+    {
+      "source": "Latin",
+      "target": "Spanish"
+    },
+    {
+      "source": "Latin",
+      "target": "French"
+    },
+    {
+      "source": "Latin",
+      "target": "Romanian"
+    },
+    {
+      "source": "Latin",
+      "target": "Italian"
+    },
+    {
+      "source": "Latin",
+      "target": "Catalan"
+    },
+    {
+      "source": "Latin",
+      "target": "Franco-Provençal"
+    },
+    {
+      "source": "Latin",
+      "target": "Rhaeto-Romance"
+    },
+    {
+      "source": "Hellenic",
+      "target": "Greek"
+    },
+    {
+      "source": "Anatolian",
+      "target": "Hittite"
+    },
+    {
+      "source": "Anatolian",
+      "target": "Palaic"
+    },
+    {
+      "source": "Anatolian",
+      "target": "Luwic"
+    },
+    {
+      "source": "Anatolian",
+      "target": "Lydian"
+    },
+    {
+      "source": "Indo-Iranian",
+      "target": "Dardic"
+    },
+    {
+      "source": "Indo-Iranian",
+      "target": "Indic"
+    },
+    {
+      "source": "Indo-Iranian",
+      "target": "Iranian"
+    },
+    {
+      "source": "Dardic",
+      "target": "Dard"
+    },
+    {
+      "source": "Indic",
+      "target": "Sanskrit"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Sindhi"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Romani"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Urdu"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Hindi"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Bihari"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Assamese"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Bengali"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Marathi"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Gujarati"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Punjabi"
+    },
+    {
+      "source": "Sanskrit",
+      "target": "Sinhalese"
+    },
+    {
+      "source": "Iranian",
+      "target": "Old Persian"
+    },
+    {
+      "source": "Iranian",
+      "target": "Balochi"
+    },
+    {
+      "source": "Iranian",
+      "target": "Kurdish"
+    },
+    {
+      "source": "Iranian",
+      "target": "Pashto"
+    },
+    {
+      "source": "Iranian",
+      "target": "Sogdian"
+    },
+    {
+      "source": "Old Persian",
+      "target": "Middle Persian"
+    },
+    {
+      "source": "Old Persian",
+      "target": "Pahlavi"
+    },
+    {
+      "source": "Middle Persian",
+      "target": "Persian"
+    },
+    {
+      "source": "Tocharian",
+      "target": "Tocharian A"
+    },
+    {
+      "source": "Tocharian",
+      "target": "Tocharian B"
+    }
+  ]
+}

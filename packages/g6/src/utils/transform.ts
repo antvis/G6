@@ -44,7 +44,7 @@ export const reassignTo = (
   const exitsDatum: any =
     input.add[typeName].get(id) || input.update[typeName].get(id) || input.remove[typeName].get(id) || datum;
   Object.entries(input).forEach(([_type, value]) => {
-    if (type === _type) value[typeName].set(id, merge ? deepMix(exitsDatum, datum) : exitsDatum);
+    if (type === _type) value[typeName].set(id, merge ? deepMix(exitsDatum, datum) : datum);
     else value[typeName].delete(id);
   });
 };

@@ -56,6 +56,7 @@ module.exports = {
     // TODO: rules below will be set to 2 in the future
     'jsdoc/require-jsdoc': 1,
     'jsdoc/check-access': 1,
+    'jsdoc/valid-types': 0,
     /**
      * js plugin rules
      */

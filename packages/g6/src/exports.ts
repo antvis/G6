@@ -95,7 +95,7 @@ export {
 export { getExtension, getExtensions } from './registry/get';
 export { register } from './registry/register';
 export { Graph } from './runtime/graph';
-export { BaseTransform, PlaceRadialLabels, ProcessParallelEdges } from './transforms';
+export { BaseTransform, MapNodeSize, PlaceRadialLabels, ProcessParallelEdges } from './transforms';
 export { isCollapsed } from './utils/collapsibility';
 export { idOf } from './utils/id';
 export { invokeLayoutMethod } from './utils/layout';
@@ -219,7 +219,12 @@ export type { CustomBehaviorOption } from './spec/behavior';
 export type { AnimationStage } from './spec/element/animation';
 export type { LayoutOptions, STDLayoutOptions, SingleLayoutOptions } from './spec/layout';
 export type { CustomPluginOption } from './spec/plugin';
-export type { BaseTransformOptions, PlaceRadialLabelsOptions, ProcessParallelEdgesOptions } from './transforms';
+export type {
+  BaseTransformOptions,
+  MapNodeSizeOptions,
+  PlaceRadialLabelsOptions,
+  ProcessParallelEdgesOptions,
+} from './transforms';
 export type { DrawData } from './transforms/types';
 export type {
   BaseElementStyleProps,
