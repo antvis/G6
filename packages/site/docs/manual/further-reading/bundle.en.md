@@ -40,10 +40,21 @@ npx webpack
 
 > The above configuration works with `"webpack": "^5.94.0"`, `"webpack-cli": "^5.1.4"`.
 
-If your Webpack version is lower, you may need to add additional loaders:
+:::error{title=Webpack4}
+⚠️ It is strongly recommended that projects use Webpack 5. If you are using Webpack 4, follow the steps below to configure:
 
-- `ts-loader`: Used to load TypeScript files
-- `@babel/plugin-transform-class-properties`: Used to transform properties of TypeScript classes
+1. Install the necessary dependencies: `babel-loader` (<9), `@babel/preset-env`, `@open-wc/webpack-import-meta-loader`
+
+> If you are using TypeScript, you also need to install `ts-loader`.
+
+```bash
+npm install babel-loader@8 @babel/preset-env @open-wc/webpack-import-meta-loader --save-dev
+```
+
+2. Modify the `webpack.config.js` configuration:
+
+<embed src="../feature-common/webpack4.md"></embed>
+:::
 
 ## Bundle Project with Rollup
 

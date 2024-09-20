@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "esnext",
+    "target": "ES6",
     "types": ["node", "@types/jest"]
   },
   "exclude": ["node_modules"]
