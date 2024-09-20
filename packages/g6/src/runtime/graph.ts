@@ -967,6 +967,18 @@ export class Graph extends EventEmitter {
   }
 
   /**
+   * <zh/> 获取节点或组合的后代元素数据
+   *
+   * <en/> Get the descendant element data of the node or combo
+   * @param id - <zh/> 节点或组合ID | <en/> node or combo ID
+   * @returns <zh/> 后代元素数据 | <en/> descendant element data
+   * @apiCategory data
+   */
+  public getDescendantsData(id: ID): NodeLikeData[] {
+    return this.context.model.getDescendantsData(id);
+  }
+
+  /**
    * <zh/> 获取指定状态下的节点数据
    *
    * <en/> Get node data in a specific state
