@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.23
+
+### Patch Changes
+
+- chore, feat, bugfix
+
 ## 5.0.22
 
 ### Patch Changes
