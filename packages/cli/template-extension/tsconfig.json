@@ -17,7 +17,7 @@
     "sourceMap": true,
     "sourceRoot": "src",
     "strict": true,
-    "target": "esnext",
+    "target": "ES6",
     "types": ["@types/jest", "node"],
     "paths": {
       "@/*": ["./*"],
