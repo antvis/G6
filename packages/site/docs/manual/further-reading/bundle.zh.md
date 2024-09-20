@@ -40,10 +40,21 @@ npx webpack
 
 > 上述配置在："webpack": "^5.94.0"，"webpack-cli": "^5.1.4" 可以正常工作。
 
-如果你的 webpack 版本较低，可能需要添加额外的 loader：
+:::error{title=Webpack4}
+⚠️ 强烈建议项目使用 Webpack 5，如果你使用的是 Webpack 4，按以下步骤配置：
 
-- `ts-loader`：用于加载 TypeScript 文件
-- `@babel/plugin-transform-class-properties`：用于转换 TypeScript 类的属性
+1. 安装相关依赖：babel-loader(<9)、@babel/preset-env、@open-wc/webpack-import-meta-loader
+
+> 如果你使用的 typescript，还需要安装 ts-loader
+
+```bash
+npm install babel-loader@8 @babel/preset-env @open-wc/webpack-import-meta-loader --save-dev
+```
+
+2. 修改 `webpack.config.js` 配置：
+
+<embed src="../feature-common/webpack4.md"></embed>
+:::
 
 ## 使用 Rollup 打包项目
 
