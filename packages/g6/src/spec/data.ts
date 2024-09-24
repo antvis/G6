@@ -103,6 +103,16 @@ export interface NodeData {
    * <en/> Suitable for tree graph structure
    */
   children?: ID[];
+  /**
+   * <zh/> 节点深度
+   *
+   * <en/> Node depth
+   * @remarks
+   * <zh/> 适用于树图结构
+   *
+   * <en/> Suitable for tree graph structure
+   */
+  depth?: number;
   [key: string]: unknown;
 }
 

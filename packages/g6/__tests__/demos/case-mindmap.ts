@@ -13,7 +13,6 @@ import type {
   NodeData,
   PathArray,
   RuntimeContext,
-  TreeData,
 } from '@antv/g6';
 import {
   Badge,
@@ -385,7 +384,7 @@ export const caseMindmap: TestCase = async (context) => {
         const node = nodes.find((datum) => datum.id == nodeId)!;
         if (!node) return;
 
-        if (node.data?.depth !== 0) {
+        if (node.depth !== 0) {
           const nodeColor = color || COLORS[colorIndex++ % COLORS.length];
           node.style ||= {};
           node.style.color = nodeColor;
@@ -395,7 +394,7 @@ export const caseMindmap: TestCase = async (context) => {
         node.children?.forEach((childId) => dfs(childId, node.style!.color as string));
       };
 
-      nodes.filter((node) => node.data?.depth === 0).forEach((rootNode) => dfs(rootNode.id));
+      nodes.filter((node) => node.depth === 0).forEach((rootNode) => dfs(rootNode.id));
 
       edges.forEach((edge) => {
         edge.style ||= {};
@@ -423,15 +422,7 @@ export const caseMindmap: TestCase = async (context) => {
 
   const graph = new Graph({
     ...context,
-    data: treeToGraphData(data, {
-      getNodeData: (datum: TreeData, depth: number) => {
-        datum.data ||= {};
-        datum.data.depth = depth;
-        if (!datum.children) return datum as NodeData;
-        const { children, ...restDatum } = datum;
-        return { ...restDatum, children: children.map((child) => child.id) } as NodeData;
-      },
-    }),
+    data: treeToGraphData(data),
     node: {
       type: 'mindmap',
       style: function (d: NodeData) {

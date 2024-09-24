@@ -363,7 +363,7 @@ class AssignElementColor extends BaseTransform {
       const node = nodes.find((datum) => datum.id == nodeId);
       if (!node) return;
 
-      if (node.data?.depth !== 0) {
+      if (node.depth !== 0) {
         const nodeColor = color || COLORS[colorIndex++ % COLORS.length];
         node.style ||= {};
         node.style.color = nodeColor;
@@ -373,7 +373,7 @@ class AssignElementColor extends BaseTransform {
       node.children?.forEach((childId) => dfs(childId, node.style.color));
     };
 
-    nodes.filter((node) => node.data?.depth === 0).forEach((rootNode) => dfs(rootNode.id));
+    nodes.filter((node) => node.depth === 0).forEach((rootNode) => dfs(rootNode.id));
 
     edges.forEach((edge) => {
       edge.style ||= {};
@@ -403,15 +403,7 @@ fetch('https://assets.antv.antgroup.com/g6/algorithm-category.json')
     const rootId = data.id;
 
     const graph = new Graph({
-      data: treeToGraphData(data, {
-        getNodeData: (datum, depth) => {
-          datum.data ||= {};
-          datum.data.depth = depth;
-          if (!datum.children) return datum;
-          const { children, ...restDatum } = datum;
-          return { ...restDatum, children: children.map((child) => child.id) };
-        },
-      }),
+      data: treeToGraphData(data),
       node: {
         type: 'mindmap',
         style: function (d) {
