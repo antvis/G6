@@ -84,7 +84,7 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
     enable: true,
     sensitivity: 1,
     preventDefault: true,
-    range: 0.5,
+    range: Infinity,
   };
 
   private shortcut: Shortcut;
