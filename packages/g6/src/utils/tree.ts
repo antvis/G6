@@ -18,7 +18,8 @@ type TreeDataGetter = {
  */
 export function treeToGraphData(treeData: TreeData, getter?: TreeDataGetter): GraphData {
   const {
-    getNodeData = (datum: TreeData) => {
+    getNodeData = (datum: TreeData, depth: number) => {
+      datum.depth = depth;
       if (!datum.children) return datum as NodeData;
       const { children, ...restDatum } = datum;
       return { ...restDatum, children: children.map((child) => child.id) } as NodeData;
