@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.24
+
+### Patch Changes
+
+- perf
+
 ## 5.0.23
 
 ### Patch Changes
