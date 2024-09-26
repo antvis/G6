@@ -76,7 +76,7 @@ const graph = new Graph({
 | html     | HTML     | HTML节点   |
 | image    | Image    | 图片节点   |
 | rect     | Rect     | 矩形节点   |
-| star     | Star     | 星型姐弟哪 |
+| star     | Star     | 星形节点   |
 | donut    | Donut    | 甜甜圈节点 |
 | triangle | Triangle | 三角形节点 |
 
