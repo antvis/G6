@@ -98,6 +98,10 @@ You can solve this issue by:
 2. Checking whether there are illegal values in the element of the nodes, such as null, NaN, and so on;
 3. Using integers as much as possible for numeric style values, such as r, width, height, fontSize, and so on.
 
+### Use Vanilla JavaScript Object Data
+
+Please avoid using Vue reactive data, Immer.js, and other wrapped objects as the data source for G6, as these objects will be deeply monitored internally, and even freeze the data object, causing G6 to fail to operate normally.
+
 ### G6 project startup Warning during compilation Type mapping points to non-existent path
 
 ```shell
