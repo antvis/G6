@@ -128,6 +128,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     batch!.startBatch();
     canvas.setCursor('crosshair');
     this.source = this.getSelectedNodeIDs([event.target.id])[0];
+    const sourceNode = graph.getNodeData(this.source);
 
     graph.addNodeData([
       {
@@ -135,6 +136,8 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
         style: {
           visibility: 'hidden',
           ports: [{ key: 'port-1', placement: [0.5, 0.5] }],
+          x: sourceNode.style?.x,
+          y: sourceNode.style?.y,
         },
       },
     ]);
