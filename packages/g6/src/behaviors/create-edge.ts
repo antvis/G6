@@ -3,7 +3,7 @@ import { CanvasEvent, ComboEvent, CommonEvent, EdgeEvent, NodeEvent } from '../c
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
 import type { EdgeStyle } from '../spec/element/edge';
-import type { ID, IElementEvent, IPointerEvent } from '../types';
+import type { ID, IElementEvent, IPointerEvent, NodeLikeData } from '../types';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -128,6 +128,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     batch!.startBatch();
     canvas.setCursor('crosshair');
     this.source = this.getSelectedNodeIDs([event.target.id])[0];
+    const sourceNode = graph.getElementData(this.source) as NodeLikeData;
 
     graph.addNodeData([
       {
@@ -135,6 +136,8 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
         style: {
           visibility: 'hidden',
           ports: [{ key: 'port-1', placement: [0.5, 0.5] }],
+          x: sourceNode.style?.x,
+          y: sourceNode.style?.y,
         },
       },
     ]);

@@ -17,7 +17,7 @@
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 240.51316701949486,146.83772233983163 L 105.69209978830308,101.89736659610102" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" pointer-events="none"/>
-            <path fill="none" d="M 241.42507074287457,144.85504244572473 L 5.1449575542752655,3.0869745325651596" class="key" stroke-width="3" stroke="transparent" pointer-events="none"/>
+            <path fill="none" d="M 260,150 L 250,150" class="key" stroke-width="3" stroke="transparent" pointer-events="none"/>
             <g transform="matrix(0.948683,0.316228,-0.316228,0.948683,105.692101,101.897369)">
               <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
