@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.25
+
+### Patch Changes
+
+- refactor
+
 ## 5.0.24
 
 ### Patch Changes
