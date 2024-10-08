@@ -2,7 +2,7 @@ import { isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
-import type { EdgeDirection, Element, ID, IDragEvent, IPointerEvent, State } from '../types';
+import type { EdgeDirection, Element, ElementType, ID, IDragEvent, IPointerEvent, State } from '../types';
 import { isToBeDestroyed } from '../utils/element';
 import { idsOf } from '../utils/id';
 import { getElementNthDegreeIds } from '../utils/relation';
@@ -138,12 +138,11 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
     const { graph } = this.context;
     const { degree, direction } = this.options;
     const elementId = event.target.id;
-    const elementType = graph.getElementType(elementId);
 
     return degree
       ? getElementNthDegreeIds(
           graph,
-          elementType,
+          event.targetType as ElementType,
           elementId,
           typeof degree === 'function' ? degree(event) : degree,
           direction,
