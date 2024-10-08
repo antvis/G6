@@ -85,6 +85,7 @@ export class BehaviorController extends ExtensionController<BaseBehavior<CustomB
             ...stdEvent,
             type: CommonEvent.POINTER_LEAVE,
             target: this.currentTarget,
+            targetType: this.currentTargetType,
           });
         }
         if (targetElement) {
