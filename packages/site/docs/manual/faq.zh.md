@@ -101,3 +101,170 @@ behaviors: [
 ### 使用原生 JavaScript 对象数据
 
 请避免使用 Vue 响应式数据、Immer.js 等包装过的对象作为 G6 的数据源，因为这些对象会在内部进行深度监听，甚至冻结数据对象，导致 G6 无法正常操作数据。
+
+### G6 项目启动在编译时警告类型映射指向不存在路径
+
+```shell
+WARNING in ./node_modules/@antv/util/esm/path/util/segment-cubic-factory.js
+Module Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+Failed to parse source map from '/Users/xxx/workspace/antv-g6-learn/node_modules/@antv/util/esm/path/util/src/path/util/segment-cubic-factory.ts' file: Error: ENOENT: no such file or directory, open '/Users/xxx/workspace/antv-g6-learn/node_modules/@antv/util/esm/path/util/src/path/util/segment-cubic-factory.ts'
+
+WARNING in ./node_modules/@antv/util/esm/path/util/segment-line-factory.js
+Module Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+Failed to parse source map from '/Users/xxx/workspace/antv-g6-learn/node_modules/@antv/util/esm/path/util/src/path/util/segment-line-factory.ts' file: Error: ENOENT: no such file or directory, open '/Users/xxx/workspace/antv-g6-learn/node_modules/@antv/util/esm/path/util/src/path/util/segment-line-factory.ts'
+
+WARNING in ./node_modules/@antv/util/esm/path/util/segment-quad-factory.js
+Module Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+Failed to parse source map from '/Users/xxx/workspace/antv-g6-learn/node_modules/@antv/util/esm/path/util/src/path/util/segment-quad-factory.ts' file: Error: ENOENT: no such file or directory, open '/Users/xxx/workspace/antv-g6-learn/node_modules/@antv/util/esm/path/util/src/path/util/segment-quad-factory.ts'
+```
+
+> 解释: [@antv/util](https://github.com/antvis/util) 是 AntV 底层依赖的工具库。
+
+从上面部分警告信息中我们可以得知是 G6 依赖的 `@antv/util` 工具库的类型声明文件存在问题，**该警告不影响项目正常运行**。
+
+该信息只会在 TypeScript 项目中出现，关闭办法如下:
+
+1. 关闭TypeScript 的sourcemap源码映射
+
+在项目根目录下创建`.env`文件，并添加以下内容:
+
+```text
+GENERATE_SOURCEMAP=false
+```
+
+2. 单独禁用指定模块的源码映射
+
+直接禁用sourcemap映射的方式过于简单粗暴，对于部分可能有调试需求的开发者不太友好，所以也可以通过在构建工具单独配置，单独禁用这些特定模块的源码映射。
+
+a. webpack配置
+
+```javascript
+module.exports = {
+  // ...其他配置
+  module: {
+    rules: [
+      {
+        test: /node_modules\/@antv\/util\/esm\/path\/util\/.+\.js$/,
+        use: ['source-map-loader'],
+        enforce: 'pre',
+      },
+    ],
+  },
+  ignoreWarnings: [/Failed to parse source map/],
+};
+```
+
+b. vite配置
+
+```javascript
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // 忽略特定模块的警告
+        if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('@antv/util')) {
+          return;
+        }
+        // 对于其他警告,使用默认的警告处理
+        warn(warning);
+      },
+    },
+  },
+});
+```
+
+### 手动配置色板颜色不生效
+
+> 在 v5 中内置颜色有：export type BuiltInPalette = 'spectral' | 'oranges' | 'greens' | 'blues';
+
+解决办法如下:
+
+```typescript {10}
+const graph = new Graph({
+  container: '#ID',
+  width: number,
+  height: number,
+  data,
+  node: {
+    palette: {
+      field: 'color',
+      // right
+      color: ['red', 'green', 'blue'],
+
+      // error
+      // color: 'red'
+    },
+  },
+});
+```
+
+### grid-line 插件不生效
+
+> 在 v5 中内置插件有`bubble-sets` `edge-filter-lens` `grid-line` `background` `contextmenu` `fisheye` `fullscreen` `history` `hull` `legend` `minimap` `snapline` `timebar` `toolbar` `tooltip` >`watermark`. [具体参考](https://github.com/antvis/G6/blob/6e2355020c20b3a1e2e5ca0e0ee97aeb81f932b3/packages/g6/src/registry/build-in.ts#L189)
+
+实际原因: `graph`实例的父容器`<div ref={containerRef} />`本身没有设置高度，G6 Graph图 可能无法正确计算出合适的大小。**如果要启用`grid-line`画布插件，需要给父元素 div 设置宽高，在 graph 配置中是无效的**。
+
+### v5无法使用树图布局
+
+统一使用`new Graph({xxx})`。
+
+> 在 v5 中内置布局有`antv-dagre` `combo-combined` `compact-box` `force-atlas2` `circular` `concentric` `d3-force` `dagre` `dendrogram` `force` `fruchterman` `grid` `indented` `mds` `mindmap` `radial` `random`. [具体参考](https://github.com/antvis/G6/blob/6e2355020c20b3a1e2e5ca0e0ee97aeb81f932b3/packages/g6/src/registry/build-in.ts#L147)
+
+v5合并了图和树图，不再通过实例化`G6.TreeGraph`创建树图布局，并且移除该方式。具体参考[特性-合并图与树图](https://g6-next.antv.antgroup.com/manual/feature#-%E5%90%88%E5%B9%B6%E5%9B%BE%E4%B8%8E%E6%A0%91%E5%9B%BE)
+
+### edge 没有连接在 node 的边缘中心
+
+配置[portLinkToCenter](https://g6-next.antv.antgroup.com/api/elements/nodes/base-node#portlinktocenter)为 `true`。
+
+```typescript {6}
+const graph = new Graph({
+  container: xxx,
+  node: {
+    type: 'rect',
+    style: {
+      portLinkToCenter: true,
+    },
+  },
+  edge: {
+    type: 'xxx',
+  },
+});
+```
+
+### 如何根据label内容长度动态设置node宽度
+
+参考方案：[#6347](https://github.com/antvis/G6/pull/6347#issuecomment-2357515570)
+
+```typescript
+const measureTextWidth = memoize(
+  (text: string, font: any = {}): TextMetrics => {
+    const { fontSize, fontFamily = 'sans-serif', fontWeight, fontStyle, fontVariant } = font;
+    const ctx = getCanvasContext();
+    // @see https://developer.mozilla.org/zh-CN/docs/Web/CSS/font
+    ctx.font = [fontStyle, fontWeight, fontVariant, `${fontSize}px`, fontFamily].join(' ');
+    return ctx.measureText(isString(text) ? text : '').width;
+  },
+  (text: string, font = {}) => [text, ...values(font)].join(''),
+);
+
+const graph = new G6.Graph({
+    node: {
+          style: { size: d => [measureTextWidth(d.label, {...}) , xxx] },
+    }
+})
+```
+
+### NodeEvent节点事件对象类型不齐全问题
+
+可以手动指定`IPointerEvent`类型。具体参考[#6346](<[2357515570](https://github.com/antvis/G6/issues/6346)>)
+
+```typescript {4}
+import { NodeEvent } from '@antv/g6';
+import type { IPointerEvent } from '@antv/g6';
+
+graph.on(NodeEvent.CLICK, (event: IPointerEvent) => {
+  // handler
+});
+```
