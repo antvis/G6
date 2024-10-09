@@ -19,7 +19,7 @@ class HoverElement extends HoverActivate {
   protected getActiveIds(event: IPointerEvent<Element>) {
     const { model, graph } = this.context;
     const elementId = event.target.id;
-    const elementType = graph.getElementType(elementId);
+    const { targetType: elementType } = event;
 
     const ids = [elementId];
     if (elementType === 'edge') {

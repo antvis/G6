@@ -18,8 +18,8 @@ const COLOR_MAP = {
 class HoverElement extends HoverActivate {
   getActiveIds(event) {
     const { model, graph } = this.context;
-    const targetId = event.target.id;
-    const targetType = graph.getElementType(targetId);
+    const { targetType, target } = event;
+    const targetId = target.id;
 
     const ids = [targetId];
     if (targetType === 'edge') {
