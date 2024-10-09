@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["2513c359"],{"2513c359":function(e,a,t){"use strict";t.d(a,"__esModule",{value:!0}),t.d(a,"texts",{enumerable:!0,get:function(){return n;}}),t("bfabf7a5");let n=[{value:"boolean",paraId:0,tocIndex:0},{value:"Whether the current graph instance has been destroyed",paraId:1,tocIndex:0}];}}]);
+//# sourceMappingURL=2513c359-async.e15f6e9e.js.map
