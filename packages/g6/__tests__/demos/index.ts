@@ -121,6 +121,7 @@ export { pluginBackground } from './plugin-background';
 export { pluginBubbleSets } from './plugin-bubble-sets';
 export { pluginCameraSetting } from './plugin-camera-setting';
 export { pluginContextmenu } from './plugin-contextmenu';
+export { pluginEdgeBundling } from './plugin-edge-bundling';
 export { pluginEdgeFilterLens } from './plugin-edge-filter-lens';
 export { pluginFisheye } from './plugin-fisheye';
 export { pluginFullscreen } from './plugin-fullscreen';
