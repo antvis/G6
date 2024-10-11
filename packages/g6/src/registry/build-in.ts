@@ -12,6 +12,7 @@ import {
 } from '@antv/g';
 import { ComboCollapse, ComboExpand, Fade, NodeCollapse, NodeExpand, PathIn, PathOut, Translate } from '../animations';
 import {
+  AutoAdaptLabel,
   BrushSelect,
   ClickSelect,
   CollapseExpand,
@@ -25,7 +26,6 @@ import {
   LassoSelect,
   OptimizeViewportTransform,
   ScrollCanvas,
-  ToggleLabelVisibility,
   ZoomCanvas,
 } from '../behaviors';
 import {
@@ -129,7 +129,7 @@ const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'focus-element': FocusElement,
     'hover-activate': HoverActivate,
     'lasso-select': LassoSelect,
-    'toggle-label-visibility': ToggleLabelVisibility,
+    'auto-adapt-label': AutoAdaptLabel,
     'optimize-viewport-transform': OptimizeViewportTransform,
     'scroll-canvas': ScrollCanvas,
     'zoom-canvas': ZoomCanvas,

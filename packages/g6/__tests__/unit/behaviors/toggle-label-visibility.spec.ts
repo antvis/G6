@@ -1,12 +1,12 @@
 import { CanvasEvent, positionOf, type Graph } from '@/src';
-import { behaviorToggleLabelVisibility } from '@@/demos';
+import { behaviorAutoAdaptLabel } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('behavior toggle label visibility', () => {
   let graph: Graph;
 
   beforeAll(async () => {
-    graph = await createDemoGraph(behaviorToggleLabelVisibility, { animation: false });
+    graph = await createDemoGraph(behaviorAutoAdaptLabel, { animation: false });
   });
 
   afterAll(() => {

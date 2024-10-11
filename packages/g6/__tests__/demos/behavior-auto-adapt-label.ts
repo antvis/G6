@@ -1,7 +1,7 @@
 import data from '@@/dataset/language-tree.json';
 import { Graph, IPointerEvent, type Element } from '@antv/g6';
 
-export const behaviorToggleLabelVisibility: TestCase = async (context) => {
+export const behaviorAutoAdaptLabel: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     padding: 20,
@@ -44,7 +44,7 @@ export const behaviorToggleLabelVisibility: TestCase = async (context) => {
         };
       },
       {
-        type: 'toggle-label-visibility',
+        type: 'auto-adapt-label',
         padding: 0,
       },
     ],

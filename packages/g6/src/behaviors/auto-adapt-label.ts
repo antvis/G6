@@ -16,7 +16,7 @@ import { BaseBehavior } from './base-behavior';
  *
  * <en/> Toggle label visibility options
  */
-export interface ToggleLabelVisibilityOptions extends BaseBehaviorOptions {
+export interface AutoAdaptLabelOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 是否启用
    *
@@ -74,16 +74,16 @@ export interface ToggleLabelVisibilityOptions extends BaseBehaviorOptions {
  *
  * <en/> Dynamically adjust the visibility of element labels to ensure they are clearly visible within the view, prevent label overlap and reduce visual clutter.
  */
-export class ToggleLabelVisibility extends BaseBehavior<ToggleLabelVisibilityOptions> {
-  static defaultOptions: Partial<ToggleLabelVisibilityOptions> = {
+export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
+  static defaultOptions: Partial<AutoAdaptLabelOptions> = {
     enable: true,
     throttle: 100,
     padding: 0,
     nodeSorter: { type: 'degree' },
   };
 
-  constructor(context: RuntimeContext, options: ToggleLabelVisibilityOptions) {
-    super(context, Object.assign({}, ToggleLabelVisibility.defaultOptions, options));
+  constructor(context: RuntimeContext, options: AutoAdaptLabelOptions) {
+    super(context, Object.assign({}, AutoAdaptLabel.defaultOptions, options));
     this.bindEvents();
   }
 
