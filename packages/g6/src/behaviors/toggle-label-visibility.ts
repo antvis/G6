@@ -78,7 +78,7 @@ export class ToggleLabelVisibility extends BaseBehavior<ToggleLabelVisibilityOpt
   static defaultOptions: Partial<ToggleLabelVisibilityOptions> = {
     enable: true,
     throttle: 100,
-    padding: 5,
+    padding: 0,
     nodeSorter: { type: 'degree' },
   };
 

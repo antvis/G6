@@ -43,7 +43,10 @@ export const behaviorToggleLabelVisibility: TestCase = async (context) => {
           },
         };
       },
-      'toggle-label-visibility',
+      {
+        type: 'toggle-label-visibility',
+        padding: 0,
+      },
     ],
     layout: {
       type: 'd3-force',
