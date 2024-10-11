@@ -262,6 +262,7 @@ export type {
   LoopStyleProps,
   Node,
   NodeBadgeStyleProps,
+  NodeCentralityOptions,
   NodeLabelStyleProps,
   NodeLikeData,
   NodePortStyleProps,

@@ -41,6 +41,7 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
    * <zh/> 指定要固定大小的元素状态
    *
    * <en/> Specify the state of elements to be fixed in size
+   * @defaultValue `'selected'`
    */
   state?: State;
   /**
@@ -48,9 +49,9 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
    *
    * <en/> Node configuration for defining which node attributes should remain fixed in size visually. If not specified (i.e., undefined), the entire node will be fixed in size.
    * @example
-   * <zh/> 例如，在缩放过程中固定节点的 lineWidth 属性，可以配置如下：
+   * <zh/> 如果在缩放过程中希望固定节点主图形的 lineWidth 属性，可以这样配置：
    *
-   * <en/> For example, to fix `lineWidth` attribute of a node during zooming, you can configure it as follows:
+   * <en/> If you want to fix the lineWidth attribute of the key shape of the node during zooming, you can configure it like this:
    * ```ts
    * {
    *  node: [
@@ -60,6 +61,15 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
    *    },
    *  ],
    * }
+   *
+   * <zh/> 如果希望固定节点标签的文字大小和行高，可以这样配置：
+   *
+   * <en/> If you want to fix the font size and line height of the node label, you can configure it like this:
+   * ```ts
+   *  {
+   *    shape: (shapes: DisplayObject[]) => shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text')!,
+   *   fields: ['fontSize', 'lineHeight'],
+   *  },
    * ```
    */
   node?: FixShapeConfig | FixShapeConfig[];
@@ -146,7 +156,7 @@ export class FixElementSize extends BaseBehavior {
       configs.forEach((config: FixShapeConfig) => {
         const { shape: shapeFilter, fields } = config;
         const shape = shapeFilter(descendantShapes);
-
+        if (!shape) return;
         fields.forEach((field) => {
           if (!hasCachedStyle(shape, field)) cacheStyle(shape, field);
           const oriFieldValue = getCachedStyle(shape, field);

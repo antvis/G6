@@ -25,6 +25,7 @@ import {
   LassoSelect,
   OptimizeViewportTransform,
   ScrollCanvas,
+  ToggleLabelVisibility,
   ZoomCanvas,
 } from '../behaviors';
 import {
@@ -128,6 +129,7 @@ const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     'focus-element': FocusElement,
     'hover-activate': HoverActivate,
     'lasso-select': LassoSelect,
+    'toggle-label-visibility': ToggleLabelVisibility,
     'optimize-viewport-transform': OptimizeViewportTransform,
     'scroll-canvas': ScrollCanvas,
     'zoom-canvas': ZoomCanvas,

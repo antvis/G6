@@ -106,6 +106,23 @@ export function getCombinedBBox(bboxes: AABB[]): AABB {
 }
 
 /**
+ * <zh/> 判断 bbox1 是否完全包含在 bbox2 内
+ *
+ * <en/> Determine whether bbox1 is completely contained in bbox2
+ * @param bbox1 - <zh/> 目标包围盒 | <en/> Target bounding box
+ * @param bbox2 - <zh/> 参考包围盒 | <en/> Reference bounding box
+ * @returns <zh/> 如果 bbox1 完全包含在 bbox2 内返回 true，否则返回 false | <en/> Returns true if bbox1 is completely contained in bbox2, false otherwise
+ */
+export function isBBoxInside(bbox1: AABB, bbox2: AABB): boolean {
+  const [minX1, minY1] = bbox1.min;
+  const [maxX1, maxY1] = bbox1.max;
+  const [minX2, minY2] = bbox2.min;
+  const [maxX2, maxY2] = bbox2.max;
+
+  return minX1 >= minX2 && maxX1 <= maxX2 && minY1 >= minY2 && maxY1 <= maxY2;
+}
+
+/**
  * <zh/> 判断点是否在给定的包围盒内
  *
  * <en/> Whether the point is contained in the given box

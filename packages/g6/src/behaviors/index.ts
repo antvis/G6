@@ -12,6 +12,7 @@ export { HoverActivate } from './hover-activate';
 export { LassoSelect } from './lasso-select';
 export { OptimizeViewportTransform } from './optimize-viewport-transform';
 export { ScrollCanvas } from './scroll-canvas';
+export { ToggleLabelVisibility } from './toggle-label-visibility';
 export { ZoomCanvas } from './zoom-canvas';
 
 export type { BaseBehaviorOptions } from './base-behavior';
@@ -28,4 +29,5 @@ export type { HoverActivateOptions } from './hover-activate';
 export type { LassoSelectOptions } from './lasso-select';
 export type { OptimizeViewportTransformOptions } from './optimize-viewport-transform';
 export type { ScrollCanvasOptions } from './scroll-canvas';
+export type { ToggleLabelVisibilityOptions } from './toggle-label-visibility';
 export type { ZoomCanvasOptions } from './zoom-canvas';

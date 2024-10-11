@@ -1,0 +1,240 @@
+import { AABB } from '@antv/g';
+import { groupBy, isFunction, throttle } from '@antv/util';
+import { GraphEvent } from '../constants';
+import { Graph } from '../runtime/graph';
+import type { RuntimeContext } from '../runtime/types';
+import type { Combo, Edge, Element, ID, IViewportEvent, Node, NodeCentralityOptions, Padding } from '../types';
+import { getExpandedBBox, isBBoxInside } from '../utils/bbox';
+import { getNodeCentralities } from '../utils/centrality';
+import { arrayDiff } from '../utils/diff';
+import { setVisibility } from '../utils/visibility';
+import type { BaseBehaviorOptions } from './base-behavior';
+import { BaseBehavior } from './base-behavior';
+
+/**
+ * <zh/> 切换标签可见性配置项
+ *
+ * <en/> Toggle label visibility options
+ */
+export interface ToggleLabelVisibilityOptions extends BaseBehaviorOptions {
+  /**
+   * <zh/> 是否启用
+   *
+   * <en/> Whether to enable
+   * @defaultValue `true`
+   */
+  enable?: boolean | ((event: IViewportEvent) => boolean);
+  /**
+   * <zh/> 根据元素的重要性从高到低排序，重要性越高的元素其标签显示优先级越高。一般情况下 combo > node > edge
+   *
+   * <en/> Sort elements by their importance in descending order; elements with higher importance have higher label display priority; usually combo > node > edge
+   */
+  sorter?: (this: Graph, labelElementsInViewport: Element[]) => Element[];
+  /**
+   * <zh/> 根据节点的重要性从高到低排序，重要性越高的节点其标签显示优先级越高。内置几种中心性算法，也可以自定义排序函数。需要注意，如果设置了 `sorter`，则 `nodeSorter` 不会生效
+   *
+   * <en/> Sort nodes by importance in descending order; nodes with higher importance have higher label display priority. Several centrality algorithms are built in, and custom sorting functions can also be defined. It should be noted that if `sorter` is set, `nodeSorter` will not take effect
+   * @defaultValue { type: 'degree' }
+   */
+  nodeSorter?: NodeCentralityOptions | ((this: Graph, labeledNodesInViewport: Node[]) => Node[]);
+  /**
+   * <zh/> 根据边的重要性从高到低排序，重要性越高的边其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sorter`，则 `edgeSorter` 不会生效
+   *
+   * <en/> Sort edges by importance in descending order; edges with higher importance have higher label display priority. By default, they are sorted according to the data. It should be noted that if `sorter` is set, `edgeSorter` will not take effect
+   */
+  edgeSorter?: (this: Graph, labeledEdgesInViewport: Edge[]) => Edge[];
+  /**
+   * <zh/> 根据群组的重要性从高到低排序，重要性越高的群组其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sorter`，则 `comboSorter` 不会生效
+   *
+   * <en/> Sort combos by importance in descending order; combos with higher importance have higher label display priority. By default, they are sorted according to the data. It should be noted that if `sorter` is set, `comboSorter` will not take effect
+   */
+  comboSorter?: (this: Graph, labeledCombosInViewport: Combo[]) => Combo[];
+  /**
+   * <zh/> 设置标签的内边距，用于判断标签是否重叠，以避免标签显示过于密集
+   *
+   * <en/> Set the padding of the label to determine whether the label overlaps to avoid the label being displayed too densely
+   * @defaultValue 10
+   */
+  padding?: Padding;
+  /**
+   * <zh/> 节流时间
+   *
+   * <en/> Throttle time
+   * @defaultValue 32
+   */
+  throttle?: number;
+}
+
+/**
+ * <zh/> 动态切换标签可见性
+ *
+ * <en/> Toggle label visibility
+ * @remarks
+ * <zh/> 动态调整元素标签的显示和隐藏状态，以确保标签在视图中清晰可见，避免标签重叠，从而减少视觉混乱。
+ *
+ * <en/> Dynamically adjust the visibility of element labels to ensure they are clearly visible within the view, prevent label overlap and reduce visual clutter.
+ */
+export class ToggleLabelVisibility extends BaseBehavior<ToggleLabelVisibilityOptions> {
+  static defaultOptions: Partial<ToggleLabelVisibilityOptions> = {
+    enable: true,
+    throttle: 100,
+    padding: 5,
+    nodeSorter: { type: 'degree' },
+  };
+
+  constructor(context: RuntimeContext, options: ToggleLabelVisibilityOptions) {
+    super(context, Object.assign({}, ToggleLabelVisibility.defaultOptions, options));
+    this.bindEvents();
+  }
+
+  /**
+   * <zh/> 检查当前包围盒是否有足够的空间进行展示；如果与已经展示的包围盒有重叠，或者超出视窗范围，则不会展示
+   *
+   * <en/> Check whether the current bounding box has enough space to display; if it overlaps with the displayed bounding box or exceeds the viewport range, it will not be displayed
+   * @param bbox - bbox
+   * @param bboxes - occupied bboxes which are already shown
+   * @returns whether the bbox is overlapping with the bboxes or outside the viewpointBounds
+   */
+  private isOverlapping = (bbox: AABB, bboxes: AABB[]) => {
+    return bboxes.some((b) => bbox.intersects(b)) || !isBBoxInside(bbox, this.viewpointBounds);
+  };
+
+  private get viewpointBounds(): AABB {
+    const { canvas } = this.context;
+
+    const [minX, minY] = canvas.getCanvasByViewport([0, 0]);
+    const [maxX, maxY] = canvas.getCanvasByViewport(canvas.getSize());
+    const viewpointBounds = new AABB();
+    viewpointBounds.setMinMax([minX, minY, 0], [maxX, maxY, 0]);
+
+    return getExpandedBBox(viewpointBounds, 2);
+  }
+
+  private occupiedBounds: AABB[] = [];
+
+  private detectLabelCollision = (elements: Element[]): { show: Element[]; hide: Element[] } => {
+    const res: { show: Element[]; hide: Element[] } = { show: [], hide: [] };
+    this.occupiedBounds = [];
+
+    elements.forEach((element) => {
+      const labelBounds = element.getShape('label').getRenderBounds();
+      if (!this.isOverlapping(labelBounds, this.occupiedBounds)) {
+        res.show.push(element);
+        this.occupiedBounds.push(getExpandedBBox(labelBounds, this.options.padding));
+      } else {
+        res.hide.push(element);
+      }
+    });
+    return res;
+  };
+
+  private get labelElements(): Record<ID, Element> {
+    // @ts-expect-error access private property
+    const elements = Object.values(this.context.element.elementMap);
+    const labelElements = elements.filter((el: Element) => el.isVisible() && el.getShape('label'));
+    return Object.fromEntries(labelElements.map((el) => [el.id, el]));
+  }
+
+  private getLabelElementsInView(): Element[] {
+    const viewport = this.context.viewport!;
+    return Object.values(this.labelElements).filter((node) =>
+      viewport.isInViewport(node.getShape('key').getRenderBounds()),
+    );
+  }
+
+  private hideLabelIfExceedViewport = (prevElementsInView: Element[], currentElementsInView: Element[]) => {
+    const { exit } = arrayDiff<Element>(prevElementsInView, currentElementsInView, (d) => d.id);
+    exit?.forEach(hideLabel);
+  };
+
+  private nodeCentralities: Map<ID, number> = new Map();
+
+  private sortNodesByCentrality = (nodes: Node[], centrality: NodeCentralityOptions) => {
+    const { model } = this.context;
+    const graphData = model.getData();
+    const getRelatedEdgesData = model.getRelatedEdgesData.bind(model);
+
+    const nodesWithCentrality = nodes.map((node) => {
+      if (!this.nodeCentralities.has(node.id)) {
+        this.nodeCentralities = getNodeCentralities(graphData, getRelatedEdgesData, centrality);
+      }
+      return { node, centrality: this.nodeCentralities.get(node.id)! };
+    });
+    return nodesWithCentrality.sort((a, b) => b.centrality - a.centrality).map((item) => item.node);
+  };
+
+  protected sortLabelElementsInView = (labelElements: Element[]): Element[] => {
+    const { graph } = this.context;
+
+    const { sorter, nodeSorter, comboSorter, edgeSorter } = this.options;
+
+    if (isFunction(this.options.sorter)) {
+      return sorter.call(graph, labelElements);
+    }
+
+    const { node: nodes = [], edge: edges = [], combo: combos = [] } = groupBy(labelElements, (el) => (el as any).type);
+
+    const sortedCombos = isFunction(comboSorter) ? comboSorter.call(graph, combos as Combo[]) : combos;
+
+    const sortedNodes = isFunction(nodeSorter)
+      ? nodeSorter.call(graph, nodes as Node[])
+      : this.sortNodesByCentrality(nodes as Node[], nodeSorter!);
+
+    const sortedEdges = isFunction(edgeSorter) ? edgeSorter.call(graph, edges as Edge[]) : edges;
+
+    return [...sortedCombos, ...sortedNodes, ...sortedEdges];
+  };
+
+  private labelElementsInView: Element[] = [];
+
+  protected onToggleVisibility = (event: IViewportEvent) => {
+    if (!this.validate(event)) return;
+
+    const labelElementsInView = this.getLabelElementsInView();
+    this.hideLabelIfExceedViewport(this.labelElementsInView, labelElementsInView);
+    this.labelElementsInView = labelElementsInView;
+
+    // 根据元素的重要性从高到低排序，重要性越高的元素其标签显示优先级越高；通常 combo > node > edge
+    // Sort elements by their importance in descending order; elements with higher importance have higher label display priority; usually combo > node > edge
+    const sortedElements = this.sortLabelElementsInView(this.labelElementsInView);
+    const { show, hide } = this.detectLabelCollision(sortedElements);
+
+    show.forEach(showLabel);
+    hide.forEach(hideLabel);
+  };
+
+  protected onTransform = throttle(this.onToggleVisibility, this.options.throttle, { leading: true }) as () => void;
+
+  private bindEvents() {
+    const { graph } = this.context;
+    graph.once(GraphEvent.AFTER_RENDER, this.onToggleVisibility);
+    graph.on(GraphEvent.AFTER_TRANSFORM, this.onTransform);
+  }
+
+  private unbindEvents() {
+    const { graph } = this.context;
+    graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);
+  }
+
+  private validate(event: IViewportEvent) {
+    if (this.destroyed) return false;
+    const { enable } = this.options;
+    if (isFunction(enable)) return enable(event);
+    return !!enable;
+  }
+
+  public destroy(): void {
+    this.unbindEvents();
+    super.destroy();
+  }
+}
+
+const hideLabel = (element: Element) => {
+  const label = element.getShape('label');
+  if (label) setVisibility(label, 'hidden');
+};
+
+const showLabel = (element: Element) => {
+  const label = element.getShape('label');
+  if (label) setVisibility(label, 'visible');
+};

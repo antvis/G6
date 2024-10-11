@@ -18,6 +18,7 @@ export { behaviorHoverActivate } from './behavior-hover-activate';
 export { behaviorLassoSelect } from './behavior-lasso-select';
 export { behaviorOptimizeViewportTransform } from './behavior-optimize-viewport-transform';
 export { behaviorScrollCanvas } from './behavior-scroll-canvas';
+export { behaviorToggleLabelVisibility } from './behavior-toggle-label-visibility';
 export { behaviorZoomCanvas } from './behavior-zoom-canvas';
 export { bugTooltipResize } from './bug-tooltip-resize';
 export { canvasCursor } from './canvas-cursor';
