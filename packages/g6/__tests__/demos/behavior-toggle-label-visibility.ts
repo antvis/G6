@@ -1,24 +1,7 @@
 import data from '@@/dataset/language-tree.json';
-import { type FixShapeConfig, Graph } from '@antv/g6';
+import { Graph, IPointerEvent, type Element } from '@antv/g6';
 
 export const behaviorToggleLabelVisibility: TestCase = async (context) => {
-  // const fixKeyShapeConfig: FixShapeConfig = {
-  //   shape: (shapes) => shapes.find((shape) => shape.className === 'key')!,
-  //   fields: ['r', 'width', 'height'],
-  // };
-
-  const fixLabelConfig: FixShapeConfig = {
-    shape: (shapes) =>
-      shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text')!,
-    fields: ['fontSize', 'lineHeight'],
-  };
-
-  const fixLabelBgConfig: FixShapeConfig = {
-    shape: (shapes) =>
-      shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'background')!,
-    fields: ['x', 'y', 'width', 'height'],
-  };
-
   const graph = new Graph({
     ...context,
     padding: 20,
@@ -30,9 +13,6 @@ export const behaviorToggleLabelVisibility: TestCase = async (context) => {
         labelBackground: true,
         labelFontFamily: 'Gill Sans',
         labelFill: '#333',
-        // labelWordWrap: true,
-        // labelMaxLines: 4,
-        // labelMaxWidth: 200,
       },
       state: {
         active: {
@@ -58,20 +38,12 @@ export const behaviorToggleLabelVisibility: TestCase = async (context) => {
         return {
           type: 'hover-activate',
           degree: 0,
-          onHover: (e) => {
+          onHover: (e: IPointerEvent<Element>) => {
             this.frontElement(e.target.id);
           },
         };
       },
-      {
-        type: 'fix-element-size',
-        enable: false,
-        state: undefined,
-        node: [fixLabelConfig, fixLabelBgConfig],
-      },
-      {
-        type: 'toggle-label-visibility',
-      },
+      'toggle-label-visibility',
     ],
     layout: {
       type: 'd3-force',
