@@ -62,6 +62,7 @@
   "BubbleSets": ["BubbleSets", "气泡集"],
   "CameraSetting": ["CameraSetting", "相机设置"],
   "Contextmenu": ["Contextmenu", "上下文菜单"],
+  "EdgeBundling": ["EdgeBundling", "边绑定"],
   "EdgeFilterLens": ["EdgeFilterLens", "边过滤镜"],
   "Fisheye": ["Fisheye", "鱼眼放大镜"],
   "Fullscreen": ["Fullscreen", "全屏展示"],
