@@ -1,9 +1,8 @@
 import { AABB } from '@antv/g';
 import { groupBy, isFunction, throttle } from '@antv/util';
 import { GraphEvent } from '../constants';
-import { Graph } from '../runtime/graph';
 import type { RuntimeContext } from '../runtime/types';
-import type { Combo, Edge, Element, ID, IViewportEvent, Node, NodeCentralityOptions, Padding } from '../types';
+import type { Combo, Edge, Element, ID, IEvent, Node, NodeCentralityOptions, Padding } from '../types';
 import { getExpandedBBox, isBBoxInside } from '../utils/bbox';
 import { getNodeCentralities } from '../utils/centrality';
 import { arrayDiff } from '../utils/diff';
@@ -23,32 +22,32 @@ export interface AutoAdaptLabelOptions extends BaseBehaviorOptions {
    * <en/> Whether to enable
    * @defaultValue `true`
    */
-  enable?: boolean | ((event: IViewportEvent) => boolean);
+  enable?: boolean | ((event: IEvent) => boolean);
   /**
    * <zh/> 根据元素的重要性从高到低排序，重要性越高的元素其标签显示优先级越高。一般情况下 combo > node > edge
    *
    * <en/> Sort elements by their importance in descending order; elements with higher importance have higher label display priority; usually combo > node > edge
    */
-  sorter?: (this: Graph, labelElementsInViewport: Element[]) => Element[];
+  sorter?: (labelElementsInViewport: Element[]) => Element[];
   /**
    * <zh/> 根据节点的重要性从高到低排序，重要性越高的节点其标签显示优先级越高。内置几种中心性算法，也可以自定义排序函数。需要注意，如果设置了 `sorter`，则 `nodeSorter` 不会生效
    *
    * <en/> Sort nodes by importance in descending order; nodes with higher importance have higher label display priority. Several centrality algorithms are built in, and custom sorting functions can also be defined. It should be noted that if `sorter` is set, `nodeSorter` will not take effect
    * @defaultValue { type: 'degree' }
    */
-  nodeSorter?: NodeCentralityOptions | ((this: Graph, labeledNodesInViewport: Node[]) => Node[]);
+  nodeSorter?: NodeCentralityOptions | ((labeledNodesInViewport: Node[]) => Node[]);
   /**
    * <zh/> 根据边的重要性从高到低排序，重要性越高的边其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sorter`，则 `edgeSorter` 不会生效
    *
    * <en/> Sort edges by importance in descending order; edges with higher importance have higher label display priority. By default, they are sorted according to the data. It should be noted that if `sorter` is set, `edgeSorter` will not take effect
    */
-  edgeSorter?: (this: Graph, labeledEdgesInViewport: Edge[]) => Edge[];
+  edgeSorter?: (labeledEdgesInViewport: Edge[]) => Edge[];
   /**
    * <zh/> 根据群组的重要性从高到低排序，重要性越高的群组其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sorter`，则 `comboSorter` 不会生效
    *
    * <en/> Sort combos by importance in descending order; combos with higher importance have higher label display priority. By default, they are sorted according to the data. It should be noted that if `sorter` is set, `comboSorter` will not take effect
    */
-  comboSorter?: (this: Graph, labeledCombosInViewport: Combo[]) => Combo[];
+  comboSorter?: (labeledCombosInViewport: Combo[]) => Combo[];
   /**
    * <zh/> 设置标签的内边距，用于判断标签是否重叠，以避免标签显示过于密集
    *
@@ -91,6 +90,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     this.unbindEvents();
     super.update(options);
     this.bindEvents();
+    this.onToggleVisibility({} as IEvent);
   }
 
   /**
@@ -150,7 +150,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
 
   private hideLabelIfExceedViewport = (prevElementsInView: Element[], currentElementsInView: Element[]) => {
     const { exit } = arrayDiff<Element>(prevElementsInView, currentElementsInView, (d) => d.id);
-    exit?.forEach(hideLabel);
+    exit?.forEach(this.hideLabel);
   };
 
   private nodeCentralities: Map<ID, number> = new Map();
@@ -170,31 +170,33 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
   };
 
   protected sortLabelElementsInView = (labelElements: Element[]): Element[] => {
-    const { graph } = this.context;
-
     const { sorter, nodeSorter, comboSorter, edgeSorter } = this.options;
 
-    if (isFunction(this.options.sorter)) {
-      return sorter.call(graph, labelElements);
-    }
+    if (isFunction(this.options.sorter)) return sorter(labelElements);
 
     const { node: nodes = [], edge: edges = [], combo: combos = [] } = groupBy(labelElements, (el) => (el as any).type);
 
-    const sortedCombos = isFunction(comboSorter) ? comboSorter.call(graph, combos as Combo[]) : combos;
+    const sortedCombos = isFunction(comboSorter) ? comboSorter(combos as Combo[]) : combos;
 
     const sortedNodes = isFunction(nodeSorter)
-      ? nodeSorter.call(graph, nodes as Node[])
+      ? nodeSorter(nodes as Node[])
       : this.sortNodesByCentrality(nodes as Node[], nodeSorter!);
 
-    const sortedEdges = isFunction(edgeSorter) ? edgeSorter.call(graph, edges as Edge[]) : edges;
+    const sortedEdges = isFunction(edgeSorter) ? edgeSorter(edges as Edge[]) : edges;
 
     return [...sortedCombos, ...sortedNodes, ...sortedEdges];
   };
 
   private labelElementsInView: Element[] = [];
 
-  protected onToggleVisibility = (event: IViewportEvent) => {
-    if (!this.validate(event)) return;
+  protected onToggleVisibility = (event: IEvent) => {
+    if (!this.validate(event)) {
+      if (this.hiddenElements.size > 0) {
+        this.hiddenElements.forEach(this.showLabel);
+        this.hiddenElements.clear();
+      }
+      return;
+    }
 
     const labelElementsInView = this.getLabelElementsInView();
     this.hideLabelIfExceedViewport(this.labelElementsInView, labelElementsInView);
@@ -205,8 +207,22 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     const sortedElements = this.sortLabelElementsInView(this.labelElementsInView);
     const { show, hide } = this.detectLabelCollision(sortedElements);
 
-    show.forEach(showLabel);
-    hide.forEach(hideLabel);
+    show.forEach(this.showLabel);
+    hide.forEach(this.hideLabel);
+  };
+
+  private hiddenElements: Map<ID, Element> = new Map();
+
+  private hideLabel = (element: Element) => {
+    const label = element.getShape('label');
+    if (label) setVisibility(label, 'hidden');
+    this.hiddenElements.set(element.id, element);
+  };
+
+  private showLabel = (element: Element) => {
+    const label = element.getShape('label');
+    if (label) setVisibility(label, 'visible');
+    this.hiddenElements.delete(element.id);
   };
 
   protected onTransform = throttle(this.onToggleVisibility, this.options.throttle, { leading: true }) as () => void;
@@ -222,7 +238,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
-  private validate(event: IViewportEvent) {
+  private validate(event: IEvent): boolean {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
@@ -234,13 +250,3 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     super.destroy();
   }
 }
-
-const hideLabel = (element: Element) => {
-  const label = element.getShape('label');
-  if (label) setVisibility(label, 'hidden');
-};
-
-const showLabel = (element: Element) => {
-  const label = element.getShape('label');
-  if (label) setVisibility(label, 'visible');
-};

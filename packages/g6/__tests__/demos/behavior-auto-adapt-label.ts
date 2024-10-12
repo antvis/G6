@@ -44,8 +44,8 @@ export const behaviorAutoAdaptLabel: TestCase = async (context) => {
         };
       },
       {
+        key: 'auto-adapt-label',
         type: 'auto-adapt-label',
-        padding: 0,
       },
     ],
     layout: {
