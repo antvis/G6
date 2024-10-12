@@ -1,5 +1,7 @@
 import { labelPropagation } from '@antv/algorithm';
-import { Graph, NodeData } from '@antv/g6';
+import { DisplayObject } from '@antv/g';
+import type { Element, IPointerEvent, NodeData } from '@antv/g6';
+import { Graph } from '@antv/g6';
 import data from '../dataset/language-tree.json';
 
 export const caseLanguageTree: TestCase = async (context) => {
@@ -7,19 +9,36 @@ export const caseLanguageTree: TestCase = async (context) => {
 
   const graph = new Graph({
     ...context,
-    autoFit: 'view',
     data: {
       ...data,
       nodes: labelPropagation(data).clusters.flatMap((cluster) => cluster.nodes),
     },
     node: {
       style: {
-        labelText: (d) => d.id,
+        label: true,
         labelBackground: true,
+        labelBackgroundFill: 'lightblue',
+        labelText: (d) => d.id,
+        icon: true,
         iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      },
+      state: {
+        inactive: {
+          fill: '#E0E0E0',
+          fillOpacity: 1,
+          icon: false,
+          label: false,
+          labelBackground: false,
+        },
       },
       palette: {
         field: (d) => d.clusterId,
+      },
+    },
+    edge: {
+      style: {
+        stroke: '#E0E0E0',
+        endArrow: true,
       },
     },
     layout: {
@@ -35,17 +54,48 @@ export const caseLanguageTree: TestCase = async (context) => {
       },
       animation: false,
     },
-    transforms: ['map-node-size'],
+    transforms: [
+      {
+        key: 'map-node-size',
+        type: 'map-node-size',
+      },
+    ],
     behaviors: [
       'drag-canvas',
       'zoom-canvas',
+      function () {
+        return {
+          key: 'hover-activate',
+          type: 'hover-activate',
+          enable: true,
+          degree: 1,
+          inactiveState: 'inactive',
+          onHover: (e: IPointerEvent<Element>) => {
+            this.frontElement(e.target.id);
+            e.view.setCursor('pointer');
+          },
+          onHoverEnd: (e: IPointerEvent<Element>) => {
+            e.view.setCursor('default');
+          },
+        };
+      },
       {
-        key: 'hover-activate',
-        type: 'hover-activate',
-        degree: 1,
-        inactiveState: 'inactive',
+        key: 'fix-element-size',
+        type: 'fix-element-size',
+        enable: true,
+        // 字号保持
+        node: [
+          {
+            shape: (shapes: DisplayObject[]) => shapes.find((shape) => shape.className === 'label')!,
+          },
+        ],
+      },
+      {
+        key: 'auto-adapt-label',
+        type: 'auto-adapt-label',
       },
     ],
+    plugins: [{ type: 'background', background: '#fff' }],
     animation: false,
   });
 

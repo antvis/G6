@@ -3,7 +3,7 @@ import { groupBy, isFunction, throttle } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { Combo, Edge, Element, ID, IEvent, Node, NodeCentralityOptions, Padding } from '../types';
-import { getExpandedBBox, isBBoxInside } from '../utils/bbox';
+import { getExpandedBBox } from '../utils/bbox';
 import { getNodeCentralities } from '../utils/centrality';
 import { arrayDiff } from '../utils/diff';
 import { setVisibility } from '../utils/visibility';
@@ -94,37 +94,27 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
   }
 
   /**
-   * <zh/> 检查当前包围盒是否有足够的空间进行展示；如果与已经展示的包围盒有重叠，或者超出视窗范围，则不会展示
+   * <zh/> 检查当前包围盒是否有足够的空间进行展示；如果与已经展示的包围盒有重叠，则不会展示
    *
-   * <en/> Check whether the current bounding box has enough space to display; if it overlaps with the displayed bounding box or exceeds the viewport range, it will not be displayed
+   * <en/> Check whether the current bounding box has enough space to display; if it overlaps with the displayed bounding box, it will not be displayed
    * @param bbox - bbox
    * @param bboxes - occupied bboxes which are already shown
    * @returns whether the bbox is overlapping with the bboxes or outside the viewpointBounds
    */
   private isOverlapping = (bbox: AABB, bboxes: AABB[]) => {
-    return !isBBoxInside(bbox, this.viewpointBounds) || bboxes.some((b) => bbox.intersects(b));
+    return bboxes.some((b) => bbox.intersects(b));
   };
-
-  private get viewpointBounds(): AABB {
-    const { canvas } = this.context;
-
-    const [minX, minY] = canvas.getCanvasByViewport([0, 0]);
-    const [maxX, maxY] = canvas.getCanvasByViewport(canvas.getSize());
-    const viewpointBounds = new AABB();
-    viewpointBounds.setMinMax([minX, minY, 0], [maxX, maxY, 0]);
-
-    return getExpandedBBox(viewpointBounds, 2);
-  }
 
   private occupiedBounds: AABB[] = [];
 
   private detectLabelCollision = (elements: Element[]): { show: Element[]; hide: Element[] } => {
+    const viewport = this.context.viewport!;
     const res: { show: Element[]; hide: Element[] } = { show: [], hide: [] };
     this.occupiedBounds = [];
 
     elements.forEach((element) => {
       const labelBounds = element.getShape('label').getRenderBounds();
-      if (!this.isOverlapping(labelBounds, this.occupiedBounds)) {
+      if (!this.isOverlapping(labelBounds, this.occupiedBounds) || !viewport.isInViewport(labelBounds)) {
         res.show.push(element);
         this.occupiedBounds.push(getExpandedBBox(labelBounds, this.options.padding));
       } else {
@@ -229,12 +219,13 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
 
   private bindEvents() {
     const { graph } = this.context;
-    graph.once(GraphEvent.AFTER_RENDER, this.onToggleVisibility);
+    graph.on(GraphEvent.AFTER_DRAW, this.onToggleVisibility);
     graph.on(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
   private unbindEvents() {
     const { graph } = this.context;
+    graph.off(GraphEvent.AFTER_DRAW, this.onToggleVisibility);
     graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
