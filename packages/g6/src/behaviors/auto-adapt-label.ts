@@ -87,6 +87,12 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     this.bindEvents();
   }
 
+  public update(options: Partial<AutoAdaptLabelOptions>): void {
+    this.unbindEvents();
+    super.update(options);
+    this.bindEvents();
+  }
+
   /**
    * <zh/> 检查当前包围盒是否有足够的空间进行展示；如果与已经展示的包围盒有重叠，或者超出视窗范围，则不会展示
    *
@@ -96,7 +102,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
    * @returns whether the bbox is overlapping with the bboxes or outside the viewpointBounds
    */
   private isOverlapping = (bbox: AABB, bboxes: AABB[]) => {
-    return bboxes.some((b) => bbox.intersects(b)) || !isBBoxInside(bbox, this.viewpointBounds);
+    return !isBBoxInside(bbox, this.viewpointBounds) || bboxes.some((b) => bbox.intersects(b));
   };
 
   private get viewpointBounds(): AABB {
