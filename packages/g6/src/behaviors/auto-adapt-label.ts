@@ -114,7 +114,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
 
     elements.forEach((element) => {
       const labelBounds = element.getShape('label').getRenderBounds();
-      if (!this.isOverlapping(labelBounds, this.occupiedBounds) || !viewport.isInViewport(labelBounds)) {
+      if (viewport.isInViewport(labelBounds, true) && !this.isOverlapping(labelBounds, this.occupiedBounds)) {
         res.show.push(element);
         this.occupiedBounds.push(getExpandedBBox(labelBounds, this.options.padding));
       } else {
@@ -220,12 +220,14 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
   private bindEvents() {
     const { graph } = this.context;
     graph.on(GraphEvent.AFTER_DRAW, this.onToggleVisibility);
+    graph.on(GraphEvent.AFTER_LAYOUT, this.onToggleVisibility);
     graph.on(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
   private unbindEvents() {
     const { graph } = this.context;
     graph.off(GraphEvent.AFTER_DRAW, this.onToggleVisibility);
+    graph.off(GraphEvent.AFTER_LAYOUT, this.onToggleVisibility);
     graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 

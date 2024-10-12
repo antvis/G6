@@ -1,4 +1,4 @@
-import { positionOf, type Graph } from '@/src';
+import { Point, type Graph } from '@/src';
 import { behaviorAutoAdaptLabel } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
@@ -29,7 +29,7 @@ describe('behavior auto adapt label', () => {
 
   it('update sorter', async () => {
     graph.updateBehavior({ key: 'auto-adapt-label', padding: 0 });
-    const origin = positionOf(graph.getNodeData('Albanian'));
+    const origin: Point = [200, 200, 0];
     graph.zoomTo(3, false, origin);
     await expect(graph).toMatchSnapshot(__filename, 'zoom-3');
     graph.zoomTo(1, false, origin);

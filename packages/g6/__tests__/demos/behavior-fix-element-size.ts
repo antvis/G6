@@ -58,6 +58,8 @@ export const behaviorFixElementSize: TestCase = async (context) => {
       {
         type: 'fix-element-size',
         key: 'fix-element-size',
+        state: 'selected',
+        reset: true,
       },
       { type: 'click-select', key: 'click-select', multiple: true },
     ],

@@ -1,5 +1,4 @@
 import { labelPropagation } from '@antv/algorithm';
-import { DisplayObject } from '@antv/g';
 import type { Element, IPointerEvent, NodeData } from '@antv/g6';
 import { Graph } from '@antv/g6';
 import data from '../dataset/language-tree.json';
@@ -83,12 +82,7 @@ export const caseLanguageTree: TestCase = async (context) => {
         key: 'fix-element-size',
         type: 'fix-element-size',
         enable: true,
-        // 字号保持
-        node: [
-          {
-            shape: (shapes: DisplayObject[]) => shapes.find((shape) => shape.className === 'label')!,
-          },
-        ],
+        node: [{ shape: 'label' }],
       },
       {
         key: 'auto-adapt-label',

@@ -3,7 +3,7 @@ import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
 import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
 import { getAnimationOptions } from '../utils/animation';
-import { getBBoxSize, getCombinedBBox, getExpandedBBox, isPointInBBox } from '../utils/bbox';
+import { getBBoxSize, getCombinedBBox, getExpandedBBox, isBBoxInside, isPointInBBox } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
 import { isPoint } from '../utils/is';
 import { parsePadding } from '../utils/padding';
@@ -279,10 +279,11 @@ export class ViewportController {
    *
    * <en/> Determine whether the point or bounding box is in the viewport
    * @param target - <zh/> 点或包围盒 | <en/> Point or bounding box
+   * @param complete - <zh/> 是否完全在视口中 | <en/> Whether it is completely in the viewport
    * @param tolerance - <zh/> 视口外的容差 | <en/> Tolerance outside the viewport
    * @returns - <zh/> 是否在视口中 | <en/> Whether it is in the viewport
    */
-  public isInViewport(target: Point | AABB, tolerance = 0) {
+  public isInViewport(target: Point | AABB, complete = false, tolerance = 0) {
     const { graph } = this.context;
     const size = this.getCanvasSize();
 
@@ -296,7 +297,11 @@ export class ViewportController {
       viewportBBox = getExpandedBBox(viewportBBox, tolerance);
     }
 
-    return isPoint(target) ? isPointInBBox(target, viewportBBox) : viewportBBox.intersects(target);
+    return isPoint(target)
+      ? isPointInBBox(target, viewportBBox)
+      : !complete
+        ? viewportBBox.intersects(target)
+        : isBBoxInside(target, viewportBBox);
   }
 
   public cancelAnimation() {
