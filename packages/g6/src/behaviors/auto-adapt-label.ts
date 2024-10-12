@@ -52,7 +52,7 @@ export interface AutoAdaptLabelOptions extends BaseBehaviorOptions {
    * <zh/> 设置标签的内边距，用于判断标签是否重叠，以避免标签显示过于密集
    *
    * <en/> Set the padding of the label to determine whether the label overlaps to avoid the label being displayed too densely
-   * @defaultValue 10
+   * @defaultValue 0
    */
   padding?: Padding;
   /**
