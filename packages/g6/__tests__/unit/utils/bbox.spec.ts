@@ -10,6 +10,7 @@ import {
   getNodeBBox,
   getPointBBox,
   getTriangleCenter,
+  isBBoxInside,
   isPointInBBox,
   isPointOnBBoxBoundary,
   isPointOutsideBBox,
@@ -60,6 +61,17 @@ describe('bbox', () => {
     bbox3.setMinMax([0, 0, 0], [3, 3, 3]);
     expect(getCombinedBBox([bbox1, bbox2])).toEqual(bbox3);
     expect(getCombinedBBox([])).toEqual(new AABB());
+  });
+
+  it('isBBoxInside', () => {
+    const bbox1 = new AABB();
+    bbox1.setMinMax([0, 0, 0], [1, 1, 1]);
+    const bbox2 = new AABB();
+    bbox2.setMinMax([0.5, 0.5, 0], [1.5, 1.5, 1]);
+    const bbox3 = new AABB();
+    bbox3.setMinMax([0, 0, 0], [2, 2, 2]);
+    expect(isBBoxInside(bbox1, bbox2)).toBe(false);
+    expect(isBBoxInside(bbox1, bbox3)).toBe(true);
   });
 
   it('isPointInBBox', () => {

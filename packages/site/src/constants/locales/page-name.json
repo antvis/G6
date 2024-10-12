@@ -44,6 +44,7 @@
   "RadialLayout": ["Radial", "径向布局"],
   "RandomLayout": ["Random", "随机布局"],
   "BaseBehavior": ["BaseBehavior", "基础交互"],
+  "AutoAdaptLabel": ["AutoAdaptLabel", "标签自适应显示"],
   "BrushSelect": ["BrushSelect", "框选"],
   "ClickSelect": ["ClickSelect", "点击选中"],
   "CollapseExpand": ["CollapseExpand", "展开/收起元素"],

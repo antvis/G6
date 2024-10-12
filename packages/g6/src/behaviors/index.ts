@@ -1,3 +1,4 @@
+export { AutoAdaptLabel } from './auto-adapt-label';
 export { BaseBehavior } from './base-behavior';
 export { BrushSelect } from './brush-select';
 export { ClickSelect } from './click-select';
@@ -14,6 +15,7 @@ export { OptimizeViewportTransform } from './optimize-viewport-transform';
 export { ScrollCanvas } from './scroll-canvas';
 export { ZoomCanvas } from './zoom-canvas';
 
+export type { AutoAdaptLabelOptions } from './auto-adapt-label';
 export type { BaseBehaviorOptions } from './base-behavior';
 export type { BrushSelectOptions } from './brush-select';
 export type { ClickSelectOptions } from './click-select';

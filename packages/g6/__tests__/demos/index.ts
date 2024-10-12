@@ -5,6 +5,7 @@ export { animationElementPosition } from './animation-element-position';
 export { animationElementState } from './animation-element-state';
 export { animationElementStateSwitch } from './animation-element-state-switch';
 export { animationElementStylePosition } from './animation-element-style-position';
+export { behaviorAutoAdaptLabel } from './behavior-auto-adapt-label';
 export { behaviorBrushSelect } from './behavior-brush-select';
 export { behaviorClickSelect } from './behavior-click-select';
 export { behaviorCreateEdge } from './behavior-create-edge';
