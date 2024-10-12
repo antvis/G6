@@ -12,9 +12,9 @@ import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
 /**
- * <zh/> 切换标签可见性配置项
+ * <zh/> 标签自适应显示配置项
  *
- * <en/> Toggle label visibility options
+ * <en/> Auto Adapt Label Options
  */
 export interface AutoAdaptLabelOptions extends BaseBehaviorOptions {
   /**
@@ -66,13 +66,13 @@ export interface AutoAdaptLabelOptions extends BaseBehaviorOptions {
 }
 
 /**
- * <zh/> 动态切换标签可见性
+ * <zh/> 标签自适应显示
  *
- * <en/> Toggle label visibility
+ * <en/> Auto Adapt Label
  * @remarks
- * <zh/> 动态调整元素标签的显示和隐藏状态，以确保标签在视图中清晰可见，避免标签重叠，从而减少视觉混乱。
+ * <zh/> 标签自适应显示是一种动态标签管理策略，旨在根据当前可视范围的空间分配、节点重要性等因素，智能调整哪些标签应显示或隐藏。通过对可视区域的实时分析，确保用户在不同的交互场景下获得最相关最清晰的信息展示，同时避免视觉过载和信息冗余。
  *
- * <en/> Dynamically adjust the visibility of element labels to ensure they are clearly visible within the view, prevent label overlap and reduce visual clutter.
+ * <en/ >Label Adaptive Display is a dynamic label management strategy designed to intelligently adjust which labels should be shown or hidden based on factors such as the spatial allocation of the current viewport and node importance. By analyzing the visible area in real-time, it ensures that users receive the most relevant and clear information display in various interactive scenarios, while avoiding visual overload and information redundancy.
  */
 export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
   static defaultOptions: Partial<AutoAdaptLabelOptions> = {
