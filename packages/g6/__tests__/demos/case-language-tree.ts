@@ -16,7 +16,7 @@ export const caseLanguageTree: TestCase = async (context) => {
       style: {
         label: true,
         labelBackground: true,
-        labelBackgroundFill: 'lightblue',
+        labelPadding: [0, 4],
         labelText: (d) => d.id,
         icon: true,
         iconSrc: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',

@@ -212,6 +212,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
   private showLabel = (element: Element) => {
     const label = element.getShape('label');
     if (label) setVisibility(label, 'visible');
+    element.toFront();
     this.hiddenElements.delete(element.id);
   };
 

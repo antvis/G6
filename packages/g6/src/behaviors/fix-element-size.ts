@@ -35,9 +35,9 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
    *
    * <en/> Whether to enable the fix element size behavior. Enabled by default when zooming out
    * @remarks
-   * <zh/> 默认在缩小画布时启用，设置 `enable: (event) => event.data.scale < 1`；如果希望在放大画布时启用，设置 `enable: (event) * => event.data.scale > 1`；如果希望在放大缩小画布时都启用，设置 `enable: true`
+   * <zh/> 默认在缩小画布时启用，设置 `enable: (event) => event.data.scale < 1`；如果希望在放大画布时启用，设置 `enable: (event) => event.data.scale > 1`；如果希望在放大缩小画布时都启用，设置 `enable: true`
    *
-   * <en/> Enabled by default when zooming out, set `enable: (event) => event.data.scale < 1`; If you want to enable it when zooming in, set `enable: (event) * => event.data.scale > 1`; If you want to enable it when zooming in and out, set `enable: true`
+   * <en/> Enabled by default when zooming out, set `enable: (event) => event.data.scale < 1`; If you want to enable it when zooming in, set `enable: (event) => event.data.scale > 1`; If you want to enable it when zooming in and out, set `enable: true`
    * @defaultValue (event) => Boolean(event.data.scale < 1)
    */
   enable?: boolean | ((event: IViewportEvent) => boolean);
@@ -117,7 +117,7 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
  */
 export class FixElementSize extends BaseBehavior<FixElementSizeOptions> {
   static defaultOptions: Partial<FixElementSizeOptions> = {
-    enable: (event) => event.data && event.data.scale! < 1,
+    enable: (event: IViewportEvent) => event.data.scale! < 1,
     nodeFilter: () => true,
     edgeFilter: () => true,
     comboFilter: () => true,
@@ -163,20 +163,26 @@ export class FixElementSize extends BaseBehavior<FixElementSizeOptions> {
     }
   };
 
-  private cachedStyles: Map<DisplayObject, Record<string, any>> = new Map();
+  private cachedStyles: Map<ID, { shape: DisplayObject; [field: string]: any }[]> = new Map();
 
-  private getOriginalFieldValue = (shape: DisplayObject, field: string) => {
-    const cachedStyle = this.cachedStyles.get(shape) || {};
-    if (!(field in cachedStyle)) {
-      cachedStyle[field] = shape.attributes[field];
-      this.cachedStyles.set(shape, cachedStyle);
+  private getOriginalFieldValue = (id: ID, shape: DisplayObject, field: string) => {
+    const shapesStyle = this.cachedStyles.get(id) || [];
+    const shapeStyle = shapesStyle.find((style) => style.shape === shape)?.style || {};
+    if (!(field in shapeStyle)) {
+      shapeStyle[field] = shape.attributes[field];
+      this.cachedStyles.set(id, [
+        ...shapesStyle.filter((style) => style.shape !== shape),
+        { shape, style: shapeStyle },
+      ]);
     }
-    return cachedStyle[field];
+    return shapeStyle[field];
   };
 
-  private scaleEntireElement = (el: DisplayObject, currentScale: number) => {
+  private scaleEntireElement = (id: ID, el: DisplayObject, currentScale: number) => {
     el.setLocalScale(1 / currentScale);
-    this.cachedStyles.set(el, {});
+    const shapesStyle = this.cachedStyles.get(id) || [];
+    shapesStyle.push({ shape: el });
+    this.cachedStyles.set(id, shapesStyle);
   };
 
   private scaleSpecificShapes = (el: Element, currentScale: number, config: FixShapeConfig | FixShapeConfig[]) => {
@@ -189,12 +195,12 @@ export class FixElementSize extends BaseBehavior<FixElementSizeOptions> {
 
       if (!shape) return;
       if (!fields) {
-        this.scaleEntireElement(shape, currentScale);
+        this.scaleEntireElement(el.id, shape, currentScale);
         return;
       }
 
       fields.forEach((field) => {
-        const oriFieldValue = this.getOriginalFieldValue(shape, field);
+        const oriFieldValue = this.getOriginalFieldValue(el.id, shape, field);
         if (!isNumber(oriFieldValue)) return;
         shape.style[field] = oriFieldValue / currentScale;
       });
@@ -218,7 +224,7 @@ export class FixElementSize extends BaseBehavior<FixElementSizeOptions> {
 
     const config = this.options[(el as any).type];
     if (!config) {
-      this.scaleEntireElement(el, currentScale);
+      this.scaleEntireElement(id, el, currentScale);
       return;
     }
     this.scaleSpecificShapes(el, currentScale, config);
@@ -233,7 +239,7 @@ export class FixElementSize extends BaseBehavior<FixElementSizeOptions> {
     const config = this.options.edge;
     if (!config) {
       el.style.transformOrigin = 'center';
-      this.scaleEntireElement(el, currentScale);
+      this.scaleEntireElement(id, el, currentScale);
       return;
     }
     this.scaleSpecificShapes(el, currentScale, config);
@@ -250,20 +256,41 @@ export class FixElementSize extends BaseBehavior<FixElementSizeOptions> {
     this.relatedEdgeToUpdate.clear();
   };
 
-  private resetTransform = async () => {
-    if (this.options.reset) {
-      if (this.cachedStyles.size > 0) {
-        this.cachedStyles.forEach((style, shape) => {
+  private restoreCachedStyles() {
+    if (this.cachedStyles.size > 0) {
+      this.cachedStyles.forEach((shapesStyle) => {
+        shapesStyle.forEach(({ shape, style }) => {
           if (isEmpty(style)) {
             shape.setLocalScale(1);
           } else {
+            if (this.options.state) return;
             Object.entries(style).forEach(([field, value]) => (shape.style[field] = value));
           }
         });
-        this.cachedStyles.clear();
+      });
+      const { graph, element } = this.context;
+      const nodeIds = Object.keys(Object.fromEntries(this.cachedStyles)).filter(
+        (id) => id && graph.getElementType(id) === 'node',
+      );
+      if (nodeIds.length > 0) {
+        const edgeIds = new Set<ID>();
+        nodeIds.forEach((id) => {
+          graph.getRelatedEdgesData(id).forEach((edge) => edgeIds.add(idOf(edge)));
+        });
+        edgeIds.forEach((id) => {
+          const edge = element?.getElement(id) as Edge;
+          edge?.update({});
+        });
       }
+    }
+    // this.cachedStyles.clear();
+  }
+
+  private resetTransform = async () => {
+    if (this.options.reset) {
+      this.restoreCachedStyles();
     } else {
-      this.fixElementSize({} as IViewportEvent);
+      this.fixElementSize({ data: { scale: this.zoom } } as IViewportEvent);
     }
   };
 
