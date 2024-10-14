@@ -20602,7 +20602,7 @@ const graph = new Graph({
     },
     {
       type: 'auto-adapt-label',
-      syncToKeySize: { maxFontSize: 16, minFontSize: 12 },
+      syncToNodeSize: { maxFontSize: 16, minFontSize: 12 },
     },
   ],
   animation: false,

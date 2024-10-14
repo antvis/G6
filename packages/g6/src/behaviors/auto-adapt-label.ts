@@ -56,12 +56,12 @@ export interface AutoAdaptLabelOptions extends BaseBehaviorOptions {
    */
   padding?: Padding;
   /**
-   * <zh/> 是否根据 key 的大小同步调整标签的大小
+   * <zh/> 根据节点大小调整标签字号
    *
-   * <en/> Whether to adjust the size of the label according to the size of the key
+   * <en/> Adjust the label font size according to the node size
    * @defaultValue true
    */
-  syncToKeySize?: boolean | { maxFontSize: number; minFontSize: number };
+  syncToNodeSize?: boolean | { maxFontSize: number; minFontSize: number };
   /**
    * <zh/> 节流时间
    *
@@ -86,7 +86,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     throttle: 100,
     padding: 0,
     nodeSorter: { type: 'degree' },
-    syncToKeySize: true,
+    syncToNodeSize: true,
   };
 
   constructor(context: RuntimeContext, options: AutoAdaptLabelOptions) {
@@ -220,11 +220,11 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
   private showLabel = (element: Element) => {
     const label = element.getShape('label');
     if (label) setVisibility(label, 'visible');
-    if (this.options.syncToKeySize) {
+    if (this.options.syncToNodeSize) {
       const { size: sizeArr, labelFontSize } = element.attributes;
       const size = Array.isArray(sizeArr) ? Math.min(...sizeArr) : sizeArr;
-      const { maxFontSize, minFontSize } = !isBoolean(this.options.syncToKeySize)
-        ? this.options.syncToKeySize
+      const { maxFontSize, minFontSize } = !isBoolean(this.options.syncToNodeSize)
+        ? this.options.syncToNodeSize
         : { maxFontSize: Infinity, minFontSize: labelFontSize };
       const fontSize = Math.min(maxFontSize, Math.max(size / 2, minFontSize));
       element.update({ labelFontSize: fontSize, labelLineHeight: fontSize });
