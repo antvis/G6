@@ -61,6 +61,10 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
         scale: 'linear',
         maxSize: 60,
         minSize: 20,
+        syncToLabelSize: {
+          maxFontSize: 16,
+          minFontSize: 12,
+        },
       },
     ],
     behaviors: [
@@ -70,7 +74,7 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
         return {
           key: 'hover-activate',
           type: 'hover-activate',
-          enable: true,
+          enable: (e: IPointerEvent<Element>) => e.targetType === 'node',
           degree: 1,
           inactiveState: 'inactive',
           onHover: (e: IPointerEvent<Element>) => {
@@ -82,14 +86,8 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
           },
         };
       },
-      {
-        type: 'fix-element-size',
-        enable: true,
-      },
-      {
-        type: 'auto-adapt-label',
-        syncToNodeSize: { maxFontSize: 16, minFontSize: 12 },
-      },
+      { type: 'fix-element-size', enable: true },
+      'auto-adapt-label',
     ],
     plugins: [
       {

@@ -1,5 +1,5 @@
 import { AABB } from '@antv/g';
-import { groupBy, isBoolean, isFunction, throttle } from '@antv/util';
+import { groupBy, isFunction, throttle } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { Combo, Edge, Element, ID, IEvent, Node, NodeCentralityOptions, Padding } from '../types';
@@ -56,13 +56,6 @@ export interface AutoAdaptLabelOptions extends BaseBehaviorOptions {
    */
   padding?: Padding;
   /**
-   * <zh/> 根据节点大小调整标签字号
-   *
-   * <en/> Adjust the label font size according to the node size
-   * @defaultValue true
-   */
-  syncToNodeSize?: boolean | { maxFontSize: number; minFontSize: number };
-  /**
    * <zh/> 节流时间
    *
    * <en/> Throttle time
@@ -86,7 +79,6 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     throttle: 100,
     padding: 0,
     nodeSorter: { type: 'degree' },
-    syncToNodeSize: true,
   };
 
   constructor(context: RuntimeContext, options: AutoAdaptLabelOptions) {
@@ -205,7 +197,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     const sortedElements = this.sortLabelElementsInView(this.labelElementsInView);
     const { show, hide } = this.detectLabelCollision(sortedElements);
 
-    show.forEach(this.showLabel);
+    show.reverse().forEach(this.showLabel);
     hide.forEach(this.hideLabel);
   };
 
@@ -220,15 +212,6 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
   private showLabel = (element: Element) => {
     const label = element.getShape('label');
     if (label) setVisibility(label, 'visible');
-    if (this.options.syncToNodeSize) {
-      const { size: sizeArr, labelFontSize } = element.attributes;
-      const size = Array.isArray(sizeArr) ? Math.min(...sizeArr) : sizeArr;
-      const { maxFontSize, minFontSize } = !isBoolean(this.options.syncToNodeSize)
-        ? this.options.syncToNodeSize
-        : { maxFontSize: Infinity, minFontSize: labelFontSize };
-      const fontSize = Math.min(maxFontSize, Math.max(size / 2, minFontSize));
-      element.update({ labelFontSize: fontSize, labelLineHeight: fontSize });
-    }
     element.toFront();
     this.hiddenElements.delete(element.id);
   };

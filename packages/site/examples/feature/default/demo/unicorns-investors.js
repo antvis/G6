@@ -20575,6 +20575,10 @@ const graph = new Graph({
       scale: 'linear',
       maxSize: 60,
       minSize: 20,
+      syncToNodeSize: { 
+        maxFontSize: 16, 
+        minFontSize: 12 
+      },
     },
   ],
   behaviors: [
@@ -20584,7 +20588,7 @@ const graph = new Graph({
       return {
         key: 'hover-activate',
         type: 'hover-activate',
-        enable: true,
+        enable: (e) => e.targetType === 'node',
         degree: 1,
         inactiveState: 'inactive',
         onHover: (e) => {
@@ -20600,10 +20604,7 @@ const graph = new Graph({
       type: 'fix-element-size',
       enable: true,
     },
-    {
-      type: 'auto-adapt-label',
-      syncToNodeSize: { maxFontSize: 16, minFontSize: 12 },
-    },
+    'auto-adapt-label'
   ],
   animation: false,
 });

@@ -1,4 +1,4 @@
-import { deepMix, isEqual } from '@antv/util';
+import { deepMix, isBoolean, isEqual } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { GraphData } from '../spec';
 import type { ID, Node, NodeCentralityOptions, Size, STDSize } from '../types';
@@ -68,6 +68,13 @@ export interface MapNodeSizeOptions extends BaseTransformOptions {
     | 'pow'
     | 'sqrt'
     | ((value: number, domain: [number, number], range: [number, number]) => number);
+  /**
+   * <zh/> 是否将节点大小同步到标签字体大小
+   *
+   * <en/> Whether to synchronize the node size to the label font size
+   * @defaultValue false
+   */
+  syncToLabelSize?: boolean | { maxFontSize: number; minFontSize: number };
 }
 
 /**
@@ -85,6 +92,7 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
     maxSize: 80,
     minSize: 20,
     scale: 'log',
+    syncToLabelSize: false,
   };
 
   constructor(context: RuntimeContext, options: MapNodeSizeOptions) {
@@ -111,10 +119,23 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
         maxSize,
         this.options.scale,
       );
+
       const element = this.context.element?.getElement<Node>(idOf(datum));
 
+      const style = { size };
+
+      if (this.options.syncToLabelSize) {
+        const sizeArr = element ? element.attributes.size : size;
+        const fontSize = (Array.isArray(sizeArr) ? Math.min(...sizeArr) : sizeArr) / 2;
+        const { maxFontSize, minFontSize } = isBoolean(this.options.syncToLabelSize)
+          ? { maxFontSize: Infinity, minFontSize: element ? element.attributes.labelFontSize : 12 }
+          : this.options.syncToLabelSize;
+        const _fontSize = Math.min(maxFontSize, Math.max(fontSize, minFontSize));
+        Object.assign(style, { labelFontSize: _fontSize, labelLineHeight: _fontSize });
+      }
+
       if (!element || !isEqual(size, element.attributes.size)) {
-        reassignTo(input, element ? 'update' : 'add', 'node', deepMix(datum, { style: { size } }));
+        reassignTo(input, element ? 'update' : 'add', 'node', deepMix(datum, { style }));
       }
     });
     return input;

@@ -1258,36 +1258,6 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="275.9049986094891" y="66.87706479402335" transform="matrix(1,0,0,1,275.904999,66.877068)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -29.12,0 l 59.24,0 l 0,23 l-59.24 0 z" class="background" opacity="0.75" stroke-width="0" x="-29.12" y="0" width="59.24" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Bulgarian
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="354.35406525387566" y="72.88955650393873" transform="matrix(1,0,0,1,354.354065,72.889557)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -15.92,0 l 32.84,0 l 0,23 l-32.84 0 z" class="background" opacity="0.75" stroke-width="0" x="-15.92" y="0" width="32.84" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Dard
-              </text>
-            </g>
-          </g>
-        </g>
         <g fill="none" x="593.9366966910655" y="301.77160230639277" transform="matrix(1,0,0,1,593.936707,301.771606)">
           <g>
             <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="30"/>
@@ -1689,6 +1659,21 @@
             <g>
               <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="visible">
                 Latvian
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="275.9049986094891" y="66.87706479402335" transform="matrix(1,0,0,1,275.904999,66.877068)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -29.12,0 l 59.24,0 l 0,23 l-59.24 0 z" class="background" opacity="0.75" stroke-width="0" x="-29.12" y="0" width="59.24" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Bulgarian
               </text>
             </g>
           </g>
@@ -2383,6 +2368,21 @@
             </g>
           </g>
         </g>
+        <g fill="none" x="354.35406525387566" y="72.88955650393873" transform="matrix(1,0,0,1,354.354065,72.889557)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -15.92,0 l 32.84,0 l 0,23 l-32.84 0 z" class="background" opacity="0.75" stroke-width="0" x="-15.92" y="0" width="32.84" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Dard
+              </text>
+            </g>
+          </g>
+        </g>
         <g fill="none" x="569.140561188559" y="347.2575454528031" transform="matrix(1,0,0,1,569.140564,347.257538)">
           <g>
             <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
@@ -2698,377 +2698,17 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="293.74905088110444" y="32.49417875800334" transform="matrix(1,0,0,1,293.749054,32.494179)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16.909090909090907"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.909090)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -46.21727272727272,0 l 93.43454545454544,0 l 0,33 l-93.43454545454544 0 z" class="background" opacity="0.75" stroke-width="0" x="-46.21727272727272" y="0" width="93.43454545454544" height="33" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="16.5px" class="text" font-size="16.909090909090907" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                East Slavic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="396.4402103093047" y="237.1478515518124" transform="matrix(1,0,0,1,396.440216,237.147858)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="14.727272727272727"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,16.727272)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -43.38363636363636,0 l 87.76727272727273,0 l 0,29 l-87.76727272727273 0 z" class="background" opacity="0.75" stroke-width="0" x="-43.38363636363636" y="0" width="87.76727272727273" height="29" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="14.5px" class="text" font-size="14.727272727272727" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                West Slavic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="360.9547184673798" y="97.79576766982053" transform="matrix(1,0,0,1,360.954712,97.795769)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12.545454545454545"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,14.545455)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -19.87727272727273,0 l 40.75454545454546,0 l 0,25 l-40.75454545454546 0 z" class="background" opacity="0.75" stroke-width="0" x="-19.87727272727273" y="0" width="40.75454545454546" height="25" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="12.5px" class="text" font-size="12.545454545454545" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Slavic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="176.45970602154873" y="399.5353326963464" transform="matrix(1,0,0,1,176.459702,399.535339)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12.545454545454545"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,14.545455)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -30.854545454545455,0 l 62.70909090909091,0 l 0,25 l-62.70909090909091 0 z" class="background" opacity="0.75" stroke-width="0" x="-30.854545454545455" y="0" width="62.70909090909091" height="25" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="12.5px" class="text" font-size="12.545454545454545" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Germanic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="287.50992661153845" y="408.1323736009571" transform="matrix(1,0,0,1,287.509918,408.132385)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12.545454545454545"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,14.545455)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -49.73545454545455,0 l 100.4709090909091,0 l 0,25 l-100.4709090909091 0 z" class="background" opacity="0.75" stroke-width="0" x="-49.73545454545455" y="0" width="100.4709090909091" height="25" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="12.5px" class="text" font-size="12.545454545454545" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                North Germanic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="232.32446986312831" y="273.4559814056857" transform="matrix(1,0,0,1,232.324463,273.455994)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12.545454545454545"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,14.545455)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -32.23454545454545,0 l 65.4690909090909,0 l 0,25 l-65.4690909090909 0 z" class="background" opacity="0.75" stroke-width="0" x="-32.23454545454545" y="0" width="65.4690909090909" height="25" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="12.5px" class="text" font-size="12.545454545454545" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Old Norse
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="268.6402603102922" y="148.01156103048422" transform="matrix(1,0,0,1,268.640259,148.011566)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12.545454545454545"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,14.545455)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -38.63272727272728,0 l 78.26545454545456,0 l 0,25 l-78.26545454545456 0 z" class="background" opacity="0.75" stroke-width="0" x="-38.63272727272728" y="0" width="78.26545454545456" height="25" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="12.5px" class="text" font-size="12.545454545454545" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Indo-Iranian
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="235.5267119983781" y="119.2509320751206" transform="matrix(1,0,0,1,235.526718,119.250931)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10.363636363636363"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12.363636)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -36.8,0 l 74.6,0 l 0,23 l-74.6 0 z" class="background" opacity="0.75" stroke-width="0" x="-36.8" y="0" width="74.6" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Balto-Slavic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="52.05091756591398" y="384.5721666323456" transform="matrix(1,0,0,1,52.050919,384.572174)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10.363636363636363"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12.363636)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -44.24,0 l 89.48,0 l 0,23 l-89.48 0 z" class="background" opacity="0.75" stroke-width="0" x="-44.24" y="0" width="89.48" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Osco-Umbrian
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="380.6692749261846" y="174.57324415869869" transform="matrix(1,0,0,1,380.669281,174.573242)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10.363636363636363"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12.363636)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -46.339999999999996,0 l 93.67999999999999,0 l 0,23 l-93.67999999999999 0 z" class="background" opacity="0.75" stroke-width="0" x="-46.339999999999996" y="0" width="93.67999999999999" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Latino-Faliscan
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="113.87768597637768" y="313.26475298556574" transform="matrix(1,0,0,1,113.877686,313.264740)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10.363636363636363"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12.363636)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -30.74,0 l 62.48,0 l 0,23 l-62.48 0 z" class="background" opacity="0.75" stroke-width="0" x="-30.74" y="0" width="62.48" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Tocharian
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="268.4222752964214" y="306.83562429244733" transform="matrix(1,0,0,1,268.422272,306.835632)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -39.620000000000005,0 l 80.24000000000001,0 l 0,23 l-80.24000000000001 0 z" class="background" opacity="0.75" stroke-width="0" x="-39.620000000000005" y="0" width="80.24000000000001" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Old Icelandic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="162.49318657058973" y="162.20033747111313" transform="matrix(1,0,0,1,162.493179,162.200333)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -44.660000000000004,0 l 90.32000000000001,0 l 0,23 l-90.32000000000001 0 z" class="background" opacity="0.75" stroke-width="0" x="-44.660000000000004" y="0" width="90.32000000000001" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Old Norwegian
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="90.65484688204236" y="79.24668670230403" transform="matrix(1,0,0,1,90.654846,79.246689)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -54.14,0 l 109.28,0 l 0,23 l-109.28 0 z" class="background" opacity="0.75" stroke-width="0" x="-54.14" y="0" width="109.28" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Middle Norwegian
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="416.88003549739653" y="461.28727681934066" transform="matrix(1,0,0,1,416.880035,461.287262)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -43.040000000000006,0 l 87.08000000000001,0 l 0,23 l-87.08000000000001 0 z" class="background" opacity="0.75" stroke-width="0" x="-43.040000000000006" y="0" width="87.08000000000001" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Middle Danish
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="191.82852865676674" y="451.6675951560207" transform="matrix(1,0,0,1,191.828522,451.667603)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -43.88000000000001,0 l 88.76000000000002,0 l 0,23 l-88.76000000000002 0 z" class="background" opacity="0.75" stroke-width="0" x="-43.88000000000001" y="0" width="88.76000000000002" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                East Germanic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="66.33248956942013" y="256.3325643044773" transform="matrix(1,0,0,1,66.332489,256.332550)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -25.160000000000004,0 l 51.32000000000001,0 l 0,23 l-51.32000000000001 0 z" class="background" opacity="0.75" stroke-width="0" x="-25.160000000000004" y="0" width="51.32000000000001" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Hellenic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="317.52809025028125" y="114.37418146539628" transform="matrix(1,0,0,1,317.528076,114.374184)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -20.9,0 l 42.8,0 l 0,23 l-42.8 0 z" class="background" opacity="0.75" stroke-width="0" x="-20.9" y="0" width="42.8" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Dardic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="465.9906990589995" y="228.20778223718418" transform="matrix(1,0,0,1,465.990692,228.207779)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -16.04,0 l 33.08,0 l 0,23 l-33.08 0 z" class="background" opacity="0.75" stroke-width="0" x="-16.04" y="0" width="33.08" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Indic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="257.619241723153" y="-3.8220760612750175" transform="matrix(1,0,0,1,257.619232,-3.822076)">
+        <g fill="none" x="93.22423289267677" y="203.13895422070917" transform="matrix(1,0,0,1,93.224236,203.138962)">
           <g>
             <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
             <g>
-              <path fill="rgba(255,255,255,1)" d="M -24.92,0 l 50.84,0 l 0,23 l-50.84 0 z" class="background" opacity="0.75" stroke-width="0" x="-24.92" y="0" width="50.84" height="23" visibility="hidden"/>
+              <path fill="rgba(255,255,255,1)" d="M -27.139999999999997,0 l 55.279999999999994,0 l 0,23 l-55.279999999999994 0 z" class="background" opacity="0.75" stroke-width="0" x="-27.139999999999997" y="0" width="55.279999999999994" height="23" visibility="hidden"/>
             </g>
             <g>
               <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Slovene
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="403.5765832905627" y="289.8573578600931" transform="matrix(1,0,0,1,403.576569,289.857361)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -19.46,0 l 39.92,0 l 0,23 l-39.92 0 z" class="background" opacity="0.75" stroke-width="0" x="-19.46" y="0" width="39.92" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Polish
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="296.2777214113006" y="336.99003913783037" transform="matrix(1,0,0,1,296.277710,336.990051)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -27.86,0 l 56.72,0 l 0,23 l-56.72 0 z" class="background" opacity="0.75" stroke-width="0" x="-27.86" y="0" width="56.72" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Icelandic
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="57.11839650509061" y="37.992024086307325" transform="matrix(1,0,0,1,57.118397,37.992023)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -32.9,0 l 66.8,0 l 0,23 l-66.8 0 z" class="background" opacity="0.75" stroke-width="0" x="-32.9" y="0" width="66.8" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Norwegian
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="28.348374657196306" y="291.93142885365194" transform="matrix(1,0,0,1,28.348375,291.931427)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -19.16,0 l 39.32,0 l 0,23 l-39.32 0 z" class="background" opacity="0.75" stroke-width="0" x="-19.16" y="0" width="39.32" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Greek
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" x="83.75502160763237" y="350.1268306609726" transform="matrix(1,0,0,1,83.755020,350.126831)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
-            <g>
-              <path fill="rgba(255,255,255,1)" d="M -36.62,0 l 74.24,0 l 0,23 l-74.24 0 z" class="background" opacity="0.75" stroke-width="0" x="-36.62" y="0" width="74.24" height="23" visibility="hidden"/>
-            </g>
-            <g>
-              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Tocharian A
+                Thracian
               </text>
             </g>
           </g>
@@ -3088,17 +2728,377 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="93.22423289267677" y="203.13895422070917" transform="matrix(1,0,0,1,93.224236,203.138962)">
+        <g fill="none" x="83.75502160763237" y="350.1268306609726" transform="matrix(1,0,0,1,83.755020,350.126831)">
           <g>
             <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
             <g>
-              <path fill="rgba(255,255,255,1)" d="M -27.139999999999997,0 l 55.279999999999994,0 l 0,23 l-55.279999999999994 0 z" class="background" opacity="0.75" stroke-width="0" x="-27.139999999999997" y="0" width="55.279999999999994" height="23" visibility="hidden"/>
+              <path fill="rgba(255,255,255,1)" d="M -36.62,0 l 74.24,0 l 0,23 l-74.24 0 z" class="background" opacity="0.75" stroke-width="0" x="-36.62" y="0" width="74.24" height="23" visibility="hidden"/>
             </g>
             <g>
               <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
-                Thracian
+                Tocharian A
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="28.348374657196306" y="291.93142885365194" transform="matrix(1,0,0,1,28.348375,291.931427)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -19.16,0 l 39.32,0 l 0,23 l-39.32 0 z" class="background" opacity="0.75" stroke-width="0" x="-19.16" y="0" width="39.32" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Greek
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="57.11839650509061" y="37.992024086307325" transform="matrix(1,0,0,1,57.118397,37.992023)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -32.9,0 l 66.8,0 l 0,23 l-66.8 0 z" class="background" opacity="0.75" stroke-width="0" x="-32.9" y="0" width="66.8" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Norwegian
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="296.2777214113006" y="336.99003913783037" transform="matrix(1,0,0,1,296.277710,336.990051)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -27.86,0 l 56.72,0 l 0,23 l-56.72 0 z" class="background" opacity="0.75" stroke-width="0" x="-27.86" y="0" width="56.72" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Icelandic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="403.5765832905627" y="289.8573578600931" transform="matrix(1,0,0,1,403.576569,289.857361)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -19.46,0 l 39.92,0 l 0,23 l-39.92 0 z" class="background" opacity="0.75" stroke-width="0" x="-19.46" y="0" width="39.92" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Polish
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="257.619241723153" y="-3.8220760612750175" transform="matrix(1,0,0,1,257.619232,-3.822076)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="6"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,8)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -24.92,0 l 50.84,0 l 0,23 l-50.84 0 z" class="background" opacity="0.75" stroke-width="0" x="-24.92" y="0" width="50.84" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Slovene
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="465.9906990589995" y="228.20778223718418" transform="matrix(1,0,0,1,465.990692,228.207779)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -16.04,0 l 33.08,0 l 0,23 l-33.08 0 z" class="background" opacity="0.75" stroke-width="0" x="-16.04" y="0" width="33.08" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Indic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="317.52809025028125" y="114.37418146539628" transform="matrix(1,0,0,1,317.528076,114.374184)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -20.9,0 l 42.8,0 l 0,23 l-42.8 0 z" class="background" opacity="0.75" stroke-width="0" x="-20.9" y="0" width="42.8" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Dardic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="66.33248956942013" y="256.3325643044773" transform="matrix(1,0,0,1,66.332489,256.332550)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -25.160000000000004,0 l 51.32000000000001,0 l 0,23 l-51.32000000000001 0 z" class="background" opacity="0.75" stroke-width="0" x="-25.160000000000004" y="0" width="51.32000000000001" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Hellenic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="191.82852865676674" y="451.6675951560207" transform="matrix(1,0,0,1,191.828522,451.667603)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -43.88000000000001,0 l 88.76000000000002,0 l 0,23 l-88.76000000000002 0 z" class="background" opacity="0.75" stroke-width="0" x="-43.88000000000001" y="0" width="88.76000000000002" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                East Germanic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="416.88003549739653" y="461.28727681934066" transform="matrix(1,0,0,1,416.880035,461.287262)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -43.040000000000006,0 l 87.08000000000001,0 l 0,23 l-87.08000000000001 0 z" class="background" opacity="0.75" stroke-width="0" x="-43.040000000000006" y="0" width="87.08000000000001" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Middle Danish
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="90.65484688204236" y="79.24668670230403" transform="matrix(1,0,0,1,90.654846,79.246689)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -54.14,0 l 109.28,0 l 0,23 l-109.28 0 z" class="background" opacity="0.75" stroke-width="0" x="-54.14" y="0" width="109.28" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Middle Norwegian
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="162.49318657058973" y="162.20033747111313" transform="matrix(1,0,0,1,162.493179,162.200333)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -44.660000000000004,0 l 90.32000000000001,0 l 0,23 l-90.32000000000001 0 z" class="background" opacity="0.75" stroke-width="0" x="-44.660000000000004" y="0" width="90.32000000000001" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Old Norwegian
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="268.4222752964214" y="306.83562429244733" transform="matrix(1,0,0,1,268.422272,306.835632)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="8.181818181818182"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,10.181818)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -39.620000000000005,0 l 80.24000000000001,0 l 0,23 l-80.24000000000001 0 z" class="background" opacity="0.75" stroke-width="0" x="-39.620000000000005" y="0" width="80.24000000000001" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Old Icelandic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="113.87768597637768" y="313.26475298556574" transform="matrix(1,0,0,1,113.877686,313.264740)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10.363636363636363"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12.363636)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -30.74,0 l 62.48,0 l 0,23 l-62.48 0 z" class="background" opacity="0.75" stroke-width="0" x="-30.74" y="0" width="62.48" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Tocharian
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="380.6692749261846" y="174.57324415869869" transform="matrix(1,0,0,1,380.669281,174.573242)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10.363636363636363"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12.363636)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -46.339999999999996,0 l 93.67999999999999,0 l 0,23 l-93.67999999999999 0 z" class="background" opacity="0.75" stroke-width="0" x="-46.339999999999996" y="0" width="93.67999999999999" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Latino-Faliscan
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="52.05091756591398" y="384.5721666323456" transform="matrix(1,0,0,1,52.050919,384.572174)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10.363636363636363"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12.363636)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -44.24,0 l 89.48,0 l 0,23 l-89.48 0 z" class="background" opacity="0.75" stroke-width="0" x="-44.24" y="0" width="89.48" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Osco-Umbrian
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="235.5267119983781" y="119.2509320751206" transform="matrix(1,0,0,1,235.526718,119.250931)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10.363636363636363"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,12.363636)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -36.8,0 l 74.6,0 l 0,23 l-74.6 0 z" class="background" opacity="0.75" stroke-width="0" x="-36.8" y="0" width="74.6" height="23" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Balto-Slavic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="268.6402603102922" y="148.01156103048422" transform="matrix(1,0,0,1,268.640259,148.011566)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12.545454545454545"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,14.545455)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -38.63272727272728,0 l 78.26545454545456,0 l 0,25 l-78.26545454545456 0 z" class="background" opacity="0.75" stroke-width="0" x="-38.63272727272728" y="0" width="78.26545454545456" height="25" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="12.5px" class="text" font-size="12.545454545454545" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Indo-Iranian
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="232.32446986312831" y="273.4559814056857" transform="matrix(1,0,0,1,232.324463,273.455994)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12.545454545454545"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,14.545455)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -32.23454545454545,0 l 65.4690909090909,0 l 0,25 l-65.4690909090909 0 z" class="background" opacity="0.75" stroke-width="0" x="-32.23454545454545" y="0" width="65.4690909090909" height="25" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="12.5px" class="text" font-size="12.545454545454545" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Old Norse
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="287.50992661153845" y="408.1323736009571" transform="matrix(1,0,0,1,287.509918,408.132385)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12.545454545454545"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,14.545455)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -49.73545454545455,0 l 100.4709090909091,0 l 0,25 l-100.4709090909091 0 z" class="background" opacity="0.75" stroke-width="0" x="-49.73545454545455" y="0" width="100.4709090909091" height="25" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="12.5px" class="text" font-size="12.545454545454545" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                North Germanic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="176.45970602154873" y="399.5353326963464" transform="matrix(1,0,0,1,176.459702,399.535339)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12.545454545454545"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,14.545455)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -30.854545454545455,0 l 62.70909090909091,0 l 0,25 l-62.70909090909091 0 z" class="background" opacity="0.75" stroke-width="0" x="-30.854545454545455" y="0" width="62.70909090909091" height="25" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="12.5px" class="text" font-size="12.545454545454545" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Germanic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="360.9547184673798" y="97.79576766982053" transform="matrix(1,0,0,1,360.954712,97.795769)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="12.545454545454545"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,14.545455)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -19.87727272727273,0 l 40.75454545454546,0 l 0,25 l-40.75454545454546 0 z" class="background" opacity="0.75" stroke-width="0" x="-19.87727272727273" y="0" width="40.75454545454546" height="25" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="12.5px" class="text" font-size="12.545454545454545" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                Slavic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="396.4402103093047" y="237.1478515518124" transform="matrix(1,0,0,1,396.440216,237.147858)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="14.727272727272727"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,16.727272)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -43.38363636363636,0 l 87.76727272727273,0 l 0,29 l-87.76727272727273 0 z" class="background" opacity="0.75" stroke-width="0" x="-43.38363636363636" y="0" width="87.76727272727273" height="29" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="14.5px" class="text" font-size="14.727272727272727" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                West Slavic
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" x="293.74905088110444" y="32.49417875800334" transform="matrix(1,0,0,1,293.749054,32.494179)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16.909090909090907"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.909090)">
+            <g>
+              <path fill="rgba(255,255,255,1)" d="M -46.21727272727272,0 l 93.43454545454544,0 l 0,33 l-93.43454545454544 0 z" class="background" opacity="0.75" stroke-width="0" x="-46.21727272727272" y="0" width="93.43454545454544" height="33" visibility="hidden"/>
+            </g>
+            <g>
+              <text fill="rgba(51,51,51,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="16.5px" class="text" font-size="16.909090909090907" font-family="Gill Sans" text-anchor="middle" fill-opacity="0.85" font-weight="400" visibility="hidden">
+                East Slavic
               </text>
             </g>
           </g>
