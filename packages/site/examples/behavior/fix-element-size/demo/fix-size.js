@@ -53,22 +53,13 @@ const graph = new Graph({
   edge: { style: { labelText: (d) => d.label } },
   behaviors: [
     'zoom-canvas',
+    'drag-canvas',
     {
-      type: 'fix-element-size',
       key: 'fix-element-size',
+      type: 'fix-element-size',
       enable: (event) => event.data.scale < 1,
       state: 'selected',
-      edge: [
-        {
-          shape: (shapes) => shapes.find((shape) => shape.className === 'key'),
-          fields: ['lineWidth'],
-        },
-        {
-          shape: (shapes) =>
-            shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text'),
-          fields: ['fontSize', 'lineHeight'],
-        },
-      ],
+      reset: true,
     },
     { type: 'click-select', key: 'click-select', multiple: true },
   ],

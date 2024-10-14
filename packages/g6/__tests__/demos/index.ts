@@ -28,6 +28,7 @@ export { caseLanguageTree } from './case-language-tree';
 export { caseMindmap } from './case-mindmap';
 export { caseOrgChart } from './case-org-chart';
 export { caseRadialDendrogram } from './case-radial-dendrogram';
+export { caseUnicornsInvestors } from './case-unicorns-investors';
 export { caseWhyDoCats } from './case-why-do-cats';
 export { commonGraph } from './common-graph';
 export { controllerViewport } from './controller-viewport';

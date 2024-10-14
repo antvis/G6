@@ -18,7 +18,15 @@
         "zh": "缩放过程中动态调整标签的最大长度",
         "en": "Auto Size Label While Zooming"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*PnrKRYX70pIAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ggOXQqiwhboAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "fix-font-size.js",
+      "title": {
+        "zh": "缩放过程中字号保持",
+        "en": "Fix Font Size While Zooming"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*nLPOTaYUEO4AAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

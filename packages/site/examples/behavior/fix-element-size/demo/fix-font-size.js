@@ -45,44 +45,25 @@ const graph = new Graph({
   data,
   node: {
     style: {
+      labelBackground: true,
+      labelBackgroundFill: '#FFB6C1',
+      labelBackgroundRadius: 4,
+      labelFontFamily: 'Arial',
+      labelPadding: [0, 4],
       labelText: (d) => d.id,
-      labelMaxWidth: '200%',
-      labelWordWrap: true,
       size: (d) => d.size,
     },
   },
-  edge: {
-    style: {
-      labelText: (d) => `${d.source}-${d.target}`,
-      labelWordWrap: true,
-      labelMaxLines: 2,
-      labelMaxWidth: '60%',
-    },
-  },
   behaviors: [
-    {
-      type: 'fix-element-size',
-      key: 'fix-element-size',
-      enable: true,
-      node: [
-        {
-          shape: (shapes) =>
-            shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text'),
-          fields: ['fontSize', 'lineHeight'],
-        },
-      ],
-      edge: [
-        {
-          shape: (shapes) =>
-            shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text'),
-          fields: ['fontSize', 'lineHeight'],
-        },
-      ],
-    },
     'zoom-canvas',
     'drag-canvas',
+    {
+      key: 'fix-element-size',
+      type: 'fix-element-size',
+      enable: true,
+      node: { shape: 'label' },
+    },
   ],
-  autoFit: 'center',
 });
 
 graph.render();
