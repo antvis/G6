@@ -20528,6 +20528,7 @@ const size = (node) => Math.max(...node.style.size);
 
 const graph = new Graph({
   data,
+  autoFit: 'view',
   node: {
     style: {
       fillOpacity: 1,
@@ -20551,11 +20552,9 @@ const graph = new Graph({
       label: false,
       labelText: (d) => d.data?.type,
       labelBackground: true,
-      lineWidth: 1,
     },
     state: {
       active: {
-        lineWidth: 3,
         label: true,
       },
       inactive: {
@@ -20601,7 +20600,10 @@ const graph = new Graph({
       type: 'fix-element-size',
       enable: true,
     },
-    'auto-adapt-label',
+    {
+      type: 'auto-adapt-label',
+      syncToKeySize: { maxFontSize: 16, minFontSize: 12 },
+    },
   ],
   animation: false,
 });

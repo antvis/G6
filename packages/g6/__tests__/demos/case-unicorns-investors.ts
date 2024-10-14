@@ -27,11 +27,9 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
       },
       state: {
         inactive: {
-          fill: '#E0E0E0',
-          fillOpacity: 1,
+          fillOpacity: 0.3,
           icon: false,
           label: false,
-          labelBackground: false,
         },
       },
     },
@@ -40,11 +38,9 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
         label: false,
         labelText: (d) => d.data?.type,
         labelBackground: true,
-        lineWidth: 1,
       },
       state: {
         active: {
-          lineWidth: 3,
           label: true,
         },
         inactive: {
@@ -63,7 +59,7 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
       {
         type: 'map-node-size',
         scale: 'linear',
-        maxSize: 80,
+        maxSize: 60,
         minSize: 20,
       },
     ],
@@ -90,7 +86,10 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
         type: 'fix-element-size',
         enable: true,
       },
-      'auto-adapt-label',
+      {
+        type: 'auto-adapt-label',
+        syncToKeySize: { maxFontSize: 16, minFontSize: 12 },
+      },
     ],
     plugins: [
       {
