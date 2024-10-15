@@ -1,4 +1,4 @@
-import { deepMix, isBoolean, isEqual, pick } from '@antv/util';
+import { deepMix, isEqual, pick } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { GraphData, NodeData } from '../spec';
 import type { NodeStyle } from '../spec/element/node';
@@ -71,16 +71,16 @@ export interface MapNodeSizeOptions extends BaseTransformOptions {
     | 'sqrt'
     | ((value: number, domain: [number, number], range: [number, number]) => number);
   /**
-   * <zh/> 是否将节点大小同步到标签字体大小
+   * <zh/> 是否同步调整标签大小
    *
-   * <en/> Whether to synchronize the node size to the label font size
+   * <en/> Whether to map label size synchronously
    * @defaultValue false
    */
-  syncToLabelSize?: boolean | { maxFontSize: number; minFontSize: number };
+  mapLabelSize?: boolean | [number, number];
 }
 
 /**
- * <zh/> 根据节点中心性调整节点的大小
+ * <zh/> 根据节点重要性调整节点的大小
  *
  * <en/> Map node size based on node importance
  * @remarks
@@ -94,7 +94,7 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
     maxSize: 80,
     minSize: 20,
     scale: 'linear',
-    syncToLabelSize: false,
+    mapLabelSize: false,
   };
 
   constructor(context: RuntimeContext, options: MapNodeSizeOptions) {
@@ -141,7 +141,7 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
 
     Object.assign(style, pick(configStyle, ['labelFontSize', 'labelLineHeight']));
 
-    if (this.options.syncToLabelSize) {
+    if (this.options.mapLabelSize) {
       const fontSize = this.getLabelSizeByNodeSize(size, Infinity, Number(style.labelFontSize));
       Object.assign(style, {
         labelFontSize: fontSize,
@@ -153,9 +153,9 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
 
   private getLabelSizeByNodeSize(size: STDSize, defaultMaxFontSize: number, defaultMinFontSize: number): number {
     const fontSize = Math.min(...size) / 2;
-    const { maxFontSize, minFontSize } = isBoolean(this.options.syncToLabelSize)
-      ? { maxFontSize: defaultMaxFontSize, minFontSize: defaultMinFontSize }
-      : this.options.syncToLabelSize;
+    const [minFontSize, maxFontSize] = !Array.isArray(this.options.mapLabelSize)
+      ? [defaultMinFontSize, defaultMaxFontSize]
+      : this.options.mapLabelSize;
     return Math.min(maxFontSize, Math.max(fontSize, minFontSize));
   }
 

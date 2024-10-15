@@ -185,7 +185,7 @@ describe('transform map node size', () => {
       maxSize: 80,
       minSize: 20,
       scale: 'log',
-      syncToLabelSize: true,
+      mapLabelSize: true,
     });
     await graph.draw();
 

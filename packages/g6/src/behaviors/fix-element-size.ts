@@ -2,7 +2,7 @@ import type { DisplayObject } from '@antv/g';
 import { isEmpty, isFunction, isNumber } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { EdgeData, NodeData } from '../spec';
+import type { ComboData, EdgeData, NodeData } from '../spec';
 import type { Combo, Edge, Element, ID, IViewportEvent, Node, NodeLikeData, State } from '../types';
 import { idOf } from '../utils/id';
 import { getDescendantShapes } from '../utils/shape';
@@ -68,7 +68,7 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
    * <en/> Combo filter for filtering which combos remain fixed in size during zooming
    * @defaultValue () => true
    */
-  comboFilter?: (datum: NodeData) => boolean;
+  comboFilter?: (datum: ComboData) => boolean;
   /**
    * <zh/> 节点配置项，用于定义哪些属性在视觉上保持固定大小。若未指定（即为 undefined），则整个节点将被固定
    *

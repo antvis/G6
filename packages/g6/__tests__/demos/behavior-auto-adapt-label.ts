@@ -61,7 +61,7 @@ export const behaviorAutoAdaptLabel: TestCase = async (context) => {
         maxSize: 60,
         minSize: 12,
         scale: 'linear',
-        syncToLabelSize: true,
+        mapLabelSize: true,
       },
     ],
     plugins: [{ type: 'background', background: '#fff' }],

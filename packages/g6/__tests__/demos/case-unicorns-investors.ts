@@ -62,10 +62,7 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
         scale: 'linear',
         maxSize: 60,
         minSize: 20,
-        syncToLabelSize: {
-          maxFontSize: 16,
-          minFontSize: 12,
-        },
+        mapLabelSize: [12, 16],
       },
     ],
     behaviors: [

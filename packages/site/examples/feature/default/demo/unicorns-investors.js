@@ -55,10 +55,7 @@ fetch('https://assets.antv.antgroup.com/g6/unicorns-investors.json').then((res) 
         scale: 'linear',
         maxSize: 60,
         minSize: 20,
-        syncToLabelSize: {
-          maxFontSize: 24,
-          minFontSize: 12
-        },
+        mapLabelSize: [12, 24]
       },
     ],
     behaviors: [
