@@ -2,7 +2,7 @@ import type { PathStyleProps } from '@antv/g';
 import { isBoolean, isEmpty, isEqual, isFunction } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
-import { EdgeStyle } from '../spec/element/edge';
+import type { EdgeStyle } from '../spec/element/edge';
 import type { ID, LoopPlacement, NodeLikeData } from '../types';
 import { groupByChangeType, reduceDataChanges } from '../utils/change';
 import { idOf } from '../utils/id';
@@ -62,7 +62,9 @@ export interface ProcessParallelEdgesOptions extends BaseTransformOptions {
  *
  * <en/> Process parallel edges which share the same source and target nodes
  * @remarks
- * <zh/>
+ * <zh/> 平行边（Parallel Edges）是指在图结构中，两个节点之间存在多条边。这些边共享相同的源节点和目标节点，但可能代表不同的关系或属性。为了避免边的重叠和混淆，提供了两种处理平行边的方式：(1) 捆绑模式（bundle）：将平行边捆绑在一起，通过改变曲率与其他边分开；(2) 合并模式（merge）：将平行边合并为一条聚合。
+ *
+ * <en/> Parallel Edges refer to multiple edges existing between two nodes in a graph structure. These edges share the same source and target nodes but may represent different relationships or attributes. To avoid edge overlap and confusion, two methods are provided for handling parallel edges: (1) Bundle Mode: Bundles parallel edges together and separates them from other edges by altering their curvature; (2) Merge Mode: Merges parallel edges into a single aggregated edge.
  */
 export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOptions> {
   static defaultOptions: Partial<ProcessParallelEdgesOptions> = {
