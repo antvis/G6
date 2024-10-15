@@ -1,10 +1,12 @@
-import { deepMix, isBoolean, isEqual } from '@antv/util';
+import { deepMix, isBoolean, isEqual, pick } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
-import type { GraphData } from '../spec';
+import type { GraphData, NodeData } from '../spec';
+import type { NodeStyle } from '../spec/element/node';
 import type { ID, Node, NodeCentralityOptions, Size, STDSize } from '../types';
 import type { CentralityResult } from '../utils/centrality';
 import { getNodeCentralities } from '../utils/centrality';
 import { idOf } from '../utils/id';
+import { getVerticalPadding } from '../utils/padding';
 import { linear, log, pow, sqrt } from '../utils/scale';
 import { parseSize } from '../utils/size';
 import { reassignTo } from '../utils/transform';
@@ -91,7 +93,7 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
     centrality: { type: 'degree' },
     maxSize: 80,
     minSize: 20,
-    scale: 'log',
+    scale: 'linear',
     syncToLabelSize: false,
   };
 
@@ -122,23 +124,39 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
 
       const element = this.context.element?.getElement<Node>(idOf(datum));
 
-      const style = { size };
+      const style: NodeStyle = { size };
+      this.assignLabelStyle(style, size, datum, element);
 
-      if (this.options.syncToLabelSize) {
-        const sizeArr = element ? element.attributes.size : size;
-        const fontSize = (Array.isArray(sizeArr) ? Math.min(...sizeArr) : sizeArr) / 2;
-        const { maxFontSize, minFontSize } = isBoolean(this.options.syncToLabelSize)
-          ? { maxFontSize: Infinity, minFontSize: element ? element.attributes.labelFontSize : 12 }
-          : this.options.syncToLabelSize;
-        const _fontSize = Math.min(maxFontSize, Math.max(fontSize, minFontSize));
-        Object.assign(style, { labelFontSize: _fontSize, labelLineHeight: _fontSize });
-      }
+      const isStyleEqual = element && Object.keys(style).every((key) => isEqual(style[key], element.attributes[key]));
 
-      if (!element || !isEqual(size, element.attributes.size)) {
+      if (!element || !isStyleEqual) {
         reassignTo(input, element ? 'update' : 'add', 'node', deepMix(datum, { style }));
       }
     });
     return input;
+  }
+
+  private assignLabelStyle(style: NodeStyle, size: STDSize, datum: NodeData, element?: Node) {
+    const configStyle = element ? element.config.style : this.context.element?.getElementComputedStyle('node', datum);
+
+    Object.assign(style, pick(configStyle, ['labelFontSize', 'labelLineHeight']));
+
+    if (this.options.syncToLabelSize) {
+      const fontSize = this.getLabelSizeByNodeSize(size, Infinity, Number(style.labelFontSize));
+      Object.assign(style, {
+        labelFontSize: fontSize,
+        labelLineHeight: fontSize + getVerticalPadding(style.labelPadding),
+      });
+    }
+    return style;
+  }
+
+  private getLabelSizeByNodeSize(size: STDSize, defaultMaxFontSize: number, defaultMinFontSize: number): number {
+    const fontSize = Math.min(...size) / 2;
+    const { maxFontSize, minFontSize } = isBoolean(this.options.syncToLabelSize)
+      ? { maxFontSize: defaultMaxFontSize, minFontSize: defaultMinFontSize }
+      : this.options.syncToLabelSize;
+    return Math.min(maxFontSize, Math.max(fontSize, minFontSize));
   }
 
   private getCentralities(centrality: Required<MapNodeSizeOptions>['centrality']): CentralityResult {

@@ -57,6 +57,7 @@ export const caseLanguageTree: TestCase = async (context) => {
       {
         key: 'map-node-size',
         type: 'map-node-size',
+        scale: 'log',
       },
     ],
     behaviors: [

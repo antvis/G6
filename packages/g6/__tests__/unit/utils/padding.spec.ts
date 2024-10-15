@@ -1,4 +1,4 @@
-import { parsePadding } from '@/src/utils/padding';
+import { getHorizontalPadding, getVerticalPadding, parsePadding } from '@/src/utils/padding';
 
 describe('padding', () => {
   it('parsePadding', () => {
@@ -13,5 +13,33 @@ describe('padding', () => {
     expect(parsePadding([10, 20, 30])).toEqual([10, 20, 30, 20]);
 
     expect(parsePadding([10, 20, 30, 40])).toEqual([10, 20, 30, 40]);
+  });
+
+  it('getVerticalPadding', () => {
+    expect(getVerticalPadding()).toEqual(0);
+
+    expect(getVerticalPadding([])).toEqual(0);
+
+    expect(getVerticalPadding(10)).toEqual(20);
+
+    expect(getVerticalPadding([10, 20])).toEqual(20);
+
+    expect(getVerticalPadding([10, 20, 30])).toEqual(40);
+
+    expect(getVerticalPadding([10, 20, 30, 40])).toEqual(40);
+  });
+
+  it('getHorizontalPadding', () => {
+    expect(getHorizontalPadding()).toEqual(0);
+
+    expect(getHorizontalPadding([])).toEqual(0);
+
+    expect(getHorizontalPadding(10)).toEqual(20);
+
+    expect(getHorizontalPadding([10, 20])).toEqual(40);
+
+    expect(getHorizontalPadding([10, 20, 30])).toEqual(40);
+
+    expect(getHorizontalPadding([10, 20, 30, 40])).toEqual(60);
   });
 });

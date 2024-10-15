@@ -24,6 +24,7 @@ export const transformMapNodeSize: TestCase = async (context) => {
       {
         key: 'map-node-size',
         type: 'map-node-size',
+        scale: 'log',
       },
     ],
     animation: false,
@@ -31,7 +32,7 @@ export const transformMapNodeSize: TestCase = async (context) => {
 
   await graph.render();
 
-  const config = { 'centrality.type': 'eigenvector' };
+  const config = { 'centrality.type': 'eigenvector', syncToLabelSize: false };
 
   transformMapNodeSize.form = (panel) => [
     panel
@@ -39,6 +40,13 @@ export const transformMapNodeSize: TestCase = async (context) => {
       .name('Centrality Type')
       .onChange((type: string) => {
         graph.updateTransform({ key: 'map-node-size', centrality: { type } });
+        graph.draw();
+      }),
+    panel
+      .add(config, 'syncToLabelSize')
+      .name('Sync To Label Size')
+      .onChange((syncToLabelSize: boolean) => {
+        graph.updateTransform({ key: 'map-node-size', syncToLabelSize });
         graph.draw();
       }),
   ];
