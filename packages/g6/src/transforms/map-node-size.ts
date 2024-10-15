@@ -1,10 +1,12 @@
-import { deepMix, isEqual } from '@antv/util';
+import { deepMix, isEqual, pick } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
-import type { GraphData } from '../spec';
+import type { GraphData, NodeData } from '../spec';
+import type { NodeStyle } from '../spec/element/node';
 import type { ID, Node, NodeCentralityOptions, Size, STDSize } from '../types';
 import type { CentralityResult } from '../utils/centrality';
 import { getNodeCentralities } from '../utils/centrality';
 import { idOf } from '../utils/id';
+import { getVerticalPadding } from '../utils/padding';
 import { linear, log, pow, sqrt } from '../utils/scale';
 import { parseSize } from '../utils/size';
 import { reassignTo } from '../utils/transform';
@@ -68,10 +70,17 @@ export interface MapNodeSizeOptions extends BaseTransformOptions {
     | 'pow'
     | 'sqrt'
     | ((value: number, domain: [number, number], range: [number, number]) => number);
+  /**
+   * <zh/> 是否同步调整标签大小
+   *
+   * <en/> Whether to map label size synchronously
+   * @defaultValue false
+   */
+  mapLabelSize?: boolean | [number, number];
 }
 
 /**
- * <zh/> 根据节点中心性调整节点的大小
+ * <zh/> 根据节点重要性调整节点的大小
  *
  * <en/> Map node size based on node importance
  * @remarks
@@ -84,7 +93,8 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
     centrality: { type: 'degree' },
     maxSize: 80,
     minSize: 20,
-    scale: 'log',
+    scale: 'linear',
+    mapLabelSize: false,
   };
 
   constructor(context: RuntimeContext, options: MapNodeSizeOptions) {
@@ -111,13 +121,42 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
         maxSize,
         this.options.scale,
       );
+
       const element = this.context.element?.getElement<Node>(idOf(datum));
 
-      if (!element || !isEqual(size, element.attributes.size)) {
-        reassignTo(input, element ? 'update' : 'add', 'node', deepMix(datum, { style: { size } }));
+      const style: NodeStyle = { size };
+      this.assignLabelStyle(style, size, datum, element);
+
+      const isStyleEqual = element && Object.keys(style).every((key) => isEqual(style[key], element.attributes[key]));
+
+      if (!element || !isStyleEqual) {
+        reassignTo(input, element ? 'update' : 'add', 'node', deepMix(datum, { style }));
       }
     });
     return input;
+  }
+
+  private assignLabelStyle(style: NodeStyle, size: STDSize, datum: NodeData, element?: Node) {
+    const configStyle = element ? element.config.style : this.context.element?.getElementComputedStyle('node', datum);
+
+    Object.assign(style, pick(configStyle, ['labelFontSize', 'labelLineHeight']));
+
+    if (this.options.mapLabelSize) {
+      const fontSize = this.getLabelSizeByNodeSize(size, Infinity, Number(style.labelFontSize));
+      Object.assign(style, {
+        labelFontSize: fontSize,
+        labelLineHeight: fontSize + getVerticalPadding(style.labelPadding),
+      });
+    }
+    return style;
+  }
+
+  private getLabelSizeByNodeSize(size: STDSize, defaultMaxFontSize: number, defaultMinFontSize: number): number {
+    const fontSize = Math.min(...size) / 2;
+    const [minFontSize, maxFontSize] = !Array.isArray(this.options.mapLabelSize)
+      ? [defaultMinFontSize, defaultMaxFontSize]
+      : this.options.mapLabelSize;
+    return Math.min(maxFontSize, Math.max(fontSize, minFontSize));
   }
 
   private getCentralities(centrality: Required<MapNodeSizeOptions>['centrality']): CentralityResult {

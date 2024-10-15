@@ -1,7 +1,6 @@
 import { CanvasEvent, CommonEvent, EdgeEvent, NodeEvent, type Graph } from '@/src';
 import { behaviorFixElementSize } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
-import type { DisplayObject } from '@antv/g';
 
 describe('behavior fix element size', () => {
   let graph: Graph;
@@ -28,18 +27,8 @@ describe('behavior fix element size', () => {
   it('fix lineWidth of key', async () => {
     graph.updateBehavior({
       key: 'fix-element-size',
-      node: [
-        {
-          shape: (shapes: DisplayObject[]) => shapes.find((shape) => shape.className === 'key')!,
-          fields: ['lineWidth'],
-        },
-      ],
-      edge: [
-        {
-          shape: (shapes: DisplayObject[]) => shapes.find((shape) => shape.className === 'key')!,
-          fields: ['lineWidth'],
-        },
-      ],
+      node: [{ shape: 'key', fields: ['lineWidth'] }],
+      edge: [{ shape: 'key', fields: ['lineWidth'] }],
     });
 
     graph.emit(CommonEvent.KEY_DOWN, { key: 'shift' });
@@ -59,20 +48,8 @@ describe('behavior fix element size', () => {
   it('fix fontSize of label', async () => {
     graph.updateBehavior({
       key: 'fix-element-size',
-      node: [
-        {
-          shape: (shapes: DisplayObject[]) =>
-            shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text')!,
-          fields: ['fontSize'],
-        },
-      ],
-      edge: [
-        {
-          shape: (shapes: DisplayObject[]) =>
-            shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text')!,
-          fields: ['fontSize'],
-        },
-      ],
+      node: [{ shape: 'label' }],
+      edge: [{ shape: 'label' }],
     });
 
     graph.emit(CommonEvent.KEY_DOWN, { key: 'shift' });
@@ -92,28 +69,8 @@ describe('behavior fix element size', () => {
   it('fix both lineWidth and fontSize', async () => {
     graph.updateBehavior({
       key: 'fix-element-size',
-      node: [
-        {
-          shape: (shapes: DisplayObject[]) => shapes.find((shape) => shape.className === 'key')!,
-          fields: ['lineWidth'],
-        },
-        {
-          shape: (shapes: DisplayObject[]) =>
-            shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text')!,
-          fields: ['fontSize'],
-        },
-      ],
-      edge: [
-        {
-          shape: (shapes: DisplayObject[]) => shapes.find((shape) => shape.className === 'key')!,
-          fields: ['lineWidth'],
-        },
-        {
-          shape: (shapes: DisplayObject[]) =>
-            shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text')!,
-          fields: ['fontSize'],
-        },
-      ],
+      node: [{ shape: 'key', fields: ['lineWidth'] }, { shape: 'label' }],
+      edge: [{ shape: 'key', fields: ['lineWidth'] }, { shape: 'label' }],
     });
 
     graph.emit(CommonEvent.KEY_DOWN, { key: 'shift' });

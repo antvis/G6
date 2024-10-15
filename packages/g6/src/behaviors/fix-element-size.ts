@@ -1,9 +1,9 @@
 import type { DisplayObject } from '@antv/g';
-import { isFunction, isNumber } from '@antv/util';
+import { isEmpty, isFunction, isNumber } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { Element, ID, IViewportEvent, State } from '../types';
-import { cacheStyle, getCachedStyle, hasCachedStyle } from '../utils/cache';
+import type { ComboData, EdgeData, NodeData } from '../spec';
+import type { Combo, Edge, Element, ID, IViewportEvent, Node, NodeLikeData, State } from '../types';
 import { idOf } from '../utils/id';
 import { getDescendantShapes } from '../utils/shape';
 import type { BaseBehaviorOptions } from './base-behavior';
@@ -11,17 +11,17 @@ import { BaseBehavior } from './base-behavior';
 
 export type FixShapeConfig = {
   /**
-   * <zh/> 指定要固定大小的元素属性对应的图形。如果不指定，则固定整个元素
+   * <zh/> 指定要固定大小的图形，可以是图形的类名字，或者是一个函数，该函数接收构成元素的所有图形并返回目标图形
    *
-   * <en/> Specify the shape corresponding to properties to be fixed in size. If not specified, fix the entire element
+   * <en/> Specify the shape to be fixed in size. This can be a class name string of the shape, or a function that takes all shapes composing the element and returns the target shape
    */
-  shape: (shapes: DisplayObject[]) => DisplayObject;
+  shape: string | ((shapes: DisplayObject[]) => DisplayObject);
   /**
-   * <zh/> 指定要固定大小的属性
+   * <zh/> 指定要固定大小的图形属性字段。如果未指定，则默认固定整个图形的大小
    *
-   * <en/> Specify properties to be fixed
+   * <en/> Specify the fields of the shape to be fixed in size. If not specified, the entire shape's size will be fixed by default
    */
-  fields: string[];
+  fields?: string[];
 };
 
 /**
@@ -34,7 +34,11 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
    * <zh/> 是否启用固定元素大小交互。默认在缩小画布时启用
    *
    * <en/> Whether to enable the fix element size behavior. Enabled by default when zooming out
-   * @defaultValue `(event) => Boolean(event.data.scale < 1)`
+   * @remarks
+   * <zh/> 默认在缩小画布时启用，设置 `enable: (event) => event.data.scale < 1`；如果希望在放大画布时启用，设置 `enable: (event) => event.data.scale > 1`；如果希望在放大缩小画布时都启用，设置 `enable: true`
+   *
+   * <en/> Enabled by default when zooming out, set `enable: (event) => event.data.scale < 1`; If you want to enable it when zooming in, set `enable: (event) => event.data.scale > 1`; If you want to enable it when zooming in and out, set `enable: true`
+   * @defaultValue (event) => Boolean(event.data.scale < 1)
    */
   enable?: boolean | ((event: IViewportEvent) => boolean);
   /**
@@ -45,31 +49,42 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
    */
   state?: State;
   /**
+   * <zh/> 节点过滤器，用于过滤哪些节点在缩放过程中保持固定大小
+   *
+   * <en/> Node filter for filtering which nodes remain fixed in size during zooming
+   * @defaultValue () => true
+   */
+  nodeFilter?: (datum: NodeData) => boolean;
+  /**
+   * <zh/> 边过滤器，用于过滤哪些边在缩放过程中保持固定大小
+   *
+   * <en/> Edge filter for filtering which edges remain fixed in size during zooming
+   * @defaultValue () => true
+   */
+  edgeFilter?: (datum: EdgeData) => boolean;
+  /**
+   * <zh/> Combo 过滤器，用于过滤哪些 Combo 在缩放过程中保持固定大小
+   *
+   * <en/> Combo filter for filtering which combos remain fixed in size during zooming
+   * @defaultValue () => true
+   */
+  comboFilter?: (datum: ComboData) => boolean;
+  /**
    * <zh/> 节点配置项，用于定义哪些属性在视觉上保持固定大小。若未指定（即为 undefined），则整个节点将被固定
    *
    * <en/> Node configuration for defining which node attributes should remain fixed in size visually. If not specified (i.e., undefined), the entire node will be fixed in size.
    * @example
-   * <zh/> 如果在缩放过程中希望固定节点主图形的 lineWidth 属性，可以这样配置：
+   * <zh/> 如果在缩放过程中希望固定节点主图形的 lineWidth，可以这样配置：
    *
-   * <en/> If you want to fix the lineWidth attribute of the key shape of the node during zooming, you can configure it like this:
+   * <en/> If you want to fix the lineWidth of the key shape of the node during zooming, you can configure it like this:
    * ```ts
-   * {
-   *  node: [
-   *    {
-   *      shape: (shapes: DisplayObject[]) => shapes.find((shape) => shape.className === 'key'),
-   *      fields: ['lineWidth'],
-   *    },
-   *  ],
-   * }
+   * { node: [{ shape: 'key', fields: ['lineWidth'] }] }
+   *```
+   * <zh/> 如果在缩放过程中想保持元素标签大小不变，可以这样配置：
    *
-   * <zh/> 如果希望固定节点标签的文字大小和行高，可以这样配置：
-   *
-   * <en/> If you want to fix the font size and line height of the node label, you can configure it like this:
+   * <en/> If you want to keep the label size of the element unchanged during zooming, you can configure it like this:
    * ```ts
-   *  {
-   *    shape: (shapes: DisplayObject[]) => shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text')!,
-   *   fields: ['fontSize', 'lineHeight'],
-   *  },
+   *  { shape: 'label' }
    * ```
    */
   node?: FixShapeConfig | FixShapeConfig[];
@@ -77,6 +92,7 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
    * <zh/> 边配置项，用于定义哪些属性在视觉上保持固定大小。默认固定 lineWidth、labelFontSize 属性
    *
    * <en/> Edge configuration for defining which edge attributes should remain fixed in size visually. By default, the lineWidth and labelFontSize attributes are fixed
+   * @defaultValue [{ shape: 'key', fields: ['lineWidth'] }, { shape: 'halo', fields: ['lineWidth'] }, { shape: 'label' }]
    */
   edge?: FixShapeConfig | FixShapeConfig[];
   /**
@@ -85,6 +101,13 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
    * <en/> Combo configuration for defining which combo attributes should remain fixed in size visually. By default, the entire combo will be fixed
    */
   combo?: FixShapeConfig | FixShapeConfig[];
+  /**
+   * <zh/> 元素重绘时是否还原样式
+   *
+   * <en/> Whether to reset styles when elements are redrawn
+   * @defaultValue false
+   */
+  reset?: boolean;
 }
 
 /**
@@ -92,98 +115,195 @@ export interface FixElementSizeOptions extends BaseBehaviorOptions {
  *
  * <en/> Fix element size while zooming
  */
-export class FixElementSize extends BaseBehavior {
+export class FixElementSize extends BaseBehavior<FixElementSizeOptions> {
   static defaultOptions: Partial<FixElementSizeOptions> = {
-    enable: (event) => event.data.scale! < 1,
-    state: 'selected',
-    edge: [
-      {
-        shape: (shapes: DisplayObject[]) => shapes.find((shape) => shape.className === 'key')!,
-        fields: ['lineWidth'],
-      },
-      {
-        shape: (shapes: DisplayObject[]) =>
-          shapes.find((shape) => shape.parentElement?.className === 'label' && shape.className === 'text')!,
-        fields: ['fontSize', 'lineHeight'],
-      },
-    ],
+    enable: (event: IViewportEvent) => event.data.scale! < 1,
+    nodeFilter: () => true,
+    edgeFilter: () => true,
+    comboFilter: () => true,
+    edge: [{ shape: 'key', fields: ['lineWidth'] }, { shape: 'halo', fields: ['lineWidth'] }, { shape: 'label' }],
+    reset: false,
   };
-
-  private elementCache: Map<ID, Element> = new Map();
 
   constructor(context: RuntimeContext, options: FixElementSizeOptions) {
     super(context, Object.assign({}, FixElementSize.defaultOptions, options));
     this.bindEvents();
   }
 
-  private isZoomEvent = (event: IViewportEvent) => 'scale' in event.data;
+  private isZoomEvent = (event: IViewportEvent) => Boolean(event.data && 'scale' in event.data);
+
+  private relatedEdgeToUpdate: Set<ID> = new Set();
+
+  private zoom = this.context.graph.getZoom();
 
   private fixElementSize = async (event: IViewportEvent) => {
-    if (!this.isZoomEvent(event) || !this.validate(event)) return;
+    if (!this.validate(event)) return;
 
-    const { graph, element } = this.context;
-    const { state } = this.options;
-    const elementData = state
-      ? [
-          ...graph.getElementDataByState('node', state),
-          ...graph.getElementDataByState('edge', state),
-          ...graph.getElementDataByState('combo', state),
-        ]
-      : Object.values(graph.getData()).flat();
+    const { graph } = this.context;
+    const { state, nodeFilter, edgeFilter, comboFilter } = this.options;
 
-    if (!elementData.length) return;
+    const nodeData = (state ? graph.getElementDataByState('node', state) : graph.getNodeData()).filter(nodeFilter);
+    const edgeData = (state ? graph.getElementDataByState('edge', state) : graph.getEdgeData()).filter(edgeFilter);
+    const comboData = (state ? graph.getElementDataByState('combo', state) : graph.getComboData()).filter(comboFilter);
 
-    const currentScale = event.data.scale || graph.getZoom();
-    elementData.forEach((elementData) => {
-      const id = idOf(elementData);
-      const el = element?.getElement(id) as Element;
-      const type = graph.getElementType(id);
+    // 设置阈值防止过大或过小时抖动 | Set the threshold to prevent jitter when too large or too small
+    const currentScale = this.isZoomEvent(event)
+      ? (this.zoom = Math.max(0.01, Math.min(event.data.scale!, 10)))
+      : this.zoom;
 
-      const config = this.options[type];
+    const nodeLikeData = [...nodeData, ...comboData];
+    if (nodeLikeData.length > 0) {
+      nodeLikeData.forEach((datum) => this.fixNodeLike(datum, currentScale));
+    }
 
-      if (!config) {
-        this.elementCache.set(id, el);
-        if (type === 'edge') {
-          el.style.transformOrigin = 'center';
-        }
-        // FIXME: 修改 Path 的 localScale 属性时遇到问题，导致边会偏移错位
-        el.setLocalScale(1 / currentScale);
+    this.updateRelatedEdges();
+
+    if (edgeData.length > 0) {
+      edgeData.forEach((datum) => this.fixEdge(datum, currentScale));
+    }
+  };
+
+  private cachedStyles: Map<ID, { shape: DisplayObject; [field: string]: any }[]> = new Map();
+
+  private getOriginalFieldValue = (id: ID, shape: DisplayObject, field: string) => {
+    const shapesStyle = this.cachedStyles.get(id) || [];
+    const shapeStyle = shapesStyle.find((style) => style.shape === shape)?.style || {};
+    if (!(field in shapeStyle)) {
+      shapeStyle[field] = shape.attributes[field];
+      this.cachedStyles.set(id, [
+        ...shapesStyle.filter((style) => style.shape !== shape),
+        { shape, style: shapeStyle },
+      ]);
+    }
+    return shapeStyle[field];
+  };
+
+  private scaleEntireElement = (id: ID, el: DisplayObject, currentScale: number) => {
+    el.setLocalScale(1 / currentScale);
+    const shapesStyle = this.cachedStyles.get(id) || [];
+    shapesStyle.push({ shape: el });
+    this.cachedStyles.set(id, shapesStyle);
+  };
+
+  private scaleSpecificShapes = (el: Element, currentScale: number, config: FixShapeConfig | FixShapeConfig[]) => {
+    const descendantShapes = getDescendantShapes(el);
+    const configs = Array.isArray(config) ? config : [config];
+
+    configs.forEach((config: FixShapeConfig) => {
+      const { shape: shapeFilter, fields } = config;
+      const shape = typeof shapeFilter === 'function' ? shapeFilter(descendantShapes) : el.getShape(shapeFilter);
+
+      if (!shape) return;
+      if (!fields) {
+        this.scaleEntireElement(el.id, shape, currentScale);
         return;
       }
 
-      const descendantShapes = getDescendantShapes(el);
-      const configs = Array.isArray(config) ? config : [config];
-      configs.forEach((config: FixShapeConfig) => {
-        const { shape: shapeFilter, fields } = config;
-        const shape = shapeFilter(descendantShapes);
-        if (!shape) return;
-        fields.forEach((field) => {
-          if (!hasCachedStyle(shape, field)) cacheStyle(shape, field);
-          const oriFieldValue = getCachedStyle(shape, field);
-          if (!isNumber(oriFieldValue)) return;
-          shape.style[field] = oriFieldValue / currentScale;
-        });
+      fields.forEach((field) => {
+        const oriFieldValue = this.getOriginalFieldValue(el.id, shape, field);
+        if (!isNumber(oriFieldValue)) return;
+        shape.style[field] = oriFieldValue / currentScale;
       });
     });
   };
 
+  private skipIfExceedViewport = (el: Element) => {
+    const { viewport } = this.context;
+    return !viewport?.isInViewport(el.getRenderBounds(), false, 30);
+  };
+
+  private fixNodeLike = (datum: NodeLikeData, currentScale: number) => {
+    const id = idOf(datum);
+    const { element, model } = this.context;
+    const el = element!.getElement(id) as Node | Combo;
+
+    if (this.skipIfExceedViewport(el)) return;
+
+    const edges = model.getRelatedEdgesData(id);
+    edges.forEach((edge) => this.relatedEdgeToUpdate.add(idOf(edge)));
+
+    const config = this.options[(el as any).type];
+    if (!config) {
+      this.scaleEntireElement(id, el, currentScale);
+      return;
+    }
+    this.scaleSpecificShapes(el, currentScale, config);
+  };
+
+  private fixEdge = (datum: EdgeData, currentScale: number) => {
+    const id = idOf(datum);
+    const el = this.context.element!.getElement(id) as Edge;
+
+    if (this.skipIfExceedViewport(el)) return;
+
+    const config = this.options.edge;
+    if (!config) {
+      el.style.transformOrigin = 'center';
+      this.scaleEntireElement(id, el, currentScale);
+      return;
+    }
+    this.scaleSpecificShapes(el, currentScale, config);
+  };
+
+  private updateRelatedEdges = () => {
+    const { element } = this.context;
+    if (this.relatedEdgeToUpdate.size > 0) {
+      this.relatedEdgeToUpdate.forEach((id) => {
+        const edge = element!.getElement(id) as Edge;
+        edge?.update({});
+      });
+    }
+    this.relatedEdgeToUpdate.clear();
+  };
+
+  private restoreCachedStyles() {
+    if (this.cachedStyles.size > 0) {
+      this.cachedStyles.forEach((shapesStyle) => {
+        shapesStyle.forEach(({ shape, style }) => {
+          if (isEmpty(style)) {
+            shape.setLocalScale(1);
+          } else {
+            if (this.options.state) return;
+            Object.entries(style).forEach(([field, value]) => (shape.style[field] = value));
+          }
+        });
+      });
+      const { graph, element } = this.context;
+      const nodeIds = Object.keys(Object.fromEntries(this.cachedStyles)).filter(
+        (id) => id && graph.getElementType(id) === 'node',
+      );
+      if (nodeIds.length > 0) {
+        const edgeIds = new Set<ID>();
+        nodeIds.forEach((id) => {
+          graph.getRelatedEdgesData(id).forEach((edge) => edgeIds.add(idOf(edge)));
+        });
+        edgeIds.forEach((id) => {
+          const edge = element?.getElement(id) as Edge;
+          edge?.update({});
+        });
+      }
+    }
+    // this.cachedStyles.clear();
+  }
+
   private resetTransform = async () => {
-    if (this.elementCache) {
-      this.elementCache.forEach((el) => el.setLocalScale(1));
-      this.elementCache.clear();
+    if (this.options.reset) {
+      this.restoreCachedStyles();
+    } else {
+      this.fixElementSize({ data: { scale: this.zoom } } as IViewportEvent);
     }
   };
 
   private bindEvents() {
     const { graph } = this.context;
+    graph.on(GraphEvent.AFTER_DRAW, this.resetTransform);
     graph.on(GraphEvent.AFTER_TRANSFORM, this.fixElementSize);
-    graph.on(GraphEvent.BEFORE_DRAW, this.resetTransform);
   }
 
   private unbindEvents() {
     const { graph } = this.context;
+    graph.off(GraphEvent.AFTER_DRAW, this.resetTransform);
     graph.off(GraphEvent.AFTER_TRANSFORM, this.fixElementSize);
-    graph.off(GraphEvent.BEFORE_DRAW, this.resetTransform);
   }
 
   private validate(event: IViewportEvent) {

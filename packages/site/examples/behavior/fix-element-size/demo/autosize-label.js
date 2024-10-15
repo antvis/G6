@@ -64,7 +64,6 @@ const graph = new Graph({
       type: 'fix-element-size',
       key: 'fix-element-size',
       enable: true,
-      state: undefined,
       node: [
         {
           shape: (shapes) =>
