@@ -29,3 +29,15 @@ export function reassignTo(
     else value[typeName].delete(id);
   });
 }
+
+/**
+ * <zh/> 判断样式是否与原始样式一致
+ *
+ * <en/> Determine whether the style is consistent with the original style
+ * @param style - <zh/> 样式 | <en/> style
+ * @param originalStyle - <zh/> 原始样式 | <en/> original style
+ * @returns <zh/> 是否一致 | <en/> Whether it is consistent
+ */
+export function isStyleEqual(style: Record<string, unknown>, originalStyle: Record<string, unknown>) {
+  return Object.keys(style).every((key) => style[key] === originalStyle[key]);
+}

@@ -2,14 +2,15 @@ import type { PathStyleProps } from '@antv/g';
 import { isBoolean, isEmpty, isEqual, isFunction } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
+import { EdgeStyle } from '../spec/element/edge';
 import type { ID, LoopPlacement, NodeLikeData } from '../types';
 import { groupByChangeType, reduceDataChanges } from '../utils/change';
 import { idOf } from '../utils/id';
-import { reassignTo } from '../utils/transform';
 import type { BaseTransformOptions } from './base-transform';
 import { BaseTransform } from './base-transform';
 import { getEdgeEndsContext } from './get-edge-actual-ends';
 import type { DrawData } from './types';
+import { isStyleEqual, reassignTo } from './utils';
 
 const CUBIC_EDGE_TYPE = 'quadratic';
 
@@ -60,11 +61,12 @@ export interface ProcessParallelEdgesOptions extends BaseTransformOptions {
  * <zh/> 处理平行边，即多条边共享同一源节点和目标节点
  *
  * <en/> Process parallel edges which share the same source and target nodes
+ * @remarks
+ * <zh/>
  */
 export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOptions> {
   static defaultOptions: Partial<ProcessParallelEdgesOptions> = {
     mode: 'bundle',
-    edges: undefined,
     distance: 15, // only valid for bundling mode
   };
 
@@ -130,7 +132,8 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
       edges.forEach((_: EdgeData, id: ID) => !this.options.edges.includes(id) && edges.delete(id));
     }
 
-    // <zh/> 按照用户指定的顺序排序，防止捆绑时的抖动 | <en/> Sort by user-set order to prevent jitter during bundling
+    // 按照用户指定的顺序排序，防止捆绑时的抖动
+    // Sort by user-set order to prevent jitter during bundling
     const edgeIds = model.getEdgeData().map(idOf);
     return new Map([...edges].sort((a, b) => edgeIds.indexOf(a[0]) - edgeIds.indexOf(b[0])));
   };
@@ -140,30 +143,28 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
 
     edgeMap.forEach((arcEdges) => {
       arcEdges.forEach((edge, i, edgeArr) => {
-        const computeStyle = () => {
-          const length = edgeArr.length;
-          const style: EdgeData['style'] = {};
-          if (edge.source === edge.target) {
-            const len = CUBIC_LOOP_PLACEMENTS.length;
-            style.loopPlacement = CUBIC_LOOP_PLACEMENTS[i % len];
-            style.loopDist = Math.floor(i / len) * distance + 50;
-          } else if (length === 1) {
-            style.curveOffset = 0;
-          } else {
-            const sign = (i % 2 === 0 ? 1 : -1) * (reverses[`${edge.source}|${edge.target}|${i}`] ? -1 : 1);
-            style.curveOffset =
-              length % 2 === 1
-                ? sign * Math.ceil(i / 2) * distance * 2
-                : sign * (Math.floor(i / 2) * distance * 2 + distance);
-          }
-          return Object.assign({}, edge.style, style);
-        };
-
-        const mergedEdgeData = Object.assign(edge, { type: CUBIC_EDGE_TYPE, style: computeStyle() });
+        const length = edgeArr.length;
+        const style: EdgeStyle = edge.style || {};
+        if (edge.source === edge.target) {
+          const len = CUBIC_LOOP_PLACEMENTS.length;
+          style.loopPlacement = CUBIC_LOOP_PLACEMENTS[i % len];
+          style.loopDist = Math.floor(i / len) * distance + 50;
+        } else if (length === 1) {
+          style.curveOffset = 0;
+        } else {
+          const sign = (i % 2 === 0 ? 1 : -1) * (reverses[`${edge.source}|${edge.target}|${i}`] ? -1 : 1);
+          style.curveOffset =
+            length % 2 === 1
+              ? sign * Math.ceil(i / 2) * distance * 2
+              : sign * (Math.floor(i / 2) * distance * 2 + distance);
+        }
+        const mergedEdgeData = Object.assign(edge, { type: CUBIC_EDGE_TYPE, style });
 
         const element = this.context.element?.getElement(idOf(edge));
-        if (element) reassignTo(input, 'update', 'edge', mergedEdgeData, true);
-        else reassignTo(input, 'add', 'edge', mergedEdgeData, true);
+
+        if (!element || !isStyleEqual(mergedEdgeData.style, element.attributes)) {
+          reassignTo(input, element ? 'update' : 'add', 'edge', mergedEdgeData, true);
+        }
       });
     });
   };
@@ -190,7 +191,10 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
       if (edges.length === 1) {
         const edge = edges[0];
         const element = this.context.element?.getElement(idOf(edge));
-        reassignTo(input, element ? 'update' : 'add', 'edge', this.resetEdgeStyle(edge), true);
+        const edgeStyle = this.resetEdgeStyle(edge);
+        if (!element || !isStyleEqual(edgeStyle, element.attributes)) {
+          reassignTo(input, element ? 'update' : 'add', 'edge', edgeStyle);
+        }
         return;
       }
 
@@ -208,22 +212,25 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
         .reduce((acc, style) => ({ ...acc, ...style }), {});
 
       edges.forEach((edge, i, edges) => {
-        if (i === 0) {
-          const parsedStyle = Object.assign(
-            {},
-            isFunction(this.options.style) ? this.options.style(edges) : this.options.style,
-            { childrenData: edges },
-          );
-          this.cacheMergeStyle.set(idOf(edge), parsedStyle);
-          const mergedEdgeData = {
-            ...edge,
-            type: 'line',
-            style: { ...mergedStyle, ...parsedStyle },
-          };
-          const element = this.context.element?.getElement(idOf(edge));
-          reassignTo(input, element ? 'update' : 'add', 'edge', mergedEdgeData, true);
-        } else {
+        if (i !== 0) {
           reassignTo(input, 'remove', 'edge', edge);
+          return;
+        }
+        const parsedStyle = Object.assign(
+          {},
+          isFunction(this.options.style) ? this.options.style(edges) : this.options.style,
+          { childrenData: edges },
+        );
+        this.cacheMergeStyle.set(idOf(edge), parsedStyle);
+        const mergedEdgeData = {
+          ...edge,
+          type: 'line',
+          style: { ...edge.style, ...mergedStyle, ...parsedStyle },
+        };
+
+        const element = this.context.element?.getElement(idOf(edge));
+        if (!element || !isStyleEqual(mergedEdgeData.style, element.attributes)) {
+          reassignTo(input, element ? 'update' : 'add', 'edge', mergedEdgeData, true);
         }
       });
     });

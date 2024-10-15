@@ -7,10 +7,10 @@ import { getNodeCentralities } from '../utils/centrality';
 import { idOf } from '../utils/id';
 import { linear, log, pow, sqrt } from '../utils/scale';
 import { parseSize } from '../utils/size';
-import { reassignTo } from '../utils/transform';
 import type { BaseTransformOptions } from './base-transform';
 import { BaseTransform } from './base-transform';
 import type { DrawData } from './types';
+import { reassignTo } from './utils';
 
 export interface MapNodeSizeOptions extends BaseTransformOptions {
   /**
