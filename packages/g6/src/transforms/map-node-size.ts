@@ -1,4 +1,4 @@
-import { deepMix, isEqual, pick } from '@antv/util';
+import { deepMix, pick } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { GraphData, NodeData } from '../spec';
 import type { NodeStyle } from '../spec/element/node';
@@ -9,10 +9,10 @@ import { idOf } from '../utils/id';
 import { getVerticalPadding } from '../utils/padding';
 import { linear, log, pow, sqrt } from '../utils/scale';
 import { parseSize } from '../utils/size';
-import { reassignTo } from '../utils/transform';
 import type { BaseTransformOptions } from './base-transform';
 import { BaseTransform } from './base-transform';
 import type { DrawData } from './types';
+import { isStyleEqual, reassignTo } from './utils';
 
 export interface MapNodeSizeOptions extends BaseTransformOptions {
   /**
@@ -127,10 +127,8 @@ export class MapNodeSize extends BaseTransform<MapNodeSizeOptions> {
       const style: NodeStyle = { size };
       this.assignLabelStyle(style, size, datum, element);
 
-      const isStyleEqual = element && Object.keys(style).every((key) => isEqual(style[key], element.attributes[key]));
-
-      if (!element || !isStyleEqual) {
-        reassignTo(input, element ? 'update' : 'add', 'node', deepMix(datum, { style }));
+      if (!element || !isStyleEqual(style, element.attributes)) {
+        reassignTo(input, element ? 'update' : 'add', 'node', deepMix(datum, { style }), true);
       }
     });
     return input;

@@ -11,7 +11,6 @@ export const transformProcessParallelEdges: TestCase = async (context) => {
       {
         type: 'hover-activate',
         key: 'hover-activate',
-        enable: (event: any) => event.targetType === 'edge',
       },
     ],
     transforms: [

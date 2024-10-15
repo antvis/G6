@@ -32,7 +32,7 @@ export const transformMapNodeSize: TestCase = async (context) => {
 
   await graph.render();
 
-  const config = { 'centrality.type': 'eigenvector', mapLabelSize: false };
+  const config = { 'centrality.type': 'degree', mapLabelSize: false };
 
   transformMapNodeSize.form = (panel) => [
     panel

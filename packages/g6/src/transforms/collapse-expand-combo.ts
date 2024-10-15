@@ -4,7 +4,6 @@ import type { ComboData } from '../spec';
 import { isCollapsed } from '../utils/collapsibility';
 import { getSubgraphRelatedEdges } from '../utils/edge';
 import { idOf } from '../utils/id';
-// import { reassignTo } from '../utils/transform';
 import { BaseTransform } from './base-transform';
 import type { DrawData } from './types';
 import { reassignTo } from './utils';
