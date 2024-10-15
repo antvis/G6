@@ -13,13 +13,13 @@ export type FixShapeConfig = {
   /**
    * <zh/> 指定要固定大小的图形，可以是图形的类名字，或者是一个函数，该函数接收构成元素的所有图形并返回目标图形
    *
-   * <en/> Specifies the shape to be fixed in size. This can be a class name string of the shape, or a function that takes all shapes composing the element and returns the target shape
+   * <en/> Specify the shape to be fixed in size. This can be a class name string of the shape, or a function that takes all shapes composing the element and returns the target shape
    */
   shape: string | ((shapes: DisplayObject[]) => DisplayObject);
   /**
    * <zh/> 指定要固定大小的图形属性字段。如果未指定，则默认固定整个图形的大小
    *
-   * <en/> Specifies the fields of the shape to be fixed in size. If not specified, the entire shape's size will be fixed by default
+   * <en/> Specify the fields of the shape to be fixed in size. If not specified, the entire shape's size will be fixed by default
    */
   fields?: string[];
 };

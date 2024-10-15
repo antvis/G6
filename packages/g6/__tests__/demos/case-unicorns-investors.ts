@@ -1,6 +1,5 @@
 import type { Element, ElementDatum, IElementEvent, IPointerEvent, NodeData } from '@/src';
 import { Graph } from '@/src';
-import data from '@@/dataset/unicorns-investors.json';
 
 /**
  * Inspired by https://graphcommons.com/graphs/be8bc972-5b26-4f5c-837d-a34704f33a9e
@@ -11,6 +10,8 @@ import data from '@@/dataset/unicorns-investors.json';
  * @param context
  */
 export const caseUnicornsInvestors: TestCase = async (context) => {
+  const data = await fetch('https://assets.antv.antgroup.com/g6/unicorns-investors.json').then((res) => res.json());
+
   const size = (node: NodeData) => Math.max(...(node.style?.size as [number, number, number]));
 
   const graph = new Graph({

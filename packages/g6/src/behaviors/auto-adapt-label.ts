@@ -197,7 +197,9 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     const sortedElements = this.sortLabelElementsInView(this.labelElementsInView);
     const { show, hide } = this.detectLabelCollision(sortedElements);
 
-    show.reverse().forEach(this.showLabel);
+    for (let i = show.length - 1; i >= 0; i--) {
+      this.showLabel(show[i]);
+    }
     hide.forEach(this.hideLabel);
   };
 
