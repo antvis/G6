@@ -26,7 +26,7 @@ describe('transform map node size', () => {
       maxSize: 40,
       scale: 'linear',
     });
-    await graph.render();
+    await graph.draw();
 
     expect(nodeSizeMap(graph)).toEqual({
       'node-1': [40, 40, 40],
@@ -40,7 +40,7 @@ describe('transform map node size', () => {
       key: 'map-node-size',
       centrality: { type: 'betweenness' },
     });
-    await graph.render();
+    await graph.draw();
 
     expect(nodeSizeMap(graph)).toEqual({
       'node-1': [40, 40, 40],
@@ -54,7 +54,7 @@ describe('transform map node size', () => {
       key: 'map-node-size',
       centrality: { type: 'pagerank' },
     });
-    await graph.render();
+    await graph.draw();
 
     expect(nodeSizeMap(graph)['node-1']).toEqual([10, 10, 10]);
     expect(nodeSizeMap(graph)['node-5']).toEqual([40, 40, 40]);
@@ -63,7 +63,7 @@ describe('transform map node size', () => {
       key: 'map-node-size',
       centrality: { type: 'eigenvector' },
     });
-    await graph.render();
+    await graph.draw();
 
     expect(nodeSizeMap(graph)).toEqual({
       'node-1': [40, 40, 40],
@@ -77,7 +77,7 @@ describe('transform map node size', () => {
       key: 'map-node-size',
       centrality: { type: 'eigenvector', directed: true },
     });
-    await graph.render();
+    await graph.draw();
 
     expect(nodeSizeMap(graph)).toEqual({
       'node-1': [40, 40, 40],
@@ -93,7 +93,7 @@ describe('transform map node size', () => {
       minSize: 10,
       maxSize: 50,
     });
-    await graph.render();
+    await graph.draw();
 
     expect(nodeSizeMap(graph)).toEqual({
       'node-1': [50, 50, 50],
@@ -102,5 +102,93 @@ describe('transform map node size', () => {
       'node-4': [35, 35, 35],
       'node-5': [10, 10, 10],
     });
+  });
+
+  it('multiple scale types', async () => {
+    graph.updateTransform({
+      key: 'map-node-size',
+      centrality: { type: 'degree' },
+      minSize: 10,
+      maxSize: 40,
+      scale: 'pow',
+    });
+    await graph.draw();
+
+    expect(nodeSizeMap(graph)).toEqual({
+      'node-1': [40, 40, 40],
+      'node-2': [10, 10, 10],
+      'node-3': [10, 10, 10],
+      'node-4': [17.5, 17.5, 17.5],
+      'node-5': [10, 10, 10],
+    });
+
+    graph.updateTransform({
+      key: 'map-node-size',
+      centrality: { type: 'degree' },
+      minSize: 10,
+      maxSize: 40,
+      scale: 'sqrt',
+    });
+    await graph.draw();
+
+    expect(nodeSizeMap(graph)).toEqual({
+      'node-1': [40, 40, 40],
+      'node-2': [10, 10, 10],
+      'node-3': [10, 10, 10],
+      'node-4': [10 + 30 * Math.sqrt(0.5), 10 + 30 * Math.sqrt(0.5), 10 + 30 * Math.sqrt(0.5)],
+      'node-5': [10, 10, 10],
+    });
+
+    graph.updateTransform({
+      key: 'map-node-size',
+      centrality: { type: 'degree' },
+      minSize: 10,
+      maxSize: 40,
+      scale: 'none',
+    });
+    await graph.draw();
+
+    expect(nodeSizeMap(graph)).toEqual({
+      'node-1': [10, 10, 10],
+      'node-2': [10, 10, 10],
+      'node-3': [10, 10, 10],
+      'node-4': [10, 10, 10],
+      'node-5': [10, 10, 10],
+    });
+
+    graph.updateTransform({
+      key: 'map-node-size',
+      centrality: { type: 'degree' },
+      minSize: 10,
+      maxSize: 40,
+      scale: (value: number, domain: [number, number], range: [number, number]) => {
+        const [d0, d1] = domain;
+        const [r0, r1] = range;
+        return r0 + ((value - d0) / (d1 - d0)) * (r1 - r0);
+      },
+    });
+    await graph.draw();
+
+    expect(nodeSizeMap(graph)).toEqual({
+      'node-1': [40, 40, 40],
+      'node-2': [10, 10, 10],
+      'node-3': [10, 10, 10],
+      'node-4': [25, 25, 25],
+      'node-5': [10, 10, 10],
+    });
+  });
+
+  it('sync to label size', async () => {
+    graph.updateTransform({
+      key: 'map-node-size',
+      centrality: { type: 'degree' },
+      maxSize: 80,
+      minSize: 20,
+      scale: 'log',
+      mapLabelSize: true,
+    });
+    await graph.draw();
+
+    await expect(graph).toMatchSnapshot(__filename, 'label-size');
   });
 });

@@ -2,8 +2,9 @@ import { AABB } from '@antv/g';
 import { groupBy, isFunction, throttle } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { Combo, Edge, Element, ID, IEvent, Node, NodeCentralityOptions, Padding } from '../types';
-import { getExpandedBBox, isBBoxInside } from '../utils/bbox';
+import type { ComboData, EdgeData, NodeData } from '../spec';
+import type { Element, ElementDatum, ID, IEvent, Node, NodeCentralityOptions, Padding } from '../types';
+import { getExpandedBBox } from '../utils/bbox';
 import { getNodeCentralities } from '../utils/centrality';
 import { arrayDiff } from '../utils/diff';
 import { setVisibility } from '../utils/visibility';
@@ -28,26 +29,26 @@ export interface AutoAdaptLabelOptions extends BaseBehaviorOptions {
    *
    * <en/> Sort elements by their importance in descending order; elements with higher importance have higher label display priority; usually combo > node > edge
    */
-  sorter?: (labelElementsInViewport: Element[]) => Element[];
+  sort?: (elementA: ElementDatum, elementB: ElementDatum) => -1 | 0 | 1;
   /**
-   * <zh/> 根据节点的重要性从高到低排序，重要性越高的节点其标签显示优先级越高。内置几种中心性算法，也可以自定义排序函数。需要注意，如果设置了 `sorter`，则 `nodeSorter` 不会生效
+   * <zh/> 根据节点的重要性从高到低排序，重要性越高的节点其标签显示优先级越高。内置几种中心性算法，也可以自定义排序函数。需要注意，如果设置了 `sort`，则 `sortNode` 不会生效
    *
-   * <en/> Sort nodes by importance in descending order; nodes with higher importance have higher label display priority. Several centrality algorithms are built in, and custom sorting functions can also be defined. It should be noted that if `sorter` is set, `nodeSorter` will not take effect
+   * <en/> Sort nodes by importance in descending order; nodes with higher importance have higher label display priority. Several centrality algorithms are built in, and custom sorting functions can also be defined. It should be noted that if `sort` is set, `sortNode` will not take effect
    * @defaultValue { type: 'degree' }
    */
-  nodeSorter?: NodeCentralityOptions | ((labeledNodesInViewport: Node[]) => Node[]);
+  sortNode?: NodeCentralityOptions | ((nodeA: NodeData, nodeB: NodeData) => -1 | 0 | 1);
   /**
-   * <zh/> 根据边的重要性从高到低排序，重要性越高的边其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sorter`，则 `edgeSorter` 不会生效
+   * <zh/> 根据边的重要性从高到低排序，重要性越高的边其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sort`，则 `sortEdge` 不会生效
    *
-   * <en/> Sort edges by importance in descending order; edges with higher importance have higher label display priority. By default, they are sorted according to the data. It should be noted that if `sorter` is set, `edgeSorter` will not take effect
+   * <en/> Sort edges by importance in descending order; edges with higher importance have higher label display priority. By default, they are sorted according to the data. It should be noted that if `sort` is set, `sortEdge` will not take effect
    */
-  edgeSorter?: (labeledEdgesInViewport: Edge[]) => Edge[];
+  sortEdge?: (edgeA: EdgeData, edgeB: EdgeData) => -1 | 0 | 1;
   /**
-   * <zh/> 根据群组的重要性从高到低排序，重要性越高的群组其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sorter`，则 `comboSorter` 不会生效
+   * <zh/> 根据群组的重要性从高到低排序，重要性越高的群组其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sort`，则 `sortCombo` 不会生效
    *
-   * <en/> Sort combos by importance in descending order; combos with higher importance have higher label display priority. By default, they are sorted according to the data. It should be noted that if `sorter` is set, `comboSorter` will not take effect
+   * <en/> Sort combos by importance in descending order; combos with higher importance have higher label display priority. By default, they are sorted according to the data. It should be noted that if `sort` is set, `sortCombo` will not take effect
    */
-  comboSorter?: (labeledCombosInViewport: Combo[]) => Combo[];
+  sortCombo?: (comboA: ComboData, comboB: ComboData) => -1 | 0 | 1;
   /**
    * <zh/> 设置标签的内边距，用于判断标签是否重叠，以避免标签显示过于密集
    *
@@ -78,7 +79,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     enable: true,
     throttle: 100,
     padding: 0,
-    nodeSorter: { type: 'degree' },
+    sortNode: { type: 'degree' },
   };
 
   constructor(context: RuntimeContext, options: AutoAdaptLabelOptions) {
@@ -94,37 +95,27 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
   }
 
   /**
-   * <zh/> 检查当前包围盒是否有足够的空间进行展示；如果与已经展示的包围盒有重叠，或者超出视窗范围，则不会展示
+   * <zh/> 检查当前包围盒是否有足够的空间进行展示；如果与已经展示的包围盒有重叠，则不会展示
    *
-   * <en/> Check whether the current bounding box has enough space to display; if it overlaps with the displayed bounding box or exceeds the viewport range, it will not be displayed
+   * <en/> Check whether the current bounding box has enough space to display; if it overlaps with the displayed bounding box, it will not be displayed
    * @param bbox - bbox
    * @param bboxes - occupied bboxes which are already shown
    * @returns whether the bbox is overlapping with the bboxes or outside the viewpointBounds
    */
   private isOverlapping = (bbox: AABB, bboxes: AABB[]) => {
-    return !isBBoxInside(bbox, this.viewpointBounds) || bboxes.some((b) => bbox.intersects(b));
+    return bboxes.some((b) => bbox.intersects(b));
   };
-
-  private get viewpointBounds(): AABB {
-    const { canvas } = this.context;
-
-    const [minX, minY] = canvas.getCanvasByViewport([0, 0]);
-    const [maxX, maxY] = canvas.getCanvasByViewport(canvas.getSize());
-    const viewpointBounds = new AABB();
-    viewpointBounds.setMinMax([minX, minY, 0], [maxX, maxY, 0]);
-
-    return getExpandedBBox(viewpointBounds, 2);
-  }
 
   private occupiedBounds: AABB[] = [];
 
   private detectLabelCollision = (elements: Element[]): { show: Element[]; hide: Element[] } => {
+    const viewport = this.context.viewport!;
     const res: { show: Element[]; hide: Element[] } = { show: [], hide: [] };
     this.occupiedBounds = [];
 
     elements.forEach((element) => {
       const labelBounds = element.getShape('label').getRenderBounds();
-      if (!this.isOverlapping(labelBounds, this.occupiedBounds)) {
+      if (viewport.isInViewport(labelBounds, true) && !this.isOverlapping(labelBounds, this.occupiedBounds)) {
         res.show.push(element);
         this.occupiedBounds.push(getExpandedBBox(labelBounds, this.options.padding));
       } else {
@@ -170,19 +161,25 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
   };
 
   protected sortLabelElementsInView = (labelElements: Element[]): Element[] => {
-    const { sorter, nodeSorter, comboSorter, edgeSorter } = this.options;
+    const { sort, sortNode, sortCombo, sortEdge } = this.options;
+    const { model } = this.context;
 
-    if (isFunction(this.options.sorter)) return sorter(labelElements);
+    if (isFunction(sort))
+      return labelElements.sort((a, b) => sort(model.getElementDataById(a.id), model.getElementDataById(b.id)));
 
     const { node: nodes = [], edge: edges = [], combo: combos = [] } = groupBy(labelElements, (el) => (el as any).type);
 
-    const sortedCombos = isFunction(comboSorter) ? comboSorter(combos as Combo[]) : combos;
+    const sortedCombos = isFunction(sortCombo)
+      ? combos.sort((a, b) => sortCombo(...(model.getComboData([a.id, b.id]) as [ComboData, ComboData])))
+      : combos;
 
-    const sortedNodes = isFunction(nodeSorter)
-      ? nodeSorter(nodes as Node[])
-      : this.sortNodesByCentrality(nodes as Node[], nodeSorter!);
+    const sortedNodes = isFunction(sortNode)
+      ? nodes.sort((a, b) => sortNode(...(model.getNodeData([a.id, b.id]) as [NodeData, NodeData])))
+      : this.sortNodesByCentrality(nodes as Node[], sortNode);
 
-    const sortedEdges = isFunction(edgeSorter) ? edgeSorter(edges as Edge[]) : edges;
+    const sortedEdges = isFunction(sortEdge)
+      ? edges.sort((a, b) => sortEdge(...(model.getEdgeData([a.id, b.id]) as [EdgeData, EdgeData])))
+      : edges;
 
     return [...sortedCombos, ...sortedNodes, ...sortedEdges];
   };
@@ -207,7 +204,9 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     const sortedElements = this.sortLabelElementsInView(this.labelElementsInView);
     const { show, hide } = this.detectLabelCollision(sortedElements);
 
-    show.forEach(this.showLabel);
+    for (let i = show.length - 1; i >= 0; i--) {
+      this.showLabel(show[i]);
+    }
     hide.forEach(this.hideLabel);
   };
 
@@ -222,6 +221,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
   private showLabel = (element: Element) => {
     const label = element.getShape('label');
     if (label) setVisibility(label, 'visible');
+    element.toFront();
     this.hiddenElements.delete(element.id);
   };
 
@@ -229,12 +229,15 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
 
   private bindEvents() {
     const { graph } = this.context;
-    graph.once(GraphEvent.AFTER_RENDER, this.onToggleVisibility);
+    graph.on(GraphEvent.AFTER_DRAW, this.onToggleVisibility);
+    graph.on(GraphEvent.AFTER_LAYOUT, this.onToggleVisibility);
     graph.on(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
   private unbindEvents() {
     const { graph } = this.context;
+    graph.off(GraphEvent.AFTER_DRAW, this.onToggleVisibility);
+    graph.off(GraphEvent.AFTER_LAYOUT, this.onToggleVisibility);
     graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 

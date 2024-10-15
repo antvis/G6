@@ -1,9 +1,9 @@
-import { Graph, GraphData } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
-const data: GraphData = {
+const data = {
   nodes: [
-    { id: 'node0', size: 50, label: '0', style: { x: 326, y: 268 }, states: ['selected'] },
-    { id: 'node1', size: 30, label: '1', style: { x: 280, y: 384 }, states: ['selected'] },
+    { id: 'node0', size: 50, label: '0', style: { x: 326, y: 268 } },
+    { id: 'node1', size: 30, label: '1', style: { x: 280, y: 384 } },
     { id: 'node2', size: 30, label: '2', style: { x: 234, y: 167 } },
     { id: 'node3', size: 30, label: '3', style: { x: 391, y: 368 } },
     { id: 'node4', size: 30, label: '4', style: { x: 444, y: 209 } },
@@ -21,7 +21,7 @@ const data: GraphData = {
     { id: 'node16', size: 15, label: '16', style: { x: 442, y: 398 } },
   ],
   edges: [
-    { source: 'node0', target: 'node1', label: '0-1', states: ['selected'] },
+    { source: 'node0', target: 'node1', label: '0-1' },
     { source: 'node0', target: 'node2', label: '0-2' },
     { source: 'node0', target: 'node3', label: '0-3' },
     { source: 'node0', target: 'node4', label: '0-4' },
@@ -40,33 +40,30 @@ const data: GraphData = {
   ],
 };
 
-export const behaviorFixElementSize: TestCase = async (context) => {
-  const graph = new Graph({
-    ...context,
-    data,
-    node: {
-      style: {
-        labelText: (d) => d.label,
-        size: (d) => d.size,
-        lineWidth: 1,
-      },
+const graph = new Graph({
+  container: 'container',
+  data,
+  node: {
+    style: {
+      labelBackground: true,
+      labelBackgroundFill: '#FFB6C1',
+      labelBackgroundRadius: 4,
+      labelFontFamily: 'Arial',
+      labelPadding: [0, 4],
+      labelText: (d) => d.id,
+      size: (d) => d.size,
     },
-    edge: { style: { labelText: (d) => d.label } },
-    behaviors: [
-      'zoom-canvas',
-      'drag-canvas',
-      {
-        type: 'fix-element-size',
-        key: 'fix-element-size',
-        state: 'selected',
-        reset: true,
-      },
-      { type: 'click-select', key: 'click-select', multiple: true },
-    ],
-    plugins: [{ key: 'history', type: 'history' }],
-  });
+  },
+  behaviors: [
+    'zoom-canvas',
+    'drag-canvas',
+    {
+      key: 'fix-element-size',
+      type: 'fix-element-size',
+      enable: true,
+      node: { shape: 'label' },
+    },
+  ],
+});
 
-  await graph.render();
-
-  return graph;
-};
+graph.render();

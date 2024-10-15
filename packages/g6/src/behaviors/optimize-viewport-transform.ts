@@ -21,10 +21,10 @@ export interface OptimizeViewportTransformOptions extends BaseBehaviorOptions {
    */
   enable?: boolean | ((event: IViewportEvent) => boolean);
   /**
-   * <zh/> 始终保留的图形类名。操作画布过程中会隐藏元素reservedShapes（除了指定类名的图形），以提高性能
+   * <zh/> 在画布操作过程中，元素会被隐藏以提高性能。通过设置 `shapes` 配置项，可以保留指定类名的子图形不被隐藏，从而保留整个元素的部分可见性
    *
-   * <en/> Persistently reserved shape classnames. Elements are hidden during canvas manipulation (except for shapes with specified classnames) to enhance performance.
-   * @defaultValue `{ node: ['key'] }`
+   * <en/> During canvas operations, elements are hidden to improve performance. By configuring the `shapes` option, specific sub-elements with designated class names can be retained, thereby maintaining partial visibility of the entire element.
+   * @defaultValue { node: ['key'] }
    */
   shapes?: {
     node?: string[];
