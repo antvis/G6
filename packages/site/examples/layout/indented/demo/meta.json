@@ -5,12 +5,44 @@
   },
   "demos": [
     {
-      "filename": "basic.js",
+      "filename": "auto-side.js",
       "title": {
-        "zh": "缩进树-子节点两侧分布",
+        "zh": "子节点自动分布",
         "en": "Two Side Indented Layout"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*42EXSYyBcTYAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Kc63QoxgLNYAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "right-side.js",
+      "title": {
+        "zh": "子节点右侧分布",
+        "en": "Right Side Indented Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*3PioQ4TAMx8AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "left-side.js",
+      "title": {
+        "zh": "子节点左侧分布",
+        "en": "Left Side Indented Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*o6uzQ5nmXJkAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "custom-side.js",
+      "title": {
+        "zh": "自定义子节点分布",
+        "en": "Custom Side Indented Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Kc63QoxgLNYAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "no-drop-cap.js",
+      "title": {
+        "zh": "首子节点不换行",
+        "en": "No Drop Cap Indented Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*bC-pRrO7srwAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

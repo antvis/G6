@@ -1,33 +1,25 @@
 import { Graph } from '@antv/g6';
 
-fetch('https://assets.antv.antgroup.com/g6/cluster.json')
+fetch('https://assets.antv.antgroup.com/g6/radial.json')
   .then((res) => res.json())
   .then((data) => {
     const graph = new Graph({
       container: 'container',
       data,
+      autoFit: 'center',
       layout: {
-        type: 'fruchterman',
-        gravity: 5,
-        speed: 5,
-        clustering: true,
-        nodeClusterBy: 'cluster',
-        clusterGravity: 16
+        type: 'radial',
+        nodeSize: 32,
+        unitRadius: 90,
+        linkDistance: 200,
+        preventOverlap: true,
+        maxPreventOverlapIteration: 100,
       },
       node: {
         style: {
           labelFill: '#fff',
           labelPlacement: 'center',
           labelText: (d) => d.id,
-        },
-        palette: {
-          type: 'group',
-          field: 'cluster',
-        },
-      },
-      edge: {
-        style: {
-          endArrow: true,
         },
       },
       behaviors: ['drag-canvas', 'drag-element'],

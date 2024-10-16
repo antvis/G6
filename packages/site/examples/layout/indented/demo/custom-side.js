@@ -11,43 +11,46 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
   .then((data) => {
     const graph = new Graph({
       container: 'container',
-      autoFit: 'view',
       data: treeToGraphData(data),
+      autoFit: 'view',
       node: {
-        style: {
-          labelText: d => d.id,
-          labelBackground: true,
-          labelPlacement: function (d) {
-            const side = getNodeSide(this, d);
-            return side === 'center' ? 'right' : side
-          },
-          ports: [{ placement: 'right' }, { placement: 'left' }],
+        style: function (d) {
+          const side = getNodeSide(this, d);
+          return {
+            labelText: d.id,
+            labelPlacement: side === 'center' ? 'bottom' : side,
+            labelBackground: true,
+            ports: side === 'center' ? [{ placement: 'bottom' }] : side === 'right' ? [{ placement: 'bottom' }, { placement: 'left' }] : [{ placement: 'bottom' }, { placement: 'right' }]
+          }
         },
         animation: {
           enter: false,
         },
       },
       edge: {
-        type: 'cubic-horizontal',
+        type: 'polyline',
+        style: {
+          radius: 4,
+          router: {
+            type: 'orth'
+          }
+        },
         animation: {
           enter: false,
         },
       },
       layout: {
-        type: 'mindmap',
+        type: 'indented',
         direction: 'H',
-        getHeight: () => 32,
+        indent: 80,
+        getHeight: () => 16,
         getWidth: () => 32,
-        getVGap: () => 4,
-        getHGap: () => 64,
         getSide: (d) => {
-          if (d.id === 'Classification') {
-            return 'left';
-          }
+          if (d.id === 'Regression' || d.id === 'Classification') return 'left';
           return 'right';
         },
       },
-      behaviors: ['collapse-expand', 'drag-canvas', 'zoom-canvas'],
+      behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand'],
     });
 
     graph.render();

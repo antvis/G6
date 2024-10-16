@@ -74,16 +74,19 @@ const graph = new Graph({
   autoFit: 'center',
   node: {
     style: {
+      labelFill: '#fff',
+      labelPlacement: 'center',
       labelText: (d) => d.id,
     },
     palette: {
       type: 'group',
       field: 'cluster',
+      color: ['#1783FF', '#D580FF']
     },
   },
   layout: {
     type: 'bi',
-    biSep: 300,
+    sep: 300,
     nodeSep: 20,
     nodeSize: 32,
   },

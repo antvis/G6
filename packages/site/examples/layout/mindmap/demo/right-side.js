@@ -8,17 +8,11 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       autoFit: 'view',
       data: treeToGraphData(data),
       node: {
-        style: (model) => {
-          return {
-            labelText: model.id,
-            size: 26,
-            labelPlacement: 'right',
-            labelMaxWidth: 200,
-            lineWidth: 1,
-            stroke: '#5F95FF',
-            fill: '#EFF4FF',
-            ports: [{ placement: 'right' }, { placement: 'left' }],
-          };
+        style: {
+          labelText: d => d.id,
+          labelPlacement: 'right',
+          labelBackground: true,
+          ports: [{ placement: 'right' }, { placement: 'left' }],
         },
         animation: {
           enter: false,
@@ -32,22 +26,11 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       },
       layout: {
         type: 'mindmap',
-        direction: 'H',
-        getHeight: () => {
-          return 16;
-        },
-        getWidth: () => {
-          return 16;
-        },
-        getVGap: () => {
-          return 10;
-        },
-        getHGap: () => {
-          return 100;
-        },
-        getSide: () => {
-          return 'right';
-        },
+        direction: 'LR',
+        getHeight: () => 32,
+        getWidth: () => 32,
+        getVGap: () => 4,
+        getHGap: () => 100,
       },
       behaviors: ['collapse-expand', 'drag-canvas', 'zoom-canvas'],
     });

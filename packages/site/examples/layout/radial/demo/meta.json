@@ -10,15 +10,23 @@
         "zh": "基本 Radial 辐射布局",
         "en": "Basic Radial Layout"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ec_WQ5hqVsgAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*d3P-RK4YCDYAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "prevent-overlap.js",
+      "filename": "strict-prevent-overlap.js",
       "title": {
-        "zh": "避免重叠",
-        "en": "Prevent Overlap"
+        "zh": "防止节点重叠的严格辐射布局",
+        "en": "Strict Radial Layout with Overlap Prevention"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GAFjRJeAoAsAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*vpXjTIFKy1QAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "non-strict-prevent-overlap.js",
+      "title": {
+        "zh": "防止节点重叠的非严格辐射布局",
+        "en": "Non-strict Radial Layout with Overlap Prevention"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*4I4VRa6Kyo8AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "cluster-sort.js",
@@ -26,7 +34,7 @@
         "zh": "排序聚类",
         "en": "Cluster Sort"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gzfTQKBB62IAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_GJ_RL1Qi-oAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

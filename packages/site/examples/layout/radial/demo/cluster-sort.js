@@ -103,22 +103,22 @@ const data = {
 
 const graph = new Graph({
   container: 'container',
+  autoFit: 'center',
   data,
   layout: {
-    linkDistance: 10,
-    maxIteration: 1000,
-    nodeSize: 30,
+    type: 'radial',
+    nodeSize: 32,
+    unitRadius: 90,
+    linkDistance: 200,
     preventOverlap: true,
     sortBy: 'type',
     sortStrength: 50,
-    type: 'radial',
-    unitRadius: 70,
   },
   node: {
     style: {
-      labelText: (d) => d.id,
+      labelFill: '#fff',
       labelPlacement: 'center',
-      size: 20,
+      labelText: (d) => d.id,
     },
     palette: {
       type: 'group',

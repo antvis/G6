@@ -7,16 +7,15 @@ fetch('https://assets.antv.antgroup.com/g6/circular.json')
       container: 'container',
       autoFit: 'view',
       data,
-      layout: {
-        type: 'circular',
-      },
       node: {
         style: {
-          size: 20,
-          fill: '#EFF4FF',
-          lineWidth: 1,
-          stroke: '#5F95FF',
-        },
+          labelText: d => d.id,
+          labelFill: '#fff',
+          labelPlacement: 'center'
+        }
+      },
+      layout: {
+        type: 'circular',
       },
       behaviors: ['drag-canvas', 'drag-element'],
     });

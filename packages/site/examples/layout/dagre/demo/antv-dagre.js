@@ -31,12 +31,14 @@ const data = {
 
 const graph = new Graph({
   container: 'container',
+  autoFit: 'view',
   animation: false,
   data,
   layout: {
     type: 'antv-dagre',
-    nodesep: 100,
-    ranksep: 70,
+    nodeSize: [60, 30],
+    nodesep: 60,
+    ranksep: 40,
     controlPoints: true,
   },
   node: {
@@ -44,19 +46,13 @@ const graph = new Graph({
     style: {
       size: [60, 30],
       radius: 8,
-      labelPlacement: 'center',
       labelText: (d) => d.id,
-    },
+      labelBackground: true,
+    }
   },
   edge: {
     type: 'polyline',
-    style: {
-      endArrow: true,
-      lineWidth: 2,
-      stroke: '#C2C8D5',
-    },
   },
-  autoFit: 'view',
   behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
 });
 

@@ -6,23 +6,22 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
     const graph = new Graph({
       container: 'container',
       data,
-      layout: {
-        type: 'grid',
-        sortBy: 'id',
-      },
       node: {
         style: {
-          size: 20,
-          stroke: '#ccc',
-          lineWidth: 1,
           labelText: (d) => d.id,
+          labelBackground: true,
         },
         palette: {
           type: 'group',
           field: 'cluster',
         },
       },
-      behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element', 'click-select'],
+      layout: {
+        type: 'grid',
+        sortBy: 'id',
+        nodeSize: 32,
+      },
+      behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
     });
 
     graph.render();
