@@ -10,18 +10,13 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
         type: 'fruchterman',
         gravity: 5,
         speed: 5,
-        animated: true,
+        animation: true,
       },
       node: {
         style: {
-          size: 20,
+          labelFill: '#fff',
           labelPlacement: 'center',
           labelText: (d) => d.id,
-          labelBackground: false,
-        },
-        palette: {
-          type: 'group',
-          field: 'cluster',
         },
       },
       behaviors: ['drag-canvas', 'drag-element'],

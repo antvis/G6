@@ -5,7 +5,7 @@ fetch('https://assets.antv.antgroup.com/g6/dagre-combo.json')
   .then((data) => {
     const graph = new Graph({
       container: 'container',
-      autoFit: 'view',
+      autoFit: 'center',
       data,
       node: {
         type: 'rect',
@@ -13,7 +13,7 @@ fetch('https://assets.antv.antgroup.com/g6/dagre-combo.json')
           size: [60, 30],
           radius: 8,
           labelText: (d) => d.id,
-          labelPlacement: 'center',
+          labelBackground: true,
           ports: [{ placement: 'top' }, { placement: 'bottom' }],
         },
         palette: {
@@ -31,8 +31,6 @@ fetch('https://assets.antv.antgroup.com/g6/dagre-combo.json')
         style: {
           radius: 8,
           labelText: (d) => d.id,
-          lineDash: 0,
-          collapsedLineDash: [5, 5],
         },
       },
       layout: {

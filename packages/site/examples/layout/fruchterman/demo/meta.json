@@ -10,15 +10,15 @@
         "zh": "基本 Fruchterman 布局",
         "en": "Basic Fruchterman Layout"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1KY7SLEXxqMAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1AvnTorIogUAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "cluster.js",
       "title": {
-        "zh": "基本 Fruchterman 布局",
-        "en": "Basic Fruchterman Layout"
+        "zh": "Fruchterman 聚类布局",
+        "en": "Fruchterman Cluster Layout"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-s9CTphuwgcAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1i4ZQaI6Iu4AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "run-in-web-worker.js",

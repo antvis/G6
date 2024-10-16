@@ -9,17 +9,15 @@ fetch('https://assets.antv.antgroup.com/g6/radial.json')
       autoFit: 'center',
       layout: {
         type: 'radial',
+        nodeSize: 32,
         unitRadius: 100,
         linkDistance: 200,
       },
       node: {
         style: {
-          fill: '#EFF4FF',
+          labelFill: '#fff',
           labelPlacement: 'center',
           labelText: (d) => d.id,
-          lineWidth: 1,
-          size: 20,
-          stroke: '#5F95FF',
         },
       },
       behaviors: ['drag-canvas', 'drag-element'],

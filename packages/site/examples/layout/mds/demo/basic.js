@@ -8,21 +8,17 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
       padding: 20,
       autoFit: 'view',
       data,
-      layout: {
-        type: 'mds',
-        linkDistance: 100,
-      },
       node: {
         style: {
-          size: 20,
-          stroke: '#9ec9ff',
-          fill: '#eee',
-          lineWidth: 1,
+          labelFill: '#fff',
           labelText: (d) => d.id,
-          labelFontSize: 12,
           labelPlacement: 'center',
-          labelBackground: false,
         },
+      },
+      layout: {
+        type: 'mds',
+        nodeSize: 32,
+        linkDistance: 100,
       },
       behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
     });

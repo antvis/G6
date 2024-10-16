@@ -11,7 +11,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
       node: {
         style: {
-          labelText: d => d.id
+          labelText: d => d.id,
+          labelBackground: true,
         },
         animation: {
           enter: false,
