@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["bed39dad"],{bed39dad:function(e,d,a){"use strict";a.d(d,"__esModule",{value:!0}),a.d(d,"demos",{enumerable:!0,get:function(){return l;}}),a("78b3ac91"),a("a3b33d5c");let l={};}}]);
+//# sourceMappingURL=bed39dad-async.add5d006.js.map

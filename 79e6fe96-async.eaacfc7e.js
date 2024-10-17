@@ -1,0 +1,2 @@
+(("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]=("undefined"!=typeof globalThis?globalThis:self)["makoChunk_@antv/g6-site"]||[]).push([["79e6fe96"],{"79e6fe96":function(e,t,n){"use strict";n.d(t,"__esModule",{value:!0}),n.d(t,"default",{enumerable:!0,get:function(){return a;}});var u=n("f2a0b6c9");n("78b3ac91");var l=n("49826428");function a(){let e=(0,l.useOutletContext)();return(0,u.jsx)(l.Outlet,{context:e});}}}]);
+//# sourceMappingURL=79e6fe96-async.eaacfc7e.js.map
