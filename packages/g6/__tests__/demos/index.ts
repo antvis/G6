@@ -22,6 +22,7 @@ export { behaviorScrollCanvas } from './behavior-scroll-canvas';
 export { behaviorZoomCanvas } from './behavior-zoom-canvas';
 export { bugTooltipResize } from './bug-tooltip-resize';
 export { canvasCursor } from './canvas-cursor';
+export { caseFishbone } from './case-fishbone';
 export { caseFundFlow } from './case-fund-flow';
 export { caseIndentedTree } from './case-indented-tree';
 export { caseLanguageTree } from './case-language-tree';
