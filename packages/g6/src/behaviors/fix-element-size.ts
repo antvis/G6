@@ -217,7 +217,7 @@ export class FixElementSize extends BaseBehavior<FixElementSizeOptions> {
     const { element, model } = this.context;
     const el = element!.getElement(id) as Node | Combo;
 
-    if (this.skipIfExceedViewport(el)) return;
+    if (!el || this.skipIfExceedViewport(el)) return;
 
     const edges = model.getRelatedEdgesData(id);
     edges.forEach((edge) => this.relatedEdgeToUpdate.add(idOf(edge)));
@@ -234,7 +234,7 @@ export class FixElementSize extends BaseBehavior<FixElementSizeOptions> {
     const id = idOf(datum);
     const el = this.context.element!.getElement(id) as Edge;
 
-    if (this.skipIfExceedViewport(el)) return;
+    if (!el || this.skipIfExceedViewport(el)) return;
 
     const config = this.options.edge;
     if (!config) {

@@ -284,8 +284,8 @@ export class EdgeBundling extends BasePlugin<EdgeBundlingOptions> {
 
     edges.forEach((edge) => {
       const edgeId = idOf(edge);
-      const edgeEl = element!.getElement(edgeId)!;
-      edgeEl.update({ d: getPolylinePath(this.edgePoints[edgeId]) });
+      const edgeEl = element!.getElement(edgeId);
+      edgeEl?.update({ d: getPolylinePath(this.edgePoints[edgeId]) });
     });
   };
 

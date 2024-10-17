@@ -277,7 +277,7 @@ export class Fisheye extends BasePlugin<FisheyeOptions> {
 
     const update = (nodeId: ID, style: NodeStyle) => {
       const node = element!.getElement(nodeId) as Node;
-      node.update(style);
+      node?.update(style);
 
       graph.getRelatedEdgesData(nodeId).forEach((datum) => {
         relatedEdges.add(idOf(datum));
