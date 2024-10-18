@@ -3,5 +3,8 @@
     "skipModules": false,
     "concatenateModules": false
   },
-  "moduleIdStrategy": "hashed"
+  "moduleIdStrategy": "hashed",
+  "experimental": {
+    "magicComment": true
+  }
 }
