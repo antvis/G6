@@ -81,7 +81,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@umijs/mako": "0.8.8-canary.20240903.3"
+      "@umijs/mako": "0.9.2"
     }
   }
 }
