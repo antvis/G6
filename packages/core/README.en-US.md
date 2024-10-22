@@ -108,7 +108,7 @@ graph.render();
 
 [![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
 
-For more information of the usage, please refer to [Getting Started](https://g6.antv.antgroup.com/en/manual/getting-started).
+For more information of the usage, please refer to [Getting Started](https://g6-v4.antv.vision/en/manual/getting-started).
 
 ## Development
 
@@ -134,10 +134,10 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 
 ## Documents
 
-- <a href='https://g6.antv.antgroup.com/en/manual/tutorial/preface' target='_blank'>Tutorial</a>
-- <a href='https://g6.antv.antgroup.com/en/manual/middle/overview' target='_blank'>Middle Guides</a>
-- <a href='https://g6.antv.antgroup.com/en/manual/advanced/coordinate-system' target='_blank'>Further Reading</a>
-- <a href='https://g6.antv.antgroup.com/en/api/graph' target='_blank'>API Reference</a>
+- <a href='https://g6-v4.antv.vision/en/manual/tutorial/preface' target='_blank'>Tutorial</a>
+- <a href='https://g6-v4.antv.vision/en/manual/middle/overview' target='_blank'>Middle Guides</a>
+- <a href='https://g6-v4.antv.vision/en/manual/advanced/coordinate-system' target='_blank'>Further Reading</a>
+- <a href='https://g6-v4.antv.vision/en/api/graph' target='_blank'>API Reference</a>
 
 ## G6 Communication Group
 
@@ -150,7 +150,6 @@ Welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (
 ## How to Contribute
 
 Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
-
 
 ## License
 

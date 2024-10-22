@@ -17,27 +17,15 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         with:
-          version: 8
+          version: 9
           run_install: false
 
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        id: cache
-        with:
-          path: |
-            node_modules/
-            packages/g6/node_modules/
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: pnpm install --no-frozen-lockfile
 
       - name: Run CI

@@ -6,13 +6,7 @@
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
-[![build](https://github.com/antvis/G6/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/antvis/G6/actions/)
-[![Coverage Status](https://coveralls.io/repos/github/antvis/G6/badge.svg?branch=master)](https://coveralls.io/github/antvis/G6?branch=master)
-![typescript](https://img.shields.io/badge/language-typescript-red.svg) 
-![MIT](https://img.shields.io/badge/license-MIT-000000.svg) 
-[![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6) 
-[![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6) 
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6)
+[![build](https://github.com/antvis/G6/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/antvis/G6/actions/) [![Coverage Status](https://coveralls.io/repos/github/antvis/G6/badge.svg?branch=master)](https://coveralls.io/github/antvis/G6?branch=master) ![typescript](https://img.shields.io/badge/language-typescript-red.svg) ![MIT](https://img.shields.io/badge/license-MIT-000000.svg) [![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6) [![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6)
 
 ## What is G6
 
@@ -110,7 +104,7 @@ graph.render();
 
 [![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
 
-For more information of the usage, please refer to [Getting Started](https://g6.antv.antgroup.com/en/manual/getting-started).
+For more information of the usage, please refer to [Getting Started](https://g6-v4.antv.vision/en/manual/getting-started).
 
 ## Development
 
@@ -138,10 +132,10 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 
 ## Documents
 
-- <a href='https://g6.antv.antgroup.com/en/manual/tutorial/preface' target='_blank'>Tutorial</a>
-- <a href='https://g6.antv.antgroup.com/en/manual/middle/overview' target='_blank'>Middle Guides</a>
-- <a href='https://g6.antv.antgroup.com/en/manual/advanced/coordinate-system' target='_blank'>Further Reading</a>
-- <a href='https://g6.antv.antgroup.com/en/api/graph' target='_blank'>API Reference</a>
+- <a href='https://g6-v4.antv.vision/en/manual/tutorial/preface' target='_blank'>Tutorial</a>
+- <a href='https://g6-v4.antv.vision/en/manual/middle/overview' target='_blank'>Middle Guides</a>
+- <a href='https://g6-v4.antv.vision/en/manual/advanced/coordinate-system' target='_blank'>Further Reading</a>
+- <a href='https://g6-v4.antv.vision/en/api/graph' target='_blank'>API Reference</a>
 
 ## React project integration
 
@@ -153,8 +147,8 @@ At present, Graphin has good practices in business graph analysis projects. For 
 
 Welcome to join the **G6 Communication Group**. We also welcome the github issues.
 
-* DingTalk Group: 30088652
-* WeChat Group: Add WeChat **AntVG6** to join the group
+- DingTalk Group: 30088652
+- WeChat Group: Add WeChat **AntVG6** to join the group
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*j137TJmS1dEAAAAAAAAAAAAADmJ7AQ/original" width="200" />
 

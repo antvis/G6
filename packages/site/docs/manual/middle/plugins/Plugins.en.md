@@ -5,8 +5,8 @@ order: 0
 
 There are several plugins in G6 which can be used for G6's graph or other applications.
 
-- [Legend](#legend) *supported by v4.3.0 and later versions*
-- [SnapLine](#snapline) *supported by v4.3.0 and later versions*
+- [Legend](#legend) _supported by v4.3.0 and later versions_
+- [SnapLine](#snapline) _supported by v4.3.0 and later versions_
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [Edge Bundling](#edge-bundling)
@@ -34,25 +34,25 @@ const graph = new G6.Graph({
 
 ## Legend
 
-Legend is a built-in legend plugin for G6. It is useful for npde/edge type demonstration, and the end-users are able to interact with the legend to highlight and filter the items on the graph. *supported by v4.3.0 and later versions*.
+Legend is a built-in legend plugin for G6. It is useful for npde/edge type demonstration, and the end-users are able to interact with the legend to highlight and filter the items on the graph. _supported by v4.3.0 and later versions_.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UmXzQLG65vYAAAAAAAAAAAAAARQnAQ' alt="img" width='500px'>
 
 ### Configuration
 
-| Name | Type  | Description                                |
+| Name | Type | Description |
 | --- | --- | --- |
 | data | GraphData | The data for the legend, not related to the data of the graph. The legend for nodes currently supports `'circle'`, `'rect'`, and `'ellipse'`. The legend for edges currently supports `'line'`, `'cubic'`, and `'quadratic'`. `type` for each data means the type of the legend item, and the `order` could be assigned to each node/edge data for ordering in a legend group |
 | position | 'top' / 'top-left' / 'top-right' / 'right' / 'right-top' / 'right-bottom' / 'left' / 'left-top' / 'left-bottom' / 'bottom' / 'bottom-left' / 'bottom-right' | The relative of the position to the canvas. `'top'` by default, which means the legend area is on the top of the canvas |
 | padding | number / number[] | The inner distance between the content of the legend to the border of the legend area. Array with four numbers means the padding to the top, right, bottom, and left responsively |
-| margin | number / number[] | The outer distance between the legend area to the border of the canvas. Array with four numbers means the distance to the top, right, bottom, and left responsively. Only the top distance takes effect when  `position:'top'`, situations for other `position` configurations are similar to it |
+| margin | number / number[] | The outer distance between the legend area to the border of the canvas. Array with four numbers means the distance to the top, right, bottom, and left responsively. Only the top distance takes effect when `position:'top'`, situations for other `position` configurations are similar to it |
 | offsetX | number | The x-axis offset for the legend area, it is useful when you want to adjust the position of the lenged slightly |
 | offsetY | number | The y-axis offset for the legend area, it is useful when you want to adjust the position of the lenged slightly |
 | containerStyle | ShapeStyle | The style for the background rect, the format is similar as [rect shape style](/en/docs/api/shape-properties#rect) |
 | horiSep | number | The horizontal seperation of the legend items |
 | vertiSep | number | The vertical seperation of the legend items |
 | layout | 'vertical' / 'horizontal' | The layout of the legend items. `'horizontal'` by default |
-| align | 'center' / 'right' / 'left' | The alignment of the legend items.  `'center'` by default |
+| align | 'center' / 'right' / 'left' | The alignment of the legend items. `'center'` by default |
 | title | string | The title string for the legend, the style of the title could be configured by `titleConfig` |
 | titleConfig | object | The style of the legend title, detail configurations are shown in following lines |
 | titleConfig.position | 'center' / 'right' / 'left' | The alignment of the title to the legend content. `'center'` by default |
@@ -63,19 +63,18 @@ Legend is a built-in legend plugin for G6. It is useful for npde/edge type demon
 | filter.enable | boolean | Whether allow filtering the items in the main graph while the end-user interaction with the legend items. `false` by default |
 | filter.multiple | boolean | Whether support active multiple types of legend items, `false` by default, which means only one type of legend item will be activated in the same time. If it is `true`, multiple items could be activated only when the `filter.trigger` is `'click'` |
 | filter.trigger | 'click' / 'mouseenter' | The interaction way to the legend items. `click` by default, which means while the end-user clicking a legend item, the legend item and corresponding filtered items on the main graph will be activated |
-| filter.legendStateStyles | { active?: ShapeStyle, inactive?: ShapeStyle  | The state styles for the legend items while filtering, inluding `filter.legendStateStyles.active` and `filter.legendStateStyles.inactive`. The type of each one is `ShapeStyle`. Similar to the `nodeStateStyles` of Graph |
+| filter.legendStateStyles | { active?: ShapeStyle, inactive?: ShapeStyle | The state styles for the legend items while filtering, inluding `filter.legendStateStyles.active` and `filter.legendStateStyles.inactive`. The type of each one is `ShapeStyle`. Similar to the `nodeStateStyles` of Graph |
 | filter.graphActiveState | string | The activate state name for the items on the main graph. When a lenged item is activated, the corresponding items of the main graph will be set to `filter.graphActiveState`, `'active'` by default. And you should assign the state style for this state name on Graph |
 | filter.graphInactiveState | string | The inactivate state name for the items on the main graph. When a lenged item is inactivated, the corresponding items of the main graph will be set to `filter.graphInactiveState`, `'inactive'` by default. And you should assign the state style for this state name on Graph |
 | filter.filterFunctions | { [key: string]: (d) => boolean; } | Since the data of the legend is not related to the main graph, you should configure filtering functions for each legend item type. The `key` is corresponding to the `type` of the legend item, and the value is a function. For the function, the parameter is the item data of the main graph, and the return value is a boolean which means whether the item of the main graph should be activated |
 
-
 ## SnapLine
 
-SnapLine is a built-in components in G6. *supported by v4.3.0 and later versions*.
+SnapLine is a built-in components in G6. _supported by v4.3.0 and later versions_.
 
 ### Configuration
 
-| Name | Type   | Required | Description                                |
+| Name          | Type                                          | Required | Description           |
 | ------------- | --------------------------------------------- | -------- | --------------------- |
 | line          | ShapeStyle                                    | false    | the style of SnapLine |
 | itemAlignType | boolean、'horizontal' 、'vertical'、'center'; | false    | the type of SnapLine  |
@@ -113,7 +112,6 @@ It can be configured to adjust the styles and functions.
 | size | Array | false | The size of the Minimap |
 | delegateStyle | Object | false | Takes effect when `type` is `'delegate'`. The style of the delegate of the items on the graph |
 | hideEdge | Boolean | false | **Supported by v4.7.16** Whether to hide the edges on minimap to enhance the performance |
-
 
 The `delegateStyle` has the properties:
 
@@ -163,7 +161,7 @@ Menu is used to configure the right-click menu on the node.
 | offsetX | number | 6 | the offset of tooltip along x axis, the padding of the parent container should be take into consider |
 | offsetY | number | 6 | the offset of tooltip along y axis, the padding of the parent container should be take into consider |
 | itemTypes | string[] | ['node', 'edge', 'combo'] | the item types that allow the tooltip show up. e.g. if you only want the node tooltip, set the `itemTypes` to be ['node'] |
-| trigger | 'click' / 'contextmenu' | 'contextmenu' | the trigger for the menu, `'contextmenu'` by default, which means the menu will show up when the end user right click on some item. `'click'` means left click. *'click' is supported by v4.3.2 and later versions* |
+| trigger | 'click' / 'contextmenu' | 'contextmenu' | the trigger for the menu, `'contextmenu'` by default, which means the menu will show up when the end user right click on some item. `'click'` means left click. _'click' is supported by v4.3.2 and later versions_ |
 
 ### Usage
 
@@ -194,11 +192,11 @@ const menu = new G6.Menu({
         <li>menu01</li>
         <li>menu01</li>
         <li>menu01</li>
-      </ul>`
-    return outDiv
+      </ul>`;
+    return outDiv;
   },
   handleMenuClick(target, item, graph) {
-    console.log(target, item, graph)
+    console.log(target, item, graph);
   },
 });
 
@@ -222,7 +220,7 @@ const menu = new G6.Menu({
     </ul>`;
   },
   handleMenuClick(target, item) {
-    console.log(target, item)
+    console.log(target, item);
   },
 });
 
@@ -283,7 +281,7 @@ const toolbar = new G6.ToolBar({
         <li code='add'>Add Node</li>
         <li code='undo'>Undo</li>
       </ul>
-    `
+    `;
   },
   handleClick: (code, graph) => {
     if (code === 'add') {
@@ -291,12 +289,12 @@ const toolbar = new G6.ToolBar({
         id: 'node2',
         label: 'node2',
         x: 300,
-        y: 150
-      })
+        y: 150,
+      });
     } else if (code === 'undo') {
-      toolbar.undo()
+      toolbar.undo();
     }
-  }
+  },
 });
 
 const graph = new G6.Graph({
@@ -318,12 +316,10 @@ const toolbar = new G6.ToolBar({
         <li>example 03</li>
         <li>example 04</li>
         <li>example 05</li>
-      </ul>`
-    return outDiv
+      </ul>`;
+    return outDiv;
   },
-  handleClick: (code, graph) => {
-
-  }
+  handleClick: (code, graph) => {},
 });
 
 const graph = new G6.Graph({
@@ -331,7 +327,6 @@ const graph = new G6.Graph({
   plugins: [toolbar], // Use the ToolBar plugin
 });
 ```
-
 
 ## ToolTip
 
@@ -366,12 +361,11 @@ const tooltip = new G6.Tooltip({
       <h4>自定义tooltip</h4>
       <ul>
         <li>Label: ${e.item.getModel().label || e.item.getModel().id}</li>
-      </ul>`
-    return outDiv
+      </ul>`;
+    return outDiv;
   },
-  itemTypes: ['node']
+  itemTypes: ['node'],
 });
-
 
 const graph = new G6.Graph({
   //... Other configurations
@@ -451,7 +445,7 @@ const fisheye = new G6.Fisheye({
   d: 1.5,
   r: 300,
   delegateStyle: clone(lensDelegateStyle),
-  showLabel: false
+  showLabel: false,
 });
 
 const graph = new G6.Graph({
@@ -503,9 +497,9 @@ filterLens.updateParams({
 const filterLens = new G6.EdgeFilterLens({
   trigger: 'mousemove',
   r: 300,
-  shouldShow: d => {
+  shouldShow: (d) => {
     return d.size > 10;
-  }
+  },
 });
 
 const graph = new G6.Graph({
@@ -513,6 +507,7 @@ const graph = new G6.Graph({
   plugins: [filterLens], // configuring edge filter lens plugin
 });
 ```
+
 ## TimeBar
 
 There are three types of built-in TimeBar in G6:
@@ -532,7 +527,7 @@ All the three types of timebar supports play, fast forward, and fast backward.
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kHRkQpnvBmwAAAAAAAAAAAAAARQnAQ' width='500' />
 <br />Time bar with descrete ticks<br />
 
-<br />Refer to the demos [HERE](https://g6.antv.antgroup.com/en/examples/tool/timebar#timebar)<br />
+<br />Refer to the demos [HERE](https://g6-v4.antv.vision/en/examples/tool/timebar#timebar)<br />
 
 ### Common Usage
 
@@ -578,14 +573,14 @@ const timebar = new G6.TimeBar({
     data: timeBarData,
     width,
     height: 42,
-    tickLabelFormatter: d => {
+    tickLabelFormatter: (d) => {
       const dateStr = `${d.date}`;
       if ((count - 1) % 10 === 0) {
         return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
       }
       return false;
     },
-    tooltipFomatter: d => {
+    tooltipFomatter: (d) => {
       const dateStr = `${d}`;
       return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
     },
@@ -595,16 +590,15 @@ const timebar = new G6.TimeBar({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6ECQ7Jn5pQAAAAAAAAAAAAAARQnAQ' width='600' />
 
-
 ### Event Listener
 
 TimeBar Plugin exposes several timing events. They could be listened by `graph.on('eventname', e => {})`.
 
-| Event Name | Description |
-| --- | --- |
-| valuechange | Emitted when the value range of the timebar is chaged. |
-| timebarstartplay | Emitted when the timeline starts to play. |
-| timebarendplay | Emitted when the timeline ends playing. |
+| Event Name       | Description                                            |
+| ---------------- | ------------------------------------------------------ |
+| valuechange      | Emitted when the value range of the timebar is chaged. |
+| timebarstartplay | Emitted when the timeline starts to play.              |
+| timebarendplay   | Emitted when the timeline ends playing.                |
 
 ### Definition of the Configurations
 
@@ -664,7 +658,7 @@ interface TimeBarConfig extends IPluginBaseConfig {
 #### The Parameters of the Interfaces
 
 | Name | Type | Default Value | Description |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | container | HTMLDivElement | null | The DOM container of the TimeBar. By default, the plugin will create a container DOM with 'g6-component-timebar' as className |
 | x | number | 0 | The beginning x position of the TimeBar plugin |
 | y | number | 0 | The beginning y position of the TimeBar plugin |
@@ -713,7 +707,7 @@ interface TrendConfig {
 #### Parameters of the TrendConfig
 
 | Name | Type | Default Value | Description |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | x | number | 0 | The beginning x position of the trend line chart |
 | y | number | 0 | The beginning y position of the trend line chart |
 | width | number | The width of the TimeBar | The width of the trend line chart of the TimeBar, we suggest to use the default value. If you wanna custom it, please assign the `width` of the slider in the same time |
@@ -722,7 +716,7 @@ interface TrendConfig {
 | isArea | boolean | false | Whether to show a area chart instead |
 | lineStyle | ShapeStyle | null | The configurations for the style of the line in the line chart |
 | areaStyle | ShapeStyle | null | The configuration for the style of the area in the chart when `isArea` is `true` |
-| interval | Interval | null | The configuration for the style of the bars in the chart. When it is assigned, a mixed trend chart will take place. `Interval = { data: number[], style: ShapeStyle }`. Except the configurations in `ShapeStyle` for the style of the shapes in the bar charts, `barWidth` for the width of one bar is also configurable for `style`  |
+| interval | Interval | null | The configuration for the style of the bars in the chart. When it is assigned, a mixed trend chart will take place. `Interval = { data: number[], style: ShapeStyle }`. Except the configurations in `ShapeStyle` for the style of the shapes in the bar charts, `barWidth` for the width of one bar is also configurable for `style` |
 
 #### Interfaces of SliderOption
 

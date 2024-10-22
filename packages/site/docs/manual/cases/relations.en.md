@@ -102,4 +102,4 @@ This application uses simulated social network data as an example to demonstrate
 
 ## Application Address
 
-<br />Official website of G6: <a href='https://g6.antv.antgroup.com/' target='_blank'>https://g6.antv.antgroup.com/</a> <br />GitHub of G6: <a href='https://github.com/antvis/g6' target='_blank'>https://github.com/antvis/g6</a>
+<br />Official website of G6: <a href='https://g6-v4.antv.vision/' target='_blank'>https://g6-v4.antv.vision/</a> <br />GitHub of G6: <a href='https://github.com/antvis/g6' target='_blank'>https://github.com/antvis/g6</a>

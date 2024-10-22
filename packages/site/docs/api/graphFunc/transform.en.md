@@ -25,7 +25,7 @@ Change the scale of the graph with a relative ratio.
 
 **Parameters**
 
-| Name   | Type   | Required | Description               |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | ratio | Number | true | Relative zoom ratio |
 | center | Object | false | The zoom center. If it is not assigned, (0, 0) will be regarded as the zoom center |
@@ -38,7 +38,7 @@ Change the scale of the graph with a relative ratio.
 // zoom to scale 3 at the center (100, 100)
 graph.zoom(3, { x: 100, y: 100 });
 
-// zoom to scale 0.5 at the origin (0, 0) of canvas drawing coordinate system, which is not the same as the lefttop of the viewport. To see the transformantion and relationships between three coordinate systems in G6, checkout out the doc: https://g6.antv.antgroup.com/en/manual/advanced/coordinate-system
+// zoom to scale 0.5 at the origin (0, 0) of canvas drawing coordinate system, which is not the same as the lefttop of the viewport. To see the transformantion and relationships between three coordinate systems in G6, checkout out the doc: https://g6-v4.antv.vision/en/manual/advanced/coordinate-system
 graph.zoom(0.5);
 
 // zoom to scale 3 at the center (100, 100) with animation
@@ -53,7 +53,7 @@ Scale the graph to a target ratio.
 
 **Parameters**
 
-| Name   | Type   | Required | Description               |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | toRatio | Number | true | The target ratio |
 | center | Object | false | The zoom center. If it is not assigned, (0, 0) will be regarded as the zoom center |
@@ -74,7 +74,6 @@ graph.zoomTo(3, { x: 100, y: 100 }, true, {
   duration: 100,
 });
 ```
-
 
 ### graph.changeSize(width, height)
 
@@ -99,10 +98,10 @@ Move the canvas with **relative displacement**.
 
 **Parameters**
 
-| Name | Type   | Required | Description                               |
-| ---- | ------ | -------- | ----------------------------------------- |
-| dx   | Number | true     | Displacement in the horizontal direction. |
-| dy   | Number | true     | Displacement in the vertical direction.   |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| dx | Number | true | Displacement in the horizontal direction. |
+| dy | Number | true | Displacement in the vertical direction. |
 | animate | boolean | false | Whether translate the graph with animation. |
 | animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation). If it is not assigned, animates following the graph's `animateCfg`. |
 
