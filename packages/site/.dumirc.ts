@@ -64,8 +64,8 @@ export default defineConfig({
     themeSwitcher: 'g2',
     versions: {
       // 历史版本以及切换下拉菜单
-      '5.x': 'https://g6.antv.antgroup.com/',
       [version]: 'https://g6-v4.antv.vision/',
+      '5.x': 'https://g6.antv.antgroup.com/',
       '3.2.x': 'https://g6-v3-2.antv.vision',
     },
     docsearchOptions: {
@@ -454,7 +454,7 @@ export default defineConfig({
             zh: '最新版本',
             en: 'Latest Version',
           },
-          link: `https://g6-v4.antv.vision/`,
+          link: `https://g6.antv.antgroup.com/`,
         },
         {
           text: {
@@ -485,7 +485,7 @@ export default defineConfig({
           en: 'G6 5.0 is released!',
         },
         date: '2024.06.06',
-        link: 'https://g6-v4.antv.vision/',
+        link: 'https://g6.antv.antgroup.com/',
       },
       {
         type: {
