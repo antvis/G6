@@ -74,5 +74,5 @@ const graph = new Graph({
 
 ## Resources
 
-- [Lite Solar System](https://g6-next.antv.antgroup.com/en/examples/feature/default/#lite-solar-system)
-- [3D Node](https://g6-next.antv.antgroup.com/en/examples/element/node/#3d-node)
+- [Lite Solar System](https://g6.antv.antgroup.com/en/examples/feature/default/#lite-solar-system)
+- [3D Node](https://g6.antv.antgroup.com/en/examples/element/node/#3d-node)

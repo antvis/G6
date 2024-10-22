@@ -16,8 +16,8 @@ notification.info({
   description: (
     <>
       您目前访问的是 G6 最新版本，旧版已迁移至:
-      <a href="https://g6.antv.vision" target="_blank">
-        g6.antv.vision
+      <a href="https://g6-v4.antv.vision" target="_blank">
+        g6-v4.antv.vision
       </a>
     </>
   ),
