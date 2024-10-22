@@ -21,7 +21,7 @@ export type CommonInteractionEvent =
   | 'dragenter'
   | 'dragleave'
   | 'dragover'
-  | 'dragout' // TODO: not in documentation page: https://g6.antv.antgroup.com/en/api/Event/
+  | 'dragout' // TODO: not in documentation page: https://g6-v4.antv.vision/en/api/Event/
   | 'drop'
   | 'focus'
   | 'blur'
@@ -116,8 +116,8 @@ export type CanvasInteractionEvent =
  * Canvas Intereaction events
  *
  * @example
- * English: https://g6.antv.antgroup.com/en/api/Event
- * Chinese: https://g6.antv.antgroup.com/api/Event
+ * English: https://g6-v4.antv.vision/en/api/Event
+ * Chinese: https://g6-v4.antv.vision/api/Event
  */
 export type GraphTimingEvents =
   | 'beforerender'
@@ -165,13 +165,7 @@ export type GraphTimingEvents =
   | 'beforedestroy'
   | 'afterdestroy';
 
-type MobileInteractionEvent =
-  | 'tap'
-  | 'pinchstart'
-  | 'pinmove'
-  | 'panstart'
-  | 'panmove'
-  | 'panend'
+type MobileInteractionEvent = 'tap' | 'pinchstart' | 'pinmove' | 'panstart' | 'panmove' | 'panend';
 
 export type NodeEventType = `node:${NodeInteractionEvent}`;
 export type EdgeEventType = `edge:${EdgeInteractionEvent}`;
@@ -185,9 +179,18 @@ export type MobileInteractionEventType = MobileInteractionEvent;
  * Graph interaction events
  *
  * @example
- * https://g6.antv.antgroup.com/en/api/Event#combo-interaction-event
+ * https://g6-v4.antv.vision/en/api/Event#combo-interaction-event
  */
-export type G6Event = NodeEventType | EdgeEventType | ComboEventType | CanvasEventType | GraphTimingEventType | MobileInteractionEventType | CommonInteractionEvent | CommonInteractionEvent | (string & {});
+export type G6Event =
+  | NodeEventType
+  | EdgeEventType
+  | ComboEventType
+  | CanvasEventType
+  | GraphTimingEventType
+  | MobileInteractionEventType
+  | CommonInteractionEvent
+  | CommonInteractionEvent
+  | (string & {});
 
 export interface IG6GraphEvent extends GraphEvent {
   item: Item | null;
@@ -328,11 +331,13 @@ export interface ModeOption {
   minZoom?: number;
   enableOptimize?: boolean;
   enableDebounce?: boolean;
-  allowDragOnItem?: boolean | {
-    node?: boolean,
-    edge?: boolean,
-    combo?: boolean
-  };
+  allowDragOnItem?:
+    | boolean
+    | {
+        node?: boolean;
+        edge?: boolean;
+        combo?: boolean;
+      };
   optimizeZoom?: number;
   multiple?: boolean;
   activeState?: string;
@@ -386,10 +391,10 @@ export interface States {
 
 export interface StateStyles {
   [key: string]:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
 }
 
 // model types (node edge group)
@@ -464,7 +469,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
@@ -474,7 +479,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   /**
    * Combo 默认配置
@@ -484,7 +489,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   nodeStateStyles?: StateStyles;
 
@@ -624,10 +629,10 @@ export interface TreeGraphData {
   depth?: number;
   collapsed?: boolean;
   style?:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
   stateStyles?: StateStyles;
   [key: string]: unknown;
 }
@@ -785,7 +790,6 @@ export interface GraphAnimateConfig extends AnimateCfg {
 export interface GroupNodeIds {
   [key: string]: string[];
 }
-
 
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
 

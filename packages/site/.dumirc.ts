@@ -50,7 +50,7 @@ export default defineConfig({
     description: 'A collection of charts made with the Grammar of Graphics',
     defaultLanguage: 'zh', // 默认语言
     isAntVSite: false, // 是否是 AntV 的大官网
-    siteUrl: 'https://antv.antgroup.com', // 官网地址
+    siteUrl: 'https://g6-v4.antv.vision', // 官网地址
     githubUrl: repository.url, // GitHub 地址
     footerTheme: 'light', // 白色 底部主题
     showSearch: true, // 是否显示搜索框
@@ -64,8 +64,8 @@ export default defineConfig({
     themeSwitcher: 'g2',
     versions: {
       // 历史版本以及切换下拉菜单
-      '5.x': 'https://g6.antv.antgroup.com',
-      [version]: 'https://g6.antv.vision/',
+      '5.x': 'https://g6.antv.antgroup.com/',
+      [version]: 'https://g6-v4.antv.vision/',
       '3.2.x': 'https://g6-v3-2.antv.vision',
     },
     docsearchOptions: {
@@ -454,7 +454,7 @@ export default defineConfig({
             zh: '最新版本',
             en: 'Latest Version',
           },
-          link: `https://g6.antv.antgroup.com/`,
+          link: `https://g6-v4.antv.vision/`,
         },
         {
           text: {
@@ -485,7 +485,7 @@ export default defineConfig({
           en: 'G6 5.0 is released!',
         },
         date: '2024.06.06',
-        link: 'https://g6.antv.antgroup.com/',
+        link: 'https://g6-v4.antv.vision/',
       },
       {
         type: {
@@ -631,7 +631,7 @@ export default defineConfig({
       },
     ],
     internalSite: {
-      url: 'https://g6.antv.antgroup.com',
+      url: 'https://g6-v4.antv.vision',
       name: {
         zh: '极速站点',
         en: 'Fast Site',

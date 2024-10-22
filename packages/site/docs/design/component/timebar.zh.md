@@ -18,7 +18,7 @@ order: 1
 
 ### 趋势图时间轴
 
-该时间轴包括但不限于折线图、面积图、柱状图中的一种或多种组合用来表示某种数据属性趋势的时间轴组件，[查看演示 Demo](https://g6.antv.antgroup.com/examples/tool/timebar#timebar)。
+该时间轴包括但不限于折线图、面积图、柱状图中的一种或多种组合用来表示某种数据属性趋势的时间轴组件，[查看演示 Demo](https://g6-v4.antv.vision/examples/tool/timebar#timebar)。
 
 <br/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bET1QI0dleEAAAAAAAAAAAAAARQnAQ' width='95%' alt=‘img’>
@@ -28,14 +28,14 @@ order: 1
 
 ### 简版时间轴
 
-相对于趋势图时间轴而言，去掉了表示数据趋势的图表，使用更为简洁的线条来表示时间范围，[查看演示 Demo](https://g6.antv.antgroup.com/examples/tool/timebar#simple-timebar)。
+相对于趋势图时间轴而言，去掉了表示数据趋势的图表，使用更为简洁的线条来表示时间范围，[查看演示 Demo](https://g6-v4.antv.vision/examples/tool/timebar#simple-timebar)。
 
 <br/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yTC2RKh3-U8AAAAAAAAAAAAAARQnAQ' width='95%' alt=‘img’>
 
 ### 时间刻度时间轴
 
-指表示时间刻度的时间轴组件，[查看演示 Demo](https://g6.antv.antgroup.com/examples/tool/timebar#slice-timebar)。
+指表示时间刻度的时间轴组件，[查看演示 Demo](https://g6-v4.antv.vision/examples/tool/timebar#slice-timebar)。
 
 <br/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-hESSqWf8h4AAAAAAAAAAAAAARQnAQ' width='95%' alt=‘img’>

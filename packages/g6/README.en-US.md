@@ -108,7 +108,7 @@ graph.render();
 
 [![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
 
-For more information of the usage, please refer to [Getting Started](https://g6.antv.antgroup.com/en/manual/getting-started).
+For more information of the usage, please refer to [Getting Started](https://g6-v4.antv.vision/en/manual/getting-started).
 
 ## Development
 
@@ -135,10 +135,10 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 
 ## Documents
 
-- <a href='https://g6.antv.antgroup.com/en/manual/tutorial/preface' target='_blank'>Tutorial</a>
-- <a href='https://g6.antv.antgroup.com/en/manual/middle/overview' target='_blank'>Middle Guides</a>
-- <a href='https://g6.antv.antgroup.com/en/manual/advanced/coordinate-system' target='_blank'>Further Reading</a>
-- <a href='https://g6.antv.antgroup.com/en/api/Graph' target='_blank'>API Reference</a>
+- <a href='https://g6-v4.antv.vision/en/manual/tutorial/preface' target='_blank'>Tutorial</a>
+- <a href='https://g6-v4.antv.vision/en/manual/middle/overview' target='_blank'>Middle Guides</a>
+- <a href='https://g6-v4.antv.vision/en/manual/advanced/coordinate-system' target='_blank'>Further Reading</a>
+- <a href='https://g6-v4.antv.vision/en/api/Graph' target='_blank'>API Reference</a>
 
 ## React project integration
 

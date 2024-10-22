@@ -102,4 +102,4 @@ A 和 B 之间可能会存在多个同事关系，如 A 和 B 在 company1 公�
 
 ## 应用地址
 
-<br />G6 官网：<a href='https://g6.antv.antgroup.com/' target='_blank'>https://g6.antv.antgroup.com/</a> <br />G6 GitHub：<a href='https://github.com/antvis/g6' target='_blank'>https://github.com/antvis/g6</a>
+<br />G6 官网：<a href='https://g6-v4.antv.vision/' target='_blank'>https://g6-v4.antv.vision/</a> <br />G6 GitHub：<a href='https://github.com/antvis/g6' target='_blank'>https://github.com/antvis/g6</a>

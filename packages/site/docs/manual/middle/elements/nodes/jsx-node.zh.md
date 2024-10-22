@@ -16,7 +16,7 @@ order: 4
 
 基础语法和大家熟悉的 HTML 标记语言基本相同，通过标签名来使用 shape 或者 group，同时定义 shape 需要填写 shape 的各个 attributes，而定义形状样式的 attrs 则由 style 属性来进行表达。style 里面的结构是一个 Object，对象的值可以是字符串，数字等 JSON 支持的数据类型（注意，这里不能够是函数，函数只会导致解析错误）。
 
-自定义节点的类型和 style 参考：https://g6.antv.antgroup.com/api/shape-properties 其中，为了相对定位，我们新加入了 marginTop 和 marginLeft 来定义左边和上面的间隔。
+自定义节点的类型和 style 参考：https://g6-v4.antv.vision/api/shape-properties 其中，为了相对定位，我们新加入了 marginTop 和 marginLeft 来定义左边和上面的间隔。
 
 #### 推荐用法
 
@@ -86,10 +86,10 @@ const data = {
       id: 'node1',
       type: 'xml-card', // 使用自定义的节点名称
       metric: 'CPU usage',
-      cpuUsage: 80
+      cpuUsage: 80,
     },
-  ]
-}
+  ],
+};
 
 // 定义进度条的绘制方式
 const percentageBar = ({ width, used, height = 12 }) => `

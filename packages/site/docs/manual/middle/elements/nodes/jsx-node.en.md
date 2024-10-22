@@ -16,7 +16,7 @@ In G6 V3.7.0 and later version, user are allow to use JSX-like syntax to customi
 
 The basic syntax is almost the same as the familiar HTML markup language, where you can use shape or group by a tag. At the same time, you need to assign the attributes for defining a shape. Style attributes are grouped to an object, whose items' value can be `string`, `number`, and others supported by JSON (note that it cannot be a function here, which will cause parsing errors).
 
-Reference for the type and style of custom nodes: https://g6.antv.antgroup.com/api/shape-properties Among them, for relative positioning, we newly added **marginTop** and **marginLeft** to define the gap between the left and top.
+Reference for the type and style of custom nodes: https://g6-v4.antv.vision/api/shape-properties Among them, for relative positioning, we newly added **marginTop** and **marginLeft** to define the gap between the left and top.
 
 #### Recommended Usage
 
@@ -86,10 +86,10 @@ const data = {
       id: 'node1',
       type: 'xml-card', // the custom node's type name
       metric: 'CPU usage',
-      cpuUsage: 80
+      cpuUsage: 80,
     },
-  ]
-}
+  ],
+};
 
 // def for the drawing of the percentage bar
 const percentageBar = ({ width, used, height = 12 }) => `

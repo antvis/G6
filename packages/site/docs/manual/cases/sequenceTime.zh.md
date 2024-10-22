@@ -85,4 +85,4 @@ order: 0
 
 ## 应用地址
 
-源码：<a href='https://github.com/scaletimes/g6-flow-demo.git' target='_blank'>https://github.com/scaletimes/g6-flow-demo</a> <br />G6 官网：<a href='https://g6.antv.antgroup.com/' target='_blank'>https://g6.antv.antgroup.com/</a> <br />G6 GitHub：<a href='https://github.com/antvis/g6' target='_blank'>https://github.com/antvis/g6</a>
+源码：<a href='https://github.com/scaletimes/g6-flow-demo.git' target='_blank'>https://github.com/scaletimes/g6-flow-demo</a> <br />G6 官网：<a href='https://g6-v4.antv.vision/' target='_blank'>https://g6-v4.antv.vision/</a> <br />G6 GitHub：<a href='https://github.com/antvis/g6' target='_blank'>https://github.com/antvis/g6</a>

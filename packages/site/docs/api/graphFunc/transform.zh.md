@@ -31,8 +31,8 @@ const zoom = graph.getZoom();
 | --- | --- | --- | --- |
 | ratio | Number | true | 缩放比例 |
 | center | Object | false | 以 `center` 的 `x`、`y` 坐标为中心缩放，如果省略了 `center` 参数，则以元素当前位置为中心缩放 |
-| animate   | Boolean | false     | 是否开启动画 |
-| animateCfg   | GraphAnimateConfig | false     | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
+| animate | Boolean | false | 是否开启动画 |
+| animateCfg | GraphAnimateConfig | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 
@@ -40,7 +40,7 @@ const zoom = graph.getZoom();
 // 以 (100, 100) 为中心点，放大到 3
 graph.zoom(3, { x: 100, y: 100 });
 
-// 以绘制坐标系的原点 (0, 0) 为缩放中心，缩小到 0.5。注意绘制坐标系的原点 != 视窗左上角，可用 graph.getCanvasByViewport 进行转换。各坐标系解析文档： https://g6.antv.antgroup.com/manual/advanced/coordinate-system
+// 以绘制坐标系的原点 (0, 0) 为缩放中心，缩小到 0.5。注意绘制坐标系的原点 != 视窗左上角，可用 graph.getCanvasByViewport 进行转换。各坐标系解析文档： https://g6-v4.antv.vision/manual/advanced/coordinate-system
 graph.zoom(0.5);
 
 // 带动画以 (100, 100) 为中心点，放大到 3
@@ -59,8 +59,8 @@ graph.zoom(3, { x: 100, y: 100 }, true, {
 | --- | --- | --- | --- |
 | toRatio | Number | true | 固定比例值 |
 | center | Object | false | 以 `center` 的 `x`、`y` 坐标为中心缩放，如果省略了 `center` 参数，则以元素当前位置为中心缩放 |
-| animate   | Boolean | false     | 是否开启动画 |
-| animateCfg   | GraphAnimateConfig | false     | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
+| animate | Boolean | false | 是否开启动画 |
+| animateCfg | GraphAnimateConfig | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 
@@ -100,12 +100,12 @@ graph.changeSize(600, 350);
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述         |
-| ---- | ------ | -------- | ------------ |
-| dx   | Number | true     | 水平方向位移 |
-| dy   | Number | true     | 垂直方向位移 |
-| animate   | Boolean | false     | 是否开启动画 |
-| animateCfg   | GraphAnimateConfig | false     | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| dx | Number | true | 水平方向位移 |
+| dy | Number | true | 垂直方向位移 |
+| animate | Boolean | false | 是否开启动画 |
+| animateCfg | GraphAnimateConfig | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 

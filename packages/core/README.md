@@ -110,7 +110,7 @@ graph.render();
 
 [![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
 
-更多关于 G6 使用的问题，请参考[快速上手](https://g6.antv.antgroup.com/manual/getting-started)。
+更多关于 G6 使用的问题，请参考[快速上手](https://g6-v4.antv.vision/manual/getting-started)。
 
 ## 开发
 
@@ -136,10 +136,10 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 
 ## 文档
 
-- <a href='https://g6.antv.antgroup.com/manual/tutorial/preface' target='_blank'>入门教程</a>
-- <a href='https://g6.antv.antgroup.com/manual/middle/overview' target='_blank'>核心概念</a>
-- <a href='https://g6.antv.antgroup.com/manual/advanced/coordinate-system' target='_blank'>扩展阅读</a>
-- <a href='https://g6.antv.antgroup.com/api/graph' target='_blank'>API</a>
+- <a href='https://g6-v4.antv.vision/manual/tutorial/preface' target='_blank'>入门教程</a>
+- <a href='https://g6-v4.antv.vision/manual/middle/overview' target='_blank'>核心概念</a>
+- <a href='https://g6-v4.antv.vision/manual/advanced/coordinate-system' target='_blank'>扩展阅读</a>
+- <a href='https://g6-v4.antv.vision/api/graph' target='_blank'>API</a>
 
 ## G6 图可视化交流群
 

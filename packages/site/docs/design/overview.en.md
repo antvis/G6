@@ -27,7 +27,7 @@ In Alibaba and Ant Group, graph analysis is widely used in different scenarios s
 
 ### 1.2 Types of Graph
 
-Nowadays, there is no unified graph classificationin both the industry and the academia. Based on AntV's business, we have summarized several common types of graphs: common network, flow chart, DAG diagram, architecture diagram, ER diagram, tree graph. Each graph type has specific usage scenarios and key points for designing. We provide a detailed introduction from the basic introduction, characteristics, applicable business scenarios, and design guidelines for graphs. <br/> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eAFrS5-H_IgAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' /> <br/> [Intro and Guidelines for Different Graph Type >](https://g6.antv.antgroup.com/en/design/template) <br/>
+Nowadays, there is no unified graph classificationin both the industry and the academia. Based on AntV's business, we have summarized several common types of graphs: common network, flow chart, DAG diagram, architecture diagram, ER diagram, tree graph. Each graph type has specific usage scenarios and key points for designing. We provide a detailed introduction from the basic introduction, characteristics, applicable business scenarios, and design guidelines for graphs. <br/> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eAFrS5-H_IgAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' /> <br/> [Intro and Guidelines for Different Graph Type >](https://g6-v4.antv.vision/en/design/template) <br/>
 
 ## 2. Objects to be Designed
 
@@ -91,13 +91,13 @@ The styles of nodes and edges are the basic design for graph visualization. To f
 <br/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EtfPTrmY5joAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 <br/>
-[The Buit-in Components of AntV >](https://g6.antv.antgroup.com/en/design/component/component-overview)
+[The Buit-in Components of AntV >](https://g6-v4.antv.vision/en/design/component/component-overview)
 <br/>
 
 In some special scenarios, it is also necessary to upgrade and optimize basic components based on the actual business requirements, or even design new components based on the unique capabilities of the product. When optimizing a basic component or designing a brand-new component, it is necessary to combine the actual functional requirements and get a full picture of several perspectives such as usage scenarios, constituent elements, common types, and interactive instructions. Take the two newly designed components of AntV as examples:
 
-- [TimeBar](https://g6.antv.antgroup.com/en/design/component/timebar)
-- [View Control ToolBar](https://g6.antv.antgroup.com/en/design/component/view-toolbar)
+- [TimeBar](https://g6-v4.antv.vision/en/design/component/timebar)
+- [View Control ToolBar](https://g6-v4.antv.vision/en/design/component/view-toolbar)
 
 ### 2.4 Intereaction Design
 
@@ -116,7 +116,7 @@ According to whether the interaction event is a global common behavior, the inte
 
 ### 2.5 Visual Design
 
-> Corresponds to the performance layer in the "five layers" <br/> Aside from the product interface, the visual design of the graph is essentially a process of establishing mapping channels between visual attributes and data characteristics to form a specific semantic association. A good visual design can greatly improve the information transmission efficiency of the graph. The main items of a graph are nodes and edges. On a node or an edge, there might be text labels and other auxiliary shapes. Consider to the visual design of the graph, the elements should to be disassembled and designed separately, and different interaction events and data attributes should be considered globally. Data properties should be mapped to corresponding visual attributes. In the same time, and final effect of integated visual attributes is also important. Common visual attributes in design are: shape, color, size, direction, material, brightness, position, etc. The design for most basic attributes: shape and color, will be introduced in detail. <br/> [The Visual Design Guidelines >](https://g6.antv.antgroup.com/en/design/global/style) <br/>
+> Corresponds to the performance layer in the "five layers" <br/> Aside from the product interface, the visual design of the graph is essentially a process of establishing mapping channels between visual attributes and data characteristics to form a specific semantic association. A good visual design can greatly improve the information transmission efficiency of the graph. The main items of a graph are nodes and edges. On a node or an edge, there might be text labels and other auxiliary shapes. Consider to the visual design of the graph, the elements should to be disassembled and designed separately, and different interaction events and data attributes should be considered globally. Data properties should be mapped to corresponding visual attributes. In the same time, and final effect of integated visual attributes is also important. Common visual attributes in design are: shape, color, size, direction, material, brightness, position, etc. The design for most basic attributes: shape and color, will be introduced in detail. <br/> [The Visual Design Guidelines >](https://g6-v4.antv.vision/en/design/global/style) <br/>
 
 #### 2.5.1 Shape
 

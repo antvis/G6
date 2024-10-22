@@ -5,8 +5,8 @@ order: 0
 
 G6 中支持插件提供了一些可插拔的组件，包括：
 
-- [Legend](#legend) *v4.3.0 起支持*
-- [SnapLine](#snapline) *v4.3.0 起支持*
+- [Legend](#legend) _v4.3.0 起支持_
+- [SnapLine](#snapline) _v4.3.0 起支持_
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [ImageMinimap](#image-minimap)
@@ -34,7 +34,7 @@ const graph = new G6.Graph({
 
 ## Legend
 
-Legend 是 G6 内置的图例插件。用于说明图中不同类型的节点和边所代表的含义，并可以通过与图例的交互做简单的高亮和过滤。 *v4.3.0 起支持*。
+Legend 是 G6 内置的图例插件。用于说明图中不同类型的节点和边所代表的含义，并可以通过与图例的交互做简单的高亮和过滤。 _v4.3.0 起支持_。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UmXzQLG65vYAAAAAAAAAAAAAARQnAQ' alt="img" width='500px'>
 
@@ -63,22 +63,22 @@ Legend 是 G6 内置的图例插件。用于说明图中不同类型的节点和
 | filter.enable | boolean | 是否允许通过图例的交互对主图元素过滤，默认为 `false` |
 | filter.multiple | boolean | 是否支持多种元素过滤，默认为 `false`，只有 `filter.trigger` 为 `'click'` 时方可多选图例 |
 | filter.trigger | 'click' / 'mouseenter' | 触发主图元素过滤的图例交互方式，默认为 `click` |
-| filter.legendStateStyles | { active?: ShapeStyle, inactive?: ShapeStyle  | 在过滤时，图例本身的状态样式，包括 `filter.legendStateStyles.active` 和 `filter.legendStateStyles.inactive` 两种，每种的类型均为 ShapeStyle。类似图的 `nodeStateStyles` 配置 |
+| filter.legendStateStyles | { active?: ShapeStyle, inactive?: ShapeStyle | 在过滤时，图例本身的状态样式，包括 `filter.legendStateStyles.active` 和 `filter.legendStateStyles.inactive` 两种，每种的类型均为 ShapeStyle。类似图的 `nodeStateStyles` 配置 |
 | filter.graphActiveState | string | 主图元素过滤时，被选中的主图元素的状态名，将寻找主图元素的对应的状态样式进行主图元素的更新。默认值为 `'active'` |
 | filter.graphInactiveState | string | 主图元素过滤时，未被选中的主图元素的状态名，将寻找主图元素的对应的状态样式进行主图元素的更新。默认值为 `'inactive'` |
 | filter.filterFunctions | { [key: string]: (d) => boolean; } | 由于图例的数据与主图解耦，因此需要配置每种图例对应的主图过滤函数，`key` 为图例数据的 `type`，值为函数，函数的参数为主图元素的数据，返回值为布尔型，代表是否被选中 |
 
 ## SnapLine
 
-SnapLine 是 G6 内置的对齐线插件。 *v4.3.0 起支持*。
+SnapLine 是 G6 内置的对齐线插件。 _v4.3.0 起支持_。
 
 实例化时可以通过配置项调整 SnapLine 的样式和功能。
 
 ### 配置项
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| line | ShapeStyle | 辅助线的样式 |
+| 名称          | 类型                                          | 描述                      |
+| ------------- | --------------------------------------------- | ------------------------- |
+| line          | ShapeStyle                                    | 辅助线的样式              |
 | itemAlignType | boolean、'horizontal' 、'vertical'、'center'; | 辅助线类型，true 表示全部 |
 
 ## Grid
@@ -106,7 +106,7 @@ Minimap 是用于快速预览和探索图的工具。
 ### 配置项
 
 | 名称 | 类型 | 描述 |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | container | Object | 放置 Minimap 的 DOM 容器。若不指定则自动生成 |
 | className | String | 生成的 DOM 元素的 className |
 | viewportClassName | String | Minimap 上视窗 DOM 元素的 className |
@@ -228,7 +228,7 @@ Menu 用于配置节点上的右键菜单。
 | offsetX | number | 6 | menu 的 x 方向偏移值，需要考虑父级容器的 padding |
 | offsetY | number | 6 | menu 的 y 方向偏移值，需要考虑父级容器的 padding |
 | itemTypes | string[] | ['node', 'edge', 'combo'] | menu 作用在哪些类型的元素上，若只想在节点上显示，可将其设置为 ['node'] |
-| trigger | 'click' / 'contextmenu' | 'contextmenu' | menu 出现的触发方式，默认为 `'contextmenu'`，即右击。`'click'` 代表左击。*v4.3.2 起支持 'click'* |
+| trigger | 'click' / 'contextmenu' | 'contextmenu' | menu 出现的触发方式，默认为 `'contextmenu'`，即右击。`'click'` 代表左击。_v4.3.2 起支持 'click'_ |
 
 ### 用法
 
@@ -259,11 +259,11 @@ const menu = new G6.Menu({
         <li>测试01</li>
         <li>测试01</li>
         <li>测试01</li>
-      </ul>`
-    return outDiv
+      </ul>`;
+    return outDiv;
   },
   handleMenuClick(target, item, graph) {
-    console.log(target, item, graph)
+    console.log(target, item, graph);
   },
 });
 
@@ -287,7 +287,7 @@ const menu = new G6.Menu({
     </ul>`;
   },
   handleMenuClick(target, item) {
-    console.log(target, item)
+    console.log(target, item);
   },
 });
 
@@ -348,7 +348,7 @@ const toolbar = new G6.ToolBar({
         <li code='add'>增加节点</li>
         <li code='undo'>撤销</li>
       </ul>
-    `
+    `;
   },
   handleClick: (code, graph) => {
     if (code === 'add') {
@@ -356,12 +356,12 @@ const toolbar = new G6.ToolBar({
         id: 'node2',
         label: 'node2',
         x: 300,
-        y: 150
-      })
+        y: 150,
+      });
     } else if (code === 'undo') {
-      toolbar.undo()
+      toolbar.undo();
     }
-  }
+  },
 });
 
 const graph = new G6.Graph({
@@ -383,12 +383,10 @@ const toolbar = new G6.ToolBar({
         <li>测试03</li>
         <li>测试04</li>
         <li>测试05</li>
-      </ul>`
-    return outDiv
+      </ul>`;
+    return outDiv;
   },
-  handleClick: (code, graph) => {
-
-  }
+  handleClick: (code, graph) => {},
 });
 
 const graph = new G6.Graph({
@@ -430,10 +428,10 @@ const tooltip = new G6.Tooltip({
       <h4>自定义tooltip</h4>
       <ul>
         <li>Label: ${e.item.getModel().label || e.item.getModel().id}</li>
-      </ul>`
-    return outDiv
+      </ul>`;
+    return outDiv;
   },
-  itemTypes: ['node']
+  itemTypes: ['node'],
 });
 
 const graph = new G6.Graph({
@@ -514,7 +512,7 @@ const fisheye = new G6.Fisheye({
   d: 1.5,
   r: 300,
   delegateStyle: clone(lensDelegateStyle),
-  showLabel: false
+  showLabel: false,
 });
 
 const graph = new G6.Graph({
@@ -566,9 +564,9 @@ filterLens.updateParams({
 const filterLens = new G6.EdgeFilterLens({
   trigger: 'mousemove',
   r: 300,
-  shouldShow: d => {
+  shouldShow: (d) => {
     return d.size > 10;
-  }
+  },
 });
 
 const graph = new G6.Graph({
@@ -600,7 +598,7 @@ const graph = new G6.Graph({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*17VoSoTm9o8AAAAAAAAAAAAAARQnAQ' width='500' />
 
-<br />虽然 G6 提供了各种不同类型的 TimeBar 组件，但在使用的方式却非常简单，通过配置字段就可以进行区分。<br /> <br />关于 TimeBar 的使用案例，请参考[这里](https://g6.antv.antgroup.com/examples/tool/timebar#timebar)。<br />
+<br />虽然 G6 提供了各种不同类型的 TimeBar 组件，但在使用的方式却非常简单，通过配置字段就可以进行区分。<br /> <br />关于 TimeBar 的使用案例，请参考[这里](https://g6-v4.antv.vision/examples/tool/timebar#timebar)。<br />
 
 ### 使用 TimeBar 组件
 
@@ -667,11 +665,11 @@ const timebar = new G6.TimeBar({
 
 TimeBar 插件暴露除了几个时机事件，方便用户监听内部状态的变化。以下事件可通过 `graph.on('eventname', e => {})` 进行监听。
 
-| 事件名称 | 描述 |
-| --- | --- |
-| valuechange | 时间轴的时间范围发生变化时触发 |
-| timebarstartplay | 时间轴开始播放时触发 |
-| timebarendplay | 时间轴播放结束时触发 |
+| 事件名称         | 描述                           |
+| ---------------- | ------------------------------ |
+| valuechange      | 时间轴的时间范围发生变化时触发 |
+| timebarstartplay | 时间轴开始播放时触发           |
+| timebarendplay   | 时间轴播放结束时触发           |
 
 ### 参数定义
 
@@ -730,7 +728,7 @@ interface TimeBarConfig extends IPluginBaseConfig {
 #### 接口参数说明
 
 | 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | container | HTMLDivElement | null | TimeBar 容器，如果不设置，则默认创建 className 为 g6-component-timebar 的 DOM 容器 |
 | x | number | 0 | TimeBar 开始 x 坐标 |
 | y | number | 0 | TimeBar 开始 y 坐标 |
@@ -878,7 +876,6 @@ export interface TimeBarSliceOption {
 | data                   | any[]             | []     | 必选，刻度时间轴的刻度数据     |
 | tickLabelFormatter     | Function          | null   | 刻度的格式化回调函数           |
 | tooltipFomatter        | Function          | null   | tooltip 上内容格式化的回调函数 |
-
 
 #### TickCfg 接口定义
 
