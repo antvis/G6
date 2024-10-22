@@ -64,8 +64,8 @@ export default defineConfig({
     themeSwitcher: 'g2',
     versions: {
       // 历史版本以及切换下拉菜单
-      [version]: 'https://g6.antv.antgroup.com',
-      '5.x': 'https://g6-next.antv.antgroup.com',
+      '5.x': 'https://g6.antv.antgroup.com',
+      [version]: 'https://g6.antv.vision/',
       '3.2.x': 'https://g6-v3-2.antv.vision',
     },
     docsearchOptions: {
@@ -420,7 +420,10 @@ export default defineConfig({
       splitPaneMainSize: '62%',
     },
     playground: {
-      extraLib: getExtraLib(),
+      // extraLib: getExtraLib(),
+      dependencies: {
+        "@antv/g6": "^4.8.24"
+      }
     },
     announcement: {
       zh: '',
@@ -448,10 +451,10 @@ export default defineConfig({
       buttons: [
         {
           text: {
-            zh: 'V5 DEMO',
-            en: 'V5 DEMO',
+            zh: '最新版本',
+            en: 'Latest Version',
           },
-          link: `/g6v5`,
+          link: `https://g6.antv.antgroup.com/`,
         },
         {
           text: {
@@ -478,11 +481,11 @@ export default defineConfig({
           en: 'News',
         },
         title: {
-          zh: 'G6 5.0-beta 闪亮登场',
-          en: 'G6 5.0-beta is released!',
+          zh: 'G6 5.0 正式版本发布',
+          en: 'G6 5.0 is released!',
         },
-        date: '2023.08.31',
-        link: 'https://zhuanlan.zhihu.com/p/653709725?',
+        date: '2024.06.06',
+        link: 'https://g6.antv.antgroup.com/',
       },
       {
         type: {
@@ -633,7 +636,7 @@ export default defineConfig({
         zh: '极速站点',
         en: 'Fast Site',
       },
-    },
+    }
   },
   mfsu: false,
   analytics: {

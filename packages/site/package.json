@@ -46,7 +46,7 @@
     "@antv/util": "^2.0.9",
     "@antv/vis-predict-engine": "^0.1.1",
     "@microsoft/api-extractor": "^7.33.6",
-    "dumi": "^2.2.14",
+    "dumi": "2.2.14",
     "g6v5": "npm:@antv/g6@5.0.0-alpha.9",
     "insert-css": "^2.0.0",
     "react-i18next": "^11.1.0",
