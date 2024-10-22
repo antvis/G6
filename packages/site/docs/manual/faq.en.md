@@ -212,11 +212,11 @@ Use `new Graph({xxx})` uniformly.
 
 > In v5, built-in layouts include `antv-dagre` `combo-combined` `compact-box` `force-atlas2` `circular` `concentric` `d3-force` `dagre` `dendrogram` `force` `fruchterman` `grid` `indented` `mds` `mindmap` `radial` `random`. [Specific reference](https://github.com/antvis/G6/blob/6e2355020c20b3a1e2e5ca0e0ee97aeb81f932b3/packages/g6/src/registry/build-in.ts#L147)
 
-v5 merges the graph and tree graph, no longer creates the tree graph layout by instantiating `G6.TreeGraph`, and removes this method. For details, see [Features - Merge Graph and Tree Graph](https://g6-next.antv.antgroup.com/manual/feature#-%E5%90%88%E5%B9%B6%E5%9B%BE%E4%B8%8E%E6%A0%91%E5%9B%BE)
+v5 merges the graph and tree graph, no longer creates the tree graph layout by instantiating `G6.TreeGraph`, and removes this method. For details, see [Features - Merge Graph and Tree Graph](https://g6.antv.antgroup.com/manual/feature#-%E5%90%88%E5%B9%B6%E5%9B%BE%E4%B8%8E%E6%A0%91%E5%9B%BE)
 
 ### edge does not have a connection at the center of the node
 
-is configured [portLinkToCenter](https://g6-next.antv.antgroup.com/api/elements/nodes/base-node#portlinktocenter) to `true`.
+is configured [portLinkToCenter](https://g6.antv.antgroup.com/api/elements/nodes/base-node#portlinktocenter) to `true`.
 
 ```typescript {6}
 const graph = new Graph({

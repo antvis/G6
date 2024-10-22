@@ -14,10 +14,10 @@
 [![npm License](https://img.shields.io/npm/l/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 
 <p align="center">
-  <a href="https://g6-next.antv.antgroup.com/">Introduction</a> •
-  <a href="https://g6-next.antv.antgroup.com/examples">Examples</a> •
-  <a href="https://g6-next.antv.antgroup.com/">Tutorial</a> •
-  <a href="https://g6-next.antv.antgroup.com/">API</a>
+  <a href="https://g6.antv.antgroup.com/">Introduction</a> •
+  <a href="https://g6.antv.antgroup.com/examples">Examples</a> •
+  <a href="https://g6.antv.antgroup.com/">Tutorial</a> •
+  <a href="https://g6.antv.antgroup.com/">API</a>
 </p>
 
 [G6](https://github.com/antvis/g6) is a graph visualization engine. It provides basic capabilities for graph visualization and analysis such as drawing, layout, analysis, interaction, animation, themes, and plugins. With G6, users can quickly build their own graph visualization and analysis applications, making relational data simple, transparent, and meaningful.
@@ -105,7 +105,7 @@ For more ecosystem open-source projects, contributions are welcome. Please feel 
 ## 📮 Contributing
 
 - **Issue Reporting**: If you encounter any issues with G6 during use, please feel free to submit an issue, along with the minimal sample code that can reproduce the problem.
-- **Contribution Guide**: Information on how to get involved in the [development and contribution](https://g6-next.antv.antgroup.com/en/manual/contribute) to G6.
+- **Contribution Guide**: Information on how to get involved in the [development and contribution](https://g6.antv.antgroup.com/en/manual/contribute) to G6.
 - **Ideas Discussion**: Discuss your ideas on GitHub Discussions or in the DingTalk group.
 
 <div align="center">

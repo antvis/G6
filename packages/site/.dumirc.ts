@@ -40,8 +40,8 @@ export default defineConfig({
     },
     versions: {
       // 历史版本以及切换下拉菜单
-      [version]: 'https://g6-next.antv.antgroup.com',
-      '4.x': 'https://g6.antv.antgroup.com',
+      [version]: 'https://g6.antv.antgroup.com',
+      '4.x': 'https://g6-v4.antv.vision',
       '3.2.x': 'https://g6-v3-2.antv.vision',
     },
     docsearchOptions: {
@@ -85,7 +85,7 @@ export default defineConfig({
             },
           },
           {
-            url: 'https://g6-next.antv.antgroup.com',
+            url: 'https://g6.antv.antgroup.com',
             name: {
               zh: '国内镜像',
               en: 'Site in China',

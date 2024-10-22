@@ -14,10 +14,10 @@
 [![npm License](https://img.shields.io/npm/l/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 
 <p align="center">
-  <a href="https://g6-next.antv.antgroup.com/">介绍</a> •
-  <a href="https://g6-next.antv.antgroup.com/examples">案例</a> •
-  <a href="https://g6-next.antv.antgroup.com/">教程</a> •
-  <a href="https://g6-next.antv.antgroup.com/">API</a>
+  <a href="https://g6.antv.antgroup.com/">介绍</a> •
+  <a href="https://g6.antv.antgroup.com/examples">案例</a> •
+  <a href="https://g6.antv.antgroup.com/">教程</a> •
+  <a href="https://g6.antv.antgroup.com/">API</a>
 </p>
 
 [G6](https://github.com/antvis/g6) 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画、主题、插件等图可视化和分析的基础能力。基于 G6，用户可以快速搭建自己的图可视化分析应用，让关系数据变得简单，透明，有意义。
@@ -105,7 +105,7 @@ graph.render();
 ## 📮 贡献
 
 - **问题反馈**：使用过程遇到的 G6 的问题，欢迎提交 Issue，并附上可以复现问题的最小案例代码。
-- **贡献指南**：如何参与到 G6 的[开发和贡献](https://g6-next.antv.antgroup.com/manual/contribute)。
+- **贡献指南**：如何参与到 G6 的[开发和贡献](https://g6.antv.antgroup.com/manual/contribute)。
 - **想法讨论**：在 GitHub Discussion 上或者钉钉群里面讨论。
 
 <div>

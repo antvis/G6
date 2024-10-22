@@ -83,5 +83,5 @@ ReactNode is a React component, while GNode support jsx syntax but can only use 
 
 ## Resources
 
-- [React node](https://g6-next.antv.antgroup.com/examples/element/custom-node/#react-node)
-- [G node with JSX syntax](https://g6-next.antv.antgroup.com/en/examples/element/custom-node/#react-g)
+- [React node](https://g6.antv.antgroup.com/examples/element/custom-node/#react-node)
+- [G node with JSX syntax](https://g6.antv.antgroup.com/en/examples/element/custom-node/#react-g)
