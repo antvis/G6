@@ -108,7 +108,7 @@ class TreeNode extends Rect {
       fontFamily: 'iconfont',
       fontSize: 16,
       text: '\ue62d',
-      transform: this.data.variableUp ? '' : 'rotate(180deg)',
+      transform: this.data.variableUp ? [] : [['rotate', 180]],
     };
   }
 

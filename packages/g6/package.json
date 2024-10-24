@@ -58,11 +58,11 @@
   },
   "dependencies": {
     "@antv/algorithm": "^0.1.26",
-    "@antv/component": "^2.0.4",
+    "@antv/component": "^2.1.0",
     "@antv/event-emitter": "^0.1.3",
-    "@antv/g": "^6.0.13",
-    "@antv/g-canvas": "^2.0.12",
-    "@antv/g-plugin-dragndrop": "^2.0.9",
+    "@antv/g": "^6.1.2",
+    "@antv/g-canvas": "^2.0.18",
+    "@antv/g-plugin-dragndrop": "^2.0.13",
     "@antv/graphlib": "^2.0.3",
     "@antv/hierarchy": "^0.6.13",
     "@antv/layout": "^1.2.14-beta.8",
@@ -71,8 +71,8 @@
     "hull.js": "^1.0.6"
   },
   "devDependencies": {
-    "@antv/g-svg": "^2.0.11",
-    "@antv/g-webgl": "^2.0.16",
+    "@antv/g-svg": "^2.0.15",
+    "@antv/g-webgl": "^2.0.22",
     "@antv/layout-gpu": "^1.1.7",
     "@antv/layout-wasm": "^1.4.2",
     "@types/hull.js": "^1.0.4",
@@ -88,7 +88,7 @@
   "limit-size": [
     {
       "gzip": true,
-      "limit": "310 Kb",
+      "limit": "320 Kb",
       "path": "dist/g6.min.js"
     },
     {

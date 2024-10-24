@@ -12,7 +12,7 @@ export const layoutCompactBoxLeftAlign: TestCase = async (context) => {
         labelText: (data) => data.id,
         labelPlacement: 'right',
         labelMaxWidth: 200,
-        transform: 'rotate(90deg)',
+        transform: [['rotate', 90]],
         size: 26,
         fill: '#EFF4FF',
         lineWidth: 1,

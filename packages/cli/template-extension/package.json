@@ -35,9 +35,9 @@
     "@antv/g6": "^5.0.0"
   },
   "devDependencies": {
-    "@antv/g": "^6.0.13",
-    "@antv/g-canvas": "^2.0.4",
-    "@antv/g-svg": "^2.0.5",
+    "@antv/g": "^6.1.2",
+    "@antv/g-canvas": "^2.0.18",
+    "@antv/g-svg": "^2.0.15",
     "@commitlint/config-conventional": "^19.2.2",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -71,7 +71,7 @@
     "xmlserializer": "^0.6.1"
   },
   "peerDependencies": {
-    "@antv/g": "^6.0.13",
-    "@antv/g-canvas": "^2.0.4"
+    "@antv/g": "^6.1.2",
+    "@antv/g-canvas": "^2.0.18"
   }
 }

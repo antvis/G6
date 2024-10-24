@@ -29,14 +29,14 @@ class ChartNode extends Rect {
             fontSize: 20,
             fontWeight: 600,
             textAlign: 'center',
-            transform: 'translate(0,0)',
+            transform: [['translate', 0, 0]],
           }
         : {
             fill: '#2078B4',
             fontSize: 14,
             fontWeight: 400,
             textAlign: 'left',
-            transform: 'translate(-65, -15)',
+            transform: [['translate', -65, -15]],
           };
     return { text, ...labelStyle };
   }
@@ -57,7 +57,7 @@ class ChartNode extends Rect {
       textTransform: 'uppercase',
       fill: '#343f4a',
       textAlign: 'left',
-      transform: 'translate(-65, 0)',
+      transform: [['translate', -65, 0]],
     };
   }
 
@@ -72,7 +72,7 @@ class ChartNode extends Rect {
       text: this.data.status,
       fontSize: 8,
       textAlign: 'left',
-      transform: 'translate(40, -16)',
+      transform: [['translate', 40, -16]],
       padding: [0, 4],
       fill: '#fff',
       backgroundFill: statusColors[this.data.status],
@@ -91,7 +91,7 @@ class ChartNode extends Rect {
       fontSize: 8,
       fontWeight: 300,
       textAlign: 'left',
-      transform: 'translate(-65, 20)',
+      transform: [['translate', -65, 20]],
     };
   }
 

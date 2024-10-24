@@ -18,22 +18,25 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       data: treeToGraphData(data),
       behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand'],
       node: {
-        style: d => {
+        style: (d) => {
           const style = {
             labelText: d.id,
             labelPlacement: 'right',
             labelOffsetX: 2,
             labelBackground: true,
             ports: [{ placement: 'top' }, { placement: 'bottom' }],
-          }
+          };
           if (isLeafNode(d)) {
             Object.assign(style, {
-              labelTransform: 'rotate(90deg) translate(18px)',
+              labelTransform: [
+                ['rotate', 90],
+                ['translate', 18],
+              ],
               labelBaseline: 'center',
               labelTextAlign: 'left',
-            })
+            });
           }
-          return style
+          return style;
         },
         animation: {
           enter: false,

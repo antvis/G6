@@ -1,3 +1,4 @@
+import type { TransformArray } from '@antv/g';
 import { rad2deg } from '@antv/g';
 import type { RuntimeContext } from '../runtime/types';
 import type { NodeData } from '../spec';
@@ -56,8 +57,10 @@ export class PlaceRadialLabels extends BaseTransform<PlaceRadialLabelsOptions> {
       const nodeHalfWidth = parseSize(graph.getElementRenderStyle(idOf(datum)).size)[0] / 2;
       const offset = (isLeaf ? 1 : -1) * (nodeHalfWidth + this.options.offset);
 
-      const translate = `translate(${offset * Math.cos(radian)},${offset * Math.sin(radian)})`;
-      const rotate = `rotate(${isLeft ? rad2deg(radian) + 180 : rad2deg(radian)}deg)`;
+      const labelTransform: TransformArray = [
+        ['translate', offset * Math.cos(radian), offset * Math.sin(radian)],
+        ['rotate', isLeft ? rad2deg(radian) + 180 : rad2deg(radian)],
+      ];
 
       model.updateNodeData([
         {
@@ -65,7 +68,7 @@ export class PlaceRadialLabels extends BaseTransform<PlaceRadialLabelsOptions> {
           style: {
             labelTextAlign: isLeft === isLeaf ? 'right' : 'left',
             labelTextBaseline: 'middle',
-            labelTransform: `${translate} ${rotate}`,
+            labelTransform,
           },
         },
       ]);

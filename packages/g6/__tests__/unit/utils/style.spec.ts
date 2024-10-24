@@ -53,7 +53,7 @@ describe('style', () => {
       x: 100,
       y: 100,
       class: 'node',
-      transform: 'translate(100, 100)',
+      transform: [['translate', 100, 100]],
       zIndex: 100,
       fill: 'pink',
     };

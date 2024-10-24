@@ -188,7 +188,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
       const { x: _x = 0, y: _y = 0, z: _z = 0 } = this.attributes as Record<string, any>;
       keyframes.forEach((keyframe) => {
         const { x = _x, y = _y, z = _z } = keyframe;
-        Object.assign(keyframe, { transform: replaceTranslateInTransform(+x, +y, +z) });
+        Object.assign(keyframe, { transform: z ? [['translate3d', x, y, z]] : [['translate', x, y]] });
       });
     }
 
