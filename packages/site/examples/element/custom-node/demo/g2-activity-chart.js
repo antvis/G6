@@ -59,7 +59,7 @@ class ActivityChart extends Circle {
           {
             type: 'image',
             encode: { x: 'name', y: 0, src: (d) => d.icon, size: 6 },
-            style: { transform: 'translateX(6)' },
+            style: { transform: [['translateX', 6]] },
           },
         ],
       },

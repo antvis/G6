@@ -15,7 +15,7 @@ export const layoutDendrogramTb: TestCase = async (context) => {
           labelText: model.id,
           labelTextAlign: 'start',
           labelTextBaseline: hasChildren ? 'middle' : 'bottom',
-          transform: hasChildren ? '' : 'rotate(90)',
+          transform: hasChildren ? [] : [['rotate', 90]],
           ports: [{ placement: 'bottom' }, { placement: 'top' }],
         };
       },

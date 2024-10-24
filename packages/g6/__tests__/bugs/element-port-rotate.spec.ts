@@ -17,7 +17,7 @@ describe('element port rotate', () => {
             { key: 'port-2', placement: 'left' },
             { key: 'port-3', placement: [0, 0.85] },
           ],
-          transform: 'rotate(45deg)',
+          transform: [['rotate', 45]],
         },
       },
     });

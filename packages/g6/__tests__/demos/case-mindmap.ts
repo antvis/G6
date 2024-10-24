@@ -124,7 +124,7 @@ export const caseMindmap: TestCase = async (context) => {
         fontSize: 8,
         text: '\ue6e4',
         textAlign: 'center',
-        transform: direction === 'left' ? 'rotate(90deg)' : 'rotate(-90deg)',
+        transform: direction === 'left' ? [['rotate', 90]] : [['rotate', -90]],
         visibility: showIcon ? 'visible' : 'hidden',
         x: direction === 'left' ? -6 : width + 6,
         y: height,

@@ -134,6 +134,9 @@ export class ElementController {
   private computeElementDefaultStyle(elementType: ElementType, context: StyleIterationContext) {
     const { options } = this.context;
     const defaultStyle = options[elementType]?.style || {};
+    if ('transform' in defaultStyle && Array.isArray(defaultStyle.transform)) {
+      defaultStyle.transform = [...defaultStyle.transform];
+    }
     this.defaultStyle[idOf(context.datum)] = computeElementCallbackStyle(defaultStyle as any, context);
   }
 
@@ -387,7 +390,6 @@ export class ElementController {
       const targetZIndex = this.getElementZIndex(context.target!);
       if (!style.zIndex || style.zIndex < targetZIndex) style.zIndex = targetZIndex + (style.zIndex ?? 0);
     }
-
     const element = this.container.appendChild(
       new Ctor({
         id,

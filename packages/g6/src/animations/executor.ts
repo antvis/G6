@@ -66,6 +66,7 @@ export const executor: AnimationExecutor = (element, keyframes, options) => {
       if (keyframes.some((keyframe) => Object.keys(keyframe).some((attr) => ['x', 'y', 'z'].includes(attr)))) {
         const { x = 0, y = 0, z = 0, transform = '' } = shape.attributes || {};
         keyframes.forEach((keyframe) => {
+          // @ts-expect-error ignore type error
           keyframe.transform = replaceTranslateInTransform(
             (keyframe.x as number) || (x as number),
             (keyframe.y as number) || (y as number),

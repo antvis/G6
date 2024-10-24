@@ -1,4 +1,4 @@
-import type { AABB, DisplayObject } from '@antv/g';
+import type { AABB, DisplayObject, TransformArray } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { isEqual, isNumber } from '@antv/util';
 import type { EdgeData } from '../spec';
@@ -57,7 +57,7 @@ export function getLabelPositionStyle(
 
   if (isHorizontal(point, pointOffset) || !autoRotate) {
     const [x, y] = getXYByPlacement(key, ratio, offsetX, offsetY);
-    return { transform: `translate(${x}, ${y})`, textAlign };
+    return { transform: [['translate', x, y]], textAlign };
   }
 
   let angle = Math.atan2(pointOffset[1] - point[1], pointOffset[0] - point[0]);
@@ -70,7 +70,10 @@ export function getLabelPositionStyle(
   }
 
   const [x, y] = getXYByPlacement(key, ratio, offsetX, offsetY, angle);
-  const transform = `translate(${x}, ${y}) rotate(${(angle / Math.PI) * 180}deg)`;
+  const transform: TransformArray = [
+    ['translate', x, y],
+    ['rotate', (angle / Math.PI) * 180],
+  ];
 
   return {
     textAlign,
