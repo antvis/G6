@@ -77,10 +77,10 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
 
   private filterShapes = (type: ElementType, filter: OptimizeViewportTransformOptions['shapes']) => {
     if (isFunction(filter)) return (shape: DisplayObject) => !filter(type, shape);
-    const excludedClassnames = filter?.[type];
+    const includesClassnames = filter?.[type];
     return (shape: DisplayObject) => {
       if (!shape.className) return true;
-      return !!excludedClassnames?.includes(shape.className);
+      return !includesClassnames?.includes(shape.className);
     };
   };
 
@@ -125,6 +125,12 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
+  }
+
+  public update(options: Partial<OptimizeViewportTransformOptions>) {
+    this.unbindEvents();
+    super.update(options);
+    this.bindEvents();
   }
 
   public destroy() {

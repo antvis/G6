@@ -30,10 +30,12 @@ export const behaviorOptimizeViewportTransform: TestCase = async (context) => {
       'zoom-canvas',
       'scroll-canvas',
       {
+        key: 'optimize-viewport-transform',
         type: 'optimize-viewport-transform',
         shapes: (type: ElementType, shape: DisplayObject) => type === 'node' && shape.className === 'key',
       },
     ],
+    animation: false,
   });
 
   await graph.render();
