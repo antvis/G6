@@ -37,14 +37,14 @@ export const caseOrgChart: TestCase = async (context) => {
               fontSize: 20,
               fontWeight: 600,
               textAlign: 'center',
-              transform: 'translate(0,0)',
+              transform: [['translate', 0, 0]],
             }
           : {
               fill: '#2078B4',
               fontSize: 14,
               fontWeight: 400,
               textAlign: 'left',
-              transform: 'translate(-65, -15)',
+              transform: [['translate', -65, -15]],
             };
       return { text, ...labelStyle } as LabelStyleProps;
     }
@@ -65,7 +65,7 @@ export const caseOrgChart: TestCase = async (context) => {
         textTransform: 'uppercase',
         fill: '#343f4a',
         textAlign: 'left',
-        transform: 'translate(-65, 0)',
+        transform: [['translate', -65, 0]],
       };
     }
 
@@ -80,7 +80,7 @@ export const caseOrgChart: TestCase = async (context) => {
         text: this.data.status,
         fontSize: 8,
         textAlign: 'left',
-        transform: 'translate(40, -16)',
+        transform: [['translate', 40, -16]],
         padding: [0, 4],
         fill: '#fff',
         backgroundFill: statusColors[this.data.status as string],
@@ -99,7 +99,7 @@ export const caseOrgChart: TestCase = async (context) => {
         fontSize: 8,
         fontWeight: 300,
         textAlign: 'left',
-        transform: 'translate(-65, 20)',
+        transform: [['translate', -65, 20]],
       };
     }
 

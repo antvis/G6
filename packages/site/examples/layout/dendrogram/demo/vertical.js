@@ -28,7 +28,10 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           };
           if (isLeafNode(d)) {
             Object.assign(style, {
-              labelTransform: 'rotate(90deg) translate(18px)',
+              labelTransform: [
+                ['rotate', 90],
+                ['translate', 18],
+              ],
               labelBaseline: 'center',
               labelTextAlign: 'left',
             });

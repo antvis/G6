@@ -29,7 +29,7 @@ export const elementEdgeCustomArrow: TestCase = async (context) => {
         style: {
           endArrowSrc: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
           endArrowSize: 28,
-          endArrowTransform: 'rotate(90deg)',
+          endArrowTransform: [['rotate', 90]],
           endArrowX: -14,
           endArrowY: -14,
         },
