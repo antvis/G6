@@ -45,7 +45,6 @@ G6 提供了以下内置节点：
 - `Circle` 圆形节点
 - `Diamond` 菱形节点
 - `Donut` 甜甜圈节点
-- `Rect` 矩形节点
 - `Ellipse` 椭圆节点
 - `Hexagon` 六边形节点
 - `HTML` HTML 节点
