@@ -30,8 +30,8 @@
     ]
   },
   "devDependencies": {
-    "@antv/g-canvas": "^2.0.12",
-    "@antv/g-plugin-rough-canvas-renderer": "^2.0.13",
+    "@antv/g-canvas": "^2.0.18",
+    "@antv/g-plugin-rough-canvas-renderer": "^2.0.18",
     "@babel/core": "^7.25.2",
     "@babel/plugin-transform-typescript": "^7.25.2",
     "@changesets/cli": "^2.27.8",
