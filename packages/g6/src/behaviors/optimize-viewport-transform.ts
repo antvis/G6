@@ -22,13 +22,9 @@ export interface OptimizeViewportTransformOptions extends BaseBehaviorOptions {
    */
   enable?: boolean | ((event: IViewportEvent) => boolean);
   /**
-   * <zh/> 指定固定显示的图形元素。应用此交互后，在画布操作过程中，除了通过该属性指定的图形外，其余图形将被隐藏，从而提升渲染性能。默认情况下，节点始终可见，而其他图形元素在操作画布过程中会自动隐藏
-   * - 可以通过指定要显示的图形元素的 classname 数组来配置
-   * - 也可以通过回调函数动态判断是否显示
+   * <zh/> 指定始终显示的图形元素。应用此交互后，在画布操作过程中，只有通过该属性指定的图形元素会保持可见，其余图形元素将被隐藏，从而提升渲染性能。默认情况下，节点始终可见，而其他图形元素在操作画布过程中会自动隐藏
    *
-   * <en/> Specify the graphic elements that are always displayed. After applying this behavior, during the canvas operation, except for the graphics specified by this property, the rest of the graphics will be hidden to improve rendering performance. By default, nodes are always visible, while other graphic elements are automatically hidden during canvas operations
-   * - Specify the classname array of the graphic elements to be displayed
-   * - You can also use a callback function to dynamically determine whether to display
+   * <en/> Specify the graphic elements that are always visible. After applying this interaction, only the graphic elements specified by this property will remain visible during the canvas operation, and the rest of the graphic elements will be hidden to improve rendering performance. By default, nodes are always visible, while other graphic elements are automatically hidden during canvas operations
    */
   shapes?:
     | { node?: string[]; edge?: string[]; combo?: string[] }
