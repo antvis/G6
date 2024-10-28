@@ -1,4 +1,6 @@
 import data from '@@/dataset/cluster.json';
+import type { DisplayObject } from '@antv/g';
+import type { ElementType } from '@antv/g6';
 import { Graph } from '@antv/g6';
 
 export const behaviorOptimizeViewportTransform: TestCase = async (context) => {
@@ -23,7 +25,17 @@ export const behaviorOptimizeViewportTransform: TestCase = async (context) => {
         startArrow: true,
       },
     },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'scroll-canvas', 'optimize-viewport-transform'],
+    behaviors: [
+      'drag-canvas',
+      'zoom-canvas',
+      'scroll-canvas',
+      {
+        key: 'optimize-viewport-transform',
+        type: 'optimize-viewport-transform',
+        shapes: (type: ElementType, shape: DisplayObject) => type === 'node' && shape.className === 'key',
+      },
+    ],
+    animation: false,
   });
 
   await graph.render();

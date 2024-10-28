@@ -2,6 +2,7 @@ import type { BaseStyleProps, DisplayObject } from '@antv/g';
 import { debounce, isFunction } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
+import type { ElementType } from '../types';
 import type { IViewportEvent } from '../types/event';
 import { setVisibility } from '../utils/visibility';
 import type { BaseBehaviorOptions } from './base-behavior';
@@ -21,16 +22,13 @@ export interface OptimizeViewportTransformOptions extends BaseBehaviorOptions {
    */
   enable?: boolean | ((event: IViewportEvent) => boolean);
   /**
-   * <zh/> 在画布操作过程中，元素会被隐藏以提高性能。通过设置 `shapes` 配置项，可以保留指定类名的子图形不被隐藏，从而保留整个元素的部分可见性
+   * <zh/> 指定始终显示的图形元素。应用此交互后，在画布操作过程中，只有通过该属性指定的图形元素会保持可见，其余图形元素将被隐藏，从而提升渲染性能。默认情况下，节点始终可见，而其他图形元素在操作画布过程中会自动隐藏
    *
-   * <en/> During canvas operations, elements are hidden to improve performance. By configuring the `shapes` option, specific sub-elements with designated class names can be retained, thereby maintaining partial visibility of the entire element.
-   * @defaultValue { node: ['key'] }
+   * <en/> Specify the graphic elements that are always visible. After applying this interaction, only the graphic elements specified by this property will remain visible during the canvas operation, and the rest of the graphic elements will be hidden to improve rendering performance. By default, nodes are always visible, while other graphic elements are automatically hidden during canvas operations
    */
-  shapes?: {
-    node?: string[];
-    edge?: string[];
-    combo?: string[];
-  };
+  shapes?:
+    | { node?: string[]; edge?: string[]; combo?: string[] }
+    | ((type: ElementType, shape: DisplayObject) => boolean);
   /**
    * <zh/> 设置防抖时间
    *
@@ -49,8 +47,10 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
   static defaultOptions: Partial<OptimizeViewportTransformOptions> = {
     enable: true,
     debounce: 200,
-    shapes: { node: ['key'] },
+    shapes: (type: ElementType) => type === 'node',
   };
+
+  private hiddenShapes: DisplayObject[] = [];
 
   private isVisible: boolean = true;
 
@@ -62,14 +62,26 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
   private setElementsVisibility = (
     elements: DisplayObject[],
     visibility: BaseStyleProps['visibility'],
-    excludedClassnames?: string[],
+    filter?: (shape: DisplayObject) => boolean,
   ) => {
-    elements.forEach((element) => {
-      setVisibility(element, visibility, false, (shape) => {
-        if (!shape.className) return true;
-        return !excludedClassnames?.includes(shape.className);
-      });
+    elements.filter(Boolean).forEach((element) => {
+      if (visibility === 'hidden' && !element.isVisible()) {
+        this.hiddenShapes.push(element);
+      } else if (visibility === 'visible' && this.hiddenShapes.includes(element)) {
+        this.hiddenShapes.splice(this.hiddenShapes.indexOf(element), 1);
+      } else {
+        setVisibility(element, visibility, false, filter);
+      }
     });
+  };
+
+  private filterShapes = (type: ElementType, filter: OptimizeViewportTransformOptions['shapes']) => {
+    if (isFunction(filter)) return (shape: DisplayObject) => !filter(type, shape);
+    const includesClassnames = filter?.[type];
+    return (shape: DisplayObject) => {
+      if (!shape.className) return true;
+      return !includesClassnames?.includes(shape.className);
+    };
   };
 
   private hideShapes = (event: IViewportEvent) => {
@@ -77,9 +89,9 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
 
     const { element } = this.context;
     const { shapes = {} } = this.options;
-    this.setElementsVisibility(element!.getNodes(), 'hidden', shapes.node);
-    this.setElementsVisibility(element!.getEdges(), 'hidden', shapes.edge);
-    this.setElementsVisibility(element!.getCombos(), 'hidden', shapes.combo);
+    this.setElementsVisibility(element!.getNodes(), 'hidden', this.filterShapes('node', shapes));
+    this.setElementsVisibility(element!.getEdges(), 'hidden', this.filterShapes('edge', shapes));
+    this.setElementsVisibility(element!.getCombos(), 'hidden', this.filterShapes('combo', shapes));
     this.isVisible = false;
   };
 
@@ -113,6 +125,12 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
+  }
+
+  public update(options: Partial<OptimizeViewportTransformOptions>) {
+    this.unbindEvents();
+    super.update(options);
+    this.bindEvents();
   }
 
   public destroy() {
