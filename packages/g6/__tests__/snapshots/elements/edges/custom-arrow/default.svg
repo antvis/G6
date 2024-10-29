@@ -6,10 +6,10 @@
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 141,83.33333587646484 L 331,83.33333587646484" class="key" stroke-width="1" stroke="rgba(246,189,22,1)"/>
+            <path fill="none" d="M 141,83.33333587646484 L 345,83.33333587646484" class="key" stroke-width="1" stroke="rgba(246,189,22,1)"/>
             <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
-            <g transform="matrix(-1,0,-0,-1,359,83.333336)">
-              <path fill="rgba(246,189,22,1)" d="M 0,0 L 10,4 L 14,14 L 18,4 L 28,0 L 18,-4 L 14,-14 L 10,-4 Z" stroke="rgba(246,189,22,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            <g transform="matrix(-1,0,-0,-1,345,83.333336)">
+              <path fill="rgba(246,189,22,1)" d="M -14,0 L -4,-4 L 0,-14 L 4,-4 L 14,0 L 4,4 L 0,14 L -4,4 Z" stroke="rgba(246,189,22,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,254,83.333336)">
@@ -28,8 +28,8 @@
           <g>
             <path fill="none" d="M 141,250 L 339,250" class="key" stroke-width="1" stroke="rgba(246,189,22,1)"/>
             <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
-            <g transform="matrix(-1,0,-0,-1,357,250)">
-              <path fill="rgba(246,189,22,1)" d="M 3,-5 L 3,5 L 15,10 L 15,-10 Z" stroke="rgba(246,189,22,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            <g transform="matrix(-1,0,-0,-1,339,250)">
+              <path fill="rgba(246,189,22,1)" d="M -6,-5 L -6,5 L 6,10 L 6,-10 Z" stroke="rgba(246,189,22,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,254,250)">
