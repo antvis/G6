@@ -35,19 +35,19 @@
     "type-check": "tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
-    "@antv/g": "^6.1.2",
-    "@antv/g-svg": "^2.0.15",
-    "@antv/react-g": "^2.0.14"
+    "@antv/g": "^6.1.3",
+    "@antv/g-svg": "^2.0.16",
+    "@antv/react-g": "^2.0.19"
   },
   "devDependencies": {
-    "@ant-design/icons": "^5.4.0",
+    "@ant-design/icons": "^5.5.1",
     "@antv/g6": "workspace:*",
-    "@types/react": "^18.3.5",
-    "@types/react-dom": "^18.3.0",
-    "antd": "^5.20.5",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "antd": "^5.21.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.1",
+    "react-router-dom": "^6.27.0",
     "styled-components": "^6.1.13"
   },
   "peerDependencies": {
