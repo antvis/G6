@@ -92,7 +92,7 @@ export class Graph extends EventEmitter {
     this.context.graph = this;
 
     // Listening resize to autoResize.
-    this.options.autoResize && globalThis.addEventListener('resize', this.onResize);
+    this.options.autoResize && globalThis.addEventListener?.('resize', this.onResize);
   }
 
   /**
@@ -1207,7 +1207,7 @@ export class Graph extends EventEmitter {
     this.context = {};
 
     this.off();
-    globalThis.removeEventListener('resize', this.onResize);
+    globalThis.removeEventListener?.('resize', this.onResize);
 
     this.destroyed = true;
 

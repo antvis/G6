@@ -105,8 +105,8 @@ export class Fullscreen extends BasePlugin<FullscreenOptions> {
   private setGraphSize(fullScreen = true) {
     let width, height;
     if (fullScreen) {
-      width = globalThis.screen.width;
-      height = globalThis.screen.height;
+      width = globalThis.screen?.width || 0;
+      height = globalThis.screen?.height || 0;
       this.graphSize = this.context.graph.getSize();
     } else {
       [width, height] = this.graphSize;

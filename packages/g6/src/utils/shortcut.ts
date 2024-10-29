@@ -57,7 +57,7 @@ export class Shortcut {
 
     // 窗口重新获得焦点后清空按键，避免按键状态异常
     // Clear the keys when the window regains focus to avoid abnormal key states
-    globalThis.addEventListener('focus', this.onFocus);
+    globalThis.addEventListener?.('focus', this.onFocus);
   }
 
   private onKeyDown = (event: KeyboardEvent) => {
@@ -117,6 +117,6 @@ export class Shortcut {
     this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
-    globalThis.removeEventListener('blur', this.onFocus);
+    globalThis.removeEventListener?.('blur', this.onFocus);
   }
 }
