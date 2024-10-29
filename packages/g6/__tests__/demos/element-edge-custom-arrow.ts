@@ -9,8 +9,8 @@ export const elementEdgeCustomArrow: TestCase = async (context) => {
         source: 'node1',
         target: 'node2',
         style: {
-          endArrowD: 'M0,0 L10,4 L14,14 L18,4 L28,0 L18,-4 L14,-14 L10,-4 Z',
-          endArrowOffset: 28,
+          endArrowD: 'M-14,0 L-4,-4 L0,-14 L4,-4 L14,0 L4,4 L0,14 L-4,4 Z',
+          endArrowOffset: 14,
         },
       },
       {
@@ -18,7 +18,7 @@ export const elementEdgeCustomArrow: TestCase = async (context) => {
         source: 'node3',
         target: 'node4',
         style: {
-          endArrowD: 'M 3,-5 L 3,5 L 15,10 L 15,-10 Z',
+          endArrowD: 'M -6,-5 L -6,5 L 6,10 L 6,-10 Z',
           endArrowOffset: 20,
         },
       },
@@ -53,6 +53,7 @@ export const elementEdgeCustomArrow: TestCase = async (context) => {
       type: 'grid',
       cols: 2,
     },
+    behaviors: ['drag-element'],
   });
 
   await graph.render();
