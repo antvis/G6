@@ -98,4 +98,14 @@ describe('Canvas', () => {
 
     expect(graph.getCanvas().getConfig().cursor).toEqual('progress');
   });
+
+  it('layers', () => {
+    const singleLayerCanvas = createGraphCanvas(document.getElementById('container'), 500, 500, 'svg', {
+      enableMultiLayer: false,
+    });
+    expect(Object.keys(singleLayerCanvas.getLayers())).toEqual(['main']);
+
+    const multiLayerCanvas = createGraphCanvas(document.getElementById('container'), 500, 500, 'svg');
+    expect(Object.keys(multiLayerCanvas.getLayers())).toEqual(['background', 'main', 'label', 'transient']);
+  });
 });

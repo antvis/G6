@@ -1,12 +1,9 @@
-import type { GraphOptions } from '@/src';
-import { Graph } from '@/src';
-import { Circle } from '@/src/elements';
-import { Canvas } from '@/src/runtime/canvas';
-import type { Node, Point } from '@/src/types';
 import { resetEntityCounter } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
+import type { CanvasConfig, GraphOptions, Node, Point } from '@antv/g6';
+import { Canvas, Circle, Graph } from '@antv/g6';
 import { OffscreenCanvasContext } from './offscreen-canvas-context';
 
 function getRenderer(renderer: string) {
@@ -28,6 +25,7 @@ function getRenderer(renderer: string) {
  * @param width - width
  * @param height - height
  * @param renderer - render
+ * @param options - options
  * @returns instance
  */
 export function createGraphCanvas(
@@ -35,6 +33,7 @@ export function createGraphCanvas(
   width: number = 500,
   height: number = 500,
   renderer: string = 'svg',
+  options?: Partial<CanvasConfig>,
 ) {
   const container = dom || document.createElement('div');
   container.style.width = `${width}px`;
@@ -42,7 +41,9 @@ export function createGraphCanvas(
 
   resetEntityCounter();
 
-  let extraOptions = {};
+  const extraOptions: Record<string, unknown> = {
+    ...options,
+  };
 
   if (globalThis.process) {
     const offscreenNodeCanvas = {
@@ -50,10 +51,10 @@ export function createGraphCanvas(
     } as unknown as HTMLCanvasElement;
     const context = new OffscreenCanvasContext(offscreenNodeCanvas);
     // 下列参数仅在 node 环境下需要传入 / These parameters only need to be passed in the node environment
-    extraOptions = {
+    Object.assign(extraOptions, {
       document: container.ownerDocument,
       offscreenCanvas: offscreenNodeCanvas,
-    };
+    });
   }
 
   const offscreenNodeCanvas = {

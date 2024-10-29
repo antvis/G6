@@ -95,6 +95,7 @@ export {
 } from './plugins';
 export { getExtension, getExtensions } from './registry/get';
 export { register } from './registry/register';
+export { Canvas } from './runtime/canvas';
 export { Graph } from './runtime/graph';
 export { BaseTransform, MapNodeSize, PlaceRadialLabels, ProcessParallelEdges } from './transforms';
 export { isCollapsed } from './utils/collapsibility';
@@ -200,7 +201,7 @@ export type {
   TooltipOptions,
   WatermarkOptions,
 } from './plugins';
-export type { DataURLOptions } from './runtime/canvas';
+export type { CanvasConfig, DataURLOptions } from './runtime/canvas';
 export type { RuntimeContext } from './runtime/types';
 export type {
   BehaviorOptions,
