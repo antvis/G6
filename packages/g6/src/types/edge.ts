@@ -54,9 +54,13 @@ export interface EdgeLabelStyleProps extends LabelStyleProps {
    */
   autoRotate?: boolean;
   /**
-   * <zh/> 文本的最大宽度，超出部分会用省略号代替
+   * <zh/> 标签最大宽度（需要 [prefix]WordWrap 为 true）
+   * - string: 表示以相对于边长度的百分比形式定义最大宽度。例如 `"50%"` 表示标签宽度不超过边长度的一半
+   * - number: 表示以像素值为单位定义最大宽度。例如 `100` 表示标签的最大宽度为 100 像素
    *
-   * <en/> maxWidth of label text, the overflow part will be replaced by an ellipsis
+   * <en/> The maximum width of the label(need [prefix]WordWrap to be true)
+   * - string: When set to a string, it defines the maximum width as a percentage of the edge length. For example, `"50%"` means the label width does not exceed half of the edge length
+   * - number: When set to a number, it defines the maximum width in pixels. For example, `100` means the maximum width of the label is 100 pixels
    * @defaultValue '80%'
    */
   maxWidth?: string | number;
