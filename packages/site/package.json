@@ -24,14 +24,16 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
-    "site:build": "dumi build",
-    "site:develop": "dumi dev",
-    "site:preview": "dumi preview",
-    "site:deploy": "npm run site:build && gh-pages -d dist",
-    "start": "npm run site:develop"
+    "build": "dumi build",
+    "dev": "dumi dev",
+    "preview": "dumi preview",
+    "deploy": "npm run cname && gh-pages -d dist -r git@github.com:antvis/g6-4.x-site.git",
+    "start": "npm run dev",
+    "cname": "echo g6.antv.vision > dist/CNAME"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "gh-pages": "^3.0.0"
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
