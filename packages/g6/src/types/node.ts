@@ -34,11 +34,11 @@ export interface NodeLabelStyleProps extends LabelStyleProps {
    */
   placement?: DirectionalPlacement;
   /**
-   * <zh/> 标签最大宽度
+   * <zh/> 标签最大宽度（需要 [prefix]WordWrap 为 true）
    * - string: 表示以相对于节点宽度的百分比形式定义最大宽度。例如 `"50%"` 表示标签宽度不超过节点宽度的一半
    * - number: 表示以像素值为单位定义最大宽度。例如 `100` 表示标签的最大宽度为 100 像素
    *
-   * <en/> The maximum width of the label
+   * <en/> The maximum width of the label(need [prefix]WordWrap to be true)
    * - string: When set to a string, it defines the maximum width as a percentage of the node width. For example, `"50%"` means the label width does not exceed half of the node width
    * - number: When set to a number, it defines the maximum width in pixels. For example, `100` means the maximum width of the label is 100 pixels
    * @defaultValue '200%'
