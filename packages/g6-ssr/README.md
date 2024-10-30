@@ -12,6 +12,8 @@ npm install @antv/g6-ssr
 
 ### Render in JavaScript API
 
+> For complete options, please refer to [G6 Graph Options](https://g6.antv.antgroup.com/api/graph/option)
+
 ```js
 import { createGraph } from '@antv/g6-ssr';
 
