@@ -58,7 +58,7 @@ describe('createGraph', () => {
 
     expect(graph).toMatchFile('./assets/image.png');
 
-    graph.writeToFile(join(__dirname, './assets/image'));
+    graph.exportToFile(join(__dirname, './assets/image'));
 
     graph.destroy();
   });
@@ -66,7 +66,7 @@ describe('createGraph', () => {
   it('file pdf', async () => {
     const graph = await fn('pdf');
 
-    graph.writeToFile(join(__dirname, '/assets/file'));
+    graph.exportToFile(join(__dirname, '/assets/file'));
 
     graph.destroy();
   });
@@ -76,7 +76,7 @@ describe('createGraph', () => {
 
     expect(graph).toMatchFile('./assets/file.svg');
 
-    graph.writeToFile(join(__dirname, './assets/file'));
+    graph.exportToFile(join(__dirname, './assets/file'));
 
     graph.destroy();
   });

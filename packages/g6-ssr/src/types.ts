@@ -14,6 +14,6 @@ export interface Options extends Omit<GraphOptions, 'renderer' | 'container'> {
 }
 
 export interface Graph extends G6Graph {
-  writeToFile: (file: string) => void;
+  exportToFile: (file: string) => void;
   toBuffer: () => Buffer;
 }

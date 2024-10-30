@@ -8,7 +8,7 @@ import type { Graph, Options } from './types';
  *
  * <en/> Get the extension name of the output file
  * @param options - <zh/>配置项 | <en/>options
- * @returns - <zh/>输出文件的扩展名 | <en/>The extension name of the output file
+ * @returns <zh/>输出文件的扩展名 | <en/>The extension name of the output file
  */
 function getExtendNameOf(options: Options) {
   const { outputType } = options;
@@ -22,19 +22,20 @@ function getExtendNameOf(options: Options) {
  *
  * <en/> Create a graph and wait for the rendering to complete
  * @param options - <zh/>图配置项 | <en/>Graph options
- * @returns - <zh/>扩展图实例 | <en/>Extended graph instance
+ * @returns <zh/>扩展图实例 | <en/>Extended graph instance
  */
 export async function createGraph(options: Options) {
   const [g6Canvas, nodeCanvas] = createCanvas(options);
 
   const { outputType, ...restOptions } = options;
   const graph = new G6Graph({
+    animation: false,
     ...restOptions,
     container: g6Canvas,
   });
 
   // @ts-expect-error extend Graph
-  graph.writeToFile = (file: string) => {
+  graph.exportToFile = (file: string) => {
     const extendName = getExtendNameOf(options);
     if (!file.endsWith(extendName)) {
       if (!existsSync(file)) file += extendName;
