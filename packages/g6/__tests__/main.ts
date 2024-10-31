@@ -10,6 +10,7 @@ type Options = {
   Renderer: string;
   Theme: string;
   Animation: boolean;
+  MultiLayers: boolean;
   [keys: string]: any;
 };
 
@@ -20,6 +21,7 @@ const options: Options = {
   GridLine: true,
   Theme: 'light',
   Animation: true,
+  MultiLayers: true,
   interval: 0,
   Reload: () => {},
   forms: [],
@@ -48,8 +50,9 @@ function initPanel() {
     applyGridLine();
   });
   const Animation = panel.add(options, 'Animation').onChange(render);
+  const MultiLayers = panel.add(options, 'MultiLayers').onChange(render);
   const reload = panel.add(options, 'Reload').onChange(render);
-  return { panel, Demo, Search, Renderer, GridLine, Theme, Animation, reload };
+  return { panel, Demo, Search, Renderer, GridLine, Theme, Animation, MultiLayers, reload };
 }
 
 async function render() {
@@ -62,13 +65,21 @@ async function render() {
   applyGridLine();
 
   // render
-  const { Renderer, Demo, Animation, Theme } = options;
-  const canvas = createGraphCanvas($container, 500, 500, Renderer);
+  const { Renderer, Demo, Animation, Theme, MultiLayers } = options;
+
+  const canvasOptions = { enableMultiLayer: MultiLayers };
+
+  const canvas = createGraphCanvas($container, 500, 500, Renderer, canvasOptions);
   await canvas.ready;
   const testCase = demos[Demo as keyof typeof demos];
   if (!testCase) return;
 
-  const graph = await testCase({ container: canvas, animation: Animation, theme: Theme });
+  const graph = await testCase({
+    container: canvas,
+    animation: Animation,
+    theme: Theme,
+    canvas: canvasOptions,
+  });
 
   Object.assign(window, { graph, __g_instances__: Object.values(graph.getCanvas().getLayers()) });
 

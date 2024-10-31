@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "lib",
+    "target": "ESNext",
+    "module": "CommonJS",
+    "lib": ["ESNext"],
+    "paths": {
+      "@antv/g6": ["../g6/src/index.ts"]
+    }
+  },
+  "extends": "../../tsconfig.json",
+  "include": ["src/**/*", "__tests__/**/*"]
+}

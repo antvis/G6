@@ -1,5 +1,5 @@
 import type { Cursor, IRenderer } from '@antv/g';
-import type { Canvas } from '../runtime/canvas';
+import type { Canvas, CanvasConfig } from '../runtime/canvas';
 
 /**
  * <zh/> 画布配置项
@@ -57,4 +57,14 @@ export interface CanvasOptions {
    * <en/> cursor style
    */
   cursor?: Cursor;
+  /**
+   * <zh/> 画布配置
+   *
+   * <en/> canvas config
+   * @remarks
+   * <zh/> GraphOptions 下相关配置项为快捷配置项，会被转换为 canvas 配置项
+   *
+   * <en/> The related configuration items under GraphOptions are shortcut configuration items, which will be converted to canvas configuration items
+   */
+  canvas?: CanvasConfig;
 }

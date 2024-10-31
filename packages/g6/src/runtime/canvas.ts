@@ -10,7 +10,23 @@ import { parsePoint, toPointObject } from '../utils/point';
 
 export interface CanvasConfig
   extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'cursor' | 'background'> {
+  /**
+   * <zh/> 渲染器
+   *
+   * <en/> renderer
+   */
   renderer?: CanvasOptions['renderer'];
+  /**
+   * <zh/> 是否启用多图层
+   *
+   * <en/> Whether to enable multiple layers
+   * @defaultValue true
+   * @remarks
+   * <zh/> 非动态参数，仅在初始化时生效
+   *
+   * <en/> Non-dynamic parameters, only take effect during initialization
+   */
+  enableMultiLayer?: boolean;
 }
 
 export interface DataURLOptions {
@@ -39,7 +55,19 @@ export interface DataURLOptions {
   encoderOptions: number;
 }
 
-const layersName: CanvasLayer[] = ['background', 'main', 'label', 'transient'];
+const SINGLE_LAYER_NAME: CanvasLayer[] = ['main'];
+const MULTI_LAYER_NAME: CanvasLayer[] = ['background', 'main', 'label', 'transient'];
+
+/**
+ * <zh/> 获取主画布图层
+ *
+ * <en/> Get the main canvas layer
+ * @param layers - <zh/> 画布图层 | <en/> Canvas layer
+ * @returns <zh/> 主画布图层 | <en/> Main canvas layer
+ */
+function getMainLayerOf(layers: Record<CanvasLayer, GCanvas>) {
+  return layers.main;
+}
 
 export class Canvas {
   private extends: {
@@ -49,14 +77,16 @@ export class Canvas {
     layers: Record<CanvasLayer, GCanvas>;
   };
 
-  private config: CanvasConfig;
+  private config: CanvasConfig = {
+    enableMultiLayer: true,
+  };
 
   public getConfig() {
     return this.config;
   }
 
   public getLayer(layer: CanvasLayer = 'main') {
-    return this.extends.layers[layer];
+    return this.extends.layers[layer] || getMainLayerOf(this.getLayers());
   }
 
   /**
@@ -113,18 +143,18 @@ export class Canvas {
   }
 
   constructor(config: CanvasConfig) {
-    this.config = config;
+    Object.assign(this.config, config);
 
-    const { renderer, background, cursor, ...restConfig } = config;
-    const renderers = createRenderers(renderer);
-
+    const { renderer, background, cursor, enableMultiLayer, ...restConfig } = this.config;
+    const layersName = enableMultiLayer ? MULTI_LAYER_NAME : SINGLE_LAYER_NAME;
+    const renderers = createRenderers(renderer, layersName);
     const layers = Object.fromEntries(
       layersName.map((layer) => {
         const canvas = new GCanvas({
           ...restConfig,
-          supportsMutipleCanvasesInOneContainer: true,
+          supportsMutipleCanvasesInOneContainer: enableMultiLayer,
           renderer: renderers[layer],
-          background: layer === 'background' ? background : undefined,
+          background: enableMultiLayer ? (layer === 'background' ? background : undefined) : background,
         });
 
         return [layer, canvas];
@@ -134,7 +164,7 @@ export class Canvas {
     configCanvasDom(layers);
 
     this.extends = {
-      config,
+      config: this.config,
       renderer,
       renderers,
       layers,
@@ -207,7 +237,7 @@ export class Canvas {
 
   public setRenderer(renderer: CanvasOptions['renderer']) {
     if (renderer === this.extends.renderer) return;
-    const renderers = createRenderers(renderer);
+    const renderers = createRenderers(renderer, this.config.enableMultiLayer ? MULTI_LAYER_NAME : SINGLE_LAYER_NAME);
     this.extends.renderers = renderers;
     Object.entries(renderers).forEach(([layer, instance]) => this.getLayer(layer as CanvasLayer).setRenderer(instance));
     configCanvasDom(this.getLayers());
@@ -240,7 +270,7 @@ export class Canvas {
   }
 
   public async toDataURL(options: Partial<DataURLOptions> = {}) {
-    const devicePixelRatio = window.devicePixelRatio || 1;
+    const devicePixelRatio = globalThis.devicePixelRatio || 1;
     const { mode = 'viewport', ...restOptions } = options;
     let [startX, startY, width, height] = [0, 0, 0, 0];
 
@@ -322,9 +352,10 @@ export class Canvas {
  *
  * <en/> Create renderers
  * @param renderer - <zh/> 渲染器创建器 <en/> Renderer creator
+ * @param layersName - <zh/> 图层名称 <en/> Layer name
  * @returns <zh/> 渲染器 <en/> Renderer
  */
-function createRenderers(renderer: CanvasConfig['renderer']) {
+function createRenderers(renderer: CanvasConfig['renderer'], layersName: CanvasLayer[]) {
   return Object.fromEntries(
     layersName.map((layer) => {
       const instance = renderer?.(layer) || new CanvasRenderer();
@@ -357,10 +388,14 @@ function configCanvasDom(layers: Record<CanvasLayer, GCanvas>) {
   Object.entries(layers).forEach(([layer, canvas]) => {
     const domElement = canvas.getContextService().getDomElement() as unknown as HTMLElement;
 
-    domElement.style.position = 'absolute';
-    domElement.style.outline = 'none';
-    domElement.tabIndex = 1;
+    // 浏览器环境下，设置画布样式
+    // Set canvas style in browser environment
+    if (domElement?.style) {
+      domElement.style.position = 'absolute';
+      domElement.style.outline = 'none';
+      domElement.tabIndex = 1;
 
-    if (layer !== 'main') domElement.style.pointerEvents = 'none';
+      if (layer !== 'main') domElement.style.pointerEvents = 'none';
+    }
   });
 }

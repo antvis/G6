@@ -91,8 +91,8 @@ export class Graph extends EventEmitter {
     this._setOptions(this.options, true);
     this.context.graph = this;
 
-    // Listening window.resize to autoResize.
-    this.options.autoResize && window.addEventListener('resize', this.onResize);
+    // Listening resize to autoResize.
+    this.options.autoResize && globalThis.addEventListener?.('resize', this.onResize);
   }
 
   /**
@@ -1031,7 +1031,8 @@ export class Graph extends EventEmitter {
       renderer,
       cursor,
       background,
-      devicePixelRatio = window.devicePixelRatio ?? 1,
+      canvas: canvasOptions,
+      devicePixelRatio = globalThis.devicePixelRatio ?? 1,
     } = this.options;
     if (container instanceof Canvas) {
       this.context.canvas = container;
@@ -1043,8 +1044,8 @@ export class Graph extends EventEmitter {
       const containerSize = sizeOf($container!);
 
       this.emit(GraphEvent.BEFORE_CANVAS_INIT, { container: $container, width, height });
-
-      const canvas = new Canvas({
+      const options = {
+        ...canvasOptions,
         container: $container!,
         width: width || containerSize[0],
         height: height || containerSize[1],
@@ -1052,7 +1053,9 @@ export class Graph extends EventEmitter {
         renderer,
         cursor,
         devicePixelRatio,
-      });
+      };
+
+      const canvas = new Canvas(options);
 
       this.context.canvas = canvas;
       await canvas.ready;
@@ -1204,7 +1207,7 @@ export class Graph extends EventEmitter {
     this.context = {};
 
     this.off();
-    window.removeEventListener('resize', this.onResize);
+    globalThis.removeEventListener?.('resize', this.onResize);
 
     this.destroyed = true;
 
