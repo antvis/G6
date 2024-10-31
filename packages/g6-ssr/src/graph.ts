@@ -17,6 +17,8 @@ function getInfoOf(options: Options) {
   return ['.png', 'image/png'] as const;
 }
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 /**
  * <zh/> 创建图并等待渲染完成
  *
@@ -27,7 +29,7 @@ function getInfoOf(options: Options) {
 export async function createGraph(options: Options) {
   const [g6Canvas, nodeCanvas] = createCanvas(options);
 
-  const { outputType, ...restOptions } = options;
+  const { outputType, waitForRender = 16, ...restOptions } = options;
   const graph = new G6Graph({
     animation: false,
     ...restOptions,
@@ -35,6 +37,10 @@ export async function createGraph(options: Options) {
   });
 
   const [extendName, mimeType] = getInfoOf(options);
+
+  await graph.render();
+
+  await sleep(waitForRender); // wait for the rendering to complete
 
   // @ts-expect-error extend Graph
   graph.exportToFile = (file: string, meta?: MetaData) => {
@@ -50,8 +56,6 @@ export async function createGraph(options: Options) {
 
   // @ts-expect-error extend Graph
   graph.toBuffer = (meta?: MetaData) => nodeCanvas.toBuffer(mimeType, meta);
-
-  await graph.render();
 
   return graph as Graph;
 }

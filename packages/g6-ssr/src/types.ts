@@ -6,6 +6,13 @@ export interface Options extends Omit<GraphOptions, 'renderer' | 'container'> {
   width: number;
   height: number;
   /**
+   * <zh/> 等待渲染的时间，默认为 16ms
+   *
+   * <en/> The time to wait for rendering, default is 16ms
+   * @defaultValue 16
+   */
+  waitForRender?: number;
+  /**
    * <zh/> 输出文件类型，默认导出为图片
    *
    * <en/> output file type, default export as image
