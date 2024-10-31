@@ -1,7 +1,7 @@
 import { Graph as G6Graph } from '@antv/g6';
 import { existsSync, lstatSync, writeFileSync } from 'fs';
 import { createCanvas } from './canvas';
-import type { Graph, Options } from './types';
+import type { Graph, MetaData, Options } from './types';
 
 /**
  * <zh/> 获取输出文件的扩展名
@@ -10,11 +10,11 @@ import type { Graph, Options } from './types';
  * @param options - <zh/>配置项 | <en/>options
  * @returns <zh/>输出文件的扩展名 | <en/>The extension name of the output file
  */
-function getExtendNameOf(options: Options) {
+function getInfoOf(options: Options) {
   const { outputType } = options;
-  if (outputType === 'pdf') return '.pdf';
-  if (outputType === 'svg') return '.svg';
-  return '.png';
+  if (outputType === 'pdf') return ['.pdf', 'application/pdf'] as const;
+  if (outputType === 'svg') return ['.svg', undefined] as const;
+  return ['.png', 'image/png'] as const;
 }
 
 /**
@@ -34,20 +34,22 @@ export async function createGraph(options: Options) {
     container: g6Canvas,
   });
 
+  const [extendName, mimeType] = getInfoOf(options);
+
   // @ts-expect-error extend Graph
-  graph.exportToFile = (file: string) => {
-    const extendName = getExtendNameOf(options);
+  graph.exportToFile = (file: string, meta?: MetaData) => {
     if (!file.endsWith(extendName)) {
       if (!existsSync(file)) file += extendName;
       else if (lstatSync(file).isDirectory()) file = `${file}/image${extendName}`;
       else file += extendName;
     }
 
-    writeFileSync(file, nodeCanvas.toBuffer());
+    // @ts-expect-error skip type check
+    writeFileSync(file, nodeCanvas.toBuffer(mimeType, meta));
   };
 
   // @ts-expect-error extend Graph
-  graph.toBuffer = () => nodeCanvas.toBuffer();
+  graph.toBuffer = (meta?: MetaData) => nodeCanvas.toBuffer(mimeType, meta);
 
   await graph.render();
 
