@@ -1,7 +1,7 @@
 {
   "name": "@antv/g6-ssr",
   "version": "0.0.1",
-  "description": "",
+  "description": "Support SSR for G6",
   "keywords": [
     "antv",
     "g6",
@@ -19,19 +19,19 @@
   "scripts": {
     "build": "rimraf ./dist && rollup -c",
     "ci": "run-s lint type-check build test",
-    "dev": "tsx ./src/index.ts",
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
     "prepublishOnly": "npm run ci",
-    "test": "jest",
+    "test": "run-s test:*",
+    "test:bin": "node ./bin/g6-ssr.js export -i ./__tests__/graph-options.json -o __tests__/assets/bin",
+    "test:unit": "jest",
     "type-check": "tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
     "@antv/g": "^6.1.3",
     "@antv/g-canvas": "^2.0.12",
-    "@antv/g6": "5.0.28-alpha.1",
+    "@antv/g6": "workspace:*",
     "cac": "^6.7.14",
-    "canvas": "^2.11.2",
-    "webpack-cli": "^5.1.4"
+    "canvas": "^2.11.2"
   },
   "publishConfig": {
     "access": "public",

@@ -1,16 +1,34 @@
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
-import type { Graph } from '../src';
+import type { Graph, MetaData } from '../src';
 import { createGraph } from '../src';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
     interface Matchers<R> {
-      toMatchFile(path: string): R;
+      toMatchFile(path: string, meta?: MetaData): R;
     }
   }
 }
+
+expect.extend({
+  toMatchFile: (received: Graph, path: string, meta?: MetaData) => {
+    const _path = join(__dirname, path);
+    const pass = existsSync(_path) ? received.toBuffer(meta).equals(readFileSync(_path)) : true;
+    if (pass) {
+      return {
+        message: () => 'passed',
+        pass: true,
+      };
+    } else {
+      return {
+        message: () => 'expected files are equal',
+        pass: false,
+      };
+    }
+  },
+});
 
 describe('createGraph', () => {
   const fn = async (outputType?: any) => {
@@ -36,24 +54,7 @@ describe('createGraph', () => {
     });
   };
 
-  expect.extend({
-    toMatchFile: (received: Graph, path: string) => {
-      const pass = existsSync(path) ? received.toBuffer().equals(readFileSync(path)) : true;
-      if (pass) {
-        return {
-          message: () => 'passed',
-          pass: true,
-        };
-      } else {
-        return {
-          message: () => 'expected files are equal',
-          pass: false,
-        };
-      }
-    },
-  });
-
-  it('image image', async () => {
+  it('image png', async () => {
     const graph = await fn();
 
     expect(graph).toMatchFile('./assets/image.png');
@@ -66,7 +67,19 @@ describe('createGraph', () => {
   it('file pdf', async () => {
     const graph = await fn('pdf');
 
-    graph.exportToFile(join(__dirname, '/assets/file'));
+    const metadata = {
+      title: 'Chart',
+      author: 'AntV',
+      creator: 'Aaron',
+      subject: 'Test',
+      keywords: 'antv g2 chart pdf',
+      creationDate: new Date(1730304000000), // 2024-10-31 00:00:00 UTC+8
+      modDate: new Date(1730304000000), // 2024-10-31 00:00:00 UTC+8
+    };
+
+    expect(graph).toMatchFile('./assets/file.pdf', metadata);
+
+    graph.exportToFile(join(__dirname, '/assets/file'), metadata);
 
     graph.destroy();
   });

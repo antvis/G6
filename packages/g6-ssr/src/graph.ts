@@ -1,7 +1,7 @@
 import { Graph as G6Graph } from '@antv/g6';
 import { existsSync, lstatSync, writeFileSync } from 'fs';
 import { createCanvas } from './canvas';
-import type { Graph, Options } from './types';
+import type { Graph, MetaData, Options } from './types';
 
 /**
  * <zh/> 获取输出文件的扩展名
@@ -10,12 +10,14 @@ import type { Graph, Options } from './types';
  * @param options - <zh/>配置项 | <en/>options
  * @returns <zh/>输出文件的扩展名 | <en/>The extension name of the output file
  */
-function getExtendNameOf(options: Options) {
+function getInfoOf(options: Options) {
   const { outputType } = options;
-  if (outputType === 'pdf') return '.pdf';
-  if (outputType === 'svg') return '.svg';
-  return '.png';
+  if (outputType === 'pdf') return ['.pdf', 'application/pdf'] as const;
+  if (outputType === 'svg') return ['.svg', undefined] as const;
+  return ['.png', 'image/png'] as const;
 }
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * <zh/> 创建图并等待渲染完成
@@ -27,29 +29,33 @@ function getExtendNameOf(options: Options) {
 export async function createGraph(options: Options) {
   const [g6Canvas, nodeCanvas] = createCanvas(options);
 
-  const { outputType, ...restOptions } = options;
+  const { outputType, waitForRender = 16, ...restOptions } = options;
   const graph = new G6Graph({
     animation: false,
     ...restOptions,
     container: g6Canvas,
   });
 
+  const [extendName, mimeType] = getInfoOf(options);
+
+  await graph.render();
+
+  await sleep(waitForRender); // wait for the rendering to complete
+
   // @ts-expect-error extend Graph
-  graph.exportToFile = (file: string) => {
-    const extendName = getExtendNameOf(options);
+  graph.exportToFile = (file: string, meta?: MetaData) => {
     if (!file.endsWith(extendName)) {
       if (!existsSync(file)) file += extendName;
       else if (lstatSync(file).isDirectory()) file = `${file}/image${extendName}`;
       else file += extendName;
     }
 
-    writeFileSync(file, nodeCanvas.toBuffer());
+    // @ts-expect-error skip type check
+    writeFileSync(file, nodeCanvas.toBuffer(mimeType, meta));
   };
 
   // @ts-expect-error extend Graph
-  graph.toBuffer = () => nodeCanvas.toBuffer();
-
-  await graph.render();
+  graph.toBuffer = (meta?: MetaData) => nodeCanvas.toBuffer(mimeType, meta);
 
   return graph as Graph;
 }

@@ -1,3 +1,3 @@
 export { createCanvas } from './canvas';
 export { createGraph } from './graph';
-export type { Graph, Options } from './types';
+export type { Graph, MetaData, Options } from './types';

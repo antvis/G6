@@ -12,8 +12,6 @@ export default [
       file: 'dist/g6-ssr.cjs',
       format: 'cjs',
       exports: 'named',
-      // format: 'umd',
-      // name: 'G6SSR',
       sourcemap: true,
     },
     plugins: [
