@@ -6,8 +6,8 @@
         <g fill="none" marker-start="false" marker-end="true">
           <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
           <g>
-            <path fill="none" d="M 258.2285481085256,95.99836759679216 Q 259 150,259.7714518914744 204.00163240320785 L 259.68574635077726,198.0022445544108" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 258.2285481085256,95.99836759679216 Q 273.9984696219926 149.78573614825726,259.7714518914744 204.00163240320785 L 261.29437448370385,198.19812425915592" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 258.2285481085256,95.99836759679216 Q 259 150,259.68574635077726 198.0022445544108" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 258.2285481085256,95.99836759679216 Q 273.9984696219926 149.78573614825726,261.29437448370385 198.19812425915592" class="key" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(-0.014284,-0.999898,0.999898,-0.014284,259.685760,198.002243)">
               <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
