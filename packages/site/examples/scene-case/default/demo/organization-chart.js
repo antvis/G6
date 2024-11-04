@@ -195,7 +195,6 @@ fetch('https://assets.antv.antgroup.com/g6/organization-chart.json')
       },
       layout: {
         type: 'dagre',
-        nodeSize: [150, 60],
       },
       autoFit: 'view',
       behaviors: ['level-of-detail', 'zoom-canvas', 'drag-canvas'],

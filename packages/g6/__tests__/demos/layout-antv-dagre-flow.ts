@@ -11,6 +11,7 @@ export const layoutAntVDagreFlow: TestCase = async (context) => {
       style: {
         size: [60, 30],
         radius: 8,
+        labelFill: '#fff',
         labelPlacement: 'center',
         labelText: (d) => d.id,
       },
@@ -26,9 +27,6 @@ export const layoutAntVDagreFlow: TestCase = async (context) => {
     },
     layout: {
       type: 'antv-dagre',
-      nodesep: 100,
-      ranksep: 70,
-      controlPoints: true,
     },
     behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
   });

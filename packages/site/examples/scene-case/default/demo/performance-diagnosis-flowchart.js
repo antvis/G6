@@ -89,10 +89,10 @@ export const PerformanceDiagnosisFlowchart = () => {
               };
 
               const size = {
-                'pre-inspection': [240, 80],
-                problem: [200, 80],
-                inspection: [280, 100],
-                solution: [240, 60],
+                'pre-inspection': [240, 120],
+                problem: [200, 120],
+                inspection: [330, 100],
+                solution: [200, 120],
               }[d.data.type] || [200, 80];
 
               Object.assign(style, {
@@ -142,9 +142,6 @@ export const PerformanceDiagnosisFlowchart = () => {
           },
           layout: {
             type: 'antv-dagre',
-            nodeSize: [200, 40],
-            nodesep: 50,
-            ranksep: 5,
           },
           behaviors: ['zoom-canvas', 'drag-canvas', 'hover-element', 'click-select'],
         });
