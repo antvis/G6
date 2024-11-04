@@ -155,16 +155,18 @@ export class Graph extends EventEmitter {
   }
 
   /**
-   * <zh/> 获取当前画布容器的尺寸
+   * <zh/> 设置当前画布容器的尺寸
    *
-   * <en/> Get the size of the current canvas container
+   * <en/> Set the size of the current canvas container
    * @param width - <zh/> 画布宽度 | <en/> canvas width
    * @param height - <zh/> 画布高度 | <en/> canvas height
    * @apiCategory canvas
    */
   public setSize(width: number, height: number): void {
-    Object.assign(this.options, { width, height });
-    this.context.canvas?.resize(width, height);
+    if (width) this.options.width = width;
+    if (height) this.options.height = height;
+
+    this.resize(width, height);
   }
 
   /**
@@ -1242,11 +1244,17 @@ export class Graph extends EventEmitter {
    */
   public resize(width: number, height: number): void;
   public resize(width?: number, height?: number): void {
-    const size: Vector2 = !width || !height ? sizeOf(this.context.canvas!.getContainer()!) : [width, height];
-    if (isEqual(size, this.getSize())) return;
-    emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_SIZE_CHANGE, { size }));
-    this.context.canvas.resize(...size);
-    emit(this, new GraphLifeCycleEvent(GraphEvent.AFTER_SIZE_CHANGE, { size }));
+    const containerSize = sizeOf(this.context.canvas?.getContainer());
+    const specificSize: Vector2 = [width || containerSize[0], height || containerSize[1]];
+
+    if (!this.context.canvas) return;
+
+    const canvasSize = this.context.canvas!.getSize();
+    if (isEqual(specificSize, canvasSize)) return;
+
+    emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_SIZE_CHANGE, { size: specificSize }));
+    this.context.canvas.resize(...specificSize);
+    emit(this, new GraphLifeCycleEvent(GraphEvent.AFTER_SIZE_CHANGE, { size: specificSize }));
   }
 
   /**

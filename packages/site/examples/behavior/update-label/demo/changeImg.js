@@ -99,5 +99,3 @@ graph.on('node:pointerleave', (event) => {
     },
   });
 });
-
-window.graph = graph;
