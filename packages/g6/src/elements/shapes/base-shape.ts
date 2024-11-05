@@ -126,7 +126,8 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     // Use `transform: translate3d()` instead of `x/y/z`
     if ('x' in attributes || 'y' in attributes || 'z' in attributes) {
       const { x = 0, y = 0, z = 0, transform } = attributes as any;
-      this.style.transform = replaceTranslateInTransform(+x, +y, +z, transform);
+      const newTransform = replaceTranslateInTransform(+x, +y, +z, transform);
+      if (newTransform) this.style.transform = newTransform;
     }
   }
 

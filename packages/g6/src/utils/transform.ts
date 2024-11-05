@@ -15,19 +15,26 @@ export function replaceTranslateInTransform(
   y: number,
   z: number,
   transform: string | TransformArray,
-): string | TransformArray {
+): string | TransformArray | null {
   if (Array.isArray(transform)) {
     let hasTranslate = false;
-    const newTransform: TransformArray = transform.map((t) => {
+    const newTransform: TransformArray = [];
+
+    for (let i = 0; i < transform.length; i++) {
+      const t = transform[i];
       if (t[0] === 'translate') {
+        if (t[1] === x && t[2] === y) return null;
         hasTranslate = true;
-        return ['translate', x, y];
+        newTransform.push(['translate', x, y]);
       } else if (t[0] === 'translate3d') {
+        if (t[1] === x && t[2] === y && t[3] === z) return null;
         hasTranslate = true;
-        return ['translate3d', x, y, z];
+        newTransform.push(['translate3d', x, y, z]);
+      } else {
+        newTransform.push(t);
       }
-      return t;
-    });
+    }
+
     if (!hasTranslate) {
       newTransform.splice(0, 0, z === 0 ? ['translate', x, y] : ['translate3d', x, y, z]);
     }

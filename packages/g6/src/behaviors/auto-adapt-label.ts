@@ -125,18 +125,24 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
     return res;
   };
 
-  private get labelElements(): Record<ID, Element> {
+  private getLabelElements(): Element[] {
     // @ts-expect-error access private property
-    const elements = Object.values(this.context.element.elementMap);
-    const labelElements = elements.filter((el: Element) => el.isVisible() && el.getShape('label'));
-    return Object.fromEntries(labelElements.map((el) => [el.id, el]));
+    const { elementMap } = this.context.element;
+    const elements: Element[] = [];
+
+    for (const key in elementMap) {
+      const element = elementMap[key];
+      if (element.isVisible() && element.getShape('label')) {
+        elements.push(element);
+      }
+    }
+
+    return elements;
   }
 
   private getLabelElementsInView(): Element[] {
     const viewport = this.context.viewport!;
-    return Object.values(this.labelElements).filter((node) =>
-      viewport.isInViewport(node.getShape('key').getRenderBounds()),
-    );
+    return this.getLabelElements().filter((node) => viewport.isInViewport(node.getShape('key').getRenderBounds()));
   }
 
   private hideLabelIfExceedViewport = (prevElementsInView: Element[], currentElementsInView: Element[]) => {
@@ -186,7 +192,12 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
 
   private labelElementsInView: Element[] = [];
 
+  private isFirstRender = true;
+
   protected onToggleVisibility = (event: IEvent) => {
+    // @ts-expect-error missing type
+    if (event.data?.stage === 'zIndex') return;
+
     if (!this.validate(event)) {
       if (this.hiddenElements.size > 0) {
         this.hiddenElements.forEach(this.showLabel);
@@ -195,7 +206,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
       return;
     }
 
-    const labelElementsInView = this.getLabelElementsInView();
+    const labelElementsInView = this.isFirstRender ? this.getLabelElements() : this.getLabelElementsInView();
     this.hideLabelIfExceedViewport(this.labelElementsInView, labelElementsInView);
     this.labelElementsInView = labelElementsInView;
 
@@ -227,17 +238,37 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
 
   protected onTransform = throttle(this.onToggleVisibility, this.options.throttle, { leading: true }) as () => void;
 
+  private enableToggle = true;
+
+  private toggle = (event: IEvent) => {
+    if (!this.enableToggle) return;
+    this.onToggleVisibility(event);
+  };
+
+  private onBeforeRender = () => {
+    this.enableToggle = false;
+  };
+
+  private onAfterRender = (event: IEvent) => {
+    this.onToggleVisibility(event);
+    this.enableToggle = true;
+  };
+
   private bindEvents() {
     const { graph } = this.context;
-    graph.on(GraphEvent.AFTER_DRAW, this.onToggleVisibility);
-    graph.on(GraphEvent.AFTER_LAYOUT, this.onToggleVisibility);
+    graph.on(GraphEvent.BEFORE_RENDER, this.onBeforeRender);
+    graph.on(GraphEvent.AFTER_RENDER, this.onAfterRender);
+    graph.on(GraphEvent.AFTER_DRAW, this.toggle);
+    graph.on(GraphEvent.AFTER_LAYOUT, this.toggle);
     graph.on(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
   private unbindEvents() {
     const { graph } = this.context;
-    graph.off(GraphEvent.AFTER_DRAW, this.onToggleVisibility);
-    graph.off(GraphEvent.AFTER_LAYOUT, this.onToggleVisibility);
+    graph.off(GraphEvent.BEFORE_RENDER, this.onBeforeRender);
+    graph.off(GraphEvent.AFTER_RENDER, this.onAfterRender);
+    graph.off(GraphEvent.AFTER_DRAW, this.toggle);
+    graph.off(GraphEvent.AFTER_LAYOUT, this.toggle);
     graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 

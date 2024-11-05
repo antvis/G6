@@ -74,6 +74,13 @@ export class Graph extends EventEmitter {
   };
 
   /**
+   * <zh/> 当前图实例是否已经渲染
+   *
+   * <en/> Whether the current graph instance has been rendered
+   */
+  public rendered = false;
+
+  /**
    * <zh/> 当前图实例是否已经被销毁
    *
    * <en/> Whether the current graph instance has been destroyed
@@ -1125,6 +1132,7 @@ export class Graph extends EventEmitter {
     const animation = this.context.element!.draw({ type: 'render' });
     await Promise.all([animation?.finished, this.context.layout!.layout()]);
     await this.autoFit();
+    this.rendered = true;
     emit(this, new GraphLifeCycleEvent(GraphEvent.AFTER_RENDER));
   }
 
@@ -1744,7 +1752,7 @@ export class Graph extends EventEmitter {
     });
     this.updateData(dataToUpdate);
 
-    await this.context.element!.draw({ animation })?.finished;
+    await this.context.element!.draw({ animation, stage: 'state' })?.finished;
   }
 
   /**

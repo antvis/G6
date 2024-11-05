@@ -278,19 +278,16 @@ export class ElementController {
     const data = this.computeChangesAndDrawData(context);
     if (!data) return null;
 
+    const { type = 'draw', stage = type, animation, silence } = context;
     const { dataChanges, drawData } = data;
     this.markDestroyElement(drawData);
     // 计算样式 / Calculate style
-    this.computeStyle(context.stage);
+    this.computeStyle(stage);
     // 创建渲染任务 / Create render task
     const { add, update, remove } = drawData;
     this.destroyElements(remove, context);
     this.createElements(add, context);
     this.updateElements(update, context);
-
-    const { animation, silence } = context;
-
-    const { type = 'draw' } = context;
 
     return this.context.animation!.animate(
       animation,
@@ -299,7 +296,12 @@ export class ElementController {
         : {
             before: () =>
               this.emit(
-                new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, { dataChanges, animation, render: type === 'render' }),
+                new GraphLifeCycleEvent(GraphEvent.BEFORE_DRAW, {
+                  dataChanges,
+                  animation,
+                  stage,
+                  render: type === 'render',
+                }),
                 context,
               ),
             beforeAnimate: (animation) =>
@@ -308,7 +310,13 @@ export class ElementController {
               this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.DRAW, animation, drawData), context),
             after: () =>
               this.emit(
-                new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, { dataChanges, animation, render: type === 'render' }),
+                new GraphLifeCycleEvent(GraphEvent.AFTER_DRAW, {
+                  dataChanges,
+                  animation,
+                  stage,
+                  render: type === 'render',
+                  firstRender: this.context.graph.rendered === false,
+                }),
                 context,
               ),
           },

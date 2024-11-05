@@ -7,7 +7,8 @@ import { Graph } from '@/src';
  * 1086 nodes, 1247 edges
  *
  * 10 VC firms in Silicon Valley funded 82% of all unicorns, 98% of all exited unicorns. Data from CB Insights, updated March 2020.
- * @param context
+ * @param context - context
+ * @returns - graph
  */
 export const caseUnicornsInvestors: TestCase = async (context) => {
   const data = await fetch('https://assets.antv.antgroup.com/g6/unicorns-investors.json').then((res) => res.json());
@@ -55,6 +56,7 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
       collide: { radius: (node: NodeData) => size(node) },
       manyBody: { strength: (node: NodeData) => -4 * size(node) },
       animation: false,
+      iterations: 20,
     },
     transforms: [
       {

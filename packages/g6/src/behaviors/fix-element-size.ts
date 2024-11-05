@@ -3,7 +3,17 @@ import { isEmpty, isFunction, isNumber } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { ComboData, EdgeData, NodeData } from '../spec';
-import type { Combo, Edge, Element, ID, IViewportEvent, Node, NodeLikeData, State } from '../types';
+import type {
+  Combo,
+  Edge,
+  Element,
+  ID,
+  IGraphLifeCycleEvent,
+  IViewportEvent,
+  Node,
+  NodeLikeData,
+  State,
+} from '../types';
 import { idOf } from '../utils/id';
 import { getDescendantShapes } from '../utils/shape';
 import type { BaseBehaviorOptions } from './base-behavior';
@@ -286,7 +296,10 @@ export class FixElementSize extends BaseBehavior<FixElementSizeOptions> {
     // this.cachedStyles.clear();
   }
 
-  private resetTransform = async () => {
+  private resetTransform = async (event: IGraphLifeCycleEvent) => {
+    // 首屏渲染时跳过 | Skip when rendering the first screen
+    if (event.data?.firstRender) return;
+
     if (this.options.reset) {
       this.restoreCachedStyles();
     } else {
