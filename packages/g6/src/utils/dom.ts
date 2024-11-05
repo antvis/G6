@@ -24,7 +24,9 @@ function getContainerSize(container: HTMLElement): [number, number] {
  * @param container container of Graph
  * @returns Size of Graph
  */
-export function sizeOf(container: HTMLElement): [number, number] {
+export function sizeOf(container: HTMLElement | null): [number, number] {
+  if (!container) return [0, 0];
+
   let effectiveWidth = 640;
   let effectiveHeight = 480;
 

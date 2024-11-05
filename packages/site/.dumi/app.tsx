@@ -4,6 +4,6 @@ if (typeof window !== 'undefined') {
 
     if (!graph || graph.destroyed) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.setSize([container.scrollWidth + widthOffset, container.scrollHeight + heightOffset]);
+    graph.setSize(container.scrollWidth + widthOffset, container.scrollHeight + heightOffset);
   };
 }
