@@ -1,4 +1,5 @@
 export {
+  AutoAdaptLabel,
   BaseBehavior,
   BrushSelect,
   ClickSelect,
@@ -128,6 +129,7 @@ export type {
 export type { PathArray } from '@antv/util';
 export type { AnimationContext, AnimationEffectTiming, AnimationExecutor, AnimationOptions } from './animations/types';
 export type {
+  AutoAdaptLabelOptions,
   BaseBehaviorOptions,
   BrushSelectOptions,
   ClickSelectOptions,
