@@ -460,7 +460,7 @@ function getBoundsInOffscreen(context: RuntimeContext, shape: DisplayObject) {
   if (!context) return shape.getLocalBounds();
 
   // 将主图形靠背至全局空间，避免受到父级 transform 的影响
-  // 合理的操作应该是靠背至离屏画布，但目前 G 有点问题
+  // 合理的操作应该是拷贝至离屏画布，但目前 G 有点问题
   // Move the main graphic to the global space to avoid being affected by the parent transform
   // The reasonable operation should be moved to the off-screen canvas, but there is a problem with G at present
   const canvas = context.canvas.getLayer();
@@ -468,7 +468,7 @@ function getBoundsInOffscreen(context: RuntimeContext, shape: DisplayObject) {
   setVisibility(substitute, 'hidden');
   canvas.appendChild(substitute);
   const bounds = substitute.getLocalBounds();
-  canvas.removeChild(substitute);
+  substitute.destroy();
 
   return bounds;
 }
