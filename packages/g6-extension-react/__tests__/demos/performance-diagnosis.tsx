@@ -91,10 +91,10 @@ export const PerformanceDiagnosis = () => {
         };
 
         const size = {
-          'pre-inspection': [240, 80],
-          problem: [200, 80],
+          'pre-inspection': [240, 120],
+          problem: [200, 120],
           inspection: [330, 100],
-          solution: [240, 60],
+          solution: [200, 120],
         }[d.data!.type as string] || [200, 80];
 
         Object.assign(style, {
@@ -144,9 +144,6 @@ export const PerformanceDiagnosis = () => {
     },
     layout: {
       type: 'antv-dagre',
-      nodeSize: [200, 40],
-      nodesep: 70,
-      ranksep: 5,
     },
     behaviors: ['zoom-canvas', 'drag-canvas', 'hover-element', 'click-select'],
   };

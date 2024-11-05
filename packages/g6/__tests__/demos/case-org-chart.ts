@@ -196,7 +196,6 @@ export const caseOrgChart: TestCase = async (context) => {
     },
     layout: {
       type: 'dagre',
-      nodeSize: [150, 60],
     },
     autoFit: 'view',
     behaviors: ['level-of-detail', 'zoom-canvas', 'drag-canvas'],

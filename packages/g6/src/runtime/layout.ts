@@ -16,7 +16,6 @@ import { createTreeStructure } from '../utils/graphlib';
 import { idOf } from '../utils/id';
 import { isTreeLayout, layoutAdapter, layoutMapping2GraphData } from '../utils/layout';
 import { print } from '../utils/print';
-import { parseSize } from '../utils/size';
 import { dfs } from '../utils/traverse';
 import type { RuntimeContext } from './types';
 
@@ -299,7 +298,7 @@ export class LayoutController {
         const nodeElement = element?.getElement<Node | Combo>(node.id as string);
         const { size } = nodeElement?.attributes || {};
 
-        return Math.max(...parseSize(size));
+        return size;
       });
 
     const Ctor = getExtension('layout', type);
