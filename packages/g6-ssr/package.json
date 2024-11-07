@@ -27,8 +27,8 @@
     "type-check": "tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
-    "@antv/g": "^6.1.6",
-    "@antv/g-canvas": "^2.0.22",
+    "@antv/g": "^6.1.7",
+    "@antv/g-canvas": "^2.0.23",
     "@antv/g6": "workspace:*",
     "cac": "^6.7.14",
     "canvas": "^2.11.2"

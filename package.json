@@ -30,8 +30,8 @@
     ]
   },
   "devDependencies": {
-    "@antv/g-canvas": "^2.0.22",
-    "@antv/g-plugin-rough-canvas-renderer": "^2.0.22",
+    "@antv/g-canvas": "^2.0.23",
+    "@antv/g-plugin-rough-canvas-renderer": "^2.0.23",
     "@babel/core": "^7.26.0",
     "@babel/plugin-transform-typescript": "^7.25.9",
     "@changesets/cli": "^2.27.9",
@@ -43,7 +43,7 @@
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@swc/core": "^1.8.0",
+    "@swc/core": "^1.9.1",
     "@swc/jest": "^0.2.37",
     "@types/d3-hierarchy": "^3.1.7",
     "@types/jest": "^29.5.14",

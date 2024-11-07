@@ -35,9 +35,9 @@
     "type-check": "tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
-    "@antv/g": "^6.1.6",
-    "@antv/g-svg": "^2.0.19",
-    "@antv/react-g": "^2.0.22"
+    "@antv/g": "^6.1.7",
+    "@antv/g-svg": "^2.0.20",
+    "@antv/react-g": "^2.0.23"
   },
   "devDependencies": {
     "@ant-design/icons": "^5.5.1",
@@ -47,7 +47,7 @@
     "antd": "^5.21.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.27.0",
+    "react-router-dom": "^6.28.0",
     "styled-components": "^6.1.13"
   },
   "peerDependencies": {
