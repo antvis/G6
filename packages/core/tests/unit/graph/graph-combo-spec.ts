@@ -114,14 +114,14 @@ const data = {
 describe('graph with combo', () => {
   let graph: Graph;
 
-  function makeGraph(config = {}) {
+  function makeGraph(config = {}, forceData = undefined) {
     graph = new Graph({
       container: div,
       width: 500,
       height: 600,
       ...config
     });
-    graph.read(clone(data));
+    graph.read(clone(forceData || data));
   }
 
   it('createCombo', () => {
@@ -327,6 +327,29 @@ describe('graph with combo', () => {
     });
 
     graph.destroy();
+  });
+
+  it('collapse combo should create only one edge', () => {
+    // this data reproduces the issue where one combo was connected to a node with 2 vedges
+    const data = {
+      nodes: [
+        { id: "node1", x: 250, y: 150, comboId: "combo" },
+        { id: "node2", x: 350, y: 150, comboId: "combo" },
+        { id: "node3", x: 250, y: 300 },
+      ],
+      combos: [{ id: "combo", label: "Combo" }],
+      edges: [
+        { id: "edge1", source: "node1", target: "node3" },
+        { id: "edge2", target: "node2", source: "node3" },
+      ],
+    };
+
+    makeGraph({}, data);
+
+    graph.collapseCombo('combo');
+
+    const edges = graph.get('vedges');
+    expect(edges).toHaveLength(1);
   });
 
   it('combo mapper', () => {
