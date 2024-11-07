@@ -3,42 +3,42 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" x="300" y="150" transform="matrix(1,0,0,1,300,150)">
+        <g fill="none" transform="matrix(1,0,0,1,300,150)">
           <g>
             <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="72.80109889280519"/>
           </g>
         </g>
-        <g fill="none" x="250" y="300" transform="matrix(1,0,0,1,250,300)">
+        <g fill="none" transform="matrix(1,0,0,1,250,300)">
           <g>
             <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="28.284271247461902"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="true">
-          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 240.51316701949486,146.83772233983163 L 105.69209978830308,101.89736659610102" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" pointer-events="none"/>
             <path fill="none" d="M 260,150 L 250,150" class="key" stroke-width="3" stroke="transparent" pointer-events="none"/>
             <g transform="matrix(0.948683,0.316228,-0.316228,0.948683,105.692101,101.897369)">
-              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
         </g>
-        <g fill="none" x="250" y="150" transform="matrix(1,0,0,1,250,150)">
+        <g fill="none" transform="matrix(1,0,0,1,250,150)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
-        <g fill="none" x="350" y="150" transform="matrix(1,0,0,1,350,150)">
+        <g fill="none" transform="matrix(1,0,0,1,350,150)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
-        <g fill="none" x="250" y="300" transform="matrix(1,0,0,1,250,300)">
+        <g fill="none" transform="matrix(1,0,0,1,250,300)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
         </g>
-        <g fill="none" x="100" y="100" transform="matrix(1,0,0,1,100,100)">
+        <g fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10" visibility="hidden"/>
           </g>

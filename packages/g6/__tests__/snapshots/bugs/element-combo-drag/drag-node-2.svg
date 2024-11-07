@@ -3,18 +3,18 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 149.9996226386614,107.14274932533183 L 284.6156168377468,145.60446195364196" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 166,100 L 234,100" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" x="125" y="100" transform="matrix(1,0,0,1,125,100)">
+        <g fill="none" transform="matrix(1,0,0,1,125,100)">
           <g>
             <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="26"/>
           </g>
-          <g fill="none" class="collapsed-marker" x="0" y="0">
+          <g fill="none" class="collapsed-marker">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="12">
                 2
@@ -22,7 +22,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="300" y="150" transform="matrix(1,0,0,1,300,150)">
+        <g fill="none" transform="matrix(1,0,0,1,300,150)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>

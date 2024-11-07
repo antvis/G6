@@ -3,7 +3,7 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" x="206.66666666666666" y="200" transform="matrix(1,0,0,1,206.666672,200)">
+        <g fill="none" transform="matrix(1,0,0,1,206.666672,200)">
           <g>
             <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="5,5" stroke-width="1" stroke="rgba(153,173,209,1)" r="26"/>
           </g>
@@ -14,7 +14,7 @@
               </text>
             </g>
           </g>
-          <g fill="none" class="collapsed-marker" x="0" y="0">
+          <g fill="none" class="collapsed-marker">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="12">
                 3

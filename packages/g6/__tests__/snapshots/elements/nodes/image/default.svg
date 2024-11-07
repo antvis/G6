@@ -3,7 +3,7 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" x="83.33333333333333" y="62.5" transform="matrix(1,0,0,1,83.333336,62.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,83.333336,62.500000)">
           <g>
             <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="-20" y="-20" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="40" height="40"/>
           </g>
@@ -15,7 +15,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="250" y="62.5" transform="matrix(1,0,0,1,250,62.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,250,62.500000)">
           <g>
             <path fill="rgba(0,0,0,0)" d="M -26,-26 l 52,0 l 0,52 l-52 0 z" class="halo" stroke-dasharray="0,0" stroke-width="12" stroke-opacity="0.25" pointer-events="none" stroke="rgba(34,126,255,1)" width="52" height="52" x="-26" y="-26"/>
           </g>
@@ -30,7 +30,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="416.66666666666663" y="62.5" transform="matrix(1,0,0,1,416.666656,62.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,416.666656,62.500000)">
           <g>
             <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="-20" y="-20" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="40" height="40"/>
           </g>
@@ -78,7 +78,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="83.33333333333333" y="187.5" transform="matrix(1,0,0,1,83.333336,187.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,83.333336,187.500000)">
           <g>
             <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="-20" y="-20" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="40" height="40"/>
           </g>
@@ -90,7 +90,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="250" y="187.5" transform="matrix(1,0,0,1,250,187.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,250,187.500000)">
           <g>
             <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="-20" y="-20" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="40" height="40"/>
           </g>
@@ -114,7 +114,7 @@
             <circle fill="rgba(23,131,255,1)" class="port-3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
           </g>
         </g>
-        <g fill="none" x="416.66666666666663" y="187.5" transform="matrix(1,0,0,1,416.666656,187.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,416.666656,187.500000)">
           <g>
             <path fill="rgba(0,0,0,0)" d="M -26,-26 l 52,0 l 0,52 l-52 0 z" class="halo" stroke-dasharray="0,0" stroke-width="12" stroke-opacity="0.15" pointer-events="none" stroke="rgba(34,126,255,1)" width="52" height="52" x="-26" y="-26"/>
           </g>
@@ -129,7 +129,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="83.33333333333333" y="312.5" transform="matrix(1,0,0,1,83.333336,312.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,83.333336,312.500000)">
           <g>
             <path fill="rgba(0,0,0,0)" d="M -32,-32 l 64,0 l 0,64 l-64 0 z" class="halo" stroke-dasharray="0,0" stroke-width="24" stroke-opacity="0.25" pointer-events="none" stroke="rgba(34,126,255,1)" width="64" height="64" x="-32" y="-32"/>
           </g>
@@ -144,7 +144,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="250" y="312.5" transform="matrix(1,0,0,1,250,312.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,250,312.500000)">
           <g>
             <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="-20" y="-20" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" stroke-opacity="0.85" width="40" height="40"/>
           </g>
@@ -156,7 +156,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="416.66666666666663" y="312.5" transform="matrix(1,0,0,1,416.666656,312.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,416.666656,312.500000)">
           <g>
             <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="-20" y="-20" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" class="key" opacity="0.5" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25" width="40" height="40"/>
           </g>
@@ -168,7 +168,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="83.33333333333333" y="437.5" transform="matrix(1,0,0,1,83.333336,437.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,83.333336,437.500000)">
           <g>
             <image fill="rgba(27,50,79,1)" preserveAspectRatio="none" x="-20" y="-20" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" class="key" opacity="0.2" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.06" width="40" height="40"/>
           </g>

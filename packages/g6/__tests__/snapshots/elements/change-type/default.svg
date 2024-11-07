@@ -3,19 +3,19 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 116,100 L 184,100" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 116,100 L 184,100" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" x="100" y="100" transform="matrix(1,0,0,1,100,100)">
+        <g fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
             <path fill="rgba(0,0,0,0)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(23,131,255,1)" width="32" height="32" x="-16" y="-16"/>
           </g>
         </g>
-        <g fill="none" x="200" y="100" transform="matrix(1,0,0,1,200,100)">
+        <g fill="none" transform="matrix(1,0,0,1,200,100)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>

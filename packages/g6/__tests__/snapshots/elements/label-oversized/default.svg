@@ -3,8 +3,8 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 150,150 L 325,150" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 150,150 L 325,150" class="key" stroke-width="3" stroke="transparent"/>
@@ -25,7 +25,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="100" y="150" transform="matrix(1,0,0,1,100,150)">
+        <g fill="none" transform="matrix(1,0,0,1,100,150)">
           <g>
             <path fill="rgba(23,131,255,1)" d="M -50,-50 l 100,0 l 0,100 l-100 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="100" height="100" x="-50" y="-50"/>
           </g>
@@ -51,7 +51,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="400" y="150" transform="matrix(1,0,0,1,400,150)">
+        <g fill="none" transform="matrix(1,0,0,1,400,150)">
           <g>
             <path fill="rgba(23,131,255,1)" d="M -75,-75 l 150,0 l 0,150 l-150 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="150" height="150" x="-75" y="-75"/>
           </g>
