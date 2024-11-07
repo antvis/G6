@@ -48,6 +48,9 @@ export async function toMatchSVGSnapshot(
   const svg = (gCanvas.main.getContextService().getDomElement() as unknown as SVGElement).cloneNode(true) as SVGElement;
   const gRoot = svg.querySelector('#g-root');
 
+  // remove css style
+  svg.style.gridArea = '';
+
   Object.entries(gCanvas).forEach(([key, gCanvas]) => {
     if (key === 'main') return;
     const dom = (gCanvas.getContextService().getDomElement() as unknown as SVGElement).cloneNode(true) as SVGElement;
