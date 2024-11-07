@@ -391,11 +391,15 @@ function configCanvasDom(layers: Record<CanvasLayer, GCanvas>) {
     // 浏览器环境下，设置画布样式
     // Set canvas style in browser environment
     if (domElement?.style) {
-      domElement.style.position = 'absolute';
+      domElement.style.gridArea = '1 / 1 / 2 / 2';
       domElement.style.outline = 'none';
       domElement.tabIndex = 1;
 
       if (layer !== 'main') domElement.style.pointerEvents = 'none';
+    }
+
+    if (domElement?.parentElement) {
+      domElement.parentElement.style.display = 'grid';
     }
   });
 }

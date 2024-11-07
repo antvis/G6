@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.29
+
+### Patch Changes
+
+- adjust canvas style
+
 ## 5.0.28
 
 ### Patch Changes

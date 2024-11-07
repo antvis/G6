@@ -36,8 +36,6 @@ export function createGraphCanvas(
   options?: Partial<CanvasConfig>,
 ) {
   const container = dom || document.createElement('div');
-  container.style.width = `${width}px`;
-  container.style.height = `${height}px`;
 
   resetEntityCounter();
 
