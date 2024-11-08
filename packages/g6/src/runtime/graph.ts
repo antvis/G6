@@ -1682,13 +1682,13 @@ export class Graph extends EventEmitter {
       const elementType = model.getElementType(_id);
       if (elementType === 'combo') {
         const ancestor = model.getAncestorsData(_id, COMBO_KEY).at(-1) || this.getComboData(_id);
-        const combos = [ancestor, ...model.getDescendantsData(idOf(ancestor))];
+        const descendants = [ancestor, ...model.getDescendantsData(idOf(ancestor))];
         const delta = zIndex - element!.getElementZIndex(_id);
-        combos.forEach((combo) => {
+        descendants.forEach((combo) => {
           zIndexes[idOf(combo)] = this.getElementZIndex(idOf(combo)) + delta;
         });
 
-        const { internal } = getSubgraphRelatedEdges(combos.map(idOf), (id) => model.getRelatedEdgesData(id));
+        const { internal } = getSubgraphRelatedEdges(descendants.map(idOf), (id) => model.getRelatedEdgesData(id));
         internal.forEach((edge) => {
           const edgeId = idOf(edge);
           zIndexes[edgeId] = this.getElementZIndex(edgeId) + delta;
