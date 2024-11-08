@@ -3,17 +3,17 @@
   <g transform="matrix(1,0,0,1,-0.000015,100)">
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" x="250" y="150" transform="matrix(1,0,0,1,250,150)">
+        <g fill="none" transform="matrix(1,0,0,1,250,150)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
         </g>
-        <g fill="none" x="350" y="150" transform="matrix(1,0,0,1,350,150)">
+        <g fill="none" transform="matrix(1,0,0,1,350,150)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
         </g>
-        <g fill="none" x="250" y="300" transform="matrix(1,0,0,1,250,300)">
+        <g fill="none" transform="matrix(1,0,0,1,250,300)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>

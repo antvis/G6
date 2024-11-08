@@ -3,7 +3,7 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" x="250.98000000000002" y="262.5" transform="matrix(1,0,0,1,250.979996,262.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,250.979996,262.500000)">
           <g>
             <circle fill="none" class="halo" stroke-dasharray="0,0" stroke-width="12" fill-opacity="0.04" stroke-opacity="0.25" stroke="rgba(153,173,209,1)" r="155.87903130312299" pointer-events="none"/>
           </g>
@@ -11,8 +11,8 @@
             <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="155.87903130312299"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 164.31083505599867,242.84458247200067 L 235.68916494400133,207.15541752799933" class="halo" stroke-width="12" stroke="rgba(153,173,209,1)" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
             <path fill="none" d="M 164.31083505599867,242.84458247200067 L 235.68916494400133,207.15541752799933" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
@@ -22,8 +22,8 @@
             <path fill="none" d="M 164.31083505599867,242.84458247200067 L 235.68916494400133,207.15541752799933" class="key" stroke-width="1" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 264.31083505599867,207.15541752799933 L 335.68916494400133,242.84458247200067" class="halo" stroke-width="12" stroke="rgba(153,173,209,1)" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
             <path fill="none" d="M 264.31083505599867,207.15541752799933 L 335.68916494400133,242.84458247200067" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
@@ -33,8 +33,8 @@
             <path fill="none" d="M 264.31083505599867,207.15541752799933 L 335.68916494400133,242.84458247200067" class="key" stroke-width="1" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 335.68916494400133,257.1554175279993 L 264.31083505599867,292.8445824720007" class="halo" stroke-width="12" stroke="rgba(153,173,209,1)" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
             <path fill="none" d="M 335.68916494400133,257.1554175279993 L 264.31083505599867,292.8445824720007" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
@@ -44,8 +44,8 @@
             <path fill="none" d="M 335.68916494400133,257.1554175279993 L 264.31083505599867,292.8445824720007" class="key" stroke-width="1" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 164.31083505599867,257.1554175279993 L 235.68916494400133,292.8445824720007" class="halo" stroke-width="12" stroke="rgba(153,173,209,1)" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
             <path fill="none" d="M 164.31083505599867,257.1554175279993 L 235.68916494400133,292.8445824720007" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
@@ -55,7 +55,7 @@
             <path fill="none" d="M 164.31083505599867,257.1554175279993 L 235.68916494400133,292.8445824720007" class="key" stroke-width="1" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" x="150" y="250" transform="matrix(1,0,0,1,150,250)">
+        <g fill="none" transform="matrix(1,0,0,1,150,250)">
           <g>
             <circle fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" r="16" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
@@ -70,7 +70,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="250" y="200" transform="matrix(1,0,0,1,250,200)">
+        <g fill="none" transform="matrix(1,0,0,1,250,200)">
           <g>
             <circle fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" r="16" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
@@ -85,7 +85,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="350" y="250" transform="matrix(1,0,0,1,350,250)">
+        <g fill="none" transform="matrix(1,0,0,1,350,250)">
           <g>
             <circle fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" r="16" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
@@ -100,7 +100,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="250" y="300" transform="matrix(1,0,0,1,250,300)">
+        <g fill="none" transform="matrix(1,0,0,1,250,300)">
           <g>
             <circle fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" r="16" stroke-dasharray="0,0" pointer-events="none"/>
           </g>

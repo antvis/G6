@@ -3,7 +3,7 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" x="100" y="100" transform="matrix(1,0,0,1,100,100)">
+        <g fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" fill-opacity="0.25" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25" r="16"/>
           </g>

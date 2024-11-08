@@ -16,21 +16,21 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" x="250" y="125" transform="matrix(1,0,0,1,250,125)">
+        <g fill="none" transform="matrix(1,0,0,1,250,125)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="20"/>
           </g>
-          <g fill="none" class="icon" width="30" height="30">
+          <g fill="none" class="icon">
             <g clip-path="url(#clip-path-9-8)">
               <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-15" y="-15" href="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_Do9Tq7MxFQAAAAAAAAAAAAADmJ7AQ/original" class="icon" width="30" height="30"/>
             </g>
           </g>
         </g>
-        <g fill="none" x="250" y="375" transform="matrix(1,0,0,1,250,375)">
+        <g fill="none" transform="matrix(1,0,0,1,250,375)">
           <g clip-path="url(#clip-path-14-11)">
             <image fill="rgba(23,131,255,1)" preserveAspectRatio="none" x="-20" y="-20" href="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_Do9Tq7MxFQAAAAAAAAAAAAADmJ7AQ/original" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="40" height="40"/>
           </g>
-          <g fill="none" class="icon" width="40" height="40">
+          <g fill="none" class="icon">
             <g clip-path="url(#clip-path-15-13)">
               <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-20" y="-20" href="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*AzSISZeq81IAAAAAAAAAAAAADmJ7AQ/original" class="icon" width="40" height="40"/>
             </g>

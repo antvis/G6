@@ -3,7 +3,7 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" x="100" y="100" transform="matrix(1,0,0,1,100,100)">
+        <g fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16" opacity="0" visibility="hidden"/>
           </g>
@@ -14,9 +14,9 @@
               </text>
             </g>
           </g>
-          <g fill="none" class="icon" width="25.6" height="25.6">
+          <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" width="25.6" height="25.6" font-size="16" opacity="0" visibility="hidden">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="16" opacity="0" visibility="hidden">
                 icon
               </text>
             </g>

@@ -3,7 +3,7 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" x="100" y="100" transform="matrix(1,0,0,1,100,100)">
+        <g fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
             <circle fill="none" class="halo" stroke-width="24" stroke="rgba(0,128,0,1)" stroke-opacity="0.25" r="16" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
@@ -11,7 +11,7 @@
             <circle fill="rgba(0,128,0,1)" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
         </g>
-        <g fill="none" x="150" y="100" transform="matrix(1,0,0,1,150,100)">
+        <g fill="none" transform="matrix(1,0,0,1,150,100)">
           <g>
             <circle fill="none" class="halo" stroke-width="24" stroke="rgba(255,0,0,1)" stroke-opacity="0.25" r="16" stroke-dasharray="0,0" pointer-events="none"/>
           </g>

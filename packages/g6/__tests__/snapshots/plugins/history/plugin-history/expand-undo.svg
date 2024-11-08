@@ -3,7 +3,7 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" x="188.11" y="191.5" transform="matrix(1,0,0,1,188.110001,191.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,188.110001,191.500000)">
           <g>
             <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="153.21566140574532" fill-opacity="0.04"/>
           </g>
@@ -15,7 +15,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="250" y="250" transform="matrix(1,0,0,1,250,250)">
+        <g fill="none" transform="matrix(1,0,0,1,250,250)">
           <g>
             <path fill="rgba(153,173,209,1)" d="M -26,-26 l 52,0 l 0,52 l-52 0 z" class="key" stroke-dasharray="5,5" stroke-width="1" stroke="rgba(153,173,209,1)" width="52" height="52" x="-26" y="-26"/>
           </g>
@@ -26,7 +26,7 @@
               </text>
             </g>
           </g>
-          <g fill="none" class="collapsed-marker" x="0" y="0">
+          <g fill="none" class="collapsed-marker">
             <g>
               <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="12">
                 2
@@ -34,14 +34,14 @@
             </g>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 130.47888861468547,112.09102532463709 L 227.46666666666667,224" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 130.47888861468547,112.09102532463709 L 227.46666666666667,224" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" x="120" y="100" transform="matrix(1,0,0,1,120,100)">
+        <g fill="none" transform="matrix(1,0,0,1,120,100)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>

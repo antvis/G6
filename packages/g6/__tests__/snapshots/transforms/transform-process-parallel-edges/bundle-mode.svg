@@ -3,209 +3,209 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" marker-start="false" marker-end="true">
-          <g fill="none" marker-start="false" marker-end="true" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 258.2285481085256,95.99836759679216 Q 273.9984696219926 149.78573614825726,261.29437448370385 198.19812425915592" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 258.2285481085256,95.99836759679216 Q 273.9984696219926 149.78573614825726,261.29437448370385 198.19812425915592" class="key" stroke-width="3" stroke="transparent"/>
             <g transform="matrix(0.253820,-0.967251,0.967251,0.253820,261.294373,198.198120)">
-              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 258.2285481085256,95.99836759679216 Q 214.00459113402206 150.64279155522826,259.7714518914744 204.00163240320785" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 258.2285481085256,95.99836759679216 Q 214.00459113402206 150.64279155522826,259.7714518914744 204.00163240320785" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 259.7714518914744,204.00163240320785 Q 303.99540886597794 149.35720844477174,258.2285481085256 95.99836759679216" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 259.7714518914744,204.00163240320785 Q 303.99540886597794 149.35720844477174,258.2285481085256 95.99836759679216" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 251.70220281556914,233.68015211487253 Q 210.17485739230702 273.2208151395961,194.29779718443086 328.3198478851275" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 251.70220281556914,233.68015211487253 Q 210.17485739230702 273.2208151395961,194.29779718443086 328.3198478851275" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 268.4695516581296,233.57448690412548 Q 271.04783705476467 294.38040935899295,324.5304483418704 323.4255130958745" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 268.4695516581296,233.57448690412548 Q 271.04783705476467 294.38040935899295,324.5304483418704 323.4255130958745" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 268.4695516581296,233.57448690412548 Q 321.95216294523533 262.61959064100705,324.5304483418704 323.4255130958745" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 268.4695516581296,233.57448690412548 Q 321.95216294523533 262.61959064100705,324.5304483418704 323.4255130958745" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 401.12293491784146,171.21792747981942 C 420.25710653609605 125.02395085425512,455.9760491457449 160.74289346390407,409.7820725201806 179.87706508215857" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 401.12293491784146,171.21792747981942 C 420.25710653609605 125.02395085425512,455.9760491457449 160.74289346390407,409.7820725201806 179.87706508215857" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 409.7820725201806,179.87706508215857 C 455.9760491457449 160.74289346390407,455.9760491457449 211.25710653609593,409.7820725201806 192.12293491784143" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 409.7820725201806,179.87706508215857 C 455.9760491457449 160.74289346390407,455.9760491457449 211.25710653609593,409.7820725201806 192.12293491784143" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 409.7820725201806,192.12293491784143 C 455.9760491457449 211.25710653609593,420.25710653609605 246.97604914574487,401.12293491784146 200.78207252018058" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 409.7820725201806,192.12293491784143 C 455.9760491457449 211.25710653609593,420.25710653609605 246.97604914574487,401.12293491784146 200.78207252018058" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 401.12293491784146,200.78207252018058 C 420.25710653609605 246.97604914574487,369.74289346390395 246.97604914574487,388.87706508215854 200.78207252018058" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 401.12293491784146,200.78207252018058 C 420.25710653609605 246.97604914574487,369.74289346390395 246.97604914574487,388.87706508215854 200.78207252018058" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 388.87706508215854,200.78207252018058 C 369.74289346390395 246.97604914574487,334.0239508542551 211.25710653609593,380.2179274798194 192.12293491784143" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 388.87706508215854,200.78207252018058 C 369.74289346390395 246.97604914574487,334.0239508542551 211.25710653609593,380.2179274798194 192.12293491784143" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 380.2179274798194,192.12293491784143 C 334.0239508542551 211.25710653609593,334.0239508542551 160.74289346390407,380.2179274798194 179.87706508215857" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 380.2179274798194,192.12293491784143 C 334.0239508542551 211.25710653609593,334.0239508542551 160.74289346390407,380.2179274798194 179.87706508215857" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 380.2179274798194,179.87706508215857 C 334.0239508542551 160.74289346390407,369.74289346390395 125.02395085425512,388.87706508215854 171.21792747981942" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 380.2179274798194,179.87706508215857 C 334.0239508542551 160.74289346390407,369.74289346390395 125.02395085425512,388.87706508215854 171.21792747981942" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 388.87706508215854,171.21792747981942 C 364.0026419784276 111.16575786658584,425.9973580215724 111.16575786658584,401.12293491784146 171.21792747981942" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 388.87706508215854,171.21792747981942 C 364.0026419784276 111.16575786658584,425.9973580215724 111.16575786658584,401.12293491784146 171.21792747981942" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 401.12293491784146,171.21792747981942 C 425.9973580215724 111.16575786658584,469.8342421334142 155.00264197842773,409.7820725201806 179.87706508215857" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 401.12293491784146,171.21792747981942 C 425.9973580215724 111.16575786658584,469.8342421334142 155.00264197842773,409.7820725201806 179.87706508215857" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 409.7820725201806,179.87706508215857 C 469.8342421334142 155.00264197842773,469.8342421334142 216.99735802157227,409.7820725201806 192.12293491784143" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 409.7820725201806,179.87706508215857 C 469.8342421334142 155.00264197842773,469.8342421334142 216.99735802157227,409.7820725201806 192.12293491784143" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 409.7820725201806,192.12293491784143 C 469.8342421334142 216.99735802157227,425.9973580215724 260.83424213341414,401.12293491784146 200.78207252018058" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 409.7820725201806,192.12293491784143 C 469.8342421334142 216.99735802157227,425.9973580215724 260.83424213341414,401.12293491784146 200.78207252018058" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 401.12293491784146,200.78207252018058 C 425.9973580215724 260.83424213341414,364.0026419784276 260.83424213341414,388.87706508215854 200.78207252018058" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 401.12293491784146,200.78207252018058 C 425.9973580215724 260.83424213341414,364.0026419784276 260.83424213341414,388.87706508215854 200.78207252018058" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 388.87706508215854,200.78207252018058 C 364.0026419784276 260.83424213341414,320.1657578665858 216.99735802157227,380.2179274798194 192.12293491784143" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 388.87706508215854,200.78207252018058 C 364.0026419784276 260.83424213341414,320.1657578665858 216.99735802157227,380.2179274798194 192.12293491784143" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 380.2179274798194,192.12293491784143 C 320.1657578665858 216.99735802157227,320.1657578665858 155.00264197842773,380.2179274798194 179.87706508215857" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 380.2179274798194,192.12293491784143 C 320.1657578665858 216.99735802157227,320.1657578665858 155.00264197842773,380.2179274798194 179.87706508215857" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 380.2179274798194,179.87706508215857 C 320.1657578665858 155.00264197842773,364.0026419784276 111.16575786658584,388.87706508215854 171.21792747981942" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 380.2179274798194,179.87706508215857 C 320.1657578665858 155.00264197842773,364.0026419784276 111.16575786658584,388.87706508215854 171.21792747981942" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 388.87706508215854,171.21792747981942 C 358.2623904929512 97.30756487891654,431.7376095070488 97.30756487891654,401.12293491784146 171.21792747981942" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 388.87706508215854,171.21792747981942 C 358.2623904929512 97.30756487891654,431.7376095070488 97.30756487891654,401.12293491784146 171.21792747981942" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="true" marker-end="false">
-          <g fill="none" marker-start="true" marker-end="false" stroke="transparent" stroke-width="4"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="4"/>
           <g>
             <path fill="none" d="M 258.083370087863,198.24399575052507 Q 244.00153037800735 150.21426385174274,258.2285481085256 95.99836759679216" class="key" stroke-width="2" stroke="rgba(133,118,255,1)"/>
             <path fill="none" d="M 258.083370087863,198.24399575052507 Q 244.00153037800735 150.21426385174274,258.2285481085256 95.99836759679216" class="key" stroke-width="4" stroke="transparent"/>
             <g transform="matrix(-0.281347,-0.959606,0.959606,-0.281347,258.083374,198.244003)">
-              <path fill="rgba(133,118,255,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(133,118,255,1)" width="10" height="10" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(133,118,255,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(133,118,255,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 251.70220281556914,233.68015211487253 Q 235.82514260769298 288.7791848604039,194.29779718443086 328.3198478851275" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 251.70220281556914,233.68015211487253 Q 235.82514260769298 288.7791848604039,194.29779718443086 328.3198478851275" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 244.31540299764106,216.83876339487338 Q 195.5 207,146.68459700235897 197.16123660512662" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 244.31540299764106,216.83876339487338 Q 195.5 207,146.68459700235897 197.16123660512662" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 275.51549588171446,216.09239362979045 Q 327.5 203,379.48450411828554 189.90760637020955" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 275.51549588171446,216.09239362979045 Q 327.5 203,379.48450411828554 189.90760637020955" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="3"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 268.4695516581296,233.57448690412548 Q 296.5 278.5,324.5304483418704 323.4255130958745" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 268.4695516581296,233.57448690412548 Q 296.5 278.5,324.5304483418704 323.4255130958745" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" marker-start="false" marker-end="false">
-          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="4"/>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="4"/>
           <g>
             <path fill="none" d="M 388.87706508215854,171.21792747981942 C 369.74289346390395 125.02395085425512,420.25710653609605 125.02395085425512,401.12293491784146 171.21792747981942" class="key" stroke-width="2" stroke="rgba(133,118,255,1)"/>
             <path fill="none" d="M 388.87706508215854,171.21792747981942 C 369.74289346390395 125.02395085425512,420.25710653609605 125.02395085425512,401.12293491784146 171.21792747981942" class="key" stroke-width="4" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" x="260" y="220" transform="matrix(1,0,0,1,260,220)">
+        <g fill="none" transform="matrix(1,0,0,1,260,220)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
@@ -217,7 +217,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="186" y="342" transform="matrix(1,0,0,1,186,342)">
+        <g fill="none" transform="matrix(1,0,0,1,186,342)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
@@ -229,7 +229,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="131" y="194" transform="matrix(1,0,0,1,131,194)">
+        <g fill="none" transform="matrix(1,0,0,1,131,194)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
@@ -241,7 +241,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="258" y="80" transform="matrix(1,0,0,1,258,80)">
+        <g fill="none" transform="matrix(1,0,0,1,258,80)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
@@ -253,7 +253,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="395" y="186" transform="matrix(1,0,0,1,395,186)">
+        <g fill="none" transform="matrix(1,0,0,1,395,186)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
@@ -265,7 +265,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="333" y="337" transform="matrix(1,0,0,1,333,337)">
+        <g fill="none" transform="matrix(1,0,0,1,333,337)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
