@@ -23,10 +23,18 @@
     {
       "filename": "anti-procrastination-fishbone.js",
       "title": {
-        "zh": "克服拖延症鱼骨图",
+        "zh": "克服拖延症（决策型鱼骨图）",
         "en": "Anti-Procrastination Fishbone Diagram"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SRNFSbINb0AAAAAAAAAAAAAADmJ7AQ/fmt.webp"
+    },
+    {
+      "filename": "product-fishbone.js",
+      "title": {
+        "zh": "分析产品收益（原因型鱼骨图）",
+        "en": "Product Profitability Below Expectations"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*I0VYSYD_3bUAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "radial-dendrogram.js",
