@@ -63,6 +63,7 @@ export {
   D3ForceLayout,
   DagreLayout,
   dendrogram as DendrogramLayout,
+  FishboneLayout,
   ForceAtlas2Layout,
   ForceLayout,
   FruchtermanLayout,
@@ -180,6 +181,7 @@ export type {
 } from './elements/shapes';
 export type { UpsertHooks } from './elements/shapes/base-shape';
 export type { ContourLabelStyleProps, ContourStyleProps } from './elements/shapes/contour';
+export type { FishboneLayoutOptions } from './layouts';
 export type { BaseLayoutOptions, WebWorkerLayoutOptions } from './layouts/types';
 export type { CategoricalPalette } from './palettes/types';
 export type {
