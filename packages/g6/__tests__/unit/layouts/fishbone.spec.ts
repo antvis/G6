@@ -14,13 +14,13 @@ describe('fishbone', () => {
   });
 
   it('default', async () => {
-    await expect(graph).toMatchSnapshot(__filename, 'direction-LR');
+    await expect(graph).toMatchSnapshot(__filename, 'direction-RL');
   });
 
   it('direction RL', async () => {
-    graph.setLayout((prev) => ({ ...prev, type: 'fishbone', direction: 'RL' }));
+    graph.setLayout((prev) => ({ ...prev, type: 'fishbone', direction: 'LR' }));
     await graph.render();
-    await expect(graph).toMatchSnapshot(__filename, 'direction-RL');
+    await expect(graph).toMatchSnapshot(__filename, 'direction-LR');
   });
 
   it('vGap and hGap', async () => {

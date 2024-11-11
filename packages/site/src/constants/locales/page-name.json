@@ -36,6 +36,7 @@
   "D3Force3DLayout": ["D3Force3D", "3D 力导向布局"],
   "D3ForceLayout": ["D3Force", "力导向布局"],
   "DagreLayout": ["Dagre", "层次布局"],
+  "Fishbone": ["Fishbone", "鱼骨布局"],
   "ForceAtlas2Layout": ["ForceAtlas2", "力导向布局"],
   "ForceLayout": ["Force", "力导向布局"],
   "FruchtermanLayout": ["Fruchterman", "力导向布局"],

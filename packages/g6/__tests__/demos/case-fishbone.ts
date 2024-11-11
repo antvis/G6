@@ -177,6 +177,7 @@ export const caseFishbone: TestCase = async (context) => {
     },
     layout: {
       type: 'fishbone',
+      direction: 'LR',
       hGap: 40,
       vGap: 60,
     },

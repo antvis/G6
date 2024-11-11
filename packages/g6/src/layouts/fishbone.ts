@@ -65,15 +65,15 @@ type LayoutResult = { nodes: NodeResult[]; edges: EdgeResult[] };
  *
  * <en/> Fishbone layout
  * @remarks
- * <zh/> 鱼骨图布局是一种专门用于表示层次结构数据的图形布局方式。它通过模拟鱼骨的形状，将数据节点按照层次结构排列，使得数据的层次关系更加清晰直观。鱼骨图布局特别适用于需要展示因果关系、层次结构或分类信息的数据集。
+ * <zh/> [鱼骨图布局](https://en.wikipedia.org/wiki/Ishikawa_diagram)是一种专门用于表示层次结构数据的图形布局方式。它通过模拟鱼骨的形状，将数据节点按照层次结构排列，使得数据的层次关系更加清晰直观。鱼骨图布局特别适用于需要展示因果关系、层次结构或分类信息的数据集。
  *
- * <en/> Fishbone layout is a graphical layout method specifically designed to represent hierarchical data. By simulating the shape of a fishbone, it arranges data nodes according to their hierarchical structure, making the hierarchical relationships of the data clearer and more intuitive. The fishbone diagram layout is particularly suitable for datasets that need to display causal relationships, hierarchical structures, or classification information.
+ * <en/> [Fishbone layout](https://en.wikipedia.org/wiki/Ishikawa_diagram) is a graphical layout method specifically designed to represent hierarchical data. By simulating the shape of a fishbone, it arranges data nodes according to their hierarchical structure, making the hierarchical relationships of the data clearer and more intuitive. The fishbone diagram layout is particularly suitable for datasets that need to display causal relationships, hierarchical structures, or classification information.
  */
 export class FishboneLayout extends BaseLayout {
   id = 'fishbone';
 
   static defaultOptions: Partial<FishboneLayoutOptions> = {
-    direction: 'LR',
+    direction: 'RL',
     getRibSep: () => 60,
   };
 

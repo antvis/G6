@@ -51,13 +51,6 @@ const data = {
   ],
 };
 
-function randomInt(n) {
-  return Math.round(Math.random() * n);
-}
-function randomColor() {
-  return `rgba(${randomInt(255)}, ${randomInt(255)}, ${randomInt(255)}, ${Math.random()})`;
-}
-
 export const layoutFishbone: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
