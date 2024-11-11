@@ -2,28 +2,43 @@ import { Text } from '@antv/g';
 import { BaseTransform, ExtensionCategory, Graph, register, treeToGraphData } from '@antv/g6';
 
 const data = {
-  id: '克服拖延',
+  id: 'Overcome procrastination',
   children: [
-    { id: '完美主义情结', children: [{ id: '正确评估事情难度' }, { id: '先完成，再完善' }, { id: 'Just do it' }] },
     {
-      id: '提高专注度',
-      children: [{ id: '番茄工作法' }, { id: '限时、限量，一次只做一件事' }, { id: '提高抗干扰能力，减少打断' }],
-    },
-    {
-      id: '设定清晰的任务管理流程',
+      id: 'Perfectionism',
       children: [
-        { id: '设立完成事项的优先级' },
-        { id: '拆解具体可执行的目标' },
-        { id: '收集-整理-排序-执行反馈-总结' },
+        { id: 'Correctly assess the difficulty of things' },
+        { id: 'Complete first, then improve' },
+        { id: 'Just do it' },
       ],
     },
     {
-      id: '建立积极反馈',
-      children: [{ id: '做喜欢的事情' }, { id: '精神激励' }, { id: '物质激励' }],
+      id: 'Improve concentration',
+      children: [
+        { id: 'Pomodoro Technique' },
+        { id: 'Limited time, limited quantity, only do one thing at a time' },
+        { id: 'Improve anti-interference ability, reduce interruptions' },
+      ],
     },
     {
-      id: '放松、享受',
-      children: [{ id: '注重过程而非结果' }, { id: '靠需求驱动而非焦虑' }, { id: '接受、理解' }],
+      id: 'Set a clear task management process',
+      children: [
+        { id: 'Set priorities for completed tasks' },
+        { id: 'Break down specific executable goals' },
+        { id: 'Collect-sort-sort-execute feedback-summary' },
+      ],
+    },
+    {
+      id: 'Establish positive feedback',
+      children: [{ id: 'Do what you like' }, { id: 'Spiritual motivation' }, { id: 'Material motivation' }],
+    },
+    {
+      id: 'Relax and enjoy',
+      children: [
+        { id: 'Focus on process rather than results' },
+        { id: 'Driven by needs rather than anxiety' },
+        { id: 'Accept and understand' },
+      ],
     },
   ],
 };
@@ -104,7 +119,7 @@ const getNodeSize = (id, depth) => {
     ? [measureText({ text: id, fontSize: 24, fontWeight: 'bold', fontFamily: FONT_FAMILY }) + 80, 58]
     : depth === 1
       ? [measureText({ text: id, fontSize: 18, fontFamily: FONT_FAMILY }) + 50, 42]
-      : [0, 30];
+      : [2, 30];
 };
 
 const graph = new Graph({
@@ -119,6 +134,7 @@ const graph = new Graph({
         size: getNodeSize(d.id, d.depth),
         labelText: d.id,
         labelPlacement: 'right',
+        labelFontFamily: 'Gill Sans',
       };
 
       if (d.depth === 0) {
@@ -135,7 +151,7 @@ const graph = new Graph({
           labelFontSize: 18,
           labelFill: '#fff',
           labelFillOpacity: 0.9,
-          labelOffsetY: 3,
+          labelOffsetY: 5,
           labelPlacement: 'center',
           fill: d.style?.color,
         });

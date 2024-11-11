@@ -6,36 +6,27 @@ fetch('https://assets.antv.antgroup.com/g6/flare.json')
     const graph = new Graph({
       container: 'container',
       autoFit: 'view',
+      padding: 50,
       data: treeToGraphData(data),
       node: {
         style: {
-          size: 20,
+          size: 12,
           labelText: (d) => d.id,
           labelBackground: true,
-        },
-        state: {
-          active: {
-            fill: '#00C9C9',
-          },
+          labelFontSize: 14,
+          labelFontFamily: 'Gill Sans',
         },
       },
       edge: {
         type: 'cubic-radial',
-        state: {
-          active: {
-            lineWidth: 3,
-            stroke: '#009999',
-          },
+        style: {
+          lineWidth: 3,
         },
       },
-      layout: [
-        {
-          type: 'dendrogram',
-          radial: true,
-          nodeSep: 30,
-          rankSep: 200,
-        },
-      ],
+      layout: {
+        type: 'dendrogram',
+        radial: true,
+      },
       behaviors: [
         'drag-canvas',
         'zoom-canvas',
@@ -49,6 +40,7 @@ fetch('https://assets.antv.antgroup.com/g6/flare.json')
         },
       ],
       transforms: ['place-radial-labels'],
+      animation: false,
     });
 
     graph.render();

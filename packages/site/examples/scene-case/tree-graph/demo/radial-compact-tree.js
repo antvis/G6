@@ -6,26 +6,21 @@ fetch('https://assets.antv.antgroup.com/g6/flare.json')
     const graph = new Graph({
       container: 'container',
       autoFit: 'view',
+      padding: 50,
       data: treeToGraphData(data),
       node: {
         style: {
-          size: 20,
+          size: 12,
           labelText: (d) => d.id,
           labelBackground: true,
-        },
-        state: {
-          active: {
-            fill: '#00C9C9',
-          },
+          labelFontSize: 14,
+          labelFontFamily: 'Gill Sans',
         },
       },
       edge: {
         type: 'cubic-radial',
-        state: {
-          active: {
-            lineWidth: 3,
-            stroke: '#009999',
-          },
+        style: {
+          lineWidth: 3,
         },
       },
       layout: [
@@ -33,18 +28,8 @@ fetch('https://assets.antv.antgroup.com/g6/flare.json')
           type: 'compact-box',
           radial: true,
           direction: 'RL',
-          getHeight: () => {
-            return 20;
-          },
-          getWidth: () => {
-            return 20;
-          },
-          getVGap: () => {
-            return 20;
-          },
-          getHGap: () => {
-            return 80;
-          },
+          getVGap: () => 40,
+          getHGap: () => 80,
         },
       ],
       behaviors: [
@@ -60,6 +45,7 @@ fetch('https://assets.antv.antgroup.com/g6/flare.json')
         },
       ],
       transforms: ['place-radial-labels'],
+      animation: false,
     });
 
     graph.render();
