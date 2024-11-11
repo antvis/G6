@@ -2,7 +2,7 @@ import { Text } from '@antv/g';
 import { BaseTransform, ExtensionCategory, Graph, register, treeToGraphData } from '@antv/g6';
 
 const data = {
-  id: 'Overcome procrastination',
+  id: 'Overcome \n procrastination',
   children: [
     {
       id: 'Perfectionism',
@@ -116,7 +116,7 @@ register(ExtensionCategory.TRANSFORM, 'arrange-edge-z-index', ArrangeEdgeZIndex)
 const getNodeSize = (id, depth) => {
   const FONT_FAMILY = 'system-ui, sans-serif';
   return depth === 0
-    ? [measureText({ text: id, fontSize: 24, fontWeight: 'bold', fontFamily: FONT_FAMILY }) + 80, 58]
+    ? [measureText({ text: id, fontSize: 24, fontWeight: 'bold', fontFamily: FONT_FAMILY }) + 80, 70]
     : depth === 1
       ? [measureText({ text: id, fontSize: 18, fontFamily: FONT_FAMILY }) + 50, 42]
       : [2, 30];
@@ -143,8 +143,9 @@ const graph = new Graph({
           labelFill: '#262626',
           labelFontWeight: 'bold',
           labelFontSize: 24,
-          labelOffsetY: 8,
+          labelOffsetY: 4,
           labelPlacement: 'center',
+          labelLineHeight: 24,
         });
       } else if (d.depth === 1) {
         Object.assign(style, {
