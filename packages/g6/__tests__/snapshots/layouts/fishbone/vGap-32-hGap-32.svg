@@ -1,0 +1,398 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g transform="matrix(0.365497,0,0,0.365497,317.251465,164.473679)">
+    <g fill="none">
+      <g fill="none" class="elements">
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M 468,250 L 424,250 L 280,394" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M 468,250 L 188,250 L 172,234" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M 468,250 L 96,250 L -144,490" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M 468,250 L -236,250 L -508,-22" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M 468,250 L -632,250 L -680,298" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M 468,250 L -772,250 L -820,202" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M 280,394 L 392,282 L 360,282" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M 280,394 L 360,314 L 328,314" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M 280,394 L 328,346 L 264,346" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M 264,346 L 296,346 L 280,362" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -144,490 L 64,282 L -128,282" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -144,490 L -32,378 L -128,378" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -144,490 L -96,442 L -160,442" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -128,282 L 32,282 L 16,298" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -128,282 L 0,282 L -48,330" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -128,282 L -64,282 L -112,330" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -48,330 L -32,314 L -64,314" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -112,330 L -96,314 L -128,314" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -128,378 L -64,378 L -80,394" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -128,378 L -96,378 L -112,394" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -160,442 L -128,442 L -144,458" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -508,-22 L -268,218 L -300,218" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -508,-22 L -300,186 L -332,186" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -508,-22 L -332,154 L -364,154" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -508,-22 L -364,122 L -396,122" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -508,-22 L -396,90 L -460,90" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -508,-22 L -460,26 L -556,26" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -460,90 L -428,90 L -444,74" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -556,26 L -492,26 L -508,10" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -556,26 L -524,26 L -540,10" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -680,298 L -664,282 L -696,282" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" marker-start="false" marker-end="false">
+          <g fill="none" marker-start="false" marker-end="false" stroke="transparent" stroke-width="5"/>
+          <g>
+            <path fill="none" d="M -820,202 L -804,218 L -836,218" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 0,0 L 0,0" class="key" stroke-width="5" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" x="484" y="250" transform="matrix(1,0,0,1,484,250)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="264" y="410" transform="matrix(1,0,0,1,264,410)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="344" y="282" transform="matrix(1,0,0,1,344,282)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="312" y="314" transform="matrix(1,0,0,1,312,314)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="248" y="346" transform="matrix(1,0,0,1,248,346)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="264" y="378" transform="matrix(1,0,0,1,264,378)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="156" y="218" transform="matrix(1,0,0,1,156,218)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-160" y="506" transform="matrix(1,0,0,1,-160,506)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-144" y="282" transform="matrix(1,0,0,1,-144,282)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="0" y="314" transform="matrix(1,0,0,1,0,314)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-64" y="346" transform="matrix(1,0,0,1,-64,346)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-80" y="314" transform="matrix(1,0,0,1,-80,314)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-128" y="346" transform="matrix(1,0,0,1,-128,346)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-144" y="314" transform="matrix(1,0,0,1,-144,314)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-144" y="378" transform="matrix(1,0,0,1,-144,378)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-96" y="410" transform="matrix(1,0,0,1,-96,410)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-128" y="410" transform="matrix(1,0,0,1,-128,410)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-176" y="442" transform="matrix(1,0,0,1,-176,442)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-160" y="474" transform="matrix(1,0,0,1,-160,474)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-524" y="-38" transform="matrix(1,0,0,1,-524,-38)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-316" y="218" transform="matrix(1,0,0,1,-316,218)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-348" y="186" transform="matrix(1,0,0,1,-348,186)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-380" y="154" transform="matrix(1,0,0,1,-380,154)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-412" y="122" transform="matrix(1,0,0,1,-412,122)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-476" y="90" transform="matrix(1,0,0,1,-476,90)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-460" y="58" transform="matrix(1,0,0,1,-460,58)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-572" y="26" transform="matrix(1,0,0,1,-572,26)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-524" y="-6" transform="matrix(1,0,0,1,-524,-6)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-556" y="-6" transform="matrix(1,0,0,1,-556,-6)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-696" y="314" transform="matrix(1,0,0,1,-696,314)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-712" y="282" transform="matrix(1,0,0,1,-712,282)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-836" y="186" transform="matrix(1,0,0,1,-836,186)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+        <g fill="none" x="-852" y="218" transform="matrix(1,0,0,1,-852,218)">
+          <g>
+            <path fill="rgba(23,131,255,1)" d="M -16,-16 l 32,0 l 0,32 l-32 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="32" height="32" x="-16" y="-16"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

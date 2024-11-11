@@ -96,6 +96,7 @@ export { layoutDagre } from './layout-dagre';
 export { layoutDendrogramBasic } from './layout-dendrogram-basic';
 export { layoutDendrogramRadial } from './layout-dendrogram-radial';
 export { layoutDendrogramTb } from './layout-dendrogram-tb';
+export { layoutFishbone } from './layout-fishbone';
 export { layoutForce } from './layout-force';
 export { layoutForceCollision } from './layout-force-collision';
 export { layoutForceLattice } from './layout-force-lattice';
