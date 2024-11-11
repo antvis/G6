@@ -30,8 +30,8 @@
     ]
   },
   "devDependencies": {
-    "@antv/g-canvas": "^2.0.23",
-    "@antv/g-plugin-rough-canvas-renderer": "^2.0.23",
+    "@antv/g-canvas": "^2.0.24",
+    "@antv/g-plugin-rough-canvas-renderer": "^2.0.24",
     "@babel/core": "^7.26.0",
     "@babel/plugin-transform-typescript": "^7.25.9",
     "@changesets/cli": "^2.27.9",
@@ -69,7 +69,7 @@
     "prettier-plugin-organize-imports": "^3.2.4",
     "prettier-plugin-packagejson": "^2.5.3",
     "rimraf": "^5.0.10",
-    "rollup": "^4.24.4",
+    "rollup": "^4.25.0",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-visualizer": "^5.12.0",
     "stats.js": "^0.17.0",

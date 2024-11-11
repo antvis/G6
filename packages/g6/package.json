@@ -61,7 +61,7 @@
     "@antv/component": "^2.1.1",
     "@antv/event-emitter": "^0.1.3",
     "@antv/g": "^6.1.7",
-    "@antv/g-canvas": "^2.0.23",
+    "@antv/g-canvas": "^2.0.24",
     "@antv/g-plugin-dragndrop": "^2.0.18",
     "@antv/graphlib": "^2.0.3",
     "@antv/hierarchy": "^0.6.14",
@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@antv/g-svg": "^2.0.20",
-    "@antv/g-webgl": "^2.0.27",
+    "@antv/g-webgl": "^2.0.28",
     "@antv/layout-gpu": "^1.1.7",
     "@antv/layout-wasm": "^1.4.2",
     "@types/hull.js": "^1.0.4",

@@ -43,7 +43,7 @@
     "@antv/dumi-theme-antv": "^0.5.3",
     "@antv/g": "^6.1.7",
     "@antv/g-svg": "^2.0.20",
-    "@antv/g-webgl": "^2.0.27",
+    "@antv/g-webgl": "^2.0.28",
     "@antv/g2": "^5.2.7",
     "@antv/g6": "workspace:*",
     "@antv/g6-extension-3d": "workspace:*",
