@@ -95,7 +95,7 @@ export class FishboneLayout extends BaseLayout {
     const { model } = this.context;
 
     const getSize = this.formatSize(nodeSize);
-    let ribX = getSize(root)[0] / 2 + getRibSep(root);
+    let ribX = getSize(root)[0] + getRibSep(root);
 
     const getHorizontalOffset = (node: NodeData, result = 0): number => {
       result += hGap * ((node.children || []).length + 1);

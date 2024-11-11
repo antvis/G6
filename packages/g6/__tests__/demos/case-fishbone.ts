@@ -1,7 +1,16 @@
 import type { TextStyleProps } from '@antv/g';
 import { Text } from '@antv/g';
-import type { EdgeData, GraphData, NodeData } from '@antv/g6';
-import { BaseLayout, ExtensionCategory, Graph, register, treeToGraphData } from '@antv/g6';
+import {
+  BaseTransform,
+  BaseTransformOptions,
+  CategoricalPalette,
+  DrawData,
+  ExtensionCategory,
+  Graph,
+  register,
+  RuntimeContext,
+  treeToGraphData,
+} from '@antv/g6';
 
 const data = {
   id: '克服拖延',
@@ -30,95 +39,11 @@ const data = {
   ],
 };
 
-const palette = [
-  '#1783FF',
-  '#00C9C9',
-  '#F08F56',
-  '#D580FF',
-  '#7863FF',
-  '#DB9D0D',
-  '#60C42D',
-  '#FF80CA',
-  '#2491B3',
-  '#17C76F',
-];
+interface AssignColorByBranchOptions extends BaseTransformOptions {
+  colors?: CategoricalPalette;
+}
 
 export const caseFishbone: TestCase = async (context) => {
-  const assignElementStyle = (element: any, style: any) => {
-    return { ...element, style: { ...(element.style || {}), ...style } };
-  };
-
-  class FishboneLayout extends BaseLayout {
-    id = 'fishbone';
-
-    async execute(data: GraphData, options: any): Promise<GraphData> {
-      const { rankSep = 30, branchSep = 30, nodeSep = 48, size = 32 } = { ...this.options, ...options };
-
-      const { model } = this.context;
-      const root = model.getRootsData()[0];
-      Object.assign(root.style || {}, { x: 0, y: 0 });
-      const rootSize = typeof size === 'function' ? size(root) : size;
-
-      const nodes: NodeData[] = [root];
-      const edges: EdgeData[] = [];
-
-      let branchStartX = rootSize[0] / 2 + branchSep;
-      let leafNodeMaxX = branchStartX;
-
-      const findEdgeByTarget = (target: string) => (data.edges || []).find((edge) => edge.target === target)!;
-
-      (data.nodes || [])
-        .filter((node: NodeData) => node.depth === 1)
-        .forEach((node: NodeData, i: number) => {
-          const nodeSize = typeof size === 'function' ? size(node) : size;
-
-          const leafNodeIds = node.children || [];
-          const isUpper = i % 2 === 0;
-          const sign = isUpper ? 1 : -1;
-
-          leafNodeIds.forEach((leafNodeId: string, j: number) => {
-            const order = j + 1;
-            const leafNode = model.getNodeLikeDatum(leafNodeId);
-            const leafNodeSize = typeof size === 'function' ? size(leafNode) : size;
-
-            const x = branchStartX + rankSep * (order + 1) + leafNodeSize[0] / 2;
-            const y = sign * nodeSep * order;
-            nodes.push(assignElementStyle(leafNode, { x, y }) as NodeData);
-
-            leafNodeMaxX = Math.max(leafNodeMaxX, x + leafNodeSize[0] / 2);
-            const edge = findEdgeByTarget(leafNodeId);
-            edges.push(
-              assignElementStyle(edge, {
-                stroke: palette[i % palette.length],
-                controlPoints: [[branchStartX + rankSep * order, y]],
-                zIndex: -i,
-              }) as EdgeData,
-            );
-          });
-          nodes.push(
-            assignElementStyle(node, {
-              x: branchStartX + rankSep * (leafNodeIds.length + 1),
-              y: sign * (nodeSep * (leafNodeIds.length + 1) + nodeSize[1] / 2),
-              fill: palette[i % palette.length],
-            }) as NodeData,
-          );
-          const edge = findEdgeByTarget(node.id);
-          edges.push(
-            assignElementStyle(edge, {
-              stroke: palette[i % palette.length],
-              controlPoints: [[branchStartX, 0]],
-              zIndex: -i,
-            }) as EdgeData,
-          );
-          branchStartX = (isUpper ? branchStartX : leafNodeMaxX) + branchSep;
-        });
-
-      return { nodes, edges };
-    }
-  }
-
-  register(ExtensionCategory.LAYOUT, 'fishbone', FishboneLayout);
-
   let textShape: Text | null;
   const measureText = (style: TextStyleProps) => {
     if (!textShape) textShape = new Text({ style });
@@ -126,18 +51,82 @@ export const caseFishbone: TestCase = async (context) => {
     return textShape.getBBox().width;
   };
 
+  class AssignColorByBranch extends BaseTransform {
+    static defaultOptions: Partial<AssignColorByBranchOptions> = {
+      colors: [
+        '#1783FF',
+        '#F08F56',
+        '#D580FF',
+        '#00C9C9',
+        '#7863FF',
+        '#DB9D0D',
+        '#60C42D',
+        '#FF80CA',
+        '#2491B3',
+        '#17C76F',
+      ],
+    };
+
+    constructor(context: RuntimeContext, options: AssignColorByBranchOptions) {
+      super(context, Object.assign({}, AssignColorByBranch.defaultOptions, options));
+    }
+
+    beforeDraw(input: DrawData): DrawData {
+      const nodes = this.context.model.getNodeData();
+
+      if (nodes.length === 0) return input;
+
+      let colorIndex = 0;
+      const dfs = (nodeId: string, color?: string) => {
+        const node = nodes.find((datum) => datum.id == nodeId);
+        if (!node) return;
+
+        node.style ||= {};
+        node.style.color = color || this.options.colors[colorIndex++ % this.options.colors.length];
+        node.children?.forEach((childId) => dfs(childId, node.style?.color as string));
+      };
+
+      nodes.filter((node) => node.depth === 1).forEach((rootNode) => dfs(rootNode.id));
+
+      return input;
+    }
+  }
+
+  class ArrangeEdgeZIndex extends BaseTransform {
+    public beforeDraw(input: DrawData): DrawData {
+      const { model } = this.context;
+      const { nodes, edges } = model.getData();
+
+      const oneLevelNodes = nodes.filter((node) => node.depth === 1);
+      const oneLevelNodeIds = oneLevelNodes.map((node) => node.id);
+
+      edges.forEach((edge) => {
+        if (oneLevelNodeIds.includes(edge.target)) {
+          edge.style ||= {};
+          edge.style.zIndex = oneLevelNodes.length - oneLevelNodes.findIndex((node) => node.id === edge.target);
+        }
+      });
+
+      return input;
+    }
+  }
+
+  register(ExtensionCategory.TRANSFORM, 'assign-color-by-branch', AssignColorByBranch);
+  register(ExtensionCategory.TRANSFORM, 'arrange-edge-z-index', ArrangeEdgeZIndex);
+
   const getNodeSize = (id: string, depth: number) => {
+    const FONT_FAMILY = 'system-ui, sans-serif';
     return depth === 0
-      ? [measureText({ text: id, fontSize: 18, fontWeight: 'bold', fontFamily: 'system-ui, sans-serif' }) + 60, 42]
+      ? [measureText({ text: id, fontSize: 24, fontWeight: 'bold', fontFamily: FONT_FAMILY }) + 80, 58]
       : depth === 1
-        ? [measureText({ text: id, fontSize: 16, fontFamily: 'system-ui, sans-serif' }) + 50, 36]
-        : [measureText({ text: id, fontSize: 12, fontFamily: 'system-ui, sans-serif' }) + 16, 30];
+        ? [measureText({ text: id, fontSize: 18, fontFamily: FONT_FAMILY }) + 50, 42]
+        : [0, 30];
   };
 
   const graph = new Graph({
     ...context,
     autoFit: 'view',
-    padding: 20,
+    padding: 10,
     data: treeToGraphData(data),
     node: {
       type: 'rect',
@@ -146,7 +135,7 @@ export const caseFishbone: TestCase = async (context) => {
           radius: 8,
           size: getNodeSize(d.id, d.depth!),
           labelText: d.id,
-          labelPlacement: 'center',
+          labelPlacement: 'right',
         };
 
         if (d.depth === 0) {
@@ -154,21 +143,23 @@ export const caseFishbone: TestCase = async (context) => {
             fill: '#EFF0F0',
             labelFill: '#262626',
             labelFontWeight: 'bold',
-            labelFontSize: 18,
-            labelOffsetY: 4,
-            ports: [{ placement: 'right' }],
+            labelFontSize: 24,
+            labelOffsetY: 8,
+            labelPlacement: 'center',
           });
         } else if (d.depth === 1) {
           Object.assign(style, {
-            ports: [{ placement: 'bottom' }, { placement: 'top' }],
-            labelFontSize: 14,
+            labelFontSize: 18,
             labelFill: '#fff',
-            labelOffsetY: 2,
+            labelFillOpacity: 0.9,
+            labelOffsetY: 3,
+            labelPlacement: 'center',
+            fill: d.style?.color,
           });
         } else {
           Object.assign(style, {
             fill: 'transparent',
-            ports: [{ placement: 'left' }],
+            labelFontSize: 16,
             labeFill: '#262626',
           });
         }
@@ -177,13 +168,20 @@ export const caseFishbone: TestCase = async (context) => {
     },
     edge: {
       type: 'polyline',
-      style: { lineWidth: 2 },
+      style: {
+        lineWidth: 3,
+        stroke: function (data) {
+          return (this.getNodeData(data.target).style!.color as string) || '#99ADD1';
+        },
+      },
     },
     layout: {
       type: 'fishbone',
-      size: (d: NodeData) => getNodeSize(d.id, d.depth!),
+      hGap: 40,
+      vGap: 60,
     },
     behaviors: ['zoom-canvas', 'drag-canvas'],
+    transforms: ['assign-color-by-branch', 'arrange-edge-z-index'],
     animation: false,
   });
 
