@@ -436,13 +436,6 @@
             <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
-          <g>
-            <path fill="none" d="M -177.47698974609375,-228.06280517578125 L -177.47698974609375,-230.06280517578125" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
-          </g>
-        </g>
         <g fill="none" transform="matrix(1,0,0,1,62.707279,291.045441)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
@@ -825,6 +818,13 @@
                 31
               </text>
             </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M -177.47698974609375,-228.06280517578125 L -177.47698974609375,-230.06280517578125" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,-177.476990,-244.062805)">

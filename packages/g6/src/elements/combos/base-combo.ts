@@ -1,6 +1,5 @@
 import { AABB, BaseStyleProps, DisplayObject, DisplayObjectConfig, Group } from '@antv/g';
 import { isFunction } from '@antv/util';
-import { COMBO_KEY } from '../../constants';
 import type {
   CollapsedMarkerStyleProps,
   Combo,
@@ -196,11 +195,6 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     return '';
   }
 
-  protected getComboZIndex(attributes: Required<S>): number {
-    const ancestors = this.context.model.getAncestorsData(this.id, COMBO_KEY) || [];
-    return ancestors.length;
-  }
-
   public getComboPosition(attributes: Required<S>): Point {
     const { x = 0, y = 0, collapsed, context, childrenData = [] } = attributes;
 
@@ -223,10 +217,9 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   }
 
   protected getComboStyle(attributes: Required<S>) {
-    const { zIndex = this.getComboZIndex(attributes) } = attributes;
     const [x, y] = this.getComboPosition(attributes);
     // x/y will be used to calculate position later.
-    return { x, y, transform: [['translate', x, y]], zIndex };
+    return { x, y, transform: [['translate', x, y]] };
   }
 
   protected updateComboPosition(attributes: Required<S>) {

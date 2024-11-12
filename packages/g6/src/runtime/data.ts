@@ -1,5 +1,5 @@
 import { Graph as GraphLib } from '@antv/graphlib';
-import { get, isUndefined, set, uniq } from '@antv/util';
+import { isNumber, isUndefined, uniq } from '@antv/util';
 import { COMBO_KEY, ChangeType, TREE_KEY } from '../constants';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type {
@@ -102,6 +102,10 @@ export class DataController {
     this.batchCount++;
     this.model.batch(callback);
     this.batchCount--;
+  }
+
+  protected isBatching() {
+    return this.batchCount > 0;
   }
 
   /**
@@ -301,23 +305,28 @@ export class DataController {
     const comboDiff = arrayDiff(originalCombos, modifiedCombos, (combo) => idOf(combo), isElementDataEqual);
 
     this.batch(() => {
-      this.addData({
+      const dataToAdd = {
         nodes: nodeDiff.enter,
         edges: edgeDiff.enter,
         combos: comboDiff.enter,
-      });
+      };
+      this.addData(dataToAdd);
+      this.computeZIndex(dataToAdd, 'add', true);
 
-      this.updateData({
+      const dataToUpdate = {
         nodes: nodeDiff.update,
         edges: edgeDiff.update,
         combos: comboDiff.update,
-      });
+      };
+      this.updateData(dataToUpdate);
+      this.computeZIndex(dataToUpdate, 'update', true);
 
-      this.removeData({
+      const dataToRemove = {
         nodes: nodeDiff.exit.map(idOf),
         edges: edgeDiff.exit.map(idOf),
         combos: comboDiff.exit.map(idOf),
-      });
+      };
+      this.removeData(dataToRemove);
     });
   }
 
@@ -329,6 +338,7 @@ export class DataController {
       this.addNodeData(nodes);
       this.addEdgeData(edges);
     });
+    this.computeZIndex(data, 'add');
   }
 
   public addNodeData(nodes: NodeData[] = []) {
@@ -340,6 +350,8 @@ export class DataController {
       }),
     );
     this.updateNodeLikeHierarchy(nodes);
+
+    this.computeZIndex({ nodes }, 'add');
   }
 
   public addEdgeData(edges: EdgeData[] = []) {
@@ -350,6 +362,8 @@ export class DataController {
         return toGraphlibData(edge);
       }),
     );
+
+    this.computeZIndex({ edges }, 'add');
   }
 
   public addComboData(combos: ComboData[] = []) {
@@ -369,6 +383,8 @@ export class DataController {
     );
 
     this.updateNodeLikeHierarchy(combos);
+
+    this.computeZIndex({ combos }, 'add');
   }
 
   public addChildrenData(parentId: ID, childrenData: NodeData[]) {
@@ -377,6 +393,97 @@ export class DataController {
     this.addNodeData(childrenData);
     this.updateNodeData([{ id: parentId, children: [...(parentData.children || []), ...childrenId] }]);
     this.addEdgeData(childrenId.map((childId) => ({ source: parentId, target: childId })));
+  }
+
+  /**
+   * <zh/> 计算 zIndex
+   *
+   * <en/> Calculate zIndex
+   * @param data - <zh/> 新增的数据 | <en/> newly added data
+   * @param type - <zh/> 操作类型 | <en/> operation type
+   * @param force - <zh/> 忽略批处理 | <en/> ignore batch processing
+   * @remarks
+   * <zh/> 调用该函数的情况：
+   * - 新增元素
+   * - 更新节点/组合的 combo
+   * - 更新节点的 children
+   */
+  protected computeZIndex(data: PartialGraphData, type: 'add' | 'update', force = false) {
+    if (!force && this.isBatching()) return;
+    this.batch(() => {
+      const { nodes = [], edges = [], combos = [] } = data;
+
+      combos.forEach((combo) => {
+        const id = idOf(combo);
+        if (type === 'add' && isNumber(combo.style?.zIndex)) return;
+        if (type === 'update' && !('combo' in combo)) return;
+
+        const ancestors = this.getAncestorsData(id, COMBO_KEY);
+        const zIndex = ancestors.length ? (ancestors[0].style?.zIndex ?? 0) + 1 : 0;
+
+        this.preventUpdateNodeLikeHierarchy(() => {
+          this.updateComboData([{ id, style: { zIndex } }]);
+        });
+      });
+
+      for (let index = 0; index < nodes.length; index++) {
+        const node = nodes[index];
+        const id = idOf(node);
+        if (type === 'add' && isNumber(node.style?.zIndex)) continue;
+        if (type === 'update' && !('combo' in node) && !('children' in node)) continue;
+
+        const ancestors = this.getAncestorsData(id, COMBO_KEY);
+        const zIndex = ancestors.length ? (ancestors[0].style?.zIndex ?? 0) + 2 : 2;
+
+        this.preventUpdateNodeLikeHierarchy(() => {
+          this.updateNodeData([{ id, style: { zIndex } }]);
+        });
+      }
+
+      edges.forEach((edge) => {
+        if (isNumber(edge.style?.zIndex)) return;
+
+        let { id, source, target } = edge;
+        if (!id) id = idOf(edge);
+        else {
+          const datum = this.getEdgeDatum(id);
+          source = datum.source;
+          target = datum.target;
+        }
+
+        if (!source || !target) return;
+
+        const sourceType = this.getElementType(source);
+        const targetType = this.getElementType(target);
+
+        const sourceZIndex = this.getNodeLikeDatum(source)?.style?.zIndex;
+        const targetZIndex = this.getNodeLikeDatum(target)?.style?.zIndex;
+
+        let zIndex = 1;
+        if (sourceType === 'node' && targetType === 'node') {
+          const sZ = sourceZIndex ?? 2;
+          const tZ = targetZIndex ?? 2;
+          // 边的 zIndex 不能大于其任何一个端点
+          // The zIndex of the edge cannot be greater than any of its endpoints
+          zIndex = Math.min(sZ, tZ) - 1;
+        } else if (sourceType === 'combo' && targetType === 'combo') {
+          zIndex = Math.max(sourceZIndex ?? 0, targetZIndex ?? 0) + 1;
+        } else if (sourceType === 'node' && targetType === 'combo') {
+          const sZ = sourceZIndex ?? 2;
+          // 边的 zIndex 不能大于其源节点，但可以大于目标 combo
+          // The zIndex of the edge cannot be greater than its source node, but can be greater than the target combo
+          zIndex = sZ - 1;
+        } else {
+          // sourceType === 'combo' && targetType === 'node'
+          const tZ = targetZIndex ?? 2;
+          // 边的 zIndex 不能大于其目标节点，但可以大于源 combo
+          // The zIndex of the edge cannot be greater than its target node, but can be greater than the source combo
+          zIndex = tZ - 1;
+        }
+
+        this.updateEdgeData([{ id: idOf(edge), style: { zIndex } }]);
+      });
+    });
   }
 
   protected updateNodeLikeHierarchy(data: NodeLikeData[]) {
@@ -427,6 +534,7 @@ export class DataController {
       this.updateComboData(combos);
       this.updateEdgeData(edges);
     });
+    this.computeZIndex(data, 'update');
   }
 
   public updateNodeData(nodes: PartialNodeLikeData<NodeData>[] = []) {
@@ -447,6 +555,8 @@ export class DataController {
 
       this.updateNodeLikeHierarchy(modifiedNodes);
     });
+
+    this.computeZIndex({ nodes }, 'update');
   }
 
   /**
@@ -496,6 +606,8 @@ export class DataController {
         model.mergeEdgeData(id, updatedData);
       });
     });
+
+    this.computeZIndex({ edges }, 'update');
   }
 
   public updateComboData(combos: PartialNodeLikeData<ComboData>[] = []) {
@@ -516,6 +628,8 @@ export class DataController {
 
       this.updateNodeLikeHierarchy(modifiedCombos);
     });
+
+    this.computeZIndex({ combos }, 'update');
   }
 
   /**
@@ -531,15 +645,6 @@ export class DataController {
     if (id === parent) return;
     const elementData = this.getNodeLikeDatum(id);
     const originalParentId = parentIdOf(elementData);
-
-    if (parent) {
-      const parentData = this.getNodeLikeDatum(parent);
-      if (parentData.style?.zIndex !== undefined) {
-        const zIndex = get(parentData, ['style', 'zIndex'], 0) + (this.isCombo(parent) ? 1 : 0);
-        set(elementData, ['style', 'zIndex'], zIndex);
-      }
-    }
-    // Sync data
 
     if (originalParentId !== parent && hierarchyKey === COMBO_KEY) {
       const modifiedDatum = { id, combo: parent };

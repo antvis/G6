@@ -825,9 +825,12 @@ export class ElementController {
         );
       }
     }
+
+    const defaultValue = { node: 2, edge: 1, combo: 0 };
+
     return (
       Math.max(
-        0,
+        defaultValue[elementType] - 1,
         ...Object.values(data)
           .flat()
           .map((datum) => {
