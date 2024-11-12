@@ -20,6 +20,7 @@ import type {
 } from '../types';
 import type { EdgeDirection } from '../types/edge';
 import type { ElementType } from '../types/element';
+import { isCollapsed } from '../utils/collapsibility';
 import { cloneElementData, isElementDataEqual, mergeElementsData } from '../utils/data';
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
@@ -407,6 +408,11 @@ export class DataController {
    * - 新增元素
    * - 更新节点/组合的 combo
    * - 更新节点的 children
+   *
+   * <en/> The situation of calling this function:
+   * - Add element
+   * - Update the combo of the node/combo
+   * - Update the children of the node
    */
   protected computeZIndex(data: PartialGraphData, type: 'add' | 'update', force = false) {
     if (!force && this.isBatching()) return;
@@ -418,27 +424,33 @@ export class DataController {
         if (type === 'add' && isNumber(combo.style?.zIndex)) return;
         if (type === 'update' && !('combo' in combo)) return;
 
-        const ancestors = this.getAncestorsData(id, COMBO_KEY);
-        const zIndex = ancestors.length ? (ancestors[0].style?.zIndex ?? 0) + 1 : 0;
+        const parent = this.getParentData(id, COMBO_KEY);
+        const zIndex = parent ? (parent.style?.zIndex ?? 0) + 1 : 0;
 
         this.preventUpdateNodeLikeHierarchy(() => {
           this.updateComboData([{ id, style: { zIndex } }]);
         });
       });
 
-      for (let index = 0; index < nodes.length; index++) {
-        const node = nodes[index];
+      nodes.forEach((node) => {
         const id = idOf(node);
-        if (type === 'add' && isNumber(node.style?.zIndex)) continue;
-        if (type === 'update' && !('combo' in node) && !('children' in node)) continue;
+        if (type === 'add' && isNumber(node.style?.zIndex)) return;
+        if (type === 'update' && !('combo' in node) && !('children' in node)) return;
 
-        const ancestors = this.getAncestorsData(id, COMBO_KEY);
-        const zIndex = ancestors.length ? (ancestors[0].style?.zIndex ?? 0) + 2 : 2;
+        let zIndex = 0;
+
+        const comboParent = this.getParentData(id, COMBO_KEY);
+        if (comboParent) {
+          zIndex = (comboParent.style?.zIndex || 0) + 1;
+        } else {
+          const nodeParent = this.getParentData(id, TREE_KEY);
+          if (nodeParent) zIndex = nodeParent?.style?.zIndex || 0;
+        }
 
         this.preventUpdateNodeLikeHierarchy(() => {
           this.updateNodeData([{ id, style: { zIndex } }]);
         });
-      }
+      });
 
       edges.forEach((edge) => {
         if (isNumber(edge.style?.zIndex)) return;
@@ -453,37 +465,49 @@ export class DataController {
 
         if (!source || !target) return;
 
-        const sourceType = this.getElementType(source);
-        const targetType = this.getElementType(target);
+        const sourceZIndex = this.getNodeLikeDatum(source)?.style?.zIndex || 0;
+        const targetZIndex = this.getNodeLikeDatum(target)?.style?.zIndex || 0;
 
-        const sourceZIndex = this.getNodeLikeDatum(source)?.style?.zIndex;
-        const targetZIndex = this.getNodeLikeDatum(target)?.style?.zIndex;
-
-        let zIndex = 1;
-        if (sourceType === 'node' && targetType === 'node') {
-          const sZ = sourceZIndex ?? 2;
-          const tZ = targetZIndex ?? 2;
-          // 边的 zIndex 不能大于其任何一个端点
-          // The zIndex of the edge cannot be greater than any of its endpoints
-          zIndex = Math.min(sZ, tZ) - 1;
-        } else if (sourceType === 'combo' && targetType === 'combo') {
-          zIndex = Math.max(sourceZIndex ?? 0, targetZIndex ?? 0) + 1;
-        } else if (sourceType === 'node' && targetType === 'combo') {
-          const sZ = sourceZIndex ?? 2;
-          // 边的 zIndex 不能大于其源节点，但可以大于目标 combo
-          // The zIndex of the edge cannot be greater than its source node, but can be greater than the target combo
-          zIndex = sZ - 1;
-        } else {
-          // sourceType === 'combo' && targetType === 'node'
-          const tZ = targetZIndex ?? 2;
-          // 边的 zIndex 不能大于其目标节点，但可以大于源 combo
-          // The zIndex of the edge cannot be greater than its target node, but can be greater than the source combo
-          zIndex = tZ - 1;
-        }
-
-        this.updateEdgeData([{ id: idOf(edge), style: { zIndex } }]);
+        this.updateEdgeData([{ id: idOf(edge), style: { zIndex: Math.max(sourceZIndex, targetZIndex) - 1 } }]);
       });
     });
+  }
+
+  /**
+   * <zh/> 计算元素置顶后的 zIndex
+   *
+   * <en/> Calculate the zIndex after the element is placed on top
+   * @param id - <zh/> 元素 ID | <en/> ID of the element
+   * @returns <zh/> zIndex | <en/> zIndex
+   */
+  public getFrontZIndex(id: ID) {
+    const elementType = this.getElementType(id);
+    const elementData = this.getElementDataById(id);
+    const data = this.getData();
+
+    // 排除当前元素 / Exclude the current element
+    Object.assign(data, {
+      [`${elementType}s`]: data[`${elementType}s`].filter((element) => idOf(element) !== id),
+    });
+
+    if (elementType === 'combo') {
+      // 如果 combo 展开，则排除 combo 的子节点/combo 及内部边
+      // If the combo is expanded, exclude the child nodes/combos of the combo and the internal edges
+      if (!isCollapsed(elementData as ComboData)) {
+        const ancestorIds = new Set(this.getAncestorsData(id, COMBO_KEY).map(idOf));
+        data.nodes = data.nodes.filter((element) => !ancestorIds.has(idOf(element)));
+        data.combos = data.combos.filter((element) => !ancestorIds.has(idOf(element)));
+        data.edges = data.edges.filter(({ source, target }) => !ancestorIds.has(source) && !ancestorIds.has(target));
+      }
+    }
+
+    return Math.max(
+      elementData.style?.zIndex || 0,
+      0,
+      ...Object.values(data)
+        .flat()
+        .map((datum) => (datum?.style?.zIndex || 0) + 1),
+    );
   }
 
   protected updateNodeLikeHierarchy(data: NodeLikeData[]) {

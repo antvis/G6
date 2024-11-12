@@ -132,20 +132,20 @@ describe('Graph', () => {
     });
     expect(graph.getData()).toEqual({
       nodes: [
-        { id: 'node-1', data: {}, style: { zIndex: 2 } },
-        { id: 'node-2', data: {}, style: { zIndex: 2 } },
+        { id: 'node-1', data: {}, style: { zIndex: 0 } },
+        { id: 'node-2', data: {}, style: { zIndex: 0 } },
       ],
-      edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { zIndex: 1 } }],
+      edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { zIndex: -1 } }],
       combos: [],
     });
 
     graph.updateData({ edges: [{ id: 'edge-1', style: { lineWidth: 5 } }] });
     expect(graph.getData()).toEqual({
       nodes: [
-        { id: 'node-1', data: {}, style: { zIndex: 2 } },
-        { id: 'node-2', data: {}, style: { zIndex: 2 } },
+        { id: 'node-1', data: {}, style: { zIndex: 0 } },
+        { id: 'node-2', data: {}, style: { zIndex: 0 } },
       ],
-      edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { lineWidth: 5, zIndex: 1 } }],
+      edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { lineWidth: 5, zIndex: -1 } }],
       combos: [],
     });
   });
@@ -160,22 +160,22 @@ describe('Graph', () => {
     g.updateData((data) => {
       expect(data).toEqual({
         nodes: [
-          { id: 'node-1', data: {}, style: { zIndex: 2 } },
-          { id: 'node-2', data: {}, style: { zIndex: 2 } },
+          { id: 'node-1', data: {}, style: { zIndex: 0 } },
+          { id: 'node-2', data: {}, style: { zIndex: 0 } },
         ],
-        edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { zIndex: 1 } }],
+        edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { zIndex: -1 } }],
         combos: [],
       });
       return { nodes: [{ id: 'node-1', data: { value: 1 } }] };
     });
-    expect(g.getNodeData('node-1')).toEqual({ id: 'node-1', data: { value: 1 }, style: { zIndex: 2 } });
+    expect(g.getNodeData('node-1')).toEqual({ id: 'node-1', data: { value: 1 }, style: { zIndex: 0 } });
     g.setData((data) => {
       expect(data).toEqual({
         nodes: [
-          { id: 'node-1', data: { value: 1 }, style: { zIndex: 2 } },
-          { id: 'node-2', data: {}, style: { zIndex: 2 } },
+          { id: 'node-1', data: { value: 1 }, style: { zIndex: 0 } },
+          { id: 'node-2', data: {}, style: { zIndex: 0 } },
         ],
-        edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { zIndex: 1 } }],
+        edges: [{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { zIndex: -1 } }],
         combos: [],
       });
       return { nodes: [], edges: [] };
@@ -188,7 +188,7 @@ describe('Graph', () => {
       });
       return { nodes: [{ id: 'node-1' }] };
     });
-    expect(g.getNodeData('node-1')).toEqual({ id: 'node-1', data: {}, style: { zIndex: 2 } });
+    expect(g.getNodeData('node-1')).toEqual({ id: 'node-1', data: {}, style: { zIndex: 0 } });
   });
 
   it('getElementData', () => {
@@ -227,10 +227,10 @@ describe('Graph', () => {
     graph.updateEdgeData([{ id: 'edge-2', style: { lineWidth: 10 } }]);
     graph.updateComboData([{ id: 'combo-1', style: { stroke: 'red' } }]);
     expect(graph.getNodeData()).toEqual([
-      { id: 'node-1', data: {}, style: { zIndex: 2 } },
-      { id: 'node-2', data: {}, style: { zIndex: 2 } },
-      { id: 'node-3', data: {}, combo: 'combo-1', style: { x: 100, y: 100, zIndex: 3 } },
-      { id: 'node-4', data: {}, combo: 'combo-1', style: { zIndex: 3 } },
+      { id: 'node-1', data: {}, style: { zIndex: 0 } },
+      { id: 'node-2', data: {}, style: { zIndex: 0 } },
+      { id: 'node-3', data: {}, combo: 'combo-1', style: { x: 100, y: 100, zIndex: 2 } },
+      { id: 'node-4', data: {}, combo: 'combo-1', style: { zIndex: 2 } },
     ]);
     expect(graph.getEdgeData().map(idOf)).toEqual(['edge-1', 'edge-2']);
     expect(graph.getComboData()).toEqual([{ id: 'combo-1', data: {}, style: { stroke: 'red', zIndex: 1 } }]);
@@ -248,20 +248,20 @@ describe('Graph', () => {
       },
     });
     g.addNodeData((data) => {
-      expect(data).toEqual([{ id: 'node-1', data: {}, style: { zIndex: 2 } }]);
+      expect(data).toEqual([{ id: 'node-1', data: {}, style: { zIndex: 0 } }]);
       return [{ id: 'node-2' }];
     });
     expect(g.getNodeData().map(idOf)).toEqual(['node-1', 'node-2']);
     g.updateNodeData((data) => {
       expect(data).toEqual([
-        { id: 'node-1', data: {}, style: { zIndex: 2 } },
-        { id: 'node-2', data: {}, style: { zIndex: 2 } },
+        { id: 'node-1', data: {}, style: { zIndex: 0 } },
+        { id: 'node-2', data: {}, style: { zIndex: 0 } },
       ]);
       return [{ id: 'node-2', style: { x: 100 } }];
     });
     expect(g.getNodeData()).toEqual([
-      { id: 'node-1', data: {}, style: { zIndex: 2 } },
-      { id: 'node-2', data: {}, style: { x: 100, zIndex: 2 } },
+      { id: 'node-1', data: {}, style: { zIndex: 0 } },
+      { id: 'node-2', data: {}, style: { x: 100, zIndex: 0 } },
     ]);
 
     g.addEdgeData((data) => {
@@ -270,7 +270,7 @@ describe('Graph', () => {
     });
     expect(g.getEdgeData().map(idOf)).toEqual(['edge-1']);
     g.updateEdgeData((data) => {
-      expect(data).toEqual([{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { zIndex: 1 } }]);
+      expect(data).toEqual([{ id: 'edge-1', source: 'node-1', target: 'node-2', data: {}, style: { zIndex: -1 } }]);
       return [{ id: 'edge-1', style: { lineWidth: 5, zIndex: 1 } }];
     });
     expect(g.getEdgeData()).toEqual([
@@ -328,7 +328,7 @@ describe('Graph', () => {
   });
 
   it('getNeighborNodesData', () => {
-    expect(graph.getNeighborNodesData('node-1')).toEqual([{ id: 'node-2', data: {}, style: { zIndex: 2 } }]);
+    expect(graph.getNeighborNodesData('node-1')).toEqual([{ id: 'node-2', data: {}, style: { zIndex: 0 } }]);
   });
 
   it('getParentData', () => {
@@ -377,7 +377,7 @@ describe('Graph', () => {
     expect(graph.getElementState('node-1')).toEqual(['selected']);
     expect(graph.getElementState('node-2')).toEqual([]);
     expect(graph.getElementDataByState('node', 'selected')).toEqual([
-      { id: 'node-1', data: {}, style: { zIndex: 2 }, states: ['selected'] },
+      { id: 'node-1', data: {}, style: { zIndex: 0 }, states: ['selected'] },
     ]);
   });
 
@@ -387,7 +387,7 @@ describe('Graph', () => {
     await graph.setElementZIndex({ 'node-1': 0 });
     expect(graph.getElementZIndex('node-1')).toBe(0);
 
-    const baseNodeZIndex = 2;
+    const baseNodeZIndex = 0;
     await graph.frontElement('node-1');
     expect(graph.getElementZIndex('node-1')).toBe(baseNodeZIndex + 1);
     expect(graph.getElementZIndex('node-2')).toBe(baseNodeZIndex);

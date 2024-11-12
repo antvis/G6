@@ -14,12 +14,15 @@ describe('add edge in combo', () => {
 
     await graph.draw();
 
+    expect(graph.getComboData('combo-1').style?.zIndex).toBe(0);
+    expect(graph.getNodeData('node-1').style?.zIndex).toBe(1);
+
     graph.addEdgeData([{ id: 'edge', source: 'node-1', target: 'node-2' }]);
     await graph.draw();
 
-    expect(graph.getEdgeData('edge').style?.zIndex).toBe(1);
+    expect(graph.getEdgeData('edge').style?.zIndex).toBe(0);
     // @ts-expect-error skip the type check
-    expect(graph.context.element?.getElement('edge')?.style.zIndex).toBe(1);
+    expect(graph.context.element?.getElement('edge')?.style.zIndex).toBe(0);
   });
 
   it('add edge in combo with zIndex', async () => {
@@ -41,13 +44,13 @@ describe('add edge in combo', () => {
     await graph.frontElement('combo-1');
 
     expect(graph.getComboData('combo-1').style?.zIndex).toBe(5 + 1);
-    expect(graph.getNodeData('node-1').style?.zIndex).toBe(5 + 1 + 2);
+    expect(graph.getNodeData('node-1').style?.zIndex).toBe(5 + 1 + 1);
 
     graph.addEdgeData([{ id: 'edge', source: 'node-1', target: 'node-2' }]);
     await graph.draw();
 
-    expect(graph.getEdgeData('edge').style?.zIndex).toBe(5 + 1 + 1);
+    expect(graph.getEdgeData('edge').style?.zIndex).toBe(5 + 1);
     // @ts-expect-error skip the type check
-    expect(graph.context.element?.getElement('edge')?.style.zIndex).toBe(5 + 1 + 1);
+    expect(graph.context.element?.getElement('edge')?.style.zIndex).toBe(5 + 1);
   });
 });

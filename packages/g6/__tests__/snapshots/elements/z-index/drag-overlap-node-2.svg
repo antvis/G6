@@ -3,6 +3,39 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 180.36162500455688,67.52431817353293 L 144.63837499544312,132.47568182646705" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 70,50 L 180,50" class="key" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 115,150 L 145,150" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 188,66 L 137,134" class="key" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none">
+          <g fill="none" stroke="transparent" stroke-width="3"/>
+          <g>
+            <path fill="none" d="M 135.8997670119083,133.23112767398726 L 179.1002329880917,66.76887232601274" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 113,134 L 62,66" class="key" stroke-width="3" stroke="transparent"/>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,125,150)">
+          <g>
+            <circle fill="rgba(225,87,89,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="20"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,22)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                node-3
+              </text>
+            </g>
+          </g>
+        </g>
         <g fill="none" transform="matrix(1,0,0,1,150.500000,273)">
           <g>
             <circle fill="rgba(78,121,167,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="107.64448311567081"/>
@@ -35,39 +68,6 @@
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 combo-2
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
-          <g>
-            <path fill="none" d="M 180.36162500455688,67.52431817353293 L 144.63837499544312,132.47568182646705" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 70,50 L 180,50" class="key" stroke-width="3" stroke="transparent"/>
-          </g>
-        </g>
-        <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
-          <g>
-            <path fill="none" d="M 115,150 L 145,150" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 188,66 L 137,134" class="key" stroke-width="3" stroke="transparent"/>
-          </g>
-        </g>
-        <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
-          <g>
-            <path fill="none" d="M 135.8997670119083,133.23112767398726 L 179.1002329880917,66.76887232601274" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 113,134 L 62,66" class="key" stroke-width="3" stroke="transparent"/>
-          </g>
-        </g>
-        <g fill="none" transform="matrix(1,0,0,1,125,150)">
-          <g>
-            <circle fill="rgba(225,87,89,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="20"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,22)">
-            <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                node-3
               </text>
             </g>
           </g>

@@ -35,7 +35,7 @@ describe('element z-index', () => {
   });
 
   it('to', async () => {
-    graph.setElementZIndex({ 'node-2': 0 });
+    graph.setElementZIndex({ 'node-2': -1 });
 
     await expect(graph).toMatchSnapshot(__filename);
   });

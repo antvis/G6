@@ -3,42 +3,6 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" transform="matrix(1,0,0,1,150.500000,273)">
-          <g>
-            <circle fill="rgba(78,121,167,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="107.64448311567081"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,107.644485)">
-            <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
-                combo-1
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" transform="matrix(1,0,0,1,350,250)">
-          <g>
-            <circle fill="rgba(118,183,178,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="26"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,26)">
-            <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
-                combo-4
-              </text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" transform="matrix(1,0,0,1,150.500000,261.500000)">
-          <g>
-            <circle fill="rgba(242,142,44,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="60.148649195139875"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,60.148647)">
-            <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
-                combo-2
-              </text>
-            </g>
-          </g>
-        </g>
         <g fill="none">
           <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
@@ -80,6 +44,42 @@
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
                 node-3
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,150.500000,273)">
+          <g>
+            <circle fill="rgba(78,121,167,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="107.64448311567081"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,107.644485)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
+                combo-1
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,350,250)">
+          <g>
+            <circle fill="rgba(118,183,178,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="26"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,26)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
+                combo-4
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,150.500000,261.500000)">
+          <g>
+            <circle fill="rgba(242,142,44,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="60.148649195139875"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,60.148647)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
+                combo-2
               </text>
             </g>
           </g>
