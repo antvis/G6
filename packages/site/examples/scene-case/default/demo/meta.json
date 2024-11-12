@@ -21,38 +21,6 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IytGRZ8WaSMAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "indented-tree.js",
-      "title": {
-        "zh": "缩进树",
-        "en": "Indented Tree"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*r0-SS5dRxykAAAAAAAAAAAAADmJ7AQ/original"
-    },
-    {
-      "filename": "mindmap.js",
-      "title": {
-        "zh": "思维导图",
-        "en": "Mind Map"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*P39BR7WoI5oAAAAAAAAAAAAADmJ7AQ/original"
-    },
-    {
-      "filename": "radial-dendrogram.js",
-      "title": {
-        "zh": "径向生态树",
-        "en": "Radial Dendrogram"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WRXHSrxqBYsAAAAAAAAAAAAADmJ7AQ/original"
-    },
-    {
-      "filename": "radial-compact-tree.js",
-      "title": {
-        "zh": "径向紧凑树",
-        "en": "Radial Compact Tree"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*uKYKSYJ6iMYAAAAAAAAAAAAADmJ7AQ/original"
-    },
-    {
       "filename": "fund-flow.js",
       "title": {
         "zh": "资金流向图",
@@ -91,14 +59,6 @@
         "en": "Why Do Cats?"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ug4vTJA7QbMAAAAAAAAAAAAADmJ7AQ/original"
-    },
-    {
-      "filename": "fishbone.js",
-      "title": {
-        "zh": "克服拖延症鱼骨图",
-        "en": "Anti-Procrastination Fishbone Diagram"
-      },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VusPQ50s3uEAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

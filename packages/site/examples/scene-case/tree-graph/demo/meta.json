@@ -1,0 +1,56 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "indented-tree.js",
+      "title": {
+        "zh": "缩进树",
+        "en": "Indented Tree"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*r0-SS5dRxykAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "mindmap.js",
+      "title": {
+        "zh": "思维导图",
+        "en": "Mind Map"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*xryoSY8EQWoAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "anti-procrastination-fishbone.js",
+      "title": {
+        "zh": "克服拖延症（决策型鱼骨图）",
+        "en": "Anti-Procrastination Fishbone Diagram"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*olIATZ-4qMEAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "product-fishbone.js",
+      "title": {
+        "zh": "分析产品收益（原因型鱼骨图）",
+        "en": "Product Profitability Below Expectations"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*I0VYSYD_3bUAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "radial-dendrogram.js",
+      "title": {
+        "zh": "径向生态树",
+        "en": "Radial Dendrogram"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tK5USKBOc2kAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "radial-compact-tree.js",
+      "title": {
+        "zh": "径向紧凑树",
+        "en": "Radial Compact Tree"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9iPNRpKfb3IAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

@@ -15,3 +15,5 @@ export {
   RandomLayout,
 } from '@antv/layout';
 export { BaseLayout } from './base-layout';
+export { FishboneLayout } from './fishbone';
+export type { FishboneLayoutOptions } from './fishbone';

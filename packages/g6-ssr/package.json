@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@antv/g": "^6.1.7",
-    "@antv/g-canvas": "^2.0.23",
+    "@antv/g-canvas": "^2.0.24",
     "@antv/g6": "workspace:*",
     "cac": "^6.7.14",
     "canvas": "^2.11.2"

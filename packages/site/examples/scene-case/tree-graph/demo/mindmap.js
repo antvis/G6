@@ -21,33 +21,21 @@ const style = document.createElement('style');
 style.innerHTML = `@import url('${iconfont.css}');`;
 document.head.appendChild(style);
 
-const COLORS = [
-  '#1783FF',
-  '#00C9C9',
-  '#F08F56',
-  '#D580FF',
-  '#7863FF',
-  '#DB9D0D',
-  '#60C42D',
-  '#FF80CA',
-  '#2491B3',
-  '#17C76F',
-];
-
 const RootNodeStyle = {
   fill: '#EFF0F0',
   labelFill: '#262626',
-  labelFontSize: 16,
+  labelFontSize: 24,
   labelFontWeight: 600,
+  labelOffsetY: 8,
   labelPlacement: 'center',
   ports: [{ placement: 'right' }, { placement: 'left' }],
-  radius: 4,
+  radius: 8,
 };
 
 const NodeStyle = {
   fill: 'transparent',
   labelPlacement: 'center',
-  labelFontSize: 12,
+  labelFontSize: 16,
   ports: [{ placement: 'right-bottom' }, { placement: 'left-bottom' }],
 };
 
@@ -64,9 +52,15 @@ const measureText = (text) => {
 };
 
 const getNodeWidth = (nodeId, isRoot) => {
-  return isRoot
-    ? measureText({ text: nodeId, fontSize: RootNodeStyle.labelFontSize }) + 20
-    : measureText({ text: nodeId, fontSize: NodeStyle.labelFontSize }) + 30;
+  const padding = isRoot ? 40 : 30;
+  const nodeStyle = isRoot ? RootNodeStyle : NodeStyle;
+  return measureText({ text: nodeId, fontSize: nodeStyle.labelFontSize, fontFamily: 'Gill Sans' }) + padding;
+};
+
+const getNodeSize = (nodeId, isRoot) => {
+  const width = getNodeWidth(nodeId, isRoot);
+  const height = isRoot ? 48 : 32;
+  return [width, height];
 };
 
 class MindmapNode extends BaseNode {
@@ -186,7 +180,7 @@ class MindmapNode extends BaseNode {
   }
 
   getAddBarStyle(attributes) {
-    const { collapsed, showIcon, direction, color = COLORS[0] } = attributes;
+    const { collapsed, showIcon, direction, color = '#1783FF' } = attributes;
     if (collapsed || !showIcon) return false;
     const [width, height] = this.getSize(attributes);
 
@@ -352,42 +346,51 @@ class CollapseExpandTree extends BaseBehavior {
   };
 }
 
-class AssignElementColor extends BaseTransform {
-  beforeDraw(data) {
-    const { nodes = [], edges = [] } = this.context.graph.getData();
+class AssignColorByBranch extends BaseTransform {
+  static defaultOptions = {
+    colors: [
+      '#1783FF',
+      '#F08F56',
+      '#D580FF',
+      '#00C9C9',
+      '#7863FF',
+      '#DB9D0D',
+      '#60C42D',
+      '#FF80CA',
+      '#2491B3',
+      '#17C76F',
+    ],
+  };
 
-    const nodeColorMap = new Map();
+  constructor(context, options) {
+    super(context, Object.assign({}, AssignColorByBranch.defaultOptions, options));
+  }
+
+  beforeDraw(input) {
+    const nodes = this.context.model.getNodeData();
+
+    if (nodes.length === 0) return input;
 
     let colorIndex = 0;
     const dfs = (nodeId, color) => {
       const node = nodes.find((datum) => datum.id == nodeId);
       if (!node) return;
 
-      if (node.depth !== 0) {
-        const nodeColor = color || COLORS[colorIndex++ % COLORS.length];
-        node.style ||= {};
-        node.style.color = nodeColor;
-        nodeColorMap.set(nodeId, nodeColor);
-      }
-
-      node.children?.forEach((childId) => dfs(childId, node.style.color));
+      node.style ||= {};
+      node.style.color = color || this.options.colors[colorIndex++ % this.options.colors.length];
+      node.children?.forEach((childId) => dfs(childId, node.style?.color));
     };
 
-    nodes.filter((node) => node.depth === 0).forEach((rootNode) => dfs(rootNode.id));
+    nodes.filter((node) => node.depth === 1).forEach((rootNode) => dfs(rootNode.id));
 
-    edges.forEach((edge) => {
-      edge.style ||= {};
-      edge.style.stroke = nodeColorMap.get(edge.target);
-    });
-
-    return data;
+    return input;
   }
 }
 
 register(ExtensionCategory.NODE, 'mindmap', MindmapNode);
 register(ExtensionCategory.EDGE, 'mindmap', MindmapEdge);
 register(ExtensionCategory.BEHAVIOR, 'collapse-expand-tree', CollapseExpandTree);
-register(ExtensionCategory.TRANSFORM, 'assign-element-color', AssignElementColor);
+register(ExtensionCategory.TRANSFORM, 'assign-color-by-branch', AssignColorByBranch);
 
 const getNodeSide = (nodeData, parentData) => {
   if (!parentData) return 'center';
@@ -413,9 +416,9 @@ fetch('https://assets.antv.antgroup.com/g6/algorithm-category.json')
           return {
             direction,
             labelText: idOf(d),
-            size: [getNodeWidth(idOf(d), isRoot), 30],
-            // 通过设置节点标签背景来扩大节点的交互区域
-            // Enlarge the interactive area of the node by setting label background
+            size: getNodeSize(idOf(d), isRoot),
+            labelFontFamily: 'Gill Sans',
+            // 通过设置节点标签背景来扩大交互区域 | Expand the interaction area by setting the node label background
             labelBackground: true,
             labelBackgroundFill: 'transparent',
             labelPadding: direction === 'left' ? [2, 0, 10, 40] : [2, 40, 10, 0],
@@ -425,7 +428,12 @@ fetch('https://assets.antv.antgroup.com/g6/algorithm-category.json')
       },
       edge: {
         type: 'mindmap',
-        style: { lineWidth: 2 },
+        style: {
+          lineWidth: 3,
+          stroke: function (data) {
+            return this.getNodeData(data.target).style.color || '#99ADD1';
+          },
+        },
       },
       layout: {
         type: 'mindmap',
@@ -437,7 +445,7 @@ fetch('https://assets.antv.antgroup.com/g6/algorithm-category.json')
         animation: false,
       },
       behaviors: ['drag-canvas', 'zoom-canvas', 'collapse-expand-tree'],
-      transforms: ['assign-element-color'],
+      transforms: ['assign-color-by-branch'],
       animation: false,
     });
 
