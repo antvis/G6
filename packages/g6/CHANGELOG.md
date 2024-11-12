@@ -1,5 +1,12 @@
 # @antv/g6
 
+## 5.0.30
+
+### Patch Changes
+
+- e2f9b82: adpat g enableMassiveParsedStyleAssignOptimization
+- 555de80: fix element z-index logic
+
 ## 5.0.29
 
 ### Patch Changes
