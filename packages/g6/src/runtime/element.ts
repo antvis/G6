@@ -228,12 +228,6 @@ export class ElementController {
     return this.elementMap[id] as T;
   }
 
-  public getElementZIndex(id: ID): number {
-    const element = this.getElement(id);
-    if (!element) return 0;
-    return element.style.zIndex ?? 0;
-  }
-
   public getNodes() {
     return this.context.model.getNodeData().map(({ id }) => this.elementMap[id]) as Node[];
   }
@@ -393,11 +387,11 @@ export class ElementController {
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum), context);
 
-    if (context.stage === 'expand') {
-      // 如果是展开的元素，需要将其 zIndex 提升至目标元素的上层
-      const targetZIndex = this.getElementZIndex(context.target!);
-      if (!style.zIndex || style.zIndex < targetZIndex) style.zIndex = targetZIndex + (style.zIndex ?? 0);
-    }
+    // if (context.stage === 'expand') {
+    //   // 如果是展开的元素，需要将其 zIndex 提升至目标元素的上层
+    //   const targetZIndex = this.getElementZIndex(context.target!);
+    //   if (!style.zIndex || style.zIndex < targetZIndex) style.zIndex = targetZIndex + (style.zIndex ?? 0);
+    // }
     const element = this.container.appendChild(
       new Ctor({
         id,
@@ -792,50 +786,6 @@ export class ElementController {
         },
       },
     )?.finished;
-  }
-
-  /**
-   * <zh/> 计算元素置顶后的 zIndex
-   *
-   * <en/> Calculate the zIndex after the element is placed on top
-   * @param id - <zh/> 元素 ID | <en/> ID of the element
-   * @returns <zh/> zIndex | <en/> zIndex
-   */
-  public getFrontZIndex(id: ID) {
-    const { model } = this.context;
-
-    const elementType = model.getElementType(id);
-    const elementData = model.getElementDataById(id);
-    const data = model.getData();
-
-    // 排除当前元素 / Exclude the current element
-    Object.assign(data, {
-      [`${elementType}s`]: data[`${elementType}s`].filter((element) => idOf(element) !== id),
-    });
-
-    if (elementType === 'combo') {
-      // 如果 combo 展开，则排除 combo 的子节点/combo 及内部边
-      // If the combo is expanded, exclude the child nodes/combos of the combo and the internal edges
-      if (!isCollapsed(elementData as ComboData)) {
-        const ancestors = model.getAncestorsData(id, COMBO_KEY).map(idOf);
-        data.nodes = data.nodes.filter((element) => !ancestors.includes(idOf(element)));
-        data.combos = data.combos.filter((element) => !ancestors.includes(idOf(element)));
-        data.edges = data.edges.filter(
-          ({ source, target }) => ancestors.includes(source) && ancestors.includes(target),
-        );
-      }
-    }
-    return (
-      Math.max(
-        0,
-        ...Object.values(data)
-          .flat()
-          .map((datum) => {
-            const id = idOf(datum);
-            return this.getElementZIndex(id);
-          }),
-      ) + 1
-    );
   }
 
   public destroy() {

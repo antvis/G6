@@ -46,6 +46,7 @@ import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
 import { format } from '../utils/print';
 import { subtract } from '../utils/vector';
+import { getZIndexOf } from '../utils/z-index';
 import { Animation } from './animation';
 import { BatchController } from './batch';
 import { BehaviorController } from './behavior';
@@ -1674,21 +1675,21 @@ export class Graph extends EventEmitter {
    */
   public async frontElement(id: ID | ID[]): Promise<void> {
     const ids = Array.isArray(id) ? id : [id];
-    const { model, element } = this.context;
+    const { model } = this.context;
     const zIndexes: Record<ID, number> = {};
 
     ids.map((_id) => {
-      const zIndex = element!.getFrontZIndex(_id);
+      const zIndex = model.getFrontZIndex(_id);
       const elementType = model.getElementType(_id);
       if (elementType === 'combo') {
         const ancestor = model.getAncestorsData(_id, COMBO_KEY).at(-1) || this.getComboData(_id);
-        const combos = [ancestor, ...model.getDescendantsData(idOf(ancestor))];
-        const delta = zIndex - element!.getElementZIndex(_id);
-        combos.forEach((combo) => {
+        const descendants = [ancestor, ...model.getDescendantsData(idOf(ancestor))];
+        const delta = zIndex - getZIndexOf(ancestor);
+        descendants.forEach((combo) => {
           zIndexes[idOf(combo)] = this.getElementZIndex(idOf(combo)) + delta;
         });
 
-        const { internal } = getSubgraphRelatedEdges(combos.map(idOf), (id) => model.getRelatedEdgesData(id));
+        const { internal } = getSubgraphRelatedEdges(descendants.map(idOf), (id) => model.getRelatedEdgesData(id));
         internal.forEach((edge) => {
           const edgeId = idOf(edge);
           zIndexes[edgeId] = this.getElementZIndex(edgeId) + delta;
@@ -1708,8 +1709,7 @@ export class Graph extends EventEmitter {
    * @apiCategory element
    */
   public getElementZIndex(id: ID): number {
-    const { model, element } = this.context;
-    return model.getElementDataById(id)?.style?.zIndex ?? element!.getElementZIndex(id);
+    return getZIndexOf(this.context.model.getElementDataById(id));
   }
 
   /**

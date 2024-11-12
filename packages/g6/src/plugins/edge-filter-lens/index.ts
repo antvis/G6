@@ -128,6 +128,7 @@ const defaultLensStyle: BaseStyleProps = {
   lineWidth: 1,
   stroke: '#000',
   strokeOpacity: 0.8,
+  zIndex: -Infinity,
 };
 
 const DELTA = 0.05;

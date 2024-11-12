@@ -26,6 +26,7 @@ export const elementPositionCombo: TestCase = async (context) => {
     },
     padding: 20,
     autoFit: 'view',
+    behaviors: ['hover-activate'],
   });
 
   await graph.render();
