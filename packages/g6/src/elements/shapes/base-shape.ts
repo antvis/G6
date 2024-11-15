@@ -160,10 +160,7 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
    */
   public getGraphicStyle<T extends Record<string, any>>(
     style: T,
-  ): Omit<
-    T,
-    'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'class' | 'context' | 'zIndex' | 'visibility'
-  > {
+  ): Omit<T, 'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'class' | 'zIndex' | 'visibility'> {
     return getSubShapeStyle(style);
   }
 

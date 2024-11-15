@@ -387,16 +387,11 @@ export class ElementController {
 
     this.emit(new ElementLifeCycleEvent(GraphEvent.BEFORE_ELEMENT_CREATE, elementType, datum), context);
 
-    // if (context.stage === 'expand') {
-    //   // 如果是展开的元素，需要将其 zIndex 提升至目标元素的上层
-    //   const targetZIndex = this.getElementZIndex(context.target!);
-    //   if (!style.zIndex || style.zIndex < targetZIndex) style.zIndex = targetZIndex + (style.zIndex ?? 0);
-    // }
     const element = this.container.appendChild(
       new Ctor({
         id,
+        context: this.context,
         style: {
-          context: this.context,
           ...style,
         },
       }),

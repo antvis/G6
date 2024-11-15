@@ -1,11 +1,13 @@
 import type { IAnimation } from '@antv/g';
 import type { RuntimeContext } from '../runtime/types';
-import type { BaseElementStyleProps, Keyframe } from '../types';
+import type { Keyframe } from '../types';
+import type { BaseShapeStyleProps } from './shapes';
 import { BaseShape } from './shapes';
 
-export abstract class BaseElement<T extends BaseElementStyleProps> extends BaseShape<T> {
+export abstract class BaseElement<T extends BaseShapeStyleProps> extends BaseShape<T> {
   protected get context(): RuntimeContext {
-    return this.attributes.context!;
+    // @ts-expect-error skip type-check
+    return this.config.context;
   }
 
   protected get parsedAttributes() {

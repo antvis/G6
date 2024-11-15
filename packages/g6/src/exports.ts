@@ -234,7 +234,6 @@ export type {
 } from './transforms';
 export type { DrawData } from './transforms/types';
 export type {
-  BaseElementStyleProps,
   CardinalPlacement,
   CollapsedMarkerStyleProps,
   Combo,

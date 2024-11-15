@@ -20,7 +20,7 @@ describe('event', () => {
     },
   };
 
-  const edge = new Polyline({ style: { sourceNode: 'node-1', targetNode: 'node-2', context } });
+  const edge = new Polyline({ style: { sourceNode: 'node-1', targetNode: 'node-2' }, context });
 
   it('eventTargetOf', () => {
     expect(eventTargetOf(node1)?.type).toEqual('node');

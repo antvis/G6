@@ -3,7 +3,6 @@ import { Image, Path } from '@antv/g';
 import type { PathArray } from '@antv/util';
 import { isFunction, pick } from '@antv/util';
 import type {
-  BaseElementStyleProps,
   Edge,
   EdgeArrowStyleProps,
   EdgeBadgeStyleProps,
@@ -26,7 +25,7 @@ import * as Symbol from '../../utils/symbol';
 import { getWordWrapWidthByEnds } from '../../utils/text';
 import { BaseElement } from '../base-element';
 import { effect } from '../effect';
-import type { BadgeStyleProps, LabelStyleProps } from '../shapes';
+import type { BadgeStyleProps, BaseShapeStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Label } from '../shapes';
 
 /**
@@ -35,7 +34,7 @@ import { Badge, Label } from '../shapes';
  * <en/> Base style properties of the edge
  */
 export interface BaseEdgeStyleProps
-  extends BaseElementStyleProps,
+  extends BaseShapeStyleProps,
     Prefix<'label', EdgeLabelStyleProps>,
     Prefix<'halo', PathStyleProps>,
     Prefix<'badge', EdgeBadgeStyleProps>,
@@ -219,13 +218,13 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
   }
 
   protected get sourceNode() {
-    const { context, sourceNode: source } = this.parsedAttributes;
-    return context.element!.getElement<Node>(source)!;
+    const { sourceNode: source } = this.parsedAttributes;
+    return this.context.element!.getElement<Node>(source)!;
   }
 
   protected get targetNode() {
-    const { context, targetNode: target } = this.parsedAttributes;
-    return context.element!.getElement<Node>(target)!;
+    const { targetNode: target } = this.parsedAttributes;
+    return this.context.element!.getElement<Node>(target)!;
   }
 
   protected getKeyStyle(attributes: ParsedBaseEdgeStyleProps): PathStyleProps {

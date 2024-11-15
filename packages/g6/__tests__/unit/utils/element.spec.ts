@@ -45,7 +45,7 @@ describe('element', () => {
     },
   };
 
-  const edge = new Polyline({ style: { sourceNode: 'node-1', targetNode: 'node-2', context } });
+  const edge = new Polyline({ style: { sourceNode: 'node-1', targetNode: 'node-2' }, context });
 
   it('isNode', () => {
     const rect = new Rect({ style: { width: 10, height: 10 } });
