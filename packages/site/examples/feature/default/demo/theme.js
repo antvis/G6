@@ -72,7 +72,7 @@ fetch('https://assets.antv.antgroup.com/g6/20000.json')
       plugins: [{ type: 'background', background: '#fff' }],
     });
 
-    graph.draw();
+    graph.render();
 
     window.addPanel((gui) => {
       gui.add({ theme: '🌞 Light' }, 'theme', Object.keys(themes)).onChange((theme) => {

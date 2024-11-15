@@ -17,5 +17,5 @@ fetch('https://assets.antv.antgroup.com/g6/60000.json')
       behaviors: ['zoom-canvas', 'drag-canvas'],
     });
 
-    graph.draw();
+    graph.render();
   });
