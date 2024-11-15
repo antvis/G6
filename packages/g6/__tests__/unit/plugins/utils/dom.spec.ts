@@ -4,7 +4,7 @@ describe('plugin dom utils', () => {
   it('createPluginContainer', () => {
     const el = createPluginContainer('test');
     expect(el.getAttribute('class')).toBe('g6-test');
-    expect(el.style.position).toBe('absolute');
+    expect(el.style.position).toBe('unset');
     expect(el.style.display).toBe('block');
     expect(el.style.inset).toBe('0px');
     expect(el.style.height).toBe('100%');
