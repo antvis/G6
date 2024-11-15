@@ -1,5 +1,4 @@
 import { Canvas, DisplayObject, IRenderer, Landmark } from '@antv/g';
-import { Renderer } from '@antv/g-canvas';
 import { debounce, throttle } from '@antv/util';
 import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
@@ -7,10 +6,10 @@ import { GraphData } from '../../spec';
 import type { ElementDatum, ElementType, ID, IGraphLifeCycleEvent, Padding, Placement, Vector3 } from '../../types';
 import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
-import { parsePlacement } from '../../utils/placement';
 import { toPointObject } from '../../utils/point';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
+import { createPluginCanvas } from '../utils/canvas';
 
 /**
  * <zh/> 缩略图插件配置项
@@ -64,9 +63,9 @@ export interface MinimapOptions extends BasePluginOptions {
    */
   shape?: 'key' | ((id: string, elementType: ElementType) => DisplayObject);
   /**
-   * <zh/> 缩略图画布类名
+   * <zh/> 缩略图画布类名，传入外置容器时不生效
    *
-   * <en/> The class name of the minimap canvas
+   * <en/> The class name of the minimap canvas, which does not take effect when an external container is passed in
    */
   className?: string;
   /**
@@ -269,46 +268,6 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
   private container!: HTMLElement;
 
-  private calculatePosition(): [number, number] {
-    const {
-      position,
-      size: [w, h],
-    } = this.options;
-
-    const { canvas } = this.context;
-    const [width, height] = canvas.getSize();
-    const [x, y] = parsePlacement(position);
-    return [x * (width - w), y * (height - h)];
-  }
-
-  private createContainer(): HTMLElement {
-    const {
-      container,
-      className,
-      size: [width, height],
-      containerStyle,
-    } = this.options;
-    if (container) {
-      return typeof container === 'string' ? document.querySelector(container)! : container;
-    }
-
-    const $container = document.createElement('div');
-    $container.classList.add('g6-minimap');
-    if (className) $container.classList.add(className);
-
-    const [x, y] = this.calculatePosition();
-    Object.assign($container.style, {
-      position: 'absolute',
-      left: x + 'px',
-      top: y + 'px',
-      width: width + 'px',
-      height: height + 'px',
-      ...containerStyle,
-    });
-
-    return this.context.canvas.getContainer()!.appendChild($container);
-  }
-
   private initCanvas() {
     const {
       renderer,
@@ -320,18 +279,23 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       if (width !== w || height !== h) this.canvas.resize(width, height);
       if (renderer) this.canvas.setRenderer(renderer);
     } else {
-      const dom = document.createElement('div');
+      const { className, position, container, containerStyle } = this.options;
 
-      const container = this.createContainer();
-      this.container = container;
-      container.appendChild(dom);
-
-      this.canvas = new Canvas({
+      const [$container, canvas] = createPluginCanvas({
+        renderer,
         width,
         height,
-        container: dom,
-        renderer: renderer || new Renderer(),
+        placement: position,
+        className: 'minimap',
+        container,
+        containerStyle,
+        graphCanvas: this.context.canvas,
       });
+
+      if (className) $container.classList.add(className);
+
+      this.container = $container;
+      this.canvas = canvas;
     }
 
     this.setCamera();

@@ -1,9 +1,9 @@
 import type { RuntimeContext } from '../../runtime/types';
 import type { Element } from '../../types';
 import type { IElementEvent } from '../../types/event';
-import { createPluginContainer, insertDOM } from '../../utils/dom';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
+import { createPluginContainer, insertDOM } from '../utils/dom';
 import type { Item } from './util';
 import { CONTEXTMENU_CSS, getContentFromItems } from './util';
 /**

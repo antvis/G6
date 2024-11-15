@@ -1,5 +1,6 @@
-import { Category, Layout, Selection } from '@antv/component';
+import { Category, Selection } from '@antv/component';
 import { CategoryStyleProps } from '@antv/component/lib/ui/legend/types';
+import { Canvas } from '@antv/g';
 import { get, isFunction } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
@@ -7,6 +8,7 @@ import type { ElementDatum, ElementType, ID, State } from '../types';
 import type { CardinalPlacement } from '../types/placement';
 import type { BasePluginOptions } from './base-plugin';
 import { BasePlugin } from './base-plugin';
+import { createPluginCanvas } from './utils/canvas';
 
 interface Datum extends Record<string, any> {
   id?: string;
@@ -40,6 +42,24 @@ export interface LegendOptions extends BasePluginOptions, Omit<CategoryStyleProp
    * @defaultValue 'bottom'
    */
   position?: CardinalPlacement;
+  /**
+   * <zh/> 图例挂载的容器，无则挂载到 Graph 所在容器
+   *
+   * <en/> The container where the legend is mounted, if not, it will be mounted to the container where the Graph is located
+   */
+  container?: HTMLElement | string;
+  /**
+   * <zh/> 图例画布类名，传入外置容器时不生效
+   *
+   * <en/> The class name of the legend canvas, which does not take effect when an external container is passed in
+   */
+  className?: string;
+  /**
+   * <zh/> 图例的容器样式，传入外置容器时不生效
+   *
+   * <en/> The style of the legend container, which does not take effect when an external container is passed in
+   */
+  containerStyle?: Partial<CSSStyleDeclaration>;
   /**
    * <zh/> 节点分类标识
    *
@@ -80,9 +100,10 @@ export class Legend extends BasePlugin<LegendOptions> {
     colPadding: 10,
     itemMarkerSize: 16,
     itemLabelFontSize: 16,
+    width: 240,
+    height: 160,
   };
   private typePrefix = '__data__';
-  private element: Layout | null = null;
   private draw = false;
   private fieldMap = {
     node: new Map<string, ID[]>(),
@@ -90,6 +111,9 @@ export class Legend extends BasePlugin<LegendOptions> {
     combo: new Map<string, ID[]>(),
   };
   private selectedItems: string[] = [];
+  private category?: Category;
+  private container?: HTMLElement;
+  private canvas?: Canvas;
 
   constructor(context: RuntimeContext, options: LegendOptions) {
     super(context, Object.assign({}, Legend.defaultOptions, options));
@@ -110,8 +134,11 @@ export class Legend extends BasePlugin<LegendOptions> {
   }
 
   private clear() {
-    this.element?.destroy();
-    this.element = null;
+    this.canvas?.destroy();
+    this.container?.remove();
+    this.canvas = undefined;
+    this.container = undefined;
+
     this.draw = false;
   }
 
@@ -184,10 +211,9 @@ export class Legend extends BasePlugin<LegendOptions> {
    * <en/> Refresh the status of the legend element
    */
   public updateElement() {
-    if (!this.element) return;
-    const category = this.element.getChildByIndex(0) as Category;
+    if (!this.category) return;
 
-    category.update({
+    this.category.update({
       itemMarkerOpacity: ({ id }) => {
         if (!this.selectedItems.length || this.selectedItems.includes(id)) return 1;
         return 0.5;
@@ -224,7 +250,7 @@ export class Legend extends BasePlugin<LegendOptions> {
 
   private getMarkerData = (field: string | ((item: ElementDatum) => string), elementType: ElementType) => {
     if (!field) return [];
-    const { model, element, graph } = this.context;
+    const { model, element } = this.context;
     const { nodes, edges, combos } = model.getData();
     const items: { [key: string]: Datum } = {};
 
@@ -239,7 +265,8 @@ export class Legend extends BasePlugin<LegendOptions> {
       combo: 'rect',
     };
 
-    /** 用于将 G6 element 转换为 componets 支持的类型 */
+    // 用于将 G6 element 转换为 components 支持的类型
+    // Used to convert G6 element to types supported by components
     const markerMapping: { [key: string]: string } = {
       circle: 'circle',
       ellipse: 'circle', // 待 components 支持 ellipse
@@ -303,69 +330,52 @@ export class Legend extends BasePlugin<LegendOptions> {
     return Object.values(items);
   };
 
-  /**
-   * <zh/> 图例布局
-   *
-   * <en/> Legend layout
-   * @param position -  <zh/> 图例位置| <en/> Legend position
-   * @returns <zh/> 图例布局样式| <en/> Legend layout style
-   */
-  public layout = (position: CardinalPlacement) => {
-    const preset = {
-      flexDirection: 'row',
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-    };
-    let { flexDirection, alignItems, justifyContent } = preset;
+  private upsertCanvas() {
+    if (this.canvas) return this.canvas;
 
-    const layout = {
-      top: ['row', 'flex-start', 'center'],
-      bottom: ['row', 'flex-end', 'center'],
-      left: ['column', 'flex-start', 'center'],
-      right: ['column', 'flex-end', 'center'],
-    };
+    const graphCanvas = this.context.canvas;
+    const [canvasWidth, canvasHeight] = graphCanvas.getSize();
 
-    if (position in layout) {
-      [flexDirection, alignItems, justifyContent] = layout[position];
-    }
-    return {
-      display: 'flex',
-      flexDirection,
-      justifyContent,
-      alignItems,
-    };
-  };
+    const { width = canvasWidth, height = canvasHeight, position, container, containerStyle, className } = this.options;
+    const [$container, canvas] = createPluginCanvas({
+      width,
+      height,
+      graphCanvas,
+      container,
+      containerStyle,
+      placement: position,
+      className: 'legend',
+    });
+
+    this.container = $container;
+    if (className) $container.classList.add(className);
+    this.canvas = canvas;
+
+    return this.canvas;
+  }
 
   private createElement = () => {
     if (this.draw) {
       this.updateElement();
       return;
     }
-    const { canvas } = this.context;
-    const [canvasWidth, canvasHeight] = canvas.getSize();
     const {
-      width = canvasWidth,
-      height = canvasHeight,
+      width,
+      height,
       nodeField,
       edgeField,
       comboField,
       trigger,
       position,
+      container,
+      containerStyle,
+      className,
       ...rest
     } = this.options;
     const nodeItems = this.getMarkerData(nodeField, 'node');
     const edgeItems = this.getMarkerData(edgeField, 'edge');
     const comboItems = this.getMarkerData(comboField, 'combo');
     const items = [...nodeItems, ...comboItems, ...edgeItems];
-    const layout = this.layout(position);
-
-    const layoutWrapper = new Layout({
-      style: {
-        width,
-        height,
-        ...layout,
-      },
-    });
 
     const categoryStyle = Object.assign(
       {
@@ -386,9 +396,11 @@ export class Legend extends BasePlugin<LegendOptions> {
       className: 'legend',
       style: categoryStyle,
     });
-    layoutWrapper.appendChild(category);
-    canvas.appendChild(layoutWrapper as any);
-    this.element = layoutWrapper;
+    this.category = category;
+
+    const canvas = this.upsertCanvas();
+    canvas.appendChild(category);
+
     this.draw = true;
   };
 

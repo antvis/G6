@@ -22,7 +22,7 @@ export const pluginLegend: TestCase = async (context) => {
       }),
     },
     layout: { type: 'd3-force' },
-    behaviors: ['drag-canvas', 'drag-element'],
+    behaviors: ['drag-canvas', 'drag-element', 'zoom-canvas'],
     node: {
       type: (item: any) => {
         if (item.data.cluster === 'a') return 'diamond';

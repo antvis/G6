@@ -1,8 +1,8 @@
 import type { RuntimeContext } from '../../runtime/types';
 import type { CornerPlacement } from '../../types';
-import { createPluginContainer, insertDOM } from '../../utils/dom';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
+import { createPluginContainer, insertDOM } from '../utils/dom';
 import type { ToolbarItem } from './util';
 import { BUILD_IN_SVG_ICON, TOOLBAR_CSS, parsePositionToStyle } from './util';
 

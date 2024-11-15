@@ -1,6 +1,5 @@
 import { Timebar as TimebarComponent } from '@antv/component';
 import { Canvas } from '@antv/g';
-import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { isArray, isDate, isNumber } from '@antv/util';
 import { idOf } from '../utils/id';
 import { parsePadding } from '../utils/padding';
@@ -11,6 +10,7 @@ import type { RuntimeContext } from '../runtime/types';
 import type { GraphData } from '../spec';
 import type { ElementDatum, ElementType, ID, Padding } from '../types';
 import type { BasePluginOptions } from './base-plugin';
+import { createPluginCanvas } from './utils/canvas';
 
 const prospectiveTimeKeys = ['timestamp', 'time', 'date', 'datetime'];
 
@@ -205,7 +205,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
 
   private canvas?: Canvas;
 
-  private wrapper?: HTMLElement;
+  private container?: HTMLElement;
 
   private originalData?: GraphData;
 
@@ -275,16 +275,7 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     super.update(options);
     this.backup();
 
-    Object.keys(options).forEach((key) => {
-      switch (key) {
-        case 'position':
-          this.upsertWrapper();
-          break;
-        default:
-          this.upsertTimebar();
-          break;
-      }
-    });
+    this.upsertTimebar();
   }
 
   /**
@@ -332,47 +323,25 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     });
   }
 
-  private upsertWrapper() {
-    if (!this.wrapper) {
-      const wrapper = document.createElement('div');
-      wrapper.style.position = 'absolute';
-      this.wrapper = wrapper;
-    }
-    const { x, y, className, position } = this.options;
-    if (className) this.wrapper.className = className;
-
-    if (isNumber(x) || isNumber(y)) {
-      Object.assign(this.wrapper.style, {
-        left: `${x ?? 0}px`,
-        top: `${y ?? 0}px`,
-      });
-    } else {
-      Object.assign(this.wrapper.style, {
-        [position === 'top' ? 'bottom' : 'top']: 'unset',
-        [position === 'top' ? 'top' : 'bottom']: '0px',
-      });
-    }
-
-    this.context.canvas.getContainer()?.appendChild(this.wrapper);
-
-    return this.wrapper;
-  }
-
   private upsertCanvas() {
-    const wrapper = this.upsertWrapper();
     if (this.canvas) return this.canvas;
 
-    const { height } = this.options;
-    const [width] = this.context.canvas.getSize();
+    const { className, height, position } = this.options;
+    const graphCanvas = this.context.canvas;
+    const [width] = graphCanvas.getSize();
     const [top, , bottom] = this.padding;
 
-    this.canvas = new Canvas({
-      container: wrapper,
+    const [$container, canvas] = createPluginCanvas({
       width,
       height: height + top + bottom,
-      renderer: this.context.options.renderer?.('main') || new CanvasRenderer(),
-      supportsMutipleCanvasesInOneContainer: true,
+      graphCanvas,
+      className: 'timebar',
+      placement: position,
     });
+
+    this.container = $container;
+    if (className) $container.classList.add(className);
+    this.canvas = canvas;
 
     return this.canvas;
   }
@@ -437,9 +406,9 @@ export class Timebar extends BasePlugin<TimebarOptions> {
     this.originalData && graph.setData({ ...this.originalData });
     this.timebar?.destroy();
     this.canvas?.destroy();
-    this.wrapper?.remove();
+    this.container?.remove();
     this.originalData = undefined;
-    this.wrapper = undefined;
+    this.container = undefined;
     this.timebar = undefined;
     this.canvas = undefined;
 

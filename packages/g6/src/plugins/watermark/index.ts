@@ -1,7 +1,7 @@
 import type { RuntimeContext } from '../../runtime/types';
-import { createPluginContainer } from '../../utils/dom';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
+import { createPluginContainer } from '../utils/dom';
 import { getImageWatermark, getTextWatermark } from './util';
 
 /**
