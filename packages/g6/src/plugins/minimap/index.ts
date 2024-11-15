@@ -63,9 +63,9 @@ export interface MinimapOptions extends BasePluginOptions {
    */
   shape?: 'key' | ((id: string, elementType: ElementType) => DisplayObject);
   /**
-   * <zh/> 缩略图画布类名
+   * <zh/> 缩略图画布类名，传入外置容器时不生效
    *
-   * <en/> The class name of the minimap canvas
+   * <en/> The class name of the minimap canvas, which does not take effect when an external container is passed in
    */
   className?: string;
   /**
