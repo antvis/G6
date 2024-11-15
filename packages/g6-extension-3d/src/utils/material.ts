@@ -1,14 +1,15 @@
 import type { Material as GMaterial } from '@antv/g-plugin-3d';
 import { MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, PointMaterial } from '@antv/g-plugin-3d';
 import type { Plugin } from '@antv/g-plugin-device-renderer';
+import { get, set } from '@antv/util';
 import type { Material } from '../types';
 import { getCacheKey } from './cache';
 import { TupleMap } from './map';
 import { createTexture } from './texture';
 
-let PLUGIN: Plugin;
+type MaterialCache = TupleMap<symbol, string | TexImageSource | undefined, GMaterial>;
 
-const MATERIAL_CACHE = new TupleMap<symbol, string | TexImageSource | undefined, GMaterial>();
+const MATERIAL_CACHE_KEY = '__MATERIAL_CACHE__';
 
 const MATERIAL_MAP = {
   basic: MeshBasicMaterial,
@@ -27,16 +28,16 @@ const MATERIAL_MAP = {
  * @returns <zh/> 材质对象 <en/> material object
  */
 export function createMaterial(plugin: Plugin, options: Material, texture?: string | TexImageSource): GMaterial {
-  if (!PLUGIN) PLUGIN = plugin;
-  else if (PLUGIN !== plugin) {
-    PLUGIN = plugin;
-    MATERIAL_CACHE.clear();
+  let cache: MaterialCache = get(plugin, MATERIAL_CACHE_KEY);
+  if (!cache) {
+    cache = new TupleMap();
+    set(plugin, MATERIAL_CACHE_KEY, cache);
   }
 
   const key = getCacheKey(options);
 
-  if (MATERIAL_CACHE.has(key, texture)) {
-    return MATERIAL_CACHE.get(key, texture)!;
+  if (cache.has(key, texture)) {
+    return cache.get(key, texture)!;
   }
 
   const device = plugin.getDevice();
@@ -45,6 +46,6 @@ export function createMaterial(plugin: Plugin, options: Material, texture?: stri
 
   // @ts-expect-error ignore
   const material = new Ctor(device, { map: createTexture(plugin, map), ...opts });
-  MATERIAL_CACHE.set(key, texture, material);
+  cache.set(key, texture, material);
   return material;
 }

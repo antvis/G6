@@ -1,6 +1,7 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { CylinderGeometryProps, ProceduralGeometry as GGeometry } from '@antv/g-plugin-3d';
 import { CylinderGeometry } from '@antv/g-plugin-3d';
+import type { Vector3 } from '@antv/g6';
 import { deepMix } from '@antv/util';
 import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
@@ -30,9 +31,15 @@ export class Cylinder extends BaseNode3D<CylinderStyleProps> {
     super(deepMix({}, { style: Cylinder.defaultStyleProps }, options));
   }
 
+  protected getSize(attributes: CylinderStyleProps = this.attributes): Vector3 {
+    const { size } = attributes;
+    if (typeof size === 'number') return [size / 2, size, 0];
+    return super.getSize();
+  }
+
   protected getGeometry(attributes: Required<CylinderStyleProps>): GGeometry<any> {
     const size = this.getSize();
-    const { radius = size[0] / 2, height = size[1], heightSegments, capSegments } = attributes;
+    const { radius = size[0], height = size[1], heightSegments, capSegments } = attributes;
     return createGeometry('cylinder', this.device, CylinderGeometry, { radius, height, heightSegments, capSegments });
   }
 }

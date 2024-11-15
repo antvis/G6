@@ -1,7 +1,12 @@
 import type { Texture } from '@antv/g-device-api';
 import type { Plugin } from '@antv/g-plugin-device-renderer';
+import { get, set } from '@antv/util';
 
-const TEXTURE_CACHE = new Map<string | TexImageSource, Texture>();
+type TextureCache = Map<string | TexImageSource, Texture>;
+
+const TEXTURE_CACHE_KEY = '__TEXTURE_CACHE__';
+
+// const TEXTURE_CACHE = new Map<string | TexImageSource, Texture>();
 
 /**
  * <zh/> 创建纹理，支持缓存
@@ -14,10 +19,16 @@ const TEXTURE_CACHE = new Map<string | TexImageSource, Texture>();
 export function createTexture(plugin: Plugin, src?: string | TexImageSource): Texture | undefined {
   if (!src) return;
 
-  if (TEXTURE_CACHE.has(src)) {
-    return TEXTURE_CACHE.get(src);
+  let cache: TextureCache = get(plugin, TEXTURE_CACHE_KEY);
+  if (!cache) {
+    cache = new Map();
+    set(plugin, TEXTURE_CACHE_KEY, cache);
+  }
+
+  if (cache.has(src)) {
+    return cache.get(src);
   }
   const texture = plugin.loadTexture(src);
-  TEXTURE_CACHE.set(src, texture);
+  cache.set(src, texture);
   return texture;
 }

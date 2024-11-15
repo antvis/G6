@@ -1,6 +1,7 @@
 import type { DisplayObjectConfig } from '@antv/g';
 import type { ProceduralGeometry as GGeometry, TorusGeometryProps } from '@antv/g-plugin-3d';
 import { TorusGeometry } from '@antv/g-plugin-3d';
+import type { Vector3 } from '@antv/g6';
 import { deepMix } from '@antv/util';
 import { createGeometry } from '../utils/geometry';
 import type { BaseNode3DStyleProps } from './base-node-3d';
@@ -30,9 +31,15 @@ export class Torus extends BaseNode3D<TorusStyleProps> {
     super(deepMix({}, { style: Torus.defaultStyleProps }, options));
   }
 
+  protected getSize(attributes: TorusStyleProps = this.attributes): Vector3 {
+    const { size } = attributes;
+    if (typeof size === 'number') return [size / 8, size / 2, 0];
+    return super.getSize();
+  }
+
   protected getGeometry(attributes: Required<TorusStyleProps>): GGeometry<any> {
     const size = this.getSize();
-    const { tubeRadius = size[0] / 2, ringRadius = size[1] / 2, segments, sides } = attributes;
+    const { tubeRadius = size[0], ringRadius = size[1], segments, sides } = attributes;
     return createGeometry('torus', this.device, TorusGeometry, { tubeRadius, ringRadius, segments, sides });
   }
 }
