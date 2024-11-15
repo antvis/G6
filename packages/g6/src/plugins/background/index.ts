@@ -1,8 +1,8 @@
 import { omit } from '@antv/util';
 import type { RuntimeContext } from '../../runtime/types';
-import { createPluginContainer } from '../../utils/dom';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
+import { createPluginContainer } from '../utils/dom';
 
 /**
  * <zh/> 背景配置项

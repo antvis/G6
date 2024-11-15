@@ -1,10 +1,10 @@
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { Point } from '../types';
-import { createPluginContainer, insertBefore } from '../utils/dom';
 import { ViewportEvent } from '../utils/event';
 import { add, mod } from '../utils/vector';
 import { BasePlugin, BasePluginOptions } from './base-plugin';
+import { createPluginContainer } from './utils/dom';
 
 /**
  * <zh/> 网格线配置项
@@ -98,7 +98,9 @@ export class GridLine extends BasePlugin<GridLineOptions> {
     stroke: '#eee',
   };
 
-  private $element: HTMLElement = createPluginContainer('grid-line');
+  private $element: HTMLElement = createPluginContainer('grid-line', true, {
+    zIndex: '-1',
+  });
 
   private offset: Point = [0, 0];
 
@@ -106,7 +108,7 @@ export class GridLine extends BasePlugin<GridLineOptions> {
     super(context, Object.assign({}, GridLine.defaultOptions, options));
 
     const $container = this.context.canvas.getContainer()!;
-    insertBefore($container, this.$element);
+    $container.prepend(this.$element);
 
     this.updateStyle();
     this.bindEvents();
