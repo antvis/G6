@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-ssr",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Support SSR for G6",
   "keywords": [
     "antv",
@@ -29,7 +29,7 @@
   "dependencies": {
     "@antv/g": "^6.1.7",
     "@antv/g-canvas": "^2.0.24",
-    "@antv/g6": "workspace:*",
+    "@antv/g6": "workspace:^",
     "cac": "^6.7.14",
     "canvas": "^2.11.2"
   },

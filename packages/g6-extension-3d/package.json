@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-extension-3d",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "3D extension for G6",
   "keywords": [
     "antv",
@@ -44,12 +44,12 @@
   "devDependencies": {
     "@antv/g": "^6.1.7",
     "@antv/g-canvas": "^2.0.24",
-    "@antv/g6": "workspace:*"
+    "@antv/g6": "workspace:^"
   },
   "peerDependencies": {
     "@antv/g": "^6.1.2",
     "@antv/g-canvas": "^2.0.18",
-    "@antv/g6": "^workspace:*"
+    "@antv/g6": "workspace:^"
   },
   "publishConfig": {
     "access": "public",
