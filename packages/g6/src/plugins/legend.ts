@@ -330,39 +330,6 @@ export class Legend extends BasePlugin<LegendOptions> {
     return Object.values(items);
   };
 
-  /**
-   * <zh/> 图例布局
-   *
-   * <en/> Legend layout
-   * @param position -  <zh/> 图例位置| <en/> Legend position
-   * @returns <zh/> 图例布局样式| <en/> Legend layout style
-   */
-  public layout = (position: CardinalPlacement) => {
-    const preset = {
-      flexDirection: 'row',
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-    };
-    let { flexDirection, alignItems, justifyContent } = preset;
-
-    const layout = {
-      top: ['row', 'flex-start', 'center'],
-      bottom: ['row', 'flex-end', 'center'],
-      left: ['column', 'flex-start', 'center'],
-      right: ['column', 'flex-end', 'center'],
-    };
-
-    if (position in layout) {
-      [flexDirection, alignItems, justifyContent] = layout[position];
-    }
-    return {
-      display: 'flex',
-      flexDirection,
-      justifyContent,
-      alignItems,
-    };
-  };
-
   private upsertCanvas() {
     if (this.canvas) return this.canvas;
 
