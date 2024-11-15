@@ -43,7 +43,7 @@ export function mergeOptions(opt1: DisplayObjectConfig<any>, opt2: DisplayObject
   const s1 = opt1?.style || {};
   const s2 = opt2?.style || {};
   return Object.assign({}, opt1, opt2, {
-    style: Object.assign({}, s1, s2),
+    style: opt1?.style ? Object.assign({}, s1, s2) : s2,
   });
 }
 
@@ -61,10 +61,7 @@ export function mergeOptions(opt1: DisplayObjectConfig<any>, opt2: DisplayObject
  */
 export function getSubShapeStyle<T extends Record<string, any>>(
   style: T,
-): Omit<
-  T,
-  'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'class' | 'context' | 'zIndex' | 'visibility'
-> {
-  const { x, y, z, class: cls, className, transform, transformOrigin, context, zIndex, visibility, ...rest } = style;
+): Omit<T, 'x' | 'y' | 'z' | 'transform' | 'transformOrigin' | 'className' | 'class' | 'zIndex' | 'visibility'> {
+  const { x, y, z, class: cls, className, transform, transformOrigin, zIndex, visibility, ...rest } = style;
   return rest;
 }

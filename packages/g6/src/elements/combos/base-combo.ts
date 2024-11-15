@@ -136,8 +136,8 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   }
 
   protected getContentBBox(attributes: Required<S>): AABB {
-    const { context, childrenNode = [], padding } = attributes;
-    const children = childrenNode.map((id) => context!.element!.getElement(id)).filter(Boolean);
+    const { childrenNode = [], padding } = attributes;
+    const children = childrenNode.map((id) => this.context!.element!.getElement(id)).filter(Boolean);
     if (children.length === 0) {
       const bbox = new AABB();
       const { x = 0, y = 0, size } = attributes;
@@ -181,8 +181,8 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   }
 
   protected getCollapsedMarkerText(type: CollapsedMarkerStyleProps['type'], attributes: Required<S>): string {
-    const { context, childrenData = [] } = attributes;
-    const { model } = context!;
+    const { childrenData = [] } = attributes;
+    const { model } = this.context;
 
     if (type === 'descendant-count') return model.getDescendantsData(this.id).length.toString();
     if (type === 'child-count') return childrenData.length.toString();
@@ -196,12 +196,12 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
   }
 
   public getComboPosition(attributes: Required<S>): Point {
-    const { x = 0, y = 0, collapsed, context, childrenData = [] } = attributes;
+    const { x = 0, y = 0, collapsed, childrenData = [] } = attributes;
 
     if (childrenData.length === 0) return [+x, +y, 0];
 
     if (collapsed) {
-      const { model } = context!;
+      const { model } = this.context;
       const descendants = model.getDescendantsData(this.id).filter((datum) => !model.isCombo(idOf(datum)));
 
       if (descendants.length > 0 && descendants.some(hasPosition)) {

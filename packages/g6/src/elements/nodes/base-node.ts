@@ -4,7 +4,6 @@ import type { CategoricalPalette } from '../../palettes/types';
 import type { RuntimeContext } from '../../runtime/types';
 import type { NodeData } from '../../spec';
 import type {
-  BaseElementStyleProps,
   ID,
   Node,
   NodeBadgeStyleProps,
@@ -28,7 +27,7 @@ import { getWordWrapWidthByBox } from '../../utils/text';
 import { setVisibility } from '../../utils/visibility';
 import { BaseElement } from '../base-element';
 import { effect } from '../effect';
-import type { BadgeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
+import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Icon, Label } from '../shapes';
 import { connectImage, dispatchPositionChange } from '../shapes/image';
 
@@ -38,7 +37,7 @@ import { connectImage, dispatchPositionChange } from '../shapes/image';
  * <en/> Base node style props
  */
 export interface BaseNodeStyleProps
-  extends BaseElementStyleProps,
+  extends BaseShapeStyleProps,
     Prefix<'label', NodeLabelStyleProps>,
     Prefix<'halo', BaseStyleProps>,
     Prefix<'icon', IconStyleProps>,

@@ -1,6 +1,4 @@
 import type { DisplayObject } from '@antv/g';
-import { BaseShapeStyleProps } from '../elements/shapes';
-import type { RuntimeContext } from '../runtime/types';
 import type { ComboOptions, EdgeOptions, NodeOptions } from '../spec';
 import type { Point, Port } from '../types';
 
@@ -66,13 +64,6 @@ export type Element = Node | Edge | Combo;
 export type ElementType = 'node' | 'edge' | 'combo';
 
 export type ElementOptions = NodeOptions | EdgeOptions | ComboOptions;
-
-export interface BaseElementStyleProps extends BaseShapeStyleProps {
-  /**
-   * @internal
-   */
-  context?: RuntimeContext;
-}
 
 /**
  * <zh/> 元素方法
