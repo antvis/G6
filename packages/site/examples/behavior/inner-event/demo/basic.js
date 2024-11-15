@@ -37,7 +37,7 @@ graph.render();
 
 graph.on(NodeEvent.CLICK, (event) => {
   const { target, originalTarget } = event;
-  if (originalTarget.id === 'light') {
+  if (originalTarget.className === 'light') {
     graph.updateNodeData([{ id: target.id, states: ['selected'], style: { labelText: 'Clicked!' } }]);
     graph.draw();
   }

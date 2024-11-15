@@ -23,7 +23,7 @@ export const perf20000Elements: TestCase = async (context) => {
   });
 
   console.time('time');
-  await graph.draw();
+  await graph.render();
   console.timeEnd('time');
 
   perf20000Elements.form = (gui) => {

@@ -11,5 +11,5 @@ fetch('https://assets.antv.antgroup.com/g6/5000.json')
       autoFit: 'view',
     });
 
-    await graph.draw();
+    await graph.render();
   });
