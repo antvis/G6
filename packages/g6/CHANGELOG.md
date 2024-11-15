@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.32
+
+### Patch Changes
+
+- fix plugin container style
+
 ## 5.0.31
 
 ### Patch Changes

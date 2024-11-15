@@ -98,9 +98,7 @@ export class GridLine extends BasePlugin<GridLineOptions> {
     stroke: '#eee',
   };
 
-  private $element: HTMLElement = createPluginContainer('grid-line', true, {
-    zIndex: '-1',
-  });
+  private $element: HTMLElement = createPluginContainer('grid-line', true);
 
   private offset: Point = [0, 0];
 

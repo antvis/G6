@@ -24,7 +24,6 @@ export class Background extends BasePlugin<BackgroundOptions> {
   static defaultOptions: Partial<BackgroundOptions> = {
     transition: 'background 0.5s',
     backgroundSize: 'cover',
-    zIndex: '-1',
   };
 
   private $element: HTMLElement = createPluginContainer('background');
