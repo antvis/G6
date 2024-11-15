@@ -19,6 +19,8 @@ export function createPluginContainer(type: string, cover = true, style?: Partia
 
   if (cover) {
     Object.assign(container.style, {
+      position: 'unset',
+      gridArea: '1 / 1 / 2 / 2',
       inset: '0px',
       height: '100%',
       width: '100%',
