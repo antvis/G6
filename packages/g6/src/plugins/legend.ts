@@ -49,9 +49,9 @@ export interface LegendOptions extends BasePluginOptions, Omit<CategoryStyleProp
    */
   container?: HTMLElement | string;
   /**
-   * <zh/> 缩略图画布类名，传入外置容器时不生效
+   * <zh/> 图例画布类名，传入外置容器时不生效
    *
-   * <en/> The class name of the minimap canvas, which does not take effect when an external container is passed in
+   * <en/> The class name of the legend canvas, which does not take effect when an external container is passed in
    */
   className?: string;
   /**
