@@ -39,7 +39,7 @@ export class Animation {
         const { element, elementType, stage } = context;
         const options = getElementAnimationOptions(this.context.options, elementType, stage, localAnimation);
         cb?.before?.();
-        const animation = executor(element, this.inferStyle(context, extendOptions), options);
+        const animation = options.length ? executor(element, this.inferStyle(context, extendOptions), options) : null;
 
         if (animation) {
           cb?.beforeAnimate?.(animation);
@@ -83,7 +83,10 @@ export class Animation {
     context: AnimationContext,
     options?: ExtendOptions,
   ): [Record<string, unknown>, Record<string, unknown>] {
-    const { element, elementType, stage, originalStyle, modifiedStyle } = context;
+    const { element, elementType, stage, originalStyle, updatedStyle = {} } = context;
+
+    if (!context.modifiedStyle) context.modifiedStyle = { ...originalStyle, ...updatedStyle };
+    const { modifiedStyle } = context;
 
     const fromStyle: Record<string, unknown> = {};
     const toStyle: Record<string, unknown> = {};
