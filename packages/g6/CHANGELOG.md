@@ -1,5 +1,11 @@
 # @antv/g6
 
+## 5.0.31
+
+### Patch Changes
+
+- fix 3d scene, site demo, refactor legend container, optimize animation perf
+
 ## 5.0.30
 
 ### Patch Changes

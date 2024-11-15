@@ -1,5 +1,11 @@
 # @antv/g6-extension-3d
 
+## 0.1.6
+
+### Patch Changes
+
+- fix 3d scene, site demo, refactor legend container, optimize animation perf
+
 ## 0.1.5
 
 ### Patch Changes
