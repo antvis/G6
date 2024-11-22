@@ -88,6 +88,8 @@ export class HTML extends BaseNode<HTMLStyleProps> {
    */
   public render(attributes: Required<HTMLStyleProps> = this.parsedAttributes, container: Group = this): void {
     this.drawKeyShape(attributes, container);
+
+    this.drawPortShapes(attributes, container);
   }
 
   protected getKeyStyle(attributes: Required<HTMLStyleProps>): GHTMLStyleProps {
