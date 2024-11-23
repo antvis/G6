@@ -83,6 +83,15 @@ export class HTML extends BaseNode<HTMLStyleProps> {
     return this.getShape<GHTML>('key').getDomElement();
   }
 
+  /**
+   * @override
+   */
+  public render(attributes: Required<HTMLStyleProps> = this.parsedAttributes, container: Group = this): void {
+    this.drawKeyShape(attributes, container);
+
+    this.drawPortShapes(attributes, container);
+  }
+
   protected getKeyStyle(attributes: Required<HTMLStyleProps>): GHTMLStyleProps {
     const {
       dx = 0,

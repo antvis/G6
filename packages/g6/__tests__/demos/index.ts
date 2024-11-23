@@ -63,6 +63,7 @@ export { elementNodeDonut } from './element-node-donut';
 export { elementNodeEllipse } from './element-node-ellipse';
 export { elementNodeHexagon } from './element-node-hexagon';
 export { elementNodeHTML } from './element-node-html';
+export { elementNodeHTML2 } from './element-node-html-2';
 export { elementNodeImage } from './element-node-image';
 export { elementNodeRect } from './element-node-rect';
 export { elementNodeStar } from './element-node-star';
