@@ -6,7 +6,7 @@ import { groupBy } from '@antv/util';
 import { AnimationType, COMBO_KEY, ChangeType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry/get';
-import type { ComboData, EdgeData, NodeData } from '../spec';
+import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { DrawData, ProcedureData } from '../transforms/types';
 import type {
@@ -35,6 +35,7 @@ import { positionOf } from '../utils/position';
 import { print } from '../utils/print';
 import { computeElementCallbackStyle } from '../utils/style';
 import { themeOf } from '../utils/theme';
+import { subtract } from '../utils/vector';
 import { setVisibility } from '../utils/visibility';
 import type { RuntimeContext } from './types';
 
@@ -591,13 +592,37 @@ export class ElementController {
   }
 
   /**
+   * <zh/> 将布局结果对齐到元素，避免视图偏移。会修改布局结果
+   *
+   * <en/> Align the layout result to the element to avoid view offset. Will modify the layout result
+   * @param layoutResult - <zh/> 布局结果 | <en/> layout result
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   */
+  private alignLayoutResultToElement(layoutResult: GraphData, id: ID) {
+    const target = layoutResult.nodes?.find((node) => idOf(node) === id);
+
+    if (target) {
+      const originalPosition = positionOf(this.context.model.getNodeLikeDatum(id));
+      const modifiedPosition = positionOf(target);
+      const delta = subtract(originalPosition, modifiedPosition);
+      layoutResult.nodes?.forEach((node) => {
+        if (node.style?.x) node.style.x += delta[0];
+        if (node.style?.y) node.style.y += delta[1];
+        if (node.style?.z) node.style.z += delta[2] || 0;
+      });
+    }
+  }
+
+  /**
    * <zh/> 收起节点
    *
    * <en/> collapse node
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @param animation - <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true
    */
-  public async collapseNode(id: ID, animation: boolean): Promise<void> {
+  public async collapseNode(id: ID, options: CollapseExpandNodeOptions): Promise<void> {
+    const { animation, align } = options;
+
     const { model, layout } = this.context;
 
     const preLayoutData = this.computeChangesAndDrawData({ stage: 'collapse', animation });
@@ -608,6 +633,7 @@ export class ElementController {
     // 进行预布局，计算出所有元素的位置
     // Perform pre-layout to calculate the position of all elements
     const result = await layout!.simulate();
+    if (align) this.alignLayoutResultToElement(result, id);
     model.updateData(result);
 
     // 重新计算数据 / Recalculate data
@@ -647,9 +673,9 @@ export class ElementController {
    * @param id - <zh/> 元素 ID | <en/> element ID
    * @param animation - <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true
    */
-  public async expandNode(id: ID, animation: boolean): Promise<void> {
+  public async expandNode(id: ID, options: CollapseExpandNodeOptions): Promise<void> {
     const { model, layout } = this.context;
-    if (!model.getAncestorsData(id, COMBO_KEY).every((datum) => isCollapsed(datum))) return;
+    const { animation, align } = options;
 
     const position = positionOf(model.getNodeData([id])[0]);
 
@@ -666,6 +692,7 @@ export class ElementController {
     this.context.animation!.clear();
 
     const result = await layout!.simulate();
+    if (align) this.alignLayoutResultToElement(result, id);
     model.updateData(result);
 
     // 重新计算数据 / Recalculate data
@@ -808,4 +835,24 @@ export interface DrawContext {
   type?: 'render' | 'draw';
   /** <zh/> 展开阶段的目标元素 id | <en/> ID of the target element in the expand stage */
   target?: ID;
+}
+
+/**
+ * <zh/> 展开/收起节点选项
+ *
+ * <en/> Expand / collapse node options
+ */
+export interface CollapseExpandNodeOptions {
+  /**
+   * <zh/> 是否使用动画
+   *
+   * <en/> Whether to use animation
+   */
+  animation?: boolean;
+  /**
+   * <zh/> 保证展开/收起的节点位置不变
+   *
+   * <en/> Ensure that the position of the expanded/collapsed node remains unchanged
+   */
+  align?: boolean;
 }

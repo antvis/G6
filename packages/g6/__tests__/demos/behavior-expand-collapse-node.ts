@@ -27,7 +27,7 @@ export const behaviorExpandCollapseNode: TestCase = async (context) => {
       nodeSep: 30,
       rankSep: 100,
     },
-    behaviors: [{ type: 'collapse-expand', trigger: 'click' }, 'drag-element'],
+    behaviors: [{ type: 'collapse-expand', trigger: 'click', align: false }, 'drag-element'],
   });
 
   await graph.render();

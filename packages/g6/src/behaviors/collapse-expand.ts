@@ -46,6 +46,12 @@ export interface CollapseExpandOptions extends BaseBehaviorOptions {
    * <en/> Callback when expand is completed
    */
   onExpand?: (id: ID) => void;
+  /**
+   * <zh/> 是否对准目标元素，避免视图偏移
+   *
+   * <en/> Whether to focus on the target element to avoid view offset
+   */
+  align?: boolean;
 }
 
 /**
@@ -62,6 +68,7 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
     enable: true,
     animation: true,
     trigger: CommonEvent.DBLCLICK,
+    align: true,
   };
 
   constructor(context: RuntimeContext, options: CollapseExpandOptions) {
@@ -100,12 +107,12 @@ export class CollapseExpand extends BaseBehavior<CollapseExpandOptions> {
     const data = model.getElementDataById(id) as NodeLikeData;
     if (!data) return false;
 
-    const { onCollapse, onExpand, animation } = this.options;
+    const { onCollapse, onExpand, animation, align } = this.options;
     if (isCollapsed(data)) {
-      await graph.expandElement(id, animation);
+      await graph.expandElement(id, { animation, align });
       onExpand?.(id);
     } else {
-      await graph.collapseElement(id, animation);
+      await graph.collapseElement(id, { animation, align });
       onCollapse?.(id);
     }
   };

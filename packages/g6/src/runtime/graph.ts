@@ -53,6 +53,7 @@ import { BehaviorController } from './behavior';
 import type { DataURLOptions } from './canvas';
 import { Canvas } from './canvas';
 import { DataController } from './data';
+import type { CollapseExpandNodeOptions } from './element';
 import { ElementController } from './element';
 import { LayoutController } from './layout';
 import { PluginController } from './plugin';
@@ -1286,7 +1287,7 @@ export class Graph extends EventEmitter {
    * @apiCategory viewport
    */
   public async fitCenter(animation?: ViewportAnimationEffectTiming): Promise<void> {
-    await this.context.viewport?.fitCenter(animation);
+    await this.context.viewport?.fitCenter({ animation });
   }
 
   private async autoFit(): Promise<void> {
@@ -1316,7 +1317,7 @@ export class Graph extends EventEmitter {
    * @apiCategory viewport
    */
   public async focusElement(id: ID | ID[], animation?: ViewportAnimationEffectTiming): Promise<void> {
-    await this.context.viewport?.focusElements(Array.isArray(id) ? id : [id], animation);
+    await this.context.viewport?.focusElements(Array.isArray(id) ? id : [id], { animation });
   }
 
   /**
@@ -1782,50 +1783,53 @@ export class Graph extends EventEmitter {
   private isCollapsingExpanding = false;
 
   /**
-   * <zh/> 收起组合
+   * <zh/> 收起元素
    *
-   * <en/> Collapse Combo
+   * <en/> Collapse element
    * @param id - <zh/> 元素 ID | <en/> element ID
-   * @param animation - <zh/> 是否启用动画 | <en/> whether to enable animation
+   * @param options - <zh/> 是否启用动画或者配置收起节点的配置项 | <en/> whether to enable animation or the options of collapsing node
    * @apiCategory element
    */
-  public async collapseElement(id: ID, animation: boolean = true): Promise<void> {
+  public async collapseElement(id: ID, options: boolean | CollapseExpandNodeOptions = true): Promise<void> {
     const { model, element } = this.context;
     if (isCollapsed(model.getNodeLikeData([id])[0])) return;
-
     if (this.isCollapsingExpanding) return;
+
+    if (typeof options === 'boolean') options = { animation: options, align: true };
 
     const elementType = model.getElementType(id);
 
     await this.frontElement(id);
     this.isCollapsingExpanding = true;
     this.setElementCollapsibility(id, true);
-    if (elementType === 'node') await element!.collapseNode(id, animation);
-    else if (elementType === 'combo') await element!.collapseCombo(id, animation);
+    if (elementType === 'node') await element!.collapseNode(id, options);
+    else if (elementType === 'combo') await element!.collapseCombo(id, !!options.animation);
 
     this.isCollapsingExpanding = false;
   }
 
   /**
-   * <zh/> 展开组合
+   * <zh/> 展开元素
    *
-   * <en/> Expand Combo
+   * <en/> Expand Element
    * @param id - <zh/> 元素 ID | <en/> element ID
-   * @param animation - <zh/> 是否启用动画 | <en/> whether to enable animation
+   * @param animation - <zh/> 是否启用动画或者配置收起节点的配置项 | <en/> whether to enable animation or the options of collapsing node
+   * @param options
    * @apiCategory element
    */
-  public async expandElement(id: ID, animation: boolean = true): Promise<void> {
+  public async expandElement(id: ID, options: boolean | CollapseExpandNodeOptions = true): Promise<void> {
     const { model, element } = this.context;
     if (!isCollapsed(model.getNodeLikeData([id])[0])) return;
-
     if (this.isCollapsingExpanding) return;
+
+    if (typeof options === 'boolean') options = { animation: options, align: true };
 
     const elementType = model.getElementType(id);
 
     this.isCollapsingExpanding = true;
     this.setElementCollapsibility(id, false);
-    if (elementType === 'node') await element!.expandNode(id, animation);
-    else if (elementType === 'combo') await element!.expandCombo(id, animation);
+    if (elementType === 'node') await element!.expandNode(id, options);
+    else if (elementType === 'combo') await element!.expandCombo(id, !!options.animation);
 
     this.isCollapsingExpanding = false;
   }
