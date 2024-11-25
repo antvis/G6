@@ -424,7 +424,7 @@ export class Graph extends EventEmitter {
    * <zh/> 获取插件实例
    *
    * <en/> Get plugin instance
-   * @param key - <zh/> 插件 key | <en/> plugin key
+   * @param key - <zh/> 插件 key（在配置 plugin 时需要手动传入指定） | <en/> plugin key(need to be specified manually when configuring plugin)
    * @returns <zh/> 插件实例 | <en/> plugin instance
    * @remarks
    * <zh/> 一些插件提供了 API 方法可供调用，例如全屏插件可以调用 `request` 和 `exit` 方法来请求和退出全屏
