@@ -22,11 +22,7 @@ jobs:
         run: |
           brew update
           brew install python3 || : # python doesn't need to be linked
-          brew install pkg-config cairo pango libpng jpeg giflib librsvg
-
-          brew unlink pkg-config
-          brew link --overwrite pkgconf
-
+          brew install cairo pango libpng jpeg giflib librsvg
           pip install setuptools
 
       - uses: pnpm/action-setup@v4
