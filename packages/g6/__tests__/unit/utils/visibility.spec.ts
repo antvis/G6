@@ -27,7 +27,7 @@ describe('visibility', () => {
     setVisibility(shape, 'visible');
     expect(shape.style.visibility).toBe('visible');
     expect(vShape.style.visibility).toBe('visible');
-    expect(hShape.style.visibility).toBe('hidden');
+    expect(hShape.style.visibility).toBe('visible');
   });
 
   it('default is hidden', () => {
@@ -42,7 +42,7 @@ describe('visibility', () => {
     setVisibility(shape, 'visible');
     expect(shape.style.visibility).toBe('visible');
     expect(vShape.style.visibility).toBe('visible');
-    expect(hShape.style.visibility).toBe('hidden');
+    expect(hShape.style.visibility).toBe('visible');
   });
 
   it('setVisibility', () => {
@@ -107,16 +107,16 @@ describe('visibility', () => {
       expect(root.style.visibility).toBe('visible');
       expect(l1.style.visibility).toBe('visible');
       expect(l2.style.visibility).toBe('visible');
-      expect(l3.style.visibility).toBe('hidden');
+      expect(l3.style.visibility).toBe('visible');
       expect(l1_1.style.visibility).toBe('visible');
       expect(l1_2.style.visibility).toBe('visible');
-      expect(l1_3.style.visibility).toBe('hidden');
+      expect(l1_3.style.visibility).toBe('visible');
       expect(l2_1.style.visibility).toBe('visible');
       expect(l2_2.style.visibility).toBe('visible');
-      expect(l2_3.style.visibility).toBe('hidden');
-      expect(l3_1.style.visibility).toBe('hidden');
-      expect(l3_2.style.visibility).toBe('hidden');
-      expect(l3_3.style.visibility).toBe('hidden');
+      expect(l2_3.style.visibility).toBe('visible');
+      expect(l3_1.style.visibility).toBe('visible');
+      expect(l3_2.style.visibility).toBe('visible');
+      expect(l3_3.style.visibility).toBe('visible');
     };
 
     assertDefault();
@@ -175,8 +175,8 @@ describe('visibility', () => {
 
     setVisibility(root, 'visible');
     expect(root.style.visibility).toBe('visible');
-    expect(level1.style.visibility).toBe('hidden');
-    expect(level2.style.visibility).toBe('hidden');
+    expect(level1.style.visibility).toBe('visible');
+    expect(level2.style.visibility).toBe('visible');
 
     setVisibility(level1, 'visible');
     expect(root.style.visibility).toBe('visible');

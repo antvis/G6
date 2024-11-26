@@ -70,7 +70,7 @@ export class OptimizeViewportTransform extends BaseBehavior<OptimizeViewportTran
       } else if (visibility === 'visible' && this.hiddenShapes.includes(element)) {
         this.hiddenShapes.splice(this.hiddenShapes.indexOf(element), 1);
       } else {
-        setVisibility(element, visibility, false, filter);
+        setVisibility(element, visibility, filter);
       }
     });
   };
