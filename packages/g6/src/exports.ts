@@ -206,6 +206,7 @@ export type {
   WatermarkOptions,
 } from './plugins';
 export type { CanvasConfig, DataURLOptions } from './runtime/canvas';
+export type { CollapseExpandNodeOptions } from './runtime/element';
 export type { RuntimeContext } from './runtime/types';
 export type {
   BehaviorOptions,

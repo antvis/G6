@@ -2,6 +2,7 @@ import { AABB, ICamera } from '@antv/g';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
 import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
+import type { Element } from '../types/element';
 import { getAnimationOptions } from '../utils/animation';
 import { getBBoxSize, getCombinedBBox, getExpandedBBox, isBBoxInside, isPointInBBox } from '../utils/bbox';
 import { AnimateEvent, ViewportEvent, emit } from '../utils/event';
@@ -217,7 +218,7 @@ export class ViewportController {
       (direction === 'y' && contentHeight >= innerHeight) ||
       (direction === 'both' && contentWidth >= innerWidth && contentHeight >= innerHeight);
 
-    if (when === 'overflow' && !isOverflow) return await this.fitCenter(animation);
+    if (when === 'overflow' && !isOverflow) return await this.fitCenter({ animation });
 
     const scaleX = innerWidth / contentWidth;
     const scaleY = innerHeight / contentHeight;
@@ -237,23 +238,27 @@ export class ViewportController {
     );
   }
 
-  public async fitCenter(animation?: ViewportAnimationEffectTiming): Promise<void> {
+  public async fitCenter(options: FocusOptions): Promise<void> {
     const canvasBounds = this.context.canvas.getBounds();
-    await this.focus(canvasBounds, animation);
+    await this.focus(canvasBounds, options);
   }
 
-  public async focusElements(ids: ID[], animation?: ViewportAnimationEffectTiming): Promise<void> {
+  public async focusElements(ids: ID[], options: FocusOptions = {}): Promise<void> {
     const { element } = this.context;
     if (!element) return;
-    const elementsBounds = getCombinedBBox(ids.map((id) => element.getElement(id)!.getRenderBounds()));
-    await this.focus(elementsBounds, animation);
+
+    const getBoundsOf = (el: Element) =>
+      options.shapes ? el.getShape(options.shapes).getRenderBounds() : el.getRenderBounds();
+
+    const elementsBounds = getCombinedBBox(ids.map((id) => getBoundsOf(element.getElement(id)!)));
+    await this.focus(elementsBounds, options);
   }
 
-  private async focus(bbox: AABB, animation?: ViewportAnimationEffectTiming) {
+  private async focus(bbox: AABB, options: FocusOptions) {
     const center = this.context.graph.getViewportByCanvas(bbox.center);
-    const canvasCenter = this.getCanvasCenter();
-    const delta = subtract(canvasCenter, center);
-    await this.transform({ mode: 'relative', translate: add(delta, this.paddingOffset) }, animation);
+    const position = options.position || this.getCanvasCenter();
+    const delta = subtract(position, center);
+    await this.transform({ mode: 'relative', translate: add(delta, this.paddingOffset) }, options.animation);
   }
 
   /**
@@ -311,4 +316,25 @@ export class ViewportController {
     }
     this.transformResolver?.();
   }
+}
+
+export interface FocusOptions {
+  /**
+   * <zh/> 动画配置
+   *
+   * <en/> Animation configuration
+   */
+  animation?: ViewportAnimationEffectTiming;
+  /**
+   * <zh/> 使用子图形计算包围盒
+   *
+   * <en/> Calculate the bounding box by using sub-shapes
+   */
+  shapes?: string;
+  /**
+   * <zh/> 对齐位置，默认为画布中心
+   *
+   * <en/> Alignment position, default is the center of the canvas
+   */
+  position?: Point;
 }
