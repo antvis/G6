@@ -58,11 +58,11 @@
   },
   "dependencies": {
     "@antv/algorithm": "^0.1.26",
-    "@antv/component": "^2.1.1",
+    "@antv/component": "^2.1.2",
     "@antv/event-emitter": "^0.1.3",
-    "@antv/g": "^6.1.7",
-    "@antv/g-canvas": "^2.0.24",
-    "@antv/g-plugin-dragndrop": "^2.0.18",
+    "@antv/g": "^6.1.11",
+    "@antv/g-canvas": "^2.0.29",
+    "@antv/g-plugin-dragndrop": "^2.0.22",
     "@antv/graphlib": "^2.0.3",
     "@antv/hierarchy": "^0.6.14",
     "@antv/layout": "1.2.14-beta.9",
@@ -71,8 +71,8 @@
     "hull.js": "^1.0.6"
   },
   "devDependencies": {
-    "@antv/g-svg": "^2.0.20",
-    "@antv/g-webgl": "^2.0.28",
+    "@antv/g-svg": "^2.0.24",
+    "@antv/g-webgl": "^2.0.33",
     "@antv/layout-gpu": "^1.1.7",
     "@antv/layout-wasm": "^1.4.2",
     "@types/hull.js": "^1.0.4",
