@@ -4,7 +4,7 @@
   "repository": "https://github.com/antvis/G6.git",
   "scripts": {
     "build": "turbo build --filter=!@antv/g6-site",
-    "ci": "turbo run ci --filter=!@antv/g6-site",
+    "ci": "turbo run ci --filter=!@antv/g6-site --filter=!@antv/g6-ssr",
     "contribute": "node ./scripts/contribute.mjs",
     "dev:g6": "cd ./packages/g6 && npm run dev",
     "postinstall": "husky install",
