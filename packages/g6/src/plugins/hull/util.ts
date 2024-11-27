@@ -2,7 +2,7 @@ import { type PathArray } from '@antv/util';
 import type { Point, Vector2 } from '../../types';
 import { getLinesIntersection } from '../../utils/line';
 import { getClosedSpline } from '../../utils/path';
-import { sortByClockwise } from '../../utils/point';
+import { isCollinear, sortByClockwise } from '../../utils/point';
 import { add, angle, normalize, perpendicular, scale, subtract, toVector2, toVector3 } from '../../utils/vector';
 import type { HullOptions } from '../hull';
 
@@ -18,6 +18,11 @@ import type { HullOptions } from '../hull';
 export function computeHullPath(points: Point[], padding: number, corner: 'rounded' | 'smooth' | 'sharp'): PathArray {
   if (points.length === 1) return genSinglePointHullPath(points[0], padding, corner);
   if (points.length === 2) return genTwoPointsHullPath(points, padding, corner);
+  if (points.length === 3) {
+    const [p1, p2, p3] = sortByClockwise(points);
+    if (isCollinear(p1, p2, p3)) return genTwoPointsHullPath([p1, p3], padding, corner);
+  }
+
   switch (corner) {
     case 'smooth':
       return genMultiPointsSmoothHull(points, padding);
@@ -134,6 +139,7 @@ const genMultiPointsRoundedHull = (points: Point[], padding: number): PathArray 
       },
     ];
   });
+
   const arcData = [padding, padding, 0, 0, 0];
   const startIndex = segments.findIndex(
     (segment, i) =>
