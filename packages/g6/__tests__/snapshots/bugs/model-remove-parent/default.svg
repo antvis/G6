@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g >
+    <g fill="none">
+      <g fill="none" class="elements">
+        <g fill="none" transform="matrix(1,0,0,1,300.440002,237.500000)">
+          <g>
+            <path fill="rgba(153,173,209,1)" d="M -78.74000000000001,-113.5 l 157.48000000000002,0 l 0,227 l-157.48000000000002 0 z" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" width="157.48000000000002" height="227" x="-78.74000000000001" y="-113.5"/>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,250,150)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                node1
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,350,150)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                node2
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,250,300)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                node3
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

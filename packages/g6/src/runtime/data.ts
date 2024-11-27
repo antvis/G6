@@ -1,5 +1,5 @@
 import { Graph as GraphLib } from '@antv/graphlib';
-import { isNumber, isUndefined, uniq } from '@antv/util';
+import { isNil, isNumber, uniq } from '@antv/util';
 import { COMBO_KEY, ChangeType, TREE_KEY } from '../constants';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type {
@@ -518,8 +518,15 @@ export class DataController {
       const id = idOf(datum);
       const parent = parentIdOf(datum);
 
-      if (parent) {
+      if (parent !== undefined) {
         if (!model.hasTreeStructure(COMBO_KEY)) model.attachTreeStructure(COMBO_KEY);
+
+        // 解除原父节点的子节点关系，更新原父节点及其祖先的数据
+        // Remove the child relationship of the original parent node, update the data of the original parent node and its ancestors
+        if (parent === null) {
+          this.refreshComboData(id);
+        }
+
         this.setParent(id, parentIdOf(datum), COMBO_KEY);
       }
 
@@ -665,7 +672,7 @@ export class DataController {
    * @param hierarchyKey - <zh/> 层次结构类型 | <en/> hierarchy type
    * @param update - <zh/> 添加新/旧父节点数据更新记录 | <en/> add new/old parent node data update record
    */
-  public setParent(id: ID, parent: ID | undefined, hierarchyKey: HierarchyKey, update: boolean = true) {
+  public setParent(id: ID, parent: ID | undefined | null, hierarchyKey: HierarchyKey, update: boolean = true) {
     if (id === parent) return;
     const elementData = this.getNodeLikeDatum(id);
     const originalParentId = parentIdOf(elementData);
@@ -891,7 +898,7 @@ export class DataController {
         this.model.mergeNodeData(idOf(childData), value);
       });
 
-      if (!isUndefined(grandParent)) this.refreshComboData(grandParent);
+      if (!isNil(grandParent)) this.refreshComboData(grandParent);
     }
   }
 

@@ -92,7 +92,7 @@ export interface NodeData {
    *
    * <en/> ID of the combo to which the node belongs
    */
-  combo?: ID;
+  combo?: ID | null;
   /**
    * <zh/> 子节点 ID
    *
@@ -161,7 +161,7 @@ export interface ComboData {
    *
    * <en/> ID of the combo to which the combo belongs
    */
-  combo?: ID;
+  combo?: ID | null;
   [key: string]: unknown;
 }
 
