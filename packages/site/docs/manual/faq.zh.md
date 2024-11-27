@@ -268,3 +268,11 @@ graph.on(NodeEvent.CLICK, (event: IPointerEvent) => {
   // handler
 });
 ```
+
+### 解除节点所在组合
+
+更新节点数据，`combo` 值设置为 `null`。
+
+```typescript
+graph.updateNodeData([{ id: 'node-id', combo: null }]);
+```

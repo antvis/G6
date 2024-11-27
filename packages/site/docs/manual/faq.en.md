@@ -268,3 +268,11 @@ graph.on(NodeEvent.CLICK, (event: IPointerEvent) => {
   // handler
 });
 ```
+
+### Remove the parent combo of the node
+
+Update the node data, set the `combo` value to `null`.
+
+```typescript
+graph.updateNodeData([{ id: 'node-id', combo: null }]);
+```
