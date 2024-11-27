@@ -54,7 +54,11 @@ export class PlaceRadialLabels extends BaseTransform<PlaceRadialLabelsOptions> {
       const isLeft = Math.abs(radian) > Math.PI / 2;
 
       const isLeaf = !datum.children || datum.children.length === 0;
-      const nodeHalfWidth = parseSize(graph.getElementRenderStyle(idOf(datum)).size)[0] / 2;
+      const nodeId = idOf(datum);
+      const node = this.context.element?.getElement(nodeId);
+      if (!node || !node.isVisible()) return;
+
+      const nodeHalfWidth = parseSize(graph.getElementRenderStyle(nodeId).size)[0] / 2;
       const offset = (isLeaf ? 1 : -1) * (nodeHalfWidth + this.options.offset);
 
       const labelTransform: TransformArray = [
