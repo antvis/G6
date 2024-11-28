@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "run-s build:*",
+    "build:rollup": "rollup -c",
+    "build:vite": "vite build",
+    "build:webpack": "webpack",
+    "ci": "npm run build"
+  },
+  "dependencies": {
+    "@antv/g6": "workspace:*"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.8",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rollup": "^4.27.4",
+    "rollup-plugin-polyfill-node": "^0.13.0",
+    "swc": "^1.0.11",
+    "vite": "^5.4.11",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  }
+}

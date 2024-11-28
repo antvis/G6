@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "lib",
+    "paths": {
+      "@antv/g6": ["../g6/src/index.ts"]
+    }
+  },
+  "extends": "../../tsconfig.json",
+  "include": ["src/**/*"]
+}
