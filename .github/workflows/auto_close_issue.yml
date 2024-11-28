@@ -37,14 +37,14 @@ jobs:
             这个 issue 已经被关闭，因为 **它是无效的**。
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Warning Bad Issue
-        if: ${{ github.event.label.name == 'Bad' }}
+        if: ${{ github.event.label.name == 'Need Improvement' }}
         run: gh issue comment "$NUMBER" --body "$BODY"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
           BODY: >
-            This issue has been marked as **Bad**. Please provide more information, or use the standard format, otherwise it will be closed soon.
+            Please provide more information, or use the standard format, otherwise we will not process this issue.
 
             Reference document: 
             
@@ -53,7 +53,7 @@ jobs:
             
             ---
             
-            这个 issue 已经被标记为 **Bad**。请提供更多信息，或者使用规范的格式，否则将在近期关闭。
+            请提供更多信息，或者使用规范的格式，否则我们不会处理这个 issue。
 
             参考文档：
 
