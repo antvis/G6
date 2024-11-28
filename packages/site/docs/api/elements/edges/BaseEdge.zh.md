@@ -29,7 +29,9 @@ const graph = new Graph({
 
 ## 类型属性 type
 
-指定边类型，内置边类型名称或自定义边的名称。默认为 `line`。更多内置支持边类型，可查看[边注册表](https://g6.antv.antgroup.com/manual/getting-started/extensions#%E8%BE%B9)。
+指定边类型，内置边类型名称或自定义边的名称。默认为 `line`（直线边）。
+
+更多内置支持边类型，可查看[边注册表](/manual/getting-started/extensions#边)。
 
 ## 样式属性 style
 
@@ -37,7 +39,7 @@ const graph = new Graph({
 
 <img width="320" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cVHVQJKLOlgAAAAAAAAAAAAADmJ7AQ/original" />
 
-> 了解边的构成，请阅读 [核心概念 - 元素](https://g6.antv.antgroup.com/manual/core-concept/element#%E8%BE%B9%E6%9E%84%E6%88%90)。
+> 了解边的构成，请阅读 [核心概念 - 元素 - 边](/manual/core-concept/element#边)。
 
 以下样式配置将按原子图形依次说明：
 
@@ -48,8 +50,8 @@ const graph = new Graph({
 | stroke          | 描边色                                                                                   | string                                                       | `#000` |
 | lineWidth       | 描边宽度                                                                                 | number                                                       | 1      |
 | lineDash        | 线条虚线的偏移量                                                                         | number                                                       | 0      |
-| sourcePort      | 边起始连接的 port                                                                        | string                                                       | -      |
-| targetPort      | 边终点连接的 port                                                                        | string                                                       | -      |
+| sourcePort      | 边起始连接的连接桩                                                                       | string                                                       | -      |
+| targetPort      | 边终点连接的连接桩                                                                       | string                                                       | -      |
 | isBillboard     | 3D 场景中生效，始终朝向屏幕，因此线宽不受透视投影影像                                    | boolean                                                      | true   |
 | `${StyleProps}` | 更多样式配置，请参考 [PathStyleProps](https://g.antv.antgroup.com/api/basic/path) 配置值 | [PathStyleProps](https://g.antv.antgroup.com/api/basic/path) | -      |
 
@@ -73,7 +75,7 @@ const graph = new Graph({
 | `label${StyleProps}`           | 更多标签样式配置，参考 [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) 属性值。例如 labelFontSize 代表标签文字大小                                                                                                          | [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) | -        |
 | labelBackground                | 是否显示背景                                                                                                                                                                                                                             | boolean                                                      | false    |
 | labelBackgroundFill            | 标签背景填充色                                                                                                                                                                                                                           | string                                                       | -        |
-| labelBackgroundRadius          | 标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，会补足缺省的分量 <br> - string: 与 [CSS padding](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding) 属性类似，使用空格分隔            | number \| number[] \| string                                 | 0        |
+| labelBackgroundRadius          | 标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，不足则自动补充                                                                                                                               | number &#124; number[]                                       | 0        |
 | `labelBackground${StyleProps}` | 更多标签背景样式配置，参考 [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect) 属性值。例如 labelBackgroundFillOpacity 代表标签背景透明度                                                                                       | [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect) | -        |
 
 ### 光晕样式 halo
@@ -110,7 +112,7 @@ const graph = new Graph({
 | ---------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
 | startArrow       | 是否显示边的起始箭头 | boolean                                                                                                                                | false      |
 | startArrowOffset | 起始箭头的偏移量     | number                                                                                                                                 | 0          |
-| startArrowSize   | 箭头大小             | number \| [number, number] \| [number, number, number]                                                                                 | 8          |
+| startArrowSize   | 箭头大小             | number \| [number, number]                                                                                                             | 8          |
 | startArrowType   | 箭头类型             | `triangle` \| `circle` \| `diamond` \| `vee` \| `rect` \| `triangleRect` \| `simple` \| ((width: number, height: number) => PathArray) | `triangle` |
 
 ### 终点箭头样式 endArrow
@@ -119,7 +121,7 @@ const graph = new Graph({
 | -------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
 | endArrow       | 是否显示边的结束箭头 | boolean                                                                                                                                | false      |
 | endArrowOffset | 结束箭头的偏移量     | number                                                                                                                                 | 0          |
-| endArrowSize   | 箭头大小             | number \| [number, number] \| [number, number, number]                                                                                 | 8          |
+| endArrowSize   | 箭头大小             | number \| [number, number]                                                                                                             | 8          |
 | endArrowType   | 箭头类型             | `triangle` \| `circle` \| `diamond` \| `vee` \| `rect` \| `triangleRect` \| `simple` \| ((width: number, height: number) => PathArray) | `triangle` |
 
 ### 自环边样式 loop
@@ -185,11 +187,77 @@ createGraph(
 
 ## 动画属性 animation
 
+定义边的动画效果，支持下列两种配置方式：
+
+1. 关闭边全部动画
+
+```json
+{
+  "edge": {
+    "animation": false
+  }
+}
+```
+
+2. 配置阶段动画
+
+阶段动画是指边在进入画布、更新、离开画布时的动画效果。目前支持的阶段包括：
+
+- `enter`: 边进入画布时的动画
+- `update`: 边更新时的动画
+- `exit`: 边离开画布时的动画
+- `show`: 边从隐藏状态显示时的动画
+- `hide`: 边隐藏时的动画
+- `collapse`: 边收起时的动画
+- `expand`: 边展开时的动画
+
+你可以参考 [动画范式](/manual/core-concept/animation#动画范式) 使用动画语法来配置边，如：
+
+```json
+{
+  "node": {
+    "animation": {
+      "update": [
+        {
+          "fields": ["stroke"], // 更新时只对 stroke 属性进行动画
+          "duration": 1000, // 动画持续时间
+          "easing": "linear" // 缓动函数
+        }
+      ],
+  }
+}
+```
+
+也可以使用内置的动画效果：
+
+```json
+{
+  "node": {
+    "animation": {
+      "enter": "fade", // 使用渐变动画
+      "exit": "fade" // 使用渐变动画
+    }
+  }
+}
+```
+
+你可以传入 false 来关闭特定阶段的动画：
+
+```json
+{
+  "node": {
+    "animation": {
+      "enter": false // 关闭边入场动画
+    }
+  }
+}
+```
+
 ## 色板属性 palette
 
 在定义图元素样式时，色板能够快速指定边颜色，尤其在聚类时，可以直观地展示边的类别。
 
-> 如果你对 G6 中的色板还不了解，建议先查阅相关[文档](https://g6.antv.antgroup.com/manual/core-concept/palette)。
+> 如果你对 G6 中的色板还不了解，建议先查阅相关[文档](manual/core-concept/palette)。
 
 | 属性   | 描述                                                                | 类型                          | 默认值  |
 | ------ | ------------------------------------------------------------------- | ----------------------------- | ------- |
