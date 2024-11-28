@@ -39,7 +39,7 @@ const graph = new Graph({
 
 <img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Ot4bSbBx97EAAAAAAAAAAAAADmJ7AQ/original" />
 
-> 深入了解节点构成，请阅读 [核心概念 - 元素](/manual/core-concept/element)。
+> 深入了解节点构成，请阅读 [核心概念 - 元素 - 节点](/manual/core-concept/element#节点)。
 
 以下样式配置将按原子图形依次说明：
 
@@ -76,7 +76,7 @@ const graph = new Graph({
 | `label${StyleProps}`           | 更多标签样式配置，参考 [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) 属性值。例如 labelFontSize 代表标签文字大小                                                                                                              | [TextStyleProps](https://g.antv.antgroup.com/api/basic/text)                                                                                                                                                                       | -        |
 | labelBackground                | 是否显示背景                                                                                                                                                                                                                                 | boolean                                                                                                                                                                                                                            | false    |
 | labelBackgroundFill            | 标签背景填充色                                                                                                                                                                                                                               | string                                                                                                                                                                                                                             | -        |
-| labelBackgroundRadius          | 标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，会补足缺省的分量 <br> - string: 与 [CSS padding](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding) 属性类似，使用空格分隔                | number &#124; number[] &#124; string                                                                                                                                                                                               | 0        |
+| labelBackgroundRadius          | 标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，不足则自动补充                                                                                                                                   | number &#124; number[]                                                                                                                                                                                                             | 0        |
 | `labelBackground${StyleProps}` | 更多标签背景样式配置，参考 [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect) 属性值。例如 labelBackgroundFillOpacity 代表标签背景透明度                                                                                           | [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect)                                                                                                                                                                       | -        |
 
 ### 光晕样式 halo
