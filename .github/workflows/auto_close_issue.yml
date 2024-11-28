@@ -36,3 +36,27 @@ jobs:
 
             这个 issue 已经被关闭，因为 **它是无效的**。
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Warning Bad Issue
+        if: ${{ github.event.label.name == 'Bad' }}
+        run: gh issue comment "$NUMBER" --body "$BODY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          BODY: >
+            This issue has been marked as **Bad**. Please provide more information, or use the standard format, otherwise it will be closed soon.
+
+            Reference document: 
+            
+              - [Creating an issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-an-issue)
+              - [Basic writing and formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+            
+            ---
+            
+            这个 issue 已经被标记为 **Bad**。请提供更多信息，或者使用规范的格式，否则将在近期关闭。
+
+            参考文档：
+
+              - [创建议题](https://docs.github.com/zh/issues/tracking-your-work-with-issues/using-issues/creating-an-issue)
+              - [基本撰写和格式语法](https://docs.github.com/zh/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+
