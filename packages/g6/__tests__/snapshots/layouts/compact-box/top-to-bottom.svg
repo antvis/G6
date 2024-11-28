@@ -4,210 +4,180 @@
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M -94.49999237060547,277 C 17.500003814697266 277,17.500003814697266 -37.99999237060547,129.5 -37.99999237060547" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M -94.49999237060547,277 C 17.500003814697266 277,17.500003814697266 331,129.5 331" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M -94.49999237060547,277 C 17.500003814697266 277,17.500003814697266 592,129.5 592" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,-37.99999237060547 C 252.5 -37.99999237060547,252.5 -164,363.5 -164" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,-37.99999237060547 C 252.5 -37.99999237060547,252.5 -127.99999237060547,363.5 -127.99999237060547" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,-37.99999237060547 C 252.5 -37.99999237060547,252.5 -91.99999237060547,363.5 -91.99999237060547" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,-37.99999237060547 C 252.5 -37.99999237060547,252.5 -55.99999237060547,363.5 -55.99999237060547" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,-37.99999237060547 C 252.5 -37.99999237060547,252.5 -19.99999237060547,363.5 -19.99999237060547" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,-37.99999237060547 C 252.5 -37.99999237060547,252.5 16.00000762939453,363.5 16.00000762939453" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,-37.99999237060547 C 252.5 -37.99999237060547,252.5 52.00000762939453,363.5 52.00000762939453" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,-37.99999237060547 C 252.5 -37.99999237060547,252.5 88.00000762939453,363.5 88.00000762939453" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,331 C 250 331,250 214,358.5 214" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,331 C 250 331,250 358,358.5 358" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,331 C 250 331,250 448,358.5 448" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,214 C 482.5 214,482.5 124.00000762939453,594.5 124.00000762939453" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,214 C 482.5 214,482.5 160,594.5 160" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,214 C 482.5 214,482.5 196,594.5 196" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,214 C 482.5 214,482.5 232,594.5 232" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,214 C 482.5 214,482.5 268,594.5 268" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,214 C 482.5 214,482.5 304,594.5 304" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,358 C 478 358,478 340,585.5 340" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,358 C 478 358,478 376,585.5 376" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,448 C 477.5 448,477.5 412,584.5 412" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,448 C 477.5 448,477.5 448,584.5 448" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 370.5,448 C 477.5 448,477.5 484,584.5 484" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,592 C 250.5 592,250.5 520,359.5 520" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,592 C 250.5 592,250.5 556,359.5 556" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,592 C 250.5 592,250.5 592,359.5 592" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,592 C 250.5 592,250.5 628,359.5 628" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 141.5,592 C 250.5 592,250.5 664,359.5 664" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 6,0 C 6 0,6 0,6 0" class="key" stroke-width="3" stroke="transparent"/>

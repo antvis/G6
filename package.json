@@ -30,8 +30,8 @@
     ]
   },
   "devDependencies": {
-    "@antv/g-canvas": "^2.0.29",
-    "@antv/g-plugin-rough-canvas-renderer": "^2.0.29",
+    "@antv/g-canvas": "^2.0.32",
+    "@antv/g-plugin-rough-canvas-renderer": "^2.0.32",
     "@babel/core": "^7.26.0",
     "@babel/plugin-transform-typescript": "^7.25.9",
     "@changesets/cli": "^2.27.10",
@@ -48,7 +48,7 @@
     "@types/d3-hierarchy": "^3.1.7",
     "@types/jest": "^29.5.14",
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^20.17.7",
+    "@types/node": "^20.17.8",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "chalk": "^4.1.2",
@@ -65,7 +65,7 @@
     "lint-staged": "^15.2.10",
     "npm-run-all": "^4.1.5",
     "open": "^10.1.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.1",
     "prettier-plugin-organize-imports": "^3.2.4",
     "prettier-plugin-packagejson": "^2.5.6",
     "rimraf": "^5.0.10",

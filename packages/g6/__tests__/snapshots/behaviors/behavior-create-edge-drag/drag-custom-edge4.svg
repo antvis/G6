@@ -4,7 +4,6 @@
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="4"/>
           <g>
             <path fill="none" d="M 276.9782711335573,219.06518659932803 L 251.89736659610102,294.3079002116969" class="key" stroke-width="2" stroke="rgba(255,0,0,1)"/>
             <path fill="none" d="M 276.9782711335573,219.06518659932803 L 251.89736659610102,294.3079002116969" class="key" stroke-width="4" stroke="transparent"/>
@@ -24,7 +23,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 260,150 L 334,150" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 260,150 L 334,150" class="key" stroke-width="3" stroke="transparent"/>
@@ -34,7 +32,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 250,160 L 250,284" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 250,160 L 250,284" class="key" stroke-width="3" stroke="transparent"/>
@@ -44,7 +41,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="4"/>
           <g>
             <path fill="none" d="M 344.4529980377477,158.32050294337844 L 258.8752031396037,286.6871952905945" class="key" stroke-width="2" stroke="rgba(255,0,0,1)"/>
             <path fill="none" d="M 344.4529980377477,158.32050294337844 L 258.8752031396037,286.6871952905945" class="key" stroke-width="4" stroke="transparent"/>
@@ -54,7 +50,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="4"/>
           <g>
             <path fill="none" d="M 255.5470019622523,291.6794970566216 L 341.1247968603963,163.3128047094055" class="key" stroke-width="2" stroke="rgba(255,0,0,1)"/>
             <path fill="none" d="M 255.5470019622523,291.6794970566216 L 341.1247968603963,163.3128047094055" class="key" stroke-width="4" stroke="transparent"/>

@@ -14,7 +14,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 110,100 L 184,100" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 110,100 L 184,100" class="key" stroke-width="3" stroke="transparent"/>
@@ -29,7 +28,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 203.5112344158839,109.36329177569044 L 254.38202493458576,245.0187331588953" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="visible"/>
             <path fill="none" d="M 200,110 L 200,184" class="key" stroke-width="3" stroke="transparent" visibility="visible"/>
@@ -39,7 +37,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 100,110 L 100,224" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="visible"/>
             <path fill="none" d="M 100,110 L 100,184" class="key" stroke-width="3" stroke="transparent" visibility="visible"/>
@@ -49,7 +46,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 109.92277876713668,241.24034734589208 L 244.12355397258133,258.01544424657266" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="visible"/>
             <path fill="none" d="M 110,200 L 184,200" class="key" stroke-width="3" stroke="transparent" visibility="visible"/>

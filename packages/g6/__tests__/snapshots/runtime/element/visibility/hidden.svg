@@ -4,21 +4,18 @@
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 60,50 L 190,50" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 60,50 L 190,50" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" opacity="0.5" visibility="hidden"/>
             <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="3" stroke="transparent" opacity="0.5" visibility="hidden"/>
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 119,142 L 56,58" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="hidden"/>
             <path fill="none" d="M 119,142 L 56,58" class="key" stroke-width="3" stroke="transparent" visibility="hidden"/>

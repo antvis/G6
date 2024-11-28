@@ -4,7 +4,6 @@
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 264,66 C 264 216,50 216,50 360" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 0,-16 C 0 -16,0 -16,0 -16" class="key" stroke-width="3" stroke="transparent"/>
@@ -24,7 +23,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 264,66 C 264 216,157 216,157 366" class="halo" stroke-width="12" stroke="rgba(153,173,209,1)" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
             <path fill="none" d="M 0,-16 C 0 -16,0 -16,0 -16" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
@@ -48,7 +46,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="5"/>
           <g>
             <path fill="none" d="M 264,66 C 264 216,264 216,264 366" class="halo" stroke-width="12" stroke="rgba(153,173,209,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
             <path fill="none" d="M 0,-16 C 0 -16,0 -16,0 -16" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
@@ -72,7 +69,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="5"/>
           <g>
             <path fill="none" d="M 264,66 C 264 216,371 216,371 360" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 0,-16 C 0 -16,0 -16,0 -16" class="key" stroke-width="5" stroke="transparent"/>
@@ -92,7 +88,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 264,66 C 264 216,478 216,478 360" class="key" fill-opacity="0.08" stroke-width="1" stroke="rgba(27,50,79,1)" stroke-opacity="0.08"/>
             <path fill="none" d="M 0,-16 C 0 -16,0 -16,0 -16" class="key" fill-opacity="0.08" stroke-width="3" stroke="transparent" stroke-opacity="0.08"/>

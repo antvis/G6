@@ -35,9 +35,9 @@
     "type-check": "tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
-    "@antv/g": "^6.1.11",
-    "@antv/g-svg": "^2.0.24",
-    "@antv/react-g": "^2.0.27"
+    "@antv/g": "^6.1.14",
+    "@antv/g-svg": "^2.0.27",
+    "@antv/react-g": "^2.0.30"
   },
   "devDependencies": {
     "@ant-design/icons": "^5.5.1",

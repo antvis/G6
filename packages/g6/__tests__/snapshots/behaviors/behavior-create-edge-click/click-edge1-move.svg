@@ -19,7 +19,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 240.51316701949486,146.83772233983163 L 105.69209978830308,101.89736659610102" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" pointer-events="none"/>
             <path fill="none" d="M 260,150 L 250,150" class="key" stroke-width="3" stroke="transparent" pointer-events="none"/>

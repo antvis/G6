@@ -41,9 +41,9 @@
     "@ant-design/icons": "^5.5.1",
     "@antv/algorithm": "^0.1.26",
     "@antv/dumi-theme-antv": "^0.5.3",
-    "@antv/g": "^6.1.11",
-    "@antv/g-svg": "^2.0.24",
-    "@antv/g-webgl": "^2.0.33",
+    "@antv/g": "^6.1.14",
+    "@antv/g-svg": "^2.0.27",
+    "@antv/g-webgl": "^2.0.36",
     "@antv/g2": "^5.2.7",
     "@antv/g6": "workspace:*",
     "@antv/g6-extension-3d": "workspace:*",
@@ -74,7 +74,7 @@
     "@types/resolve": "^1.20.6",
     "fs-extra": "^11.2.0",
     "gh-pages": "^6.2.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.1",
     "resolve": "^1.22.8"
   }
 }
