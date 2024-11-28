@@ -4,7 +4,6 @@
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 234.3033744233815,253.1009588045387 Q 147.89999683993094 300.7502647530347,55.829155362557884 290.21906771254913" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 16,0 Q 16 0,16 0" class="key" stroke-width="3" stroke="transparent"/>
@@ -24,7 +23,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 260.876537756464,238.26539619619766 Q 302.7738172086909 148.93108811165925,388.6758609251766 100.38379661386094" class="halo" stroke-width="12" stroke="rgba(153,173,209,1)" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
             <path fill="none" d="M 16,0 Q 16 0,16 0" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
@@ -48,7 +46,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="5"/>
           <g>
             <path fill="none" d="M 248.0986084719637,265.88662047941955 Q 266.7153461381694 362.78562913459933,225.75725700655192 452.55441955964295" class="halo" stroke-width="12" stroke="rgba(153,173,209,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
             <path fill="none" d="M 16,0 Q 16 0,16 0" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
@@ -72,7 +69,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="5"/>
           <g>
             <path fill="none" d="M 242.20076458273422,236.02960534179272 Q 170.18576666869336 168.57710339467803,151.75316830781327 77.75758340163" class="key" stroke-width="3" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 16,0 Q 16 0,16 0" class="key" stroke-width="5" stroke="transparent"/>
@@ -92,7 +88,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 264.52153176339675,256.7175229991909 Q 362.43088113617836 268.95509608327956,430.7276415350764 331.592923498564" class="key" fill-opacity="0.08" stroke-width="1" stroke="rgba(27,50,79,1)" stroke-opacity="0.08"/>
             <path fill="none" d="M 16,0 Q 16 0,16 0" class="key" fill-opacity="0.08" stroke-width="3" stroke="transparent" stroke-opacity="0.08"/>

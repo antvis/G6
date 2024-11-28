@@ -4,7 +4,6 @@
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="3"/>
           <g>
             <path fill="none" d="M 116,100 L 134,100" class="key" stroke-width="1" stroke="rgba(127,39,4,1)"/>
             <path fill="none" d="M 116,100 L 134,100" class="key" stroke-width="3" stroke="transparent"/>
@@ -26,7 +25,6 @@
           </g>
         </g>
         <g fill="none">
-          <g fill="none" stroke="transparent" stroke-width="6"/>
           <g>
             <path fill="none" d="M 142.84458247200067,114.31083505599865 L 132.15541752799933,135.68916494400133" class="halo" stroke-width="12" stroke="rgba(255,0,0,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
             <path fill="none" d="M 142.84458247200067,114.31083505599865 L 132.15541752799933,135.68916494400133" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
