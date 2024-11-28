@@ -1,6 +1,9 @@
 name: build
 
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
 
 concurrency:
   group: ${{github.workflow}}-${{github.event_name}}-${{github.ref}}
