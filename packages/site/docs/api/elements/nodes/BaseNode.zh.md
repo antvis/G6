@@ -3,7 +3,21 @@ title: 节点配置项
 order: 0
 ---
 
-本文介绍节点属性配置。
+本文介绍节点属性配置，配置位置如下：
+
+```js {5-9}
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  node: {
+    type: 'circle',
+    style: {},
+    state: {},
+    palette: {},
+    animation: {},
+  },
+});
+```
 
 | 属性      | 描述                                         | 类型                                     | 默认值   |
 | --------- | -------------------------------------------- | ---------------------------------------- | -------- |
@@ -37,7 +51,7 @@ order: 0
 | size            | 节点大小，快捷设置节点宽高 <br> - 若值为数字，则表示节点的宽度、高度以及深度相同为指定值 <br> - 若值为数组，则按数组元素依次表示节点的宽度、高度以及深度 | number \| [number, number] \| Float32Array \| [number, number, number] | 32        |
 | fill            | 填充色                                                                                                                                                   | string                                                                 | `#1783FF` |
 | stroke          | 描边色                                                                                                                                                   | string                                                                 | `#000`    |
-| lineWidth       | 描边宽度                                                                                                                                                 | number \| string                                                       | 1         |
+| lineWidth       | 描边宽度                                                                                                                                                 | number                                                                 | 1         |
 | collapsed       | 当前节点/组合是否展开                                                                                                                                    | boolean                                                                | false     |
 | `${StyleProps}` | 更多图形配置，参考 [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object) 配置项。例如 fillOpacity 代表主图形填充色透明度                 | [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object)  | -         |
 
@@ -262,7 +276,7 @@ createGraph(
 );
 ```
 
-## 动画 animation
+## 动画属性 animation
 
 ## 色板属性 palette
 
