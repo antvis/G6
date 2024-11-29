@@ -24,7 +24,7 @@ export interface OptimizeViewportTransformOptions extends BaseBehaviorOptions {
   /**
    * <zh/> 指定始终显示的图形元素。应用此交互后，在画布操作过程中，只有通过该属性指定的图形元素会保持可见，其余图形元素将被隐藏，从而提升渲染性能。默认情况下，节点始终可见，而其他图形元素在操作画布过程中会自动隐藏
    *
-   * <en/> Specify the graphic elements that are always visible. After applying this interaction, only the graphic elements specified by this property will remain visible during the canvas operation, and the rest of the graphic elements will be hidden to improve rendering performance. By default, nodes are always visible, while other graphic elements are automatically hidden during canvas operations
+   * <en/> Specify the shapes that are always visible. After applying this interaction, only the shapes specified by this property will remain visible during the canvas operation, and the rest of the shapes will be hidden to improve rendering performance. By default, nodes are always visible, while other shapes are automatically hidden during canvas operations
    */
   shapes?:
     | { node?: string[]; edge?: string[]; combo?: string[] }

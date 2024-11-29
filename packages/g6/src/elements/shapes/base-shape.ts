@@ -153,8 +153,8 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
   /**
    * <zh/> 从给定的属性对象中提取图形样式属性。删除特定的属性，如位置、变换和类名
    *
-   * <en/> Extracts the graphic style properties from a given attribute object.
-   * Removes specific properties like position, transformation, and class name.
+   * <en/> Extracts the shape styles from a given attribute object.
+   * Removes specific styles like position, transformation, and class name.
    * @param style - <zh/> 属性对象 | <en/> attribute object
    * @returns <zh/> 仅包含样式属性的对象 | <en/> An object containing only the style properties.
    */

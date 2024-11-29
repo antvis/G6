@@ -34,7 +34,7 @@ export function computeElementCallbackStyle(
 /**
  * <zh/> 合并图形配置项
  *
- * <en/> Merge graphic configuration
+ * <en/> Merge shape configuration
  * @param opt1 - <zh/> 配置项1 | <en/> configuration 1
  * @param opt2 - <zh/> 配置项2 | <en/> configuration 2
  * @returns <zh/> 合并后的配置项 | <en/> merged configuration
@@ -50,14 +50,14 @@ export function mergeOptions(opt1: DisplayObjectConfig<any>, opt2: DisplayObject
 /**
  * <zh/> 获取图形子图形样式
  *
- * <en/> Get the style of the sub-shape of the graphic
- * @param style - <zh/> 图形样式 | <en/> graphic style
+ * <en/> Get the style of the sub-shape of the shape
+ * @param style - <zh/> 图形样式 | <en/> shape style
  * @returns <zh/> 子图形样式 | <en/> sub-shape style
  * @remarks
  * <zh/> 从给定的属性对象中提取图形样式属性。删除特定的属性，如位置、变换和类名
  *
- * <en/> Extracts the graphic style properties from a given attribute object.
- * Removes specific properties like position, transformation, and class name.
+ * <en/> Extracts the shape styles from a given attribute object.
+ * Removes specific styles like position, transformation, and class name.
  */
 export function getSubShapeStyle<T extends Record<string, any>>(
   style: T,

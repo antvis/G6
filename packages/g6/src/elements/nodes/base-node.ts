@@ -452,7 +452,7 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
 /**
  * <zh/> 在离屏画布中获取图形包围盒
  *
- * <en/> Get the bounding box of the graphic in the off-screen canvas
+ * <en/> Get the bounding box of the shape in the off-screen canvas
  * @param context - <zh/> 运行时上下文 <en/> Runtime context
  * @param shape - <zh/> 图形实例 <en/> Graphic instance
  * @returns <zh/> 图形包围盒 <en/> Graphic bounding box
@@ -462,7 +462,7 @@ function getBoundsInOffscreen(context: RuntimeContext, shape: DisplayObject) {
 
   // 将主图形靠背至全局空间，避免受到父级 transform 的影响
   // 合理的操作应该是拷贝至离屏画布，但目前 G 有点问题
-  // Move the main graphic to the global space to avoid being affected by the parent transform
+  // Move the main shape to the global space to avoid being affected by the parent transform
   // The reasonable operation should be moved to the off-screen canvas, but there is a problem with G at present
   const canvas = context.canvas.getLayer();
   const substitute = shape.cloneNode();

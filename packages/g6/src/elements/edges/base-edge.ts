@@ -126,33 +126,33 @@ export interface BaseEdgeStyleProps
   /**
    * <zh/> 在 “起点” 处添加一个标记图形，其中 “起始点” 为边与起始节点的交点
    *
-   * <en/> Add a marker graphic at the "start point", where the "start point" is the intersection of the edge and the source node
+   * <en/> Add a marker at the "start point", where the "start point" is the intersection of the edge and the source node
    */
   markerStart?: DisplayObject | null;
   /**
    * <zh/> 调整 “起点” 处标记图形的位置，正偏移量向内，负偏移量向外
    *
-   * <en/> Adjust the position of the marker graphic at the "start point", positive offset inward, negative offset outward
+   * <en/> Adjust the position of the marker at the "start point", positive offset inward, negative offset outward
    * @defaultValue 0
    */
   markerStartOffset?: number;
   /**
    * <zh/> 在 “终点” 处添加一个标记图形，其中 “终点” 为边与终止节点的交点
    *
-   * <en/> Add a marker graphic at the "end point", where the "end point" is the intersection of the edge and the target node
+   * <en/> Add a marker at the "end point", where the "end point" is the intersection of the edge and the target node
    */
   markerEnd?: DisplayObject | null;
   /**
    * <zh/> 调整 “终点” 处标记图形的位置，正偏移量向内，负偏移量向外
    *
-   * <en/> Adjust the position of the marker graphic at the "end point", positive offset inward, negative offset outward
+   * <en/> Adjust the position of the marker at the "end point", positive offset inward, negative offset outward
    * @defaultValue 0
    */
   markerEndOffset?: number;
   /**
    * <zh/> 在路径除了 “起点” 和 “终点” 之外的每一个顶点上放置标记图形。在内部实现中，由于我们会把路径中部分命令转换成 C 命令，因此这些顶点实际是三阶贝塞尔曲线的控制点
    *
-   * <en/> Place a marker graphic on each vertex of the path except for the "start point" and "end point". In the internal implementation, because we will convert some commands in the path to C commands, these controlPoints are actually the control points of the cubic Bezier curve
+   * <en/> Place a marker on each vertex of the path except for the "start point" and "end point". In the internal implementation, because we will convert some commands in the path to C commands, these controlPoints are actually the control points of the cubic Bezier curve
    */
   markerMid?: DisplayObject | null;
   /**
