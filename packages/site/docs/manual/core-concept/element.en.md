@@ -7,7 +7,7 @@ order: 2
 
 In G6, graph elements include **Nodes (Node)**, **Edges (Edge)**, and **Combos (Combo)**, which are the basic building blocks of a graph.
 
-An element is composed of one or more atomic graphics, which are the smallest graphic units in G6, including [rectangles](https://g.antv.antgroup.com/en/api/basic/rect), [circles](https://g.antv.antgroup.com/en/api/basic/circle), [text](https://g.antv.antgroup.com/en/api/basic/text), [paths](https://g.antv.antgroup.com/en/api/basic/path), and so on.
+An element is composed of one or more atomic graphics, which are the smallest shape units in G6, including [rectangles](https://g.antv.antgroup.com/en/api/basic/rect), [circles](https://g.antv.antgroup.com/en/api/basic/circle), [text](https://g.antv.antgroup.com/en/api/basic/text), [paths](https://g.antv.antgroup.com/en/api/basic/path), and so on.
 
 For example, a node can be composed of a rectangle and some text, and an edge can be composed of a path and some text.
 
@@ -208,7 +208,7 @@ In G6, an edge is composed of the following parts:
 - `key` : The primary shape of the edge, representing the main form of the edge, such as a straight line, polyline, etc.
 - `label` : A text label, usually used to display the name or description of the edge
 - `arrow` : A text label, usually used to display the name or description of the edge
-- `halo` : A graphic that displays a halo effect around the main shape
+- `halo` : A shape that displays a halo effect around the main shape
 
 ### Register Edge
 
@@ -298,7 +298,7 @@ The combos provided in G6 are composed of the following parts:
 <image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*z-OxR4MAdUwAAAAAAAAAAAAADmJ7AQ/original" />
 
 - `key`: The main shape of the combo, representing the primary form of the combo.
-- `halo`: The graphic that displays the halo effect around the main shape.
+- `halo`: The shape that displays the halo effect around the main shape.
 - `label`: The text label, usually used to display the name or description of the combo.
 
 ### Register Combo

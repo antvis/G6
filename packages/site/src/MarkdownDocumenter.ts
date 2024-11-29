@@ -495,6 +495,10 @@ export class MarkdownDocumenter {
   }
 
   private async _writeElementPage(pageData: IPageData) {
+    const isBase = pageData.name.startsWith('Base');
+    // BaseNodeStyleProps 跳过自动生成
+    if (isBase) return;
+
     const configuration: TSDocConfiguration = this._tsdocConfiguration;
     const output: DocSection = new DocSection({ configuration });
 
@@ -502,8 +506,6 @@ export class MarkdownDocumenter {
 
     const apiInterface = pageData.apiItems.find((apiItem) => apiItem instanceof ApiInterface) as ApiInterface;
     const apiClass = pageData.apiItems.find((apiItem) => apiItem instanceof ApiClass) as ApiClass;
-
-    const isBase = pageData.name.startsWith('Base');
 
     if (apiClass && !isBase) {
       this._writeRemarksSection(output, apiClass);

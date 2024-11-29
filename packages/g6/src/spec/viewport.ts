@@ -24,6 +24,10 @@ export interface ViewportOptions {
    * <zh/> 是否自动适应
    *
    * <en/> whether to auto fit
+   * @remarks
+   * <zh/> 每次执行 `render` 时，都会根据 `autoFit` 进行自适应
+   *
+   * <en/> Every time `render` is executed, it will be adapted according to `autoFit`
    */
   autoFit?:
     | { type: 'view'; options?: FitViewOptions; animation?: ViewportAnimationEffectTiming }

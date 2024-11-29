@@ -23,3 +23,5 @@ createGraph(
   },
 );
 ```
+
+设置 `node.type` 为 `ellipse` 以使用椭圆形节点。

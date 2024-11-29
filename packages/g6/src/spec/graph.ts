@@ -40,30 +40,50 @@ export interface GraphOptions extends CanvasOptions, ViewportOptions {
    * <zh/> 数据
    *
    * <en/> Data
+   * @remarks
+   * <zh/> 详见 [Data](/api/data/graph-data)
+   *
+   * <en/> See [Data](/en/api/data/graph-data)
    */
   data?: GraphData;
   /**
-   * <zh/> 布局
+   * <zh/> 布局配置项
    *
-   * <en/> Layout
+   * <en/> Layout options
+   * @remarks
+   * <zh/> 详见 [Layout](/api/layouts/antv-dagre-layout)
+   *
+   * <en/> See [Layout](/en/api/layouts/antv-dagre-layout)
    */
   layout?: LayoutOptions;
   /**
-   * <zh/> 节点
+   * <zh/> 节点配置项
    *
-   * <en/> Node
+   * <en/> Node options
+   * @remarks
+   * <zh/> 详见 [Node](/api/elements/nodes/base-node)
+   *
+   * <en/> See [Node](/en/api/elements/nodes/base-node)
    */
   node?: NodeOptions;
   /**
-   * <zh/> 边
+   * <zh/> 边配置项
    *
-   * <en/> Edge
+   * <en/> Edge options
+   * @remarks
+   * <zh/> 详见 [Edge](/api/elements/edges/base-edge)
+   *
+   * <en/> See [Edge](/en/api/elements/edges/base-edge)
    */
   edge?: EdgeOptions;
   /**
-   * <zh/> Combo
+   * <zh/> 组合配置项
    *
-   * <en/> Combo
+   * <en/> Combo options
+   * @remarks
+   * <zh/> 详见 [Combo](/api/elements/combos/base-combo)
+   *
+   * <en/> See [Combo](/en/api/elements/combos/base-combo)
    */
   combo?: ComboOptions;
   /**
@@ -73,15 +93,43 @@ export interface GraphOptions extends CanvasOptions, ViewportOptions {
    */
   theme?: ThemeOptions;
   /**
-   * <zh/> 交互
+   * <zh/> 启用交互
    *
-   * <en/> Behaviors
+   * <en/> Enable interactions
+   * @remarks
+   * <zh/>
+   * - 概念：[核心概念 - 交互](/manual/core-concept/behavior)
+   *
+   * - 内置交互: [交互](/api/behaviors/auto-adapt-label)
+   *
+   * - 自定义交互: [自定义扩展 - 自定义交互](/manual/advanced/custom-behavior)
+   *
+   * <en/>
+   * - Concept: [Concepts - Behavior](/en/manual/core-concept/behavior)
+   *
+   * - Built-in behaviors: [Behavior](/en/api/behaviors/auto-adapt-label)
+   *
+   * - Custom behaviors: [Custom Extension - Custom Behavior](/en/manual/advanced/custom-behavior)
    */
   behaviors?: BehaviorOptions;
   /**
-   * <zh/> 画布插件
+   * <zh/> 启用插件
    *
-   * <en/> Canvas plugins
+   * <en/> Enable plugins
+   * @remarks
+   * <zh/>
+   * - 概念：[核心概念 - 插件](/manual/core-concept/plugin)
+   *
+   * - 内置插件: [插件](/en/api/plugins/background)
+   *
+   * - 自定义插件: [自定义扩展 - 自定义插件](/manual/advanced/custom-plugin)
+   *
+   * <en/>
+   * - Concept: [Concepts - Plugin](/en/manual/core-concept/plugin)
+   *
+   * - Built-in plugins: [Plugin](/en/api/plugins/background)
+   *
+   * - Custom plugins: [Custom Extension - Custom Plugin](/en/manual/advanced/custom-plugin)
    */
   plugins?: PluginOptions;
   /**

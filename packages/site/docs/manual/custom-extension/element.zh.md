@@ -35,12 +35,12 @@ order: 0
 upsert(key: string, Ctor: { new (...args: any[]): DisplayObject }, style: Record<string, any>, container: DisplayObject);
 ```
 
-| 参数      | 类型                                    | 描述                                                                                                           |
-| --------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| key       | string                                  | 图形的 key，即 `shapeMap` 中对应的 key。内置的 key 包括 `'key'` `'label'` `'halo'` `'icon'` `'port'` `'badge'` |
-| Ctor      | { new (...args: any[]): DisplayObject } | 图形类                                                                                                         |
-| style     | Record<string, any>                     | 图形样式                                                                                                       |
-| container | DisplayObject                           | 挂载图形的容器                                                                                                 |
+| 参数      | 类型                                    | 描述                                                                                                                                                                                                                                   |
+| --------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| key       | string                                  | 图形的 key，即 `shapeMap` 中对应的 key。内置的 key 包括 `'key'` `'label'` `'halo'` `'icon'` `'port'` `'badge'`<br/> key 不应使用特殊符号，会基于该值转化为驼峰形式调用 `getXxxStyle` 和 `drawXxxShape` 方法（见[元素约定](#元素约定)） |
+| Ctor      | { new (...args: any[]): DisplayObject } | 图形类                                                                                                                                                                                                                                 |
+| style     | Record<string, any>                     | 图形样式                                                                                                                                                                                                                               |
+| container | DisplayObject                           | 挂载图形的容器                                                                                                                                                                                                                         |
 
 #### render(style, container)
 
@@ -69,13 +69,15 @@ render(style: Record<string, any>, container: Group): void;
 
 目前约定的元素属性包括：
 
-1. `size` 元素的尺寸
+- 通过 `this.getSize()` 获取元素的尺寸
 
 - **采用 `getXxxStyle` 和 `drawXxxShape` 配对的方式进行图形绘制**
 
 `getXxxStyle` 用于获取图形样式，`drawXxxShape` 用于绘制图形。通过该方式创建的图形支持自动执行动画。
 
-- **可通过 `attributes.context` 访问 Graph 上下文**
+> 其中 `Xxx` 是调用 [upsert](#方法) 方法时传入的 key 的驼峰形式。
+
+- **可通过 `this.context` 访问 Graph 上下文**
 
 ## 自定义节点
 

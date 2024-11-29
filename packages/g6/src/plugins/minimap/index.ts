@@ -58,7 +58,7 @@ export interface MinimapOptions extends BasePluginOptions {
    * - 也可以传入一个函数，接收元素的 id 和类型，返回一个图形
    *
    * <en/>
-   * - 'key' uses the key shape of the element as the thumbnail graphic
+   * - 'key' uses the key shape of the element as the thumbnail shape
    * - You can also pass in a function that receives the id and type of the element and returns a shape
    */
   shape?: 'key' | ((id: string, elementType: ElementType) => DisplayObject);

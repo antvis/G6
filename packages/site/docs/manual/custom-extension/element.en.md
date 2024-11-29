@@ -17,7 +17,7 @@ Before starting to customize an element, you need to understand some important p
 
 > Record<string, DisplayObject>
 
-The mapping table of all graphics under the current element
+The mapping table of all shapes under the current element
 
 #### animateMap
 
@@ -29,18 +29,18 @@ The mapping table of all animations under the current element
 
 #### upsert(key, Ctor, style, container)
 
-Create or update graphics, and automatically destroy the graphics when the element is destroyed
+Create or update shapes, and automatically destroy the shapes when the element is destroyed
 
 ```typescript
 upsert(key: string, Ctor: { new (...args: any[]): DisplayObject }, style: Record<string, any>, container: DisplayObject);
 ```
 
-| Parameter | Type                                    | Description                                                                                                                                             |
-| --------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| key       | string                                  | The key of the graphic, that is, the corresponding key in `shapeMap`. Built-in keys include `'key'`, `'label'`, `'halo'`, `'icon'`, `'port'`, `'badge'` |
-| Ctor      | { new (...args: any[]): DisplayObject } | The constructor for the graphic class                                                                                                                   |
-| style     | Record<string, any>                     | The style of the graphic                                                                                                                                |
-| container | DisplayObject                           | The container where the graphic is mounted                                                                                                              |
+| Parameter | Type                                    | Description                                                                                                                                                                                                                                                                                                                                                         |
+| --------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| key       | string                                  | The key of the shape, that is, the corresponding key in `shapeMap`. Built-in keys include `'key'`, `'label'`, `'halo'`, `'icon'`, `'port'`, `'badge'` <br/> The key should not use special symbols. Based on this value, it will be transformed into camelCase to call the `getXxxStyle` and `drawXxxShape` methods (see [Element Convention](#element-convention)) |
+| Ctor      | { new (...args: any[]): DisplayObject } | The constructor for the shape class                                                                                                                                                                                                                                                                                                                                 |
+| style     | Record<string, any>                     | The style of the shape                                                                                                                                                                                                                                                                                                                                              |
+| container | DisplayObject                           | The container where the shape is mounted                                                                                                                                                                                                                                                                                                                            |
 
 #### render(style, container)
 
@@ -65,17 +65,15 @@ The element provides the following hook functions, which can be overridden as ne
 
 ### Element Convention
 
-- **Use Conventional Attributes**
+- Obtain the size of the element through `this.getSize()`.
 
-  The currently agreed-upon element attributes include:
+- **Adopt the paired way of `getXxxStyle` and `drawXxxShape` for shape drawing**
 
-  1. `size`: The size of the element
+`getXxxStyle` is used to obtain the shape style, and `drawXxxShape` is used to draw the shape. The shape created through this way supports automatic execution of animations.
 
-- **Use the `getXxxStyle` and `drawXxxShape` pairing method for graphic drawing**
+> Among them, `Xxx` is the camelCase form of the key passed in when calling the [upsert](#methods) method.
 
-  `getXxxStyle` is used to obtain the graphic style, and `drawXxxShape` is used for drawing the graphic. Graphics created in this way support automatic animation execution.
-
-- **The Graph context can be accessed via `attributes.context`**
+- **The Graph context can be accessed through `this.context`**
 
 ## Custom Node
 
@@ -190,7 +188,7 @@ class CustomCircle extends CustomElement {
 }
 ```
 
-To implement graphical animation, you need to override the `animate` method to perform the animation operations on the `CustomCircle` onto the `Circle` graphic:
+To implement graphical animation, you need to override the `animate` method to perform the animation operations on the `CustomCircle` onto the `Circle` shape:
 
 ```typescript
 import type {} from '@antv/g';
