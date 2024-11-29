@@ -1,0 +1,22 @@
+name: '💡 Feature Request'
+description: I have a suggestion (and may want to implement it) / 我有一个建议（或者想参与贡献）
+title: '[Feat]: '
+labels: ['feature']
+body:
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the feature / 功能描述
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Are you willing to contribute? / 是否愿意参与贡献？
+      options:
+        - Please select / 请选择
+        - ✅ Yes / 是
+        - ❌ No / 否
+    validations:
+      required: true

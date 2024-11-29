@@ -1,56 +1,48 @@
 name: '🐞 Bug report'
 description: Create a report to help us improve, Ask questions in Discussions / 创建一个问题报告以帮助我们改进，提问请到 Discussions
+title: '[Bug]: '
+labels: ['bug']
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for reporting an issue :pray:.
-
-        This issue tracker is for reporting bugs found in G6.
-        **⚠️ If you have a question about how to achieve something and are struggling, please post a question
-        inside of G6's [Discussions](https://github.com/antvis/G6/discussions).**
+        Report errors and exceptions found in G6.
 
         Before submitting a new bug/issue, please check the links below to see if there is a solution or question posted there already:
-         - [G6 Issues](https://github.com/antvis/G6/issues)
-         - [G6 Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed)
-         - [G6 Discussions](https://github.com/antvis/G6/discussions)
 
-        The more information you fill in, the better the community can help you.
         ---
 
-        感谢您报告问题 :pray:。
+        反馈在 G6 中发现的错误、异常。
 
-        此问题跟踪器用于报告在 G6 中发现的错误。
-        **⚠️ 如果您对如何实现某些功能有疑问并且遇到困难，请在 G6 的 [Discussions](https://github.com/antvis/G6/discussions) 中发布问题。**
+        在提交新 issue 之前，先通过以下链接检查是否存在相同问题:
 
-        在提交新 issue 之前，先通过以下链接查看有没有类似的问题:
-         - [G6 Issues](https://github.com/antvis/G6/issues)
-         - [G6 Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed)
-         - [G6 Discussions](https://github.com/antvis/G6/discussions)
+        > [Issues](https://github.com/antvis/G6/issues) | [Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed) | [Discussions](https://github.com/antvis/G6/discussions)
 
-        您提供的信息越多，社区就能更好地帮助您。
   - type: textarea
     id: description
     attributes:
       label: Describe the bug / 问题描述
-      description: Describe your problem succinctly and clearly / 简洁清晰地描述你遇到的问题
+      placeholder: |
+        If there is a code block, please use Markdown syntax, such as:
+        如包含代码块，请使用 Markdown 语法，如：
+
+        ```javascript
+        // Your code here
+        ```
     validations:
       required: true
   - type: input
     id: link
     attributes:
-      label: Reproduction link / 重现链接
-      description: |
-        Please provide a link to reproduce the problem / 请提供重现问题的链接
+      label: Reproduction link / 复现链接
       placeholder: |
-        e.g. CodeSandbox or StackBlitz URL / 例如 CodeSandbox 或 StackBlitz 链接
+        CodeSandbox / StackBlitz / ...
     validations:
       required: false
   - type: textarea
     id: steps
     attributes:
       label: Steps to Reproduce the Bug or Issue / 重现步骤
-      description: Describe the steps we have to take to reproduce the behavior / 描述重现问题的步骤
     validations:
       required: false
   - type: dropdown
@@ -58,39 +50,33 @@ body:
     attributes:
       label: G6 Version / G6 版本
       options:
+        - Please select / 请选择
         - 🆕 5.x
         - 4.x
-        - 3.x or below / 3.x 或更低版本
+        - 3.x
     validations:
       required: true
-  - type: dropdown
+  - type: checkboxes
     id: OS
     attributes:
-      label: Operating System / 操作系统
-      multiple: true
+      label: OS / 操作系统
       options:
-        - macOS
-        - Windows
-        - Linux
-        - Others / 其他
+        - label: macOS
+        - label: Windows
+        - label: Linux
+        - label: Others / 其他
     validations:
       required: true
-  - type: dropdown
+  - type: checkboxes
     id: Browser
     attributes:
       label: Browser / 浏览器
-      multiple: true
       options:
-        - Chrome
-        - Edge
-        - Firefox
-        - Safari (Limited support / 有限支持)
-        - IE (Nonsupport / 不支持)
-        - Others / 其他
+        - label: Chrome
+        - label: Edge
+        - label: Firefox
+        - label: Safari (Limited support / 有限支持)
+        - label: IE (Nonsupport / 不支持)
+        - label: Others / 其他
     validations:
       required: true
-  - type: textarea
-    id: additional
-    attributes:
-      label: Additional context / 补充说明
-      description: Add any other context about the problem here / 添加关于问题的其他上下文
