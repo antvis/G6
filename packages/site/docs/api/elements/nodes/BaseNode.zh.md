@@ -25,7 +25,7 @@ const graph = new Graph({
 | style     | 节点样式，包括颜色、大小等                   | [Style](#样式属性-style)                 | -        |
 | state     | 定义节点在不同状态下的样式                   | Record<string, [Style](#样式属性-style)> | -        |
 | palette   | 定义节点的色板，用于根据不同数据映射颜色     | [Palette](#色板属性-palette)             | -        |
-| animation | 定义节点的动画效果                           | [Animation](#动画-animation)             | -        |
+| animation | 定义节点的动画效果                           | [Animation](#动画属性-animation)         | -        |
 
 ## 类型 type
 

@@ -1,143 +1,236 @@
 ---
-title: BaseCombo
+title: Combo Options
+order: 0
 ---
 
-<embed src="@/common/api/elements/combos/base-combo.md"></embed>
+This article introduces the configuration of combo attributes, with the configuration located as follows:
 
-### childrenData
+```js {5-9}
+import { Graph } from '@antv/g6';
 
-> _NodeData \| ComboData_<!-- -->_[]_
+const graph = new Graph({
+  combo: {
+    type: 'circle',
+    style: {},
+    state: {},
+    palette: {},
+    animation: {},
+  },
+});
+```
 
-The data of the children of combo
+| Attribute | Description                                                                        | Type                                             | Default Value |
+| --------- | ---------------------------------------------------------------------------------- | ------------------------------------------------ | ------------- |
+| type      | The type of the combo, either a built-in combo type or a custom combo name         | string                                           | `circle`      |
+| style     | The combo's style, including color, size, etc.                                     | [Style](#style-attributes-style)                 | -             |
+| state     | Defines the style of the combo in different states                                 | Record<string, [Style](#style-attributes-style)> | -             |
+| palette   | Defines the color palette of the combo, used to map colors based on different data | [Palette](#palette-attributes-palette)           | -             |
+| animation | Defines the animation effect of the combo                                          | [Animation](#animation-attributes-animation)     | -             |
 
-<en/> If the combo is collapsed, children may be empty, and the complete child element data can be obtained through childrenData
+## Type Attribute (type)
 
-### childrenNode
+Specifies the type of the combo, which can be either the name of a built-in combo type or a custom combo name. The default is `circle` (circular combo).
 
-> _string_<!-- -->_[]_
+For more built-in combo types, see the [Combo Registry](/en/manual/getting-started/extensions#combos).
 
-The children of combo, which can be nodes or combos
+## Style Attributes (style)
 
-### collapsedMarker
+Defines the style of the combo, including color, size, etc.
 
-> _boolean_
+<img width="240" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*z-OxR4MAdUwAAAAAAAAAAAAADmJ7AQ/original" />
 
-Whether to show the marker when the combo is collapsed
+> To understand the composition of a combo, please read [Core Concepts - Elements - Combo](/en/manual/core-concept/element#combo).
 
-### collapsedSize
+The following style configurations will be explained in terms of atomic graphic properties:
 
-> _number \| [number, number] \| Float32Array \| [number, number, number]_
+### Expand Style (key)
 
-The default size of combo when collapsed
+| Attribute       | Description                                                                                                                                                                                         | Type                                                                      | Default Value |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------- |
+| x               | x coordinate                                                                                                                                                                                        | number                                                                    | 0             |
+| y               | y coordinate                                                                                                                                                                                        | number                                                                    | 0             |
+| z               | z coordinate                                                                                                                                                                                        | number                                                                    | 0             |
+| padding         | Padding inside the combo, effective only when expanded. When expanded, the size of the combo is determined by the bounding box of its child elements and the padding.                               | _number \| number[]_                                                      | 0             |
+| fill            | Fill color                                                                                                                                                                                          | string                                                                    | `#fff`        |
+| stroke          | Border color                                                                                                                                                                                        | string                                                                    | `#000`        |
+| lineWidth       | Border width                                                                                                                                                                                        | number                                                                    | 1             |
+| `${StyleProps}` | More graphic configurations, refer to [BaseStyleProps](https://g.antv.antgroup.com/en/api/basic/display-object) for details. For example, fillOpacity refers to the fill opacity of the main shape. | [BaseStyleProps](https://g.antv.antgroup.com/en/api/basic/display-object) | -             |
 
-### padding
+### Collapsed Style (collapsed)
 
-> _number \| number[]_
+| Attribute                | Description                                                                                                                                                                                                | Type                                                                                         | Default Value |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------- |
+| collapsed                | Whether the combo is expanded or not                                                                                                                                                                       | boolean                                                                                      | false         |
+| collapsedSize            | The default size of the combo when collapsed                                                                                                                                                               | _number \| [number, number] \| [number, number, number]_                                     | 32            |
+| collapseFill             | Fill color                                                                                                                                                                                                 | string                                                                                       | `#fff`        |
+| collapsedStroke          | Border color                                                                                                                                                                                               | string                                                                                       | `#000`        |
+| collapsedLineWidth       | Border width                                                                                                                                                                                               | number                                                                                       | 1             |
+| `collapsed${StyleProps}` | More graphic configurations, refer to [BaseStyleProps](https://g.antv.antgroup.com/en/api/basic/display-object#drawing-properties). For example, fillOpacity refers to the fill opacity of the main shape. | [BaseStyleProps](https://g.antv.antgroup.com/en/api/basic/display-object#drawing-properties) | -             |
 
-The padding of combo, only effective when expanded
+### Collapsed Marker Style (collapsedMarker)
 
-### size
+| Attribute                      | Description                                                                                                                                                                                                                                                                                                                                                             | Type                                                                                                                                 | Default Value |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+| collapsedMarker                | Whether to display the marker when the combo is collapsed                                                                                                                                                                                                                                                                                                               | _boolean_                                                                                                                            | false         |
+| collapsedMarkerType            | The type of marker displayed when the combo is collapsed <br> - `'child-count'`: Number of child elements (including Nodes and Combos) <br> - `'descendant-count'`: Number of descendant elements (including Nodes and Combos) <br> - `'node-count'`: Number of descendant elements (only Nodes) <br> - `(children: NodeLikeData[]) => string`: Custom processing logic | `child-count` \| `descendant-count` \| `node-count` \| ((children: _NodeData \| ComboData_[]) => string)                             | -             |
+| collapsedMarkerSrc             | Image source. This takes priority over collapsedMarkerText                                                                                                                                                                                                                                                                                                              | string                                                                                                                               | -             |
+| collapsedMarkerWidth           | Image width                                                                                                                                                                                                                                                                                                                                                             | number                                                                                                                               | -             |
+| collapsedMarkerHeight          | Image height                                                                                                                                                                                                                                                                                                                                                            | number                                                                                                                               | -             |
+| collapsedMarkerRadius          | Image border radius                                                                                                                                                                                                                                                                                                                                                     | number                                                                                                                               | 0             |
+| collapsedMarkerText            | Text to display on the marker                                                                                                                                                                                                                                                                                                                                           | string                                                                                                                               | -             |
+| collapsedMarkerFill            | Marker text color                                                                                                                                                                                                                                                                                                                                                       | string                                                                                                                               | -             |
+| collapsedMarkerFontSize        | Marker font size                                                                                                                                                                                                                                                                                                                                                        | number                                                                                                                               | 16            |
+| collapsedMarkerFontWeight      | Marker font weight                                                                                                                                                                                                                                                                                                                                                      | number \| string                                                                                                                     | `normal`      |
+| `collapsedMarker${StyleProps}` | More marker style configurations, refer to [TextStyleProps](https://g.antv.antgroup.com/en/api/basic/text) and [ImageStyleProps](https://g.antv.antgroup.com/en/api/basic/image). For example, collapsedMarkerFontSize refers to the font size of the text in the marker.                                                                                               | [TextStyleProps](https://g.antv.antgroup.com/en/api/basic/text) \| [ImageStyleProps](https://g.antv.antgroup.com/en/api/basic/image) | -             |
 
-> _number \| [number, number] \| Float32Array \| [number, number, number]_
+### Label Style (label)
 
-The default size of combo when expanded
+| Attribute             | Description                                                                                                                                                                                                                                                                                                                                           | Type                                                                                                                                                                                                                               | Default Value |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| label                 | Whether to display the combo label                                                                                                                                                                                                                                                                                                                    | boolean                                                                                                                                                                                                                            | true          |
+| labelText             | Label text content                                                                                                                                                                                                                                                                                                                                    | string                                                                                                                                                                                                                             | -             |
+| labelFill             | Label text color                                                                                                                                                                                                                                                                                                                                      | string                                                                                                                                                                                                                             | -             |
+| labelFontSize         | Label font size                                                                                                                                                                                                                                                                                                                                       | number                                                                                                                                                                                                                             | 12            |
+| labelFontWeight       | Label font weight                                                                                                                                                                                                                                                                                                                                     | number &#124; string                                                                                                                                                                                                               | `normal`      |
+| labelPlacement        | The position of the label relative to the main combo shape                                                                                                                                                                                                                                                                                            | `left` &#124; `right` &#124; `top` &#124; `bottom` &#124; `left-top` &#124; `left-bottom` &#124; `right-top` &#124; `right-bottom` &#124; `top-left` &#124; `top-right` &#124; `bottom-left` &#124; `bottom-right` &#124; `center` | `bottom`      |
+| labelOffsetX          | Horizontal offset of the label                                                                                                                                                                                                                                                                                                                        | number                                                                                                                                                                                                                             | 0             |
+| labelOffsetY          | Vertical offset of the label                                                                                                                                                                                                                                                                                                                          | number                                                                                                                                                                                                                             | 0             |
+| labelWordWrap         | Whether to enable text wrapping. When labelWordWrap is enabled, text exceeding labelMaxWidth will automatically wrap                                                                                                                                                                                                                                  | boolean                                                                                                                                                                                                                            | false         |
+| labelMaxWidth         | Maximum width of the label. When text wrapping is enabled, text will wrap if it exceeds this width <br> - string: Defined as a percentage of the combo width. For example, `50%` means the label width is no more than half of the combo width. <br> - number: Defined in pixels. For example, 100 means the maximum width of the label is 100 pixels | number &#124; string                                                                                                                                                                                                               | `200%`        |
+| labelMaxLines         | Maximum number of lines for the label                                                                                                                                                                                                                                                                                                                 | number                                                                                                                                                                                                                             | 1             |
+| labelPadding          | Padding inside the label                                                                                                                                                                                                                                                                                                                              | number &#124; number[]                                                                                                                                                                                                             | 0             |
+| `label${StyleProps}`  | More label style configurations, refer to [TextStyleProps](https://g.antv.antgroup.com/en/api/basic/text). For example, labelFontSize refers to the font size of the label text.                                                                                                                                                                      | [TextStyleProps](https://g.antv.antgroup.com/en/api/basic/text)                                                                                                                                                                    | -             |
+| labelBackground       | Whether to display the background                                                                                                                                                                                                                                                                                                                     | boolean                                                                                                                                                                                                                            | false         |
+| labelBackgroundFill   | Background fill color                                                                                                                                                                                                                                                                                                                                 | string                                                                                                                                                                                                                             | -             |
+| labelBackgroundRadius | Background border radius <br> - number: Sets all four corners with the same radius <br> - number[]: Sets each corner radius individually. If there are fewer than four values, the remaining ones are automatically filled                                                                                                                            | number &#124; number[]                                                                                                                                                                                                             |
 
-## Collapsed Style
+## State Attributes (state)
 
-### collapsed{[BaseStyleProps](https://g.antv.antgroup.com/api/basic/display-object#%E7%BB%98%E5%9B%BE%E5%B1%9E%E6%80%A7)}
+In some interactive behaviors, such as clicking to select a node or hovering to activate an edge, a certain state is merely flagged for that element. To reflect these states in the visual space seen by the end user, we need to set different graphical element styles for different states to respond to changes in the state of the graphical element.
 
-<details><summary>An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.</summary>
+G6 provides several built-in states, including selected, highlighted, active, inactive, and disabled. Additionally, it supports custom states to meet more specific needs. For each state, developers can define a set of style rules that will override the default styles of the elements.
 
-TextStyleProps includes the following properties:
+For example, when a combo is in the `focus` state, you can add a stroke with a width of 3 and an orange color.
 
-- fill
-- fontSize
-- fontWeight
-- ...
+```json
+{
+  "combo": {
+    "state": {
+      "focus": {
+        "lineWidth": 3,
+        "stroke": "orange",
+        "fill": "orange",
+        "fillOpacity": 0.2
+      }
+    }
+  }
+}
+```
 
-icon{TextStyleProps} means you need to use the following property names:
+The effect is shown in the figure below:
 
-- iconFill
-- iconFontSize
-- iconFontWeight
-- ...
+```js | ob { pin: false }
+createGraph(
+  {
+    autoFit: 'center',
+    data: {
+      nodes: [{ id: 'node1', combo: 'combo1' }],
+      combos: [{ id: 'combo1', states: ['focus'] }],
+    },
+    combo: {
+      state: {
+        focus: {
+          lineWidth: 3,
+          stroke: 'orange',
+          fill: 'orange',
+          fillOpacity: 0.2,
+        },
+      },
+    },
+  },
+  { width: 200, height: 100 },
+);
+```
 
-</details>
+## Animation Attributes (animation)
 
-## Collapsed Marker Style
+## Palette Attributes (palette)
 
-### collapsedMarker{[BaseStyleProps](https://g.antv.antgroup.com/api/basic/display-object#%E7%BB%98%E5%9B%BE%E5%B1%9E%E6%80%A7)}
+Define the palette for combos, i.e., a predefined combo color pool, and allocate colors according to rules, mapping the colors to the `fill` property.
 
-<details><summary>An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.</summary>
+> For the definition of the palette, please refer to [Core Concepts - Palette](/en/manual/core-concept/palette).
 
-TextStyleProps includes the following properties:
+| Attribute | Description                                                                                                            | Type                              | Default Value |
+| --------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ------------- |
+| type      | Specifies the current palette type. <br> - `group`: Discrete palette <br> - `value`: Continuous palette                | `group` &#124; `value`            | `group`       |
+| field     | Specifies the grouping field in the element data. If not specified, the default is to take `id` as the grouping field  | string &#124; ((datum) => string) | `id`          |
+| color     | Palette colors. If a palette is registered, you can directly specify its registered name, or accept an array of colors | string &#124; string[]            | -             |
+| invert    | Whether to reverse the palette                                                                                         | boolean                           | false         |
 
-- fill
-- fontSize
-- fontWeight
-- ...
+For example, allocate node colors for a set of data according to the `category` field, so that nodes of the same category have the same color:
 
-icon{TextStyleProps} means you need to use the following property names:
+```json
+{
+  "combo": {
+    "palette": {
+      "type": "group",
+      "field": "category",
+      "color": ["#1783FF", "#F08F56", "#D580FF", "#00C9C9", "#7863FF"]
+    }
+  }
+}
+```
 
-- iconFill
-- iconFontSize
-- iconFontWeight
-- ...
+The effect is shown in the figure below:
 
-</details>
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      combos: new Array(8)
+        .fill(0)
+        .map((_, i) => ({ id: `combo-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
+    },
+    layout: { type: 'grid', cols: 8 },
+    combo: {
+      style: { fillOpacity: 0.4 },
+      palette: {
+        type: 'group',
+        field: 'category',
+        color: ['#1783FF', '#F08F56', '#D580FF', '#00C9C9', '#7863FF'],
+      },
+    },
+  },
+  { width: 600, height: 100 },
+);
+```
 
-### collapsedMarker{[TextStyleProps](https://g.antv.antgroup.com/api/basic/text)}
+You can also use the default configuration:
 
-<details><summary>An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.</summary>
+```json
+{
+  "combo": {
+    "palette": "tableau" // 'tableau' is the name of the palette, by default colors are assigned based on ID
+  }
+}
+```
 
-TextStyleProps includes the following properties:
+The effect is shown in the figure below:
 
-- fill
-- fontSize
-- fontWeight
-- ...
-
-icon{TextStyleProps} means you need to use the following property names:
-
-- iconFill
-- iconFontSize
-- iconFontWeight
-- ...
-
-</details>
-
-### collapsedMarker{[ImageStyleProps](https://g.antv.antgroup.com/api/basic/image)}
-
-> Excludes z
-
-<details><summary>An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.</summary>
-
-TextStyleProps includes the following properties:
-
-- fill
-- fontSize
-- fontWeight
-- ...
-
-icon{TextStyleProps} means you need to use the following property names:
-
-- iconFill
-- iconFontSize
-- iconFontWeight
-- ...
-
-</details>
-
-### collapsedMarkerType
-
-> _'child-count' \| 'descendant-count' \| 'node-count' \| ((children:_ _NodeData \| ComboData_<!-- -->_[]) =&gt; string)_
-
-The type of marker displayed when the combo is collapsed
-
-- `'child-count'`<!-- -->: Number of child elements (including Nodes and Combos)
-
-- `'descendant-count'`<!-- -->: Number of descendant elements (including Nodes and Combos)
-
-- `'node-count'`<!-- -->: Number of descendant elements (only Nodes)
-
-- `(children: NodeLikeData[]) => string`<!-- -->: Custom processing logic
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      combos: new Array(8)
+        .fill(0)
+        .map((_, i) => ({ id: `combo-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
+    },
+    layout: { type: 'grid', cols: 8 },
+    combo: {
+      style: { fillOpacity: 0.4 },
+      palette: 'tableau',
+    },
+  },
+  { width: 600, height: 100 },
+);
+```

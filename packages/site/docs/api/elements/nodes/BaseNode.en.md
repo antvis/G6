@@ -8,7 +8,7 @@ This document introduces node properties.
 | Property  | Description                                                               | Type                                             | Default Value |
 | --------- | ------------------------------------------------------------------------- | ------------------------------------------------ | ------------- |
 | type      | Node type, either a built-in node type name or a custom node name         | string                                           | `circle`      |
-| style     | Node style, including color, size, etc.                                   | [Style](#style-properties-style)                 | -             |
+| style     | Node style, including color, size, etc.                                   | [Style](#style-property-style)                   | -             |
 | state     | Defines styles for nodes in different states                              | Record<string, [Style](#style-properties-style)> | -             |
 | palette   | Defines the color palette for nodes, used to map colors to different data | [Palette](#palette-properties-palette)           | -             |
 | animation | Defines animation effects for nodes                                       | [Animation](#animation-properties)               | -             |
