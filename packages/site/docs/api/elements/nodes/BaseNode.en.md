@@ -119,14 +119,18 @@ Example: Adding three badges with different meanings to a node:
 
 ```json
 {
-  "badge": true,
-  "badges": [
-    { "text": "A", "placement": "right-top" },
-    { "text": "Important", "placement": "right" },
-    { "text": "Notice", "placement": "right-bottom" }
-  ],
-  "badgePalette": ["#7E92B5", "#F4664A", "#FFBE3A"],
-  "badgeFontSize": 7
+  "node": {
+    "style": {
+      "badge": true,
+      "badges": [
+        { "text": "A", "placement": "right-top" },
+        { "text": "Important", "placement": "right" },
+        { "text": "Notice", "placement": "right-bottom" }
+      ],
+      "badgePalette": ["#7E92B5", "#F4664A", "#FFBE3A"],
+      "badgeFontSize": 7
+    }
+  }
 }
 ```
 
@@ -176,16 +180,20 @@ Example: Adding four connection ports to a node:
 
 ```json
 {
-  "port": true,
-  "ports": [
-    { "key": "top", "placement": "top", "fill": "#7E92B5" },
-    { "key": "right", "placement": "right", "fill": "#F4664A" },
-    { "key": "bottom", "placement": "bottom", "fill": "#FFBE3A" },
-    { "key": "left", "placement": [0, 0.5], "fill": "#D580FF" }
-  ],
-  "portR": 3,
-  "portLineWidth": 1,
-  "portStroke": "#fff"
+  "node": {
+    "style": {
+      "port": true,
+      "ports": [
+        { "key": "top", "placement": "top", "fill": "#7E92B5" },
+        { "key": "right", "placement": "right", "fill": "#F4664A" },
+        { "key": "bottom", "placement": "bottom", "fill": "#FFBE3A" },
+        { "key": "left", "placement": [0, 0.5], "fill": "#D580FF" }
+      ],
+      "portR": 3,
+      "portLineWidth": 1,
+      "portStroke": "#fff"
+    }
+  }
 }
 ```
 
@@ -334,18 +342,18 @@ You can pass in false to turn off animation for a particular stage:
 
 ## Palette Properties `palette`
 
-When defining graphical element styles, palettes enable quick assignment of colors, particularly useful for clustering, where the node's category can be visually distinguished.
+This defines the node's palette, a predefined set of node colors that are allocated according to specific rules, with the colors mapped to the `fill` property.
 
-> If you are unfamiliar with palettes in G6, refer to the relevant [documentation](/en/manual/core-concept/palette).
+> For the definition of a palette, please refer to [Core Concepts - Palette](/en/manual/core-concept/palette).
 
-| Property | Description                                                                                                                      | Type                              | Default Value |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ------------- |
-| type     | Specifies the current palette type. <br> - `group`: Discrete palette <br> - `value`: Continuous palette                          | `group` &#124; `value`            | `group`       |
-| field    | Specifies the grouping field in the element data. If not specified, the default is the `id` field                                | string &#124; ((datum) => string) | `id`          |
-| color    | Palette colors. If the palette is registered, its registered name can be used. Alternatively, an array of colors can be provided | string &#124; string[]            | -             |
-| invert   | Whether to invert the palette                                                                                                    | boolean                           | false         |
+| Property | Description                                                                                                                                         | Type                              | Default Value |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ------------- |
+| type     | Specifies the type of the current palette. <br> - `group`: Discrete palette <br> - `value`: Continuous palette                                      | `group` &#124; `value`            | `group`       |
+| field    | Specifies the grouping attribute in the node's data. If not specified, the default grouping attribute is `id`.                                      | string &#124; ((datum) => string) | `id`          |
+| color    | The palette colors. If the palette has been previously registered, its name can be specified directly, or an array of color values can be provided. | string &#124; string[]            | -             |
+| invert   | Whether to invert the color palette.                                                                                                                | boolean                           | false         |
 
-Example: Configuring node colors by grouping data using the `category` field so that nodes in the same category share the same color:
+For example, when assigning node colors based on the `category` attribute, ensuring nodes in the same category share the same color:
 
 ```json
 {
@@ -359,7 +367,7 @@ Example: Configuring node colors by grouping data using the `category` field so 
 }
 ```
 
-The resulting effect is as follows:
+The result is displayed in the following figure:
 
 ```js | ob { pin: false }
 createGraph(
@@ -376,6 +384,35 @@ createGraph(
         field: 'category',
         color: ['#1783FF', '#F08F56', '#D580FF', '#00C9C9', '#7863FF'],
       },
+    },
+  },
+  { width: 600, height: 100 },
+);
+```
+
+Alternatively, the default configuration can also be used:
+
+```json
+{
+  "node": {
+    "palette": "tableau" // 'tableau' is the name of the palette, and colors are allocated based on the ID by default.
+  }
+}
+```
+
+The result is displayed in the following figure:
+
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      nodes: new Array(10)
+        .fill(0)
+        .map((_, i) => ({ id: `node-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
+    },
+    layout: { type: 'grid', cols: 10 },
+    node: {
+      palette: 'tableau',
     },
   },
   { width: 600, height: 100 },

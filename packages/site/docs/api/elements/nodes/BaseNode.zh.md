@@ -29,7 +29,7 @@ const graph = new Graph({
 
 ## 类型 type
 
-指定节点类型，内置节点类型名称或自定义节点的名称。默认为 `circle`。
+指定节点类型，内置节点类型名称或自定义节点的名称。默认为 `circle`(圆形)。
 
 更多内置支持节点类型，可查看[节点注册表](/manual/getting-started/extensions#节点)。
 
@@ -39,7 +39,7 @@ const graph = new Graph({
 
 <img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Ot4bSbBx97EAAAAAAAAAAAAADmJ7AQ/original" />
 
-> 深入了解节点构成，请阅读 [核心概念 - 元素 - 节点](/manual/core-concept/element#节点)。
+> 了解节点构成，请阅读 [核心概念 - 元素 - 节点](/manual/core-concept/element#节点)。
 
 以下样式配置将按原子图形依次说明：
 
@@ -135,14 +135,18 @@ const graph = new Graph({
 
 ```json
 {
-  "badge": true,
-  "badges": [
-    { "text": "A", "placement": "right-top" },
-    { "text": "Important", "placement": "right" },
-    { "text": "Notice", "placement": "right-bottom" }
-  ],
-  "badgePalette": ["#7E92B5", "#F4664A", "#FFBE3A"],
-  "badgeFontSize": 7
+  "node": {
+    "style": {
+      "badge": true,
+      "badges": [
+        { "text": "A", "placement": "right-top" },
+        { "text": "Important", "placement": "right" },
+        { "text": "Notice", "placement": "right-bottom" }
+      ],
+      "badgePalette": ["#7E92B5", "#F4664A", "#FFBE3A"],
+      "badgeFontSize": 7
+    }
+  }
 }
 ```
 
@@ -192,16 +196,20 @@ createGraph(
 
 ```json
 {
-  "port": true,
-  "ports": [
-    { "key": "top", "placement": "top", "fill": "#7E92B5" },
-    { "key": "right", "placement": "right", "fill": "#F4664A" },
-    { "key": "bottom", "placement": "bottom", "fill": "#FFBE3A" },
-    { "key": "left", "placement": [0, 0.5], "fill": "#D580FF" }
-  ],
-  "portR": 3,
-  "portLineWidth": 1,
-  "portStroke": "#fff"
+  "node": {
+    "style": {
+      "port": true,
+      "ports": [
+        { "key": "top", "placement": "top", "fill": "#7E92B5" },
+        { "key": "right", "placement": "right", "fill": "#F4664A" },
+        { "key": "bottom", "placement": "bottom", "fill": "#FFBE3A" },
+        { "key": "left", "placement": [0, 0.5], "fill": "#D580FF" }
+      ],
+      "portR": 3,
+      "portLineWidth": 1,
+      "portStroke": "#fff"
+    }
+  }
 }
 ```
 
@@ -349,9 +357,9 @@ createGraph(
 
 ## 色板属性 palette
 
-在定义图元素样式时，色板能够快速指定节点颜色，尤其在聚类时，可以直观地展示节点的类别。
+定义节点的色板，即预定义节点颜色池，并根据规则进行分配，将颜色映射到 `fill` 属性。
 
-> 如果你对 G6 中的色板还不了解，建议先查阅相关[文档](/manual/core-concept/palette)。
+> 有关色板的定义，请参考 [核心概念 - 色板](/manual/core-concept/palette)。
 
 | 属性   | 描述                                                                | 类型                              | 默认值  |
 | ------ | ------------------------------------------------------------------- | --------------------------------- | ------- |
@@ -360,7 +368,7 @@ createGraph(
 | color  | 色板颜色。如果色板注册过，可以直接指定其注册名，也接受一个颜色数组  | string &#124; string[]            | -       |
 | invert | 是否反转色板                                                        | boolean                           | false   |
 
-例如，将一组数据根据 `category` 字段配置节点的颜色，使得同类别的节点颜色相同：
+如将一组数据按 `category` 字段分配节点颜色，使得同类别的节点颜色相同：
 
 ```json
 {
@@ -391,6 +399,35 @@ createGraph(
         field: 'category',
         color: ['#1783FF', '#F08F56', '#D580FF', '#00C9C9', '#7863FF'],
       },
+    },
+  },
+  { width: 600, height: 100 },
+);
+```
+
+也可以使用默认配置：
+
+```json
+{
+  "node": {
+    "palette": "tableau" // tableau 为色板名，默认根据 ID 分配颜色
+  }
+}
+```
+
+效果如下图所示：
+
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      nodes: new Array(10)
+        .fill(0)
+        .map((_, i) => ({ id: `node-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
+    },
+    layout: { type: 'grid', cols: 10 },
+    node: {
+      palette: 'tableau',
     },
   },
   { width: 600, height: 100 },

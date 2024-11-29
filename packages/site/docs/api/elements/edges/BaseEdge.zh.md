@@ -25,7 +25,7 @@ const graph = new Graph({
 | style     | 边样式，包括颜色、大小等               | [Style](#样式属性-style)                 | -      |
 | state     | 定义边在不同状态下的样式               | Record<string, [Style](#样式属性-style)> | -      |
 | palette   | 定义边的色板，用于根据不同数据映射颜色 | [Palette](#色板属性-palette)             | -      |
-| animation | 定义边的动画效果                       | [Animation](#动画-animation)             | -      |
+| animation | 定义边的动画效果                       | [Animation](#动画属性-animation)         | -      |
 
 ## 类型属性 type
 
@@ -255,26 +255,26 @@ createGraph(
 
 ## 色板属性 palette
 
-在定义图元素样式时，色板能够快速指定边颜色，尤其在聚类时，可以直观地展示边的类别。
+定义边的色板，即预定义颜色池，并根据规则进行分配，将颜色映射到 `stroke` 属性。
 
-> 如果你对 G6 中的色板还不了解，建议先查阅相关[文档](manual/core-concept/palette)。
+> 有关色板的定义，请参考 [核心概念 - 色板](/manual/core-concept/palette)。
 
-| 属性   | 描述                                                                | 类型                          | 默认值  |
-| ------ | ------------------------------------------------------------------- | ----------------------------- | ------- |
-| type   | 指定当前色板类型。<br> - `group`: 离散色板 <br> - `value`: 连续色板 | `group` \| `value`            | `group` |
-| field  | 指定元素数据中的分组字段。若不指定，默认取 id 作为分组字段          | string \| ((datum) => string) | `id`    |
-| color  | 色板颜色。如果色板注册过，可以直接指定其注册名，也接受一个颜色数组  | string \| string[]            | -       |
-| invert | 是否反转色板                                                        | boolean                       | false   |
+| 属性   | 描述                                                                | 类型                              | 默认值  |
+| ------ | ------------------------------------------------------------------- | --------------------------------- | ------- |
+| type   | 指定当前色板类型。<br> - `group`: 离散色板 <br> - `value`: 连续色板 | `group` &#124; `value`            | `group` |
+| field  | 指定元素数据中的分组字段。若不指定，默认取 id 作为分组字段          | string &#124; ((datum) => string) | `id`    |
+| color  | 色板颜色。如果色板注册过，可以直接指定其注册名，也接受一个颜色数组  | string &#124; string[]            | -       |
+| invert | 是否反转色板                                                        | boolean                           | false   |
 
-例如，将一组数据根据 `category` 字段配置边的颜色，使得同类别的边颜色相同：
+如将一组数据按 `direction` 字段分配节点颜色，使得同类别的节点颜色相同：
 
 ```json
 {
-  "node": {
+  "edge": {
     "palette": {
       "type": "group",
-      "field": "category",
-      "color": ["#1783FF", "#F08F56", "#D580FF", "#00C9C9", "#7863FF"]
+      "field": "direction",
+      "color": ["#F08F56", "#00C9C9"]
     }
   }
 }
@@ -286,19 +286,72 @@ createGraph(
 createGraph(
   {
     data: {
-      nodes: new Array(10)
-        .fill(0)
-        .map((_, i) => ({ id: `node-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
+      nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
+      edges: [
+        { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
+        { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
+        { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
+        { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
+        { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
+      ],
     },
-    layout: { type: 'grid', cols: 10 },
-    node: {
+    layout: {
+      type: 'radial',
+      unitRadius: 120,
+      linkDistance: 120,
+    },
+    edge: {
+      style: {
+        endArrow: true,
+      },
       palette: {
         type: 'group',
-        field: 'category',
-        color: ['#1783FF', '#F08F56', '#D580FF', '#00C9C9', '#7863FF'],
+        field: 'direction',
+        color: ['#F08F56', '#00C9C9'],
       },
     },
   },
-  { width: 600, height: 100 },
+  { width: 600, height: 300 },
+);
+```
+
+也可以使用默认配置：
+
+```json
+{
+  "edge": {
+    "palette": "tableau" // tableau 为色板名，默认根据 ID 分配颜色
+  }
+}
+```
+
+效果如下图所示：
+
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
+      edges: [
+        { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
+        { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
+        { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
+        { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
+        { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
+      ],
+    },
+    layout: {
+      type: 'radial',
+      unitRadius: 120,
+      linkDistance: 120,
+    },
+    edge: {
+      style: {
+        endArrow: true,
+      },
+      palette: 'tableau',
+    },
+  },
+  { width: 600, height: 300 },
 );
 ```
