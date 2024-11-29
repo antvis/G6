@@ -80,21 +80,21 @@ class SnakePolyline extends Polyline {
   getPoints(attributes) {
     const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false);
 
-    if (sourcePoint[1] === targetPoint[1]) {
-      return [sourcePoint, targetPoint];
-    } else {
-      const prevPointId = this.context.model
-        .getRelatedEdgesData(this.sourceNode.id)
-        .filter((edge) => edge.target === this.sourceNode.id)[0].source;
-      const prevPoint = positionOf(this.context.model.getNodeLikeDatum(prevPointId));
-      const offset = -(prevPoint[0] - sourcePoint[0]) / 2;
-      return [
-        sourcePoint,
-        [sourcePoint[0] + offset, sourcePoint[1]],
-        [targetPoint[0] + offset, targetPoint[1]],
-        targetPoint,
-      ];
-    }
+    if (sourcePoint[1] === targetPoint[1]) return [sourcePoint, targetPoint];
+
+    const prevPointId = this.context.model
+      .getRelatedEdgesData(this.sourceNode.id)
+      .filter((edge) => edge.target === this.sourceNode.id)[0]?.source;
+    if (!prevPointId) return [sourcePoint, targetPoint];
+
+    const prevPoint = positionOf(this.context.model.getNodeLikeDatum(prevPointId));
+    const offset = -(prevPoint[0] - sourcePoint[0]) / 2;
+    return [
+      sourcePoint,
+      [sourcePoint[0] + offset, sourcePoint[1]],
+      [targetPoint[0] + offset, targetPoint[1]],
+      targetPoint,
+    ];
   }
 }
 
