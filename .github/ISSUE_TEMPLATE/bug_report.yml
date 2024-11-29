@@ -10,20 +10,25 @@ body:
 
         Before submitting a new bug/issue, please check the links below to see if there is a solution or question posted there already:
 
-        > [G6 Issues](https://github.com/antvis/G6/issues) | [G6 Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed) | [G6 Discussions](https://github.com/antvis/G6/discussions)
-
         ---
 
         反馈在 G6 中发现的错误、异常。
 
         在提交新 issue 之前，先通过以下链接检查是否存在相同问题:
 
-        > [G6 Issues](https://github.com/antvis/G6/issues) | [G6 Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed) | [G6 Discussions](https://github.com/antvis/G6/discussions)
+        > [Issues](https://github.com/antvis/G6/issues) | [Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed) | [Discussions](https://github.com/antvis/G6/discussions)
 
   - type: textarea
     id: description
     attributes:
       label: Describe the bug / 问题描述
+      placeholder: |
+        If there is a code block, please use Markdown syntax, such as:
+        如包含代码块，请使用 Markdown 语法，如：
+
+        ```javascript
+        // Your code here
+        ```
     validations:
       required: true
   - type: input
@@ -40,11 +45,12 @@ body:
       label: Steps to Reproduce the Bug or Issue / 重现步骤
     validations:
       required: false
-  - type: checkboxes
+  - type: dropdown
     id: version
     attributes:
-      label: G6 Version
+      label: G6 Version / G6 版本
       options:
+        - Please select / 请选择
         - 🆕 5.x
         - 4.x
         - 3.x
@@ -53,26 +59,24 @@ body:
   - type: checkboxes
     id: OS
     attributes:
-      label: Operating System / 操作系统
-      multiple: true
+      label: OS / 操作系统
       options:
-        - macOS
-        - Windows
-        - Linux
-        - Others / 其他
+        - label: macOS
+        - label: Windows
+        - label: Linux
+        - label: Others / 其他
     validations:
       required: true
   - type: checkboxes
     id: Browser
     attributes:
-      label: Browser
-      multiple: true
+      label: Browser / 浏览器
       options:
-        - Chrome
-        - Edge
-        - Firefox
-        - Safari (Limited support / 有限支持)
-        - IE (Nonsupport / 不支持)
-        - Others / 其他
+        - label: Chrome
+        - label: Edge
+        - label: Firefox
+        - label: Safari (Limited support / 有限支持)
+        - label: IE (Nonsupport / 不支持)
+        - label: Others / 其他
     validations:
       required: true
