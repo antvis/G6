@@ -49,7 +49,7 @@ const graph = new Graph({
 | x               | x 坐标                                                                                                                                             | number                                                                          | 0      |
 | y               | y 坐标                                                                                                                                             | number                                                                          | 0      |
 | z               | z 坐标                                                                                                                                             | number                                                                          | 0      |
-| padding         | 组合的内边距，只在展开状态下生效。展开时 Combo 的大小由自子元素集合的的包围盒以及 padding 共同决定                                                 | _number \| number[]_                                                            | 0      |
+| padding         | 组合的内边距，只在展开状态下生效。展开时组合的大小由自子元素集合的的包围盒以及 padding 共同决定                                                    | number &#124; number[]                                                          | 0      |
 | fill            | 填充色                                                                                                                                             | string                                                                          | `#fff` |
 | stroke          | 描边色                                                                                                                                             | string                                                                          | `#000` |
 | lineWidth       | 描边宽度                                                                                                                                           | number                                                                          | 1      |
@@ -60,7 +60,7 @@ const graph = new Graph({
 | 属性                     | 描述                                                                                                                                               | 类型                                                                            | 默认值 |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------ |
 | collapsed                | 当前组合是否展开                                                                                                                                   | boolean                                                                         | false  |
-| collapsedSize            | 组合收起后的默认大小                                                                                                                               | _number \| [number, number] \| [number, number, number]_                        | 32     |
+| collapsedSize            | 组合收起后的默认大小                                                                                                                               | number &#124; [number, number] &#124; [number, number, number]                  | 32     |
 | collapseFill             | 填充色                                                                                                                                             | string                                                                          | `#fff` |
 | collapsedStroke          | 描边色                                                                                                                                             | string                                                                          | `#000` |
 | collapsedLineWidth       | 描边宽度                                                                                                                                           | number                                                                          | 1      |
@@ -68,19 +68,19 @@ const graph = new Graph({
 
 ### 收起时标记样式 collapsedMarker
 
-| 属性                           | 描述                                                                                                                                                                                                                                                          | 类型                                                                                                                           | 默认值   |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------- |
-| collapsedMarker                | 组合收起时是否显示标记                                                                                                                                                                                                                                        | _boolean_                                                                                                                      | false    |
-| collapsedMarkerType            | 组合收起时显示的标记类型 <br> - `'child-count'`: 子元素数量（包括 Node 和 Combo）<br>- `'descendant-count'`: 后代元素数量（包括 Node 和 Combo）<br>- `'node-count'`: 后代元素数量（只包括 Node）<br> - `(children: NodeLikeData[]) => string`: 自定义处理逻辑 | `child-count` \| `descendant-count` \| `node-count` \| ((children: _NodeData \| ComboData_[]) => string)                       |          |
-| collapsedMarkerSrc             | 图片来源。其优先级高于 collapsedMarkerText                                                                                                                                                                                                                    | string                                                                                                                         | -        |
-| collapsedMarkerWidth           | 图片宽度                                                                                                                                                                                                                                                      | number                                                                                                                         | -        |
-| collapsedMarkerHeight          | 图标高度                                                                                                                                                                                                                                                      | number                                                                                                                         | -        |
-| collapsedMarkerRadius          | 图标圆角半径                                                                                                                                                                                                                                                  | number                                                                                                                         | 0        |
-| collapsedMarkerText            | 图标文字                                                                                                                                                                                                                                                      | string                                                                                                                         | -        |
-| collapsedMarkerFill            | 图标文字颜色                                                                                                                                                                                                                                                  | string                                                                                                                         | -        |
-| collapsedMarkerFontSize        | 图标字体大小                                                                                                                                                                                                                                                  | number                                                                                                                         | 16       |
-| collapsedMarkerFontWeight      | 图标字体粗细                                                                                                                                                                                                                                                  | number \| string                                                                                                               | `normal` |
-| `collapsedMarker${StyleProps}` | 更多图标样式配置，参考 [TextStyleProps](https://g.antv.antgroup.com/api/basic/text)、[ImageStyleProps](https://g.antv.antgroup.com/api/basic/image) 配置项。例如 collapsedMarkerFontSize 代表文字图标的字体大小                                               | [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) \| [ImageStyleProps](https://g.antv.antgroup.com/api/basic/image) | -        |
+| 属性                           | 描述                                                                                                                                                                                                                                                          | 类型                                                                                                                               | 默认值   |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| collapsedMarker                | 组合收起时是否显示标记                                                                                                                                                                                                                                        | boolean                                                                                                                            | false    |
+| collapsedMarkerType            | 组合收起时显示的标记类型 <br> - `'child-count'`: 子元素数量（包括 Node 和 Combo）<br>- `'descendant-count'`: 后代元素数量（包括 Node 和 Combo）<br>- `'node-count'`: 后代元素数量（只包括 Node）<br> - `(children: NodeLikeData[]) => string`: 自定义处理逻辑 | `child-count` &#124; `descendant-count` &#124; `node-count` &#124; ((children: NodeData &#124; ComboData[]) => string)             |          |
+| collapsedMarkerSrc             | 图片来源。其优先级高于 collapsedMarkerText                                                                                                                                                                                                                    | string                                                                                                                             | -        |
+| collapsedMarkerWidth           | 图片宽度                                                                                                                                                                                                                                                      | number                                                                                                                             | -        |
+| collapsedMarkerHeight          | 图标高度                                                                                                                                                                                                                                                      | number                                                                                                                             | -        |
+| collapsedMarkerRadius          | 图标圆角半径                                                                                                                                                                                                                                                  | number                                                                                                                             | 0        |
+| collapsedMarkerText            | 图标文字                                                                                                                                                                                                                                                      | string                                                                                                                             | -        |
+| collapsedMarkerFill            | 图标文字颜色                                                                                                                                                                                                                                                  | string                                                                                                                             | -        |
+| collapsedMarkerFontSize        | 图标字体大小                                                                                                                                                                                                                                                  | number                                                                                                                             | 16       |
+| collapsedMarkerFontWeight      | 图标字体粗细                                                                                                                                                                                                                                                  | number &#124; string                                                                                                               | `normal` |
+| `collapsedMarker${StyleProps}` | 更多图标样式配置，参考 [TextStyleProps](https://g.antv.antgroup.com/api/basic/text)、[ImageStyleProps](https://g.antv.antgroup.com/api/basic/image) 配置项。例如 collapsedMarkerFontSize 代表文字图标的字体大小                                               | [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) &#124; [ImageStyleProps](https://g.antv.antgroup.com/api/basic/image) | -        |
 
 ### 标签样式 label
 
@@ -116,7 +116,7 @@ const graph = new Graph({
 
 ## 状态样式属性 state
 
-在一些交互行为中，比如点击选中一个节点或鼠标悬停激活一个边，仅仅是在该元素做了某些状态的标识。为了将这些状态反应到终端用户所见的视觉空间中，我们需要为不同的状态设置不同的图元素样式，以响应该图元素状态的变化。
+在一些交互行为中，比如点击选中一个组合或鼠标悬停激活一个边，仅仅是在该元素做了某些状态的标识。为了将这些状态反应到终端用户所见的视觉空间中，我们需要为不同的状态设置不同的图元素样式，以响应该图元素状态的变化。
 
 G6 提供了几种内置的状态，包括选中（selected）、高亮（highlight）、激活（active）、不活跃（inactive）和禁用（disabled）。此外，它还支持自定义状态，以满足更特定的需求。对于每个状态，开发者可以定义一套样式规则，这些规则会覆盖元素的默认样式。
 
@@ -166,6 +166,73 @@ createGraph(
 
 ## 动画属性 animation
 
+定义组合的动画效果，支持下列两种配置方式：
+
+1. 关闭组合全部动画
+
+```json
+{
+  "combo": {
+    "animation": false
+  }
+}
+```
+
+2. 配置阶段动画
+
+阶段动画是指组合在进入画布、更新、离开画布时的动画效果。目前支持的阶段包括：
+
+- `enter`: 组合进入画布时的动画
+- `update`: 组合更新时的动画
+- `exit`: 组合离开画布时的动画
+- `show`: 组合从隐藏状态显示时的动画
+- `hide`: 组合隐藏时的动画
+- `collapse`: 组合收起时的动画
+- `expand`: 组合展开时的动画
+
+你可以参考 [动画范式](/manual/core-concept/animation#动画范式) 使用动画语法来配置组合，如：
+
+```json
+{
+  "combo": {
+    "animation": {
+      "update": [
+        {
+          "fields": ["x", "y"], // 更新时只对 x 和 y 属性进行动画
+          "duration": 1000, // 动画持续时间
+          "easing": "linear" // 缓动函数
+        }
+      ],
+  }
+}
+```
+
+也可以使用内置的动画效果：
+
+```json
+{
+  "combo": {
+    "animation": {
+      "enter": "fade", // 使用渐变动画
+      "update": "translate", // 使用平移动画
+      "exit": "fade" // 使用渐变动画
+    }
+  }
+}
+```
+
+你可以传入 false 来关闭特定阶段的动画：
+
+```json
+{
+  "combo": {
+    "animation": {
+      "enter": false // 关闭组合入场动画
+    }
+  }
+}
+```
+
 ## 色板属性 palette
 
 定义组合的色板，即预定义组合颜色池，并根据规则进行分配，将颜色映射到 `fill` 属性。
@@ -179,7 +246,7 @@ createGraph(
 | color  | 色板颜色。如果色板注册过，可以直接指定其注册名，也接受一个颜色数组  | string &#124; string[]            | -       |
 | invert | 是否反转色板                                                        | boolean                           | false   |
 
-如将一组数据按 `category` 字段分配节点颜色，使得同类别的节点颜色相同：
+如将一组数据按 `category` 字段分配组合颜色，使得同类别的组合颜色相同：
 
 ```json
 {

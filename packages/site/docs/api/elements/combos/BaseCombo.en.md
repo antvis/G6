@@ -50,7 +50,7 @@ The following style configurations will be explained in terms of atomic graphic 
 | x               | x coordinate                                                                                                                                                                                        | number                                                                    | 0             |
 | y               | y coordinate                                                                                                                                                                                        | number                                                                    | 0             |
 | z               | z coordinate                                                                                                                                                                                        | number                                                                    | 0             |
-| padding         | Padding inside the combo, effective only when expanded. When expanded, the size of the combo is determined by the bounding box of its child elements and the padding.                               | _number \| number[]_                                                      | 0             |
+| padding         | Padding inside the combo, effective only when expanded. When expanded, the size of the combo is determined by the bounding box of its child elements and the padding.                               | number &#124; number[]                                                    | 0             |
 | fill            | Fill color                                                                                                                                                                                          | string                                                                    | `#fff`        |
 | stroke          | Border color                                                                                                                                                                                        | string                                                                    | `#000`        |
 | lineWidth       | Border width                                                                                                                                                                                        | number                                                                    | 1             |
@@ -61,7 +61,7 @@ The following style configurations will be explained in terms of atomic graphic 
 | Attribute                | Description                                                                                                                                                                                                | Type                                                                                         | Default Value |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------- |
 | collapsed                | Whether the combo is expanded or not                                                                                                                                                                       | boolean                                                                                      | false         |
-| collapsedSize            | The default size of the combo when collapsed                                                                                                                                                               | _number \| [number, number] \| [number, number, number]_                                     | 32            |
+| collapsedSize            | The default size of the combo when collapsed                                                                                                                                                               | number &#124; [number, number] &#124; [number, number, number]                               | 32            |
 | collapseFill             | Fill color                                                                                                                                                                                                 | string                                                                                       | `#fff`        |
 | collapsedStroke          | Border color                                                                                                                                                                                               | string                                                                                       | `#000`        |
 | collapsedLineWidth       | Border width                                                                                                                                                                                               | number                                                                                       | 1             |
@@ -69,19 +69,19 @@ The following style configurations will be explained in terms of atomic graphic 
 
 ### Collapsed Marker Style (collapsedMarker)
 
-| Attribute                      | Description                                                                                                                                                                                                                                                                                                                                                             | Type                                                                                                                                 | Default Value |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
-| collapsedMarker                | Whether to display the marker when the combo is collapsed                                                                                                                                                                                                                                                                                                               | _boolean_                                                                                                                            | false         |
-| collapsedMarkerType            | The type of marker displayed when the combo is collapsed <br> - `'child-count'`: Number of child elements (including Nodes and Combos) <br> - `'descendant-count'`: Number of descendant elements (including Nodes and Combos) <br> - `'node-count'`: Number of descendant elements (only Nodes) <br> - `(children: NodeLikeData[]) => string`: Custom processing logic | `child-count` \| `descendant-count` \| `node-count` \| ((children: _NodeData \| ComboData_[]) => string)                             | -             |
-| collapsedMarkerSrc             | Image source. This takes priority over collapsedMarkerText                                                                                                                                                                                                                                                                                                              | string                                                                                                                               | -             |
-| collapsedMarkerWidth           | Image width                                                                                                                                                                                                                                                                                                                                                             | number                                                                                                                               | -             |
-| collapsedMarkerHeight          | Image height                                                                                                                                                                                                                                                                                                                                                            | number                                                                                                                               | -             |
-| collapsedMarkerRadius          | Image border radius                                                                                                                                                                                                                                                                                                                                                     | number                                                                                                                               | 0             |
-| collapsedMarkerText            | Text to display on the marker                                                                                                                                                                                                                                                                                                                                           | string                                                                                                                               | -             |
-| collapsedMarkerFill            | Marker text color                                                                                                                                                                                                                                                                                                                                                       | string                                                                                                                               | -             |
-| collapsedMarkerFontSize        | Marker font size                                                                                                                                                                                                                                                                                                                                                        | number                                                                                                                               | 16            |
-| collapsedMarkerFontWeight      | Marker font weight                                                                                                                                                                                                                                                                                                                                                      | number \| string                                                                                                                     | `normal`      |
-| `collapsedMarker${StyleProps}` | More marker style configurations, refer to [TextStyleProps](https://g.antv.antgroup.com/en/api/basic/text) and [ImageStyleProps](https://g.antv.antgroup.com/en/api/basic/image). For example, collapsedMarkerFontSize refers to the font size of the text in the marker.                                                                                               | [TextStyleProps](https://g.antv.antgroup.com/en/api/basic/text) \| [ImageStyleProps](https://g.antv.antgroup.com/en/api/basic/image) | -             |
+| Attribute                      | Description                                                                                                                                                                                                                                                                                                                                                             | Type                                                                                                                                     | Default Value |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| collapsedMarker                | Whether to display the marker when the combo is collapsed                                                                                                                                                                                                                                                                                                               | boolean                                                                                                                                  | false         |
+| collapsedMarkerType            | The type of marker displayed when the combo is collapsed <br> - `'child-count'`: Number of child elements (including Nodes and Combos) <br> - `'descendant-count'`: Number of descendant elements (including Nodes and Combos) <br> - `'node-count'`: Number of descendant elements (only Nodes) <br> - `(children: NodeLikeData[]) => string`: Custom processing logic | `child-count` &#124; `descendant-count` &#124; `node-count` &#124; ((children: NodeData &#124; ComboData[]) => string)                   | -             |
+| collapsedMarkerSrc             | Image source. This takes priority over collapsedMarkerText                                                                                                                                                                                                                                                                                                              | string                                                                                                                                   | -             |
+| collapsedMarkerWidth           | Image width                                                                                                                                                                                                                                                                                                                                                             | number                                                                                                                                   | -             |
+| collapsedMarkerHeight          | Image height                                                                                                                                                                                                                                                                                                                                                            | number                                                                                                                                   | -             |
+| collapsedMarkerRadius          | Image border radius                                                                                                                                                                                                                                                                                                                                                     | number                                                                                                                                   | 0             |
+| collapsedMarkerText            | Text to display on the marker                                                                                                                                                                                                                                                                                                                                           | string                                                                                                                                   | -             |
+| collapsedMarkerFill            | Marker text color                                                                                                                                                                                                                                                                                                                                                       | string                                                                                                                                   | -             |
+| collapsedMarkerFontSize        | Marker font size                                                                                                                                                                                                                                                                                                                                                        | number                                                                                                                                   | 16            |
+| collapsedMarkerFontWeight      | Marker font weight                                                                                                                                                                                                                                                                                                                                                      | number &#124; string                                                                                                                     | `normal`      |
+| `collapsedMarker${StyleProps}` | More marker style configurations, refer to [TextStyleProps](https://g.antv.antgroup.com/en/api/basic/text) and [ImageStyleProps](https://g.antv.antgroup.com/en/api/basic/image). For example, collapsedMarkerFontSize refers to the font size of the text in the marker.                                                                                               | [TextStyleProps](https://g.antv.antgroup.com/en/api/basic/text) &#124; [ImageStyleProps](https://g.antv.antgroup.com/en/api/basic/image) | -             |
 
 ### Label Style (label)
 
@@ -154,6 +154,74 @@ createGraph(
 
 ## Animation Attributes (animation)
 
+Defines the animation effect of the combo, and supports the following two configuration methods:
+
+1. disable all animation of the combo
+
+```json
+{
+  "combo": {
+    "animation": false
+  }
+}
+```
+
+2. Configuring stage animation
+
+Stage animation is the animation effect of a combo when it enters the graph, updates, and leaves the graph. Currently supported stages include:
+
+- `enter`: animation when a combo enters the graph
+- `update`: animation when the combo is updated.
+- `exit`: animation when the combo leaves the graph
+- `show`: animation when the combo is shown from hidden state
+- `hide`: animation when the combo is hidden.
+- `collapse`: animation when the combo is collapsed.
+- `expand`: animation when the combo is expanded.
+
+You can refer to [animation paradigm](/en/manual/core-concept/animation#animation-paradigm) to configure the combo using the animation syntax, e.g.:
+
+```json
+{
+  "combo": {
+    "animation": {
+      "update": [
+        {
+          "fields": ["x", "y"], // update animates only the x and y attributes
+          "duration": 1000, // duration of the animation
+          "easing": "linear" // the easing function
+        }
+      ]
+    }
+  }
+}
+```
+
+Built-in animation effects can also be used:
+
+```json
+{
+  "combo": {
+    "animation": {
+      "enter": "fade", // use a fade animation
+      "update": "translate", // Use a panning animation.
+      "exit": "fade" // Use the fade animation.
+    }
+  }
+}
+```
+
+You can pass in false to turn off animation for a particular stage:
+
+```json
+{
+  "combo": {
+    "animation": {
+      "enter": false // Turn off the combo entry animation.
+    }
+  }
+}
+```
+
 ## Palette Attributes (palette)
 
 Define the palette for combos, i.e., a predefined combo color pool, and allocate colors according to rules, mapping the colors to the `fill` property.
@@ -167,7 +235,7 @@ Define the palette for combos, i.e., a predefined combo color pool, and allocate
 | color     | Palette colors. If a palette is registered, you can directly specify its registered name, or accept an array of colors | string &#124; string[]            | -             |
 | invert    | Whether to reverse the palette                                                                                         | boolean                           | false         |
 
-For example, allocate node colors for a set of data according to the `category` field, so that nodes of the same category have the same color:
+For example, allocate combo colors for a set of data according to the `category` field, so that combos of the same category have the same color:
 
 ```json
 {
