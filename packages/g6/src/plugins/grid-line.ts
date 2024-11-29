@@ -136,6 +136,7 @@ export class GridLine extends BasePlugin<GridLineOptions> {
       border: border ? `${borderLineWidth}px ${borderStyle} ${borderStroke}` : 'none',
       backgroundImage: `linear-gradient(${stroke} ${lineWidth}px, transparent ${lineWidth}px), linear-gradient(90deg, ${stroke} ${lineWidth}px, transparent ${lineWidth}px)`,
       backgroundSize: `${size}px ${size}px`,
+      backgroundRepeat: 'repeat',
     });
   }
 
