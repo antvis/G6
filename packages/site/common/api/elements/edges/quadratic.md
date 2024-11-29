@@ -50,3 +50,5 @@ createGraph(
   },
 );
 ```
+
+设置 `edge.type` 为 `quadratic` 以使用曲线。

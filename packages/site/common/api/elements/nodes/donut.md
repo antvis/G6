@@ -40,3 +40,5 @@ createGraph(
   },
 );
 ```
+
+设置 `node.type` 为 `donut` 以使用甜甜圈节点。

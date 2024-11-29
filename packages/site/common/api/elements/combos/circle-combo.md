@@ -23,3 +23,5 @@ createGraph(
   },
 );
 ```
+
+设置 `combo.type` 为 `circle` 以使用圆形组合。

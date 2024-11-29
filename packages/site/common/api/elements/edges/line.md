@@ -36,3 +36,5 @@ createGraph(
   },
 );
 ```
+
+设置 `edge.type` 为 `line` 以使用直线。

@@ -25,3 +25,5 @@ createGraph(
   },
 );
 ```
+
+设置 `node.type` 为 `triangle` 以使用三角形节点。

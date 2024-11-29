@@ -21,3 +21,5 @@ createGraph(
   },
 );
 ```
+
+设置 `node.type` 为 `circle` 以使用圆形节点。
