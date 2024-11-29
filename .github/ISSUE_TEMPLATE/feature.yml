@@ -1,0 +1,27 @@
+name: '💡 Feature Request'
+description: I have a suggestion (and may want to implement it) / 我有一个建议（可能会实现它）
+title: '[Feat]: '
+labels: ['feature']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        To propose a new feature, please fill in the following information.
+
+        ---
+
+        提交新功能建议，请填写以下信息。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the feature / 功能描述
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: 我是否愿意实现这个功能 / I am willing to implement this feature
+      options:
+        - label: 是 / Yes
+        - label: 否 / No 
