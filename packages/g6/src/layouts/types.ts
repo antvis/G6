@@ -17,6 +17,8 @@ import type {
 } from '@antv/layout';
 import type { NodeData } from '../spec/data';
 import type { BaseLayout } from './base-layout';
+import type { FishboneLayoutOptions } from './fishbone';
+import type { SnakeLayoutOptions } from './snake';
 
 export type BuiltInLayoutOptions =
   | AntVDagreLayout
@@ -31,7 +33,9 @@ export type BuiltInLayoutOptions =
   | GridLayout
   | MDSLayout
   | RadialLayout
-  | RandomLayout;
+  | RandomLayout
+  | SnakeLayoutOptions
+  | FishboneLayoutOptions;
 
 export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOptions, Record<string, any> {
   /**

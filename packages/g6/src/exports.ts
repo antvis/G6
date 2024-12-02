@@ -73,6 +73,7 @@ export {
   mindmap as MindmapLayout,
   RadialLayout,
   RandomLayout,
+  SnakeLayout,
 } from './layouts';
 export {
   Background,
@@ -181,7 +182,7 @@ export type {
 } from './elements/shapes';
 export type { UpsertHooks } from './elements/shapes/base-shape';
 export type { ContourLabelStyleProps, ContourStyleProps } from './elements/shapes/contour';
-export type { FishboneLayoutOptions } from './layouts';
+export type { FishboneLayoutOptions, SnakeLayoutOptions } from './layouts';
 export type { BaseLayoutOptions, WebWorkerLayoutOptions } from './layouts/types';
 export type { CategoricalPalette } from './palettes/types';
 export type {
