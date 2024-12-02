@@ -40,7 +40,7 @@
     "@antv/react-g": "^2.0.30"
   },
   "devDependencies": {
-    "@ant-design/icons": "^5.5.1",
+    "@ant-design/icons": "^5.5.2",
     "@antv/g6": "workspace:*",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
