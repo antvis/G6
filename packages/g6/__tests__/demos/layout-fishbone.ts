@@ -98,7 +98,7 @@ export const layoutFishbone: TestCase = async (context) => {
       panel
         .add(config, 'direction', ['LR', 'RL'])
         .name('Direction')
-        .onChange((value: string) => {
+        .onChange((value: 'LR' | 'RL') => {
           graph.setLayout((prev) => ({ ...prev, direction: value }));
           graph.layout();
         }),
