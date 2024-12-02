@@ -1,4 +1,4 @@
-import { BaseLayout, ExtensionCategory, Graph, Polyline, positionOf, register } from '@antv/g6';
+import { ExtensionCategory, Graph, Polyline, positionOf, register } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -38,44 +38,6 @@ const data = {
   ],
 };
 
-class SnakeLayout extends BaseLayout {
-  id = 's-layout';
-
-  async execute(data, options) {
-    const {
-      width,
-      height,
-      nodeSize = 32,
-      cols = 5,
-      sep: propSep,
-      nodeSep: propNodeSep,
-    } = { ...this.options, ...options };
-
-    const totalRows = Math.ceil(data.nodes.length / cols);
-    const sep = propSep ? propSep : height / (totalRows - 1) - nodeSize;
-    const nodeSep = propNodeSep ? propNodeSep : width / cols - nodeSize;
-
-    const nodes = data.nodes.map((node, index) => {
-      const row = Math.floor(index / cols);
-      const col = index % cols;
-      const x = (col + 0.5) * (nodeSize + nodeSep);
-
-      let y = row * (nodeSize + sep);
-      if (row === 0) y += nodeSize / 2;
-      if (row === totalRows - 1) y -= nodeSize / 2;
-
-      const adjustedX = row % 2 === 0 ? x : (cols - col - 0.5) * (nodeSize + nodeSep);
-
-      return {
-        id: node.id,
-        style: { x: adjustedX, y },
-      };
-    });
-
-    return { nodes };
-  }
-}
-
 class SnakePolyline extends Polyline {
   getPoints(attributes) {
     const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false);
@@ -88,7 +50,7 @@ class SnakePolyline extends Polyline {
     if (!prevPointId) return [sourcePoint, targetPoint];
 
     const prevPoint = positionOf(this.context.model.getNodeLikeDatum(prevPointId));
-    const offset = -(prevPoint[0] - sourcePoint[0]) / 2;
+    const offset = -(prevPoint[0] - sourcePoint[0]) / 4;
     return [
       sourcePoint,
       [sourcePoint[0] + offset, sourcePoint[1]],
@@ -98,7 +60,6 @@ class SnakePolyline extends Polyline {
   }
 }
 
-register(ExtensionCategory.LAYOUT, 's-layout', SnakeLayout);
 register(ExtensionCategory.EDGE, 's-polyline', SnakePolyline);
 
 const graph = new Graph({
@@ -137,11 +98,10 @@ const graph = new Graph({
     },
   },
   layout: {
-    type: 's-layout',
+    type: 'snake',
     cols: 6,
-    sep: 120,
-    nodeSep: 80,
-    nodeSize: 32,
+    rowGap: 200,
+    padding: [20, 140, 80],
   },
   behaviors: ['drag-canvas', 'zoom-canvas'],
 });
