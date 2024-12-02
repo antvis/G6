@@ -1,0 +1,336 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g >
+    <g fill="none">
+      <g fill="none" class="elements">
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,32 L 16,32" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,32)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,64 L 16,64" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,64)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,96 L 16,96" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,96)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,128 L 16,128" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,128)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,160 L 16,160" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,160)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,192 L 16,192" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,192)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,224 L 16,224" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,224)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,256 L 16,256" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,256)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,288 L 16,288" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,288)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,320 L 16,320" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,320)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,352 L 16,352" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,352)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,384 L 16,384" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,384)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,416 L 16,416" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,416)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,448 L 16,448" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,448)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 16,480 L 16,480" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(1,0,0,1,22,480)">
+              <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,16)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                0
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,48)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                1
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,80)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                2
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,112)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                3
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,144)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                4
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,176)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                5
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,208)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                6
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,240)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                7
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,272)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                8
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,304)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                9
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,336)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                10
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,368)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                11
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,400)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                12
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,432)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                13
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,464)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                14
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,16,496)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,2)">
+            <g>
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+                15
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
