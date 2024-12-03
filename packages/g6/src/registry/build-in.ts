@@ -65,6 +65,7 @@ import {
   MDSLayout,
   RadialLayout,
   RandomLayout,
+  SnakeLayout,
   compactBox,
   dendrogram,
   indented,
@@ -167,6 +168,7 @@ const BUILT_IN_EXTENSIONS: ExtensionRegistry = {
     mindmap,
     radial: RadialLayout,
     random: RandomLayout,
+    snake: SnakeLayout,
   },
   node: {
     circle: Circle,

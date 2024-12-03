@@ -38,7 +38,7 @@
     "preview": "dumi preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.5.1",
+    "@ant-design/icons": "^5.5.2",
     "@antv/algorithm": "^0.1.26",
     "@antv/dumi-theme-antv": "^0.5.3",
     "@antv/g": "^6.1.14",

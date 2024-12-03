@@ -1,4 +1,4 @@
-import { ExtensionCategory, Graph, Polyline, positionOf, register } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -38,72 +38,29 @@ const data = {
   ],
 };
 
-class SnakePolyline extends Polyline {
-  getPoints(attributes) {
-    const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false);
-
-    if (sourcePoint[1] === targetPoint[1]) return [sourcePoint, targetPoint];
-
-    const prevPointId = this.context.model
-      .getRelatedEdgesData(this.sourceNode.id)
-      .filter((edge) => edge.target === this.sourceNode.id)[0]?.source;
-    if (!prevPointId) return [sourcePoint, targetPoint];
-
-    const prevPoint = positionOf(this.context.model.getNodeLikeDatum(prevPointId));
-    const offset = -(prevPoint[0] - sourcePoint[0]) / 4;
-    return [
-      sourcePoint,
-      [sourcePoint[0] + offset, sourcePoint[1]],
-      [targetPoint[0] + offset, targetPoint[1]],
-      targetPoint,
-    ];
-  }
-}
-
-register(ExtensionCategory.EDGE, 's-polyline', SnakePolyline);
-
-const graph = new Graph({
-  container: 'container',
-  data,
-  animation: false,
-  background: '#fafafa',
-  autoFit: 'center',
-  node: {
-    style: {
-      fill: (d) => (d.data.time ? '#1783ff' : '#d9d9d9'),
-      lineWidth: 2,
-      size: 8,
-      stroke: (d) => (d.data.time ? 'lightblue' : ''),
-      labelFontWeight: 500,
-      labelOffsetY: 8,
-      labelText: (d) => d.data.label,
-      badge: true,
-      badges: (d) => [
-        {
-          background: false,
-          fill: '#858ca6',
-          fontSize: 10,
-          offsetY: 39,
-          placement: 'bottom',
-          text: d.data.time || '--',
-        },
-      ],
+export const layoutSnake: TestCase = async (context) => {
+  const graph = new Graph({
+    ...context,
+    data,
+    node: {
+      style: {
+        labelText: (d) => d.id,
+        labelPlacement: 'center',
+        labelFill: '#fff',
+      },
     },
-  },
-  edge: {
-    type: 's-polyline',
-    style: {
-      lineWidth: 2,
-      stroke: (d) => (d.data.done ? '#1783ff' : '#d9d9d9'),
+    edge: {
+      style: {
+        endArrow: true,
+      },
     },
-  },
-  layout: {
-    type: 'snake',
-    cols: 6,
-    rowGap: 200,
-    padding: [20, 140, 80],
-  },
-  behaviors: ['drag-canvas', 'zoom-canvas'],
-});
+    layout: {
+      key: 'snake',
+      type: 'snake',
+    },
+  });
 
-graph.render();
+  await graph.render();
+
+  return graph;
+};

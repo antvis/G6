@@ -1,11 +1,12 @@
 import { isEmpty, memoize } from '@antv/util';
-import { idOf } from '../exports';
+import type { BaseLayoutOptions } from '../layouts/types';
 import type { EdgeData, GraphData, NodeData } from '../spec';
 import type { ElementDatum, ID, Point, Size, STDSize } from '../types';
+import { idOf } from '../utils/id';
 import { parseSize } from '../utils/size';
 import { BaseLayout } from './base-layout';
 
-export interface FishboneLayoutOptions {
+export interface FishboneLayoutOptions extends BaseLayoutOptions {
   /**
    * <zh/> 节点大小
    *

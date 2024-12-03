@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": {
+        "zh": "基本 Snake 布局",
+        "en": "Basic Snake Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*pIpcQ6yX7P0AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "gutter.js",
+      "title": {
+        "zh": "自定义间距的 Snake 布局",
+        "en": "Snake Layout with Gutter"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*g-5JSoayUzAAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}
