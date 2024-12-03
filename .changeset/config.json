@@ -7,5 +7,5 @@
   "access": "restricted",
   "baseBranch": "v5",
   "updateInternalDependencies": "patch",
-  "ignore": ["@antv/g6-site"]
+  "ignore": ["@antv/g6-site", "bundle"]
 }
