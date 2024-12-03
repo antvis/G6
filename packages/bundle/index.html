@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>G6 Bundler Test</title>
+  </head>
+  <body>
+    <select id="switch-bundler">
+      <option value="">None</option>
+      <option value="webpack">Webpack</option>
+      <option value="vite">Vite</option>
+      <option value="rollup">Rollup</option>
+    </select>
+    <div id="container"></div>
+
+    <script>
+      const select = document.getElementById('switch-bundler');
+
+      function setBundler(value) {
+        if (!value) return;
+        const container = document.getElementById('container');
+        container.innerHTML = '';
+
+        const currentScript = document.getElementById('g6-script');
+        if (currentScript) document.body.removeChild(currentScript);
+
+        const script = document.createElement('script');
+        script.id = 'g6-script';
+        script.src = `./dist/${value}/g6.umd.js`;
+        document.body.appendChild(script);
+      }
+
+      select.addEventListener('change', (e) => {
+        setBundler(e.target.value);
+        console.log('switch bundler:', e.target.value);
+      });
+    </script>
+  </body>
+</html>
