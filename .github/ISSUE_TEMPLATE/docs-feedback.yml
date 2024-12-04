@@ -1,0 +1,33 @@
+name: 'Docs feedback'
+description: Improve documentation about AntV G6.
+labels: ['status: waiting for maintainer', 'docs-feedback']
+title: '[docs] '
+body:
+  - type: input
+    id: page-url
+    attributes:
+      label: Related page
+      description: Which page of the documentation is this about?
+      placeholder: https://g6.antv.antgroup.com/
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Kind of issue
+      description: What kind of problem are you facing?
+      options:
+        - Unclear explanations
+        - Missing information
+        - Broken demo
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Issue description
+      description: |
+        Let us know what went wrong when you were using this documentation and what we could do to improve it.
+  - type: textarea
+    attributes:
+      label: Context
+      description: What are you trying to accomplish? Providing context helps us come up with a solution that is more useful in the real world.
