@@ -33,4 +33,5 @@ jobs:
           optionalFollowupLabel: 'status: waiting for maintainer'
           # Comment to post when closing an Issue for lack of response. Set to `false` to disable
           closeComment: >
-            Since the issue is missing key information and has been inactive for 7 days, it has been automatically closed. If you wish to see the issue reopened, please provide the missing information.
+            Since the issue is missing key information and has been inactive for 7 days, it has been automatically closed. If you wish to see the issue reopened, please provide the missing information. | 由于该 issue 缺少关键信息且已闲置 7 天，现已自动关闭。如需重新打开此问题，请提供所缺失的信息。。
+

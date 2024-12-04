@@ -1,5 +1,5 @@
 name: 'Docs feedback'
-description: Improve documentation about AntV G6.
+description: Improve documentation about G6 / 助力 G6 打造出更易于上手操作以及便捷查阅的文档
 labels: ['status: waiting for maintainer', 'docs-feedback']
 title: '[docs] '
 body:
@@ -26,8 +26,8 @@ body:
     attributes:
       label: Issue description
       description: |
-        Let us know what went wrong when you were using this documentation and what we could do to improve it.
+        Let us know what went wrong when you were using this documentation and what we could do to improve it | 请告知您在使用此文档时遇到的问题以及我们可以改进的地方
   - type: textarea
     attributes:
       label: Context
-      description: What are you trying to accomplish? Providing context helps us come up with a solution that is more useful in the real world.
+      description: What are you trying to accomplish? Providing context helps us come up with a solution that is more useful in the real world | 您希望实现什么目标？提供上下文有助于我们提出更实用的解决方案
