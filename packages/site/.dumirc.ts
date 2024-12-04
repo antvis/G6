@@ -48,6 +48,7 @@ export default defineConfig({
       // 头部搜索框配置
       apiKey: '9d1cd586972bb492b7b41b13a949ef30',
       indexName: 'antv_g6',
+      sort: ['!/api/reference'],
     },
     navs: [
       {
