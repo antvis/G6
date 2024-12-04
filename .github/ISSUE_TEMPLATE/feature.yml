@@ -1,9 +1,8 @@
 name: '💡 Feature Request'
 description: I have a suggestion (and may want to implement it) / 我有一个建议（或者想参与贡献）
 title: '[Feat]: '
-labels: ['feature']
+labels: ['status: waiting for maintainer']
 body:
-
   - type: textarea
     id: description
     attributes:
