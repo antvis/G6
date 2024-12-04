@@ -40,7 +40,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
     "@antv/algorithm": "^0.1.26",
-    "@antv/dumi-theme-antv": "^0.5.3",
+    "@antv/dumi-theme-antv": "^0.5.4",
     "@antv/g": "^6.1.14",
     "@antv/g-svg": "^2.0.27",
     "@antv/g-webgl": "^2.0.36",
