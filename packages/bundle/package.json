@@ -1,4 +1,5 @@
 {
+  "name": "bundle",
   "private": true,
   "scripts": {
     "build": "run-s build:*",
