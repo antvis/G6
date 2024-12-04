@@ -39,6 +39,12 @@ export interface TooltipOptions
    *  @defaultValue true
    */
   enable?: boolean | ((event: IElementEvent) => boolean);
+  /**
+   * <zh/> 显示隐藏的回调
+   *
+   * <en/> Callback executed when visibility of the tooltip card is changed
+   */
+  onOpenChange: (open: boolean) => void;
 }
 
 /**
@@ -162,9 +168,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     // click the same item twice, tooltip will be hidden
     if (this.currentTarget === id) {
       this.hide(event);
-      this.currentTarget = null;
     } else {
-      this.currentTarget = id;
       this.show(event);
     }
   };
@@ -190,7 +194,6 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    */
   public onPointerLeave = (event: IElementEvent) => {
     this.hide(event);
-    this.currentTarget = null;
   };
   /**
    * <zh/> 移动画布
@@ -200,7 +203,6 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    */
   public onCanvasMove = (event: IElementEvent) => {
     this.hide(event);
-    this.currentTarget = null;
   };
 
   private onPointerEnter = (event: IElementEvent) => {
@@ -280,6 +282,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
         }),
       };
     }
+    this.options.onOpenChange?.(true);
     this.tooltipElement.update({
       ...this.tooltipStyleProps,
       x,
@@ -301,7 +304,9 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
   public hide = (event?: IElementEvent) => {
     // if e is undefined, hide the tooltip， external call
     if (!event) {
+      this.options.onOpenChange?.(false);
       this.tooltipElement?.hide();
+      this.currentTarget = null;
       return;
     }
     if (!this.tooltipElement) return;
@@ -310,7 +315,9 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     const {
       client: { x, y },
     } = event;
+    this.options.onOpenChange?.(false);
     this.tooltipElement.hide(x, y);
+    this.currentTarget = null;
   };
 
   private get tooltipStyleProps() {

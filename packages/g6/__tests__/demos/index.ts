@@ -141,6 +141,7 @@ export { pluginTimebar } from './plugin-timebar';
 export { pluginToolbarBuildIn } from './plugin-toolbar-build-in';
 export { pluginToolbarIconfont } from './plugin-toolbar-iconfont';
 export { pluginTooltip } from './plugin-tooltip';
+export { pluginTooltipDual } from './plugin-tooltip-dual';
 export { pluginWatermark } from './plugin-watermark';
 export { pluginWatermarkImage } from './plugin-watermark-image';
 export { theme } from './theme';
