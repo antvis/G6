@@ -1,7 +1,7 @@
 name: '🐞 Bug report'
 description: Create a report to help us improve, Ask questions in Discussions / 创建一个问题报告以帮助我们改进，提问请到 Discussions
 title: '[Bug]: '
-labels: ['status: waiting for maintainer', 'bug']
+labels: ['status: waiting for maintainer']
 body:
   - type: markdown
     attributes:
