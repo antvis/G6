@@ -19,6 +19,14 @@
         "en": "Show on click"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ErhbR7ErhRwAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "dual.js",
+      "title": {
+        "zh": "鼠标移入和点击同一元素时显示不同的提示框",
+        "en": "Dual tooltips"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*DCZ_SbSHGnYAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
