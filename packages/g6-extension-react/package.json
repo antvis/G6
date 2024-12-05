@@ -42,9 +42,9 @@
   "devDependencies": {
     "@ant-design/icons": "^5.5.2",
     "@antv/g6": "workspace:*",
-    "@types/react": "^18.3.12",
+    "@types/react": "^18.3.13",
     "@types/react-dom": "^18.3.1",
-    "antd": "^5.22.2",
+    "antd": "^5.22.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",
