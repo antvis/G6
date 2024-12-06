@@ -11,9 +11,11 @@ import type { Graph, MetaData, Options } from './types';
  * @returns <zh/>输出文件的扩展名 | <en/>The extension name of the output file
  */
 function getInfoOf(options: Options) {
-  const { outputType } = options;
+  const { outputType, imageType } = options;
   if (outputType === 'pdf') return ['.pdf', 'application/pdf'] as const;
   if (outputType === 'svg') return ['.svg', undefined] as const;
+
+  if (imageType === 'jpeg') return ['.jpeg', 'image/jpeg'] as const;
   return ['.png', 'image/png'] as const;
 }
 

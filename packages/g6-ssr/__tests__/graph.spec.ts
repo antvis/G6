@@ -31,13 +31,14 @@ expect.extend({
 });
 
 describe('createGraph', () => {
-  const fn = async (outputType?: any) => {
+  const fn = async (outputType?: any, imageType: any = 'png') => {
     const data = (await fetch('https://assets.antv.antgroup.com/g6/circular.json').then((res) => res.json())) as any;
 
     return await createGraph({
       width: 500,
       height: 500,
       outputType,
+      imageType,
       autoFit: 'view',
       background: 'rgba(100, 80, 180, 0.4)',
       data,
@@ -58,6 +59,16 @@ describe('createGraph', () => {
     const graph = await fn();
 
     expect(graph).toMatchFile('./assets/image.png');
+
+    graph.exportToFile(join(__dirname, './assets/image'));
+
+    graph.destroy();
+  });
+
+  it('image jpeg', async () => {
+    const graph = await fn('image', 'jpeg');
+
+    expect(graph).toMatchFile('./assets/image.jpeg');
 
     graph.exportToFile(join(__dirname, './assets/image'));
 

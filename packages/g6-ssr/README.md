@@ -20,6 +20,7 @@ import { createGraph } from '@antv/g6-ssr';
 const graph = await createGraph({
   width: 500,
   height: 500,
+  imageType: 'png', // or 'jpeg'
   data: {
     // data
   },
@@ -28,6 +29,9 @@ const graph = await createGraph({
 
 graph.exportToFile('image');
 // -> image.png
+
+graph.toBuffer();
+// -> get buffer
 ```
 
 ### Render in CLI
