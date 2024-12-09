@@ -190,20 +190,6 @@ export interface EdgeData {
    */
   target: ID;
   /**
-   * <zh/> 边的起点 shape
-   *
-   * <en/> The source shape. Represents the start of the edge
-   * @internal
-   */
-  sourceNode?: ID;
-  /**
-   * <zh/> 边的终点 shape
-   *
-   * <en/> The source shape. Represents the start of the edge
-   *  @internal
-   */
-  targetNode?: ID;
-  /**
    * <zh/> 边类型
    *
    * <en/> Edge type
