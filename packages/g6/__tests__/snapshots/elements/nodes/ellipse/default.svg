@@ -3,109 +3,109 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" transform="matrix(1,0,0,1,83.333336,62.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,83.3333,62.5000)">
           <g>
-            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5" ry="17.5"/>
+            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5000" ry="17.5000"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.5000)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 default
               </text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="17.5" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="17.5000" font-family="iconfont">
                 
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,250,62.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,250,62.5000)">
           <g>
-            <ellipse fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" rx="22.5" ry="17.5" stroke-dasharray="0,0" pointer-events="none"/>
+            <ellipse fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.2500" rx="22.5000" ry="17.5000" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
-            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5" ry="17.5"/>
+            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5000" ry="17.5000"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.5000)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 halo
               </text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="17.5" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="17.5000" font-family="iconfont">
                 
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,416.666656,62.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,416.6667,62.5000)">
           <g>
-            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5" ry="17.5"/>
+            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5000" ry="17.5000"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.5000)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 badges
               </text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="17.5" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="17.5000" font-family="iconfont">
                 
               </text>
             </g>
           </g>
-          <g fill="none" class="badge-0" transform="matrix(1,0,0,1,19.500000,-17.500000)">
+          <g fill="none" class="badge-0" transform="matrix(1,0,0,1,19.5000,-17.5000)">
             <g fill="none" class="label">
               <g>
-                <path fill="rgba(126,146,181,1)" d="M 4.5,2.5 l 0,0 a 6,6,0,0,1,6,6 l 0,0 a 6,6,0,0,1,-6,6 l 0,0 a 6,6,0,0,1,-6,-6 l 0,0 a 6,6,0,0,1,6,-6 z" class="background" stroke-width="0" width="12" height="12" x="-1.5" y="2.5"/>
+                <path fill="rgba(126,146,181,1)" d="M 4.5000,2.5000 l 0,0 a 6,6,0,0,1,6,6 l 0,0 a 6,6,0,0,1,-6,6 l 0,0 a 6,6,0,0,1,-6,-6 l 0,0 a 6,6,0,0,1,6,-6 z" class="background" stroke-width="0" width="12" height="12" x="-1.5000" y="2.5000"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="8.5px" class="text" font-size="8" font-family="iconfont" text-anchor="left">
+                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="8.5000px" class="text" font-size="8" font-family="iconfont" text-anchor="left">
                   
                 </text>
               </g>
             </g>
           </g>
-          <g fill="none" class="badge-1" transform="matrix(1,0,0,1,22.500000,0)">
+          <g fill="none" class="badge-1" transform="matrix(1,0,0,1,22.5000,0)">
             <g fill="none" class="label">
               <g>
-                <path fill="rgba(244,102,74,1)" d="M 5.5,-9.5 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" class="background" stroke-width="0" x="-4" y="-9.5" width="46.52" height="19"/>
+                <path fill="rgba(244,102,74,1)" d="M 5.5000,-9.5000 l 27.5200,0 a 9.5000,9.5000,0,0,1,9.5000,9.5000 l 0,0 a 9.5000,9.5000,0,0,1,-9.5000,9.5000 l -27.5200,0 a 9.5000,9.5000,0,0,1,-9.5000,-9.5000 l 0,0 a 9.5000,9.5000,0,0,1,9.5000,-9.5000 z" class="background" stroke-width="0" x="-4" y="-9.5000" width="46.5200" height="19"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left">
+                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left">
                   Important
                 </text>
               </g>
             </g>
           </g>
-          <g fill="none" class="badge-2" transform="matrix(1,0,0,1,22.500000,17.500000)">
+          <g fill="none" class="badge-2" transform="matrix(1,0,0,1,22.5000,17.5000)">
             <g fill="none" class="label">
               <g>
-                <path fill="rgba(255,190,58,1)" d="M 5.5,-18 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" class="background" stroke-width="0" x="-4" y="-18" width="34.120000000000005" height="19"/>
+                <path fill="rgba(255,190,58,1)" d="M 5.5000,-18 l 15.1200,0 a 9.5000,9.5000,0,0,1,9.5000,9.5000 l 0,0 a 9.5000,9.5000,0,0,1,-9.5000,9.5000 l -15.1200,0 a 9.5000,9.5000,0,0,1,-9.5000,-9.5000 l 0,0 a 9.5000,9.5000,0,0,1,9.5000,-9.5000 z" class="background" stroke-width="0" x="-4" y="-18" width="34.1200" height="19"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-8.5px" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left">
+                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="-8.5000px" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left">
                   Notice
                 </text>
               </g>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,83.333336,187.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,83.3333,187.5000)">
           <g>
-            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5" ry="17.5"/>
+            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5000" ry="17.5000"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.5000)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 icon
               </text>
             </g>
@@ -116,133 +116,133 @@
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,250,187.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,250,187.5000)">
           <g>
-            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5" ry="17.5"/>
+            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5000" ry="17.5000"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.5000)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 ports
               </text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="17.5" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="17.5000" font-family="iconfont">
                 
               </text>
             </g>
           </g>
-          <g transform="matrix(1,0,0,1,-22.500000,0)">
-            <circle fill="rgba(23,131,255,1)" class="port-0" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          <g transform="matrix(1,0,0,1,-22.5000,0)">
+            <circle fill="rgba(23,131,255,1)" class="port-0" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.6500" r="3"/>
           </g>
-          <g transform="matrix(1,0,0,1,22.500000,0)">
-            <circle fill="rgba(23,131,255,1)" class="port-1" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          <g transform="matrix(1,0,0,1,22.5000,0)">
+            <circle fill="rgba(23,131,255,1)" class="port-1" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.6500" r="3"/>
           </g>
-          <g transform="matrix(1,0,0,1,0,-17.500000)">
-            <circle fill="rgba(23,131,255,1)" class="port-2" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          <g transform="matrix(1,0,0,1,0,-17.5000)">
+            <circle fill="rgba(23,131,255,1)" class="port-2" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.6500" r="3"/>
           </g>
-          <g transform="matrix(1,0,0,1,0,17.500000)">
-            <circle fill="rgba(23,131,255,1)" class="port-3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+          <g transform="matrix(1,0,0,1,0,17.5000)">
+            <circle fill="rgba(23,131,255,1)" class="port-3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.6500" r="3"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,416.666656,187.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,416.6667,187.5000)">
           <g>
-            <ellipse fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" rx="22.5" ry="17.5" stroke-dasharray="0,0" pointer-events="none"/>
+            <ellipse fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.1500" rx="22.5000" ry="17.5000" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
-            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5" ry="17.5"/>
+            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" rx="22.5000" ry="17.5000"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.5000)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 active
               </text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="17.5" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="17.5000" font-family="iconfont">
                 
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,83.333336,312.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,83.3333,312.5000)">
           <g>
-            <ellipse fill="none" class="halo" stroke-width="24" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" rx="22.5" ry="17.5" stroke-dasharray="0,0" pointer-events="none"/>
+            <ellipse fill="none" class="halo" stroke-width="24" stroke="rgba(23,131,255,1)" stroke-opacity="0.2500" rx="22.5000" ry="17.5000" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
-            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" rx="22.5" ry="17.5"/>
+            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" rx="22.5000" ry="17.5000"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.5000)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="bold">
                 selected
               </text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="17.5" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="17.5000" font-family="iconfont">
                 
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,250,312.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,250,312.5000)">
           <g>
-            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" stroke-opacity="0.85" rx="22.5" ry="17.5"/>
+            <ellipse fill="rgba(23,131,255,1)" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" stroke-opacity="0.8500" rx="22.5000" ry="17.5000"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.5000)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="bold">
                 highlight
               </text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="17.5" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="17.5000" font-family="iconfont">
                 
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,416.666656,312.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,416.6667,312.5000)">
           <g>
-            <ellipse fill="rgba(23,131,255,1)" class="key" fill-opacity="0.25" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25" rx="22.5" ry="17.5"/>
+            <ellipse fill="rgba(23,131,255,1)" class="key" fill-opacity="0.2500" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.2500" rx="22.5000" ry="17.5000"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.5000)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.25" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.2500" font-weight="400">
                 inactive
               </text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="17.5" opacity="0.85" font-family="iconfont">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="17.5000" opacity="0.8500" font-family="iconfont">
                 
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,83.333336,437.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,83.3333,437.5000)">
           <g>
-            <ellipse fill="rgba(27,50,79,1)" class="key" fill-opacity="0.06" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.06" rx="22.5" ry="17.5"/>
+            <ellipse fill="rgba(27,50,79,1)" class="key" fill-opacity="0.0600" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.0600" rx="22.5000" ry="17.5000"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.500000)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,19.5000)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.25" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.2500" font-weight="400">
                 disabled
               </text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(27,50,79,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="17.5" opacity="0.25" font-family="iconfont">
+              <text fill="rgba(27,50,79,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="17.5000" opacity="0.2500" font-family="iconfont">
                 
               </text>
             </g>

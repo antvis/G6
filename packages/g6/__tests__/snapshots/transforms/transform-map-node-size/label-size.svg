@@ -5,35 +5,35 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 125,123.33333587646484 L 125,240" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 125,123.3333 L 125,240" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 40,0 L 10,0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 158.2820119297732,105.52134349108483 L 366.6794970175567,244.452998096345" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 158.2820,105.5213 L 366.6795,244.4530" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 40,0 L 10,0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 165,83.33333587646484 L 346.07210739285625,83.33333587646484" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 40,0 L 28.927892607143725,0" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 165,83.3333 L 346.0721,83.3333" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 40,0 L 28.9279,0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 357.6432640119653,106.47564964436849 L 131.00000014648438,408.6666566040039" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 28.927892607143725,0 L 10,0" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 357.6433,106.4756 L 131.0000,408.6667" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 28.9279,0 L 10,0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,125,83.333336)">
+        <g fill="none" transform="matrix(1,0,0,1,125,83.3333)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="40"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,42)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="36.5px" class="text" font-size="40" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="36.5000px" class="text" font-size="40" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node-1
               </text>
             </g>
@@ -45,7 +45,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node-2
               </text>
             </g>
@@ -57,31 +57,31 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node-3
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,375,83.333336)">
+        <g fill="none" transform="matrix(1,0,0,1,375,83.3333)">
           <g>
-            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="28.927892607143725"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="28.9279"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,30.927893)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,30.9279)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="26.5px" class="text" font-size="28.927892607143725" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="26.5000px" class="text" font-size="28.9279" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node-4
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,125,416.666656)">
+        <g fill="none" transform="matrix(1,0,0,1,125,416.6667)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,12)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node-5
               </text>
             </g>

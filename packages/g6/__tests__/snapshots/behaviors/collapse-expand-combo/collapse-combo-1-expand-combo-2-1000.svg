@@ -3,13 +3,13 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" transform="matrix(1,0,0,1,166.693329,172.750000)">
+        <g fill="none" transform="matrix(1,0,0,1,166.6933,172.7500)">
           <g>
-            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="125.16878099448718" fill-opacity="0.04"/>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" r="125.1688" fill-opacity="0.0400"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,125.168777)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,0,125.1688)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 combo-2
               </text>
             </g>
@@ -21,26 +21,26 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node-1
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,207.166672,212.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,207.1667,212.5000)">
           <g>
             <path fill="rgba(153,173,209,1)" d="M -26,-26 l 52,0 l 0,52 l-52 0 z" class="key" stroke-dasharray="0,0" stroke-width="1" stroke="rgba(153,173,209,1)" width="52" height="52" x="-26" y="-26"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,26)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
                 combo-1
               </text>
             </g>
           </g>
           <g fill="none" class="collapsed-marker">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="12">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="12">
                 2
               </text>
             </g>
@@ -48,8 +48,8 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 129.79968364745167,112.64777452399701 L 187.0214853922526,186.5" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 130.47888861468547,112.09102532463709 L 227.46666666666667,224" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 129.7997,112.6478 L 187.0215,186.5000" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 130.4789,112.0910 L 227.4667,224" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
       </g>

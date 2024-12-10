@@ -14,7 +14,7 @@
           </g>
           <g fill="none" class="collapsed-marker">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="12">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="12">
                 1
               </text>
             </g>
@@ -22,7 +22,7 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 231.30592625094465,199.77629499622137 L 246.11942999941868,140.52228000232532" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 231.3059,199.7763 L 246.1194,140.5223" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>

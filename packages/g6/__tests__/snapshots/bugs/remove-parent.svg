@@ -9,15 +9,15 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node3
               </text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,300.920013,162.500000)">
+        <g fill="none" transform="matrix(1,0,0,1,300.9200,162.5000)">
           <g>
-            <path fill="rgba(153,173,209,1)" d="M -78.26,-38.5 l 156.52,0 l 0,77 l-156.52 0 z" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" width="156.52" height="77" x="-78.26" y="-38.5"/>
+            <path fill="rgba(153,173,209,1)" d="M -78.2600,-38.5000 l 156.5200,0 l 0,77 l-156.5200 0 z" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.0400" stroke="rgba(153,173,209,1)" width="156.5200" height="77" x="-78.2600" y="-38.5000"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,150)">
@@ -26,7 +26,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node1
               </text>
             </g>
@@ -38,7 +38,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node2
               </text>
             </g>

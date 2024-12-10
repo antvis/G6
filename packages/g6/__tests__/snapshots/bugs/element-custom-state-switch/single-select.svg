@@ -5,7 +5,7 @@
       <g fill="none" class="elements">
         <g fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
-            <circle fill="none" class="halo" stroke-width="24" stroke="rgba(0,128,0,1)" stroke-opacity="0.25" r="16" stroke-dasharray="0,0" pointer-events="none"/>
+            <circle fill="none" class="halo" stroke-width="24" stroke="rgba(0,128,0,1)" stroke-opacity="0.2500" r="16" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
             <circle fill="rgba(0,128,0,1)" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" r="16"/>

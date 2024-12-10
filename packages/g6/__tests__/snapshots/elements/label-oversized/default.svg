@@ -8,16 +8,16 @@
             <path fill="none" d="M 150,150 L 325,150" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 150,150 L 325,150" class="key" stroke-width="3" stroke="transparent"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,241.500000,146)">
+          <g fill="none" class="label" transform="matrix(1,0,0,1,241.5000,146)">
             <g>
-              <path fill="rgba(255,0,0,1)" d="M -63.38000000000001,-46 l 127.76000000000002,0 a 4,4,0,0,1,4,4 l 0,38 a 4,4,0,0,1,-4,4 l -127.76000000000002,0 a 4,4,0,0,1,-4,-4 l 0,-38 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-67.38000000000001" y="-46" width="135.76000000000002" height="46"/>
+              <path fill="rgba(255,0,0,1)" d="M -63.3800,-46 l 127.7600,0 a 4,4,0,0,1,4,4 l 0,38 a 4,4,0,0,1,-4,4 l -127.7600,0 a 4,4,0,0,1,-4,-4 l 0,-38 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.7500" stroke-width="0" fill-opacity="0.5000" x="-67.3800" y="-46" width="135.7600" height="46"/>
             </g>
             <g>
               <text fill="rgba(0,0,0,1)" dominant-baseline="text-after-edge" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
-                <tspan x="0" dx="0.5" dy="-23">
+                <tspan x="0" dx="0.5000" dy="-23">
                   This label is too long to
                 </tspan>
-                <tspan x="0" dx="0.5" dy="23">
+                <tspan x="0" dx="0.5000" dy="23">
                   be displayed
                 </tspan>
               </text>
@@ -30,20 +30,20 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,52)">
             <g>
-              <path fill="rgba(238,238,238,1)" d="M -49.019999999999996,0 l 99.03999999999999,0 a 4,4,0,0,1,4,4 l 0,63 a 4,4,0,0,1,-4,4 l -99.03999999999999,0 a 4,4,0,0,1,-4,-4 l 0,-63 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-53.019999999999996" y="0" width="107.03999999999999" height="71"/>
+              <path fill="rgba(238,238,238,1)" d="M -49.0200,0 l 99.0400,0 a 4,4,0,0,1,4,4 l 0,63 a 4,4,0,0,1,-4,4 l -99.0400,0 a 4,4,0,0,1,-4,-4 l 0,-63 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.7500" stroke-width="0" fill-opacity="0.5000" x="-53.0200" y="0" width="107.0400" height="71"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                <tspan x="0" dx="0.5" dy="0">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
+                <tspan x="0" dx="0.5000" dy="0">
                   This label with
                 </tspan>
-                <tspan x="0" dx="0.5" dy="16">
+                <tspan x="0" dx="0.5000" dy="16">
                   padding is too
                 </tspan>
-                <tspan x="0" dx="0.5" dy="16">
+                <tspan x="0" dx="0.5000" dy="16">
                   long to be
                 </tspan>
-                <tspan x="0" dx="0.5" dy="16">
+                <tspan x="0" dx="0.5000" dy="16">
                   displayed
                 </tspan>
               </text>
@@ -56,17 +56,17 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,77)">
             <g>
-              <path fill="rgba(238,238,238,1)" d="M -72.96000000000001,0 l 146.92000000000002,0 a 4,4,0,0,1,4,4 l 0,47 a 4,4,0,0,1,-4,4 l -146.92000000000002,0 a 4,4,0,0,1,-4,-4 l 0,-47 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75" stroke-width="0" fill-opacity="0.5" x="-76.96000000000001" y="0" width="154.92000000000002" height="55"/>
+              <path fill="rgba(238,238,238,1)" d="M -72.9600,0 l 146.9200,0 a 4,4,0,0,1,4,4 l 0,47 a 4,4,0,0,1,-4,4 l -146.9200,0 a 4,4,0,0,1,-4,-4 l 0,-47 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.7500" stroke-width="0" fill-opacity="0.5000" x="-76.9600" y="0" width="154.9200" height="55"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                <tspan x="0" dx="0.5" dy="0">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
+                <tspan x="0" dx="0.5000" dy="0">
                   This label with padding
                 </tspan>
-                <tspan x="0" dx="0.5" dy="16">
+                <tspan x="0" dx="0.5000" dy="16">
                   is too long to be
                 </tspan>
-                <tspan x="0" dx="0.5" dy="16">
+                <tspan x="0" dx="0.5000" dy="16">
                   displayed
                 </tspan>
               </text>

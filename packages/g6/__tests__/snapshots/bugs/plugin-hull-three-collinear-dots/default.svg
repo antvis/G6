@@ -3,7 +3,7 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" transform="matrix(1,0,0,1,250,83.333336)">
+        <g fill="none" transform="matrix(1,0,0,1,250,83.3333)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
@@ -13,7 +13,7 @@
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,250,416.666656)">
+        <g fill="none" transform="matrix(1,0,0,1,250,416.6667)">
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
@@ -21,11 +21,11 @@
       </g>
       <g fill="none">
         <g>
-          <path fill="rgba(173,216,230,1)" d="M 276,416.66666666666663 L 276,83.33333333333333 A 26 26 0 0 0 224 83.33333333333333 L 224,416.66666666666663 A 26 26 0 0 0 276 416.66666666666663" class="key" fill-opacity="0.2" stroke="rgba(0,0,255,1)" stroke-opacity="0.2"/>
+          <path fill="rgba(173,216,230,1)" d="M 276,416.6667 L 276,83.3333 A 26 26 0 0 0 224 83.3333 L 224,416.6667 A 26 26 0 0 0 276 416.6667" class="key" fill-opacity="0.2000" stroke="rgba(0,0,255,1)" stroke-opacity="0.2000"/>
         </g>
-        <g fill="none" class="label" transform="matrix(1,0,0,1,250,416.666656)">
+        <g fill="none" class="label" transform="matrix(1,0,0,1,250,416.6667)">
           <g>
-            <path fill="none" d="M 0,0 l 0,0 l 0,0 l0 0 z" class="background" opacity="0.75" stroke-width="0" x="0" y="0" width="0" height="0"/>
+            <path fill="none" d="M 0,0 l 0,0 l 0,0 l0 0 z" class="background" opacity="0.7500" stroke-width="0" x="0" y="0" width="0" height="0"/>
           </g>
           <g>
             <text fill="rgba(0,0,0,1)" dominant-baseline="hanging" paint-order="stroke" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle"/>

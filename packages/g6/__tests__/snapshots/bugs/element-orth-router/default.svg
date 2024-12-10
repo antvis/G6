@@ -5,8 +5,8 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 310,240 L 310,215.5 L 300,215.5 L 300,191" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 310,240 L 310,215.5 L 300,215.5 L 300,191" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 310,240 L 310,215.5000 L 300,215.5000 L 300,191" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 310,240 L 310,215.5000 L 300,215.5000 L 300,191" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,310,280)">

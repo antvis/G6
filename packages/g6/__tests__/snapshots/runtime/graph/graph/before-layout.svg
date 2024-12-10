@@ -16,7 +16,7 @@
         </g>
         <g fill="none">
           <g>
-            <circle fill="none" class="halo" stroke-width="24" stroke="rgba(255,192,203,1)" stroke-opacity="0.25" r="16" stroke-dasharray="0,0" pointer-events="none" visibility="visible"/>
+            <circle fill="none" class="halo" stroke-width="24" stroke="rgba(255,192,203,1)" stroke-opacity="0.2500" r="16" stroke-dasharray="0,0" pointer-events="none" visibility="visible"/>
           </g>
           <g>
             <circle fill="rgba(255,192,203,1)" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" r="16" visibility="visible"/>

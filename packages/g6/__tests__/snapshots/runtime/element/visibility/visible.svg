@@ -11,8 +11,8 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" opacity="0.5" visibility="visible"/>
-            <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="3" stroke="transparent" opacity="0.5" visibility="visible"/>
+            <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" opacity="0.5000" visibility="visible"/>
+            <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="3" stroke="transparent" opacity="0.5000" visibility="visible"/>
           </g>
         </g>
         <g fill="none">
@@ -33,7 +33,7 @@
         </g>
         <g fill="none" transform="matrix(1,0,0,1,125,150)">
           <g>
-            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" opacity="0.5" r="10" visibility="visible"/>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" opacity="0.5000" r="10" visibility="visible"/>
           </g>
         </g>
       </g>

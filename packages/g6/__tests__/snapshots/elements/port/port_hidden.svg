@@ -5,9 +5,9 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 94.1039877493438,194.89338374592725 L 219.35840490026249,149.5426465016291" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 94.1039877493438,194.89338374592725 L 219.35840490026249,149.5426465016291" class="key" stroke-width="3" stroke="transparent"/>
-            <g transform="matrix(-0.940266,0.340441,-0.340441,-0.940266,219.358398,149.542648)">
+            <path fill="none" d="M 94.1040,194.8934 L 219.3584,149.5426" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 94.1040,194.8934 L 219.3584,149.5426" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(-0.9403,0.3404,-0.3404,-0.9403,219.3584,149.5426)">
               <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>
@@ -23,9 +23,9 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 94.1039877493438,205.10661625407275 L 219.35840490026249,250.4573534983709" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 94.1039877493438,205.10661625407275 L 219.35840490026249,250.4573534983709" class="key" stroke-width="3" stroke="transparent"/>
-            <g transform="matrix(-0.940266,-0.340441,0.340441,-0.940266,219.358398,250.457352)">
+            <path fill="none" d="M 94.1040,205.1066 L 219.3584,250.4574" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 94.1040,205.1066 L 219.3584,250.4574" class="key" stroke-width="3" stroke="transparent"/>
+            <g transform="matrix(-0.9403,-0.3404,0.3404,-0.9403,219.3584,250.4574)">
               <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
           </g>

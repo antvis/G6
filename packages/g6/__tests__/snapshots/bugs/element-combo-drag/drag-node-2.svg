@@ -5,7 +5,7 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 149.9996226386614,107.14274932533183 L 284.6156168377468,145.60446195364196" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 149.9996,107.1427 L 284.6156,145.6045" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 166,100 L 234,100" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
@@ -15,7 +15,7 @@
           </g>
           <g fill="none" class="collapsed-marker">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="12">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="12">
                 2
               </text>
             </g>

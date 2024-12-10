@@ -5,23 +5,23 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 100,112.5 L 100,200 L 1987.5,200" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 100,112.5 L 100,115 L 100,130 L 120,130 L 120,200 L 115,200 L 112.5,200" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 100,112.5000 L 100,200 L 1987.5000,200" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 100,112.5000 L 100,115 L 100,130 L 120,130 L 120,200 L 115,200 L 112.5000,200" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
-            <path fill="rgba(248,248,248,1)" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key" stroke-width="1" stroke="rgba(139,155,175,1)" width="25" height="25" x="-12.5" y="-12.5"/>
+            <path fill="rgba(248,248,248,1)" d="M -12.5000,-12.5000 l 25,0 l 0,25 l-25 0 z" class="key" stroke-width="1" stroke="rgba(139,155,175,1)" width="25" height="25" x="-12.5000" y="-12.5000"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,2000,200)">
           <g>
-            <path fill="rgba(248,248,248,1)" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key" stroke-width="1" stroke="rgba(139,155,175,1)" width="25" height="25" x="-12.5" y="-12.5"/>
+            <path fill="rgba(248,248,248,1)" d="M -12.5000,-12.5000 l 25,0 l 0,25 l-25 0 z" class="key" stroke-width="1" stroke="rgba(139,155,175,1)" width="25" height="25" x="-12.5000" y="-12.5000"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,100,150)">
           <g>
-            <path fill="rgba(248,248,248,1)" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key" stroke-width="1" stroke="rgba(139,155,175,1)" width="25" height="25" x="-12.5" y="-12.5"/>
+            <path fill="rgba(248,248,248,1)" d="M -12.5000,-12.5000 l 25,0 l 0,25 l-25 0 z" class="key" stroke-width="1" stroke="rgba(139,155,175,1)" width="25" height="25" x="-12.5000" y="-12.5000"/>
           </g>
         </g>
       </g>

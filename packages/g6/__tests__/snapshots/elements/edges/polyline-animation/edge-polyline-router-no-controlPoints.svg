@@ -6,7 +6,7 @@
         <g fill="none">
           <g>
             <path fill="none" d="M 200,184 L 200,120 L 334,120" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 214.11764705882354,192.47058823529412 L 335.88235294117646,127.52941176470588" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 214.1176,192.4706 L 335.8824,127.5294" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,200,200)">

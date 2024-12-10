@@ -9,7 +9,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,17)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node1
               </text>
             </g>
@@ -21,7 +21,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,17)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node2
               </text>
             </g>
@@ -33,7 +33,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400">
                 node3
               </text>
             </g>
@@ -41,7 +41,7 @@
         </g>
       </g>
       <g>
-        <line fill="none" x1="0" y1="300" x2="500" y2="300" visibility="visible" stroke="rgba(23,199,111,1)" stroke-width="0.4"/>
+        <line fill="none" x1="0" y1="300" x2="500" y2="300" visibility="visible" stroke="rgba(23,199,111,1)" stroke-width="0.4000"/>
       </g>
       <g>
         <line fill="none" x1="100" y1="0" x2="100" y2="500" visibility="hidden" stroke="rgba(240,143,86,1)" stroke-width="2"/>

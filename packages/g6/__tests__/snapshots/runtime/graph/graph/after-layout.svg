@@ -3,20 +3,20 @@
   <g >
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" transform="matrix(1,0,0,1,235.821030,257.285004)">
+        <g fill="none" transform="matrix(1,0,0,1,235.8210,257.2850)">
           <g>
             <circle fill="rgba(47,54,61,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 249.94748290455138,250.02697121673165 L 250.05250183665956,249.97301352447928" class="key" stroke-width="5" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 249.9475,250.0270 L 250.0525,249.9730" class="key" stroke-width="5" stroke="rgba(153,173,209,1)"/>
             <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="7" stroke="transparent"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,264.178955,242.714981)">
+        <g fill="none" transform="matrix(1,0,0,1,264.1790,242.7150)">
           <g>
-            <circle fill="none" class="halo" stroke-width="24" stroke="rgba(255,192,203,1)" stroke-opacity="0.25" r="16" stroke-dasharray="0,0" pointer-events="none" visibility="visible"/>
+            <circle fill="none" class="halo" stroke-width="24" stroke="rgba(255,192,203,1)" stroke-opacity="0.2500" r="16" stroke-dasharray="0,0" pointer-events="none" visibility="visible"/>
           </g>
           <g>
             <circle fill="rgba(255,192,203,1)" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" r="16" visibility="visible"/>

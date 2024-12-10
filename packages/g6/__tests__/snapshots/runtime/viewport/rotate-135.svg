@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
   <defs/>
-  <g transform="matrix(-0.707107,-0.707107,0.707107,-0.707107,249.999985,603.553345)">
+  <g transform="matrix(-0.7071,-0.7071,0.7071,-0.7071,250.0000,603.5533)">
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 211.31370849898477,211.31370849898477 L 288.68629150101526,288.68629150101526" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 211.31370849898477,211.31370849898477 L 288.68629150101526,288.68629150101526" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 211.3137,211.3137 L 288.6863,288.6863" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 211.3137,211.3137 L 288.6863,288.6863" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,200,200)">

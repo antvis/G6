@@ -11,8 +11,8 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 194,58 L 131,142" class="halo" stroke-width="12" stroke="rgba(255,192,203,1)" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
-            <path fill="none" d="M 194,58 L 131,142" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
+            <path fill="none" d="M 194,58 L 131,142" class="halo" stroke-width="12" stroke="rgba(255,192,203,1)" stroke-opacity="0.1500" stroke-dasharray="0,0" pointer-events="none"/>
+            <path fill="none" d="M 194,58 L 131,142" class="halo" stroke-width="14" stroke="transparent" stroke-opacity="0.1500" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
             <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="2" stroke="rgba(255,192,203,1)"/>
@@ -32,7 +32,7 @@
         </g>
         <g fill="none" transform="matrix(1,0,0,1,200,50)">
           <g>
-            <circle fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" r="10" stroke-dasharray="0,0" pointer-events="none"/>
+            <circle fill="none" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.1500" r="10" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
             <circle fill="rgba(23,131,255,1)" class="key" stroke-width="2" stroke="rgba(0,0,0,1)" r="10"/>
@@ -40,7 +40,7 @@
         </g>
         <g fill="none" transform="matrix(1,0,0,1,125,150)">
           <g>
-            <circle fill="none" class="halo" stroke-width="24" stroke="rgba(255,192,203,1)" stroke-opacity="0.25" r="10" stroke-dasharray="0,0" pointer-events="none"/>
+            <circle fill="none" class="halo" stroke-width="24" stroke="rgba(255,192,203,1)" stroke-opacity="0.2500" r="10" stroke-dasharray="0,0" pointer-events="none"/>
           </g>
           <g>
             <circle fill="rgba(255,192,203,1)" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" r="10"/>

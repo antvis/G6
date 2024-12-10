@@ -9,14 +9,14 @@
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400" opacity="0" visibility="hidden">
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="11.5000px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.8500" font-weight="400" opacity="0" visibility="hidden">
                 label
               </text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="16" opacity="0" visibility="hidden">
+              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" class="icon" text-anchor="middle" font-size="16" opacity="0" visibility="hidden">
                 icon
               </text>
             </g>
@@ -24,10 +24,10 @@
           <g fill="none" class="badge-0" transform="matrix(1,0,0,1,16,-16)">
             <g fill="none" class="label">
               <g>
-                <path fill="rgba(126,146,181,1)" d="M 4.5,0 l 0.879999999999999,0 a 8.5,8.5,0,0,1,8.5,8.5 l 0,0 a 8.5,8.5,0,0,1,-8.5,8.5 l -0.879999999999999,0 a 8.5,8.5,0,0,1,-8.5,-8.5 l 0,0 a 8.5,8.5,0,0,1,8.5,-8.5 z" class="background" stroke-width="0" x="-4" y="0" width="17.88" height="17" opacity="0" visibility="hidden"/>
+                <path fill="rgba(126,146,181,1)" d="M 4.5000,0 l 0.8800,0 a 8.5000,8.5000,0,0,1,8.5000,8.5000 l 0,0 a 8.5000,8.5000,0,0,1,-8.5000,8.5000 l -0.8800,0 a 8.5000,8.5000,0,0,1,-8.5000,-8.5000 l 0,0 a 8.5000,8.5000,0,0,1,8.5000,-8.5000 z" class="background" stroke-width="0" x="-4" y="0" width="17.8800" height="17" opacity="0" visibility="hidden"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="8.5px" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left" opacity="0" visibility="hidden">
+                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5000" dy="8.5000px" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left" opacity="0" visibility="hidden">
                   b1
                 </text>
               </g>

@@ -5,12 +5,12 @@
       <g fill="none" class="elements">
         <g fill="none" transform="matrix(1,0,0,1,300,150)">
           <g>
-            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="72.80109889280519"/>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.0400" stroke="rgba(153,173,209,1)" r="72.8011"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,300)">
           <g>
-            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.04" stroke="rgba(153,173,209,1)" r="28.284271247461902"/>
+            <circle fill="rgba(153,173,209,1)" class="key" stroke-dasharray="0,0" stroke-width="1" fill-opacity="0.0400" stroke="rgba(153,173,209,1)" r="28.2843"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,150)">
