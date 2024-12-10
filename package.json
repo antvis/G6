@@ -55,6 +55,7 @@
     "d3-hierarchy": "^3.1.2",
     "eslint": "^8.57.1",
     "eslint-plugin-jsdoc": "^46.10.1",
+    "glob": "^11.0.0",
     "husky": "^8.0.3",
     "iperf": "0.1.0-beta.14",
     "jest": "^29.7.0",

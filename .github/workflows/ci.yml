@@ -45,6 +45,7 @@ jobs:
           pnpm exec playwright test
 
       - name: Collect unit test results
+        if: always()
         run: |
           node scripts/coverage.mjs
 
