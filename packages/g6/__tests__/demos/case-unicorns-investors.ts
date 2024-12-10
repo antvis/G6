@@ -18,6 +18,7 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
+    autoFit: 'view',
     node: {
       style: {
         label: true,
@@ -113,7 +114,15 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
     animation: false,
   });
 
+  performance.mark('render-start');
+
   await graph.render();
+
+  performance.mark('render-end');
+
+  performance.measure('render', 'render-start', 'render-end');
+
+  console.log(performance.getEntriesByType('measure')[0].duration);
 
   return graph;
 };
