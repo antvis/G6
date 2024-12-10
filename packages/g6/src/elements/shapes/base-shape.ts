@@ -4,7 +4,7 @@ import { isEmpty, isFunction, upperFirst } from '@antv/util';
 import { ExtensionCategory } from '../../constants';
 import type { Keyframe } from '../../types';
 import { createAnimationsProxy, preprocessKeyframes } from '../../utils/animation';
-import { updateStyle } from '../../utils/element';
+import { setAttributes, updateStyle } from '../../utils/element';
 import { subObject } from '../../utils/prefix';
 import { format } from '../../utils/print';
 import { getSubShapeStyle } from '../../utils/style';
@@ -21,8 +21,8 @@ export interface BaseShapeStyleProps extends BaseStyleProps {}
  */
 export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends CustomElement<StyleProps> {
   constructor(options: DisplayObjectConfig<StyleProps>) {
+    applyTransform(options.style);
     super(options);
-    this.transformPosition(this.attributes);
     this.render(this.attributes as Required<StyleProps>, this);
     this.setVisibility();
     this.bindEvents();
@@ -116,26 +116,11 @@ export abstract class BaseShape<StyleProps extends BaseShapeStyleProps> extends 
     return target;
   }
 
-  /**
-   * <zh/> 使用 transform 更新图形位置
-   *
-   * <en/> Update the position of the shape using transform
-   * @param attributes - <zh/> 样式属性 | <en/> style attributes
-   */
-  protected transformPosition(attributes: Partial<StyleProps>) {
-    // Use `transform: translate3d()` instead of `x/y/z`
-    if ('x' in attributes || 'y' in attributes || 'z' in attributes) {
-      const { x = 0, y = 0, z = 0, transform } = attributes as any;
-      const newTransform = replaceTranslateInTransform(+x, +y, +z, transform);
-      if (newTransform) this.style.transform = newTransform;
-    }
-  }
-
   public update(attr: Partial<StyleProps> = {}): void {
     const attributes = Object.assign({}, this.attributes, attr) as Required<StyleProps>;
-    this.attr(attributes);
+    applyTransform(attributes);
+    setAttributes(this, attributes);
     this.render(attributes, this);
-    this.transformPosition(attributes);
     this.setVisibility();
   }
 
@@ -330,4 +315,21 @@ export interface UpsertHooks {
    * @param instance - <zh/> 图形实例 | <en/> shape instance
    */
   afterDestroy?: (instance: DisplayObject) => void;
+}
+
+/**
+ * <zh/> 应用 transform
+ *
+ * <en/> Apply transform
+ * @param style - <zh/> 样式 | <en/> style
+ * @returns <zh/> 样式 | <en/> style
+ */
+function applyTransform(style?: BaseShapeStyleProps) {
+  if (!style) return {};
+  if ('x' in style || 'y' in style || 'z' in style) {
+    const { x = 0, y = 0, z, transform } = style as any;
+    const newTransform = replaceTranslateInTransform(x, y, z, transform);
+    if (newTransform) style.transform = newTransform;
+  }
+  return style;
 }
