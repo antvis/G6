@@ -19,7 +19,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install Dependencies
         run: |
@@ -44,14 +44,18 @@ jobs:
           pnpm exec playwright install chromium
           pnpm exec playwright test
 
+      - name: Collect unit test results
+        run: |
+          node scripts/coverage.mjs
+
       - name: Upload blob report to GitHub Actions Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: report
           path: |
-            packages/g6/__tests__/snapshots/**/*-actual.svg
-            playwright-report/
+            artifact
+            playwright-report
           retention-days: 1
 
       - name: Coveralls GitHub Action
