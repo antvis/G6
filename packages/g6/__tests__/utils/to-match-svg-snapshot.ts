@@ -17,6 +17,10 @@ const removeId = (svg: string, reserved?: Set<string>) => {
   if (!reserved) return svg.replace(/ *id="[^"]*" */g, ' ');
   return svg.replace(/ *id="([^"]*)" */g, (match, id) => (reserved.has(id) ? match : ' '));
 };
+const formatNumberPrecision = (svg: string) => {
+  const precision = 4;
+  return svg.replace(/(\d+\.\d+)/g, (match) => parseFloat(match).toFixed(precision));
+};
 const formatSVG = (svg: string) => {
   if (!svg.includes('<defs>')) return removeId(svg).replace('\r\n', '\n');
 
@@ -58,7 +62,9 @@ export async function toMatchSVGSnapshot(
     gRoot?.append(...(dom.querySelector('#g-root')?.childNodes || []));
   });
 
-  actual += svg ? formatSVG(format(xmlserializer.serializeToString(svg as any), { indentation: '  ' })) : '';
+  actual += svg
+    ? formatNumberPrecision(formatSVG(format(xmlserializer.serializeToString(svg as any), { indentation: '  ' })))
+    : '';
 
   try {
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
