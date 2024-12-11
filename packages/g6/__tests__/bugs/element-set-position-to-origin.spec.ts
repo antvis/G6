@@ -15,16 +15,16 @@ describe('element set position to origin', () => {
     const getElementOf = (id: ID) => graph.context.element!.getElement(id)!;
 
     expect(graph.getNodeData('node-1').style).toEqual({ zIndex: 0 });
-    expect(getElementOf('node-1').style.transform).toBe('translate(0, 0)');
+    expect(getElementOf('node-1').style.transform).toEqual([['translate', 0, 0]]);
 
     graph.translateElementTo('node-1', [100, 100]);
 
     expect(graph.getNodeData('node-1').style).toEqual({ x: 100, y: 100, z: 0, zIndex: 0 });
-    expect(getElementOf('node-1').style.transform).toBe('translate(100, 100)');
+    expect(getElementOf('node-1').style.transform).toEqual([['translate', 100, 100]]);
 
     graph.translateElementTo('node-1', [0, 0]);
 
     expect(graph.getNodeData('node-1').style).toEqual({ x: 0, y: 0, z: 0, zIndex: 0 });
-    expect(getElementOf('node-1').style.transform).toBe('translate(0, 0)');
+    expect(getElementOf('node-1').style.transform).toEqual([['translate', 0, 0]]);
   });
 });
