@@ -24,6 +24,7 @@ export class Background extends BasePlugin<BackgroundOptions> {
   static defaultOptions: Partial<BackgroundOptions> = {
     transition: 'background 0.5s',
     backgroundSize: 'cover',
+    zIndex: '-1', // aviod to cover the other plugin's dom, eg: grid-line.
   };
 
   private $element: HTMLElement = createPluginContainer('background');
