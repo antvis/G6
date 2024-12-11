@@ -18,7 +18,7 @@ import type {
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
 import { getArrowSize, getBadgePositionStyle, getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
 import { findPorts, getConnectionPoint, getPortPosition, isSameNode } from '../../utils/element';
-import { omitStyleProps, subStyleProps } from '../../utils/prefix';
+import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { mergeOptions } from '../../utils/style';
 import * as Symbol from '../../utils/symbol';
@@ -233,10 +233,14 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
 
     const d = loop && isSameNode(sourceNode, targetNode) ? this.getLoopPath(attributes) : this.getKeyPath(attributes);
 
-    return {
-      d,
-      ...omitStyleProps(style, ['halo', 'label', 'startArrow', 'endArrow']),
-    };
+    const keyStyle: PathStyleProps = { d };
+
+    Path.PARSED_STYLE_LIST.forEach((key) => {
+      // @ts-expect-error skip type error
+      if (key in style) keyStyle[key] = style[key];
+    });
+
+    return keyStyle;
   }
 
   protected abstract getKeyPath(attributes: ParsedBaseEdgeStyleProps): PathArray;
