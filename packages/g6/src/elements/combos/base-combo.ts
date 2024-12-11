@@ -227,7 +227,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     Object.assign(this.style, comboStyle);
     // Sync combo position to model
     const { x, y } = comboStyle;
-    this.context.model.syncComboDatum({ id: this.id, style: { x, y } });
+    this.context.model.syncNodeLikeDatum({ id: this.id, style: { x, y } });
     dispatchPositionChange(this);
   }
 

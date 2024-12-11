@@ -608,13 +608,24 @@ export class DataController {
     });
   }
 
-  public syncNodeDatum(datum: PartialNodeLikeData<NodeData>) {
+  public syncNodeLikeDatum(datum: PartialNodeLikeData<NodeData>) {
     const { model } = this;
 
     const id = idOf(datum);
+    if (!model.hasNode(id)) return;
     const original = toG6Data(model.getNode(id));
     const value = mergeElementsData(original, datum);
     model.mergeNodeData(id, value);
+  }
+
+  public syncEdgeDatum(datum: PartialEdgeData<EdgeData>) {
+    const { model } = this;
+
+    const id = idOf(datum);
+    if (!model.hasEdge(id)) return;
+    const original = toG6Data(model.getEdge(id));
+    const value = mergeElementsData(original, datum);
+    model.mergeEdgeData(id, value);
   }
 
   public updateEdgeData(edges: PartialEdgeData<EdgeData>[] = []) {
@@ -679,8 +690,8 @@ export class DataController {
 
     if (originalParentId !== parent && hierarchyKey === COMBO_KEY) {
       const modifiedDatum = { id, combo: parent };
-      if (this.isCombo(id)) this.syncComboDatum(modifiedDatum);
-      else this.syncNodeDatum(modifiedDatum);
+      if (this.isCombo(id)) this.syncNodeLikeDatum(modifiedDatum);
+      else this.syncNodeLikeDatum(modifiedDatum);
     }
 
     this.model.setParent(id, parent, hierarchyKey);
@@ -711,22 +722,6 @@ export class DataController {
     ancestors.forEach((value) => {
       this.pushChange({ value: value, original: value, type: ChangeType.ComboUpdated });
     });
-  }
-
-  /**
-   * <zh/> 将 combo 数据同步到 model 中
-   *
-   * <en/> Synchronize combo data to the model
-   * @param datum - <zh/> combo 数据 | <en/> combo data
-   */
-  public syncComboDatum(datum: PartialNodeLikeData<ComboData>) {
-    const { model } = this;
-
-    const id = idOf(datum);
-    if (!model.hasNode(id)) return;
-    const original = toG6Data(model.getNode(id));
-    const value = mergeElementsData(original, datum);
-    model.mergeNodeData(id, value);
   }
 
   public getElementPosition(id: ID): Point {
