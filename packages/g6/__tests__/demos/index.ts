@@ -10,6 +10,7 @@ export { behaviorBrushSelect } from './behavior-brush-select';
 export { behaviorClickSelect } from './behavior-click-select';
 export { behaviorCreateEdge } from './behavior-create-edge';
 export { behaviorDragCanvas } from './behavior-drag-canvas';
+export { behaviorDragCanvasByTouch } from './behavior-drag-canvas-by-touch';
 export { behaviorDragNode } from './behavior-drag-element';
 export { behaviorExpandCollapseCombo } from './behavior-expand-collapse-combo';
 export { behaviorExpandCollapseNode } from './behavior-expand-collapse-node';
