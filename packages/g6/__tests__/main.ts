@@ -52,6 +52,25 @@ function initPanel() {
   const Animation = panel.add(options, 'Animation').onChange(render);
   const MultiLayers = panel.add(options, 'MultiLayers').onChange(render);
   const reload = panel.add(options, 'Reload').onChange(render);
+
+  const goTo = (diff: number) => {
+    // @ts-expect-error private property
+    const keys = Demo._values;
+    const currentIndex = keys.indexOf(options.Demo);
+    const nextIndex = (currentIndex + diff + keys.length) % keys.length;
+    options.Demo = keys[nextIndex];
+    Demo.updateDisplay();
+    render();
+  };
+
+  globalThis.addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'ArrowDown'].includes(e.key)) {
+      goTo(1);
+    } else if (['ArrowLeft', 'ArrowUp'].includes(e.key)) {
+      goTo(-1);
+    }
+  });
+
   return { panel, Demo, Search, Renderer, GridLine, Theme, Animation, MultiLayers, reload };
 }
 
@@ -74,12 +93,20 @@ async function render() {
   const testCase = demos[Demo as keyof typeof demos];
   if (!testCase) return;
 
+  performance.clearMarks();
+  performance.clearMeasures();
+  performance.mark('demo-start');
+
   const graph = await testCase({
     container: canvas,
     animation: Animation,
     theme: Theme,
     canvas: canvasOptions,
   });
+
+  performance.mark('demo-end');
+  performance.measure('demo', 'demo-start', 'demo-end');
+  console.log('Time:', performance.getEntriesByName('demo')[0].duration, 'ms');
 
   Object.assign(window, { graph, __g_instances__: Object.values(graph.getCanvas().getLayers()) });
 
