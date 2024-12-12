@@ -22,6 +22,7 @@ export const elementEdgeLine: TestCase = async (context) => {
       type: 'radial',
       unitRadius: 220,
       linkDistance: 220,
+      preLayout: false,
     },
   });
 

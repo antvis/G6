@@ -45,7 +45,6 @@ const graph = new Graph({
   layout: {
     type: 'dagre',
   },
-  animation: false,
 });
 
 graph.render();

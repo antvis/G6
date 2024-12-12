@@ -28,6 +28,7 @@ export const layoutMindmapH: TestCase = async (context) => {
     layout: {
       type: 'mindmap',
       direction: 'H',
+      preLayout: false,
       getHeight: () => {
         return 16;
       },

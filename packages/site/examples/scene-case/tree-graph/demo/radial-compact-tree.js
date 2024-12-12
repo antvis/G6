@@ -23,15 +23,14 @@ fetch('https://assets.antv.antgroup.com/g6/flare.json')
           lineWidth: 3,
         },
       },
-      layout: [
-        {
-          type: 'compact-box',
-          radial: true,
-          direction: 'RL',
-          getVGap: () => 40,
-          getHGap: () => 80,
-        },
-      ],
+      layout: {
+        type: 'compact-box',
+        radial: true,
+        direction: 'RL',
+        getVGap: () => 40,
+        getHGap: () => 80,
+        preLayout: false,
+      },
       behaviors: [
         'drag-canvas',
         'zoom-canvas',

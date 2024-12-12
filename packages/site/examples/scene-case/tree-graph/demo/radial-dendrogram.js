@@ -26,6 +26,7 @@ fetch('https://assets.antv.antgroup.com/g6/flare.json')
       layout: {
         type: 'dendrogram',
         radial: true,
+        preLayout: false,
       },
       behaviors: [
         'drag-canvas',

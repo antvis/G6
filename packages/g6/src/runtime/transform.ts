@@ -29,6 +29,8 @@ export class TransformController extends ExtensionController<BaseTransform<Custo
     ]);
   }
 
+  public getTransformInstance(): Record<string, BaseTransform>;
+  public getTransformInstance(key: string): BaseTransform;
   public getTransformInstance(key?: string) {
     return key ? this.extensionMap[key] : this.extensionMap;
   }

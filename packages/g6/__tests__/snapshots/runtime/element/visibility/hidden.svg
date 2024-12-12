@@ -11,8 +11,8 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" opacity="0.5" visibility="hidden"/>
-            <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="3" stroke="transparent" opacity="0.5" visibility="hidden"/>
+            <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="1" opacity="0.5" stroke="rgba(153,173,209,1)" visibility="hidden"/>
+            <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="3" opacity="0.5" stroke="transparent" visibility="hidden"/>
           </g>
         </g>
         <g fill="none">

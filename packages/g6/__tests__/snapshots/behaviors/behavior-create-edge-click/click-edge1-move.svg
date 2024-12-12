@@ -20,8 +20,8 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 240.51316701949486,146.83772233983163 L 105.69209978830308,101.89736659610102" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" pointer-events="none"/>
-            <path fill="none" d="M 260,150 L 250,150" class="key" stroke-width="3" stroke="transparent" pointer-events="none"/>
+            <path fill="none" d="M 240.51316701949486,146.83772233983163 L 105.69209978830308,101.89736659610102" class="key" stroke-width="1" pointer-events="none" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 260,150 L 250,150" class="key" stroke-width="3" pointer-events="none" stroke="transparent"/>
             <g transform="matrix(0.948683,0.316228,-0.316228,0.948683,105.692101,101.897369)">
               <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>

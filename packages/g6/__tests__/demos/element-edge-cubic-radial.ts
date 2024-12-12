@@ -9,14 +9,13 @@ export const elementEdgeCubicRadial: TestCase = async (context) => {
     edge: {
       type: 'cubic-radial',
     },
-    layout: [
-      {
-        type: 'dendrogram',
-        radial: true,
-        nodeSep: 30,
-        rankSep: 200,
-      },
-    ],
+    layout: {
+      type: 'dendrogram',
+      radial: true,
+      nodeSep: 30,
+      rankSep: 200,
+      preLayout: true,
+    },
   });
 
   await graph.render();

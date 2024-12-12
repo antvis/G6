@@ -52,6 +52,26 @@ export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOpti
    * @returns <zh/> 是否参与布局 | <en/> Whether to participate in the layout
    */
   nodeFilter?: (node: NodeData) => boolean;
+  /**
+   * <zh/> 使用前布局，在初始化元素前计算布局
+   *
+   * <en/> Use pre-layout to calculate the layout before initializing the elements
+   * @remarks
+   * <zh/> 不适用于流水线布局
+   *
+   * <en/> Not applicable to pipeline layout
+   */
+  preLayout?: boolean;
+  /**
+   * <zh/> 不可见节点是否参与布局
+   *
+   * <en/> Whether invisible nodes participate in the layout
+   * @remarks
+   * <zh/> 当 preLayout 为 true 时生效
+   *
+   * <en/> Takes effect when preLayout is true
+   */
+  isLayoutInvisibleNodes?: boolean;
 }
 
 interface CircularLayout extends BaseLayoutOptions, CircularLayoutOptions {

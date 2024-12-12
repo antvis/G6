@@ -81,6 +81,7 @@ export const layoutFishbone: TestCase = async (context) => {
       type: 'fishbone',
       vGap: 48,
       hGap: 48,
+      direction: 'RL',
     },
     behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
     animation: false,
@@ -91,7 +92,7 @@ export const layoutFishbone: TestCase = async (context) => {
   layoutFishbone.form = (panel) => {
     const config = {
       type: 'fishbone',
-      direction: 'LR',
+      direction: 'RL',
     };
 
     return [
@@ -100,7 +101,7 @@ export const layoutFishbone: TestCase = async (context) => {
         .name('Direction')
         .onChange((value: 'LR' | 'RL') => {
           graph.setLayout((prev) => ({ ...prev, direction: value }));
-          graph.layout();
+          graph.render();
         }),
     ];
   };

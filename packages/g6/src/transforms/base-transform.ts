@@ -15,5 +15,7 @@ export abstract class BaseTransform<T extends BaseTransformOptions = BaseTransfo
     return data;
   }
 
-  public afterLayout() {}
+  public afterLayout(type: 'pre', data: DrawData): void;
+  public afterLayout(type: 'post', data?: undefined): void;
+  public afterLayout(type: 'pre' | 'post', data?: DrawData) {}
 }
