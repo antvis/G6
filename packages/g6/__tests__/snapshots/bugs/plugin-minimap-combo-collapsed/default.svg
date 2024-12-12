@@ -16,7 +16,7 @@
         <g fill="none">
           <g>
             <path fill="none" d="M 141,125 L 359,125" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 16,0 L 16,0" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 141,125 L 359,125" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,125,125)">

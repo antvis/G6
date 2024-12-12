@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
   <defs>
     <path id="g-svg-9" fill="none" d="M 250,110 l 0,0 a 15,15,0,0,1,15,15 l 0,0 a 15,15,0,0,1,-15,15 l 0,0 a 15,15,0,0,1,-15,-15 l 0,0 a 15,15,0,0,1,15,-15 z" x="235" y="110" width="30" height="30"/>
-    <clipPath id="clip-path-9-8" transform="matrix(1,0,0,1,-250,-125)">
+    <clipPath transform="matrix(1,0,0,1,-250,-125)" id="clip-path-9-8">
       <use href="#g-svg-9"/>
     </clipPath>
     <path id="g-svg-14" fill="none" d="M 250,355 l 0,0 a 20,20,0,0,1,20,20 l 0,0 a 20,20,0,0,1,-20,20 l 0,0 a 20,20,0,0,1,-20,-20 l 0,0 a 20,20,0,0,1,20,-20 z" x="230" y="355" width="40" height="40"/>
-    <clipPath id="clip-path-14-11" transform="matrix(1,0,0,1,-250,-375)">
+    <clipPath transform="matrix(1,0,0,1,-250,-375)" id="clip-path-14-11">
       <use href="#g-svg-14"/>
     </clipPath>
     <path id="g-svg-15" fill="none" d="M 250,355 l 0,0 a 20,20,0,0,1,20,20 l 0,0 a 20,20,0,0,1,-20,20 l 0,0 a 20,20,0,0,1,-20,-20 l 0,0 a 20,20,0,0,1,20,-20 z" x="230" y="355" width="40" height="40"/>
-    <clipPath id="clip-path-15-13" transform="matrix(1,0,0,1,-250,-375)">
+    <clipPath transform="matrix(1,0,0,1,-250,-375)" id="clip-path-15-13">
       <use href="#g-svg-15"/>
     </clipPath>
   </defs>
