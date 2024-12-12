@@ -44,6 +44,7 @@ import { sizeOf } from '../utils/dom';
 import { getSubgraphRelatedEdges } from '../utils/edge';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
+import { isPreLayout } from '../utils/layout';
 import { format } from '../utils/print';
 import { subtract } from '../utils/vector';
 import { getZIndexOf } from '../utils/z-index';
@@ -56,13 +57,14 @@ import { DataController } from './data';
 import type { CollapseExpandNodeOptions } from './element';
 import { ElementController } from './element';
 import { LayoutController } from './layout';
+import { inferOptions } from './options';
 import { PluginController } from './plugin';
 import { TransformController } from './transform';
 import { RuntimeContext } from './types';
 import { ViewportController } from './viewport';
 
 export class Graph extends EventEmitter {
-  private options: GraphOptions;
+  private options: GraphOptions = {};
 
   /**
    * @internal
@@ -96,8 +98,7 @@ export class Graph extends EventEmitter {
 
   constructor(options: GraphOptions) {
     super();
-    this.options = Object.assign({}, Graph.defaultOptions, options);
-    this._setOptions(this.options, true);
+    this._setOptions(Object.assign({}, Graph.defaultOptions, options), true);
     this.context.graph = this;
 
     // Listening resize to autoResize.
@@ -132,13 +133,13 @@ export class Graph extends EventEmitter {
 
   private _setOptions(options: GraphOptions, isInit: boolean) {
     this.updateCanvas(options);
+    Object.assign(this.options, inferOptions(options));
 
     if (isInit) {
       const { data } = options;
       if (data) this.addData(data);
       return;
     }
-    Object.assign(this.options, options);
     const { behaviors, combo, data, edge, layout, node, plugins, theme, transforms } = options;
     if (behaviors) this.setBehaviors(behaviors);
     if (data) this.setData(data);
@@ -1131,9 +1132,19 @@ export class Graph extends EventEmitter {
   public async render(): Promise<void> {
     await this.prepare();
     emit(this, new GraphLifeCycleEvent(GraphEvent.BEFORE_RENDER));
-    const animation = this.context.element!.draw({ type: 'render' });
-    await Promise.all([animation?.finished, this.context.layout!.layout()]);
-    await this.autoFit();
+
+    if (!this.options.layout) {
+      const animation = this.context.element!.draw({ type: 'render' });
+      await Promise.all([animation?.finished, this.autoFit()]);
+    } else if (!this.rendered && isPreLayout(this.options.layout)) {
+      const animation = await this.context.element!.preLayoutDraw({ type: 'render' });
+      await Promise.all([animation?.finished, this.autoFit()]);
+    } else {
+      const animation = this.context.element!.draw({ type: 'render' });
+      await Promise.all([animation?.finished, this.context.layout!.postLayout()]);
+      await this.autoFit();
+    }
+
     this.rendered = true;
     emit(this, new GraphLifeCycleEvent(GraphEvent.AFTER_RENDER));
   }
@@ -1165,7 +1176,7 @@ export class Graph extends EventEmitter {
    * @apiCategory layout
    */
   public async layout() {
-    await this.context.layout!.layout();
+    await this.context.layout!.postLayout();
   }
 
   /**
