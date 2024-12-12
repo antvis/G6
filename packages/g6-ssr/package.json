@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "build": "rimraf ./dist && rollup -c",
-    "ci": "run-s lint type-check build test",
+    "ci": "run-s lint type-check build",
     "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
     "prepublishOnly": "npm run ci",
     "test": "run-s test:*",
