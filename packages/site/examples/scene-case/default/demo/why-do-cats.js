@@ -108,7 +108,6 @@ fetch('https://assets.antv.antgroup.com/g6/cat-hierarchy.json')
 
     const graph = new Graph({
       container: 'container',
-      animation: false,
       data: graphData,
       renderer: (layer) => {
         const renderer = new CanvasRenderer();
@@ -158,6 +157,7 @@ fetch('https://assets.antv.antgroup.com/g6/cat-hierarchy.json')
       },
       layout: {
         type: 'bubble-layout',
+        preLayout: true,
       },
       plugins: [
         {

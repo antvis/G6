@@ -65,7 +65,6 @@ register(ExtensionCategory.EDGE, 's-polyline', SnakePolyline);
 const graph = new Graph({
   container: 'container',
   data,
-  animation: false,
   background: '#fafafa',
   autoFit: 'center',
   node: {
