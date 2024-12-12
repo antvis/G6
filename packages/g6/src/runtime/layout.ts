@@ -2,14 +2,16 @@ import type { IAnimation } from '@antv/g';
 import { Graph as Graphlib } from '@antv/graphlib';
 import { Supervisor, isLayoutWithIterations } from '@antv/layout';
 import { deepMix } from '@antv/util';
-import { GraphEvent, TREE_KEY } from '../constants';
+import { COMBO_KEY, GraphEvent, TREE_KEY } from '../constants';
 import { BaseLayout } from '../layouts';
 import type { AntVLayout } from '../layouts/types';
 import { getExtension } from '../registry/get';
 import type { GraphData, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
-import type { AdaptiveLayout, Combo, ID, Node, TreeData } from '../types';
+import type { DrawData } from '../transforms/types';
+import type { AdaptiveLayout, ID, TreeData } from '../types';
 import { getAnimationOptions } from '../utils/animation';
+import { isCollapsed } from '../utils/collapsibility';
 import { isToBeDestroyed } from '../utils/element';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
@@ -49,11 +51,54 @@ export class LayoutController {
     return this.instances;
   }
 
-  public async layout() {
+  /**
+   * <zh/> 前布局，即在绘制前执行布局
+   *
+   * <en/> Pre-layout, that is, perform layout before drawing
+   * @param data - <zh/> 绘制数据 | <en/> Draw data
+   * @remarks
+   * <zh/> 前布局应该只在首次绘制前执行，后续更新不会触发
+   *
+   * <en/> Pre-layout should only be executed before the first drawing, and subsequent updates will not trigger
+   */
+  public async preLayout(data: DrawData) {
+    const { graph, model } = this.context;
+
+    const { add } = data;
+    emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT, { type: 'pre' }));
+    const simulate = await this.context.layout?.simulate();
+    simulate?.nodes?.forEach((l) => {
+      const id = idOf(l);
+      const node = add.nodes.get(id);
+      model.syncNodeLikeDatum(l);
+      if (node) Object.assign(node.style!, l.style);
+    });
+    simulate?.edges?.forEach((l) => {
+      const id = idOf(l);
+      const edge = add.edges.get(id);
+      model.syncEdgeDatum(l);
+      if (edge) Object.assign(edge.style!, l.style);
+    });
+    simulate?.combos?.forEach((l) => {
+      const id = idOf(l);
+      const combo = add.combos.get(id);
+      model.syncNodeLikeDatum(l);
+      if (combo) Object.assign(combo.style!, l.style);
+    });
+    emit(graph, new GraphLifeCycleEvent(GraphEvent.AFTER_LAYOUT, { type: 'pre' }));
+    this.transformDataAfterLayout('pre', data);
+  }
+
+  /**
+   * <zh/> 后布局，即在完成绘制后执行布局
+   *
+   * <en/> Post layout, that is, perform layout after drawing
+   */
+  public async postLayout() {
     if (!this.options) return;
     const pipeline = Array.isArray(this.options) ? this.options : [this.options];
     const { graph } = this.context;
-    emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT));
+    emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT, { type: 'post' }));
     for (const options of pipeline) {
       const index = pipeline.indexOf(options);
       const data = this.getLayoutData(options);
@@ -67,14 +112,14 @@ export class LayoutController {
         this.updateElementPosition(result, false);
       }
     }
-    emit(graph, new GraphLifeCycleEvent(GraphEvent.AFTER_LAYOUT));
-    this.transformDataAfterLayout();
+    emit(graph, new GraphLifeCycleEvent(GraphEvent.AFTER_LAYOUT, { type: 'post' }));
+    this.transformDataAfterLayout('post');
   }
 
-  private transformDataAfterLayout() {
+  private transformDataAfterLayout(type: 'pre' | 'post', data?: DrawData) {
     const transforms = this.context.transform.getTransformInstance();
-
-    Object.values(transforms).forEach((transform) => transform.afterLayout());
+    // @ts-expect-error skip type check
+    Object.values(transforms).forEach((transform) => transform.afterLayout(type, data));
   }
 
   /**
@@ -250,18 +295,30 @@ export class LayoutController {
   }
 
   public getLayoutData(options: STDLayoutOptions): GraphData {
-    const { nodeFilter = () => true } = options;
+    const { nodeFilter = () => true, preLayout = false, isLayoutInvisibleNodes = false } = options;
     const { nodes, edges, combos } = this.context.model.getData();
 
-    const getElement = (id: ID) => this.context.element!.getElement(id);
+    const { element, model } = this.context;
+    const getElement = (id: ID) => element!.getElement(id);
 
-    const nodesToLayout = nodes.filter((node) => {
-      const id = idOf(node);
-      const element = getElement(id);
-      if (!element) return false;
-      if (isToBeDestroyed(element)) return false;
-      return nodeFilter(node);
-    });
+    const filterFn = preLayout
+      ? (node: NodeData) => {
+          if (!isLayoutInvisibleNodes) {
+            if (node.style?.visibility === 'hidden') return false;
+            if (model.getAncestorsData(node.id, TREE_KEY).some(isCollapsed)) return false;
+            if (model.getAncestorsData(node.id, COMBO_KEY).some(isCollapsed)) return false;
+          }
+          return nodeFilter(node);
+        }
+      : (node: NodeData) => {
+          const id = idOf(node);
+          const element = getElement(id);
+          if (!element) return false;
+          if (isToBeDestroyed(element)) return false;
+          return nodeFilter(node);
+        };
+
+    const nodesToLayout = nodes.filter(filterFn);
 
     const nodesIdMap = new Map<ID, NodeData>(nodesToLayout.map((node) => [idOf(node), node]));
 
@@ -295,10 +352,9 @@ export class LayoutController {
     const nodeSize: number | ((node: NodeData) => number) =
       (options?.nodeSize as number) ??
       ((node) => {
-        const nodeElement = element?.getElement<Node | Combo>(node.id as string);
-        const { size } = nodeElement?.attributes || {};
-
-        return size;
+        const nodeElement = element?.getElement(node.id);
+        if (nodeElement) return nodeElement.attributes.size;
+        return element?.getElementComputedStyle('node', node).size;
       });
 
     const Ctor = getExtension('layout', type);

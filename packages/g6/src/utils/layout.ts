@@ -9,7 +9,7 @@ import type { LayoutMapping, Graph as LayoutModel, Node as LayoutNodeData } from
 import type { AntVLayout } from '../layouts/types';
 import type { RuntimeContext } from '../runtime/types';
 import type { GraphData } from '../spec/data';
-import type { STDLayoutOptions } from '../spec/layout';
+import type { LayoutOptions, STDLayoutOptions } from '../spec/layout';
 import type { AdaptiveLayout, ID } from '../types';
 
 /**
@@ -47,6 +47,21 @@ export function isTreeLayout(options: STDLayoutOptions) {
  */
 export function isPositionSpecified(data: Record<string, unknown>) {
   return isNumber(data.x) && isNumber(data.y);
+}
+
+/**
+ * <zh/> 是否是前布局
+ *
+ * <en/> Is pre-layout
+ * @remarks
+ * <zh/> 前布局是指在初始化元素前计算布局，适用于一些布局需要提前计算位置的场景。
+ *
+ * <en/> Pre-layout refers to calculating the layout before initializing the elements, which is suitable for some layouts that need to calculate the position in advance.
+ * @param options - <zh/> 布局配置项 | <en/> Layout options
+ * @returns <zh/> 是否是前布局 | <en/> Is it a pre-layout
+ */
+export function isPreLayout(options?: LayoutOptions) {
+  return !Array.isArray(options) && options?.preLayout;
 }
 
 /**
