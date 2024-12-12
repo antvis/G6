@@ -31,7 +31,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export async function createGraph(options: Options) {
   const [g6Canvas, nodeCanvas] = createCanvas(options);
 
-  const { outputType, waitForRender = 16, ...restOptions } = options;
+  const { outputType, waitForRender = 32, ...restOptions } = options;
   const graph = new G6Graph({
     animation: false,
     ...restOptions,
@@ -44,20 +44,24 @@ export async function createGraph(options: Options) {
 
   await sleep(waitForRender); // wait for the rendering to complete
 
-  // @ts-expect-error extend Graph
-  graph.exportToFile = (file: string, meta?: MetaData) => {
-    if (!file.endsWith(extendName)) {
-      if (!existsSync(file)) file += extendName;
-      else if (lstatSync(file).isDirectory()) file = `${file}/image${extendName}`;
-      else file += extendName;
-    }
+  const returns: Graph = {
+    getGraph: () => graph,
+    getCanvas: () => nodeCanvas,
+    destroy: () => graph.destroy(),
+    exportToFile: (file: string, meta?: MetaData) => {
+      if (!file.endsWith(extendName)) {
+        if (!existsSync(file)) file += extendName;
+        else if (lstatSync(file).isDirectory()) file = `${file}/image${extendName}`;
+        else file += extendName;
+      }
 
-    // @ts-expect-error skip type check
-    writeFileSync(file, nodeCanvas.toBuffer(mimeType, meta));
+      // @ts-expect-error skip type check
+      writeFileSync(file, nodeCanvas.toBuffer(mimeType, meta));
+    },
+    // @ts-expect-error extend Graph
+    toBuffer: (meta?: MetaData) => nodeCanvas.toBuffer(mimeType, meta),
+    toDataURL: () => nodeCanvas.toDataURL(mimeType as any),
   };
 
-  // @ts-expect-error extend Graph
-  graph.toBuffer = (meta?: MetaData) => nodeCanvas.toBuffer(mimeType, meta);
-
-  return graph as Graph;
+  return returns;
 }
