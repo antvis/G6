@@ -1,8 +1,12 @@
 import type { Controller } from 'lil-gui';
 import GUI from 'lil-gui';
+import { ComboEvent, CommonEvent, EdgeEvent, NodeEvent } from '../src';
 import '../src/preset';
 import * as demos from './demos';
 import { createGraphCanvas } from './utils';
+
+// inject
+Object.assign(window, { NodeEvent, EdgeEvent, ComboEvent, CommonEvent });
 
 type Options = {
   Search: string;
