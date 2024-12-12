@@ -35,5 +35,5 @@ jobs:
         with:
           github_token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
           directory: ./packages/site/dist
-          branch: v5-site
+          branch: gh-pages
           force: true

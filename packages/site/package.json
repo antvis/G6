@@ -26,7 +26,7 @@
   "scripts": {
     "build": "npm run doc && dumi build",
     "build:memo": "node --expose-gc --max-old-space-size=32768 ./node_modules/dumi/bin/dumi build",
-    "deploy": "gh-pages -d dist -b v5-site",
+    "deploy": "gh-pages -d dist",
     "dev": "dumi dev",
     "doc": "ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
     "doc:add": "node ./scripts/doc-template.mjs",
