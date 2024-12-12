@@ -59,7 +59,7 @@ describe('event', () => {
     expect(beforeLayout).toHaveBeenCalledTimes(1);
     expect(afterLayout).toHaveBeenCalledTimes(1);
 
-    expect(sequence).toEqual(['beforeRender', 'beforeDraw', 'afterDraw', 'beforeLayout', 'afterLayout', 'afterRender']);
+    expect(sequence).toEqual(['beforeRender', 'beforeLayout', 'afterLayout', 'beforeDraw', 'afterDraw', 'afterRender']);
 
     graph.destroy();
   });

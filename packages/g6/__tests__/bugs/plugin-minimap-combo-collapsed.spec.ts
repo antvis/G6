@@ -31,6 +31,6 @@ describe('bug: plugin-minimap-combo-collapsed', () => {
 
     await graph.render();
 
-    await expect(graph).toMatchSnapshot(__filename, 'update collapsed combo');
+    await expect(graph).toMatchSnapshot(__filename, 'update-collapsed-combo');
   });
 });
