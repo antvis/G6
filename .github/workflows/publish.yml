@@ -26,6 +26,9 @@ jobs:
           version: 9
           run_install: true
 
+      - name: Build
+        run: npm run build
+
       - name: Publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
