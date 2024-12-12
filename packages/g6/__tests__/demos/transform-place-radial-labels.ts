@@ -11,14 +11,13 @@ export const transformPlaceRadialLabels: TestCase = async (context) => {
         labelText: (d) => d.id,
       },
     },
-    layout: [
-      {
-        type: 'dendrogram',
-        radial: true,
-        nodeSep: 30,
-        rankSep: 200,
-      },
-    ],
+    layout: {
+      type: 'dendrogram',
+      radial: true,
+      nodeSep: 30,
+      rankSep: 200,
+      preLayout: false,
+    },
     transforms: ['place-radial-labels'],
   });
 
