@@ -242,11 +242,18 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     this.enable = this.validate(event);
     if (!this.enable) return;
 
-    const { batch, canvas } = this.context;
+    const { batch, canvas, graph } = this.context;
     canvas.setCursor(this.options!.cursor?.grabbing || 'grabbing');
     this.isDragging = true;
     batch!.startBatch();
-    this.target = this.getSelectedNodeIDs([event.target.id]);
+
+    // 如果当前节点是选中状态，则查询出画布中所有选中的节点，否则只拖拽当前节点
+    // If the current node is selected, query all selected nodes in the canvas, otherwise only drag the current node
+    const id = event.target.id;
+    const states = graph.getElementState(id);
+    if (states.includes(this.options.state)) this.target = this.getSelectedNodeIDs([id]);
+    else this.target = [id];
+
     this.hideEdge();
     this.context.graph.frontElement(this.target);
     if (this.options.shadow) this.createShadow(this.target);
