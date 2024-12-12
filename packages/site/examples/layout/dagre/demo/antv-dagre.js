@@ -32,7 +32,6 @@ const data = {
 const graph = new Graph({
   container: 'container',
   autoFit: 'view',
-  animation: false,
   data,
   layout: {
     type: 'antv-dagre',

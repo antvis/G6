@@ -29,7 +29,6 @@ fetch('https://assets.antv.antgroup.com/g6/music-festival.json')
   .then((data) => {
     const graph = new Graph({
       container: 'container',
-      animation: false,
       data,
       node: {
         type: 'rect',

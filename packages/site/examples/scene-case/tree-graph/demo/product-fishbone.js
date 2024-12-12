@@ -197,7 +197,6 @@ const graph = new Graph({
   },
   behaviors: ['zoom-canvas', 'drag-canvas'],
   transforms: ['assign-color-by-branch', 'arrange-edge-z-index'],
-  animation: false,
 });
 
 graph.render();

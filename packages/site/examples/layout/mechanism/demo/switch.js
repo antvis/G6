@@ -5,6 +5,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((data) => {
     const graph = new Graph({
       container: 'container',
+      autoFit: 'view',
       layout: {
         type: 'circular',
       },

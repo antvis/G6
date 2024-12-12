@@ -70,7 +70,6 @@ register(ExtensionCategory.LAYOUT, 'bi', BiLayout);
 const graph = new Graph({
   container: 'container',
   data,
-  animation: false,
   autoFit: 'center',
   node: {
     style: {
@@ -81,7 +80,7 @@ const graph = new Graph({
     palette: {
       type: 'group',
       field: 'cluster',
-      color: ['#1783FF', '#D580FF']
+      color: ['#1783FF', '#D580FF'],
     },
   },
   layout: {
@@ -89,6 +88,7 @@ const graph = new Graph({
     sep: 300,
     nodeSep: 20,
     nodeSize: 32,
+    preLayout: true,
   },
   behaviors: ['drag-canvas', 'drag-element', 'zoom-canvas'],
 });

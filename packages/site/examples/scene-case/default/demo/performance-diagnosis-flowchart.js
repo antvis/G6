@@ -78,7 +78,6 @@ export const PerformanceDiagnosisFlowchart = () => {
         const graph = new Graph({
           container: containerRef.current,
           data,
-          animation: false,
           autoFit: 'view',
           node: {
             type: 'react',
