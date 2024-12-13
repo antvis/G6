@@ -7,17 +7,29 @@ export const layoutDendrogramTb: TestCase = async (context) => {
     autoFit: 'view',
     data: treeToGraphData(data),
     node: {
-      style: (model) => {
-        const hasChildren = !!model.children?.length;
-        return {
-          labelMaxWidth: 200,
-          labelPlacement: hasChildren ? 'right' : 'bottom',
-          labelText: model.id,
-          labelTextAlign: 'start',
-          labelTextBaseline: hasChildren ? 'middle' : 'bottom',
-          transform: hasChildren ? [] : [['rotate', 90]],
-          ports: [{ placement: 'bottom' }, { placement: 'top' }],
+      style: (d) => {
+        const isLeafNode = !d.children?.length;
+        const style = {
+          labelText: d.id,
+          labelPlacement: 'right',
+          labelOffsetX: 2,
+          labelBackground: true,
+          ports: [{ placement: 'top' }, { placement: 'bottom' }],
         };
+        if (isLeafNode) {
+          Object.assign(style, {
+            labelTransform: [
+              ['rotate', 90],
+              ['translate', 18],
+            ],
+            labelBaseline: 'center',
+            labelTextAlign: 'left',
+          });
+        }
+        return style;
+      },
+      animation: {
+        enter: false,
       },
     },
     edge: {
