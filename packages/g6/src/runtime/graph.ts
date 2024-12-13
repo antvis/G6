@@ -1,3 +1,4 @@
+import GraphTouchEvent from '@/src/utils/event/graph-touch-event';
 import EventEmitter from '@antv/event-emitter';
 import type { AABB, BaseStyleProps } from '@antv/g';
 import { debounce, isEqual, isFunction, isNumber, isObject, isString, omit } from '@antv/util';
@@ -63,7 +64,7 @@ import { ViewportController } from './viewport';
 
 export class Graph extends EventEmitter {
   private options: GraphOptions;
-
+  private readonly graphTouchEvent: GraphTouchEvent;
   /**
    * @internal
    */
@@ -99,6 +100,7 @@ export class Graph extends EventEmitter {
     this.options = Object.assign({}, Graph.defaultOptions, options);
     this._setOptions(this.options, true);
     this.context.graph = this;
+    this.graphTouchEvent = new GraphTouchEvent(this);
 
     // Listening resize to autoResize.
     this.options.autoResize && globalThis.addEventListener?.('resize', this.onResize);
@@ -1112,6 +1114,11 @@ export class Graph extends EventEmitter {
 
     await this.initCanvas();
     this.initRuntime();
+  }
+
+  // 获取触摸事件
+  public getGraphTouchEvent() {
+    return this.graphTouchEvent;
   }
 
   /**

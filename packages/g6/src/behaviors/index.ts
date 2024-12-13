@@ -5,6 +5,7 @@ export { ClickSelect } from './click-select';
 export { CollapseExpand } from './collapse-expand';
 export { CreateEdge } from './create-edge';
 export { DragCanvas } from './drag-canvas';
+export { DragCanvasByTouch } from './drag-canvas-by-touch';
 export { DragElement } from './drag-element';
 export { DragElementForce } from './drag-element-force';
 export { FixElementSize } from './fix-element-size';
