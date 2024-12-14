@@ -5,8 +5,8 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 259.68574635077726,198.0022445544108 L 258.2285481085256,95.99836759679216" class="key" stroke-width="3" stroke="rgba(153,173,209,1)" stroke-dasharray="2,2"/>
-            <path fill="none" d="M 259.68574635077726,198.0022445544108 L 258.2285481085256,95.99836759679216" class="key" stroke-width="5" stroke="transparent" stroke-dasharray="2,2"/>
+            <path fill="none" d="M 259.68574635077726,198.0022445544108 L 258.2285481085256,95.99836759679216" class="key" stroke-dasharray="2,2" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 259.68574635077726,198.0022445544108 L 258.2285481085256,95.99836759679216" class="key" stroke-dasharray="2,2" stroke-width="5" stroke="transparent"/>
             <g transform="matrix(-0.014284,-0.999898,0.999898,-0.014284,259.685760,198.002243)">
               <path fill="rgba(153,173,209,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
             </g>
@@ -14,8 +14,8 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 251.70220281556914,233.68015211487253 L 194.29779718443086,328.3198478851275" class="key" stroke-width="3" stroke="rgba(153,173,209,1)" stroke-dasharray="2,2"/>
-            <path fill="none" d="M 251.70220281556914,233.68015211487253 L 194.29779718443086,328.3198478851275" class="key" stroke-width="5" stroke="transparent" stroke-dasharray="2,2"/>
+            <path fill="none" d="M 251.70220281556914,233.68015211487253 L 194.29779718443086,328.3198478851275" class="key" stroke-dasharray="2,2" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 251.70220281556914,233.68015211487253 L 194.29779718443086,328.3198478851275" class="key" stroke-dasharray="2,2" stroke-width="5" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
@@ -32,14 +32,14 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 268.4695516581296,233.57448690412548 L 324.5304483418704,323.4255130958745" class="key" stroke-width="3" stroke="rgba(153,173,209,1)" stroke-dasharray="2,2"/>
-            <path fill="none" d="M 268.4695516581296,233.57448690412548 L 324.5304483418704,323.4255130958745" class="key" stroke-width="5" stroke="transparent" stroke-dasharray="2,2"/>
+            <path fill="none" d="M 268.4695516581296,233.57448690412548 L 324.5304483418704,323.4255130958745" class="key" stroke-dasharray="2,2" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 268.4695516581296,233.57448690412548 L 324.5304483418704,323.4255130958745" class="key" stroke-dasharray="2,2" stroke-width="5" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 388.87706508215854,171.21792747981942 C 376.6311952464756 141.65378243945827,413.3688047535244 141.65378243945827,401.12293491784146 171.21792747981942" class="key" stroke-width="3" stroke="rgba(153,173,209,1)" stroke-dasharray="2,2"/>
-            <path fill="none" d="M 388.87706508215854,171.21792747981942 C 376.6311952464756 141.65378243945827,413.3688047535244 141.65378243945827,401.12293491784146 171.21792747981942" class="key" stroke-width="5" stroke="transparent" stroke-dasharray="2,2"/>
+            <path fill="none" d="M 388.87706508215854,171.21792747981942 C 376.6311952464756 141.65378243945827,413.3688047535244 141.65378243945827,401.12293491784146 171.21792747981942" class="key" stroke-dasharray="2,2" stroke-width="3" stroke="rgba(153,173,209,1)"/>
+            <path fill="none" d="M 388.87706508215854,171.21792747981942 C 376.6311952464756 141.65378243945827,413.3688047535244 141.65378243945827,401.12293491784146 171.21792747981942" class="key" stroke-dasharray="2,2" stroke-width="5" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,260,220)">

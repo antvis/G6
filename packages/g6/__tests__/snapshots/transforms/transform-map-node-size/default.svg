@@ -6,25 +6,25 @@
         <g fill="none">
           <g>
             <path fill="none" d="M 125,123.33333587646484 L 125,240" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 40,0 L 10,0" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 125,123.33333587646484 L 125,240" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
           <g>
             <path fill="none" d="M 158.2820119297732,105.52134349108483 L 366.6794970175567,244.452998096345" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 40,0 L 10,0" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 158.2820119297732,105.52134349108483 L 366.6794970175567,244.452998096345" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
           <g>
             <path fill="none" d="M 165,83.33333587646484 L 346.07210739285625,83.33333587646484" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 40,0 L 28.927892607143725,0" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 165,83.33333587646484 L 346.07210739285625,83.33333587646484" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none">
           <g>
             <path fill="none" d="M 357.6432640119653,106.47564964436849 L 131.00000014648438,408.6666566040039" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 28.927892607143725,0 L 10,0" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" d="M 357.6432640119653,106.47564964436849 L 131.00000014648438,408.6666566040039" class="key" stroke-width="3" stroke="transparent"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,125,83.333336)">

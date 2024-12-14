@@ -40,6 +40,7 @@ export const layoutDendrogramTb: TestCase = async (context) => {
       direction: 'TB',
       nodeSep: 40,
       rankSep: 100,
+      preLayout: true,
     },
     behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand'],
   });

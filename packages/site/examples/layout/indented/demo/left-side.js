@@ -1,6 +1,5 @@
 import { Graph, treeToGraphData } from '@antv/g6';
 
-
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
   .then((res) => res.json())
   .then((data) => {
@@ -10,7 +9,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       autoFit: 'view',
       node: {
         style: {
-          labelText: d => d.id,
+          labelText: (d) => d.id,
           labelPlacement: 'left',
           labelBackground: true,
         },
@@ -23,8 +22,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         style: {
           radius: 4,
           router: {
-            type: 'orth'
-          }
+            type: 'orth',
+          },
         },
         animation: {
           enter: false,

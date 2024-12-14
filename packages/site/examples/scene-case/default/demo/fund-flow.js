@@ -252,6 +252,7 @@ fetch('https://assets.antv.antgroup.com/g6/decision-tree.json')
         dropCap: false,
         indent: 300,
         getHeight: () => 60,
+        preLayout: false,
       },
       behaviors: ['zoom-canvas', 'drag-canvas'],
     });

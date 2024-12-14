@@ -45,7 +45,7 @@ class CircleComboWithExtraButton extends CircleCombo {
     this.shapeMap['hit-area'].addEventListener('click', () => {
       const id = this.id;
       const collapsed = !this.attributes.collapsed;
-      const { graph } = this.attributes.context;
+      const { graph } = this.context;
       if (collapsed) graph.collapseElement(id);
       else graph.expandElement(id);
     });
