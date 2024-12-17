@@ -68,7 +68,7 @@
     "@antv/layout": "1.2.14-beta.9",
     "@antv/util": "^3.3.10",
     "bubblesets-js": "^2.3.4",
-    "hull.js": "andriiheonia/hull#semver:^1.0.10"
+    "hull.js": "github:andriiheonia/hull#semver:^1.0.10"
   },
   "devDependencies": {
     "@antv/g-svg": "^2.0.27",
