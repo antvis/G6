@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import type { Graph, MetaData } from '../src';
 import { createGraph } from '../src';
@@ -19,8 +19,11 @@ expect.extend({
     const file = received.toBuffer(meta);
     const pass = existsSync(_path) ? file.equals(readFileSync(_path)) : true;
 
+    const actualName = _path.replace('.', '-actual.');
     if (!pass) {
-      writeFileSync(_path.replace('.', '-actual.'), file);
+      writeFileSync(actualName, file);
+    } else if (existsSync(actualName)) {
+      unlinkSync(actualName);
     }
 
     if (pass) {
@@ -38,7 +41,7 @@ expect.extend({
 });
 
 describe('createGraph', () => {
-  const fn = async (outputType?: any, imageType: any = 'png') => {
+  const fn = async (outputType?: any, imageType: any = 'png', options = {}) => {
     const data = {
       nodes: [
         { id: '0' },
@@ -158,6 +161,7 @@ describe('createGraph', () => {
       layout: {
         type: 'circular',
       },
+      ...options,
     });
   };
 
@@ -207,6 +211,16 @@ describe('createGraph', () => {
     expect(graph).toMatchFile('./assets/file.svg');
 
     graph.exportToFile(join(__dirname, './assets/file'));
+
+    graph.destroy();
+  });
+
+  it('devicePixelRatio', async () => {
+    const graph = await fn('image', 'jpeg', { devicePixelRatio: 1 });
+
+    expect(graph).toMatchFile('./assets/image_x1.jpeg');
+
+    graph.exportToFile(join(__dirname, './assets/image_x1'));
 
     graph.destroy();
   });

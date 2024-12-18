@@ -12,7 +12,7 @@ import type { Options } from './types';
  * @returns <zh/> [G6 画布, NodeCanvas 画布] | <en/> [G6Canvas, NodeCanvas]
  */
 export function createCanvas(options: Options): [G6Canvas, NodeCanvas] {
-  const { width, height, background, outputType } = options;
+  const { width, height, background, outputType, devicePixelRatio = 2 } = options;
   const nodeCanvas = createNodeCanvas(width, height, outputType as any);
   const offscreenNodeCanvas = createNodeCanvas(1, 1);
 
@@ -23,6 +23,7 @@ export function createCanvas(options: Options): [G6Canvas, NodeCanvas] {
     // @ts-expect-error missing types
     canvas: nodeCanvas as any,
     offscreenCanvas: offscreenNodeCanvas as any,
+    devicePixelRatio,
     enableMultiLayer: false,
     renderer: () => {
       const renderer = new Renderer();
