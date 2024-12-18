@@ -52,14 +52,14 @@ export default defineConfig({
     },
     navs: [
       {
-        slug: 'docs/manual',
+        slug: 'docs/manual/introduction',
         title: {
           zh: '文档',
           en: 'Docs',
         },
       },
       {
-        slug: 'docs/api',
+        slug: 'docs/api/graph/option',
         title: {
           zh: 'API',
           en: 'API',
