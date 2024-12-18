@@ -216,11 +216,11 @@ describe('createGraph', () => {
   });
 
   it('devicePixelRatio', async () => {
-    const graph = await fn('image', 'jpeg', { devicePixelRatio: 2 });
+    const graph = await fn('image', 'jpeg', { devicePixelRatio: 1 });
 
-    expect(graph).toMatchFile('./assets/image_x2.jpeg');
+    expect(graph).toMatchFile('./assets/image_x1.jpeg');
 
-    graph.exportToFile(join(__dirname, './assets/image_x2'));
+    graph.exportToFile(join(__dirname, './assets/image_x1'));
 
     graph.destroy();
   });
