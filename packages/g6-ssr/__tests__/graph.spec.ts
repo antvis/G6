@@ -224,4 +224,21 @@ describe('createGraph', () => {
 
     graph.destroy();
   });
+
+  it('node image', async () => {
+    const graph = await fn('image', 'jpeg', {
+      waitForRender: 1000,
+      node: {
+        style: {
+          iconSrc: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+        },
+      },
+    });
+
+    expect(graph).toMatchFile('./assets/node-image.jpeg');
+
+    graph.exportToFile(join(__dirname, './assets/node-image'));
+
+    graph.destroy();
+  });
 });
