@@ -4,4 +4,4 @@
  * <en/> Theme Options
  * @public
  */
-export type ThemeOptions = 'light' | 'dark' | string;
+export type ThemeOptions = false | 'light' | 'dark' | string;
