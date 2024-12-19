@@ -1,4 +1,4 @@
-import { Graph, idOf } from '@antv/g6';
+import { Graph } from '@antv/g6';
 
 const data = {
   nodes: [
@@ -20,9 +20,9 @@ const data = {
     },
   ],
   edges: [
-    { id: 'edge-1', source: 'node-1', target: 'node-2' },
-    { id: 'edge-2', source: 'node-1', target: 'node-2' },
-    { id: 'edge-3', source: 'node-1', target: 'node-2' },
+    { id: 'edge-1', source: 'node-1', target: 'node-2', style: { targetPort: 'port-1' } },
+    { id: 'edge-2', source: 'node-1', target: 'node-2', style: { targetPort: 'port-2' } },
+    { id: 'edge-3', source: 'node-1', target: 'node-2', style: { targetPort: 'port-3' } },
   ],
 };
 
@@ -30,7 +30,6 @@ const graph = new Graph({
   data,
   edge: {
     style: {
-      targetPort: (d) => `port-${idOf(d).toString().split('-')[1]}`,
       endArrow: true,
     },
   },
