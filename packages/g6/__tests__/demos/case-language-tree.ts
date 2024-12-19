@@ -43,7 +43,7 @@ export const caseLanguageTree: TestCase = async (context) => {
     layout: {
       type: 'd3-force',
       link: {
-        distance: (edge) => size(edge.source) + size(edge.target),
+        distance: (edge: any) => size(edge.source) + size(edge.target),
       },
       collide: {
         radius: (node: NodeData) => size(node) + 1,

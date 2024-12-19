@@ -1,6 +1,7 @@
-import type { AABB, BaseStyleProps, DisplayObject, TextStyleProps } from '@antv/g';
+import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isNumber, isString, set } from '@antv/util';
 import { BaseCombo, BaseEdge, BaseNode } from '../elements';
+import type { BaseShape } from '../elements/shapes';
 import type { Combo, Edge, Element, Node, NodePortStyleProps, Placement, Point, TriangleDirection } from '../types';
 import type { NodeLabelStyleProps, Port } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
@@ -474,8 +475,8 @@ export function isVisible(element: DisplayObject) {
  * @param element - <zh/> 元素 | <en/> element
  * @param style - <zh/> 样式 | <en/> style
  */
-export function setAttributes(element: DisplayObject, style: BaseStyleProps) {
-  const { zIndex, transform, transformOrigin, visibility, cursor, clipPath, ...rest } = style;
+export function setAttributes(element: BaseShape<any>, style: Record<string, any>) {
+  const { zIndex, transform, transformOrigin, visibility, cursor, clipPath, component, ...rest } = style;
   Object.assign(element.attributes, rest);
 
   if (transform) element.setAttribute('transform', transform);
@@ -484,6 +485,7 @@ export function setAttributes(element: DisplayObject, style: BaseStyleProps) {
   if (visibility) element.setAttribute('visibility', visibility);
   if (cursor) element.setAttribute('cursor', cursor);
   if (clipPath) element.setAttribute('clipPath', clipPath);
+  if (component) element.setAttribute('component', component);
 }
 
 /**

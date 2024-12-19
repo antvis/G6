@@ -1,4 +1,4 @@
-import type { HTMLStyleProps as GHTMLStyleProps } from '@antv/g';
+import type { DisplayObjectConfig, HTMLStyleProps as GHTMLStyleProps } from '@antv/g';
 import type { BaseNodeStyleProps, HTMLStyleProps } from '@antv/g6';
 import { HTML } from '@antv/g6';
 import type { FC, ReactElement } from 'react';
@@ -18,6 +18,14 @@ export class ReactNode extends HTML {
     return { ...super.getKeyStyle(attributes) };
   }
 
+  constructor(options: DisplayObjectConfig<ReactNodeStyleProps>) {
+    super(options as any);
+  }
+
+  public update(attr?: Partial<ReactNodeStyleProps> | undefined): void {
+    super.update(attr);
+  }
+
   public connectedCallback() {
     super.connectedCallback();
     // this.root = createRoot(this.getDomElement());
@@ -28,6 +36,7 @@ export class ReactNode extends HTML {
   }
 
   public attributeChangedCallback(name: any, oldValue: any, newValue: any) {
+    super.attributeChangedCallback(name, oldValue, newValue);
     if (name === 'component' && oldValue !== newValue) {
       render(
         (this.attributes as unknown as ReactNodeStyleProps).component as unknown as ReactElement,
