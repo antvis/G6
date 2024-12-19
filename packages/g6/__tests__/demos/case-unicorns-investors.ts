@@ -53,7 +53,11 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
     },
     layout: {
       type: 'd3-force',
-      link: { distance: (edge) => size(edge.source) + size(edge.target) },
+      link: {
+        distance: (edge: any) => {
+          size(edge.source) + size(edge.target);
+        },
+      },
       collide: { radius: (node: NodeData) => size(node) },
       manyBody: { strength: (node: NodeData) => -4 * size(node) },
       animation: false,
