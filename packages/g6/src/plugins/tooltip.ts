@@ -31,7 +31,7 @@ export interface TooltipOptions
    *
    *  <en/> Function for getting tooltip content
    */
-  getContent?: (event: IElementEvent, items: ElementDatum[]) => HTMLElement | string;
+  getContent?: (event: IElementEvent, items: ElementDatum[]) => Promise<HTMLElement | string>;
   /**
    *  <zh/> 是否启用
    *
@@ -215,11 +215,11 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <en/> Show tooltip of target element
    * @param id - <zh/> 元素 ID | <en/> element ID
    */
-  public showById = (id: ID) => {
+  public showById = async (id: ID) => {
     const event = {
       target: { id },
     } as IElementEvent;
-    this.show(event);
+    await this.show(event);
   };
 
   private getElementData = (id: ID, targetType: ElementType) => {
@@ -243,7 +243,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * @param event - <zh/> 目标元素 | <en/> target element
    * @internal
    */
-  public show = (event: IElementEvent) => {
+  public show = async (event: IElementEvent) => {
     const {
       client,
       target: { id },
@@ -258,7 +258,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
 
     let tooltipContent: { [key: string]: unknown } = {};
     if (getContent) {
-      tooltipContent.content = getContent(event, items);
+      tooltipContent.content = await getContent(event, items);
       if (!tooltipContent.content) return;
     } else {
       const style = this.context.graph.getElementRenderStyle(id);
