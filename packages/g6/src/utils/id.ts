@@ -27,8 +27,8 @@ export function parentIdOf(data: Partial<NodeData | ComboData>) {
   return data.combo;
 }
 
+export function idsOf(data: GraphData): DataID;
 export function idsOf(data: GraphData, flat: true): ID[];
-export function idsOf(data: GraphData, flat: false): DataID;
 /**
  * <zh/> 获取图数据中所有节点/边/Combo 的 ID
  *
@@ -37,7 +37,7 @@ export function idsOf(data: GraphData, flat: false): DataID;
  * @param flat - <zh/> 是否扁平化返回 | <en/> Whether to return flat
  * @returns - <zh/> 返回元素 ID 数组 | <en/> Returns an array of element IDs
  */
-export function idsOf(data: GraphData, flat: boolean): ID[] | DataID {
+export function idsOf(data: GraphData, flat?: true): ID[] | DataID {
   const ids = {
     nodes: (data.nodes || []).map(idOf),
     edges: (data.edges || []).map(idOf),

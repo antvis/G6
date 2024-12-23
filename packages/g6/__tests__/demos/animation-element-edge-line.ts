@@ -1,4 +1,8 @@
-import { Graph } from '@antv/g6';
+import { Circle, Graph } from '@antv/g6';
+// import { Graph as GB } from '@antv/graphlib';
+import { sleep } from '../utils';
+
+Object.assign(window, { Circle, sleep });
 
 export const animationEdgeLine: TestCase = async (context) => {
   const graph = new Graph({
@@ -30,9 +34,44 @@ export const animationEdgeLine: TestCase = async (context) => {
         endArrowFill: 'red',
       },
     },
+    behaviors: ['drag-element'],
   });
 
   await graph.render();
+
+  await graph.clear();
+  // // @ts-expect-error private
+  // const ctx = graph.context;
+  // // @ts-expect-error private
+  // ctx.element.container.childNodes.forEach((node) => {
+  //   node.destroy();
+  // });
+  // ctx.model.model = new GB();
+  // // @ts-expect-error private
+  // ctx.element.elementMap = {};
+
+  await sleep(16);
+
+  graph.addData({
+    nodes: [{ id: 'node-3', style: { x: 100, y: 100, fill: 'red' } }],
+  });
+  await graph.draw();
+
+  // graph.addData({
+  //   nodes: [{ id: 'node-3', style: { x: 100, y: 100 } }],
+  // });
+  // await graph.draw();
+  // // 为什么不 sleep 就会闪烁一下？
+
+  // graph.addData({
+  //   nodes: [{ id: 'node-4', style: { x: 150, y: 150, fill: 'red' } }],
+  // });
+  // await graph.draw();
+
+  // graph.addData({
+  //   nodes: [{ id: 'node-5', style: { x: 150, y: 200, fill: 'blue' } }],
+  // });
+  // await graph.draw();
 
   animationEdgeLine.form = (panel) => [
     panel.add(

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
+  <defs/>
+  <g >
+    <g fill="none">
+      <g fill="none" class="elements">
+        <g fill="none">
+          <g>
+            <path fill="none" d="M 115.68929081105472,103.13785816221095 L 334.3107091889453,146.86214183778907" class="halo" stroke-dasharray="0,0" stroke-width="12" stroke="rgba(24,144,255,1)" pointer-events="none" opacity="0.25"/>
+            <path fill="none" d="M 115.68929081105472,103.13785816221095 L 334.3107091889453,146.86214183778907" class="halo" stroke-dasharray="0,0" stroke-width="14" stroke="transparent" pointer-events="none" opacity="0.25"/>
+          </g>
+          <g>
+            <path fill="none" d="M 121.57277486520024,104.31455497304005 L 328.42722513479976,145.68544502695997" class="key" stroke-dasharray="10,10" stroke-width="2" stroke="rgba(24,144,255,1)"/>
+            <path fill="none" d="M 121.57277486520024,104.31455497304005 L 328.42722513479976,145.68544502695997" class="key" stroke-dasharray="10,10" stroke-width="4" stroke="transparent"/>
+            <g transform="matrix(0.980581,0.196116,-0.196116,0.980581,121.572777,104.314552)">
+              <path fill="rgba(24,144,255,1)" d="M -5,0 A 5 5 0 1 0 5 0 A 5 5 0 1 0 -5 0 Z" stroke="rgba(24,144,255,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+            <g transform="matrix(-0.980581,-0.196116,0.196116,-0.980581,328.427216,145.685440)">
+              <path fill="rgba(255,0,0,1)" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" stroke="rgba(24,144,255,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+          </g>
+          <g fill="none" class="label" transform="matrix(0.980581,0.196115,-0.196115,0.980581,228.922318,125.784462)">
+            <g>
+              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="400">
+                line-edge
+              </text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,100,100)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,350,150)">
+          <g>
+            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

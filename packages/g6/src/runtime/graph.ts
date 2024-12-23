@@ -43,7 +43,7 @@ import { isCollapsed } from '../utils/collapsibility';
 import { sizeOf } from '../utils/dom';
 import { getSubgraphRelatedEdges } from '../utils/edge';
 import { GraphLifeCycleEvent, emit } from '../utils/event';
-import { idOf } from '../utils/id';
+import { idOf, idsOf } from '../utils/id';
 import { isPreLayout } from '../utils/layout';
 import { format } from '../utils/print';
 import { subtract } from '../utils/vector';
@@ -1200,7 +1200,8 @@ export class Graph extends EventEmitter {
    * @apiCategory canvas
    */
   public async clear(): Promise<void> {
-    this.context.model.setData({});
+    const ids = idsOf(this.context.model.getData());
+    this.context.model.removeData(ids);
     await this.draw();
   }
 
