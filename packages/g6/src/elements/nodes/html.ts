@@ -268,7 +268,7 @@ export class HTML extends BaseNode<HTMLStyleProps> {
     let x: number;
     let y: number;
     const { offsetX, offsetY, clientX, clientY } = nativeEvent;
-    if (this.context.canvas.context.config.supportsCSSTransform && !isNil(offsetX) && !isNil(offsetY)) {
+    if (!isNil(offsetX) && !isNil(offsetY)) {
       x = offsetX;
       y = offsetY;
     } else {
