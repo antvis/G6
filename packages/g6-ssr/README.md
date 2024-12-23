@@ -62,6 +62,31 @@ When render in CLI, you can pass `-t` or `--type` option to export SVG or PDF.
 npx g6-ssr export -i [graph-options].json -o ./file -t pdf
 ```
 
+### Register Custom G6 Extensions
+
+If you need to register custom extensions of G6, please use the `registry` function exported from `@antv/g6-ssr`.
+
+```js
+import { createGraph, registry } from '@antv/g6-ssr';
+import { BaseNode, ExtensionCategory } from '@antv/g6';
+
+class CustomNode extends BaseNode {
+  // custom node
+}
+
+registry(ExtensionCategory.Node, 'custom-node', CustomNode);
+
+const graph = await createGraph({
+  width: 500,
+  height: 500,
+  node: {
+    type: 'custom-node',
+    // other options
+  },
+  // other options
+});
+```
+
 ## License
 
 MIT
