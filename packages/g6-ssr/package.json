@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-ssr",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Support SSR for G6",
   "keywords": [
     "antv",
