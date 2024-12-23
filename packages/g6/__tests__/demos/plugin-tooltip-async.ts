@@ -5,9 +5,7 @@ export const pluginTooltipAsync: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: {
-      nodes: [
-        { id: 'node1', style: { x: 150, y: 100 }, data: { desc: 'get content async test' } },
-      ],
+      nodes: [{ id: 'node1', style: { x: 150, y: 100 }, data: { desc: 'get content async test' } }],
     },
     node: {
       style: {
@@ -22,7 +20,7 @@ export const pluginTooltipAsync: TestCase = async (context) => {
         getContent: (evt: IElementEvent, items: ElementDatum[]) => {
           return new Promise((resolve) => {
             resolve(items[0].data?.desc || '');
-          })
+          });
         },
       },
     ],

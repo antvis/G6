@@ -1,6 +1,6 @@
 import type { Tooltip } from '@/src';
 import { ComboEvent, EdgeEvent, NodeEvent, idOf } from '@/src';
-import { pluginTooltip, pluginTooltipEnable, pluginTooltipAsync } from '@@/demos';
+import { pluginTooltip, pluginTooltipAsync, pluginTooltipEnable } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin tooltip', () => {
