@@ -1,20 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
-  <defs/>
-  <g >
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
+  <g>
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none" transform="matrix(0.707107,0.707107,-0.707107,0.707107,100,100)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -25,-75 l 50,0 l 0,150 l-50 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="50" height="150" x="-25" y="-75"/>
+            <path width="50" height="150" x="-25" y="-75" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -25,-75 l 50,0 l 0,150 l-50 0 z" class="key"/>
           </g>
           <g transform="matrix(1,0,0,1,-25,-52.500000)">
-            <circle fill="rgba(23,131,255,1)" class="port-port-1" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle r="3" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" stroke-width="1" class="port-port-1"/>
           </g>
           <g transform="matrix(1,0,0,1,-25,0)">
-            <circle fill="rgba(23,131,255,1)" class="port-port-2" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle r="3" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" stroke-width="1" class="port-port-2"/>
           </g>
           <g transform="matrix(1,0,0,1,-25,52.500000)">
-            <circle fill="rgba(23,131,255,1)" class="port-port-3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle r="3" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" stroke-width="1" class="port-port-3"/>
           </g>
         </g>
       </g>

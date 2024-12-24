@@ -1,250 +1,205 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
-  <defs/>
-  <g >
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
+  <g>
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none" transform="matrix(1,0,0,1,83.333336,62.500000)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                default
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">default</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="20" font-family="iconfont">
-                
-              </text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx="0.5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,62.500000)">
           <g>
-            <polygon fill="none" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
+            <polygon fill="none" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-opacity="0.25" stroke-width="12" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="halo" pointer-events="none"/>
           </g>
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                halo
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">halo</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="20" font-family="iconfont">
-                
-              </text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx="0.5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,416.666656,62.500000)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                badges
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">badges</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="20" font-family="iconfont">
-                
-              </text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx="0.5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
             </g>
           </g>
           <g fill="none" class="badge-0" transform="matrix(1,0,0,1,16.021130,-20)">
             <g fill="none" class="label">
               <g>
-                <path fill="rgba(126,146,181,1)" d="M 4.5,2.5 l 0,0 a 6,6,0,0,1,6,6 l 0,0 a 6,6,0,0,1,-6,6 l 0,0 a 6,6,0,0,1,-6,-6 l 0,0 a 6,6,0,0,1,6,-6 z" class="background" stroke-width="0" width="12" height="12" x="-1.5" y="2.5"/>
+                <path width="12" height="12" x="-1.5" y="2.5" fill="rgba(126,146,181,1)" stroke-width="0" d="M 4.5,2.5 l 0,0 a 6,6,0,0,1,6,6 l 0,0 a 6,6,0,0,1,-6,6 l 0,0 a 6,6,0,0,1,-6,-6 l 0,0 a 6,6,0,0,1,6,-6 z" class="background"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="8.5px" class="text" font-size="8" font-family="iconfont" text-anchor="left">
-                  
-                </text>
+                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx="0.5" dy="8.5px" font-family="iconfont" font-size="8" paint-order="stroke" text-anchor="left"></text>
               </g>
             </g>
           </g>
           <g fill="none" class="badge-1" transform="matrix(1,0,0,1,19.021130,-1.909830)">
             <g fill="none" class="label">
               <g>
-                <path fill="rgba(244,102,74,1)" d="M 5.5,-9.5 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" class="background" stroke-width="0" x="-4" y="-9.5" width="46.52" height="19"/>
+                <path width="46.52" height="19" x="-4" y="-9.5" fill="rgba(244,102,74,1)" stroke-width="0" d="M 5.5,-9.5 l 27.520000000000003,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -27.520000000000003,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" class="background"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left">
-                  Important
-                </text>
+                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx="0.5" font-family="system-ui, sans-serif" font-size="8" paint-order="stroke" text-anchor="left">Important</text>
               </g>
             </g>
           </g>
           <g fill="none" class="badge-2" transform="matrix(1,0,0,1,19.021130,16.180340)">
             <g fill="none" class="label">
               <g>
-                <path fill="rgba(255,190,58,1)" d="M 5.5,-18 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" class="background" stroke-width="0" x="-4" y="-18" width="34.120000000000005" height="19"/>
+                <path width="34.120000000000005" height="19" x="-4" y="-18" fill="rgba(255,190,58,1)" stroke-width="0" d="M 5.5,-18 l 15.120000000000005,0 a 9.5,9.5,0,0,1,9.5,9.5 l 0,0 a 9.5,9.5,0,0,1,-9.5,9.5 l -15.120000000000005,0 a 9.5,9.5,0,0,1,-9.5,-9.5 l 0,0 a 9.5,9.5,0,0,1,9.5,-9.5 z" class="background"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="-8.5px" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left">
-                  Notice
-                </text>
+                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx="0.5" dy="-8.5px" font-family="system-ui, sans-serif" font-size="8" paint-order="stroke" text-anchor="left">Notice</text>
               </g>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,83.333336,187.500000)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                icon
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">icon</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <image fill="rgba(255,255,255,1)" preserveAspectRatio="none" x="-10" y="-10" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" class="icon" width="20" height="20"/>
+              <image width="20" height="20" x="-10" y="-10" fill="rgba(255,255,255,1)" class="icon" href="https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg" preserveAspectRatio="none"/>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,187.500000)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                ports
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">ports</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="20" font-family="iconfont">
-                
-              </text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx="0.5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
             </g>
           </g>
           <g transform="matrix(1,0,0,1,-19.021130,-6.180340)">
-            <circle fill="rgba(23,131,255,1)" class="port-0" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle r="3" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" stroke-width="1" class="port-0"/>
           </g>
           <g transform="matrix(1,0,0,1,19.021130,-6.180340)">
-            <circle fill="rgba(23,131,255,1)" class="port-1" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle r="3" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" stroke-width="1" class="port-1"/>
           </g>
           <g transform="matrix(1,0,0,1,0,-20)">
-            <circle fill="rgba(23,131,255,1)" class="port-2" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle r="3" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" stroke-width="1" class="port-2"/>
           </g>
           <g transform="matrix(1,0,0,1,0,7.500000)">
-            <circle fill="rgba(23,131,255,1)" class="port-3" stroke-width="1" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" r="3"/>
+            <circle r="3" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-opacity="0.65" stroke-width="1" class="port-3"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,416.666656,187.500000)">
           <g>
-            <polygon fill="none" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="halo" stroke-width="12" stroke="rgba(23,131,255,1)" stroke-opacity="0.15" stroke-dasharray="0,0" pointer-events="none"/>
+            <polygon fill="none" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-opacity="0.15" stroke-width="12" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="halo" pointer-events="none"/>
           </g>
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="0" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                active
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">active</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="20" font-family="iconfont">
-                
-              </text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx="0.5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,83.333336,312.500000)">
           <g>
-            <polygon fill="none" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="halo" stroke-width="24" stroke="rgba(23,131,255,1)" stroke-opacity="0.25" stroke-dasharray="0,0" pointer-events="none"/>
+            <polygon fill="none" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-opacity="0.25" stroke-width="24" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="halo" pointer-events="none"/>
           </g>
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="4" stroke="rgba(0,0,0,1)"/>
+            <polygon fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="4" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
-                selected
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" paint-order="stroke" text-anchor="middle">selected</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="20" font-family="iconfont">
-                
-              </text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx="0.5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,250,312.500000)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" stroke-width="4" stroke="rgba(0,0,0,1)" stroke-opacity="0.85"/>
+            <polygon fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-opacity="0.85" stroke-width="4" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="bold">
-                highlight
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" paint-order="stroke" text-anchor="middle">highlight</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="20" font-family="iconfont">
-                
-              </text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx="0.5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,416.666656,312.500000)">
           <g>
-            <polygon fill="rgba(23,131,255,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" fill-opacity="0.25" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.25"/>
+            <polygon fill="rgba(23,131,255,1)" fill-opacity="0.25" stroke="rgba(0,0,0,1)" stroke-opacity="0.25" stroke-width="0" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.25" font-weight="400">
-                inactive
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.25" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">inactive</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="20" opacity="0.85" font-family="iconfont">
-                
-              </text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx="0.5" font-family="iconfont" font-size="20" opacity="0.85" paint-order="stroke" text-anchor="middle"></text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,83.333336,437.500000)">
           <g>
-            <polygon fill="rgba(27,50,79,1)" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key" fill-opacity="0.06" stroke-width="0" stroke="rgba(0,0,0,1)" stroke-opacity="0.06"/>
+            <polygon fill="rgba(27,50,79,1)" fill-opacity="0.06" stroke="rgba(0,0,0,1)" stroke-opacity="0.06" stroke-width="0" points="0,-20 4.408389392193548,-6.067627457812106 19.02113032590307,-6.180339887498948 7.132923872213651,2.3176274578121054 11.755705045849464,16.18033988749895 0,7.5 -11.755705045849464,16.18033988749895 -7.132923872213651,2.3176274578121054 -19.02113032590307,-6.180339887498948 -4.408389392193548,-6.067627457812106" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18.180340)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.25" font-weight="400">
-                disabled
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.25" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">disabled</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(27,50,79,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="20" opacity="0.25" font-family="iconfont">
-                
-              </text>
+              <text fill="rgba(27,50,79,1)" class="icon" dominant-baseline="central" dx="0.5" font-family="iconfont" font-size="20" opacity="0.25" paint-order="stroke" text-anchor="middle"></text>
             </g>
           </g>
         </g>
