@@ -24,7 +24,6 @@ import { mergeOptions } from '../../utils/style';
 import * as Symbol from '../../utils/symbol';
 import { getWordWrapWidthByEnds } from '../../utils/text';
 import { BaseElement } from '../base-element';
-import { effect } from '../effect';
 import type { BadgeStyleProps, BaseShapeStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Label } from '../shapes';
 
@@ -338,7 +337,6 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
 
     if (enable) {
       const arrowStyle = this.getArrowStyle(attributes, isStart);
-      if (!effect(this, `arrow-${type}`, arrowStyle)) return;
 
       const [marker, markerOffset, arrowOffset] = isStart
         ? (['markerStart', 'markerStartOffset', 'startArrowOffset'] as const)
@@ -383,19 +381,16 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
 
   protected drawLabelShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
     const style = this.getLabelStyle(attributes);
-    if (!effect(this, 'label', style)) return;
     this.upsert('label', Label, style, container);
   }
 
   protected drawHaloShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
     const style = this.getHaloStyle(attributes);
-    if (!effect(this, 'halo', style)) return;
     this.upsert('halo', Path, style, container);
   }
 
   protected drawBadgeShape(attributes: ParsedBaseEdgeStyleProps, container: Group) {
     const style = this.getBadgeStyle(attributes);
-    if (!effect(this, 'badge', style)) return;
     this.upsert('badge', Badge, style, container);
   }
 
@@ -409,7 +404,6 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
 
   protected drawKeyShape(attributes: ParsedBaseEdgeStyleProps, container: Group): Path | undefined {
     const style = this.getKeyStyle(attributes);
-    if (!effect(this, 'key', style)) return;
     return this.upsert('key', Path, style, container);
   }
 
