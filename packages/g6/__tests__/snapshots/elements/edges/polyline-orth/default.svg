@@ -1,164 +1,163 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
-  <defs/>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
   <g transform="matrix(0.826446,0,0,0.826446,-41.322296,76.446281)">
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 405,50 L 405,60 Q 405 70,395 70 L 395,70 L 252.5,70 Q 242.5 70,242.5 80 L 242.5,80 L 242.5,85" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 405,50 L 405,60 Q 405 70,395 70 L 395,70 L 252.5,70 Q 242.5 70,242.5 80 L 242.5,80 L 242.5,85" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 405,50 L 405,60 Q 405 70,395 70 L 395,70 L 252.5,70 Q 242.5 70,242.5 80 L 242.5,80 L 242.5,85" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 405,50 L 405,60 Q 405 70,395 70 L 395,70 L 252.5,70 Q 242.5 70,242.5 80 L 242.5,80 L 242.5,85" class="key"/>
             <g transform="matrix(0,-1,1,0,242.500000,85)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 405,50 L 405,60 Q 405 70,415 70 L 415,70 L 615,70 Q 625 70,625 80 L 625,80 L 625,105 L 625,140 L 625,175 L 625,210 L 625,245 L 625,280 L 625,295" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 405,50 L 405,60 Q 405 70,415 70 L 415,70 L 615,70 Q 625 70,625 80 L 625,80 L 625,105 L 625,140 L 625,175 L 625,210 L 625,245 L 625,280 L 625,295" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 405,50 L 405,60 Q 405 70,415 70 L 415,70 L 615,70 Q 625 70,625 80 L 625,80 L 625,105 L 625,140 L 625,175 L 625,210 L 625,245 L 625,280 L 625,295" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 405,50 L 405,60 Q 405 70,415 70 L 415,70 L 615,70 Q 625 70,625 80 L 625,80 L 625,105 L 625,140 L 625,175 L 625,210 L 625,245 L 625,280 L 625,295" class="key"/>
             <g transform="matrix(0,-1,1,0,625,295)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 242.5,120 L 242.5,130 Q 242.5 140,252.5 140 L 252.5,140 L 280,140 Q 290 140,290 150 L 290,150 L 290,155" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 242.5,120 L 242.5,130 Q 242.5 140,252.5 140 L 252.5,140 L 280,140 Q 290 140,290 150 L 290,150 L 290,155" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 242.5,120 L 242.5,130 Q 242.5 140,252.5 140 L 252.5,140 L 280,140 Q 290 140,290 150 L 290,150 L 290,155" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 242.5,120 L 242.5,130 Q 242.5 140,252.5 140 L 252.5,140 L 280,140 Q 290 140,290 150 L 290,150 L 290,155" class="key"/>
             <g transform="matrix(0,-1,1,0,290,155)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 405,50 L 405,60 Q 405 70,415 70 L 415,70 L 490,70 Q 500 70,500 80 L 500,80 L 500,85" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 405,50 L 405,60 Q 405 70,415 70 L 415,70 L 490,70 Q 500 70,500 80 L 500,80 L 500,85" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 405,50 L 405,60 Q 405 70,415 70 L 415,70 L 490,70 Q 500 70,500 80 L 500,80 L 500,85" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 405,50 L 405,60 Q 405 70,415 70 L 415,70 L 490,70 Q 500 70,500 80 L 500,80 L 500,85" class="key"/>
             <g transform="matrix(0,-1,1,0,500,85)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 500,120 L 500,130 Q 500 140,490 140 L 490,140 L 442.5,140 L 300,140 Q 290 140,290 150 L 290,150 L 290,155" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 500,120 L 500,130 Q 500 140,490 140 L 490,140 L 442.5,140 L 300,140 Q 290 140,290 150 L 290,150 L 290,155" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 500,120 L 500,130 Q 500 140,490 140 L 490,140 L 442.5,140 L 300,140 Q 290 140,290 150 L 290,150 L 290,155" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 500,120 L 500,130 Q 500 140,490 140 L 490,140 L 442.5,140 L 300,140 Q 290 140,290 150 L 290,150 L 290,155" class="key"/>
             <g transform="matrix(0,-1,1,0,290,155)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 290,190 L 290,200 Q 290 210,280 210 L 280,210 L 195,210 Q 185 210,185 220 L 185,220 L 185,225" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 290,190 L 290,200 Q 290 210,280 210 L 280,210 L 195,210 Q 185 210,185 220 L 185,220 L 185,225" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 290,190 L 290,200 Q 290 210,280 210 L 280,210 L 195,210 Q 185 210,185 220 L 185,220 L 185,225" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 290,190 L 290,200 Q 290 210,280 210 L 280,210 L 195,210 Q 185 210,185 220 L 185,220 L 185,225" class="key"/>
             <g transform="matrix(0,-1,1,0,185,225)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 290,190 L 290,200 Q 290 210,300 210 L 300,210 L 385,210 Q 395 210,395 220 L 395,220 L 395,225" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 290,190 L 290,200 Q 290 210,300 210 L 300,210 L 385,210 Q 395 210,395 220 L 395,220 L 395,225" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 290,190 L 290,200 Q 290 210,300 210 L 300,210 L 385,210 Q 395 210,395 220 L 395,220 L 395,225" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 290,190 L 290,200 Q 290 210,300 210 L 300,210 L 385,210 Q 395 210,395 220 L 395,220 L 395,225" class="key"/>
             <g transform="matrix(0,-1,1,0,395,225)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 185,260 L 185,270 Q 185 280,195 280 L 195,280 L 280,280 Q 290 280,290 290 L 290,290 L 290,295" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 185,260 L 185,270 Q 185 280,195 280 L 195,280 L 280,280 Q 290 280,290 290 L 290,290 L 290,295" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 185,260 L 185,270 Q 185 280,195 280 L 195,280 L 280,280 Q 290 280,290 290 L 290,290 L 290,295" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 185,260 L 185,270 Q 185 280,195 280 L 195,280 L 280,280 Q 290 280,290 290 L 290,290 L 290,295" class="key"/>
             <g transform="matrix(0,-1,1,0,290,295)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 185,260 L 185,270 Q 185 280,175 280 L 175,280 L 90,280 Q 80 280,80 290 L 80,290 L 80,295" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 185,260 L 185,270 Q 185 280,175 280 L 175,280 L 90,280 Q 80 280,80 290 L 80,290 L 80,295" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 185,260 L 185,270 Q 185 280,175 280 L 175,280 L 90,280 Q 80 280,80 290 L 80,290 L 80,295" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 185,260 L 185,270 Q 185 280,175 280 L 175,280 L 90,280 Q 80 280,80 290 L 80,290 L 80,295" class="key"/>
             <g transform="matrix(0,-1,1,0,80,295)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 80,330 L 80,340 Q 80 350,90 350 L 90,350 L 500,350 Q 510 350,510 360 L 510,360 L 510,365" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 80,330 L 80,340 Q 80 350,90 350 L 90,350 L 500,350 Q 510 350,510 360 L 510,360 L 510,365" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 80,330 L 80,340 Q 80 350,90 350 L 90,350 L 500,350 Q 510 350,510 360 L 510,360 L 510,365" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 80,330 L 80,340 Q 80 350,90 350 L 90,350 L 500,350 Q 510 350,510 360 L 510,360 L 510,365" class="key"/>
             <g transform="matrix(0,-1,1,0,510,365)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 625,330 L 625,340 Q 625 350,615 350 L 615,350 L 520,350 Q 510 350,510 360 L 510,360 L 510,365" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 625,330 L 625,340 Q 625 350,615 350 L 615,350 L 520,350 Q 510 350,510 360 L 510,360 L 510,365" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 625,330 L 625,340 Q 625 350,615 350 L 615,350 L 520,350 Q 510 350,510 360 L 510,360 L 510,365" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 625,330 L 625,340 Q 625 350,615 350 L 615,350 L 520,350 Q 510 350,510 360 L 510,360 L 510,365" class="key"/>
             <g transform="matrix(0,-1,1,0,510,365)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 500,120 L 500,135 Q 500 140,505 140 L 505,140 L 505,140 Q 510 140,510 145 L 510,145 L 510,175 L 510,210 L 510,245 L 510,280 L 510,315 L 510,350 L 510,365" class="key" stroke-width="2" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 500,120 L 500,135 Q 500 140,505 140 L 505,140 L 505,140 Q 510 140,510 145 L 510,145 L 510,175 L 510,210 L 510,245 L 510,280 L 510,315 L 510,350 L 510,365" class="key" stroke-width="4" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="2" d="M 500,120 L 500,135 Q 500 140,505 140 L 505,140 L 505,140 Q 510 140,510 145 L 510,145 L 510,175 L 510,210 L 510,245 L 510,280 L 510,315 L 510,350 L 510,365" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="M 500,120 L 500,135 Q 500 140,505 140 L 505,140 L 505,140 Q 510 140,510 145 L 510,145 L 510,175 L 510,210 L 510,245 L 510,280 L 510,315 L 510,350 L 510,365" class="key"/>
             <g transform="matrix(0,-1,1,0,510,365)">
-              <path fill="rgba(153,173,209,1)" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1"/>
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -4,0 L 4,-4 L 2.4000000000000004,0 L 4,4 Z"/>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,405,35)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,242.500000,105)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,625,315)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,500,105)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,290,175)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,185,245)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,395,245)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,290,315)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,80,315)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,510,385)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -22,-15 l 44,0 a 8,8,0,0,1,8,8 l 0,14 a 8,8,0,0,1,-8,8 l -44,0 a 8,8,0,0,1,-8,-8 l 0,-14 a 8,8,0,0,1,8,-8 z" class="key"/>
           </g>
         </g>
       </g>

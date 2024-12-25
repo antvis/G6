@@ -1,50 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
-  <defs/>
-  <g >
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
+  <g>
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
-            <path fill="rgba(0,0,0,0)" d="M -30,-15 l 60,0 l 0,30 l-60 0 z" class="key" stroke-width="2" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,1)" stroke-width="2" d="M -30,-15 l 60,0 l 0,30 l-60 0 z" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,17)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                node1
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">node1</text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,300,300)">
           <g>
-            <path fill="rgba(0,0,0,0)" d="M -30,-15 l 60,0 l 0,30 l-60 0 z" class="key" stroke-width="2" stroke="rgba(0,0,0,1)" width="60" height="30" x="-30" y="-15"/>
+            <path width="60" height="30" x="-30" y="-15" fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,1)" stroke-width="2" d="M -30,-15 l 60,0 l 0,30 l-60 0 z" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,17)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                node2
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">node2</text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,100,300)">
           <g>
-            <circle fill="rgba(0,0,0,0)" class="key" stroke-width="2" stroke="rgba(0,0,0,1)" r="20"/>
+            <circle r="20" fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,1)" stroke-width="2" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,22)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                node3
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">node3</text>
             </g>
           </g>
         </g>
       </g>
       <g>
-        <line fill="none" x1="0" y1="300" x2="500" y2="300" visibility="visible" stroke="rgba(23,199,111,1)" stroke-width="2"/>
+        <line x1="0" x2="500" y1="300" y2="300" fill="none" stroke="rgba(23,199,111,1)" stroke-width="2" visibility="visible"/>
       </g>
       <g>
-        <line fill="none" x1="100" y1="0" x2="100" y2="500" visibility="visible" stroke="rgba(240,143,86,1)" stroke-width="2"/>
+        <line x1="100" x2="100" y1="0" y2="500" fill="none" stroke="rgba(240,143,86,1)" stroke-width="2" visibility="visible"/>
       </g>
     </g>
   </g>

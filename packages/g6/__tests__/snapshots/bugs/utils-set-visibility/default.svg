@@ -1,35 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
-  <defs/>
-  <g >
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
+  <g>
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
-            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="16"/>
+            <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,18)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                label
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">label</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" class="icon" text-anchor="middle" font-size="16">
-                icon
-              </text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx="0.5" font-size="16" paint-order="stroke" text-anchor="middle">icon</text>
             </g>
           </g>
           <g fill="none" class="badge-0" transform="matrix(1,0,0,1,16,-16)">
             <g fill="none" class="label">
               <g>
-                <path fill="rgba(126,146,181,1)" d="M 4.5,0 l 0.879999999999999,0 a 8.5,8.5,0,0,1,8.5,8.5 l 0,0 a 8.5,8.5,0,0,1,-8.5,8.5 l -0.879999999999999,0 a 8.5,8.5,0,0,1,-8.5,-8.5 l 0,0 a 8.5,8.5,0,0,1,8.5,-8.5 z" class="background" stroke-width="0" x="-4" y="0" width="17.88" height="17"/>
+                <path width="17.88" height="17" x="-4" y="0" fill="rgba(126,146,181,1)" stroke-width="0" d="M 4.5,0 l 0.879999999999999,0 a 8.5,8.5,0,0,1,8.5,8.5 l 0,0 a 8.5,8.5,0,0,1,-8.5,8.5 l -0.879999999999999,0 a 8.5,8.5,0,0,1,-8.5,-8.5 l 0,0 a 8.5,8.5,0,0,1,8.5,-8.5 z" class="background"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="8.5px" class="text" font-size="8" font-family="system-ui, sans-serif" text-anchor="left">
-                  b1
-                </text>
+                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx="0.5" dy="8.5px" font-family="system-ui, sans-serif" font-size="8" paint-order="stroke" text-anchor="left">b1</text>
               </g>
             </g>
           </g>

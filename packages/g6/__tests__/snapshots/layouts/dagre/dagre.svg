@@ -1,107 +1,94 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
-  <defs/>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
   <g transform="matrix(0.800000,0,0,0.800000,49.999996,49.999996)">
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 80,100 L 80,150" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 80,100 L 80,150" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 80,100 L 80,150" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 80,100 L 80,150" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 141.33333333333331,250 L 203.5,300.67934782608694" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 141.33333333333331,250 L 203.5,300.67934782608694" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 141.33333333333331,250 L 203.5,300.67934782608694" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 141.33333333333331,250 L 203.5,300.67934782608694" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 264,250 L 264,300" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 264,250 L 264,300" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 264,250 L 264,300" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 264,250 L 264,300" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 440,100 L 440,150" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 440,100 L 440,150" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 440,100 L 440,150" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 440,100 L 440,150" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 381.3333333333333,250 L 322.6666666666667,300" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 381.3333333333333,250 L 322.6666666666667,300" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 381.3333333333333,250 L 322.6666666666667,300" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 381.3333333333333,250 L 322.6666666666667,300" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,80,50)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -72,-50 l 144,0 l 0,100 l-144 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="144" height="100" x="-72" y="-50"/>
+            <path width="144" height="100" x="-72" y="-50" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -72,-50 l 144,0 l 0,100 l-144 0 z" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,52)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                Kevin Spacey
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">Kevin Spacey</text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,80,200)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -80,-50 l 160,0 l 0,100 l-160 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="160" height="100" x="-80" y="-50"/>
+            <path width="160" height="100" x="-80" y="-50" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -80,-50 l 160,0 l 0,100 l-160 0 z" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,52)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                Saul Williams
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">Saul Williams</text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,264,200)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -54,-50 l 108,0 l 0,100 l-108 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="108" height="100" x="-54" y="-50"/>
+            <path width="108" height="100" x="-54" y="-50" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -54,-50 l 108,0 l 0,100 l-108 0 z" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,52)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                Brad Pitt
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">Brad Pitt</text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,440,50)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -84,-50 l 168,0 l 0,100 l-168 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="168" height="100" x="-84" y="-50"/>
+            <path width="168" height="100" x="-84" y="-50" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -84,-50 l 168,0 l 0,100 l-168 0 z" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,52)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                Harrison Ford
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">Harrison Ford</text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,440,200)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -72,-50 l 144,0 l 0,100 l-144 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="144" height="100" x="-72" y="-50"/>
+            <path width="144" height="100" x="-72" y="-50" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -72,-50 l 144,0 l 0,100 l-144 0 z" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,52)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                Luke Wilson
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">Luke Wilson</text>
             </g>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,264,350)">
           <g>
-            <path fill="rgba(23,131,255,1)" d="M -60.5,-50 l 121,0 l 0,100 l-121 0 z" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" width="121" height="100" x="-60.5" y="-50"/>
+            <path width="121" height="100" x="-60.5" y="-50" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -60.5,-50 l 121,0 l 0,100 l-121 0 z" class="key"/>
           </g>
           <g fill="none" class="label" transform="matrix(1,0,0,1,0,52)">
             <g>
-              <text fill="rgba(0,0,0,1)" dominant-baseline="central" paint-order="stroke" dx="0.5" dy="11.5px" class="text" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill-opacity="0.85" font-weight="400">
-                Kevin Bacon
-              </text>
+              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="central" dx="0.5" dy="11.5px" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">Kevin Bacon</text>
             </g>
           </g>
         </g>
