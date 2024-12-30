@@ -35,15 +35,22 @@ export function computeElementCallbackStyle(
  * <zh/> 合并图形配置项
  *
  * <en/> Merge shape configuration
- * @param opt1 - <zh/> 配置项1 | <en/> configuration 1
- * @param opt2 - <zh/> 配置项2 | <en/> configuration 2
+ * @param defaultOptions - <zh/> 配置项1 | <en/> configuration 1
+ * @param modifiedOptions - <zh/> 配置项2 | <en/> configuration 2
  * @returns <zh/> 合并后的配置项 | <en/> merged configuration
  */
-export function mergeOptions(opt1: DisplayObjectConfig<any>, opt2: DisplayObjectConfig<any>): DisplayObjectConfig<any> {
-  const s1 = opt1?.style || {};
-  const s2 = opt2?.style || {};
-  return Object.assign({}, opt1, opt2, {
-    style: opt1?.style ? Object.assign({}, s1, s2) : s2,
+export function mergeOptions(
+  defaultOptions: DisplayObjectConfig<any>,
+  modifiedOptions: DisplayObjectConfig<any>,
+): DisplayObjectConfig<any> {
+  const s1 = defaultOptions?.style || {};
+  const s2 = modifiedOptions?.style || {};
+  for (const key in s1) {
+    if (!(key in s2)) s2[key] = s1[key];
+  }
+
+  return Object.assign({}, defaultOptions, modifiedOptions, {
+    style: s2,
   });
 }
 

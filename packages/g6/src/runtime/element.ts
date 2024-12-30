@@ -439,18 +439,14 @@ export class ElementController {
     this.shapeTypeMap[id] = type;
     this.elementMap[id] = element;
 
-    const { stage = 'enter', animation } = context;
-
-    const enableAnimation = animation && this.context.options.animation;
+    const { stage = 'enter' } = context;
 
     this.context.animation?.add(
       {
         element,
         elementType,
         stage,
-        // <zh/> 当关闭动画时，不需要深拷贝样式
-        // <en/> When the animation is turned off, there is no need to deep copy the style
-        originalStyle: enableAnimation ? { ...element.attributes } : element.attributes,
+        originalStyle: { ...element.attributes },
         updatedStyle: style,
       },
       {

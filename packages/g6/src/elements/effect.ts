@@ -10,8 +10,10 @@ const EFFECT_WEAKMAP = new WeakMap<Element, Record<string, any>>();
  * @param key - <zh/> 缓存 key | <en/> Cache key
  * @param style - <zh/> 样式属性 | <en/> Style attribute
  * @returns <zh/> 是否执行函数 | <en/> Whether to execute the function
+ * @deprecated <zh/> 该方法已废弃，并不能显著提升性能 | <en/> This method is deprecated and does not significantly improve performance
  */
 export function effect<T extends false | Record<string, any>>(target: Element, key: string, style: T): boolean {
+  // return true;
   if (!EFFECT_WEAKMAP.has(target)) EFFECT_WEAKMAP.set(target, {});
   const cache = EFFECT_WEAKMAP.get(target)!;
   if (!cache[key]) {

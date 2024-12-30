@@ -26,7 +26,6 @@ import { mergeOptions } from '../../utils/style';
 import { getWordWrapWidthByBox } from '../../utils/text';
 import { setVisibility } from '../../utils/visibility';
 import { BaseElement } from '../base-element';
-import { effect } from '../effect';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Icon, Label } from '../shapes';
 import { connectImage, dispatchPositionChange } from '../shapes/image';
@@ -365,16 +364,12 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
 
   protected drawHaloShape(attributes: Required<S>, container: Group): void {
     const style = this.getHaloStyle(attributes);
-    if (!effect(this, 'halo', style)) return;
-
     const keyShape = this.getShape('key');
     this.upsert('halo', keyShape.constructor as new (...args: unknown[]) => DisplayObject, style, container);
   }
 
   protected drawIconShape(attributes: Required<S>, container: Group): void {
     const style = this.getIconStyle(attributes);
-    if (!effect(this, 'icon', style)) return;
-
     this.upsert('icon', Icon, style, container);
     connectImage(this);
   }
@@ -383,8 +378,6 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     const badgesStyle = this.getBadgesStyle(attributes);
     Object.keys(badgesStyle).forEach((key) => {
       const style = badgesStyle[key];
-      if (!effect(this, `badge-${key}`, style)) return;
-
       this.upsert(`badge-${key}`, Badge, style, container);
     });
   }
@@ -395,16 +388,12 @@ export abstract class BaseNode<S extends BaseNodeStyleProps = BaseNodeStyleProps
     Object.keys(portsStyle).forEach((key) => {
       const style = portsStyle[key] as CircleStyleProps;
       const shapeKey = `port-${key}`;
-      if (!effect(this, shapeKey, style)) return;
-
       this.upsert(shapeKey, GCircle, style, container);
     });
   }
 
   protected drawLabelShape(attributes: Required<S>, container: Group): void {
     const style = this.getLabelStyle(attributes);
-    if (!effect(this, 'label', style)) return;
-
     this.upsert('label', Label, style, container);
   }
 

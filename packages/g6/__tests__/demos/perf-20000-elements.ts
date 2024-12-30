@@ -11,12 +11,10 @@ export const perf20000Elements: TestCase = async (context) => {
     node: {
       style: {
         size: 8,
-      },
-      palette: {
-        type: 'group',
-        field: 'cluster',
+        fill: 'gray',
       },
     },
+    theme: false,
     behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
     autoFit: 'view',
     plugins: [{ type: 'background', background: '#fff' }],
