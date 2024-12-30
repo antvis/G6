@@ -49,6 +49,7 @@
     "@types/jest": "^29.5.14",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20.17.10",
+    "@types/stats.js": "^0.17.3",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "chalk": "^4.1.2",

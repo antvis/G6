@@ -1,6 +1,8 @@
+import { CanvasEvent } from '@antv/g';
+import { Canvas, ComboEvent, CommonEvent, EdgeEvent, NodeEvent } from '@antv/g6';
 import type { Controller } from 'lil-gui';
 import GUI from 'lil-gui';
-import { ComboEvent, CommonEvent, EdgeEvent, NodeEvent } from '../src';
+import Stats from 'stats.js';
 import '../src/preset';
 import * as demos from './demos';
 import { createGraphCanvas } from './utils';
@@ -36,6 +38,7 @@ const params = ['Type', 'Demo', 'Renderer', 'GridLine', 'Theme', 'Animation'] as
 syncParamsFromSearch();
 
 const panels = initPanel();
+const stats = initStats();
 
 window.onload = render;
 
@@ -78,10 +81,26 @@ function initPanel() {
   return { panel, Demo, Search, Renderer, GridLine, Theme, Animation, MultiLayers, reload };
 }
 
+function initStats() {
+  const container = document.getElementById('panel')!;
+  const stats = new Stats();
+  stats.showPanel(0);
+  const dom = stats.dom;
+  Object.assign(dom.style, { position: 'relative', top: 'unset', right: 'unset' });
+  container.appendChild(dom);
+  return stats;
+}
+
+let canvas: Canvas | undefined;
+const statsListener = () => stats.update();
+
 async function render() {
   syncParamsToSearch();
   applyTheme();
   destroyForm();
+  if (canvas) {
+    canvas.getLayer().removeEventListener(CanvasEvent.AFTER_RENDER, statsListener);
+  }
 
   const $container = initContainer();
 
@@ -92,7 +111,10 @@ async function render() {
 
   const canvasOptions = { enableMultiLayer: MultiLayers };
 
-  const canvas = createGraphCanvas($container, 500, 500, Renderer, canvasOptions);
+  canvas = createGraphCanvas($container, 500, 500, Renderer, canvasOptions);
+
+  canvas.getLayer().addEventListener(CanvasEvent.AFTER_RENDER, statsListener);
+
   await canvas.ready;
   const testCase = demos[Demo as keyof typeof demos];
   if (!testCase) return;
