@@ -33,18 +33,8 @@ interface Options {
  * @returns <zh/> [容器, 画布] | <en/> [container, canvas]
  */
 export function createPluginCanvas(options: Options): [HTMLElement, GCanvas] {
-  const { width, height, renderer, containerStyle } = options;
+  const { width, height, renderer } = options;
   const $container = getContainer(options);
-  const [x, y] = computePosition(options);
-
-  Object.assign($container.style, {
-    position: 'absolute',
-    left: x + 'px',
-    top: y + 'px',
-    width: width + 'px',
-    height: height + 'px',
-    ...containerStyle,
-  });
 
   const canvas = new GCanvas({
     width,
@@ -70,6 +60,19 @@ function getContainer(options: Options) {
   }
 
   const $container = createPluginContainer(className, false);
+
+  const { width, height, containerStyle } = options;
+  const [x, y] = computePosition(options);
+
+  Object.assign($container.style, {
+    position: 'absolute',
+    left: x + 'px',
+    top: y + 'px',
+    width: width + 'px',
+    height: height + 'px',
+    ...containerStyle,
+  });
+
   graphCanvas.getContainer()?.appendChild($container);
   return $container;
 }
