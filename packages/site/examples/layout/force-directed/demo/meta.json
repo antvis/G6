@@ -21,6 +21,14 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-HgiS6CyuuEAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
+      "filename": "d3-force.js",
+      "title": {
+        "zh": "D3 力导向布局",
+        "en": "D3 Force Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-_sFS5IRGGcAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
       "filename": "functional-params.js",
       "title": {
         "zh": "定制不同节点的参数",
@@ -29,12 +37,28 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*78tVRrG7zU8AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
-      "filename": "d3-force.js",
+      "filename": "prevent-overlap.js",
       "title": {
-        "zh": "D3 力导向布局",
-        "en": "D3 Force Layout"
+        "zh": "力导向布局防止节点重叠",
+        "en": "Prevent Overlap in d3-force Layout"
       },
-      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-_sFS5IRGGcAAAAAAAAAAAAADmJ7AQ/original"
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*J802QozikwsAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "drag-fixed.js",
+      "title": {
+        "zh": "固定被做拽节点",
+        "en": "Drag Fixed Nodes"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QlS5T6Wy2TUAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "bubbles.js",
+      "title": {
+        "zh": "力导向气泡图",
+        "en": "Force Directed Bubble Chart"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*iMR5QqrGp0cAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
       "filename": "3d-force.js",

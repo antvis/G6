@@ -11,7 +11,18 @@ import { DragElement } from './drag-element';
  *
  * <en/> Call d3-force layout to drag element behavior options
  */
-export interface DragElementForceOptions extends Omit<DragElementOptions, 'animation' | 'dropEffect' | 'shadow'> {}
+export interface DragElementForceOptions extends Omit<DragElementOptions, 'animation' | 'dropEffect' | 'shadow'> {
+  /**
+   * <zh/> 在拖拽结束后，节点是否保持固定位置
+   * - `true`: 在拖拽结束后，节点的位置将保持固定，不受布局算法的影响
+   * - `false`: 在拖拽结束后，节点的位置将继续受到布局算法的影响
+   *
+   * <en/> Whether the node remains in a fixed position after dragging ends
+   * - `true`: After dragging ends, the node's position will remain fixed and will not be affected by the layout algorithm
+   * - `false`: After dragging ends, the node's position will continue to be affected by the layout algorithm
+   */
+  fixed?: boolean;
+}
 
 /**
  * <zh/> 调用力导布局拖拽元素的交互
@@ -100,6 +111,8 @@ export class DragElementForce extends DragElement {
   protected onDragEnd() {
     const layout = this.forceLayoutInstance;
     if (layout) getLayoutProperty(layout, 'simulation').alphaTarget(0);
+
+    if (this.options.fixed) return;
 
     this.context.graph.getNodeData(this.target).forEach((element) => {
       if (layout) invokeLayoutMethod(layout, 'setFixedPosition', idOf(element), [null, null, null]);

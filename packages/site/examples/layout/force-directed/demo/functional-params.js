@@ -73,7 +73,7 @@ const graph = new Graph({
       },
     },
   },
-  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element-force'],
+  behaviors: ['drag-element-force'],
 });
 
 graph.render();
