@@ -1,27 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
-  <defs/>
-  <g >
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
+  <g>
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 87.5,100 L 85,100 L 80,100 L 80,200 L 85,200 L 87.5,200" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 100,112.5 L 100,115 L 100,130 L 120,130 L 120,200 L 115,200 L 112.5,200" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 87.5,100 L 85,100 L 80,100 L 80,200 L 85,200 L 87.5,200" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 100,112.5 L 100,115 L 100,130 L 120,130 L 120,200 L 115,200 L 112.5,200" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
-            <path fill="rgba(248,248,248,1)" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key" stroke-width="1" stroke="rgba(139,155,175,1)" width="25" height="25" x="-12.5" y="-12.5"/>
+            <path width="25" height="25" x="-12.5" y="-12.5" fill="rgba(248,248,248,1)" stroke="rgba(139,155,175,1)" stroke-width="1" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,100,200)">
           <g>
-            <path fill="rgba(248,248,248,1)" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key" stroke-width="1" stroke="rgba(139,155,175,1)" width="25" height="25" x="-12.5" y="-12.5"/>
+            <path width="25" height="25" x="-12.5" y="-12.5" fill="rgba(248,248,248,1)" stroke="rgba(139,155,175,1)" stroke-width="1" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,100,150)">
           <g>
-            <path fill="rgba(248,248,248,1)" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key" stroke-width="1" stroke="rgba(139,155,175,1)" width="25" height="25" x="-12.5" y="-12.5"/>
+            <path width="25" height="25" x="-12.5" y="-12.5" fill="rgba(248,248,248,1)" stroke="rgba(139,155,175,1)" stroke-width="1" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key"/>
           </g>
         </g>
       </g>

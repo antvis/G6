@@ -55,7 +55,7 @@ const graph = new Graph({
   node: {
     type: 'react',
     style: {
-      component: () => <GNode />,
+      component: () => <ReactNode />,
     },
   },
 });
@@ -69,7 +69,7 @@ const graph = new Graph({
   node: {
     type: 'g',
     style: {
-      component: () => <ReactNode />,
+      component: () => <GNode />,
     },
   },
 });

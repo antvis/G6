@@ -15,11 +15,11 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       data: treeToGraphData(data),
       node: {
         style: {
-          labelText: d => d.id,
+          labelText: (d) => d.id,
           labelBackground: true,
           labelPlacement: function (d) {
             const side = getNodeSide(this, d);
-            return side === 'center' ? 'right' : side
+            return side === 'center' ? 'right' : side;
           },
           ports: [{ placement: 'right' }, { placement: 'left' }],
         },
@@ -36,6 +36,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       layout: {
         type: 'mindmap',
         direction: 'H',
+        preLayout: false,
         getHeight: () => 32,
         getWidth: () => 32,
         getVGap: () => 4,

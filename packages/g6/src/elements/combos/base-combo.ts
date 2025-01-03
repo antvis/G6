@@ -19,7 +19,6 @@ import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import { mergeOptions } from '../../utils/style';
 import { add, divide } from '../../utils/vector';
-import { effect } from '../effect';
 import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
 import { Icon, IconStyleProps } from '../shapes';
@@ -155,7 +154,6 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
 
   protected drawCollapsedMarkerShape(attributes: Required<S>, container: Group): void {
     const style = this.getCollapsedMarkerStyle(attributes);
-    if (!effect(this, 'collapsedMarker', style)) return;
     this.upsert('collapsed-marker', Icon, style, container);
     connectImage(this);
   }
@@ -227,7 +225,7 @@ export abstract class BaseCombo<S extends BaseComboStyleProps = BaseComboStylePr
     Object.assign(this.style, comboStyle);
     // Sync combo position to model
     const { x, y } = comboStyle;
-    this.context.model.syncComboDatum({ id: this.id, style: { x, y } });
+    this.context.model.syncNodeLikeDatum({ id: this.id, style: { x, y } });
     dispatchPositionChange(this);
   }
 

@@ -29,14 +29,12 @@ export const caseRadialDendrogram: TestCase = async (context) => {
         },
       },
     },
-    layout: [
-      {
-        type: 'dendrogram',
-        radial: true,
-        nodeSep: 30,
-        rankSep: 200,
-      },
-    ],
+    layout: {
+      type: 'dendrogram',
+      radial: true,
+      nodeSep: 30,
+      rankSep: 200,
+    },
     behaviors: [
       'drag-canvas',
       'zoom-canvas',

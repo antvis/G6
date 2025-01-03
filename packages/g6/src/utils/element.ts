@@ -1,6 +1,7 @@
 import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
-import { get, isString, set } from '@antv/util';
+import { get, isNumber, isString, set } from '@antv/util';
 import { BaseCombo, BaseEdge, BaseNode } from '../elements';
+import type { BaseShape } from '../elements/shapes';
 import type { Combo, Edge, Element, Node, NodePortStyleProps, Placement, Point, TriangleDirection } from '../types';
 import type { NodeLabelStyleProps, Port } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
@@ -465,6 +466,26 @@ export function getDiamondPoints(width: number, height: number): Point[] {
  */
 export function isVisible(element: DisplayObject) {
   return get(element, ['style', 'visibility']) !== 'hidden';
+}
+
+/**
+ * <zh/> 设置元素属性（优化性能）
+ *
+ * <en/> Set element attributes (optimize performance)
+ * @param element - <zh/> 元素 | <en/> element
+ * @param style - <zh/> 样式 | <en/> style
+ */
+export function setAttributes(element: BaseShape<any>, style: Record<string, any>) {
+  const { zIndex, transform, transformOrigin, visibility, cursor, clipPath, component, ...rest } = style;
+  Object.assign(element.attributes, rest);
+
+  if (transform) element.setAttribute('transform', transform);
+  if (isNumber(zIndex)) element.setAttribute('zIndex', zIndex);
+  if (transformOrigin) element.setAttribute('transformOrigin', transformOrigin);
+  if (visibility) element.setAttribute('visibility', visibility);
+  if (cursor) element.setAttribute('cursor', cursor);
+  if (clipPath) element.setAttribute('clipPath', clipPath);
+  if (component) element.setAttribute('component', component);
 }
 
 /**

@@ -1,6 +1,6 @@
 import type { Tooltip } from '@/src';
 import { ComboEvent, EdgeEvent, NodeEvent, idOf } from '@/src';
-import { pluginTooltip } from '@@/demos';
+import { pluginTooltip, pluginTooltipAsync, pluginTooltipEnable } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin tooltip', () => {
@@ -46,8 +46,48 @@ describe('plugin tooltip', () => {
   it('show tooltip by id', async () => {
     const graph = await createDemoGraph(pluginTooltip);
     const tooltip = graph.getPluginInstance<Tooltip>('tooltip');
-    tooltip.showById('6');
+    await tooltip.showById('6');
     await expect(graph).toMatchSnapshot(__filename, 'show-tooltip-by-id');
+    graph.destroy();
+  });
+
+  it('enable', async () => {
+    const graph = await createDemoGraph(pluginTooltipEnable);
+    const container = graph.getCanvas().getContainer()!;
+    const el = container.querySelector('.tooltip') as HTMLDivElement;
+    const plugin = graph.getPluginInstance<Tooltip>('tooltip');
+
+    await plugin.showById('node3');
+    expect(el.style.visibility).toBe('hidden');
+
+    await plugin.showById('node1');
+    expect(el.style.visibility).toBe('visible');
+
+    graph.destroy();
+  });
+
+  it('get content null', async () => {
+    const graph = await createDemoGraph(pluginTooltipEnable);
+    const container = graph.getCanvas().getContainer()!;
+    const el = container.querySelector('.tooltip') as HTMLDivElement;
+    const plugin = graph.getPluginInstance<Tooltip>('tooltip');
+
+    await plugin.showById('node2');
+    expect(el.style.visibility).toBe('hidden');
+
+    graph.destroy();
+  });
+
+  it('get content async', async () => {
+    const graph = await createDemoGraph(pluginTooltipAsync);
+    const container = graph.getCanvas().getContainer()!;
+    const el = container.querySelector('.tooltip') as HTMLDivElement;
+    const plugin = graph.getPluginInstance<Tooltip>('tooltip');
+
+    await plugin.showById('node1');
+    expect(el.style.visibility).toBe('visible');
+    expect(el.innerHTML).toBe('get content async test');
+
     graph.destroy();
   });
 });

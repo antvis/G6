@@ -4,28 +4,24 @@ import type { Canvas, IAnimation } from '@antv/g';
 import chalk from 'chalk';
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import format from 'xml-formatter';
-import xmlserializer from 'xmlserializer';
+import { optimize } from 'svgo';
+import { serializeToString } from 'xmlserializer';
 import { getSnapshotDir } from './dir';
 import { sleep } from './sleep';
 
+const format = (svg: SVGElement) => {
+  return optimize(serializeToString(svg as any), {
+    js2svg: {
+      pretty: true,
+      indent: 2,
+    },
+    floatPrecision: 4,
+    plugins: ['cleanupIds', 'cleanupAttrs', 'sortAttrs', 'sortDefsChildren', 'removeUselessDefs'],
+  }).data;
+};
+
 export type ToMatchSVGSnapshotOptions = {
   fileFormat?: string;
-};
-
-const removeId = (svg: string, reserved?: Set<string>) => {
-  if (!reserved) return svg.replace(/ *id="[^"]*" */g, ' ');
-  return svg.replace(/ *id="([^"]*)" */g, (match, id) => (reserved.has(id) ? match : ' '));
-};
-const formatSVG = (svg: string) => {
-  if (!svg.includes('<defs>')) return removeId(svg).replace('\r\n', '\n');
-
-  const refs = new Set<string>();
-
-  svg.match(/href="#[^"]*"/g)?.forEach((ref) => refs.add(ref.slice(7, -1)));
-
-  const [before, after] = svg.split('</defs>');
-  return (before + '</defs>' + removeId(after, refs)).replace('\r\n', '\n');
 };
 
 // @see https://jestjs.io/docs/26.x/expect#expectextendmatchers
@@ -58,7 +54,7 @@ export async function toMatchSVGSnapshot(
     gRoot?.append(...(dom.querySelector('#g-root')?.childNodes || []));
   });
 
-  actual += svg ? formatSVG(format(xmlserializer.serializeToString(svg as any), { indentation: '  ' })) : '';
+  actual += svg ? format(svg) : '';
 
   try {
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });

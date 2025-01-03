@@ -66,7 +66,7 @@ class IndentedNode extends BaseNode {
   }
 
   get childrenData() {
-    return this.attributes.context.model.getChildrenData(this.id);
+    return this.context.model.getChildrenData(this.id);
   }
 
   getKeyStyle(attributes) {
@@ -82,7 +82,7 @@ class IndentedNode extends BaseNode {
 
   drawKeyShape(attributes, container) {
     const keyStyle = this.getKeyStyle(attributes);
-    return this.upsert('key', Rect, keyStyle, container);
+    return this.upsert('key', 'rect', keyStyle, container);
   }
 
   getLabelStyle(attributes) {

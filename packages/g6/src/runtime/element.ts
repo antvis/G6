@@ -262,27 +262,67 @@ export class ElementController {
     return style;
   }
 
+  private getDrawData(context: DrawContext): DrawPayload | null {
+    this.init();
+
+    const data = this.computeChangesAndDrawData(context);
+    if (!data) return null;
+
+    const { type = 'draw', stage = type } = context;
+    this.markDestroyElement(data.drawData);
+    // 计算样式 / Calculate style
+    this.computeStyle(stage);
+
+    return { type, stage, data };
+  }
+
   /**
    * <zh/> 开始绘制流程
    *
    * <en/> start render process
    */
   public draw(context: DrawContext = { animation: true }) {
-    this.init();
+    const drawData = this.getDrawData(context);
+    if (!drawData) return;
 
-    const data = this.computeChangesAndDrawData(context);
-    if (!data) return null;
+    const {
+      data: {
+        drawData: { add, update, remove },
+      },
+    } = drawData;
 
-    const { type = 'draw', stage = type, animation, silence } = context;
-    const { dataChanges, drawData } = data;
-    this.markDestroyElement(drawData);
-    // 计算样式 / Calculate style
-    this.computeStyle(stage);
-    // 创建渲染任务 / Create render task
+    this.destroyElements(remove, context);
+    this.createElements(add, context);
+    this.updateElements(update, context);
+
+    return this.setAnimationTask(context, drawData);
+  }
+
+  public async preLayoutDraw(context: DrawContext = { animation: true }) {
+    const preResult = this.getDrawData(context);
+    if (!preResult) return;
+
+    const {
+      data: { drawData },
+    } = preResult;
+
+    await this.context.layout?.preLayout?.(drawData);
+
     const { add, update, remove } = drawData;
     this.destroyElements(remove, context);
     this.createElements(add, context);
     this.updateElements(update, context);
+
+    return this.setAnimationTask(context, preResult);
+  }
+
+  private setAnimationTask(context: DrawContext, data: DrawPayload) {
+    const { animation, silence } = context;
+    const {
+      data: { dataChanges, drawData },
+      stage,
+      type,
+    } = data;
 
     return this.context.animation!.animate(
       animation,
@@ -392,9 +432,7 @@ export class ElementController {
       new Ctor({
         id,
         context: this.context,
-        style: {
-          ...style,
-        },
+        style,
       }),
     ) as Element;
 
@@ -618,17 +656,17 @@ export class ElementController {
    *
    * <en/> collapse node
    * @param id - <zh/> 元素 ID | <en/> element ID
-   * @param animation - <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true
+   * @param options - <zh/> 选项 | <en/> options
    */
   public async collapseNode(id: ID, options: CollapseExpandNodeOptions): Promise<void> {
     const { animation, align } = options;
 
     const { model, layout } = this.context;
 
-    const preLayoutData = this.computeChangesAndDrawData({ stage: 'collapse', animation });
-    if (!preLayoutData) return;
+    const simulateLayoutData = this.computeChangesAndDrawData({ stage: 'collapse', animation });
+    if (!simulateLayoutData) return;
 
-    this.markDestroyElement(preLayoutData.drawData);
+    this.markDestroyElement(simulateLayoutData.drawData);
 
     // 进行预布局，计算出所有元素的位置
     // Perform pre-layout to calculate the position of all elements
@@ -835,6 +873,15 @@ export interface DrawContext {
   type?: 'render' | 'draw';
   /** <zh/> 展开阶段的目标元素 id | <en/> ID of the target element in the expand stage */
   target?: ID;
+}
+
+interface DrawPayload {
+  data: {
+    dataChanges: DataChange[];
+    drawData: DrawData;
+  };
+  stage: AnimationStage;
+  type: 'render' | 'draw';
 }
 
 /**

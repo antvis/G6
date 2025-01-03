@@ -20,8 +20,13 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
             labelText: d.id,
             labelPlacement: side === 'center' ? 'bottom' : side,
             labelBackground: true,
-            ports: side === 'center' ? [{ placement: 'bottom' }] : side === 'right' ? [{ placement: 'bottom' }, { placement: 'left' }] : [{ placement: 'bottom' }, { placement: 'right' }]
-          }
+            ports:
+              side === 'center'
+                ? [{ placement: 'bottom' }]
+                : side === 'right'
+                  ? [{ placement: 'bottom' }, { placement: 'left' }]
+                  : [{ placement: 'bottom' }, { placement: 'right' }],
+          };
         },
         animation: {
           enter: false,
@@ -32,8 +37,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         style: {
           radius: 4,
           router: {
-            type: 'orth'
-          }
+            type: 'orth',
+          },
         },
         animation: {
           enter: false,
@@ -43,6 +48,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         type: 'indented',
         direction: 'H',
         indent: 80,
+        preLayout: false,
         getHeight: () => 16,
         getWidth: () => 32,
         getSide: (d) => {

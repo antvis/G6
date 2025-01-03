@@ -21,6 +21,7 @@ export const layoutDendrogramBasic: TestCase = async (context) => {
       direction: 'LR',
       nodeSep: 36,
       rankSep: 250,
+      preLayout: true,
     },
     behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'collapse-expand'],
   });

@@ -1,39 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background: transparent; outline: none;" color-interpolation-filters="sRGB" tabindex="1">
-  <defs/>
-  <g >
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
+  <g>
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" d="M 60,50 L 190,50" class="key" stroke-width="1" stroke="rgba(153,173,209,1)"/>
-            <path fill="none" d="M 60,50 L 190,50" class="key" stroke-width="3" stroke="transparent"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 60,50 L 190,50" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 60,50 L 190,50" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" opacity="0.5" visibility="visible"/>
-            <path fill="none" d="M 194,58 L 131,142" class="key" stroke-width="3" stroke="transparent" opacity="0.5" visibility="visible"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 194,58 L 131,142" class="key" opacity="0.5" visibility="visible"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 194,58 L 131,142" class="key" opacity="0.5" visibility="visible"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" d="M 119,142 L 56,58" class="key" stroke-width="1" stroke="rgba(153,173,209,1)" visibility="visible"/>
-            <path fill="none" d="M 119,142 L 56,58" class="key" stroke-width="3" stroke="transparent" visibility="visible"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 119,142 L 56,58" class="key" visibility="visible"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 119,142 L 56,58" class="key" visibility="visible"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,50,50)">
           <g>
-            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
+            <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,200,50)">
           <g>
-            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" r="10"/>
+            <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
         <g fill="none" transform="matrix(1,0,0,1,125,150)">
           <g>
-            <circle fill="rgba(23,131,255,1)" class="key" stroke-width="0" stroke="rgba(0,0,0,1)" opacity="0.5" r="10" visibility="visible"/>
+            <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" opacity="0.5" visibility="visible"/>
           </g>
         </g>
       </g>

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
+  <g>
+    <g fill="none">
+      <g fill="none" class="elements">
+        <g fill="none">
+          <g>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 117.57464374963666,129.70142500145332 L 103.88057000058133,184.47771999767468" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 100,110 L 100,184" class="key"/>
+            <g transform="matrix(0.242536,-0.970142,0.970142,0.242536,103.880569,184.477722)">
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,100,200)">
+          <g>
+            <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,210,160)">
+          <g>
+            <circle r="67.08203932499369" fill="rgba(153,173,209,1)" fill-opacity="0.04" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-width="1" class="key"/>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 130,120 L 204,120" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 110,100 L 184,100" class="key"/>
+            <g transform="matrix(-1,0,-0,-1,204,120)">
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 217.57464374963666,129.70142500145332 L 203.88057000058134,184.47771999767468" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 200,110 L 200,184" class="key"/>
+            <g transform="matrix(0.242536,-0.970142,0.970142,0.242536,203.880569,184.477722)">
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 110,200 L 184,200" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="M 110,200 L 184,200" class="key"/>
+            <g transform="matrix(-1,0,-0,-1,184,200)">
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z"/>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,200,200)">
+          <g>
+            <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,120,120)">
+          <g>
+            <circle r="10" fill="none" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-opacity="0.25" stroke-width="24" class="halo" pointer-events="none"/>
+          </g>
+          <g>
+            <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="4" class="key"/>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1,0,0,1,220,120)">
+          <g>
+            <circle r="10" fill="none" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-opacity="0.25" stroke-width="24" class="halo" pointer-events="none"/>
+          </g>
+          <g>
+            <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="4" class="key"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

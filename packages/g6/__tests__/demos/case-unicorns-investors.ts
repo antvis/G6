@@ -18,6 +18,7 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data,
+    autoFit: 'view',
     node: {
       style: {
         label: true,
@@ -52,7 +53,11 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
     },
     layout: {
       type: 'd3-force',
-      link: { distance: (edge) => size(edge.source) + size(edge.target) },
+      link: {
+        distance: (edge: any) => {
+          size(edge.source) + size(edge.target);
+        },
+      },
       collide: { radius: (node: NodeData) => size(node) },
       manyBody: { strength: (node: NodeData) => -4 * size(node) },
       animation: false,
@@ -113,7 +118,15 @@ export const caseUnicornsInvestors: TestCase = async (context) => {
     animation: false,
   });
 
+  performance.mark('render-start');
+
   await graph.render();
+
+  performance.mark('render-end');
+
+  performance.measure('render', 'render-start', 'render-end');
+
+  console.log(performance.getEntriesByType('measure')[0].duration);
 
   return graph;
 };

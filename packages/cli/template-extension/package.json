@@ -67,7 +67,6 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
-    "xml-formatter": "^3.6.2",
     "xmlserializer": "^0.6.1"
   },
   "peerDependencies": {

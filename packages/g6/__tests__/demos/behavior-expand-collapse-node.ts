@@ -26,6 +26,7 @@ export const behaviorExpandCollapseNode: TestCase = async (context) => {
       type: 'dendrogram',
       nodeSep: 30,
       rankSep: 100,
+      preLayout: false,
     },
     behaviors: [{ type: 'collapse-expand', trigger: 'click', align: false }, 'drag-element'],
   });

@@ -23,10 +23,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          brew update
-          brew install python3 || : # python doesn't need to be linked
-          brew install pkg-config cairo pango libpng jpeg giflib librsvg
-          pip install setuptools
+          brew install python-setuptools pkg-config cairo pango libpng jpeg giflib librsvg
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm

@@ -1,6 +1,6 @@
 import type { GraphOptions } from '@antv/g6';
 import { Graph as G6Graph } from '@antv/g6';
-import type { JpegConfig, PdfConfig, PngConfig } from 'canvas';
+import type { Canvas, JpegConfig, PdfConfig, PngConfig } from 'canvas';
 
 export interface Options extends Omit<GraphOptions, 'renderer' | 'container'> {
   width: number;
@@ -29,7 +29,12 @@ export interface Options extends Omit<GraphOptions, 'renderer' | 'container'> {
 
 export type MetaData = PdfConfig | PngConfig | JpegConfig;
 
-export interface Graph extends G6Graph {
+export interface Graph {
+  getGraph: () => G6Graph;
+  getCanvas: () => Canvas;
+  destroy: () => void;
+
   exportToFile: (file: string, meta?: MetaData) => void;
   toBuffer: (meta?: MetaData) => Buffer;
+  toDataURL: () => string;
 }

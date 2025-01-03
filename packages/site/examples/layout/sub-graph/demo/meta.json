@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": {
+        "zh": "子图布局",
+        "en": "SubGraph Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7dQoTLrT2xMAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

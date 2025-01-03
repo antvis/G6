@@ -31,14 +31,14 @@ export interface TooltipOptions
    *
    *  <en/> Function for getting tooltip content
    */
-  getContent?: (event: IElementEvent, items: ElementDatum[]) => HTMLElement | string;
+  getContent?: (event: IElementEvent, items: ElementDatum[]) => Promise<HTMLElement | string>;
   /**
    *  <zh/> 是否启用
    *
    *  <en/> Is enable
    *  @defaultValue true
    */
-  enable?: boolean | ((event: IElementEvent) => boolean);
+  enable?: boolean | ((event: IElementEvent, items: ElementDatum[]) => boolean);
   /**
    * <zh/> 显示隐藏的回调
    *
@@ -147,10 +147,10 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     });
   }
 
-  private isEnable = (event: IElementEvent) => {
+  private isEnable = (event: IElementEvent, items: ElementDatum[]) => {
     const { enable } = this.options;
     if (typeof enable === 'function') {
-      return enable(event);
+      return enable(event, items);
     }
     return enable;
   };
@@ -215,11 +215,11 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * <en/> Show tooltip of target element
    * @param id - <zh/> 元素 ID | <en/> element ID
    */
-  public showById = (id: ID) => {
+  public showById = async (id: ID) => {
     const event = {
       target: { id },
     } as IElementEvent;
-    this.show(event);
+    await this.show(event);
   };
 
   private getElementData = (id: ID, targetType: ElementType) => {
@@ -243,31 +243,23 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
    * @param event - <zh/> 目标元素 | <en/> target element
    * @internal
    */
-  public show = (event: IElementEvent) => {
+  public show = async (event: IElementEvent) => {
     const {
       client,
       target: { id },
     } = event;
     if (isToBeDestroyed(event.target)) return;
-    if (!this.tooltipElement || !this.isEnable(event)) return;
 
     const targetType = this.context.graph.getElementType(id);
     const { getContent, title } = this.options;
-    this.currentTarget = id;
     const items: ElementDatum[] = this.getElementData(id, targetType as ElementType);
-    let x;
-    let y;
-    if (client) {
-      x = client.x;
-      y = client.y;
-    } else {
-      const style = get(items, '0.style', { x: 0, y: 0 });
-      x = style.x;
-      y = style.y;
-    }
+
+    if (!this.tooltipElement || !this.isEnable(event, items)) return;
+
     let tooltipContent: { [key: string]: unknown } = {};
     if (getContent) {
-      tooltipContent.content = getContent(event, items);
+      tooltipContent.content = await getContent(event, items);
+      if (!tooltipContent.content) return;
     } else {
       const style = this.context.graph.getElementRenderStyle(id);
       const color = targetType === 'node' ? style.fill : style.stroke;
@@ -282,6 +274,20 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
         }),
       };
     }
+
+    this.currentTarget = id;
+
+    let x;
+    let y;
+    if (client) {
+      x = client.x;
+      y = client.y;
+    } else {
+      const style = get(items, '0.style', { x: 0, y: 0 });
+      x = style.x;
+      y = style.y;
+    }
+
     this.options.onOpenChange?.(true);
     this.tooltipElement.update({
       ...this.tooltipStyleProps,

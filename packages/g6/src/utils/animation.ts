@@ -189,12 +189,12 @@ export function getElementAnimationOptions(
   localAnimation?: AnimationEffectTiming | boolean,
 ): STDAnimation {
   const { animation: globalAnimation } = options;
+  if (globalAnimation === false || localAnimation === false) return [];
 
   const userElementAnimation = options?.[elementType]?.animation;
   if (userElementAnimation === false) return [];
   const useElementStageAnimation = userElementAnimation?.[stage];
   if (useElementStageAnimation === false) return [];
-  if (globalAnimation === false || localAnimation === false) return [];
 
   // 优先级：用户局部动画配置 > 用户动画配置 > 全局动画配置 > 主题动画配置 > 默认动画配置
   // Priority: user local animation configuration > user animation configuration > global animation configuration > theme animation configuration > default animation configuration

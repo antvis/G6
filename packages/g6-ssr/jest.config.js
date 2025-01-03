@@ -1,4 +1,5 @@
 module.exports = {
+  forceExit: true,
   transform: {
     '^.+\\.[tj]s$': ['@swc/jest'],
   },

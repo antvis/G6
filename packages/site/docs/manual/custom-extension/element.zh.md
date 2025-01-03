@@ -232,11 +232,11 @@ class CustomCircle extends CustomElement {
 import { BaseEdge } from '@antv/g6';
 import { Line } from '@antv/g';
 
-import type { BaseNodeStyleProps } from '@antv/g6';
+import type { BaseEdgeStyleProps } from '@antv/g6';
 
 class ExtendBaseEdge extends BaseEdge {
   // 重写 getKeyStyle 方法
-  protected getKeyStyle(attributes: Required<BaseNodeStyleProps>) {
+  protected getKeyStyle(attributes: Required<BaseEdgeStyleProps>) {
     return { ...super.getKeyStyle(attributes), lineWidth: 2, stroke: '#000' };
   }
 
