@@ -848,13 +848,23 @@ export class ElementController {
     )?.finished;
   }
 
-  public destroy() {
-    this.container.destroy();
+  /**
+   * <zh/> 清空所有元素
+   *
+   * <en/> clear all elements
+   */
+  public clear() {
+    this.container.children.forEach((element) => element.destroy());
     this.elementMap = {};
     this.shapeTypeMap = {};
     this.defaultStyle = {};
     this.stateStyle = {};
     this.paletteStyle = {};
+  }
+
+  public destroy() {
+    this.clear();
+    this.container.destroy();
     // @ts-expect-error force delete
     this.context = {};
   }

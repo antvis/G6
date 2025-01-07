@@ -1200,8 +1200,10 @@ export class Graph extends EventEmitter {
    * @apiCategory canvas
    */
   public async clear(): Promise<void> {
-    this.context.model.setData({});
-    await this.draw();
+    const { model, element } = this.context;
+    model.setData({});
+    model.clearChanges();
+    element?.clear();
   }
 
   /**
