@@ -320,12 +320,11 @@ export class LayoutController {
 
     const nodesToLayout = nodes.filter(filterFn);
 
-    const nodesIdMap = new Map<ID, NodeData>(nodesToLayout.map((node) => [idOf(node), node]));
+    const nodeLikeIdsMap = new Map<ID, NodeData>(nodesToLayout.map((node) => [idOf(node), node]));
+    combos.forEach((combo) => nodeLikeIdsMap.set(idOf(combo), combo));
 
-    const edgesToLayout = edges.filter((edge) => {
-      const { source, target } = edge;
-      if (!nodesIdMap.has(source) || !nodesIdMap.has(target)) return false;
-      return true;
+    const edgesToLayout = edges.filter(({ source, target }) => {
+      return nodeLikeIdsMap.has(source) && nodeLikeIdsMap.has(target);
     });
 
     return {
