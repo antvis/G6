@@ -85,12 +85,6 @@ export class DataController {
     }
   }
 
-  /**
-   * <zh/> [警告] 此 API 仅供 Element Controller 调用
-   *
-   * <en/> [WARNING] This API is only for Element Controller
-   * @returns <zh/> 数据变更 | <en/> data changes
-   */
   public getChanges(): DataChange[] {
     return this.changes;
   }
