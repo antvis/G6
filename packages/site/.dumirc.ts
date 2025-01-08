@@ -472,6 +472,10 @@ export default defineConfig({
         img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*TgV-RZDODJIAAAAAAAAAAABkARQnAQ',
       },
     ],
+    petercat: {
+      show: true,
+      token: '4bd33b46-9b3c-4df1-be17-9206ea7c7e34',
+    },
   },
   mfsu: false,
   alias: {
