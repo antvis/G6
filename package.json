@@ -11,7 +11,7 @@
     "prepare": "husky install",
     "publish": "pnpm publish -r --publish-branch v5",
     "site": "pnpm -r --stream --filter=./packages/site run dev",
-    "version": "changeset version && turbo version",
+    "version": "./scripts/version.sh",
     "watch": "pnpm -r --stream --filter=!./site run start",
     "perf": "npm run perf"
   },
