@@ -8,6 +8,8 @@ it('graph draw after clear', async () => {
 
   await graph.clear();
 
+  await expect(graph).toMatchSnapshot(__filename, 'blank');
+
   await sleep(200);
 
   graph.addData(data);

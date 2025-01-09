@@ -53,7 +53,11 @@ export class ElementController {
   }
 
   public init() {
-    if (!this.container) {
+    this.initContainer();
+  }
+
+  private initContainer() {
+    if (!this.container || this.container.destroyed) {
       const { canvas } = this.context;
       this.container = canvas.appendChild(new Group({ className: 'elements' }));
     }
@@ -854,7 +858,8 @@ export class ElementController {
    * <en/> clear all elements
    */
   public clear() {
-    this.container.children.forEach((element) => element.destroy());
+    this.container.destroy();
+    this.initContainer();
     this.elementMap = {};
     this.shapeTypeMap = {};
     this.defaultStyle = {};
