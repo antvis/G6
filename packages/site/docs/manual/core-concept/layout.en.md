@@ -19,9 +19,10 @@ G6 provides a variety of layout algorithms, allowing users to select the appropr
 - [CircularLayout](/en/api/layouts/circular-layout): Circular layout
 - [ComboCombinedLayout](/en/api/layouts/combo-combined-layout): A layout suitable for scenarios with combos
 - [ConcentricLayout](/en/api/layouts/concentric-layout): Concentric circle layout
-- [D3Force3DLayout](/en/api/layouts/d3-force-3-d-layout): A [3D force-directed](https://github.com/vasturiano/d3-force-3d) layout
+- [D3Force3DLayout](/en/api/layouts/d3-force3-d-layout): A [3D force-directed](https://github.com/vasturiano/d3-force-3d) layout
 - [D3ForceLayout](/en/api/layouts/d3-force-layout): A force-directed layout based on [D3](https://d3js.org/d3-force)
 - [DagreLayout](/en/api/layouts/dagre-layout): A layout based on [dagre](https://github.com/dagrejs/dagre)
+- [FishboneLayout](/en/api/layouts/fishbone): Fishbone layout
 - [ForceAtlas2Layout](/en/api/layouts/force-atlas2-layout): A layout based on [ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679)
 - [ForceLayout](/en/api/layouts/force-layout): Force-directed layout
 - [FruchtermanLayout](/en/api/layouts/fruchterman-layout): A layout based on [Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout)
@@ -29,10 +30,11 @@ G6 provides a variety of layout algorithms, allowing users to select the appropr
 - [MDSLayout](/en/api/layouts/mds-layout): A layout algorithm for high-dimensional data dimensionality reduction
 - [RadialLayout](/en/api/layouts/radial-layout): Radial layout
 - [RandomLayout](/en/api/layouts/random-layout): Random layout
-- CompactBox Layout: Compact tree layout
-- Dendrogram Layout: Dendrogram layout
-- Mindmap Layout: Mind map layout
-- Indented Layout: Indented tree layout
+- [SnakeLayout](/en/api/layouts/snake): Snake layout
+- [CompactBoxLayout](/en/api/layouts/compact-box-layout): Compact tree layout
+- [DendrogramLayout](/en/api/layouts/dendrogram-layout): Dendrogram layout
+- [MindmapLayout](/en/api/layouts/mindmap-layout): Mind map layout
+- [IndentedLayout](/en/api/layouts/indented-layout): Indented tree layout
 
 Among them, `CompactBox Layout`, `Dendrogram Layout`, `Mindmap Layout`, and `Indented Layout` are types of tree layouts, suitable for graphs with tree-like structures.
 
