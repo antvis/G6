@@ -130,12 +130,20 @@ export default defineConfig({
         order: 3,
       },
       {
+        slug: 'manual/graph-api',
+        title: {
+          zh: '图实例 API',
+          en: 'Graph API',
+        },
+        order: 4,
+      },
+      {
         slug: 'manual/custom-extension',
         title: {
           zh: '自定义扩展',
           en: 'Custom Extension',
         },
-        order: 4,
+        order: 5,
       },
       {
         slug: 'manual/further-reading',
@@ -143,7 +151,7 @@ export default defineConfig({
           zh: '扩展阅读',
           en: 'Further Reading',
         },
-        order: 5,
+        order: 6,
       },
       // API folder
       {
