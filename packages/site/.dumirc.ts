@@ -26,7 +26,6 @@ export default defineConfig({
     siteUrl: homepage, // 官网地址
     sitePackagePath: 'packages/site', // 站点包地址
     githubUrl: repository.url, // GitHub 地址
-    branch: 'v5', // 当前分支
     footerTheme: 'light', // 白色 底部主题
     showSearch: true, // 是否显示搜索框
     showGithubCorner: true, // 是否显示头部的 GitHub icon
