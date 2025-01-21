@@ -15,9 +15,9 @@ getOptions(): GraphOptions;
 
 **返回值**：
 
-- **类型：**[GraphOptions](../api/reference/g6.graphoptions.zh.md)
+- **类型：** [GraphOptions](../api/reference/g6.graphoptions.zh.md)
 
-- **描述：**配置项
+- **描述：** 配置项
 
 </details>
 
@@ -63,6 +63,6 @@ options
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>

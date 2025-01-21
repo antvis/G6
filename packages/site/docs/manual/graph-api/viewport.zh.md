@@ -43,7 +43,7 @@ animation
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -100,7 +100,7 @@ animation
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -116,9 +116,9 @@ getCanvasCenter(): Point;
 
 **返回值**：
 
-- **类型：**[number, number] \| [number, number, number] \| Float32Array
+- **类型：** [number, number] \| [number, number, number] \| Float32Array
 
-- **描述：**视口中心的视口坐标
+- **描述：** 视口中心的视口坐标
 
 </details>
 
@@ -136,9 +136,9 @@ getPosition(): Point;
 
 **返回值**：
 
-- **类型：**[number, number] \| [number, number, number] \| Float32Array
+- **类型：** [number, number] \| [number, number, number] \| Float32Array
 
-- **描述：**图的位置
+- **描述：** 图的位置
 
 </details>
 
@@ -154,9 +154,9 @@ getRotation(): number;
 
 **返回值**：
 
-- **类型：**number
+- **类型：** number
 
-- **描述：**旋转角度
+- **描述：** 旋转角度
 
 </details>
 
@@ -172,9 +172,9 @@ getViewportCenter(): Point;
 
 **返回值**：
 
-- **类型：**[number, number] \| [number, number, number] \| Float32Array
+- **类型：** [number, number] \| [number, number, number] \| Float32Array
 
-- **描述：**视口中心的画布坐标
+- **描述：** 视口中心的画布坐标
 
 </details>
 
@@ -190,9 +190,9 @@ getZoom(): number;
 
 **返回值**：
 
-- **类型：**number
+- **类型：** number
 
-- **描述：**缩放比例
+- **描述：** 缩放比例
 
 </details>
 
@@ -208,9 +208,9 @@ getZoomRange(): GraphOptions['zoomRange'];
 
 **返回值**：
 
-- **类型：**[GraphOptions](../api/reference/g6.graphoptions.zh.md)['zoomRange']
+- **类型：** [GraphOptions](../api/reference/g6.graphoptions.zh.md)['zoomRange']
 
-- **描述：**缩放区间
+- **描述：** 缩放区间
 
 </details>
 
@@ -275,7 +275,7 @@ number
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -345,7 +345,7 @@ origin
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -415,7 +415,7 @@ origin
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -459,7 +459,7 @@ zoomRange
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -516,7 +516,7 @@ animation
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -573,7 +573,7 @@ animation
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -645,7 +645,7 @@ origin
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -717,6 +717,6 @@ origin
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>

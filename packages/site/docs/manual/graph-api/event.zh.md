@@ -15,9 +15,9 @@ off(): this;
 
 **返回值**：
 
-- **类型：**this
+- **类型：** this
 
-- **描述：**Graph 实例
+- **描述：** Graph 实例
 
 </details>
 
@@ -61,9 +61,9 @@ string
 
 **返回值**：
 
-- **类型：**this
+- **类型：** this
 
-- **描述：**Graph 实例
+- **描述：** Graph 实例
 
 </details>
 
@@ -120,9 +120,9 @@ callback
 
 **返回值**：
 
-- **类型：**this
+- **类型：** this
 
-- **描述：**Graph 实例
+- **描述：** Graph 实例
 
 </details>
 
@@ -192,9 +192,9 @@ boolean
 
 **返回值**：
 
-- **类型：**this
+- **类型：** this
 
-- **描述：**Graph 实例
+- **描述：** Graph 实例
 
 </details>
 
@@ -251,8 +251,8 @@ callback
 
 **返回值**：
 
-- **类型：**this
+- **类型：** this
 
-- **描述：**Graph 实例
+- **描述：** Graph 实例
 
 </details>

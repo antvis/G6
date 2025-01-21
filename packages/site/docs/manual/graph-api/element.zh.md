@@ -55,7 +55,7 @@ boolean \| [CollapseExpandNodeOptions](../api/reference/g6.collapseexpandnodeopt
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -110,7 +110,7 @@ boolean \| [CollapseExpandNodeOptions](../api/reference/g6.collapseexpandnodeopt
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -154,7 +154,7 @@ string \| string[]
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -198,9 +198,9 @@ string
 
 **返回值**：
 
-- **类型：**[number, number] \| [number, number, number] \| Float32Array
+- **类型：** [number, number] \| [number, number, number] \| Float32Array
 
-- **描述：**元素位置
+- **描述：** 元素位置
 
 </details>
 
@@ -244,9 +244,9 @@ string
 
 **返回值**：
 
-- **类型：**AABB
+- **类型：** AABB
 
-- **描述：**渲染包围盒
+- **描述：** 渲染包围盒
 
 </details>
 
@@ -290,9 +290,9 @@ string
 
 **返回值**：
 
-- **类型：**Record&lt;string, any&gt;
+- **类型：** Record&lt;string, any&gt;
 
-- **描述：**元素渲染样式
+- **描述：** 元素渲染样式
 
 </details>
 
@@ -336,9 +336,9 @@ string
 
 **返回值**：
 
-- **类型：**string[]
+- **类型：** string[]
 
-- **描述：**元素状态
+- **描述：** 元素状态
 
 </details>
 
@@ -382,9 +382,9 @@ string
 
 **返回值**：
 
-- **类型：**'node' \| 'edge' \| 'combo'
+- **类型：** 'node' \| 'edge' \| 'combo'
 
-- **描述：**元素类型
+- **描述：** 元素类型
 
 </details>
 
@@ -428,9 +428,9 @@ string
 
 **返回值**：
 
-- **类型：**BaseStyleProps['visibility']
+- **类型：** BaseStyleProps['visibility']
 
-- **描述：**元素可见性
+- **描述：** 元素可见性
 
 </details>
 
@@ -474,9 +474,9 @@ string
 
 **返回值**：
 
-- **类型：**number
+- **类型：** number
 
-- **描述：**元素层级
+- **描述：** 元素层级
 
 </details>
 
@@ -533,7 +533,7 @@ boolean
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -579,7 +579,7 @@ combo
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -625,7 +625,7 @@ edge
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -695,7 +695,7 @@ boolean
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -752,7 +752,7 @@ boolean
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -824,7 +824,7 @@ boolean
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -881,7 +881,7 @@ boolean
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -938,7 +938,7 @@ number
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -982,7 +982,7 @@ Record&lt;string, number&gt;
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -1028,7 +1028,7 @@ node
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -1085,7 +1085,7 @@ boolean
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -1155,7 +1155,7 @@ boolean
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -1212,7 +1212,7 @@ boolean
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -1282,7 +1282,7 @@ boolean
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -1339,7 +1339,7 @@ boolean
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -1398,6 +1398,6 @@ animation
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>

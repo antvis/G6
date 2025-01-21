@@ -15,9 +15,9 @@ getBehaviors(): BehaviorOptions;
 
 **返回值**：
 
-- **类型：**(string \| CustomBehaviorOption \| ((this:Graph) =&gt;CustomBehaviorOption))[]
+- **类型：** (string \| CustomBehaviorOption \| ((this:Graph) =&gt;CustomBehaviorOption))[]
 
-- **描述：**交互配置
+- **描述：** 交互配置
 
 </details>
 
@@ -67,7 +67,7 @@ behaviors
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -121,6 +121,6 @@ UpdateBehaviorOption
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>

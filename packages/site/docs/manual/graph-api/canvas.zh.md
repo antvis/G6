@@ -15,7 +15,7 @@ clear(): Promise<void>;
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -31,9 +31,9 @@ getCanvas(): Canvas;
 
 **返回值**：
 
-- **类型：**[Canvas](../api/reference/g6.canvas.zh.md)
+- **类型：** [Canvas](../api/reference/g6.canvas.zh.md)
 
-- **描述：**画布实例
+- **描述：** 画布实例
 
 </details>
 
@@ -49,9 +49,9 @@ getSize(): [number, number];
 
 **返回值**：
 
-- **类型：**[number, number]
+- **类型：** [number, number]
 
-- **描述：**画布尺寸
+- **描述：** 画布尺寸
 
 </details>
 
@@ -108,6 +108,6 @@ number
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>

@@ -45,9 +45,9 @@ string
 
 **返回值**：
 
-- **类型：**T
+- **类型：** T
 
-- **描述：**插件实例
+- **描述：** 插件实例
 
 </details>
 
@@ -73,9 +73,9 @@ getPlugins(): PluginOptions;
 
 **返回值**：
 
-- **类型：**(string \| CustomPluginOption \| ((this:Graph) =&gt;CustomPluginOption))[]
+- **类型：** (string \| CustomPluginOption \| ((this:Graph) =&gt;CustomPluginOption))[]
 
-- **描述：**插件配置
+- **描述：** 插件配置
 
 </details>
 
@@ -125,7 +125,7 @@ plugins
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -179,6 +179,6 @@ UpdatePluginOption
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>

@@ -15,9 +15,9 @@ getTransforms(): TransformOptions;
 
 **返回值**：
 
-- **类型：**TransformOptions
+- **类型：** TransformOptions
 
-- **描述：**数据转换配置
+- **描述：** 数据转换配置
 
 </details>
 
@@ -63,7 +63,7 @@ TransformOptions \| ((prev: TransformOptions) =&gt; TransformOptions)
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -107,6 +107,6 @@ UpdateTransformOption
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>

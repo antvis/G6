@@ -43,8 +43,8 @@ Partial&lt;[DataURLOptions](../api/reference/g6.dataurloptions.zh.md)&gt;
 
 **返回值**：
 
-- **类型：**Promise&lt;string&gt;
+- **类型：** Promise&lt;string&gt;
 
-- **描述：**DataURL
+- **描述：** DataURL
 
 </details>

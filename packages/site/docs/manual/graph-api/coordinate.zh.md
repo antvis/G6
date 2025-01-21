@@ -43,9 +43,9 @@ point
 
 **返回值**：
 
-- **类型：**[number, number] \| [number, number, number] \| Float32Array
+- **类型：** [number, number] \| [number, number, number] \| Float32Array
 
-- **描述：**画布上的绘制坐标
+- **描述：** 画布上的绘制坐标
 
 </details>
 
@@ -89,9 +89,9 @@ point
 
 **返回值**：
 
-- **类型：**[number, number] \| [number, number, number] \| Float32Array
+- **类型：** [number, number] \| [number, number, number] \| Float32Array
 
-- **描述：**画布上的绘制坐标
+- **描述：** 画布上的绘制坐标
 
 </details>
 
@@ -135,9 +135,9 @@ point
 
 **返回值**：
 
-- **类型：**[number, number] \| [number, number, number] \| Float32Array
+- **类型：** [number, number] \| [number, number, number] \| Float32Array
 
-- **描述：**浏览器坐标
+- **描述：** 浏览器坐标
 
 </details>
 
@@ -181,8 +181,8 @@ point
 
 **返回值**：
 
-- **类型：**[number, number] \| [number, number, number] \| Float32Array
+- **类型：** [number, number] \| [number, number, number] \| Float32Array
 
-- **描述：**视窗 DOM 的坐标
+- **描述：** 视窗 DOM 的坐标
 
 </details>

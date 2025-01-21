@@ -58,7 +58,7 @@ childrenData
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -108,7 +108,7 @@ data
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -161,7 +161,7 @@ data
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -211,7 +211,7 @@ data
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -261,7 +261,7 @@ data
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -320,9 +320,9 @@ hierarchy
 
 **返回值**：
 
-- **类型：**NodeData \| ComboData[]
+- **类型：** NodeData \| ComboData[]
 
-- **描述：**祖先元素数据
+- **描述：** 祖先元素数据
 
 </details>
 
@@ -366,9 +366,9 @@ string
 
 **返回值**：
 
-- **类型：**NodeData \| ComboData[]
+- **类型：** NodeData \| ComboData[]
 
-- **描述：**子元素数据
+- **描述：** 子元素数据
 
 </details>
 
@@ -384,9 +384,9 @@ getComboData(): ComboData[];
 
 **返回值**：
 
-- **类型：**[ComboData](../api/reference/g6.combodata.zh.md)[]
+- **类型：** [ComboData](../api/reference/g6.combodata.zh.md)[]
 
-- **描述：**组合数据
+- **描述：** 组合数据
 
 </details>
 
@@ -436,9 +436,9 @@ string
 
 **返回值**：
 
-- **类型：**[ComboData](../api/reference/g6.combodata.zh.md)
+- **类型：** [ComboData](../api/reference/g6.combodata.zh.md)
 
-- **描述：**组合数据
+- **描述：** 组合数据
 
 </details>
 
@@ -488,9 +488,9 @@ string[]
 
 **返回值**：
 
-- **类型：**[ComboData](../api/reference/g6.combodata.zh.md)[]
+- **类型：** [ComboData](../api/reference/g6.combodata.zh.md)[]
 
-- **描述：**组合数据
+- **描述：** 组合数据
 
 </details>
 
@@ -506,9 +506,9 @@ getData(): Required<GraphData>;
 
 **返回值**：
 
-- **类型：**Required&lt;[GraphData](../api/reference/g6.graphdata.zh.md)&gt;
+- **类型：** Required&lt;[GraphData](../api/reference/g6.graphdata.zh.md)&gt;
 
-- **描述：**图数据
+- **描述：** 图数据
 
 </details>
 
@@ -552,9 +552,9 @@ string
 
 **返回值**：
 
-- **类型：**NodeData \| ComboData[]
+- **类型：** NodeData \| ComboData[]
 
-- **描述：**后代元素数据
+- **描述：** 后代元素数据
 
 </details>
 
@@ -570,9 +570,9 @@ getEdgeData(): EdgeData[];
 
 **返回值**：
 
-- **类型：**[EdgeData](../api/reference/g6.edgedata.zh.md)[]
+- **类型：** [EdgeData](../api/reference/g6.edgedata.zh.md)[]
 
-- **描述：**边数据
+- **描述：** 边数据
 
 </details>
 
@@ -622,9 +622,9 @@ string
 
 **返回值**：
 
-- **类型：**[EdgeData](../api/reference/g6.edgedata.zh.md)
+- **类型：** [EdgeData](../api/reference/g6.edgedata.zh.md)
 
-- **描述：**边数据
+- **描述：** 边数据
 
 </details>
 
@@ -674,9 +674,9 @@ string[]
 
 **返回值**：
 
-- **类型：**[EdgeData](../api/reference/g6.edgedata.zh.md)[]
+- **类型：** [EdgeData](../api/reference/g6.edgedata.zh.md)[]
 
-- **描述：**边数据
+- **描述：** 边数据
 
 </details>
 
@@ -722,9 +722,9 @@ string
 
 **返回值**：
 
-- **类型：**NodeData \| EdgeData \| ComboData
+- **类型：** NodeData \| EdgeData \| ComboData
 
-- **描述：**元素数据
+- **描述：** 元素数据
 
 </details>
 
@@ -770,7 +770,7 @@ string[]
 
 **返回值**：
 
-- **类型：**NodeData \| EdgeData \| ComboData[]
+- **类型：** NodeData \| EdgeData \| ComboData[]
 
 </details>
 
@@ -831,9 +831,9 @@ string
 
 **返回值**：
 
-- **类型：**[NodeData](../api/reference/g6.nodedata.zh.md)[]
+- **类型：** [NodeData](../api/reference/g6.nodedata.zh.md)[]
 
-- **描述：**节点数据
+- **描述：** 节点数据
 
 </details>
 
@@ -894,9 +894,9 @@ string
 
 **返回值**：
 
-- **类型：**[EdgeData](../api/reference/g6.edgedata.zh.md)[]
+- **类型：** [EdgeData](../api/reference/g6.edgedata.zh.md)[]
 
-- **描述：**边数据
+- **描述：** 边数据
 
 </details>
 
@@ -957,9 +957,9 @@ string
 
 **返回值**：
 
-- **类型：**[ComboData](../api/reference/g6.combodata.zh.md)[]
+- **类型：** [ComboData](../api/reference/g6.combodata.zh.md)[]
 
-- **描述：**组合数据
+- **描述：** 组合数据
 
 </details>
 
@@ -1003,9 +1003,9 @@ string
 
 **返回值**：
 
-- **类型：**[NodeData](../api/reference/g6.nodedata.zh.md)[]
+- **类型：** [NodeData](../api/reference/g6.nodedata.zh.md)[]
 
-- **描述：**邻居节点数据
+- **描述：** 邻居节点数据
 
 </details>
 
@@ -1021,9 +1021,9 @@ getNodeData(): NodeData[];
 
 **返回值**：
 
-- **类型：**[NodeData](../api/reference/g6.nodedata.zh.md)[]
+- **类型：** [NodeData](../api/reference/g6.nodedata.zh.md)[]
 
-- **描述：**节点数据
+- **描述：** 节点数据
 
 </details>
 
@@ -1073,9 +1073,9 @@ string
 
 **返回值**：
 
-- **类型：**[NodeData](../api/reference/g6.nodedata.zh.md)
+- **类型：** [NodeData](../api/reference/g6.nodedata.zh.md)
 
-- **描述：**节点数据
+- **描述：** 节点数据
 
 </details>
 
@@ -1125,9 +1125,9 @@ string[]
 
 **返回值**：
 
-- **类型：**[NodeData](../api/reference/g6.nodedata.zh.md)[]
+- **类型：** [NodeData](../api/reference/g6.nodedata.zh.md)[]
 
-- **描述：**节点数据
+- **描述：** 节点数据
 
 </details>
 
@@ -1184,9 +1184,9 @@ hierarchy
 
 **返回值**：
 
-- **类型：**NodeData \| ComboData \| undefined
+- **类型：** NodeData \| ComboData \| undefined
 
-- **描述：**父元素数据
+- **描述：** 父元素数据
 
 </details>
 
@@ -1243,9 +1243,9 @@ direction
 
 **返回值**：
 
-- **类型：**[EdgeData](../api/reference/g6.edgedata.zh.md)[]
+- **类型：** [EdgeData](../api/reference/g6.edgedata.zh.md)[]
 
-- **描述：**边数据
+- **描述：** 边数据
 
 </details>
 
@@ -1295,7 +1295,7 @@ string[] \| ((data: [ComboData](../api/reference/g6.combodata.zh.md)[]) =&gt; st
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -1348,7 +1348,7 @@ DataID \| ((data: [GraphData](../api/reference/g6.graphdata.zh.md)) =&gt; DataID
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -1400,7 +1400,7 @@ string[] \| ((data: [EdgeData](../api/reference/g6.edgedata.zh.md)[]) =&gt; stri
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -1450,7 +1450,7 @@ string[] \| ((data: [NodeData](../api/reference/g6.nodedata.zh.md)[]) =&gt; stri
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -1496,7 +1496,7 @@ data
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -1548,7 +1548,7 @@ PartialNodeLikeData&lt;[ComboData](../api/reference/g6.combodata.zh.md)&gt;[] \|
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -1603,7 +1603,7 @@ PartialGraphData \| ((prev: [GraphData](../api/reference/g6.graphdata.zh.md)) =&
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -1655,7 +1655,7 @@ PartialEdgeData&lt;[EdgeData](../api/reference/g6.edgedata.zh.md)&gt;[] \| ((pre
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 
@@ -1707,6 +1707,6 @@ PartialNodeLikeData&lt;[NodeData](../api/reference/g6.nodedata.zh.md)&gt;[] \| (
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>

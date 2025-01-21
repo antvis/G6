@@ -15,9 +15,9 @@ getLayout(): LayoutOptions;
 
 **返回值**：
 
-- **类型：**BuiltInLayoutOptions \| BaseLayoutOptions \| BaseLayoutOptions[]
+- **类型：** BuiltInLayoutOptions \| BaseLayoutOptions \| BaseLayoutOptions[]
 
-- **描述：**布局配置
+- **描述：** 布局配置
 
 </details>
 
@@ -33,7 +33,7 @@ layout(): Promise<void>;
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>
 
@@ -85,7 +85,7 @@ BuiltInLayoutOptions \| BaseLayoutOptions \| BaseLayoutOptions[] \| ((prev: Buil
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
 

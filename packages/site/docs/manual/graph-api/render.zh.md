@@ -19,9 +19,9 @@ draw(): Promise<void>;
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
-- **描述：**渲染结果
+- **描述：** 渲染结果
 
 </details>
 
@@ -39,6 +39,6 @@ render(): Promise<void>;
 
 **返回值**：
 
-- **类型：**Promise&lt;void&gt;
+- **类型：** Promise&lt;void&gt;
 
 </details>

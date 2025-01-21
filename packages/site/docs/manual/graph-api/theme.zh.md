@@ -15,9 +15,9 @@ getTheme(): ThemeOptions;
 
 **返回值**：
 
-- **类型：**false \| 'light' \| 'dark' \| string
+- **类型：** false \| 'light' \| 'dark' \| string
 
-- **描述：**当前主题
+- **描述：** 当前主题
 
 </details>
 
@@ -67,6 +67,6 @@ false \| 'light' \| 'dark' \| string \| ((prev: false \| 'light' \| 'dark' \| st
 
 **返回值**：
 
-- **类型：**void
+- **类型：** void
 
 </details>
