@@ -8,6 +8,7 @@ import { CustomDocNodeKind } from './CustomDocNodeKind';
 export interface IDocPageTitleParameters extends IDocNodeParameters {
   title: string;
   order?: number;
+  readonly?: boolean;
 }
 
 /**
@@ -22,11 +23,13 @@ export interface IDocPageTitleParameters extends IDocNodeParameters {
 export class DocPageTitle extends DocNode {
   public readonly title: string;
   public readonly order?: number;
+  public readonly readonly?: boolean;
 
   public constructor(parameters: IDocPageTitleParameters) {
     super(parameters);
     this.title = parameters.title;
     this.order = parameters.order;
+    this.readonly = true;
   }
 
   /** @override */

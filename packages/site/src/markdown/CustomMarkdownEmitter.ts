@@ -163,6 +163,10 @@ export class CustomMarkdownEmitter extends MarkdownEmitter {
           writer.ensureNewLine();
           writer.writeLine('order: ' + docPageTitle.order);
         }
+        if (docPageTitle.readonly) {
+          writer.ensureNewLine();
+          writer.writeLine('readonly: true');
+        }
         writer.writeLine('---');
         break;
       }

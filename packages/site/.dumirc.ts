@@ -34,6 +34,7 @@ export default defineConfig({
     showWxQrcode: true, // 是否显示头部菜单的微信公众号
     showChartResize: true, // 是否在 demo 页展示图表视图切换
     showAPIDoc: false, // 是否在 demo 页展示API文档
+    feedback: true, // 是否显示反馈组件
     prefersColor: {
       default: 'light',
       switch: false,
