@@ -360,6 +360,10 @@ function createRenderers(renderer: CanvasConfig['renderer'], layersName: CanvasL
     layersName.map((layer) => {
       const instance = renderer?.(layer) || new CanvasRenderer();
 
+      if (instance instanceof CanvasRenderer) {
+        instance.setConfig({ enableDirtyRectangleRendering: false });
+      }
+
       if (layer === 'main') {
         instance.registerPlugin(
           new DragNDropPlugin({
