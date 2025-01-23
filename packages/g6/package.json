@@ -75,6 +75,7 @@
     "@antv/g-webgl": "^2.0.36",
     "@antv/layout-gpu": "^1.1.7",
     "@antv/layout-wasm": "^1.4.2",
+    "@antv/vendor": "^1.0.3",
     "@types/hull.js": "^1.0.4",
     "@types/xmlserializer": "^0.6.6",
     "cross-env": "^7.0.3",

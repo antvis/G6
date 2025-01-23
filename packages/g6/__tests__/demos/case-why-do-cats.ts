@@ -2,7 +2,7 @@ import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as PluginRoughCanvasRenderer } from '@antv/g-plugin-rough-canvas-renderer';
 import type { ComboData, GraphData, NodeData } from '@antv/g6';
 import { BaseLayout, ExtensionCategory, Graph, register } from '@antv/g6';
-import { hierarchy, pack } from 'd3-hierarchy';
+import { hierarchy, pack } from '@antv/vendor/d3-hierarchy';
 
 export const caseWhyDoCats: TestCase = async (context) => {
   const style = document.createElement('style');

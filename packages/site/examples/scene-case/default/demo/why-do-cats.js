@@ -2,7 +2,7 @@
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Plugin as PluginRoughCanvasRenderer } from '@antv/g-plugin-rough-canvas-renderer';
 import { BaseLayout, ExtensionCategory, Graph, register } from '@antv/g6';
-import { hierarchy, pack } from 'd3-hierarchy';
+import { hierarchy, pack } from '@antv/vendor/d3-hierarchy';
 
 const style = document.createElement('style');
 style.innerHTML = `
