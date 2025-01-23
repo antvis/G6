@@ -19,9 +19,10 @@ G6 提供了多种布局算法，用户可以根据自己的需求选择合适�
 - [CircularLayout](/api/layouts/circular-layout)：环形布局
 - [ComboCombinedLayout](/api/layouts/combo-combined-layout)：适用于存在组合的布局
 - [ConcentricLayout](/api/layouts/concentric-layout)：同心圆布局
-- [D3Force3DLayout](/api/layouts/d3-force-3-d-layout)：[3D 力导向](https://github.com/vasturiano/d3-force-3d)布局
+- [D3Force3DLayout](/api/layouts/d3-force3-d-layout)：[3D 力导向](https://github.com/vasturiano/d3-force-3d)布局
 - [D3ForceLayout](/api/layouts/d3-force-layout)：基于 [D3](https://d3js.org/d3-force) 的力导向布局
 - [DagreLayout](/api/layouts/dagre-layout)：[dagre](https://github.com/dagrejs/dagre) 布局
+- [FishboneLayout](/api/layouts/fishbone)：鱼骨布局
 - [ForceAtlas2Layout](/api/layouts/force-atlas2-layout)：[ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) 布局
 - [ForceLayout](/api/layouts/force-layout)：力导向布局
 - [FruchtermanLayout](/api/layouts/fruchterman-layout)：[Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) 布局
@@ -29,10 +30,11 @@ G6 提供了多种布局算法，用户可以根据自己的需求选择合适�
 - [MDSLayout](/api/layouts/mds-layout)：高维数据降维算法布局
 - [RadialLayout](/api/layouts/radial-layout)：径向布局
 - [RandomLayout](/api/layouts/random-layout)：随机布局
-- CompactBox Layout：紧凑树布局
-- Dendrogram Layout：树状布局
-- Mindmap Layout：思维导图布局
-- Indented Layout：缩进树布局
+- [SnakeLayout](/api/layouts/snake)：蛇形布局
+- [CompactBoxLayout](/api/layouts/compact-box-layout): 紧凑树布局
+- [DendrogramLayout](/api/layouts/dendrogram-layout): 树状布局
+- [MindmapLayout](/api/layouts/mindmap-layout): 思维导图布局
+- [IndentedLayout](/api/layouts/indented-layout): 缩进树布局
 
 其中 `CompactBox Layout`、`Dendrogram Layout`、`Mindmap Layout`、`Indented Layout` 是树布局的一种，适用于树状结构的图。
 
