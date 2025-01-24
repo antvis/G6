@@ -93,12 +93,12 @@ export class LayoutController {
    * <zh/> 后布局，即在完成绘制后执行布局
    *
    * <en/> Post layout, that is, perform layout after drawing
-   * @param layoutOptions
+   * @param layoutOptions - <zh/> 布局配置项 | <en/> Layout options
    */
   public async postLayout(layoutOptions?: LayoutOptions) {
-    const executeLayoutOptions = layoutOptions ? layoutOptions : this.options;
-    if (!executeLayoutOptions) return;
-    const pipeline = Array.isArray(executeLayoutOptions) ? executeLayoutOptions : [executeLayoutOptions];
+    layoutOptions = layoutOptions ?? this.options;
+    if (!layoutOptions) return;
+    const pipeline = Array.isArray(layoutOptions) ? layoutOptions : [layoutOptions];
     const { graph } = this.context;
     emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT, { type: 'post' }));
     for (const options of pipeline) {

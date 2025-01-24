@@ -10,7 +10,7 @@ describe('layout options', () => {
 
   it('layoutExtraOptions', async () => {
     const graph = await createDemoGraph(layoutCircularBasic);
-    graph.layout({
+    await graph.layout({
       type: 'circular',
       radius: 1000,
     });
@@ -20,18 +20,18 @@ describe('layout options', () => {
 
   it('layoutOtherTypeOptionsAndRecover', async () => {
     const graph = await createDemoGraph(layoutCircularBasic);
-    graph.layout({
+    await graph.layout({
       type: 'force',
     });
     await expect(graph).toMatchSnapshot(__filename, 'other-type');
-    graph.layout();
+    await graph.layout();
     await expect(graph).toMatchSnapshot(__filename, 'recover');
     graph.destroy();
   });
 
   it('layoutArrayOptions', async () => {
     const graph = await createDemoGraph(layoutCircularBasic);
-    graph.layout(
+    await graph.layout(
       Array.from({ length: 4 }, () => ({
         type: 'circular',
       })),
