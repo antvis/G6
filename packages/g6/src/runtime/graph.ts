@@ -1173,10 +1173,11 @@ export class Graph extends EventEmitter {
    * <zh/> 执行布局
    *
    * <en/> Execute layout
+   * @param layoutOptions
    * @apiCategory layout
    */
-  public async layout() {
-    await this.context.layout!.postLayout();
+  public async layout(layoutOptions?: LayoutOptions) {
+    await this.context.layout!.postLayout(layoutOptions);
   }
 
   /**
