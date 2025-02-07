@@ -7,7 +7,7 @@ body:
     id: description
     attributes:
       label: Describe the feature / 功能描述
-      description: "What problem does this feature solve? / 这个功能解决什么问题？"
+      description: 'What problem does this feature solve? / 这个功能解决什么问题？'
       placeholder: |
         I would like to see... because...
         我希望能有... 因为...
