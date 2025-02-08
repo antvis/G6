@@ -1,22 +1,22 @@
-name: '🐞 Bug report'
+name: '🐞 Bug Report'
 description: Create a report to help us improve, Ask questions in Discussions / 创建一个问题报告以帮助我们改进，提问请到 Discussions
 title: '[Bug]: '
-labels: ['status: waiting for maintainer']
+labels: ['waiting for maintainer']
 body:
   - type: markdown
     attributes:
       value: |
-        Report errors and exceptions found in G6.
+        Report errors and exceptions found in the project.
 
         Before submitting a new bug/issue, please check the links below to see if there is a solution or question posted there already:
 
         ---
 
-        反馈在 G6 中发现的错误、异常。
+        反馈在项目中发现的错误、异常。
 
         在提交新 issue 之前，先通过以下链接检查是否存在相同问题:
 
-        > [Issues](https://github.com/antvis/G6/issues) | [Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed) | [Discussions](https://github.com/antvis/G6/discussions)
+        > [Issues](../issues) | [Closed Issues](../issues?q=is:issue+is:closed) | [Discussions](../discussions)
 
   - type: textarea
     id: description
@@ -48,7 +48,7 @@ body:
   - type: dropdown
     id: version
     attributes:
-      label: G6 Version / G6 版本
+      label: Version / 版本
       options:
         - Please select / 请选择
         - 🆕 5.x
