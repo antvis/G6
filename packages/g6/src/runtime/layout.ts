@@ -95,8 +95,7 @@ export class LayoutController {
    * <en/> Post layout, that is, perform layout after drawing
    * @param layoutOptions - <zh/> 布局配置项 | <en/> Layout options
    */
-  public async postLayout(layoutOptions?: LayoutOptions) {
-    layoutOptions = layoutOptions ?? this.options;
+  public async postLayout(layoutOptions: LayoutOptions | undefined = this.options) {
     if (!layoutOptions) return;
     const pipeline = Array.isArray(layoutOptions) ? layoutOptions : [layoutOptions];
     const { graph } = this.context;
