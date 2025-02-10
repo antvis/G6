@@ -28,8 +28,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
             mds: { type: 'mds', linkDistance: 100 },
           };
           graph.stopLayout();
-          graph.setLayout(options[layout]);
-          graph.layout();
+          graph.layout(options[layout]);
         });
     });
   });
