@@ -4,84 +4,84 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 244,108 L 181,192" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 260,200 L 260,200" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m244 108-63 84" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m260 200 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 185,200 L 315,200" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 260,200 L 260,200" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m185 200 130 0" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m260 200 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 319,192 L 256,108" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 260,200 L 260,200" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m319 192-63-84" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m260 200 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 319,208 L 256,292" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 260,200 L 260,200" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m319 208-63 84" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m260 200 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 169,208 L 106,292" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 260,200 L 260,200" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m169 208-63 84" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m260 200 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 181,208 L 244,292" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 260,200 L 260,200" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m181 208 63 84" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m260 200 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 331,208 L 394,292" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 260,200 L 260,200" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m331 208 63 84" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m260 200 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 110,300 L 240,300" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 260,200 L 260,200" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m110 300 130 0" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m260 200 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 260,300 L 390,300" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 260,200 L 260,200" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m260 300 130 0" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m260 200 0 0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,250,100)">
+        <g fill="none" transform="matrix(1 0 0 1 250 100)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,175,200)">
+        <g fill="none" transform="matrix(1 0 0 1 175 200)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,325,200)">
+        <g fill="none" transform="matrix(1 0 0 1 325 200)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,100,300)">
+        <g fill="none" transform="matrix(1 0 0 1 100 300)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,250,300)">
+        <g fill="none" transform="matrix(1 0 0 1 250 300)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,400,300)">
+        <g fill="none" transform="matrix(1 0 0 1 400 300)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>

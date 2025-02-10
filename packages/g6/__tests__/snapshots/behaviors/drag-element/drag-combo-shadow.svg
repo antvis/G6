@@ -2,70 +2,70 @@
   <g>
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" transform="matrix(1,0,0,1,100,100)">
+        <g fill="none" transform="matrix(1 0 0 1 100 100)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 109.86393923832144,101.64398987305357 L 204.2176972186857,117.36961620311429" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 110,100 L 184,100" class="key"/>
-            <g transform="matrix(-0.986394,-0.164399,0.164399,-0.986394,204.217697,117.369614)">
-              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m109.864 101.644 94.3537 15.7256" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m110 100 74 0" class="key"/>
+            <g transform="matrix(-.9864 -.1644 .1644 -.9864 204.2177 117.3696)">
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="m-5 0 10-5-2 5 2 5Z"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 100,110 L 100,224" class="key" visibility="visible"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 100,110 L 100,184" class="key" visibility="visible"/>
-            <g transform="matrix(0,-1,1,0,100,224)">
-              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" visibility="visible"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m100 110 0 114" class="key" visibility="visible"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m100 110 0 74" class="key" visibility="visible"/>
+            <g transform="matrix(0 -1 1 0 100 224)">
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="m-5 0 10-5-2 5 2 5Z" visibility="visible"/>
             </g>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 109.76187060183953,242.16930457818657 L 264.38100703705675,276.5291126749015" class="key" visibility="visible"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 110,200 L 184,200" class="key" visibility="visible"/>
-            <g transform="matrix(-0.976187,-0.216930,0.216930,-0.976187,264.381012,276.529114)">
-              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" visibility="visible"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m109.7619 242.1693 154.6191 34.3598" class="key" visibility="visible"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m110 200 74 0" class="key" visibility="visible"/>
+            <g transform="matrix(-.97619 -.21693 .21693 -.97619 264.381 276.5291)">
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="m-5 0 10-5-2 5 2 5Z" visibility="visible"/>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,100,240)">
+        <g fill="none" transform="matrix(1 0 0 1 100 240)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,250,200)">
+        <g fill="none" transform="matrix(1 0 0 1 250 200)">
           <g>
-            <circle r="111.80339887498948" fill="rgba(153,173,209,1)" fill-opacity="0.04" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-width="1" class="key"/>
+            <circle r="111.8034" fill="rgba(153,173,209,1)" fill-opacity=".04" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-width="1" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,220,120)">
+        <g fill="none" transform="matrix(1 0 0 1 220 120)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 223.5112344158839,129.36329177569044 L 274.38202493458573,265.01873315889526" class="key" visibility="visible"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 200,110 L 200,184" class="key" visibility="visible"/>
-            <g transform="matrix(-0.351123,-0.936329,0.936329,-0.351123,274.382019,265.018738)">
-              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="M -5,0 L 5,-5 L 3,0 L 5,5 Z" visibility="visible"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m223.5112 129.3633 50.8708 135.6554" class="key" visibility="visible"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m200 110 0 74" class="key" visibility="visible"/>
+            <g transform="matrix(-.35112 -.93633 .93633 -.35112 274.382 265.0187)">
+              <path fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="m-5 0 10-5-2 5 2 5Z" visibility="visible"/>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,280,280)">
+        <g fill="none" transform="matrix(1 0 0 1 280 280)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
       </g>
       <g>
-        <path width="223.606797749979" height="223.606797749979" x="158.19660112501052" y="108.19660112501052" fill="rgba(243,249,255,1)" fill-opacity="0.5" stroke="rgba(255,0,0,1)" stroke-dasharray="5,5" d="M 158.19660112501052,108.19660112501052 l 223.606797749979,0 l 0,223.606797749979 l-223.606797749979 0 z" pointer-events="none" visibility="visible"/>
+        <path width="223.6068" height="223.6068" x="158.1966" y="108.1966" fill="rgba(243,249,255,1)" fill-opacity=".5" stroke="rgba(255,0,0,1)" stroke-dasharray="5,5" d="m158.1966 108.1966 223.6068 0 0 223.6068-223.6068 0z" pointer-events="none" visibility="visible"/>
       </g>
     </g>
   </g>

@@ -4,50 +4,50 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 59.380782299466254,53.464234901103076 L 190.61921770053374,101.92935793336957" class="key" opacity="0.6307093954346867"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 60,50 L 190,50" class="key" opacity="0.6307093954346867"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m59.3808 53.4642 131.2384 48.4652" class="key" opacity=".6307"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m60 50 130 0" class="key" opacity=".6307"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 191.405235834402,110.50534683263731 L 133.594764165598,144.88824600183534" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 194,58 L 131,142" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m191.4052 110.5053-57.8104 34.383" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m194 58-63 84" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 119,142 L 56,58" class="key" opacity="0.6307093954346867"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 119,142 L 56,58" class="key" opacity="0.6307093954346867"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m119 142-63-84" class="key" opacity=".6307"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m119 142-63-84" class="key" opacity=".6307"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,50,50)">
+        <g fill="none" transform="matrix(1 0 0 1 50 50)">
           <g>
-            <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" opacity="0.6307093954346867"/>
+            <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" opacity=".6307"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,200,105.393593)">
+        <g fill="none" transform="matrix(1 0 0 1 200 105.3936)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,47,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,125,150)">
+        <g fill="none" transform="matrix(1 0 0 1 125 150)">
           <g>
             <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,50,200)">
+        <g fill="none" transform="matrix(1 0 0 1 50 200)">
           <g>
-            <circle r="10" fill="rgba(255,165,0,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" opacity="0.36929060456531326"/>
+            <circle r="10" fill="rgba(255,165,0,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" opacity=".3693"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,75,150)">
+        <g fill="none" transform="matrix(1 0 0 1 75 150)">
           <g>
-            <circle r="10" fill="rgba(128,0,128,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" opacity="0.36929060456531326"/>
+            <circle r="10" fill="rgba(128,0,128,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" opacity=".3693"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,200,100)">
+        <g fill="none" transform="matrix(1 0 0 1 200 100)">
           <g>
-            <circle r="10" fill="rgba(0,255,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" opacity="0.36929060456531326"/>
+            <circle r="10" fill="rgba(0,255,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" opacity=".3693"/>
           </g>
         </g>
       </g>

@@ -4,41 +4,41 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 150,150 L 325,150" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 150,150 L 325,150" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m150 150 175 0" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m150 150 175 0" class="key"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,241.500000,146)">
+          <g fill="none" class="label" transform="matrix(1 0 0 1 241.5 146)">
             <g>
-              <path width="135.76000000000002" height="46" x="-67.38000000000001" y="-46" fill="rgba(255,0,0,1)" fill-opacity="0.5" stroke-width="0" d="M -63.38000000000001,-46 l 127.76000000000002,0 a 4,4,0,0,1,4,4 l 0,38 a 4,4,0,0,1,-4,4 l -127.76000000000002,0 a 4,4,0,0,1,-4,-4 l 0,-38 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75"/>
+              <path width="135.76" height="46" x="-67.38" y="-46" fill="rgba(255,0,0,1)" fill-opacity=".5" stroke-width="0" d="m-63.38-46 127.76 0a4 4 0 0 1 4 4l0 38a4 4 0 0 1-4 4l-127.76 0a4 4 0 0 1-4-4l0-38a4 4 0 0 1 4-4z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="text-after-edge" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx="0.5" dy="-23">This label is too long to</tspan><tspan x="0" dx="0.5" dy="23">be displayed</tspan></text>
-            </g>
-          </g>
-        </g>
-        <g fill="none" transform="matrix(1,0,0,1,100,150)">
-          <g>
-            <path width="100" height="100" x="-50" y="-50" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -50,-50 l 100,0 l 0,100 l-100 0 z" class="key"/>
-          </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,52)">
-            <g>
-              <path width="107.03999999999999" height="71" x="-53.019999999999996" y="0" fill="rgba(238,238,238,1)" fill-opacity="0.5" stroke-width="0" d="M -49.019999999999996,0 l 99.03999999999999,0 a 4,4,0,0,1,4,4 l 0,63 a 4,4,0,0,1,-4,4 l -99.03999999999999,0 a 4,4,0,0,1,-4,-4 l 0,-63 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75"/>
-            </g>
-            <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="hanging" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx="0.5" dy="0">This label with</tspan><tspan x="0" dx="0.5" dy="16">padding is too </tspan><tspan x="0" dx="0.5" dy="16">long to be</tspan><tspan x="0" dx="0.5" dy="16">displayed</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="text-after-edge" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-23">This label is too long to</tspan><tspan x="0" dx=".5" dy="23">be displayed</tspan></text>
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,400,150)">
+        <g fill="none" transform="matrix(1 0 0 1 100 150)">
           <g>
-            <path width="150" height="150" x="-75" y="-75" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="M -75,-75 l 150,0 l 0,150 l-150 0 z" class="key"/>
+            <path width="100" height="100" x="-50" y="-50" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="m-50-50 100 0 0 100-100 0z" class="key"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1,0,0,1,0,77)">
+          <g fill="none" class="label" transform="matrix(1 0 0 1 0 52)">
             <g>
-              <path width="154.92000000000002" height="55" x="-76.96000000000001" y="0" fill="rgba(238,238,238,1)" fill-opacity="0.5" stroke-width="0" d="M -72.96000000000001,0 l 146.92000000000002,0 a 4,4,0,0,1,4,4 l 0,47 a 4,4,0,0,1,-4,4 l -146.92000000000002,0 a 4,4,0,0,1,-4,-4 l 0,-47 a 4,4,0,0,1,4,-4 z" class="background" opacity="0.75"/>
+              <path width="107.04" height="71" x="-53.02" y="0" fill="rgba(238,238,238,1)" fill-opacity=".5" stroke-width="0" d="m-49.02 0 99.04 0a4 4 0 0 1 4 4l0 63a4 4 0 0 1-4 4l-99.04 0a4 4 0 0 1-4-4l0-63a4 4 0 0 1 4-4z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity="0.85" class="text" dominant-baseline="hanging" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx="0.5" dy="0">This label with padding</tspan><tspan x="0" dx="0.5" dy="16">is too long to be</tspan><tspan x="0" dx="0.5" dy="16">displayed</tspan></text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="hanging" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="0">This label with</tspan><tspan x="0" dx=".5" dy="16">padding is too </tspan><tspan x="0" dx=".5" dy="16">long to be</tspan><tspan x="0" dx=".5" dy="16">displayed</tspan></text>
+            </g>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(1 0 0 1 400 150)">
+          <g>
+            <path width="150" height="150" x="-75" y="-75" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" d="m-75-75 150 0 0 150-150 0z" class="key"/>
+          </g>
+          <g fill="none" class="label" transform="matrix(1 0 0 1 0 77)">
+            <g>
+              <path width="154.92" height="55" x="-76.96" y="0" fill="rgba(238,238,238,1)" fill-opacity=".5" stroke-width="0" d="m-72.96 0 146.92 0a4 4 0 0 1 4 4l0 47a4 4 0 0 1-4 4l-146.92 0a4 4 0 0 1-4-4l0-47a4 4 0 0 1 4-4z" class="background" opacity=".75"/>
+            </g>
+            <g>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="hanging" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="0">This label with padding</tspan><tspan x="0" dx=".5" dy="16">is too long to be</tspan><tspan x="0" dx=".5" dy="16">displayed</tspan></text>
             </g>
           </g>
         </g>

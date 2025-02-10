@@ -1,23 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
-  <g transform="matrix(1,0,0,1,50,50)">
+  <g transform="matrix(1 0 0 1 50 50)">
     <g fill="none">
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 4.282301820577514,15.41628655407905 L 15.717698179422484,56.58371344592095" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 4.282301820577514,15.41628655407905 L 15.717698179422484,56.58371344592095" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m4.2823 15.4163 11.4354 41.1674" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m4.2823 15.4163 11.4354 41.1674" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 2.201093940395003,15.847876370844025 L 17.798906059604995,128.15212362915597" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 2.201093940395003,15.847876370844025 L 17.798906059604995,128.15212362915597" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m2.201 15.8479 15.598 112.3042" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m2.201 15.8479 15.598 112.3042" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 24.282301820577516,159.41628655407905 L 35.717698179422484,200.58371344592095" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 24.282301820577516,159.41628655407905 L 35.717698179422484,200.58371344592095" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m24.2823 159.4163 11.4354 41.1674" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m24.2823 159.4163 11.4354 41.1674" class="key"/>
           </g>
         </g>
         <g fill="none">
@@ -25,17 +25,17 @@
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,20,72)">
+        <g fill="none" transform="matrix(1 0 0 1 20 72)">
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,20,144)">
+        <g fill="none" transform="matrix(1 0 0 1 20 144)">
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,40,216)">
+        <g fill="none" transform="matrix(1 0 0 1 40 216)">
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>

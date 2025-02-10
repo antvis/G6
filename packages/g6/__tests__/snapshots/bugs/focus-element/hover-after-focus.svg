@@ -1,21 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
-  <g transform="matrix(1,0,0,1,-0.000015,100)">
+  <g transform="matrix(1 0 0 1 0 100)">
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" transform="matrix(1,0,0,1,250,150)">
+        <g fill="none" transform="matrix(1 0 0 1 250 150)">
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,350,150)">
+        <g fill="none" transform="matrix(1 0 0 1 350 150)">
           <g>
-            <circle r="16" fill="none" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-opacity="0.15" stroke-width="12" class="halo" pointer-events="none"/>
+            <circle r="16" fill="none" stroke="rgba(23,131,255,1)" stroke-dasharray="0,0" stroke-opacity=".15" stroke-width="12" class="halo" pointer-events="none"/>
           </g>
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,250,300)">
+        <g fill="none" transform="matrix(1 0 0 1 250 300)">
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>

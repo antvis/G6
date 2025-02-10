@@ -4,23 +4,23 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 87.5,100 L 85,100 L 80,100 L 80,200 L 85,200 L 87.5,200" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 100,112.5 L 100,115 L 100,130 L 120,130 L 120,200 L 115,200 L 112.5,200" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m87.5 100-2.5 0-5 0 0 100 5 0 2.5 0" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m100 112.5 0 2.5 0 15 20 0 0 70-5 0-2.5 0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,100,100)">
+        <g fill="none" transform="matrix(1 0 0 1 100 100)">
           <g>
-            <path width="25" height="25" x="-12.5" y="-12.5" fill="rgba(248,248,248,1)" stroke="rgba(139,155,175,1)" stroke-width="1" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key"/>
+            <path width="25" height="25" x="-12.5" y="-12.5" fill="rgba(248,248,248,1)" stroke="rgba(139,155,175,1)" stroke-width="1" d="m-12.5-12.5 25 0 0 25-25 0z" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,100,200)">
+        <g fill="none" transform="matrix(1 0 0 1 100 200)">
           <g>
-            <path width="25" height="25" x="-12.5" y="-12.5" fill="rgba(248,248,248,1)" stroke="rgba(139,155,175,1)" stroke-width="1" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key"/>
+            <path width="25" height="25" x="-12.5" y="-12.5" fill="rgba(248,248,248,1)" stroke="rgba(139,155,175,1)" stroke-width="1" d="m-12.5-12.5 25 0 0 25-25 0z" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,100,150)">
+        <g fill="none" transform="matrix(1 0 0 1 100 150)">
           <g>
-            <path width="25" height="25" x="-12.5" y="-12.5" fill="rgba(248,248,248,1)" stroke="rgba(139,155,175,1)" stroke-width="1" d="M -12.5,-12.5 l 25,0 l 0,25 l-25 0 z" class="key"/>
+            <path width="25" height="25" x="-12.5" y="-12.5" fill="rgba(248,248,248,1)" stroke="rgba(139,155,175,1)" stroke-width="1" d="m-12.5-12.5 25 0 0 25-25 0z" class="key"/>
           </g>
         </g>
       </g>
