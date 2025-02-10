@@ -15,8 +15,53 @@ const format = (svg: SVGElement) => {
       pretty: true,
       indent: 2,
     },
-    floatPrecision: 4,
-    plugins: ['cleanupIds', 'cleanupAttrs', 'sortAttrs', 'sortDefsChildren', 'removeUselessDefs'],
+    plugins: [
+      'cleanupIds',
+      'cleanupAttrs',
+      'sortAttrs',
+      'sortDefsChildren',
+      'removeUselessDefs',
+      {
+        name: 'convertPathData',
+        params: {
+          floatPrecision: 4,
+          forceAbsolutePath: true,
+
+          applyTransforms: false,
+          applyTransformsStroked: false,
+          straightCurves: false,
+          convertToQ: false,
+          lineShorthands: false,
+          convertToZ: false,
+          curveSmoothShorthands: false,
+          smartArcRounding: false,
+          removeUseless: false,
+          collapseRepeated: false,
+          utilizeAbsolute: false,
+          negativeExtraSpace: false,
+        },
+      },
+      {
+        name: 'convertTransform',
+        params: {
+          floatPrecision: 4,
+
+          convertToShorts: false,
+          matrixToTransform: false,
+          shortTranslate: false,
+          shortScale: false,
+          shortRotate: false,
+          removeUseless: false,
+          collapseIntoOne: false,
+        },
+      },
+      {
+        name: 'cleanupNumericValues',
+        params: {
+          floatPrecision: 4,
+        },
+      },
+    ],
   }).data;
 };
 

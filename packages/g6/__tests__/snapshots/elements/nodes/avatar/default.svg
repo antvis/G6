@@ -1,22 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent; outline: none;" tabindex="1">
   <defs>
-    <clipPath id="d" transform="matrix(1,0,0,1,-250,-125)">
+    <clipPath id="d" transform="matrix(1 0 0 1 -250 -125)">
       <use href="#a"/>
     </clipPath>
-    <clipPath id="e" transform="matrix(1,0,0,1,-250,-375)">
+    <clipPath id="e" transform="matrix(1 0 0 1 -250 -375)">
       <use href="#b"/>
     </clipPath>
-    <clipPath id="f" transform="matrix(1,0,0,1,-250,-375)">
+    <clipPath id="f" transform="matrix(1 0 0 1 -250 -375)">
       <use href="#c"/>
     </clipPath>
-    <path id="a" width="30" height="30" x="235" y="110" fill="none" d="M 250,110 l 0,0 a 15,15,0,0,1,15,15 l 0,0 a 15,15,0,0,1,-15,15 l 0,0 a 15,15,0,0,1,-15,-15 l 0,0 a 15,15,0,0,1,15,-15 z"/>
-    <path id="b" width="40" height="40" x="230" y="355" fill="none" d="M 250,355 l 0,0 a 20,20,0,0,1,20,20 l 0,0 a 20,20,0,0,1,-20,20 l 0,0 a 20,20,0,0,1,-20,-20 l 0,0 a 20,20,0,0,1,20,-20 z"/>
-    <path id="c" width="40" height="40" x="230" y="355" fill="none" d="M 250,355 l 0,0 a 20,20,0,0,1,20,20 l 0,0 a 20,20,0,0,1,-20,20 l 0,0 a 20,20,0,0,1,-20,-20 l 0,0 a 20,20,0,0,1,20,-20 z"/>
+    <path id="a" width="30" height="30" x="235" y="110" fill="none" d="m250 110 0 0a15 15 0 0 1 15 15l0 0a15 15 0 0 1-15 15l0 0a15 15 0 0 1-15-15l0 0a15 15 0 0 1 15-15z"/>
+    <path id="b" width="40" height="40" x="230" y="355" fill="none" d="m250 355 0 0a20 20 0 0 1 20 20l0 0a20 20 0 0 1-20 20l0 0a20 20 0 0 1-20-20l0 0a20 20 0 0 1 20-20z"/>
+    <path id="c" width="40" height="40" x="230" y="355" fill="none" d="m250 355 0 0a20 20 0 0 1 20 20l0 0a20 20 0 0 1-20 20l0 0a20 20 0 0 1-20-20l0 0a20 20 0 0 1 20-20z"/>
   </defs>
   <g>
     <g fill="none">
       <g fill="none" class="elements">
-        <g fill="none" transform="matrix(1,0,0,1,250,125)">
+        <g fill="none" transform="matrix(1 0 0 1 250 125)">
           <g>
             <circle r="20" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
@@ -26,7 +26,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,250,375)">
+        <g fill="none" transform="matrix(1 0 0 1 250 375)">
           <g clip-path="url(#e)">
             <image width="40" height="40" x="-20" y="-20" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" href="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_Do9Tq7MxFQAAAAAAAAAAAAADmJ7AQ/original" preserveAspectRatio="none"/>
           </g>

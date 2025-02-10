@@ -4,16 +4,16 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 116,100 L 184,100" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 116,100 L 184,100" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m116 100 68 0" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m116 100 68 0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,100,100)">
+        <g fill="none" transform="matrix(1 0 0 1 100 100)">
           <g>
             <circle r="16" fill="rgba(0,0,0,0)" stroke="rgba(23,131,255,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,200,100)">
+        <g fill="none" transform="matrix(1 0 0 1 200 100)">
           <g>
             <polygon fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" points="0,-16 16,0 0,16 -16,0" class="key"/>
           </g>

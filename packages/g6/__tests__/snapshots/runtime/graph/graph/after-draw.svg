@@ -4,8 +4,8 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="5" d="M 16,0 L 16,0" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="7" d="M 16,0 L 16,0" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="5" d="m16 0 0 0" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="7" d="m16 0 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">

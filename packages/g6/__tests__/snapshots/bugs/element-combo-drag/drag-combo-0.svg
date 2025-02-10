@@ -4,22 +4,22 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M 201,150 L 284,150" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M 166,100 L 234,100" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m201 150 83 0" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m166 100 68 0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,300,150)">
+        <g fill="none" transform="matrix(1 0 0 1 300 150)">
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
         </g>
-        <g fill="none" transform="matrix(1,0,0,1,175,150)">
+        <g fill="none" transform="matrix(1 0 0 1 175 150)">
           <g>
             <circle r="26" fill="rgba(153,173,209,1)" stroke="rgba(153,173,209,1)" stroke-dasharray="0,0" stroke-width="1" class="key"/>
           </g>
           <g fill="none" class="collapsed-marker">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx="0.5" font-size="12" paint-order="stroke" text-anchor="middle">2</text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-size="12" paint-order="stroke" text-anchor="middle">2</text>
             </g>
           </g>
         </g>
