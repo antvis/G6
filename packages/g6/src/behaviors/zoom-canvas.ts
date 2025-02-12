@@ -2,7 +2,6 @@ import { clamp, isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { IKeyboardEvent, IWheelEvent, Point, PointObject, ViewportAnimationEffectTiming } from '../types';
-import { isMobileDevice } from '../utils/mobile';
 import { parsePoint } from '../utils/point';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
@@ -111,11 +110,15 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     this.shortcut.unbindAll();
 
     if (Array.isArray(trigger)) {
-      this.context.canvas.getContainer()?.addEventListener(CommonEvent.WHEEL, this.preventDefault);
+      const container = this.context.canvas.getContainer();
+      container?.addEventListener(CommonEvent.WHEEL, this.preventDefault);
       this.shortcut.bind([...trigger, CommonEvent.WHEEL], (event) => {
         const { deltaX, deltaY } = event;
         this.zoom(-(deltaY ?? deltaX), event, false);
       });
+      container?.addEventListener(CommonEvent.POINTER_DOWN, this.onMobilePointerDown);
+      container?.addEventListener(CommonEvent.POINTER_MOVE, this.onMobilePointerMove);
+      container?.addEventListener(CommonEvent.POINTER_UP, this.onMobilePointerUp);
     }
 
     if (typeof trigger === 'object') {
@@ -131,14 +134,6 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
       this.shortcut.bind(zoomIn, (event) => this.zoom(10, event, this.options.animation));
       this.shortcut.bind(zoomOut, (event) => this.zoom(-10, event, this.options.animation));
       this.shortcut.bind(reset, this.onReset);
-    }
-
-    if (!isMobileDevice()) return;
-    const container = this.context.canvas.getContainer();
-    if (container) {
-      container.addEventListener(CommonEvent.POINTER_DOWN, this.onMobilePointerDown);
-      container.addEventListener(CommonEvent.POINTER_MOVE, this.onMobilePointerMove);
-      container.addEventListener(CommonEvent.POINTER_UP, this.onMobilePointerUp);
     }
   }
 
@@ -239,7 +234,6 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     const container = this.context.canvas.getContainer();
     if (container) {
       container.removeEventListener(CommonEvent.WHEEL, this.preventDefault);
-      if (!isMobileDevice()) return;
       container.removeEventListener(CommonEvent.POINTER_DOWN, this.onMobilePointerDown);
       container.removeEventListener(CommonEvent.POINTER_MOVE, this.onMobilePointerMove);
       container.removeEventListener(CommonEvent.POINTER_UP, this.onMobilePointerUp);
