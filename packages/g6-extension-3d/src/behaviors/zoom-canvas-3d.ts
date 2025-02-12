@@ -17,7 +17,7 @@ export interface ZoomCanvas3DOptions extends ZoomCanvasOptions {}
 export class ZoomCanvas3D extends ZoomCanvas {
   protected zoom = async (
     value: number,
-    event: IWheelEvent | IKeyboardEvent,
+    event: IWheelEvent | IKeyboardEvent | PointerEvent,
     animation: ViewportAnimationEffectTiming | undefined,
   ) => {
     if (!this.validate(event)) return;
