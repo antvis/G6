@@ -49,7 +49,7 @@ describe('behavior zoom canvas', () => {
     const pointerdownListener = jest.fn();
     const pointermoveListener = jest.fn();
 
-    const pointerByMobile = [
+    const pointerByTouch = [
       {
         clientX: 100,
         clientY: 100,
@@ -64,8 +64,8 @@ describe('behavior zoom canvas', () => {
       },
     ];
 
-    const dxForInitial = pointerByMobile[0].clientX - pointerByMobile[1].clientX;
-    const dyForInitial = pointerByMobile[0].clientY - pointerByMobile[1].clientY;
+    const dxForInitial = pointerByTouch[0].clientX - pointerByTouch[1].clientX;
+    const dyForInitial = pointerByTouch[0].clientY - pointerByTouch[1].clientY;
     const initialDistance = Math.sqrt(dxForInitial * dxForInitial + dyForInitial * dyForInitial);
 
     await expect(graph).toMatchSnapshot(__filename, 'mobile-initial');
@@ -88,15 +88,15 @@ describe('behavior zoom canvas', () => {
     });
     expect(pointermoveListener).toHaveBeenCalledTimes(1);
 
-    pointerByMobile[1] = {
+    pointerByTouch[1] = {
       clientX: 250,
       clientY: 250,
       pointerId: 2,
       pointerType: 'touch',
     };
 
-    const dxForMove = pointerByMobile[0].clientX - pointerByMobile[1].clientX;
-    const dyForMove = pointerByMobile[0].clientY - pointerByMobile[1].clientY;
+    const dxForMove = pointerByTouch[0].clientX - pointerByTouch[1].clientX;
+    const dyForMove = pointerByTouch[0].clientY - pointerByTouch[1].clientY;
     const currentDistance = Math.sqrt(dxForMove * dxForMove + dyForMove * dyForMove);
     const ratio = currentDistance / initialDistance;
     const value = (ratio - 1) * 100;

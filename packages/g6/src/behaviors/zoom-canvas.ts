@@ -83,7 +83,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
   private shortcut: Shortcut;
   private initialDistance: number | null = null;
   private initialZoom: number | null = null;
-  private pointerByMobile: { clientX: number; clientY: number; pointerId: number }[] = [];
+  private pointerByTouch: { clientX: number; clientY: number; pointerId: number }[] = [];
 
   constructor(context: RuntimeContext, options: ZoomCanvasOptions) {
     super(context, Object.assign({}, ZoomCanvas.defaultOptions, options));
@@ -116,9 +116,9 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
         const { deltaX, deltaY } = event;
         this.zoom(-(deltaY ?? deltaX), event, false);
       });
-      container?.addEventListener(CommonEvent.POINTER_DOWN, this.onMobilePointerDown);
-      container?.addEventListener(CommonEvent.POINTER_MOVE, this.onMobilePointerMove);
-      container?.addEventListener(CommonEvent.POINTER_UP, this.onMobilePointerUp);
+      container?.addEventListener(CommonEvent.POINTER_DOWN, this.onPointerDown);
+      container?.addEventListener(CommonEvent.POINTER_MOVE, this.onPointerMove);
+      container?.addEventListener(CommonEvent.POINTER_UP, this.onPointerUp);
     }
 
     if (typeof trigger === 'object') {
@@ -137,39 +137,39 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     }
   }
 
-  private onMobilePointerDown = (event: PointerEvent) => {
-    this.pointerByMobile.push({ clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId });
+  private onPointerDown = (event: PointerEvent) => {
+    this.pointerByTouch.push({ clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId });
     if (event.pointerType === 'touch') {
-      if (this.pointerByMobile.length === 2) {
-        const dx = this.pointerByMobile[0].clientX - this.pointerByMobile[1].clientX;
-        const dy = this.pointerByMobile[0].clientY - this.pointerByMobile[1].clientY;
+      if (this.pointerByTouch.length === 2) {
+        const dx = this.pointerByTouch[0].clientX - this.pointerByTouch[1].clientX;
+        const dy = this.pointerByTouch[0].clientY - this.pointerByTouch[1].clientY;
         this.initialDistance = Math.sqrt(dx * dx + dy * dy);
         this.initialZoom = this.context.graph.getZoom();
       }
     }
   };
 
-  private onMobilePointerMove = (event: PointerEvent) => {
-    if (this.pointerByMobile.length !== 2 || this.initialDistance === null || this.initialZoom === null) {
+  private onPointerMove = (event: PointerEvent) => {
+    if (this.pointerByTouch.length !== 2 || this.initialDistance === null || this.initialZoom === null) {
       return;
     }
-    if (event.pointerId === this.pointerByMobile[0].pointerId) {
-      this.pointerByMobile[0] = { clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId };
-    } else if (event.pointerId === this.pointerByMobile[1].pointerId) {
-      this.pointerByMobile[1] = { clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId };
+    if (event.pointerId === this.pointerByTouch[0].pointerId) {
+      this.pointerByTouch[0] = { clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId };
+    } else if (event.pointerId === this.pointerByTouch[1].pointerId) {
+      this.pointerByTouch[1] = { clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId };
     }
-    const dx = this.pointerByMobile[0].clientX - this.pointerByMobile[1].clientX;
-    const dy = this.pointerByMobile[0].clientY - this.pointerByMobile[1].clientY;
+    const dx = this.pointerByTouch[0].clientX - this.pointerByTouch[1].clientX;
+    const dy = this.pointerByTouch[0].clientY - this.pointerByTouch[1].clientY;
     const currentDistance = Math.sqrt(dx * dx + dy * dy);
     const ratio = currentDistance / this.initialDistance;
     const value = (ratio - 1) * 100;
     this.zoom(value, event, this.options.animation);
   };
 
-  private onMobilePointerUp = () => {
+  private onPointerUp = () => {
     this.initialDistance = null;
     this.initialZoom = null;
-    this.pointerByMobile = [];
+    this.pointerByTouch = [];
   };
 
   /**
@@ -234,9 +234,9 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     const container = this.context.canvas.getContainer();
     if (container) {
       container.removeEventListener(CommonEvent.WHEEL, this.preventDefault);
-      container.removeEventListener(CommonEvent.POINTER_DOWN, this.onMobilePointerDown);
-      container.removeEventListener(CommonEvent.POINTER_MOVE, this.onMobilePointerMove);
-      container.removeEventListener(CommonEvent.POINTER_UP, this.onMobilePointerUp);
+      container.removeEventListener(CommonEvent.POINTER_DOWN, this.onPointerDown);
+      container.removeEventListener(CommonEvent.POINTER_MOVE, this.onPointerMove);
+      container.removeEventListener(CommonEvent.POINTER_UP, this.onPointerUp);
     }
     super.destroy();
   }
