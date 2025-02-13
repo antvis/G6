@@ -8,7 +8,6 @@
 
 [![npm Version](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 [![Build Status](https://github.com/antvis/G6/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/G6/actions/workflows/build.yml)
-[![Build Status](https://github.com/antvis/g6/workflows/build/badge.svg?branch=v5)](https://github.com/antvis/g6/actions)
 [![Coverage Status](https://coveralls.io/repos/github/antvis/G6/badge.svg)](https://coveralls.io/github/antvis/G6)
 [![npm Download](https://img.shields.io/npm/dm/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 ![typescript](https://img.shields.io/badge/language-typescript-blue.svg)
