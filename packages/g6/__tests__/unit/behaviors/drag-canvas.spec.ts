@@ -69,6 +69,22 @@ describe('behavior drag canvas', () => {
     expect(graph.getPosition()).toBeCloseTo([x + 10, y + 10]);
   });
 
+  it('drag for mobile', () => {
+    const [x, y] = graph.getPosition();
+
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { dx: 10, dy: 10, targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
+
+    expect(graph.getPosition()).toBeCloseTo([x + 10, y + 10]);
+
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_START, { targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG, { dx: -10, dy: -10, targetType: 'canvas' });
+    dispatchCanvasEvent(graph, CommonEvent.DRAG_END);
+
+    expect(graph.getPosition()).toBeCloseTo([x, y]);
+  });
+
   it('sensitivity', async () => {
     graph.updateBehavior({ key: 'drag-canvas', sensitivity: 20 });
 
