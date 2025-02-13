@@ -2,7 +2,7 @@ import type { Cursor } from '@antv/g';
 import { debounce, isObject } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
+import type { IDragEvent, IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
 import { getExpandedBBox, getPointBBox, isPointInBBox } from '../utils/bbox';
 import { parsePadding } from '../utils/padding';
 import type { ShortcutKey } from '../utils/shortcut';
@@ -137,15 +137,16 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
   private isDragging = false;
 
-  private onDragStart = (event: IPointerEvent) => {
+  private onDragStart = (event: IDragEvent) => {
     if (!this.validate(event)) return;
     this.isDragging = true;
     this.context.canvas.setCursor('grabbing');
   };
 
-  private onDrag = (event: IPointerEvent) => {
+  private onDrag = (event: IDragEvent) => {
     if (!this.isDragging) return;
-    const { x, y } = event.movement;
+    const x = event.movement?.x ?? event.dx;
+    const y = event.movement?.y ?? event.dy;
     if ((x | y) !== 0) {
       this.translate([x, y], false);
     }
