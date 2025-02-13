@@ -54,6 +54,9 @@ export class Shortcut {
     emitter.on(CommonEvent.KEY_UP, this.onKeyUp);
     emitter.on(CommonEvent.WHEEL, this.onWheel);
     emitter.on(CommonEvent.DRAG, this.onDrag);
+    emitter.on(CommonEvent.POINTER_DOWN, this.onPointerDown);
+    emitter.on(CommonEvent.POINTER_MOVE, this.onPointerMove);
+    emitter.on(CommonEvent.POINTER_UP, this.onPointerUp);
 
     // 窗口重新获得焦点后清空按键，避免按键状态异常
     // Clear the keys when the window regains focus to avoid abnormal key states
@@ -107,6 +110,18 @@ export class Shortcut {
     this.triggerExtendKey(CommonEvent.DRAG, event);
   };
 
+  private onPointerDown = (event: PointerEvent) => {
+    this.triggerExtendKey(CommonEvent.POINTER_DOWN, event);
+  };
+
+  private onPointerMove = (event: PointerEvent) => {
+    this.triggerExtendKey(CommonEvent.POINTER_MOVE, event);
+  };
+
+  private onPointerUp = () => {
+    this.triggerExtendKey(CommonEvent.POINTER_UP, () => {});
+  };
+
   private onFocus = () => {
     this.recordKey.clear();
   };
@@ -117,6 +132,9 @@ export class Shortcut {
     this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
+    this.emitter.off(CommonEvent.POINTER_DOWN, this.onPointerDown);
+    this.emitter.off(CommonEvent.POINTER_MOVE, this.onPointerMove);
+    this.emitter.off(CommonEvent.POINTER_UP, this.onPointerUp);
     globalThis.removeEventListener?.('blur', this.onFocus);
   }
 }

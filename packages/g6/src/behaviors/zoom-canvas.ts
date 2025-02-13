@@ -1,7 +1,14 @@
 import { clamp, isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { IKeyboardEvent, IWheelEvent, Point, PointObject, ViewportAnimationEffectTiming } from '../types';
+import type {
+  IKeyboardEvent,
+  IPointerEvent,
+  IWheelEvent,
+  Point,
+  PointObject,
+  ViewportAnimationEffectTiming,
+} from '../types';
 import { parsePoint } from '../utils/point';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
@@ -27,7 +34,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    * <en/> Whether to enable the function of zooming the canvas
    * @defaultValue true
    */
-  enable?: boolean | ((event: IWheelEvent | IKeyboardEvent | PointerEvent) => boolean);
+  enable?: boolean | ((event: IWheelEvent | IKeyboardEvent | IPointerEvent) => boolean);
   /**
    * <zh/> 触发缩放的方式
    * - ShortcutKey：组合快捷键，**默认使用滚轮缩放**，['Control'] 表示按住 Control 键滚动鼠标滚轮时触发缩放
@@ -83,7 +90,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
   private shortcut: Shortcut;
   private initialDistance: number | null = null;
   private initialZoom: number | null = null;
-  private pointerByTouch: { clientX: number; clientY: number; pointerId: number }[] = [];
+  private pointerByTouch: { x: number; y: number; pointerId: number }[] = [];
 
   constructor(context: RuntimeContext, options: ZoomCanvasOptions) {
     super(context, Object.assign({}, ZoomCanvas.defaultOptions, options));
@@ -116,9 +123,9 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
         const { deltaX, deltaY } = event;
         this.zoom(-(deltaY ?? deltaX), event, false);
       });
-      container?.addEventListener(CommonEvent.POINTER_DOWN, this.onPointerDown);
-      container?.addEventListener(CommonEvent.POINTER_MOVE, this.onPointerMove);
-      container?.addEventListener(CommonEvent.POINTER_UP, this.onPointerUp);
+      this.shortcut.bind([CommonEvent.POINTER_DOWN], this.onPointerDown);
+      this.shortcut.bind([CommonEvent.POINTER_MOVE], this.onPointerMove);
+      this.shortcut.bind([CommonEvent.POINTER_UP], this.onPointerUp);
     }
 
     if (typeof trigger === 'object') {
@@ -137,29 +144,35 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     }
   }
 
-  private onPointerDown = (event: PointerEvent) => {
-    this.pointerByTouch.push({ clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId });
+  private onPointerDown = (event: IPointerEvent) => {
+    const { x, y } = event.client;
+    if (x === undefined || y === undefined) return;
+
+    this.pointerByTouch.push({ x, y, pointerId: event.pointerId });
     if (event.pointerType === 'touch') {
       if (this.pointerByTouch.length === 2) {
-        const dx = this.pointerByTouch[0].clientX - this.pointerByTouch[1].clientX;
-        const dy = this.pointerByTouch[0].clientY - this.pointerByTouch[1].clientY;
+        const dx = this.pointerByTouch[0].x - this.pointerByTouch[1].x;
+        const dy = this.pointerByTouch[0].y - this.pointerByTouch[1].y;
         this.initialDistance = Math.sqrt(dx * dx + dy * dy);
         this.initialZoom = this.context.graph.getZoom();
       }
     }
   };
 
-  private onPointerMove = (event: PointerEvent) => {
+  private onPointerMove = (event: IPointerEvent) => {
     if (this.pointerByTouch.length !== 2 || this.initialDistance === null || this.initialZoom === null) {
       return;
     }
+    const { x, y } = event.client;
+    if (x === undefined || y === undefined) return;
+
     if (event.pointerId === this.pointerByTouch[0].pointerId) {
-      this.pointerByTouch[0] = { clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId };
+      this.pointerByTouch[0] = { x, y, pointerId: event.pointerId };
     } else if (event.pointerId === this.pointerByTouch[1].pointerId) {
-      this.pointerByTouch[1] = { clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId };
+      this.pointerByTouch[1] = { x, y, pointerId: event.pointerId };
     }
-    const dx = this.pointerByTouch[0].clientX - this.pointerByTouch[1].clientX;
-    const dy = this.pointerByTouch[0].clientY - this.pointerByTouch[1].clientY;
+    const dx = this.pointerByTouch[0].x - this.pointerByTouch[1].x;
+    const dy = this.pointerByTouch[0].y - this.pointerByTouch[1].y;
     const currentDistance = Math.sqrt(dx * dx + dy * dy);
     const ratio = currentDistance / this.initialDistance;
     const value = (ratio - 1) * 100;
@@ -182,7 +195,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    */
   protected zoom = async (
     value: number,
-    event: IWheelEvent | IKeyboardEvent | PointerEvent,
+    event: IWheelEvent | IKeyboardEvent | IPointerEvent,
     animation: ZoomCanvasOptions['animation'],
   ) => {
     if (!this.validate(event)) return;
@@ -213,7 +226,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    * @returns <zh/> 是否可以缩放 | <en/> Whether it can be zoomed
    * @internal
    */
-  protected validate(event: IWheelEvent | IKeyboardEvent | PointerEvent) {
+  protected validate(event: IWheelEvent | IKeyboardEvent | IPointerEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
@@ -231,13 +244,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    */
   public destroy() {
     this.shortcut.destroy();
-    const container = this.context.canvas.getContainer();
-    if (container) {
-      container.removeEventListener(CommonEvent.WHEEL, this.preventDefault);
-      container.removeEventListener(CommonEvent.POINTER_DOWN, this.onPointerDown);
-      container.removeEventListener(CommonEvent.POINTER_MOVE, this.onPointerMove);
-      container.removeEventListener(CommonEvent.POINTER_UP, this.onPointerUp);
-    }
+    this.context.canvas.getContainer()?.removeEventListener(CommonEvent.WHEEL, this.preventDefault);
     super.destroy();
   }
 }

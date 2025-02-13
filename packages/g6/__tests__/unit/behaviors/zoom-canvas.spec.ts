@@ -51,52 +51,48 @@ describe('behavior zoom canvas', () => {
 
     const pointerByTouch = [
       {
-        clientX: 100,
-        clientY: 100,
+        client: {
+          x: 100,
+          y: 100,
+        },
         pointerId: 1,
         pointerType: 'touch',
       },
       {
-        clientX: 200,
-        clientY: 200,
+        client: {
+          x: 200,
+          y: 200,
+        },
         pointerId: 2,
         pointerType: 'touch',
       },
     ];
 
-    const dxForInitial = pointerByTouch[0].clientX - pointerByTouch[1].clientX;
-    const dyForInitial = pointerByTouch[0].clientY - pointerByTouch[1].clientY;
+    const dxForInitial = pointerByTouch[0].client.x - pointerByTouch[1].client.x;
+    const dyForInitial = pointerByTouch[0].client.y - pointerByTouch[1].client.y;
     const initialDistance = Math.sqrt(dxForInitial * dxForInitial + dyForInitial * dyForInitial);
 
     await expect(graph).toMatchSnapshot(__filename, 'mobile-initial');
 
     graph.once('canvas:pointerdown', pointerdownListener);
-    canvas.document.emit(CommonEvent.POINTER_DOWN, {
-      clientX: 100,
-      clientY: 100,
-      pointerId: 1,
-      pointerType: 'touch',
-    });
+    canvas.document.emit(CommonEvent.POINTER_DOWN, { client: { x: 100, y: 100 } });
     expect(pointerdownListener).toHaveBeenCalledTimes(1);
 
     graph.once('canvas:pointermove', pointermoveListener);
-    canvas.document.emit(CommonEvent.POINTER_MOVE, {
-      clientX: 250,
-      clientY: 250,
-      pointerId: 2,
-      pointerType: 'touch',
-    });
+    canvas.document.emit(CommonEvent.POINTER_MOVE, { client: { x: 200, y: 200 } });
     expect(pointermoveListener).toHaveBeenCalledTimes(1);
 
     pointerByTouch[1] = {
-      clientX: 250,
-      clientY: 250,
+      client: {
+        x: 250,
+        y: 250,
+      },
       pointerId: 2,
       pointerType: 'touch',
     };
 
-    const dxForMove = pointerByTouch[0].clientX - pointerByTouch[1].clientX;
-    const dyForMove = pointerByTouch[0].clientY - pointerByTouch[1].clientY;
+    const dxForMove = pointerByTouch[0].client.x - pointerByTouch[1].client.x;
+    const dyForMove = pointerByTouch[0].client.y - pointerByTouch[1].client.y;
     const currentDistance = Math.sqrt(dxForMove * dxForMove + dyForMove * dyForMove);
     const ratio = currentDistance / initialDistance;
     const value = (ratio - 1) * 100;
