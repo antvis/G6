@@ -28,7 +28,7 @@ export class Shortcut {
 
   public bind(key: ShortcutKey, handler: Handler) {
     if (key.length === 0) return;
-    if (key.includes(CommonEvent.PINCH)) {
+    if (key.includes(CommonEvent.PINCH) && !this.pinchHandler) {
       this.pinchHandler = new PinchHandler(this.emitter, this.handlePinch.bind(this));
     }
     this.map.set(key, handler);
