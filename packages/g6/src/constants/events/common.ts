@@ -119,4 +119,10 @@ export enum CommonEvent {
    * <en/> Triggered when scrolling
    */
   WHEEL = 'wheel',
+  /**
+   * <zh/> 双指捏拢或张开时触发
+   *
+   * <en/> Triggered when pinch in and pinch out
+   */
+  PINCH = 'pinch',
 }

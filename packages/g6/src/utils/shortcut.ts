@@ -2,6 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import type { FederatedMouseEvent } from '@antv/g';
 import { isEqual, isString } from '@antv/util';
 import { CommonEvent } from '../constants';
+import { PinchCallback, PinchHandler } from './pinch';
 
 export interface ShortcutOptions {}
 
@@ -13,6 +14,7 @@ const lowerCaseKeys = (keys: ShortcutKey) => keys.map((key) => (isString(key) ? 
 
 export class Shortcut {
   private map: Map<ShortcutKey, Handler> = new Map();
+  private pinchHandler: PinchHandler | undefined;
 
   private emitter: EventEmitter;
 
@@ -25,6 +27,9 @@ export class Shortcut {
 
   public bind(key: ShortcutKey, handler: Handler) {
     if (key.length === 0) return;
+    if (key.includes(CommonEvent.PINCH)) {
+      this.pinchHandler = new PinchHandler(this.emitter, this.handlePinch.bind(this));
+    }
     this.map.set(key, handler);
   }
 
@@ -54,9 +59,6 @@ export class Shortcut {
     emitter.on(CommonEvent.KEY_UP, this.onKeyUp);
     emitter.on(CommonEvent.WHEEL, this.onWheel);
     emitter.on(CommonEvent.DRAG, this.onDrag);
-    emitter.on(CommonEvent.POINTER_DOWN, this.onPointerDown);
-    emitter.on(CommonEvent.POINTER_MOVE, this.onPointerMove);
-    emitter.on(CommonEvent.POINTER_UP, this.onPointerUp);
 
     // 窗口重新获得焦点后清空按键，避免按键状态异常
     // Clear the keys when the window regains focus to avoid abnormal key states
@@ -110,16 +112,8 @@ export class Shortcut {
     this.triggerExtendKey(CommonEvent.DRAG, event);
   };
 
-  private onPointerDown = (event: PointerEvent) => {
-    this.triggerExtendKey(CommonEvent.POINTER_DOWN, event);
-  };
-
-  private onPointerMove = (event: PointerEvent) => {
-    this.triggerExtendKey(CommonEvent.POINTER_MOVE, event);
-  };
-
-  private onPointerUp = () => {
-    this.triggerExtendKey(CommonEvent.POINTER_UP, () => {});
+  private handlePinch: PinchCallback = (event, zoom) => {
+    this.triggerExtendKey(CommonEvent.PINCH, { ...event, zoom });
   };
 
   private onFocus = () => {
@@ -132,9 +126,7 @@ export class Shortcut {
     this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
-    this.emitter.off(CommonEvent.POINTER_DOWN, this.onPointerDown);
-    this.emitter.off(CommonEvent.POINTER_MOVE, this.onPointerMove);
-    this.emitter.off(CommonEvent.POINTER_UP, this.onPointerUp);
+    this.pinchHandler?.destroyForPinch();
     globalThis.removeEventListener?.('blur', this.onFocus);
   }
 }

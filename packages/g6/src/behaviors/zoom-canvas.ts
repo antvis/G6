@@ -88,9 +88,6 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
   };
 
   private shortcut: Shortcut;
-  private initialDistance: number | null = null;
-  private initialZoom: number | null = null;
-  private pointerByTouch: { x: number; y: number; pointerId: number }[] = [];
 
   constructor(context: RuntimeContext, options: ZoomCanvasOptions) {
     super(context, Object.assign({}, ZoomCanvas.defaultOptions, options));
@@ -117,15 +114,18 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     this.shortcut.unbindAll();
 
     if (Array.isArray(trigger)) {
-      const container = this.context.canvas.getContainer();
-      container?.addEventListener(CommonEvent.WHEEL, this.preventDefault);
-      this.shortcut.bind([...trigger, CommonEvent.WHEEL], (event) => {
-        const { deltaX, deltaY } = event;
-        this.zoom(-(deltaY ?? deltaX), event, false);
-      });
-      this.shortcut.bind([CommonEvent.POINTER_DOWN], this.onPointerDown);
-      this.shortcut.bind([CommonEvent.POINTER_MOVE], this.onPointerMove);
-      this.shortcut.bind([CommonEvent.POINTER_UP], this.onPointerUp);
+      if (trigger.includes(CommonEvent.PINCH)) {
+        this.shortcut.bind([CommonEvent.PINCH], (event) => {
+          this.zoom(event.zoom, event, false);
+        });
+      } else {
+        const container = this.context.canvas.getContainer();
+        container?.addEventListener(CommonEvent.WHEEL, this.preventDefault);
+        this.shortcut.bind([...trigger, CommonEvent.WHEEL], (event) => {
+          const { deltaX, deltaY } = event;
+          this.zoom(-(deltaY ?? deltaX), event, false);
+        });
+      }
     }
 
     if (typeof trigger === 'object') {
@@ -143,47 +143,6 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
       this.shortcut.bind(reset, this.onReset);
     }
   }
-
-  private onPointerDown = (event: IPointerEvent) => {
-    const { x, y } = event.client;
-    if (x === undefined || y === undefined) return;
-
-    this.pointerByTouch.push({ x, y, pointerId: event.pointerId });
-    if (event.pointerType === 'touch') {
-      if (this.pointerByTouch.length === 2) {
-        const dx = this.pointerByTouch[0].x - this.pointerByTouch[1].x;
-        const dy = this.pointerByTouch[0].y - this.pointerByTouch[1].y;
-        this.initialDistance = Math.sqrt(dx * dx + dy * dy);
-        this.initialZoom = this.context.graph.getZoom();
-      }
-    }
-  };
-
-  private onPointerMove = (event: IPointerEvent) => {
-    if (this.pointerByTouch.length !== 2 || this.initialDistance === null || this.initialZoom === null) {
-      return;
-    }
-    const { x, y } = event.client;
-    if (x === undefined || y === undefined) return;
-
-    if (event.pointerId === this.pointerByTouch[0].pointerId) {
-      this.pointerByTouch[0] = { x, y, pointerId: event.pointerId };
-    } else if (event.pointerId === this.pointerByTouch[1].pointerId) {
-      this.pointerByTouch[1] = { x, y, pointerId: event.pointerId };
-    }
-    const dx = this.pointerByTouch[0].x - this.pointerByTouch[1].x;
-    const dy = this.pointerByTouch[0].y - this.pointerByTouch[1].y;
-    const currentDistance = Math.sqrt(dx * dx + dy * dy);
-    const ratio = currentDistance / this.initialDistance;
-    const value = (ratio - 1) * 100;
-    this.zoom(value, event, this.options.animation);
-  };
-
-  private onPointerUp = () => {
-    this.initialDistance = null;
-    this.initialZoom = null;
-    this.pointerByTouch = [];
-  };
 
   /**
    * <zh/> 缩放画布

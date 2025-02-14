@@ -46,6 +46,9 @@ describe('behavior zoom canvas', () => {
     const container = canvas.getContainer();
     if (!container) return;
 
+    const initialBehaviors = graph.getBehaviors();
+    graph.setBehaviors([{ type: 'zoom-canvas' }, { type: 'zoom-canvas', trigger: ['pinch'] }]);
+
     const pointerdownListener = jest.fn();
     const pointermoveListener = jest.fn();
 
@@ -95,7 +98,7 @@ describe('behavior zoom canvas', () => {
     const dyForMove = pointerByTouch[0].client.y - pointerByTouch[1].client.y;
     const currentDistance = Math.sqrt(dxForMove * dxForMove + dyForMove * dyForMove);
     const ratio = currentDistance / initialDistance;
-    const value = (ratio - 1) * 100;
+    const value = (ratio - 1) * 5;
 
     await graph.zoomTo(initZoom * value, false, undefined);
     expect(graph.getZoom()).not.toBe(initZoom);
@@ -104,6 +107,9 @@ describe('behavior zoom canvas', () => {
 
     await graph.zoomTo(initZoom, false, undefined);
     expect(graph.getZoom()).toBe(initZoom);
+
+    graph.setBehaviors(initialBehaviors);
+    expect(graph.getBehaviors()).toEqual([{ type: 'zoom-canvas' }]);
   });
 
   const shortcutZoomCanvasOptions: ZoomCanvasOptions = {
