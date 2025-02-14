@@ -2,7 +2,8 @@ import EventEmitter from '@antv/event-emitter';
 import type { FederatedMouseEvent } from '@antv/g';
 import { isEqual, isString } from '@antv/util';
 import { CommonEvent } from '../constants';
-import { PinchCallback, PinchHandler } from './pinch';
+import type { PinchCallback } from './pinch';
+import { PinchHandler } from './pinch';
 
 export interface ShortcutOptions {}
 
@@ -112,8 +113,8 @@ export class Shortcut {
     this.triggerExtendKey(CommonEvent.DRAG, event);
   };
 
-  private handlePinch: PinchCallback = (event, zoom) => {
-    this.triggerExtendKey(CommonEvent.PINCH, { ...event, zoom });
+  private handlePinch: PinchCallback = (event, options) => {
+    this.triggerExtendKey(CommonEvent.PINCH, { ...event, ...options });
   };
 
   private onFocus = () => {
@@ -126,7 +127,7 @@ export class Shortcut {
     this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
-    this.pinchHandler?.destroyForPinch();
+    this.pinchHandler?.destroy();
     globalThis.removeEventListener?.('blur', this.onFocus);
   }
 }

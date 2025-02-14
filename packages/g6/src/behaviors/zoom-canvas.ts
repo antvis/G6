@@ -116,7 +116,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     if (Array.isArray(trigger)) {
       if (trigger.includes(CommonEvent.PINCH)) {
         this.shortcut.bind([CommonEvent.PINCH], (event) => {
-          this.zoom(event.zoom, event, false);
+          this.zoom(event.scale, event, false);
         });
       } else {
         const container = this.context.canvas.getContainer();

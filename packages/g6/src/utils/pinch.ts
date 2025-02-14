@@ -14,11 +14,32 @@ export interface PointerPoint {
 }
 
 /**
- * <zh/> 捏合缩放回调函数类型
+ * <zh/> 捏合事件参数
  *
- * <en/> Pinch zoom callback function type
+ * <en/> Pinch event parameters
+ * @remarks
+ * <zh/> 包含与捏合手势相关的参数，当前支持缩放比例，未来可扩展中心点坐标、旋转角度等参数
+ *
+ * <en/> Contains parameters related to pinch gestures, currently supports scale factor,
+ * can be extended with center coordinates, rotation angle etc. in the future
  */
-export type PinchCallback = (event: IPointerEvent, zoom: number) => void;
+export interface PinchEventOptions {
+  /**
+   * <zh/> 缩放比例因子，>1 表示放大，<1 表示缩小
+   *
+   * <en/> Scaling factor, >1 indicates zoom in, <1 indicates zoom out
+   */
+  scale: number;
+}
+
+/**
+ * <zh/> 捏合手势回调函数类型
+ *
+ * <en/> Pinch gesture callback function type
+ * @param event - <zh/> 原始指针事件对象 | <en/> Original pointer event object
+ * @param options - <zh/> 捏合事件参数对象 | <en/> Pinch event parameters object
+ */
+export type PinchCallback = (event: IPointerEvent, options: PinchEventOptions) => void;
 
 /**
  * <zh/> 捏合手势处理器
@@ -121,7 +142,7 @@ export class PinchHandler {
     const currentDistance = Math.sqrt(dx * dx + dy * dy);
     const ratio = currentDistance / this.initialDistance;
 
-    this.callback(event, (ratio - 1) * 5);
+    this.callback(event, { scale: (ratio - 1) * 5 });
   }
 
   /**
@@ -147,7 +168,7 @@ export class PinchHandler {
    *
    * <en/> Remove listeners for pointer down, move, and up events
    */
-  destroyForPinch() {
+  destroy() {
     this.emitter.off(CommonEvent.POINTER_DOWN, this.onPointerDown);
     this.emitter.off(CommonEvent.POINTER_MOVE, this.onPointerMove);
     this.emitter.off(CommonEvent.POINTER_UP, this.onPointerUp);
