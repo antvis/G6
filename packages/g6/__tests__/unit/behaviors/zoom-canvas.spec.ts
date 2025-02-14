@@ -40,6 +40,78 @@ describe('behavior zoom canvas', () => {
     expect(graph.getZoom()).toBeCloseTo(currentZoom * 0.95 ** 2);
   });
 
+  it('mobile zoom', async () => {
+    const initZoom = graph.getZoom();
+    const canvas = graph.getCanvas();
+    const container = canvas.getContainer();
+    if (!container) return;
+
+    const initialBehaviors = graph.getBehaviors();
+    graph.setBehaviors([{ type: 'zoom-canvas' }, { type: 'zoom-canvas', trigger: ['pinch'] }]);
+
+    const pointerdownListener = jest.fn();
+    const pointermoveListener = jest.fn();
+
+    const pointerByTouch = [
+      {
+        client: {
+          x: 100,
+          y: 100,
+        },
+        pointerId: 1,
+        pointerType: 'touch',
+      },
+      {
+        client: {
+          x: 200,
+          y: 200,
+        },
+        pointerId: 2,
+        pointerType: 'touch',
+      },
+    ];
+
+    const dxForInitial = pointerByTouch[0].client.x - pointerByTouch[1].client.x;
+    const dyForInitial = pointerByTouch[0].client.y - pointerByTouch[1].client.y;
+    const initialDistance = Math.sqrt(dxForInitial * dxForInitial + dyForInitial * dyForInitial);
+
+    await expect(graph).toMatchSnapshot(__filename, 'mobile-initial');
+
+    graph.once('canvas:pointerdown', pointerdownListener);
+    canvas.document.emit(CommonEvent.POINTER_DOWN, { client: { x: 100, y: 100 } });
+    expect(pointerdownListener).toHaveBeenCalledTimes(1);
+
+    graph.once('canvas:pointermove', pointermoveListener);
+    canvas.document.emit(CommonEvent.POINTER_MOVE, { client: { x: 200, y: 200 } });
+    expect(pointermoveListener).toHaveBeenCalledTimes(1);
+
+    pointerByTouch[1] = {
+      client: {
+        x: 250,
+        y: 250,
+      },
+      pointerId: 2,
+      pointerType: 'touch',
+    };
+
+    const dxForMove = pointerByTouch[0].client.x - pointerByTouch[1].client.x;
+    const dyForMove = pointerByTouch[0].client.y - pointerByTouch[1].client.y;
+    const currentDistance = Math.sqrt(dxForMove * dxForMove + dyForMove * dyForMove);
+    const ratio = currentDistance / initialDistance;
+    const value = (ratio - 1) * 5;
+
+    await graph.zoomTo(initZoom * value, false, undefined);
+    expect(graph.getZoom()).not.toBe(initZoom);
+
+    await expect(graph).toMatchSnapshot(__filename, 'mobile-final');
+
+    await graph.zoomTo(initZoom, false, undefined);
+    expect(graph.getZoom()).toBe(initZoom);
+
+    graph.setBehaviors(initialBehaviors);
+    expect(graph.getBehaviors()).toEqual([{ type: 'zoom-canvas' }]);
+  });
+
   const shortcutZoomCanvasOptions: ZoomCanvasOptions = {
     key: 'shortcut-zoom-canvas',
     type: 'zoom-canvas',

@@ -2,6 +2,8 @@ import EventEmitter from '@antv/event-emitter';
 import type { FederatedMouseEvent } from '@antv/g';
 import { isEqual, isString } from '@antv/util';
 import { CommonEvent } from '../constants';
+import type { PinchCallback } from './pinch';
+import { PinchHandler } from './pinch';
 
 export interface ShortcutOptions {}
 
@@ -13,6 +15,7 @@ const lowerCaseKeys = (keys: ShortcutKey) => keys.map((key) => (isString(key) ? 
 
 export class Shortcut {
   private map: Map<ShortcutKey, Handler> = new Map();
+  private pinchHandler: PinchHandler | undefined;
 
   private emitter: EventEmitter;
 
@@ -25,6 +28,9 @@ export class Shortcut {
 
   public bind(key: ShortcutKey, handler: Handler) {
     if (key.length === 0) return;
+    if (key.includes(CommonEvent.PINCH) && !this.pinchHandler) {
+      this.pinchHandler = new PinchHandler(this.emitter, this.handlePinch.bind(this));
+    }
     this.map.set(key, handler);
   }
 
@@ -107,6 +113,10 @@ export class Shortcut {
     this.triggerExtendKey(CommonEvent.DRAG, event);
   };
 
+  private handlePinch: PinchCallback = (event, options) => {
+    this.triggerExtendKey(CommonEvent.PINCH, { ...event, ...options });
+  };
+
   private onFocus = () => {
     this.recordKey.clear();
   };
@@ -117,6 +127,7 @@ export class Shortcut {
     this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
+    this.pinchHandler?.destroy();
     globalThis.removeEventListener?.('blur', this.onFocus);
   }
 }

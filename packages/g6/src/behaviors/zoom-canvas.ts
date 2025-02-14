@@ -1,7 +1,14 @@
 import { clamp, isFunction } from '@antv/util';
 import { CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { IKeyboardEvent, IWheelEvent, Point, PointObject, ViewportAnimationEffectTiming } from '../types';
+import type {
+  IKeyboardEvent,
+  IPointerEvent,
+  IWheelEvent,
+  Point,
+  PointObject,
+  ViewportAnimationEffectTiming,
+} from '../types';
 import { parsePoint } from '../utils/point';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
@@ -27,7 +34,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    * <en/> Whether to enable the function of zooming the canvas
    * @defaultValue true
    */
-  enable?: boolean | ((event: IWheelEvent | IKeyboardEvent) => boolean);
+  enable?: boolean | ((event: IWheelEvent | IKeyboardEvent | IPointerEvent) => boolean);
   /**
    * <zh/> 触发缩放的方式
    * - ShortcutKey：组合快捷键，**默认使用滚轮缩放**，['Control'] 表示按住 Control 键滚动鼠标滚轮时触发缩放
@@ -107,11 +114,18 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     this.shortcut.unbindAll();
 
     if (Array.isArray(trigger)) {
-      this.context.canvas.getContainer()?.addEventListener(CommonEvent.WHEEL, this.preventDefault);
-      this.shortcut.bind([...trigger, CommonEvent.WHEEL], (event) => {
-        const { deltaX, deltaY } = event;
-        this.zoom(-(deltaY ?? deltaX), event, false);
-      });
+      if (trigger.includes(CommonEvent.PINCH)) {
+        this.shortcut.bind([CommonEvent.PINCH], (event) => {
+          this.zoom(event.scale, event, false);
+        });
+      } else {
+        const container = this.context.canvas.getContainer();
+        container?.addEventListener(CommonEvent.WHEEL, this.preventDefault);
+        this.shortcut.bind([...trigger, CommonEvent.WHEEL], (event) => {
+          const { deltaX, deltaY } = event;
+          this.zoom(-(deltaY ?? deltaX), event, false);
+        });
+      }
     }
 
     if (typeof trigger === 'object') {
@@ -140,7 +154,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    */
   protected zoom = async (
     value: number,
-    event: IWheelEvent | IKeyboardEvent,
+    event: IWheelEvent | IKeyboardEvent | IPointerEvent,
     animation: ZoomCanvasOptions['animation'],
   ) => {
     if (!this.validate(event)) return;
@@ -171,7 +185,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    * @returns <zh/> 是否可以缩放 | <en/> Whether it can be zoomed
    * @internal
    */
-  protected validate(event: IWheelEvent | IKeyboardEvent) {
+  protected validate(event: IWheelEvent | IKeyboardEvent | IPointerEvent) {
     if (this.destroyed) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
