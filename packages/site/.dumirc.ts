@@ -24,6 +24,7 @@ export default defineConfig({
     defaultLanguage: 'zh', // 默认语言
     isAntVSite: false, // 是否是 AntV 的大官网
     siteUrl: homepage, // 官网地址
+    sitePackagePath: 'packages/site', // 站点包地址
     githubUrl: repository.url, // GitHub 地址
     footerTheme: 'light', // 白色 底部主题
     showSearch: true, // 是否显示搜索框
@@ -35,6 +36,11 @@ export default defineConfig({
     showChartResize: true, // 是否在 demo 页展示图表视图切换
     showAPIDoc: false, // 是否在 demo 页展示API文档
     feedback: true, // 是否显示反馈组件
+    links: true, // 是否显示links答疑小蜜
+    petercat: {
+      show: true,
+      token: '4bd33b46-9b3c-4df1-be17-9206ea7c7e34',
+    },
     prefersColor: {
       default: 'light',
       switch: false,
@@ -483,10 +489,6 @@ export default defineConfig({
         img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*TgV-RZDODJIAAAAAAAAAAABkARQnAQ',
       },
     ],
-    petercat: {
-      show: true,
-      token: '4bd33b46-9b3c-4df1-be17-9206ea7c7e34',
-    },
   },
   mfsu: false,
   alias: {
