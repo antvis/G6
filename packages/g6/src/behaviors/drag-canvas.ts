@@ -132,6 +132,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
       graph.on(CommonEvent.DRAG_START, this.onDragStart);
       graph.on(CommonEvent.DRAG, this.onDrag);
       graph.on(CommonEvent.DRAG_END, this.onDragEnd);
+      this.shortcut.bind([CommonEvent.PINCH], () => {});
     }
   }
 
@@ -144,7 +145,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   };
 
   private onDrag = (event: IDragEvent) => {
-    if (!this.isDragging) return;
+    if (!this.isDragging || this.shortcut?.pinchHandler?.isPinchStage) return;
     const x = event.movement?.x ?? event.dx;
     const y = event.movement?.y ?? event.dy;
     if ((x | y) !== 0) {

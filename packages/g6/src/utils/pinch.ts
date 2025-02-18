@@ -51,6 +51,8 @@ export type PinchCallback = (event: IPointerEvent, options: PinchEventOptions) =
  * <en/> Handles two-finger touch events, calculates zoom ratio and triggers callbacks. Tracks position changes of two touch points to determine zoom ratio based on distance variation.
  */
 export class PinchHandler {
+  public isPinchStage: boolean = false;
+
   /**
    * <zh/> 当前跟踪的触摸点集合
    *
@@ -116,6 +118,7 @@ export class PinchHandler {
     this.pointerByTouch.push({ x, y, pointerId: event.pointerId });
 
     if (event.pointerType === 'touch' && this.pointerByTouch.length === 2) {
+      this.isPinchStage = true;
       const dx = this.pointerByTouch[0].x - this.pointerByTouch[1].x;
       const dy = this.pointerByTouch[0].y - this.pointerByTouch[1].y;
       this.initialDistance = Math.sqrt(dx * dx + dy * dy);
@@ -155,6 +158,7 @@ export class PinchHandler {
    * <en/> Reset touch state and initial distance
    */
   onPointerUp() {
+    this.isPinchStage = false;
     this.initialDistance = null;
     this.pointerByTouch = [];
   }

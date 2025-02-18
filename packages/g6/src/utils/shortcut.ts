@@ -15,7 +15,7 @@ const lowerCaseKeys = (keys: ShortcutKey) => keys.map((key) => (isString(key) ? 
 
 export class Shortcut {
   private map: Map<ShortcutKey, Handler> = new Map();
-  private pinchHandler: PinchHandler | undefined;
+  public pinchHandler: PinchHandler | undefined;
 
   private emitter: EventEmitter;
 
