@@ -51,7 +51,12 @@ export type PinchCallback = (event: IPointerEvent, options: PinchEventOptions) =
  * <en/> Handles two-finger touch events, calculates zoom ratio and triggers callbacks. Tracks position changes of two touch points to determine zoom ratio based on distance variation.
  */
 export class PinchHandler {
-  public isPinchStage: boolean = false;
+  /**
+   * <zh/> 是否处于 Pinch 阶段
+   *
+   * <en/> Whether it is in the Pinch stage
+   */
+  public static isPinchStage: boolean = false;
 
   /**
    * <zh/> 当前跟踪的触摸点集合
@@ -68,16 +73,19 @@ export class PinchHandler {
   private initialDistance: number | null = null;
 
   private emitter: EventEmitter;
+  private static instance: PinchHandler | null = null;
 
   constructor(
     emitter: EventEmitter,
     private callback: PinchCallback,
   ) {
     this.emitter = emitter;
+    if (PinchHandler.instance) return PinchHandler.instance;
     this.onPointerDown = this.onPointerDown.bind(this);
     this.onPointerMove = this.onPointerMove.bind(this);
     this.onPointerUp = this.onPointerUp.bind(this);
     this.bindEvents();
+    PinchHandler.instance = this;
   }
 
   private bindEvents() {
@@ -118,7 +126,7 @@ export class PinchHandler {
     this.pointerByTouch.push({ x, y, pointerId: event.pointerId });
 
     if (event.pointerType === 'touch' && this.pointerByTouch.length === 2) {
-      this.isPinchStage = true;
+      PinchHandler.isPinchStage = true;
       const dx = this.pointerByTouch[0].x - this.pointerByTouch[1].x;
       const dy = this.pointerByTouch[0].y - this.pointerByTouch[1].y;
       this.initialDistance = Math.sqrt(dx * dx + dy * dy);
@@ -158,7 +166,7 @@ export class PinchHandler {
    * <en/> Reset touch state and initial distance
    */
   onPointerUp() {
-    this.isPinchStage = false;
+    PinchHandler.isPinchStage = false;
     this.initialDistance = null;
     this.pointerByTouch = [];
   }
@@ -176,5 +184,6 @@ export class PinchHandler {
     this.emitter.off(CommonEvent.POINTER_DOWN, this.onPointerDown);
     this.emitter.off(CommonEvent.POINTER_MOVE, this.onPointerMove);
     this.emitter.off(CommonEvent.POINTER_UP, this.onPointerUp);
+    PinchHandler.instance = null;
   }
 }
