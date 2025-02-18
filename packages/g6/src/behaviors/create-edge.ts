@@ -161,8 +161,10 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     const { model, element } = this.context;
 
     model.translateNodeTo(ASSIST_NODE_ID, [event.canvas.x, event.canvas.y]);
-
-    await element!.draw({ animation: false, silence: true })?.finished;
+    // 仅仅在事件在目标阶段才进行绘制
+    if (event.eventPhase === 2) {
+      await element!.draw({ animation: false, silence: true })?.finished;
+    }
   };
 
   private createEdge = (event: IElementEvent) => {
