@@ -161,7 +161,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     const { model, element } = this.context;
 
     model.translateNodeTo(ASSIST_NODE_ID, [event.canvas.x, event.canvas.y]);
-    // 仅仅在事件在目标阶段才进行绘制
+    //  仅在事件目标阶段才进行绘制 | Draw only during the event target phase.
     if (event.eventPhase === 2) {
       await element!.draw({ animation: false, silence: true })?.finished;
     }
