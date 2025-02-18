@@ -99,7 +99,7 @@ interface RadialLayout extends BaseLayoutOptions, RadialLayoutOptions {
 }
 
 interface FruchtermanLayout extends BaseLayoutOptions, FruchtermanLayoutOptions {
-  type: 'fruchterman' | 'fruchtermanGPU';
+  type: 'fruchterman' | 'fruchterman-gpu';
 }
 
 interface D3ForceLayout extends BaseLayoutOptions, D3ForceLayoutOptions {
@@ -115,7 +115,7 @@ interface ForceLayout extends BaseLayoutOptions, ForceLayoutOptions {
 }
 
 interface ForceAtlas2 extends BaseLayoutOptions, ForceAtlas2LayoutOptions {
-  type: 'forceAtlas2';
+  type: 'force-atlas2';
 }
 
 interface AntVDagreLayout extends BaseLayoutOptions, AntVDagreLayoutOptions {
