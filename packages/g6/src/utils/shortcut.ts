@@ -29,7 +29,7 @@ export class Shortcut {
   public bind(key: ShortcutKey, handler: Handler) {
     if (key.length === 0) return;
     if (key.includes(CommonEvent.PINCH) && !this.pinchHandler) {
-      this.pinchHandler = new PinchHandler(this.emitter, this.handlePinch.bind(this));
+      this.pinchHandler = new PinchHandler(this.emitter, 'move', this.handlePinch.bind(this));
     }
     this.map.set(key, handler);
   }
@@ -127,7 +127,7 @@ export class Shortcut {
     this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
-    this.pinchHandler?.destroy();
+    this.pinchHandler?.unregister('move', this.handlePinch.bind(this));
     globalThis.removeEventListener?.('blur', this.onFocus);
   }
 }

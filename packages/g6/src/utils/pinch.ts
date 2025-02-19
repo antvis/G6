@@ -33,6 +33,22 @@ export interface PinchEventOptions {
 }
 
 /**
+ * <zh/> 捏合手势阶段类型
+ * <en/> Pinch gesture phase type
+ * @remarks
+ * <zh/> 包含三个手势阶段：
+ * - start: 手势开始
+ * - move: 手势移动中
+ * - end: 手势结束
+ *
+ * <en/> Contains three gesture phases:
+ * - start: Gesture started
+ * - move: Gesture in progress
+ * - end: Gesture ended
+ */
+export type PinchPhase = 'start' | 'move' | 'end';
+
+/**
  * <zh/> 捏合手势回调函数类型
  *
  * <en/> Pinch gesture callback function type
@@ -74,18 +90,28 @@ export class PinchHandler {
 
   private emitter: EventEmitter;
   private static instance: PinchHandler | null = null;
+  private static callbacks: {
+    start: PinchCallback[];
+    move: PinchCallback[];
+    end: PinchCallback[];
+  } = { start: [], move: [], end: [] };
 
   constructor(
     emitter: EventEmitter,
-    private callback: PinchCallback,
+    private phase: PinchPhase,
+    callback: PinchCallback,
   ) {
     this.emitter = emitter;
-    if (PinchHandler.instance) return PinchHandler.instance;
+    if (PinchHandler.instance) {
+      PinchHandler.callbacks[this.phase].push(callback);
+      return PinchHandler.instance;
+    }
     this.onPointerDown = this.onPointerDown.bind(this);
     this.onPointerMove = this.onPointerMove.bind(this);
     this.onPointerUp = this.onPointerUp.bind(this);
     this.bindEvents();
     PinchHandler.instance = this;
+    PinchHandler.callbacks[this.phase].push(callback);
   }
 
   private bindEvents() {
@@ -130,6 +156,7 @@ export class PinchHandler {
       const dx = this.pointerByTouch[0].x - this.pointerByTouch[1].x;
       const dy = this.pointerByTouch[0].y - this.pointerByTouch[1].y;
       this.initialDistance = Math.sqrt(dx * dx + dy * dy);
+      PinchHandler.callbacks.start.forEach((cb) => cb(event, { scale: 0 }));
     }
   }
 
@@ -153,22 +180,25 @@ export class PinchHandler {
     const currentDistance = Math.sqrt(dx * dx + dy * dy);
     const ratio = currentDistance / this.initialDistance;
 
-    this.callback(event, { scale: (ratio - 1) * 5 });
+    PinchHandler.callbacks.move.forEach((cb) => cb(event, { scale: (ratio - 1) * 5 }));
   }
 
   /**
    * <zh/> 处理指针抬起事件
    *
    * <en/> Handle pointer up event
+   * @param event
    * @remarks
    * <zh/> 重置触摸状态和初始距离
    *
    * <en/> Reset touch state and initial distance
    */
-  onPointerUp() {
+  onPointerUp(event: IPointerEvent) {
+    PinchHandler.callbacks.end.forEach((cb) => cb(event, { scale: 0 }));
     PinchHandler.isPinchStage = false;
     this.initialDistance = null;
     this.pointerByTouch = [];
+    PinchHandler.instance?.tryDestroy();
   }
 
   /**
@@ -180,10 +210,40 @@ export class PinchHandler {
    *
    * <en/> Remove listeners for pointer down, move, and up events
    */
-  destroy() {
+  public destroy() {
     this.emitter.off(CommonEvent.POINTER_DOWN, this.onPointerDown);
     this.emitter.off(CommonEvent.POINTER_MOVE, this.onPointerMove);
     this.emitter.off(CommonEvent.POINTER_UP, this.onPointerUp);
     PinchHandler.instance = null;
+  }
+
+  /**
+   * <zh/> 解绑指定阶段的手势回调
+   * <en/> Unregister gesture callback for specific phase
+   * @param phase - <zh/> 手势阶段：开始(start)/移动(move)/结束(end) | <en/> Gesture phase: start/move/end
+   * @param callback - <zh/> 要解绑的回调函数 | <en/> Callback function to unregister
+   * @remarks
+   * <zh/> 从指定阶段的回调列表中移除特定回调，当所有回调都解绑后自动销毁事件监听
+   * <en/> Remove specific callback from the phase's callback list, auto-destroy event listeners when all callbacks are unregistered
+   */
+  public unregister(phase: PinchPhase, callback: PinchCallback) {
+    const index = PinchHandler.callbacks[phase].indexOf(callback);
+    if (index > -1) PinchHandler.callbacks[phase].splice(index, 1);
+    this.tryDestroy();
+  }
+
+  /**
+   * <zh/> 尝试销毁手势处理器
+   * <en/> Attempt to destroy the gesture handler
+   * @remarks
+   * <zh/> 当所有阶段（开始/移动/结束）的回调列表都为空时，执行实际销毁操作
+   * <en/> Perform actual destruction when all phase (start/move/end) callback lists are empty
+   * <zh/> 自动解除事件监听并重置单例实例
+   * <en/> Automatically remove event listeners and reset singleton instance
+   */
+  private tryDestroy() {
+    if (Object.values(PinchHandler.callbacks).every((arr) => arr.length === 0)) {
+      this.destroy();
+    }
   }
 }
