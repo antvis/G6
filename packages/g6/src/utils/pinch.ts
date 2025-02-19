@@ -147,7 +147,7 @@ export class PinchHandler {
    * <en/> Record initial distance when detecting two touch points
    */
   onPointerDown(event: IPointerEvent) {
-    const { x, y } = event.client;
+    const { x, y } = event.client || {};
     if (x === undefined || y === undefined) return;
     this.pointerByTouch.push({ x, y, pointerId: event.pointerId });
 
@@ -172,7 +172,7 @@ export class PinchHandler {
    */
   onPointerMove(event: IPointerEvent) {
     if (this.pointerByTouch.length !== 2 || this.initialDistance === null) return;
-    const { x, y } = event.client;
+    const { x, y } = event.client || {};
     if (x === undefined || y === undefined) return;
     this.updatePointerPosition(event.pointerId, x, y);
     const dx = this.pointerByTouch[0].x - this.pointerByTouch[1].x;
