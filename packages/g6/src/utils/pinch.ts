@@ -42,11 +42,11 @@ export interface PinchEventOptions {
  * - end: 手势结束
  *
  * <en/> Contains three gesture phases:
- * - start: Gesture started
- * - move: Gesture in progress
- * - end: Gesture ended
+ * - pinchstart: Gesture started
+ * - pinchmove: Gesture in progress
+ * - pinchend: Gesture ended
  */
-export type PinchPhase = 'start' | 'move' | 'end';
+export type PinchEvent = 'pinchstart' | 'pinchmove' | 'pinchend';
 
 /**
  * <zh/> 捏合手势回调函数类型
@@ -72,7 +72,7 @@ export class PinchHandler {
    *
    * <en/> Whether it is in the Pinch stage
    */
-  public static isPinchStage: boolean = false;
+  public static isPinching: boolean = false;
 
   /**
    * <zh/> 当前跟踪的触摸点集合
@@ -91,14 +91,14 @@ export class PinchHandler {
   private emitter: EventEmitter;
   private static instance: PinchHandler | null = null;
   private static callbacks: {
-    start: PinchCallback[];
-    move: PinchCallback[];
-    end: PinchCallback[];
-  } = { start: [], move: [], end: [] };
+    pinchstart: PinchCallback[];
+    pinchmove: PinchCallback[];
+    pinchend: PinchCallback[];
+  } = { pinchstart: [], pinchmove: [], pinchend: [] };
 
   constructor(
     emitter: EventEmitter,
-    private phase: PinchPhase,
+    private phase: PinchEvent,
     callback: PinchCallback,
   ) {
     this.emitter = emitter;
@@ -152,11 +152,11 @@ export class PinchHandler {
     this.pointerByTouch.push({ x, y, pointerId: event.pointerId });
 
     if (event.pointerType === 'touch' && this.pointerByTouch.length === 2) {
-      PinchHandler.isPinchStage = true;
+      PinchHandler.isPinching = true;
       const dx = this.pointerByTouch[0].x - this.pointerByTouch[1].x;
       const dy = this.pointerByTouch[0].y - this.pointerByTouch[1].y;
       this.initialDistance = Math.sqrt(dx * dx + dy * dy);
-      PinchHandler.callbacks.start.forEach((cb) => cb(event, { scale: 0 }));
+      PinchHandler.callbacks.pinchstart.forEach((cb) => cb(event, { scale: 0 }));
     }
   }
 
@@ -180,7 +180,7 @@ export class PinchHandler {
     const currentDistance = Math.sqrt(dx * dx + dy * dy);
     const ratio = currentDistance / this.initialDistance;
 
-    PinchHandler.callbacks.move.forEach((cb) => cb(event, { scale: (ratio - 1) * 5 }));
+    PinchHandler.callbacks.pinchmove.forEach((cb) => cb(event, { scale: (ratio - 1) * 5 }));
   }
 
   /**
@@ -194,8 +194,8 @@ export class PinchHandler {
    * <en/> Reset touch state and initial distance
    */
   onPointerUp(event: IPointerEvent) {
-    PinchHandler.callbacks.end.forEach((cb) => cb(event, { scale: 0 }));
-    PinchHandler.isPinchStage = false;
+    PinchHandler.callbacks.pinchend.forEach((cb) => cb(event, { scale: 0 }));
+    PinchHandler.isPinching = false;
     this.initialDistance = null;
     this.pointerByTouch = [];
     PinchHandler.instance?.tryDestroy();
@@ -220,13 +220,13 @@ export class PinchHandler {
   /**
    * <zh/> 解绑指定阶段的手势回调
    * <en/> Unregister gesture callback for specific phase
-   * @param phase - <zh/> 手势阶段：开始(start)/移动(move)/结束(end) | <en/> Gesture phase: start/move/end
+   * @param phase - <zh/> 手势阶段：开始(pinchstart)/移动(pinchmove)/结束(pinchend) | <en/> Gesture phase: start/move/end
    * @param callback - <zh/> 要解绑的回调函数 | <en/> Callback function to unregister
    * @remarks
    * <zh/> 从指定阶段的回调列表中移除特定回调，当所有回调都解绑后自动销毁事件监听
    * <en/> Remove specific callback from the phase's callback list, auto-destroy event listeners when all callbacks are unregistered
    */
-  public unregister(phase: PinchPhase, callback: PinchCallback) {
+  public off(phase: PinchEvent, callback: PinchCallback) {
     const index = PinchHandler.callbacks[phase].indexOf(callback);
     if (index > -1) PinchHandler.callbacks[phase].splice(index, 1);
     this.tryDestroy();
@@ -237,7 +237,7 @@ export class PinchHandler {
    * <en/> Attempt to destroy the gesture handler
    * @remarks
    * <zh/> 当所有阶段（开始/移动/结束）的回调列表都为空时，执行实际销毁操作
-   * <en/> Perform actual destruction when all phase (start/move/end) callback lists are empty
+   * <en/> Perform actual destruction when all phase (pinchstart/pinchmove/pinchend) callback lists are empty
    * <zh/> 自动解除事件监听并重置单例实例
    * <en/> Automatically remove event listeners and reset singleton instance
    */

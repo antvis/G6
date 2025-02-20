@@ -145,7 +145,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   };
 
   private onDrag = (event: IDragEvent) => {
-    if (!this.isDragging || PinchHandler.isPinchStage) return;
+    if (!this.isDragging || PinchHandler.isPinching) return;
     const x = event.movement?.x ?? event.dx;
     const y = event.movement?.y ?? event.dy;
     if ((x | y) !== 0) {
