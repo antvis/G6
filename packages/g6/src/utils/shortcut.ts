@@ -15,7 +15,8 @@ const lowerCaseKeys = (keys: ShortcutKey) => keys.map((key) => (isString(key) ? 
 
 export class Shortcut {
   private map: Map<ShortcutKey, Handler> = new Map();
-  private pinchHandler: PinchHandler | undefined;
+  public pinchHandler: PinchHandler | undefined;
+  private boundHandlePinch: PinchCallback = () => {};
 
   private emitter: EventEmitter;
 
@@ -29,7 +30,8 @@ export class Shortcut {
   public bind(key: ShortcutKey, handler: Handler) {
     if (key.length === 0) return;
     if (key.includes(CommonEvent.PINCH) && !this.pinchHandler) {
-      this.pinchHandler = new PinchHandler(this.emitter, this.handlePinch.bind(this));
+      this.boundHandlePinch = this.handlePinch.bind(this);
+      this.pinchHandler = new PinchHandler(this.emitter, 'pinchmove', this.boundHandlePinch);
     }
     this.map.set(key, handler);
   }
@@ -127,7 +129,7 @@ export class Shortcut {
     this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
-    this.pinchHandler?.destroy();
+    this.pinchHandler?.off('pinchmove', this.boundHandlePinch);
     globalThis.removeEventListener?.('blur', this.onFocus);
   }
 }

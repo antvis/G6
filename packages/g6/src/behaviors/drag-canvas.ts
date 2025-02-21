@@ -5,6 +5,7 @@ import type { RuntimeContext } from '../runtime/types';
 import type { IDragEvent, IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
 import { getExpandedBBox, getPointBBox, isPointInBBox } from '../utils/bbox';
 import { parsePadding } from '../utils/padding';
+import { PinchHandler } from '../utils/pinch';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
 import { multiply, subtract } from '../utils/vector';
@@ -144,7 +145,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   };
 
   private onDrag = (event: IDragEvent) => {
-    if (!this.isDragging) return;
+    if (!this.isDragging || PinchHandler.isPinching) return;
     const x = event.movement?.x ?? event.dx;
     const y = event.movement?.y ?? event.dy;
     if ((x | y) !== 0) {
