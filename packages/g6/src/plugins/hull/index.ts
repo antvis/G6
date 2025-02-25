@@ -1,5 +1,4 @@
 import { PathArray, isEqual, isFunction } from '@antv/util';
-import hull from 'hull.js';
 import { GraphEvent } from '../../constants';
 import type { ContourStyleProps } from '../../elements/shapes';
 import { Contour } from '../../elements/shapes';
@@ -10,6 +9,7 @@ import { idOf } from '../../utils/id';
 import { positionOf } from '../../utils/position';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
+import { hull } from './hull';
 import { computeHullPath } from './util';
 
 /**
