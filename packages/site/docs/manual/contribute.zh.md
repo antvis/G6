@@ -386,3 +386,5 @@ PR 提交后，我们会对你的代码进行 Review。请耐心等待 Review �
 4. 将变更提交到远程仓库
 5. 在 GitHub 上创建一个 PR，并添加 `publish` 标签，将该分支合并到 v5 分支
 6. 分支合并后，会自动触发 GitHub Actions，发布到 npm
+7. 发布后，需更新 Release note，在 packages/g6 目录下执行 pnpm tag
+8. 在新打开的 Github 链接填写 tag 信息，先选择前一个 tag, 然后选择当前 tag 后得到变更，确认没有问题后发布

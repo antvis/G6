@@ -386,3 +386,5 @@ This project uses changeset to manage version release, and the specific release 
 4. Commit the changes to the remote repository
 5. Create a PR on GitHub, add the `publish` label, and merge the branch to v5
 6. After the branch is merged, GitHub Actions will be triggered automatically, and the package will be published to npm
+7. After the release, the Release note needs to be updated. Execute "pnpm tag" in the packages/g6
+8. Fill in the tag information on the newly opened Github link. First, select the previous tag, and then select the current tag to obtain the changes. After confirming that there are no issues, release it.
