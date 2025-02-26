@@ -1,1403 +1,713 @@
 ---
-title: 元素
+title: 元素操作
+order: 1
 ---
 
-### Graph.collapseElement(id, options)
+> 阅读本文档前，请先阅读 [核心概念 - 元素](/manual/core-concept/element) 章节。
 
-收起元素
+## 元素操作概述
 
-```typescript
-collapseElement(id: ID, options?: boolean | CollapseExpandNodeOptions): Promise<void>;
-```
+G6 中的元素操作 API 允许您控制图中节点、边和组合(Combo)等元素的行为和属性。这些 API 可以用于：
 
-<details><summary>相关参数</summary>
+1. **元素状态管理**：设置、更新或移除元素的状态
+2. **元素显示控制**：控制元素的层级、可见性
+3. **元素展开/收起**：操作可折叠元素的展开/收起状态
+4. **元素位置操作**：移动、对齐元素位置
+5. **元素聚焦**：将视口聚焦到特定元素
 
-<table><thead><tr><th>
+通过这些操作，您可以实现丰富的交互效果和视觉呈现。
 
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-options
-
-</td><td>
-
-boolean \| [CollapseExpandNodeOptions](../api/reference/g6.collapseexpandnodeoptions.zh.md)
-
-</td><td>
-
-是否启用动画或者配置收起节点的配置项
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
-
-### Graph.expandElement(id, options)
-
-展开元素
-
-```typescript
-expandElement(id: ID, options?: boolean | CollapseExpandNodeOptions): Promise<void>;
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-options
-
-</td><td>
-
-boolean \| [CollapseExpandNodeOptions](../api/reference/g6.collapseexpandnodeoptions.zh.md)
-
-</td><td>
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
-
-### Graph.frontElement(id)
-
-将元素置于最顶层
-
-```typescript
-frontElement(id: ID | ID[]): Promise<void>;
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
+## API 参考
 
 ### Graph.getElementPosition(id)
 
-获取元素位置
+获取元素位置。
 
 ```typescript
 getElementPosition(id: ID): Point;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+| 参数 | 类型   | 必填 | 描述    |
+| ---- | ------ | ---- | ------- |
+| id   | string | 是   | 元素 ID |
 
-参数
+**返回值**:
 
-</th><th>
+- **类型**: [number, number] \| [number, number, number]
+- **描述**: 返回元素的坐标位置
 
-类型
+**示例**:
 
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [number, number] \| [number, number, number] \| Float32Array
-
-- **描述：** 元素位置
-
-</details>
+```typescript
+graph.getElementPosition('node1');
+```
 
 ### Graph.getElementRenderBounds(id)
 
-获取元素自身以及子节点在世界坐标系下的渲染包围盒
+获取元素自身以及子节点在世界坐标系下的渲染包围盒。
 
 ```typescript
 getElementRenderBounds(id: ID): AABB;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+| 参数 | 类型   | 必填 | 描述    |
+| ---- | ------ | ---- | ------- |
+| id   | string | 是   | 元素 ID |
 
-参数
+**返回值**:
 
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** AABB
-
-- **描述：** 渲染包围盒
-
-</details>
+- **类型**: [AABB](#aabb)
+- **描述**: 返回元素的渲染包围盒
 
 ### Graph.getElementRenderStyle(id)
 
-获取元素渲染样式
+获取元素的渲染样式。
 
 ```typescript
 getElementRenderStyle(id: ID): Record<string, any>;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+| 参数 | 类型   | 必填 | 描述    |
+| ---- | ------ | ---- | ------- |
+| id   | string | 是   | 元素 ID |
 
-参数
+**返回值**:
 
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Record&lt;string, any&gt;
-
-- **描述：** 元素渲染样式
-
-</details>
+- **类型**: Record\<string, any\>
+- **描述**: 返回元素的渲染样式
 
 ### Graph.getElementState(id)
 
-获取元素状态
+获取元素的状态。
 
 ```typescript
 getElementState(id: ID): State[];
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+| 参数 | 类型   | 必填 | 描述    |
+| ---- | ------ | ---- | ------- |
+| id   | string | 是   | 元素 ID |
 
-参数
+**返回值**:
 
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** string[]
-
-- **描述：** 元素状态
-
-</details>
+- **类型**: [State](#state)[]
+- **描述**: 返回元素的状态
 
 ### Graph.getElementType(id)
 
-获取元素类型
+获取元素类型。
 
 ```typescript
-getElementType(id: ID): ElementType;
+getElementType(id: ID): string;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+| 参数 | 类型   | 必填 | 描述    |
+| ---- | ------ | ---- | ------- |
+| id   | string | 是   | 元素 ID |
 
-参数
+**返回值**:
 
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** 'node' \| 'edge' \| 'combo'
-
-- **描述：** 元素类型
-
-</details>
+- **类型**: string
+- **描述**: 返回元素的类型
 
 ### Graph.getElementVisibility(id)
 
-获取元素可见性
+获取元素可见性。
 
 ```typescript
-getElementVisibility(id: ID): BaseStyleProps['visibility'];
+getElementVisibility(id: ID): 'visibility' | 'hidden' ;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+| 参数 | 类型   | 必填 | 描述    |
+| ---- | ------ | ---- | ------- |
+| id   | string | 是   | 元素 ID |
 
-参数
+**返回值**:
 
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** BaseStyleProps['visibility']
-
-- **描述：** 元素可见性
-
-</details>
+- **类型**: 'visibility' | 'hidden'
+- **描述**: 返回元素的可见性
 
 ### Graph.getElementZIndex(id)
 
-获取元素层级
+获取元素层级。
 
 ```typescript
 getElementZIndex(id: ID): number;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+| 参数 | 类型   | 必填 | 描述    |
+| ---- | ------ | ---- | ------- |
+| id   | string | 是   | 元素 ID |
 
-参数
+**返回值**:
 
-</th><th>
+- **类型**: number
+- **描述**: 返回元素的层级
 
-类型
+### Graph.setElementState(id, state, options)
 
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** number
-
-- **描述：** 元素层级
-
-</details>
-
-### Graph.hideElement(id, animation)
-
-隐藏元素
+设置元素状态，支持两种调用方式：
 
 ```typescript
-hideElement(id: ID | ID[], animation?: boolean): Promise<void>;
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
-
-### Graph.setCombo(combo)
-
-设置组合样式映射
-
-```typescript
-setCombo(combo: ComboOptions): void;
-```
-
-即 `options.combo` 的值
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-combo
-
-</td><td>
-
-[ComboOptions](../api/reference/g6.combooptions.zh.md)
-
-</td><td>
-
-组合配置
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.setEdge(edge)
-
-设置边样式映射
-
-```typescript
-setEdge(edge: EdgeOptions): void;
-```
-
-即 `options.edge` 的值
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-edge
-
-</td><td>
-
-[EdgeOptions](../api/reference/g6.edgeoptions.zh.md)
-
-</td><td>
-
-边配置
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.setElementState(id, state, animation)
-
-设置元素状态
-
-```typescript
+// 设置单个元素状态
 setElementState(id: ID, state: State | State[], animation?: boolean): Promise<void>;
-```
 
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-state
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-状态
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-动画配置
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.setElementState(state, animation)
-
-批量设置元素状态
-
-```typescript
+// 批量设置元素状态
 setElementState(state: Record<ID, State | State[]>, animation?: boolean): Promise<void>;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+**单个元素状态设置**
 
-参数
+| 参数      | 类型                       | 必填 | 描述                |
+| --------- | -------------------------- | ---- | ------------------- |
+| id        | string                     | 是   | 要设置状态的元素 ID |
+| state     | [State](#state) \| State[] | 是   | 要设置的状态        |
+| animation | boolean                    | 否   | 是否启用动画        |
 
-</th><th>
+**批量元素状态设置**
 
-类型
+| 参数      | 类型                       | 必填     | 描述         |
+| --------- | -------------------------- | -------- | ------------ | ------------------ |
+| state     | Record<ID, [State](#state) | State[]> | 是           | 元素ID到状态的映射 |
+| animation | boolean                    | 否       | 是否启用动画 |
 
-</th><th>
+**返回值**:
 
-描述
+- **类型**: Promise\<void\>
+- **描述**: 返回一个 Promise，状态设置操作完成后 resolve
 
-</th></tr></thead>
-<tbody><tr><td>
+**示例**:
 
-state
+```typescript
+// 设置单个元素状态
+await graph.setElementState('node1', 'selected');
 
-</td><td>
-
-Record&lt;string, string \| string[]&gt;
-
-</td><td>
-
-状态配置
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-动画配置
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
+// 设置多个元素状态
+await graph.setElementState({
+  node1: 'selected',
+  node2: 'hover',
+  node3: ['selected', 'hover'],
+});
+```
 
 ### Graph.setElementVisibility(id, visibility, animation)
 
-设置元素可见性
+设置元素的可见性，支持两种调用方式：
 
 ```typescript
-setElementVisibility(id: ID, visibility: BaseStyleProps['visibility'], animation?: boolean): Promise<void>;
+// 设置单个元素可见性
+setElementVisibility(id: ID, visibility: 'visibility' | 'hidden', animation?: boolean): Promise<void>;
+
+// 批量设置元素可见性
+setElementVisibility(visibility: Record<ID, 'visibility' | 'hidden'>, animation?: boolean): Promise<void>;
 ```
 
-可见性配置包括 `visible` 和 `hidden` 两种状态
+**参数**:
 
-<details><summary>相关参数</summary>
+**单个元素可见性设置**
 
-<table><thead><tr><th>
+| 参数       | 类型                     | 必填 | 描述                  |
+| ---------- | ------------------------ | ---- | --------------------- |
+| id         | string                   | 是   | 要设置可见性的元素 ID |
+| visibility | 'visibility' \| 'hidden' | 是   | 要设置的可见性        |
 
-参数
+**批量元素可见性设置**
 
-</th><th>
+| 参数       | 类型                                 | 必填 | 描述                 |
+| ---------- | ------------------------------------ | ---- | -------------------- |
+| visibility | Record<ID, 'visibility' \| 'hidden'> | 是   | 元素ID到可见性的映射 |
+| animation  | boolean                              | 否   | 是否启用动画         |
 
-类型
+**返回值**:
 
-</th><th>
+- **类型**: Promise\<void\>
+- **描述**: 返回一个 Promise，可见性设置操作完成后 resolve
 
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-visibility
-
-</td><td>
-
-BaseStyleProps['visibility']
-
-</td><td>
-
-可见性
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-动画配置
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.setElementVisibility(visibility, animation)
-
-批量设置元素可见性
+**示例**:
 
 ```typescript
-setElementVisibility(visibility: Record<ID, BaseStyleProps['visibility']>, animation?: boolean): Promise<void>;
+// 设置单个元素可见性
+await graph.setElementVisibility('node1', 'hidden');
+
+// 设置多个元素可见性
+await graph.setElementVisibility({
+  node1: 'hidden',
+  node2: 'visibility',
+});
 ```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-visibility
-
-</td><td>
-
-Record&lt;string, BaseStyleProps['visibility']&gt;
-
-</td><td>
-
-可见性配置
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-动画配置
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
 
 ### Graph.setElementZIndex(id, zIndex)
 
-设置元素层级
+设置元素的层级，有两种调用方式：
 
 ```typescript
+// 设置单个元素层级
 setElementZIndex(id: ID, zIndex: number): Promise<void>;
-```
 
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-zIndex
-
-</td><td>
-
-number
-
-</td><td>
-
-层级
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.setElementZIndex(zIndex)
-
-批量设置元素层级
-
-```typescript
+// 批量设置元素层级
 setElementZIndex(zIndex: Record<ID, number>): Promise<void>;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+**单个元素层级设置**
 
-参数
+| 参数   | 类型   | 必填 | 描述    |
+| ------ | ------ | ---- | ------- |
+| id     | string | 是   | 元素 ID |
+| zIndex | number | 是   | 层级    |
 
-</th><th>
+**批量元素层级设置**
 
-类型
+| 参数   | 类型               | 必填 | 描述               |
+| ------ | ------------------ | ---- | ------------------ |
+| zIndex | Record<ID, number> | 是   | 元素ID到层级的映射 |
 
-</th><th>
+**返回值**:
 
-描述
+- **类型**: Promise\<void\>
+- **描述**: 返回一个 Promise，层级设置操作完成后 resolve
 
-</th></tr></thead>
-<tbody><tr><td>
+**示例**:
 
-zIndex
+```typescript
+// 设置单个元素层级
+await graph.setElementZIndex('node1', 10);
 
-</td><td>
-
-Record&lt;string, number&gt;
-
-</td><td>
-
-层级配置
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
+// 设置多个元素层级
+await graph.setElementZIndex({
+  node1: 10,
+  node2: 20,
+  node3: 30,
+});
+```
 
 ### Graph.setNode(node)
 
-设置节点样式映射
+设置节点样式映射。即 `options.node` 的值。
 
 ```typescript
 setNode(node: NodeOptions): void;
 ```
 
-即 `options.node` 的值
+**参数**:
 
-<details><summary>相关参数</summary>
+| 参数 | 类型                                         | 必填 | 描述     |
+| ---- | -------------------------------------------- | ---- | -------- |
+| node | [NodeOptions](/api/elements/nodes/base-node) | 是   | 节点配置 |
 
-<table><thead><tr><th>
+**示例**:
 
-参数
+```typescript
+// 设置所有的节点填充色为红色
+graph.setNode({
+  style: {
+    fill: 'red',
+  },
+});
+```
 
-</th><th>
+### Graph.setEdge(edge)
 
-类型
+设置边样式映射。即 `options.edge` 的值。
 
-</th><th>
+```typescript
+setEdge(edge: EdgeOptions): void;
+```
 
-描述
+**参数**:
 
-</th></tr></thead>
-<tbody><tr><td>
+| 参数 | 类型                                         | 必填 | 描述   |
+| ---- | -------------------------------------------- | ---- | ------ |
+| edge | [EdgeOptions](/api/elements/edges/base-edge) | 是   | 边配置 |
 
-node
+### Graph.setCombo(combo)
 
-</td><td>
+设置组合样式映射。即 `options.combo` 的值。
 
-[NodeOptions](../api/reference/g6.nodeoptions.zh.md)
+```typescript
+setCombo(combo: ComboOptions): void;
+```
 
-</td><td>
+**参数**:
 
-节点配置
+| 参数  | 类型                                            | 必填 | 描述     |
+| ----- | ----------------------------------------------- | ---- | -------- |
+| combo | [ComboOptions](/api/elements/combos/base-combo) | 是   | 组合配置 |
 
-</td></tr>
-</tbody></table>
+### Graph.collapseElement(id, options)
 
-**返回值**：
+收起指定元素，通常用于折叠组合(Combo)或具有子元素的节点。
 
-- **类型：** void
+```typescript
+collapseElement(id: ID, options?: boolean | CollapseExpandNodeOptions): Promise<void>;
+```
 
-</details>
+**参数**:
+
+| 参数    | 类型                                                               | 必填 | 描述                               |
+| ------- | ------------------------------------------------------------------ | ---- | ---------------------------------- |
+| id      | string                                                             | 是   | 要收起的元素 ID                    |
+| options | boolean \| [CollapseExpandNodeOptions](#collapseexpandnodeoptions) | 否   | 是否启用动画或收起节点的详细配置项 |
+
+**返回值**:
+
+- **类型**: Promise\<void\>
+- **描述**: 返回一个 Promise，收起操作完成后 resolve
+
+**示例**:
+
+```typescript
+// 简单收起，使用默认配置
+await graph.collapseElement('combo1');
+
+// 收起并启用动画
+await graph.collapseElement('combo1', true);
+
+// 收起并保证展开/收起的节点位置不变
+await graph.collapseElement('combo1', {
+  align: true,
+});
+```
+
+### Graph.expandElement(id, options)
+
+展开指定元素，通常用于展开先前收起的组合(Combo)或节点。
+
+```typescript
+expandElement(id: ID, options?: boolean | CollapseExpandNodeOptions): Promise<void>;
+```
+
+**参数**:
+
+| 参数    | 类型                                                               | 必填 | 描述                               |
+| ------- | ------------------------------------------------------------------ | ---- | ---------------------------------- |
+| id      | string                                                             | 是   | 要展开的元素 ID                    |
+| options | boolean \| [CollapseExpandNodeOptions](#collapseexpandnodeoptions) | 否   | 是否启用动画或展开节点的详细配置项 |
+
+**返回值**:
+
+- **类型**: Promise\<void\>
+- **描述**: 返回一个 Promise，展开操作完成后 resolve
+
+**示例**:
+
+```typescript
+// 简单展开，使用默认配置
+await graph.expandElement('combo1');
+
+// 展开并启用动画
+await graph.expandElement('combo1', true);
+
+// 展开并保证展开/收起的节点位置不变
+await graph.expandElement('combo1', {
+  align: true,
+});
+```
+
+### Graph.frontElement(id)
+
+将指定元素置于最顶层，使其显示在其他重叠元素之上。
+
+```typescript
+frontElement(id: ID | ID[]): void;
+```
+
+**参数**:
+
+| 参数 | 类型               | 必填 | 描述            |
+| ---- | ------------------ | ---- | --------------- |
+| id   | string \| string[] | 是   | 要置顶的元素 ID |
+
+**返回值**:
+
+- **类型**: void
+
+**示例**:
+
+```typescript
+// 将节点置于最顶层
+graph.frontElement('node1');
+
+// 对于选中的多个节点，都置于最顶层
+graph.frontElement(['node1', 'node2', 'node3']);
+```
 
 ### Graph.showElement(id, animation)
 
-显示元素
+显示指定元素。
 
 ```typescript
 showElement(id: ID | ID[], animation?: boolean): Promise<void>;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+| 参数      | 类型               | 必填 | 描述            |
+| --------- | ------------------ | ---- | --------------- |
+| id        | string \| string[] | 是   | 要显示的元素 ID |
+| animation | boolean            | 否   | 是否启用动画    |
 
-参数
+**返回值**:
 
-</th><th>
+- **类型**: Promise\<void\>
+- **描述**: 返回一个 Promise，显示操作完成后 resolve
 
-类型
+**示例**:
 
-</th><th>
+```typescript
+// 显示单个元素
+await graph.showElement('node1');
 
-描述
+// 带动画显示元素
+await graph.showElement('node1', true);
 
-</th></tr></thead>
-<tbody><tr><td>
+// 显示多个元素
+await graph.showElement(['node1', 'node2', 'node3']);
+```
 
-id
+### Graph.hideElement(id, animation)
 
-</td><td>
+隐藏指定元素。
 
-string \| string[]
+```typescript
+hideElement(id: ID | ID[], animation?: boolean): Promise<void>;
+```
 
-</td><td>
+**参数**:
 
-元素 ID
+| 参数      | 类型               | 必填 | 描述            |
+| --------- | ------------------ | ---- | --------------- |
+| id        | string \| string[] | 是   | 要隐藏的元素 ID |
+| animation | boolean            | 否   | 是否启用动画    |
 
-</td></tr>
-<tr><td>
+**返回值**:
 
-animation
+- **类型**: Promise\<void\>
+- **描述**: 返回一个 Promise，隐藏操作完成后 resolve
 
-</td><td>
+**示例**:
 
-boolean
+```typescript
+// 无动画隐藏元素
+await graph.hideElement('node1');
 
-</td><td>
+// 带动画隐藏元素
+await graph.hideElement('node1', true);
 
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
+// 隐藏多个元素
+await graph.hideElement(['node1', 'node2', 'node3'], true);
+```
 
 ### Graph.translateElementBy(id, offset, animation)
 
-将元素平移指定距离 (相对平移)
+相对平移元素指定距离，支持两种调用方式：
 
 ```typescript
-translateElementBy(id: ID, offset: Point, animation?: boolean): Promise<void>;
+// 将元素平移指定距离（相对平移）
+translateElement(id: ID, offset: Point, animation?: boolean): Promise<void>;
+
+// 批量将元素平移指定距离（相对平移）
+translateElement(offsets: Record<ID, Point>, animation?: boolean): Promise<void>;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+**单个元素平移**
 
-参数
+| 参数      | 类型             | 必填 | 描述                    |
+| --------- | ---------------- | ---- | ----------------------- |
+| id        | string           | 是   | 要平移的元素 ID         |
+| offset    | [number, number] | 是   | 平移的相对距离 [dx, dy] |
+| animation | boolean          | 否   | 是否启用动画            |
 
-</th><th>
+**批量元素平移**
 
-类型
+| 参数      | 类型                         | 必填 | 描述                   |
+| --------- | ---------------------------- | ---- | ---------------------- |
+| offsets   | Record<ID, [number, number]> | 是   | 元素ID到平移距离的映射 |
+| animation | boolean                      | 否   | 是否启用动画           |
 
-</th><th>
+**返回值**:
 
-描述
+- **类型**: Promise\<void\>
+- **描述**: 返回一个 Promise，平移操作完成后 resolve
 
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-offset
-
-</td><td>
-
-[number, number] \| [number, number, number] \| Float32Array
-
-</td><td>
-
-偏移量
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.translateElementBy(offsets, animation)
-
-批量将元素平移指定距离 (相对平移)
+**示例**:
 
 ```typescript
-translateElementBy(offsets: Record<ID, Point>, animation?: boolean): Promise<void>;
+// 向右平移100像素，向下平移50像素
+await graph.translateElementBy('node1', [100, 50]);
+
+// 带动画平移
+await graph.translateElementBy('node1', [100, 50], true);
+
+// 对多个节点应用相同的平移
+await graph.translateElementBy(
+  {
+    node1: [50, 50],
+    node2: [100, 100],
+    node3: [150, 150],
+  },
+  true,
+);
 ```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-offsets
-
-</td><td>
-
-Record&lt;string, [number, number] \| [number, number, number] \| Float32Array&gt;
-
-</td><td>
-
-偏移量配置
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
 
 ### Graph.translateElementTo(id, position, animation)
 
-将元素平移至指定位置 (绝对平移)
+将元素移动到指定位置，支持两种调用方式：
 
 ```typescript
+// 将元素移动到指定位置（绝对位置）
 translateElementTo(id: ID, position: Point, animation?: boolean): Promise<void>;
-```
 
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-position
-
-</td><td>
-
-[number, number] \| [number, number, number] \| Float32Array
-
-</td><td>
-
-指定位置
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.translateElementTo(positions, animation)
-
-批量将元素平移至指定位置 (绝对平移)
-
-```typescript
+// 批量将元素移动到指定位置（绝对位置）
 translateElementTo(positions: Record<ID, Point>, animation?: boolean): Promise<void>;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+**单个元素移动**
 
-参数
+| 参数      | 类型             | 必填 | 描述            |
+| --------- | ---------------- | ---- | --------------- |
+| id        | string           | 是   | 要移动的元素 ID |
+| position  | [number, number] | 是   | 目标绝对位置    |
+| animation | boolean          | 否   | 是否启用动画    |
 
-</th><th>
+**批量元素移动**
 
-类型
+| 参数      | 类型                             | 必填 | 描述                   |
+| --------- | -------------------------------- | ---- | ---------------------- |
+| positions | Record<string, [number, number]> | 是   | 元素ID到目标位置的映射 |
+| animation | boolean                          | 否   | 是否启用动画           |
 
-</th><th>
+**返回值**:
 
-描述
+- **类型**: Promise\<void\>
+- **描述**: 返回一个 Promise，移动操作完成后 resolve
 
-</th></tr></thead>
-<tbody><tr><td>
+**示例**:
 
-positions
+```typescript
+// 将节点移动到画布的 (200, 300) 位置
+await graph.translateElementTo('node1', [200, 300]);
 
-</td><td>
+// 带动画移动
+await graph.translateElementTo('node1', [200, 300], true);
 
-Record&lt;string, [number, number] \| [number, number, number] \| Float32Array&gt;
-
-</td><td>
-
-位置配置
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
+// 将一组节点整齐排列
+await graph.translateElementTo(
+  {
+    node1: [100, 100],
+    node2: [200, 200],
+    node3: [300, 100],
+  },
+  true,
+);
+```
 
 ### Graph.focusElement(id, animation)
 
-聚焦元素
+聚焦到指定元素，使元素居中于视口。
 
 ```typescript
 focusElement(id: ID | ID[], animation?: ViewportAnimationEffectTiming): Promise<void>;
 ```
 
-移动图，使得元素对齐到视口中心
+**参数**:
 
-<details><summary>相关参数</summary>
+| 参数      | 类型                                                            | 必填 | 描述                      |
+| --------- | --------------------------------------------------------------- | ---- | ------------------------- |
+| id        | string \| string[]                                              | 是   | 要聚焦的一个或多个元素 ID |
+| animation | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | 否   | 视口动画配置              |
 
-<table><thead><tr><th>
+**返回值**:
 
-参数
+- **类型**: Promise\<void\>
+- **描述**: 返回一个 Promise，聚焦操作完成后 resolve
 
-</th><th>
+**示例**:
 
-类型
+```typescript
+// 聚焦到单个节点
+await graph.focusElement('node1');
 
-</th><th>
+// 使用自定义动画配置
+await graph.focusElement('node1', {
+  duration: 800,
+  easing: 'ease-in-out',
+});
 
-描述
+// 聚焦到多个节点
+await graph.focusElement(['node1', 'node2', 'node3']);
+```
 
-</th></tr></thead>
-<tbody><tr><td>
+## 类型定义
 
-id
+### CollapseExpandNodeOptions
 
-</td><td>
+收起或展开元素的配置选项。
 
-string \| string[]
+```typescript
+interface CollapseExpandNodeOptions {
+  /**
+   * 是否使用动画
+   */
+  animation?: boolean;
+  /**
+   * 保证展开/收起的节点位置不变
+   */
+  align?: boolean;
+}
+```
 
-</td><td>
+### ViewportAnimationEffectTiming
 
-元素 ID
+视口动画配置类型。
 
-</td></tr>
-<tr><td>
+```typescript
+type ViewportAnimationEffectTiming =
+  | boolean // 是否启用动画
+  | {
+      easing?: string; // 缓动函数
+      duration?: number; // 动画持续时间(ms)
+    };
+```
 
-animation
+### AABB
 
-</td><td>
+AABB (Axis-Aligned Bounding Box) 是"轴对齐包围盒"的缩写，是计算机图形学中的一个基础概念。
 
-[ViewportAnimationEffectTiming](../api/reference/g6.viewportanimationeffecttiming.zh.md)
+```typescript
+interface AABB {
+  x: number; // 矩形左上角的 x 坐标
+  y: number; // 矩形左上角的 y 坐标
+  width: number; // 矩形宽度
+  height: number; // 矩形高度
+}
+```
 
-</td><td>
+### State
 
-动画配置
+元素状态类型。
 
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** Promise&lt;void&gt;
-
-</details>
+```typescript
+type State = 'selected' | 'hover' | 'active' | 'inactive' | 'disabled' | string;
+```

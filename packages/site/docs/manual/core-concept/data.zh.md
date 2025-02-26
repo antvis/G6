@@ -114,35 +114,314 @@ interface GraphData {
 }
 ```
 
+## 数据操作
+
+G6 提供了丰富的 API 来操作图数据，下面展示一些常见的数据操作示例。
+
+### 数据初始化
+
+在创建图实例时，可以直接传入数据：
+
+```javascript
+const data = {
+  nodes: [
+    { id: 'node1', data: { label: '节点1' } },
+    { id: 'node2', data: { label: '节点2' } },
+  ],
+  edges: [{ source: 'node1', target: 'node2', data: { label: '关系' } }],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data,
+});
+```
+
+或者通过 `setData` 方法设置数据：
+
+```javascript
+graph.setData({
+  nodes: [
+    { id: 'node3', data: { label: '节点3' } },
+    { id: 'node4', data: { label: '节点4' } },
+  ],
+  edges: [{ source: 'node3', target: 'node4', data: { label: '新关系' } }],
+});
+```
+
+### 数据增删改查
+
+#### 添加节点和边
+
+```javascript
+// 添加单个节点
+graph.addNodeData([
+  {
+    id: 'node5',
+    data: {
+      label: '新节点',
+      category: 'person',
+    },
+    style: {
+      fill: '#6395F9',
+      stroke: '#5B8FF9',
+    },
+  },
+]);
+
+// 批量添加多个节点
+graph.addNodeData([
+  { id: 'node6', data: { label: '批量节点1' } },
+  { id: 'node7', data: { label: '批量节点2' } },
+]);
+
+// 添加连接新节点的边
+graph.addEdgeData([
+  {
+    source: 'node1',
+    target: 'node5',
+    data: {
+      label: '连接到新节点',
+      weight: 2,
+    },
+    style: {
+      stroke: '#F6BD16',
+      lineWidth: 3,
+    },
+  },
+]);
+```
+
+#### 更新数据
+
+```javascript
+// 更新单个节点
+graph.updateNodeData([
+  {
+    id: 'node1',
+    data: {
+      label: '已更新的节点1',
+      status: 'updated',
+    },
+    style: {
+      fill: '#F6BD16',
+      stroke: '#EBEBEB',
+      lineWidth: 2,
+    },
+  },
+]);
+
+// 更新多个节点
+graph.updateNodeData([
+  {
+    id: 'node2',
+    style: { size: 40, fill: '#5AD8A6' },
+  },
+  {
+    id: 'node3',
+    data: { importance: 'high' },
+  },
+]);
+
+// 更新边
+graph.updateEdgeData([
+  {
+    source: 'node1',
+    target: 'node2',
+    style: {
+      stroke: '#5B8FF9',
+      lineWidth: 2,
+      lineDash: [5, 5],
+    },
+  },
+]);
+```
+
+#### 删除数据
+
+```javascript
+// 删除单个节点（以及与该节点相连的所有边）
+graph.removeNodeData('node7');
+
+// 删除多个节点
+graph.removeNodeData(['node5', 'node6']);
+
+// 删除边
+graph.removeEdgeData('node1-node2');
+```
+
+#### 查询数据
+
+```javascript
+// 获取所有节点数据
+const nodes = graph.getNodeData();
+
+// 获取所有边数据
+const edges = graph.getEdgeData();
+
+// 获取特定节点数据
+const node1 = graph.getNodeData('node1');
+
+// 获取特定边数据
+const edge1 = graph.getEdgeData('node1-node2');
+```
+
+### 复杂数据结构操作
+
+#### 嵌套组合（Combo）
+
+下面是创建和操作嵌套组合的示例：
+
+```javascript
+import { Graph } from '@antv/g6';
+
+const data = {
+  nodes: [
+    { id: 'node1', data: { label: '节点1' }, combo: 'combo1' },
+    { id: 'node2', data: { label: '节点2' }, combo: 'combo1' },
+    { id: 'node3', data: { label: '节点3' }, combo: 'combo2' },
+    { id: 'node4', data: { label: '节点4' }, combo: 'combo2' },
+    { id: 'node5', data: { label: '节点5' }, combo: 'combo3' },
+  ],
+  edges: [
+    { source: 'node1', target: 'node3' },
+    { source: 'node2', target: 'node4' },
+    { source: 'node4', target: 'node5' },
+  ],
+  combos: [
+    { id: 'combo1', data: { label: '组1' } },
+    { id: 'combo2', data: { label: '组2' } },
+    { id: 'combo3', data: { label: '组3' }, combo: 'combo1' }, // 嵌套组合
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data,
+  layout: {
+    type: 'force',
+  },
+});
+
+// 添加新的组合
+graph.addComboData([
+  {
+    id: 'combo4',
+    data: { label: '新组' },
+    combo: 'combo2', // 添加到现有组合中
+  },
+]);
+
+// 将节点移动到不同的组合
+graph.updateNodeData([
+  {
+    id: 'node5',
+    combo: 'combo4', // 将节点5移动到新组合
+  },
+]);
+
+// 展开/折叠组合
+graph.updateComboData([
+  {
+    id: 'combo1',
+    style: { collapsed: true }, // 折叠组合1
+  },
+]);
+
+graph.render();
+```
+
+#### 树形结构数据
+
+对于树形结构，G6 支持使用 `children` 属性表示层次关系：
+
+```javascript
+// 树形结构数据
+import { Graph } from '@antv/g6';
+
+const treeData = {
+  nodes: [
+    {
+      id: 'root',
+      data: { label: '根节点' },
+      children: ['child1', 'child2'],
+    },
+    {
+      id: 'child1',
+      data: { label: '子节点1' },
+      children: ['grandchild1', 'grandchild2'],
+    },
+    { id: 'child2', data: { label: '子节点2' } },
+    { id: 'grandchild1', data: { label: '孙节点1' } },
+    { id: 'grandchild2', data: { label: '孙节点2' } },
+  ],
+  edges: [
+    { source: 'root', target: 'child1' },
+    { source: 'root', target: 'child2' },
+    { source: 'child1', target: 'grandchild1' },
+    { source: 'child1', target: 'grandchild2' },
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data: treeData,
+  layout: {
+    type: 'dendrogram', // 或 'compactBox', 'mindmap' 等树布局
+    direction: 'TB', // 从上到下布局
+    nodeSep: 50, // 节点间距
+    rankSep: 100, // 层级间距
+  },
+});
+
+graph.render();
+```
+
 ## 数据组织与最佳实践
 
 为了确保图的正确渲染和交互，建议按照 G6 标准数据结构组织数据。每个元素（节点、边、组合）应包含一个 `data` 字段，用于存放业务数据和自定义属性。
 
 - **避免使用与 G6 内部字段名称相同的标识符**，如 `id`、`type`、`style` 等，防止发生命名冲突。
 - 将业务数据（如用户信息、社交网络关系等）存储在 `data` 字段中，这样可以确保数据的灵活性和可扩展性。
+- **使用样式映射**来根据业务数据动态设置视觉属性，而不是直接修改样式对象。
 
-**示例：**
+### 数据与样式分离
 
-```json
-{
-  "nodes": [
+良好的做法是将数据和样式分离，通过映射函数将数据属性转换为视觉属性：
+
+```javascript
+// ❌ 不推荐：在数据中直接包含样式
+const badPractice = {
+  nodes: [
     {
-      "id": "node1",
-      "data": { "name": "Alice", "role": "Admin" }
+      id: 'node1',
+      style: { fill: 'red', size: 30 }, // 直接写死样式
+      data: { value: 10 },
     },
-    {
-      "id": "node2",
-      "data": { "name": "Bob", "role": "User" }
-    }
   ],
-  "edges": [
-    {
-      "source": "node1",
-      "target": "node2",
-      "data": { "relationship": "friend" }
-    }
-  ]
-}
+};
+
+// ✅ 推荐：使用数据驱动样式
+const graph = new Graph({
+  container: 'container',
+  data: {
+    nodes: [
+      { id: 'node1', data: { value: 10, category: 'A' } },
+      { id: 'node2', data: { value: 5, category: 'B' } },
+    ],
+  },
+  node: {
+    style: {
+      // 根据数据中的 value 字段动态设置节点大小
+      size: (node) => 20 + node.data.value * 2,
+      // 根据数据中的 category 字段设置不同颜色
+      fill: (node) => {
+        const categoryColors = { A: '#F6BD16', B: '#5B8FF9' };
+        return categoryColors[node.data.category] || '#CCC';
+      },
+    },
+  },
+});
 ```
 
 ## API
@@ -184,5 +463,14 @@ fetch('https://path/to/data.json')
   .then((res) => res.json())
   .then((data) => {
     // 使用 data
+    const graph = new Graph({
+      container: 'container',
+      data,
+    });
+    // 触发布局和渲染
+    graph.render();
+  })
+  .catch((error) => {
+    console.error('加载数据失败:', error);
   });
 ```

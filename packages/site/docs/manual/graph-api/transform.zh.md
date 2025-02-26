@@ -1,112 +1,172 @@
 ---
-title: 数据转换
+title: 数据处理
 order: 10
 ---
 
+## 数据处理概述
+
+数据处理（Transform）是 G6 中一项强大的功能，允许在图渲染过程中对数据进行处理和转换。通过数据处理器，您可以实现各种数据处理需求，比如：
+
+- 数据过滤：根据条件筛选需要显示的节点和边
+- 数据计算：基于原始数据生成新的属性，如根据节点连接数计算节点大小，但不污染原始数据
+- 数据聚合：将大量节点聚合为少量节点，提高大规模图表的性能
+
+数据处理发生在渲染流程的特定阶段，可以灵活地改变最终呈现的结果，而无需修改原始数据源。
+
+## API 参考
+
 ### Graph.getTransforms()
 
-获取数据转换器配置
+获取当前图表中所有已配置的数据处理器。
 
 ```typescript
 getTransforms(): TransformOptions;
 ```
 
-<details><summary>相关参数</summary>
+**返回值**
 
-**返回值**：
+- **类型**: [TransformOptions](#transformoptions)
+- **描述**: 当前图表中已配置的所有数据处理器
 
-- **类型：** TransformOptions
+**示例**
 
-- **描述：** 数据转换配置
-
-</details>
+```typescript
+// 获取当前所有数据处理器
+const transforms = graph.getTransforms();
+console.log('当前图表的数据处理器:', transforms);
+```
 
 ### Graph.setTransforms(transforms)
 
-设置数据转换器
+设置图表的数据处理器，将替换所有现有的数据处理器。
 
 ```typescript
 setTransforms(transforms: TransformOptions | ((prev: TransformOptions) => TransformOptions)): void;
 ```
 
-数据转换器能够在图渲染过程中执行数据转换，目前支持在渲染前对绘制数据进行转化。
+**参数**
 
-<details><summary>相关参数</summary>
+| 参数       | 类型                                                                                    | 必填 | 描述                                                   |
+| ---------- | --------------------------------------------------------------------------------------- | ---- | ------------------------------------------------------ |
+| transforms | [TransformOptions](#transformoptions) \| ((prev: TransformOptions) => TransformOptions) | 是   | 新的数据处理器配置，或一个基于当前配置返回新配置的函数 |
 
-<table><thead><tr><th>
+**说明**
 
-参数
+数据处理器能够在图渲染过程的不同阶段对数据进行处理。设置的数据处理会全量替换原有的数据处理，如果需要在现有数据处理基础上添加新的数据处理，可以使用函数式更新方式。
 
-</th><th>
+**示例 1**: 设置基本数据处理
 
-类型
+```typescript
+graph.setTransforms(['process-parallel-edges', 'map-node-size']);
+```
 
-</th><th>
+**示例 2**: 设置带配置的数据处理
 
-描述
+```typescript
+graph.setTransforms([
+  // 字符串形式（使用默认配置）
+  'process-parallel-edges',
 
-</th></tr></thead>
-<tbody><tr><td>
+  // 对象形式（自定义配置）
+  {
+    type: 'process-parallel-edges',
+    key: 'my-process-parallel-edges',
+    distance: 20, // 平行边之间的距离
+  },
+]);
+```
 
-transforms
+**示例 3**: 使用函数式更新
 
-</td><td>
-
-TransformOptions \| ((prev: TransformOptions) =&gt; TransformOptions)
-
-</td><td>
-
-数据转换配置
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
+```typescript
+// 添加新的数据处理到现有配置
+graph.setTransforms((currentTransforms) => [
+  ...currentTransforms,
+  {
+    type: 'map-node-size',
+    key: 'my-map-node-size',
+    maxSize: 100,
+    minSize: 20,
+  },
+]);
+```
 
 ### Graph.updateTransform(transform)
 
-更新数据转换器
+更新指定的数据处理器配置，需要通过 `key` 标识要更新的数据处理。
 
 ```typescript
 updateTransform(transform: UpdateTransformOption): void;
 ```
 
-<details><summary>相关参数</summary>
+**参数**
 
-<table><thead><tr><th>
+| 参数      | 类型                                            | 必填 | 描述               |
+| --------- | ----------------------------------------------- | ---- | ------------------ |
+| transform | [UpdateTransformOption](#updatetransformoption) | 是   | 更新的数据处理配置 |
 
-参数
+**说明**
 
-</th><th>
+如果要更新一个数据处理器，必须在原始数据处理配置中指定 `key` 字段，以便能够准确找到并更新该数据处理。
 
-类型
+**示例**: 更新数据处理配置
 
-</th><th>
+```typescript
+// 初始设置数据处理时指定 key
+graph.setTransforms([
+  {
+    type: 'process-parallel-edges',
+    key: 'my-process-parallel-edges',
+    distance: 20,
+  },
+]);
 
-描述
+// 更新平行边距离
+graph.updateTransform({
+  key: 'my-process-parallel-edges',
+  distance: 30,
+});
+```
 
-</th></tr></thead>
-<tbody><tr><td>
+## 类型定义
 
-transform
+### TransformOptions
 
-</td><td>
+数据处理器配置类型，表示一组数据处理配置的数组。
 
-UpdateTransformOption
+```typescript
+type TransformOptions = (CustomTransformOption | ((this: Graph) => CustomTransformOption))[];
+```
 
-</td><td>
+### CustomTransformOption
 
-数据转换器配置
+自定义数据处理配置接口，用于配置数据处理参数。
 
-</td></tr>
-</tbody></table>
+```typescript
+type CustomTransformOption = {
+  // 数据处理类型
+  type: string;
 
-**返回值**：
+  // 数据处理唯一标识
+  key?: string;
 
-- **类型：** void
+  // 针对不同类型的数据处理，还可能有其他配置项
+  [configKey: string]: any;
+};
+```
 
-</details>
+### UpdateTransformOption
+
+更新数据处理的配置接口，用于动态修改数据处理参数。
+
+```typescript
+type UpdateTransformOption = {
+  // 要更新的数据处理的唯一标识
+  key: string;
+
+  // 其他要更新的配置项
+  [configKey: string]: unknown;
+};
+```
+
+更多内置数据处理配置项请参考 [API - 数据处理](/api/transforms/map-node-size) 章节。

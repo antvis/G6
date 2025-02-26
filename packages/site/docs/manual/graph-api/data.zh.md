@@ -3,1710 +3,889 @@ title: 数据
 order: 0
 ---
 
-### Graph.addChildrenData(parentId, childrenData)
+> 阅读本文档前，请先阅读 [核心概念 - 数据](/manual/core-concept/data) 章节。
 
-为树图节点添加子节点数据
+## 数据操作概述
 
-```typescript
-addChildrenData(parentId: ID, childrenData: NodeData[]): void;
-```
+G6 提供了一系列数据操作的 API，用于管理图中的节点、边和组合(Combo)数据。这些 API 可以分为以下几类:
 
-为组合添加子节点使用 addNodeData / addComboData 方法
+1. **数据查询**: 获取图中现有的节点、边、组合等数据
+2. **数据修改**: 添加、更新或删除图中的元素数据
+3. **数据关系**: 获取元素之间的层级、关联关系等信息
 
-<details><summary>相关参数</summary>
+## API 参考
 
-<table><thead><tr><th>
+### Graph.getData()
 
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-parentId
-
-</td><td>
-
-string
-
-</td><td>
-
-父节点 ID
-
-</td></tr>
-<tr><td>
-
-childrenData
-
-</td><td>
-
-[NodeData](../api/reference/g6.nodedata.zh.md)[]
-
-</td><td>
-
-子节点数据
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.addComboData(data)
-
-新增组合数据
+获取图的完整数据。
 
 ```typescript
-addComboData(data: ComboData[] | ((prev: ComboData[]) => ComboData[])): void;
+getData(): Required<GraphData>;
 ```
 
-**示例**
+**返回值**:
 
-```ts
-graph.addComboData([{ id: 'combo-1' }]);
+- **类型**: [GraphData](#graphdata)
+
+- **描述**: 返回包含所有节点、边和组合数据的完整图数据
+
+**示例**:
+
+```typescript
+const graphData = graph.getData();
+console.log('节点数据:', graphData.nodes);
+console.log('边数据:', graphData.edges);
+console.log('组合数据:', graphData.combos);
 ```
 
-<details><summary>相关参数</summary>
+### Graph.getNodeData()
 
-<table><thead><tr><th>
+获取节点数据，支持三种调用方式。
 
-参数
+```typescript
+// 获取所有节点数据
+getNodeData(): NodeData[];
 
-</th><th>
+// 获取单个节点数据
+getNodeData(id: ID): NodeData;
 
-类型
+// 批量获取多个节点数据
+getNodeData(ids: ID[]): NodeData[];
+```
 
-</th><th>
+**参数**:
 
-描述
+| 参数 | 类型     | 必填 | 描述         |
+| ---- | -------- | ---- | ------------ |
+| id   | string   | 否   | 节点 ID      |
+| ids  | string[] | 否   | 节点 ID 数组 |
 
-</th></tr></thead>
-<tbody><tr><td>
+**返回值**:
 
-data
+- **类型**: [NodeData](#nodedata) | [NodeData](#nodedata)[]
+- **描述**: 返回指定的节点数据或节点数据数组
 
-</td><td>
+**示例**:
 
-[ComboData](../api/reference/g6.combodata.zh.md)[] \| ((prev: [ComboData](../api/reference/g6.combodata.zh.md)[]) =&gt; [ComboData](../api/reference/g6.combodata.zh.md)[])
+```typescript
+// 获取所有节点
+const nodes = graph.getNodeData();
 
-</td><td>
+// 获取单个节点
+const node = graph.getNodeData('node1');
+console.log('节点位置:', node.style.x, node.style.y);
 
-组合数据
+// 获取多个节点
+const [node1, node2] = graph.getNodeData(['node1', 'node2']);
+```
 
-</td></tr>
-</tbody></table>
+### Graph.getEdgeData()
 
-**返回值**：
+获取边数据，支持三种调用方式。
 
-- **类型：** void
+```typescript
+// 获取所有边数据
+getEdgeData(): EdgeData[];
 
-</details>
+// 获取单条边数据
+getEdgeData(id: ID): EdgeData;
 
-### Graph.addData(data)
+// 批量获取多条边数据
+getEdgeData(ids: ID[]): EdgeData[];
+```
 
-新增元素数据
+**参数**:
+
+| 参数 | 类型     | 必填 | 描述       |
+| ---- | -------- | ---- | ---------- |
+| id   | string   | 否   | 边 ID      |
+| ids  | string[] | 否   | 边 ID 数组 |
+
+**返回值**:
+
+- **类型**: [EdgeData](#edgedata) | [EdgeData](#edgedata)[]
+- **描述**: 返回指定的边数据或边数据数组
+
+**示例**:
+
+```typescript
+// 获取所有边
+const edges = graph.getEdgeData();
+
+// 获取单条边
+const edge = graph.getEdgeData('edge1');
+console.log('边的起点和终点:', edge.source, edge.target);
+
+// 获取多条边
+const [edge1, edge2] = graph.getEdgeData(['edge1', 'edge2']);
+```
+
+### Graph.getComboData()
+
+获取组合数据,支持三种调用方式。
+
+```typescript
+// 获取所有组合数据
+getComboData(): ComboData[];
+
+// 获取单个组合数据
+getComboData(id: ID): ComboData;
+
+// 批量获取多个组合数据
+getComboData(ids: ID[]): ComboData[];
+```
+
+**参数**:
+
+| 参数 | 类型     | 必填 | 描述         |
+| ---- | -------- | ---- | ------------ |
+| id   | string   | 否   | 组合 ID      |
+| ids  | string[] | 否   | 组合 ID 数组 |
+
+**返回值**:
+
+- **类型**: [ComboData](#combodata) | [ComboData](#combodata)[]
+- **描述**: 返回指定的组合数据或组合数据数组
+
+**示例**:
+
+```typescript
+// 获取所有组合
+const combos = graph.getComboData();
+
+// 获取单个组合
+const combo = graph.getComboData('combo1');
+console.log('组合包含的节点:', combo.children);
+
+// 获取多个组合
+const [combo1, combo2] = graph.getComboData(['combo1', 'combo2']);
+```
+
+### Graph.getElementData()
+
+获取单个元素数据，支持两种调用方式。
+
+⚠️ **注意**: 此 API 直接获取元素的数据而不必考虑元素类型。
+
+```typescript
+// 获取单个元素数据
+getElementData(id: ID): ElementDatum;
+
+// 批量获取多个元素数据
+getElementData(ids: ID[]): ElementDatum[];
+```
+
+**参数**:
+
+| 参数 | 类型     | 必填 | 描述         |
+| ---- | -------- | ---- | ------------ |
+| id   | string   | 否   | 元素 ID      |
+| ids  | string[] | 否   | 元素 ID 数组 |
+
+**返回值**:
+
+- **类型**: ElementDatum \| ElementDatum[]
+- **描述**: 直接获取元素的数据而不必考虑元素类型
+
+**示例**:
+
+```typescript
+const element = graph.getElementData('node-1');
+console.log('元素数据:', element);
+
+const elements = graph.getElementData(['node-1', 'edge-1']);
+console.log('多个元素数据:', elements);
+```
+
+### Graph.getElementDataByState()
+
+获取指定状态下的元素数据，支持三种调用方式。
+
+```typescript
+// 获取指定状态下的节点数据
+getElementDataByState(elementType: 'node', state: string): NodeData[];
+
+// 获取指定状态下的边数据
+getElementDataByState(elementType: 'edge', state: string): EdgeData[];
+
+// 获取指定状态下的组合数据
+getElementDataByState(elementType: 'combo', state: string): ComboData[];
+```
+
+**参数**:
+
+| 参数        | 类型                        | 必填 | 描述     |
+| ----------- | --------------------------- | ---- | -------- |
+| elementType | 'node' \| 'edge' \| 'combo' | 是   | 元素类型 |
+| state       | string                      | 是   | 状态     |
+
+**返回值**:
+
+- **类型**: NodeData[] \| EdgeData[] \| ComboData[]
+- **描述**: 返回指定状态下的节点数据、边数据或组合数据
+
+**示例**:
+
+```typescript
+const selectedNodes = graph.getElementDataByState('node', 'selected');
+console.log('选中的节点:', selectedNodes);
+
+const selectedEdges = graph.getElementDataByState('edge', 'selected');
+console.log('选中的边:', selectedEdges);
+
+const selectedCombos = graph.getElementDataByState('combo', 'selected');
+console.log('选中的组合:', selectedCombos);
+```
+
+**内置状态**:
+
+- `'selected'`
+- `'highlight'`
+- `'active'`
+- `'inactive'`
+- `'disabled'`
+
+### Graph.getNeighborNodesData()
+
+获取节点或组合的一跳邻居节点数据。
+
+```typescript
+getNeighborNodesData(id: ID): NodeData[];
+```
+
+**参数**:
+
+| 参数 | 类型   | 必填 | 描述            |
+| ---- | ------ | ---- | --------------- |
+| id   | string | 是   | 节点或组合的 ID |
+
+**返回值**:
+
+- **类型**: NodeData[]
+- **描述**: 返回邻居节点数据
+
+**示例**:
+
+```typescript
+const neighbors = graph.getNeighborNodesData('node-1');
+console.log('邻居节点:', neighbors);
+```
+
+### Graph.getRelatedEdgesData()
+
+获取节点或组合关联边的数据。
+
+```typescript
+getRelatedEdgesData(id: ID, direction?: EdgeDirection): EdgeData[];
+```
+
+**参数**:
+
+| 参数      | 类型                    | 必填 | 描述            |
+| --------- | ----------------------- | ---- | --------------- |
+| id        | string                  | 是   | 节点或组合的 ID |
+| direction | 'in' \| 'out' \| 'both' | 否   | 边的方向        |
+
+**返回值**:
+
+- **类型**: EdgeData[]
+- **描述**: 返回与指定节点或组合关联的边数据
+
+**示例**:
+
+```typescript
+const relatedEdges = graph.getRelatedEdgesData('node-1');
+console.log('关联边:', relatedEdges);
+```
+
+### Graph.getParentData()
+
+获取节点或组合的父元素数据。
+
+```typescript
+getParentData(id: ID, hierarchy: HierarchyKey): NodeLikeData | undefined;
+```
+
+**参数**:
+
+| 参数      | 类型              | 必填 | 描述             |
+| --------- | ----------------- | ---- | ---------------- |
+| id        | string            | 是   | 节点或组合的 ID  |
+| hierarchy | 'tree' \| 'combo' | 是   | 指定层级关系类型 |
+
+**返回值**:
+
+- **类型**: NodeData \| ComboData \| undefined
+- **描述**: 返回父元素数据,如果不存在则返回 undefined
+
+**示例**:
+
+```typescript
+// 获取树图中节点的父节点
+const treeParent = graph.getParentData('node1', 'tree');
+
+// 获取组合中节点的父组合
+const comboParent = graph.getParentData('node1', 'combo');
+```
+
+### Graph.getChildrenData()
+
+获取节点或组合的子元素数据。
+
+```typescript
+getChildrenData(id: ID): NodeLikeData[];
+```
+
+**参数**:
+
+| 参数 | 类型   | 必填 | 描述            |
+| ---- | ------ | ---- | --------------- |
+| id   | string | 是   | 节点或组合的 ID |
+
+**返回值**:
+
+- **类型**: NodeData \| ComboData[]
+- **描述**: 返回子元素数据数组
+
+**示例**:
+
+```typescript
+// 获取组合的子元素
+const children = graph.getChildrenData('combo1');
+console.log('子节点数量:', children.length);
+
+// 处理每个子元素
+children.forEach((child) => {
+  console.log('子元素ID:', child.id);
+});
+```
+
+### Graph.getAncestorsData()
+
+获取节点或组合的所有祖先元素数据。
+
+```typescript
+getAncestorsData(id: ID, hierarchy: HierarchyKey): NodeLikeData[];
+```
+
+**参数**:
+
+| 参数      | 类型              | 必填 | 描述             |
+| --------- | ----------------- | ---- | ---------------- |
+| id        | string            | 是   | 节点或组合的 ID  |
+| hierarchy | 'tree' \| 'combo' | 是   | 指定层级关系类型 |
+
+**返回值**:
+
+- **类型**: [NodeData](#nodedata)[] \| [ComboData](#combodata)[]
+- **描述**: 返回祖先元素数据数组，从父节点到根节点的顺序排列
+
+**示例**:
+
+```typescript
+// 获取树图中节点的所有祖先节点
+const treeAncestors = graph.getAncestorsData('node1', 'tree');
+console.log(
+  '祖先节点路径:',
+  treeAncestors.map((node) => node.id),
+);
+
+// 获取组合中节点的所有父组合
+const comboAncestors = graph.getAncestorsData('node1', 'combo');
+```
+
+### Graph.getDescendantsData()
+
+获取节点或组合的所有后代元素数据。
+
+```typescript
+getDescendantsData(id: ID): NodeLikeData[];
+```
+
+**参数**:
+
+| 参数 | 类型   | 必填 | 描述            |
+| ---- | ------ | ---- | --------------- |
+| id   | string | 是   | 节点或组合的 ID |
+
+**返回值**:
+
+- **类型**: [NodeData](#nodedata)[] \| [ComboData](#combodata)[]
+- **描述**: 返回后代元素数据数组
+
+**示例**:
+
+```typescript
+// 获取节点的所有后代
+const descendants = graph.getDescendantsData('node1');
+console.log('后代数量:', descendants.length);
+
+// 处理所有后代元素
+descendants.forEach((descendant) => {
+  console.log('后代元素ID:', descendant.id);
+});
+```
+
+### Graph.setData()
+
+设置图的完整数据。
+
+```typescript
+setData(data: GraphData | ((prev: GraphData) => GraphData)): void;
+```
+
+**参数**:
+
+| 参数 | 类型                                                        | 必填 | 描述                           |
+| ---- | ----------------------------------------------------------- | ---- | ------------------------------ |
+| data | [GraphData](#graphdata) \| ((prev: GraphData) => GraphData) | 是   | 新的图数据或返回新图数据的函数 |
+
+**示例**:
+
+```typescript
+// 直接设置数据
+graph.setData({
+  nodes: [
+    { id: 'node1', style: { x: 100, y: 100 } },
+    { id: 'node2', style: { x: 200, y: 200 } },
+  ],
+  edges: [{ id: 'edge1', source: 'node1', target: 'node2' }],
+});
+
+// 使用函数式增量更新：获取当前图数据，并返回新的图数据
+graph.setData((prev) => ({
+  ...prev,
+  nodes: [...prev.nodes, { id: 'node3', style: { x: 300, y: 300 } }],
+}));
+```
+
+### Graph.addData()
+
+新增元素数据。
 
 ```typescript
 addData(data: GraphData | ((prev: GraphData) => GraphData)): void;
 ```
 
-**示例**
+**参数**:
 
-```ts
+| 参数 | 类型                                                        | 必填 | 描述             |
+| ---- | ----------------------------------------------------------- | ---- | ---------------- |
+| data | [GraphData](#graphdata) \| ((prev: GraphData) => GraphData) | 是   | 需要添加的图数据 |
+
+**示例**:
+
+```typescript
 graph.addData({
   nodes: [{ id: 'node-1' }, { id: 'node-2' }],
   edges: [{ source: 'node-1', target: 'node-2' }],
 });
 ```
 
-<details><summary>相关参数</summary>
+### Graph.addNodeData()
 
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-[GraphData](../api/reference/g6.graphdata.zh.md) \| ((prev: [GraphData](../api/reference/g6.graphdata.zh.md)) =&gt; [GraphData](../api/reference/g6.graphdata.zh.md))
-
-</td><td>
-
-元素数据
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.addEdgeData(data)
-
-新增边数据
-
-```typescript
-addEdgeData(data: EdgeData[] | ((prev: EdgeData[]) => EdgeData[])): void;
-```
-
-**示例**
-
-```ts
-graph.addEdgeData([{ source: 'node-1', target: 'node-2' }]);
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-[EdgeData](../api/reference/g6.edgedata.zh.md)[] \| ((prev: [EdgeData](../api/reference/g6.edgedata.zh.md)[]) =&gt; [EdgeData](../api/reference/g6.edgedata.zh.md)[])
-
-</td><td>
-
-边数据
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.addNodeData(data)
-
-新增节点数据
+新增节点数据。
 
 ```typescript
 addNodeData(data: NodeData[] | ((prev: NodeData[]) => NodeData[])): void;
 ```
 
-**示例**
+**参数**:
 
-```ts
-graph.addNodeData([{ id: 'node-1' }, { id: 'node-2' }]);
-```
+| 参数 | 类型                                                          | 必填 | 描述                                 |
+| ---- | ------------------------------------------------------------- | ---- | ------------------------------------ |
+| data | [NodeData](#nodedata)[] \| ((prev: NodeData[]) => NodeData[]) | 是   | 要添加的节点数据或返回节点数据的函数 |
 
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-[NodeData](../api/reference/g6.nodedata.zh.md)[] \| ((prev: [NodeData](../api/reference/g6.nodedata.zh.md)[]) =&gt; [NodeData](../api/reference/g6.nodedata.zh.md)[])
-
-</td><td>
-
-节点数据
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.getAncestorsData(id, hierarchy)
-
-获取节点或组合的祖先元素数据
+**示例**:
 
 ```typescript
-getAncestorsData(id: ID, hierarchy: HierarchyKey): NodeLikeData[];
+// 添加单个节点
+graph.addNodeData([
+  {
+    id: 'node1',
+    style: { x: 100, y: 100 },
+    data: { label: '节点 1' },
+  },
+]);
+
+// 批量添加节点
+graph.addNodeData([
+  { id: 'node2', style: { x: 200, y: 200 } },
+  { id: 'node3', style: { x: 300, y: 300 } },
+]);
+
+// 函数式添加
+graph.addNodeData((prev) => [...prev, { id: 'node4', style: { x: 400, y: 400 } }]);
 ```
 
-数组中的顺序是从父节点到祖先节点
+### Graph.addEdgeData()
 
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-<tr><td>
-
-hierarchy
-
-</td><td>
-
-'tree' \| 'combo'
-
-</td><td>
-
-指定树图层级关系还是组合层级关系
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** NodeData \| ComboData[]
-
-- **描述：** 祖先元素数据
-
-</details>
-
-### Graph.getChildrenData(id)
-
-获取节点或组合的子元素数据
+新增边数据。
 
 ```typescript
-getChildrenData(id: ID): NodeLikeData[];
+addEdgeData(data: EdgeData[] | ((prev: EdgeData[]) => EdgeData[])): void;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-<table><thead><tr><th>
+| 参数 | 类型                                                          | 必填 | 描述                             |
+| ---- | ------------------------------------------------------------- | ---- | -------------------------------- |
+| data | [EdgeData](#edgedata)[] \| ((prev: EdgeData[]) => EdgeData[]) | 是   | 要添加的边数据或返回边数据的函数 |
 
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** NodeData \| ComboData[]
-
-- **描述：** 子元素数据
-
-</details>
-
-### Graph.getComboData()
-
-获取所有组合数据
+**示例**:
 
 ```typescript
-getComboData(): ComboData[];
+// 添加单条边
+graph.addEdgeData([
+  {
+    id: 'edge1',
+    source: 'node1',
+    target: 'node2',
+    data: {
+      weight: 1,
+      label: '关系',
+    },
+  },
+]);
+
+// 批量添加边
+graph.addEdgeData([
+  { id: 'edge2', source: 'node2', target: 'node3' },
+  { id: 'edge3', source: 'node3', target: 'node1' },
+]);
+
+// 函数式添加
+graph.addEdgeData((prev) => [...prev, { id: 'edge4', source: 'node1', target: 'node4' }]);
 ```
 
-<details><summary>相关参数</summary>
+### Graph.addComboData()
 
-**返回值**：
-
-- **类型：** [ComboData](../api/reference/g6.combodata.zh.md)[]
-
-- **描述：** 组合数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getComboData(id)
-
-获取单个组合数据
+新增组合数据。
 
 ```typescript
-getComboData(id: ID): ComboData;
+addComboData(data: ComboData[] | ((prev: ComboData[]) => ComboData[])): void;
 ```
 
-**示例**
+**参数**:
 
-```ts
-const combo1 = graph.getComboData('combo-1');
-```
+| 参数 | 类型                                                              | 必填 | 描述                                 |
+| ---- | ----------------------------------------------------------------- | ---- | ------------------------------------ |
+| data | [ComboData](#combodata)[] \| ((prev: ComboData[]) => ComboData[]) | 是   | 要添加的组合数据或返回组合数据的函数 |
 
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-组合ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [ComboData](../api/reference/g6.combodata.zh.md)
-
-- **描述：** 组合数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getComboData(ids)
-
-批量获取多个组合数据
+**示例**:
 
 ```typescript
-getComboData(ids: ID[]): ComboData[];
+graph.addComboData([{ id: 'combo1', children: ['node1', 'node2'] }]);
 ```
 
-**示例**
+### Graph.addChildrenData()
 
-```ts
-const [combo1, combo2] = graph.getComboData(['combo-1', 'combo-2']);
-```
+为树图节点添加子节点数据。
 
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[]
-
-</td><td>
-
-组合ID 数组
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [ComboData](../api/reference/g6.combodata.zh.md)[]
-
-- **描述：** 组合数据
-
-</details>
-
-### Graph.getData()
-
-获取图数据
+⚠️ **注意**: 为组合添加子节点使用 addNodeData / addComboData 方法。
 
 ```typescript
-getData(): Required<GraphData>;
+addChildrenData(parentId: ID, childrenData: NodeData[]): void;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
 
-**返回值**：
+| 参数         | 类型                    | 必填 | 描述       |
+| ------------ | ----------------------- | ---- | ---------- |
+| parentId     | string                  | 是   | 父节点 ID  |
+| childrenData | [NodeData](#nodedata)[] | 是   | 子节点数据 |
 
-- **类型：** Required&lt;[GraphData](../api/reference/g6.graphdata.zh.md)&gt;
-
-- **描述：** 图数据
-
-</details>
-
-### Graph.getDescendantsData(id)
-
-获取节点或组合的后代元素数据
+**示例**:
 
 ```typescript
-getDescendantsData(id: ID): NodeLikeData[];
+graph.addChildrenData('node1', [{ id: 'node2' }]);
 ```
 
-<details><summary>相关参数</summary>
+### Graph.removeData()
 
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** NodeData \| ComboData[]
-
-- **描述：** 后代元素数据
-
-</details>
-
-### Graph.getEdgeData()
-
-获取所有边数据
-
-```typescript
-getEdgeData(): EdgeData[];
-```
-
-<details><summary>相关参数</summary>
-
-**返回值**：
-
-- **类型：** [EdgeData](../api/reference/g6.edgedata.zh.md)[]
-
-- **描述：** 边数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getEdgeData(id)
-
-获取单条边数据
-
-```typescript
-getEdgeData(id: ID): EdgeData;
-```
-
-**示例**
-
-```ts
-const edge1 = graph.getEdgeData('edge-1');
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-边 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [EdgeData](../api/reference/g6.edgedata.zh.md)
-
-- **描述：** 边数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getEdgeData(ids)
-
-批量获取多条边数据
-
-```typescript
-getEdgeData(ids: ID[]): EdgeData[];
-```
-
-**示例**
-
-```ts
-const [edge1, edge2] = graph.getEdgeData(['edge-1', 'edge-2']);
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[]
-
-</td><td>
-
-边 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [EdgeData](../api/reference/g6.edgedata.zh.md)[]
-
-- **描述：** 边数据
-
-</details>
-
-### Graph.getElementData(id)
-
-获取单个元素数据
-
-```typescript
-getElementData(id: ID): ElementDatum;
-```
-
-直接获取元素的数据而不必考虑元素类型
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** NodeData \| EdgeData \| ComboData
-
-- **描述：** 元素数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getElementData(ids)
-
-批量获取多个元素数据
-
-```typescript
-getElementData(ids: ID[]): ElementDatum[];
-```
-
-直接获取元素的数据而不必考虑元素类型
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[]
-
-</td><td>
-
-元素 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** NodeData \| EdgeData \| ComboData[]
-
-</details>
-
-### Graph.getElementDataByState(elementType, state)
-
-获取指定状态下的节点数据
-
-```typescript
-getElementDataByState(elementType: 'node', state: State): NodeData[];
-```
-
-**示例**
-
-```ts
-const nodes = graph.getElementDataByState('node', 'selected');
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-elementType
-
-</td><td>
-
-'node'
-
-</td><td>
-
-</td></tr>
-<tr><td>
-
-state
-
-</td><td>
-
-string
-
-</td><td>
-
-状态
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [NodeData](../api/reference/g6.nodedata.zh.md)[]
-
-- **描述：** 节点数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getElementDataByState(elementType, state)
-
-获取指定状态下的边数据
-
-```typescript
-getElementDataByState(elementType: 'edge', state: State): EdgeData[];
-```
-
-**示例**
-
-```ts
-const nodes = graph.getElementDataByState('edge', 'selected');
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-elementType
-
-</td><td>
-
-'edge'
-
-</td><td>
-
-</td></tr>
-<tr><td>
-
-state
-
-</td><td>
-
-string
-
-</td><td>
-
-状态
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [EdgeData](../api/reference/g6.edgedata.zh.md)[]
-
-- **描述：** 边数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getElementDataByState(elementType, state)
-
-获取指定状态下的组合数据
-
-```typescript
-getElementDataByState(elementType: 'combo', state: State): ComboData[];
-```
-
-**示例**
-
-```ts
-const nodes = graph.getElementDataByState('node', 'selected');
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-elementType
-
-</td><td>
-
-'combo'
-
-</td><td>
-
-</td></tr>
-<tr><td>
-
-state
-
-</td><td>
-
-string
-
-</td><td>
-
-状态
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [ComboData](../api/reference/g6.combodata.zh.md)[]
-
-- **描述：** 组合数据
-
-</details>
-
-### Graph.getNeighborNodesData(id)
-
-获取节点或组合的一跳邻居节点数据
-
-```typescript
-getNeighborNodesData(id: ID): NodeData[];
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [NodeData](../api/reference/g6.nodedata.zh.md)[]
-
-- **描述：** 邻居节点数据
-
-</details>
-
-### Graph.getNodeData()
-
-获取所有节点数据
-
-```typescript
-getNodeData(): NodeData[];
-```
-
-<details><summary>相关参数</summary>
-
-**返回值**：
-
-- **类型：** [NodeData](../api/reference/g6.nodedata.zh.md)[]
-
-- **描述：** 节点数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getNodeData(id)
-
-获取单个节点数据
-
-```typescript
-getNodeData(id: ID): NodeData;
-```
-
-**示例**
-
-```ts
-const node1 = graph.getNodeData('node-1');
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点 ID
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [NodeData](../api/reference/g6.nodedata.zh.md)
-
-- **描述：** 节点数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getNodeData(ids)
-
-批量获取多个节点数据
-
-```typescript
-getNodeData(ids: ID[]): NodeData[];
-```
-
-**示例**
-
-```ts
-const [node1, node2] = graph.getNodeData(['node-1', 'node-2']);
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[]
-
-</td><td>
-
-节点 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [NodeData](../api/reference/g6.nodedata.zh.md)[]
-
-- **描述：** 节点数据
-
-</details>
-
-### Graph.getParentData(id, hierarchy)
-
-获取节点或组合的父元素数据
-
-```typescript
-getParentData(id: ID, hierarchy: HierarchyKey): NodeLikeData | undefined;
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-<tr><td>
-
-hierarchy
-
-</td><td>
-
-'tree' \| 'combo'
-
-</td><td>
-
-指定树图层级关系还是组合层级关系
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** NodeData \| ComboData \| undefined
-
-- **描述：** 父元素数据
-
-</details>
-
-### Graph.getRelatedEdgesData(id, direction)
-
-获取节点或组合关联边的数据
-
-```typescript
-getRelatedEdgesData(id: ID, direction?: EdgeDirection): EdgeData[];
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-<tr><td>
-
-direction
-
-</td><td>
-
-'in' \| 'out' \| 'both'
-
-</td><td>
-
-边的方向
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** [EdgeData](../api/reference/g6.edgedata.zh.md)[]
-
-- **描述：** 边数据
-
-</details>
-
-### Graph.removeComboData(ids)
-
-删除组合数据
-
-```typescript
-removeComboData(ids: ID[] | ((data: ComboData[]) => ID[])): void;
-```
-
-**示例**
-
-```ts
-graph.removeComboData(['combo-1']);
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[] \| ((data: [ComboData](../api/reference/g6.combodata.zh.md)[]) =&gt; string[])
-
-</td><td>
-
-组合 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.removeData(ids)
-
-删除元素数据
+删除元素数据。
 
 ```typescript
 removeData(ids: DataID | ((data: GraphData) => DataID)): void;
 ```
 
-**示例**
+**参数**:
+| 参数 | 类型 | 必填 | 描述 |
+|------|------|------|------|
+| ids | [DataID](#dataid) \| ((data: GraphData) => DataID) | 是 | 要删除的元素 ID |
 
-```ts
+**返回值**:
+
+- **类型**: void
+
+**示例**:
+
+```typescript
 graph.removeData({
   nodes: ['node-1', 'node-2'],
   edges: ['edge-1'],
 });
 ```
 
-<details><summary>相关参数</summary>
+### Graph.removeNodeData()
 
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-DataID \| ((data: [GraphData](../api/reference/g6.graphdata.zh.md)) =&gt; DataID)
-
-</td><td>
-
-元素 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.removeEdgeData(ids)
-
-删除边数据
-
-```typescript
-removeEdgeData(ids: ID[] | ((data: EdgeData[]) => ID[])): void;
-```
-
-如果传入边数据时仅提供了 source 和 target，那么需要通过 `idOf` 方法获取边的实际 ID
-
-**示例**
-
-```ts
-graph.removeEdgeData(['edge-1']);
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[] \| ((data: [EdgeData](../api/reference/g6.edgedata.zh.md)[]) =&gt; string[])
-
-</td><td>
-
-边 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.removeNodeData(ids)
-
-删除节点数据
+删除节点数据。
 
 ```typescript
 removeNodeData(ids: ID[] | ((data: NodeData[]) => ID[])): void;
 ```
 
-**示例**
+**参数**:
+| 参数 | 类型 | 必填 | 描述 |
+|------|------|------|------|
+| ids | ID[] \| ((data: [NodeData](#nodedata)[]) => ID[]) | 是 | 要删除的节点 ID |
 
-```ts
+**返回值**:
+
+- **类型**: void
+
+**示例**:
+
+```typescript
 graph.removeNodeData(['node-1', 'node-2']);
 ```
 
-<details><summary>相关参数</summary>
+### Graph.removeEdgeData()
 
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[] \| ((data: [NodeData](../api/reference/g6.nodedata.zh.md)[]) =&gt; string[])
-
-</td><td>
-
-节点 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.setData(data)
-
-设置全量数据
+删除边数据。
 
 ```typescript
-setData(data: GraphData | ((prev: GraphData) => GraphData)): void;
+removeEdgeData(ids: ID[] | ((data: EdgeData[]) => ID[])): void;
 ```
 
-设置全量数据会替换当前图中的所有数据，G6 会自动进行数据差异计算
+**参数**:
+| 参数 | 类型 | 必填 | 描述 |
+|------|------|------|------|
+| ids | ID[] \| ((data: [EdgeData](#edgedata)[]) => ID[]) | 是 | 要删除的边 ID |
 
-<details><summary>相关参数</summary>
+**返回值**:
 
-<table><thead><tr><th>
+- **类型**: void
 
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-[GraphData](../api/reference/g6.graphdata.zh.md) \| ((prev: [GraphData](../api/reference/g6.graphdata.zh.md)) =&gt; [GraphData](../api/reference/g6.graphdata.zh.md))
-
-</td><td>
-
-数据
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.updateComboData(data)
-
-更新组合数据
+**示例**:
 
 ```typescript
-updateComboData(data: PartialNodeLikeData<ComboData>[] | ((prev: ComboData[]) => PartialNodeLikeData<ComboData>[])): void;
+graph.removeEdgeData(['edge-1']);
 ```
 
-只需要传入需要更新的数据即可，不必传入完整的数据
+### Graph.removeComboData()
 
-**示例**
+删除组合数据。
 
-```ts
-graph.updateComboData([{ id: 'combo-1', style: { x: 100, y: 100 } }]);
+```typescript
+removeComboData(ids: ID[] | ((data: ComboData[]) => ID[])): void;
 ```
 
-<details><summary>相关参数</summary>
+**参数**:
+| 参数 | 类型 | 必填 | 描述 |
+|------|------|------|------|
+| ids | ID[] \| ((data: [ComboData](#combodata)[]) => ID[]) | 是 | 要删除的组合 ID |
 
-<table><thead><tr><th>
+**返回值**:
 
-参数
+- **类型**: void
 
-</th><th>
+**示例**:
 
-类型
+```typescript
+graph.removeComboData(['combo-1']);
+```
 
-</th><th>
+### Graph.updateData()
 
-描述
+更新元素数据。
 
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-PartialNodeLikeData&lt;[ComboData](../api/reference/g6.combodata.zh.md)&gt;[] \| ((prev: [ComboData](../api/reference/g6.combodata.zh.md)[]) =&gt; PartialNodeLikeData&lt;[ComboData](../api/reference/g6.combodata.zh.md)&gt;[])
-
-</td><td>
-
-组合数据
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.updateData(data)
-
-更新元素数据
+⚠️ **注意**: 只需要传入需要更新的数据即可，不必传入完整的数据。
 
 ```typescript
 updateData(data: PartialGraphData | ((prev: GraphData) => PartialGraphData)): void;
 ```
 
-只需要传入需要更新的数据即可，不必传入完整的数据
+**参数**:
 
-**示例**
+| 参数 | 类型                                                        | 必填 | 描述             |
+| ---- | ----------------------------------------------------------- | ---- | ---------------- |
+| data | PartialGraphData \| ((prev: GraphData) => PartialGraphData) | 是   | 要更新的元素数据 |
 
-```ts
+**返回值**:
+
+- **类型**: void
+
+**示例**:
+
+```typescript
 graph.updateData({
   nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
   edges: [{ id: 'edge-1', style: { lineWidth: 2 } }],
 });
 ```
 
-<details><summary>相关参数</summary>
+### Graph.updateNodeData()
 
-<table><thead><tr><th>
+更新节点数据。
 
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-PartialGraphData \| ((prev: [GraphData](../api/reference/g6.graphdata.zh.md)) =&gt; PartialGraphData)
-
-</td><td>
-
-元素数据
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.updateEdgeData(data)
-
-更新边数据
-
-```typescript
-updateEdgeData(data: PartialEdgeData<EdgeData>[] | ((prev: EdgeData[]) => PartialEdgeData<EdgeData>[])): void;
-```
-
-只需要传入需要更新的数据即可，不必传入完整的数据
-
-**示例**
-
-```ts
-graph.updateEdgeData([{ id: 'edge-1', style: { lineWidth: 2 } }]);
-```
-
-<details><summary>相关参数</summary>
-
-<table><thead><tr><th>
-
-参数
-
-</th><th>
-
-类型
-
-</th><th>
-
-描述
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-PartialEdgeData&lt;[EdgeData](../api/reference/g6.edgedata.zh.md)&gt;[] \| ((prev: [EdgeData](../api/reference/g6.edgedata.zh.md)[]) =&gt; PartialEdgeData&lt;[EdgeData](../api/reference/g6.edgedata.zh.md)&gt;[])
-
-</td><td>
-
-边数据
-
-</td></tr>
-</tbody></table>
-
-**返回值**：
-
-- **类型：** void
-
-</details>
-
-### Graph.updateNodeData(data)
-
-更新节点数据
+⚠️ **注意**: 只需要传入需要更新的数据即可，不必传入完整的数据。
 
 ```typescript
 updateNodeData(data: PartialNodeLikeData<NodeData>[] | ((prev: NodeData[]) => PartialNodeLikeData<NodeData>[])): void;
 ```
 
-只需要传入需要更新的数据即可，不必传入完整的数据
+**参数**:
 
-**示例**
+| 参数 | 类型                                                          | 必填 | 描述             |
+| ---- | ------------------------------------------------------------- | ---- | ---------------- |
+| data | [NodeData](#nodedata)[] \| ((prev: NodeData[]) => NodeData[]) | 是   | 要更新的节点数据 |
 
-```ts
+**返回值**:
+
+- **类型**: void
+
+**示例**:
+
+```typescript
 graph.updateNodeData([{ id: 'node-1', style: { x: 100, y: 100 } }]);
 ```
 
-<details><summary>相关参数</summary>
+### Graph.updateEdgeData()
 
-<table><thead><tr><th>
+更新边数据。
 
-参数
+⚠️ **注意**: 只需要传入需要更新的数据即可，不必传入完整的数据。
 
-</th><th>
+```typescript
+updateEdgeData(data: (PartialEdgeData<EdgeData>[] | ((prev: EdgeData[]) => PartialEdgeData<EdgeData>[]))): void;
+```
 
-类型
+**参数**:
 
-</th><th>
+| 参数 | 类型                                             | 必填 | 描述           |
+| ---- | ------------------------------------------------ | ---- | -------------- |
+| data | EdgeData[] \| ((prev: EdgeData[]) => EdgeData[]) | 是   | 要更新的边数据 |
 
-描述
+**返回值**:
 
-</th></tr></thead>
-<tbody><tr><td>
+- **类型**: void
 
-data
+**示例**:
 
-</td><td>
+```typescript
+graph.updateEdgeData([{ id: 'edge-1', style: { lineWidth: 2 } }]);
+```
 
-PartialNodeLikeData&lt;[NodeData](../api/reference/g6.nodedata.zh.md)&gt;[] \| ((prev: [NodeData](../api/reference/g6.nodedata.zh.md)[]) =&gt; PartialNodeLikeData&lt;[NodeData](../api/reference/g6.nodedata.zh.md)&gt;[])
+### Graph.updateComboData()
 
-</td><td>
+更新组合数据。
 
-节点数据
+⚠️ **注意**: 只需要传入需要更新的数据即可，不必传入完整的数据。
 
-</td></tr>
-</tbody></table>
+```typescript
+updateComboData(data: (PartialNodeLikeData<ComboData>[] | ((prev: ComboData[]) => PartialNodeLikeData<ComboData>[]))): void;
+```
 
-**返回值**：
+**参数**:
 
-- **类型：** void
+| 参数 | 类型                                                | 必填 | 描述             |
+| ---- | --------------------------------------------------- | ---- | ---------------- |
+| data | ComboData[] \| ((prev: ComboData[]) => ComboData[]) | 是   | 要更新的组合数据 |
 
-</details>
+**返回值**:
+
+- **类型**: void
+
+**示例**:
+
+```typescript
+graph.updateComboData([{ id: 'combo-1', style: { x: 100, y: 100 } }]);
+```
+
+## 类型定义
+
+### ID
+
+元素 ID 类型。
+
+```typescript
+type ID = string;
+```
+
+### DataID
+
+多个元素 ID 类型。
+
+```typescript
+interface DataID {
+  nodes?: ID[];
+  edges?: ID[];
+  combos?: ID[];
+}
+```
+
+### GraphData
+
+G6 图数据类型。
+
+```typescript
+interface GraphData {
+  nodes?: NodeData[];
+  edges?: EdgeData[];
+  combos?: ComboData[];
+}
+```
+
+### NodeData
+
+节点数据类型。
+
+```typescript
+interface NodeData {
+  id: string; // 节点 ID
+  type?: string; // 节点类型
+  data?: Record<string, any>; // 节点数据
+  style?: Record<string, any>; // 节点样式
+  states?: string[]; // 节点初始状态
+  combo?: string; // 所属组合
+  children?: string[]; // 子节点 ID 数组
+}
+```
+
+详细类型定义请参考 [NodeData](/manual/core-concept/data#节点数据)。
+
+### EdgeData
+
+边数据类型。
+
+```typescript
+interface EdgeData {
+  source: string; // 起点 ID
+  target: string; // 终点 ID
+  id?: string; // 边 ID
+  type?: string; // 边类型
+  data?: Record<string, any>; // 边数据
+  style?: Record<string, any>; // 边样式
+  states?: string[]; // 边初始状态
+}
+```
+
+详细类型定义请参考 [EdgeData](/manual/core-concept/data#边数据)。
+
+### ComboData
+
+组合数据类型。
+
+```typescript
+interface ComboData {
+  id: string; // 组合 ID
+  type?: string; // 组合类型
+  data?: Record<string, any>; // 组合数据
+  style?: Record<string, any>; // 组合样式
+  states?: string[]; // 组合初始状态
+  combo?: string; // 父组合 ID
+}
+```
+
+详细类型定义请参考 [ComboData](/manual/core-concept/data#组合数据)。

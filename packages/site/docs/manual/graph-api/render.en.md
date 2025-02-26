@@ -13,7 +13,7 @@ draw(): Promise<void>;
 
 Only execute element drawing, no re-layout
 
-⚠️ draw is an asynchronous method. If you need to perform some operations after draw, you can use `await graph.draw()` or listen to the GraphEvent.AFTER_DRAW event
+⚠️ **注意**: draw is an asynchronous method. If you need to perform some operations after draw, you can use `await graph.draw()` or listen to the GraphEvent.AFTER_DRAW event
 
 <details><summary>View Parameters</summary>
 

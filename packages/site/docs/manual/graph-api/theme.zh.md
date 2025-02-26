@@ -3,6 +3,8 @@ title: 主题
 order: 9
 ---
 
+## API 参考
+
 ### Graph.getTheme()
 
 获取主题
