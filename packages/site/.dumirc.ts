@@ -161,13 +161,6 @@ export default defineConfig({
         },
       },
       {
-        slug: 'api/data',
-        title: {
-          zh: 'Data - 数据',
-          en: 'Data',
-        },
-      },
-      {
         slug: 'api/elements',
         title: {
           zh: 'Element - 元素',

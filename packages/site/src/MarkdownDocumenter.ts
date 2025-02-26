@@ -152,19 +152,19 @@ export class MarkdownDocumenter {
         await this._generateBilingualPages(this._writeExtensionPage.bind(this), pageData);
       }
 
-      // 对于数据
-      if (pageData.group === 'spec' && pageData.name === 'Data') {
-        const dataTypes = ['GraphData', 'NodeData', 'EdgeData', 'ComboData'];
-        dataTypes.forEach(async (name) => {
-          this.referenceLevel = 1;
-          const apiInterface = pageData.apiItems.find(
-            (apiItem) => apiItem instanceof ApiInterface && apiItem.displayName === name,
-          ) as ApiInterface;
-          if (apiInterface) {
-            await this._generateBilingualPages(this._writeDataPage.bind(this), apiInterface);
-          }
-        });
-      }
+      // // 对于数据
+      // if (pageData.group === 'spec' && pageData.name === 'Data') {
+      //   const dataTypes = ['GraphData', 'NodeData', 'EdgeData', 'ComboData'];
+      //   dataTypes.forEach(async (name) => {
+      //     this.referenceLevel = 1;
+      //     const apiInterface = pageData.apiItems.find(
+      //       (apiItem) => apiItem instanceof ApiInterface && apiItem.displayName === name,
+      //     ) as ApiInterface;
+      //     if (apiInterface) {
+      //       await this._generateBilingualPages(this._writeDataPage.bind(this), apiInterface);
+      //     }
+      //   });
+      // }
 
       // 对于元素
       if (['elements/nodes', 'elements/edges', 'elements/combos'].includes(pageData.group)) {
@@ -177,7 +177,7 @@ export class MarkdownDocumenter {
       if (pageData.group === 'runtime' && pageData.name === 'Graph') {
         this.referenceLevel = 1;
         this._generateBilingualPages(this._writeGraphOptionsPage.bind(this), pageData);
-        this._generateBilingualPages(this._writeGraphMethodsPage.bind(this), pageData);
+        // this._generateBilingualPages(this._writeGraphMethodsPage.bind(this), pageData);
         this._generateBilingualPages(this._writeGraphPropertiesPage.bind(this), pageData);
       }
     }
