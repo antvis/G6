@@ -1,6 +1,6 @@
 ---
 title: Upgrade To 5.0
-order: 5
+order: 6
 ---
 
 This document will guide you through the process of upgrading from G6 version `4.x` to `5.x`. If you are using version `3.x`, please upgrade to version `4.x` first.
