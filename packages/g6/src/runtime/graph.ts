@@ -554,6 +554,10 @@ export class Graph extends EventEmitter {
    * const node1 = graph.getNodeData('node-1');
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 节点 id 必须存在，否则会抛出异常
+   *
+   * <en/> Node id must exist, otherwise an exception will be thrown
    */
   public getNodeData(id: ID): NodeData;
   /**
@@ -567,12 +571,16 @@ export class Graph extends EventEmitter {
    * const [node1, node2] = graph.getNodeData(['node-1', 'node-2']);
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 数组中的每个节点 id 必须存在，否则将抛出异常
+   *
+   * <en/> Each node id in the array must exist, otherwise an exception will be thrown
    */
   public getNodeData(ids: ID[]): NodeData[];
   public getNodeData(id?: ID | ID[]): NodeData | NodeData[] {
     if (id === undefined) return this.context.model.getNodeData();
     if (Array.isArray(id)) return this.context.model.getNodeData(id);
-    return this.context.model.getNodeData([id])?.[0];
+    return this.context.model.getNodeLikeDatum(id);
   }
 
   /**
@@ -594,6 +602,10 @@ export class Graph extends EventEmitter {
    * const edge1 = graph.getEdgeData('edge-1');
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 边 id 必须存在，否则会抛出异常
+   *
+   * <en/> Edge id must exist, otherwise an exception will be thrown
    */
   public getEdgeData(id: ID): EdgeData;
   /**
@@ -607,12 +619,16 @@ export class Graph extends EventEmitter {
    * const [edge1, edge2] = graph.getEdgeData(['edge-1', 'edge-2']);
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 数组中的每个边 id 必须存在，否则将抛出异常
+   *
+   * <en/> Each edge id in the array must exist, otherwise an exception will be thrown
    */
   public getEdgeData(ids: ID[]): EdgeData[];
   public getEdgeData(id?: ID | ID[]): EdgeData | EdgeData[] {
     if (id === undefined) return this.context.model.getEdgeData();
     if (Array.isArray(id)) return this.context.model.getEdgeData(id);
-    return this.context.model.getEdgeData([id])?.[0];
+    return this.context.model.getEdgeDatum(id);
   }
 
   /**
@@ -634,6 +650,10 @@ export class Graph extends EventEmitter {
    * const combo1 = graph.getComboData('combo-1');
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 组合 id 必须存在，否则会抛出异常
+   *
+   * <en/> Combo id must exist, otherwise an exception will be thrown
    */
   public getComboData(id: ID): ComboData;
   /**
@@ -647,12 +667,16 @@ export class Graph extends EventEmitter {
    * const [combo1, combo2] = graph.getComboData(['combo-1', 'combo-2']);
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 数组中的每个组合 id 必须存在，否则将抛出异常
+   *
+   * <en/> Each combo id in the array must exist, otherwise an exception will be thrown
    */
   public getComboData(ids: ID[]): ComboData[];
   public getComboData(id?: ID | ID[]): ComboData | ComboData[] {
     if (id === undefined) return this.context.model.getComboData();
     if (Array.isArray(id)) return this.context.model.getComboData(id);
-    return this.context.model.getComboData([id])?.[0];
+    return this.context.model.getNodeLikeDatum(id);
   }
 
   /**
