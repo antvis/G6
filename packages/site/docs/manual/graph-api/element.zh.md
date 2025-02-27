@@ -3,7 +3,7 @@ title: 元素操作
 order: 1
 ---
 
-> 阅读本文档前，请先阅读 [核心概念 - 元素](/manual/core-concept/element) 章节。
+> 阅读本节前，请先阅读 [核心概念 - 元素](/manual/core-concept/element) 章节。
 
 ## 元素操作概述
 
@@ -125,7 +125,7 @@ getElementType(id: ID): string;
 获取元素可见性。
 
 ```typescript
-getElementVisibility(id: ID): 'visibility' | 'hidden' ;
+getElementVisibility(id: ID): 'visible' | 'hidden' ;
 ```
 
 **参数**:
@@ -136,7 +136,7 @@ getElementVisibility(id: ID): 'visibility' | 'hidden' ;
 
 **返回值**:
 
-- **类型**: 'visibility' | 'hidden'
+- **类型**: 'visible' | 'hidden'
 - **描述**: 返回元素的可见性
 
 ### Graph.getElementZIndex(id)
@@ -182,10 +182,10 @@ setElementState(state: Record<ID, State | State[]>, animation?: boolean): Promis
 
 **批量元素状态设置**
 
-| 参数      | 类型                       | 必填     | 描述         |
-| --------- | -------------------------- | -------- | ------------ | ------------------ |
-| state     | Record<ID, [State](#state) | State[]> | 是           | 元素ID到状态的映射 |
-| animation | boolean                    | 否       | 是否启用动画 |
+| 参数      | 类型                                   | 必填 | 描述               |
+| --------- | -------------------------------------- | ---- | ------------------ |
+| state     | Record<ID, [State](#state) \| State[]> | 是   | 元素ID到状态的映射 |
+| animation | boolean                                | 否   | 是否启用动画       |
 
 **返回值**:
 

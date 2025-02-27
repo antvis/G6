@@ -59,14 +59,14 @@ export default defineConfig({
     },
     navs: [
       {
-        slug: 'docs/manual/introduction',
+        slug: 'docs/manual',
         title: {
           zh: '文档',
           en: 'Docs',
         },
       },
       {
-        slug: 'docs/api/graph/option',
+        slug: 'docs/api',
         title: {
           zh: 'API',
           en: 'API',
@@ -159,6 +159,7 @@ export default defineConfig({
           zh: 'Graph - 图',
           en: 'Graph',
         },
+        order: 1,
       },
       {
         slug: 'api/elements',
@@ -166,6 +167,7 @@ export default defineConfig({
           zh: 'Element - 元素',
           en: 'Element',
         },
+        order: 2,
       },
       {
         slug: 'api/elements/nodes',
@@ -194,6 +196,7 @@ export default defineConfig({
           zh: 'Layout - 布局',
           en: 'Layout',
         },
+        order: 3,
       },
       {
         slug: 'api/behaviors',
@@ -201,6 +204,7 @@ export default defineConfig({
           zh: 'Behavior - 交互',
           en: 'Behavior',
         },
+        order: 4,
       },
       {
         slug: 'api/plugins',
@@ -208,6 +212,7 @@ export default defineConfig({
           zh: 'Plugin - 插件',
           en: 'Plugin',
         },
+        order: 5,
       },
       {
         slug: 'api/transforms',
@@ -215,6 +220,7 @@ export default defineConfig({
           zh: 'Transform - 数据处理',
           en: 'Transform',
         },
+        order: 6,
       },
       {
         slug: 'api/extension',
@@ -222,6 +228,7 @@ export default defineConfig({
           zh: 'Extension - 扩展',
           en: 'Extension',
         },
+        order: 7,
       },
       {
         slug: 'api/reference',

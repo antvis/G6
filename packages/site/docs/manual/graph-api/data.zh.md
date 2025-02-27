@@ -3,7 +3,7 @@ title: 数据
 order: 0
 ---
 
-> 阅读本文档前，请先阅读 [核心概念 - 数据](/manual/core-concept/data) 章节。
+> 阅读本节前，请先阅读 [核心概念 - 数据](/manual/core-concept/data) 章节。
 
 ## 数据操作概述
 
