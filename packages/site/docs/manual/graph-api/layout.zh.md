@@ -110,13 +110,21 @@ const currentLayout = graph.getLayout();
 console.log('当前布局类型:', currentLayout.type);
 ```
 
-### Graph.layout()
+### Graph.layout(layoutOptions)
 
 执行布局计算。当图数据发生变化后，调用此方法可触发布局算法重新计算节点位置。
 
 ```typescript
-layout(): Promise<void>;
+layout(layoutOptions?: LayoutOptions): Promise<void>;
 ```
+
+**参数**
+
+| 参数          | 类型                            | 必填 | 描述         |
+| ------------- | ------------------------------- | ---- | ------------ |
+| layoutOptions | [LayoutOptions](#layoutoptions) | 否   | 布局配置对象 |
+
+如果传入 `layoutOptions`，则优先考虑传入的布局配置，否则使用图的当前布局配置进行布局。
 
 **说明**
 

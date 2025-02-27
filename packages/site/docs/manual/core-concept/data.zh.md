@@ -337,35 +337,27 @@ graph.render();
 
 ```javascript
 // 树形结构数据
-import { Graph } from '@antv/g6';
+import { Graph, treeToGraphData } from '@antv/g6';
 
 const treeData = {
-  nodes: [
-    {
-      id: 'root',
-      data: { label: '根节点' },
-      children: ['child1', 'child2'],
-    },
+  id: 'root',
+  children: [
     {
       id: 'child1',
-      data: { label: '子节点1' },
-      children: ['grandchild1', 'grandchild2'],
+      children: [{ id: 'grandchild1' }],
     },
-    { id: 'child2', data: { label: '子节点2' } },
-    { id: 'grandchild1', data: { label: '孙节点1' } },
-    { id: 'grandchild2', data: { label: '孙节点2' } },
-  ],
-  edges: [
-    { source: 'root', target: 'child1' },
-    { source: 'root', target: 'child2' },
-    { source: 'child1', target: 'grandchild1' },
-    { source: 'child1', target: 'grandchild2' },
+    {
+      id: 'child2',
+      children: [{ id: 'grandchild2' }],
+    },
   ],
 };
 
+const data = treeToGraphData(treeData);
+
 const graph = new Graph({
   container: 'container',
-  data: treeData,
+  data,
   layout: {
     type: 'dendrogram', // 或 'compactBox', 'mindmap' 等树布局
     direction: 'TB', // 从上到下布局
@@ -375,6 +367,26 @@ const graph = new Graph({
 });
 
 graph.render();
+```
+
+通过 `treeToGraphData` 方法，可以将树形结构数据转换为 G6 的标准数据结构，实际传入到 `data` 中的数据结构如下：
+
+```json
+{
+  "nodes": [
+    { "id": "root", "depth": 0, "children": ["child1", "child2"] },
+    { "id": "child1", "depth": 1, "children": ["grandchild1"] },
+    { "id": "grandchild1", "depth": 2 },
+    { "id": "child2", "depth": 1, "children": ["grandchild2"] },
+    { "id": "grandchild2", "depth": 2 }
+  ],
+  "edges": [
+    { "source": "root", "target": "child1" },
+    { "source": "root", "target": "child2" },
+    { "source": "child1", "target": "grandchild1" },
+    { "source": "child2", "target": "grandchild2" }
+  ]
+}
 ```
 
 ## 数据组织与最佳实践
@@ -390,18 +402,9 @@ graph.render();
 良好的做法是将数据和样式分离，通过映射函数将数据属性转换为视觉属性：
 
 ```javascript
-// ❌ 不推荐：在数据中直接包含样式
-const badPractice = {
-  nodes: [
-    {
-      id: 'node1',
-      style: { fill: 'red', size: 30 }, // 直接写死样式
-      data: { value: 10 },
-    },
-  ],
-};
+import { Graph } from '@antv/g6';
 
-// ✅ 推荐：使用数据驱动样式
+// 使用数据驱动样式
 const graph = new Graph({
   container: 'container',
   data: {
