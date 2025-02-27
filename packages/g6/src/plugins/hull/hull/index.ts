@@ -1,4 +1,4 @@
-import type { Point } from '../../types';
+import type { Point } from '../../../types';
 import type { BBox, FormatTuple } from './format';
 import { formatUtil } from './format';
 import type { Grid } from './grid_handle';

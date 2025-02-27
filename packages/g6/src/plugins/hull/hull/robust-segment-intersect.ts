@@ -1,4 +1,4 @@
-import type { Point } from '../../types';
+import type { Point } from '../../../types';
 import orient from './robust-orientation';
 
 function checkCollinear(a0: Point, a1: Point, b0: Point, b1: Point): boolean {

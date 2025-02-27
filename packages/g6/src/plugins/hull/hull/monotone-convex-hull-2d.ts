@@ -1,6 +1,6 @@
 'use strict';
 
-import type { Point } from '../../types';
+import type { Point } from '../../../types';
 import robustOrientation from './robust-orientation';
 
 const orient = robustOrientation[3];

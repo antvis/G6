@@ -1,4 +1,4 @@
-import type { Point } from '../../types';
+import type { Point } from '../../../types';
 import type { BBox } from './format';
 
 export class Grid {

@@ -1,4 +1,4 @@
-import type { Point } from '../../types';
+import type { Point } from '../../../types';
 
 export type PointObject = Record<string, number>;
 export type BBox = [number, number, number, number];
