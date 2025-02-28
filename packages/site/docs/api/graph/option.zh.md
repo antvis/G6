@@ -144,11 +144,6 @@ import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
-  // 方式一：直接传入渲染器
-  renderer: SVGRenderer,
-  // 方式二：传入渲染器实例
-  renderer: new SVGRenderer(),
-  // 方式三：动态设置
   renderer: () => new SVGRenderer(),
 });
 ```
