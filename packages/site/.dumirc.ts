@@ -222,21 +222,6 @@ export default defineConfig({
         },
         order: 6,
       },
-      {
-        slug: 'api/extension',
-        title: {
-          zh: 'Extension - 扩展',
-          en: 'Extension',
-        },
-        order: 7,
-      },
-      {
-        slug: 'api/reference',
-        title: {
-          zh: 'Export - 导出',
-          en: 'Export',
-        },
-      },
     ],
     examples: [
       {
