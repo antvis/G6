@@ -8,19 +8,19 @@ title: Quadratic
 
 > If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseEdge](./BaseEdge.en.md)
 
-## controlPoint
+## style.controlPoint
 
 > _[number, number] \| [number, number, number] \| Float32Array_
 
 Control point. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`<!-- -->.
 
-## curveOffset
+## style.curveOffset
 
 > _number_ **Default:** `30`
 
 The distance of the control point from the line
 
-## curvePosition
+## style.curvePosition
 
 > _number_ **Default:** `0.5`
 

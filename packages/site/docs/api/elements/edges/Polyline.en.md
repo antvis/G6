@@ -8,19 +8,19 @@ title: Polyline
 
 > If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseEdge](./BaseEdge.en.md)
 
-## controlPoints
+## style.controlPoints
 
 > _[number, number] \| [number, number, number] \| Float32Array_<!-- -->_[]_
 
 Control point array
 
-## radius
+## style.radius
 
 > _number_ **Default:** `0`
 
 The radius of the rounded corner
 
-## router
+## style.router
 
 > _false \| [OrthRouter](#orthrouter) \| [ShortestPathRouter](#shortestpathrouter)_ **Default:** `false`
 

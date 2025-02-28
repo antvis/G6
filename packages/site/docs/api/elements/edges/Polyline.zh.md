@@ -8,19 +8,19 @@ title: Polyline 折线
 
 > 如果元素有其特定的属性，我们将在下面列出。对于所有的通用样式属性，见[BaseEdge](./BaseEdge.zh.md)
 
-## controlPoints
+## style.controlPoints
 
 > _[number, number] \| [number, number, number] \| Float32Array_<!-- -->_[]_
 
 控制点数组
 
-## radius
+## style.radius
 
 > _number_ **Default:** `0`
 
 圆角半径
 
-## router
+## style.router
 
 > _false \| [OrthRouter](#orthrouter) \| [ShortestPathRouter](#shortestpathrouter)_ **Default:** `false`
 

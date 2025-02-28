@@ -19,9 +19,9 @@ toDataURL(options?: Partial<DataURLOptions>): Promise<string>;
 
 **参数**
 
-| 参数    | 类型                      | 必填 | 描述         |
-| ------- | ------------------------- | ---- | ------------ |
-| options | Partial\<DataURLOptions\> | 否   | 导出图片配置 |
+| 参数    | 描述         | 类型                      | 默认值 | 必选 |
+| ------- | ------------ | ------------------------- | ------ | ---- |
+| options | 导出图片配置 | Partial\<DataURLOptions\> | -      |      |
 
 **返回值**
 
@@ -29,7 +29,7 @@ toDataURL(options?: Partial<DataURLOptions>): Promise<string>;
 
 **DataURLOptions 类型定义**
 
-| 参数           | 类型                                        | 必填 | 描述                                                                                             |
+| 参数           | 类型                                        | 必选 | 描述                                                                                             |
 | -------------- | ------------------------------------------- | ---- | ------------------------------------------------------------------------------------------------ |
 | mode           | 'viewport' \| 'overall'                     | 否   | 导出模式 <br/> - viewport: 导出视口内容 <br/> - overall: 导出整个画布                            |
 | type           | 'image/png' \| 'image/jpeg' \| 'image/webp' | 否   | 图片类型 <br/> - image/png: PNG 格式 <br/> - image/jpeg: JPEG 格式 <br/> - image/webp: WebP 格式 |

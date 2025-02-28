@@ -30,9 +30,9 @@ setLayout(layout: LayoutOptions | ((prev: LayoutOptions) => LayoutOptions)): voi
 
 **参数**
 
-| 参数   | 类型                                                                        | 必填 | 描述                                               |
-| ------ | --------------------------------------------------------------------------- | ---- | -------------------------------------------------- |
-| layout | [LayoutOptions](#layoutoptions) \| ((prev: LayoutOptions) => LayoutOptions) | 是   | 布局配置对象，或者一个基于之前配置返回新配置的函数 |
+| 参数   | 描述                                               | 类型                                                                        | 默认值 | 必选 |
+| ------ | -------------------------------------------------- | --------------------------------------------------------------------------- | ------ | ---- |
+| layout | 布局配置对象，或者一个基于之前配置返回新配置的函数 | [LayoutOptions](#layoutoptions) \| ((prev: LayoutOptions) => LayoutOptions) | -      | ✓    |
 
 **示例 1**: 设置力导向布局
 
@@ -120,9 +120,9 @@ layout(layoutOptions?: LayoutOptions): Promise<void>;
 
 **参数**
 
-| 参数          | 类型                            | 必填 | 描述         |
-| ------------- | ------------------------------- | ---- | ------------ |
-| layoutOptions | [LayoutOptions](#layoutoptions) | 否   | 布局配置对象 |
+| 参数          | 描述         | 类型                                                                        | 默认值 | 必选 |
+| ------------- | ------------ | --------------------------------------------------------------------------- | ------ | ---- |
+| layoutOptions | 布局配置对象 | [LayoutOptions](#layoutoptions) \| ((prev: LayoutOptions) => LayoutOptions) | -      |      |
 
 如果传入 `layoutOptions`，则优先考虑传入的布局配置，否则使用图的当前布局配置进行布局。
 

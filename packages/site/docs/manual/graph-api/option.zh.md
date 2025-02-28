@@ -48,9 +48,9 @@ setOptions(options: GraphOptions): void;
 
 **参数**
 
-| 参数    | 类型                                       | 必填 | 描述       |
-| ------- | ------------------------------------------ | ---- | ---------- |
-| options | [GraphOptions](/manual/core-concept/graph) | 是   | 新的配置项 |
+| 参数    | 描述       | 类型                                       | 默认值 | 必选 |
+| ------- | ---------- | ------------------------------------------ | ------ | ---- |
+| options | 新的配置项 | [GraphOptions](/manual/core-concept/graph) | -      | ✓    |
 
 **说明**
 

@@ -18,22 +18,24 @@ const graph = new Graph({
 });
 ```
 
-| 属性      | 描述                                         | 类型                    | 默认值   |
-| --------- | -------------------------------------------- | ----------------------- | -------- |
-| type      | 组合类型，内置组合类型名称或自定义组合的名称 | [Type](#type)           | `circle` |
-| style     | 组合样式，包括颜色、大小等                   | [Style](#style)         | -        |
-| state     | 定义组合在不同状态下的样式                   | [State](#state)         | -        |
-| palette   | 定义组合的色板，用于根据不同数据映射颜色     | [Palette](#palette)     | -        |
-| animation | 定义组合的动画效果                           | [Animation](#animation) | -        |
+## ComboOptions
+
+| 属性      | 描述                                         | 类型                    | 默认值   | 必选 |
+| --------- | -------------------------------------------- | ----------------------- | -------- | ---- |
+| type      | 组合类型，内置组合类型名称或自定义组合的名称 | [Type](#type)           | `circle` |      |
+| style     | 组合样式，包括颜色、大小等                   | [Style](#style)         | -        |      |
+| state     | 定义组合在不同状态下的样式                   | [State](#state)         | -        |      |
+| palette   | 定义组合的色板，用于根据不同数据映射颜色     | [Palette](#palette)     | -        |      |
+| animation | 定义组合的动画效果                           | [Animation](#animation) | -        |      |
 
 ## Type
 
 指定组合类型，内置组合类型名称或自定义组合的名称。默认为 `circle`（圆形组合）。
 
-| 类型   | 描述       | DEMO                                      |
-| ------ | ---------- | ----------------------------------------- |
-| circle | 圆形 Combo | [DEMO](/api/elements/combos/circle-combo) |
-| rect   | 矩形 Combo | [DEMO](/api/elements/combos/rect-combo)   |
+| 支持的值 | 描述       | DEMO                                      |
+| -------- | ---------- | ----------------------------------------- |
+| `circle` | 圆形 Combo | [DEMO](/api/elements/combos/circle-combo) |
+| `rect`   | 矩形 Combo | [DEMO](/api/elements/combos/rect-combo)   |
 
 更多内置支持组合类型，可查看[组合注册表](/manual/getting-started/extensions#组合)。
 

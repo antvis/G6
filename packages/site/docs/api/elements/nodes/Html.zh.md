@@ -8,19 +8,19 @@ title: Html HTML
 
 > 如果元素有其特定的属性，我们将在下面列出。对于所有的通用样式属性，见[BaseNode](./BaseNode.zh.md)
 
-## dx
+## style.dx
 
 > _number_ **Default:** `0`
 
 横行偏移量。HTML 容器默认以左上角为原点，通过 dx 来进行横向偏移
 
-## dy
+## style.dy
 
 > _number_ **Default:** `0`
 
 纵向偏移量。HTML 容器默认以左上角为原点，通过 dy 来进行纵向偏移
 
-## <Badge type="success">Required</Badge> innerHTML
+## <Badge type="success">Required</Badge> style.innerHTML
 
 > _string \|_ _HTMLElement_
 

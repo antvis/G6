@@ -13,11 +13,11 @@ This document introduces node properties.
 | palette   | Defines the color palette for nodes, used to map colors to different data | [Palette](#palette-properties-palette)           | -             |
 | animation | Defines animation effects for nodes                                       | [Animation](#animation-properties)               | -             |
 
-## Type Property `type`
+## style.Type Property `type`
 
 Specifies the node type, either a built-in node type name or a custom node name. Defaults to `circle`. For more built-in supported node types, refer to the [Node Registry](/en/manual/getting-started/extensions#nodes).
 
-## Style Property `style`
+## style.Style Property `style`
 
 Defines the node's style, including color, size, etc.
 
@@ -27,7 +27,7 @@ Defines the node's style, including color, size, etc.
 
 The following style will be explained sequentially based on atomic shapes:
 
-### Main Shape Style `key`
+### style.Main Shape Style `key`
 
 | Property       | Description                                                                                                                                                                                                                                       | Type                                                                               | Default Value |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------- |
@@ -41,7 +41,7 @@ The following style will be explained sequentially based on atomic shapes:
 | collapsed      | Whether the current node/group is expanded                                                                                                                                                                                                        | boolean                                                                            | false         |
 | `{StyleProps}` | Additional shape options, refer to [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object) options. For instance, `fillOpacity` indicates the transparency of the main shape's fill color                                           | [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object)              | -             |
 
-### Label Style `label`
+### style.Label Style `label`
 
 | Property                      | Description                                                                                                                                                                                                                                                                                                                                            | Type                                                                                                                                                                                                                               | Default Value |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
@@ -63,7 +63,7 @@ The following style will be explained sequentially based on atomic shapes:
 | labelBackgroundRadius         | Label background corner radius <br> - `number`: Sets the same radius for all four corners <br> - `number[]`: Sets the radius for each corner                                                                                                                                                                                                           | number &#124; number[]                                                                                                                                                                                                             | 0             |
 | `labelBackground{StyleProps}` | Additional label background style options, refer to [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect). For instance, `labelBackgroundFillOpacity` specifies the transparency of the label background                                                                                                                                        | [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect)                                                                                                                                                                       | -             |
 
-### Halo Style `halo`
+### style.Halo Style `halo`
 
 | Property           | Description                                                                                                                                                                                        | Type                                                                  | Default Value                              |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------ |
@@ -73,7 +73,7 @@ The following style will be explained sequentially based on atomic shapes:
 | haloLineWidth      | Halo stroke width                                                                                                                                                                                  | number                                                                | 3                                          |
 | `halo{StyleProps}` | Additional halo style options, refer to [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object). For instance, `haloFillOpacity` specifies the transparency of the halo's fill color | [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object) | -                                          |
 
-### Icon Style `icon`
+### style.Icon Style `icon`
 
 | Property           | Description                                                                                                                                                                                                                                 | Type                                                                                                                               | Default Value                   |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
@@ -88,7 +88,7 @@ The following style will be explained sequentially based on atomic shapes:
 | iconFontWeight     | Icon font weight                                                                                                                                                                                                                            | number &#124; string                                                                                                               | `normal`                        |
 | `icon{StyleProps}` | Additional icon style options, refer to [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) and [ImageStyleProps](https://g.antv.antgroup.com/api/basic/image). For instance, `iconFontSize` specifies the font size for icon text | [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) &#124; [ImageStyleProps](https://g.antv.antgroup.com/api/basic/image) | -                               |
 
-### Badge Style `badges`
+### style.Badge Style `badges`
 
 | Property             | Description                                                                                                                         | Type                                  | Default Value                     |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------- |
@@ -97,7 +97,7 @@ The following style will be explained sequentially based on atomic shapes:
 | badgePalette         | Background color palette for badges                                                                                                 | string[]                              | [`#7E92B5`, `#F4664A`, `#FFBE3A`] |
 | `badge{StyleProps} ` | General badge style options applied to each badge individually. Badge-specific styles in `badges` take precedence over this setting | [BadgeStyleProps](#badgestyleprops)   | -                                 |
 
-#### BadgeStyleProps
+#### style.BadgeStyleProps
 
 | Property                 | Description                                                                                                                                                                                                                                           | Type                                                                                                                                                                                                               | Default Value |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
@@ -160,7 +160,7 @@ createGraph(
 );
 ```
 
-### Port Style `ports`
+### style.Port Style `ports`
 
 | Property           | Description                                                                                                                                | Type                                | Default Value |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------- | ------------- |
@@ -168,7 +168,7 @@ createGraph(
 | ports              | Connection port options, supporting multiple ports                                                                                         | [PortStyleProps](#portstyleprops)[] | -             |
 | `port{StyleProps}` | Additional connection port styles. Refer to [PortStyleProps](#portstyleprops). For example, `portR` specifies the radius of circular ports | [PortStyleProps](#portstyleprops)   | -             |
 
-#### PortStyleProps
+#### style.PortStyleProps
 
 | Property       | Description                                                                                                                                                                                                          | Type                                                             | Default Value |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------- |
@@ -225,7 +225,7 @@ createGraph(
 );
 ```
 
-## State Style Properties `state`
+## style.State Style Properties `state`
 
 In certain interactive behaviors, such as selecting a node by clicking or activating an edge by hovering, the element merely undergoes a state change to indicate its status. To visually reflect these state changes for end users, different graphical styles must be defined for each state, which respond to state transitions of the element.
 
@@ -270,7 +270,7 @@ createGraph(
 );
 ```
 
-## Animation `animation`
+## style.Animation `animation`
 
 Defines the animation effect of the node, and supports the following two configuration methods:
 
@@ -340,7 +340,7 @@ You can pass in false to turn off animation for a particular stage:
 }
 ```
 
-## Palette Properties `palette`
+## style.Palette Properties `palette`
 
 This defines the node's palette, a predefined set of node colors that are allocated according to specific rules, with the colors mapped to the `fill` property.
 

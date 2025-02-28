@@ -38,10 +38,10 @@ const graph = new Graph({
 
 #### FitViewOptions
 
-| 属性      | 类型                       | 默认值     | 描述                                                                                                           |
-| --------- | -------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------- |
-| when      | `'overflow`' \| `'always'` | `'always'` | 在以下情况下进行适配 <br/> - `'overflow'` 仅当图内容超出视口时进行适配 <br/> - `'always'` 总是进行适配         |
-| direction | `'x`' \| `'y`' \| `'both'` | `'both'`   | 仅对指定方向进行适配 <br/> - `'x'` 仅适配 x 方向 <br/> - `'y'` 仅适配 y 方向 <br/> - `'both'` 适配 x 和 y 方向 |
+| 属性      | 描述                                                                                                           | 类型                       | 默认值     | 必选 |
+| --------- | -------------------------------------------------------------------------------------------------------------- | -------------------------- | ---------- | ---- |
+| when      | 在以下情况下进行适配 <br/> - `'overflow'` 仅当图内容超出视口时进行适配 <br/> - `'always'` 总是进行适配         | `'overflow`' \| `'always'` | `'always'` |      |
+| direction | 仅对指定方向进行适配 <br/> - `'x'` 仅适配 x 方向 <br/> - `'y'` 仅适配 y 方向 <br/> - `'both'` 适配 x 和 y 方向 | `'x`' \| `'y`' \| `'both'` | `'both'`   |      |
 
 #### ViewportAnimationEffectTiming
 
@@ -78,16 +78,16 @@ type ViewportAnimationEffectTiming =
 
 #### CanvasConfig
 
-| 属性             | 类型                                                                           | 描述                                                   |
-| ---------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------ |
-| container        | string \| HTMLElement                                                          | 画布容器                                               |
-| devicePixelRatio | number                                                                         | 设备像素比                                             |
-| width            | number                                                                         | 画布宽度                                               |
-| height           | number                                                                         | 画布高度                                               |
-| cursor           | string                                                                         | 指针样式，与 [GraphOptions.cursor](#cursor) 配置相同   |
-| background       | string                                                                         | 画布背景色                                             |
-| renderer         | (layer: `'background'` \| `'main'` \| `'label'` \| `'transient'`) => IRenderer | 渲染器，与 [GraphOptions.renderer](#renderer) 配置相同 |
-| enableMultiLayer | true                                                                           | 是否启用多图层。非动态参数，仅在初始化时生效           |
+| 属性             | 描述                                                   | 类型                                                                           | 默认值 | 必填 |
+| ---------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------ | ------ | ---- |
+| container        | 画布容器                                               | string \| HTMLElement                                                          | -      |      |
+| devicePixelRatio | 设备像素比                                             | number                                                                         | -      |      |
+| width            | 画布宽度                                               | number                                                                         | -      |      |
+| height           | 画布高度                                               | number                                                                         | -      |      |
+| cursor           | 指针样式，与 [GraphOptions.cursor](#cursor) 配置相同   | string                                                                         | -      |      |
+| background       | 画布背景色                                             | string                                                                         | -      |      |
+| renderer         | 渲染器，与 [GraphOptions.renderer](#renderer) 配置相同 | (layer: `'background'` \| `'main'` \| `'label'` \| `'transient'`) => IRenderer | -      |      |
+| enableMultiLayer | 是否启用多图层。非动态参数，仅在初始化时生效           | boolean                                                                        | -      |      |
 
 ## container
 
@@ -238,46 +238,46 @@ const graph2 = new Graph({
 
 #### GraphData
 
-| 属性   | 类型                      | 描述     |
-| ------ | ------------------------- | -------- |
-| nodes  | [NodeData](#nodedata)[]   | 节点数据 |
-| edges  | [EdgeData](#edgedata)[]   | 边数据   |
-| combos | [ComboData](#combodata)[] | 组合数据 |
+| 属性   | 描述     | 类型                      | 默认值 | 必选 |
+| ------ | -------- | ------------------------- | ------ | ---- |
+| nodes  | 节点数据 | [NodeData](#nodedata)[]   | -      | ✓    |
+| edges  | 边数据   | [EdgeData](#edgedata)[]   | -      | ✓    |
+| combos | 组合数据 | [ComboData](#combodata)[] | -      | ✓    |
 
 #### NodeData
 
-| 属性                                  | 类型           | 描述                                                                                         |
-| ------------------------------------- | -------------- | -------------------------------------------------------------------------------------------- |
-| <Badge type="success">必填</Badge> id | string         | 节点的唯一标识符，用于区分不同的节点                                                         |
-| type                                  | string         | 节点类型，内置节点类型名称或者自定义节点的名称                                               |
-| data                                  | Object         | 节点数据，用于存储节点的自定义数据，例如节点的名称、描述等。可以在样式映射中通过回调函数获取 |
-| style                                 | Object         | 节点样式，包括位置、大小、颜色等视觉属性                                                     |
-| states                                | string[]       | 节点初始状态，如选中、激活、悬停等                                                           |
-| combo                                 | string \| null | 所属的组合 ID，用于组织节点的层级关系，如果没有则为 null                                     |
-| children                              | string[]       | 子节点 ID 集合，仅在树图场景下使用                                                           |
+| 属性     | 描述                                                                                         | 类型           | 默认值 | 必选 |
+| -------- | -------------------------------------------------------------------------------------------- | -------------- | ------ | ---- |
+| id       | 节点的唯一标识符，用于区分不同的节点                                                         | string         | -      | ✓    |
+| type     | 节点类型，内置节点类型名称或者自定义节点的名称                                               | string         | -      |      |
+| data     | 节点数据，用于存储节点的自定义数据，例如节点的名称、描述等。可以在样式映射中通过回调函数获取 | object         | -      |      |
+| style    | 节点样式，包括位置、大小、颜色等视觉属性                                                     | object         | -      |      |
+| states   | 节点初始状态，如选中、激活、悬停等                                                           | string[]       | -      |      |
+| combo    | 所属的组合 ID，用于组织节点的层级关系，如果没有则为 null                                     | string \| null | -      |      |
+| children | 子节点 ID 集合，仅在树图场景下使用                                                           | string[]       | -      |      |
 
 #### EdgeData
 
-| 属性                                      | 类型     | 描述                                                                     |
-| ----------------------------------------- | -------- | ------------------------------------------------------------------------ |
-| <Badge type="success">必填</Badge> source | string   | 边起始节点 ID                                                            |
-| <Badge type="success">必填</Badge> target | string   | 边目标节点 ID                                                            |
-| id                                        | string   | 边的唯一标识符。若不指定，`id` 将根据规则 `${source}-${target}` 自动生成 |
-| type                                      | string   | 边类型，内置边类型名称或者自定义边的名称                                 |
-| data                                      | Object   | 边数据，用于存储边的自定义数据，可以在样式映射中通过回调函数获取         |
-| style                                     | Object   | 边样式，包括线条颜色、宽度、箭头等视觉属性                               |
-| states                                    | string[] | 边初始状态                                                               |
+| 属性   | 描述                                                             | 类型     | 默认值 | 必选 |
+| ------ | ---------------------------------------------------------------- | -------- | ------ | ---- |
+| source | 边起始节点 ID                                                    | string   | -      | ✓    |
+| target | 边目标节点 ID                                                    | string   | -      | ✓    |
+| id     | 边的唯一标识符                                                   | string   | -      |      |
+| type   | 边类型，内置边类型名称或者自定义边的名称                         | string   | -      |      |
+| data   | 边数据，用于存储边的自定义数据，可以在样式映射中通过回调函数获取 | object   | -      |      |
+| style  | 边样式，包括线条颜色、宽度、箭头等视觉属性                       | object   | -      |      |
+| states | 边初始状态                                                       | string[] | -      |      |
 
 #### ComboData
 
-| 属性                                  | 类型           | 描述                                                                 |
-| ------------------------------------- | -------------- | -------------------------------------------------------------------- |
-| <Badge type="success">必填</Badge> id | string         | 组合的唯一标识符                                                     |
-| type                                  | string         | 组合类型，内置组合类型名称或者自定义组合名称                         |
-| data                                  | Object         | 组合数据，用于存储组合的自定义数据，可以在样式映射中通过回调函数获取 |
-| style                                 | Object         | 组合样式                                                             |
-| states                                | string[]       | 组合初始状态                                                         |
-| combo                                 | string \| null | 组合的父组合 ID。如果没有父组合，则为 null                           |
+| 属性   | 描述                                                                 | 类型           | 默认值 | 必选 |
+| ------ | -------------------------------------------------------------------- | -------------- | ------ | ---- |
+| id     | 组合的唯一标识符                                                     | string         | -      | ✓    |
+| type   | 组合类型，内置组合类型名称或者自定义组合名称                         | string         | -      |      |
+| data   | 组合数据，用于存储组合的自定义数据，可以在样式映射中通过回调函数获取 | object         | -      |      |
+| style  | 组合样式                                                             | object         | -      |      |
+| states | 组合初始状态                                                         | string[]       | -      |      |
+| combo  | 组合的父组合 ID。如果没有父组合，则为 null                           | string \| null | -      |      |
 
 **示例：**
 
@@ -304,13 +304,13 @@ const graph = new Graph({
 
 #### NodeOptions
 
-| 属性      | 类型                                                                      | 描述                                         | 默认值   |
-| --------- | ------------------------------------------------------------------------- | -------------------------------------------- | -------- |
-| type      | string                                                                    | 节点类型，内置节点类型名称或自定义节点的名称 | `circle` |
-| style     | [NodeStyle](/api/elements/nodes/base-node#样式属性-style)                 | 节点样式，包括颜色、大小等                   | -        |
-| state     | Record<string, [Style](/api/elements/nodes/base-node#状态样式属性-state)> | 定义节点在不同状态下的样式                   | -        |
-| palette   | [Palette](/api/elements/nodes/base-node#色板属性-palette)                 | 定义节点的色板，用于根据不同数据映射颜色     | -        |
-| animation | [Animation](/api/elements/nodes/base-node#动画属性-animation)             | 定义节点的动画效果                           | -        |
+| 属性      | 描述                                         | 类型                                                 | 默认值   | 必选 |
+| --------- | -------------------------------------------- | ---------------------------------------------------- | -------- | ---- |
+| type      | 节点类型，内置节点类型名称或自定义节点的名称 | [Type](/api/elements/nodes/base-node#type)           | `circle` |      |
+| style     | 节点样式，包括颜色、大小等                   | [Style](/api/elements/nodes/base-node#style)         | -        |      |
+| state     | 定义节点在不同状态下的样式                   | [State](/api/elements/nodes/base-node#state)         | -        |      |
+| palette   | 定义节点的色板，用于根据不同数据映射颜色     | [Palette](/api/elements/nodes/base-node#palette)     | -        |      |
+| animation | 定义节点的动画效果                           | [Animation](/api/elements/nodes/base-node#animation) | -        |      |
 
 详见 [API - Node](/api/elements/nodes/base-node)
 
@@ -351,13 +351,13 @@ const graph = new Graph({
 
 #### EdgeOptions
 
-| 属性      | 类型                                                                      | 描述                                   | 默认值 |
-| --------- | ------------------------------------------------------------------------- | -------------------------------------- | ------ |
-| type      | string                                                                    | 边类型，内置边类型名称或自定义边的名称 | `line` |
-| style     | [Style](/api/elements/edges/base-edge#样式属性-style)                     | 边样式，包括颜色、大小等               | -      |
-| state     | Record<string, [Style](/api/elements/edges/base-edge#状态样式属性-state)> | 定义边在不同状态下的样式               | -      |
-| palette   | [Palette](/api/elements/edges/base-edge#色板属性-palette)                 | 定义边的色板，用于根据不同数据映射颜色 | -      |
-| animation | [Animation](/api/elements/edges/base-edge#动画属性-animation)             | 定义边的动画效果                       | -      |
+| 属性      | 描述                                   | 类型                                                 | 默认值 | 必选 |
+| --------- | -------------------------------------- | ---------------------------------------------------- | ------ | ---- |
+| type      | 边类型，内置边类型名称或自定义边的名称 | [Type](/api/elements/edges/base-edge#type)           | `line` |      |
+| style     | 边样式，包括颜色、大小等               | [Style](/api/elements/edges/base-edge#style)         | -      |      |
+| state     | 定义边在不同状态下的样式               | [State](/api/elements/edges/base-edge#state)         | -      |      |
+| palette   | 定义边的色板，用于根据不同数据映射颜色 | [Palette](/api/elements/edges/base-edge#palette)     | -      |      |
+| animation | 定义边的动画效果                       | [Animation](/api/elements/edges/base-edge#animation) | -      |      |
 
 详见 [API - Edge](/api/elements/edges/base-edge)
 
@@ -389,13 +389,13 @@ const graph = new Graph({
 
 组合配置项
 
-| 属性      | 类型                                                                        | 描述                                         | 默认值   |
-| --------- | --------------------------------------------------------------------------- | -------------------------------------------- | -------- |
-| type      | string                                                                      | 组合类型，内置组合类型名称或自定义组合的名称 | `circle` |
-| style     | [Style](/api/elements/combos/base-combo#样式属性-style)                     | 组合样式，包括颜色、大小等                   | -        |
-| state     | Record<string, [Style](/api/elements/combos/base-combo#状态样式属性-state)> | 定义组合在不同状态下的样式                   | -        |
-| palette   | [Palette](/api/elements/combos/base-combo#色板属性-palette)                 | 定义组合的色板，用于根据不同数据映射颜色     | -        |
-| animation | [Animation](/api/elements/combos/base-combo#动画属性-animation)             | 定义组合的动画效果                           | -        |
+| 属性      | 描述                                         | 类型                                                   | 默认值   | 必选 |
+| --------- | -------------------------------------------- | ------------------------------------------------------ | -------- | ---- |
+| type      | 组合类型，内置组合类型名称或自定义组合的名称 | [Type](/api/elements/combos/base-combo#type)           | `circle` |      |
+| style     | 组合样式，包括颜色、大小等                   | [Style](/api/elements/combos/base-combo#style)         | -        |      |
+| state     | 定义组合在不同状态下的样式                   | [State](/api/elements/combos/base-combo#state)         | -        |      |
+| palette   | 定义组合的色板，用于根据不同数据映射颜色     | [Palette](/api/elements/combos/base-combo#palette)     | -        |      |
+| animation | 定义组合的动画效果                           | [Animation](/api/elements/combos/base-combo#animation) | -        |      |
 
 详见 [API - Combo](/api/elements/combos/base-combo)
 

@@ -21,19 +21,19 @@ const graph = new Graph({
 
 ## EdgeOptions
 
-| 属性      | 描述                                   | 类型                    | 默认值 |
-| --------- | -------------------------------------- | ----------------------- | ------ |
-| type      | 边类型，内置边类型名称或自定义边的名称 | [Type](#type)           | `line` |
-| style     | 边样式，包括颜色、大小等               | [Style](#style)         | -      |
-| state     | 定义边在不同状态下的样式               | [State](#state)         | -      |
-| palette   | 定义边的色板，用于根据不同数据映射颜色 | [Palette](#palette)     | -      |
-| animation | 定义边的动画效果                       | [Animation](#animation) | -      |
+| 属性      | 描述                                   | 类型                    | 默认值 | 必选 |
+| --------- | -------------------------------------- | ----------------------- | ------ | ---- |
+| type      | 边类型，内置边类型名称或自定义边的名称 | [Type](#type)           | `line` |      |
+| style     | 边样式，包括颜色、大小等               | [Style](#style)         | -      |      |
+| state     | 定义边在不同状态下的样式               | [State](#state)         | -      |      |
+| palette   | 定义边的色板，用于根据不同数据映射颜色 | [Palette](#palette)     | -      |      |
+| animation | 定义边的动画效果                       | [Animation](#animation) | -      |      |
 
 ## Type
 
 指定边类型，内置边类型名称或自定义边的名称。默认为 `line`（直线边）。
 
-| 类型               | 描述               | DEMO                                         |
+| 支持的值           | 描述               | DEMO                                         |
 | ------------------ | ------------------ | -------------------------------------------- |
 | `cubic-horizontal` | 水平三次贝塞尔曲线 | [DEMO](/api/elements/edges/cubic-horizontal) |
 | `cubic-radial`     | 径向三次贝塞尔曲线 | [DEMO](/api/elements/edges/cubic-radial)     |

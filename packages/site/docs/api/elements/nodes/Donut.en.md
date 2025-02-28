@@ -8,25 +8,25 @@ title: Donut
 
 > If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseNode](./BaseNode.en.md)
 
-## donutPalette
+## style.donutPalette
 
 > _string \|_ _string[]_ **Default:** `'tableau'`
 
 Color or palette.
 
-## donuts
+## style.donuts
 
 > _number[] \|_ _DonutRound_<!-- -->_[]_
 
 Donut data.
 
-## innerR
+## style.innerR
 
 > _string \| number_ **Default:** `'50%'`
 
 Inner ring radius, using percentage or pixel value.
 
-## donut{[BaseStyleProps](https://g.antv.antgroup.com/api/basic/display-object#%E7%BB%98%E5%9B%BE%E5%B1%9E%E6%80%A7)}
+## style.donut{[BaseStyleProps](https://g.antv.antgroup.com/api/basic/display-object#%E7%BB%98%E5%9B%BE%E5%B1%9E%E6%80%A7)}
 
 <details><summary>An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.</summary>
 

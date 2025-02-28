@@ -10,13 +10,13 @@ Please note that when calculating the control points, the distance on the x-axis
 
 > If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseEdge](./BaseEdge.en.md)
 
-## curveOffset
+## style.curveOffset
 
 > _number \| [number, number]_ **Default:** `[0, 0]`
 
 The distance of the control point from the line
 
-## curvePosition
+## style.curvePosition
 
 > _number \| [number, number]_ **Default:** `[0.5, 0.5]`
 

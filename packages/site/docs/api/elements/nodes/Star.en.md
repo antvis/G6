@@ -8,7 +8,7 @@ title: Star
 
 > If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseNode](./BaseNode.en.md)
 
-## innerR
+## style.innerR
 
 > _number_
 

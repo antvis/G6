@@ -8,7 +8,7 @@ title: Hexagon
 
 > If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseNode](./BaseNode.en.md)
 
-## outerR
+## style.outerR
 
 > _number_
 

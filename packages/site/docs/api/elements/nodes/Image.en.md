@@ -8,13 +8,13 @@ title: Image
 
 > If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseNode](./BaseNode.en.md)
 
-## img
+## style.img
 
 > _string \|_ _HTMLImageElement_
 
 Image source, i.e. image address string
 
-## src
+## style.src
 
 > _string \|_ _HTMLImageElement_
 
