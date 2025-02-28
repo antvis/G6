@@ -7,7 +7,7 @@ order: 0
 
 ## autoFit
 
-> _{ type: 'view'; options?:_ [FitViewOptions](#fitviewoptions)<!-- -->_; animation?:_ [ViewportAnimationEffectTiming](#viewportanimationeffecttiming)<!-- -->_; } \| { type: 'center'; animation?:_ [ViewportAnimationEffectTiming](#viewportanimationeffecttiming)<!-- -->_; } \| 'view' \| 'center'_
+> _{ type: 'view'; options?: [FitViewOptions](#fitviewoptions); animation?: [ViewportAnimationEffectTiming](#viewportanimationeffecttiming); } \| { type: 'center'; animation?: [ViewportAnimationEffectTiming](#viewportanimationeffecttiming); } \| 'view' \| 'center'_
 
 是否自动适应画布。⚠️ **注意**：每次执行 `render` 时，都会根据 `autoFit` 进行自适应。
 
@@ -131,7 +131,7 @@ type ViewportAnimationEffectTiming =
 
 ## renderer
 
-> _(layer: 'background' \| 'main' \| 'label' \| 'transient') =&gt;_ _IRenderer_
+> _(layer: 'background' \| 'main' \| 'label' \| 'transient') =>_ _IRenderer_
 
 手动指定渲染器
 
@@ -212,6 +212,17 @@ const graph2 = new Graph({
 启用或关闭全局动画
 
 为动画配置项时，会启用动画，并将该动画配置作为全局动画的基础配置。
+
+#### AnimationEffectTiming
+
+| 属性       | 描述                 | 类型                                                                | 默认值      | 必选 |
+| ---------- | -------------------- | ------------------------------------------------------------------- | ----------- | ---- |
+| delay      | 动画延迟时间         | number                                                              | -           |      |
+| direction  | 动画方向             | `'alternate'` \| `'alternate-reverse'` \| `'normal'` \| `'reverse'` | `'forward'` |      |
+| duration   | 动画持续时间         | number                                                              | -           |      |
+| easing     | 动画缓动函数         | string                                                              | -           |      |
+| fill       | 动画结束后的填充模式 | `'auto'` \| `'backwards'` \| `'both'` \| `'forwards'` \| `'none'`   | `'none'`    |      |
+| iterations | 动画迭代次数         | number                                                              | -           |      |
 
 **示例：**
 
@@ -451,7 +462,7 @@ const graph = new Graph({
 
 ## behaviors
 
-> _(string \| [CustomExtensionOptions](#customextensionoptions) \| ((this:Graph) =&gt;CustomExtensionOptions))[]_
+> _(string \| [CustomExtensionOptions](#customextensionoptions) \| ((this:Graph) =>CustomExtensionOptions))[]_
 
 配置图表的交互行为，可以是字符串（使用默认配置）、对象（自定义配置）或函数（动态配置、函数内可访问图实例）。
 
@@ -482,7 +493,7 @@ const graph = new Graph({
 
 ## plugins
 
-> _(string \| [CustomExtensionOptions](#customextensionoptions) \| ((this:Graph) =&gt;CustomExtensionOptions))[]_
+> _(string \| [CustomExtensionOptions](#customextensionoptions) \| ((this:Graph) =>CustomExtensionOptions))[]_
 
 设置图表的插件，可以是字符串（使用默认配置）、对象（自定义配置）或函数（动态配置、函数内可访问图实例）。
 
@@ -515,7 +526,7 @@ const graph = new Graph({
 
 ## transforms
 
-> _(string \| [CustomExtensionOptions](#customextensionoptions) \| ((this:Graph) =&gt;CustomExtensionOptions))[]_
+> _(string \| [CustomExtensionOptions](#customextensionoptions) \| ((this:Graph) =>CustomExtensionOptions))[]_
 
 配置数据处理，用于在渲染前对数据进行处理，不会影响原始数据。可以是字符串（使用默认配置）、对象（自定义配置）或函数（动态配置、函数内可访问图实例）。
 

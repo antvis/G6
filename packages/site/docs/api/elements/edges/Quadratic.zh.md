@@ -12,7 +12,7 @@ title: Quadratic 二次贝塞尔曲线
 
 > _[number, number] \| [number, number, number] \| Float32Array_
 
-控制点，用于定义曲线的形状。如果不指定，将会通过`curveOffset`<!-- -->和`curvePosition`<!-- -->来计算控制点
+控制点，用于定义曲线的形状。如果不指定，将会通过`curveOffset`和`curvePosition`来计算控制点
 
 ## style.curveOffset
 

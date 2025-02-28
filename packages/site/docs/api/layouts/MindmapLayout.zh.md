@@ -14,17 +14,17 @@ title: Mindmap 脑图树
 
 树布局的方向
 
-- `'H'`<!-- -->：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧
+- `'H'`：horizontal（水平）—— 根节点的子节点分成两部分横向放置在根节点左右两侧
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width=170 alt='img'/>
 
-- `'V'`<!-- -->：vertical （竖直）—— 将根节点的所有孩子纵向排列
+- `'V'`：vertical （竖直）—— 将根节点的所有孩子纵向排列
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AD0GTaNT5cQAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ### getWidth
 
-> (d?:\_ _Node_<!-- -->_) =&gt; number_
+> _(d?: Node) => number_
 
 每个节点的宽度
 
@@ -40,7 +40,7 @@ title: Mindmap 脑图树
 
 ### getHeight
 
-> (d?:\_ _Node_<!-- -->_) =&gt; number_
+> _(d?: Node) => number_
 
 每个节点的高度
 
@@ -56,7 +56,7 @@ title: Mindmap 脑图树
 
 ### getHGap
 
-> (d?:\_ _Node_<!-- -->_) =&gt; number_
+> (d?:\_ _Node\_\_) => number_
 
 每个节点的水平间隙
 
@@ -72,7 +72,7 @@ title: Mindmap 脑图树
 
 ### getVGap
 
-> (d?:\_ _Node_<!-- -->_) =&gt; number_
+> _(d?: Node) => number_
 
 每个节点的垂直间隙
 
@@ -88,7 +88,7 @@ title: Mindmap 脑图树
 
 ### getSide
 
-> (d?:\_ _Node_<!-- -->_) =&gt; string_
+> _(d?: Node) => string_
 
 节点排布在根节点的左侧/右侧。若设置了该值，则所有节点会在根节点同一侧，即 direction = 'H' 不再起效。若该参数为回调函数，则可以指定每一个节点在根节点的左/右侧。
 

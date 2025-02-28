@@ -24,7 +24,7 @@ The direction of the tree layout
 
 ### getWidth
 
-> (d?:\_ _Node_<!-- -->_) =&gt; number_
+> (d?:\_ _Node\_\_) => number_
 
 The width of each node
 
@@ -40,7 +40,7 @@ Example:
 
 ### getHeight
 
-> (d?:\_ _Node_<!-- -->_) =&gt; number_
+> (d?:\_ _Node\_\_) => number_
 
 The height of each node
 
@@ -56,7 +56,7 @@ Example:
 
 ### getHGap
 
-> (d?:\_ _Node_<!-- -->_) =&gt; number_
+> (d?:\_ _Node\_\_) => number_
 
 The horizontal gap between each node
 
@@ -72,7 +72,7 @@ Example:
 
 ### getVGap
 
-> (d?:\_ _Node_<!-- -->_) =&gt; number_
+> (d?:\_ _Node\_\_) => number_
 
 The vertical gap between each node
 
@@ -88,7 +88,7 @@ Example:
 
 ### getSide
 
-> (d?:\_ _Node_<!-- -->_) =&gt; string_
+> (d?:\_ _Node\_\_) => string_
 
 Node placement is to the left or right of the root node. If this value is set, all nodes will be on the same side of the root node, which means that `direction = 'H'` will no longer be effective. If this parameter is a callback function, it can specify the left or right side of the root node for each individual node.
 

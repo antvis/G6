@@ -87,7 +87,7 @@ const graph = new Graph({
 | destroyed | boolean | 当前图实例是否已被销毁   |
 | rendered  | boolean | 当前图实例是否已完成渲染 |
 
-## 使用示例
+## 参考示例
 
 ### 完整的创建和配置示例
 

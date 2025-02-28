@@ -10,7 +10,7 @@ title: Polyline 折线
 
 ## style.controlPoints
 
-> _[number, number] \| [number, number, number] \| Float32Array_<!-- -->_[]_
+> _[number, number] \| [number, number, number] \| Float32Array\_\_[]_
 
 控制点数组
 

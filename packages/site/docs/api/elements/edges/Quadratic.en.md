@@ -12,7 +12,7 @@ title: Quadratic
 
 > _[number, number] \| [number, number, number] \| Float32Array_
 
-Control point. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`<!-- -->.
+Control point. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.
 
 ## style.curveOffset
 

@@ -16,7 +16,7 @@ Color or palette.
 
 ## style.donuts
 
-> _number[] \|_ _DonutRound_<!-- -->_[]_
+> _number[] \|_ _DonutRound\_\_[]_
 
 Donut data.
 
