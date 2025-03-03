@@ -31,7 +31,7 @@ Graph 类接收一个实例化参数对象，称之为**配置项**(Options，�
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
-  container: 'container', // 指定容器
+  container: 'container', // 通过 DOM ID 指定容器
   width: 800, // 画布宽高（若容器已设尺寸可省略）
   height: 600,
   data: {
