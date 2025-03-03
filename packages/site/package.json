@@ -24,7 +24,7 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
-    "build": "npm run doc && dumi build",
+    "build": "dumi build",
     "build:memo": "node --expose-gc --max-old-space-size=32768 ./node_modules/dumi/bin/dumi build",
     "deploy": "gh-pages -d dist",
     "dev": "dumi dev",

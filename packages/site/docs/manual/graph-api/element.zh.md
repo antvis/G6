@@ -3,7 +3,7 @@ title: 元素操作
 order: 1
 ---
 
-> 阅读本文档前，请先阅读 [核心概念 - 元素](/manual/core-concept/element) 章节。
+> 阅读本节前，请先阅读 [核心概念 - 元素](/manual/core-concept/element) 章节。
 
 ## 元素操作概述
 
@@ -29,9 +29,9 @@ getElementPosition(id: ID): Point;
 
 **参数**:
 
-| 参数 | 类型   | 必填 | 描述    |
-| ---- | ------ | ---- | ------- |
-| id   | string | 是   | 元素 ID |
+| 参数 | 描述    | 类型   | 默认值 | 必选 |
+| ---- | ------- | ------ | ------ | ---- |
+| id   | 元素 ID | string | -      | ✓    |
 
 **返回值**:
 
@@ -54,9 +54,9 @@ getElementRenderBounds(id: ID): AABB;
 
 **参数**:
 
-| 参数 | 类型   | 必填 | 描述    |
-| ---- | ------ | ---- | ------- |
-| id   | string | 是   | 元素 ID |
+| 参数 | 描述    | 类型   | 默认值 | 必选 |
+| ---- | ------- | ------ | ------ | ---- |
+| id   | 元素 ID | string | -      | ✓    |
 
 **返回值**:
 
@@ -73,9 +73,9 @@ getElementRenderStyle(id: ID): Record<string, any>;
 
 **参数**:
 
-| 参数 | 类型   | 必填 | 描述    |
-| ---- | ------ | ---- | ------- |
-| id   | string | 是   | 元素 ID |
+| 参数 | 描述    | 类型   | 默认值 | 必选 |
+| ---- | ------- | ------ | ------ | ---- |
+| id   | 元素 ID | string | -      | ✓    |
 
 **返回值**:
 
@@ -92,9 +92,9 @@ getElementState(id: ID): State[];
 
 **参数**:
 
-| 参数 | 类型   | 必填 | 描述    |
-| ---- | ------ | ---- | ------- |
-| id   | string | 是   | 元素 ID |
+| 参数 | 描述    | 类型   | 默认值 | 必选 |
+| ---- | ------- | ------ | ------ | ---- |
+| id   | 元素 ID | string | -      | ✓    |
 
 **返回值**:
 
@@ -111,9 +111,9 @@ getElementType(id: ID): string;
 
 **参数**:
 
-| 参数 | 类型   | 必填 | 描述    |
-| ---- | ------ | ---- | ------- |
-| id   | string | 是   | 元素 ID |
+| 参数 | 描述    | 类型   | 默认值 | 必选 |
+| ---- | ------- | ------ | ------ | ---- |
+| id   | 元素 ID | string | -      | ✓    |
 
 **返回值**:
 
@@ -125,18 +125,18 @@ getElementType(id: ID): string;
 获取元素可见性。
 
 ```typescript
-getElementVisibility(id: ID): 'visibility' | 'hidden' ;
+getElementVisibility(id: ID): 'visible' | 'hidden' ;
 ```
 
 **参数**:
 
-| 参数 | 类型   | 必填 | 描述    |
-| ---- | ------ | ---- | ------- |
-| id   | string | 是   | 元素 ID |
+| 参数 | 描述    | 类型   | 默认值 | 必选 |
+| ---- | ------- | ------ | ------ | ---- |
+| id   | 元素 ID | string | -      | ✓    |
 
 **返回值**:
 
-- **类型**: 'visibility' | 'hidden'
+- **类型**: 'visible' | 'hidden'
 - **描述**: 返回元素的可见性
 
 ### Graph.getElementZIndex(id)
@@ -149,9 +149,9 @@ getElementZIndex(id: ID): number;
 
 **参数**:
 
-| 参数 | 类型   | 必填 | 描述    |
-| ---- | ------ | ---- | ------- |
-| id   | string | 是   | 元素 ID |
+| 参数 | 描述    | 类型   | 默认值 | 必选 |
+| ---- | ------- | ------ | ------ | ---- |
+| id   | 元素 ID | string | -      | ✓    |
 
 **返回值**:
 
@@ -174,18 +174,18 @@ setElementState(state: Record<ID, State | State[]>, animation?: boolean): Promis
 
 **单个元素状态设置**
 
-| 参数      | 类型                       | 必填 | 描述                |
-| --------- | -------------------------- | ---- | ------------------- |
-| id        | string                     | 是   | 要设置状态的元素 ID |
-| state     | [State](#state) \| State[] | 是   | 要设置的状态        |
-| animation | boolean                    | 否   | 是否启用动画        |
+| 参数      | 描述                | 类型                       | 默认值 | 必选 |
+| --------- | ------------------- | -------------------------- | ------ | ---- |
+| id        | 要设置状态的元素 ID | string                     | -      | ✓    |
+| state     | 要设置的状态        | [State](#state) \| State[] | -      | ✓    |
+| animation | 是否启用动画        | boolean                    | -      |      |
 
 **批量元素状态设置**
 
-| 参数      | 类型                       | 必填     | 描述         |
-| --------- | -------------------------- | -------- | ------------ | ------------------ |
-| state     | Record<ID, [State](#state) | State[]> | 是           | 元素ID到状态的映射 |
-| animation | boolean                    | 否       | 是否启用动画 |
+| 参数      | 描述               | 类型                                   | 默认值 | 必选 |
+| --------- | ------------------ | -------------------------------------- | ------ | ---- |
+| state     | 元素ID到状态的映射 | Record<ID, [State](#state) \| State[]> | -      | ✓    |
+| animation | 是否启用动画       | boolean                                | -      |      |
 
 **返回值**:
 
@@ -212,27 +212,28 @@ await graph.setElementState({
 
 ```typescript
 // 设置单个元素可见性
-setElementVisibility(id: ID, visibility: 'visibility' | 'hidden', animation?: boolean): Promise<void>;
+setElementVisibility(id: ID, visibility: 'visible' | 'hidden', animation?: boolean): Promise<void>;
 
 // 批量设置元素可见性
-setElementVisibility(visibility: Record<ID, 'visibility' | 'hidden'>, animation?: boolean): Promise<void>;
+setElementVisibility(visibility: Record<ID, 'visible' | 'hidden'>, animation?: boolean): Promise<void>;
 ```
 
 **参数**:
 
 **单个元素可见性设置**
 
-| 参数       | 类型                     | 必填 | 描述                  |
-| ---------- | ------------------------ | ---- | --------------------- |
-| id         | string                   | 是   | 要设置可见性的元素 ID |
-| visibility | 'visibility' \| 'hidden' | 是   | 要设置的可见性        |
+| 参数       | 描述                  | 类型                      | 默认值 | 必选 |
+| ---------- | --------------------- | ------------------------- | ------ | ---- |
+| id         | 要设置可见性的元素 ID | string                    | -      | ✓    |
+| visibility | 要设置的可见性        | `'visible'` \| `'hidden'` | -      | ✓    |
+| animation  | 是否启用动画          | boolean                   | -      |      |
 
 **批量元素可见性设置**
 
-| 参数       | 类型                                 | 必填 | 描述                 |
-| ---------- | ------------------------------------ | ---- | -------------------- |
-| visibility | Record<ID, 'visibility' \| 'hidden'> | 是   | 元素ID到可见性的映射 |
-| animation  | boolean                              | 否   | 是否启用动画         |
+| 参数       | 描述                 | 类型                                  | 默认值 | 必选 |
+| ---------- | -------------------- | ------------------------------------- | ------ | ---- |
+| visibility | 元素ID到可见性的映射 | Record<ID, `'visible'` \| `'hidden'`> | -      | ✓    |
+| animation  | 是否启用动画         | boolean                               | -      |      |
 
 **返回值**:
 
@@ -268,16 +269,16 @@ setElementZIndex(zIndex: Record<ID, number>): Promise<void>;
 
 **单个元素层级设置**
 
-| 参数   | 类型   | 必填 | 描述    |
-| ------ | ------ | ---- | ------- |
-| id     | string | 是   | 元素 ID |
-| zIndex | number | 是   | 层级    |
+| 参数   | 描述    | 类型   | 默认值 | 必选 |
+| ------ | ------- | ------ | ------ | ---- |
+| id     | 元素 ID | string | -      | ✓    |
+| zIndex | 层级    | number | -      | ✓    |
 
 **批量元素层级设置**
 
-| 参数   | 类型               | 必填 | 描述               |
-| ------ | ------------------ | ---- | ------------------ |
-| zIndex | Record<ID, number> | 是   | 元素ID到层级的映射 |
+| 参数   | 描述               | 类型               | 默认值 | 必选 |
+| ------ | ------------------ | ------------------ | ------ | ---- |
+| zIndex | 元素ID到层级的映射 | Record<ID, number> | -      | ✓    |
 
 **返回值**:
 
@@ -308,9 +309,9 @@ setNode(node: NodeOptions): void;
 
 **参数**:
 
-| 参数 | 类型                                         | 必填 | 描述     |
-| ---- | -------------------------------------------- | ---- | -------- |
-| node | [NodeOptions](/api/elements/nodes/base-node) | 是   | 节点配置 |
+| 参数 | 描述     | 类型                                         | 默认值 | 必选 |
+| ---- | -------- | -------------------------------------------- | ------ | ---- |
+| node | 节点配置 | [NodeOptions](/api/elements/nodes/base-node) | -      | ✓    |
 
 **示例**:
 
@@ -333,9 +334,9 @@ setEdge(edge: EdgeOptions): void;
 
 **参数**:
 
-| 参数 | 类型                                         | 必填 | 描述   |
-| ---- | -------------------------------------------- | ---- | ------ |
-| edge | [EdgeOptions](/api/elements/edges/base-edge) | 是   | 边配置 |
+| 参数 | 描述   | 类型                                         | 默认值 | 必选 |
+| ---- | ------ | -------------------------------------------- | ------ | ---- |
+| edge | 边配置 | [EdgeOptions](/api/elements/edges/base-edge) | -      | ✓    |
 
 ### Graph.setCombo(combo)
 
@@ -347,9 +348,9 @@ setCombo(combo: ComboOptions): void;
 
 **参数**:
 
-| 参数  | 类型                                            | 必填 | 描述     |
-| ----- | ----------------------------------------------- | ---- | -------- |
-| combo | [ComboOptions](/api/elements/combos/base-combo) | 是   | 组合配置 |
+| 参数  | 描述     | 类型                                            | 默认值 | 必选 |
+| ----- | -------- | ----------------------------------------------- | ------ | ---- |
+| combo | 组合配置 | [ComboOptions](/api/elements/combos/base-combo) | -      | ✓    |
 
 ### Graph.collapseElement(id, options)
 
@@ -361,10 +362,10 @@ collapseElement(id: ID, options?: boolean | CollapseExpandNodeOptions): Promise<
 
 **参数**:
 
-| 参数    | 类型                                                               | 必填 | 描述                               |
-| ------- | ------------------------------------------------------------------ | ---- | ---------------------------------- |
-| id      | string                                                             | 是   | 要收起的元素 ID                    |
-| options | boolean \| [CollapseExpandNodeOptions](#collapseexpandnodeoptions) | 否   | 是否启用动画或收起节点的详细配置项 |
+| 参数    | 描述                               | 类型                                                               | 默认值 | 必选 |
+| ------- | ---------------------------------- | ------------------------------------------------------------------ | ------ | ---- |
+| id      | 要收起的元素 ID                    | string                                                             | -      | ✓    |
+| options | 是否启用动画或收起节点的详细配置项 | boolean \| [CollapseExpandNodeOptions](#collapseexpandnodeoptions) | -      |      |
 
 **返回值**:
 
@@ -396,10 +397,10 @@ expandElement(id: ID, options?: boolean | CollapseExpandNodeOptions): Promise<vo
 
 **参数**:
 
-| 参数    | 类型                                                               | 必填 | 描述                               |
-| ------- | ------------------------------------------------------------------ | ---- | ---------------------------------- |
-| id      | string                                                             | 是   | 要展开的元素 ID                    |
-| options | boolean \| [CollapseExpandNodeOptions](#collapseexpandnodeoptions) | 否   | 是否启用动画或展开节点的详细配置项 |
+| 参数    | 描述                               | 类型                                                               | 默认值 | 必选 |
+| ------- | ---------------------------------- | ------------------------------------------------------------------ | ------ | ---- |
+| id      | 要展开的元素 ID                    | string                                                             | -      | ✓    |
+| options | 是否启用动画或展开节点的详细配置项 | boolean \| [CollapseExpandNodeOptions](#collapseexpandnodeoptions) | -      |      |
 
 **返回值**:
 
@@ -431,9 +432,9 @@ frontElement(id: ID | ID[]): void;
 
 **参数**:
 
-| 参数 | 类型               | 必填 | 描述            |
-| ---- | ------------------ | ---- | --------------- |
-| id   | string \| string[] | 是   | 要置顶的元素 ID |
+| 参数 | 描述    | 类型               | 默认值 | 必选 |
+| ---- | ------- | ------------------ | ------ | ---- |
+| id   | 元素 ID | string \| string[] | -      | ✓    |
 
 **返回值**:
 
@@ -459,10 +460,10 @@ showElement(id: ID | ID[], animation?: boolean): Promise<void>;
 
 **参数**:
 
-| 参数      | 类型               | 必填 | 描述            |
-| --------- | ------------------ | ---- | --------------- |
-| id        | string \| string[] | 是   | 要显示的元素 ID |
-| animation | boolean            | 否   | 是否启用动画    |
+| 参数      | 描述         | 类型               | 默认值 | 必选 |
+| --------- | ------------ | ------------------ | ------ | ---- |
+| id        | 元素 ID      | string \| string[] | -      | ✓    |
+| animation | 是否启用动画 | boolean            | -      |      |
 
 **返回值**:
 
@@ -492,10 +493,10 @@ hideElement(id: ID | ID[], animation?: boolean): Promise<void>;
 
 **参数**:
 
-| 参数      | 类型               | 必填 | 描述            |
-| --------- | ------------------ | ---- | --------------- |
-| id        | string \| string[] | 是   | 要隐藏的元素 ID |
-| animation | boolean            | 否   | 是否启用动画    |
+| 参数      | 描述         | 类型               | 默认值 | 必选 |
+| --------- | ------------ | ------------------ | ------ | ---- |
+| id        | 元素 ID      | string \| string[] | -      | ✓    |
+| animation | 是否启用动画 | boolean            | -      |      |
 
 **返回值**:
 
@@ -531,18 +532,18 @@ translateElement(offsets: Record<ID, Point>, animation?: boolean): Promise<void>
 
 **单个元素平移**
 
-| 参数      | 类型             | 必填 | 描述                    |
-| --------- | ---------------- | ---- | ----------------------- |
-| id        | string           | 是   | 要平移的元素 ID         |
-| offset    | [number, number] | 是   | 平移的相对距离 [dx, dy] |
-| animation | boolean          | 否   | 是否启用动画            |
+| 参数      | 描述                    | 类型             | 默认值 | 必选 |
+| --------- | ----------------------- | ---------------- | ------ | ---- |
+| id        | 要平移的元素 ID         | string           | -      | ✓    |
+| offset    | 平移的相对距离 [dx, dy] | [number, number] | -      | ✓    |
+| animation | 是否启用动画            | boolean          | -      |      |
 
 **批量元素平移**
 
-| 参数      | 类型                         | 必填 | 描述                   |
-| --------- | ---------------------------- | ---- | ---------------------- |
-| offsets   | Record<ID, [number, number]> | 是   | 元素ID到平移距离的映射 |
-| animation | boolean                      | 否   | 是否启用动画           |
+| 参数      | 描述                   | 类型                         | 默认值 | 必选 |
+| --------- | ---------------------- | ---------------------------- | ------ | ---- |
+| offsets   | 元素ID到平移距离的映射 | Record<ID, [number, number]> | -      | ✓    |
+| animation | 是否启用动画           | boolean                      | -      |      |
 
 **返回值**:
 
@@ -585,18 +586,18 @@ translateElementTo(positions: Record<ID, Point>, animation?: boolean): Promise<v
 
 **单个元素移动**
 
-| 参数      | 类型             | 必填 | 描述            |
-| --------- | ---------------- | ---- | --------------- |
-| id        | string           | 是   | 要移动的元素 ID |
-| position  | [number, number] | 是   | 目标绝对位置    |
-| animation | boolean          | 否   | 是否启用动画    |
+| 参数      | 描述                | 类型             | 默认值 | 必选 |
+| --------- | ------------------- | ---------------- | ------ | ---- |
+| id        | 要移动的元素 ID     | string           | -      | ✓    |
+| position  | 目标绝对位置 [x, y] | [number, number] | -      | ✓    |
+| animation | 是否启用动画        | boolean          | -      |      |
 
 **批量元素移动**
 
-| 参数      | 类型                             | 必填 | 描述                   |
-| --------- | -------------------------------- | ---- | ---------------------- |
-| positions | Record<string, [number, number]> | 是   | 元素ID到目标位置的映射 |
-| animation | boolean                          | 否   | 是否启用动画           |
+| 参数      | 描述                   | 类型                             | 默认值 | 必选 |
+| --------- | ---------------------- | -------------------------------- | ------ | ---- |
+| positions | 元素ID到目标位置的映射 | Record<string, [number, number]> | -      | ✓    |
+| animation | 是否启用动画           | boolean                          | -      |      |
 
 **返回值**:
 
@@ -633,10 +634,10 @@ focusElement(id: ID | ID[], animation?: ViewportAnimationEffectTiming): Promise<
 
 **参数**:
 
-| 参数      | 类型                                                            | 必填 | 描述                      |
-| --------- | --------------------------------------------------------------- | ---- | ------------------------- |
-| id        | string \| string[]                                              | 是   | 要聚焦的一个或多个元素 ID |
-| animation | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | 否   | 视口动画配置              |
+| 参数      | 描述                      | 类型                                                            | 默认值 | 必选 |
+| --------- | ------------------------- | --------------------------------------------------------------- | ------ | ---- |
+| id        | 要聚焦的一个或多个元素 ID | string \| string[]                                              | -      | ✓    |
+| animation | 视口动画配置              | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | -      |      |
 
 **返回值**:
 

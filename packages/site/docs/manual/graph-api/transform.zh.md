@@ -46,9 +46,9 @@ setTransforms(transforms: TransformOptions | ((prev: TransformOptions) => Transf
 
 **参数**
 
-| 参数       | 类型                                                                                    | 必填 | 描述                                                   |
-| ---------- | --------------------------------------------------------------------------------------- | ---- | ------------------------------------------------------ |
-| transforms | [TransformOptions](#transformoptions) \| ((prev: TransformOptions) => TransformOptions) | 是   | 新的数据处理器配置，或一个基于当前配置返回新配置的函数 |
+| 参数       | 描述                                                   | 类型                                                                                    | 默认值 | 必选 |
+| ---------- | ------------------------------------------------------ | --------------------------------------------------------------------------------------- | ------ | ---- |
+| transforms | 新的数据处理器配置，或一个基于当前配置返回新配置的函数 | [TransformOptions](#transformoptions) \| ((prev: TransformOptions) => TransformOptions) | -      | ✓    |
 
 **说明**
 
@@ -101,9 +101,9 @@ updateTransform(transform: UpdateTransformOption): void;
 
 **参数**
 
-| 参数      | 类型                                            | 必填 | 描述               |
-| --------- | ----------------------------------------------- | ---- | ------------------ |
-| transform | [UpdateTransformOption](#updatetransformoption) | 是   | 更新的数据处理配置 |
+| 参数      | 描述               | 类型                                            | 默认值 | 必选 |
+| --------- | ------------------ | ----------------------------------------------- | ------ | ---- |
+| transform | 更新的数据处理配置 | [UpdateTransformOption](#updatetransformoption) | -      | ✓    |
 
 **说明**
 
