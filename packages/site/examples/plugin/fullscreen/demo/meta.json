@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": {
+        "zh": "全屏展示",
+        "en": "Fullscreen"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*KQlbQZxPOvgAAAAAAAAAAAAAemJ7AQ/fmt.avif"
+    }
+  ]
+}

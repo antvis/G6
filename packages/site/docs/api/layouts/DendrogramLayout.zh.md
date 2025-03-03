@@ -14,27 +14,27 @@ title: Dendrogram 生态树
 
 树布局的方向
 
-- `'TB'`<!-- -->：根节点在上，往下布局
+- `'TB'`：根节点在上，往下布局
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*krAnRrLTEnEAAAAAAAAAAABkARQnAQ' width=115 alt='img'/>
 
-- `'BT'`<!-- -->：根节点在下，往上布局
+- `'BT'`：根节点在下，往上布局
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0HRyS64i7QoAAAAAAAAAAABkARQnAQ' width=115 alt='img'/>
 
-- `'LR'`<!-- -->：根节点在左，往右布局
+- `'LR'`：根节点在左，往右布局
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*T5KZTJdA2OUAAAAAAAAAAABkARQnAQ' width=55 alt='img'/>
 
-- `'RL'`<!-- -->：根节点在右，往左布局
+- `'RL'`：根节点在右，往左布局
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q7QJQ5RbQ5kAAAAAAAAAAABkARQnAQ' width=55 alt='img'/>
 
-- `'H'`<!-- -->：根节点在中间，水平对称布局
+- `'H'`：根节点在中间，水平对称布局
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tzIfRJ5CuR8AAAAAAAAAAABkARQnAQ' width=85 alt='img'/>
 
-- `'V'`<!-- -->：根节点在中间，垂直对称布局
+- `'V'`：根节点在中间，垂直对称布局
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*B9sjToOzCiAAAAAAAAAAAABkARQnAQ' width=115 alt='img'/>
 

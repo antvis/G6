@@ -167,18 +167,18 @@ export class MarkdownDocumenter {
       // }
 
       // 对于元素
-      if (['elements/nodes', 'elements/edges', 'elements/combos'].includes(pageData.group)) {
-        this.referenceLevel = 2;
-        await this._generateBilingualPages(this._writeElementPage.bind(this), pageData);
-      }
+      // if (['elements/nodes', 'elements/edges', 'elements/combos'].includes(pageData.group)) {
+      //   this.referenceLevel = 2;
+      //   await this._generateBilingualPages(this._writeElementPage.bind(this), pageData);
+      // }
 
       // 对于图实例，将拆分成三个页面： 配置项，实例方法，属性
       // For graph instance, split into three pages: options, methods, properties
       if (pageData.group === 'runtime' && pageData.name === 'Graph') {
         this.referenceLevel = 1;
-        this._generateBilingualPages(this._writeGraphOptionsPage.bind(this), pageData);
+        // this._generateBilingualPages(this._writeGraphOptionsPage.bind(this), pageData);
         // this._generateBilingualPages(this._writeGraphMethodsPage.bind(this), pageData);
-        this._generateBilingualPages(this._writeGraphPropertiesPage.bind(this), pageData);
+        // this._generateBilingualPages(this._writeGraphPropertiesPage.bind(this), pageData);
       }
     }
   }

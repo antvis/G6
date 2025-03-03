@@ -34,11 +34,11 @@ zoomTo(zoom: number, animation?: ViewportAnimationEffectTiming, origin?: Point):
 
 **参数**
 
-| 参数      | 类型                                                            | 必填 | 描述                                          |
-| --------- | --------------------------------------------------------------- | ---- | --------------------------------------------- |
-| zoom      | number                                                          | 是   | 目标缩放比例 (1 = 原始大小, >1 放大, <1 缩小) |
-| animation | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | 否   | 动画配置                                      |
-| origin    | [Point](#point)                                                 | 否   | 缩放中心点(视口坐标)                          |
+| 参数      | 描述                                          | 类型                                                            | 默认值 | 必选 |
+| --------- | --------------------------------------------- | --------------------------------------------------------------- | ------ | ---- |
+| zoom      | 目标缩放比例 (1 = 原始大小, >1 放大, <1 缩小) | number                                                          | -      | ✓    |
+| animation | 动画配置                                      | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | -      |      |
+| origin    | 缩放中心点(视口坐标)                          | [Point](#point)                                                 | -      |      |
 
 **示例**
 
@@ -66,11 +66,11 @@ zoomBy(ratio: number, animation?: ViewportAnimationEffectTiming, origin?: Point)
 
 **参数**
 
-| 参数      | 类型                                                            | 必填 | 描述                        |
-| --------- | --------------------------------------------------------------- | ---- | --------------------------- |
-| ratio     | number                                                          | 是   | 缩放比例 (>1 放大, <1 缩小) |
-| animation | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | 否   | 动画配置                    |
-| origin    | [Point](#point)                                                 | 否   | 缩放中心点(视口坐标)        |
+| 参数      | 描述                        | 类型                                                            | 默认值 | 必选 |
+| --------- | --------------------------- | --------------------------------------------------------------- | ------ | ---- |
+| ratio     | 缩放比例 (>1 放大, <1 缩小) | number                                                          | -      | ✓    |
+| animation | 动画配置                    | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | -      |      |
+| origin    | 缩放中心点(视口坐标)        | [Point](#point)                                                 | -      |      |
 
 **示例**
 
@@ -94,10 +94,10 @@ translateTo(position: Point, animation?: ViewportAnimationEffectTiming): Promise
 
 **参数**
 
-| 参数      | 类型                                                            | 必填 | 描述         |
-| --------- | --------------------------------------------------------------- | ---- | ------------ |
-| position  | [Point](#point)                                                 | 是   | 目标位置坐标 |
-| animation | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | 否   | 动画配置     |
+| 参数      | 描述         | 类型                                                            | 默认值 | 必选 |
+| --------- | ------------ | --------------------------------------------------------------- | ------ | ---- |
+| position  | 目标位置坐标 | [Point](#point)                                                 | -      | ✓    |
+| animation | 动画配置     | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | -      |      |
 
 **示例**
 
@@ -122,10 +122,10 @@ translateBy(offset: Point, animation?: ViewportAnimationEffectTiming): Promise<v
 
 **参数**
 
-| 参数      | 类型                                                            | 必填 | 描述       |
-| --------- | --------------------------------------------------------------- | ---- | ---------- |
-| offset    | [Point](#point)                                                 | 是   | 平移偏移量 |
-| animation | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | 否   | 动画配置   |
+| 参数      | 描述       | 类型                                                            | 默认值 | 必选 |
+| --------- | ---------- | --------------------------------------------------------------- | ------ | ---- |
+| offset    | 平移偏移量 | [Point](#point)                                                 | -      | ✓    |
+| animation | 动画配置   | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | -      |      |
 
 **示例**
 
@@ -149,11 +149,11 @@ rotateTo(angle: number, animation?: ViewportAnimationEffectTiming, origin?: Poin
 
 **参数**
 
-| 参数      | 类型                                                            | 必填 | 描述                 |
-| --------- | --------------------------------------------------------------- | ---- | -------------------- |
-| angle     | number                                                          | 是   | 目标旋转角度(弧度制) |
-| animation | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | 否   | 动画配置             |
-| origin    | [Point](#point)                                                 | 否   | 旋转中心点(视口坐标) |
+| 参数      | 描述                 | 类型                                                            | 默认值 | 必选 |
+| --------- | -------------------- | --------------------------------------------------------------- | ------ | ---- |
+| angle     | 目标旋转角度(弧度制) | number                                                          | -      | ✓    |
+| animation | 动画配置             | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | -      |      |
+| origin    | 旋转中心点(视口坐标) | [Point](#point)                                                 | -      |      |
 
 **示例**
 
@@ -177,11 +177,11 @@ rotateBy(angle: number, animation?: ViewportAnimationEffectTiming, origin?: Poin
 
 **参数**
 
-| 参数      | 类型                                                            | 必填 | 描述                 |
-| --------- | --------------------------------------------------------------- | ---- | -------------------- |
-| angle     | number                                                          | 是   | 旋转角度增量(弧度制) |
-| animation | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | 否   | 动画配置             |
-| origin    | [Point](#point)                                                 | 否   | 旋转中心点(视口坐标) |
+| 参数      | 描述                 | 类型                                                            | 默认值 | 必选 |
+| --------- | -------------------- | --------------------------------------------------------------- | ------ | ---- |
+| angle     | 旋转角度增量(弧度制) | number                                                          | -      | ✓    |
+| animation | 动画配置             | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | -      |      |
+| origin    | 旋转中心点(视口坐标) | [Point](#point)                                                 | -      |      |
 
 **示例**
 
@@ -206,10 +206,10 @@ fitView(options?: FitViewOptions, animation?: ViewportAnimationEffectTiming): Pr
 
 **参数**
 
-| 参数      | 类型                                                            | 必填 | 描述     |
-| --------- | --------------------------------------------------------------- | ---- | -------- |
-| options   | FitViewOptions                                                  | 否   | 适配选项 |
-| animation | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | 否   | 动画配置 |
+| 参数      | 描述     | 类型                                                            | 默认值 | 必选 |
+| --------- | -------- | --------------------------------------------------------------- | ------ | ---- |
+| options   | 适配选项 | FitViewOptions                                                  | -      |      |
+| animation | 动画配置 | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | -      |      |
 
 **FitViewOptions 类型说明**
 
@@ -252,9 +252,9 @@ fitCenter(animation?: ViewportAnimationEffectTiming): Promise<void>;
 
 **参数**
 
-| 参数      | 类型                                                            | 必填 | 描述     |
-| --------- | --------------------------------------------------------------- | ---- | -------- |
-| animation | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | 否   | 动画配置 |
+| 参数      | 描述     | 类型                                                            | 默认值 | 必选 |
+| --------- | -------- | --------------------------------------------------------------- | ------ | ---- |
+| animation | 动画配置 | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | -      |      |
 
 **示例**
 
@@ -355,9 +355,9 @@ setZoomRange(zoomRange: [number, number]): void;
 
 **参数**
 
-| 参数      | 类型                          | 必填     | 描述 |
-| --------- | ----------------------------- | -------- | ---- |
-| zoomRange | [number, number] \| undefined | 缩放区间 |
+| 参数      | 描述     | 类型                          | 默认值 | 必选 |
+| --------- | -------- | ----------------------------- | ------ | ---- |
+| zoomRange | 缩放区间 | [number, number] \| undefined | -      | ✓    |
 
 **示例**
 
@@ -402,10 +402,10 @@ resize(width: number, height: number): void;
 
 **参数**
 
-| 参数   | 类型   | 必填 | 描述     |
-| ------ | ------ | ---- | -------- |
-| width  | number | 是   | 目标宽度 |
-| height | number | 是   | 目标高度 |
+| 参数   | 描述     | 类型   | 默认值 | 必选 |
+| ------ | -------- | ------ | ------ | ---- |
+| width  | 目标宽度 | number | -      | ✓    |
+| height | 目标高度 | number | -      | ✓    |
 
 **示例**
 
