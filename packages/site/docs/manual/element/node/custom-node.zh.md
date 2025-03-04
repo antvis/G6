@@ -136,8 +136,8 @@ class CustomCircle extends CustomElement {
 
 ## 注册节点
 
-通过 G6 提供的 `register` 方法注册即可，详见[注册节点](/manual/core-concept/element#注册节点)
+通过 G6 提供的 `register` 方法注册即可，详见[注册节点](/manual/element/node/overview#注册节点)
 
 ## 配置节点
 
-可在`数据`或`节点样式映射`中使用并配置自定义节点，详见[配置节点](/manual/core-concept/element#配置节点)
+可在`数据`或`节点样式映射`中使用并配置自定义节点，详见[配置节点](/manual/element/node/overview#配置节点)

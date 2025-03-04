@@ -2,8 +2,6 @@
 title: HoverActivate 悬停激活
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 当鼠标悬停在元素上时，可以激活元素的状态，例如高亮节点或边。
 
 ## 配置项
@@ -22,7 +20,7 @@ title: HoverActivate 悬停激活
 
 ### degree
 
-> _number \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => number)_ **Default:** `0`
+> _number \| ((event:_ [Event](/api/event#事件对象属性)_) => number)_ **Default:** `0`
 
 激活元素的n度关系
 
@@ -44,7 +42,7 @@ title: HoverActivate 悬停激活
 
 ### enable
 
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
+> _boolean \| ((event:_ [Event](/api/event#事件对象属性)_) => boolean)_ **Default:** `true`
 
 是否启用悬浮元素的功能
 
@@ -56,13 +54,13 @@ title: HoverActivate 悬停激活
 
 ### onHover
 
-> _(event:_ [Event](/manual/graph-api/event#事件对象属性)_) => void_
+> _(event:_ [Event](/api/event#事件对象属性)_) => void_
 
 当元素被悬停时的回调
 
 ### onHoverEnd
 
-> _(event:_ [Event](/manual/graph-api/event#事件对象属性)_) => void_
+> _(event:_ [Event](/api/event#事件对象属性)_) => void_
 
 当悬停结束时的回调
 
@@ -86,6 +84,6 @@ destroy(): void;
 protected getActiveIds(event: IPointerEvent<Element>): string[];
 ```
 
-| 参数  | 类型                                                                    | 描述     | 默认值 | 必选 |
-| ----- | ----------------------------------------------------------------------- | -------- | ------ | ---- |
-| event | [Event](/manual/graph-api/event#事件对象属性)&lt;Node \| Edge \| Combo> | 事件对象 | -      | ✓    |
+| 参数  | 类型                                                       | 描述     | 默认值 | 必选 |
+| ----- | ---------------------------------------------------------- | -------- | ------ | ---- |
+| event | [Event](/api/event#事件对象属性)&lt;Node \| Edge \| Combo> | 事件对象 | -      | ✓    |

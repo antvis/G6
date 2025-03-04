@@ -33,18 +33,18 @@ const graph = new Graph({
 
 指定节点类型，内置节点类型名称或自定义节点的名称。默认为 `circle`(圆形)。
 
-| 支持的值   | 描述       |                                      |
-| ---------- | ---------- | ------------------------------------ |
-| `circle`   | 圆形节点   | [DEMO](/api/elements/nodes/circle)   |
-| `diamond`  | 菱形节点   | [DEMO](/api/elements/nodes/diamond)  |
-| `donut`    | 甜甜圈节点 | [DEMO](/api/elements/nodes/donut)    |
-| `ellipse`  | 椭圆节点   | [DEMO](/api/elements/nodes/ellipse)  |
-| `hexagon`  | 六边形节点 | [DEMO](/api/elements/nodes/hexagon)  |
-| `html`     | HTML节点   | [DEMO](/api/elements/nodes/html)     |
-| `image`    | 图片节点   | [DEMO](/api/elements/nodes/image)    |
-| `rect`     | 矩形节点   | [DEMO](/api/elements/nodes/rect)     |
-| `star`     | 星形节点   | [DEMO](/api/elements/nodes/star)     |
-| `triangle` | 三角形节点 | [DEMO](/api/elements/nodes/triangle) |
+| 支持的值   | 描述       |                                                     |
+| ---------- | ---------- | --------------------------------------------------- |
+| `circle`   | 圆形节点   | [DEMO](/manual/element/node/build-in/circle-node)   |
+| `diamond`  | 菱形节点   | [DEMO](/manual/element/node/build-in/diamond-node)  |
+| `donut`    | 甜甜圈节点 | [DEMO](/manual/element/node/build-in/donut-node)    |
+| `ellipse`  | 椭圆节点   | [DEMO](/manual/element/node/build-in/ellipse-node)  |
+| `hexagon`  | 六边形节点 | [DEMO](/manual/element/node/build-in/hexagon-node)  |
+| `html`     | HTML节点   | [DEMO](/manual/element/node/build-in/html-node)     |
+| `image`    | 图片节点   | [DEMO](/manual/element/node/build-in/image-node)    |
+| `rect`     | 矩形节点   | [DEMO](/manual/element/node/build-in/rect-node)     |
+| `star`     | 星形节点   | [DEMO](/manual/element/node/build-in/star-node)     |
+| `triangle` | 三角形节点 | [DEMO](/manual/element/node/build-in/triangle-node) |
 
 更多内置支持节点类型，可查看[节点注册表](/manual/getting-started/extensions#节点)。
 
@@ -54,7 +54,7 @@ const graph = new Graph({
 
 <img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Ot4bSbBx97EAAAAAAAAAAAAADmJ7AQ/original" />
 
-> 了解节点构成，请阅读 [核心概念 - 元素 - 节点](/manual/core-concept/element#节点)。
+> 了解节点构成，请阅读 [核心概念 - 元素 - 节点](/manual/element/node/overview)。
 
 以下样式配置将按原子图形依次说明：
 
@@ -348,7 +348,7 @@ createGraph(
 - `collapse`: 节点收起时的动画
 - `expand`: 节点展开时的动画
 
-你可以参考 [动画范式](/manual/core-concept/animation#动画范式) 使用动画语法来配置节点，如：
+你可以参考 [动画范式](/manual/animation/overview#动画范式) 使用动画语法来配置节点，如：
 
 ```json
 {
@@ -395,7 +395,7 @@ createGraph(
 
 定义节点的色板，即预定义节点颜色池，并根据规则进行分配，将颜色映射到 `fill` 属性。
 
-> 有关色板的定义，请参考 [核心概念 - 色板](/manual/core-concept/palette)。
+> 有关色板的定义，请参考 [色板](/manual/theme/palette)。
 
 | 属性   | 描述                                                                | 类型                              | 默认值  |
 | ------ | ------------------------------------------------------------------- | --------------------------------- | ------- |

@@ -7,9 +7,9 @@ order: 1
 
 插件(Plugin)是 G6 中最灵活的扩展机制，用户可以通过插件来扩展 G6 的功能，例如在画布中额外挂载图形组件、实现撤销重做等功能。
 
-绝大多数的定制需求都可以通过插件来实现，G6 内置了一些常用的插件，例如：[Tooltip](/api/plugins/tooltip)、[Grid](/api/plugins/grid)、[History](/api/plugins/history)。
+绝大多数的定制需求都可以通过插件来实现，G6 内置了一些常用的插件，例如：[Tooltip](/manual/plugin/build-in/tooltip)、[Grid](/manual/plugin/build-in/grid)、[History](/manual/plugin/build-in/history)。
 
-> 内置插件列表请参考：[插件](/api/plugins/bubble-sets)
+> 内置插件列表请参考：[插件](/manual/plugin/build-in/overview)
 
 ## 注册插件
 
@@ -47,7 +47,7 @@ register(ExtensionCategory.PLUGIN, 'custom-plugin', CustomPlugin);
 
 ### 更新插件
 
-在 `Graph` 实例化后可以通过 [setPlugins](/api/graph/method#graphsetpluginsplugins) 方法调整插件：
+在 `Graph` 实例化后可以通过 [setPlugins](/api/plugin#graphsetpluginsplugins) 方法调整插件：
 
 ```typescript
 // 添加 minimap 插件
@@ -57,7 +57,7 @@ graph.setPlugins((plugins) => [...plugins, 'minimap']);
 graph.setPlugins((plugins) => plugins.filter((plugin) => plugin !== 'tooltip'));
 ```
 
-G6 Graph 还提供了 [updatePlugin](/api/graph/method#graphupdatepluginplugin) 方法用于更方便的更新插件配置：
+G6 Graph 还提供了 [updatePlugin](/api/plugin#graphupdatepluginplugin) 方法用于更方便的更新插件配置：
 
 ```typescript
 graph.updatePlugin({
@@ -72,7 +72,7 @@ graph.updatePlugin({
 
 ### 卸载插件
 
-使用 [setPlugins](/api/graph/method#graphsetpluginsplugins) 方法同样可以卸载插件，将插件配置列表置为空即可：
+使用 [setPlugins](/api/plugin#graphsetpluginsplugins) 方法同样可以卸载插件，将插件配置列表置为空即可：
 
 ```typescript
 // 卸载所有插件
@@ -95,4 +95,4 @@ const history = graph.getPluginInstance('history');
 
 ## 自定义插件
 
-如果内置插件无法满足需求，可以自定义插件，具体请参考[自定义插件](/manual/custom-extension/plugin)。
+如果内置插件无法满足需求，可以自定义插件，具体请参考[自定义插件](/manual/plugin/custom-plugin)。

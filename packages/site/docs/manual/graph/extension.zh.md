@@ -35,7 +35,7 @@ register(ExtensionCategory.NODE, 'custom-node', CustomNode);
 
 不同的扩展类型之间**可以**使用相同的扩展名称，但同一类型的扩展重复注册时仅会在第一次注册时生效。
 
-> 详细的参数签名见：[API 文档](/api/reference/g6/register)
+<!-- TODO: 详细的参数签名见：[API 文档](/api/reference/g6/register) -->
 
 ```typescript
 // ✅

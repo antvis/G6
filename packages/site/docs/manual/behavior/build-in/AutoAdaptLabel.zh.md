@@ -2,8 +2,6 @@
 title: AutoAdaptLabel 标签自适应显示
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 标签自适应显示是一种动态标签管理策略，旨在根据当前可视范围的空间分配、节点重要性等因素，智能调整哪些标签应显示或隐藏。通过对可视区域的实时分析，确保用户在不同的交互场景下获得最相关最清晰的信息展示，同时避免视觉过载和信息冗余。
 
 ## 配置项
@@ -34,19 +32,19 @@ title: AutoAdaptLabel 标签自适应显示
 
 ### sortCombo
 
-> _(comboA:_ [ComboData](/api/graph/option#combodata)_, comboB:_ [ComboData](/api/graph/option#combodata)_) => -1 \| 0 \| 1_
+> _(comboA: [ComboData](/manual/data#组合数据combodata), comboB: [ComboData](/manual/data#组合数据combodata)) => -1 \| 0 \| 1_
 
-根据群组的重要性从高到低排序，重要性越高的群组其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sort`，则 `sortCombo` 不会生效
+> 根据群组的重要性从高到低排序，重要性越高的群组其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sort`，则 `sortCombo` 不会生效
 
 ### sortEdge
 
-> _(edgeA:_ [EdgeData](/api/graph/option#edgedata)_, edgeB:_ [EdgeData](/api/graph/option#edgedata)_) => -1 \| 0 \| 1_
+> _(edgeA: [EdgeData](/manual/data#边数据edgedata), edgeB: [EdgeData](/manual/data#边数据edgedata)) => -1 \| 0 \| 1_
 
 根据边的重要性从高到低排序，重要性越高的边其标签显示优先级越高。默认按照数据先后进行排序。需要注意，如果设置了 `sort`，则 `sortEdge` 不会生效
 
 ### sortNode
 
-> _[NodeCentralityOptions](#nodecentralityoptions) \| ((nodeA: [NodeData](/api/graph/option#nodedata), nodeB: [NodeData](/api/graph/option#nodedata)) => -1 \| 0 \| 1)_ **Default:** `type: 'degree'`
+> _[NodeCentralityOptions](#nodecentralityoptions) \| ((nodeA: [NodeData](/manual/data#节点数据nodedata), nodeB: [NodeData](/manual/data#节点数据nodedata)) => -1 \| 0 \| 1)_ **Default:** `type: 'degree'`
 
 根据节点的重要性从高到低排序，重要性越高的节点其标签显示优先级越高。内置几种中心性算法，也可以自定义排序函数。需要注意，如果设置了 `sort`，则 `sortNode` 不会生效
 

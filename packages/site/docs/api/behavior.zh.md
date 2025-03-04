@@ -3,11 +3,12 @@ title: 交互
 order: 8
 ---
 
-> 阅读本文前，请先阅读 [核心概念 - 交互](/manual/core-concept/behavior) 章节。
-
 ## 交互概述
 
-交互行为（Behavior）是 G6 中的核心概念，它定义了用户与图表之间的互动方式。每个交互行为都封装了一组事件监听器和处理函数，使开发者能够轻松地为图表添加丰富的交互功能。
+交互（Behavior）是 G6 的核心构建模块，它精确定义了用户与图之间的互动行为。每个 Behavior 插件都是一个高度封装的功能单元，内部集成了特定场景下的事件监听、状态管理和响应处理逻辑。
+
+G6 的内置 Behavior 涵盖了大多数常见交互需求，同时提供了灵活的扩展机制，支持开发者根据业务场景构建定制化交互体验。
+有关完整的交互行为类型、配置选项及开发示例，请参阅 [交互总览](/manual/behavior/overview) 章节。
 
 ## API 参考
 
@@ -218,5 +219,3 @@ type UpdateBehaviorOption = {
   [configKey: string]: unknown;
 };
 ```
-
-更多内置交互配置项请参考 [API - 交互](/api/behaviors/auto-adapt-label) 章节。

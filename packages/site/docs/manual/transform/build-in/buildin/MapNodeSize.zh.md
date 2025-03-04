@@ -2,8 +2,6 @@
 title: MapNodeSize 动态调整节点大小
 ---
 
-> 如需深入了解数据处理的使用，请参阅 [API 文档 - 图配置项 - transforms](/api/graph/option#transforms) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 在图可视化中，节点的大小通常用于传达节点的重要性或影响力。通过根据节点中心性调整节点的大小，我们可以更直观地展示网络中各个节点的重要性，从而帮助用户更好地理解和分析复杂的网络结构。
 
 **参考示例**：
@@ -20,7 +18,7 @@ title: MapNodeSize 动态调整节点大小
 
 ### centrality
 
-> [NodeCentralityOptions](#nodecentralityoptions) \| ((graphData: [GraphData](/manual/core-concept/data#图数据graphdata)) => Map<string, number>) **Default:** `type: 'eigenvector'`
+> [NodeCentralityOptions](#nodecentralityoptions) \| ((graphData: [GraphData](/manual/data#图数据graphdata)) => Map<string, number>) **Default:** `type: 'eigenvector'`
 
 节点中心性的度量方法
 

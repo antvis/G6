@@ -2,8 +2,6 @@
 title: CreateEdge 创建边
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 通过拖拽或点击节点创建边，支持自定义边样式。
 
 <embed src="@/common/api/behaviors/create-edge.md"></embed>
@@ -18,19 +16,19 @@ title: CreateEdge 创建边
 
 ### enable
 
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
+> _boolean \| ((event:_ [Event](/api/event#事件对象属性)_) => boolean)_ **Default:** `true`
 
 是否启用创建边的功能
 
 ### onCreate
 
-> _(edge:_ [EdgeData](/api/graph/option#edgedata)_) =>_ [EdgeData](/api/graph/option#edgedata)
+> _(edge: [EdgeData](/manual/data#边数据edgedata)) =>_ [EdgeData](/manual/data#边数据edgedata))
 
 创建边回调，返回边数据
 
 ### onFinish
 
-> _(edge:_ [EdgeData](/api/graph/option#edgedata)_) => void_
+> _(edge: [EdgeData](/manual/data#边数据edgedata)) => void_
 
 成功创建边回调
 

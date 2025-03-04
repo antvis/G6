@@ -7,7 +7,7 @@ order: 1
 
 G6 5.0 重新设计了图配置范式，在保证能力完善的基础上，优化配置项结构，更加直观、易于理解。
 
-仅需快速了解基本[核心概念](/manual/core-concept/graph)，即可快速上手 G6，快速实现图可视化。
+仅需快速了解基本[核心概念](/manual/graph/overview)，即可快速上手 G6，快速实现图可视化。
 
 **😰 4.0 配置项** 嵌套结构复杂，语义化能力较弱
 
@@ -132,7 +132,7 @@ const graph = new Graph({
 
 ## 🎨 多主题机制
 
-G6 5.0 内置了亮色、暗色两套主题，并可基于使用场景进行灵活定制，具体可参考[自定义主题](/manual/custom-extension/theme)。
+G6 5.0 内置了亮色、暗色两套主题，并可基于使用场景进行灵活定制，具体可参考[自定义主题](/manual/theme/custom-theme)。
 
 <image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gASzQbsbAaIAAAAAAAAAAAAADmJ7AQ/original"></image>
 
@@ -146,7 +146,7 @@ G6 5.0 提供了 3D 大图渲染、布局、交互能力，从 `@antv/g6-extensi
 
 G6 5.0 对现有插件进行了优化增强，解除了 Graph 与插件之间的耦合，并优化配置的同时提供了更加丰富了能力。
 
-敬请前往[插件](/api/plugins/bubble-sets)体验更多插件的能力。
+敬请前往[插件](/manual/plugin/overview)体验更多插件的能力。
 
 ## 💼 优化包体积
 

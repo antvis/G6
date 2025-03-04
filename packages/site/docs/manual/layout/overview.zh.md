@@ -13,28 +13,26 @@ order: 1
 
 G6 提供了多种布局算法，用户可以根据自己的需求选择合适的布局算法：
 
-<!-- TODO 待验证链接是否正确 -->
-
-- [AntVDagreLayout](/api/layouts/antv-dagre-layout)：基于 dagre 定制的布局
-- [CircularLayout](/api/layouts/circular-layout)：环形布局
-- [ComboCombinedLayout](/api/layouts/combo-combined-layout)：适用于存在组合的布局
-- [ConcentricLayout](/api/layouts/concentric-layout)：同心圆布局
-- [D3Force3DLayout](/api/layouts/d3-force3-d-layout)：[3D 力导向](https://github.com/vasturiano/d3-force-3d)布局
-- [D3ForceLayout](/api/layouts/d3-force-layout)：基于 [D3](https://d3js.org/d3-force) 的力导向布局
-- [DagreLayout](/api/layouts/dagre-layout)：[dagre](https://github.com/dagrejs/dagre) 布局
-- [FishboneLayout](/api/layouts/fishbone)：鱼骨布局
-- [ForceAtlas2Layout](/api/layouts/force-atlas2-layout)：[ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) 布局
-- [ForceLayout](/api/layouts/force-layout)：力导向布局
-- [FruchtermanLayout](/api/layouts/fruchterman-layout)：[Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) 布局
-- [GridLayout](/api/layouts/grid-layout)：网格布局
-- [MDSLayout](/api/layouts/mds-layout)：高维数据降维算法布局
-- [RadialLayout](/api/layouts/radial-layout)：径向布局
-- [RandomLayout](/api/layouts/random-layout)：随机布局
-- [SnakeLayout](/api/layouts/snake)：蛇形布局
-- [CompactBoxLayout](/api/layouts/compact-box-layout): 紧凑树布局
-- [DendrogramLayout](/api/layouts/dendrogram-layout): 树状布局
-- [MindmapLayout](/api/layouts/mindmap-layout): 思维导图布局
-- [IndentedLayout](/api/layouts/indented-layout): 缩进树布局
+- [AntVDagreLayout](/manual/layout/build-in/antv-dagre-layout)：基于 dagre 定制的布局
+- [CircularLayout](/manual/layout/build-in/circular-layout)：环形布局
+- [ComboCombinedLayout](/manual/layout/build-in/combo-combined-layout)：适用于存在组合的布局
+- [ConcentricLayout](/manual/layout/build-in/concentric-layout)：同心圆布局
+- [D3Force3DLayout](/manual/layout/build-in/d3-force3-d-layout)：[3D 力导向](https://github.com/vasturiano/d3-force-3d)布局
+- [D3ForceLayout](/manual/layout/build-in/d3-force-layout)：基于 [D3](https://d3js.org/d3-force) 的力导向布局
+- [DagreLayout](/manual/layout/build-in/dagre-layout)：[dagre](https://github.com/dagrejs/dagre) 布局
+- [FishboneLayout](/manual/layout/build-in/fishbone-layout)：鱼骨布局
+- [ForceAtlas2Layout](/manual/layout/build-in/force-atlas2-layout)：[ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) 布局
+- [ForceLayout](/manual/layout/build-in/force-layout)：力导向布局
+- [FruchtermanLayout](/manual/layout/build-in/fruchterman-layout)：[Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) 布局
+- [GridLayout](/manual/layout/build-in/grid-layout)：网格布局
+- [MDSLayout](/manual/layout/build-in/mds-layout)：高维数据降维算法布局
+- [RadialLayout](/manual/layout/build-in/radial-layout)：径向布局
+- [RandomLayout](/manual/layout/build-in/random-layout)：随机布局
+- [SnakeLayout](/manual/layout/build-in/snake-layout)：蛇形布局
+- [CompactBoxLayout](/manual/layout/build-in/compact-box-layout): 紧凑树布局
+- [DendrogramLayout](/manual/layout/build-in/dendrogram-layout): 树状布局
+- [MindmapLayout](/manual/layout/build-in/mindmap-layout): 思维导图布局
+- [IndentedLayout](/manual/layout/build-in/indented-layout): 缩进树布局
 
 其中 `CompactBox Layout`、`Dendrogram Layout`、`Mindmap Layout`、`Indented Layout` 是树布局的一种，适用于树状结构的图。
 
@@ -161,9 +159,9 @@ const graph = new Graph({
 
 如果需要手动执行布局算法，G6 提供了以下 API：
 
-- [layout](/api/graph/method#graphlayout)：执行布局算法
-- [setLayout](/api/graph/method#graphsetlayoutlayout)：设置布局算法
-- [stopLayout](/api/graph/method#graphstoplayout)：停止布局算法
+- [layout](/api/layout#graphlayoutlayoutoptions)：执行布局算法
+- [setLayout](/api/layout#graphsetlayoutlayout)：设置布局算法
+- [stopLayout](/api/layout#graphstoplayout)：停止布局算法
 
 ## 自定义布局
 

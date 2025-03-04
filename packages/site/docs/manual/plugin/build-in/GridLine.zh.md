@@ -2,8 +2,6 @@
 title: GridLine 网格线
 ---
 
-> 如需深入了解插件的使用，请参阅 [API 文档 - 图配置项 - plugins](/api/graph/option#plugins) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 网格线插件，多用于辅助绘图
 
 <embed src="@/common/api/plugins/grid-line.md"></embed>

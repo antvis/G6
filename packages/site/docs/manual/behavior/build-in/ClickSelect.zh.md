@@ -2,8 +2,6 @@
 title: ClickSelect 点击选中
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 当鼠标点击元素时，可以激活元素的状态，例如选中节点或边。当 degree 设置为 `1` 时，点击节点会高亮当前节点及其直接相邻的节点和边。
 
 ## 配置项
@@ -22,7 +20,7 @@ title: ClickSelect 点击选中
 
 ### degree
 
-> _number \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => number)_ **Default:** `0`
+> _number \| ((event:_ [Event](/api/event#事件对象属性)_) => number)_ **Default:** `0`
 
 选中元素的度，即决定了影响范围
 
@@ -57,7 +55,7 @@ new Graph({
 
 ### enable
 
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
+> _boolean \| ((event:_ [Event](/api/event#事件对象属性)_) => boolean)_ **Default:** `true`
 
 是否启用点击元素的功能
 
@@ -83,7 +81,7 @@ new Graph({
 
 ### onClick
 
-> _(event: [Event](/manual/graph-api/event#事件对象属性)) => void_
+> _(event: [Event](/api/event#事件对象属性)) => void_
 
 点击元素时的回调
 

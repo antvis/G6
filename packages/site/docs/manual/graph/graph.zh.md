@@ -47,36 +47,36 @@ const graph = new Graph({
 
 ## 图配置项
 
-通过下表速查图的配置项，更多类型定义说明和详细用法请参考 [API - 图配置项](/api/graph/option)。
+通过下表速查图的配置项，更多类型定义说明和详细用法请参考 [API - 图配置项](/manual/graph/option)。
 
-| 属性             | 类型                               | 默认值      | 描述                                                                           |
-| ---------------- | ---------------------------------- | ----------- | ------------------------------------------------------------------------------ |
-| container        | string \| HTMLElement \| Canvas    | -           | 图容器，可以是 DOM 元素 ID、DOM 元素实例或 Canvas 实例                         |
-| width            | number                             | 容器宽度    | 画布宽度(像素)                                                                 |
-| height           | number                             | 容器高度    | 画布高度(像素)                                                                 |
-| autoFit          | 'view' \| 'center' \| object       | -           | 自动适配策略，'view'(适应视图)或'center'(居中)                                 |
-| autoResize       | boolean                            | false       | 是否在窗口大小变化时自动调整画布大小                                           |
-| background       | string                             | -           | 画布背景色，也作为导出图片时的背景色                                           |
-| canvas           | CanvasConfig                       | -           | 画布配置                                                                       |
-| cursor           | Cursor                             | `'default'` | 指针样式                                                                       |
-| devicePixelRatio | number                             | 2           | 设备像素比                                                                     |
-| padding          | number \| number[]                 | -           | 画布内边距，在自适应时会根据内边距进行适配                                     |
-| renderer         | (layer: string) => IRenderer       | -           | 手动指定渲染器                                                                 |
-| rotation         | number                             | 0           | 旋转角度(弧度)                                                                 |
-| zoom             | number                             | 1           | 缩放比例                                                                       |
-| zoomRange        | [number, number]                   | [0.01, 10]  | 缩放比例的限制范围                                                             |
-| x                | number                             | -           | 视口 x 坐标                                                                    |
-| y                | number                             | -           | 视口 y 坐标                                                                    |
-| data             | GraphData                          | -           | 图数据，详见 [核心概念 - 数据](/manual/core-concept/data)                      |
-| node             | NodeOptions                        | -           | 节点全局配置，详见 [核心概念 - 元素 - 节点](/manual/core-concept/element#节点) |
-| edge             | EdgeOptions                        | -           | 边全局配置，详见 [核心概念 - 元素 - 边](/manual/core-concept/element#边)       |
-| combo            | ComboOptions                       | -           | 组合全局配置，详见 [核心概念 - 元素 - 组合](/manual/core-concept/element#组合) |
-| animation        | boolean \| AnimationEffectTiming   | -           | 全局动画配置，详见 [核心概念 - 动画](/manual/core-concept/animation)           |
-| theme            | string \| false                    | `'light'`   | 主题配置，支持 `'light'`、`'dark'` 或自定义主题名                              |
-| layout           | LayoutOptions \| LayoutOptions[]   | -           | 布局配置，详见 [核心概念 - 布局](/manual/core-concept/layout)                  |
-| behaviors        | (string \| CustomBehaviorOption)[] | -           | 交互行为配置，详见 [核心概念 - 交互](/manual/core-concept/behavior)            |
-| plugins          | (string \| CustomPluginOption)[]   | -           | 插件配置，详见 [核心概念 - 插件](/manual/core-concept/plugin)                  |
-| transforms       | TransformOptions                   | -           | 数据转换器配置                                                                 |
+| 属性             | 类型                               | 默认值      | 描述                                                          |
+| ---------------- | ---------------------------------- | ----------- | ------------------------------------------------------------- |
+| container        | string \| HTMLElement \| Canvas    | -           | 图容器，可以是 DOM 元素 ID、DOM 元素实例或 Canvas 实例        |
+| width            | number                             | 容器宽度    | 画布宽度(像素)                                                |
+| height           | number                             | 容器高度    | 画布高度(像素)                                                |
+| autoFit          | 'view' \| 'center' \| object       | -           | 自动适配策略，'view'(适应视图)或'center'(居中)                |
+| autoResize       | boolean                            | false       | 是否在窗口大小变化时自动调整画布大小                          |
+| background       | string                             | -           | 画布背景色，也作为导出图片时的背景色                          |
+| canvas           | CanvasConfig                       | -           | 画布配置                                                      |
+| cursor           | Cursor                             | `'default'` | 指针样式                                                      |
+| devicePixelRatio | number                             | 2           | 设备像素比                                                    |
+| padding          | number \| number[]                 | -           | 画布内边距，在自适应时会根据内边距进行适配                    |
+| renderer         | (layer: string) => IRenderer       | -           | 手动指定渲染器                                                |
+| rotation         | number                             | 0           | 旋转角度(弧度)                                                |
+| zoom             | number                             | 1           | 缩放比例                                                      |
+| zoomRange        | [number, number]                   | [0.01, 10]  | 缩放比例的限制范围                                            |
+| x                | number                             | -           | 视口 x 坐标                                                   |
+| y                | number                             | -           | 视口 y 坐标                                                   |
+| data             | GraphData                          | -           | 图数据，详见 [数据](/manual/data/overview)                    |
+| node             | NodeOptions                        | -           | 节点全局配置，详见 [节点](/manual/element/node/overview)      |
+| edge             | EdgeOptions                        | -           | 边全局配置，详见 [边](/manual/element/edge/overview)          |
+| combo            | ComboOptions                       | -           | 组合全局配置，详见 [组合](/manual/element/combo/overview)     |
+| animation        | boolean \| AnimationEffectTiming   | -           | 全局动画配置，详见 [动画](/manual/animation/overview)         |
+| theme            | string \| false                    | `'light'`   | 主题配置，支持 `'light'`、`'dark'` 或自定义主题名             |
+| layout           | LayoutOptions \| LayoutOptions[]   | -           | 布局配置，详见 [布局](/manual/layout/overview)                |
+| behaviors        | (string \| CustomBehaviorOption)[] | -           | 交互行为配置，详见 [交互](/manual/behavior/overview)          |
+| plugins          | (string \| CustomPluginOption)[]   | -           | 插件配置，详见 [插件](/manual/plugin/overview)                |
+| transforms       | TransformOptions                   | -           | 数据转换器配置，详见 [数据转换器](/manual/transform/overview) |
 
 ## 图属性
 

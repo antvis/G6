@@ -2,8 +2,6 @@
 title: DragElementForce 力导向拖拽元素
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 只能在使用 d3-force 布局时使用该交互，在拖拽过程中会实时重新计算布局。
 
 ## 配置项

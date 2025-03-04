@@ -2,8 +2,6 @@
 title: CameraSetting 相机设置
 ---
 
-> 如需深入了解插件的使用，请参阅 [API 文档 - 图配置项 - plugins](/api/graph/option#plugins) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 ## 配置项
 
 ### <Badge type="success">Required</Badge> type

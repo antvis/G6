@@ -32,8 +32,8 @@ class ExtendBaseCombo extends BaseCombo {
 
 ## 注册组合
 
-通过 G6 提供的 `register` 方法注册即可，详见[注册组合](/manual/core-concept/element#注册组合)
+通过 G6 提供的 `register` 方法注册即可，详见[注册组合](/manual/element/combo/overview#注册组合)
 
 ## 配置组合
 
-可在`数据`或`组合样式映射`中使用并配置自定义组合，详见[配置组合](/manual/core-concept/element#配置组合)
+可在`数据`或`组合样式映射`中使用并配置自定义组合，详见[配置组合](/manual/element/combo/overview#配置组合)

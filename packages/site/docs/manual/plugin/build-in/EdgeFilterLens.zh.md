@@ -2,8 +2,6 @@
 title: EdgeFilterLens 边过滤镜
 ---
 
-> 如需深入了解插件的使用，请参阅 [API 文档 - 图配置项 - plugins](/api/graph/option#plugins) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 边过滤镜可以将关注的边保留在过滤镜范围内，其他边将在该范围内不显示。
 
 **参考示例**：
@@ -20,13 +18,13 @@ title: EdgeFilterLens 边过滤镜
 
 ### edgeStyle
 
-> _EdgeStyle_ _\| ((datum:_ [EdgeData](/api/graph/option#edgedata)_) =>_ _EdgeStyle\_\_)_
+> _EdgeStyle \| (datum: [EdgeData](/manual/data#边数据edgedata)) => EdgeStyle_
 
 在透镜中边的样式
 
 ### filter
 
-> _(id:_ _string\_\_, elementType:_ _'node' \| 'edge' \| 'combo'\_\_) => boolean_
+> _(id: string, elementType: 'node' \| 'edge' \| 'combo') => boolean_
 
 过滤出始终不在透镜中显示的元素
 
@@ -44,7 +42,7 @@ title: EdgeFilterLens 边过滤镜
 
 ### nodeStyle
 
-> _NodeStyle_ _\| ((datum:_ [NodeData](/api/graph/option#nodedata)_) =>_ _NodeStyle\_\_)_
+> _NodeStyle_ _\| ((datum:_ [NodeData](/manual/data#节点数据nodedata)_) =>_ _NodeStyle\_\_)_
 
 在透镜中节点的样式
 

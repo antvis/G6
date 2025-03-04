@@ -2,8 +2,6 @@
 title: FixElementSize 缩放画布时固定元素大小
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 ## 配置项
 
 ### <Badge type="success">Required</Badge> type
@@ -14,7 +12,7 @@ title: FixElementSize 缩放画布时固定元素大小
 
 ### combo
 
-> [FixShapeConfig](#fixshapeconfig) _\|_ [FixShapeConfig](#fixshapeconfig)_[]_
+> _[FixShapeConfig](#fixshapeconfig) \| FixShapeConfig[]_
 
 Combo 配置项，用于定义哪些属性在视觉上保持固定大小。默认整个 Combo 将被固定
 
@@ -27,7 +25,7 @@ Combo 配置项，用于定义哪些属性在视觉上保持固定大小。默�
 
 ### comboFilter
 
-> _(datum:_ [ComboData](/api/graph/option#combodata)_) => boolean_ **Default:** `() = true`
+> _(datum: [ComboData](/manual/data#组合数据combodata)) => boolean_ **Default:** `() = true`
 
 Combo 过滤器，用于过滤哪些 Combo 在缩放过程中保持固定大小
 
@@ -39,7 +37,7 @@ Combo 过滤器，用于过滤哪些 Combo 在缩放过程中保持固定大小
 
 ### edgeFilter
 
-> _(datum:_ [EdgeData](/api/graph/option#edgedata)_) => boolean_ **Default:** `() = true`
+> _(datum: [EdgeData](/manual/data#边数据edgedata)) => boolean_ **Default:** `() = true`
 
 边过滤器，用于过滤哪些边在缩放过程中保持固定大小
 
@@ -81,7 +79,7 @@ If you want to keep the label size of the element unchanged during zooming, you 
 
 ### nodeFilter
 
-> _(datum:_ [NodeData](/api/graph/option#nodedata)_) => boolean_ **Default:** `() = true`
+> _(datum:_ [NodeData](/manual/data#节点数据nodedata)_) => boolean_ **Default:** `() = true`
 
 节点过滤器，用于过滤哪些节点在缩放过程中保持固定大小
 

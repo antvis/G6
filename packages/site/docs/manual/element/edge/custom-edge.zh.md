@@ -39,8 +39,8 @@ class ExtendBaseEdge extends BaseEdge {
 
 ## 注册边
 
-通过 G6 提供的 `register` 方法注册即可，详见[注册边](/manual/core-concept/element#注册边)
+通过 G6 提供的 `register` 方法注册即可，详见[注册边](/manual/element/edge/overview#注册边)
 
 ## 配置边
 
-可在`数据`或`边样式映射`中使用并配置自定义边，详见[配置边](/manual/core-concept/element#配置边)
+可在`数据`或`边样式映射`中使用并配置自定义边，详见[配置边](/manual/element/edge/overview#配置边)

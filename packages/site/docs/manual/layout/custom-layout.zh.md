@@ -125,8 +125,8 @@ class TickTockLayout extends BaseLayout<TickTockLayoutOptions> {
 
 ## 注册布局
 
-通过 G6 提供的 register 方法注册即可，详见[注册布局](/manual/core-concept/layout#注册布局)
+通过 G6 提供的 register 方法注册即可，详见[注册布局](/manual/layout/overview#注册布局)
 
 ## 配置布局
 
-可在 `options.layout` 中配置布局的类型和参数，详见[配置布局](/manual/core-concept/layout#配置布局)
+可在 `options.layout` 中配置布局的类型和参数，详见[配置布局](/manual/layout/overview#配置布局)

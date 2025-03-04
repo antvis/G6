@@ -3,11 +3,9 @@ title: 图配置项
 order: 7
 ---
 
-> 阅读本文前，请先阅读 [核心概念 - 图](/manual/core-concept/graph) 章节。
+## 图配置项概述
 
-## 配置项概述
-
-G6 图实例的配置项控制着图的各个方面，包括画布设置、视口属性、数据、布局、样式、交互行为、插件等。通过合理配置这些选项，可以灵活定制图的外观和行为。
+G6 图实例的 [配置项](/manual/graph/option) 控制着图的各个方面，包括画布设置、视口属性、数据、布局、样式、交互行为、插件等。通过合理配置这些选项，可以灵活定制图的外观和行为。
 
 配置项可以在图实例创建时指定，也可以通过 API 在运行时动态修改。某些基础配置（如 devicePixelRatio、container）修改后需要销毁并重新创建图实例才能生效。
 
@@ -23,7 +21,7 @@ getOptions(): GraphOptions;
 
 **返回值**
 
-- **类型**: [GraphOptions](/manual/core-concept/graph)
+- **类型**: [GraphOptions](/manual/graph/option)
 - **描述**: 当前图表的完整配置项
 
 **示例**
@@ -48,9 +46,9 @@ setOptions(options: GraphOptions): void;
 
 **参数**
 
-| 参数    | 描述       | 类型                                       | 默认值 | 必选 |
-| ------- | ---------- | ------------------------------------------ | ------ | ---- |
-| options | 新的配置项 | [GraphOptions](/manual/core-concept/graph) | -      | ✓    |
+| 参数    | 描述       | 类型                                 | 默认值 | 必选 |
+| ------- | ---------- | ------------------------------------ | ------ | ---- |
+| options | 新的配置项 | [GraphOptions](/manual/graph/option) | -      | ✓    |
 
 **说明**
 

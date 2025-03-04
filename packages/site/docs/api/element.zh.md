@@ -3,11 +3,9 @@ title: 元素操作
 order: 1
 ---
 
-> 阅读本节前，请先阅读 [核心概念 - 元素](/manual/core-concept/element) 章节。
-
 ## 元素操作概述
 
-G6 中的元素操作 API 允许您控制图中节点、边和组合(Combo)等元素的行为和属性。这些 API 可以用于：
+G6 中的 [元素](/manual/element/overview) 操作 API 允许您控制图中节点、边和组合(Combo)等元素的行为和属性。这些 API 可以用于：
 
 1. **元素状态管理**：设置、更新或移除元素的状态
 2. **元素显示控制**：控制元素的层级、可见性
@@ -311,7 +309,7 @@ setNode(node: NodeOptions): void;
 
 | 参数 | 描述     | 类型                                         | 默认值 | 必选 |
 | ---- | -------- | -------------------------------------------- | ------ | ---- |
-| node | 节点配置 | [NodeOptions](/api/elements/nodes/base-node) | -      | ✓    |
+| node | 节点配置 | [NodeOptions](/manual/element/node/overview) | -      | ✓    |
 
 **示例**:
 
@@ -336,7 +334,7 @@ setEdge(edge: EdgeOptions): void;
 
 | 参数 | 描述   | 类型                                         | 默认值 | 必选 |
 | ---- | ------ | -------------------------------------------- | ------ | ---- |
-| edge | 边配置 | [EdgeOptions](/api/elements/edges/base-edge) | -      | ✓    |
+| edge | 边配置 | [EdgeOptions](/manual/element/edge/overview) | -      | ✓    |
 
 ### Graph.setCombo(combo)
 
@@ -348,9 +346,9 @@ setCombo(combo: ComboOptions): void;
 
 **参数**:
 
-| 参数  | 描述     | 类型                                            | 默认值 | 必选 |
-| ----- | -------- | ----------------------------------------------- | ------ | ---- |
-| combo | 组合配置 | [ComboOptions](/api/elements/combos/base-combo) | -      | ✓    |
+| 参数  | 描述     | 类型                                           | 默认值 | 必选 |
+| ----- | -------- | ---------------------------------------------- | ------ | ---- |
+| combo | 组合配置 | [ComboOptions](/manual/element/combo/overview) | -      | ✓    |
 
 ### Graph.collapseElement(id, options)
 

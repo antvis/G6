@@ -18,7 +18,7 @@ title: Snake
 
 ### nodeFilter
 
-> _(node:_ [NodeData](/api/graph/option#nodedata)_) => boolean_
+> _(node:_ [NodeData](/manual/data#节点数据nodedata)_) => boolean_
 
 参与该布局的节点
 
@@ -70,7 +70,7 @@ title: Snake
 
 ### nodeSize
 
-> _number \| [number, number] \| [number, number, number] \| ((node: [NodeData](/api/graph/option#nodedata)) => number \| [number, number] \| [number, number, number])_
+> _number \| [number, number] \| [number, number, number] \| ((node: [NodeData](/manual/data#节点数据nodedata)) => number \| [number, number] \| [number, number, number])_
 
 节点尺寸
 
@@ -88,6 +88,6 @@ title: Snake
 
 ### sortBy
 
-> _(nodeA: [NodeData](/api/graph/option#nodedata), nodeB: [NodeData](/api/graph/option#nodedata)) => -1 \| 0 \| 1_
+> _(nodeA: [NodeData](/manual/data#节点数据nodedata), nodeB: [NodeData](/manual/data#节点数据nodedata)) => -1 \| 0 \| 1_
 
 节点排序方法。默认按照在图中的路径顺序进行展示

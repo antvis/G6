@@ -2,8 +2,6 @@
 title: Fisheye 鱼眼放大镜
 ---
 
-> 如需深入了解插件的使用，请参阅 [API 文档 - 图配置项 - plugins](/api/graph/option#plugins) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够保证在放大关注区域的同时，保证上下文以及上下文与关注中心的关系不丢失。
 
 **参考示例**：
@@ -53,7 +51,7 @@ Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够
 
 ### nodeStyle
 
-> _NodeStyle_ _\| ((datum:_ [NodeData](/api/graph/option#nodedata)_) =>_ _NodeStyle\_\_)_
+> _NodeStyle_ _\| ((datum:_ [NodeData](/manual/data#节点数据nodedata)_) =>_ _NodeStyle\_\_)_
 
 在鱼眼放大镜中的节点样式
 

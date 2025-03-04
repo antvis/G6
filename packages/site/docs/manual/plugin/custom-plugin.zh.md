@@ -48,8 +48,8 @@ class RemoteDataSource extends BasePlugin<RemoteDataSourceOptions> {
 
 ## 注册插件
 
-通过 G6 提供的 register 方法注册即可，详见[注册插件](/manual/core-concept/plugin#注册插件)
+通过 G6 提供的 register 方法注册即可，详见[注册插件](/manual/plugin/overview#注册插件)
 
 ## 配置插件
 
-可在 `plugins` 中传入交互类型名称或配置参数对象，详见[配置插件](/manual/core-concept/plugin#配置插件)
+可在 `plugins` 中传入交互类型名称或配置参数对象，详见[配置插件](/manual/plugin/overview#配置插件)

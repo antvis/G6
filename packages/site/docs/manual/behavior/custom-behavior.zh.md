@@ -54,8 +54,8 @@ class ClickAddNode extends BaseBehavior<ClickAddNodeOptions> {
 
 ## 注册交互
 
-通过 G6 提供的 register 方法注册即可，详见[注册交互](/manual/core-concept/behavior#注册交互)
+通过 G6 提供的 register 方法注册即可，详见[注册交互](/manual/behavior/overview#注册交互)
 
 ## 配置交互
 
-可在 `behaviors` 中传入交互类型名称或配置参数对象，详见[配置交互](/manual/core-concept/behavior#配置交互)
+可在 `behaviors` 中传入交互类型名称或配置参数对象，详见[配置交互](/manual/behavior/overview#配置交互)

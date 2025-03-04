@@ -103,4 +103,4 @@ register(ExtensionCategory.EDGE, 'custom-edge', CustomEdge);
 
 ### 自定义边
 
-如果内置边元素无法满足需求，可以自定义边元素，具体请参考[自定义边](/manual/custom-extension/element#自定义边)。
+如果内置边元素无法满足需求，可以自定义边元素，具体请参考[自定义边](/manual/element/edge/custom-edge)。

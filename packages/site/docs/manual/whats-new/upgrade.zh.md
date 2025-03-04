@@ -42,9 +42,9 @@ const data = {
 
 由于我们重新设计实现了元素，新的元素配置项请参考相应文档进行修改：
 
-- [Node](/api/elements/nodes/base-node)
-- [Edge](/api/elements/edges/base-edge)
-- [Combo](/api/elements/combos/base-combo)
+- [Node](/manual/element/node/overview)
+- [Edge](/manual/element/edge/overview)
+- [Combo](/manual/element/combo/overview)
 
 2. 如果要在数据中指定元素类型，可以使用 `type` 属性：
 
@@ -236,7 +236,7 @@ import { Renderer } from '@antv/g-svg';
 
 <Badge type="warning">变更</Badge> **data / save / read / changeData**
 
-5.x 提供了全新的数据 API，详见 [数据 API](/api/graph/method#数据)。
+5.x 提供了全新的数据 API，详见 [数据 API](/api/data)。
 
 - 4.x `data` `changeData` 方法使用 5.x `setData` 替代
 - 4.x `save` 方法使用 5.x `getData` 替代
@@ -413,7 +413,7 @@ G6 5.x 采用了与 4.x 不同的坐标系，详见 [坐标系](/manual/further-
 
 <Badge type="error">移除</Badge> **setTextWaterMarker / setImageWaterMarker**
 
-要使用水印功能，请参考 [水印](/api/plugins/watermark)插件。
+要使用水印功能，请参考 [水印](/manual/plugin/build-in/watermark)插件。
 
 <Badge type="warning">变更</Badge> **toFullDataURL**
 
@@ -457,7 +457,7 @@ async function downloadImage() {
 
 ### 扩展注册
 
-与 G6 4.x 不同，G6 5.x 使用的统一的扩展注册函数(register)，你可以参考 [注册扩展](/manual/core-concept/extension#注册扩展) 来注册 G6 扩展。
+与 G6 4.x 不同，G6 5.x 使用的统一的扩展注册函数(register)，你可以参考 [注册扩展](/manual/graph/extension#注册扩展) 来注册 G6 扩展。
 
 下列 G6 4.x 的注册函数已经废除：
 
@@ -506,4 +506,4 @@ async function downloadImage() {
   - graphstatechange 事件变更为 beforeelementstatechange / afterelementstatechange
   - viewportchange 事件变更为 beforetransform / aftertransform
 
-完整的事件列表请参考 [事件](/api/reference/g6#枚举)。
+完整的事件列表请参考 [事件](/api/event)。

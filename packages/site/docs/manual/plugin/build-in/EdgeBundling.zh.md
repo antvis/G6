@@ -2,8 +2,6 @@
 title: EdgeBundling 边绑定
 ---
 
-> 如需深入了解插件的使用，请参阅 [API 文档 - 图配置项 - plugins](/api/graph/option#plugins) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 边绑定（Edge Bundling）是一种图可视化技术，用于减少复杂网络图中的视觉混乱，并揭示图中的高级别模式和结构。其思想是将相邻的边捆绑在一起。
 
 G6 中提供的边绑定插件是基于 FEDB（Force-Directed Edge Bundling for Graph Visualization）一文的实现：将边建模为可以相互吸引的柔性弹簧，通过自组织的方式进行捆绑。

@@ -2,8 +2,6 @@
 title: OptimizeViewportTransform 操作画布时隐藏元素
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 ## 配置项
 
 ### <Badge type="success">Required</Badge> type

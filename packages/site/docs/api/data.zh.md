@@ -3,15 +3,9 @@ title: 数据
 order: 0
 ---
 
-> 阅读本节前，请先阅读 [核心概念 - 数据](/manual/data) 章节。
-
 ## 数据操作概述
 
-G6 提供了一系列数据操作的 API，用于管理图中的节点、边和组合(Combo)数据。这些 API 可以分为以下几类:
-
-1. **数据查询**: 获取图中现有的节点、边、组合等数据
-2. **数据修改**: 添加、更新或删除图中的元素数据
-3. **数据关系**: 获取元素之间的层级、关联关系等信息
+G6 提供了一套全面的 [数据](/manual/data/overview) 操作 API，覆盖了图数据从查询、修改到更新的完整生命周期。
 
 ## API 参考
 
@@ -857,7 +851,7 @@ interface NodeData {
 }
 ```
 
-详细类型定义请参考 [NodeData](/manual/data#节点数据)。
+详细类型定义请参考 [节点数据](/manual/data#节点数据nodedata)。
 
 ### EdgeData
 
@@ -875,7 +869,7 @@ interface EdgeData {
 }
 ```
 
-详细类型定义请参考 [EdgeData](/manual/data#边数据)。
+详细类型定义请参考 [边数据](/manual/data#边数据edgedata)。
 
 ### ComboData
 
@@ -892,4 +886,4 @@ interface ComboData {
 }
 ```
 
-详细类型定义请参考 [ComboData](/manual/data#组合数据)。
+详细类型定义请参考 [组合数据](/manual/data#组合数据combodata)。

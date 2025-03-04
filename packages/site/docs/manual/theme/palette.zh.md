@@ -164,7 +164,7 @@ register(ExtensionCategory.PALETTE, 'custom-palette', CustomPalette);
 
 ## 自定义色板
 
-如果内置色板无法满足需求，可以自定义色板，具体请参考[自定义色板](/manual/custom-extension/palette)。
+如果内置色板无法满足需求，可以自定义色板，具体请参考[自定义色板](/manual/theme/custom-palette)。
 
 ## 优先级
 

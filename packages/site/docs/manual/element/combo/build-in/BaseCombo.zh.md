@@ -32,10 +32,10 @@ const graph = new Graph({
 
 指定组合类型，内置组合类型名称或自定义组合的名称。默认为 `circle`（圆形组合）。
 
-| 支持的值 | 描述       | DEMO                                      |
-| -------- | ---------- | ----------------------------------------- |
-| `circle` | 圆形 Combo | [DEMO](/api/elements/combos/circle-combo) |
-| `rect`   | 矩形 Combo | [DEMO](/api/elements/combos/rect-combo)   |
+| 支持的值 | 描述       | DEMO                                                |
+| -------- | ---------- | --------------------------------------------------- |
+| `circle` | 圆形 Combo | [DEMO](/manual/element/combo/build-in/circle-combo) |
+| `rect`   | 矩形 Combo | [DEMO](/manual/element/combo/build-in/rect-combo)   |
 
 更多内置支持组合类型，可查看[组合注册表](/manual/getting-started/extensions#组合)。
 
@@ -205,7 +205,7 @@ createGraph(
 - `collapse`: 组合收起时的动画
 - `expand`: 组合展开时的动画
 
-你可以参考 [动画范式](/manual/core-concept/animation#动画范式) 使用动画语法来配置组合，如：
+你可以参考 [动画范式](/manual/animation/overview#动画范式) 使用动画语法来配置组合，如：
 
 ```json
 {
@@ -252,7 +252,7 @@ createGraph(
 
 定义组合的色板，即预定义组合颜色池，并根据规则进行分配，将颜色映射到 `fill` 属性。
 
-> 有关色板的定义，请参考 [核心概念 - 色板](/manual/core-concept/palette)。
+> 有关色板的定义，请参考 [色板](/manual/theme/palette)。
 
 | 属性   | 描述                                                                | 类型                              | 默认值  |
 | ------ | ------------------------------------------------------------------- | --------------------------------- | ------- |

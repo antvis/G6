@@ -2,8 +2,6 @@
 title: Tooltip 提示框
 ---
 
-> 如需深入了解插件的使用，请参阅 [API 文档 - 图配置项 - plugins](/api/graph/option#plugins) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 <embed src="@/common/api/plugins/tooltip.md"></embed>
 
 **参考示例**：
@@ -22,13 +20,13 @@ title: Tooltip 提示框
 
 ### enable
 
-> _boolean \| ((event: [IElementEvent](/manual/graph-api/event#事件对象属性), items: NodeData \| EdgeData \| ComboData[]) => boolean)_ **Default:** `true`
+> _boolean \| ((event: [IElementEvent](/api/event#事件对象属性), items: NodeData \| EdgeData \| ComboData[]) => boolean)_ **Default:** `true`
 
 是否启用
 
 ### getContent
 
-> _(event: [IElementEvent](/manual/graph-api/event#事件对象属性), items: NodeData \| EdgeData \| ComboData[]) => Promise<HTMLElement \| string>_
+> _(event: [IElementEvent](/api/event#事件对象属性), items: NodeData \| EdgeData \| ComboData[]) => Promise<HTMLElement \| string>_
 
 自定义内容
 

@@ -5,7 +5,7 @@ order: 4
 
 ## 概述
 
-[核心概念 - 色板](/manual/core-concept/palette) 中提到，G6 支持离散色板和连续色板，其中离散色板本质上是一个颜色数组，而连续色板是一个颜色插值器。
+[色板](/manual/theme/palette) 中提到，G6 支持离散色板和连续色板，其中离散色板本质上是一个颜色数组，而连续色板是一个颜色插值器。
 
 因此自定义色板也采用这两种方式，下面分别介绍如何自定义离散色板和连续色板。
 
@@ -33,7 +33,7 @@ const color = (value: number) => `rgb(${value * 255}, 0, 0)`;
 
 ## 注册色板
 
-通过 G6 提供的 register 方法注册即可，详见[注册色板](/manual/core-concept/palette#注册色板)
+通过 G6 提供的 register 方法注册即可，详见[注册色板](/manual/theme/palette#注册色板)
 
 ## 非注册方式使用
 

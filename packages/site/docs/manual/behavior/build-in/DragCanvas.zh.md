@@ -2,8 +2,6 @@
 title: DragCanvas 拖拽画布
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 <embed src="@/common/api/behaviors/drag-canvas.md"></embed>
 
 ## 配置项
@@ -34,7 +32,7 @@ title: DragCanvas 拖拽画布
 
 ### enable
 
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性) _\|_ [KeyboardEvent](https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent)_) => boolean)_ **Default:** `true`
+> _boolean \| ((event:_ [Event](/api/event#事件对象属性) _\|_ [KeyboardEvent](https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent)_) => boolean)_ **Default:** `true`
 
 是否启用拖拽画布的功能
 

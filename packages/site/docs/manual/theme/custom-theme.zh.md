@@ -83,13 +83,13 @@ register(ExtensionCategory.THEME, 'custom-theme', theme);
 
 ### 切换主题
 
-在 `Graph` 实例化后可以通过 [setTheme](/api/graph/method#setTheme) 方法切换主题：
+在 `Graph` 实例化后可以通过 [setTheme](/api/theme#graphsetthemetheme) 方法切换主题：
 
 ```typescript
 graph.setTheme('dark');
 ```
 
-此外你还可以通过 `getTheme` 方法获取当前主题：
+此外你还可以通过 [getTheme](/api/theme#graphgettheme) 方法获取当前主题：
 
 ```typescript
 graph.getTheme();

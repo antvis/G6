@@ -2,8 +2,6 @@
 title: LassoSelect 套索选择
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 用不规则多边形框选一组元素。
 
 <embed src="@/common/api/behaviors/lasso-select.md"></embed>
@@ -24,7 +22,7 @@ title: LassoSelect 套索选择
 
 ### enable
 
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
+> _boolean \| ((event:_ [Event](/api/event#事件对象属性)_) => boolean)_ **Default:** `true`
 
 是否启用框选功能
 

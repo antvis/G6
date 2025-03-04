@@ -2,8 +2,6 @@
 title: ProcessParallelEdges 平行边
 ---
 
-> 如需深入了解数据处理的使用，请参阅 [API 文档 - 图配置项 - transforms](/api/graph/option#transforms) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 平行边（Parallel Edges）是指在图结构中，两个节点之间存在多条边。这些边共享相同的源节点和目标节点，但可能代表不同的关系或属性。为了避免边的重叠和混淆，提供了两种处理平行边的方式：(1) 捆绑模式（bundle）：将平行边捆绑在一起，通过改变曲率与其他边分开；(2) 合并模式（merge）：将平行边合并为一条聚合。
 
 **参考示例**：
@@ -41,7 +39,7 @@ title: ProcessParallelEdges 平行边
 
 ### style
 
-> _PathStyleProps \| ((prev: [EdgeData](/api/graph/option#edgedata)[]) => PathStyleProps)_
+> _PathStyleProps \| ((prev: [EdgeData](/manual/data#边数据edgedata)[]) => PathStyleProps)_
 
 合并边的样式，仅在合并模式下有效
 

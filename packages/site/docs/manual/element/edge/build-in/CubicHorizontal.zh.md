@@ -2,7 +2,6 @@
 title: CubicHorizontal 水平三次贝塞尔曲线
 ---
 
-> 阅读本节前，请先阅读 [API - 边配置项](/api/elements/edges/base-edge) 章节。
 > 特别注意，计算控制点时主要考虑 x 轴上的距离，忽略 y 轴的变化
 
 <embed src="@/common/api/elements/edges/cubic-horizontal.md"></embed>

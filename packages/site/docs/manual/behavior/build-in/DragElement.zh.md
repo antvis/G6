@@ -2,8 +2,6 @@
 title: DragElement 拖拽元素
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 <embed src="@/common/api/behaviors/drag-element.md"></embed>
 
 ## 配置项
@@ -42,7 +40,7 @@ combo 元素可作为元素容器置入 node 或 combo 元素
 
 ### enable
 
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `['node', 'combo'].includes(event.targetType)`
+> _boolean \| ((event:_ [Event](/api/event#事件对象属性)_) => boolean)_ **Default:** `['node', 'combo'].includes(event.targetType)`
 
 是否启用拖拽节点的功能，默认可以拖拽 node 和 combo
 

@@ -2,8 +2,6 @@
 title: FocusElement 聚焦元素
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 点击元素时，将元素聚焦到视图中心。
 
 <embed src="@/common/api/behaviors/focus-element.md"></embed>
@@ -18,13 +16,13 @@ title: FocusElement 聚焦元素
 
 ### animation
 
-> [ViewportAnimationEffectTiming](/api/graph/option#viewportanimationeffecttiming)
+> [ViewportAnimationEffectTiming](/manual/graph/option#viewportanimationeffecttiming)
 
 是否启用动画以及动画配置
 
 ### enable
 
-> _boolean \| ((event:_ [IElementEvent](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
+> _boolean \| ((event:_ [IElementEvent](/api/event#事件对象属性)_) => boolean)_ **Default:** `true`
 
 是否启用聚焦功能
 

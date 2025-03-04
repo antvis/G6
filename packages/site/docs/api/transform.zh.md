@@ -5,7 +5,7 @@ order: 10
 
 ## 数据处理概述
 
-数据处理（Transform）是 G6 中一项强大的功能，允许在图渲染过程中对数据进行处理和转换。通过数据处理器，您可以实现各种数据处理需求，比如：
+[数据处理](/manual/transform/overview)（Transform）是 G6 中一项强大的功能，允许在图渲染过程中对数据进行处理和转换。通过数据处理器，您可以实现各种数据处理需求，比如：
 
 - 数据过滤：根据条件筛选需要显示的节点和边
 - 数据计算：基于原始数据生成新的属性，如根据节点连接数计算节点大小，但不污染原始数据
@@ -168,5 +168,3 @@ type UpdateTransformOption = {
   [configKey: string]: unknown;
 };
 ```
-
-更多内置数据处理配置项请参考 [API - 数据处理](/api/transforms/map-node-size) 章节。

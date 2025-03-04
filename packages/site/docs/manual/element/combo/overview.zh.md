@@ -88,4 +88,4 @@ register(ExtensionCategory.COMBO, 'custom-combo', CustomCombo);
 
 ### 自定义组合
 
-如果内置组合元素无法满足需求，可以自定义组合元素，具体请参考[自定义组合](/manual/custom-extension/element#自定义组合)。
+如果内置组合元素无法满足需求，可以自定义组合元素，具体请参考[自定义组合](/manual/element/combo/custom-combo)。

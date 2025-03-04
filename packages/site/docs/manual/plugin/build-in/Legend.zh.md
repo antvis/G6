@@ -2,8 +2,6 @@
 title: Legend 图例
 ---
 
-> 如需深入了解插件的使用，请参阅 [API 文档 - 图配置项 - plugins](/api/graph/option#plugins) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 图例插件用于展示图中元素的分类信息，支持节点、边、组合的分类信息展示。
 
 <embed src="@/common/api/plugins/legend.md"></embed>

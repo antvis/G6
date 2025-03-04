@@ -16,7 +16,7 @@ title: Fishbone 鱼骨布局
 
 ### nodeFilter
 
-> _(node:_ [NodeData](/api/graph/option#nodedata)_) => boolean_
+> _(node: [NodeData](/manual/data#节点数据nodedata)) => boolean_
 
 参与该布局的节点
 
@@ -58,7 +58,7 @@ title: Fishbone 鱼骨布局
 
 ### getRibSep
 
-> _(node: [NodeData](/api/graph/option#nodedata)) => number_ **Default:** `() = 60`
+> _(node: [NodeData](/manual/data#节点数据nodedata)) => number_ **Default:** `() = 60`
 
 获取鱼骨间距
 
@@ -76,7 +76,7 @@ title: Fishbone 鱼骨布局
 
 ### nodeSize
 
-> _number \| [number, number] \| [number, number, number] \| ((node: [NodeData](/api/graph/option#nodedata)) => number \| [number, number] \| [number, number, number])_
+> _number \| [number, number] \| [number, number, number] \| ((node: [NodeData](/manual/data#节点数据nodedata)) => number \| [number, number] \| [number, number, number])_
 
 节点大小
 

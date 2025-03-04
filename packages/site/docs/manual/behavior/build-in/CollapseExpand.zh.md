@@ -2,8 +2,6 @@
 title: CollapseExpand 展开/收起元素
 ---
 
-> 如需深入了解交互的使用，请参阅 [API 文档 - 图配置项 - behaviors](/api/graph/option#behaviors) 章节。此章节将介绍完整的配置参数、类型定义以及应用示例。
-
 通过操作展开/收起元素。
 
 <embed src="@/common/api/behaviors/collapse-expand.md"></embed>
@@ -30,7 +28,7 @@ title: CollapseExpand 展开/收起元素
 
 ### enable
 
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
+> _boolean \| ((event:_ [Event](/api/event#事件对象属性)_) => boolean)_ **Default:** `true`
 
 是否启用展开/收起功能
 
@@ -48,7 +46,7 @@ title: CollapseExpand 展开/收起元素
 
 ### trigger
 
-> [CommonEvent.CLICK](/manual/graph-api/event#通用事件-commonevent) _\|_ [CommonEvent.DBLCLICK](/manual/graph-api/event#通用事件-commonevent) **Default:** `'dblclick'`
+> [CommonEvent.CLICK](/api/event#通用事件-commonevent) _\|_ [CommonEvent.DBLCLICK](/api/event#通用事件-commonevent) **Default:** `'dblclick'`
 
 触发方式
 
