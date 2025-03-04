@@ -1,7 +1,7 @@
 import type { AABB, DisplayObject, TextStyleProps } from '@antv/g';
 import { get, isNumber, isString, set } from '@antv/util';
 import { BaseCombo, BaseEdge, BaseNode } from '../elements';
-import type { BaseShape } from '../elements/shapes';
+import type { BaseShape, BaseShapeStyleProps } from '../elements/shapes';
 import type { Combo, Edge, Element, Node, NodePortStyleProps, Placement, Point, TriangleDirection } from '../types';
 import type { NodeLabelStyleProps, Port } from '../types/node';
 import { getBBoxHeight, getBBoxWidth } from './bbox';
@@ -86,18 +86,18 @@ const PORT_MAP: Record<string, Point> = {
  * Get the Port x, y by `position`.
  * @param bbox - BBox of element.
  * @param placement - The position relative with element.
- * @param ports - The map of position.
+ * @param portMap - The map of position.
  * @param isRelative - Whether the position in MAP is relative.
  * @returns [x, y]
  */
 export function getPortXYByPlacement(
   bbox: AABB,
   placement?: Placement,
-  ports: Record<string, Point> = PORT_MAP,
+  portMap: Record<string, Point> = PORT_MAP,
   isRelative = true,
 ): Point {
   const DEFAULT = [0.5, 0.5];
-  const p: [number, number] = isString(placement) ? get(ports, placement.toLocaleLowerCase(), DEFAULT) : placement;
+  const p: [number, number] = isString(placement) ? get(portMap, placement.toLocaleLowerCase(), DEFAULT) : placement;
 
   if (!isRelative && isString(placement)) return p;
 
@@ -182,7 +182,7 @@ export function findPorts(
  * 3. If the node has no ports, return undefined.
  * @param node - <zh/> 节点 | <en/> Node
  * @param oppositeNode - <zh/> 对端节点 | <en/> Opposite Node
- * @param portKey - <zh/> 连接桩的 key | <en/> Port Key
+ * @param portKey - <zh/> 连接桩的键值（key） | <en/> Port Key
  * @param oppositePortKey - <zh/> 对端连接桩的 key | <en/> Opposite Port Key
  * @returns <zh/> 连接桩 | <en/> Port
  */
@@ -208,7 +208,7 @@ export function findPort(node: Node, oppositeNode: Node, portKey?: string, oppos
  * 2. If `portKey` is not specified, return positions of all ports.
  * 3. If the node has no ports, return the center of the node.
  * @param node - <zh/> 节点 | <en/> Node
- * @param portKey
+ * @param portKey - <zh/> 连接桩的键值（key），如不指定则返回所有 | <en/> Port Key, return all if not specified
  * @returns <zh/> 连接点 | <en/> Connection Point
  */
 function findConnectionPoints(node: Node, portKey?: string): Point[] {
@@ -238,7 +238,7 @@ export function getConnectionPoint(node: Port | Node | Combo, opposite: Node | P
  * <en/> Get the connection point of the port
  * @param port - <zh/> 连接桩 | <en/> Port
  * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
- * @param oppositePort - <zh/> 对端连接桩 | <en/> Opposite Port
+ * // @param oppositePort - <zh/> 对端连接桩 | <en/> Opposite Port
  * @returns <zh/> 连接桩的连接点 | <en/> Port Point
  */
 export function getPortConnectionPoint(port: Port, opposite: Node | Port): Point {
@@ -248,8 +248,8 @@ export function getPortConnectionPoint(port: Port, opposite: Node | Port): Point
   // 1. linkToCenter 为 true，则返回连接桩的中心 | If linkToCenter is true, return the center of the port
   if (port.attributes.linkToCenter) return port.getPosition();
 
-  // 2. 推导对端的具体点：如果是连接桩，则返回连接桩的中心；如果是节点，则返回节点的中心；如果是具体点则直接返回
-  // 2. Derive the specific point of the opposite: if it is a port, return the center of the port; if it is a node, return the center of the node; if it is a specific point, return directly
+  // 2. 推导对端的具体点：如果是连接桩或节点，则返回它的中心；如果是具体点，则直接返回
+  // 2. Get a specific opposite point: if it is a port or a node, return its center; if it is a specific point, return directly
   const oppositePosition = isPoint(opposite)
     ? opposite
     : isNode(opposite)
@@ -264,19 +264,19 @@ export function getPortConnectionPoint(port: Port, opposite: Node | Port): Point
  * <zh/> 获取节点的连接点
  *
  * <en/> Get the Node Connection Point
- * @param node - <zh/> 节点 | <en/> Node
+ * @param nodeLike - <zh/> 节点或组合 | <en/> Node or Combo
  * @param opposite - <zh/> 对端的具体点或节点 | <en/> Opposite Point or Node
- * @param oppositePort - <zh/> 对端连接桩 | <en/> Opposite Port
+ * // @param oppositePort - <zh/> 对端连接桩 | <en/> Opposite Port
  * @returns <zh/> 节点的连接点 | <en/> Node Point
  */
-export function getNodeConnectionPoint(node: Node, opposite: Node | Port): Point {
-  if (!node || !opposite) return [0, 0, 0];
+export function getNodeConnectionPoint(nodeLike: Node | Combo, opposite: Node | Port): Point {
+  if (!nodeLike || !opposite) return [0, 0, 0];
   const oppositePosition = isPoint(opposite)
     ? opposite
     : isNode(opposite)
       ? opposite.getCenter()
       : opposite.getPosition();
-  return node.getIntersectPoint(oppositePosition) || node.getCenter();
+  return nodeLike.getIntersectPoint(oppositePosition) || nodeLike.getCenter();
 }
 
 /**
@@ -298,16 +298,19 @@ export function getTextStyleByPlacement(
   const direction = placement.split('-');
   const [x, y] = getXYByPlacement(bbox, placement);
 
-  const textAlign = direction.includes('left') ? 'right' : direction.includes('right') ? 'left' : 'center';
+  const [top, bottom]: TextStyleProps['textBaseline'][] = isReverseBaseline ? ['bottom', 'top'] : ['top', 'bottom'];
 
-  let textBaseline: TextStyleProps['textBaseline'] = direction.includes('top')
-    ? 'bottom'
+  const textBaseline: TextStyleProps['textBaseline'] = direction.includes('top')
+    ? bottom
     : direction.includes('bottom')
-      ? 'top'
+      ? top
       : 'middle';
-  if (isReverseBaseline) {
-    textBaseline = textBaseline === 'top' ? 'bottom' : textBaseline === 'bottom' ? 'top' : textBaseline;
-  }
+
+  const textAlign: TextStyleProps['textAlign'] = direction.includes('left')
+    ? 'right'
+    : direction.includes('right')
+      ? 'left'
+      : 'center';
 
   return {
     transform: [['translate', x + offsetX, y + offsetY]],
@@ -483,7 +486,7 @@ export function isVisible(element: DisplayObject) {
  * @param element - <zh/> 元素 | <en/> element
  * @param style - <zh/> 样式 | <en/> style
  */
-export function setAttributes(element: BaseShape<any>, style: Record<string, any>) {
+export function setAttributes(element: BaseShape<any>, style: Partial<BaseShapeStyleProps> & Record<string, any>) {
   const { zIndex, transform, transformOrigin, visibility, cursor, clipPath, component, ...rest } = style;
   Object.assign(element.attributes, rest);
 
