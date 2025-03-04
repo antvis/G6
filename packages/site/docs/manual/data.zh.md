@@ -1,38 +1,36 @@
 ---
-title: Data - 数据
-order: 1
+title: 数据 - Data
+order: 4
 ---
 
 ## 概述
 
-G6 是一款数据驱动的图表库，数据是 G6 中最重要的概念之一。在 G6 中，数据是图表的核心，图表的展示和交互都是基于数据的。
+G6 是一款数据驱动的图可视化引擎，数据是 G6 中最重要的概念之一。
 
-常见的图数据格式包括：CSV, [DOT](https://graphviz.org/doc/info/lang.html), GDF, GML, [GraphML](http://graphml.graphdrawing.org/), [GEXF](https://gexf.net/) 等。
+G6 使用标准的 JSON 格式描述图数据结构。以下是一个基础的图数据示例：
 
-G6 采用 JSON 格式来描述图结构，其中包括节点和边的信息。下面是一个简单的 JSON 数据示例：
+```javascript {4-7}
+import { Graph } from '@antv/g6';
 
-```json
-{
-  "nodes": [{ "id": "node1" }, { "id": "node2" }],
-  "edges": [{ "source": "node1", "target": "node2" }]
-}
+const graph = new Graph({
+  data: {
+    nodes: [{ id: 'node1' }, { id: 'node2' }],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+});
 ```
-
-与上述其他格式相比，JSON 格式的数据结构更加直观和易于理解，同时也更加灵活，可以方便地扩展节点和边的属性。
-
-它是一种计算机广泛支持的数据交换格式，你不必担心数据格式的兼容性问题。
 
 ## 数据结构
 
-在 G6 中，图数据包含三部分：`nodes`（节点数据）、`edges`（边数据）、`combos`（组合数据）。每一部分对应图中的不同元素，它们的类型和数据决定了图如何展示。
+图数据包含三部分：`nodes`（节点数据）、`edges`（边数据）、`combos`（组合数据）。每一部分对应图中的不同元素，它们的类型和数据决定了图如何展示。
 
 ### 图数据（GraphData）
 
-| 属性   | 类型        | 描述     |
-| ------ | ----------- | -------- |
-| nodes  | NodeData[]  | 节点数据 |
-| edges  | EdgeData[]  | 边数据   |
-| combos | ComboData[] | 组合数据 |
+| 属性   | 描述     | 类型                              | 默认值 | 必选 |
+| ------ | -------- | --------------------------------- | ------ | ---- |
+| nodes  | 节点数据 | [NodeData](#节点数据nodedata)[]   | -      |      |
+| edges  | 边数据   | [EdgeData](#边数据edgedata)[]     | -      |      |
+| combos | 组合数据 | [ComboData](#组合数据combodata)[] | -      |      |
 
 ### 节点数据（NodeData）
 
@@ -123,17 +121,14 @@ G6 提供了丰富的 API 来操作图数据，下面展示一些常见的数据
 在创建图实例时，可以直接传入数据：
 
 ```javascript
-const data = {
-  nodes: [
-    { id: 'node1', data: { label: '节点1' } },
-    { id: 'node2', data: { label: '节点2' } },
-  ],
-  edges: [{ source: 'node1', target: 'node2', data: { label: '关系' } }],
-};
-
 const graph = new Graph({
-  container: 'container',
-  data,
+  data: {
+    nodes: [
+      { id: 'node1', data: { label: '节点1' } },
+      { id: 'node2', data: { label: '节点2' } },
+    ],
+    edges: [{ source: 'node1', target: 'node2', data: { label: '关系' } }],
+  },
 });
 ```
 

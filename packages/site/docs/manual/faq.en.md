@@ -1,6 +1,6 @@
 ---
 title: FAQ
-order: 6
+order: 13
 ---
 
 ### What is the Difference Between Extension and Plugin?

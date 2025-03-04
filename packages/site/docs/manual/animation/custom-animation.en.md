@@ -1,6 +1,6 @@
 ---
 title: Custom Animation
-order: 6
+order: 2
 ---
 
 ## Overview

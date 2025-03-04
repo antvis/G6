@@ -1,6 +1,6 @@
 ---
-title: Plugin - 插件
-order: 6
+title: 插件总览
+order: 1
 ---
 
 ## 概述

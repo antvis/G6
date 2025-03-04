@@ -1,6 +1,6 @@
 ---
-title: Behavior
-order: 5
+title: Behavior Overview
+order: 1
 ---
 
 ## Overview

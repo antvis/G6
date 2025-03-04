@@ -1,6 +1,6 @@
 ---
 title: contribute
-order: 8
+order: 14
 ---
 
 To contribute, you need to understand G6's code structure and development workflow. The code repository for G6 is located at: https://github.com/antvis/G6

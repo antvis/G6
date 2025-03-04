@@ -129,48 +129,133 @@ export default defineConfig({
         order: 3,
       },
       {
-        slug: 'manual/data',
-        title: {
-          zh: '数据 - Data',
-          en: 'Data',
-        },
-      },
-      {
         slug: 'manual/element',
         title: {
           zh: '元素 - Element',
           en: 'Element',
         },
+        order: 5,
       },
       {
-        slug: 'manual/element/build-in-node',
+        slug: 'manual/element/node',
+        title: {
+          zh: '节点',
+          en: 'Node',
+        },
+      },
+      {
+        slug: 'manual/element/node/build-in',
         title: {
           zh: '内置节点',
           en: 'Build-in Node',
         },
-        order: 4,
+        order: 8,
       },
       {
-        slug: 'manual/element/build-in-edge',
+        slug: 'manual/element/edge',
+        title: {
+          zh: '边',
+          en: 'Edge',
+        },
+      },
+      {
+        slug: 'manual/element/edge/build-in',
         title: {
           zh: '内置边',
           en: 'Build-in Edge',
         },
+        order: 12,
       },
       {
-        slug: 'manual/element/build-in-combo',
+        slug: 'manual/element/combo',
+        title: {
+          zh: '组合',
+          en: 'Combo',
+        },
+      },
+      {
+        slug: 'manual/element/combo/build-in',
         title: {
           zh: '内置组合',
           en: 'Build-in Combo',
         },
+        order: 14,
       },
       {
-        slug: 'manual/custom-extension',
+        slug: 'manual/layout',
         title: {
-          zh: '自定义扩展',
-          en: 'Custom Extension',
+          zh: '布局 - Layout',
+          en: 'Layout',
         },
         order: 5,
+      },
+      {
+        slug: 'manual/layout/build-in',
+        title: {
+          zh: '内置布局',
+          en: 'Build-in Layout',
+        },
+      },
+      {
+        slug: 'manual/behavior',
+        title: {
+          zh: '交互 - Behavior',
+          en: 'Behavior',
+        },
+        order: 6,
+      },
+      {
+        slug: 'manual/behavior/build-in',
+        title: {
+          zh: '内置交互',
+          en: 'Build-in Behavior',
+        },
+      },
+      {
+        slug: 'manual/plugin',
+        title: {
+          zh: '插件 - Plugin',
+          en: 'Plugin',
+        },
+        order: 7,
+      },
+      {
+        slug: 'manual/plugin/build-in',
+        title: {
+          zh: '内置插件',
+          en: 'Build-in Plugin',
+        },
+      },
+      {
+        slug: 'manual/transform',
+        title: {
+          zh: '数据处理 - Transform',
+          en: 'Transform',
+        },
+        order: 8,
+      },
+      {
+        slug: 'manual/transform/build-in',
+        title: {
+          zh: '内置数据处理',
+          en: 'Build-in Transform',
+        },
+      },
+      {
+        slug: 'manual/theme',
+        title: {
+          zh: '主题 - Theme',
+          en: 'Theme',
+        },
+        order: 9,
+      },
+      {
+        slug: 'manual/animation',
+        title: {
+          zh: '动画 - Animation',
+          en: 'Animation',
+        },
+        order: 10,
       },
       {
         slug: 'manual/further-reading',
@@ -178,7 +263,15 @@ export default defineConfig({
           zh: '扩展阅读',
           en: 'Further Reading',
         },
-        order: 6,
+        order: 11,
+      },
+      {
+        slug: 'manual/whats-new',
+        title: {
+          zh: '版本特性',
+          en: "What's new",
+        },
+        order: 12,
       },
     ],
     examples: [

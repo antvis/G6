@@ -1,6 +1,6 @@
 ---
-title: Animation
-order: 8
+title: Animation Overview
+order: 1
 ---
 
 ## Overview

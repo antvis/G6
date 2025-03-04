@@ -1,6 +1,6 @@
 ---
 title: Custom Theme
-order: 4
+order: 2
 ---
 
 ## Overview

@@ -1,6 +1,6 @@
 ---
-title: Plugin
-order: 6
+title: Plugin Overview
+order: 1
 ---
 
 ## Overview

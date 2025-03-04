@@ -1,5 +1,5 @@
 ---
-title: 特性
+title: 新版本特性
 order: 1
 ---
 

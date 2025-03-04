@@ -1,6 +1,6 @@
 ---
 title: 常见问题
-order: 6
+order: 13
 ---
 
 ### Extension 和 Plugin 有什么区别？

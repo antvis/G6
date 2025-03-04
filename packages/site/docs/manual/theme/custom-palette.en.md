@@ -1,6 +1,6 @@
 ---
 title: Custom Palette
-order: 5
+order: 4
 ---
 
 ## Overview

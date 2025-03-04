@@ -42,9 +42,9 @@ setBehaviors(behaviors: BehaviorOptions | ((prev: BehaviorOptions) => BehaviorOp
 
 **参数**
 
-| 参数      | 描述                                                 | 类型                                                                                | 默认值 | 必选 |
-| --------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------- | ------ | ---- |
-| behaviors | 新的交互行为配置，或一个基于当前配置返回新配置的函数 | [BehaviorOptions](#behavioroptions) \| ((prev: BehaviorOptions) => BehaviorOptions) | -      | ✓    |
+| 参数      | 描述                                                 | 类型                                                                              | 默认值 | 必选 |
+| --------- | ---------------------------------------------------- | --------------------------------------------------------------------------------- | ------ | ---- |
+| behaviors | 新的交互行为配置，或一个基于当前配置返回新配置的函数 | [BehaviorOptions](#behavioroptions) \| (prev: BehaviorOptions) => BehaviorOptions | -      | ✓    |
 
 **说明**
 
