@@ -17,6 +17,7 @@ const graph = new Graph({
       labelText: 'This label is too long to be displayed',
       labelWordWrap: true, // enable label ellipsis
       labelMaxWidth: '90%',
+      labelBackground: true,
       labelBackgroundFill: '#eee',
       labelBackgroundFillOpacity: 0.5,
       labelBackgroundRadius: 4,
@@ -29,6 +30,7 @@ const graph = new Graph({
       labelText: 'This label is too long to be displayed',
       labelWordWrap: true,
       labelMaxWidth: '80%',
+      labelBackground: true,
       labelBackgroundFill: 'red',
       labelBackgroundFillOpacity: 0.5,
       labelBackgroundRadius: 4,

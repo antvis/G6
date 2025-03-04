@@ -13,7 +13,11 @@ const graph = new Graph({
       { source: 'node1', target: 'node3' },
       { source: 'combo1', target: 'node3' },
     ],
-    combos: [{ id: 'combo1', combo: 'combo2' }, { id: 'combo2' }, { id: 'combo3', style: { collapsed: true } }],
+    combos: [
+      { id: 'combo1', combo: 'combo2' },
+      { id: 'combo2' },
+      { id: 'combo3', style: { collapsed: true } },
+    ],
   },
   behaviors: ['collapse-expand', 'drag-element'],
 });

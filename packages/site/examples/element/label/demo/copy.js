@@ -23,6 +23,7 @@ const graph = new Graph({
       labelText: (d) => d.data.label,
       labelWordWrap: true,
       labelMaxWidth: '90%',
+      labelBackground: true,
       labelBackgroundFill: '#eee',
       labelBackgroundFillOpacity: 0.5,
       labelBackgroundRadius: 4,
@@ -31,13 +32,22 @@ const graph = new Graph({
     },
   },
   behaviors: ['drag-element'],
+  plugins: [{
+    type: 'tooltip',
+    getContent: (e, items) => {
+      let result = `<h4>Node Label:</h4>`;
+      items.forEach((item) => {
+        result += `<p>${item.data.label}</p>`;
+      });
+      return result;
+    },
+  }]
 });
 
 graph.render();
 
 graph.on('node:click', (e) => {
-  const id = e.target.id;
-  const node = graph.getNodeData(id);
+  const node = graph.getNodeData(e.target.id);
   const label = node?.data?.label;
 
   navigator.clipboard.writeText(label);
