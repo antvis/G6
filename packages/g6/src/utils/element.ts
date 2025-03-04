@@ -71,6 +71,14 @@ const PORT_MAP: Record<string, Point> = {
   right: [1, 0.5],
   bottom: [0.5, 1],
   left: [0, 0.5],
+  'left-top': [0, 0],
+  'top-left': [0, 0],
+  'left-bottom': [0, 1],
+  'bottom-left': [0, 1],
+  'right-top': [1, 0],
+  'top-right': [1, 0],
+  'right-bottom': [1, 1],
+  'bottom-right': [1, 1],
   default: [0.5, 0.5],
 };
 
