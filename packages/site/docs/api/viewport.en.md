@@ -32,7 +32,7 @@ animation
 
 </td><td>
 
-[ViewportAnimationEffectTiming](../api/reference/g6.viewportanimationeffecttiming.en.md)
+[ViewportAnimationEffectTiming]()
 
 </td><td>
 
@@ -76,7 +76,7 @@ options
 
 </td><td>
 
-[FitViewOptions](../api/reference/g6.fitviewoptions.en.md)
+[FitViewOptions]()
 
 </td><td>
 
@@ -89,7 +89,7 @@ animation
 
 </td><td>
 
-[ViewportAnimationEffectTiming](../api/reference/g6.viewportanimationeffecttiming.en.md)
+[ViewportAnimationEffectTiming]()
 
 </td><td>
 
@@ -208,7 +208,7 @@ getZoomRange(): GraphOptions['zoomRange'];
 
 **Returns**:
 
-- **Type:** [GraphOptions](../api/reference/g6.graphoptions.en.md)['zoomRange']
+- **Type:** [GraphOptions]()['zoomRange']
 
 - **Description:** 缩放区间
 
@@ -321,7 +321,7 @@ animation
 
 </td><td>
 
-[ViewportAnimationEffectTiming](../api/reference/g6.viewportanimationeffecttiming.en.md)
+[ViewportAnimationEffectTiming]()
 
 </td><td>
 
@@ -391,7 +391,7 @@ animation
 
 </td><td>
 
-[ViewportAnimationEffectTiming](../api/reference/g6.viewportanimationeffecttiming.en.md)
+[ViewportAnimationEffectTiming]()
 
 </td><td>
 
@@ -448,7 +448,7 @@ zoomRange
 
 </td><td>
 
-[GraphOptions](../api/reference/g6.graphoptions.en.md)['zoomRange']
+[GraphOptions]()['zoomRange']
 
 </td><td>
 
@@ -505,7 +505,7 @@ animation
 
 </td><td>
 
-[ViewportAnimationEffectTiming](../api/reference/g6.viewportanimationeffecttiming.en.md)
+[ViewportAnimationEffectTiming]()
 
 </td><td>
 
@@ -562,7 +562,7 @@ animation
 
 </td><td>
 
-[ViewportAnimationEffectTiming](../api/reference/g6.viewportanimationeffecttiming.en.md)
+[ViewportAnimationEffectTiming]()
 
 </td><td>
 
@@ -621,7 +621,7 @@ animation
 
 </td><td>
 
-[ViewportAnimationEffectTiming](../api/reference/g6.viewportanimationeffecttiming.en.md)
+[ViewportAnimationEffectTiming]()
 
 </td><td>
 
@@ -693,7 +693,7 @@ animation
 
 </td><td>
 
-[ViewportAnimationEffectTiming](../api/reference/g6.viewportanimationeffecttiming.en.md)
+[ViewportAnimationEffectTiming]()
 
 </td><td>
 

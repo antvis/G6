@@ -32,7 +32,7 @@ options
 
 </td><td>
 
-Partial&lt;[DataURLOptions](../api/reference/g6.dataurloptions.en.md)&gt;
+Partial&lt;[DataURLOptions]()&gt;
 
 </td><td>
 

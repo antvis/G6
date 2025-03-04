@@ -47,7 +47,7 @@ childrenData
 
 </td><td>
 
-[NodeData](../api/reference/g6.nodedata.en.md)[]
+NodeData
 
 </td><td>
 
@@ -97,7 +97,7 @@ data
 
 </td><td>
 
-[ComboData](../api/reference/g6.combodata.en.md)[] \| ((prev: [ComboData](../api/reference/g6.combodata.en.md)[]) =&gt; [ComboData](../api/reference/g6.combodata.en.md)[])
+ComboData
 
 </td><td>
 
@@ -150,8 +150,6 @@ data
 
 </td><td>
 
-[GraphData](../api/reference/g6.graphdata.en.md) \| ((prev: [GraphData](../api/reference/g6.graphdata.en.md)) =&gt; [GraphData](../api/reference/g6.graphdata.en.md))
-
 </td><td>
 
 元素数据
@@ -199,8 +197,6 @@ Description
 data
 
 </td><td>
-
-[EdgeData](../api/reference/g6.edgedata.en.md)[] \| ((prev: [EdgeData](../api/reference/g6.edgedata.en.md)[]) =&gt; [EdgeData](../api/reference/g6.edgedata.en.md)[])
 
 </td><td>
 
@@ -250,7 +246,7 @@ data
 
 </td><td>
 
-[NodeData](../api/reference/g6.nodedata.en.md)[] \| ((prev: [NodeData](../api/reference/g6.nodedata.en.md)[]) =&gt; [NodeData](../api/reference/g6.nodedata.en.md)[])
+NodeData
 
 </td><td>
 
@@ -384,7 +380,7 @@ getComboData(): ComboData[];
 
 **Returns**:
 
-- **Type:** [ComboData](../api/reference/g6.combodata.en.md)[]
+- **Type:** [ComboData]()[]
 
 - **Description:** 组合数据
 
@@ -436,7 +432,7 @@ string
 
 **Returns**:
 
-- **Type:** [ComboData](../api/reference/g6.combodata.en.md)
+- **Type:** [ComboData]()
 
 - **Description:** 组合数据
 
@@ -488,8 +484,6 @@ string[]
 
 **Returns**:
 
-- **Type:** [ComboData](../api/reference/g6.combodata.en.md)[]
-
 - **Description:** 组合数据
 
 </details>
@@ -506,7 +500,7 @@ getData(): Required<GraphData>;
 
 **Returns**:
 
-- **Type:** Required&lt;[GraphData](../api/reference/g6.graphdata.en.md)&gt;
+- **Type:** Required&lt;[GraphData]()&gt;
 
 - **Description:** 图数据
 
@@ -570,7 +564,7 @@ getEdgeData(): EdgeData[];
 
 **Returns**:
 
-- **Type:** [EdgeData](../api/reference/g6.edgedata.en.md)[]
+- **Type:** [EdgeData](.)[]
 
 - **Description:** 边数据
 
@@ -622,7 +616,7 @@ string
 
 **Returns**:
 
-- **Type:** [EdgeData](../api/reference/g6.edgedata.en.md)
+- **Type:** [EdgeData](.)
 
 - **Description:** 边数据
 
@@ -674,7 +668,7 @@ string[]
 
 **Returns**:
 
-- **Type:** [EdgeData](../api/reference/g6.edgedata.en.md)[]
+- **Type:** [EdgeData](.)[]
 
 - **Description:** 边数据
 
@@ -831,7 +825,7 @@ string
 
 **Returns**:
 
-- **Type:** [NodeData](../api/reference/g6.nodedata.en.md)[]
+- **Type:** NodeData[]
 
 - **Description:** 节点数据
 
@@ -894,7 +888,7 @@ string
 
 **Returns**:
 
-- **Type:** [EdgeData](../api/reference/g6.edgedata.en.md)[]
+- **Type:** [EdgeData](.)[]
 
 - **Description:** 边数据
 
@@ -957,7 +951,7 @@ string
 
 **Returns**:
 
-- **Type:** [ComboData](../api/reference/g6.combodata.en.md)[]
+- **Type:** [ComboData]()[]
 
 - **Description:** 组合数据
 
@@ -1003,7 +997,7 @@ string
 
 **Returns**:
 
-- **Type:** [NodeData](../api/reference/g6.nodedata.en.md)[]
+- **Type:** [NodeData]()[]
 
 - **Description:** 邻居节点数据
 
@@ -1021,7 +1015,7 @@ getNodeData(): NodeData[];
 
 **Returns**:
 
-- **Type:** [NodeData](../api/reference/g6.nodedata.en.md)[]
+- **Type:** [NodeData]()[]
 
 - **Description:** 节点数据
 
@@ -1073,7 +1067,7 @@ string
 
 **Returns**:
 
-- **Type:** [NodeData](../api/reference/g6.nodedata.en.md)
+- **Type:** [NodeData]()
 
 - **Description:** 节点数据
 
@@ -1125,7 +1119,7 @@ string[]
 
 **Returns**:
 
-- **Type:** [NodeData](../api/reference/g6.nodedata.en.md)[]
+- **Type:** NodeData[]
 
 - **Description:** 节点数据
 
@@ -1243,7 +1237,7 @@ direction
 
 **Returns**:
 
-- **Type:** [EdgeData](../api/reference/g6.edgedata.en.md)[]
+- **Type:** [EdgeData](.)[]
 
 - **Description:** 边数据
 
@@ -1284,7 +1278,7 @@ ids
 
 </td><td>
 
-string[] \| ((data: [ComboData](../api/reference/g6.combodata.en.md)[]) =&gt; string[])
+string[] \| ((data: [ComboData]()[]) =&gt; string[])
 
 </td><td>
 
@@ -1337,7 +1331,7 @@ ids
 
 </td><td>
 
-DataID \| ((data: [GraphData](../api/reference/g6.graphdata.en.md)) =&gt; DataID)
+DataID \| ((data: [GraphData]()) =&gt; DataID)
 
 </td><td>
 
@@ -1389,7 +1383,7 @@ ids
 
 </td><td>
 
-string[] \| ((data: [EdgeData](../api/reference/g6.edgedata.en.md)[]) =&gt; string[])
+string[] \| ((data: [EdgeData](.)[]) =&gt; string[])
 
 </td><td>
 
@@ -1439,7 +1433,7 @@ ids
 
 </td><td>
 
-string[] \| ((data: [NodeData](../api/reference/g6.nodedata.en.md)[]) =&gt; string[])
+string[] \| ((data: [NodeData]()[]) =&gt; string[])
 
 </td><td>
 
@@ -1485,7 +1479,7 @@ data
 
 </td><td>
 
-[GraphData](../api/reference/g6.graphdata.en.md) \| ((prev: [GraphData](../api/reference/g6.graphdata.en.md)) =&gt; [GraphData](../api/reference/g6.graphdata.en.md))
+[GraphData]() \| ((prev: [GraphData]()) =&gt; [GraphData]())
 
 </td><td>
 
@@ -1537,7 +1531,7 @@ data
 
 </td><td>
 
-PartialNodeLikeData&lt;[ComboData](../api/reference/g6.combodata.en.md)&gt;[] \| ((prev: [ComboData](../api/reference/g6.combodata.en.md)[]) =&gt; PartialNodeLikeData&lt;[ComboData](../api/reference/g6.combodata.en.md)&gt;[])
+PartialNodeLikeData&lt;[ComboData]()&gt;[] \| ((prev: [ComboData]()[]) =&gt; PartialNodeLikeData&lt;[ComboData]()&gt;[])
 
 </td><td>
 
@@ -1592,7 +1586,7 @@ data
 
 </td><td>
 
-PartialGraphData \| ((prev: [GraphData](../api/reference/g6.graphdata.en.md)) =&gt; PartialGraphData)
+PartialGraphData \| ((prev: [GraphData]()) =&gt; PartialGraphData)
 
 </td><td>
 
@@ -1644,7 +1638,7 @@ data
 
 </td><td>
 
-PartialEdgeData&lt;[EdgeData](../api/reference/g6.edgedata.en.md)&gt;[] \| ((prev: [EdgeData](../api/reference/g6.edgedata.en.md)[]) =&gt; PartialEdgeData&lt;[EdgeData](../api/reference/g6.edgedata.en.md)&gt;[])
+PartialEdgeData&lt;[EdgeData](.)&gt;[] \| ((prev: [EdgeData](.)[]) =&gt; PartialEdgeData&lt;[EdgeData](.)&gt;[])
 
 </td><td>
 
@@ -1696,7 +1690,7 @@ data
 
 </td><td>
 
-PartialNodeLikeData&lt;[NodeData](../api/reference/g6.nodedata.en.md)&gt;[] \| ((prev: [NodeData](../api/reference/g6.nodedata.en.md)[]) =&gt; PartialNodeLikeData&lt;[NodeData](../api/reference/g6.nodedata.en.md)&gt;[])
+NodeData
 
 </td><td>
 

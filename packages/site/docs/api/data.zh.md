@@ -736,14 +736,14 @@ graph.updateData({
 ⚠️ **注意**: 只需要传入需要更新的数据即可，不必传入完整的数据。
 
 ```typescript
-updateNodeData(data: PartialNodeLikeData<NodeData>[] | ((prev: NodeData[]) => PartialNodeLikeData<NodeData>[])): void;
+updateNodeData(data: NodeData[] | ((prev: NodeData[]) => NodeData[])): void;
 ```
 
 **参数**:
 
-| 参数 | 描述                                 | 类型                                                                                                               | 默认值 | 必选 |
-| ---- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------ | ---- |
-| data | 要更新的节点数据或返回节点数据的函数 | [PartialNodeLikeData<NodeData>](#partialnodelikedata)[] \| ((prev: NodeData[]) => PartialNodeLikeData<NodeData>[]) | -      | ✓    |
+| 参数 | 描述                                 | 类型                                           | 默认值 | 必选 |
+| ---- | ------------------------------------ | ---------------------------------------------- | ------ | ---- |
+| data | 要更新的节点数据或返回节点数据的函数 | NodeData[] \| (prev: NodeData[]) => NodeData[] | -      | ✓    |
 
 **返回值**:
 
@@ -767,9 +767,9 @@ updateEdgeData(data: (PartialEdgeData<EdgeData>[] | ((prev: EdgeData[]) => Parti
 
 **参数**:
 
-| 参数 | 描述                             | 类型                                                                                                   | 默认值 | 必选 |
-| ---- | -------------------------------- | ------------------------------------------------------------------------------------------------------ | ------ | ---- |
-| data | 要更新的边数据或返回边数据的函数 | [PartialEdgeData<EdgeData>](#partialedgedata)[] \| ((prev: EdgeData[]) => PartialEdgeData<EdgeData>[]) | -      | ✓    |
+| 参数 | 描述 | 类型                             | 默认值                                                                                                                   | 必选 |
+| ---- | ---- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---- | --- | --- |
+| <!-- | data | 要更新的边数据或返回边数据的函数 | [PartialEdgeData<EdgeData>](#partialedgedata)[] \| (prev: EdgeData[]) => [PartialEdgeData<EdgeData>](#partialedgedata)[] | -    | ✓   | --> |
 
 **返回值**:
 
@@ -793,9 +793,9 @@ updateComboData(data: (PartialNodeLikeData<ComboData>[] | ((prev: ComboData[]) =
 
 **参数**:
 
-| 参数 | 描述                                 | 类型                                                                                                                  | 默认值 | 必选 |
-| ---- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ------ | ---- |
-| data | 要更新的组合数据或返回组合数据的函数 | [PartialNodeLikeData<ComboData>](#partialnodelikedata)[] \| ((prev: ComboData[]) => PartialNodeLikeData<ComboData>[]) | -      | ✓    |
+| 参数 | 描述                                 | 类型                                                                                                                                        | 默认值 | 必选 |
+| ---- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ---- |
+| data | 要更新的组合数据或返回组合数据的函数 | [PartialNodeLikeData<ComboData>](#partialnodelikedata)[] \| (prev: ComboData[]) => [PartialNodeLikeData<ComboData>](#partialnodelikedata)[] | -      | ✓    |
 
 **返回值**:
 
@@ -857,7 +857,7 @@ interface NodeData {
 }
 ```
 
-详细类型定义请参考 [NodeData](/manual/core-concept/data#节点数据)。
+详细类型定义请参考 [NodeData](/manual/data#节点数据)。
 
 ### EdgeData
 
@@ -875,7 +875,7 @@ interface EdgeData {
 }
 ```
 
-详细类型定义请参考 [EdgeData](/manual/core-concept/data#边数据)。
+详细类型定义请参考 [EdgeData](/manual/data#边数据)。
 
 ### ComboData
 
@@ -892,4 +892,4 @@ interface ComboData {
 }
 ```
 
-详细类型定义请参考 [ComboData](/manual/core-concept/data#组合数据)。
+详细类型定义请参考 [ComboData](/manual/data#组合数据)。

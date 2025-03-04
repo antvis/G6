@@ -15,7 +15,7 @@ getOptions(): GraphOptions;
 
 **Returns**:
 
-- **Type:** [GraphOptions](../api/reference/g6.graphoptions.en.md)
+- **Type:** [GraphOptions]()
 
 - **Description:** 配置项
 
@@ -52,7 +52,7 @@ options
 
 </td><td>
 
-[GraphOptions](../api/reference/g6.graphoptions.en.md)
+[GraphOptions]()
 
 </td><td>
 

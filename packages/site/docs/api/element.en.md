@@ -44,7 +44,7 @@ options
 
 </td><td>
 
-boolean \| [CollapseExpandNodeOptions](../api/reference/g6.collapseexpandnodeoptions.en.md)
+boolean \| [CollapseExpandNodeOptions]()
 
 </td><td>
 
@@ -101,7 +101,7 @@ options
 
 </td><td>
 
-boolean \| [CollapseExpandNodeOptions](../api/reference/g6.collapseexpandnodeoptions.en.md)
+boolean \| [CollapseExpandNodeOptions]()
 
 </td><td>
 
@@ -568,7 +568,7 @@ combo
 
 </td><td>
 
-[ComboOptions](../api/reference/g6.combooptions.en.md)
+[ComboOptions]()
 
 </td><td>
 
@@ -614,7 +614,7 @@ edge
 
 </td><td>
 
-[EdgeOptions](../api/reference/g6.edgeoptions.en.md)
+[EdgeOptions]()
 
 </td><td>
 
@@ -1017,7 +1017,7 @@ node
 
 </td><td>
 
-[NodeOptions](../api/reference/g6.nodeoptions.en.md)
+[NodeOptions]()
 
 </td><td>
 
@@ -1387,7 +1387,7 @@ animation
 
 </td><td>
 
-[ViewportAnimationEffectTiming](../api/reference/g6.viewportanimationeffecttiming.en.md)
+[ViewportAnimationEffectTiming]()
 
 </td><td>
 

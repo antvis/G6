@@ -31,7 +31,7 @@ getCanvas(): Canvas;
 
 **Returns**:
 
-- **Type:** [Canvas](../api/reference/g6.canvas.en.md)
+- **Type:** Canvas
 
 - **Description:** 画布实例
 

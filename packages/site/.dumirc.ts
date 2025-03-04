@@ -121,20 +121,48 @@ export default defineConfig({
         order: 2,
       },
       {
-        slug: 'manual/core-concept',
+        slug: 'manual/graph',
         title: {
-          zh: '核心概念',
-          en: 'Concepts',
+          zh: '图 - Graph',
+          en: 'Graph',
         },
         order: 3,
       },
       {
-        slug: 'manual/graph-api',
+        slug: 'manual/data',
         title: {
-          zh: '图实例 API',
-          en: 'Graph API',
+          zh: '数据 - Data',
+          en: 'Data',
+        },
+      },
+      {
+        slug: 'manual/element',
+        title: {
+          zh: '元素 - Element',
+          en: 'Element',
+        },
+      },
+      {
+        slug: 'manual/element/build-in-node',
+        title: {
+          zh: '内置节点',
+          en: 'Build-in Node',
         },
         order: 4,
+      },
+      {
+        slug: 'manual/element/build-in-edge',
+        title: {
+          zh: '内置边',
+          en: 'Build-in Edge',
+        },
+      },
+      {
+        slug: 'manual/element/build-in-combo',
+        title: {
+          zh: '内置组合',
+          en: 'Build-in Combo',
+        },
       },
       {
         slug: 'manual/custom-extension',
@@ -149,76 +177,6 @@ export default defineConfig({
         title: {
           zh: '扩展阅读',
           en: 'Further Reading',
-        },
-        order: 6,
-      },
-      // API folder
-      {
-        slug: 'api/graph',
-        title: {
-          zh: 'Graph - 图',
-          en: 'Graph',
-        },
-        order: 1,
-      },
-      {
-        slug: 'api/elements',
-        title: {
-          zh: 'Element - 元素',
-          en: 'Element',
-        },
-        order: 2,
-      },
-      {
-        slug: 'api/elements/nodes',
-        title: {
-          zh: 'Node - 节点',
-          en: 'Node',
-        },
-      },
-      {
-        slug: 'api/elements/edges',
-        title: {
-          zh: 'Edge - 边',
-          en: 'Edge',
-        },
-      },
-      {
-        slug: 'api/elements/combos',
-        title: {
-          zh: 'Combo - 组合',
-          en: 'Combo',
-        },
-      },
-      {
-        slug: 'api/layouts',
-        title: {
-          zh: 'Layout - 布局',
-          en: 'Layout',
-        },
-        order: 3,
-      },
-      {
-        slug: 'api/behaviors',
-        title: {
-          zh: 'Behavior - 交互',
-          en: 'Behavior',
-        },
-        order: 4,
-      },
-      {
-        slug: 'api/plugins',
-        title: {
-          zh: 'Plugin - 插件',
-          en: 'Plugin',
-        },
-        order: 5,
-      },
-      {
-        slug: 'api/transforms',
-        title: {
-          zh: 'Transform - 数据处理',
-          en: 'Transform',
         },
         order: 6,
       },
