@@ -142,6 +142,7 @@ export default defineConfig({
           zh: '节点',
           en: 'Node',
         },
+        order: 2,
       },
       {
         slug: 'manual/element/node/build-in',
@@ -149,7 +150,7 @@ export default defineConfig({
           zh: '内置节点',
           en: 'Build-in Node',
         },
-        order: 8,
+        order: 2,
       },
       {
         slug: 'manual/element/edge',
@@ -157,6 +158,7 @@ export default defineConfig({
           zh: '边',
           en: 'Edge',
         },
+        order: 3,
       },
       {
         slug: 'manual/element/edge/build-in',
@@ -164,7 +166,7 @@ export default defineConfig({
           zh: '内置边',
           en: 'Build-in Edge',
         },
-        order: 12,
+        order: 2,
       },
       {
         slug: 'manual/element/combo',
@@ -172,6 +174,7 @@ export default defineConfig({
           zh: '组合',
           en: 'Combo',
         },
+        order: 4,
       },
       {
         slug: 'manual/element/combo/build-in',
@@ -179,7 +182,7 @@ export default defineConfig({
           zh: '内置组合',
           en: 'Build-in Combo',
         },
-        order: 14,
+        order: 2,
       },
       {
         slug: 'manual/layout',
@@ -195,6 +198,7 @@ export default defineConfig({
           zh: '内置布局',
           en: 'Build-in Layout',
         },
+        order: 2,
       },
       {
         slug: 'manual/behavior',
@@ -210,6 +214,7 @@ export default defineConfig({
           zh: '内置交互',
           en: 'Build-in Behavior',
         },
+        order: 2,
       },
       {
         slug: 'manual/plugin',
@@ -225,6 +230,7 @@ export default defineConfig({
           zh: '内置插件',
           en: 'Build-in Plugin',
         },
+        order: 2,
       },
       {
         slug: 'manual/transform',
@@ -240,6 +246,7 @@ export default defineConfig({
           zh: '内置数据处理',
           en: 'Build-in Transform',
         },
+        order: 2,
       },
       {
         slug: 'manual/theme',

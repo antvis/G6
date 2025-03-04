@@ -1,6 +1,6 @@
 ---
 title: Edge Overview
-order: 8
+order: 1
 ---
 
 ## Overview

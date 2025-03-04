@@ -1,4 +1,4 @@
 ---
 title: Use JSX to define nodes
-order: 10
+order: 4
 ---

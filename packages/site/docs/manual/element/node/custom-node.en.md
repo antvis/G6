@@ -1,6 +1,6 @@
 ---
 title: Custom Node
-order: 9
+order: 3
 ---
 
 ## Overview
