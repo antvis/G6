@@ -1,7 +1,7 @@
 ---
+
 title: Built-in Extensions
-order: 5
----
+order: 4
 
 The G6 built-in extensions and registered types are as follows:
 
