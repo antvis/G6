@@ -121,28 +121,148 @@ export default defineConfig({
         order: 2,
       },
       {
-        slug: 'manual/core-concept',
+        slug: 'manual/graph',
         title: {
-          zh: '核心概念',
-          en: 'Concepts',
+          zh: '图 - Graph',
+          en: 'Graph',
         },
         order: 3,
       },
       {
-        slug: 'manual/graph-api',
+        slug: 'manual/element',
         title: {
-          zh: '图实例 API',
-          en: 'Graph API',
+          zh: '元素 - Element',
+          en: 'Element',
+        },
+        order: 5,
+      },
+      {
+        slug: 'manual/element/node',
+        title: {
+          zh: '节点',
+          en: 'Node',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/element/node/build-in',
+        title: {
+          zh: '内置节点',
+          en: 'Build-in Node',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/element/edge',
+        title: {
+          zh: '边',
+          en: 'Edge',
+        },
+        order: 3,
+      },
+      {
+        slug: 'manual/element/edge/build-in',
+        title: {
+          zh: '内置边',
+          en: 'Build-in Edge',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/element/combo',
+        title: {
+          zh: '组合',
+          en: 'Combo',
         },
         order: 4,
       },
       {
-        slug: 'manual/custom-extension',
+        slug: 'manual/element/combo/build-in',
         title: {
-          zh: '自定义扩展',
-          en: 'Custom Extension',
+          zh: '内置组合',
+          en: 'Build-in Combo',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/layout',
+        title: {
+          zh: '布局 - Layout',
+          en: 'Layout',
         },
         order: 5,
+      },
+      {
+        slug: 'manual/layout/build-in',
+        title: {
+          zh: '内置布局',
+          en: 'Build-in Layout',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/behavior',
+        title: {
+          zh: '交互 - Behavior',
+          en: 'Behavior',
+        },
+        order: 6,
+      },
+      {
+        slug: 'manual/behavior/build-in',
+        title: {
+          zh: '内置交互',
+          en: 'Build-in Behavior',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/plugin',
+        title: {
+          zh: '插件 - Plugin',
+          en: 'Plugin',
+        },
+        order: 7,
+      },
+      {
+        slug: 'manual/plugin/build-in',
+        title: {
+          zh: '内置插件',
+          en: 'Build-in Plugin',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/transform',
+        title: {
+          zh: '数据处理 - Transform',
+          en: 'Transform',
+        },
+        order: 8,
+      },
+      {
+        slug: 'manual/transform/build-in',
+        title: {
+          zh: '内置数据处理',
+          en: 'Build-in Transform',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/theme',
+        title: {
+          zh: '主题 - Theme',
+          en: 'Theme',
+        },
+        order: 9,
+      },
+      {
+        slug: 'manual/animation',
+        title: {
+          zh: '动画 - Animation',
+          en: 'Animation',
+        },
+        order: 10,
       },
       {
         slug: 'manual/further-reading',
@@ -150,77 +270,15 @@ export default defineConfig({
           zh: '扩展阅读',
           en: 'Further Reading',
         },
-        order: 6,
-      },
-      // API folder
-      {
-        slug: 'api/graph',
-        title: {
-          zh: 'Graph - 图',
-          en: 'Graph',
-        },
-        order: 1,
+        order: 11,
       },
       {
-        slug: 'api/elements',
+        slug: 'manual/whats-new',
         title: {
-          zh: 'Element - 元素',
-          en: 'Element',
+          zh: '版本特性',
+          en: "What's new",
         },
-        order: 2,
-      },
-      {
-        slug: 'api/elements/nodes',
-        title: {
-          zh: 'Node - 节点',
-          en: 'Node',
-        },
-      },
-      {
-        slug: 'api/elements/edges',
-        title: {
-          zh: 'Edge - 边',
-          en: 'Edge',
-        },
-      },
-      {
-        slug: 'api/elements/combos',
-        title: {
-          zh: 'Combo - 组合',
-          en: 'Combo',
-        },
-      },
-      {
-        slug: 'api/layouts',
-        title: {
-          zh: 'Layout - 布局',
-          en: 'Layout',
-        },
-        order: 3,
-      },
-      {
-        slug: 'api/behaviors',
-        title: {
-          zh: 'Behavior - 交互',
-          en: 'Behavior',
-        },
-        order: 4,
-      },
-      {
-        slug: 'api/plugins',
-        title: {
-          zh: 'Plugin - 插件',
-          en: 'Plugin',
-        },
-        order: 5,
-      },
-      {
-        slug: 'api/transforms',
-        title: {
-          zh: 'Transform - 数据处理',
-          en: 'Transform',
-        },
-        order: 6,
+        order: 12,
       },
     ],
     examples: [

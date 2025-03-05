@@ -1,6 +1,6 @@
 ---
 title: 参与贡献
-order: 8
+order: 14
 ---
 
 要参与贡献，你需要了解 G6 的代码结构和开发流程。G6 的代码仓库地址是：https://github.com/antvis/G6

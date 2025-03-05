@@ -33,13 +33,13 @@ G6 元素绘制时所使用的坐标系，其不受相机缩放、平移的影�
 
 G6 提供了坐标系转换的方法，可以方便地在不同坐标系之间进行转换。
 
-- 画布坐标系转视口坐标系：[getViewportByCanvas](/api/graph/method#graphgetviewportbycanvaspoint)
-- 浏览器坐标系转画布坐标系：[getCanvasByClient](/api/graph/method#graphgetcanvasbyclientpoint)
-- 视口坐标系转画布坐标系：[getCanvasByViewport](/api/graph/method#graphgetcanvasbyviewportpoint)
-- 画布坐标系转浏览器坐标系：[getClientByCanvas](/api/graph/method#graphgetclientbycanvaspoint)
+- 画布坐标系转视口坐标系：[getViewportByCanvas](/api/coordinate#graphgetviewportbycanvaspoint)
+- 浏览器坐标系转画布坐标系：[getCanvasByClient](/api/coordinate#graphgetcanvasbyclientpoint)
+- 视口坐标系转画布坐标系：[getCanvasByViewport](/api/coordinate#graphgetcanvasbyviewportpoint)
+- 画布坐标系转浏览器坐标系：[getClientByCanvas](/api/coordinate#graphgetclientbycanvaspoint)
 
 另外还提供了其他相关 API：
 
-- 获取视口中心的视口坐标：[getCanvasCenter](/api/graph/method#graphgetcanvascenter)
-- 获取视口中心的画布坐标：[getViewportCenter](/api/graph/method#graphgetviewportcenter)
-- 获取图原点在视口坐标系中的位置：[getPosition](/api/graph/method#graphgetposition)
+- 获取视口中心的视口坐标：[getCanvasCenter](/api/viewport#graphgetcanvascenter)
+- 获取视口中心的画布坐标：[getViewportCenter](/api/viewport#graphgetviewportcenter)
+- 获取图原点在视口坐标系中的位置：[getPosition](/api/viewport#graphgetposition)
