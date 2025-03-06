@@ -3,7 +3,6 @@ name: Update Documentation on Yuque
 on:
   pull_request:
     types: [closed]
-  push:
     branches:
       - v5
     paths:
