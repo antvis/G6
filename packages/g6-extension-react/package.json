@@ -36,8 +36,7 @@
   },
   "dependencies": {
     "@antv/g": "^6.1.14",
-    "@antv/g-svg": "^2.0.27",
-    "@antv/react-g": "^2.0.30"
+    "@antv/g-svg": "^2.0.27"
   },
   "devDependencies": {
     "@ant-design/icons": "^5.5.2",

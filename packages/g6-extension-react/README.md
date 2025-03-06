@@ -16,10 +16,9 @@ npm install @antv/g6-extension-react
 
 ```js
 import { ExtensionCategory, register } from '@antv/g6';
-import { ReactNode, GNode } from '@antv/g6-extension-react';
+import { ReactNode } from '@antv/g6-extension-react';
 
 register(ExtensionCategory.NODE, 'react', ReactNode);
-register(ExtensionCategory.NODE, 'g', GNode);
 ```
 
 3. Define Node

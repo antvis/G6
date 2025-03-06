@@ -1,8 +1,6 @@
 export {
-  Arrow,
   Circle,
   Ellipse,
-  GNode,
   Group,
   HTML,
   Image,
@@ -17,4 +15,4 @@ export {
   unmount,
 } from './elements';
 
-export type { GNodeStyleProps, ReactNodeStyleProps } from './elements';
+export type { ReactNodeStyleProps } from './elements';
