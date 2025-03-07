@@ -40,7 +40,7 @@ title: Legend 图例
 
 ### containerStyle
 
-> _Partial<CSSStyleDeclaration>_
+> _CSSStyleDeclaration_
 
 图例的容器样式，传入外置容器时不生效
 
