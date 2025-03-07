@@ -4,26 +4,97 @@ const style = document.createElement('style');
 style.innerHTML = `@import url('${iconfont.css}');`;
 document.head.appendChild(style);
 
-fetch('https://assets.antv.antgroup.com/g6/element-nodes.json')
-  .then((res) => res.json())
-  .then((data) => {
-    const graph = new Graph({
-      container: 'container',
-      data,
-      node: {
-        type: 'rect',
-        style: {
-          size: 40,
-          labelText: (d) => d.id,
-
-          iconFontFamily: 'iconfont',
-          iconText: '\ue602',
-        },
+const data = {
+  nodes: [
+    {
+      id: 'default',
+    },
+    {
+      id: 'halo',
+      style: {
+        halo: true,
       },
-      layout: {
-        type: 'grid',
+    },
+    {
+      id: 'badges',
+      style: {
+        badges: [
+          {
+            text: 'A',
+            placement: 'right-top',
+          },
+          {
+            text: 'Important',
+            placement: 'right',
+          },
+          {
+            text: 'Notice',
+            placement: 'right-bottom',
+          },
+        ],
+        badgeFontSize: 8,
+        badgePadding: [1, 4],
       },
-    });
+    },
+    {
+      id: 'ports',
+      style: {
+        portR: 3,
+        ports: [
+          {
+            placement: 'left',
+          },
+          {
+            placement: 'right',
+          },
+          {
+            placement: 'top',
+          },
+          {
+            placement: 'bottom',
+          },
+        ],
+      },
+    },
+    {
+      id: 'active',
+      states: ['active'],
+    },
+    {
+      id: 'selected',
+      states: ['selected'],
+    },
+    {
+      id: 'highlight',
+      states: ['highlight'],
+    },
+    {
+      id: 'inactive',
+      states: ['inactive'],
+    },
+    {
+      id: 'disabled',
+      states: ['disabled'],
+    },
+  ],
+};
 
-    graph.render();
-  });
+const graph = new Graph({
+  container: 'container',
+  data,
+  node: {
+    type: 'rect',
+    style: {
+      size: 40,
+      labelText: (d) => d.id,
+
+      iconFontFamily: 'iconfont',
+      iconText: '\ue602',
+    },
+  },
+  layout: {
+    type: 'grid',
+  },
+});
+
+graph.render();
