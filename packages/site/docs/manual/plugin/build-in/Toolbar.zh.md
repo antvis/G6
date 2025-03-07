@@ -43,7 +43,7 @@ Toolbar 的位置，相对于画布，会影响 DOM 的 style 样式
 
 ### style
 
-> _Partial<CSSStyleDeclaration>_
+> _CSSStyleDeclaration_
 
 工具栏显式的 style 样式，可以用来设置它相对于画布的位置、背景容器样式等
 

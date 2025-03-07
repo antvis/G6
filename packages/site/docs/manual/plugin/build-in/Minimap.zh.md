@@ -28,7 +28,7 @@ title: Minimap 小地图
 
 ### containerStyle
 
-> _Partial<CSSStyleDeclaration>_
+> _CSSStyleDeclaration_
 
 缩略图的容器样式，传入外置容器时不生效
 
@@ -46,7 +46,7 @@ title: Minimap 小地图
 
 ### maskStyle
 
-> _Partial<CSSStyleDeclaration>_
+> _CSSStyleDeclaration_
 
 遮罩的样式
 
@@ -70,7 +70,9 @@ title: Minimap 小地图
 
 ### shape
 
-> _'key' \| ((id: string, elementType: 'node' \| 'edge' \| 'combo') => DisplayObject)_ **Default:** `'key'`
+> _'key' \| ((id: string, elementType: 'node' \| 'edge' \| 'combo') => DisplayObject)_
+
+**Default:** `'key'`
 
 元素缩略图形的生成方法
 
