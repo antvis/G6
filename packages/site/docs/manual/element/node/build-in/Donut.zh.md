@@ -2,7 +2,15 @@
 title: Donut 甜甜圈
 ---
 
+## 概述
+
+<!-- 介绍 -->
+
+## 在线体验
+
 <embed src="@/common/api/elements/nodes/donut.md"></embed>
+
+## 样式配置
 
 > 如果元素有其特定的属性，我们将在下面列出。对于所有的通用样式属性，见[BaseNode](./BaseNode.zh.md)
 
@@ -85,3 +93,9 @@ icon{TextStyleProps} 表示你需要使用以下属性名：
 | donutStroke         | 描边色                    | string                        | `#000`    |      |
 | donutStrokeOpacity  | 描边色透明度              | number \| string              | 1         |      |
 | donutVisibility     | 图形是否可见              | `visible` \| `hidden`         | `visible` |      |
+
+## 示例
+
+### 内置甜甜圈节点效果
+
+<Playground path="element/node/demo/donut.js" rid="default-donut-node"></Playground>
