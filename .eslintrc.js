@@ -25,6 +25,12 @@ module.exports = {
       },
     },
     {
+      files: ['./packages/g6/src/plugins/hull/!(index).ts', '*.js', '*.mjs', '*.ts'],
+      rules: {
+        'jsdoc/require-jsdoc': 0,
+      },
+    },
+    {
       files: ['**/demo-to-test/**'],
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
