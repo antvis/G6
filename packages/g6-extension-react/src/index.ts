@@ -1,3 +1,3 @@
-export { ReactNode, render, unmount } from './elements';
+export { ReactNode, render, unmount } from './react-node';
 
-export type { ReactNodeStyleProps } from './elements';
+export type { ReactNodeStyleProps } from './react-node';
