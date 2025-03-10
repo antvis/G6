@@ -142,7 +142,7 @@ export default defineConfig({
           zh: '节点',
           en: 'Node',
         },
-        order: 2,
+        order: 3,
       },
       {
         slug: 'manual/element/node/build-in',
@@ -158,7 +158,7 @@ export default defineConfig({
           zh: '边',
           en: 'Edge',
         },
-        order: 3,
+        order: 4,
       },
       {
         slug: 'manual/element/edge/build-in',
@@ -174,7 +174,7 @@ export default defineConfig({
           zh: '组合',
           en: 'Combo',
         },
-        order: 4,
+        order: 5,
       },
       {
         slug: 'manual/element/combo/build-in',
@@ -183,6 +183,14 @@ export default defineConfig({
           en: 'Build-in Combo',
         },
         order: 2,
+      },
+      {
+        slug: 'manual/element/shape',
+        title: {
+          zh: '图形 Shape',
+          en: 'Shape',
+        },
+        order: 6,
       },
       {
         slug: 'manual/layout',

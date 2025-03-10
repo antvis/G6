@@ -3,125 +3,161 @@ title: 节点总览
 order: 1
 ---
 
-## 概述
-
-## 节点
+## 什么是节点
 
 节点通常用来表示图中的实体或者抽象概念，例如一个人、一个地点、一个组织等，节点可以包含一些属性，例如节点的 ID、名称、类型等。
 
+## 节点体系
+
+G6 的节点体系包括三大类：内置节点、扩展节点和自定义节点。**大多数场景下，内置节点即可满足需求**。
+
+## 内置节点
+
+G6 提供了丰富的内置节点类型，**无需注册，直接配置即可使用**：
+
 <image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TZt2S7Z0d-8AAAAAAAAAAAAADmJ7AQ/original" />
 
-G6 提供了以下内置节点：
+| 节点类型   | 注册名称   | 描述                     |
+| ---------- | ---------- | ------------------------ |
+| 圆形节点   | `circle`   | 常用于表示普通实体       |
+| 矩形节点   | `rect`     | 适合展示更多文本和细节   |
+| 椭圆节点   | `ellipse`  | 类似圆形的变体           |
+| 菱形节点   | `diamond`  | 常用于决策点或特殊节点   |
+| 三角形节点 | `triangle` | 可用于指示方向或特殊标记 |
+| 六边形节点 | `hexagon`  | 适合网格布局和蜂窝图     |
+| 星形节点   | `star`     | 突出显示重要节点         |
+| 甜甜圈节点 | `donut`    | 可展示比例或进度信息     |
+| 图片节点   | `image`    | 使用图片作为节点主体     |
+| HTML节点   | `html`     | 支持自定义HTML内容       |
 
-- `Circle` 圆形节点
-- `Diamond` 菱形节点
-- `Donut` 甜甜圈节点
-- `Ellipse` 椭圆节点
-- `Hexagon` 六边形节点
-- `HTML` HTML 节点
-- `Image` 图片节点
-- `Rect` 矩形节点
-- `Star` 星形节点
-- `Triangle` 三角形节点
+## 扩展节点
 
-你可以直接通过配置 `type` 来使用：
+除了内置节点，G6 生态还提供了更多扩展节点，需要安装额外的包：
 
-```typescript
-// 在数据中指定节点类型
-const data = {
-  nodes: [{ id: 'node-1', type: 'circle' }],
-};
+### 3D 节点
 
-// 在节点配置中指定节点类型
-{
-  node: {
-    type: 'circle',
-  }
-}
-```
-
-通常来说，大多数节点具有相同的样式属性，例如都使用 `size` 来指定节点的大小。你可以在[Element - 节点](/manual/element/node/build-in/base-node)中查看节点的具体样式属性。
-
-某些特殊的节点可能会有自己的样式属性，例如 `HTML` 节点的 `innerHTML` 属性用于指定节点的 HTML 内容。具体的样式属性可以参考[节点样式](/manual/element/node/build-in/html-node)。
-
-除此之外，G6 官方提供了一些额外的节点需要安装后使用：
+<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ShNXTp0u3vkAAAAAAAAAAAAADmJ7AQ/original" />
 
 `@antv/g6-extension-3d` 提供了 3D 节点：
 
-<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ShNXTp0u3vkAAAAAAAAAAAAADmJ7AQ/original" />
+- `Capsule` - 胶囊型节点
+- `Cone` - 圆锥型节点
+- `Cube` - 立方体节点
+- `Cylinder` - 圆柱型节点
+- `Plane` - 平面节点
+- `Sphere` - 球体节点
+- `Torus` - 圆环节点
 
-- `Capsule` 胶囊型节点
-- `Cone` 圆锥型节点
-- `Cube` 立方体节点
-- `Cylinder` 圆柱型节点
-- `Plane` 平面节点
-- `Sphere` 球体节点
-- `Torus` 圆环节点
-
-`@antv/g6-extension-react` 提供了适用于 React 框架的节点：
+### React 节点
 
 <image width="350" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7jypQbkp00wAAAAAAAAAAAAADmJ7AQ/original" />
 
-- `ReactNode` React 节点
-- `GNode` 采用 JSX 写法的 `@antv/g` 节点
+`@antv/g6-extension-react` 提供了 React 节点，支持使用 React 组件作为节点的主体。
 
-### 节点构成
+- `ReactNode` - React节点
 
-G6 中提供的节点由以下几部分构成：
+## 自定义节点
 
-<image width="250" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Ot4bSbBx97EAAAAAAAAAAAAADmJ7AQ/original" />
+当内置节点和扩展节点无法满足需求时，G6提供了强大的自定义能力：
 
-- `key` ：节点的主图形，表示节点的主要形状，例如矩形、圆形等；
-- `label` ：文本标签，通常用于展示节点的名称或描述；
-- `icon` ：图标图形，通常用于展示节点的图标，可以是图片或者文本图标；
-- `badge` ：默认位于节点右上角的徽标；
-- `halo` ：主图形周围展示的光晕效果的图形；
-- `port` ：节点上的连接点，用于连接边。
+- 继承内置节点进行扩展
+- 创建全新的节点类型
 
-### 注册节点
+与内置节点不同，**自定义节点需要先注册后使用**。详细教程请参考 [自定义节点](/manual/element/node/custom-node) 文档。
 
-你可以直接使用内置节点，但是如果你想要使用其他节点或者自定义节点，你需要先进行注册：
+## 配置和使用
 
-```typescript
-import { register, ExtensionCategory } from '@antv/g6';
-import { CustomNode } from 'package-name/or/path-to-your-custom-node';
-
-register(ExtensionCategory.NODE, 'custom-node', CustomNode);
-```
-
-### 配置节点
+### 基本配置
 
 你可以通过以下方式配置节点类型及其样式：
 
-1. 在数据中配置：
-
-```json
-{
-  "nodes": [
-    {
-      "id": "node-1",
-      "type": "custom-node",
-      "style": {
-        // 节点样式
-      }
-    }
-  ]
-}
-```
-
-2. 在节点样式映射中配置：
+#### 1. 在数据中配置
 
 ```typescript
-{
-  node: {
-    type: 'custom-node',
-    style: {
-      // 节点样式
-    }
-  }
-}
+const data = {
+  nodes: [
+    {
+      id: 'node-1',
+      type: 'circle',
+      style: {
+        size: 60,
+        fill: '#1890ff',
+        stroke: '#1890ff',
+        lineWidth: 2,
+      },
+    },
+  ],
+};
 ```
 
-### 自定义节点
+#### 2. 在节点样式映射中配置
 
-如果内置节点元素无法满足需求，可以自定义节点元素，具体请参考[自定义节点](/manual/element/node/custom-node)。
+```typescript
+const graph = new Graph({
+  // 其他配置...
+  node: {
+    type: 'circle',
+    style: {
+      size: 40,
+      fill: '#C6E5FF',
+      stroke: '#5B8FF9',
+      // 其他样式...
+    },
+  },
+});
+```
+
+### 动态更新节点
+
+G6 支持在运行时动态更新节点的样式和状态：
+
+```typescript
+// 更新单个节点样式
+graph.updateNodeData([
+  {
+    id: 'node-1',
+    style: {
+      fill: 'red',
+      size: 80,
+    },
+  },
+]);
+
+// 设置节点状态
+graph.setElementState('node-1', ['selected']);
+```
+
+:::warning{title=注意}
+更新节点时，只有指定的属性会被更新，未指定的属性保持不变。
+:::
+
+更多与节点相关的 API 请参考[API - 元素操作](/api/element)。
+
+## 节点与状态
+
+节点可以拥有不同的状态，例如选中、高亮、禁用等。可以通过配置状态样式来定义节点在不同状态下的显示效果：
+
+```typescript
+const graph = new Graph({
+  node: {
+    style: {
+      // 默认样式
+      fill: '#C6E5FF',
+    },
+    // 状态样式
+    state: {
+      selected: {
+        fill: '#ffa940',
+        stroke: '#ff7a00',
+        haloStroke: '#ff7a00',
+      },
+      highlight: {
+        stroke: '#1890ff',
+        lineWidth: 3,
+      },
+    },
+  },
+});
+```
+
+状态系统是实现节点交互效果的基础，更多状态的介绍，请参考 [元素状态](/manual/element/state)。

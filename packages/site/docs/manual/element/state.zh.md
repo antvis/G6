@@ -1,157 +1,212 @@
 ---
 title: 元素状态
-order: 5
+order: 2
 ---
 
 ## 概述
 
 <image width="500px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yVbORYybrDQAAAAAAAAAAAAADmJ7AQ/original" />
 
-状态(State)是指<u>元素</u>存在的状态，例如**选中**、**悬停**、**激活**等。状态可以使得元素在不同的状态下展示不同的样式，帮助用户更直观的理解图中的信息。
+状态(State)是指元素存在的状态，例如**选中、悬停、激活**等。状态可以使得元素在不同的状态下展示不同的样式，帮助用户更直观的理解图中的信息。
 
-## 状态类型
+具有以下几个关键特点：
 
-G6 中的状态类型是一个字符串数组(`string[]`)，即一个元素可以同时存在多个状态，例如一个节点可以同时处于**选中**和**悬停**状态。
+- **多状态并存**：一个元素可以同时拥有多个状态，比如同时处于"选中"和"高亮"状态
+- **样式层叠**：多个状态的样式会按照优先级叠加，后应用的状态样式会覆盖先前的样式
+- **灵活自定义**：除了预设状态外，用户可以根据业务需求定义任意自定义状态
 
-G6 预设的状态包括：
+## 预设状态类型
 
-- `selected`：选中状态
-- `active`：激活状态
-- `highlight`：高亮状态
-- `inactive`：非激活状态
-- `disable`：禁用状态
+G6 提供了几种常用的状态类型：
 
-:::warning{title=注意}
+- `selected`：选中状态，通常用于表示用户已选择的元素
+- `active`：激活状态，通常用于表示当前交互的活跃元素
+- `highlight`：高亮状态，通常用于强调显示特定元素
+- `inactive`：非活跃状态，通常用于淡化非关注元素
+- `disable`：禁用状态，通常用于表示不可交互的元素
 
-- **默认状态**是元素的初始状态，当元素没有任何状态时，它就处于默认状态。
-- 预设的状态并不是强制性的，仅仅是一些常见的状态类型，用户可以根据自己的需求定义更多的状态类型。
+> **注意**：当一个元素没有设置任何状态时，它处于"默认状态"。预设状态并非强制使用，用户可以根据需求定义自己的状态类型。
 
-:::
+## 配置与使用
 
-## 设置元素状态
-
-### 状态样式
+### 配置状态样式
 
 目前 G6 支持在样式映射中配置状态样式，例如：
 
-```typescript
-{
+```javascript
+const graph = new Graph({
+  // 其他配置...
   node: {
-    style: {/** 默认状态样式 */},
+    // 默认状态的样式
+    style: {
+      fill: '#C6E5FF',
+      stroke: '#5B8FF9',
+      lineWidth: 1,
+    },
+    // 各状态下的样式
     state: {
-      selected: {/** 选中状态样式 */},
-      [状态名]: {/** 状态样式 */}
-    }
+      selected: {
+        fill: '#95D6FB',
+        stroke: '#1890FF',
+        lineWidth: 2,
+        shadowColor: '#1890FF',
+        shadowBlur: 10,
+      },
+      highlight: {
+        stroke: '#FF6A00',
+        lineWidth: 2,
+      },
+      disable: {
+        fill: '#ECECEC',
+        stroke: '#BFBFBF',
+        opacity: 0.5,
+      },
+    },
   },
+
+  // 边的默认样式和状态样式
   edge: {
-   style: {/** 默认状态样式 */},
-   state: {
-      selected: {/** 选中状态样式 */},
-      [状态名]: {/** 状态样式 */}
-    }
-  },
-  combo: {
-    style: {/** 默认状态样式 */},
+    style: {
+      /* 默认样式 */
+    },
     state: {
-      selected: {/** 选中状态样式 */},
-      [状态名]: {/** 状态样式 */}
-    }
-  }
-}
+      selected: {
+        /* 选中状态样式 */
+      },
+      highlight: {
+        /* 高亮状态样式 */
+      },
+      // 其他状态...
+    },
+  },
+
+  // 组合的默认样式和状态样式
+  combo: {
+    style: {
+      /* 默认样式 */
+    },
+    state: {
+      selected: {
+        /* 选中状态样式 */
+      },
+      // 其他状态...
+    },
+  },
+});
 ```
 
-### 切换状态
+### 设置元素状态
 
-在绘制之前，可以在数据中配置元素的状态：
+在绘制之前，可以在数据中配置元素的初始状态：
 
-```typescript
+```javascript
 const data = {
   nodes: [
     {
-      id: 'node-1',
-      states: ['selected'],
+      id: 'node1',
+      states: ['selected'], // 该节点初始为选中状态
+      // 其他节点属性...
     },
     {
-      id: 'node-2',
-      states: ['disabled'],
+      id: 'node2',
+      states: ['disabled'], // 该节点初始为禁用状态
+      // 其他节点属性...
     },
   ],
   edges: [
     {
-      source: 'node-1',
-      target: 'node-2',
-      states: ['highlight'],
+      source: 'node1',
+      target: 'node2',
+      states: ['highlight'], // 该边初始为高亮状态
+      // 其他边属性...
     },
   ],
 };
 ```
 
-或者在完成绘制后通过 API 来切换元素的状态：
+更常见的场景是通过用户交互动态改变元素的状态：
 
-```typescript
-// 将节点 'node-1' 设置为选中状态
-graph.setElementState('node-1', 'selected');
+```javascript
+// 示例1：将单个节点设为选中状态
+graph.setElementState('node1', 'selected');
 
-// 将节点 'node-2' 设置为选中且禁用状态
-graph.setElementState('node-2', ['selected', 'disabled']);
+// 示例2：同时设置多个状态
+graph.setElementState('node2', ['highlight', 'active']);
 
-// 同时设置 'node-1' 和 'node-2' 为高亮状态
+// 示例3：批量设置多个元素的状态
 graph.setElementState({
-  'node-1': ['highlight'],
-  'node-2': ['highlight'],
+  node1: ['selected'],
+  node2: ['highlight'],
+  edge1: ['active'],
 });
+
+// 示例4：移除状态（恢复到默认状态）
+graph.setElementState('node1', []);
 ```
 
-### 获取状态
+### 查询元素状态
 
 G6 提供了多个 API 用于获取状态，或者判断元素是否处于某个状态：
 
-```typescript
-// 获取 'node-1' 的所有状态
-graph.getElementState('node-1');
+```javascript
+// 获取指定元素的所有状态（返回状态数组）
+const states = graph.getElementState('node1');
+console.log(states); // 例如：['selected', 'highlight']
 ```
 
 > 当元素仅存在 **默认状态** 时，`getElementState` 返回值为 `[]`。
 
-```typescript
-// 获取所有选中的节点
-graph.getElementDataByState('node', 'selected');
+```javascript
+// 获取所有处于指定状态的节点数据
+const selectedNodes = graph.getElementDataByState('node', 'selected');
 ```
 
-### 移除状态
+## 状态优先级和样式叠加
 
-要移除元素的状态，同样使用 `setElementState` 方法即可实现：
+当一个元素处于多个状态时，会根据状态值中的顺序来确定状态的优先级。例如，如果一个节点同时处于 `['selected', 'highlight']` 状态，则最终的状态样式为：
 
-```typescript
-// 移除 `node-1` 的所有状态（恢复至默认状态）
-graph.setElementState('node-1', []);
-```
+> 最终样式 = 默认状态样式 + 选中状态样式 + 高亮状态样式
 
-## 状态优先级
+如果不同状态的样式有冲突（如都设置了 `fill` 属性），后面的状态样式会覆盖前面的样式。
 
-当一个元素处于多个状态时，会根据状态值中的顺序来确定状态的优先级，例如一个节点的状态值为：`['selected', 'highlight']`，则最终的状态样式为：
+### 自定义状态
 
-> <i>最终样式 = 默认状态样式 + 选中状态样式 + 高亮状态样式</i>
+您可以根据业务需求创建自定义状态：
 
-后者的状态样式会覆盖前者的状态样式。
-
-## 自定义状态
-
-要自定义状态，直接在样式映射中添加即可，例如：
-
-```typescript
-{
+```javascript
+const graph = new Graph({
+  // 其他配置...
   node: {
-    // 自定义状态名为：'custom-state'
+    style: {
+      /* 默认样式 */
+    },
     state: {
-      'custom-state': {/** 自定义状态样式 */}
-    }
+      // 自定义状态：警告
+      warning: {
+        fill: '#FFF7E6',
+        stroke: '#FA8C16',
+        lineWidth: 2,
+        lineDash: [4, 4],
+      },
+      // 自定义状态：加密
+      encrypted: {
+        fill: '#E6F7FF',
+        stroke: '#1890FF',
+        icon: {
+          show: true,
+          img: 'https://path/to/lock-icon.png',
+          width: 16,
+          height: 16,
+        },
+      },
+    },
   },
-}
+});
 ```
 
-切换状态：
+应用自定义状态：
 
-```typescript
-graph.setElementState('node-1', 'custom-state');
+```javascript
+graph.setElementState('node1', 'warning');
+graph.setElementState('node2', 'encrypted');
 ```

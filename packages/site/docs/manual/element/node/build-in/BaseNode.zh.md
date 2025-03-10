@@ -1,113 +1,294 @@
 ---
-title: 节点配置项
+title: 节点通用配置项
 order: 0
 ---
 
-本文介绍节点属性配置，配置位置如下：
+本文介绍内置节点通用属性配置。
+
+## NodeOptions
 
 ```js {5-9}
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   node: {
-    type: 'circle',
-    style: {},
-    state: {},
-    palette: {},
-    animation: {},
+    type: 'circle', // 节点类型
+    style: {}, // 节点样式
+    state: {}, // 状态样式
+    palette: {}, // 色板配置
+    animation: {}, // 动画配置
   },
 });
 ```
 
-## NodeOptions
-
 | 属性      | 描述                                         | 类型                    | 默认值   | 必选 |
 | --------- | -------------------------------------------- | ----------------------- | -------- | ---- |
 | type      | 节点类型，内置节点类型名称或自定义节点的名称 | [Type](#type)           | `circle` |      |
-| style     | 节点样式，包括颜色、大小等                   | [Style](#style)         | -        |      |
-| state     | 定义节点在不同状态下的样式                   | [State](#state)         | -        |      |
+| style     | 节点样式配置，包括颜色、大小等               | [Style](#style)         | -        |      |
+| state     | 不同状态下的样式配置                         | [State](#state)         | -        |      |
 | palette   | 定义节点的色板，用于根据不同数据映射颜色     | [Palette](#palette)     | -        |      |
 | animation | 定义节点的动画效果                           | [Animation](#animation) | -        |      |
 
 ## Type
 
-指定节点类型，内置节点类型名称或自定义节点的名称。默认为 `circle`(圆形)。
+指定节点类型，内置节点类型名称或自定义节点的名称。默认为 `circle`(圆形)。**⚠️ 注意**：这里决定了主图形的形状。
 
-| 支持的值   | 描述       |                                                     |
-| ---------- | ---------- | --------------------------------------------------- |
-| `circle`   | 圆形节点   | [DEMO](/manual/element/node/build-in/circle-node)   |
-| `diamond`  | 菱形节点   | [DEMO](/manual/element/node/build-in/diamond-node)  |
-| `donut`    | 甜甜圈节点 | [DEMO](/manual/element/node/build-in/donut-node)    |
-| `ellipse`  | 椭圆节点   | [DEMO](/manual/element/node/build-in/ellipse-node)  |
-| `hexagon`  | 六边形节点 | [DEMO](/manual/element/node/build-in/hexagon-node)  |
-| `html`     | HTML节点   | [DEMO](/manual/element/node/build-in/html-node)     |
-| `image`    | 图片节点   | [DEMO](/manual/element/node/build-in/image-node)    |
-| `rect`     | 矩形节点   | [DEMO](/manual/element/node/build-in/rect-node)     |
-| `star`     | 星形节点   | [DEMO](/manual/element/node/build-in/star-node)     |
-| `triangle` | 三角形节点 | [DEMO](/manual/element/node/build-in/triangle-node) |
+```js {3}
+const graph = new Graph({
+  node: {
+    type: 'circle',
+  },
+});
+```
 
-更多内置支持节点类型，可查看[节点注册表](/manual/getting-started/extensions#节点)。
+可选值有：
+
+- `circle`：[圆形节点](/manual/element/node/build-in/circle-node)
+- `diamond`：[菱形节点](/manual/element/node/build-in/diamond-node)
+- `donut`：[甜甜圈节点](/manual/element/node/build-in/donut-node)
+- `ellipse`：[椭圆节点](/manual/element/node/build-in/ellipse-node)
+- `hexagon`：[六边形节点](/manual/element/node/build-in/hexagon-node)
+- `html`：[HTML 节点](/manual/element/node/build-in/html-node)
+- `image`：[图片节点](/manual/element/node/build-in/image-node)
+- `rect`：[矩形节点](/manual/element/node/build-in/rect-node)
+- `star`：[星形节点](/manual/element/node/build-in/star-node)
+- `triangle`：[三角形节点](/manual/element/node/build-in/triangle-node)
 
 ## Style
 
 定义节点的样式，包括颜色、大小等。
 
+```js {3}
+const graph = new Graph({
+  node: {
+    style: {},
+  },
+});
+```
+
+一个完整的节点由以下几部分构成：
+
 <img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Ot4bSbBx97EAAAAAAAAAAAAADmJ7AQ/original" />
 
-> 了解节点构成，请阅读 [核心概念 - 元素 - 节点](/manual/element/node/overview)。
+- `key` ：节点的主图形，表示节点的主要形状，例如矩形、圆形等；
+- `label` ：文本标签，通常用于展示节点的名称或描述；
+- `icon` ：图标图形，通常用于展示节点的图标，可以是图片或者文本图标；
+- `badge` ：默认位于节点右上角的徽标；
+- `halo` ：主图形周围展示的光晕效果的图形；
+- `port` ：节点上的连接点，用于连接边。
 
 以下样式配置将按原子图形依次说明：
 
-### 主图形样式 key
+### 主图形样式
 
-| 属性           | 描述                                                                                                                                                     | 类型                                                                  | 默认值    |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | --------- |
-| x              | x 坐标                                                                                                                                                   | number                                                                | 0         |
-| y              | y 坐标                                                                                                                                                   | number                                                                | 0         |
-| z              | z 坐标                                                                                                                                                   | number                                                                | 0         |
-| size           | 节点大小，快捷设置节点宽高 <br> - 若值为数字，则表示节点的宽度、高度以及深度相同为指定值 <br> - 若值为数组，则按数组元素依次表示节点的宽度、高度以及深度 | number \| [number, number] \| [number, number, number]                | 32        |
-| opacity        | 透明度                                                                                                                                                   | number \| string                                                      | 1         |
-| fill           | 填充色                                                                                                                                                   | string                                                                | `#1783FF` |
-| fillOpacity    | 填充色透明度                                                                                                                                             | number \| string                                                      | 1         |
-| stroke         | 描边色                                                                                                                                                   | string                                                                | `#000`    |
-| strokeOpacity  | 描边色透明度                                                                                                                                             | number \| string                                                      | 1         |
-| lineWidth      | 描边宽度                                                                                                                                                 | number                                                                | 1         |
-| lineCap        | 描边端点样式                                                                                                                                             | `round` \| `square` \| `butt`                                         | `butt`    |
-| lineJoin       | 描边连接处样式                                                                                                                                           | `round` \| `bevel` \| `miter`                                         | `miter`   |
-| lineDash       | 描边虚线样式                                                                                                                                             | number[]                                                              | -         |
-| lineDashOffset | 描边虚线偏移量                                                                                                                                           | number                                                                | -         |
-| shadowType     | 阴影类型                                                                                                                                                 | `inner` \| `outer`                                                    | `outer`   |
-| shadowColor    | 阴影颜色                                                                                                                                                 | string                                                                | -         |
-| shadowBlur     | 阴影模糊度                                                                                                                                               | number                                                                | -         |
-| shadowOffsetX  | 阴影在 x 轴方向上的偏移量                                                                                                                                | number \| string                                                      | -         |
-| shadowOffsetY  | 阴影在 y 轴方向上的偏移量                                                                                                                                | number \| string                                                      | -         |
-| visibility     | 图形是否可见                                                                                                                                             | `visible` \| `hidden`                                                 | `visible` |
-| collapsed      | 当前节点/组合是否展开                                                                                                                                    | boolean                                                               | false     |
-| `{StyleProps}` | 更多图形配置                                                                                                                                             | [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object) | -         |
+主图形是节点的核心部分，定义了节点的基本形状和外观：
 
-### 标签样式 label
+| 属性           | 描述                                        | 类型                          | 默认值    | 必选 |
+| -------------- | ------------------------------------------- | ----------------------------- | --------- | ---- |
+| x              | 节点 x 坐标                                 | number                        | 0         |      |
+| y              | 节点 y 坐标                                 | number                        | 0         |      |
+| z              | 节点 z 坐标                                 | number                        | 0         |      |
+| size           | 节点大小，快捷设置节点宽高，[配置项](#size) | number \| number[]            | 32        |      |
+| collapsed      | 当前节点/组合是否展开                       | boolean                       | false     |      |
+| opacity        | 节点透明度                                  | number \| string              | 1         |      |
+| fill           | 节点填充色                                  | string                        | `#1783FF` |      |
+| fillOpacity    | 节点填充色透明度                            | number \| string              | 1         |      |
+| stroke         | 节点描边色                                  | string                        | `#000`    |      |
+| strokeOpacity  | 节点描边色透明度                            | number \| string              | 1         |      |
+| lineWidth      | 节点描边宽度                                | number                        | 1         |      |
+| lineCap        | 节点描边端点样式                            | `round` \| `square` \| `butt` | `butt`    |      |
+| lineJoin       | 节点描边连接处样式                          | `round` \| `bevel` \| `miter` | `miter`   |      |
+| lineDash       | 节点描边虚线样式                            | number[]                      | -         |      |
+| lineDashOffset | 节点描边虚线偏移量                          | number                        | -         |      |
+| shadowType     | 节点阴影类型                                | `inner` \| `outer`            | `outer`   |      |
+| shadowColor    | 节点阴影颜色                                | string                        | -         |      |
+| shadowBlur     | 节点阴影模糊度                              | number                        | -         |      |
+| shadowOffsetX  | 节点阴影在 x 轴方向上的偏移量               | number \| string              | -         |      |
+| shadowOffsetY  | 节点阴影在 y 轴方向上的偏移量               | number \| string              | -         |      |
+| visibility     | 节点是否可见                                | `visible` \| `hidden`         | `visible` |      |
 
-| 属性                          | 描述                                                                                                                                                                                                                                         | 类型                                                                                                                                                                                                                               | 默认值   |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| label                         | 是否显示节点标签                                                                                                                                                                                                                             | boolean                                                                                                                                                                                                                            | true     |
-| labelText                     | 标签文字内容                                                                                                                                                                                                                                 | string                                                                                                                                                                                                                             | -        |
-| labelFill                     | 标签文字颜色                                                                                                                                                                                                                                 | string                                                                                                                                                                                                                             | -        |
-| labelFontSize                 | 标签字体大小                                                                                                                                                                                                                                 | number                                                                                                                                                                                                                             | 12       |
-| labelFontWeight               | 标签字体粗细                                                                                                                                                                                                                                 | number &#124; string                                                                                                                                                                                                               | `normal` |
-| labelPlacement                | 标签相对于节点主图形的位置                                                                                                                                                                                                                   | `left` &#124; `right` &#124; `top` &#124; `bottom` &#124; `left-top` &#124; `left-bottom` &#124; `right-top` &#124; `right-bottom` &#124; `top-left` &#124; `top-right` &#124; `bottom-left` &#124; `bottom-right` &#124; `center` | `bottom` |
-| labelOffsetX                  | 标签在 x 轴方向上的偏移量                                                                                                                                                                                                                    | number                                                                                                                                                                                                                             | 0        |
-| labelOffsetY                  | 标签在 y 轴方向上的偏移量                                                                                                                                                                                                                    | number                                                                                                                                                                                                                             | 0        |
-| labelWordWrap                 | 是否开启自动折行。开启 labelWordWrap 后，超出 labelMaxWidth 的部分自动换行                                                                                                                                                                   | boolean                                                                                                                                                                                                                            | false    |
-| labelMaxWidth                 | 标签最大宽度。开启自动折行后，超出该宽度则换行<br> - string: 表示以相对于节点宽度的百分比形式定义最大宽度。例如 `50%` 表示标签宽度不超过节点宽度的一半 <br> - number: 表示以像素值为单位定义最大宽度。例如 100 表示标签的最大宽度为 100 像素 | number &#124; string                                                                                                                                                                                                               | `200%`   |
-| labelMaxLines                 | 最大行数                                                                                                                                                                                                                                     | number                                                                                                                                                                                                                             | 1        |
-| labelPadding                  | 标签内边距                                                                                                                                                                                                                                   | number &#124; number[]                                                                                                                                                                                                             | 0        |
-| `label{StyleProps}`           | 更多标签样式配置，参考 [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) 属性值。例如 labelFontSize 代表标签文字大小                                                                                                              | [TextStyleProps](https://g.antv.antgroup.com/api/basic/text)                                                                                                                                                                       | -        |
-| labelBackground               | 是否显示背景                                                                                                                                                                                                                                 | boolean                                                                                                                                                                                                                            | false    |
-| labelBackgroundFill           | 标签背景填充色                                                                                                                                                                                                                               | string                                                                                                                                                                                                                             | -        |
-| labelBackgroundRadius         | 标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，不足则自动补充                                                                                                                                   | number &#124; number[]                                                                                                                                                                                                             | 0        |
-| `labelBackground{StyleProps}` | 更多标签背景样式配置，参考 [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect) 属性值。例如 labelBackgroundFillOpacity 代表标签背景透明度                                                                                           | [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect)                                                                                                                                                                       | -        |
+#### Size
 
-### 光晕样式 halo
+节点大小，快捷设置节点宽高，支持三种配置方式：
+
+- number：表示节点宽高相同为指定值
+- [number, number]：表示节点宽高分别为数组元素依次表示节点的宽度、高度
+- [number, number, number]：表示节点宽高分别为数组元素依次表示节点的宽度、高度以及深度
+
+**示例：**
+
+```js {4-6}
+const graph = new Graph({
+  node: {
+    style: {
+      fill: '#1783FF', // 填充色
+      stroke: '#000', // 描边色
+      lineWidth: 2, // 描边宽度
+    },
+  },
+});
+```
+
+效果如下：
+
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      nodes: [{ id: 'node1', style: { x: 120, y: 40 } }],
+    },
+    node: {
+      style: { fill: '#1783FF', stroke: '#000', lineWidth: 2 },
+    },
+  },
+  { width: 240, height: 100 },
+);
+```
+
+### 标签样式
+
+标签用于显示节点的文本信息：
+
+| 属性                     | 描述                                                                               | 类型                                                                        | 默认值   | 必选 |
+| ------------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------- | ---- |
+| label                    | 是否显示节点标签                                                                   | boolean                                                                     | true     |      |
+| labelFill                | 节点标签文字颜色                                                                   | string                                                                      | -        |      |
+| labelFontFamily          | 节点标签字体族                                                                     | string                                                                      | -        |      |
+| labelFontSize            | 节点标签字体大小                                                                   | number                                                                      | 12       |      |
+| labelFontStyle           | 节点标签字体样式                                                                   | `normal` \| `italic` \| `oblique`                                           | -        |      |
+| labelFontVariant         | 节点标签字体变种                                                                   | `normal` \| `small-caps` \| string                                          | -        |      |
+| labelFontWeight          | 节点标签字体粗细                                                                   | `normal` \| `bold` \| `bolder` \| `lighter` \| number                       | -        |      |
+| labelLetterSpacing       | 节点标签字间距                                                                     | number \| string                                                            | -        |      |
+| labelLineHeight          | 节点标签行高                                                                       | number \| string                                                            | -        |      |
+| labelMaxLines            | 节点标签最大行数                                                                   | number                                                                      | 1        |      |
+| labelMaxWidth            | 节点标签最大宽度，[配置项](#labelmaxwidth)                                         | number \| string                                                            | `200%`   |      |
+| labelOffsetX             | 节点标签在 x 轴方向上的偏移量                                                      | number                                                                      | 0        |      |
+| labelOffsetY             | 节点标签在 y 轴方向上的偏移量                                                      | number                                                                      | 0        |      |
+| labelPadding             | 节点标签内边距                                                                     | number \| number[]                                                          | 0        |      |
+| labelPlacement           | 节点标签相对于节点主图形的位置，[配置项](#labelplacement)                          | string                                                                      | `bottom` |      |
+| labelText                | 节点标签文字内容                                                                   | string                                                                      | -        |      |
+| labelTextAlign           | 节点标签文本水平对齐方式                                                           | `start` \| `center` \| `middle` \| `end` \| `left` \| `right'               | -        |      |
+| labelTextBaseline        | 节点标签文本基线                                                                   | `top` \| `hanging` \| `middle` \| `alphabetic` \| `ideographic` \| `bottom' | -        |      |
+| labelTextDecorationColor | 节点标签文本装饰线颜色                                                             | string                                                                      | -        |      |
+| labelTextDecorationLine  | 节点标签文本装饰线                                                                 | string                                                                      | -        |      |
+| labelTextDecorationStyle | 节点标签文本装饰线样式                                                             | `solid` \| `double` \| `dotted` \| `dashed` \| `wavy`                       | -        |      |
+| labelTextOverflow        | 节点标签文本溢出处理方式                                                           | `clip` \| `ellipsis` \| string                                              | -        |      |
+| labelTextPath            | 节点标签文本路径                                                                   | Path                                                                        | -        |      |
+| labelWordWrap            | 是否开启节点标签自动折行。开启 labelWordWrap 后，超出 labelMaxWidth 的部分自动换行 | boolean                                                                     | false    |      |
+
+#### LabelPlacement
+
+可选值有：`left` | `right` | `top` | `bottom` | `left-top` | `left-bottom` | `right-top` | `right-bottom` | `top-left` | `top-right` | `bottom-left` | `bottom-right` | `center` | `bottom`
+
+#### LabelMaxWidth
+
+开启自动折行 `labelWordWrap` 后，超出该宽度则换行:
+
+- string: 表示以相对于节点宽度的百分比形式定义最大宽度。例如 `50%` 表示标签宽度不超过节点宽度的一半
+- number: 表示以像素值为单位定义最大宽度。例如 100 表示标签的最大宽度为 100 像素
+
+**示例：**
+
+```js {4-10}
+const graph = new Graph({
+  node: {
+    style: {
+      label: true, // 是否显示节点标签
+      labelText: '节点名称', // 标签文字内容
+      labelFill: '#000', // 标签文字颜色
+      labelFontSize: 12, // 标签字体大小
+      labelFontWeight: 'normal', // 标签字体粗细
+      labelPlacement: 'bottom', // 标签相对于节点主图形的位置
+    },
+  },
+});
+```
+
+效果如下：
+
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      nodes: [
+        {
+          id: 'node1',
+          style: {
+            x: 120,
+            y: 40,
+            label: true,
+            labelText: '节点名称',
+            labelFill: '#000',
+            labelFontSize: 12,
+            labelFontWeight: 'normal',
+            labelPlacement: 'bottom',
+          },
+        },
+      ],
+    },
+  },
+  { width: 240, height: 100 },
+);
+```
+
+### 标签背景样式
+
+标签背景用于显示节点标签的背景：
+
+| 属性                          | 描述                                                                                                                                                       | 类型                                                         | 默认值 |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------ |
+| labelBackground               | 是否显示节点标签背景                                                                                                                                       | boolean                                                      | false  |
+| labelBackgroundFill           | 节点标签背景填充色                                                                                                                                         | string                                                       | -      |
+| labelBackgroundRadius         | 节点标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，不足则自动补充                                             | number &#124; number[]                                       | 0      |
+| `labelBackground{StyleProps}` | 更多节点标签背景样式配置，参考 [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect) 属性值。例如 labelBackgroundFillOpacity 代表节点标签背景透明度 | [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect) | -      |
+
+**示例：**
+
+```js {4-7}
+const graph = new Graph({
+  node: {
+    style: {
+      labelBackground: true,
+      labelBackgroundFill: '#000',
+      labelBackgroundRadius: 10,
+      labelBackgroundFillOpacity: 0.5,
+    },
+  },
+});
+```
+
+效果如下：
+
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      nodes: [
+        {
+          id: 'node1',
+          style: {
+            x: 120,
+            y: 40,
+            label: true,
+            labelText: '节点名称',
+            labelFill: '#000',
+            labelFontSize: 12,
+            labelFontWeight: 'normal',
+            labelPlacement: 'bottom',
+            labelBackground: true,
+            labelBackgroundFill: '#000',
+            labelBackgroundRadius: 10,
+            labelBackgroundFillOpacity: 0.5,
+          },
+        },
+      ],
+    },
+  },
+  { width: 240, height: 100 },
+);
+```
+
+### 光晕样式
 
 | 属性               | 描述                                                                                                                                           | 类型                                                                  | 默认值               |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | -------------------- |
@@ -117,7 +298,7 @@ const graph = new Graph({
 | haloLineWidth      | 光晕描边宽度                                                                                                                                   | number                                                                | 3                    |
 | `halo{StyleProps}` | 更多光晕样式配置，参考 [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object) 配置项。例如 haloFillOpacity 代表光晕填充色透明度 | [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object) | -                    |
 
-### 图标样式 icon
+### 图标样式
 
 | 属性               | 描述                                                                                                                                                                                                 | 类型                                                                                                                               | 默认值           |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
@@ -132,7 +313,7 @@ const graph = new Graph({
 | iconFontWeight     | 图标字体粗细                                                                                                                                                                                         | number &#124; string                                                                                                               | `normal`         |
 | `icon{StyleProps}` | 更多图标样式配置，参考 [TextStyleProps](https://g.antv.antgroup.com/api/basic/text)、[ImageStyleProps](https://g.antv.antgroup.com/api/basic/image) 配置项。例如 iconFontSize 代表文字图标的字体大小 | [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) &#124; [ImageStyleProps](https://g.antv.antgroup.com/api/basic/image) | -                |
 
-### 徽标样式 badges
+### 徽标样式
 
 | 属性                 | 描述                                                                                                | 类型                                  | 默认值                            |
 | -------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------- |
@@ -204,7 +385,7 @@ createGraph(
 );
 ```
 
-### 连接桩样式 ports
+### 连接桩样式
 
 | 属性               | 描述                                                                                          | 类型                                | 默认值 |
 | ------------------ | --------------------------------------------------------------------------------------------- | ----------------------------------- | ------ |
