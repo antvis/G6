@@ -2,56 +2,52 @@
 title: ClickSelect 点击选中
 ---
 
-当鼠标点击元素时，可以激活元素的状态，例如选中节点或边。当 degree 设置为 `1` 时，点击节点会高亮当前节点及其直接相邻的节点和边。
+## 概述
+
+当鼠标点击元素时，会使元素 `点` `边` `Combo` 高亮。
+
+## 使用场景
+
+这一交互主要用于：
+
+- 聚焦元素
+- 查看元素详情
+- 查看元素关系
+
+## 在线体验
+
+<embed src="@/common/api/behaviors/click-element.md"></embed>
+
+## 基本用法
 
 ## 配置项
 
-### <Badge type="success">Required</Badge> type
-
-> _`click-select` \| string_
-
-此插件已内置，你可以通过 `type: 'click-select'` 来使用它。
-
-### animation
-
-> _boolean_ **Default:** `true`
-
-是否启用动画
+| 配置项                              | 说明                                                                                                                                                   | 类型                                                                     | 默认值          | 必选 |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | --------------- | ---- |
+| type                                | 交互类型名称。此插件已内置，你可以通过 `type: 'click-select'` 来使用它。                                                                               | `click-select` \| string                                                 | `scroll-canvas` | ✓    |
+| animation                           | 是否启用动画                                                                                                                                           | boolean                                                                  | true            |      |
+| [degree](#degree)                   | 控制了高亮扩散范围                                                                                                                                     | number \| _(event:[Event](/api/event#事件对象属性))_ => number           | 0               |      |
+| [enable](#enable)                   | 是否启用点击元素的功能（可以通过函数的方式动态控制是否启用，例如只有节点被选中时才启用。）                                                             | boolean \| _((event: [Event](/api/event#事件对象属性)) => boolean)_      | true            |      |
+| multiple                            | 是否允许多选                                                                                                                                           | boolean                                                                  | false           |      |
+| state                               | 当元素被选中时应用的状态                                                                                                                               | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` | `selected`      |      |
+| [neighborState](#neighborstate)     | 当有元素选中时，其相邻 n 度关系的元素应用的状态。n 的值由属性 degree 控制，例如 degree 为 1 时表示直接相邻的元素                                       | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` | `selected`      |      |
+| [unselectedState](#unselectedstate) | 当有元素被选中时，除了选中元素及其受影响的邻居元素外，其他所有元素应用的状态。                                                                         | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` |                 |      |
+| onClick                             | 点击元素时的回调                                                                                                                                       | _(event: [Event](/api/event#事件对象属性)) => void_                      |                 |      |
+| trigger                             | 按下该快捷键配合鼠标点击进行多选 **按键参考：** [MDN Key Values](https://developer.mozilla.org/zh-CN/docs/Web/API/UI_Events/Keyboard_event_key_values) | string[] \| (`Control` \| `Shift`\| `Alt` \| `......`)[]                 | `['shift']`     |      |
 
 ### degree
 
 > _number \| ((event:_ [Event](/api/event#事件对象属性)_) => number)_ **Default:** `0`
 
-选中元素的度，即决定了影响范围
+控制了高亮扩散范围
 
 - 对于节点来说，`0` 表示只选中当前节点，`1` 表示选中当前节点及其直接相邻的节点和边，以此类推。
 - 对于边来说，`0` 表示只选中当前边，`1` 表示选中当前边及其直接相邻的节点，以此类推。
 
-**示例 1**：点击选中节点及其直接相连的邻接节点
+> 如下示例，当 `degree: 0` 仅高亮<span style='color:#E4504D'>红色</span>点;
+> 当 `degree: 1` 高亮<span style='color:#E4504D'>红色</span>和<span style='color:#FFC40C'>橙色</span>点。
 
-该节点及其直接相连的邻接节点会从默认状态（`default`）切换为激活状态（`active`），视觉上表现为填充色由浅蓝色（'#289fff'）变为深蓝色（'#0052d9'）
-
-```typescript
-new Graph({
-  node: {
-    style: {
-      fill: '#289fff',
-    },
-    state: {
-      active: {
-        fill: '#0052d9',
-      },
-    },
-  },
-  behaviors: [
-    {
-      type: 'click-select',
-      degree: 1,
-      state: 'active',
-    },
-  ],
-});
-```
+<embed src="@/common/api/behaviors/click-element.md"></embed>
 
 ### enable
 
@@ -63,15 +59,51 @@ new Graph({
 
 ```typescript
 {
-  enable: (event) => event.targetType === 'node';
+  // ！！注意，如果不加上 canvas, 则点击画布时无法取消选中！！
+  enable: (event) => ['node', 'canvas'].includes(event.targetType);
 }
 ```
 
-### multiple
-
-> _boolean_ **Default:** `false`
-
-是否允许多选
+```js | ob { pin: false}
+createGraph(
+  {
+    data: {
+      nodes: [
+        { id: 'node1', style: { x: 100, y: 60 } },
+        { id: 'node2', style: { x: 200, y: 60 } },
+        { id: 'node3', style: { x: 300, y: 60 } },
+      ],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node2', target: 'node3' },
+      ],
+    },
+    node: {
+      style: {
+        fill: '#E4504D',
+      },
+      state: {
+        active: {
+          fill: '#0f0',
+        },
+        neighborActive: {
+          fill: '#FFC40C',
+        },
+      },
+    },
+    behaviors: [
+      {
+        type: 'click-select',
+        degree: 1,
+        state: 'active',
+        neighborState: 'neighborActive',
+        enable: (event) => ['node', 'canvas'].includes(event.targetType),
+      },
+    ],
+  },
+  { width: 400, height: 200 },
+);
+```
 
 ### neighborState
 
@@ -79,50 +111,256 @@ new Graph({
 
 当有元素选中时，其相邻 n 度关系的元素应用的状态。n 的值由属性 degree 控制，例如 degree 为 1 时表示直接相邻的元素
 
-### onClick
+```ts
+const graph = new Graph({
+  behaviors: [
+    {
+      type: 'click-select',
+      degree: 1,
+      // 被直接点击的节点附着的状态
+      state: 'active',
+      // 相邻的节点附着的状态
+      neighborState: 'neighborActive',
+    },
+  ],
+});
+```
 
-> _(event: [Event](/api/event#事件对象属性)) => void_
-
-点击元素时的回调
-
-### state
-
-> _string_ **Default:** `'selected'`
-
-当元素被选中时应用的状态
-
-内置状态：
-
-- `'selected'`
-- `'active'`
-- `'inactive'`
-- `'disabled'`
-- `'highlight'`
-
-### trigger
-
-> _string[]_ **Default:** `['shift']`
-
-按下该快捷键配合鼠标点击进行多选
+```js | ob { pin: false}
+createGraph(
+  {
+    layout: {
+      type: 'grid',
+    },
+    data: {
+      nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node2', target: 'node3' },
+        { source: 'node3', target: 'node4' },
+        { source: 'node4', target: 'node5' },
+      ],
+    },
+    node: {
+      style: {
+        fill: '#E4504D',
+      },
+      state: {
+        active: {
+          fill: '#0f0',
+        },
+        neighborActive: {
+          fill: '#FFC40C',
+          halo: true,
+        },
+      },
+    },
+    behaviors: [
+      {
+        type: 'click-select',
+        degree: 1,
+        state: 'active',
+        neighborState: 'neighborActive',
+      },
+    ],
+  },
+  { width: 400, height: 200 },
+);
+```
 
 ### unselectedState
 
 > _string_
 
-当有元素被选中时，除了选中元素及其受影响的邻居元素外，其他所有元素应用的状态。
+当有元素被选中时，除了被选中元素和扩散的邻居元素外，其他所有元素应用的状态。
 
-内置状态：
+内置状态： `selected` `active` `inactive` `disabled` `highlight`
 
-- `'selected'`
-- `'active'`
-- `'inactive'`
-- `'disabled'`
-- `'highlight'`
+```ts
+const graph = new Graph({
+  behaviors: [
+    {
+      type: 'click-select',
+      degree: 1,
+      unselectedState: 'inactive',
+    },
+  ],
+});
+```
 
-## API
+```js | ob { pin: false}
+createGraph(
+  {
+    layout: {
+      type: 'grid',
+    },
+    data: {
+      nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node2', target: 'node3' },
+        { source: 'node3', target: 'node4' },
+        { source: 'node4', target: 'node5' },
+      ],
+    },
+    node: {
+      style: {
+        fill: '#E4504D',
+      },
+      state: {
+        active: {
+          fill: '#0f0',
+        },
+        neighborActive: {
+          fill: '#FFC40C',
+        },
+      },
+    },
+    behaviors: [
+      {
+        type: 'click-select',
+        degree: 1,
+        state: 'active',
+        neighborState: 'neighborActive',
+        unselectedState: 'inactive',
+      },
+    ],
+  },
+  { width: 400, height: 200 },
+);
+```
 
-### ClickSelect.destroy()
+## 示例
+
+### 点击选中节点及其直接相连的节点
+
+**点击节点** 会从 <span style='color:#E4504D'>默认状态</span> 切换为 <span style='color:#0f0'>active</span>
+<br>
+**相邻节点** 会从 <span style='color:#E4504D'>默认状态</span> 切换为 <span style='color:#FFC40C'>neighborActive</span>
+
+```ts
+const graph = new Graph({
+  node: {
+    style: {
+      fill: '#E4504D',
+    },
+    state: {
+      // 选中节点状态
+      active: {
+        fill: '#0f0',
+      },
+      // 相邻节点状态
+      neighborActive: {
+        fill: '#FFC40C',
+      },
+    },
+  },
+  behaviors: [
+    {
+      type: 'click-select',
+      degree: 1,
+      state: 'active',
+      // 相邻节点附着状态
+      neighborState: 'neighborActive',
+      // 未选中节点状态
+      unselectedState: 'inactive',
+    },
+  ],
+});
+```
+
+```js | ob { pin: false}
+createGraph(
+  {
+    layout: {
+      type: 'grid',
+    },
+    data: {
+      nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node2', target: 'node3' },
+        { source: 'node3', target: 'node4' },
+        { source: 'node4', target: 'node5' },
+      ],
+    },
+    node: {
+      style: {
+        fill: '#E4504D',
+      },
+      state: {
+        active: {
+          fill: '#0f0',
+        },
+        neighborActive: {
+          fill: '#FFC40C',
+        },
+      },
+    },
+    behaviors: [
+      {
+        type: 'click-select',
+        degree: 1,
+        state: 'active',
+        neighborState: 'neighborActive',
+        unselectedState: 'inactive',
+      },
+    ],
+  },
+  { width: 400, height: 200 },
+);
+```
+
+### 动态配置enable只选中节点，不选中边
 
 ```typescript
-destroy(): void;
+{
+  // ！！注意，如果不加上 canvas, 则点击画布时无法取消选中！！
+  enable: (event) => ['node', 'canvas'].includes(event.targetType);
+}
 ```
+
+```js | ob { pin: false}
+createGraph(
+  {
+    data: {
+      nodes: [
+        { id: 'node1', style: { x: 100, y: 60 } },
+        { id: 'node2', style: { x: 200, y: 60 } },
+        { id: 'node3', style: { x: 300, y: 60 } },
+      ],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node2', target: 'node3' },
+      ],
+    },
+    node: {
+      style: {
+        fill: '#E4504D',
+      },
+      state: {
+        active: {
+          fill: '#0f0',
+        },
+        neighborActive: {
+          fill: '#FFC40C',
+        },
+      },
+    },
+    behaviors: [
+      {
+        type: 'click-select',
+        degree: 1,
+        state: 'active',
+        neighborState: 'neighborActive',
+        enable: (event) => ['node', 'canvas'].includes(event.targetType),
+      },
+    ],
+  },
+  { width: 400, height: 200 },
+);
+```
+
+### 自己定制尝试看看
+
+<Playground path="behavior/select/demo/click.js" rid="click-select"></Playground>
