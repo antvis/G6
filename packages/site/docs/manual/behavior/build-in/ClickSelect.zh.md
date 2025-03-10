@@ -4,7 +4,7 @@ title: ClickSelect 点击选中
 
 ## 概述
 
-当鼠标点击元素时，会使元素 `点` `边` 高亮。
+当鼠标点击元素时，会使元素 `点` `边` `Combo` 高亮。
 
 ## 使用场景
 
@@ -213,13 +213,6 @@ createGraph(
         },
         neighborActive: {
           fill: '#FFC40C',
-        },
-      },
-    },
-    edge: {
-      state: {
-        neighborActive: {
-          halo: true,
         },
       },
     },
