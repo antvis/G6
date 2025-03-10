@@ -1,6 +1,6 @@
 ---
 title: Custom Element
-order: 6
+order: 7
 ---
 
 ## Overview
