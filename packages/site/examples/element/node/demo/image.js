@@ -4,33 +4,83 @@ const style = document.createElement('style');
 style.innerHTML = `@import url('${iconfont.css}');`;
 document.head.appendChild(style);
 
-fetch('https://assets.antv.antgroup.com/g6/element-nodes.json')
-  .then((res) => res.json())
-  .then((data) => {
-    const graph = new Graph({
-      container: 'container',
-      data,
-      node: {
-        type: 'image',
-        style: {
-          size: 40,
-          labelText: (d) => d.id,
-          src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
-          haloStroke: '#227eff',
-        },
-        state: {
-          inactive: {
-            fillOpacity: 0.5,
-          },
-          disabled: {
-            fillOpacity: 0.2,
-          },
-        },
-      },
-      layout: {
-        type: 'grid',
-      },
-    });
+const data = {
+  nodes: [
+    { id: 'default' },
+    { id: 'halo' },
+    { id: 'badges' },
+    { id: 'ports' },
+    {
+      id: 'active',
+      states: ['active'],
+    },
+    {
+      id: 'selected',
+      states: ['selected'],
+    },
+    {
+      id: 'highlight',
+      states: ['highlight'],
+    },
+    {
+      id: 'inactive',
+      states: ['inactive'],
+    },
+    {
+      id: 'disabled',
+      states: ['disabled'],
+    },
+  ],
+};
 
-    graph.render();
-  });
+const graph = new Graph({
+  container: 'container',
+  data,
+  node: {
+    type: 'image',
+    style: {
+      size: 40,
+      labelText: (d) => d.id,
+      src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+      haloStroke: '#227eff',
+      halo: (d) => (d.id === 'halo' ? true : false),
+      badges: (d) =>
+        d.id === 'badges'
+          ? [
+              {
+                text: 'A',
+                placement: 'right-top',
+              },
+              {
+                text: 'Important',
+                placement: 'right',
+              },
+              {
+                text: 'Notice',
+                placement: 'right-bottom',
+              },
+            ]
+          : [],
+      badgeFontSize: 8,
+      badgePadding: [1, 4],
+      portR: 3,
+      ports: (d) =>
+        d.id === 'ports'
+          ? [{ placement: 'left' }, { placement: 'right' }, { placement: 'top' }, { placement: 'bottom' }]
+          : [],
+    },
+    state: {
+      inactive: {
+        fillOpacity: 0.5,
+      },
+      disabled: {
+        fillOpacity: 0.2,
+      },
+    },
+  },
+  layout: {
+    type: 'grid',
+  },
+});
+
+graph.render();
