@@ -236,13 +236,13 @@ graph.updateEdgeData([
 
 ```javascript
 // 删除单个节点（以及与该节点相连的所有边）
-graph.removeNodeData('node7');
+graph.removeNodeData(['node7']);
 
 // 删除多个节点
 graph.removeNodeData(['node5', 'node6']);
 
 // 删除边
-graph.removeEdgeData('node1-node2');
+graph.removeEdgeData(['node1-node2']);
 ```
 
 #### 查询数据
