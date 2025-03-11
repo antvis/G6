@@ -20,20 +20,34 @@ title: ClickSelect 点击选中
 
 ## 基本用法
 
+在图配置中添加这一交互：
+
+```tsx
+const graph = new Graph({
+  // 其他配置...
+  behaviors: [
+    {
+      type: 'click-select',
+      key: 'click-select',
+    },
+  ], // 直接添加，使用默认配置
+});
+```
+
 ## 配置项
 
-| 配置项                              | 说明                                                                                                                                                   | 类型                                                                     | 默认值          | 必选 |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | --------------- | ---- |
-| type                                | 交互类型名称。此插件已内置，你可以通过 `type: 'click-select'` 来使用它。                                                                               | `click-select` \| string                                                 | `scroll-canvas` | ✓    |
-| animation                           | 是否启用动画                                                                                                                                           | boolean                                                                  | true            |      |
-| [degree](#degree)                   | 控制了高亮扩散范围                                                                                                                                     | number \| _(event:[Event](/api/event#事件对象属性))_ => number           | 0               |      |
-| [enable](#enable)                   | 是否启用点击元素的功能（可以通过函数的方式动态控制是否启用，例如只有节点被选中时才启用。）                                                             | boolean \| _((event: [Event](/api/event#事件对象属性)) => boolean)_      | true            |      |
-| multiple                            | 是否允许多选                                                                                                                                           | boolean                                                                  | false           |      |
-| state                               | 当元素被选中时应用的状态                                                                                                                               | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` | `selected`      |      |
-| [neighborState](#neighborstate)     | 当有元素选中时，其相邻 n 度关系的元素应用的状态。n 的值由属性 degree 控制，例如 degree 为 1 时表示直接相邻的元素                                       | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` | `selected`      |      |
-| [unselectedState](#unselectedstate) | 当有元素被选中时，除了选中元素及其受影响的邻居元素外，其他所有元素应用的状态。                                                                         | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` |                 |      |
-| onClick                             | 点击元素时的回调                                                                                                                                       | _(event: [Event](/api/event#事件对象属性)) => void_                      |                 |      |
-| trigger                             | 按下该快捷键配合鼠标点击进行多选 **按键参考：** [MDN Key Values](https://developer.mozilla.org/zh-CN/docs/Web/API/UI_Events/Keyboard_event_key_values) | string[] \| (`Control` \| `Shift`\| `Alt` \| `......`)[]                 | `['shift']`     |      |
+| 配置项                              | 说明                                                                                                                                                                                                          | 类型                                                                     | 默认值         | 必选 |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------- | ---- |
+| type                                | 交互类型名称。此插件已内置，你可以通过 `type: 'click-select'` 来使用它。                                                                                                                                      | `click-select` \| string                                                 | `click-select` | ✓    |
+| animation                           | 是否启用动画                                                                                                                                                                                                  | boolean                                                                  | true           |      |
+| [degree](#degree)                   | 控制了高亮扩散范围                                                                                                                                                                                            | number \| _(event:[Event](/api/event#事件对象属性))_ => number           | 0              |      |
+| [enable](#enable)                   | 是否启用点击元素的功能（可以通过函数的方式动态控制是否启用，例如只有节点被选中时才启用。）                                                                                                                    | boolean \| _((event: [Event](/api/event#事件对象属性)) => boolean)_      | true           |      |
+| multiple                            | 是否允许多选                                                                                                                                                                                                  | boolean                                                                  | false          |      |
+| state                               | 当元素被选中时应用的状态                                                                                                                                                                                      | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` | `selected`     |      |
+| [neighborState](#neighborstate)     | 当有元素选中时，其相邻 n 度关系的元素应用的状态。n 的值由属性 degree 控制，例如 degree 为 1 时表示直接相邻的元素                                                                                              | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` | `selected`     |      |
+| [unselectedState](#unselectedstate) | 当有元素被选中时，除了选中元素及其受影响的邻居元素外，其他所有元素应用的状态。                                                                                                                                | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` |                |      |
+| onClick                             | 点击元素时的回调                                                                                                                                                                                              | _(event: [Event](/api/event#事件对象属性)) => void_                      |                |      |
+| trigger                             | 按下该快捷键配合鼠标点击进行多选 **按键参考：** _<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/UI_Events/Keyboard_event_key_values" target="_blank" rel="noopener noreferrer">MDN Key Values</a>_ | string[] \| (`Control` \| `Shift`\| `Alt` \| `......`)[]                 | `['shift']`    |      |
 
 ### degree
 
