@@ -23,11 +23,11 @@ const graph = new Graph({
 
 | 属性      | 描述                                         | 类型                    | 默认值   | 必选 |
 | --------- | -------------------------------------------- | ----------------------- | -------- | ---- |
-| type      | 节点类型，内置节点类型名称或自定义节点的名称 | [Type](#type)           | `circle` |      |
-| style     | 节点样式配置，包括颜色、大小等               | [Style](#style)         | -        |      |
-| state     | 不同状态下的样式配置                         | [State](#state)         | -        |      |
-| palette   | 定义节点的色板，用于根据不同数据映射颜色     | [Palette](#palette)     | -        |      |
 | animation | 定义节点的动画效果                           | [Animation](#animation) | -        |      |
+| palette   | 定义节点的色板，用于根据不同数据映射颜色     | [Palette](#palette)     | -        |      |
+| state     | 不同状态下的样式配置                         | [State](#state)         | -        |      |
+| style     | 节点样式配置，包括颜色、大小等               | [Style](#style)         | -        |      |
+| type      | 节点类型，内置节点类型名称或自定义节点的名称 | [Type](#type)           | `circle` |      |
 
 ## Type
 
@@ -83,29 +83,34 @@ const graph = new Graph({
 
 主图形是节点的核心部分，定义了节点的基本形状和外观：
 
-| 属性           | 描述                                        | 类型                          | 默认值    | 必选 |
-| -------------- | ------------------------------------------- | ----------------------------- | --------- | ---- |
-| x              | 节点 x 坐标                                 | number                        | 0         |      |
-| y              | 节点 y 坐标                                 | number                        | 0         |      |
-| z              | 节点 z 坐标                                 | number                        | 0         |      |
-| size           | 节点大小，快捷设置节点宽高，[配置项](#size) | number \| number[]            | 32        |      |
-| collapsed      | 当前节点/组合是否展开                       | boolean                       | false     |      |
-| opacity        | 节点透明度                                  | number \| string              | 1         |      |
-| fill           | 节点填充色                                  | string                        | `#1783FF` |      |
-| fillOpacity    | 节点填充色透明度                            | number \| string              | 1         |      |
-| stroke         | 节点描边色                                  | string                        | `#000`    |      |
-| strokeOpacity  | 节点描边色透明度                            | number \| string              | 1         |      |
-| lineWidth      | 节点描边宽度                                | number                        | 1         |      |
-| lineCap        | 节点描边端点样式                            | `round` \| `square` \| `butt` | `butt`    |      |
-| lineJoin       | 节点描边连接处样式                          | `round` \| `bevel` \| `miter` | `miter`   |      |
-| lineDash       | 节点描边虚线样式                            | number[]                      | -         |      |
-| lineDashOffset | 节点描边虚线偏移量                          | number                        | -         |      |
-| shadowType     | 节点阴影类型                                | `inner` \| `outer`            | `outer`   |      |
-| shadowColor    | 节点阴影颜色                                | string                        | -         |      |
-| shadowBlur     | 节点阴影模糊度                              | number                        | -         |      |
-| shadowOffsetX  | 节点阴影在 x 轴方向上的偏移量               | number \| string              | -         |      |
-| shadowOffsetY  | 节点阴影在 y 轴方向上的偏移量               | number \| string              | -         |      |
-| visibility     | 节点是否可见                                | `visible` \| `hidden`         | `visible` |      |
+| 属性                            | 描述                                                                                      | 类型                          | 默认值    | 必选 |
+| ------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------- | --------- | ---- |
+| collapsed                       | 当前节点/组合是否展开                                                                     | boolean                       | false     |      |
+| cursor                          | 节点鼠标移入样式，[配置项](#cursor)                                                       | string                        | default   |      |
+| fill                            | 节点填充色                                                                                | string                        | `#1783FF` |      |
+| fillOpacity                     | 节点填充色透明度                                                                          | number \| string              | 1         |      |
+| increasedLineWidthForHitTesting | 当 lineWidth 较小时，可交互区域也随之变小，有时我们想增大这个区域，让“细线”更容易被拾取到 | number                        | 0         |      |
+| lineCap                         | 节点描边端点样式                                                                          | `round` \| `square` \| `butt` | `butt`    |      |
+| lineDash                        | 节点描边虚线样式                                                                          | number[]                      | -         |      |
+| lineDashOffset                  | 节点描边虚线偏移量                                                                        | number                        | -         |      |
+| lineJoin                        | 节点描边连接处样式                                                                        | `round` \| `bevel` \| `miter` | `miter`   |      |
+| lineWidth                       | 节点描边宽度                                                                              | number                        | 1         |      |
+| opacity                         | 节点透明度                                                                                | number \| string              | 1         |      |
+| shadowBlur                      | 节点阴影模糊度                                                                            | number                        | -         |      |
+| shadowColor                     | 节点阴影颜色                                                                              | string                        | -         |      |
+| shadowOffsetX                   | 节点阴影在 x 轴方向上的偏移量                                                             | number \| string              | -         |      |
+| shadowOffsetY                   | 节点阴影在 y 轴方向上的偏移量                                                             | number \| string              | -         |      |
+| shadowType                      | 节点阴影类型                                                                              | `inner` \| `outer`            | `outer`   |      |
+| size                            | 节点大小，快捷设置节点宽高，[配置项](#size)                                               | number \| number[]            | 32        |      |
+| stroke                          | 节点描边色                                                                                | string                        | `#000`    |      |
+| strokeOpacity                   | 节点描边色透明度                                                                          | number \| string              | 1         |      |
+| transform                       | transform 属性允许你旋转、缩放、倾斜或平移给定节点                                        | string                        | none      |      |
+| transformOrigin                 | 旋转与缩放中心，也称作变换中心                                                            | string                        | none      |      |
+| visibility                      | 节点是否可见                                                                              | `visible` \| `hidden`         | `visible` |      |
+| x                               | 节点 x 坐标                                                                               | number                        | 0         |      |
+| y                               | 节点 y 坐标                                                                               | number                        | 0         |      |
+| z                               | 节点 z 坐标                                                                               | number                        | 0         |      |
+| zIndex                          | 节点渲染层级                                                                              | number                        | 0         |      |
 
 #### Size
 
@@ -114,6 +119,10 @@ const graph = new Graph({
 - number：表示节点宽高相同为指定值
 - [number, number]：表示节点宽高分别为数组元素依次表示节点的宽度、高度
 - [number, number, number]：表示节点宽高分别为数组元素依次表示节点的宽度、高度以及深度
+
+#### Cursor
+
+可选值有：`auto` | `default` | `none` | `context-menu` | `help` | `pointer` | `progress` | `wait` | `cell` | `crosshair` | `text` | `vertical-text` | `alias` | `copy` | `move` | `no-drop` | `not-allowed` | `grab` | `grabbing` | `all-scroll` | `col-resize` | `row-resize` | `n-resize` | `e-resize` | `s-resize` | `w-resize` | `ne-resize` | `nw-resize` | `se-resize` | `sw-resize` | `ew-resize` | `ns-resize` | `nesw-resize` | `nwse-resize` | `zoom-in` | `zoom-out`
 
 **示例：**
 
@@ -152,12 +161,14 @@ createGraph(
 | 属性                     | 描述                                                                               | 类型                                                                        | 默认值   | 必选 |
 | ------------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------- | ---- |
 | label                    | 是否显示节点标签                                                                   | boolean                                                                     | true     |      |
+| labelCursor              | label鼠标移入样式，[配置项](#cursor)                                               | string                                                                      | default  |      |
 | labelFill                | 节点标签文字颜色                                                                   | string                                                                      | -        |      |
 | labelFontFamily          | 节点标签字体族                                                                     | string                                                                      | -        |      |
 | labelFontSize            | 节点标签字体大小                                                                   | number                                                                      | 12       |      |
 | labelFontStyle           | 节点标签字体样式                                                                   | `normal` \| `italic` \| `oblique`                                           | -        |      |
 | labelFontVariant         | 节点标签字体变种                                                                   | `normal` \| `small-caps` \| string                                          | -        |      |
 | labelFontWeight          | 节点标签字体粗细                                                                   | `normal` \| `bold` \| `bolder` \| `lighter` \| number                       | -        |      |
+| labelLeading             | 行间距                                                                             | number                                                                      | 0        |      |
 | labelLetterSpacing       | 节点标签字间距                                                                     | number \| string                                                            | -        |      |
 | labelLineHeight          | 节点标签行高                                                                       | number \| string                                                            | -        |      |
 | labelMaxLines            | 节点标签最大行数                                                                   | number                                                                      | 1        |      |
@@ -174,7 +185,8 @@ createGraph(
 | labelTextDecorationStyle | 节点标签文本装饰线样式                                                             | `solid` \| `double` \| `dotted` \| `dashed` \| `wavy`                       | -        |      |
 | labelTextOverflow        | 节点标签文本溢出处理方式                                                           | `clip` \| `ellipsis` \| string                                              | -        |      |
 | labelTextPath            | 节点标签文本路径                                                                   | Path                                                                        | -        |      |
-| labelWordWrap            | 是否开启节点标签自动折行。开启 labelWordWrap 后，超出 labelMaxWidth 的部分自动换行 | boolean                                                                     | false    |      |
+| labelWordWrap            | 节点标签是否开启自动折行。开启 labelWordWrap 后，超出 labelMaxWidth 的部分自动换行 | boolean                                                                     | false    |      |
+| labelZIndex              | 节点标签渲染层级                                                                   | number                                                                      | 0        |      |
 
 #### LabelPlacement
 
@@ -235,12 +247,26 @@ createGraph(
 
 标签背景用于显示节点标签的背景：
 
-| 属性                          | 描述                                                                                                                                                       | 类型                                                         | 默认值 |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------ |
-| labelBackground               | 是否显示节点标签背景                                                                                                                                       | boolean                                                      | false  |
-| labelBackgroundFill           | 节点标签背景填充色                                                                                                                                         | string                                                       | -      |
-| labelBackgroundRadius         | 节点标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，不足则自动补充                                             | number &#124; number[]                                       | 0      |
-| `labelBackground{StyleProps}` | 更多节点标签背景样式配置，参考 [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect) 属性值。例如 labelBackgroundFillOpacity 代表节点标签背景透明度 | [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect) | -      |
+| 属性                          | 描述                                                                                                           | 类型                                                 | 默认值  |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------- |
+| labelBackground               | 节点标签背景是否显示                                                                                           | boolean                                              | false   |
+| labelBackgroundClass          | 节点标签背景className                                                                                          | string                                               | -       |
+| labelBackgroundCursor         | 节点标签背景鼠标移入样式，[配置项](#cursor)                                                                    | string                                               | default |
+| labelBackgroundFill           | 节点标签背景填充色                                                                                             | string                                               | -       |
+| labelBackgroundFillOpacity    | 节点标签背景透明度                                                                                             | number                                               | 1       |
+| labelBackgroundHeight         | 节点标签背景高度                                                                                               | string \| number                                     | -       |
+| labelBackgroundLineDash       | 节点标签背景虚线配置                                                                                           | number &#124; string &#124;(number &#124; string )[] | -       |
+| labelBackgroundLineDashOffset | 节点标签背景虚线偏移量                                                                                         | number                                               | -       |
+| labelBackgroundLineWidth      | 节点标签背景线宽                                                                                               | number                                               | -       |
+| labelBackgroundRadius         | 节点标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，不足则自动补充 | number &#124; number[]                               | 0       |
+| labelBackgroundShadowBlur     | 节点标签背景阴影模糊程度                                                                                       | number                                               | -       |
+| labelBackgroundShadowColor    | 节点标签背景阴影颜色                                                                                           | string                                               | -       |
+| labelBackgroundShadowOffsetX  | 节点标签背景阴影 X 方向偏移                                                                                    | number                                               | -       |
+| labelBackgroundShadowOffsetY  | 节点标签背景阴影 Y 方向偏移                                                                                    | number                                               | -       |
+| labelBackgroundStroke         | 节点标签背景描边颜色                                                                                           | string                                               | -       |
+| labelBackgroundStrokeOpacity  | 节点标签背景描边透明度                                                                                         | number &#124; string                                 | 1       |
+| labelBackgroundVisibility     | 节点标签背景是否可见                                                                                           | `visible` &#124; `hidden`                            | -       |
+| labelBackgroundZIndex         | 节点标签背景渲染层级                                                                                           | number                                               | 1       |
 
 **示例：**
 
@@ -248,10 +274,10 @@ createGraph(
 const graph = new Graph({
   node: {
     style: {
-      labelBackground: true,
-      labelBackgroundFill: '#000',
-      labelBackgroundRadius: 10,
-      labelBackgroundFillOpacity: 0.5,
+      labelBackground: true, // 是否显示节点标签背景
+      labelBackgroundFill: '#000', // label背景填充
+      labelBackgroundRadius: 10, // label背景圆角
+      labelBackgroundFillOpacity: 0.5, // label背景透明度
     },
   },
 });
@@ -290,73 +316,214 @@ createGraph(
 
 ### 光晕样式
 
-| 属性               | 描述                                                                                                                                           | 类型                                                                  | 默认值               |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | -------------------- |
-| halo               | 是否显示节点光晕                                                                                                                               | boolean                                                               | false                |
-| haloFill           | 光晕填充色                                                                                                                                     | string                                                                | 与主图形的填充色一致 |
-| haloStroke         | 光晕描边色                                                                                                                                     | string                                                                | 与主图形的填充色一致 |
-| haloLineWidth      | 光晕描边宽度                                                                                                                                   | number                                                                | 3                    |
-| `halo{StyleProps}` | 更多光晕样式配置，参考 [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object) 配置项。例如 haloFillOpacity 代表光晕填充色透明度 | [DisplayObject](https://g.antv.antgroup.com/api/basic/display-object) | -                    |
+| 属性              | 描述                                                   | 类型                       | 默认值               |
+| ----------------- | ------------------------------------------------------ | -------------------------- | -------------------- |
+| halo              | 节点光晕是否显示                                       | boolean                    | false                |
+| haloClass         | 节点光晕className                                      | string                     | -                    |
+| haloCursor        | 节点光晕鼠标移入样式，[配置项](#cursor)                | strig                      | default              |
+| haloDraggable     | 节点光晕是否允许拖拽                                   | boolean                    | true                 |
+| haloDroppable     | 节点光晕是否允许接收被拖拽的元素                       | boolean                    | true                 |
+| haloFillRule      | 节点光晕填充规则                                       | `nonzero` &#124; `evenodd` | -                    |
+| haloFilter        | 节点光晕滤镜                                           | string                     | -                    |
+| haloLineWidth     | 节点光晕描边宽度                                       | number                     | 3                    |
+| haloPointerEvents | 节点光晕效果是否响应指针事件，[配置项](#pointerevents) | string                     | `none`               |
+| haloStroke        | 节点光晕描边色                                         | string                     | 与主图形的填充色一致 |
+| haloStrokeOpacity | 节点光晕描边色透明度                                   | number                     | 0.25                 |
+| haloVisibility    | 节点光晕可见性                                         | `visible` &#124; `hidden`  | `visible`            |
+| haloZIndex        | 节点光晕渲染层级                                       | number                     | -1                   |
+
+#### PointerEvents
+
+可选值有：
+`visible` | `visiblepainted` | `visiblestroke` | `non-transparent-pixel` | `visiblefill` | `visible` | `painted` | `fill` | `stroke` | `all` | `none` | `auto` | `inherit` | `initial` | `unset`
+
+**示例：**
+
+```js {4-7}
+const graph = new Graph({
+  node: {
+    style: {
+      halo: true, // 是否显示节点光晕
+      haloStroke: '#FF0000', // 节点光晕描边色
+      haloLineWidth: 10, // 节点光晕描边宽度
+    },
+  },
+});
+```
+
+效果如下：
+
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      nodes: [
+        {
+          id: 'node1',
+          style: {
+            x: 120,
+            y: 40,
+          },
+        },
+      ],
+    },
+    node: {
+      style: {
+        halo: true,
+        haloStroke: '#FF0000',
+        haloLineWidth: 10,
+      },
+    },
+  },
+  { width: 240, height: 100 },
+);
+```
 
 ### 图标样式
 
-| 属性               | 描述                                                                                                                                                                                                 | 类型                                                                                                                               | 默认值           |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| icon               | 是否显示节点图标                                                                                                                                                                                     | boolean                                                                                                                            | true             |
-| iconSrc            | 图片来源。其优先级高于 iconText                                                                                                                                                                      | string                                                                                                                             | -                |
-| iconWidth          | 图片宽度                                                                                                                                                                                             | number                                                                                                                             | 主图形宽度的一半 |
-| iconHeight         | 图标高度                                                                                                                                                                                             | number                                                                                                                             | 主图形高度的一半 |
-| iconRadius         | 图标圆角半径                                                                                                                                                                                         | number                                                                                                                             | 0                |
-| iconText           | 图标文字                                                                                                                                                                                             | string                                                                                                                             | -                |
-| iconFill           | 图标文字颜色                                                                                                                                                                                         | string                                                                                                                             | -                |
-| iconFontSize       | 图标字体大小                                                                                                                                                                                         | number                                                                                                                             | 16               |
-| iconFontWeight     | 图标字体粗细                                                                                                                                                                                         | number &#124; string                                                                                                               | `normal`         |
-| `icon{StyleProps}` | 更多图标样式配置，参考 [TextStyleProps](https://g.antv.antgroup.com/api/basic/text)、[ImageStyleProps](https://g.antv.antgroup.com/api/basic/image) 配置项。例如 iconFontSize 代表文字图标的字体大小 | [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) &#124; [ImageStyleProps](https://g.antv.antgroup.com/api/basic/image) | -                |
+| 属性                    | 描述                                | 类型                                                                                            | 默认值           |
+| ----------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------- |
+| icon                    | 是否显示节点图标                    | boolean                                                                                         | true             |
+| iconFill                | 节点图标文字颜色                    | string                                                                                          | -                |
+| iconFontFamily          | 节点图标字体族                      | string                                                                                          | -                |
+| iconFontSize            | 节点图标字体大小                    | number                                                                                          | 16               |
+| iconFontStyle           | 节点图标字体样式                    | `normal` &#124; `italic` &#124; `oblique`                                                       | `normal`         |
+| iconFontVariant         | 节点图标字体变种                    | `normal` &#124; `small-caps` &#124; string                                                      | `normal`         |
+| iconFontWeight          | 节点图标字体粗细                    | number &#124; string                                                                            | `normal`         |
+| iconHeight              | 节点图标高度                        | number                                                                                          | 主图形高度的一半 |
+| iconLetterSpacing       | 节点图标文本字间距                  | number &#124; string                                                                            | -                |
+| iconLineHeight          | 节点图标文本行高                    | number &#124; string                                                                            | -                |
+| iconMaxLines            | 节点图标文本最大行数                | number                                                                                          | 1                |
+| iconRadius              | 节点图标圆角半径                    | number                                                                                          | 0                |
+| iconSrc                 | 节点图片来源。其优先级高于 iconText | string                                                                                          | -                |
+| iconText                | 节点图标文字                        | string                                                                                          | -                |
+| iconTextAlign           | 节点图标文本水平对齐方式            | `start` &#124; `center` &#124; `middle` &#124; `end` &#124; `left` &#124; `right`               | `left`           |
+| iconTextBaseline        | 节点图标文本基线                    | `top` &#124; `hanging` &#124; `middle` &#124; `alphabetic` &#124; `ideographic` &#124; `bottom` | `alphabetic`     |
+| iconTextDecorationColor | 节点图标文本装饰线颜色              | string                                                                                          | -                |
+| iconTextDecorationLine  | 节点图标文本装饰线                  | string                                                                                          | -                |
+| iconTextDecorationStyle | 节点图标文本装饰线样式              | `solid` &#124; `double` &#124; `dotted` &#124; `dashed` &#124; `wavy`                           | `solid`          |
+| iconTextOverflow        | 节点图标文本溢出处理方式            | `clip` &#124; `ellipsis` &#124; string                                                          | `clip`           |
+| iconWidth               | 节点图标宽度                        | number                                                                                          | 主图形宽度的一半 |
+| iconWordWrap            | 节点图标文本是否自动换行            | boolean                                                                                         | -                |
+
+**示例：**
+
+```js {4-7}
+const graph = new Graph({
+  node: {
+    style: {
+      iconText: '文本', // 图标文本
+      iconFill: '#FF0000', // 图标文本颜色
+      iconFontSize: 14, // 图标文本大小
+      iconFontWeight: 'bold', // 图标文本粗细
+      iconFontStyle: 'italic', // 图标文本样式
+    },
+  },
+});
+```
+
+效果如下：
+
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      nodes: [
+        {
+          id: 'node1',
+          style: {
+            x: 120,
+            y: 40,
+          },
+        },
+      ],
+    },
+    node: {
+      style: {
+        iconText: '文本',
+        iconFill: '#FF0000',
+        iconFontSize: 14,
+        iconFontWeight: 'bold',
+        iconFontStyle: 'italic',
+      },
+    },
+  },
+  { width: 240, height: 100 },
+);
+```
 
 ### 徽标样式
 
-| 属性                 | 描述                                                                                                | 类型                                  | 默认值                            |
-| -------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------- |
-| badge                | 是否显示节点徽标                                                                                    | boolean                               | true                              |
-| badges               | 设置徽标                                                                                            | [BadgeStyleProps](#badgestyleprops)[] | -                                 |
-| badgePalette         | 徽标的背景色板                                                                                      | string[]                              | [`#7E92B5`, `#F4664A`, `#FFBE3A`] |
-| `badge{StyleProps} ` | 徽标通用样式配置，会被独立应用于每一个徽标元素中。若在badges 中有特定的样式定义，其优先级将高于此处 | [BadgeStyleProps](#badgestyleprops)   | -                                 |
+| 属性         | 描述               | 类型                                  | 默认值                            |
+| ------------ | ------------------ | ------------------------------------- | --------------------------------- |
+| badge        | 节点是否显示徽标   | boolean                               | true                              |
+| badgePalette | 节点徽标的背景色板 | string[]                              | [`#7E92B5`, `#F4664A`, `#FFBE3A`] |
+| badges       | 节点徽标设置       | [BadgeStyleProps](#badgestyleprops)[] | -                                 |
 
 #### BadgeStyleProps
 
-| 属性                     | 描述                                                                                                                                                                                                                      | 类型                                                                                                                                                                                                               | 默认值   |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
-| placement                | 徽标相对于节点主图形的位置。若不指定，默认从右上角顺时针依次排放                                                                                                                                                          | `left` &#124; `right` &#124; `top` &#124; `bottom` &#124; `left-top` &#124; `left-bottom` &#124; `right-top` &#124; `right-bottom` &#124; `top-left` &#124; `top-right` &#124; `bottom-left` &#124; `bottom-right` | -        |
-| offsetX                  | 徽标在 x 轴方向上的偏移量                                                                                                                                                                                                 | number                                                                                                                                                                                                             | 0        |
-| offsetY                  | 徽标在 y 轴方向上的偏移量                                                                                                                                                                                                 | number                                                                                                                                                                                                             | 0        |
-| text                     | 文字内容                                                                                                                                                                                                                  | string                                                                                                                                                                                                             | -        |
-| fill                     | 文字颜色                                                                                                                                                                                                                  | string                                                                                                                                                                                                             | -        |
-| fontSize                 | 字体大小                                                                                                                                                                                                                  | number                                                                                                                                                                                                             | 8        |
-| fontWeight               | 字体粗细                                                                                                                                                                                                                  | number &#124; string                                                                                                                                                                                               | `normal` |
-| padding                  | 内边距                                                                                                                                                                                                                    | number &#124; number[]                                                                                                                                                                                             | 0        |
-| `{StyleProps}`           | 更多文字样式配置，参考 [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) 属性值                                                                                                                                | [TextStyleProps](https://g.antv.antgroup.com/api/basic/text)                                                                                                                                                       | -        |
-| background               | 是否显示背景                                                                                                                                                                                                              | boolean                                                                                                                                                                                                            | true     |
-| backgroundFill           | 背景填充色。若不指定，优先考虑 badgePalette 按顺序分配                                                                                                                                                                    | string                                                                                                                                                                                                             | -        |
-| backgroundRadius         | 背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，会补足缺省的分量 <br> - string: 与 [CSS padding](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding) 属性类似，使用空格分隔 | number &#124; number[] &#124; string                                                                                                                                                                               | 0        |
-| `background{StyleProps}` | 更多背景样式配置，参考 [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect) 属性值。例如 labelBackgroundFillOpacity 代表标签背景透明度                                                                            | [RectStyleProps](https://g.antv.antgroup.com/api/basic/rect)                                                                                                                                                       | -        |
+| 属性                     | 描述                                                                                                                                                                                                                              | 类型                                                                                                                                                                                                               | 默认值       |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ |
+| background               | 节点徽标是否显示背景                                                                                                                                                                                                              | boolean                                                                                                                                                                                                            | true         |
+| backgroundClass          | 节点徽标背景clssName                                                                                                                                                                                                              | string                                                                                                                                                                                                             | -            |
+| backgroundCursor         | 节点徽标背景鼠标移入样式，[配置项](#cursor)                                                                                                                                                                                       | string                                                                                                                                                                                                             | `default`    |
+| backgroundFill           | 节点徽标背景填充色。若不指定，优先考虑 badgePalette 按顺序分配                                                                                                                                                                    | string                                                                                                                                                                                                             | -            |
+| backgroundFillOpacity    | 节点徽标背景填充透明度                                                                                                                                                                                                            | number                                                                                                                                                                                                             | 1            |
+| backgroundFilter         | 节点徽标背景滤镜                                                                                                                                                                                                                  | string                                                                                                                                                                                                             | -            |
+| backgroundHeight         | 节点徽标背景高度                                                                                                                                                                                                                  | number &#124; string                                                                                                                                                                                               | -            |
+| backgroundLineDash       | 节点徽标背景虚线配置                                                                                                                                                                                                              | number &#124; string &#124;(number &#124; string )[]                                                                                                                                                               | -            |
+| backgroundLineDashOffset | 节点徽标背景虚线偏移量                                                                                                                                                                                                            | number                                                                                                                                                                                                             | -            |
+| backgroundLineWidth      | 节点徽标背景描边线宽                                                                                                                                                                                                              | number                                                                                                                                                                                                             | -            |
+| backgroundRadius         | 节点徽标背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，会补足缺省的分量 <br> - string: 与 [CSS padding](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding) 属性类似，使用空格分隔 | number &#124; number[] &#124; string                                                                                                                                                                               | 0            |
+| backgroundShadowBlur     | 节点徽标背景阴影模糊程度                                                                                                                                                                                                          | number                                                                                                                                                                                                             | -            |
+| backgroundShadowColor    | 节点徽标背景阴影颜色                                                                                                                                                                                                              | string                                                                                                                                                                                                             | -            |
+| backgroundShadowOffsetX  | 节点徽标背景阴影 X 方向偏移                                                                                                                                                                                                       | number                                                                                                                                                                                                             | -            |
+| backgroundShadowOffsetY  | 节点徽标背景阴影 Y 方向偏移                                                                                                                                                                                                       | number                                                                                                                                                                                                             | -            |
+| backgroundStroke         | 节点徽标背景描边颜色                                                                                                                                                                                                              | string                                                                                                                                                                                                             | -            |
+| backgroundStrokeOpacity  | 节点徽标背景描边透明度                                                                                                                                                                                                            | number &#124; string                                                                                                                                                                                               | 1            |
+| backgroundVisibility     | 节点徽标背景是否可见                                                                                                                                                                                                              | `visible` &#124; `hidden`                                                                                                                                                                                          | -            |
+| backgroundZIndex         | 节点徽标背景渲染层级                                                                                                                                                                                                              | number                                                                                                                                                                                                             | -            |
+| fill                     | 节点徽标文字颜色                                                                                                                                                                                                                  | string                                                                                                                                                                                                             | -            |
+| fontFamily               | 节点徽标字体族                                                                                                                                                                                                                    | string                                                                                                                                                                                                             | -            |
+| fontSize                 | 节点徽标字体大小                                                                                                                                                                                                                  | number                                                                                                                                                                                                             | 8            |
+| fontStyle                | 节点徽标字体样式                                                                                                                                                                                                                  | `normal` &#124; `italic` &#124; `oblique`                                                                                                                                                                          | `normal`     |
+| fontVariant              | 节点徽标字体变种                                                                                                                                                                                                                  | `normal` &#124; `small-caps` &#124; string                                                                                                                                                                         | `normal`     |
+| fontWeight               | 节点徽标字体粗细                                                                                                                                                                                                                  | number &#124; string                                                                                                                                                                                               | `normal`     |
+| lineHeight               | 节点徽标行高                                                                                                                                                                                                                      | string &#124; number                                                                                                                                                                                               | -            |
+| lineWidth                | 节点徽标行宽                                                                                                                                                                                                                      | string &#124; number                                                                                                                                                                                               | -            |
+| maxLines                 | 节点徽标文本最大行数                                                                                                                                                                                                              | number                                                                                                                                                                                                             | 1            |
+| offsetX                  | 节点徽标在 x 轴方向上的偏移量                                                                                                                                                                                                     | number                                                                                                                                                                                                             | 0            |
+| offsetY                  | 节点徽标在 y 轴方向上的偏移量                                                                                                                                                                                                     | number                                                                                                                                                                                                             | 0            |
+| padding                  | 节点徽标内边距                                                                                                                                                                                                                    | number &#124; number[]                                                                                                                                                                                             | 0            |
+| placement                | 节点徽标相对于节点主图形的位置。若不指定，默认从右上角顺时针依次排放                                                                                                                                                              | `left` &#124; `right` &#124; `top` &#124; `bottom` &#124; `left-top` &#124; `left-bottom` &#124; `right-top` &#124; `right-bottom` &#124; `top-left` &#124; `top-right` &#124; `bottom-left` &#124; `bottom-right` | -            |
+| text                     | 节点徽标文字内容                                                                                                                                                                                                                  | string                                                                                                                                                                                                             | -            |
+| textAlign                | 节点徽标文本水平对齐方式                                                                                                                                                                                                          | `start` &#124; `center` &#124; `middle` &#124; `end` &#124; `left` &#124; `right`                                                                                                                                  | `left`       |
+| textBaseline             | 节点徽标文本基线                                                                                                                                                                                                                  | `top` &#124; `hanging` &#124; `middle` &#124; `alphabetic` &#124; `ideographic` &#124; `bottom`                                                                                                                    | `alphabetic` |
+| textDecorationColor      | 节点徽标文本装饰线颜色                                                                                                                                                                                                            | string                                                                                                                                                                                                             | -            |
+| textDecorationLine       | 节点徽标文本装饰线                                                                                                                                                                                                                | string                                                                                                                                                                                                             | -            |
+| textDecorationStyle      | 节点徽标文本装饰线样式                                                                                                                                                                                                            | `solid` &#124; `double` &#124; `dotted` &#124; `dashed` &#124; `wavy`                                                                                                                                              | `solid`      |
+| textOverflow             | 节点徽标文本溢出处理方式                                                                                                                                                                                                          | `clip` &#124; `ellipsis` &#124; string                                                                                                                                                                             | `clip`       |
+| visibility               | 节点徽标是否可见                                                                                                                                                                                                                  | `visible` &#124; `hidden`                                                                                                                                                                                          | -            |
+| wordWrap                 | 节点徽标文本是否自动换行                                                                                                                                                                                                          | boolean                                                                                                                                                                                                            | -            |
+| zIndex                   | 节点徽标渲染层级                                                                                                                                                                                                                  | number                                                                                                                                                                                                             | 3            |
 
 例如，给一个节点添加三个不同含义的徽标：
 
-```json
-{
-  "node": {
-    "style": {
-      "badge": true,
-      "badges": [
-        { "text": "A", "placement": "right-top" },
-        { "text": "Important", "placement": "right" },
-        { "text": "Notice", "placement": "right-bottom" }
+```js {4-7}
+const graph = new Graph({
+  node: {
+    style: {
+      badge: true, // 是否显示徽标
+      badges: [
+        { text: 'A', placement: 'right-top' },
+        { text: 'Important', placement: 'right' },
+        { text: 'Notice', placement: 'right-bottom' },
       ],
-      "badgePalette": ["#7E92B5", "#F4664A", "#FFBE3A"],
-      "badgeFontSize": 7
-    }
-  }
-}
+      badgePalette: ['#7E92B5', '#F4664A', '#FFBE3A'], // 徽标的背景色板
+      badgeFontSize: 7, // 徽标字体大小
+    },
+  },
+});
 ```
 
 效果如下图所示：
@@ -387,39 +554,55 @@ createGraph(
 
 ### 连接桩样式
 
-| 属性               | 描述                                                                                          | 类型                                | 默认值 |
-| ------------------ | --------------------------------------------------------------------------------------------- | ----------------------------------- | ------ |
-| port               | 是否显示连接桩                                                                                | boolean                             | true   |
-| ports              | 连接桩配置项，支持配置多个连接桩                                                              | [PortStyleProps](#portstyleprops)[] |        |
-| `port{StyleProps}` | 更多连接桩样式配置，请参考 [PortStyleProps](#portstyleprops)。例如 portR 代表圆形连接桩的半径 | [PortStyleProps](#portstyleprops)   | -      |
+| 属性  | 描述                                 | 类型                                | 默认值 |
+| ----- | ------------------------------------ | ----------------------------------- | ------ |
+| port  | 节点是否显示连接桩                   | boolean                             | true   |
+| ports | 节点连接桩配置项，支持配置多个连接桩 | [PortStyleProps](#portstyleprops)[] |        |
 
 #### PortStyleProps
 
-| 属性           | 描述                                                                                                                                                                           | 类型                                                             | 默认值 |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- | ------ |
-| r              | 连接桩半径 <br> - 如果设置为 undefined，则连接桩被视为一个点，不在画布上显示但存在，边会优先连接到最近的连接桩 <br> - 如果设置为数字，则连接桩被视为一个圆，圆的半径由此处指定 | number                                                           | -      |
-| linkToCenter   | 边是否连接到连接桩的中心 <br> - 若为 true，则边连接到连接桩的中心 <br> - 若为 false，则边连接到连接桩的边缘                                                                    | boolean                                                          | false  |
-| `{StyleProps}` | 更多连接桩样式配置，请参考 [CircleStyleProps](https://g.antv.antgroup.com/api/basic/circle)                                                                                    | [CircleStyleProps](https://g.antv.antgroup.com/api/basic/circle) | -      |
+| 属性              | 描述                                                                                                                                                                               | 类型                                                                                                                                                                                                                               | 默认值    |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| cursor            | 节点连接桩鼠标移入样式，[配置项](#cursor)                                                                                                                                          | string                                                                                                                                                                                                                             | `default` |
+| fill              | 节点连接桩填充颜色                                                                                                                                                                 | string                                                                                                                                                                                                                             | -         |
+| fillOpacity       | 节点连接桩填充透明度                                                                                                                                                               | number                                                                                                                                                                                                                             | 1         |
+| isBillboard       | 节点连接桩是否为Billboard 效果                                                                                                                                                     | boolean                                                                                                                                                                                                                            | -         |
+| isSizeAttenuation | 节点连接桩是否启用大小衰减                                                                                                                                                         | boolean                                                                                                                                                                                                                            | -         |
+| key               | 节点连接桩的键值，默认为节点连接桩的索引                                                                                                                                           | string                                                                                                                                                                                                                             | -         |
+| lineDash          | 节点连接桩描边虚线配置                                                                                                                                                             | number &#124; string &#124;(number &#124; string )[]                                                                                                                                                                               | -         |
+| lineDashOffset    | 节点连接桩描边虚线偏移量                                                                                                                                                           | number                                                                                                                                                                                                                             | -         |
+| lineWidth         | 节点连接桩描边线宽                                                                                                                                                                 | number                                                                                                                                                                                                                             | -         |
+| linkToCenter      | 边是否连接到节点连接桩的中心 <br> - 若为 true，则边连接到节点连接桩的中心 <br> - 若为 false，则边连接到节点连接桩的边缘                                                            | boolean                                                                                                                                                                                                                            | false     |
+| placement         | 节点连接桩相对于节点主图形的位置                                                                                                                                                   | `left` &#124; `right` &#124; `top` &#124; `bottom` &#124; `center` &#124; `left-top` &#124; `left-bottom` &#124; `right-top` &#124; `right-bottom` &#124; `top-left` &#124; `top-right` &#124; `bottom-left` &#124; `bottom-right` | -         |
+| r                 | 节点连接桩半径 <br> - 如果设置为 undefined，则连接桩被视为一个点，不在画布上显示但存在，边会优先连接到最近的连接桩 <br> - 如果设置为数字，则连接桩被视为一个圆，圆的半径由此处指定 | number                                                                                                                                                                                                                             | -         |
+| shadowBlur        | 节点连接桩阴影模糊程度                                                                                                                                                             | number                                                                                                                                                                                                                             | -         |
+| shadowColor       | 节点连接桩阴影颜色                                                                                                                                                                 | string                                                                                                                                                                                                                             | -         |
+| shadowOffsetX     | 节点连接桩阴影 X 方向偏移                                                                                                                                                          | number                                                                                                                                                                                                                             | -         |
+| shadowOffsetY     | 节点连接桩阴影 Y 方向偏移                                                                                                                                                          | number                                                                                                                                                                                                                             | -         |
+| stroke            | 节点连接桩描边颜色                                                                                                                                                                 | string                                                                                                                                                                                                                             | -         |
+| strokeOpacity     | 节点连接桩描边透明度                                                                                                                                                               | number &#124; string                                                                                                                                                                                                               | 1         |
+| visibility        | 节点连接桩是否可见                                                                                                                                                                 | `visible` &#124; `hidden`                                                                                                                                                                                                          | `visible` |
+| zIndex            | 节点连接桩渲染层级                                                                                                                                                                 | number                                                                                                                                                                                                                             | 2         |
 
 例如，给一个节点显示添加四个连接桩：
 
-```json
-{
-  "node": {
-    "style": {
-      "port": true,
-      "ports": [
-        { "key": "top", "placement": "top", "fill": "#7E92B5" },
-        { "key": "right", "placement": "right", "fill": "#F4664A" },
-        { "key": "bottom", "placement": "bottom", "fill": "#FFBE3A" },
-        { "key": "left", "placement": [0, 0.5], "fill": "#D580FF" }
+```js {4-7}
+const graph = new Graph({
+  node: {
+    style: {
+      port: true,
+      ports: [
+        { key: 'top', placement: 'top', fill: '#7E92B5' },
+        { key: 'right', placement: 'right', fill: '#F4664A' },
+        { key: 'bottom', placement: 'bottom', fill: '#FFBE3A' },
+        { key: 'left', placement: [0, 0.5], fill: '#D580FF' },
       ],
-      "portR": 3,
-      "portLineWidth": 1,
-      "portStroke": "#fff"
-    }
-  }
-}
+      portR: 3,
+      portLineWidth: 1,
+      portStroke: '#fff',
+    },
+  },
+});
 ```
 
 效果如下图所示：
@@ -468,17 +651,17 @@ type NodeState = {
 
 例如，当节点处于 `focus` 状态时，可以为其添加一个宽度为 3 且颜色为橙色的描边。
 
-```json
-{
-  "node": {
-    "state": {
-      "focus": {
-        "lineWidth": 3,
-        "stroke": "orange"
-      }
-    }
-  }
-}
+```js {4-7}
+const graph = new Graph({
+  node: {
+    state: {
+      focus: {
+        lineWidth: 3, // 描边宽度
+        stroke: 'orange', // 描边颜色
+      },
+    },
+  },
+});
 ```
 
 效果如下图所示：
@@ -580,10 +763,10 @@ createGraph(
 
 | 属性   | 描述                                                                | 类型                              | 默认值  |
 | ------ | ------------------------------------------------------------------- | --------------------------------- | ------- |
-| type   | 指定当前色板类型。<br> - `group`: 离散色板 <br> - `value`: 连续色板 | `group` &#124; `value`            | `group` |
-| field  | 指定元素数据中的分组字段。若不指定，默认取 id 作为分组字段          | string &#124; ((datum) => string) | `id`    |
 | color  | 色板颜色。如果色板注册过，可以直接指定其注册名，也接受一个颜色数组  | string &#124; string[]            | -       |
+| field  | 指定元素数据中的分组字段。若不指定，默认取 id 作为分组字段          | string &#124; ((datum) => string) | `id`    |
 | invert | 是否反转色板                                                        | boolean                           | false   |
+| type   | 指定当前色板类型。<br> - `group`: 离散色板 <br> - `value`: 连续色板 | `group` &#124; `value`            | `group` |
 
 如将一组数据按 `category` 字段分配节点颜色，使得同类别的节点颜色相同：
 

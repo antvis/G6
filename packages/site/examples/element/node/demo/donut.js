@@ -6,33 +6,37 @@ document.head.appendChild(style);
 
 const data = {
   nodes: [
-    { id: 'default' },
-    { id: 'halo' },
-    { id: 'badges' },
-    { id: 'ports' },
+    { id: 'default', index: 0 },
+    { id: 'halo', index: 1 },
+    { id: 'badges', index: 2 },
+    { id: 'ports', index: 3 },
     {
       id: 'active',
       states: ['active'],
+      index: 4,
     },
     {
       id: 'selected',
       states: ['selected'],
+      index: 5,
     },
     {
       id: 'highlight',
       states: ['highlight'],
+      index: 6,
     },
     {
       id: 'inactive',
       states: ['inactive'],
+      index: 7,
     },
     {
       id: 'disabled',
       states: ['disabled'],
+      index: 8,
     },
   ],
 };
-
 const graph = new Graph({
   container: 'container',
   animation: false,
@@ -42,9 +46,10 @@ const graph = new Graph({
     style: {
       size: 80,
       fill: '#DB9D0D',
-      innerR: 0.5,
-      donuts: (_, index) => {
-        if (index === 0) return [1, 2, 3];
+      innerR: 20,
+      donuts: (item) => {
+        const { index } = item;
+        if (index === 0) return [1, 2, 3]; // donuts数据类型为number[]时，根据值的大小决定环的占比
 
         if (index === 1) {
           return [

@@ -63,6 +63,7 @@ const graph = new Graph({
           : [],
       badgeFontSize: 8,
       badgePadding: [1, 4],
+      outerR: 30, // 外半径
       portR: 3,
       ports: (d) =>
         d.id === 'ports'
