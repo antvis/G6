@@ -7,7 +7,6 @@ export const elementDeleteLastNode: TestCase = async (context) => {
       nodes: [
         {
           id: '1',
-          type: 'custom-circle',
           style: {
             x: 200,
             y: 200,
@@ -59,7 +58,6 @@ export const elementDeleteLastNode: TestCase = async (context) => {
               {
                 id: 'add-node' + Math.floor(Math.random() * 10),
                 style: {},
-                type: 'custom-circle',
               },
             ]);
             console.log(graph.getData());
@@ -69,24 +67,6 @@ export const elementDeleteLastNode: TestCase = async (context) => {
         'Remove',
       )
       .name('Add One Node'),
-    panel
-      .add(
-        {
-          Remove: () => {
-            const nodes = graph.getData()?.nodes;
-            const ids: string[] = [];
-            nodes.forEach((i) => {
-              if (i.style?.zIndex) {
-                ids.push(i.id);
-              }
-            });
-            graph.removeNodeData(ids);
-            graph.draw();
-          },
-        },
-        'Remove',
-      )
-      .name('remove no 0 index node'),
     panel
       .add(
         {
