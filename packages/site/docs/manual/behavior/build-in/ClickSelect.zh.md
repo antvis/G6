@@ -25,12 +25,22 @@ title: ClickSelect 点击选中
 ```tsx
 const graph = new Graph({
   // 其他配置...
+  behaviors: ['click-select'], // 直接添加，使用默认配置
+});
+
+// 或使用自定义配置
+const graph = new Graph({
+  // 其他配置...
   behaviors: [
     {
       type: 'click-select',
       key: 'click-select',
+      degree: 2, // 选中扩散范围
+      state: 'active', // 选中的状态
+      neighborState: 'neighborActive', // 相邻节点附着状态
+      unselectedState: 'inactive', // 未选中节点状态
     },
-  ], // 直接添加，使用默认配置
+  ],
 });
 ```
 

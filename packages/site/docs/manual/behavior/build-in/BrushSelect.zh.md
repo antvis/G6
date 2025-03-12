@@ -17,6 +17,30 @@ title: BrushSelect 框选
 
 <embed src="@/common/api/behaviors/brush-select.md"></embed>
 
+## 基本用法
+
+在图配置中添加这一交互：
+
+```tsx
+const graph = new Graph({
+  // 其他配置...
+  behaviors: ['brush-select'], // 直接添加，使用默认配置
+});
+
+// 或使用自定义配置
+const graph = new Graph({
+  // 其他配置...
+  behaviors: [
+    {
+      type: 'brush-select',
+      key: 'brush-select',
+      immediately: true, // 可以看到框框笼罩过去时，元素立即被框选了
+      trigger: ['shift', 'alt', 'control'], // 配合多种按键进行框选
+    },
+  ],
+});
+```
+
 ## 配置项
 
 | 配置项                      | 说明                                                                                                                                                                                                          | 类型                                                                                                                             | 默认值                    | 必选 |
