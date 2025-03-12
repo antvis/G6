@@ -21,7 +21,7 @@ G6 提供了丰富的内置插件，涵盖多种常见功能场景：
 |                  | [网格线](/manual/plugin/build-in/grid-line)          | `grid-line`        | 在画布上显示网格参考线                 |
 |                  | [背景](/manual/plugin/build-in/background)           | `background`       | 为画布添加背景图片或颜色               |
 |                  | [水印](/manual/plugin/build-in/watermark)            | `watermark`        | 为画布添加水印，保护版权               |
-|                  | [轮廓包络](/manual/plugin/build-in/hull)             | `hull`             | 为指定节点集合创建包络轮廓             |
+|                  | [轮廓包围](/manual/plugin/build-in/hull)             | `hull`             | 为指定节点集合创建轮廓                 |
 |                  | [气泡集](/manual/plugin/build-in/bubble-sets)        | `bubble-sets`      | 创建平滑气泡状的元素集合轮廓           |
 |                  | [对齐线](/manual/plugin/build-in/snapline)           | `snapline`         | 拖动元素时显示对齐参考线               |
 | **导航与概览**   |                                                      |                    |                                        |
