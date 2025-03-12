@@ -21,30 +21,31 @@ const graph = new Graph({
 });
 ```
 
-## 交互使用方法
-
-遵循"易用性优先"原则，提供了内置交互和自定义交互两种使用路径。**大多数常见场景，使用内置交互即可满足需求**。
-
 ## 内置交互
 
 G6 提供了多种开箱即用的内置交互，**无需注册，直接配置即可使用**：
 
 | 分类     | 交互名称                                                              | 注册类型                      | 功能描述                   |
 | -------- | --------------------------------------------------------------------- | ----------------------------- | -------------------------- |
-| 导航     | [拖拽画布](/manual/behavior/build-in/drag-canvas)                     | `drag-canvas`                 | 拖动整个画布视图           |
+| 导航     |                                                                       |                               |                            |
+|          | [拖拽画布](/manual/behavior/build-in/drag-canvas)                     | `drag-canvas`                 | 拖动整个画布视图           |
 |          | [缩放画布](/manual/behavior/build-in/zoom-canvas)                     | `zoom-canvas`                 | 缩放画布视图               |
 |          | [滚动画布](/manual/behavior/build-in/scroll-canvas)                   | `scroll-canvas`               | 使用滚轮滚动画布           |
 |          | [优化视口变换](/manual/behavior/build-in/optimize-viewport-transform) | `optimize-viewport-transform` | 优化视图变换性能           |
-| 选择     | [点击选择](/manual/behavior/build-in/click-select)                    | `click-select`                | 点击选择图元素             |
+| 选择     |                                                                       |                               |                            |
+|          | [点击选择](/manual/behavior/build-in/click-select)                    | `click-select`                | 点击选择图元素             |
 |          | [框选](/manual/behavior/build-in/brush-select)                        | `brush-select`                | 通过拖拽矩形区域选择元素   |
 |          | [套索选择](/manual/behavior/build-in/lasso-select)                    | `lasso-select`                | 自由绘制区域选择元素       |
-| 编辑     | [创建边](/manual/behavior/build-in/create-edge)                       | `create-edge`                 | 交互式创建新的边           |
+| 编辑     |                                                                       |                               |                            |
+|          | [创建边](/manual/behavior/build-in/create-edge)                       | `create-edge`                 | 交互式创建新的边           |
 |          | [拖拽元素](/manual/behavior/build-in/drag-element)                    | `drag-element`                | 拖动节点或组合             |
 |          | [力导向拖拽](/manual/behavior/build-in/drag-element-force)            | `drag-element-force`          | 力导向布局中拖动节点       |
-| 数据探索 | [折叠/展开](/manual/behavior/build-in/collapse-expand)                | `collapse-expand`             | 展开或收起子树节点         |
+| 数据探索 |                                                                       |                               |                            |
+|          | [折叠/展开](/manual/behavior/build-in/collapse-expand)                | `collapse-expand`             | 展开或收起子树节点         |
 |          | [聚焦元素](/manual/behavior/build-in/focus-element)                   | `focus-element`               | 聚焦特定元素，自动调整视图 |
 |          | [悬停激活](/manual/behavior/build-in/hover-activate)                  | `hover-activate`              | 鼠标悬停时高亮元素         |
-| 视觉优化 | [固定元素大小](/manual/behavior/build-in/fix-element-size)            | `fix-element-size`            | 将元素大小固定为指定值     |
+| 视觉优化 |                                                                       |                               |                            |
+|          | [固定元素大小](/manual/behavior/build-in/fix-element-size)            | `fix-element-size`            | 将元素大小固定为指定值     |
 |          | [自适应标签](/manual/behavior/build-in/auto-adapt-label)              | `auto-adapt-label`            | 自动调整标签位置           |
 
 各交互的详细配置可参考 [内置交互文档](/manual/behavior/build-in/drag-canvas)。
@@ -66,7 +67,7 @@ G6 提供了多种开箱即用的内置交互，**无需注册，直接配置即
 
 ### 基本配置
 
-最简单的方式是在图实例初始化时，通过`behaviors`数组直接指定需要的交互：
+最简单的方式是在图实例初始化时，通过 `behaviors` 数组直接指定需要的交互：
 
 ```javascript
 const graph = new Graph({
@@ -77,7 +78,7 @@ const graph = new Graph({
 
 ### 配置交互参数
 
-对于需要自定义参数的交互，可以使用对象形式：
+对于需要自定义参数的交互，可以使用 `object` 的形式配置属性：
 
 ```javascript
 const graph = new Graph({
@@ -97,14 +98,9 @@ const graph = new Graph({
 
 G6 支持在图实例运行期间动态管理交互行为，满足复杂交互需求：
 
-```javascript
-// 更新单个交互
-graph.updateBehavior({
-  key: 'zoom-behavior',
-  sensitivity: 2,
-  enable: false, // 禁用该交互
-});
+可以通过 [setBehaviors](/api/behavior#graphsetbehaviorsbehaviors) 方法调整交互：
 
+```javascript
 // 添加新交互
 graph.setBehaviors((behaviors) => [...behaviors, 'lasso-select']);
 
@@ -112,9 +108,28 @@ graph.setBehaviors((behaviors) => [...behaviors, 'lasso-select']);
 graph.setBehaviors((behaviors) => behaviors.filter((b) => b !== 'click-select'));
 ```
 
+可以使用 [updateBehavior](/api/behavior#graphupdatebehaviorbehavior) 方法更新交互的配置：
+
+```javascript
+// 更新单个交互
+graph.updateBehavior({
+  key: 'zoom-behavior',
+  sensitivity: 2,
+  enable: false, // 禁用该交互
+});
+```
+
 :::warning{title=注意}
 使用`updateBehavior`方法时，需要在初始化时为交互指定唯一的`key`。
 :::
+
+### 卸载交互
+
+使用 [setBehaviors](/api/behavior#graphsetbehaviorsbehaviors) 方法同样可以卸载交互，将交互配置列表置为空即可：
+
+```javascript
+graph.setBehaviors([]);
+```
 
 更多与交互相关的 API 请参考 [交互 API 文档](/api/behavior)。
 
