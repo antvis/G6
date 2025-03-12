@@ -78,6 +78,12 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
     super(context, Object.assign({}, ProcessParallelEdges.defaultOptions, options));
   }
 
+  /**
+   * <zh/> 在每次绘制前处理平行边
+   *
+   * <en/> Process parallel edges before each drawing
+   * @param input
+   */
   public beforeDraw(input: DrawData): DrawData {
     const edges = this.getAffectedParallelEdges(input);
 
@@ -90,6 +96,12 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
     return input;
   }
 
+  /**
+   * <zh/> 获取受影响的平行边
+   *
+   * <en/> Get affected parallel edges
+   * @param input
+   */
   private getAffectedParallelEdges = (input: DrawData): Map<ID, EdgeData> => {
     const {
       add: { edges: edgesToAdd },
@@ -240,9 +252,9 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
 }
 
 /**
- * <zh/> 按照端点分组
+ * <zh/> 优化的按照端点分组方法，时间复杂度O(n)
  *
- * <en/> Group by endpoints
+ * <en/> Optimized method to group by endpoints, time complexity O(n)
  * @param edges - <zh/> 边集合 | <en/> Edges
  * @returns <zh/> 端点分组后的边集合 | <en/> Edges grouped by endpoints
  */
@@ -250,6 +262,7 @@ export const groupByEndpoints = (edges: Map<ID, EdgeData>) => {
   const edgeMap = new Map<string, EdgeData[]>();
   const processedEdgesSet = new Set<ID>();
   const reverses: Record<string, boolean> = {};
+  const includedEdgesInGroup = new Map<string, Set<ID>>();
 
   for (const [id, edge] of edges) {
     if (processedEdgesSet.has(id)) continue;
@@ -257,18 +270,36 @@ export const groupByEndpoints = (edges: Map<ID, EdgeData>) => {
     const { source, target } = edge;
     const sourceTarget = `${source}-${target}`;
 
-    if (!edgeMap.has(sourceTarget)) edgeMap.set(sourceTarget, []);
-    edgeMap.get(sourceTarget)!.push(edge);
-    processedEdgesSet.add(id);
+    if (!edgeMap.has(sourceTarget)) {
+      edgeMap.set(sourceTarget, []);
+      includedEdgesInGroup.set(sourceTarget, new Set<ID>());
+    }
+
+    const sourceTargetEdges = edgeMap.get(sourceTarget);
+    const includedEdges = includedEdgesInGroup.get(sourceTarget);
+
+    if (sourceTargetEdges && includedEdges && !includedEdges.has(id)) {
+      sourceTargetEdges.push(edge);
+      includedEdges.add(id);
+      processedEdgesSet.add(id);
+    }
 
     for (const [otherId, sedge] of edges) {
-      if (processedEdgesSet.has(otherId)) continue;
+      if (processedEdgesSet.has(otherId) || otherId === id) continue;
 
       if (isParallelEdges(edge, sedge)) {
-        edgeMap.get(sourceTarget)!.push(sedge);
-        processedEdgesSet.add(otherId);
-        if (source === sedge.target && target === sedge.source) {
-          reverses[`${sedge.source}|${sedge.target}|${edgeMap.get(sourceTarget)!.length - 1}`] = true;
+        const groupEdges = edgeMap.get(sourceTarget);
+        const includedGroupEdges = includedEdgesInGroup.get(sourceTarget);
+
+        if (groupEdges && includedGroupEdges && !includedGroupEdges.has(otherId)) {
+          groupEdges.push(sedge);
+          includedGroupEdges.add(otherId);
+
+          if (source === sedge.target && target === sedge.source) {
+            reverses[`${sedge.source}|${sedge.target}|${groupEdges.length - 1}`] = true;
+          }
+
+          processedEdgesSet.add(otherId);
         }
       }
     }
