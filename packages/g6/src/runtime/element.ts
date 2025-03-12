@@ -601,6 +601,11 @@ export class ElementController {
           element.destroy();
           element.onDestroy?.();
           this.emit(new ElementLifeCycleEvent(GraphEvent.AFTER_ELEMENT_DESTROY, elementType, datum), context);
+          // <zh/> 如果所有节点都销毁了，重置渲染状态
+          // <en/> If all nodes are destroyed, reset the rendering state
+          if (this.getNodes().length === 0) {
+            this.context.graph.reSetRenderingState();
+          }
         },
       },
     );
@@ -617,11 +622,6 @@ export class ElementController {
     iteration.forEach(([elementType, elementData]) => {
       elementData.forEach((datum) => this.destroyElement(elementType, datum, context));
     });
-    // <zh/> 如果所有节点都销毁了，重置渲染状态
-    // <en/> If all nodes are destroyed, reset the rendering state
-    if (this.getNodes().length === 0) {
-      this.context.graph.reSetRenderingState();
-    }
 
     // TODO 重新计算色板样式，如果是分组色板，则不需要重新计算
   }
