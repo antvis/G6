@@ -1996,18 +1996,4 @@ export class Graph extends EventEmitter {
   public off(eventName?: string, callback?: (...args: any[]) => void) {
     return super.off(eventName, callback);
   }
-  /**
-   * <zh/> 重置渲染引擎状态
-   * <en/> Reset the rendering engine status
-   */
-  public resetRenderingState(): void {
-    const { element } = this.context;
-    if (!element) return;
-
-    // 重置元素控制器缓存
-    element.clear();
-
-    // 刷新渲染状态
-    this.draw();
-  }
 }
