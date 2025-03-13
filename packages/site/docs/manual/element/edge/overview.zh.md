@@ -18,31 +18,38 @@ G6 提供了以下内置边：
 
 边的配置和节点类似，你可以通过配置 `type` 来使用：
 
-```typescript
-// 在数据中指定边类型
+1、在数据中指定边类型
+
+```typescript {2}
 const data = {
   edges: [{ source: 'node-1', target: 'node-2', type: 'line' }],
 };
+```
 
-// 在边配置中指定边类型
-{
+2、在配置中指定边类型
+
+```typescript {3-5}
+const graph = new Graph({
+  // 其他配置...
   edge: {
     type: 'line',
-  }
-}
+  },
+});
 ```
 
 G6 中的边是有方向的，即从源节点指向目标节点，但可以隐藏箭头来表示无方向的边。
 
-```typescript
-{
+```typescript {6-7}
+const graph = new Graph({
+  // 其他配置...
   edge: {
+    type: 'line',
     style: {
       startArrow: false,
       endArrow: false,
     },
   },
-};
+});
 ```
 
 ### 边构成
@@ -73,32 +80,31 @@ register(ExtensionCategory.EDGE, 'custom-edge', CustomEdge);
 
 1. 在数据中配置：
 
-```json
-{
-  "edges": [
-    {
-      "source": "node-1",
-      "target": "node-2",
-      "type": "custom-edge",
-      "style": {
-        // 边样式
-      }
+```typescript
+const data = {
+ edges: [{
+  source: 'node-1',
+  target: 'node-2',
+  type: 'line' //边类型
+  style:{
+     // 边样式
     }
-  ]
-}
+}],
+};
 ```
 
 2. 在边样式映射中配置：
 
-```typescript
-{
+```typescript {3-5}
+const graph = new Graph({
+  // 其他配置...
   edge: {
-    type: 'custom-edge',
+    type: 'custom-edge', //边类型
     style: {
       // 边样式
-    }
-  }
-}
+    },
+  },
+});
 ```
 
 ### 自定义边

@@ -2,27 +2,29 @@
 title: Polyline 折线
 ---
 
+## 概述
+
+折线是由多条直线段组成的边，适合在复杂布局中绕过障碍物连接节点。
+
+使用场景：
+
+- 适用于复杂布局的图，如电路图、管道图。
+
+- 当需要绕过其他节点或障碍物时使用。
+
+## 在线体验
+
 <embed src="@/common/api/elements/edges/polyline.md"></embed>
+
+## 样式配置
 
 > 如果元素有其特定的属性，我们将在下面列出。对于所有的通用样式属性，见[BaseEdge](./BaseEdge.zh.md)
 
-## style.controlPoints
-
-> _[number, number] \| [number, number, number] \| Float32Array\_\_[]_
-
-控制点数组
-
-## style.radius
-
-> _number_ **Default:** `0`
-
-圆角半径
-
-## style.router
-
-> _false \| [OrthRouter](#orthrouter) \| [ShortestPathRouter](#shortestpathrouter)_ **Default:** `false`
-
-是否启用路由，默认开启且 controlPoints 会自动计入
+| 属性          | 描述                             | 类型                                                                                    | 默认值 | 必选 |
+| ------------- | -------------------------------- | --------------------------------------------------------------------------------------- | ------ | ---- |
+| controlPoints | 控制点数组，用于定义折线的转折点 | [Point](#point)[]                                                                       | []     |      |
+| radius        | 转折点圆角半径                   | number                                                                                  | 0      |      |
+| router        | 是否启用路由                     | false &#124; [OrthRouter](#orthrouter) &#124; [ShortestPathRouter](#shortestpathrouter) | false  |      |
 
 ### OrthRouter
 
@@ -64,3 +66,9 @@ type Point = [number, number] | [number, number, number] | Float32Array;
 ```typescript
 type Padding = number | [number, number] | [number, number, number, number];
 ```
+
+## 示例
+
+### 内置折线边效果
+
+<Playground path="element/edge/demo/polyline.js" rid="default-polyline-edge" height='520px'></Playground>

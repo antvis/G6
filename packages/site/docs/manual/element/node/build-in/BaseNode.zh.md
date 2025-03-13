@@ -23,11 +23,11 @@ const graph = new Graph({
 
 | 属性      | 描述                                         | 类型                    | 默认值   | 必选 |
 | --------- | -------------------------------------------- | ----------------------- | -------- | ---- |
-| animation | 定义节点的动画效果                           | [Animation](#animation) | -        |      |
-| palette   | 定义节点的色板，用于根据不同数据映射颜色     | [Palette](#palette)     | -        |      |
-| state     | 不同状态下的样式配置                         | [State](#state)         | -        |      |
-| style     | 节点样式配置，包括颜色、大小等               | [Style](#style)         | -        |      |
 | type      | 节点类型，内置节点类型名称或自定义节点的名称 | [Type](#type)           | `circle` |      |
+| style     | 节点样式配置，包括颜色、大小等               | [Style](#style)         | -        |      |
+| state     | 不同状态下的样式配置                         | [State](#state)         | -        |      |
+| palette   | 定义节点的色板，用于根据不同数据映射颜色     | [Palette](#palette)     | -        |      |
+| animation | 定义节点的动画效果                           | [Animation](#animation) | -        |      |
 
 ## Type
 
@@ -104,8 +104,8 @@ const graph = new Graph({
 | size                            | 节点大小，快捷设置节点宽高，[配置项](#size)                                               | number \| number[]            | 32        |      |
 | stroke                          | 节点描边色                                                                                | string                        | `#000`    |      |
 | strokeOpacity                   | 节点描边色透明度                                                                          | number \| string              | 1         |      |
-| transform                       | transform 属性允许你旋转、缩放、倾斜或平移给定节点                                        | string                        | none      |      |
-| transformOrigin                 | 旋转与缩放中心，也称作变换中心                                                            | string                        | none      |      |
+| transform                       | transform 属性允许你旋转、缩放、倾斜或平移给定节点                                        | string                        | -         |      |
+| transformOrigin                 | 旋转与缩放中心，也称作变换中心                                                            | string                        | -         |      |
 | visibility                      | 节点是否可见                                                                              | `visible` \| `hidden`         | `visible` |      |
 | x                               | 节点 x 坐标                                                                               | number                        | 0         |      |
 | y                               | 节点 y 坐标                                                                               | number                        | 0         |      |
@@ -158,35 +158,35 @@ createGraph(
 
 标签用于显示节点的文本信息：
 
-| 属性                     | 描述                                                                               | 类型                                                                        | 默认值   | 必选 |
-| ------------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------- | ---- |
-| label                    | 是否显示节点标签                                                                   | boolean                                                                     | true     |      |
-| labelCursor              | label鼠标移入样式，[配置项](#cursor)                                               | string                                                                      | default  |      |
-| labelFill                | 节点标签文字颜色                                                                   | string                                                                      | -        |      |
-| labelFontFamily          | 节点标签字体族                                                                     | string                                                                      | -        |      |
-| labelFontSize            | 节点标签字体大小                                                                   | number                                                                      | 12       |      |
-| labelFontStyle           | 节点标签字体样式                                                                   | `normal` \| `italic` \| `oblique`                                           | -        |      |
-| labelFontVariant         | 节点标签字体变种                                                                   | `normal` \| `small-caps` \| string                                          | -        |      |
-| labelFontWeight          | 节点标签字体粗细                                                                   | `normal` \| `bold` \| `bolder` \| `lighter` \| number                       | -        |      |
-| labelLeading             | 行间距                                                                             | number                                                                      | 0        |      |
-| labelLetterSpacing       | 节点标签字间距                                                                     | number \| string                                                            | -        |      |
-| labelLineHeight          | 节点标签行高                                                                       | number \| string                                                            | -        |      |
-| labelMaxLines            | 节点标签最大行数                                                                   | number                                                                      | 1        |      |
-| labelMaxWidth            | 节点标签最大宽度，[配置项](#labelmaxwidth)                                         | number \| string                                                            | `200%`   |      |
-| labelOffsetX             | 节点标签在 x 轴方向上的偏移量                                                      | number                                                                      | 0        |      |
-| labelOffsetY             | 节点标签在 y 轴方向上的偏移量                                                      | number                                                                      | 0        |      |
-| labelPadding             | 节点标签内边距                                                                     | number \| number[]                                                          | 0        |      |
-| labelPlacement           | 节点标签相对于节点主图形的位置，[配置项](#labelplacement)                          | string                                                                      | `bottom` |      |
-| labelText                | 节点标签文字内容                                                                   | string                                                                      | -        |      |
-| labelTextAlign           | 节点标签文本水平对齐方式                                                           | `start` \| `center` \| `middle` \| `end` \| `left` \| `right'               | -        |      |
-| labelTextBaseline        | 节点标签文本基线                                                                   | `top` \| `hanging` \| `middle` \| `alphabetic` \| `ideographic` \| `bottom' | -        |      |
-| labelTextDecorationColor | 节点标签文本装饰线颜色                                                             | string                                                                      | -        |      |
-| labelTextDecorationLine  | 节点标签文本装饰线                                                                 | string                                                                      | -        |      |
-| labelTextDecorationStyle | 节点标签文本装饰线样式                                                             | `solid` \| `double` \| `dotted` \| `dashed` \| `wavy`                       | -        |      |
-| labelTextOverflow        | 节点标签文本溢出处理方式                                                           | `clip` \| `ellipsis` \| string                                              | -        |      |
-| labelTextPath            | 节点标签文本路径                                                                   | Path                                                                        | -        |      |
-| labelWordWrap            | 节点标签是否开启自动折行。开启 labelWordWrap 后，超出 labelMaxWidth 的部分自动换行 | boolean                                                                     | false    |      |
-| labelZIndex              | 节点标签渲染层级                                                                   | number                                                                      | 0        |      |
+| 属性                     | 描述                                                                               | 类型                                                                        | 默认值    | 必选 |
+| ------------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------- | ---- |
+| label                    | 是否显示节点标签                                                                   | boolean                                                                     | true      |      |
+| labelCursor              | label鼠标移入样式，[配置项](#cursor)                                               | string                                                                      | `default` |      |
+| labelFill                | 节点标签文字颜色                                                                   | string                                                                      | -         |      |
+| labelFontFamily          | 节点标签字体族                                                                     | string                                                                      | -         |      |
+| labelFontSize            | 节点标签字体大小                                                                   | number                                                                      | 12        |      |
+| labelFontStyle           | 节点标签字体样式                                                                   | `normal` \| `italic` \| `oblique`                                           | -         |      |
+| labelFontVariant         | 节点标签字体变种                                                                   | `normal` \| `small-caps` \| string                                          | -         |      |
+| labelFontWeight          | 节点标签字体粗细                                                                   | `normal` \| `bold` \| `bolder` \| `lighter` \| number                       | -         |      |
+| labelLeading             | 行间距                                                                             | number                                                                      | 0         |      |
+| labelLetterSpacing       | 节点标签字间距                                                                     | number \| string                                                            | -         |      |
+| labelLineHeight          | 节点标签行高                                                                       | number \| string                                                            | -         |      |
+| labelMaxLines            | 节点标签最大行数                                                                   | number                                                                      | 1         |      |
+| labelMaxWidth            | 节点标签最大宽度，[配置项](#labelmaxwidth)                                         | number \| string                                                            | `200%`    |      |
+| labelOffsetX             | 节点标签在 x 轴方向上的偏移量                                                      | number                                                                      | 0         |      |
+| labelOffsetY             | 节点标签在 y 轴方向上的偏移量                                                      | number                                                                      | 0         |      |
+| labelPadding             | 节点标签内边距                                                                     | number \| number[]                                                          | 0         |      |
+| labelPlacement           | 节点标签相对于节点主图形的位置，[配置项](#labelplacement)                          | string                                                                      | `bottom`  |      |
+| labelText                | 节点标签文字内容                                                                   | string                                                                      | -         |      |
+| labelTextAlign           | 节点标签文本水平对齐方式                                                           | `start` \| `center` \| `middle` \| `end` \| `left` \| `right'               | `left`    |      |
+| labelTextBaseline        | 节点标签文本基线                                                                   | `top` \| `hanging` \| `middle` \| `alphabetic` \| `ideographic` \| `bottom' | -         |      |
+| labelTextDecorationColor | 节点标签文本装饰线颜色                                                             | string                                                                      | -         |      |
+| labelTextDecorationLine  | 节点标签文本装饰线                                                                 | string                                                                      | -         |      |
+| labelTextDecorationStyle | 节点标签文本装饰线样式                                                             | `solid` \| `double` \| `dotted` \| `dashed` \| `wavy`                       | -         |      |
+| labelTextOverflow        | 节点标签文本溢出处理方式                                                           | `clip` \| `ellipsis` \| string                                              | -         |      |
+| labelTextPath            | 节点标签文本路径                                                                   | Path                                                                        | -         |      |
+| labelWordWrap            | 节点标签是否开启自动折行。开启 labelWordWrap 后，超出 labelMaxWidth 的部分自动换行 | boolean                                                                     | false     |      |
+| labelZIndex              | 节点标签渲染层级                                                                   | number                                                                      | 0         |      |
 
 #### LabelPlacement
 
@@ -247,26 +247,26 @@ createGraph(
 
 标签背景用于显示节点标签的背景：
 
-| 属性                          | 描述                                                                                                           | 类型                                                 | 默认值  |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------- |
-| labelBackground               | 节点标签背景是否显示                                                                                           | boolean                                              | false   |
-| labelBackgroundClass          | 节点标签背景className                                                                                          | string                                               | -       |
-| labelBackgroundCursor         | 节点标签背景鼠标移入样式，[配置项](#cursor)                                                                    | string                                               | default |
-| labelBackgroundFill           | 节点标签背景填充色                                                                                             | string                                               | -       |
-| labelBackgroundFillOpacity    | 节点标签背景透明度                                                                                             | number                                               | 1       |
-| labelBackgroundHeight         | 节点标签背景高度                                                                                               | string \| number                                     | -       |
-| labelBackgroundLineDash       | 节点标签背景虚线配置                                                                                           | number &#124; string &#124;(number &#124; string )[] | -       |
-| labelBackgroundLineDashOffset | 节点标签背景虚线偏移量                                                                                         | number                                               | -       |
-| labelBackgroundLineWidth      | 节点标签背景线宽                                                                                               | number                                               | -       |
-| labelBackgroundRadius         | 节点标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，不足则自动补充 | number &#124; number[]                               | 0       |
-| labelBackgroundShadowBlur     | 节点标签背景阴影模糊程度                                                                                       | number                                               | -       |
-| labelBackgroundShadowColor    | 节点标签背景阴影颜色                                                                                           | string                                               | -       |
-| labelBackgroundShadowOffsetX  | 节点标签背景阴影 X 方向偏移                                                                                    | number                                               | -       |
-| labelBackgroundShadowOffsetY  | 节点标签背景阴影 Y 方向偏移                                                                                    | number                                               | -       |
-| labelBackgroundStroke         | 节点标签背景描边颜色                                                                                           | string                                               | -       |
-| labelBackgroundStrokeOpacity  | 节点标签背景描边透明度                                                                                         | number &#124; string                                 | 1       |
-| labelBackgroundVisibility     | 节点标签背景是否可见                                                                                           | `visible` &#124; `hidden`                            | -       |
-| labelBackgroundZIndex         | 节点标签背景渲染层级                                                                                           | number                                               | 1       |
+| 属性                          | 描述                                                                                                           | 类型                                                 | 默认值    |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------- |
+| labelBackground               | 节点标签背景是否显示                                                                                           | boolean                                              | false     |
+| labelBackgroundClass          | 节点标签背景className                                                                                          | string                                               | -         |
+| labelBackgroundCursor         | 节点标签背景鼠标移入样式，[配置项](#cursor)                                                                    | string                                               | `default` |
+| labelBackgroundFill           | 节点标签背景填充色                                                                                             | string                                               | -         |
+| labelBackgroundFillOpacity    | 节点标签背景透明度                                                                                             | number                                               | 1         |
+| labelBackgroundHeight         | 节点标签背景高度                                                                                               | string \| number                                     | -         |
+| labelBackgroundLineDash       | 节点标签背景虚线配置                                                                                           | number &#124; string &#124;(number &#124; string )[] | -         |
+| labelBackgroundLineDashOffset | 节点标签背景虚线偏移量                                                                                         | number                                               | -         |
+| labelBackgroundLineWidth      | 节点标签背景描边线宽                                                                                           | number                                               | -         |
+| labelBackgroundRadius         | 节点标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，不足则自动补充 | number &#124; number[]                               | 0         |
+| labelBackgroundShadowBlur     | 节点标签背景阴影模糊程度                                                                                       | number                                               | -         |
+| labelBackgroundShadowColor    | 节点标签背景阴影颜色                                                                                           | string                                               | -         |
+| labelBackgroundShadowOffsetX  | 节点标签背景阴影 X 方向偏移                                                                                    | number                                               | -         |
+| labelBackgroundShadowOffsetY  | 节点标签背景阴影 Y 方向偏移                                                                                    | number                                               | -         |
+| labelBackgroundStroke         | 节点标签背景描边颜色                                                                                           | string                                               | -         |
+| labelBackgroundStrokeOpacity  | 节点标签背景描边透明度                                                                                         | number &#124; string                                 | 1         |
+| labelBackgroundVisibility     | 节点标签背景是否可见                                                                                           | `visible` &#124; `hidden`                            | -         |
+| labelBackgroundZIndex         | 节点标签背景渲染层级                                                                                           | number                                               | 1         |
 
 **示例：**
 
@@ -320,7 +320,7 @@ createGraph(
 | ----------------- | ------------------------------------------------------ | -------------------------- | -------------------- |
 | halo              | 节点光晕是否显示                                       | boolean                    | false                |
 | haloClass         | 节点光晕className                                      | string                     | -                    |
-| haloCursor        | 节点光晕鼠标移入样式，[配置项](#cursor)                | strig                      | default              |
+| haloCursor        | 节点光晕鼠标移入样式，[配置项](#cursor)                | strig                      | `default`            |
 | haloDraggable     | 节点光晕是否允许拖拽                                   | boolean                    | true                 |
 | haloDroppable     | 节点光晕是否允许接收被拖拽的元素                       | boolean                    | true                 |
 | haloFillRule      | 节点光晕填充规则                                       | `nonzero` &#124; `evenodd` | -                    |
@@ -339,7 +339,7 @@ createGraph(
 
 **示例：**
 
-```js {4-7}
+```js {4-6}
 const graph = new Graph({
   node: {
     style: {
@@ -408,7 +408,7 @@ createGraph(
 
 **示例：**
 
-```js {4-7}
+```js {4-8}
 const graph = new Graph({
   node: {
     style: {
@@ -509,7 +509,7 @@ createGraph(
 
 例如，给一个节点添加三个不同含义的徽标：
 
-```js {4-7}
+```js {6-8}
 const graph = new Graph({
   node: {
     style: {
@@ -586,7 +586,7 @@ createGraph(
 
 例如，给一个节点显示添加四个连接桩：
 
-```js {4-7}
+```js {6-9}
 const graph = new Graph({
   node: {
     style: {
