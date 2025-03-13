@@ -2000,7 +2000,7 @@ export class Graph extends EventEmitter {
    * <zh/> 重置渲染引擎状态
    * <en/> Reset the rendering engine status
    */
-  public reSetRenderingState(): void {
+  public resetRenderingState(): void {
     const { element } = this.context;
     if (!element) return;
 

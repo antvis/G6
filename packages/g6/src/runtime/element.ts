@@ -604,7 +604,7 @@ export class ElementController {
           // <zh/> 如果所有节点都销毁了，重置渲染状态
           // <en/> If all nodes are destroyed, reset the rendering state
           if (this.getNodes().length === 0) {
-            this.context.graph.reSetRenderingState();
+            this.context.graph.resetRenderingState();
           }
         },
       },
