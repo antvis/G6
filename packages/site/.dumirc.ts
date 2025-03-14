@@ -24,6 +24,10 @@ export default defineConfig({
       name: 'description',
       content: 'A Graph Visualization Framework in JavaScript',
     },
+    {
+      name: 'google-site-verification',
+      content: 'D2DFQzn8bn6vTvIqonu0FSFoF-y5ZihUR9WYteGI684',
+    },
   ],
   themeConfig: {
     title: 'G6',
