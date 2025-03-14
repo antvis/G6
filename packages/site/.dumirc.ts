@@ -3,6 +3,14 @@ import { version } from '../g6/package.json';
 import { homepage, repository } from './package.json';
 
 export default defineConfig({
+  ssr:
+    process.env.NODE_ENV === 'production'
+      ? {
+          builder: 'mako',
+        }
+      : false,
+  exportStatic: {},
+  mako: {},
   locales: [
     { id: 'zh', name: '中文' },
     { id: 'en', name: 'English' },
@@ -17,7 +25,6 @@ export default defineConfig({
       content: 'A Graph Visualization Framework in JavaScript',
     },
   ],
-  mako: {},
   themeConfig: {
     title: 'G6',
     description: 'A Graph Visualization Framework in JavaScript',
@@ -59,14 +66,14 @@ export default defineConfig({
     },
     navs: [
       {
-        slug: 'docs/manual',
+        slug: 'docs/manual/introduction',
         title: {
           zh: '文档',
           en: 'Docs',
         },
       },
       {
-        slug: 'docs/api',
+        slug: 'docs/api/data',
         title: {
           zh: 'API',
           en: 'API',
