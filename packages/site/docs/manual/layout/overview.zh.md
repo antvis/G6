@@ -165,4 +165,4 @@ const graph = new Graph({
 
 ## 自定义布局
 
-如果内置布局算法无法满足需求，可以自定义布局算法，具体请参考[自定义布局](/manual/custom-extension/layout)。
+如果内置布局算法无法满足需求，可以自定义布局算法，具体请参考[自定义布局](/manual/layout/custom-layout)。
