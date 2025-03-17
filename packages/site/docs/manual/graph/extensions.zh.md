@@ -163,7 +163,7 @@ const graph = new Graph({
 
 ## 色板
 
-<embed src="@/docs/manual/getting-started-common/extensions/palettes.md"></embed>
+<embed src="@/common/manual/getting-started/extensions/palettes.md"></embed>
 
 配置方式：
 

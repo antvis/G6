@@ -125,7 +125,7 @@ graph.render();
 
 如下所示，可以看到图表已经顺利绘制出来：
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/create-chart.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/create-chart.md"></embed>
 
 ### 元素
 
@@ -164,7 +164,7 @@ graph.render();
 
 正如代码所示，我们在图表实例中配置了节点的填充颜色为粉色，边的描边颜色为浅绿色。你可以在下面的示例中看到效果：
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/elements-1.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/elements-1.md"></embed>
 
 其中的关键部分是 `node.style` 和 `edge.style` 配置项，分别用来配置节点和边的样式。
 
@@ -198,7 +198,7 @@ graph.render();
 
 你可以在下面的示例中看到效果：
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/elements-2.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/elements-2.md"></embed>
 
 ### 交互
 
@@ -214,7 +214,7 @@ G6 提供了多种交互行为，我们添加几个常用的交互，使得用�
 
 尝试在下面的示例中拖拽节点和画布，并使用滚轮缩放画布：
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/behaviors.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/behaviors.md"></embed>
 
 ### 布局
 
@@ -279,7 +279,7 @@ graph.render();
 
 </details>
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/layout.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/layout.md"></embed>
 
 ### 色板
 
@@ -314,7 +314,7 @@ const data = {
 
 > 需要注意将 `node.style` 中的 `fill` 样式移除，因为其优先级高于色板分配的颜色。
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/palette.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/palette.md"></embed>
 
 ### 插件
 
@@ -330,7 +330,7 @@ const data = {
 
 可以看到画布已经添加了网格线：
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/plugins-1.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/plugins-1.md"></embed>
 
 上面的插件配置项中使用了简写形式，大部分的插件都支持传递额外的参数，例如 `grid-line` 插件可以配置 `follow` 属性来指定拖拽画布时网格线是否跟随画布移动。
 
@@ -342,7 +342,7 @@ const data = {
 
 尝试在下面的示例中拖拽画布，可以看到网格线跟随画布移动：
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/plugins-2.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/plugins-2.md"></embed>
 
 ## 小结
 

@@ -163,7 +163,7 @@ const graph = new Graph({
 
 ## Palettes
 
-<embed src="@/docs/manual/getting-started-common/extensions/palettes.md"></embed>
+<embed src="@/common/manual/getting-started/extensions/palettes.md"></embed>
 
 Usage:
 

@@ -77,7 +77,7 @@ Currently, the configuration of palettes is mainly focused on elements, taking n
 }
 ```
 
-<embed src="@/docs/manual/core-concept-common/palette/default-config.md"></embed>
+<embed src="@/common/manual/core-concept/palette/default-config.md"></embed>
 
 > When the number of elements exceeds the number of colors in the palette, the colors in the palette will be reused in a cyclic manner.
 
@@ -116,7 +116,7 @@ Configure the color of the nodes in such a way that nodes of the same category h
 }
 ```
 
-<embed src="@/docs/manual/core-concept-common/palette/standard-config.md"></embed>
+<embed src="@/common/manual/core-concept/palette/standard-config.md"></embed>
 
 ### Continuous Palette
 
@@ -157,7 +157,7 @@ Configure the following so that the color of the nodes is mapped to different co
 }
 ```
 
-<embed src="@/docs/manual/core-concept-common/palette/continuous-palette.md"></embed>
+<embed src="@/common/manual/core-concept/palette/continuous-palette.md"></embed>
 
 :::warning{title=note}
 

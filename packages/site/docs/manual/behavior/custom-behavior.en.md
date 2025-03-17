@@ -44,7 +44,7 @@ In the example code, we implemented an behavior called `ClickAddNode` based on `
 
 > Click on an empty space in the canvas below to add a node
 
-<embed src="@/docs/manual/custom-extension-common/behavior/implement-behaviors.md"></embed>
+<embed src="@/common/manual/custom-extension/behavior/implement-behaviors.md"></embed>
 
 :::info{title=info}
 

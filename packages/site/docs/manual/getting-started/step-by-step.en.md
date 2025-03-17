@@ -125,7 +125,7 @@ graph.render();
 
 As shown below, you can see that the chart has been successfully drawn:
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/create-chart.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/create-chart.md"></embed>
 
 ### Element
 
@@ -164,7 +164,7 @@ graph.render();
 
 As the code shows, we have configured the fill color of the nodes to be pink and the stroke color of the edges to be light green within the chart instance. You can see the effect in the example below:
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/elements-1.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/elements-1.md"></embed>
 
 The key parts are the `node.style` and `edge.style` options, which are used to configure the styles of nodes and edges, respectively.
 
@@ -198,7 +198,7 @@ At the same time, we also set the size of the nodes to 20, so the first node is 
 
 You can see the effect in the example below:
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/elements-2.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/elements-2.md"></embed>
 
 ### Behaviors
 
@@ -214,7 +214,7 @@ G6 offers a variety of interactive behaviors. We will add a few commonly used Be
 
 Try dragging nodes and the canvas in the example below, and use the scroll wheel to zoom in and out on the canvas:
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/behaviors.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/behaviors.md"></embed>
 
 ### Layout
 
@@ -279,7 +279,7 @@ graph.render();
 
 </details>
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/layout.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/layout.md"></embed>
 
 ### Palette
 
@@ -314,7 +314,7 @@ Then, use the `tableau` palette to set the colors for the nodes, where the `fiel
 
 > It is important to note that the `fill` style in `node.style` should be removed, as its priority is higher than the colors assigned by the palette.
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/palette.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/palette.md"></embed>
 
 ### Plugins
 
@@ -330,7 +330,7 @@ Below, we will use the `grid-line` plugin to add grid lines to the canvas:
 
 You can see that grid lines have been added to the canvas:
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/plugins-1.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/plugins-1.md"></embed>
 
 The plugin configuration mentioned above used a shorthand form. Most plugins support the passing of additional parameters. For example, the `grid-line` plugin allows you to configure the `follow` property to specify whether the grid lines should follow the canvas when it is dragged.
 
@@ -342,7 +342,7 @@ The plugin configuration mentioned above used a shorthand form. Most plugins sup
 
 Try dragging the canvas in the example below, and you will see that the grid lines move along with the canvas:
 
-<embed src="@/docs/manual/getting-started-common/step-by-step/plugins-2.md"></embed>
+<embed src="@/common/manual/getting-started/step-by-step/plugins-2.md"></embed>
 
 ## Summary
 

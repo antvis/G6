@@ -37,7 +37,7 @@ class DiagonalLayout extends BaseLayout {
 
 In the code above, we implemented a simple layout algorithm that arranges nodes along a diagonal line starting from the top-left corner.
 
-<embed src="@/docs/manual/custom-extension-common/layout/non-iterative-layout.md"></embed>
+<embed src="@/common/manual/custom-extension/layout/non-iterative-layout.md"></embed>
 
 :::info{title=info}
 
@@ -122,7 +122,7 @@ class TickTockLayout extends BaseLayout<TickTockLayoutOptions> {
 
 In this example, we have implemented a simple iterative layout algorithm that toggles the x-coordinate of the nodes between 50 and 150 every 200 milliseconds and arranges them in order along the y-axis according to the sequence of the nodes.
 
-<embed src="@/docs/manual/custom-extension-common/layout/iterative-layout.md"></embed>
+<embed src="@/common/manual/custom-extension/layout/iterative-layout.md"></embed>
 
 ## Register Layout
 

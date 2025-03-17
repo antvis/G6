@@ -160,7 +160,7 @@ class AntLine extends Line {
 }
 ```
 
-<embed src="@/docs/manual/core-concept-common/animation/ant-line.md"></embed>
+<embed src="@/common/manual/core-concept/animation/ant-line.md"></embed>
 
 其中 `lineDash` 是 `lineDashOffset` 的数组，通过不断变化 `lineDashOffset` 来实现飞线效果。
 
@@ -206,4 +206,4 @@ class BreathingCircle extends Circle {
 }
 ```
 
-<embed src="@/docs/manual/core-concept-common/animation/breathing-circle.md"></embed>
+<embed src="@/common/manual/core-concept/animation/breathing-circle.md"></embed>

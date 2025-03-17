@@ -76,7 +76,7 @@ register(ExtensionCategory.PALETTE, 'custom-palette', CustomPalette);
 }
 ```
 
-<embed src="@/docs/manual/core-concept-common/palette/default-config.md"></embed>
+<embed src="@/common/manual/core-concept/palette/default-config.md"></embed>
 
 > 当元素数量超过色板颜色数量时，会循环使用色板中的颜色
 
@@ -115,7 +115,7 @@ register(ExtensionCategory.PALETTE, 'custom-palette', CustomPalette);
 }
 ```
 
-<embed src="@/docs/manual/core-concept-common/palette/standard-config.md"></embed>
+<embed src="@/common/manual/core-concept/palette/standard-config.md"></embed>
 
 ### 连续色板
 
@@ -156,7 +156,7 @@ register(ExtensionCategory.PALETTE, 'custom-palette', CustomPalette);
 }
 ```
 
-<embed src="@/docs/manual/core-concept-common/palette/continuous-palette.md"></embed>
+<embed src="@/common/manual/core-concept/palette/continuous-palette.md"></embed>
 
 :::warning{title=注意}
 内置连续色板不支持指定值域范围，如果有更复杂的颜色映射需求，可以在样式映射中自定义

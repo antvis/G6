@@ -160,7 +160,7 @@ Configure the edge style in the options as follows:
 }
 ```
 
-<embed src="@/docs/manual/core-concept-common/animation/ant-line.md"></embed>
+<embed src="@/common/manual/core-concept/animation/ant-line.md"></embed>
 
 The `lineDash` is an array for `lineDashOffset`, and the AntLine effect is achieved by continuously varying the `lineDashOffset`.
 
@@ -206,4 +206,4 @@ Node Style Configuration:
 }
 ```
 
-<embed src="@/docs/manual/core-concept-common/animation/breathing-circle.md"></embed>
+<embed src="@/common/manual/core-concept/animation/breathing-circle.md"></embed>

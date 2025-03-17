@@ -71,7 +71,7 @@ G6 5.0 采用了更加简洁、易用的 API 设计，更加符合现代前端�
 
 此外，G6 提供了 `treeToGraphData` 工具方法，帮助你快速将树图数据转换为图数据。
 
-<embed src="@/docs/manual/feature-common/treeToGraphData.md"></embed>
+<embed src="@/common/manual/feature/treeToGraphData.md"></embed>
 
 ## 🌆 多渲染器支持
 
