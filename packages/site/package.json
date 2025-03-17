@@ -24,7 +24,7 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
-    "build": "dumi build",
+    "build": "dumi build && npm run sitemap",
     "build:memo": "node --expose-gc --max-old-space-size=32768 ./node_modules/dumi/bin/dumi build",
     "deploy": "gh-pages -d dist",
     "dev": "dumi dev",
@@ -35,12 +35,13 @@
     "doc:sort": "ts-node ./scripts/sort-doc.ts",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
     "lint": "eslint ./src  --quiet && prettier ./src  --check",
-    "preview": "dumi preview"
+    "preview": "dumi preview",
+    "sitemap": "ts-node ./scripts/generate-sitemap.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
     "@antv/algorithm": "^0.1.26",
-    "@antv/dumi-theme-antv": "0.6.4-alpha.1",
+    "@antv/dumi-theme-antv": "0.6.4-alpha.5",
     "@antv/g": "^6.1.21",
     "@antv/g-svg": "^2.0.34",
     "@antv/g-webgl": "^2.0.44",
@@ -74,7 +75,9 @@
     "@types/resolve": "^1.20.6",
     "fs-extra": "^11.3.0",
     "gh-pages": "^6.3.0",
+    "moment": "^2.30.1",
     "prettier": "^3.5.3",
-    "resolve": "^1.22.10"
+    "resolve": "^1.22.10",
+    "xmlbuilder": "^15.1.1"
   }
 }
