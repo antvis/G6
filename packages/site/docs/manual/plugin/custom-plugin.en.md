@@ -44,7 +44,7 @@ class RemoteDataSource extends BasePlugin<RemoteDataSourceOptions> {
 
 In the example above, we have simulated the implementation of a data loading plugin. After using this plugin, there is no need to pass in data when instantiating the Graph; the plugin will automatically load remote data.
 
-<embed src="@/docs/manual/custom-extension-common/plugin/implement-plugin.md"></embed>
+<embed src="@/common/manual/custom-extension/plugin/implement-plugin.md"></embed>
 
 ## Register Plugin
 

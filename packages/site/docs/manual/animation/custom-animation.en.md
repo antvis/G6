@@ -43,7 +43,7 @@ graph.draw().then(() => {
 
 > ⬇️ Move the pointer to the graph below and click the play button on the left to replay
 
-<embed src="@/docs/manual/custom-extension-common/animation/implement-animation.md"></embed>
+<embed src="@/common/manual/custom-extension/animation/implement-animation.md"></embed>
 
 #### Principle Analysis
 
@@ -88,7 +88,7 @@ graph.draw();
 
 > ⬇️ Move the pointer to the graph below and click the play button on the left to replay
 
-<embed src="@/docs/manual/custom-extension-common/animation/composite-animation-1.md"></embed>
+<embed src="@/common/manual/custom-extension/animation/composite-animation-1.md"></embed>
 
 Add color transition:
 
@@ -113,4 +113,4 @@ graph.draw();
 
 > ⬇️ Move the pointer to the graph below and click the play button on the left to replay
 
-<embed src="@/docs/manual/custom-extension-common/animation/composite-animation-2.md"></embed>
+<embed src="@/common/manual/custom-extension/animation/composite-animation-2.md"></embed>

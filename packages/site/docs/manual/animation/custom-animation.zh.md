@@ -43,7 +43,7 @@ graph.draw().then(() => {
 
 > ⬇️ 指针移动至下方图中，并点击左侧播放按钮进行重新播放
 
-<embed src="@/docs/manual/custom-extension-common/animation/implement-animation.md"></embed>
+<embed src="@/common/manual/custom-extension/animation/implement-animation.md"></embed>
 
 #### 原理分析
 
@@ -88,7 +88,7 @@ graph.draw();
 
 > ⬇️ 指针移动至下方图中，并点击左侧播放按钮进行重新播放
 
-<embed src="@/docs/manual/custom-extension-common/animation/composite-animation-1.md"></embed>
+<embed src="@/common/manual/custom-extension/animation/composite-animation-1.md"></embed>
 
 加入颜色过渡：
 
@@ -113,4 +113,4 @@ graph.draw();
 
 > ⬇️ 指针移动至下方图中，并点击左侧播放按钮进行重新播放
 
-<embed src="@/docs/manual/custom-extension-common/animation/composite-animation-2.md"></embed>
+<embed src="@/common/manual/custom-extension/animation/composite-animation-2.md"></embed>

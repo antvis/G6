@@ -71,7 +71,7 @@ Now, you can directly use `Graph` to instantiate and draw tree graphs in G6, wit
 
 Additionally, G6 provides the `treeToGraphData` utility method to help you quickly convert tree graph data into graph data.
 
-<embed src="@/docs/manual/feature-common/treeToGraphData.md"></embed>
+<embed src="@/common/manual/feature/treeToGraphData.md"></embed>
 
 ## 🌆 Multi-Renderer Support
 

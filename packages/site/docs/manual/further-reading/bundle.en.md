@@ -53,7 +53,7 @@ npm install babel-loader@8 @babel/preset-env @open-wc/webpack-import-meta-loader
 
 2. Modify the `webpack.config.js` configuration:
 
-<embed src="../feature-common/webpack4.md"></embed>
+<embed src="@/common/manual/feature/webpack4.md"></embed>
 :::
 
 ## Bundle Project with Rollup

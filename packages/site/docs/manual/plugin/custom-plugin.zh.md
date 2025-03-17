@@ -44,7 +44,7 @@ class RemoteDataSource extends BasePlugin<RemoteDataSourceOptions> {
 
 在上面的例子中，我们模拟实现了一个数据加载插件，在使用该插件后，实例化 Graph 时不用再传入数据，该插件会自动加载远程数据。
 
-<embed src="@/docs/manual/custom-extension-common/plugin/implement-plugin.md"></embed>
+<embed src="@/common/manual/custom-extension/plugin/implement-plugin.md"></embed>
 
 ## 注册插件
 

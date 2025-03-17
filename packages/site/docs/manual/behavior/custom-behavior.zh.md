@@ -44,7 +44,7 @@ class ClickAddNode extends BaseBehavior<ClickAddNodeOptions> {
 
 > 点击下面画布中的空白位置以添加一个节点
 
-<embed src="@/docs/manual/custom-extension-common/behavior/implement-behaviors.md"></embed>
+<embed src="@/common/manual/custom-extension/behavior/implement-behaviors.md"></embed>
 
 :::info{title=提示}
 上述示例是一个最简单的交互实现，实际开发过程中，你还需要处理监听事件的销毁、交互的启用与禁用等逻辑。
