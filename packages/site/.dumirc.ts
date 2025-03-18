@@ -15,23 +15,23 @@ export default defineConfig({
     { id: 'zh', name: '中文' },
     { id: 'en', name: 'English' },
   ],
-  title: 'G6', // 网站header标题
   favicons: ['https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original'], // 网站 favicon
   metas: [
     // 自定义 meta 标签
-    { name: 'keywords', content: 'G6' },
-    {
-      name: 'description',
-      content: 'A Graph Visualization Framework in JavaScript',
-    },
     {
       name: 'google-site-verification',
       content: 'D2DFQzn8bn6vTvIqonu0FSFoF-y5ZihUR9WYteGI684',
     },
   ],
   themeConfig: {
-    title: 'G6',
-    description: 'A Graph Visualization Framework in JavaScript',
+    title: 'G6', // 网站header标题
+    metas: {
+      title: { zh: 'G6 图可视化引擎', en: 'G6 Graph Visualization Framework in JavaScript' },
+      description: {
+        zh: 'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。',
+        en: 'G6 is a graph visualization framework with simplicity and convenience. Based on the ability of customization, it provides elegant graph visualization solutions, helping developers build applications for graph visualization, analysis, and editing.',
+      },
+    },
     defaultLanguage: 'zh', // 默认语言
     isAntVSite: false, // 是否是 AntV 的大官网
     siteUrl: homepage, // 官网地址
