@@ -1399,7 +1399,7 @@ export class Graph extends EventEmitter {
    * @apiCategory viewport
    */
   public async zoomTo(zoom: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> {
-    this.context.viewport!.transform({ mode: 'absolute', scale: zoom, origin }, animation);
+    await this.context.viewport!.transform({ mode: 'absolute', scale: zoom, origin }, animation);
   }
 
   /**
