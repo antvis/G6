@@ -111,7 +111,7 @@ export class Toolbar extends BasePlugin<ToolbarOptions> {
     return items
       .map(
         (item) => `
-          <div class="g6-toolbar-item" value="${item.value}">
+          <div class="g6-toolbar-item" value="${item.value}" title="${item.title ?? ''}">
             <svg aria-hidden="true" focusable="false">
               <use xlink:href="#${item.id}"></use>
             </svg>

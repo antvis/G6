@@ -18,6 +18,10 @@ export interface ToolbarItem {
    * <en/> The value corresponding to the toolbar item, used as a callback parameter in `onClick`.
    */
   readonly value: string;
+  /**
+   * <en/> The title of the toolbar item. The title will be displayed as a tooltip when the mouse hovers over the item.
+   */
+  readonly title?: string;
 }
 
 /**
