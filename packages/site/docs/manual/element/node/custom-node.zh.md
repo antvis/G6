@@ -93,7 +93,7 @@ interface CustomCircleStyleProps extends BaseStyleProps {
   radius: number;
 }
 
-class CustomCircle extends CustomElement {
+class CustomCircle extends CustomElement<CustomCircleStyleProps> {
   constructor(options: DisplayObjectConfig<CustomCircleStyleProps>) {
     super(options);
     this.render();
@@ -104,8 +104,8 @@ class CustomCircle extends CustomElement {
     const circle = new Circle({
       style: {
         ...this.attributes,
-        x: 0,
-        y: 0,
+        cx: 0,
+        cy: 0,
         r: radius,
       },
     });
