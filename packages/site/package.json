@@ -24,7 +24,7 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
-    "build": "dumi build",
+    "build": "dumi build && npm run sitemap",
     "build:memo": "node --expose-gc --max-old-space-size=32768 ./node_modules/dumi/bin/dumi build",
     "deploy": "gh-pages -d dist",
     "dev": "dumi dev",
@@ -35,15 +35,16 @@
     "doc:sort": "ts-node ./scripts/sort-doc.ts",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
     "lint": "eslint ./src  --quiet && prettier ./src  --check",
-    "preview": "dumi preview"
+    "preview": "dumi preview",
+    "sitemap": "ts-node ./scripts/generate-sitemap.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
     "@antv/algorithm": "^0.1.26",
-    "@antv/dumi-theme-antv": "^0.6.3",
+    "@antv/dumi-theme-antv": "0.7.0",
     "@antv/g": "^6.1.21",
     "@antv/g-svg": "^2.0.34",
-    "@antv/g-webgl": "^2.0.43",
+    "@antv/g-webgl": "^2.0.44",
     "@antv/g2": "^5.2.11",
     "@antv/g6": "workspace:*",
     "@antv/g6-extension-3d": "workspace:*",
@@ -52,7 +53,7 @@
     "@antv/layout-gpu": "^1.1.7",
     "@antv/layout-wasm": "^1.4.2",
     "@antv/util": "^3.3.10",
-    "antd": "^5.24.1",
+    "antd": "^5.24.3",
     "dumi": "^2.4.18",
     "insert-css": "^2.0.0",
     "lodash": "^4.17.21",
@@ -63,18 +64,20 @@
   },
   "devDependencies": {
     "@manypkg/get-packages": "^2.2.2",
-    "@microsoft/api-documenter": "^7.26.8",
-    "@microsoft/api-extractor": "^7.50.0",
-    "@microsoft/api-extractor-model": "^7.30.3",
+    "@microsoft/api-documenter": "^7.26.17",
+    "@microsoft/api-extractor": "^7.52.1",
+    "@microsoft/api-extractor-model": "^7.30.4",
     "@microsoft/tsdoc": "^0.15.1",
     "@rushstack/node-core-library": "^4.3.0",
     "@types/fs-extra": "^11.0.4",
-    "@types/lodash": "^4.17.15",
+    "@types/lodash": "^4.17.16",
     "@types/react": "^18.3.18",
     "@types/resolve": "^1.20.6",
     "fs-extra": "^11.3.0",
     "gh-pages": "^6.3.0",
-    "prettier": "^3.5.1",
-    "resolve": "^1.22.10"
+    "moment": "^2.30.1",
+    "prettier": "^3.5.3",
+    "resolve": "^1.22.10",
+    "xmlbuilder": "^15.1.1"
   }
 }

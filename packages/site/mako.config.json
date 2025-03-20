@@ -3,6 +3,9 @@
     "skipModules": false,
     "concatenateModules": false
   },
+  "hmr": false,
+  "devtool": false,
+  "dynamicImportToRequire": true,
   "moduleIdStrategy": "hashed",
   "experimental": {
     "magicComment": true

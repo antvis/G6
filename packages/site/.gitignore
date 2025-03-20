@@ -5,3 +5,5 @@
 
 ## api doc
 docs/api/.gitignore
+
+/server

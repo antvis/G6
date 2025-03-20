@@ -1,5 +1,5 @@
 // @ts-nocheck
-if (window) {
+if (typeof window !== 'undefined' && window) {
   window.d3Hierarchy = require('d3-hierarchy');
   window.gCanvas = require('@antv/g-canvas');
   window.gPluginRoughCanvasRenderer = require('@antv/g-plugin-rough-canvas-renderer');
