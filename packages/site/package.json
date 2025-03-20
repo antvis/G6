@@ -41,7 +41,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
     "@antv/algorithm": "^0.1.26",
-    "@antv/dumi-theme-antv": "0.6.4-alpha.5",
+    "@antv/dumi-theme-antv": "0.6.4-beta.4",
     "@antv/g": "^6.1.21",
     "@antv/g-svg": "^2.0.34",
     "@antv/g-webgl": "^2.0.44",
