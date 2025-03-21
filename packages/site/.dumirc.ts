@@ -388,7 +388,7 @@ export default defineConfig({
         url: 'https://github.com/orgs/antvis/projects/31',
         text: {
           zh: '点击了解活动',
-          en: ' Learn More',
+          en: 'Learn More',
         },
       },
     },
