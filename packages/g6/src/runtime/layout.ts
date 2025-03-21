@@ -100,8 +100,8 @@ export class LayoutController {
     const pipeline = Array.isArray(layoutOptions) ? layoutOptions : [layoutOptions];
     const { graph } = this.context;
     emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT, { type: 'post' }));
-    for (const options of pipeline) {
-      const index = pipeline.indexOf(options);
+    for (let index = 0; index < pipeline.length; index++) {
+      const options = pipeline[index];
       const data = this.getLayoutData(options);
       const opts = { ...this.presetOptions, ...options };
 
@@ -135,8 +135,8 @@ export class LayoutController {
 
     let simulation: GraphData = {};
 
-    for (const options of pipeline) {
-      const index = pipeline.indexOf(options);
+    for (let index = 0; index < pipeline.length; index++) {
+      const options = pipeline[index];
 
       const data = this.getLayoutData(options);
       const result = await this.stepLayout(data, { ...this.presetOptions, ...options, animation: false }, index);
