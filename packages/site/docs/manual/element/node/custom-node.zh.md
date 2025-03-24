@@ -34,16 +34,11 @@ import { Rect, register, Graph, ExtensionCategory } from '@antv/g6';
 // 创建自定义节点，继承自 Rect
 class MyFirstNode extends Rect {
   get data() {
-    return this.context.model.getNodeLikeDatum(this.id).data;
+    return this.context.graph.getNodeData(this.id).data;
   }
 
-  // 渲染方法是自定义节点的核心
-  render(attributes = this.parsedAttributes, container) {
-    // 1. 先调用父类渲染方法，绘制基础矩形
-    super.render(attributes, container);
-
-    // 2. 添加文本标签
-    const labelStyle = {
+  getLabelStyle() {
+    return {
       x: 0,
       y: 0,
       text: this.data.label, // 使用节点数据中的label字段
@@ -52,6 +47,16 @@ class MyFirstNode extends Rect {
       textAlign: 'center',
       textBaseline: 'middle',
     };
+  }
+
+  // 渲染方法是自定义节点的核心
+  render(attributes = this.parsedAttributes, container) {
+    // 1. 先调用父类渲染方法，绘制基础矩形
+    super.render(attributes, container);
+
+    // 2. 添加文本标签
+    const labelStyle = this.getLabelStyle();
+
     // 使用 upsert 方法添加或更新标签
     this.upsert('custon', 'text', labelStyle, container);
   }
