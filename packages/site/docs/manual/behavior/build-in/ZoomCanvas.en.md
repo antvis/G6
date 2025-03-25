@@ -27,7 +27,7 @@ Behavior type
 
 ### animation
 
-> [ViewportAnimationEffectTiming](/api/graph/option#viewportanimationeffecttiming) **Default:** `' duration: 200 '`
+> [ViewportAnimationEffectTiming](/api/graph#viewportanimationeffecttiming) **Default:** `' duration: 200 '`
 
 Whether to enable the animation of zooming
 

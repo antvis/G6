@@ -8,7 +8,7 @@ order: 6
 ## 升级前准备
 
 1. 请确保当前 git 分支是干净的，没有未提交的代码。
-2. 参考 [安装](./getting-started/installation) 文档安装 `5.x` 版本，并移除 `4.x` 版本依赖。
+2. 参考 [安装](/manual/getting-started/installation) 文档安装 `5.x` 版本，并移除 `4.x` 版本依赖。
 
 ## 开始升级
 

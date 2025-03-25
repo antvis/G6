@@ -24,7 +24,7 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
-    "build": "dumi build && npm run sitemap",
+    "build": "dumi build",
     "build:memo": "node --expose-gc --max-old-space-size=32768 ./node_modules/dumi/bin/dumi build",
     "deploy": "gh-pages -d dist",
     "dev": "dumi dev",
@@ -35,8 +35,7 @@
     "doc:sort": "ts-node ./scripts/sort-doc.ts",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
     "lint": "eslint ./src  --quiet && prettier ./src  --check",
-    "preview": "dumi preview",
-    "sitemap": "ts-node ./scripts/generate-sitemap.ts"
+    "preview": "dumi preview"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",

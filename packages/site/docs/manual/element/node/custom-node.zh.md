@@ -3,7 +3,7 @@ title: 自定义节点
 order: 3
 ---
 
-G6 提供了一系列 [内置节点](/manual/element/node/build-in/base-node)，包含 [circle（圆形节点）](/manual/element/node/build-in/circle)、[diamond（菱形节点）](/manual/element/node/build-in/diamond)、[donut（甜甜圈节点）](/manual/element/node/build-in/donut)、[ellipse（椭圆节点）](/manual/element/node/build-in/ellipse)、[hexagon（六边形节点）](/manula/element/node/build-in/hexagon)、[html（HTML节点）](/manual/element/node/build-in/html)、[image（图片节点）](/manaul/element/node/build-in/image)、[rect（矩形节点）](/manual/element/node/build-in/rect)、[star（星形节点）](/manual/element/node/buil-in/star) 和 [triangle（三角形节点）](/manual/element/node/build-in/triangle)。这些内置节点能够满足大部分基础场景需求。
+G6 提供了一系列 [内置节点](/manual/element/node/build-in/base-node)，包含 [circle（圆形节点）](/manual/element/node/build-in/circle)、[diamond（菱形节点）](/manual/element/node/build-in/diamond)、[donut（甜甜圈节点）](/manual/element/node/build-in/donut)、[ellipse（椭圆节点）](/manual/element/node/build-in/ellipse)、[hexagon（六边形节点）](/manual/element/node/build-in/hexagon)、[html（HTML节点）](/manual/element/node/build-in/html)、[image（图片节点）](/manual/element/node/build-in/image)、[rect（矩形节点）](/manual/element/node/build-in/rect)、[star（星形节点）](/manual/element/node/build-in/star) 和 [triangle（三角形节点）](/manual/element/node/build-in/triangle)。这些内置节点能够满足大部分基础场景需求。
 
 但在实际项目中，你可能会遇到这些基础节点无法满足的需求。这时，你需要创建自定义节点。别担心，这比你想象的要简单！
 
@@ -126,7 +126,7 @@ graph.render();
 | 矩形   | `rect`     | 可以参考 SVG 的 [\<rect\>](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/rect) 元素                                                                                |
 | 文本   | `text`     | 提供简单的单行/多行文本排版能力，单行支持水平对齐、字符间距；多行支持显式换行符以及自动换行，垂直对齐                                                                         |
 
-> 更多原子图形和详细的属性请参考 [元素 - 图形（可选）](/manual)
+> 更多原子图形和详细的属性请参考 [元素 - 图形（可选）](/manual/element/shape/overview)
 
 ### `upsert(name, Ctor, style, container, hooks)`
 

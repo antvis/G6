@@ -43,16 +43,16 @@ const graph = new Graph({
 
 可选值有：
 
-- `circle`：[圆形节点](/manual/element/node/build-in/circle-node)
-- `diamond`：[菱形节点](/manual/element/node/build-in/diamond-node)
-- `donut`：[甜甜圈节点](/manual/element/node/build-in/donut-node)
-- `ellipse`：[椭圆节点](/manual/element/node/build-in/ellipse-node)
-- `hexagon`：[六边形节点](/manual/element/node/build-in/hexagon-node)
-- `html`：[HTML 节点](/manual/element/node/build-in/html-node)
-- `image`：[图片节点](/manual/element/node/build-in/image-node)
-- `rect`：[矩形节点](/manual/element/node/build-in/rect-node)
-- `star`：[星形节点](/manual/element/node/build-in/star-node)
-- `triangle`：[三角形节点](/manual/element/node/build-in/triangle-node)
+- `circle`：[圆形节点](/manual/element/node/build-in/circle)
+- `diamond`：[菱形节点](/manual/element/node/build-in/diamond)
+- `donut`：[甜甜圈节点](/manual/element/node/build-in/donut)
+- `ellipse`：[椭圆节点](/manual/element/node/build-in/ellipse)
+- `hexagon`：[六边形节点](/manual/element/node/build-in/hexagon)
+- `html`：[HTML 节点](/manual/element/node/build-in/html)
+- `image`：[图片节点](/manual/element/node/build-in/image)
+- `rect`：[矩形节点](/manual/element/node/build-in/rect)
+- `star`：[星形节点](/manual/element/node/build-in/star)
+- `triangle`：[三角形节点](/manual/element/node/build-in/triangle)
 
 ## Style
 
@@ -719,7 +719,7 @@ createGraph(
 - `collapse`: 节点收起时的动画
 - `expand`: 节点展开时的动画
 
-你可以参考 [动画范式](/manual/animation/overview#动画范式) 使用动画语法来配置节点，如：
+你可以参考 [动画范式](/manual/animation/animation#动画范式) 使用动画语法来配置节点，如：
 
 ```json
 {

@@ -29,7 +29,7 @@ Behavior type
 
 ### animation
 
-> [ViewportAnimationEffectTiming](/api/graph/option#viewportanimationeffecttiming)
+> [ViewportAnimationEffectTiming](/api/graph#viewportanimationeffecttiming)
 
 Whether to enable animation
 

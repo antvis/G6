@@ -298,7 +298,7 @@ const graph = new Graph({
 });
 ```
 
-- 阅读 [数据](/manual/data/overview) 深入了解图数据，包括不限于数据格式、如何操作数据等。
+- 阅读 [数据](/manual/data) 深入了解图数据，包括不限于数据格式、如何操作数据等。
 
 ## node
 

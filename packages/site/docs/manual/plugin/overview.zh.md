@@ -9,7 +9,7 @@ order: 1
 
 插件(Plugin)是 G6 中最灵活的扩展机制，用户可以通过插件来扩展 G6 的功能，例如在画布中额外挂载图形组件、实现撤销重做等功能。
 
-绝大多数的定制需求都可以通过插件来实现，G6 内置了一些常用的插件，例如：[Tooltip](/manual/plugin/build-in/tooltip)、[Grid](/manual/plugin/build-in/grid)、[History](/manual/plugin/build-in/history)。
+绝大多数的定制需求都可以通过插件来实现，G6 内置了一些常用的插件，例如：[Tooltip](/manual/plugin/build-in/tooltip)、[Grid](/manual/plugin/build-in/grid-line)、[History](/manual/plugin/build-in/history)。
 
 ## 内置插件
 
@@ -41,7 +41,7 @@ G6 提供了丰富的内置插件，涵盖多种常见功能场景：
 |                  | [历史记录](/manual/plugin/build-in/history)          | `history`          | 支持撤销/重做操作                      |
 |                  | [相机设置](/manual/plugin/build-in/camera-setting)   | `camera-setting`   | 配置3D场景下的相机参数                 |
 
-各插件的详细配置可参考 [内置插件文档](/manual/plugin/build-in/overview)。
+各插件的详细配置可参考 [内置插件文档](/manual/plugin/build-in/grid-line)。
 
 ## 配置方式
 
