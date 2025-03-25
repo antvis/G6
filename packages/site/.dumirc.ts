@@ -558,6 +558,12 @@ export default defineConfig({
         img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*TgV-RZDODJIAAAAAAAAAAABkARQnAQ',
       },
     ],
+    /** 死链检查配置  */
+    deadLinkChecker: {
+      checkExternalLinks: false, // 是否检查外部链接
+    },
+    /** 站点地图配置 */
+    sitemap: {},
   },
   mfsu: false,
   alias: {
