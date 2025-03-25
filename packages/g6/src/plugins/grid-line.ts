@@ -1,8 +1,9 @@
+import { isBoolean } from '@antv/util';
 import { GraphEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { Point } from '../types';
+import type { IViewportEvent, Point } from '../types';
 import { ViewportEvent } from '../utils/event';
-import { add, mod } from '../utils/vector';
+import { add, mod, multiply } from '../utils/vector';
 import { BasePlugin, BasePluginOptions } from './base-plugin';
 import { createPluginContainer } from './utils/dom';
 
@@ -75,7 +76,22 @@ export interface GridLineOptions extends BasePluginOptions {
    * <en/> Whether to follow with the graph
    * @defaultValue false
    */
-  follow?: boolean;
+  follow?:
+    | boolean
+    | {
+        /**
+         * <zh/> 是否跟随图平移
+         *
+         * <en/> Whether to follow the graph translation
+         */
+        translate?: boolean;
+        /**
+         * <zh/> 是否跟随图缩放
+         *
+         * <en/> Whether to follow the graph zoom
+         */
+        zoom?: boolean;
+      };
 }
 
 /**
@@ -99,14 +115,17 @@ export class GridLine extends BasePlugin<GridLineOptions> {
   };
 
   private $element: HTMLElement = createPluginContainer('grid-line', true);
-
   private offset: Point = [0, 0];
+  private currentScale: number = 1;
+  private baseSize: number;
 
   constructor(context: RuntimeContext, options: GridLineOptions) {
     super(context, Object.assign({}, GridLine.defaultOptions, options));
 
     const $container = this.context.canvas.getContainer()!;
     $container.prepend(this.$element);
+
+    this.baseSize = this.options.size;
 
     this.updateStyle();
     this.bindEvents();
@@ -121,6 +140,11 @@ export class GridLine extends BasePlugin<GridLineOptions> {
    */
   public update(options: Partial<GridLineOptions>) {
     super.update(options);
+
+    if (options.size !== undefined) {
+      this.baseSize = options.size;
+    }
+
     this.updateStyle();
   }
 
@@ -130,27 +154,67 @@ export class GridLine extends BasePlugin<GridLineOptions> {
   }
 
   private updateStyle() {
-    const { size, stroke, lineWidth, border, borderLineWidth, borderStroke, borderStyle } = this.options;
+    const { stroke, lineWidth, border, borderLineWidth, borderStroke, borderStyle } = this.options;
+
+    const scaledSize = this.baseSize * this.currentScale;
 
     Object.assign(this.$element.style, {
       border: border ? `${borderLineWidth}px ${borderStyle} ${borderStroke}` : 'none',
       backgroundImage: `linear-gradient(${stroke} ${lineWidth}px, transparent ${lineWidth}px), linear-gradient(90deg, ${stroke} ${lineWidth}px, transparent ${lineWidth}px)`,
-      backgroundSize: `${size}px ${size}px`,
+      backgroundSize: `${scaledSize}px ${scaledSize}px`,
       backgroundRepeat: 'repeat',
     });
   }
 
   private updateOffset(delta: Point) {
-    this.offset = mod(add(this.offset, delta), this.options.size);
+    const scaledSize = this.baseSize * this.currentScale;
+    this.offset = mod(add(this.offset, delta), scaledSize);
     this.$element.style.backgroundPosition = `${this.offset[0]}px ${this.offset[1]}px`;
   }
 
-  private onTransform = (event: ViewportEvent) => {
+  private followZoom = (event: IViewportEvent) => {
+    const {
+      data: { scale, origin },
+    } = event;
+
+    if (!scale) return;
+
+    const prevScale = this.currentScale;
+    this.currentScale = scale;
+
+    const deltaScale = scale / prevScale;
+    const positionOffset = multiply(origin || this.context.graph.getCanvasCenter(), 1 - deltaScale);
+    const scaledSize = this.baseSize * scale;
+
+    const scaledOffset = multiply(this.offset, deltaScale);
+    const modulatedOffset = mod(scaledOffset, scaledSize);
+    const newOffset = add(modulatedOffset, positionOffset);
+
+    this.$element.style.backgroundSize = `${scaledSize}px ${scaledSize}px`;
+    this.$element.style.backgroundPosition = `${newOffset[0]}px ${newOffset[1]}px`;
+
+    this.offset = mod(newOffset, scaledSize);
+  };
+
+  private followTranslate = (event: IViewportEvent) => {
     if (!this.options.follow) return;
     const {
       data: { translate },
     } = event;
     if (translate) this.updateOffset(translate);
+  };
+
+  private parseFollow(follow: GridLineOptions['follow']): { translate: boolean; zoom: boolean } {
+    return isBoolean(follow)
+      ? { translate: follow, zoom: follow }
+      : { translate: follow?.translate ?? false, zoom: follow?.zoom ?? false };
+  }
+
+  private onTransform = (event: ViewportEvent) => {
+    const follow = this.parseFollow(this.options.follow);
+
+    if (follow.zoom) this.followZoom(event);
+    if (follow.translate) this.followTranslate(event);
   };
 
   /**
