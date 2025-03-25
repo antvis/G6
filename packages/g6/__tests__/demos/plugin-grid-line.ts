@@ -8,7 +8,7 @@ export const pluginGridLine: TestCase = async (context) => {
     data,
     layout: { type: 'd3-force' },
     behaviors: ['drag-canvas', 'zoom-canvas'],
-    plugins: [{ type: 'grid-line', follow: true }],
+    plugins: [{ type: 'grid-line', follow: false }],
   });
 
   await graph.render();
