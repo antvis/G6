@@ -20,7 +20,7 @@ G6 提供了多种布局算法，用户可以根据自己的需求选择合适�
 - [D3Force3DLayout](/manual/layout/build-in/d3-force3-d-layout)：[3D 力导向](https://github.com/vasturiano/d3-force-3d)布局
 - [D3ForceLayout](/manual/layout/build-in/d3-force-layout)：基于 [D3](https://d3js.org/d3-force) 的力导向布局
 - [DagreLayout](/manual/layout/build-in/dagre-layout)：[dagre](https://github.com/dagrejs/dagre) 布局
-- [FishboneLayout](/manual/layout/build-in/fishbone-layout)：鱼骨布局
+- [FishboneLayout](/manual/layout/build-in/fishbone)：鱼骨布局
 - [ForceAtlas2Layout](/manual/layout/build-in/force-atlas2-layout)：[ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) 布局
 - [ForceLayout](/manual/layout/build-in/force-layout)：力导向布局
 - [FruchtermanLayout](/manual/layout/build-in/fruchterman-layout)：[Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) 布局
@@ -28,7 +28,7 @@ G6 提供了多种布局算法，用户可以根据自己的需求选择合适�
 - [MDSLayout](/manual/layout/build-in/mds-layout)：高维数据降维算法布局
 - [RadialLayout](/manual/layout/build-in/radial-layout)：径向布局
 - [RandomLayout](/manual/layout/build-in/random-layout)：随机布局
-- [SnakeLayout](/manual/layout/build-in/snake-layout)：蛇形布局
+- [SnakeLayout](/manual/layout/build-in/snake)：蛇形布局
 - [CompactBoxLayout](/manual/layout/build-in/compact-box-layout): 紧凑树布局
 - [DendrogramLayout](/manual/layout/build-in/dendrogram-layout): 树状布局
 - [MindmapLayout](/manual/layout/build-in/mindmap-layout): 思维导图布局

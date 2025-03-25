@@ -212,7 +212,7 @@ const graph = new Graph({
 
 > 在 v5 中内置布局有`antv-dagre` `combo-combined` `compact-box` `force-atlas2` `circular` `concentric` `d3-force` `dagre` `dendrogram` `force` `fruchterman` `grid` `indented` `mds` `mindmap` `radial` `random`. [具体参考](https://github.com/antvis/G6/blob/6e2355020c20b3a1e2e5ca0e0ee97aeb81f932b3/packages/g6/src/registry/build-in.ts#L147)
 
-v5合并了图和树图，不再通过实例化`G6.TreeGraph`创建树图布局，并且移除该方式。具体参考[特性-合并图与树图](https://g6.antv.antgroup.com/manual/feature#-%E5%90%88%E5%B9%B6%E5%9B%BE%E4%B8%8E%E6%A0%91%E5%9B%BE)
+v5合并了图和树图，不再通过实例化`G6.TreeGraph`创建树图布局，并且移除该方式。具体参考[特性-合并图与树图](/manual/whats-new/feature#🌲-合并图与树图)
 
 ### edge 没有连接在 node 的边缘中心
 
@@ -258,7 +258,7 @@ const graph = new G6.Graph({
 
 ### NodeEvent节点事件对象类型不齐全问题
 
-可以手动指定`IPointerEvent`类型。具体参考[#6346](<[2357515570](https://github.com/antvis/G6/issues/6346)>)
+可以手动指定`IPointerEvent`类型。具体参考[#6346](https://github.com/antvis/G6/issues/6346)
 
 ```typescript {4}
 import { NodeEvent } from '@antv/g6';

@@ -266,7 +266,7 @@ const graph = new Graph({
 
 使用方式：
 
-自定义图形时，元素类成员方法 [upsert](manual/element/custom-element#方法) 方法第二个参数传入：
+自定义图形时，元素类成员方法 [upsert](/manual/element/node/custom-node) 方法第二个参数传入：
 
 ```ts
 this.upsert('shape-key', 'text', { text: 'label', fontSize: 16 }, this);

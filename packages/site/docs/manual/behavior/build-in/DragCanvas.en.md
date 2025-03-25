@@ -27,7 +27,7 @@ Behavior type
 
 ### animation
 
-> [ViewportAnimationEffectTiming](/api/graph/option#viewportanimationeffecttiming)
+> [ViewportAnimationEffectTiming](/api/graph#viewportanimationeffecttiming)
 
 Whether to enable the animation of dragging, only valid when using key movement
 

@@ -5,7 +5,7 @@ order: 6
 
 ## 布局概述
 
-[布局](/manual/core-concepts/layout) 是图可视化中至关重要的一环，它决定了节点在画布上的位置排布。G6 提供了多种布局算法，以满足不同数据结构和可视化需求。通过布局 API，你可以：
+[布局](/manual/layout/overview) 是图可视化中至关重要的一环，它决定了节点在画布上的位置排布。G6 提供了多种布局算法，以满足不同数据结构和可视化需求。通过布局 API，你可以：
 
 - 设置和更新图的布局配置
 - 执行或停止布局计算
@@ -257,4 +257,4 @@ interface BaseLayoutOptions {
 
 ### BuiltInLayoutOptions
 
-G6 内置的布局类型配置，具体请查看 [API - 内置布局](/api/layouts/antv-dagre-layout)。
+G6 内置的布局类型配置，具体请查看 [API - 内置布局](/manual/layout/build-in/antv-dagre-layout)。

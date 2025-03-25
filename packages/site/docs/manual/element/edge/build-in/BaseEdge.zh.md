@@ -66,7 +66,7 @@ const graph = new Graph({
 
 <img width="320" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cVHVQJKLOlgAAAAAAAAAAAAADmJ7AQ/original" />
 
-> 了解边的构成，请阅读 [核心概念 - 元素 - 边](/manual/core-concept/element#边)。
+> 了解边的构成，请阅读 [元素 - 边](/manual/element/edge/overview#边构成)。
 
 以下样式配置将按原子图形依次说明：
 
@@ -790,7 +790,7 @@ createGraph(
 - `collapse`: 边收起时的动画
 - `expand`: 边展开时的动画
 
-你可以参考 [动画范式](/manual/animation/overview#动画范式) 使用动画语法来配置边，如：
+你可以参考 [动画范式](/manual/animation/animation#动画范式) 使用动画语法来配置边，如：
 
 ```json
 {

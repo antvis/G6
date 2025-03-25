@@ -37,15 +37,13 @@ const graph = new Graph({
 | `circle` | 圆形 Combo | [DEMO](/manual/element/combo/build-in/circle-combo) |
 | `rect`   | 矩形 Combo | [DEMO](/manual/element/combo/build-in/rect-combo)   |
 
-更多内置支持组合类型，可查看[组合注册表](/manual/getting-started/extensions#组合)。
-
 ## Style
 
 在此处定义组合的样式，包括颜色、大小等。
 
 <img width="240" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*z-OxR4MAdUwAAAAAAAAAAAAADmJ7AQ/original" />
 
-> 了解组合构成，请阅读 [核心概念 - 元素 - 组合](/manual/core-concept/element#组合)。
+<!-- > 了解组合构成，请阅读 [核心概念 - 元素 - 组合](/manual/core-concept/element#组合)。 -->
 
 以下样式配置将按原子图形依次说明：
 
@@ -205,7 +203,7 @@ createGraph(
 - `collapse`: 组合收起时的动画
 - `expand`: 组合展开时的动画
 
-你可以参考 [动画范式](/manual/animation/overview#动画范式) 使用动画语法来配置组合，如：
+你可以参考 [动画范式](/manual/animation/animation#动画范式) 使用动画语法来配置组合，如：
 
 ```json
 {

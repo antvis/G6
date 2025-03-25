@@ -67,11 +67,11 @@ const graph = new Graph({
 | zoomRange        | [number, number]                   | [0.01, 10]  | 缩放比例的限制范围                                            |
 | x                | number                             | -           | 视口 x 坐标                                                   |
 | y                | number                             | -           | 视口 y 坐标                                                   |
-| data             | GraphData                          | -           | 图数据，详见 [数据](/manual/data/overview)                    |
+| data             | GraphData                          | -           | 图数据，详见 [数据](/manual/data)                             |
 | node             | NodeOptions                        | -           | 节点全局配置，详见 [节点](/manual/element/node/overview)      |
 | edge             | EdgeOptions                        | -           | 边全局配置，详见 [边](/manual/element/edge/overview)          |
 | combo            | ComboOptions                       | -           | 组合全局配置，详见 [组合](/manual/element/combo/overview)     |
-| animation        | boolean \| AnimationEffectTiming   | -           | 全局动画配置，详见 [动画](/manual/animation/overview)         |
+| animation        | boolean \| AnimationEffectTiming   | -           | 全局动画配置，详见 [动画](/manual/animation/animation)        |
 | theme            | string \| false                    | `'light'`   | 主题配置，支持 `'light'`、`'dark'` 或自定义主题名             |
 | layout           | LayoutOptions \| LayoutOptions[]   | -           | 布局配置，详见 [布局](/manual/layout/overview)                |
 | behaviors        | (string \| CustomBehaviorOption)[] | -           | 交互行为配置，详见 [交互](/manual/behavior/overview)          |
