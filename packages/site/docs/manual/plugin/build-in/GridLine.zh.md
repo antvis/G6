@@ -36,18 +36,68 @@ const graph = new Graph({
 
 ## 配置项
 
-| 属性            | 描述                                                                                                     | 类型             | 默认值      | 必选 |
-| --------------- | -------------------------------------------------------------------------------------------------------- | ---------------- | ----------- | ---- |
-| type            | 插件类型                                                                                                 | string           | `grid-line` | ✓    |
-| key             | 插件唯一标识符，用于后续更新                                                                             | string           | -           |      |
-| border          | 是否显示边框                                                                                             | boolean          | true        |      |
-| borderLineWidth | 边框线宽                                                                                                 | number           | 1           |      |
-| borderStroke    | 边框颜色，详细属性参考 [CSS border-color](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-color) | string           | `#eee`      |      |
-| borderStyle     | 边框样式，详细属性参考 [CSS border-style](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style) | string           | `solid`     |      |
-| follow          | 是否跟随画布移动，启用后网格会随着画布的平移而移动                                                       | boolean          | false       |      |
-| lineWidth       | 网格线宽度                                                                                               | number \| string | 1           |      |
-| size            | 网格单元大小，单位为像素                                                                                 | number           | 20          |      |
-| stroke          | 网格线颜色                                                                                               | string           | `#eee`      |      |
+| 属性            | 描述                                                                                                     | 类型                                               | 默认值      | 必选 |
+| --------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- | ---- |
+| type            | 插件类型                                                                                                 | string                                             | `grid-line` | ✓    |
+| key             | 插件唯一标识符，用于后续更新                                                                             | string                                             | -           |      |
+| border          | 是否显示边框                                                                                             | boolean                                            | true        |      |
+| borderLineWidth | 边框线宽                                                                                                 | number                                             | 1           |      |
+| borderStroke    | 边框颜色，详细属性参考 [CSS border-color](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-color) | string                                             | `#eee`      |      |
+| borderStyle     | 边框样式，详细属性参考 [CSS border-style](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style) | string                                             | `solid`     |      |
+| follow          | 是否跟随画布移动                                                                                         | boolean \｜ {translate ?: boolean, zoom?: boolean} | false       |      |
+| lineWidth       | 网格线宽度                                                                                               | number \| string                                   | 1           |      |
+| size            | 网格单元大小，单位为像素                                                                                 | number                                             | 20          |      |
+| stroke          | 网格线颜色                                                                                               | string                                             | `#eee`      |      |
+
+### follow
+
+`follow` 属性用于控制网格线是否跟随画布的变换操作。它支持两种配置方式：
+
+1. **布尔值配置**：当设置为 `true` 时，网格线会同时跟随画布的平移和缩放；设置为 `false` 时则保持静态。
+
+```js
+// 同时启用跟随平移和缩放
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'grid-line',
+      follow: true,
+    },
+  ],
+});
+```
+
+2. **对象配置**：可以更精细地控制网格线的跟随行为。
+
+```js
+// 仅跟随平移，不跟随缩放
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'grid-line',
+      follow: {
+        translate: true, // 跟随平移
+        zoom: false, // 不跟随缩放
+      },
+    },
+  ],
+});
+
+// 仅跟随缩放，不跟随平移
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'grid-line',
+      follow: {
+        translate: false, // 不跟随平移
+        zoom: true, // 跟随缩放
+      },
+    },
+  ],
+});
+```
+
+当网格线跟随缩放时，它会保持与画布内容的相对位置关系，使得对齐参考更加精准。跟随平移则让网格随着画布内容一起移动，增强空间连续性的视觉体验。
 
 ## 代码示例
 
@@ -124,6 +174,7 @@ createGraph(
 ```js
 const graph = new Graph({
   // 其他配置...
+  behaviors: ['drag-canvas', 'zoom-canvas'],
   plugins: [
     {
       type: 'grid-line',
@@ -133,13 +184,13 @@ const graph = new Graph({
 });
 ```
 
-试着拖拽画布，观察网格的跟随效果：
+试着拖拽/缩放画布，观察网格的跟随效果：
 
 ```js | ob { pin: false }
 createGraph(
   {
     data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
-    behaviors: ['drag-canvas'],
+    behaviors: ['drag-canvas', 'zoom-canvas'],
     plugins: [
       {
         type: 'grid-line',

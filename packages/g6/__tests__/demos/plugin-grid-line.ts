@@ -7,7 +7,7 @@ export const pluginGridLine: TestCase = async (context) => {
     autoResize: true,
     data,
     layout: { type: 'd3-force' },
-    behaviors: ['drag-canvas'],
+    behaviors: ['drag-canvas', 'zoom-canvas'],
     plugins: [{ type: 'grid-line', follow: false }],
   });
 
