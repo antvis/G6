@@ -149,7 +149,7 @@ export default defineConfig({
       {
         slug: 'manual/element/node',
         title: {
-          zh: '节点',
+          zh: '节点 Node',
           en: 'Node',
         },
         order: 3,
@@ -165,7 +165,7 @@ export default defineConfig({
       {
         slug: 'manual/element/edge',
         title: {
-          zh: '边',
+          zh: '边 Edge',
           en: 'Edge',
         },
         order: 4,
@@ -181,7 +181,7 @@ export default defineConfig({
       {
         slug: 'manual/element/combo',
         title: {
-          zh: '组合',
+          zh: '组合 Combo',
           en: 'Combo',
         },
         order: 5,
