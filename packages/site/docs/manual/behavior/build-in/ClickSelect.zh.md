@@ -22,19 +22,28 @@ title: ClickSelect 点击选中
 
 在图配置中添加这一交互：
 
-```tsx
+**1. 快速配置（静态）**
+
+使用字符串形式直接声明，这种方式简洁但仅支持默认配置，且配置后不可动态修改：
+
+```javascript
 const graph = new Graph({
   // 其他配置...
-  behaviors: ['click-select'], // 直接添加，使用默认配置
+  behaviors: ['click-select'],
 });
+```
 
-// 或使用自定义配置
+**2. 对象配置（推荐）**
+
+使用对象形式进行配置，支持自定义参数，且可以在运行时动态更新配置：
+
+```javascript
 const graph = new Graph({
   // 其他配置...
   behaviors: [
     {
       type: 'click-select',
-      key: 'click-select',
+      key: 'click-select-1',
       degree: 2, // 选中扩散范围
       state: 'active', // 选中的状态
       neighborState: 'neighborActive', // 相邻节点附着状态
