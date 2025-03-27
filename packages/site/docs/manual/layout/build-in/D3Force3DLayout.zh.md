@@ -2,130 +2,110 @@
 title: D3Force3D 3D 力导向布局
 ---
 
+## 概述
+
+D3Force3D 布局是基于 [d3-force](https://d3js.org/d3-force) 的三维扩展版本，通过在三维空间中模拟物理力的作用来实现自动布局。相比二维布局，它增加了 Z 轴方向的力作用，能够在三维空间中展现更丰富的数据关系。
+
+<img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*4mbSTJLOXkgAAAAAAAAAAAAADmJ7AQ/original" alt="3D 力导向布局示意图" />
+
+## 核心概念
+
+### 力系统
+
+D3Force3D 在传统二维力导向布局的基础上，扩展了以下力的作用：
+
+- **三维中心力**：将节点拉向三维空间的中心点
+- **三维碰撞力**：在三维空间中防止节点重叠
+- **三维径向力**：将节点吸引到三维空间中的球面上
+- **三维坐标力**：分别在 X、Y、Z 三个方向上施加作用力
+
+### 迭代系统
+
+布局计算通过迭代来实现，主要涉及以下参数：
+
+- **alpha**：当前迭代的活力值，控制节点移动速度
+- **alphaDecay**：活力值的衰减率
+- **alphaMin**：最小活力值，低于此值停止迭代
+- **velocityDecay**：速度衰减因子
+
 ## 配置项
 
-### alpha
+| 属性            | 描述                                         | 类型                                                                       | 默认值        | 必选 |
+| --------------- | -------------------------------------------- | -------------------------------------------------------------------------- | ------------- | ---- |
+| type            | 布局类型                                     | string                                                                     | `d3-force-3d` | ✓    |
+| nodeSize        | 节点大小（直径），用于碰撞检测防止节点重叠   | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -             |      |
+| iterations      | 力的迭代次数，值越大布局越精确但性能消耗越大 | number                                                                     | -             |      |
+| numDimensions   | 维度数量（2 或 3）                           | number                                                                     | 3             |      |
+| forceSimulation | 自定义力模拟方法                             | Simulation<NodeDatum, EdgeDatum>                                           | -             |      |
+| onTick          | 每次迭代的回调函数                           | (data: LayoutMapping) => void                                              | -             |      |
+| randomSource    | 随机数生成函数                               | () => number                                                               | -             |      |
 
-> _number_
+### 迭代控制
 
-当前的迭代收敛阈值
+| 属性          | 描述                  | 类型   | 默认值 | 必选 |
+| ------------- | --------------------- | ------ | ------ | ---- |
+| alpha         | 当前迭代收敛阈值      | number | 1      |      |
+| alphaDecay    | 收敛阈值衰减率（0-1） | number | 0.028  |      |
+| alphaMin      | 停止迭代的阈值        | number | 0.001  |      |
+| alphaTarget   | 目标收敛阈值          | number | 0      |      |
+| velocityDecay | 速度衰减因子          | number | 0.4    |      |
 
-### alphaDecay
+### 力模型配置
 
-> _number_
+#### 中心力（center）
 
-迭代阈值的衰减率。范围 [0, 1]。0.028 对应迭代数为 300
+| 属性            | 描述          | 类型   | 默认值 | 必选 |
+| --------------- | ------------- | ------ | ------ | ---- |
+| center.x        | 中心点 x 坐标 | number | 0      |      |
+| center.y        | 中心点 y 坐标 | number | 0      |      |
+| center.z        | 中心点 z 坐标 | number | 0      |      |
+| center.strength | 力的强度      | number | 1      |      |
 
-### alphaMin
+#### 碰撞力（collide）
 
-> _number_
+| 属性               | 描述               | 类型                                                                       | 默认值 | 必选 |
+| ------------------ | ------------------ | -------------------------------------------------------------------------- | ------ | ---- |
+| collide.radius     | 碰撞半径           | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | 10     |      |
+| collide.strength   | 力的强度           | number                                                                     | 1      |      |
+| collide.iterations | 碰撞检测的迭代次数 | number                                                                     | 1      |      |
 
-停止迭代的阈值
+#### 链接力（link）
 
-### alphaTarget
+| 属性            | 描述             | 类型                                                                       | 默认值  | 必选 |
+| --------------- | ---------------- | -------------------------------------------------------------------------- | ------- | ---- |
+| link.id         | 边的 id 生成函数 | (edge: EdgeDatum, index: number, edges: EdgeDatum[]) => string             | edge.id |      |
+| link.distance   | 理想边长         | number \| ((edge: EdgeDatum, index: number, edges: EdgeDatum[]) => number) | 30      |      |
+| link.strength   | 力的强度         | number \| ((edge: EdgeDatum, index: number, edges: EdgeDatum[]) => number) | 1       |      |
+| link.iterations | 链接力的迭代次数 | number                                                                     | 1       |      |
 
-> _number_
+#### 多体力（manyBody）
 
-设置目标迭代收敛阈值
+| 属性                 | 描述                      | 类型                                                                       | 默认值   | 必选 |
+| -------------------- | ------------------------- | -------------------------------------------------------------------------- | -------- | ---- |
+| manyBody.strength    | 力的强度                  | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -30      |      |
+| manyBody.theta       | Barnes-Hut 算法的精度参数 | number                                                                     | 0.9      |      |
+| manyBody.distanceMin | 最小作用距离              | number                                                                     | 1        |      |
+| manyBody.distanceMax | 最大作用距离              | number                                                                     | Infinity |      |
 
-### center
+#### 径向力（radial）
 
-> _false \| { x?: number; y?: number; strength?: number; }_
+| 属性            | 描述        | 类型                                                                       | 默认值 | 必选 |
+| --------------- | ----------- | -------------------------------------------------------------------------- | ------ | ---- |
+| radial.strength | 力的强度    | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | 0.1    |      |
+| radial.radius   | 目标半径    | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | 100    |      |
+| radial.x        | 球心 x 坐标 | number                                                                     | 0      |      |
+| radial.y        | 球心 y 坐标 | number                                                                     | 0      |      |
+| radial.z        | 球心 z 坐标 | number                                                                     | 0      |      |
 
-中心力
+#### 坐标力（x、y、z）
 
-### collide
+每个方向的力可以单独配置：
 
-> _false \| { radius?: number \| ((node: Node, index: number, nodes: Node[]) => number); strength?: number; iterations?: number; }_
-
-碰撞力
-
-### forceSimulation
-
-> _Simulation<Node, Edge>_
-
-自定义 force 方法，若不指定，则使用 d3.js 的方法
-
-### iterations
-
-> _number_
-
-迭代次数
-
-Number of iterations 设置的是力的迭代次数，而不是布局的迭代次数
-
-### link
-
-> _false \| { id?: (edge: Edge, index: number, edges: Edge[]) => string; distance?: number \| ((edge: Edge, index: number, edges: Edge[]) => number); strength?: number \| ((edge: Edge, index: number, edges: Edge[]) => number); iterations?: number; }_
-
-链接力
-
-### manyBody
-
-> _false \| { strength?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); theta?: number; distanceMin?: number; distanceMax?: number; }_
-
-多体力
-
-### nodeSize
-
-> _number \| ((node: NodeData, index: number, nodes: NodeData[]) => number)_ **Default:** `10`
-
-节点大小（直径）。用于防止节点重叠时的碰撞检测
-
-### onTick
-
-> _(data: LayoutMapping) => void_
-
-每次迭代执行回调
-
-### radial
-
-> _false \| { strength?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); radius?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); x?: number; y?: number; }_
-
-径向力
-
-### randomSource
-
-> _() => number_
-
-设置用于生成随机数的函数
-
-### velocityDecay
-
-> _number_
-
-指定衰减因子
-
-### x
-
-> _false \| { strength?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); x?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); }_
-
-X 轴力
-
-### y
-
-> _false \| { strength?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); y?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); }_
-
-Y 轴力
-
-### center
-
-> _false \| { x?: number; y?: number; z?: number; strength?: number; }_
-
-中心力 Center force
-
-### numDimensions
-
-> _number_
-
-### radial
-
-> _false \| { strength?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); radius?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); x?: number; y?: number; z?: number; }_
-
-径向力
-
-### z
-
-> _false \| { strength?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); z?: number \| ((node: NodeData, index: number, nodes: NodeData[]) => number); }_
-
-Z 轴力
+| 属性       | 描述             | 类型                                                                       | 默认值 | 必选 |
+| ---------- | ---------------- | -------------------------------------------------------------------------- | ------ | ---- |
+| x.strength | X 轴方向的力强度 | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -      |      |
+| x.x        | 目标 x 坐标      | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -      |      |
+| y.strength | Y 轴方向的力强度 | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -      |      |
+| y.y        | 目标 y 坐标      | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -      |      |
+| z.strength | Z 轴方向的力强度 | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -      |      |
+| z.z        | 目标 z 坐标      | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -      |      |
