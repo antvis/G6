@@ -4,7 +4,7 @@ title: D3Force 力导向布局
 
 ## 概述
 
-D3Force 布局是基于 [d3-force](https://github.com/d3/d3-force) 实现的力导向布局。它通过模拟物理力的作用（如引力、斥力、碰撞等），使图布局达到一个能量最小的稳定状态。
+D3Force 布局是基于 [d3-force](https://d3js.org/d3-force) 实现的力导向布局。它通过模拟物理力的作用（如引力、斥力、碰撞等），使图布局达到一个能量最小的稳定状态。
 
 这种布局的主要特点是：
 
@@ -63,21 +63,21 @@ D3Force 布局通过模拟五种不同的力来实现自动布局。想象一个
 | 属性            | 描述                                          | 类型                                       | 默认值     | 必选 |
 | --------------- | --------------------------------------------- | ------------------------------------------ | ---------- | ---- |
 | type            | 布局类型                                      | string                                     | 'd3-force' | ✓    |
-| nodeSize        | 节点大小（直径），用于碰撞检测防止节点重叠    | number \| ((node, index, nodes) => number) | 10         | -    |
-| iterations      | 力的迭代次数，值越大布局越精确但性能消耗越大  | number                                     | -          | -    |
-| onTick          | 每次迭代的回调函数，用于实时获取布局结果      | (data: LayoutMapping) => void              | -          | -    |
-| forceSimulation | 自定义力模拟方法，若不指定则使用 d3.js 的方法 | Simulation<NodeDatum, EdgeDatum>           | -          | -    |
-| randomSource    | 用于生成随机数的函数                          | () => number                               | -          | -    |
+| nodeSize        | 节点大小（直径），用于碰撞检测防止节点重叠    | number \| ((node, index, nodes) => number) | -          |      |
+| iterations      | 力的迭代次数，值越大布局越精确但性能消耗越大  | number                                     | -          |      |
+| onTick          | 每次迭代的回调函数，用于实时获取布局结果      | (data: LayoutMapping) => void              | -          |      |
+| forceSimulation | 自定义力模拟方法，若不指定则使用 d3.js 的方法 | Simulation<NodeDatum, EdgeDatum>           | -          |      |
+| randomSource    | 用于生成随机数的函数                          | () => number                               | -          |      |
 
 ### 迭代控制
 
 | 属性          | 描述                                                   | 类型   | 默认值 | 必选 |
 | ------------- | ------------------------------------------------------ | ------ | ------ | ---- |
-| alpha         | 当前迭代的收敛阈值，控制布局的活跃程度                 | number | 1      | -    |
-| alphaMin      | 停止迭代的最小阈值，当 alpha 小于该值时停止迭代        | number | 0.001  | -    |
-| alphaDecay    | 收敛阈值的衰减率，范围 [0, 1]，0.028 对应约 300 次迭代 | number | 0.028  | -    |
-| alphaTarget   | 目标收敛阈值，系统会尝试将 alpha 收敛到该值            | number | 0      | -    |
-| velocityDecay | 速度衰减因子，值越大节点运动越缓慢                     | number | 0.4    | -    |
+| alpha         | 当前迭代的收敛阈值，控制布局的活跃程度                 | number | 1      |      |
+| alphaMin      | 停止迭代的最小阈值，当 alpha 小于该值时停止迭代        | number | 0.001  |      |
+| alphaDecay    | 收敛阈值的衰减率，范围 [0, 1]，0.028 对应约 300 次迭代 | number | 0.028  |      |
+| alphaTarget   | 目标收敛阈值，系统会尝试将 alpha 收敛到该值            | number | 0      |      |
+| velocityDecay | 速度衰减因子，值越大节点运动越缓慢                     | number | 0.4    |      |
 
 ### 力模型配置
 
@@ -85,58 +85,58 @@ D3Force 布局通过模拟五种不同的力来实现自动布局。想象一个
 
 | 属性            | 描述                               | 类型                                       | 默认值      | 必选 |
 | --------------- | ---------------------------------- | ------------------------------------------ | ----------- | ---- |
-| link.id         | 边的 id 生成函数                   | (edge, index, edges) => string             | (e) => e.id | -    |
-| link.distance   | 理想边长，边会趋向于该长度         | number \| ((edge, index, edges) => number) | 30          | -    |
-| link.strength   | 力的强度，值越大边长越接近理想边长 | number \| ((edge, index, edges) => number) | 1           | -    |
-| link.iterations | 链接力的迭代次数                   | number                                     | 1           | -    |
+| link.id         | 边的 id 生成函数                   | (edge, index, edges) => string             | (e) => e.id |      |
+| link.distance   | 理想边长，边会趋向于该长度         | number \| ((edge, index, edges) => number) | 30          |      |
+| link.strength   | 力的强度，值越大边长越接近理想边长 | number \| ((edge, index, edges) => number) | 1           |      |
+| link.iterations | 链接力的迭代次数                   | number                                     | 1           |      |
 
 #### 多体力（manyBody）
 
 | 属性                 | 描述                                                  | 类型                                       | 默认值   | 必选 |
 | -------------------- | ----------------------------------------------------- | ------------------------------------------ | -------- | ---- |
-| manyBody.strength    | 力的强度，负值为斥力，正值为引力                      | number \| ((node, index, nodes) => number) | -30      | -    |
-| manyBody.theta       | Barnes-Hut 算法的精度参数，值越小越精确但性能消耗越大 | number                                     | 0.9      | -    |
-| manyBody.distanceMin | 最小作用距离，防止力过大                              | number                                     | 1        | -    |
-| manyBody.distanceMax | 最大作用距离，超过该距离的节点不产生力                | number                                     | Infinity | -    |
+| manyBody.strength    | 力的强度，负值为斥力，正值为引力                      | number \| ((node, index, nodes) => number) | -30      |      |
+| manyBody.theta       | Barnes-Hut 算法的精度参数，值越小越精确但性能消耗越大 | number                                     | 0.9      |      |
+| manyBody.distanceMin | 最小作用距离，防止力过大                              | number                                     | 1        |      |
+| manyBody.distanceMax | 最大作用距离，超过该距离的节点不产生力                | number                                     | Infinity |      |
 
 #### 中心力（center）
 
 | 属性            | 描述                               | 类型   | 默认值 | 必选 |
 | --------------- | ---------------------------------- | ------ | ------ | ---- |
-| center.x        | 中心点 x 坐标                      | number | 0      | -    |
-| center.y        | 中心点 y 坐标                      | number | 0      | -    |
-| center.strength | 力的强度，值越大节点越趋向于中心点 | number | 1      | -    |
+| center.x        | 中心点 x 坐标                      | number | 0      |      |
+| center.y        | 中心点 y 坐标                      | number | 0      |      |
+| center.strength | 力的强度，值越大节点越趋向于中心点 | number | 1      |      |
 
 #### 碰撞力（collide）
 
-| 属性               | 描述                                   | 类型                                       | 默认值   | 必选 |
-| ------------------ | -------------------------------------- | ------------------------------------------ | -------- | ---- |
-| collide.radius     | 碰撞半径，小于该距离的节点会产生排斥力 | number \| ((node, index, nodes) => number) | nodeSize | -    |
-| collide.strength   | 力的强度，值越大排斥效果越明显         | number                                     | 1        | -    |
-| collide.iterations | 碰撞检测的迭代次数                     | number                                     | 1        | -    |
+| 属性               | 描述                                   | 类型                                       | 默认值 | 必选 |
+| ------------------ | -------------------------------------- | ------------------------------------------ | ------ | ---- |
+| collide.radius     | 碰撞半径，小于该距离的节点会产生排斥力 | number \| ((node, index, nodes) => number) | 10     |      |
+| collide.strength   | 力的强度，值越大排斥效果越明显         | number                                     | 1      |      |
+| collide.iterations | 碰撞检测的迭代次数                     | number                                     | 1      |      |
 
 #### 径向力（radial）
 
 | 属性            | 描述                                   | 类型                                       | 默认值 | 必选 |
 | --------------- | -------------------------------------- | ------------------------------------------ | ------ | ---- |
-| radial.strength | 力的强度，值越大节点越趋向于目标半径   | number \| ((node, index, nodes) => number) | 0.1    | -    |
-| radial.radius   | 目标半径，节点会被吸引到该半径的圆周上 | number \| ((node, index, nodes) => number) | 100    | -    |
-| radial.x        | 圆心 x 坐标                            | number                                     | 0      | -    |
-| radial.y        | 圆心 y 坐标                            | number                                     | 0      | -    |
+| radial.strength | 力的强度，值越大节点越趋向于目标半径   | number \| ((node, index, nodes) => number) | 0.1    |      |
+| radial.radius   | 目标半径，节点会被吸引到该半径的圆周上 | number \| ((node, index, nodes) => number) | 100    |      |
+| radial.x        | 圆心 x 坐标                            | number                                     | 0      |      |
+| radial.y        | 圆心 y 坐标                            | number                                     | 0      |      |
 
 #### X 轴力（x）
 
 | 属性       | 描述                                | 类型                                       | 默认值 | 必选 |
 | ---------- | ----------------------------------- | ------------------------------------------ | ------ | ---- |
-| x.strength | X 轴方向的力强度                    | number \| ((node, index, nodes) => number) | -      | -    |
-| x.x        | 目标 x 坐标，节点会被吸引到这个位置 | number \| ((node, index, nodes) => number) | -      | -    |
+| x.strength | X 轴方向的力强度                    | number \| ((node, index, nodes) => number) | -      |      |
+| x.x        | 目标 x 坐标，节点会被吸引到这个位置 | number \| ((node, index, nodes) => number) | -      |      |
 
 #### Y 轴力（y）
 
 | 属性       | 描述                                | 类型                                       | 默认值 | 必选 |
 | ---------- | ----------------------------------- | ------------------------------------------ | ------ | ---- |
-| y.strength | Y 轴方向的力强度                    | number \| ((node, index, nodes) => number) | -      | -    |
-| y.y        | 目标 y 坐标，节点会被吸引到这个位置 | number \| ((node, index, nodes) => number) | -      | -    |
+| y.strength | Y 轴方向的力强度                    | number \| ((node, index, nodes) => number) | -      |      |
+| y.y        | 目标 y 坐标，节点会被吸引到这个位置 | number \| ((node, index, nodes) => number) | -      |      |
 
 ## 代码示例
 
