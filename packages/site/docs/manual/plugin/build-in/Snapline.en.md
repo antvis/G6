@@ -10,10 +10,10 @@ The Snapline plugin provides intelligent alignment guidelines for the canvas, au
 
 The Snapline plugin is mainly suitable for the following scenarios:
 
-- When precise alignment of multiple nodes is needed
-- When creating standardized graphic layouts
-- When quick horizontal or vertical alignment of nodes is required
-- When improved layout efficiency through automatic snapping is desired
+- When manually adjusting node positions and precise alignment with other nodes is needed
+- When dragging multiple nodes while maintaining their alignment relationships
+- When creating standardized graphic layouts to ensure consistency in node spacing and positioning
+- When improving node layout efficiency through automatic snapping functionality
 
 ## Basic Usage
 
@@ -69,21 +69,48 @@ The `shape` property specifies the reference shape for elements and supports the
 }
 ```
 
-### Snapline Styles
+### Snapline Style Configuration
 
-You can customize the styles for both horizontal and vertical alignment lines:
+| Property       | Description             | Type                                     | Default     |
+| -------------- | ----------------------- | ---------------------------------------- | ----------- |
+| stroke         | Line color              | string \| Pattern \| null                | `'#1783FF'` |
+| opacity        | Overall opacity         | number \| string                         | 1           |
+| strokeOpacity  | Stroke opacity          | number \| string                         | 1           |
+| lineWidth      | Line width              | number \| string                         | 1           |
+| lineCap        | Line end style          | `'butt'` \| `'round'` \| `'square'`      | `'butt'`    |
+| lineJoin       | Line join style         | `'miter'` \| `'round'` \| `'bevel'`      | `'miter'`   |
+| lineDash       | Dash line configuration | number \| string \| (string \| number)[] | -           |
+| lineDashOffset | Dash line offset        | number                                   | 0           |
+| shadowBlur     | Shadow blur             | number                                   | 0           |
+| shadowColor    | Shadow color            | string                                   | -           |
+| shadowOffsetX  | Shadow X offset         | number                                   | 0           |
+| shadowOffsetY  | Shadow Y offset         | number                                   | 0           |
+| cursor         | Mouse cursor style      | string                                   | `'default'` |
+| zIndex         | Rendering level         | number                                   | 0           |
+
+Example configuration:
 
 ```js
 {
   type: 'snapline',
   horizontalLineStyle: {
-    stroke: '#1890ff',
-    lineWidth: 1,
+    stroke: '#F08F56',
+    strokeOpacity: 0.8,
+    lineWidth: 2,
+    lineDash: [4, 4],
+    lineDashOffset: 0,
+    opacity: 1,
+    cursor: 'move',
   },
   verticalLineStyle: {
-    stroke: '#1890ff',
-    lineWidth: 1,
-  }
+    stroke: '#17C76F',
+    strokeOpacity: 0.8,
+    lineWidth: 2,
+    lineDash: [4, 4],
+    lineDashOffset: 0,
+    opacity: 1,
+    cursor: 'move',
+  },
 }
 ```
 
