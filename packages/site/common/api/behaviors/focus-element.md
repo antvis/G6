@@ -32,7 +32,7 @@ createGraph(
       animation: true,
       enable: true,
     };
-    const optionFolder = gui.addFolder('ZoomCanvas Options');
+    const optionFolder = gui.addFolder('FocusElement Options');
     optionFolder.add(options, 'type').disable(true);
     optionFolder.add(options, 'animation');
     optionFolder.add(options, 'enable');
