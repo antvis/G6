@@ -8,11 +8,7 @@ FocusElement 是 G6 中用于实现元素聚焦功能的内置交互，支持通
 
 ## 使用场景
 
-这一交互主要用于：
-
 - 快速将关注的节点或边居中显示
-- 在大规模图中定位特定元素
-- 展示演示时突出重点元素
 
 ## 在线体验
 
@@ -54,11 +50,22 @@ const graph = new Graph({
 
 ## 配置项
 
-| 配置项    | 说明             | 类型                                                                                | 默认值                                 | 必选 |
-| --------- | ---------------- | ----------------------------------------------------------------------------------- | -------------------------------------- | ---- |
-| type      | 交互类型名称     | string                                                                              | `'focus-element'`                      | ✓    |
-| animation | 聚焦动画效果设置 | [ViewportAnimationEffectTiming](/manual/graph/option#viewportanimationeffecttiming) | `{ duration: 500, easing: 'ease-in' }` |      |
-| enable    | 是否启用聚焦功能 | boolean \| ((event: IElementEvent) => boolean)                                      | true                                   |      |
+| 配置项    | 说明             | 类型                                                            | 默认值                                 | 必选 |
+| --------- | ---------------- | --------------------------------------------------------------- | -------------------------------------- | ---- |
+| type      | 交互类型名称     | string                                                          | `focus-element`                        | ✓    |
+| animation | 聚焦动画效果设置 | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | `{ duration: 500, easing: 'ease-in' }` |      |
+| enable    | 是否启用聚焦功能 | boolean \| ((event: IElementEvent) => boolean)                  | true                                   |      |
+
+### ViewportAnimationEffectTiming
+
+```typescript
+type ViewportAnimationEffectTiming =
+  | boolean // true 启用默认动画，false 禁用动画
+  | {
+      easing?: string; // 动画缓动函数：'ease-in-out'、'ease-in'、'ease-out'、'linear'
+      duration?: number; // 动画持续时间(毫秒)
+    };
+```
 
 ## 代码示例
 

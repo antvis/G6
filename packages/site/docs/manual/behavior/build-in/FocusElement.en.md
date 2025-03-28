@@ -8,11 +8,7 @@ FocusElement is a built-in interaction in G6 that enables focusing elements by c
 
 ## Use Cases
 
-This interaction is mainly used for:
-
 - Quickly centering nodes or edges of interest
-- Locating specific elements in large-scale graphs
-- Highlighting key elements during presentations
 
 ## Live Demo
 
@@ -54,11 +50,22 @@ const graph = new Graph({
 
 ## Options
 
-| Option    | Description                                               | Type                                                                                | Default                                | Required |
-| --------- | --------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------- | -------- |
-| type      | Behavior type                                             | string                                                                              | `'focus-element'`                      | ✓        |
-| animation | Focus animation settings                                  | [ViewportAnimationEffectTiming](/manual/graph/option#viewportanimationeffecttiming) | `{ duration: 500, easing: 'ease-in' }` |          |
-| enable    | Whether to enable the function of focusing on the element | boolean \| ((event: IElementEvent) => boolean)                                      | true                                   |          |
+| Option    | Description                                               | Type                                                            | Default                                | Required |
+| --------- | --------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------- | -------- |
+| type      | Behavior type                                             | string                                                          | `focus-element`                        | ✓        |
+| animation | Focus animation settings                                  | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | `{ duration: 500, easing: 'ease-in' }` |          |
+| enable    | Whether to enable the function of focusing on the element | boolean \| ((event: IElementEvent) => boolean)                  | true                                   |          |
+
+### ViewportAnimationEffectTiming
+
+```typescript
+type ViewportAnimationEffectTiming =
+  | boolean // true to enable default animation, false to disable animation
+  | {
+      easing?: string; // Animation easing function: 'ease-in-out', 'ease-in', 'ease-out', 'linear'
+      duration?: number; // Animation duration (milliseconds)
+    };
+```
 
 ## Code Examples
 
