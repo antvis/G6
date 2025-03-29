@@ -37,7 +37,7 @@ class MyFirstNode extends Rect {
     return this.context.graph.getNodeData(this.id).data;
   }
 
-  getLabelStyle() {
+  getCustomLabelStyle(attributes) {
     return {
       x: 0,
       y: 0,
@@ -49,16 +49,18 @@ class MyFirstNode extends Rect {
     };
   }
 
+  drawCustomLabelShape(attributes, container) {
+    const customLabelStyle = this.getCustomLabelStyle(attributes);
+    this.upsert('custom-label', 'text', customLabelStyle, container);
+  }
+
   // 渲染方法是自定义节点的核心
   render(attributes = this.parsedAttributes, container) {
     // 1. 先调用父类渲染方法，绘制基础矩形
     super.render(attributes, container);
 
-    // 2. 添加文本标签
-    const labelStyle = this.getLabelStyle();
-
-    // 使用 upsert 方法添加或更新标签
-    this.upsert('custon', 'text', labelStyle, container);
+    // 2. 插入一个自定义的标签
+    this.drawCustomLabelShape(attributes, container);
   }
 }
 ```
@@ -161,25 +163,27 @@ this.upsert(
 
 ```js
 class IconNode extends Rect {
-  render(attributes, container) {
-    // 渲染基础矩形
-    super.render(attributes, container);
-
+  getCustomIconStyle(attributes) {
     const [width, height] = this.getSize(attributes);
-    const { icon, label } = this.data;
-
-    // 添加图标
-    const iconStyle = {
+    const { icon } = this.data;
+    return {
       x: -width / 2 + 15, // 左侧15px处
       y: 0,
       width: 20,
       height: 20,
       img: icon || 'default-icon.png',
     };
-    this.upsert('icon', 'image', iconStyle, container);
+  }
 
-    // 添加标签(在图标右侧)
-    const labelStyle = {
+  drawCustomIconShape(attributes, container) {
+    const iconStyle = this.getCustomIconStyle(attributes);
+    this.upsert('custom-icon', 'image', iconStyle, container);
+  }
+
+  getCustomLabelStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    const { label } = this.data;
+    return {
       x: -width / 2 + 45, // 图标右侧10px处
       y: 0,
       text: label || '',
@@ -188,7 +192,25 @@ class IconNode extends Rect {
       textAlign: 'left',
       textBaseline: 'middle',
     };
-    this.upsert('label', 'text', labelStyle, container);
+  }
+
+  drawCustomLabelShape(attributes, container) {
+    const labelStyle = this.getCustomLabelStyle(attributes);
+    this.upsert('custom-label', 'text', labelStyle, container);
+  }
+
+  render(attributes, container) {
+    // 渲染基础矩形
+    super.render(attributes, container);
+
+    const [width, height] = this.getSize(attributes);
+    const { icon, label } = this.data;
+
+    // 添加图标
+    this.drawCustomIconShape(attributes, container);
+
+    // 添加标签(在图标右侧)
+    this.drawCustomLabelShape(attributes, container);
   }
 }
 
@@ -201,11 +223,8 @@ register(ExtensionCategory.NODE, 'icon-node', IconNode);
 import { Rect, register, Graph, ExtensionCategory } from '@antv/g6';
 
 class ClickableNode extends Rect {
-  render(attributes, container) {
-    super.render(attributes, container);
-
-    // 添加一个按钮
-    const btnStyle = {
+  getButtonStyle(attributes) {
+    return {
       x: 40,
       y: -10,
       width: 20,
@@ -214,6 +233,10 @@ class ClickableNode extends Rect {
       fill: '#1890ff',
       cursor: 'pointer', // 鼠标指针变为手型
     };
+  }
+
+  drawButtonShape(attributes, container) {
+    const btnStyle = this.getButtonStyle(attributes, container);
     const btn = this.upsert('button', 'rect', btnStyle, container);
 
     // 为按钮添加点击事件
@@ -232,6 +255,13 @@ class ClickableNode extends Rect {
       });
       btn.__clickBound = true; // 标记已绑定事件，避免重复绑定
     }
+  }
+
+  render(attributes, container) {
+    super.render(attributes, container);
+
+    // 添加一个按钮
+    this.drawButtonShape(attributes, container);
   }
 }
 
@@ -284,10 +314,8 @@ import { Rect, register, Graph, ExtensionCategory } from '@antv/g6';
 
 // 1. 定义节点类
 class SelectableNode extends Rect {
-  render(attributes, container) {
-    super.render(attributes, container);
-
-    const holeStyle = {
+  getHoleStyle(attributes) {
+    return {
       x: 20,
       y: -10,
       radius: 4,
@@ -295,8 +323,18 @@ class SelectableNode extends Rect {
       height: 20,
       fill: attributes.holeFill,
     };
+  }
+
+  drawHoleShape(attributes, container) {
+    const holeStyle = this.getHoleStyle(attributes, container);
 
     this.upsert('hole', 'rect', holeStyle, container);
+  }
+
+  render(attributes, container) {
+    super.render(attributes, container);
+
+    this.drawHoleShape(attributes, container);
   }
 }
 
