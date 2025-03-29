@@ -40,69 +40,60 @@ const graph = new Graph({
 | key            | 插件唯一标识符，用于后续更新                | string                                                                                                                                                                                                 | -              |      |
 | className      | 缩略图画布类名，传入外置容器时不生效        | string                                                                                                                                                                                                 |                |      |
 | container      | 缩略图挂载的容器，无则挂载到 Graph 所在容器 | HTMLElement \| string                                                                                                                                                                                  |                |      |
-| containerStyle | 缩略图的容器样式，传入外置容器时不生效      | `Partial<CSSStyleDeclaration>`                                                                                                                                                                         |                |      |
+| containerStyle | 缩略图的容器样式，传入外置容器时不生效      | Partial\<CSSStyleDeclaration\>                                                                                                                                                                         |                |      |
 | delay          | 延迟更新时间(毫秒)，用于性能优化            | number                                                                                                                                                                                                 | 128            |      |
-| filter         | 过滤器，用于过滤不必显示的元素              | (id: string, elementType: 'node' \| 'edge' \| 'combo') => boolean                                                                                                                                      |                |      |
-| maskStyle      | 遮罩的样式                                  | `Partial<CSSStyleDeclaration>`                                                                                                                                                                         |                |      |
+| filter         | 过滤器，用于过滤不必显示的元素              | (id: string, elementType: `node` \| `edge` \| `combo`) => boolean                                                                                                                                      |                |      |
+| maskStyle      | 遮罩的样式                                  | Partial\<CSSStyleDeclaration\>                                                                                                                                                                         |                |      |
 | padding        | 内边距                                      | number \| number[]                                                                                                                                                                                     | 10             |      |
-| position       | 缩略图相对于画布的位置                      | [number, number] \| 'left' \| 'right' \| 'top' \| 'bottom' \| 'left-top' \| 'left-bottom' \| 'right-top' \| 'right-bottom' \| 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right' \| 'center' | `right-bottom` |      |
+| position       | 缩略图相对于画布的位置                      | [number, number] \| `left` \| `right` \| `top` \| `bottom` \| `left-top` \| `left-bottom` \| `right-top` \| `right-bottom` \| `top-left` \| `top-right` \| `bottom-left` \| `bottom-right` \| `center` | `right-bottom` |      |
 | renderer       | 渲染器，默认使用 Canvas 渲染器              | IRenderer                                                                                                                                                                                              |                |      |
-| shape          | 元素缩略图形的生成方法                      | 'key' \| ((id: string, elementType: 'node' \| 'edge' \| 'combo') => DisplayObject)                                                                                                                     | 'key'          |      |
+| shape          | 元素缩略图形的生成方法                      | `key` \| ((id: string, elementType: `node` \| `edge` \| `combo`) => DisplayObject)                                                                                                                     | `key`          |      |
 | size           | 宽度和高度                                  | [number, number]                                                                                                                                                                                       | [240, 160]     |      |
-
-### <Badge type="success">Required</Badge> type
-
-> _`minimap` \| string_
-
-此插件已内置，你可以通过 `type: 'minimap'` 来使用它。
-
-### className
-
-> _string_
-
-缩略图画布类名，传入外置容器时不生效
-
-### container
-
-> _HTMLElement_ _\| string_
-
-缩略图挂载的容器，无则挂载到 Graph 所在容器
 
 ### containerStyle
 
 > _CSSStyleDeclaration_
 
-缩略图的容器样式，传入外置容器时不生效
+缩略图的容器样式，传入外置容器时不生效。
+containerStyle 配置项继承了所有 CSS 样式属性（CSSStyleDeclaration），你可以使用任何合法的 CSS 属性来配置缩略图容器的样式。
+以下是一些常用配置：
 
-### delay
-
-> _number_ **Default:** `128`
-
-延迟更新时间(毫秒)，用于性能优化
-
-### filter
-
-> _(id: string, elementType: 'node' \| 'edge' \| 'combo') => boolean_
-
-过滤器，用于过滤不必显示的元素
+| 属性         | 描述         | 类型   | 默认值           | 必选 |
+| ------------ | ------------ | ------ | ---------------- | ---- |
+| border       | 容器边框样式 | string | `1px solid #ddd` | 是   |
+| background   | 容器背景颜色 | string | `#fff`           | 是   |
+| borderRadius | 容器圆角大小 | string | -                | -    |
+| boxShadow    | 容器阴影效果 | string | -                | -    |
+| padding      | 容器内边距   | string | -                | -    |
+| margin       | 容器外边距   | string | -                | -    |
+| opacity      | 透明度       | string | -                | -    |
 
 ### maskStyle
 
 > _CSSStyleDeclaration_
 
-遮罩的样式
+遮罩的样式。
+maskStyle 配置项继承了所有 CSS 样式属性（CSSStyleDeclaration），你可以使用任何合法的 CSS 属性来配置缩略图容器的样式。
+以下是一些常用配置：
 
-### padding
-
-> _number \| number[]_ **Default:** `10`
-
-内边距
+| 属性         | 描述         | 类型   | 默认值               | 必选 |
+| ------------ | ------------ | ------ | -------------------- | ---- |
+| border       | 容器边框样式 | string | `1px solid #ddd`     | 是   |
+| background   | 容器背景颜色 | string | `rgba(0, 0, 0, 0.1)` | 是   |
+| borderRadius | 容器圆角大小 | string | -                    | -    |
+| boxShadow    | 容器阴影效果 | string | -                    | -    |
+| padding      | 容器内边距   | string | -                    | -    |
+| margin       | 容器外边距   | string | -                    | -    |
+| opacity      | 透明度       | string | -                    | -    |
 
 ### position
 
-> _[number, number] \| 'left' \| 'right' \| 'top' \| 'bottom' \| 'left-top' \| 'left-bottom' \| 'right-top' \| 'right-bottom' \| 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right' \| 'center'_ **Default:** `'right-bottom'`
+> _[number, number] \| `left` \| `right` \| `top` \| `bottom` \| `left-top` \| `left-bottom` \| `right-top` \| `right-bottom` \| `top-left` \| `top-right` \| `bottom-left` \| `bottom-right` \| `center`_ **Default:** `right-bottom`
 
-缩略图相对于画布的位置
+缩略图相对于画布的位置，缩略图位置配置支持数组形式和预设值形式。
+
+- 数组形式 [number, number] 表示相对位置，取值范围为 0~1。举例：[0, 0] 代表画布左上角，[1, 1] 代表画布右下角。
+- 预设值形式用于设定缩略图所在画布固定方位。举例：`left-top` 代表画布左上角，`right-bottom` 代表画布右下角。
 
 ```js
 const graph = new Graph({
@@ -143,22 +134,6 @@ createGraph(
   { width: 600, height: 300 },
 );
 ```
-
-### renderer
-
-> _IRenderer_
-
-渲染器，默认使用 Canvas 渲染器
-
-### shape
-
-> _'key' \| ((id: string, elementType: 'node' \| 'edge' \| 'combo') => DisplayObject)_
-
-**Default:** `'key'`
-
-元素缩略图形的生成方法
-
-- 'key' 使用元素的主图形作为缩略图形 - 也可以传入一个函数，接收元素的 id 和类型，返回一个图形
 
 ### size
 
