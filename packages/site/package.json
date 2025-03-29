@@ -24,7 +24,7 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
-    "build": "dumi build",
+    "build": "dumi build && cp ./CNAME ./dist/CNAME",
     "build:memo": "node --expose-gc --max-old-space-size=32768 ./node_modules/dumi/bin/dumi build",
     "deploy": "gh-pages -d dist",
     "dev": "dumi dev",
@@ -40,7 +40,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
     "@antv/algorithm": "^0.1.26",
-    "@antv/dumi-theme-antv": "0.7.2",
+    "@antv/dumi-theme-antv": "^0.7.2",
     "@antv/g": "^6.1.21",
     "@antv/g-svg": "^2.0.34",
     "@antv/g-webgl": "^2.0.44",
