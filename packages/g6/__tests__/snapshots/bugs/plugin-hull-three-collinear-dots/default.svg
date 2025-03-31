@@ -27,7 +27,7 @@
             <path width="0" height="0" x="0" y="0" fill="none" stroke-width="0" d="m0 0 0 0 0 0 0 0z" class="background" opacity=".75"/>
           </g>
           <g>
-            <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="hanging" font-family="system-ui, sans-serif" font-size="12" paint-order="stroke" text-anchor="middle"/>
+            <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="hanging" font-family="system-ui, sans-serif" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"/>
           </g>
         </g>
       </g>
