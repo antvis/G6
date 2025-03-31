@@ -1,5 +1,5 @@
 import '../../../src';
-import G6 from '../../../src';
+import G6, { ICombo } from '../../../src';
 
 const div = document.createElement('div');
 div.id = 'drag-combo-spec';
@@ -322,6 +322,89 @@ describe('drag-combo', () => {
     expect(Math.abs(comboCBBox.width - 541) < 2).toBe(true);
     graph.destroy();
     done();
+  });
+  it.only('drag locked combo', (done) => {
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          x: 150,
+          y: 150,
+          label: 'node1',
+          comboId: 'A',
+        },
+        {
+          id: 'node2',
+          x: 200,
+          y: 250,
+          label: 'node2',
+          comboId: 'A',
+        },
+        {
+          id: 'node4',
+          x: 200,
+          y: 350,
+          label: 'node4',
+          comboId: 'B',
+        },
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node4',
+        },
+        {
+          source: 'node1',
+          target: 'node2',
+        }
+      ],
+      combos: [
+        {
+          id: 'A',
+          label: 'group A',
+          type: 'circle',
+          x: 50,
+          y: 50,
+        },
+        {
+          id: 'B',
+          label: 'group B',
+          x: 333,
+          y: 333,
+        }
+      ],
+    };
+
+    const graph = new G6.Graph({
+      container: 'drag-combo-spec',
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          {
+            type: 'drag-combo'
+          },
+        ],
+      },
+    });
+
+    graph.data(data);
+    graph.render();
+    graph.paint();
+    const combo = graph.findById('A') as ICombo;
+    combo.lock();
+
+    graph.on('dragend', (e) => {
+      const dragMatrix = combo.get('group').getMatrix();
+      expect(dragMatrix[6]).toEqual(50);
+      expect(dragMatrix[7]).toEqual(50);
+      done();
+    });
+
+    graph.emit('combo:mousedown', { x: 100, y: 100, item: combo });
+    graph.emit('drag', { x: 100, y: 100, item: combo });
+    graph.emit('drag', { x: 120, y: 120, item: combo });
+    graph.emit('dragend', { x: 120, y: 120, item: combo });
   });
 
   it('combo example', () => {
