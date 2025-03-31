@@ -28,15 +28,16 @@ const graph = new Graph({
 
 | 属性         | 描述                    | 类型                                                                                                                            | 默认值                                | 必选 |
 | ------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ---- |
-| type         | 插件类型                | string                                                                                                                          | `tooltip`                             | ✓    |
+| type         | 插件类型                | string                                                                                                                          | `"tooltip"`                           | ✓    |
 | key          | 标识符                  | string                                                                                                                          | -                                     |      |
-| position     | 气泡框位置              | top \| bottom \| left \| right \| top-left \| top-right \| bottom-left \| bottom-right                                          | `top-right`                           |      |
+| position     | 气泡框位置              | "top \| bottom \| left \| right \| top-left \| top-right \| bottom-left \| bottom-right"                                        | `top-right`                           |      |
 | enable       | 插件是否启用            | boolean \| ((event: [IElementEvent](/api/event#事件对象属性), items: NodeData \| EdgeData \| ComboData[]) => boolean)           | true                                  |      |
 | getContent   | 自定义内容              | (event: [IElementEvent](/api/event#事件对象属性), items: NodeData \| EdgeData \| ComboData[]) => Promise<HTMLElement \| string> | -                                     |      |
 | onOpenChange | 显示隐藏的回调          | (open: boolean) => void                                                                                                         | -                                     |      |
-| trigger      | 触发行为                | `hover` \| `click`                                                                                                              | `hover`                               |
+| trigger      | 触发行为                | "hover \| click"                                                                                                                | `"hover"`                             |
 | container    | tooltip自定义渲染的容器 | string \| HTMLElement                                                                                                           | -                                     |      |
 | offset       | 偏移距离                | [number,number]                                                                                                                 | [10,10]                               |      |
+| enterable    | 指针是否可以进入        | boolean                                                                                                                         | false                                 |      |
 | title        | 标题                    | string                                                                                                                          | -                                     |
 | style        | 样式对象                | Record<string,any>                                                                                                              | {'.tooltip': { visibility: 'hidden'}} |      |
 
@@ -107,7 +108,8 @@ const graph = new Graph({
 
 ### trigger
 
-- 触发行为
+触发行为
+
 - `'hover'`：鼠标移入元素时触发
 - `'click'`：鼠标点击元素时触发
 
@@ -171,9 +173,28 @@ const graph = new Graph({
 });
 ```
 
+### enterable
+
+鼠标指针是否可以进入气泡框
+
+鼠标可进入气泡框
+
+```js
+const graph = new Graph({
+  // 其他配置...
+  plugins: [
+    {
+      key: 'tooltip-click',
+      type: 'tooltip',
+      enterable: true,
+    },
+  ],
+});
+```
+
 ### style
 
-- 样式对象
+样式对象
 
 黑色元素背景颜色
 
