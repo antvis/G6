@@ -2,42 +2,121 @@
 title: FocusElement
 ---
 
-When an element is clicked, the element is focused to the center of the view.
+## Overview
+
+FocusElement is a built-in interaction in G6 that enables focusing elements by centering them in the viewport when clicked. This interaction helps users quickly locate and focus on specific graph elements.
+
+## Use Cases
+
+- Quickly centering nodes or edges of interest
+
+## Live Demo
 
 <embed src="@/common/api/behaviors/focus-element.md"></embed>
 
-## Options
+## Basic Usage
 
-### key
+Add this interaction to the graph configuration:
 
-> _string_
+**1. Quick Configuration (Static)**
 
-Behavior key, that is, the unique identifier
+Use string form for direct declaration:
 
-Used to identify the behavior for further operations
-
-```typescript
-// Update behavior options
-graph.updateBehavior({key: 'key', ...});
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['focus-element'],
+});
 ```
 
-### <Badge type="success">Required</Badge> type
+**2. Object Configuration (Recommended)**
 
-> _string_
+Use object form for configuration with custom parameters:
 
-Behavior type
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'focus-element',
+      animation: {
+        duration: 500,
+        easing: 'ease-in',
+      },
+    },
+  ],
+});
+```
 
-### animation
+## Options
 
-> [ViewportAnimationEffectTiming](/api/graph#viewportanimationeffecttiming)
+| Option    | Description                                               | Type                                                            | Default                                | Required |
+| --------- | --------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------- | -------- |
+| type      | Behavior type                                             | string                                                          | `focus-element`                        | ✓        |
+| animation | Focus animation settings                                  | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | `{ duration: 500, easing: 'ease-in' }` |          |
+| enable    | Whether to enable the function of focusing on the element | boolean \| ((event: IElementEvent) => boolean)                  | true                                   |          |
 
-Whether to enable animation
+### ViewportAnimationEffectTiming
 
-### enable
+```typescript
+type ViewportAnimationEffectTiming =
+  | boolean // true to enable default animation, false to disable animation
+  | {
+      easing?: string; // Animation easing function: 'ease-in-out', 'ease-in', 'ease-out', 'linear'
+      duration?: number; // Animation duration (milliseconds)
+    };
+```
 
-> _boolean \| ((event:_ [IElementEvent](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
+## Code Examples
 
-Whether to enable the function of focusing on the element
+### Basic Focus Functionality
+
+```javascript
+const graph = new Graph({
+  container: 'container',
+  width: 800,
+  height: 600,
+  behaviors: ['focus-element'],
+});
+```
+
+### Custom Animation Effects
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'focus-element',
+      animation: {
+        duration: 800,
+        easing: 'ease-in-out',
+      },
+    },
+  ],
+});
+```
+
+### Conditional Focus Enable
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'focus-element',
+      enable: (event) => {
+        // Only enable focus for nodes, not edges
+        return event.target.type === 'node';
+      },
+    },
+  ],
+});
+```
+
+## Live Example
+
+<Playground path="behavior/focus/demo/basic.js" rid="focus-element"></Playground>
 
 ## API
 

@@ -81,4 +81,8 @@ if (typeof window !== 'undefined' && window) {
 
     return container;
   };
+
+  if (location.host === 'g6.antv.vision') {
+    (window as any).location.href = location.href.replace(location.origin, 'https://g6.antv.antgroup.com');
+  }
 }
