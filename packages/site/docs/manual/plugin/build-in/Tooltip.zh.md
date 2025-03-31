@@ -30,11 +30,11 @@ const graph = new Graph({
 | ------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ---- |
 | type         | 插件类型                | string                                                                                                                          | `tooltip`                             | ✓    |
 | key          | 标识符                  | string                                                                                                                          | -                                     |      |
-| position     | 气泡框位置              | "top \| bottom \| left \| right \| top-left \| top-right \| bottom-left \| bottom-right"                                        | `top-right`                           |      |
+| position     | 气泡框位置              | `top` \| `bottom` \| `left` \| `right` \| `top-left` \| `top-right` \| `bottom-left` \| `bottom-right`                          | `top-right`                           |      |
 | enable       | 插件是否启用            | boolean \| ((event: [IElementEvent](/api/event#事件对象属性), items: NodeData \| EdgeData \| ComboData[]) => boolean)           | true                                  |      |
 | getContent   | 自定义内容              | (event: [IElementEvent](/api/event#事件对象属性), items: NodeData \| EdgeData \| ComboData[]) => Promise<HTMLElement \| string> | -                                     |      |
 | onOpenChange | 显示隐藏的回调          | (open: boolean) => void                                                                                                         | -                                     |      |
-| trigger      | 触发行为                | "hover \| click"                                                                                                                | `hover`                               |
+| trigger      | 触发行为                | `hover` \| `click`                                                                                                              | `hover`                               |
 | container    | tooltip自定义渲染的容器 | string \| HTMLElement                                                                                                           | -                                     |      |
 | offset       | 偏移距离                | [number,number]                                                                                                                 | [10,10]                               |      |
 | enterable    | 指针是否可以进入        | boolean                                                                                                                         | false                                 |      |
@@ -132,14 +132,14 @@ const graph = new Graph({
 
 展示位置 支持以下值
 
-- 'top': 顶部
-- 'bottom': 底部
-- 'left': 左侧
-- 'right': 右侧
-- 'top-left' : 顶部靠左
-- 'top-right' : 顶部靠右
-- 'bottom-left' : 底部靠左
-- 'bottom-right' : 底部靠右
+- `top`: 顶部
+- `bottom`: 底部
+- `left`: 左侧
+- `right`: 右侧
+- `top-left` : 顶部靠左
+- `top-right` : 顶部靠右
+- `bottom-left` : 底部靠左
+- `bottom-right` : 底部靠右
 
 展示在底部
 
