@@ -323,7 +323,7 @@ describe('drag-combo', () => {
     graph.destroy();
     done();
   });
-  it.only('drag locked combo', (done) => {
+  it('drag locked combo', () => {
     const data = {
       nodes: [
         {
@@ -369,8 +369,8 @@ describe('drag-combo', () => {
         {
           id: 'B',
           label: 'group B',
-          x: 333,
-          y: 333,
+          x: 50,
+          y: 50,
         }
       ],
     };
@@ -391,20 +391,31 @@ describe('drag-combo', () => {
     graph.data(data);
     graph.render();
     graph.paint();
-    const combo = graph.findById('A') as ICombo;
-    combo.lock();
 
-    graph.on('dragend', (e) => {
-      const dragMatrix = combo.get('group').getMatrix();
-      expect(dragMatrix[6]).toEqual(50);
-      expect(dragMatrix[7]).toEqual(50);
-      done();
-    });
+    // Test locked combo
+    const comboA = graph.findById('A') as ICombo;
+    comboA.lock();
 
-    graph.emit('combo:mousedown', { x: 100, y: 100, item: combo });
-    graph.emit('drag', { x: 100, y: 100, item: combo });
-    graph.emit('drag', { x: 120, y: 120, item: combo });
-    graph.emit('dragend', { x: 120, y: 120, item: combo });
+    graph.emit('combo:mousedown', { x: 100, y: 100, item: comboA });
+    graph.emit('combo:dragstart', { x: 100, y: 100, item: comboA });
+    graph.emit('combo:drag', { x: 100, y: 100, item: comboA });
+    graph.emit('combo:drag', { x: 120, y: 120, item: comboA });
+    graph.emit('combo:dragend', { x: 120, y: 120, item: comboA });
+    const dragMatrixA = comboA.get('group').getMatrix();
+    expect(dragMatrixA[6]).toEqual(50);
+    expect(dragMatrixA[7]).toEqual(50);
+
+    // Test unlocked combo
+    const comboB = graph.findById('B') as ICombo;
+
+    graph.emit('combo:mousedown', { x: 100, y: 100, item: comboB });
+    graph.emit('combo:dragstart', { x: 100, y: 100, item: comboB });
+    graph.emit('combo:drag', { x: 100, y: 100, item: comboB });
+    graph.emit('combo:drag', { x: 120, y: 120, item: comboB });
+    graph.emit('combo:dragend', { x: 120, y: 120, item: comboB });
+    const dragMatrixB = comboB.get('group').getMatrix();
+    expect(dragMatrixB[6]).toEqual(70); // moved
+    expect(dragMatrixB[7]).toEqual(70); // moved
   });
 
   it('combo example', () => {
