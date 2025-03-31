@@ -27,6 +27,14 @@
         "en": "G2 activity Chart"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GVyoQKk2WIIAAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "reactnode-idcard.jsx",
+      "title": {
+        "zh": "React 节点 身份证",
+        "en": "React node IDCard"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GVyoQKk2WIIAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }
