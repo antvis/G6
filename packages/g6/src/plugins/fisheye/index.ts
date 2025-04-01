@@ -466,6 +466,8 @@ export class Fisheye extends BasePlugin<FisheyeOptions> {
   public update(options: Partial<FisheyeOptions>) {
     this.unbindEvents();
     super.update(options);
+    this.r = options.r ?? this.r;
+    this.d = options.d ?? this.d;
     this.bindEvents();
   }
 

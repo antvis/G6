@@ -191,7 +191,7 @@
               <path width="112.4" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 112.4 0 0 23-112.4 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Modeling Methods</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Modeling Methods</text>
             </g>
           </g>
         </g>
@@ -204,7 +204,7 @@
               <path width="82.88" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 82.88 0 0 23-82.88 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Classification</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Classification</text>
             </g>
           </g>
         </g>
@@ -217,7 +217,7 @@
               <path width="115.4" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 115.4 0 0 23-115.4 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Logistic regression</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Logistic regression</text>
             </g>
           </g>
         </g>
@@ -230,7 +230,7 @@
               <path width="165.2" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 165.2 0 0 23-165.2 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Linear discriminant analysis</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Linear discriminant analysis</text>
             </g>
           </g>
         </g>
@@ -243,7 +243,7 @@
               <path width="36.8" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 36.8 0 0 23-36.8 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Rules</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Rules</text>
             </g>
           </g>
         </g>
@@ -256,7 +256,7 @@
               <path width="87.92" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 87.92 0 0 23-87.92 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Decision trees</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Decision trees</text>
             </g>
           </g>
         </g>
@@ -269,7 +269,7 @@
               <path width="75.68" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 75.68 0 0 23-75.68 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Naive Bayes</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Naive Bayes</text>
             </g>
           </g>
         </g>
@@ -282,7 +282,7 @@
               <path width="114.92" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 114.92 0 0 23-114.92 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">K nearest neighbor</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">K nearest neighbor</text>
             </g>
           </g>
         </g>
@@ -295,7 +295,7 @@
               <path width="166.4" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 166.4 0 0 23-166.4 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Probabilistic neural network</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Probabilistic neural network</text>
             </g>
           </g>
         </g>
@@ -308,7 +308,7 @@
               <path width="143.72" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 143.72 0 0 23-143.72 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Support vector machine</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Support vector machine</text>
             </g>
           </g>
         </g>
@@ -321,7 +321,7 @@
               <path width="68.96" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 68.96 0 0 23-68.96 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Consensus</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Consensus</text>
             </g>
           </g>
         </g>
@@ -334,7 +334,7 @@
               <path width="100.16" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 100.16 0 0 23-100.16 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Models diversity</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Models diversity</text>
             </g>
           </g>
         </g>
@@ -347,7 +347,7 @@
               <path width="135.68" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 135.68 0 0 23-135.68 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Different initializations</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Different initializations</text>
             </g>
           </g>
         </g>
@@ -360,7 +360,7 @@
               <path width="167.12" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 167.12 0 0 23-167.12 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Different parameter choices</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Different parameter choices</text>
             </g>
           </g>
         </g>
@@ -373,7 +373,7 @@
               <path width="136.52" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 136.52 0 0 23-136.52 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Different architectures</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Different architectures</text>
             </g>
           </g>
         </g>
@@ -386,7 +386,7 @@
               <path width="166.88" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 166.88 0 0 23-166.88 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Different modeling methods</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Different modeling methods</text>
             </g>
           </g>
         </g>
@@ -399,7 +399,7 @@
               <path width="131.72" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 131.72 0 0 23-131.72 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Different training sets</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Different training sets</text>
             </g>
           </g>
         </g>
@@ -412,7 +412,7 @@
               <path width="129.2" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 129.2 0 0 23-129.2 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Different feature sets</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Different feature sets</text>
             </g>
           </g>
         </g>
@@ -425,7 +425,7 @@
               <path width="55.64" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 55.64 0 0 23-55.64 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Methods</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Methods</text>
             </g>
           </g>
         </g>
@@ -438,7 +438,7 @@
               <path width="114.8" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 114.8 0 0 23-114.8 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Classifier selection</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Classifier selection</text>
             </g>
           </g>
         </g>
@@ -451,7 +451,7 @@
               <path width="98" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 98 0 0 23-98 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Classifier fusion</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Classifier fusion</text>
             </g>
           </g>
         </g>
@@ -464,7 +464,7 @@
               <path width="56.48" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 56.48 0 0 23-56.48 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Common</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Common</text>
             </g>
           </g>
         </g>
@@ -477,7 +477,7 @@
               <path width="52.4" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 52.4 0 0 23-52.4 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Bagging</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Bagging</text>
             </g>
           </g>
         </g>
@@ -490,7 +490,7 @@
               <path width="56.24" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 56.24 0 0 23-56.24 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Boosting</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Boosting</text>
             </g>
           </g>
         </g>
@@ -503,7 +503,7 @@
               <path width="61.04" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 61.04 0 0 23-61.04 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">AdaBoost</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">AdaBoost</text>
             </g>
           </g>
         </g>
@@ -516,7 +516,7 @@
               <path width="69.56" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 69.56 0 0 23-69.56 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Regression</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Regression</text>
             </g>
           </g>
         </g>
@@ -529,7 +529,7 @@
               <path width="151.16" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 151.16 0 0 23-151.16 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Multiple linear regression</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Multiple linear regression</text>
             </g>
           </g>
         </g>
@@ -542,7 +542,7 @@
               <path width="122.48" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 122.48 0 0 23-122.48 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Partial least squares</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Partial least squares</text>
             </g>
           </g>
         </g>
@@ -555,7 +555,7 @@
               <path width="234.68" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 234.68 0 0 23-234.68 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Multi-layer feed forward neural network</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Multi-layer feed forward neural network</text>
             </g>
           </g>
         </g>
@@ -568,7 +568,7 @@
               <path width="203.96" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 203.96 0 0 23-203.96 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">General regression neural network</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">General regression neural network</text>
             </g>
           </g>
         </g>
@@ -581,7 +581,7 @@
               <path width="156.32" height="23" x="-2" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-2-11.5 156.32 0 0 23-156.32 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="left">Support vector regression</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Support vector regression</text>
             </g>
           </g>
         </g>
