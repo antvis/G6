@@ -4,13 +4,17 @@ title: CreateEdge 创建边
 
 ## 概述
 
-CreateEdge 是 G6中用于实现画布中交互式创建边(Edge)的内置交互，通过拖拽或点击节点创建边，支持自定义样式。这是图可视化中最常见的交互之一，使用户能够在可视化图中动态调整数据结构，实现更高效的交互编辑体验。
+CreateEdge 是 G6 中用于实现画布中交互式创建边（Edge）的内置交互。用户触发交互（点击或拖拽）后，边会随鼠标移动，连接到目标节点即完成创建，若取消则自动移除。
+
+此外，该交互支持自定义边的样式，如颜色、线条样式、箭头等，以适应不同的可视化需求。
+
+该交互支持连接的元素为 `node` 和 `combo`。
 
 ## 使用场景
 
 这一交互主要用于：
 
-- 需要交互式创建节点间连接关系的场景，如流程图、知识图谱等
+- 需要交互式创建节点间连接关系的可视化场景，如流程图、知识图谱等
 
 ## 在线体验
 
@@ -50,33 +54,21 @@ const graph = new Graph({
 | enable       | 是否启用该交互                           |  boolean \| ((event:_ [Event](/api/event#事件对象属性)_) => boolean)                           | true   |           |
 | onCreate     | 创建边回调函数，返回边数据                   | (edge: [EdgeData](/manual/data#边数据edgedata)) => [EdgeData](/manual/data#边数据edgedata))       | -            |       |
 | onFinish     | 成功创建边回调函数                       | (edge: [EdgeData](/manual/data#边数据edgedata)) => void     | -                     |       |
-| style        | 新建边的样式配置                         | edgeStyle: object         | -                           |    |
+| style        | 新建边的样式[配置项](/manual/element/edge/build-in/base-edge#style)                         | edgeStyle: object         | -                           |    |
 
 
 ### style
 
-`style`主要配置的是新建边的样式
+`style` 该交互创建出的边的配置项，可以配置边的样式，类型参考 [边的style配置](/manual/element/edge/build-in/base-edge#style)
 
 ```javascript
 {
     style: {
-        fill: 'red',
+        stroke: 'red',
         lineWidth: 2
     }
 }
 ```
-
-## API
-
-### destroy()
-
-`destroy` 方法用于销毁 `CreateEdge` 的交互行为，释放相关资源，防止内存泄漏或交互冲突
-
-```javascript
-CreateEdge.destroy();
-```
-
-> `destroy` 是彻底销毁，如果仅需要移除，请使用 `removeBehavior` 方法
 
 ## 代码示例
 
@@ -100,7 +92,7 @@ const graph = new Graph({
         {
             type: 'create-edge',
             style: {
-                fill: red,
+                stroke: red,
                 lineWidth: 3
             }
         }
@@ -132,13 +124,11 @@ const graph = new Graph({
     },
 });
 
-// 获取 CreateEdge 交互实例
-const createEdgeBehavior = graph.get('modes').default.find(b => b.type === 'create-edge');
+// 如果只想在运行时禁用，可以使用 removeBehavior
+graph.removeBehavior('create-edge');
 
-// 销毁 CreateEdge 交互
-if(createEdgeBehavior) {
-    createEdgeBehavior.destroy();
-}
+// 销毁整个 graph 实例
+graph.destroy();
 ```
 
 ## 实际案例
