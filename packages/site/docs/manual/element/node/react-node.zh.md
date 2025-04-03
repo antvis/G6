@@ -64,7 +64,6 @@ const MyReactNode = () => {
   return <div>node</div>;
 };
 
-
 ### 注册节点
 
 ```jsx
