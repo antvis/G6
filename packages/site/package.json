@@ -40,7 +40,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
     "@antv/algorithm": "^0.1.26",
-    "@antv/dumi-theme-antv": "^0.7.2",
+    "@antv/dumi-theme-antv": "^0.7.3",
     "@antv/g": "^6.1.21",
     "@antv/g-svg": "^2.0.34",
     "@antv/g-webgl": "^2.0.44",
@@ -56,8 +56,8 @@
     "dumi": "^2.4.17",
     "insert-css": "^2.0.0",
     "lodash": "^4.17.21",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "stats.js": "^0.17.0",
     "styled-components": "^6.1.15"
   },
