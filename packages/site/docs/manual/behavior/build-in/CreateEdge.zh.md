@@ -114,23 +114,6 @@ const graph = new Graph({
 })
 ```
 
-### 销毁交互示例
-
-```javascript
-const graph = new Graph({
-    container: 'container',
-    modes: {
-        default: ['create-edge']
-    },
-});
-
-// 如果只想在运行时禁用，可以使用 removeBehavior
-graph.removeBehavior('create-edge');
-
-// 销毁整个 graph 实例
-graph.destroy();
-```
-
 ## 实际案例
 
 <Playground path="behavior/create-edge/demo/by-drag.js" rid="default-create-edge"></Playground>
