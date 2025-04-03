@@ -17,13 +17,16 @@ type CreateRoot = (container: ContainerType) => Root;
 const { version, render: reactRender, unmountComponentAtNode } = fullClone;
 
 let createRoot: CreateRoot | undefined;
-try {
+
+async function initCreateRoot() {
+  if (createRoot) return;
   const mainVersion = Number((version || '').split('.')[0]);
-  if (mainVersion >= 18 && fullClone.createRoot) {
-    ({ createRoot } = fullClone);
+  if (mainVersion >= 19) {
+    const client = await import(['react-dom', 'client'].join('/'));
+    if (client.createRoot) {
+      createRoot = client.createRoot;
+    }
   }
-} catch (e) {
-  // Do nothing;
 }
 
 /**
@@ -85,7 +88,8 @@ function legacyRender(node: React.ReactElement, container: ContainerType) {
  * @param node - <zh/> React 节点 | <en/> React node
  * @param container - <zh/> 容器 | <en/> Container
  */
-export function render(node: React.ReactElement, container: ContainerType) {
+export async function render(node: React.ReactElement, container: ContainerType) {
+  await initCreateRoot();
   if (createRoot) modernRender(node, container);
   else legacyRender(node, container);
 }
@@ -123,6 +127,7 @@ function legacyUnmount(container: ContainerType) {
  * @returns <zh/> Promise | <en/> Promise
  */
 export async function unmount(container: ContainerType) {
+  await initCreateRoot();
   if (createRoot) {
     // Delay to unmount to avoid React 18 sync warning
     return modernUnmount(container);

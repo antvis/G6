@@ -70,7 +70,7 @@
     "@rushstack/node-core-library": "^4.3.0",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.16",
-    "@types/react": "^18.3.18",
+    "@types/react": "^19.1.0",
     "@types/resolve": "^1.20.6",
     "fs-extra": "^11.3.0",
     "gh-pages": "^6.3.0",
