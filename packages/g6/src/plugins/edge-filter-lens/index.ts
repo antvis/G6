@@ -1,4 +1,3 @@
-import type { BaseStyleProps } from '@antv/g';
 import { CommonEvent } from '../../constants';
 import { Circle, CircleStyleProps } from '../../elements';
 import type { RuntimeContext } from '../../runtime/types';
@@ -122,7 +121,7 @@ export interface EdgeFilterLensOptions extends BasePluginOptions {
   preventDefault?: boolean;
 }
 
-const defaultLensStyle: BaseStyleProps = {
+const defaultLensStyle: Exclude<CircleStyleProps, 'r'> = {
   fill: '#fff',
   fillOpacity: 1,
   lineWidth: 1,
