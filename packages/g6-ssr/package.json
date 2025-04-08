@@ -11,7 +11,7 @@
   "author": "Aarebecca",
   "main": "./dist/g6-ssr.cjs",
   "types": "./dist/lib/index.d.ts",
-  "bin": "./bin/g6-ssr.cjs",
+  "bin": "./bin/g6-ssr.js",
   "files": [
     "dist",
     "bin"

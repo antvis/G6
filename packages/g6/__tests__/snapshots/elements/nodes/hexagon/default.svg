@@ -8,12 +8,12 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 22)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">default</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">default</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-family="iconfont" font-size="20" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"></text>
             </g>
           </g>
         </g>
@@ -26,12 +26,12 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 22)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">halo</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">halo</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-family="iconfont" font-size="20" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"></text>
             </g>
           </g>
         </g>
@@ -41,12 +41,12 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 22)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">badges</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">badges</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-family="iconfont" font-size="20" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"></text>
             </g>
           </g>
           <g fill="none" class="badge-0" transform="matrix(1 0 0 1 14.3205 -20)">
@@ -55,7 +55,7 @@
                 <path width="12" height="12" x="-1.5" y="2.5" fill="rgba(126,146,181,1)" stroke-width="0" d="m4.5 2.5 0 0a6 6 0 0 1 6 6l0 0a6 6 0 0 1-6 6l0 0a6 6 0 0 1-6-6l0 0a6 6 0 0 1 6-6z" class="background"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx=".5" dy="8.5" font-family="iconfont" font-size="8" paint-order="stroke" text-anchor="left"></text>
+                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx=".5" dy="8.5" font-family="iconfont" font-size="8" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left"></text>
               </g>
             </g>
           </g>
@@ -65,7 +65,7 @@
                 <path width="46.52" height="19" x="-4" y="-9.5" fill="rgba(244,102,74,1)" stroke-width="0" d="m5.5-9.5 27.52 0a9.5 9.5 0 0 1 9.5 9.5l0 0a9.5 9.5 0 0 1-9.5 9.5l-27.52 0a9.5 9.5 0 0 1-9.5-9.5l0 0a9.5 9.5 0 0 1 9.5-9.5z" class="background"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="8" paint-order="stroke" text-anchor="left">Important</text>
+                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="8" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Important</text>
               </g>
             </g>
           </g>
@@ -75,7 +75,7 @@
                 <path width="34.12" height="19" x="-4" y="-18" fill="rgba(255,190,58,1)" stroke-width="0" d="m5.5-18 15.12 0a9.5 9.5 0 0 1 9.5 9.5l0 0a9.5 9.5 0 0 1-9.5 9.5l-15.12 0a9.5 9.5 0 0 1-9.5-9.5l0 0a9.5 9.5 0 0 1 9.5-9.5z" class="background"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx=".5" dy="-8.5" font-family="system-ui, sans-serif" font-size="8" paint-order="stroke" text-anchor="left">Notice</text>
+                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx=".5" dy="-8.5" font-family="system-ui, sans-serif" font-size="8" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Notice</text>
               </g>
             </g>
           </g>
@@ -86,7 +86,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 22)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">icon</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">icon</text>
             </g>
           </g>
           <g fill="none" class="icon">
@@ -101,12 +101,12 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 22)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">ports</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">ports</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-family="iconfont" font-size="20" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"></text>
             </g>
           </g>
           <g transform="matrix(1 0 0 1 -17.3205 0)">
@@ -131,12 +131,12 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 22)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">active</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">active</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-family="iconfont" font-size="20" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"></text>
             </g>
           </g>
         </g>
@@ -149,12 +149,12 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 22)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" paint-order="stroke" text-anchor="middle">selected</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">selected</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-family="iconfont" font-size="20" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"></text>
             </g>
           </g>
         </g>
@@ -164,12 +164,12 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 22)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" paint-order="stroke" text-anchor="middle">highlight</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">highlight</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-family="iconfont" font-size="20" paint-order="stroke" text-anchor="middle"></text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-family="iconfont" font-size="20" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"></text>
             </g>
           </g>
         </g>
@@ -179,12 +179,12 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 22)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".25" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">inactive</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".25" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">inactive</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-family="iconfont" font-size="20" opacity=".85" paint-order="stroke" text-anchor="middle"></text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-family="iconfont" font-size="20" opacity=".85" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"></text>
             </g>
           </g>
         </g>
@@ -194,12 +194,12 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 22)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".25" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">disabled</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".25" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">disabled</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(27,50,79,1)" class="icon" dominant-baseline="central" dx=".5" font-family="iconfont" font-size="20" opacity=".25" paint-order="stroke" text-anchor="middle"></text>
+              <text fill="rgba(27,50,79,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-family="iconfont" font-size="20" opacity=".25" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"></text>
             </g>
           </g>
         </g>
