@@ -66,6 +66,8 @@ const graph = new Graph({
 | shadowOffsetX | 阴影 X 方向偏移 | number                        | -      |
 | shadowOffsetY | 阴影 Y 方向偏移 | number                        | -      |
 
+完整样式属性参考 [元素 -节点 - 内置节点 - 通用样式属性 - style](/manual/element/node/build-in/base-node#style)
+
 ### trigger
 
 `trigger` 属性用于控制透镜的移动方式，支持以下三种配置：

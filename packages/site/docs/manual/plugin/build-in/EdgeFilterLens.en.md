@@ -60,6 +60,8 @@ Style properties for the circular lens.
 | lineWidth     | Line width     | number | 1         |
 | zIndex        | Layer level    | number | -Infinity |
 
+For complete style properties, refer to [Element - Node - Built-in Node - Common Style Properties - style](/en/manual/element/node/build-in/base-node#styletype-property-type)
+
 ### trigger
 
 The `trigger` property controls how the lens moves, supporting three configurations:
