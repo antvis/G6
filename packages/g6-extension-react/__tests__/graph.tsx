@@ -10,7 +10,7 @@ export interface GraphProps {
 
 export const Graph = (props: GraphProps) => {
   const { options, onRender, onDestroy } = props;
-  const graphRef = useRef<G6Graph>();
+  const graphRef = useRef<G6Graph | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export const Graph = (props: GraphProps) => {
       if (graph) {
         graph.destroy();
         onDestroy?.();
-        graphRef.current = undefined;
+        graphRef.current = null;
       }
     };
   }, []);

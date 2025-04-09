@@ -16,7 +16,8 @@ it('attribute changed callback', () => {
     },
   });
 
-  const spy = jest.spyOn(node, 'attributeChangedCallback');
+  const spy = jest.fn();
+  node.attributeChangedCallback = spy;
 
   const component = () => <div>test1</div>;
 

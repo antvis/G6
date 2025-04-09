@@ -14,16 +14,27 @@ const fullClone = {
 
 type CreateRoot = (container: ContainerType) => Root;
 
-const { version, render: reactRender, unmountComponentAtNode } = fullClone;
+const { version, render: reactRender, unmountComponentAtNode } = fullClone as any;
 
 let createRoot: CreateRoot | undefined;
-try {
+
+async function initCreateRoot() {
+  if (createRoot) return;
   const mainVersion = Number((version || '').split('.')[0]);
-  if (mainVersion >= 18 && fullClone.createRoot) {
-    ({ createRoot } = fullClone);
+
+  // React 18+ 使用 createRoot
+  if (mainVersion >= 18) {
+    try {
+      /* @vite-ignore */
+      const client = await import('react-dom/client');
+      if (client.createRoot) {
+        createRoot = client.createRoot;
+      }
+    } catch (error) {
+      // 如果动态导入失败，回退到旧版本渲染
+      // Silent error
+    }
   }
-} catch (e) {
-  // Do nothing;
 }
 
 /**
@@ -85,7 +96,8 @@ function legacyRender(node: React.ReactElement, container: ContainerType) {
  * @param node - <zh/> React 节点 | <en/> React node
  * @param container - <zh/> 容器 | <en/> Container
  */
-export function render(node: React.ReactElement, container: ContainerType) {
+export async function render(node: React.ReactElement, container: ContainerType) {
+  await initCreateRoot();
   if (createRoot) modernRender(node, container);
   else legacyRender(node, container);
 }
@@ -123,6 +135,7 @@ function legacyUnmount(container: ContainerType) {
  * @returns <zh/> Promise | <en/> Promise
  */
 export async function unmount(container: ContainerType) {
+  await initCreateRoot();
   if (createRoot) {
     // Delay to unmount to avoid React 18 sync warning
     return modernUnmount(container);
