@@ -40,7 +40,7 @@ fetch('https://assets.antv.antgroup.com/g6/relations.json')
           trigger: 'click',
           scaleRBy: 'wheel',
           scaleDBy: 'drag',
-          style: { fill: 'transparent', stroke: 'transparent' },
+          style: { fill: '#F08F56', stroke: '#666', lineDash: [5, 5] },
           nodeStyle: { label: true, icon: true },
         },
       ],
