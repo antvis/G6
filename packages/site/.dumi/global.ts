@@ -25,7 +25,7 @@ if (typeof window !== 'undefined' && window) {
 
   window.react = require('react');
   window.React = window.react;
-  window.client = require('react-dom');
+  window.client = require('react-dom/client');
   window.styledComponents = require('styled-components');
 
   window.addPanel = async (renderPanel: (gui) => void) => {
