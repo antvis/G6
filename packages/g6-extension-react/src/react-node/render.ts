@@ -14,17 +14,25 @@ const fullClone = {
 
 type CreateRoot = (container: ContainerType) => Root;
 
-const { version, render: reactRender, unmountComponentAtNode } = fullClone;
+const { version, render: reactRender, unmountComponentAtNode } = fullClone as any;
 
 let createRoot: CreateRoot | undefined;
 
 async function initCreateRoot() {
   if (createRoot) return;
   const mainVersion = Number((version || '').split('.')[0]);
-  if (mainVersion >= 19) {
-    const client = await import(['react-dom', 'client'].join('/'));
-    if (client.createRoot) {
-      createRoot = client.createRoot;
+
+  // React 18+ 使用 createRoot
+  if (mainVersion >= 18) {
+    try {
+      /* @vite-ignore */
+      const client = await import('react-dom/client');
+      if (client.createRoot) {
+        createRoot = client.createRoot;
+      }
+    } catch (error) {
+      // 如果动态导入失败，回退到旧版本渲染
+      // Silent error
     }
   }
 }
