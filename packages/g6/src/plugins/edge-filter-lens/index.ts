@@ -1,5 +1,5 @@
 import { CommonEvent } from '../../constants';
-import { Circle, CircleStyleProps } from '../../elements';
+import { Circle, type CircleStyleProps } from '../../elements';
 import type { RuntimeContext } from '../../runtime/types';
 import type { EdgeData, GraphData, NodeData } from '../../spec';
 import type { EdgeStyle } from '../../spec/element/edge';
