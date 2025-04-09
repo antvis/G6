@@ -1,9 +1,6 @@
-<iframe src="https://codesandbox.io/embed/xzf7pg?view=split&module=%2Fsrc%2FApp.vue&hidenavigation=1&theme=light"
+<iframe src="https://stackblitz.com/edit/g6-in-vue?embed=1&file=src%2FApp.vue&theme=light"
      style="width:100%; height: 500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="G6 Vue"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+     title="G6 Vue"></iframe>
 
 ```html
 <template>
