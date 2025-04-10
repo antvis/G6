@@ -41,7 +41,7 @@ const graph = new Graph({
 ## 配置项
 
 | 属性             | 描述                                                       | 类型                                               | 默认值    | 必选 |
-| ---------------- | ---------------------------------------------------------- | -------------------------------------------------- | --------- | ---- | --- | --- | --- |
+| ---------------- | ---------------------------------------------------------- | -------------------------------------------------- | --------- | ---- |
 | type             | 插件类型                                                   | string                                             | `hull`    | ✓    |
 | key              | 插件唯一标识符，用于后续更新                               | string                                             | -         |      |
 | members          | Hull 内的元素，包括节点和边                                | string[]                                           | -         | ✓    |
@@ -56,11 +56,13 @@ const graph = new Graph({
 | labelAutoRotate  | 标签是否跟随轮廓旋转，仅在 closeToPath 为 true 时生效      | boolean                                            | true      |      |
 | labelOffsetX     | x 轴偏移量                                                 | number                                             | 0         |      |
 | labelOffsetY     | y 轴偏移量                                                 | number                                             | 0         |      |
-| labelMaxWidth    | 文本的最大宽度，超出会自动省略                             | number                                             | -         |      |     | 0   |     |
+| labelMaxWidth    | 文本的最大宽度，超出会自动省略                             | number                                             | 0         |      |
+
+完整的标签样式见[此链接](https://g6.antv.antgroup.com/manual/element/node/build-in/base-node#%E6%A0%87%E7%AD%BE%E6%A0%B7%E5%BC%8F)
 
 ### concavity
 
-`concavity` 属性用于控制 Hull 的凹度。当设置为 Infinity 时，生成的是凸包；否则会生成凹包。
+concavity 属性用于控制 Hull 的凹度。当设置为 Infinity 时，生成的是凸包；否则会生成凹包。
 
 ```js
 // 凸包示例
