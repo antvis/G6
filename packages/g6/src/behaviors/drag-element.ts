@@ -281,6 +281,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
    * @internal
    */
   protected onDragEnd() {
+    if (!this.enable) return; // It can be called multiple times
     this.enable = false;
     if (this.options.shadow) {
       if (!this.shadow) return;
