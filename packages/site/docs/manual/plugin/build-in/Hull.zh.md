@@ -40,18 +40,23 @@ const graph = new Graph({
 
 ## 配置项
 
-| 属性            | 描述                                                       | 类型                                               | 默认值     | 必选 |
-| --------------- | ---------------------------------------------------------- | -------------------------------------------------- | ---------- | ---- |
-| type            | 插件类型                                                   | string                                             | `hull`     | ✓    |
-| key             | 插件唯一标识符，用于后续更新                               | string                                             | -          |      |
-| members         | Hull 内的元素，包括节点和边                                | string[]                                           | -          | ✓    |
-| concavity       | 凹度，数值越大凹度越小；默认为 Infinity 代表为 Convex Hull | number                                             | `Infinity` |      |
-| corner          | 拐角类型，可选值为 `rounded` \| `smooth` \| `sharp`        | string                                             | `rounded`  |      |
-| padding         | 内边距                                                     | number                                             | `10`       |      |
-| label           | 是否显示标签                                               | boolean                                            | true       |      |
-| labelPlacement  | 标签位置                                                   | `left` \| `right` \| `top` \| `bottom` \| `center` | `bottom`   |      |
-| labelBackground | 是否显示背景                                               | boolean                                            | false      |      |
-| labelPadding    | 标签内边距                                                 | number \| number[]                                 | 0          |      |
+| 属性             | 描述                                                       | 类型                                               | 默认值    | 必选 |
+| ---------------- | ---------------------------------------------------------- | -------------------------------------------------- | --------- | ---- | --- | --- | --- |
+| type             | 插件类型                                                   | string                                             | `hull`    | ✓    |
+| key              | 插件唯一标识符，用于后续更新                               | string                                             | -         |      |
+| members          | Hull 内的元素，包括节点和边                                | string[]                                           | -         | ✓    |
+| concavity        | 凹度，数值越大凹度越小；默认为 Infinity 代表为 Convex Hull | number                                             | Infinity  |      |
+| corner           | 拐角类型，可选值为 `rounded` \| `smooth` \| `sharp`        | string                                             | `rounded` |      |
+| padding          | 内边距                                                     | number                                             | `10`      |      |
+| label            | 是否显示标签                                               | boolean                                            | true      |      |
+| labelPlacement   | 标签位置                                                   | `left` \| `right` \| `top` \| `bottom` \| `center` | `bottom`  |      |
+| labelBackground  | 是否显示背景                                               | boolean                                            | false     |      |
+| labelPadding     | 标签内边距                                                 | number \| number[]                                 | 0         |      |
+| labelCloseToPath | 标签是否贴合轮廓                                           | boolean                                            | true      |      |
+| labelAutoRotate  | 标签是否跟随轮廓旋转，仅在 closeToPath 为 true 时生效      | boolean                                            | true      |      |
+| labelOffsetX     | x 轴偏移量                                                 | number                                             | 0         |      |
+| labelOffsetY     | y 轴偏移量                                                 | number                                             | 0         |      |
+| labelMaxWidth    | 文本的最大宽度，超出会自动省略                             | number                                             | -         |      |     | 0   |     |
 
 ### concavity
 
