@@ -4,10 +4,14 @@ import { createRoot } from 'react-dom/client';
 import { Graph } from '@antv/g6';
 import { ExtensionCategory, register } from '@antv/g6';
 import { ReactNode } from '@antv/g6-extension-react';
-import { Card, Typography, Button, Select, Descriptions } from 'antd';
+import { Card, Typography, Button, Select, Descriptions, Avatar, Space } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
+
+// 注册自定义节点
+register(ExtensionCategory.NODE, 'react-node', ReactNode);
 
 // 定义自定义节点组件
 const IDCardNode = ({ id, data, onSelectChange }) => {
@@ -20,10 +24,11 @@ const IDCardNode = ({ id, data, onSelectChange }) => {
     graph.updateNodeData([{
       id,
       data: {
-        ...data,
+        //...data,
         expanded: !isExpanded,
       },
     }]);
+    graph.render();
   };
 
   const handleSelect = (value) => {
@@ -38,6 +43,7 @@ const IDCardNode = ({ id, data, onSelectChange }) => {
             },
           }]);
           onSelectChange(id, true, 1); // 调用回调方法，带回选择的选项序号
+          graph.render();
         }
         break;
       case 2: // 选择相关联的节点
@@ -64,6 +70,7 @@ const IDCardNode = ({ id, data, onSelectChange }) => {
             }]);
             onSelectChange(node.id, true, 2); // 调用回调方法，带回选择的选项序号
           });
+          graph.render();
         }
         break;
       default: // 不选择
@@ -75,6 +82,7 @@ const IDCardNode = ({ id, data, onSelectChange }) => {
           },
         }]);
         onSelectChange(id, false, 0); // 调用回调方法，带回选择的选项序号
+        graph.render();
         break;
     }
   };
@@ -83,29 +91,42 @@ const IDCardNode = ({ id, data, onSelectChange }) => {
 
   return (
     <Card
+      size='small'
       title={
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <Select
-            value={selected ? (data.selectedOption || 1) : 0}
-            style={{ width: 150, marginRight: 8 }}
-            onChange={handleSelect}
-          >
-            <Option value={0}>None</Option>
-            <Option value={1}>Select this node</Option>
-            <Option value={2}>Select related nodes</Option>
-          </Select>
-          <Title level={5} style={{ margin: 0 }}>
-            {name}
-          </Title>
-          <Button type="link" onClick={toggleExpand} style={{ padding: 0 }}>
-            {isExpanded ? 'fold' : 'expand'}
-          </Button>
+
+          <Space>
+            <Avatar
+              shape="square"
+              size="small"
+              icon={<UserOutlined />}
+            />
+            <Title level={5} style={{ margin: 0 }}>
+              {name}
+            </Title>
+
+            <Select
+              value={selected ? (data.selectedOption || 1) : 0}
+              style={{ width: 150, marginRight: 8 }}
+              onChange={handleSelect}
+            >
+              <Option value={0}>Don't Select</Option>
+              <Option value={1}>Select this node</Option>
+              <Option value={2}>Select related nodes</Option>
+            </Select>
+
+            <Button type="link" onClick={toggleExpand} style={{ padding: 0 }}>
+              {isExpanded ? 'fold' : 'expand'}
+            </Button>
+          </Space>
         </div>
       }
       style={{
-        width: 500,
+        width: 340,
         padding: 10,
-        borderColor: selected ? 'orange' : '#ddd', // 根据选中状态设置边框颜色
+        borderRadius: 8,
+        borderWidth: 2,
+        borderColor: selected ? 'orange' : '#eee', // 根据选中状态设置边框颜色
         cursor: 'pointer', // 添加鼠标指针样式
       }}
       onClick={() => {
@@ -130,9 +151,6 @@ const IDCardNode = ({ id, data, onSelectChange }) => {
   );
 };
 
-// 注册自定义节点
-register(ExtensionCategory.NODE, 'id-card', ReactNode);
-
 // 定义 Graph 数据
 const data = {
   nodes: [
@@ -143,7 +161,7 @@ const data = {
         idNumber: 'IDUSAASD2131734',
         address: '1234 Broadway, Apt 5B, New York, NY 10001',
         expanded: false, // 初始状态为收缩
-        selected: true, // 初始状态为未选中
+        selected: false, // 初始状态为未选中
         selectedOption: 1, // 初始选择本节点
       },
       style: { x: 50, y: 50 },
@@ -167,7 +185,7 @@ const data = {
         idNumber: 'IDUSAASD1431921',
         address: '4040 Elm St, Chicago, IL 60611',
         expanded: false,
-        selected: false,
+        selected: true,
         selectedOption: 0,
       },
     },
@@ -193,61 +211,6 @@ const data = {
         selectedOption: 0,
       },
     },
-    {
-      id: 'node6',
-      data: {
-        name: 'Frank',
-        idNumber: 'IDUSAASD1431924',
-        address: '7070 Maple St, San Antonio, TX 78201',
-        expanded: false,
-        selected: false,
-        selectedOption: 0,
-      },
-    },
-    {
-      id: 'node7',
-      data: {
-        name: 'Grace',
-        idNumber: 'IDUSAASD1431925',
-        address: '8080 Cedar St, San Diego, CA 92101',
-        expanded: false,
-        selected: false,
-        selectedOption: 0,
-      },
-    },
-    {
-      id: 'node8',
-      data: {
-        name: 'Hannah',
-        idNumber: 'IDUSAASD1431926',
-        address: '9090 Walnut St, Dallas, TX 75201',
-        expanded: false,
-        selected: false,
-        selectedOption: 0,
-      },
-    },
-    {
-      id: 'node9',
-      data: {
-        name: 'Ian',
-        idNumber: 'IDUSAASD1431927',
-        address: '1010 Birch St, San Jose, CA 95101',
-        expanded: false,
-        selected: false,
-        selectedOption: 0,
-      },
-    },
-    {
-      id: 'node10',
-      data: {
-        name: 'Judy',
-        idNumber: 'IDUSAASD1431928',
-        address: '1111 Spruce St, Austin, TX 73301',
-        expanded: false,
-        selected: false,
-        selectedOption: 0,
-      },
-    },
   ],
   edges: [
     {
@@ -265,30 +228,6 @@ const data = {
     {
       source: 'node4',
       target: 'node5',
-    },
-    {
-      source: 'node5',
-      target: 'node6',
-    },
-    {
-      source: 'node6',
-      target: 'node7',
-    },
-    {
-      source: 'node7',
-      target: 'node8',
-    },
-    {
-      source: 'node8',
-      target: 'node9',
-    },
-    {
-      source: 'node9',
-      target: 'node10',
-    },
-    {
-      source: 'node10',
-      target: 'node1',
     },
   ],
 };
@@ -314,6 +253,7 @@ export const ReactNodeDemo = () => {
   useEffect(() => {
     // 创建 Graph 实例
     const graph = new Graph({
+      autoFit: 'view',
       container: containerRef.current,
       width: 800,
       height: 600,
@@ -334,17 +274,15 @@ export const ReactNodeDemo = () => {
         },
       }],
       layout: {
-        type: 'grid',
-        align: 'left',
-        nodesep: 50,
-        nodeSize: [500, 220],
-        ranksep: 50,
+        type: 'snake',
+        cols: 2,
+        rowGap: 100,
+        colGap: 220,
       },
     });
 
     // 渲染 Graph
     graph.render();
-    graph.fitView();
 
     // 保存 graph 实例
     graphRef.current = graph;
