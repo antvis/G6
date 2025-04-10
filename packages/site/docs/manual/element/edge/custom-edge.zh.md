@@ -38,7 +38,7 @@ G6 提供了多种[内置边](/manual/element/edge/build-in/base-edge)类型，�
 
 2. 基于 G 图形系统从零开发 <Badge>高级用法</Badge>
 
-如果现有边类型都不满足需求，你可以基于 G 的底层图形系统从零创建边，自行处理所有细节，包括路径计算、事件响应、状态变化等这种方式灵活性最高，但复杂度也较大。这里可以直接参考[源码](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/edges/base-edge.ts)
+如果现有边类型都不满足需求，你可以基于 G 的底层图形系统从零创建边。你需要自行处理所有细节，包括路径计算、事件响应、状态变化等。这种方式灵活性最高，但复杂度也较大。这里可以直接参考 [源码](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/edges/base-edge.ts) 进行实现
 
 ## 三步创建你的第一个自定义边
 
