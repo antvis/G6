@@ -1,5 +1,5 @@
 import '../../../src';
-import G6 from '../../../src';
+import G6, { ICombo } from '../../../src';
 
 const div = document.createElement('div');
 div.id = 'drag-combo-spec';
@@ -322,6 +322,100 @@ describe('drag-combo', () => {
     expect(Math.abs(comboCBBox.width - 541) < 2).toBe(true);
     graph.destroy();
     done();
+  });
+  it('drag locked combo', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          x: 150,
+          y: 150,
+          label: 'node1',
+          comboId: 'A',
+        },
+        {
+          id: 'node2',
+          x: 200,
+          y: 250,
+          label: 'node2',
+          comboId: 'A',
+        },
+        {
+          id: 'node4',
+          x: 200,
+          y: 350,
+          label: 'node4',
+          comboId: 'B',
+        },
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node4',
+        },
+        {
+          source: 'node1',
+          target: 'node2',
+        }
+      ],
+      combos: [
+        {
+          id: 'A',
+          label: 'group A',
+          type: 'circle',
+          x: 50,
+          y: 50,
+        },
+        {
+          id: 'B',
+          label: 'group B',
+          x: 50,
+          y: 50,
+        }
+      ],
+    };
+
+    const graph = new G6.Graph({
+      container: 'drag-combo-spec',
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          {
+            type: 'drag-combo'
+          },
+        ],
+      },
+    });
+
+    graph.data(data);
+    graph.render();
+    graph.paint();
+
+    // Test locked combo
+    const comboA = graph.findById('A') as ICombo;
+    comboA.lock();
+
+    graph.emit('combo:mousedown', { x: 100, y: 100, item: comboA });
+    graph.emit('combo:dragstart', { x: 100, y: 100, item: comboA });
+    graph.emit('combo:drag', { x: 100, y: 100, item: comboA });
+    graph.emit('combo:drag', { x: 120, y: 120, item: comboA });
+    graph.emit('combo:dragend', { x: 120, y: 120, item: comboA });
+    const dragMatrixA = comboA.get('group').getMatrix();
+    expect(dragMatrixA[6]).toEqual(50);
+    expect(dragMatrixA[7]).toEqual(50);
+
+    // Test unlocked combo
+    const comboB = graph.findById('B') as ICombo;
+
+    graph.emit('combo:mousedown', { x: 100, y: 100, item: comboB });
+    graph.emit('combo:dragstart', { x: 100, y: 100, item: comboB });
+    graph.emit('combo:drag', { x: 100, y: 100, item: comboB });
+    graph.emit('combo:drag', { x: 120, y: 120, item: comboB });
+    graph.emit('combo:dragend', { x: 120, y: 120, item: comboB });
+    const dragMatrixB = comboB.get('group').getMatrix();
+    expect(dragMatrixB[6]).toEqual(70); // moved
+    expect(dragMatrixB[7]).toEqual(70); // moved
   });
 
   it('combo example', () => {
