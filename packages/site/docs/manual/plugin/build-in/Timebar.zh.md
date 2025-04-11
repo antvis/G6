@@ -53,6 +53,13 @@ const graph = new Graph({
 | loop           | 是否循环播放                     | boolean                                            | false        |      |
 | getTime        | 获取元素时间的方法               | (datum: ElementDatum) => number                    | -            |      |
 | labelFormatter | 图表模式下自定义时间格式化       | (time: number \| Date) => string                   | -            |      |
+| onChange       | 时间区间变化时的回调             | (values: number \| [number, number]) => void       | -            |      |
+| onReset        | 重置时的回调                     | () => void                                         | -            |      |
+| onSpeedChange  | 播放速度变化时的回调             | (speed: number) => void                            | -            |      |
+| onPlay         | 开始播放时的回调                 | () => void                                         | -            |      |
+| onPause        | 暂停时的回调                     | () => void                                         | -            |      |
+| onBackward     | 后退时的回调                     | () => void                                         | -            |      |
+| onForward      | 前进时的回调                     | () => void                                         | -            |      |
 
 ### timebarType
 
@@ -67,18 +74,6 @@ const graph = new Graph({
 
 - `modify`：通过修改图数据进行筛选
 - `visibility`：通过修改元素可见性进行筛选
-
-## 事件回调
-
-| 名称          | 描述                 | 类型                                         |
-| ------------- | -------------------- | -------------------------------------------- |
-| onChange      | 时间区间变化时的回调 | (values: number \| [number, number]) => void |
-| onReset       | 重置时的回调         | () => void                                   |
-| onSpeedChange | 播放速度变化时的回调 | (speed: number) => void                      |
-| onPlay        | 开始播放时的回调     | () => void                                   |
-| onPause       | 暂停时的回调         | () => void                                   |
-| onBackward    | 后退时的回调         | () => void                                   |
-| onForward     | 前进时的回调         | () => void                                   |
 
 ## 代码示例
 

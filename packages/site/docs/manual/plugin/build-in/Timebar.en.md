@@ -53,6 +53,13 @@ const graph = new Graph({
 | loop           | Whether to loop playback                   | boolean                                            | false        |          |
 | getTime        | Method to get element time                 | (datum: ElementDatum) => number                    | -            |          |
 | labelFormatter | Custom time formatting in chart mode       | (time: number \| Date) => string                   | -            |          |
+| onChange       | Callback when time range changes           | (values: number \| [number, number]) => void       | -            |          |
+| onReset        | Callback when reset                        | () => void                                         | -            |          |
+| onSpeedChange  | Callback when playback speed changes       | (speed: number) => void                            | -            |          |
+| onPlay         | Callback when playback starts              | () => void                                         | -            |          |
+| onPause        | Callback when paused                       | () => void                                         | -            |          |
+| onBackward     | Callback when backward                     | () => void                                         | -            |          |
+| onForward      | Callback when forward                      | () => void                                         | -            |          |
 
 ### timebarType
 
@@ -67,18 +74,6 @@ The `mode` property controls the element filtering method, supporting two config
 
 - `modify`: Filter by modifying graph data
 - `visibility`: Filter by modifying element visibility
-
-## Event Callbacks
-
-| Name          | Description                          | Type                                         |
-| ------------- | ------------------------------------ | -------------------------------------------- |
-| onChange      | Callback when time range changes     | (values: number \| [number, number]) => void |
-| onReset       | Callback when reset                  | () => void                                   |
-| onSpeedChange | Callback when playback speed changes | (speed: number) => void                      |
-| onPlay        | Callback when playback starts        | () => void                                   |
-| onPause       | Callback when paused                 | () => void                                   |
-| onBackward    | Callback when backward               | () => void                                   |
-| onForward     | Callback when forward                | () => void                                   |
 
 ## Code Examples
 
