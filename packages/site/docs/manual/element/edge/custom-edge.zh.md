@@ -41,6 +41,7 @@ G6 提供了多种[内置边](/manual/element/edge/build-in/base-edge)类型，�
 ### 2. 基于 G 图形系统从零开发 <Badge>高级用法</Badge>
 
 如果现有边类型都不满足需求，你可以基于 G 的底层图形系统从零创建边。
+
 **为什么选择这种方式？**
 
 - 📌 **最大自由度**：完全控制边的每个细节，实现任意复杂效果
@@ -198,59 +199,147 @@ graph.render();
 
 🎉 恭喜！你已经创建了第一个自定义边。
 
-## 深入理解自定义边
+## 更进一步：理解边绘制的原理
 
-### 绘制核心方法
+### 原子图形
 
-#### `render()`: 渲染边的主入口
+G6 的节点是由 [G 图形系统](https://g.antv.antgroup.com/) 提供的图形原子单元绘制而成。以下是常见图形元素及其用途：
 
-每个自定义边类都必须实现 `render(attributes, container)` 方法，它定义了该边如何被“绘制”出来。你可以在这里使用各种原子图形，组合出你想要的结构。
+| 图形元素 | 类型       | 描述                                                                                                                                                                        |
+| -------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 圆形     | `circle`   | 适合表示状态、头像、圆形按钮等。可以参考 SVG 的 [\<circle\>](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Reference/Element/circle) 元素                                |
+| 椭圆     | `ellipse`  | 与 circle 类似，但支持横纵轴不同的场景。可以参考 SVG 的 [\<ellipse\>](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Reference/Element/ellipse) 元素                      |
+| 图片     | `image`    | 用于展示图标、用户头像、LOGO 等。可以参考 SVG 的 [\<image\>](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/image) 元素                                           |
+| 直线     | `line`     | 用于装饰、辅助连接等。可以参考 SVG 的 [\<line\>](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/line) 元素                                                        |
+| 路径     | `path`     | 支持复杂图形，如箭头、圆弧、曲线、贝塞尔路径等。路径中包含一组命令与参数，这些命令有不同的语义，[具体用法](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Tutorial/Paths) |
+| 多边形   | `polygon`  | 支持自定义图形，如五角星、箭头。可以参考 SVG 的 [\<polygon\>](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/polygon) 元素                                        |
+| 折线     | `polyline` | 多点折线，适合复杂的连线结构。可以参考 SVG 的 [\<polyline\>](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/polyline) 元素                                        |
+| 矩形     | `rect`     | 最常用图形，适合作为容器、卡片、按钮等基础结构。可以参考 SVG 的 [\<rect\>](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/rect) 元素                              |
+| 文本     | `text`     | 显示名称、描述、标签等内容。提供简单的单行/多行文本排版能力，单行支持水平对齐、字符间距；多行支持显式换行符以及自动换行，垂直对齐                                           |
 
-#### `upsert(name, Ctor, style, container, hooks)`：高效图形创建
+> 更多原子图形和详细的属性请参考 [元素 - 图形（可选）](/manual/element/shape/overview)
 
-在创建自定义边时，你会频繁用到 `upsert` 方法。它是 "update or insert" 的缩写，负责添加或更新边中的图形元素：
+所有这些图形都可通过 `upsert()` 动态创建或更新，并自动管理图形状态和生命周期。
 
-```js | pure
-// 添加或更新一个文本标签
+### 元素基类
+
+开始自定义元素之前，你需要了解 G6 元素基类中的一些重要属性和方法：
+
+#### 属性
+
+| 属性       | 类型                          | 描述                       |
+| ---------- | ----------------------------- | -------------------------- |
+| shapeMap   | Record<string, DisplayObject> | 当前元素下所有图形的映射表 |
+| animateMap | Record<string, IAnimation>    | 当前元素下所有动画的映射表 |
+
+#### 方法
+
+#### `upsert(name, Ctor, style, container, hooks)`: 高效图形创建
+
+在创建自定义元素时，你会频繁用到 `upsert` 方法。它是 "update or insert" 的缩写，负责添加或更新元素中的图形：
+
+```typescript
+upsert(key: string, Ctor: { new (...args: any[]): DisplayObject }, style: Record<string, any>, container: DisplayObject);
+```
+
+| 参数      | 类型                                    | 描述                                                                                                                                                                                                                                   |
+| --------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| key       | string                                  | 图形的 key，即 `shapeMap` 中对应的 key。内置的 key 包括 `'key'` `'label'` `'halo'` `'icon'` `'port'` `'badge'`<br/> key 不应使用特殊符号，会基于该值转化为驼峰形式调用 `getXxxStyle` 和 `drawXxxShape` 方法（见[元素约定](#元素约定)） |
+| Ctor      | { new (...args: any[]): DisplayObject } | 图形类                                                                                                                                                                                                                                 |
+| style     | Record<string, any>                     | 图形样式                                                                                                                                                                                                                               |
+| container | DisplayObject                           | 挂载图形的容器                                                                                                                                                                                                                         |
+
+例如，插入一个固定位置的紫色圆形：
+
+```js
 this.upsert(
-  'custom-label', // 元素的唯一标识
-  'text', // 图形类型，如 'path', 'text', 'circle' 等
-  {
-    // 样式配置对象
-    x: 100,
-    y: 100,
-    text: '标签文本',
-    fill: '#a975f3',
-  },
+  'element-key', // 元素的唯一标识
+  'circle', // 图形类型，如 'rect', 'circle' 等
+  { x: 100, y: 100, fill: '#a975f3' }, // 样式配置对象
   container, // 父容器
 );
 ```
 
 为什么要使用 `upsert` 而不直接通过 `container.appendChild()` 创建图形？因为：
 
-1. **性能更好**：当边状态变化或数据更新时，会智能地复用已有图形，而不是删除再重建，大大提高了渲染性能
+1. **性能更好**：当状态变化或数据更新时，会智能地复用已有图形，而不是删除再重建，大大提高了渲染性能
 2. **代码更简洁**：不需要手动判断元素是否存在 ⚠️ 区别于 v4
-3. **便于管理**：所有通过 `upsert` 创建的图形都会被记录在边的 `shapeMap` 中，你可以通过 `this.getShape(key)` 轻松获取
+3. **便于管理**：所有通过 `upsert` 创建的图形都会被记录在节点的 `shapeMap` 中，你可以通过 `this.getShape(key)` 轻松获取
 
-<br/>
+#### `render(attributes, container)`: 渲染边的主入口
 
-#### 获取边的关键信息
+每个自定义边类都必须实现 `render(attributes, container)` 方法，它定义了该边如何被“绘制”出来。你可以在这里使用各种原子图形，组合出你想要的结构。
 
-```js
-// 获取边的起点和终点（简单模式 - 不考虑节点形状，直接返回节点中心点或最近连接桩中心˝位置）
-const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false);
-
-// 获取边的起点和终点（优化模式 - 默认为 true，考虑节点形状，返回节点边界上的连接点）
-const [sourcePoint, targetPoint] = this.getEndpoints(attributes);
+```typescript
+render(style: Record<string, any>, container: Group): void;
 ```
 
-<br/>
+| 参数      | 类型                | 描述     |
+| --------- | ------------------- | -------- |
+| style     | Record<string, any> | 元素样式 |
+| container | Group               | 容器     |
 
 #### `getShape(name)`: 获取已创建的图形
 
 有时，你需要在创建后修改某个子图形的属性，或者让子图形之间有交互关联。这时，`getShape` 方法可以帮你获取之前通过 `upsert` 创建的任何图形：
 
 **⚠️ 注意**：图形的顺序很重要，如果图形 B 依赖图形 A 的位置，必须确保 A 先创建
+
+### 元素约定
+
+- **使用约定属性**
+
+目前约定的元素属性包括：
+
+- 通过 `this.getSize()` 获取元素的尺寸
+- 通过 `const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false)` 获取边的起点和终点（简单模式 - 不考虑节点形状，直接返回节点中心点或最近连接桩中心˝位置）
+- 通过 `const [sourcePoint, targetPoint] = this.getEndpoints(attributes)` 获取边的起点和终点（优化模式 - 默认为 true，考虑节点形状，返回节点边界上的连接点）
+
+- **采用 `getXxxStyle` 和 `drawXxxShape` 配对的方式进行图形绘制**
+
+`getXxxStyle` 用于获取图形样式，`drawXxxShape` 用于绘制图形。通过该方式创建的图形支持自动执行动画。
+
+> 其中 `Xxx` 是调用 [upsert](#方法) 方法时传入的 key 的驼峰形式。
+
+- **可通过 `this.context` 访问 Graph 上下文**
+
+### Hook
+
+元素提供以下钩子函数，可以按需进行重写：
+
+- `onCreate` 当元素创建后并完成入场动画时触发
+- `onUpdate` 当元素更新后并完成更新动画时触发
+- `onDestroy` 当元素完成退场动画并销毁后触发
+
+### 状态响应
+
+G6 元素设计中最强大的一点，是可以将 **“状态响应”** 与 **“绘制逻辑”** 分离。
+
+你可以在边配置中定义每种状态下的样式：
+
+```js
+edge: {
+  type: 'custom-edge',
+  style: { stroke: '#eee' },
+  state: {
+    selected: {
+      stroke: '#f00',
+    },
+    hover: {
+      lineWidth: 3,
+      stroke: '#1890ff',
+    },
+  },
+}
+```
+
+切换状态的方法:
+
+```js
+graph.setElementState(edgeId, ['selected']);
+```
+
+这个状态会传入到 `render()` 方法的 `attributes` 中，由内部系统合并后的结果自动应用在图形上。
 
 ## 从简单到复杂
 
