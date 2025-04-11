@@ -3,71 +3,66 @@ title: 使用 React 定义节点
 order: 5
 ---
 
-## 简介
+在 G6 中，自定义节点通常需要操作 DOM 或 Canvas 元素，但借助 `@antv/g6-extension-react` 一方生态库，可以直接使用 React 组件作为节点内容，提升开发效率与可维护性。
 
-在数据可视化领域，为高效率使用 AntV G6，节点定义可采用 React 组件的方式。
-为了让用户能更加方便地进行 react 自定义节点，我们提供了 g6-extension-react 库用于集成使用进而为用户提高开发效率。
+## 自定义节点方案选择
 
-### g6-extension-react
+### G6 节点
 
-g6-extension-react 是 AntV G6 图可视化库的一个扩展，它将 React 框架与 G6 进行了集成，使得开发者能够使用 React 组件来定义和渲染 G6 中的节点、边等图元素。通过这种方式，开发者可以充分利用 React 的组件化开发模式、状态管理能力以及丰富的生态系统来构建复杂且交互性强的图可视化应用。
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sEaLR7Q_hmoAAAAAAAAAAAAAemJ7AQ/fmt.avif" width="300" />
 
-#### 优点
+✅ **推荐场景：**
 
-- 组件化开发：在图可视化场景下，节点的设计往往会更加复杂，不仅要考虑多样化的样式呈现，还要兼顾复杂的交互逻辑，这无疑增加了开发的难度和工作量。而使用 g6-extension-react 可以将图中的节点封装成独立的 React 组件，这为解决节点设计的复杂性提供了有效的解决方案。
-- 状态管理：React 提供了强大的状态管理机制，如 useState、useReducer 等钩子函数，以及 Redux、MobX 等外部状态管理库。在 g6-extension-react 中，可以利用这些机制轻松管理图元素的状态，实现动态更新。比如，当用户点击某个节点时，可以通过修改节点组件的状态来改变其样式，如颜色、大小等。
-- 丰富的生态系统：React 拥有庞大的生态系统，有众多的开源组件和工具可供使用。在 g6-extension-react 中，可以引入这些组件和工具来增强图元素的功能。例如，可以使用 react-icons 库为节点添加图标，使用 react-transition-group 库实现节点的动画效果。
-- 易于集成：由于 g6-extension-react 基于 React 开发，它可以很方便地集成到现有的 React 项目中。开发者可以利用现有的 React 开发流程和工具链，快速搭建图可视化应用。
+- 节点只是简单的几何图形
+- 需要高效渲染超过 2,000 个节点的场景
+- 需要直接操作图形实例进行精细控制
 
-## 使用步骤
+> 有关如何使用 Canvas 图形自定义节点的详细信息，请参阅 [自定义节点](/manual/element/node/custom-node) 文档
 
-### 准备工作
+### React Node
 
-1. 在使用 g6-extension-react 之前，请确保已经安装并创建 React 项目
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9oz-R7bIkd0AAAAAAAAAAAAADmJ7AQ/original" width="350" />
 
-2. Reac 版本要求：>=16.8.0
+✅ **推荐场景：**
 
-3. 如果要支持使用 TypeScrit，需要 tsconfig.json 配置文件支持 jsx 语法
+- 需要集成 Ant Design 等 UI 库的业务系统
+- 节点包含表单输入、状态切换等交互逻辑
+- 已有 React 设计系统需要复用的场景
 
-```json
-{
-  "compilerOptions": {
-    "jsx": "react-jsx"
-  }
-}
-```
+## 快速入门
+
+### 环境准备
+
+在开始之前，请确保您已经：
+
+- **安装 React 项目**：确保已安装并创建 React 项目。
+- **React 版本要求**：确保使用的 React 版本 >=16.8.0。
 
 ### 安装依赖
 
-npm 方式安装：
+要使用 `@antv/g6-extension-react`，请运行以下命令：
 
-```bash
+:::code-group
+
+```bash [npm]
 npm install @antv/g6-extension-react
 ```
 
-yard 方式安装：
-
-```bash
+```bash [yarn]
 yarn add @antv/g6-extension-react
 ```
 
-pnpm方式安装：
-
-```bash
+```bash [pnpm]
 pnpm add @antv/g6-extension-react
 ```
 
-### 自定义React节点
+:::
 
-```jsx
-import { ReactNode } from '@antv/g6-extension-react';
+### 组件集成
 
-const MyReactNode = () => {
-  return <div>node</div>;
-};
-```
+#### 1. 注册 React 节点类型
 
-### 注册节点
+通过扩展机制注册 React 节点类型：
 
 ```jsx
 import { ExtensionCategory, register } from '@antv/g6';
@@ -76,160 +71,182 @@ import { ReactNode } from '@antv/g6-extension-react';
 register(ExtensionCategory.NODE, 'react-node', ReactNode);
 ```
 
-### 使用节点
+`register` 方法需要三个参数：
 
-使用自定义的 ReactNode 节点：
+- 扩展类别：`ExtensionCategory.NODE` 表示这是一个节点类型
+- 类型名称：`react-node` 是我们给这个自定义节点起的名字，后续会在配置中使用
+- 类定义：ReactNode 是 `@antv/g6-extension-react` 导出的实现类
+
+#### 2. 定义业务组件
+
+定义一个简单的 React 组件作为节点的内容：
+
+```jsx
+const MyReactNode = () => {
+  return <div>node</div>;
+};
+```
+
+#### 3. 使用组件
+
+在图配置中使用自定义的 React 节点。通过在图配置中指定节点类型和样式，来使用自定义的 React 组件。
+
+- `type`：指定节点类型为 `react-node` (使用与注册时起的名字)
+- `style.component`：定义节点的 React 组件内容
 
 ```jsx
 const graph = new Graph({
-  // ... other options
   node: {
     type: 'react-node',
     style: {
-      component: () => <ReactNode />,
+      component: () => <MyReactNode />,
     },
   },
 });
+
+graph.render();
 ```
 
-## 状态管理和交互事件
+## 高级功能
 
 ### 状态管理
 
-在 G6 中，节点状态的管理和样式展示可以通过以下方式实现。
+在复杂图可视化场景中，节点需要动态响应交互状态。我们提供两种互补的状态管理方案：
 
-#### G6 内置交互状态管理
+#### 响应内置交互状态
 
-在使用内置交互行为（如 hover-activate 或 click-select）时，G6 会自动为节点维护状态。此时，你可以通过访问节点数据中的 data.states 字段来获取当前节点的状态，并依据这些状态来调整节点的样式逻辑。例如，当节点处于 hover 状态时，改变其颜色或大小，以提供更好的交互反馈。
+G6 提供内置的交互状态管理状态，如 `hover-activate` 和 `click-select`。可以通过节点数据中的 `data.states` 字段获取当前节点状态，并根据状态调整节点样式。
 
-**示例**：
-
-假设我们有一个简单的节点，并希望在节点被 hover 时改变其背景颜色。
+**示例**：在节点被 hover 时改变背景颜色。
 
 ```jsx
-import { Graph } from '@antv/g6';
+import { ExtensionCategory, register, Graph } from '@antv/g6';
+import { ReactNode } from '@antv/g6-extension-react';
+
+register(ExtensionCategory.NODE, 'react-node', ReactNode);
+
+const StatefulNode = ({ data }) => {
+  const isActive = data.states?.includes('active');
+
+  return (
+    <div
+      style={{
+        width: 100,
+        padding: 5,
+        border: '1px solid #eee',
+        boxShadow: isActive ? '0 0 8px rgba(24,144,255,0.8)' : 'none',
+        transform: `scale(${isActive ? 1.05 : 1})`,
+      }}
+    >
+      {data.data.label}
+    </div>
+  );
+};
 
 const graph = new Graph({
-  ...
   data: {
     nodes: [
-      { id: 'node1', x: 100, y: 200 },
-      { id: 'node2', x: 300, y: 200 },
+      { id: 'node1', style: { x: 100, y: 200 }, data: { label: 'node1' } },
+      { id: 'node2', style: { x: 300, y: 200 }, data: { label: 'node2' } },
     ],
   },
   node: {
     type: 'react-node',
     style: {
-      component: ({ data }) => {
-        const backgroundColor = data.states?.hover ? 'lightblue' : 'white';
-        return (
-          <div
-            style={{
-              ...
-              backgroundColor: backgroundColor,
-            }}
-          >
-            {data.id}
-          </div>
-        );
-      },
+      component: (data) => <StatefulNode data={data} />,
     },
   },
-  behaviors: ['hover-activate']
+  behaviors: ['hover-activate'],
+});
+
+graph.render();
+```
+
+#### 自定义业务状态
+
+当需要管理业务相关状态（如审批状态、风险等级）时，可通过扩展节点数据实现：
+
+**示例**：通过 data 添加 `selected` 变量，实现节点选中和取消选中的样式变化。
+
+```jsx
+import { ExtensionCategory, register, Graph } from '@antv/g6';
+import { ReactNode } from '@antv/g6-extension-react';
+
+register(ExtensionCategory.NODE, 'react-node', ReactNode);
+
+const MyReactNode = ({ data, graph }) => {
+  const handleClick = () => {
+    graph.updateNodeData([{ id: data.id, data: { selected: !data.data.selected } }]);
+    graph.draw();
+  };
+
+  return (
+    <div
+      style={{
+        width: 200,
+        padding: 10,
+        border: '1px solid red',
+        borderColor: data.data.selected ? 'orange' : '#ddd', // 根据选中状态设置边框颜色
+        cursor: 'pointer', // 添加鼠标指针样式
+      }}
+      onClick={handleClick}
+    >
+      Node
+    </div>
+  );
+};
+
+const graph = new Graph({
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: { x: 100, y: 100 },
+        data: { selected: true },
+      },
+    ],
+  },
+  node: {
+    type: 'react-node',
+    style: {
+      component: (data) => <MyReactNode data={data} graph={graph} />,
+    },
+  },
+});
+
+graph.render();
+```
+
+### 事件交互
+
+实现节点与图实例的双向通信，使节点和图实例可以相互更新。
+
+**示例**：通过自定义节点操作图数据，并重新渲染图形。
+
+```jsx
+const IDCardNode = ({ id, selected, graph }) => {
+  const handleSelect = () => {
+    graph.updateNodeData([{ id, data: { selected: true } }]);
+    graph.draw();
+  };
+
+  return <Select onChange={handleSelect} style={{ background: selected ? 'orange' : '#eee' }} />;
+};
+
+const graph = new Graph({
+  node: {
+    type: 'react-node',
+    style: {
+      component: ({ id, data }) => <IDCardNode id={id} selected={data.selected} graph={graph} />,
+    },
+  },
 });
 ```
 
-#### React 自定义状态管理
+## 实际案例
 
-我们也可以通过在节点数据中自定义状态字段，手动管理状态的切换以及样式的更新。比如，你可以在节点数据里添加一个自定义的状态标识，然后在代码中根据这个标识来动态修改节点的样式。这种方式给予开发者更大的灵活性，适用于有特殊需求的场景。你可以通过 data 传入状态，以此让节点展示不同的样式，这就是手动管理状态时的操作方式。
+<Playground path="element/custom-node/demo/react-node.jsx" rid="react-node-rid"></Playground>
 
-**示例**：
+<br/>
 
-通过 data 添加 selected 参数，实现节点选中和取消选中的样式变化。
-
-graph 实例所需 data 中传递：
-
-```json
-const data = {
-  nodes: [
-    {
-      id: 'node1',
-      data: {
-        ... // other data
-        selected: true, // selcted status
-      },
-    },
-    ...
-  ]
-}
-```
-
-自定义节点内展示：
-
-```jsx
-const MyReactNode = ({ data }) => {
-  return (
-    <Card
-      style={{
-        width: 500,
-        padding: 10,
-        borderColor: data.selected ? 'orange' : '#ddd', // 根据选中状态设置边框颜色
-        cursor: 'pointer', // 添加鼠标指针样式
-      }}
-      >
-  ...
-}
-```
-
-### 交互事件
-
-我们可以传递回调函数，在节点上与图实例进行交互。
-
-#### 示例：
-
-通过 data 传递回调事件，实现通过自定义节点操作图数据。
-
-注册节点：
-通过在 props 定义接受回调函数
-
-```json
-const IDCardNode = ({ id, data, onSelectChange }) => {
-  ...
-  const handleSelect = () => {
-    onSelectChange()
-  }
-
-  return (
-    ...
-    <Select
-      onChange={handleSelect}
-      ...
-    />
-    ...
-  )
-}
-```
-
-创建 Graph 实例时候，传递 onSelectChange 回调函数：
-
-```jsx
-const graph = new Graph({
-  ...
-  data,
-  node: {
-    type: 'react',
-    style: {
-      component: (data) => <IDCardNode
-        id={data.id}
-        data={{ ...data.data, graph: graph }}
-        onSelectChange={handleSelectChange} />,
-    },
-  },
-```
-
-## 在线测试
-
-<div>
-  <Playground path="element/custom-node/demo/react-node.jsx" rid="react-node-rid"></Playground>
-  <Playground path="element/custom-node/demo/reactnode-idcard.jsx" rid="reactnode-idcard-rid"></Playground>
-</div>
+<Playground path="element/custom-node/demo/reactnode-idcard.jsx" rid="reactnode-idcard-rid"></Playground>
