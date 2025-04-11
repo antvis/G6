@@ -234,7 +234,7 @@ G6 的节点是由 [G 图形系统](https://g.antv.antgroup.com/) 提供的图�
 
 #### 方法
 
-#### `upsert(name, Ctor, style, container, hooks)`: 高效图形创建
+#### `upsert(name, Ctor, style, container, hooks)`: 图形创建/更新
 
 在创建自定义元素时，你会频繁用到 `upsert` 方法。它是 "update or insert" 的缩写，负责添加或更新元素中的图形：
 
@@ -263,7 +263,7 @@ this.upsert(
 为什么要使用 `upsert` 而不直接通过 `container.appendChild()` 创建图形？因为：
 
 1. **性能更好**：当状态变化或数据更新时，会智能地复用已有图形，而不是删除再重建，大大提高了渲染性能
-2. **代码更简洁**：不需要手动判断元素是否存在 ⚠️ 区别于 v4
+2. **代码更简洁**：不需要手动判断元素是否存在
 3. **便于管理**：所有通过 `upsert` 创建的图形都会被记录在节点的 `shapeMap` 中，你可以通过 `this.getShape(key)` 轻松获取
 
 #### `render(attributes, container)`: 渲染边的主入口
