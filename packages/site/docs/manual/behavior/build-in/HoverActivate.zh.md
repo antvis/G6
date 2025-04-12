@@ -51,17 +51,39 @@ const graph = new Graph({
 
 ## 配置项
 
-| 配置项        | 说明                 | 类型                           | 默认值           | 必选 |
-| ------------- | -------------------- | ------------------------------ | ---------------- | ---- |
-| type          | 交互类型名称         | string                         | `hover-activate` | ✓    |
-| animation     | 是否开启动画效果     | boolean                        | true             |      |
-| enable        | 是否开启悬浮元素功能 | boolean                        | true             |      |
-| degree        | 激活元素的n度关系    | number                         | 0                |      |
-| direction     | 指定边方向           | `'both'` \| `'in'` \| `'out'`  | `'both'`         |      |
-| state         | 激活元素的状态       | string                         | `'active'`       |      |
-| inactiveState | 不激活元素的状态     | string                         | -                |      |
-| onHover       | 当元素被悬停时的回调 | (event: IPointerEvent) => void | -                |      |
-| onHoverEnd    | 当悬停结束时的回调   | (event: IPointerEvent) => void | -                |      |
+| 配置项        | 说明                 | 类型                                           | 默认值           | 必选 |
+| ------------- | -------------------- | ---------------------------------------------- | ---------------- | ---- |
+| type          | 交互类型名称         | string                                         | `hover-activate` | ✓    |
+| animation     | 是否开启动画效果     | boolean                                        | true             |      |
+| enable        | 是否开启悬浮元素功能 | boolean \| ((event: IPointerEvent) => boolean) | true             |      |
+| degree        | 激活元素的n度关系    | number \| ((event: IPointerEvent) => number);  | 0                |      |
+| direction     | 指定边方向           | `both` \| `in` \| `out`                        | `both`           |      |
+| state         | 激活元素的状态       | string                                         | `active`         |      |
+| inactiveState | 不激活元素的状态     | string                                         | -                |      |
+| onHover       | 当元素被悬停时的回调 | (event: IPointerEvent) => void                 | -                |      |
+| onHoverEnd    | 当悬停结束时的回调   | (event: IPointerEvent) => void                 | -                |      |
+
+### enable
+
+`enable` 用于控制是否开启元素的悬浮高亮，可接收一个函数来动态控制
+例如：只有节点开启悬浮高亮
+
+```typescript
+const graph = new Graph({
+  // 其他配置...
+  behaviors: [
+    {
+      type: 'hover-activate',
+      enable: (e) => {
+        if (e.targetType === 'node') {
+          return true;
+        }
+        return false;
+      },
+    },
+  ],
+});
+```
 
 ## 代码示例
 
