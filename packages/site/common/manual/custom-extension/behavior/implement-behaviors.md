@@ -12,7 +12,7 @@
         graph.addNodeData([
           {
             id: 'node-' + Date.now(),
-            style: { x: layerX, y: layerY },
+            style: { x: layerX, y: layerY, fill: options.fill },
           },
         ]);
         graph.draw();
@@ -22,21 +22,46 @@
 
   register(ExtensionCategory.BEHAVIOR, 'click-add-node', ClickAddNode);
 
-  const container = createContainer({ width: 300, height: 300 });
-  container.style.border = '1px solid #ccc';
-
-  const graph = new Graph({
-    container,
-    width: 300,
-    height: 300,
-    data: {
-      nodes: [],
+  const wrapEl = await createGraph(
+    {
+      data: {
+        nodes: [],
+      },
+      behaviors: [
+        {
+          type: 'click-add-node',
+          key: 'click-add-node',
+          fill: 'red',
+        },
+      ],
     },
-    behaviors: ['click-add-node'],
-  });
+    { width: 600, height: 300 },
+    (gui, graph) => {
+      const options = {
+        key: 'click-add-node',
+        type: 'click-add-node',
+        fill: 'red',
+      };
+      const optionFolder = gui.addFolder('ClickAddNode Options');
+      optionFolder.add(options, 'fill', [
+        'red',
+        'black',
+        'blue',
+        'green',
+        'yellow',
+        'purple',
+      ]);
 
-  await graph.render();
+      optionFolder.onChange(({ property, value }) => {
+        graph.updateBehavior({
+          key: 'click-add-node',
+          [property]: value,
+        });
+        graph.render();
+      });
+    },
+  );
 
-  return container;
+  return wrapEl;
 })();
 ```
