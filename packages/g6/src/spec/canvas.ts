@@ -43,7 +43,7 @@ export interface CanvasOptions {
    *
    * <en/> G6 adopts a layered rendering method, divided into four layers: background, main, label, transient. Users can set the renderer of each layer canvas separately through this configuration item
    */
-  renderer?: (layer: 'background' | 'main' | 'label' | 'transient') => IRenderer;
+  renderer?: (layer?: 'background' | 'main' | 'label' | 'transient') => IRenderer;
   /**
    * <zh/> 是否自动调整画布大小
    *
