@@ -37,6 +37,14 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1AXoRY9Bw-0AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
+      "filename": "hover-activate.js",
+      "title": {
+        "zh": "悬浮聚焦",
+        "en": "Hover Activate"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1AXoRY9Bw-0AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
       "filename": "optimize.js",
       "title": {
         "zh": "拖拽缩放画布时隐藏元素",
