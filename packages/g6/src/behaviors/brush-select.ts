@@ -222,8 +222,9 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
       return Object.assign(
         {},
         acc,
-        data.reduce((acc: Record<ID, []>, datum: ElementDatum) => {
-          acc[idOf(datum)] = [];
+        data.reduce((acc: Record<ID, State[]>, datum: ElementDatum) => {
+          const restStates = (datum.states || [])?.filter((state) => state !== this.options.state);
+          acc[idOf(datum)] = restStates;
           return acc;
         }, {}),
       );
