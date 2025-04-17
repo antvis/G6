@@ -40,7 +40,7 @@ export function register<T extends ExtensionCategory>(
   Ctor: ExtensionRegistry[T][string],
 ) {
   const ext = EXTENSION_REGISTRY[category][type];
-  if (ext && ext) {
+  if (ext) {
     print.warn(`The extension ${type} of ${category} has been registered before, and will be overridden.`);
   }
 
