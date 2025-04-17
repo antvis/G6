@@ -138,4 +138,4 @@ const graph = new Graph({
 
 ## 实际案例
 
-<Playground path="behavior/canvas/demo/hover-activate.js" rid="default-hover-activate"></Playground>
+<Playground path="behavior/highlight-element/demo/basic.js" rid="default-hover-activate"></Playground>
