@@ -3,110 +3,141 @@ title: 边总览
 order: 1
 ---
 
-你可以在任意两个节点或者组合之间创建边，也可以在两个节点/组合之间创建多条边来表示不同的关系。
+## 什么是边
+
+边（Edge）是图中的基本元素之一，用于连接两个节点或组合，表示它们之间的关系。在 G6 中，边具有方向性，从 `source` 指向 `target`，也可以通过配置隐藏箭头以表示无方向连接。
+
+你可以在任意两个节点、组合，或节点与组合之间创建边，还可以通过创建多条边来表达不同的关系类型。
 
 <image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YKN7TasqOh4AAAAAAAAAAAAADmJ7AQ/original" />
 
 G6 提供了以下内置边：
 
-- `Line` 直线边
-- `Polyline` 折线边
-- `Quadratic` 二次贝塞尔曲线边
-- `Cubic` 三次贝塞尔曲线边
-- `CubicVertical` 垂直三次贝塞尔曲线边
-- `CubicHorizontal` 水平三次贝塞尔曲线边
+- `line` 直线边
+- `polyline` 折线边
+- `quadratic` 二次贝塞尔曲线边
+- `cubic` 三次贝塞尔曲线边
+- `cubicVertical` 垂直三次贝塞尔曲线边
+- `cubicHorizontal` 水平三次贝塞尔曲线边
 
-边的配置和节点类似，你可以通过配置 `type` 来使用：
+### 数据结构
 
-1、在数据中指定边类型
+定义边时，需要在图的数据对象中添加 `edges` 字段。每条边是一个对象，结构如下：
 
-```typescript {2}
-const data = {
-  edges: [{ source: 'node-1', target: 'node-2', type: 'line' }],
-};
+| 属性   | 描述                                                                  | 类型     | 默认值 | 必选 |
+| ------ | --------------------------------------------------------------------- | -------- | ------ | ---- |
+| source | 边起始节点 ID                                                         | string   | -      | ✓    |
+| target | 边目标节点 ID                                                         | string   | -      | ✓    |
+| id     | 边的唯一标识符                                                        | string   | -      |      |
+| type   | 边类型，内置边类型名称或者自定义边的名称，比如 `line` 或者 `polyline` | string   | -      |      |
+| data   | 边数据，用于存储边的自定义数据，可以在样式映射中通过回调函数获取      | object   | -      |      |
+| style  | 边样式，包括线条颜色、宽度、箭头等视觉属性                            | object   | -      |      |
+| states | 边初始状态                                                            | string[] | -      |      |
+
+`edges` 数组中一个数据项的示例：
+
+```json
+{
+  "source": "alice",
+  "target": "bob",
+  "type": "line",
+  "data": { "relationship": "friend", "strength": 5 },
+  "style": { "stroke": "green", "lineWidth": 2 },
+  "states": ["hover"]
+}
 ```
 
-2、在配置中指定边类型
+### 配置方法
 
-```typescript {3-5}
+配置边的方式有三种，按优先级从高到低如下：
+
+- 使用 `graph.setEdge()` 动态配置
+- 实例化图时全局配置
+- 在数据中动态属性
+
+这几个配置方法可以同时使用。有相同的配置项时，优先级高的方式将会覆盖优先级低的。
+
+### 使用 `graph.setEdge()`
+
+可在图实例创建后，使用 `graph.setEdge()` 动态设置边的样式映射逻辑。
+
+该方法需要在 `graph.render()` 之前调用才会生效，并拥有最高优先级。
+
+```js
+graph.setEdge({
+  style: {
+    type: 'line',
+    style: { stroke: '#5CACEE', lineWidth: 2 },
+  },
+});
+
+graph.render();
+```
+
+### 实例化图时全局配置
+
+在实例化图时可以通过 `edge` 配置边样式映射，这里的配置是全局的配置，将会在所有边上生效。
+
+```js
+import { Graph } from '@antv/g6';
+
 const graph = new Graph({
-  // 其他配置...
   edge: {
     type: 'line',
+    style: { stroke: '#5CACEE', lineWidth: 2 },
   },
 });
 ```
 
-G6 中的边是有方向的，即从源节点指向目标节点，但可以隐藏箭头来表示无方向的边。
+### 在数据中动态配置
 
-```typescript {6-7}
+如果需要为不同边进行不同的配置，可以将配置写入到边数据中。这种配置方式可以通过下面代码的形式直接写入数据：
+
+```typescript
+const data = {
+  edges: [
+    {
+      source: 'node-1',
+      target: 'node-2',
+      type: 'line',
+      style: { stroke: 'orange' },
+    },
+  ],
+};
+```
+
+### 调整优先级
+
+如果你想让数据中配置的优先级高于全局配置，你可以采取以下方式：
+
+```js
+const data = {
+  edges: [
+    {
+      source: 'node-1',
+      target: 'node-2',
+      type: 'line',
+      style: { stroke: 'orange' },
+    },
+  ],
+};
+
 const graph = new Graph({
-  // 其他配置...
   edge: {
     type: 'line',
     style: {
-      startArrow: false,
-      endArrow: false,
+      stroke: (d) => d.style.stroke || '#5CACEE',
+      lineWidth: 2,
     },
   },
 });
 ```
 
-### 边构成
+## 自定义边
 
-G6 中提供的边由以下几部分构成：
+当内置边无法满足需求时，G6 提供了强大的自定义能力：
 
-<image height="100" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cVHVQJKLOlgAAAAAAAAAAAAADmJ7AQ/original" />
+- 继承内置边进行扩展
+- 创建全新的边类型
 
-- `key` ：边的主图形，表示边的主要形状，例如直线、折线等；
-- `label` ：文本标签，通常用于展示边的名称或描述；
-- `arrow` ：箭头，用于表示边的方向；
-- `halo` ：主图形周围展示的光晕效果的图形。
-
-### 注册边
-
-边的注册方式和节点类似：
-
-```typescript
-import { register, ExtensionCategory } from '@antv/g6';
-import { CustomEdge } from 'package-name/or/path-to-your-custom-edge';
-
-register(ExtensionCategory.EDGE, 'custom-edge', CustomEdge);
-```
-
-### 配置边
-
-你可以通过以下方式配置边类型及其样式：
-
-1. 在数据中配置：
-
-```typescript
-const data = {
- edges: [{
-  source: 'node-1',
-  target: 'node-2',
-  type: 'line' //边类型
-  style:{
-     // 边样式
-    }
-}],
-};
-```
-
-2. 在边样式映射中配置：
-
-```typescript {3-5}
-const graph = new Graph({
-  // 其他配置...
-  edge: {
-    type: 'custom-edge', //边类型
-    style: {
-      // 边样式
-    },
-  },
-});
-```
-
-### 自定义边
-
-如果内置边元素无法满足需求，可以自定义边元素，具体请参考[自定义边](/manual/element/edge/custom-edge)。
+与组合不同，自定义边需要先注册后使用。详细教程请参考 [自定义边](/manual/element/edge/custom-edge) 文档。
