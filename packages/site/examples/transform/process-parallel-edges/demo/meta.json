@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "bundle.js",
+      "title": {
+        "zh": "捆绑模式",
+        "en": "Bundle Mode"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*g2p_Qa_wZcIAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "merge.js",
+      "title": {
+        "zh": "合并模式",
+        "en": "Merge Mode"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*3dsfSZunOjEAAAAAAAAAAAAAemJ7AQ/original"
+    }
+  ]
+}
