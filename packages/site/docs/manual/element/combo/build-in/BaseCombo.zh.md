@@ -43,7 +43,9 @@ const graph = new Graph({
 
 <img width="240" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*z-OxR4MAdUwAAAAAAAAAAAAADmJ7AQ/original" />
 
-<!-- > 了解组合构成，请阅读 [核心概念 - 元素 - 组合](/manual/core-concept/element#组合)。 -->
+- `key` ：组合的主图形，表示组合的主要形状；
+- `halo` ：主图形周围展示的光晕效果的图形；
+- `label` ：文本标签，通常用于展示组合的名称或描述；
 
 以下样式配置将按原子图形依次说明：
 

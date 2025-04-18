@@ -303,13 +303,15 @@ render(style: Record<string, any>, container: Group): void;
 
 - **可通过 `this.context` 访问 Graph 上下文**
 
-### Hook
+### 生命周期钩子
 
-元素提供以下钩子函数，可以按需进行重写：
+提供了以下生命周期钩子函数，你可以在自定义边中重写这些方法，在关键时刻执行特定逻辑：
 
-- `onCreate` 当元素创建后并完成入场动画时触发
-- `onUpdate` 当元素更新后并完成更新动画时触发
-- `onDestroy` 当元素完成退场动画并销毁后触发
+| 钩子函数    | 触发时机                 | 典型用途                                   |
+| ----------- | ------------------------ | ------------------------------------------ |
+| `onCreate`  | 当边创建后完成入场动画时 | 绑定交互事件、初始化边状态、添加外部监听器 |
+| `onUpdate`  | 当边更新后完成更新动画时 | 更新依赖数据、调整相关元素、触发联动效果   |
+| `onDestroy` | 当边完成退场动画并销毁后 | 清理资源、移除外部监听器、执行销毁通知     |
 
 ### 状态响应
 
@@ -340,6 +342,27 @@ graph.setElementState(edgeId, ['selected']);
 ```
 
 这个状态会传入到 `render()` 方法的 `attributes` 中，由内部系统合并后的结果自动应用在图形上。
+
+也可以根据状态自定义渲染逻辑：
+
+```typescript
+protected getKeyStyle(attributes: Required<BaseEdgeStyleProps>) {
+  const style = super.getKeyStyle(attributes);
+
+  // 根据状态调整样式
+  if (attributes.states?.includes('selected')) {
+    return {
+      ...style,
+      stroke: '#1890ff',
+      lineWidth: 2,
+      shadowColor: 'rgba(24,144,255,0.2)',
+      shadowBlur: 15,
+    };
+  }
+
+  return style;
+}
+```
 
 ## 从简单到复杂
 
