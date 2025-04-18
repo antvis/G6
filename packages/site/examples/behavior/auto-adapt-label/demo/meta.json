@@ -1,0 +1,13 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": "智能标签控制",
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*FIj7T4ZtyoAAAAAAAAAAAAAAemJ7AQ/original"
+    }
+  ]
+}
