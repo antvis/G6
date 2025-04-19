@@ -47,7 +47,7 @@ createGraph(
     },
     node: { style: { fill: '#7e3feb' } },
     edge: { style: { stroke: '#8b9baf' } },
-    layout: { type: 'circle' },
+    layout: { type: 'circular' },
     behaviors: ['drag-canvas', 'zoom-canvas'],
     plugins: [
       {
@@ -55,7 +55,7 @@ createGraph(
         key: 'edge-bundling',
         bundleThreshold: 0.6,
         cycles: 6,
-        divisions: 1,
+        divisions: 3,
         divRate: 2,
         iterations: 90,
         iterRate: 2 / 3,
