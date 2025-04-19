@@ -1,9 +1,7 @@
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
-  data: {
-    nodes: [{ id: 'node1' }],
-  },
+  data: { nodes: Array.from({ length: 20 }).map((_, i) => ({ id: `node${i}` })) },
   autoFit: 'center',
   background: '#fff',
   plugins: [
