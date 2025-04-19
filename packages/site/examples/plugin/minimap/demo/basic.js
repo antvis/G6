@@ -1,39 +1,22 @@
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
+  container: 'container',
   data: { nodes: Array.from({ length: 20 }).map((_, i) => ({ id: `node${i}` })) },
-  autoFit: 'center',
-  background: '#fff',
+  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
   plugins: [
     {
-      type: 'fullscreen',
-      key: 'fullscreen',
-    },
-    function () {
-      const graph = this;
-      return {
-        type: 'toolbar',
-        key: 'toolbar',
-        position: 'top-left',
-        onClick: (item) => {
-          const fullscreenPlugin = graph.getPluginInstance('fullscreen');
-          if (item === 'request-fullscreen') {
-            fullscreenPlugin.request();
-          }
-          if (item === 'exit-fullscreen') {
-            fullscreenPlugin.exit();
-          }
-        },
-        getItems: () => {
-          return [
-            { id: 'request-fullscreen', value: 'request-fullscreen' },
-            { id: 'exit-fullscreen', value: 'exit-fullscreen' },
-          ];
-        },
-      };
+      type: 'minimap',
+      size: [240, 160],
     },
   ],
+  node: {
+    palette: 'spectral',
+  },
+  layout: {
+    type: 'circular',
+  },
+  autoFit: 'view',
 });
 
 graph.render();
-

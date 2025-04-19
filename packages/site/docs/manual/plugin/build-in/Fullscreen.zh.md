@@ -153,7 +153,3 @@ const graph = new Graph({
 ## 实际案例
 
 <Playground path="plugin/fullscreen/demo/basic.js" rid="fullscreen-basic-rid"></Playground>
-
-```
-
-```
