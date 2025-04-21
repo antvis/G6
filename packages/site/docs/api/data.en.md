@@ -3,1704 +3,887 @@ title: Data
 order: 0
 ---
 
-### Graph.addChildrenData(parentId, childrenData)
+## Overview of Data Operations
 
-Add child node data to the tree node
+G6 provides a comprehensive [data](/en/manual/data) operation API, covering the complete lifecycle of graph data from query, modification to update.
 
-```typescript
-addChildrenData(parentId: ID, childrenData: NodeData[]): void;
-```
+## API Reference
 
-Use addNodeData / addComboData method to add child nodes to the combo
+### Graph.getData()
 
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-parentId
-
-</td><td>
-
-string
-
-</td><td>
-
-父节点 ID
-
-</td></tr>
-<tr><td>
-
-childrenData
-
-</td><td>
-
-NodeData
-
-</td><td>
-
-子节点数据
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.addComboData(data)
-
-Add combo data
+Get the complete data of the graph.
 
 ```typescript
-addComboData(data: ComboData[] | ((prev: ComboData[]) => ComboData[])): void;
+getData(): Required<GraphData>;
 ```
 
-**Example**
+**Return Value**:
 
-```ts
-graph.addComboData([{ id: 'combo-1' }]);
+- **Type**: [GraphData](#graphdata)
+
+- **Description**: Returns the complete graph data containing all nodes, edges, and combo data
+
+**Example**:
+
+```typescript
+const graphData = graph.getData();
+console.log('Node data:', graphData.nodes);
+console.log('Edge data:', graphData.edges);
+console.log('Combo data:', graphData.combos);
 ```
 
-<details><summary>View Parameters</summary>
+### Graph.getNodeData()
 
-<table><thead><tr><th>
+Get node data, supporting three calling methods.
 
-Parameter
+```typescript
+// Get all node data
+getNodeData(): NodeData[];
 
-</th><th>
+// Get single node data
+getNodeData(id: ID): NodeData;
 
-Type
+// Get multiple node data
+getNodeData(ids: ID[]): NodeData[];
+```
 
-</th><th>
+**Parameters**:
 
-Description
+| Parameter | Description   | Type     | Default | Required |
+| --------- | ------------- | -------- | ------- | -------- |
+| id        | Node ID       | string   | -       |          |
+| ids       | Node ID array | string[] | -       |          |
 
-</th></tr></thead>
-<tbody><tr><td>
+**Return Value**:
 
-data
+- **Type**: [NodeData](#nodedata) | [NodeData](#nodedata)[]
+- **Description**: Returns the specified node data or node data array
 
-</td><td>
+**Example**:
 
-ComboData
+```typescript
+// Get all nodes
+const nodes = graph.getNodeData();
 
-</td><td>
+// Get single node
+const node = graph.getNodeData('node1');
+console.log('Node position:', node.style.x, node.style.y);
 
-组合数据
+// Get multiple nodes
+const [node1, node2] = graph.getNodeData(['node1', 'node2']);
+```
 
-</td></tr>
-</tbody></table>
+### Graph.getEdgeData()
 
-**Returns**:
+Get edge data, supporting three calling methods.
 
-- **Type:** void
+```typescript
+// Get all edge data
+getEdgeData(): EdgeData[];
 
-</details>
+// Get single edge data
+getEdgeData(id: ID): EdgeData;
 
-### Graph.addData(data)
+// Get multiple edge data
+getEdgeData(ids: ID[]): EdgeData[];
+```
 
-Add element data
+**Parameters**:
+
+| Parameter | Description   | Type     | Default | Required |
+| --------- | ------------- | -------- | ------- | -------- |
+| id        | Edge ID       | string   | -       |          |
+| ids       | Edge ID array | string[] | -       |          |
+
+**Return Value**:
+
+- **Type**: [EdgeData](#edgedata) | [EdgeData](#edgedata)[]
+- **Description**: Returns the specified edge data or edge data array
+
+**Example**:
+
+```typescript
+// Get all edges
+const edges = graph.getEdgeData();
+
+// Get single edge
+const edge = graph.getEdgeData('edge1');
+console.log('Edge source and target:', edge.source, edge.target);
+
+// Get multiple edges
+const [edge1, edge2] = graph.getEdgeData(['edge1', 'edge2']);
+```
+
+### Graph.getComboData()
+
+Get combo data, supporting three calling methods.
+
+```typescript
+// Get all combo data
+getComboData(): ComboData[];
+
+// Get single combo data
+getComboData(id: ID): ComboData;
+
+// Get multiple combo data
+getComboData(ids: ID[]): ComboData[];
+```
+
+**Parameters**:
+
+| Parameter | Description    | Type     | Default | Required |
+| --------- | -------------- | -------- | ------- | -------- |
+| id        | Combo ID       | string   | -       |          |
+| ids       | Combo ID array | string[] | -       |          |
+
+**Return Value**:
+
+- **Type**: [ComboData](#combodata) | [ComboData](#combodata)[]
+- **Description**: Returns the specified combo data or combo data array
+
+**Example**:
+
+```typescript
+// Get all combos
+const combos = graph.getComboData();
+
+// Get single combo
+const combo = graph.getComboData('combo1');
+console.log('Nodes in combo:', combo.children);
+
+// Get multiple combos
+const [combo1, combo2] = graph.getComboData(['combo1', 'combo2']);
+```
+
+### Graph.getElementData()
+
+Get single element data, supporting two calling methods.
+
+⚠️ **Note**: This API directly gets the data of the element without considering the element type.
+
+```typescript
+// Get single element data
+getElementData(id: ID): ElementDatum;
+
+// Get multiple element data
+getElementData(ids: ID[]): ElementDatum[];
+```
+
+**Parameters**:
+
+| Parameter | Description      | Type     | Default | Required |
+| --------- | ---------------- | -------- | ------- | -------- |
+| id        | Element ID       | string   | -       |          |
+| ids       | Element ID array | string[] | -       |          |
+
+**Return Value**:
+
+- **Type**: ElementDatum \| ElementDatum[]
+- **Description**: Directly gets the data of the element without considering the element type
+
+**Example**:
+
+```typescript
+const element = graph.getElementData('node-1');
+console.log('Element data:', element);
+
+const elements = graph.getElementData(['node-1', 'edge-1']);
+console.log('Multiple element data:', elements);
+```
+
+### Graph.getElementDataByState()
+
+Get element data in a specified state, supporting three calling methods.
+
+```typescript
+// Get node data in a specified state
+getElementDataByState(elementType: 'node', state: string): NodeData[];
+
+// Get edge data in a specified state
+getElementDataByState(elementType: 'edge', state: string): EdgeData[];
+
+// Get combo data in a specified state
+getElementDataByState(elementType: 'combo', state: string): ComboData[];
+```
+
+**Parameters**:
+
+| Parameter   | Description  | Type                              | Default | Required |
+| ----------- | ------------ | --------------------------------- | ------- | -------- |
+| elementType | Element type | `'node'` \| `'edge'` \| `'combo'` | -       | ✓        |
+| state       | State        | string                            | -       | ✓        |
+
+**Return Value**:
+
+- **Type**: NodeData[] \| EdgeData[] \| ComboData[]
+- **Description**: Returns node data, edge data, or combo data in the specified state
+
+**Example**:
+
+```typescript
+const selectedNodes = graph.getElementDataByState('node', 'selected');
+console.log('Selected nodes:', selectedNodes);
+
+const selectedEdges = graph.getElementDataByState('edge', 'selected');
+console.log('Selected edges:', selectedEdges);
+
+const selectedCombos = graph.getElementDataByState('combo', 'selected');
+console.log('Selected combos:', selectedCombos);
+```
+
+**Built-in States**:
+
+- `'selected'`
+- `'highlight'`
+- `'active'`
+- `'inactive'`
+- `'disabled'`
+
+### Graph.getNeighborNodesData()
+
+Get the data of neighbor nodes of a node or combo.
+
+```typescript
+getNeighborNodesData(id: ID): NodeData[];
+```
+
+**Parameters**:
+
+| Parameter | Description      | Type   | Default | Required |
+| --------- | ---------------- | ------ | ------- | -------- |
+| id        | Node or combo ID | string | -       | ✓        |
+
+**Return Value**:
+
+- **Type**: NodeData[]
+- **Description**: Returns neighbor node data
+
+**Example**:
+
+```typescript
+const neighbors = graph.getNeighborNodesData('node-1');
+console.log('Neighbor nodes:', neighbors);
+```
+
+### Graph.getRelatedEdgesData()
+
+Get the data of edges related to a node or combo.
+
+```typescript
+getRelatedEdgesData(id: ID, direction?: EdgeDirection): EdgeData[];
+```
+
+**Parameters**:
+
+| Parameter | Description      | Type                          | Default | Required |
+| --------- | ---------------- | ----------------------------- | ------- | -------- |
+| id        | Node or combo ID | string                        | -       | ✓        |
+| direction | Edge direction   | `'in'` \| `'out'` \| `'both'` | -       |          |
+
+**Return Value**:
+
+- **Type**: EdgeData[]
+- **Description**: Returns the data of edges related to the specified node or combo
+
+**Example**:
+
+```typescript
+const relatedEdges = graph.getRelatedEdgesData('node-1');
+console.log('Related edges:', relatedEdges);
+```
+
+### Graph.getParentData()
+
+Get the data of the parent element of a node or combo.
+
+```typescript
+getParentData(id: ID, hierarchy: HierarchyKey): NodeLikeData | undefined;
+```
+
+**Parameters**:
+
+| Parameter | Description            | Type                  | Default | Required |
+| --------- | ---------------------- | --------------------- | ------- | -------- |
+| id        | Node or combo ID       | string                | -       | ✓        |
+| hierarchy | Specify hierarchy type | `'tree'` \| `'combo'` | -       |          |
+
+**Return Value**:
+
+- **Type**: NodeData \| ComboData \| undefined
+- **Description**: Returns the parent element data, or undefined if it does not exist
+
+**Example**:
+
+```typescript
+// Get the parent node in a tree graph
+const treeParent = graph.getParentData('node1', 'tree');
+
+// Get the parent combo in a combo
+const comboParent = graph.getParentData('node1', 'combo');
+```
+
+### Graph.getChildrenData()
+
+Get the data of child elements of a node or combo.
+
+```typescript
+getChildrenData(id: ID): NodeLikeData[];
+```
+
+**Parameters**:
+
+| Parameter | Description      | Type   | Default | Required |
+| --------- | ---------------- | ------ | ------- | -------- |
+| id        | Node or combo ID | string | -       | ✓        |
+
+**Return Value**:
+
+- **Type**: NodeData \| ComboData[]
+- **Description**: Returns an array of child element data
+
+**Example**:
+
+```typescript
+// Get the child elements of a combo
+const children = graph.getChildrenData('combo1');
+console.log('Number of child nodes:', children.length);
+
+// Process each child element
+children.forEach((child) => {
+  console.log('Child element ID:', child.id);
+});
+```
+
+### Graph.getAncestorsData()
+
+Get the data of all ancestor elements of a node or combo.
+
+```typescript
+getAncestorsData(id: ID, hierarchy: HierarchyKey): NodeLikeData[];
+```
+
+**Parameters**:
+
+| Parameter | Description            | Type                  | Default | Required |
+| --------- | ---------------------- | --------------------- | ------- | -------- |
+| id        | Node or combo ID       | string                | -       | ✓        |
+| hierarchy | Specify hierarchy type | `'tree'` \| `'combo'` | -       | ✓        |
+
+**Return Value**:
+
+- **Type**: [NodeData](#nodedata)[] \| [ComboData](#combodata)[]
+- **Description**: Returns an array of ancestor element data, ordered from parent to root
+
+**Example**:
+
+```typescript
+// Get all ancestor nodes in a tree graph
+const treeAncestors = graph.getAncestorsData('node1', 'tree');
+console.log(
+  'Ancestor node path:',
+  treeAncestors.map((node) => node.id),
+);
+
+// Get all parent combos in a combo
+const comboAncestors = graph.getAncestorsData('node1', 'combo');
+```
+
+### Graph.getDescendantsData()
+
+Get the data of all descendant elements of a node or combo.
+
+```typescript
+getDescendantsData(id: ID): NodeLikeData[];
+```
+
+**Parameters**:
+
+| Parameter | Description      | Type   | Default | Required |
+| --------- | ---------------- | ------ | ------- | -------- |
+| id        | Node or combo ID | string | -       | ✓        |
+
+**Return Value**:
+
+- **Type**: [NodeData](#nodedata)[] \| [ComboData](#combodata)[]
+- **Description**: Returns an array of descendant element data
+
+**Example**:
+
+```typescript
+// Get all descendants of a node
+const descendants = graph.getDescendantsData('node1');
+console.log('Number of descendants:', descendants.length);
+
+// Process all descendant elements
+descendants.forEach((descendant) => {
+  console.log('Descendant element ID:', descendant.id);
+});
+```
+
+### Graph.setData()
+
+Set the complete data of the graph.
+
+```typescript
+setData(data: GraphData | ((prev: GraphData) => GraphData)): void;
+```
+
+**Parameters**:
+
+| Parameter | Description                                           | Type                                                        | Default | Required |
+| --------- | ----------------------------------------------------- | ----------------------------------------------------------- | ------- | -------- |
+| data      | New graph data or a function returning new graph data | [GraphData](#graphdata) \| ((prev: GraphData) => GraphData) | -       | ✓        |
+
+**Example**:
+
+```typescript
+// Directly set data
+graph.setData({
+  nodes: [
+    { id: 'node1', style: { x: 100, y: 100 } },
+    { id: 'node2', style: { x: 200, y: 200 } },
+  ],
+  edges: [{ id: 'edge1', source: 'node1', target: 'node2' }],
+});
+
+// Use functional incremental update: get current graph data and return new graph data
+graph.setData((prev) => ({
+  ...prev,
+  nodes: [...prev.nodes, { id: 'node3', style: { x: 300, y: 300 } }],
+}));
+```
+
+### Graph.addData()
+
+Add new element data.
 
 ```typescript
 addData(data: GraphData | ((prev: GraphData) => GraphData)): void;
 ```
 
-**Example**
+**Parameters**:
 
-```ts
+| Parameter | Description                                              | Type                                                        | Default | Required |
+| --------- | -------------------------------------------------------- | ----------------------------------------------------------- | ------- | -------- |
+| data      | Graph data to add or a function returning new graph data | [GraphData](#graphdata) \| ((prev: GraphData) => GraphData) | -       | ✓        |
+
+**Example**:
+
+```typescript
 graph.addData({
   nodes: [{ id: 'node-1' }, { id: 'node-2' }],
   edges: [{ source: 'node-1', target: 'node-2' }],
 });
 ```
 
-<details><summary>View Parameters</summary>
+### Graph.addNodeData()
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-</td><td>
-
-元素数据
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.addEdgeData(data)
-
-Add edge data
-
-```typescript
-addEdgeData(data: EdgeData[] | ((prev: EdgeData[]) => EdgeData[])): void;
-```
-
-**Example**
-
-```ts
-graph.addEdgeData([{ source: 'node-1', target: 'node-2' }]);
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-</td><td>
-
-边数据
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.addNodeData(data)
-
-Add node data
+Add new node data.
 
 ```typescript
 addNodeData(data: NodeData[] | ((prev: NodeData[]) => NodeData[])): void;
 ```
 
-**Example**
+**Parameters**:
 
-```ts
-graph.addNodeData([{ id: 'node-1' }, { id: 'node-2' }]);
-```
+| Parameter | Description                                        | Type                                                        | Default | Required |
+| --------- | -------------------------------------------------- | ----------------------------------------------------------- | ------- | -------- |
+| data      | Node data to add or a function returning node data | [NodeData](#nodedata)[] \| (prev: NodeData[]) => NodeData[] | -       | ✓        |
 
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-NodeData
-
-</td><td>
-
-节点数据
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.getAncestorsData(id, hierarchy)
-
-Get the ancestor element data of the node or combo
+**Example**:
 
 ```typescript
-getAncestorsData(id: ID, hierarchy: HierarchyKey): NodeLikeData[];
+// Add single node
+graph.addNodeData([
+  {
+    id: 'node1',
+    style: { x: 100, y: 100 },
+    data: { label: 'Node 1' },
+  },
+]);
+
+// Add multiple nodes
+graph.addNodeData([
+  { id: 'node2', style: { x: 200, y: 200 } },
+  { id: 'node3', style: { x: 300, y: 300 } },
+]);
+
+// Functional addition
+graph.addNodeData((prev) => [...prev, { id: 'node4', style: { x: 400, y: 400 } }]);
 ```
 
-The order in the array is from the parent node to the ancestor node
+### Graph.addEdgeData()
 
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-<tr><td>
-
-hierarchy
-
-</td><td>
-
-'tree' \| 'combo'
-
-</td><td>
-
-指定树图层级关系还是组合层级关系
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** NodeData \| ComboData[]
-
-- **Description:** 祖先元素数据
-
-</details>
-
-### Graph.getChildrenData(id)
-
-Get the child element data of the node or combo
+Add new edge data.
 
 ```typescript
-getChildrenData(id: ID): NodeLikeData[];
+addEdgeData(data: EdgeData[] | ((prev: EdgeData[]) => EdgeData[])): void;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+| Parameter | Description                                        | Type                                                          | Default | Required |
+| --------- | -------------------------------------------------- | ------------------------------------------------------------- | ------- | -------- |
+| data      | Edge data to add or a function returning edge data | [EdgeData](#edgedata)[] \| ((prev: EdgeData[]) => EdgeData[]) | -       | ✓        |
 
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** NodeData \| ComboData[]
-
-- **Description:** 子元素数据
-
-</details>
-
-### Graph.getComboData()
-
-Get all combo data
+**Example**:
 
 ```typescript
-getComboData(): ComboData[];
+// Add single edge
+graph.addEdgeData([
+  {
+    id: 'edge1',
+    source: 'node1',
+    target: 'node2',
+    data: {
+      weight: 1,
+      label: 'Relation',
+    },
+  },
+]);
+
+// Add multiple edges
+graph.addEdgeData([
+  { id: 'edge2', source: 'node2', target: 'node3' },
+  { id: 'edge3', source: 'node3', target: 'node1' },
+]);
+
+// Functional addition
+graph.addEdgeData((prev) => [...prev, { id: 'edge4', source: 'node1', target: 'node4' }]);
 ```
 
-<details><summary>View Parameters</summary>
+### Graph.addComboData()
 
-**Returns**:
-
-- **Type:** [ComboData]()[]
-
-- **Description:** 组合数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getComboData(id)
-
-Get single combo data
+Add new combo data.
 
 ```typescript
-getComboData(id: ID): ComboData;
+addComboData(data: ComboData[] | ((prev: ComboData[]) => ComboData[])): void;
 ```
 
-**Example**
+**Parameters**:
 
-```ts
-const combo1 = graph.getComboData('combo-1');
-```
+| Parameter | Description                                          | Type                                                            | Default | Required |
+| --------- | ---------------------------------------------------- | --------------------------------------------------------------- | ------- | -------- |
+| data      | Combo data to add or a function returning combo data | [ComboData](#combodata)[] \| (prev: ComboData[]) => ComboData[] | -       | ✓        |
 
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-组合ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [ComboData]()
-
-- **Description:** 组合数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getComboData(ids)
-
-Get multiple combo data in batch
+**Example**:
 
 ```typescript
-getComboData(ids: ID[]): ComboData[];
+graph.addComboData([{ id: 'combo1', children: ['node1', 'node2'] }]);
 ```
 
-**Example**
+### Graph.addChildrenData()
 
-```ts
-const [combo1, combo2] = graph.getComboData(['combo-1', 'combo-2']);
-```
+Add child node data to a tree graph node.
 
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[]
-
-</td><td>
-
-组合ID 数组
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Description:** 组合数据
-
-</details>
-
-### Graph.getData()
-
-Get graph data
+⚠️ **Note**: Use addNodeData / addComboData methods to add child nodes to a combo.
 
 ```typescript
-getData(): Required<GraphData>;
+addChildrenData(parentId: ID, childrenData: NodeData[]): void;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-**Returns**:
+| Parameter    | Description     | Type                    | Default | Required |
+| ------------ | --------------- | ----------------------- | ------- | -------- |
+| parentId     | Parent node ID  | string                  | -       | ✓        |
+| childrenData | Child node data | [NodeData](#nodedata)[] | -       | ✓        |
 
-- **Type:** Required&lt;[GraphData]()&gt;
-
-- **Description:** 图数据
-
-</details>
-
-### Graph.getDescendantsData(id)
-
-Get the descendant element data of the node or combo
+**Example**:
 
 ```typescript
-getDescendantsData(id: ID): NodeLikeData[];
+graph.addChildrenData('node1', [{ id: 'node2' }]);
 ```
 
-<details><summary>View Parameters</summary>
+### Graph.removeData()
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** NodeData \| ComboData[]
-
-- **Description:** 后代元素数据
-
-</details>
-
-### Graph.getEdgeData()
-
-Get all edge data
-
-```typescript
-getEdgeData(): EdgeData[];
-```
-
-<details><summary>View Parameters</summary>
-
-**Returns**:
-
-- **Type:** [EdgeData](.)[]
-
-- **Description:** 边数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getEdgeData(id)
-
-Get single edge data
-
-```typescript
-getEdgeData(id: ID): EdgeData;
-```
-
-**Example**
-
-```ts
-const edge1 = graph.getEdgeData('edge-1');
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-边 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [EdgeData](.)
-
-- **Description:** 边数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getEdgeData(ids)
-
-Get multiple edge data in batch
-
-```typescript
-getEdgeData(ids: ID[]): EdgeData[];
-```
-
-**Example**
-
-```ts
-const [edge1, edge2] = graph.getEdgeData(['edge-1', 'edge-2']);
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[]
-
-</td><td>
-
-边 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [EdgeData](.)[]
-
-- **Description:** 边数据
-
-</details>
-
-### Graph.getElementData(id)
-
-Get element data by ID
-
-```typescript
-getElementData(id: ID): ElementDatum;
-```
-
-Get element data directly without considering the element type
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** NodeData \| EdgeData \| ComboData
-
-- **Description:** 元素数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getElementData(ids)
-
-Get multiple element data in batch
-
-```typescript
-getElementData(ids: ID[]): ElementDatum[];
-```
-
-Get element data directly without considering the element type
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[]
-
-</td><td>
-
-元素 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** NodeData \| EdgeData \| ComboData[]
-
-</details>
-
-### Graph.getElementDataByState(elementType, state)
-
-Get node data in a specific state
-
-```typescript
-getElementDataByState(elementType: 'node', state: State): NodeData[];
-```
-
-**Example**
-
-```ts
-const nodes = graph.getElementDataByState('node', 'selected');
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-elementType
-
-</td><td>
-
-'node'
-
-</td><td>
-
-</td></tr>
-<tr><td>
-
-state
-
-</td><td>
-
-string
-
-</td><td>
-
-状态
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** NodeData[]
-
-- **Description:** 节点数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getElementDataByState(elementType, state)
-
-Get edge data in a specific state
-
-```typescript
-getElementDataByState(elementType: 'edge', state: State): EdgeData[];
-```
-
-**Example**
-
-```ts
-const nodes = graph.getElementDataByState('edge', 'selected');
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-elementType
-
-</td><td>
-
-'edge'
-
-</td><td>
-
-</td></tr>
-<tr><td>
-
-state
-
-</td><td>
-
-string
-
-</td><td>
-
-状态
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [EdgeData](.)[]
-
-- **Description:** 边数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getElementDataByState(elementType, state)
-
-Get combo data in a specific state
-
-```typescript
-getElementDataByState(elementType: 'combo', state: State): ComboData[];
-```
-
-**Example**
-
-```ts
-const nodes = graph.getElementDataByState('node', 'selected');
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-elementType
-
-</td><td>
-
-'combo'
-
-</td><td>
-
-</td></tr>
-<tr><td>
-
-state
-
-</td><td>
-
-string
-
-</td><td>
-
-状态
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [ComboData]()[]
-
-- **Description:** 组合数据
-
-</details>
-
-### Graph.getNeighborNodesData(id)
-
-Get the one-hop neighbor node data of the node or combo
-
-```typescript
-getNeighborNodesData(id: ID): NodeData[];
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [NodeData]()[]
-
-- **Description:** 邻居节点数据
-
-</details>
-
-### Graph.getNodeData()
-
-Get all node data
-
-```typescript
-getNodeData(): NodeData[];
-```
-
-<details><summary>View Parameters</summary>
-
-**Returns**:
-
-- **Type:** [NodeData]()[]
-
-- **Description:** 节点数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getNodeData(id)
-
-Get single node data
-
-```typescript
-getNodeData(id: ID): NodeData;
-```
-
-**Example**
-
-```ts
-const node1 = graph.getNodeData('node-1');
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [NodeData]()
-
-- **Description:** 节点数据
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.getNodeData(ids)
-
-Get multiple node data in batch
-
-```typescript
-getNodeData(ids: ID[]): NodeData[];
-```
-
-**Example**
-
-```ts
-const [node1, node2] = graph.getNodeData(['node-1', 'node-2']);
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[]
-
-</td><td>
-
-节点 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** NodeData[]
-
-- **Description:** 节点数据
-
-</details>
-
-### Graph.getParentData(id, hierarchy)
-
-Get the parent element data of the node or combo
-
-```typescript
-getParentData(id: ID, hierarchy: HierarchyKey): NodeLikeData | undefined;
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-<tr><td>
-
-hierarchy
-
-</td><td>
-
-'tree' \| 'combo'
-
-</td><td>
-
-指定树图层级关系还是组合层级关系
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** NodeData \| ComboData \| undefined
-
-- **Description:** 父元素数据
-
-</details>
-
-### Graph.getRelatedEdgesData(id, direction)
-
-Get edge data related to the node or combo
-
-```typescript
-getRelatedEdgesData(id: ID, direction?: EdgeDirection): EdgeData[];
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-节点或组合ID
-
-</td></tr>
-<tr><td>
-
-direction
-
-</td><td>
-
-'in' \| 'out' \| 'both'
-
-</td><td>
-
-边的方向
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [EdgeData](.)[]
-
-- **Description:** 边数据
-
-</details>
-
-### Graph.removeComboData(ids)
-
-Remove combo data
-
-```typescript
-removeComboData(ids: ID[] | ((data: ComboData[]) => ID[])): void;
-```
-
-**Example**
-
-```ts
-graph.removeComboData(['combo-1']);
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[] \| ((data: [ComboData]()[]) =&gt; string[])
-
-</td><td>
-
-组合 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.removeData(ids)
-
-Remove element data
+Remove element data.
 
 ```typescript
 removeData(ids: DataID | ((data: GraphData) => DataID)): void;
 ```
 
-**Example**
+**Parameters**:
 
-```ts
+| Parameter | Description                                               | Type                                               | Default | Required |
+| --------- | --------------------------------------------------------- | -------------------------------------------------- | ------- | -------- |
+| ids       | Element IDs to remove or a function returning element IDs | [DataID](#dataid) \| ((data: GraphData) => DataID) | -       | ✓        |
+
+**Return Value**:
+
+- **Type**: void
+
+**Example**:
+
+```typescript
 graph.removeData({
   nodes: ['node-1', 'node-2'],
   edges: ['edge-1'],
 });
 ```
 
-<details><summary>View Parameters</summary>
+### Graph.removeNodeData()
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-DataID \| ((data: [GraphData]()) =&gt; DataID)
-
-</td><td>
-
-元素 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.removeEdgeData(ids)
-
-Remove edge data
-
-```typescript
-removeEdgeData(ids: ID[] | ((data: EdgeData[]) => ID[])): void;
-```
-
-If only the source and target are provided when passing in the edge data, you need to get the actual ID of the edge through the `idOf` method
-
-**Example**
-
-```ts
-graph.removeEdgeData(['edge-1']);
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[] \| ((data: [EdgeData](.)[]) =&gt; string[])
-
-</td><td>
-
-边 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.removeNodeData(ids)
-
-Remove node data
+Remove node data.
 
 ```typescript
 removeNodeData(ids: ID[] | ((data: NodeData[]) => ID[])): void;
 ```
 
-**Example**
+**Parameters**:
 
-```ts
+| Parameter | Description                                         | Type                                                            | Default | Required |
+| --------- | --------------------------------------------------- | --------------------------------------------------------------- | ------- | -------- |
+| ids       | Node IDs to remove or a function returning node IDs | [ID](#id)[] \| ((data: [NodeData](#nodedata)[]) => [ID](#id)[]) | -       | ✓        |
+
+**Return Value**:
+
+- **Type**: void
+
+**Example**:
+
+```typescript
 graph.removeNodeData(['node-1', 'node-2']);
 ```
 
-<details><summary>View Parameters</summary>
+### Graph.removeEdgeData()
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-ids
-
-</td><td>
-
-string[] \| ((data: [NodeData]()[]) =&gt; string[])
-
-</td><td>
-
-节点 ID 数组
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.setData(data)
-
-Set full data
+Remove edge data.
 
 ```typescript
-setData(data: GraphData | ((prev: GraphData) => GraphData)): void;
+removeEdgeData(ids: ID[] | ((data: EdgeData[]) => ID[])): void;
 ```
 
-Setting full data will replace all data in the current graph, and G6 will automatically calculate the data difference
+**Parameters**:
 
-<details><summary>View Parameters</summary>
+| Parameter | Description                                         | Type                                                            | Default | Required |
+| --------- | --------------------------------------------------- | --------------------------------------------------------------- | ------- | -------- |
+| ids       | Edge IDs to remove or a function returning edge IDs | [ID](#id)[] \| ((data: [EdgeData](#edgedata)[]) => [ID](#id)[]) | -       | ✓        |
 
-<table><thead><tr><th>
+**Return Value**:
 
-Parameter
+- **Type**: void
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-[GraphData]() \| ((prev: [GraphData]()) =&gt; [GraphData]())
-
-</td><td>
-
-数据
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.updateComboData(data)
-
-Update combo data
+**Example**:
 
 ```typescript
-updateComboData(data: PartialNodeLikeData<ComboData>[] | ((prev: ComboData[]) => PartialNodeLikeData<ComboData>[])): void;
+graph.removeEdgeData(['edge-1']);
 ```
 
-Just pass in the data that needs to be updated, no need to pass in the complete data
+### Graph.removeComboData()
 
-**Example**
+Remove combo data.
 
-```ts
-graph.updateComboData([{ id: 'combo-1', style: { x: 100, y: 100 } }]);
+```typescript
+removeComboData(ids: ID[] | ((data: ComboData[]) => ID[])): void;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+| Parameter | Description                                           | Type                                                            | Default | Required |
+| --------- | ----------------------------------------------------- | --------------------------------------------------------------- | ------- | -------- |
+| ids       | Combo IDs to remove or a function returning combo IDs | [ID](#id)[] \| (data: [ComboData](#combodata)[]) => [ID](#id)[] | -       | ✓        |
 
-Parameter
+**Return Value**:
 
-</th><th>
+- **Type**: void
 
-Type
+**Example**:
 
-</th><th>
+```typescript
+graph.removeComboData(['combo-1']);
+```
 
-Description
+### Graph.updateData()
 
-</th></tr></thead>
-<tbody><tr><td>
+Update element data.
 
-data
-
-</td><td>
-
-PartialNodeLikeData&lt;[ComboData]()&gt;[] \| ((prev: [ComboData]()[]) =&gt; PartialNodeLikeData&lt;[ComboData]()&gt;[])
-
-</td><td>
-
-组合数据
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.updateData(data)
-
-Update element data
+⚠️ **Note**: Only the data that needs to be updated needs to be passed in, not the complete data.
 
 ```typescript
 updateData(data: PartialGraphData | ((prev: GraphData) => PartialGraphData)): void;
 ```
 
-Just pass in the data that needs to be updated, no need to pass in the complete data
+**Parameters**:
 
-**Example**
+| Parameter | Description                                                 | Type                                                                             | Default | Required |
+| --------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------- | ------- | -------- |
+| data      | Element data to update or a function returning element data | [PartialGraphData](#partialgraphdata) \| ((prev: GraphData) => PartialGraphData) | -       | ✓        |
 
-```ts
+**Return Value**:
+
+- **Type**: void
+
+**Example**:
+
+```typescript
 graph.updateData({
   nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
   edges: [{ id: 'edge-1', style: { lineWidth: 2 } }],
 });
 ```
 
-<details><summary>View Parameters</summary>
+### Graph.updateNodeData()
 
-<table><thead><tr><th>
+Update node data.
 
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-PartialGraphData \| ((prev: [GraphData]()) =&gt; PartialGraphData)
-
-</td><td>
-
-元素数据
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.updateEdgeData(data)
-
-Update edge data
+⚠️ **Note**: Only the data that needs to be updated needs to be passed in, not the complete data.
 
 ```typescript
-updateEdgeData(data: PartialEdgeData<EdgeData>[] | ((prev: EdgeData[]) => PartialEdgeData<EdgeData>[])): void;
+updateNodeData(data: NodeData[] | ((prev: NodeData[]) => NodeData[])): void;
 ```
 
-Just pass in the data that needs to be updated, no need to pass in the complete data
+**Parameters**:
 
-**Example**
+| Parameter | Description                                           | Type                                           | Default | Required |
+| --------- | ----------------------------------------------------- | ---------------------------------------------- | ------- | -------- |
+| data      | Node data to update or a function returning node data | NodeData[] \| (prev: NodeData[]) => NodeData[] | -       | ✓        |
 
-```ts
-graph.updateEdgeData([{ id: 'edge-1', style: { lineWidth: 2 } }]);
-```
+**Return Value**:
 
-<details><summary>View Parameters</summary>
+- **Type**: void
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-data
-
-</td><td>
-
-PartialEdgeData&lt;[EdgeData](.)&gt;[] \| ((prev: [EdgeData](.)[]) =&gt; PartialEdgeData&lt;[EdgeData](.)&gt;[])
-
-</td><td>
-
-边数据
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.updateNodeData(data)
-
-Update node data
+**Example**:
 
 ```typescript
-updateNodeData(data: PartialNodeLikeData<NodeData>[] | ((prev: NodeData[]) => PartialNodeLikeData<NodeData>[])): void;
-```
-
-Just pass in the data that needs to be updated, no need to pass in the complete data
-
-**Example**
-
-```ts
 graph.updateNodeData([{ id: 'node-1', style: { x: 100, y: 100 } }]);
 ```
 
-<details><summary>View Parameters</summary>
+### Graph.updateEdgeData()
 
-<table><thead><tr><th>
+Update edge data.
 
-Parameter
+⚠️ **Note**: Only the data that needs to be updated needs to be passed in, not the complete data.
 
-</th><th>
+```typescript
+updateEdgeData(data: (PartialEdgeData<EdgeData>[] | ((prev: EdgeData[]) => PartialEdgeData<EdgeData>[]))): void;
+```
 
-Type
+**Parameters**:
 
-</th><th>
+| Parameter | Description | Type                                                  | Default                                                                                                                  | Required |
+| --------- | ----------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------- | --- | --- |
+| <!--      | data        | Edge data to update or a function returning edge data | [PartialEdgeData<EdgeData>](#partialedgedata)[] \| (prev: EdgeData[]) => [PartialEdgeData<EdgeData>](#partialedgedata)[] | -        | ✓   | --> |
 
-Description
+**Return Value**:
 
-</th></tr></thead>
-<tbody><tr><td>
+- **Type**: void
 
-data
+**Example**:
 
-</td><td>
+```typescript
+graph.updateEdgeData([{ id: 'edge-1', style: { lineWidth: 2 } }]);
+```
 
-NodeData
+### Graph.updateComboData()
 
-</td><td>
+Update combo data.
 
-节点数据
+⚠️ **Note**: Only the data that needs to be updated needs to be passed in, not the complete data.
 
-</td></tr>
-</tbody></table>
+```typescript
+updateComboData(data: (ComboData[] | ((prev: ComboData[]) => ComboData[]))): void;
+```
 
-**Returns**:
+**Parameters**:
 
-- **Type:** void
+| Parameter | Description                                             | Type                                                            | Default | Required |
+| --------- | ------------------------------------------------------- | --------------------------------------------------------------- | ------- | -------- |
+| data      | Combo data to update or a function returning combo data | [ComboData](#combodata)[] \| (prev: ComboData[]) => ComboData[] | -       | ✓        |
 
-</details>
+**Return Value**:
+
+- **Type**: void
+
+**Example**:
+
+```typescript
+graph.updateComboData([{ id: 'combo-1', style: { x: 100, y: 100 } }]);
+```
+
+## Type Definitions
+
+### ID
+
+Element ID type.
+
+```typescript
+type ID = string;
+```
+
+### DataID
+
+Multiple element ID type.
+
+```typescript
+interface DataID {
+  nodes?: ID[];
+  edges?: ID[];
+  combos?: ID[];
+}
+```
+
+### GraphData
+
+G6 graph data type.
+
+```typescript
+interface GraphData {
+  nodes?: NodeData[];
+  edges?: EdgeData[];
+  combos?: ComboData[];
+}
+```
+
+### NodeData
+
+Node data type.
+
+```typescript
+interface NodeData {
+  id: string; // Node ID
+  type?: string; // Node type
+  data?: Record<string, any>; // Node data
+  style?: Record<string, any>; // Node style
+  states?: string[]; // Initial node states
+  combo?: string; // Belonging combo
+  children?: string[]; // Array of child node IDs
+}
+```
+
+For detailed type definitions, please refer to [Node Data](/en/manual/data#nodedata).
+
+### EdgeData
+
+Edge data type.
+
+```typescript
+interface EdgeData {
+  source: string; // Source ID
+  target: string; // Target ID
+  id?: string; // Edge ID
+  type?: string; // Edge type
+  data?: Record<string, any>; // Edge data
+  style?: Record<string, any>; // Edge style
+  states?: string[]; // Initial edge states
+}
+```
+
+For detailed type definitions, please refer to [Edge Data](/en/manual/data#edgedata).
+
+### ComboData
+
+Combo data type.
+
+```typescript
+interface ComboData {
+  id: string; // Combo ID
+  type?: string; // Combo type
+  data?: Record<string, any>; // Combo data
+  style?: Record<string, any>; // Combo style
+  states?: string[]; // Initial combo states
+  combo?: string; // Parent combo ID
+}
+```
+
+For detailed type definitions, please refer to [Combo Data](/en/manual/data#combodata).

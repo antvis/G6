@@ -1,1403 +1,712 @@
 ---
-title: Element
+title: Element Operations
+order: 1
 ---
 
-### Graph.collapseElement(id, options)
+## Overview of Element Operations
 
-Collapse element
+The [Element](/en/manual/element/overview) operation API in G6 allows you to control the behavior and attributes of elements such as nodes, edges, and Combos in the graph. These APIs can be used for:
 
-```typescript
-collapseElement(id: ID, options?: boolean | CollapseExpandNodeOptions): Promise<void>;
-```
+1. **Element State Management**: Set, update, or remove the state of elements
+2. **Element Display Control**: Control the z-index and visibility of elements
+3. **Element Collapse/Expand**: Operate the collapse/expand state of collapsible elements
+4. **Element Position Operations**: Move and align element positions
+5. **Element Focus**: Focus the viewport on specific elements
 
-<details><summary>View Parameters</summary>
+Through these operations, you can achieve rich interactive effects and visual presentations.
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-options
-
-</td><td>
-
-boolean \| [CollapseExpandNodeOptions]()
-
-</td><td>
-
-是否启用动画或者配置收起节点的配置项
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
-
-### Graph.expandElement(id, options)
-
-Expand Element
-
-```typescript
-expandElement(id: ID, options?: boolean | CollapseExpandNodeOptions): Promise<void>;
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-options
-
-</td><td>
-
-boolean \| [CollapseExpandNodeOptions]()
-
-</td><td>
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
-
-### Graph.frontElement(id)
-
-Bring the element to the front
-
-```typescript
-frontElement(id: ID | ID[]): Promise<void>;
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
+## API Reference
 
 ### Graph.getElementPosition(id)
 
-Get element position
+Get the position of an element.
 
 ```typescript
 getElementPosition(id: ID): Point;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+| Parameter | Description | Type   | Default | Required |
+| --------- | ----------- | ------ | ------- | -------- |
+| id        | Element ID  | string | -       | ✓        |
 
-Parameter
+**Return Value**:
 
-</th><th>
+- **Type**: [number, number] \| [number, number, number]
+- **Description**: Returns the coordinates of the element
 
-Type
+**Example**:
 
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [number, number] \| [number, number, number] \| Float32Array
-
-- **Description:** 元素位置
-
-</details>
+```typescript
+graph.getElementPosition('node1');
+```
 
 ### Graph.getElementRenderBounds(id)
 
-Get the rendering bounding box of the element itself and its child nodes in the world coordinate system
+Get the rendering bounding box of the element itself and its child nodes in the world coordinate system.
 
 ```typescript
 getElementRenderBounds(id: ID): AABB;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+| Parameter | Description | Type   | Default | Required |
+| --------- | ----------- | ------ | ------- | -------- |
+| id        | Element ID  | string | -       | ✓        |
 
-Parameter
+**Return Value**:
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** AABB
-
-- **Description:** 渲染包围盒
-
-</details>
+- **Type**: [AABB](#aabb)
+- **Description**: Returns the rendering bounding box of the element
 
 ### Graph.getElementRenderStyle(id)
 
-Get element rendering style
+Get the rendering style of an element.
 
 ```typescript
 getElementRenderStyle(id: ID): Record<string, any>;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+| Parameter | Description | Type   | Default | Required |
+| --------- | ----------- | ------ | ------- | -------- |
+| id        | Element ID  | string | -       | ✓        |
 
-Parameter
+**Return Value**:
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Record&lt;string, any&gt;
-
-- **Description:** 元素渲染样式
-
-</details>
+- **Type**: Record<string, any>
+- **Description**: Returns the rendering style of the element
 
 ### Graph.getElementState(id)
 
-Get element state
+Get the state of an element.
 
 ```typescript
 getElementState(id: ID): State[];
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+| Parameter | Description | Type   | Default | Required |
+| --------- | ----------- | ------ | ------- | -------- |
+| id        | Element ID  | string | -       | ✓        |
 
-Parameter
+**Return Value**:
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** string[]
-
-- **Description:** 元素状态
-
-</details>
+- **Type**: [State](#state)[]
+- **Description**: Returns the state of the element
 
 ### Graph.getElementType(id)
 
-Get element type
+Get the type of an element.
 
 ```typescript
-getElementType(id: ID): ElementType;
+getElementType(id: ID): string;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+| Parameter | Description | Type   | Default | Required |
+| --------- | ----------- | ------ | ------- | -------- |
+| id        | Element ID  | string | -       | ✓        |
 
-Parameter
+**Return Value**:
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** 'node' \| 'edge' \| 'combo'
-
-- **Description:** 元素类型
-
-</details>
+- **Type**: string
+- **Description**: Returns the type of the element
 
 ### Graph.getElementVisibility(id)
 
-Get element visibility
+Get the visibility of an element.
 
 ```typescript
-getElementVisibility(id: ID): BaseStyleProps['visibility'];
+getElementVisibility(id: ID): 'visible' | 'hidden';
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+| Parameter | Description | Type   | Default | Required |
+| --------- | ----------- | ------ | ------- | -------- |
+| id        | Element ID  | string | -       | ✓        |
 
-Parameter
+**Return Value**:
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** BaseStyleProps['visibility']
-
-- **Description:** 元素可见性
-
-</details>
+- **Type**: 'visible' | 'hidden'
+- **Description**: Returns the visibility of the element
 
 ### Graph.getElementZIndex(id)
 
-Get element z-index
+Get the z-index of an element.
 
 ```typescript
 getElementZIndex(id: ID): number;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+| Parameter | Description | Type   | Default | Required |
+| --------- | ----------- | ------ | ------- | -------- |
+| id        | Element ID  | string | -       | ✓        |
 
-Parameter
+**Return Value**:
 
-</th><th>
+- **Type**: number
+- **Description**: Returns the z-index of the element
 
-Type
+### Graph.setElementState(id, state, options)
 
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** number
-
-- **Description:** 元素层级
-
-</details>
-
-### Graph.hideElement(id, animation)
-
-Hide element
+Set the state of an element, supporting two calling methods:
 
 ```typescript
-hideElement(id: ID | ID[], animation?: boolean): Promise<void>;
-```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
-
-### Graph.setCombo(combo)
-
-Set combo mapper
-
-```typescript
-setCombo(combo: ComboOptions): void;
-```
-
-The value of `options.combo`
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-combo
-
-</td><td>
-
-[ComboOptions]()
-
-</td><td>
-
-组合配置
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.setEdge(edge)
-
-Set edge mapper
-
-```typescript
-setEdge(edge: EdgeOptions): void;
-```
-
-The value of `options.edge`
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-edge
-
-</td><td>
-
-[EdgeOptions]()
-
-</td><td>
-
-边配置
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Graph.setElementState(id, state, animation)
-
-Set element state
-
-```typescript
+// Set the state of a single element
 setElementState(id: ID, state: State | State[], animation?: boolean): Promise<void>;
-```
 
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-state
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-状态
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-动画配置
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.setElementState(state, animation)
-
-Batch set element state
-
-```typescript
+// Set the state of multiple elements
 setElementState(state: Record<ID, State | State[]>, animation?: boolean): Promise<void>;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+**Single Element State Setting**
 
-Parameter
+| Parameter | Description       | Type            | Default | Required |
+| --------- | ----------------- | --------------- | ------- | -------- | --- |
+| id        | Element ID to set | string          | -       | ✓        |
+| state     | State to set      | [State](#state) | State[] | -        | ✓   |
+| animation | Enable animation  | boolean         | -       |          |
 
-</th><th>
+**Batch Element State Setting**
 
-Type
+| Parameter | Description                    | Type                       | Default  | Required |
+| --------- | ------------------------------ | -------------------------- | -------- | -------- | --- |
+| state     | Mapping of element ID to state | Record<ID, [State](#state) | State[]> | -        | ✓   |
+| animation | Enable animation               | boolean                    | -        |          |
 
-</th><th>
+**Return Value**:
 
-Description
+- **Type**: Promise<void>
+- **Description**: Returns a Promise that resolves when the state setting operation is complete
 
-</th></tr></thead>
-<tbody><tr><td>
+**Example**:
 
-state
+```typescript
+// Set the state of a single element
+await graph.setElementState('node1', 'selected');
 
-</td><td>
-
-Record&lt;string, string \| string[]&gt;
-
-</td><td>
-
-状态配置
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-动画配置
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
+// Set the state of multiple elements
+await graph.setElementState({
+  node1: 'selected',
+  node2: 'hover',
+  node3: ['selected', 'hover'],
+});
+```
 
 ### Graph.setElementVisibility(id, visibility, animation)
 
-Set element visibility
+Set the visibility of an element, supporting two calling methods:
 
 ```typescript
-setElementVisibility(id: ID, visibility: BaseStyleProps['visibility'], animation?: boolean): Promise<void>;
+// Set the visibility of a single element
+setElementVisibility(id: ID, visibility: 'visible' | 'hidden', animation?: boolean): Promise<void>;
+
+// Set the visibility of multiple elements
+setElementVisibility(visibility: Record<ID, 'visible' | 'hidden'>, animation?: boolean): Promise<void>;
 ```
 
-Visibility configuration includes two states: `visible` and `hidden`
+**Parameters**:
 
-<details><summary>View Parameters</summary>
+**Single Element Visibility Setting**
 
-<table><thead><tr><th>
+| Parameter  | Description       | Type      | Default  | Required |
+| ---------- | ----------------- | --------- | -------- | -------- | --- |
+| id         | Element ID to set | string    | -        | ✓        |
+| visibility | Visibility to set | 'visible' | 'hidden' | -        | ✓   |
+| animation  | Enable animation  | boolean   | -        |          |
 
-Parameter
+**Batch Element Visibility Setting**
 
-</th><th>
+| Parameter  | Description                         | Type                 | Default   | Required |
+| ---------- | ----------------------------------- | -------------------- | --------- | -------- | --- |
+| visibility | Mapping of element ID to visibility | Record<ID, 'visible' | 'hidden'> | -        | ✓   |
+| animation  | Enable animation                    | boolean              | -         |          |
 
-Type
+**Return Value**:
 
-</th><th>
+- **Type**: Promise<void>
+- **Description**: Returns a Promise that resolves when the visibility setting operation is complete
 
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-visibility
-
-</td><td>
-
-BaseStyleProps['visibility']
-
-</td><td>
-
-可见性
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-动画配置
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.setElementVisibility(visibility, animation)
-
-Batch set element visibility
+**Example**:
 
 ```typescript
-setElementVisibility(visibility: Record<ID, BaseStyleProps['visibility']>, animation?: boolean): Promise<void>;
+// Set the visibility of a single element
+await graph.setElementVisibility('node1', 'hidden');
+
+// Set the visibility of multiple elements
+await graph.setElementVisibility({
+  node1: 'hidden',
+  node2: 'visibility',
+});
 ```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-visibility
-
-</td><td>
-
-Record&lt;string, BaseStyleProps['visibility']&gt;
-
-</td><td>
-
-可见性配置
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-动画配置
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
 
 ### Graph.setElementZIndex(id, zIndex)
 
-Set element z-index
+Set the z-index of an element, supporting two calling methods:
 
 ```typescript
+// Set the z-index of a single element
 setElementZIndex(id: ID, zIndex: number): Promise<void>;
-```
 
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-zIndex
-
-</td><td>
-
-number
-
-</td><td>
-
-层级
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.setElementZIndex(zIndex)
-
-Batch set element z-index
-
-```typescript
+// Set the z-index of multiple elements
 setElementZIndex(zIndex: Record<ID, number>): Promise<void>;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+**Single Element Z-Index Setting**
 
-Parameter
+| Parameter | Description | Type   | Default | Required |
+| --------- | ----------- | ------ | ------- | -------- |
+| id        | Element ID  | string | -       | ✓        |
+| zIndex    | Z-Index     | number | -       | ✓        |
 
-</th><th>
+**Batch Element Z-Index Setting**
 
-Type
+| Parameter | Description                      | Type               | Default | Required |
+| --------- | -------------------------------- | ------------------ | ------- | -------- |
+| zIndex    | Mapping of element ID to z-index | Record<ID, number> | -       | ✓        |
 
-</th><th>
+**Return Value**:
 
-Description
+- **Type**: Promise<void>
+- **Description**: Returns a Promise that resolves when the z-index setting operation is complete
 
-</th></tr></thead>
-<tbody><tr><td>
+**Example**:
 
-zIndex
+```typescript
+// Set the z-index of a single element
+await graph.setElementZIndex('node1', 10);
 
-</td><td>
-
-Record&lt;string, number&gt;
-
-</td><td>
-
-层级配置
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
+// Set the z-index of multiple elements
+await graph.setElementZIndex({
+  node1: 10,
+  node2: 20,
+  node3: 30,
+});
+```
 
 ### Graph.setNode(node)
 
-Set node mapper
+Set the node style mapping, i.e., the value of `options.node`.
 
 ```typescript
 setNode(node: NodeOptions): void;
 ```
 
-The value of `options.node`
+**Parameters**:
 
-<details><summary>View Parameters</summary>
+| Parameter | Description        | Type                                            | Default | Required |
+| --------- | ------------------ | ----------------------------------------------- | ------- | -------- |
+| node      | Node configuration | [NodeOptions](/en/manual/element/node/overview) | -       | ✓        |
 
-<table><thead><tr><th>
+**Example**:
 
-Parameter
+```typescript
+// Set the fill color of all nodes to red
+graph.setNode({
+  style: {
+    fill: 'red',
+  },
+});
+```
 
-</th><th>
+### Graph.setEdge(edge)
 
-Type
+Set the edge style mapping, i.e., the value of `options.edge`.
 
-</th><th>
+```typescript
+setEdge(edge: EdgeOptions): void;
+```
 
-Description
+**Parameters**:
 
-</th></tr></thead>
-<tbody><tr><td>
+| Parameter | Description        | Type                                            | Default | Required |
+| --------- | ------------------ | ----------------------------------------------- | ------- | -------- |
+| edge      | Edge configuration | [EdgeOptions](/en/manual/element/edge/overview) | -       | ✓        |
 
-node
+### Graph.setCombo(combo)
 
-</td><td>
+Set the combo style mapping, i.e., the value of `options.combo`.
 
-[NodeOptions]()
+```typescript
+setCombo(combo: ComboOptions): void;
+```
 
-</td><td>
+**Parameters**:
 
-节点配置
+| Parameter | Description         | Type                                              | Default | Required |
+| --------- | ------------------- | ------------------------------------------------- | ------- | -------- |
+| combo     | Combo configuration | [ComboOptions](/en/manual/element/combo/overview) | -       | ✓        |
 
-</td></tr>
-</tbody></table>
+### Graph.collapseElement(id, options)
 
-**Returns**:
+Collapse the specified element, usually used to collapse Combos or nodes with child elements.
 
-- **Type:** void
+```typescript
+collapseElement(id: ID, options?: boolean | CollapseExpandNodeOptions): Promise<void>;
+```
 
-</details>
+**Parameters**:
+
+| Parameter | Description                                                     | Type    | Default                                                 | Required |
+| --------- | --------------------------------------------------------------- | ------- | ------------------------------------------------------- | -------- | --- |
+| id        | Element ID to collapse                                          | string  | -                                                       | ✓        |
+| options   | Enable animation or detailed configuration for collapsing nodes | boolean | [CollapseExpandNodeOptions](#collapseexpandnodeoptions) | -        |     |
+
+**Return Value**:
+
+- **Type**: Promise<void>
+- **Description**: Returns a Promise that resolves when the collapse operation is complete
+
+**Example**:
+
+```typescript
+// Simple collapse with default configuration
+await graph.collapseElement('combo1');
+
+// Collapse with animation
+graph.collapseElement('combo1', true);
+
+// Collapse while ensuring the position of expanded/collapsed nodes remains unchanged
+await graph.collapseElement('combo1', {
+  align: true,
+});
+```
+
+### Graph.expandElement(id, options)
+
+Expand the specified element, usually used to expand previously collapsed Combos or nodes.
+
+```typescript
+expandElement(id: ID, options?: boolean | CollapseExpandNodeOptions): Promise<void>;
+```
+
+**Parameters**:
+
+| Parameter | Description                                                    | Type    | Default                                                 | Required |
+| --------- | -------------------------------------------------------------- | ------- | ------------------------------------------------------- | -------- | --- |
+| id        | Element ID to expand                                           | string  | -                                                       | ✓        |
+| options   | Enable animation or detailed configuration for expanding nodes | boolean | [CollapseExpandNodeOptions](#collapseexpandnodeoptions) | -        |     |
+
+**Return Value**:
+
+- **Type**: Promise<void>
+- **Description**: Returns a Promise that resolves when the expand operation is complete
+
+**Example**:
+
+```typescript
+// Simple expand with default configuration
+await graph.expandElement('combo1');
+
+// Expand with animation
+await graph.expandElement('combo1', true);
+
+// Expand while ensuring the position of expanded/collapsed nodes remains unchanged
+await graph.expandElement('combo1', {
+  align: true,
+});
+```
+
+### Graph.frontElement(id)
+
+Bring the specified element to the front, making it appear above other overlapping elements.
+
+```typescript
+frontElement(id: ID | ID[]): void;
+```
+
+**Parameters**:
+
+| Parameter | Description | Type   | Default  | Required |
+| --------- | ----------- | ------ | -------- | -------- | --- |
+| id        | Element ID  | string | string[] | -        | ✓   |
+
+**Return Value**:
+
+- **Type**: void
+
+**Example**:
+
+```typescript
+// Bring a node to the front
+graph.frontElement('node1');
+
+// Bring multiple selected nodes to the front
+graph.frontElement(['node1', 'node2', 'node3']);
+```
 
 ### Graph.showElement(id, animation)
 
-Show element
+Show the specified element.
 
 ```typescript
 showElement(id: ID | ID[], animation?: boolean): Promise<void>;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+| Parameter | Description      | Type    | Default  | Required |
+| --------- | ---------------- | ------- | -------- | -------- | --- |
+| id        | Element ID       | string  | string[] | -        | ✓   |
+| animation | Enable animation | boolean | -        |          |
 
-Parameter
+**Return Value**:
 
-</th><th>
+- **Type**: Promise<void>
+- **Description**: Returns a Promise that resolves when the show operation is complete
 
-Type
+**Example**:
 
-</th><th>
+```typescript
+// Show a single element
+await graph.showElement('node1');
 
-Description
+// Show an element with animation
+await graph.showElement('node1', true);
 
-</th></tr></thead>
-<tbody><tr><td>
+// Show multiple elements
+await graph.showElement(['node1', 'node2', 'node3']);
+```
 
-id
+### Graph.hideElement(id, animation)
 
-</td><td>
+Hide the specified element.
 
-string \| string[]
+```typescript
+hideElement(id: ID | ID[], animation?: boolean): Promise<void>;
+```
 
-</td><td>
+**Parameters**:
 
-元素 ID
+| Parameter | Description      | Type    | Default  | Required |
+| --------- | ---------------- | ------- | -------- | -------- | --- |
+| id        | Element ID       | string  | string[] | -        | ✓   |
+| animation | Enable animation | boolean | -        |          |
 
-</td></tr>
-<tr><td>
+**Return Value**:
 
-animation
+- **Type**: Promise<void>
+- **Description**: Returns a Promise that resolves when the hide operation is complete
 
-</td><td>
+**Example**:
 
-boolean
+```typescript
+// Hide an element without animation
+await graph.hideElement('node1');
 
-</td><td>
+// Hide an element with animation
+await graph.hideElement('node1', true);
 
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
+// Hide multiple elements
+await graph.hideElement(['node1', 'node2', 'node3'], true);
+```
 
 ### Graph.translateElementBy(id, offset, animation)
 
-Translate the element by the specified distance (relative translation)
+Translate an element by a specified distance, supporting two calling methods:
 
 ```typescript
-translateElementBy(id: ID, offset: Point, animation?: boolean): Promise<void>;
+// Translate an element by a specified distance (relative translation)
+translateElement(id: ID, offset: Point, animation?: boolean): Promise<void>;
+
+// Translate multiple elements by a specified distance (relative translation)
+translateElement(offsets: Record<ID, Point>, animation?: boolean): Promise<void>;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+**Single Element Translation**
 
-Parameter
+| Parameter | Description                            | Type             | Default | Required |
+| --------- | -------------------------------------- | ---------------- | ------- | -------- |
+| id        | Element ID                             | string           | -       | ✓        |
+| offset    | Relative translation distance [dx, dy] | [number, number] | -       | ✓        |
+| animation | Enable animation                       | boolean          | -       |          |
 
-</th><th>
+**Batch Element Translation**
 
-Type
+| Parameter | Description                                   | Type                         | Default | Required |
+| --------- | --------------------------------------------- | ---------------------------- | ------- | -------- |
+| offsets   | Mapping of element ID to translation distance | Record<ID, [number, number]> | -       | ✓        |
+| animation | Enable animation                              | boolean                      | -       |          |
 
-</th><th>
+**Return Value**:
 
-Description
+- **Type**: Promise<void>
+- **Description**: Returns a Promise that resolves when the translation operation is complete
 
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-offset
-
-</td><td>
-
-[number, number] \| [number, number, number] \| Float32Array
-
-</td><td>
-
-偏移量
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.translateElementBy(offsets, animation)
-
-Batch translate elements by the specified distance (relative translation)
+**Example**:
 
 ```typescript
-translateElementBy(offsets: Record<ID, Point>, animation?: boolean): Promise<void>;
+// Translate right by 100 pixels and down by 50 pixels
+await graph.translateElementBy('node1', [100, 50]);
+
+// Translate with animation
+await graph.translateElementBy('node1', [100, 50], true);
+
+// Apply the same translation to multiple nodes
+await graph.translateElementBy(
+  {
+    node1: [50, 50],
+    node2: [100, 100],
+    node3: [150, 150],
+  },
+  true,
+);
 ```
-
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-offsets
-
-</td><td>
-
-Record&lt;string, [number, number] \| [number, number, number] \| Float32Array&gt;
-
-</td><td>
-
-偏移量配置
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
 
 ### Graph.translateElementTo(id, position, animation)
 
-Translate the element to the specified position (absolute translation)
+Move an element to a specified position, supporting two calling methods:
 
 ```typescript
+// Move an element to a specified position (absolute position)
 translateElementTo(id: ID, position: Point, animation?: boolean): Promise<void>;
-```
 
-<details><summary>View Parameters</summary>
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-id
-
-</td><td>
-
-string
-
-</td><td>
-
-元素 ID
-
-</td></tr>
-<tr><td>
-
-position
-
-</td><td>
-
-[number, number] \| [number, number, number] \| Float32Array
-
-</td><td>
-
-指定位置
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
-
-### <Badge type="warning">Overload</Badge> Graph.translateElementTo(positions, animation)
-
-Batch translate elements to the specified position (absolute translation)
-
-```typescript
+// Move multiple elements to specified positions (absolute position)
 translateElementTo(positions: Record<ID, Point>, animation?: boolean): Promise<void>;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**:
 
-<table><thead><tr><th>
+**Single Element Movement**
 
-Parameter
+| Parameter | Description                     | Type             | Default | Required |
+| --------- | ------------------------------- | ---------------- | ------- | -------- |
+| id        | Element ID                      | string           | -       | ✓        |
+| position  | Target absolute position [x, y] | [number, number] | -       | ✓        |
+| animation | Enable animation                | boolean          | -       |          |
 
-</th><th>
+**Batch Element Movement**
 
-Type
+| Parameter | Description                              | Type                             | Default | Required |
+| --------- | ---------------------------------------- | -------------------------------- | ------- | -------- |
+| positions | Mapping of element ID to target position | Record<string, [number, number]> | -       | ✓        |
+| animation | Enable animation                         | boolean                          | -       |          |
 
-</th><th>
+**Return Value**:
 
-Description
+- **Type**: Promise<void>
+- **Description**: Returns a Promise that resolves when the movement operation is complete
 
-</th></tr></thead>
-<tbody><tr><td>
+**Example**:
 
-positions
+```typescript
+// Move a node to position (200, 300) on the canvas
+await graph.translateElementTo('node1', [200, 300]);
 
-</td><td>
+// Move with animation
+await graph.translateElementTo('node1', [200, 300], true);
 
-Record&lt;string, [number, number] \| [number, number, number] \| Float32Array&gt;
-
-</td><td>
-
-位置配置
-
-</td></tr>
-<tr><td>
-
-animation
-
-</td><td>
-
-boolean
-
-</td><td>
-
-是否启用动画
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
+// Arrange a group of nodes neatly
+await graph.translateElementTo(
+  {
+    node1: [100, 100],
+    node2: [200, 200],
+    node3: [300, 100],
+  },
+  true,
+);
+```
 
 ### Graph.focusElement(id, animation)
 
-Focus on element
+Focus on the specified element, centering it in the viewport.
 
 ```typescript
 focusElement(id: ID | ID[], animation?: ViewportAnimationEffectTiming): Promise<void>;
 ```
 
-Move the graph so that the element is aligned to the center of the viewport
+**Parameters**:
 
-<details><summary>View Parameters</summary>
+| Parameter | Description                         | Type                                                            | Default  | Required |
+| --------- | ----------------------------------- | --------------------------------------------------------------- | -------- | -------- | --- |
+| id        | One or more element IDs to focus on | string                                                          | string[] | -        | ✓   |
+| animation | Viewport animation configuration    | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | -        |          |
 
-<table><thead><tr><th>
+**Return Value**:
 
-Parameter
+- **Type**: Promise<void>
+- **Description**: Returns a Promise that resolves when the focus operation is complete
 
-</th><th>
+**Example**:
 
-Type
+```typescript
+// Focus on a single node
+await graph.focusElement('node1');
 
-</th><th>
+// Use custom animation configuration
+await graph.focusElement('node1', {
+  duration: 800,
+  easing: 'ease-in-out',
+});
 
-Description
+// Focus on multiple nodes
+await graph.focusElement(['node1', 'node2', 'node3']);
+```
 
-</th></tr></thead>
-<tbody><tr><td>
+## Type Definitions
 
-id
+### CollapseExpandNodeOptions
 
-</td><td>
+Configuration options for collapsing or expanding elements.
 
-string \| string[]
+```typescript
+interface CollapseExpandNodeOptions {
+  /**
+   * Enable animation
+   */
+  animation?: boolean;
+  /**
+   * Ensure the position of expanded/collapsed nodes remains unchanged
+   */
+  align?: boolean;
+}
+```
 
-</td><td>
+### ViewportAnimationEffectTiming
 
-元素 ID
+Viewport animation configuration type.
 
-</td></tr>
-<tr><td>
+```typescript
+type ViewportAnimationEffectTiming =
+  | boolean // Enable animation
+  | {
+      easing?: string; // Easing function
+      duration?: number; // Animation duration (ms)
+    };
+```
 
-animation
+### AABB
 
-</td><td>
+AABB (Axis-Aligned Bounding Box) is a fundamental concept in computer graphics.
 
-[ViewportAnimationEffectTiming]()
+```typescript
+interface AABB {
+  x: number; // x-coordinate of the top-left corner of the rectangle
+  y: number; // y-coordinate of the top-left corner of the rectangle
+  width: number; // Width of the rectangle
+  height: number; // Height of the rectangle
+}
+```
 
-</td><td>
+### State
 
-动画配置
+Element state type.
 
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
+```typescript
+type State = 'selected' | 'hover' | 'active' | 'inactive' | 'disabled' | string;
+```

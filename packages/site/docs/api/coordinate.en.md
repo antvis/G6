@@ -3,186 +3,98 @@ title: Coordinate Transformation
 order: 12
 ---
 
+## Overview of Coordinate Systems
+
+Understanding different coordinate systems and their transformations is crucial in graph visualization. G6 involves multiple coordinate systems, each used for different scenarios:
+
+- **Client Coordinate System**: Origin is at the top-left corner of the browser viewport, measured in pixels. Typically used for handling browser events.
+- **Screen Coordinate System**: Origin is at the top-left corner of the screen, affected by page scrolling.
+- **Page Coordinate System**: Origin is at the top-left corner of the document, considering document scrolling.
+- **Canvas Coordinate System**: Also known as the world coordinate system, used for drawing and layout, with the origin at the top-left corner of the canvas element.
+- **Viewport Coordinate System**: The visible area of the canvas, with the origin at the top-left corner of the viewport. The viewport can be panned and zoomed to view different areas of the Canvas.
+
+In this [example](https://g.antv.antgroup.com/en/examples/canvas/canvas-basic#coordinates), moving the mouse shows the position in various coordinate systems:
+
+![Coordinate System Diagram](https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*kPfcTKwZG90AAAAAAAAAAAAAARQnAQ)
+
+When the canvas is not panned or zoomed, the Viewport and Canvas coordinate systems coincide. With user interactions like dragging or zooming, the two systems may shift.
+
+G6 provides a series of APIs for converting between different coordinate systems, detailed below.
+
+## API Reference
+
 ### Graph.getCanvasByClient(point)
 
-Convert the given browser coordinates to drawing coordinates on the canvas
+Convert browser coordinates (client coordinates) to canvas coordinates.
 
 ```typescript
 getCanvasByClient(point: Point): Point;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**
 
-<table><thead><tr><th>
+| Parameter | Description              | Type                                         | Default | Required |
+| --------- | ------------------------ | -------------------------------------------- | ------- | -------- |
+| point     | Browser coordinate point | [number, number] \| [number, number, number] | -       | ✓        |
 
-Parameter
+**Return Value**
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-point
-
-</td><td>
-
-[number, number] \| [number, number, number] \| Float32Array
-
-</td><td>
-
-浏览器坐标
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [number, number] \| [number, number, number] \| Float32Array
-
-- **Description:** 画布上的绘制坐标
-
-</details>
+- **Type**: [number, number] \| [number, number, number]
+- **Description**: Coordinate point in the canvas coordinate system
 
 ### Graph.getCanvasByViewport(point)
 
-Convert the given viewport DOM coordinates to the drawing coordinates on the canvas
+Convert viewport coordinates to canvas coordinates.
 
 ```typescript
 getCanvasByViewport(point: Point): Point;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**
 
-<table><thead><tr><th>
+| Parameter | Description               | Type                                         | Default | Required |
+| --------- | ------------------------- | -------------------------------------------- | ------- | -------- |
+| point     | Viewport coordinate point | [number, number] \| [number, number, number] | -       | ✓        |
 
-Parameter
+**Return Value**
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-point
-
-</td><td>
-
-[number, number] \| [number, number, number] \| Float32Array
-
-</td><td>
-
-视窗坐标
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [number, number] \| [number, number, number] \| Float32Array
-
-- **Description:** 画布上的绘制坐标
-
-</details>
+- **Type**: [number, number] \| [number, number, number]
+- **Description**: Coordinate point in the canvas coordinate system
 
 ### Graph.getClientByCanvas(point)
 
-Convert the given drawing coordinates on the canvas to browser coordinates
+Convert canvas coordinates to browser client coordinates.
 
 ```typescript
 getClientByCanvas(point: Point): Point;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**
 
-<table><thead><tr><th>
+| Parameter | Description             | Type                                         | Default | Required |
+| --------- | ----------------------- | -------------------------------------------- | ------- | -------- |
+| point     | Canvas coordinate point | [number, number] \| [number, number, number] | -       | ✓        |
 
-Parameter
+**Return Value**
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-point
-
-</td><td>
-
-[number, number] \| [number, number, number] \| Float32Array
-
-</td><td>
-
-画布坐标
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [number, number] \| [number, number, number] \| Float32Array
-
-- **Description:** 浏览器坐标
-
-</details>
+- **Type**: [number, number] \| [number, number, number]
+- **Description**: Coordinate point in the browser client coordinate system
 
 ### Graph.getViewportByCanvas(point)
 
-Convert the given drawing coordinates on the canvas to the coordinates of the viewport DOM
+Convert canvas coordinates to viewport coordinates.
 
 ```typescript
 getViewportByCanvas(point: Point): Point;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**
 
-<table><thead><tr><th>
+| Parameter | Description             | Type                                         | Default | Required |
+| --------- | ----------------------- | -------------------------------------------- | ------- | -------- |
+| point     | Canvas coordinate point | [number, number] \| [number, number, number] | -       | ✓        |
 
-Parameter
+**Return Value**
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-point
-
-</td><td>
-
-[number, number] \| [number, number, number] \| Float32Array
-
-</td><td>
-
-画布坐标
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** [number, number] \| [number, number, number] \| Float32Array
-
-- **Description:** 视窗 DOM 的坐标
-
-</details>
+- **Type**: [number, number] \| [number, number, number]
+- **Description**: Coordinate point in the viewport coordinate system

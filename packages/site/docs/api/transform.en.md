@@ -1,112 +1,170 @@
 ---
-title: Transform
+title: Data Transformation
 order: 10
 ---
 
+## Overview of Data Transformation
+
+[Data Transformation](/en/manual/transform/overview) is a powerful feature in G6 that allows for processing and transforming data during the graph rendering process. With data transformers, you can achieve various data processing needs, such as:
+
+- Data Filtering: Filter nodes and edges to be displayed based on conditions
+- Data Calculation: Generate new attributes based on original data, such as calculating node size based on the number of connections, without polluting the original data
+- Data Aggregation: Aggregate a large number of nodes into fewer nodes to improve the performance of large-scale graphs
+
+Data transformation occurs at specific stages of the rendering process, allowing flexible changes to the final presentation without modifying the original data source.
+
+## API Reference
+
 ### Graph.getTransforms()
 
-Get data transforms options
+Retrieve all configured data transformers in the current graph.
 
 ```typescript
 getTransforms(): TransformOptions;
 ```
 
-<details><summary>View Parameters</summary>
+**Return Value**
 
-**Returns**:
+- **Type**: [TransformOptions](#transformoptions)
+- **Description**: All configured data transformers in the current graph
 
-- **Type:** TransformOptions
+**Example**
 
-- **Description:** 数据转换配置
-
-</details>
+```typescript
+// Retrieve all data transformers
+const transforms = graph.getTransforms();
+console.log('Data transformers in the current graph:', transforms);
+```
 
 ### Graph.setTransforms(transforms)
 
-Set data transforms
+Set the data transformers for the graph, replacing all existing transformers.
 
 ```typescript
 setTransforms(transforms: TransformOptions | ((prev: TransformOptions) => TransformOptions)): void;
 ```
 
-Data transforms can perform data transformation during the rendering process of the graph. Currently, it supports transforming the drawing data before rendering.
+**Parameters**
 
-<details><summary>View Parameters</summary>
+| Parameter  | Description                                                                                               | Type                                                                                  | Default | Required |
+| ---------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------- | -------- |
+| transforms | New data transformer configurations, or a function returning new configurations based on the current ones | [TransformOptions](#transformoptions) \| (prev: TransformOptions) => TransformOptions | -       | ✓        |
 
-<table><thead><tr><th>
+**Note**
 
-Parameter
+Data transformers can process data at different stages of the graph rendering process. The set data transformations will completely replace the original ones. To add new data transformations based on existing ones, you can use functional updates.
 
-</th><th>
+**Example 1**: Set basic data transformations
 
-Type
+```typescript
+graph.setTransforms(['process-parallel-edges', 'map-node-size']);
+```
 
-</th><th>
+**Example 2**: Set data transformations with configurations
 
-Description
+```typescript
+graph.setTransforms([
+  // String form (using default configuration)
+  'process-parallel-edges',
 
-</th></tr></thead>
-<tbody><tr><td>
+  // Object form (custom configuration)
+  {
+    type: 'process-parallel-edges',
+    key: 'my-process-parallel-edges',
+    distance: 20, // Distance between parallel edges
+  },
+]);
+```
 
-transforms
+**Example 3**: Use functional updates
 
-</td><td>
-
-TransformOptions \| ((prev: TransformOptions) =&gt; TransformOptions)
-
-</td><td>
-
-数据转换配置
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
+```typescript
+// Add new data transformations to existing configurations
+graph.setTransforms((currentTransforms) => [
+  ...currentTransforms,
+  {
+    type: 'map-node-size',
+    key: 'my-map-node-size',
+    maxSize: 100,
+    minSize: 20,
+  },
+]);
+```
 
 ### Graph.updateTransform(transform)
 
-Update data transform
+Update the configuration of a specified data transformer, identified by the `key` of the transformer to be updated.
 
 ```typescript
 updateTransform(transform: UpdateTransformOption): void;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**
 
-<table><thead><tr><th>
+| Parameter | Description                                         | Type                                            | Default | Required |
+| --------- | --------------------------------------------------- | ----------------------------------------------- | ------- | -------- |
+| transform | Configuration of the data transformer to be updated | [UpdateTransformOption](#updatetransformoption) | -       | ✓        |
 
-Parameter
+**Note**
 
-</th><th>
+To update a data transformer, the `key` field must be specified in the original data transformer configuration to accurately locate and update the transformer.
 
-Type
+**Example**: Update data transformer configuration
 
-</th><th>
+```typescript
+// Specify key when initially setting data transformers
+graph.setTransforms([
+  {
+    type: 'process-parallel-edges',
+    key: 'my-process-parallel-edges',
+    distance: 20,
+  },
+]);
 
-Description
+// Update distance between parallel edges
+graph.updateTransform({
+  key: 'my-process-parallel-edges',
+  distance: 30,
+});
+```
 
-</th></tr></thead>
-<tbody><tr><td>
+## Type Definitions
 
-transform
+### TransformOptions
 
-</td><td>
+Data transformer configuration type, representing an array of data transformer configurations.
 
-UpdateTransformOption
+```typescript
+type TransformOptions = (CustomTransformOption | ((this: Graph) => CustomTransformOption))[];
+```
 
-</td><td>
+### CustomTransformOption
 
-数据转换器配置
+Custom data transformer configuration interface, used to configure data processing parameters.
 
-</td></tr>
-</tbody></table>
+```typescript
+type CustomTransformOption = {
+  // Data processing type
+  type: string;
 
-**Returns**:
+  // Unique identifier for the data transformer
+  key?: string;
 
-- **Type:** void
+  // Other configuration items for different types of data processing
+  [configKey: string]: any;
+};
+```
 
-</details>
+### UpdateTransformOption
+
+Configuration interface for updating data transformers, used to dynamically modify data processing parameters.
+
+```typescript
+type UpdateTransformOption = {
+  // Unique identifier of the data transformer to be updated
+  key: string;
+
+  // Other configuration items to be updated
+  [configKey: string]: unknown;
+};
+```

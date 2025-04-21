@@ -3,66 +3,143 @@ title: Graph Options
 order: 7
 ---
 
+## Overview of Graph Options
+
+The [options](/en/manual/graph/option) of a G6 graph instance control various aspects of the graph, including canvas settings, viewport properties, data, layout, styles, interaction behaviors, plugins, and more. By configuring these options appropriately, you can flexibly customize the appearance and behavior of the graph.
+
+Options can be specified when creating a graph instance or dynamically modified at runtime through the API. Some basic configurations (such as devicePixelRatio, container) require destroying and recreating the graph instance to take effect after modification.
+
+## API Reference
+
 ### Graph.getOptions()
 
-Get options
+Retrieve all configuration options of the current graph.
 
 ```typescript
 getOptions(): GraphOptions;
 ```
 
-<details><summary>View Parameters</summary>
+**Return Value**
 
-**Returns**:
+- **Type**: [GraphOptions](/en/manual/graph/option)
+- **Description**: Complete configuration options of the current graph
 
-- **Type:** [GraphOptions]()
+**Example**
 
-- **Description:** 配置项
+```typescript
+// Retrieve the current graph's options
+const options = graph.getOptions();
+console.log('Current graph options:', options);
 
-</details>
+// Retrieve specific options
+console.log('Current canvas width:', options.width);
+console.log('Current layout options:', options.layout);
+```
 
 ### Graph.setOptions(options)
 
-Set options
+Update the graph's configuration options.
 
 ```typescript
 setOptions(options: GraphOptions): void;
 ```
 
-To update devicePixelRatio and container properties, please destroy and recreate the instance
+**Parameters**
 
-<details><summary>View Parameters</summary>
+| Parameter | Description               | Type                                    | Default | Required |
+| --------- | ------------------------- | --------------------------------------- | ------- | -------- |
+| options   | New configuration options | [GraphOptions](/en/manual/graph/option) | -       | ✓        |
 
-<table><thead><tr><th>
+**Note**
 
-Parameter
+⚠️ **Attention**: To update basic properties like devicePixelRatio, container, etc., you need to destroy the current graph instance and recreate it. Most other configurations can be dynamically updated.
 
-</th><th>
+**Example 1**: Basic Usage
 
-Type
+```typescript
+// Update graph configuration
+graph.setOptions({
+  width: 1000, // Update width
+  height: 800, // Update height
+  autoFit: true, // Enable auto-fit
+  animation: true, // Enable animation
+});
+```
 
-</th><th>
+**Example 2**: Update Theme
 
-Description
+```typescript
+// Update graph theme configuration
+graph.setOptions({
+  theme: {
+    type: 'dark', // Switch to dark theme
+    // Custom theme configuration
+    node: {
+      palette: ['#1AAF8B', '#F8E71C', '#8B572A', '#7ED321'],
+    },
+    edge: {
+      palette: ['#F5A623', '#F8E71C', '#8B572A', '#7ED321'],
+    },
+  },
+});
+```
 
-</th></tr></thead>
-<tbody><tr><td>
+**Example 3**: Update Layout Configuration
 
-options
+```typescript
+// Update layout configuration
+graph.setOptions({
+  layout: {
+    type: 'force', // Switch to force-directed layout
+    preventOverlap: true,
+    nodeStrength: -50,
+    edgeStrength: 0.7,
+  },
+});
+```
 
-</td><td>
+**Example 4**: Update Default Node and Edge Configuration
 
-[GraphOptions]()
+```typescript
+// Update default style configuration for nodes and edges
+graph.setOptions({
+  node: {
+    style: {
+      fill: '#91d5ff',
+      stroke: '#40a9ff',
+      lineWidth: 1,
+      radius: 10,
+    },
+  },
+  edge: {
+    style: {
+      stroke: '#91d5ff',
+      lineWidth: 2,
+      endArrow: true,
+    },
+  },
+});
+```
 
-</td><td>
+## Type Definitions
 
-配置项
+### GraphOptions
 
-</td></tr>
-</tbody></table>
+```typescript
+type GraphOptions = {
+  // Whether to enable zooming
+  enableZoom?: boolean;
 
-**Returns**:
+  // Whether to enable dragging
+  enableDrag?: boolean;
 
-- **Type:** void
+  // Default style for nodes
+  defaultNodeStyle?: {
+    fill: string;
+    stroke: string;
+  };
 
-</details>
+  // Additional configuration options for the graph
+  [configKey: string]: any;
+};
+```

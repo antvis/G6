@@ -3,27 +3,33 @@ title: Theme
 order: 9
 ---
 
+## Overview of Theme
+
+G6 allows users to customize the appearance of graphs through themes. Themes can be used to define colors, shapes, and styles for nodes, edges, and other graph elements.
+
+## API Reference
+
 ### Graph.getTheme()
 
-Get theme
+Get the theme
 
 ```typescript
 getTheme(): ThemeOptions;
 ```
 
-<details><summary>View Parameters</summary>
+<details><summary>Related Parameters</summary>
 
-**Returns**:
+**Return Value**:
 
 - **Type:** false \| 'light' \| 'dark' \| string
 
-- **Description:** 当前主题
+- **Description:** Current theme
 
 </details>
 
 ### Graph.setTheme(theme)
 
-Set theme
+Set the theme
 
 ```typescript
 setTheme(theme: ThemeOptions | ((prev: ThemeOptions) => ThemeOptions)): void;
@@ -35,7 +41,7 @@ setTheme(theme: ThemeOptions | ((prev: ThemeOptions) => ThemeOptions)): void;
 graph.setTheme('dark');
 ```
 
-<details><summary>View Parameters</summary>
+<details><summary>Related Parameters</summary>
 
 <table><thead><tr><th>
 
@@ -56,17 +62,42 @@ theme
 
 </td><td>
 
-false \| 'light' \| 'dark' \| string \| ((prev: false \| 'light' \| 'dark' \| string) =&gt; false \| 'light' \| 'dark' \| string)
+false \| 'light' \| 'dark' \| string \| ((prev: false \| 'light' \| 'dark' \| string) => false \| 'light' \| 'dark' \| string)
 
 </td><td>
 
-主题名
+Theme name
 
 </td></tr>
 </tbody></table>
 
-**Returns**:
+**Return Value**:
 
 - **Type:** void
 
 </details>
+
+## Type Definitions
+
+### ThemeOptions
+
+```typescript
+type ThemeOptions = {
+  // Colors used in the theme
+  colors: string[];
+
+  // Node style settings
+  nodeStyle?: {
+    fill: string;
+    stroke: string;
+  };
+
+  // Edge style settings
+  edgeStyle?: {
+    stroke: string;
+  };
+
+  // Additional configuration options for the theme
+  [configKey: string]: any;
+};
+```
