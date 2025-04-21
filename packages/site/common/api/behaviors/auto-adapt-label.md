@@ -4,8 +4,8 @@ createGraph(
     data: {
       nodes: [
         { id: 'node1', style: { x: 200, y: 100, labelText: '短标签' } },
-        { id: 'node2', style: { x: 360, y: 100, labelText: '这是一个非常非常长的标签，需要自适应显示' } },
-        { id: 'node3', style: { x: 280, y: 220, labelText: '中等长度的标签'} },
+        { id: 'node2', style: { x: 360, y: 100, labelText: '中等长度的标签' } },
+        { id: 'node3', style: { x: 280, y: 220, labelText: '这是一个非常非常长的标签，需要自适应显示' } },
       ],
       edges: [
         { source: 'node1', target: 'node2' },
