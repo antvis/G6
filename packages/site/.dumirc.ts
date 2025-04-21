@@ -351,6 +351,14 @@ export default defineConfig({
         },
       },
       {
+        slug: 'transform',
+        icon: 'tag-flow',
+        title: {
+          zh: '数据处理',
+          en: 'Transform',
+        },
+      },
+      {
         slug: 'algorithm',
         icon: 'gallery',
         title: {

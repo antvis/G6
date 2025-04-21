@@ -7,43 +7,41 @@ const data = {
     { id: 'C', style: { x: 450, y: 350 } },
   ],
   edges: [
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'A' },
+    { id: 'B-C:1', source: 'B', target: 'C' },
+    { id: 'B-C:2', source: 'B', target: 'C' },
     { source: 'A', target: 'C' },
-    { source: 'C', target: 'A' },
-    ...Array.from({ length: 10 }).map((_, i) => ({
-      id: `edge:A-B${i}`,
-      source: 'A',
-      target: 'B',
-      data: {
-        label: `A->B:${i}`,
-      },
-    })),
-    ...Array.from({ length: 5 }).map((_, i) => ({
-      id: `edge:B-C${i}`,
-      source: 'B',
-      target: 'C',
-      data: {
-        label: `B->C:${i}`,
-      },
-    })),
   ],
 };
 
 const graph = new Graph({
   container: 'container',
+  autoFit: 'center',
   data,
   node: {
     style: {
-      ports: [{ placement: 'center' }],
       labelText: (d) => d.id,
     },
   },
   edge: {
     style: {
       labelText: (d) => d?.data?.label || `${d.source}->${d.target}`,
+      startArrow: false,
     },
   },
-  behaviors: ['drag-element'],
-  transforms: ['process-parallel-edges'],
+  transforms: [
+    {
+      type: 'process-parallel-edges',
+      mode: 'merge',
+      style: {
+        halo: true,
+        haloOpacity: 0.2,
+        haloStroke: 'red',
+        startArrow: true,
+      }
+    }
+  ],
 });
 
 graph.render();
