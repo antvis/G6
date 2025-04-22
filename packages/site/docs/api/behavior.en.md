@@ -3,124 +3,218 @@ title: Behavior
 order: 8
 ---
 
+## Overview of Behavior
+
+Behavior is a core building block of G6, precisely defining the interaction between users and the graph. Each Behavior plugin is a highly encapsulated functional unit, integrating event listening, state management, and response handling logic for specific scenarios.
+
+G6's built-in Behaviors cover most common interaction needs and provide a flexible extension mechanism, allowing developers to create customized interaction experiences based on business scenarios. For a complete list of behavior types, configuration options, and development examples, please refer to the [Behavior Overview](/en/manual/behavior/overview) section.
+
+## API Reference
+
 ### Graph.getBehaviors()
 
-Get behaviors options
+Get all configured behaviors in the current graph.
 
 ```typescript
 getBehaviors(): BehaviorOptions;
 ```
 
-<details><summary>View Parameters</summary>
+**Return Value**
 
-**Returns**:
+- **Type**: [BehaviorOptions](#behavioroptions)
+- **Description**: All configured behaviors in the current graph
 
-- **Type:** (string \| CustomBehaviorOption \| ((this:Graph) =&gt;CustomBehaviorOption))[]
+**Example**
 
-- **Description:** 交互配置
-
-</details>
+```typescript
+// Get all current behaviors
+const behaviors = graph.getBehaviors();
+console.log('Current graph behaviors:', behaviors);
+```
 
 ### Graph.setBehaviors(behaviors)
 
-Set behaviors
+Set the behaviors of the graph, replacing all existing behaviors.
 
 ```typescript
 setBehaviors(behaviors: BehaviorOptions | ((prev: BehaviorOptions) => BehaviorOptions)): void;
 ```
 
-The set behavior will completely replace the original behavior. If you need to add behavior, you can use the following method:
+**Parameters**
+
+| Parameter | Description                                                                                    | Type                                                                              | Default | Required |
+| --------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------- | -------- |
+| behaviors | New behavior configuration, or a function returning new configuration based on the current one | [BehaviorOptions](#behavioroptions) \| (prev: BehaviorOptions) => BehaviorOptions | -       | ✓        |
+
+**Note**
+
+The set behaviors will completely replace the original ones. To add new behaviors, you can use functional updates:
 
 ```typescript
 graph.setBehaviors((behaviors) => [...behaviors, { type: 'zoom-canvas' }]);
 ```
 
-<details><summary>View Parameters</summary>
+**Example 1**: Set basic behaviors
 
-<table><thead><tr><th>
+```typescript
+// Set basic behaviors
+graph.setBehaviors([
+  'drag-canvas', // Drag canvas
+  'zoom-canvas', // Zoom canvas
+  'drag-element', // Drag element
+]);
+```
 
-Parameter
+**Example 2**: Set behaviors with configuration
 
-</th><th>
+```typescript
+graph.setBehaviors([
+  // String form (using default configuration)
+  'drag-canvas',
 
-Type
+  // Object form (custom configuration)
+  {
+    type: 'zoom-canvas',
+    key: 'my-zoom', // Specify a unique identifier for subsequent updates
+    sensitivity: 1.5, // Zoom sensitivity
+  },
 
-</th><th>
+  // Enable drag only on nodes
+  {
+    type: 'drag-element',
+    key: 'drag-node-only',
+    enable: (event) => event.targetType === 'node', // Enable drag only on nodes
+  },
+]);
+```
 
-Description
+**Example 3**: Use functional updates
 
-</th></tr></thead>
-<tbody><tr><td>
+```typescript
+// Add new behavior
+graph.setBehaviors((currentBehaviors) => [
+  ...currentBehaviors,
+  {
+    type: 'brush-select',
+    key: 'selection-brush',
+  },
+]);
 
-behaviors
+// Replace specific behavior
+graph.setBehaviors((currentBehaviors) => {
+  // Filter out existing zoom behaviors
+  const filteredBehaviors = currentBehaviors.filter((behavior) => {
+    if (typeof behavior === 'string') return behavior !== 'zoom-canvas';
+    return behavior.type !== 'zoom-canvas';
+  });
 
-</td><td>
-
-(string \| CustomBehaviorOption \| ((this:Graph) =&gt;CustomBehaviorOption))[] \| ((prev: (string \| CustomBehaviorOption \| ((this:Graph) =&gt;CustomBehaviorOption))[]) =&gt; (string \| CustomBehaviorOption \| ((this:Graph) =&gt;CustomBehaviorOption))[])
-
-</td><td>
-
-交互配置
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
+  // Add new zoom behavior configuration
+  return [
+    ...filteredBehaviors,
+    {
+      type: 'zoom-canvas',
+      key: 'new-zoom',
+      enableOptimize: true,
+    },
+  ];
+});
+```
 
 ### Graph.updateBehavior(behavior)
 
-Update specified behavior options
+Update the configuration of a specific behavior, identified by the `key`.
 
 ```typescript
 updateBehavior(behavior: UpdateBehaviorOption): void;
 ```
 
-If you want to update a behavior, you must specify the key field in the behavior options, for example:
+**Parameters**
+
+| Parameter | Description                             | Type                                          | Default | Required |
+| --------- | --------------------------------------- | --------------------------------------------- | ------- | -------- |
+| behavior  | Configuration of the behavior to update | [UpdateBehaviorOption](#updatebehavioroption) | -       | ✓        |
+
+**Note**
+
+To update a behavior, the original behavior configuration must specify the `key` field to accurately locate and update the behavior.
+
+**Example 1**: Update behavior configuration
 
 ```typescript
-{
-  behaviors: [{ type: 'zoom-canvas', key: 'zoom-canvas' }];
-}
+// Specify key when initially setting behaviors
+graph.setBehaviors([
+  {
+    type: 'zoom-canvas',
+    key: 'my-zoom-canvas',
+    sensitivity: 1.0,
+  },
+]);
 
-graph.updateBehavior({ key: 'zoom-canvas', enable: false });
+// Update behavior configuration
+graph.updateBehavior({
+  key: 'my-zoom-canvas', // Specify the behavior to update
+  sensitivity: 2.0, // New zoom sensitivity
+  enableOptimize: true, // Add new configuration
+});
 ```
 
-<details><summary>View Parameters</summary>
+**Example 2**: Disable/Enable behavior
 
-<table><thead><tr><th>
+```typescript
+// Set behaviors with keys
+graph.setBehaviors([
+  {
+    type: 'drag-canvas',
+    key: 'main-drag',
+  },
+  {
+    type: 'zoom-canvas',
+    key: 'main-zoom',
+  },
+]);
 
-Parameter
+// Disable drag functionality
+graph.updateBehavior({
+  key: 'main-drag',
+  enable: false,
+});
 
-</th><th>
+// Re-enable later
+setTimeout(() => {
+  graph.updateBehavior({
+    key: 'main-drag',
+    enable: true,
+  });
+}, 5000);
+```
 
-Type
+## Type Definitions
 
-</th><th>
+### BehaviorOptions
 
-Description
+```typescript
+type BehaviorOptions = (string | CustomBehaviorOption | ((this: Graph) => CustomBehaviorOption))[];
 
-</th></tr></thead>
-<tbody><tr><td>
+type CustomBehaviorOption = {
+  // Interaction type
+  type: string;
 
-behavior
+  // Interaction key, a unique identifier for identifying and further operating this interaction
+  key?: string;
 
-</td><td>
+  // There may be other configuration items for different types of interactions
+  [configKey: string]: any;
+};
+```
 
-UpdateBehaviorOption
+### UpdateBehaviorOption
 
-</td><td>
+```typescript
+type UpdateBehaviorOption = {
+  // Unique identifier of the behavior to update
+  key: string;
 
-交互配置
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
+  // Other configuration items to update
+  [configKey: string]: unknown;
+};
+```
