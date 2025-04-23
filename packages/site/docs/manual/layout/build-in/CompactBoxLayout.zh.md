@@ -8,6 +8,11 @@ title: CompactBox 紧凑树
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width=650 alt='CompactBox 紧凑树布局示例'/>
 
+## 使用场景
+
+- 决策树: 通过紧凑树布局可简单直观的图形化展示每个决策路径
+- 知识图谱: 展示概念之间的层级关系和连接，紧凑布局可以在有限空间内呈现复杂的知识网络
+
 ## 配置方式
 
 ```js
@@ -25,17 +30,17 @@ const graph = new Graph({
 
 ## 配置项
 
-| 属性      | 描述                                                                                                    | 类型                                       | 默认值 | 必选 |
-| --------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------ | ------ | ---- |
-| type      | 布局类型                                                                                                | `compact-box`                              | -      | ✓    |
-| direction | 布局方向，[可选值](#direction)                                                                          | `LR` \| `RL` \| `TB` \| `BT` \| `H` \| `V` | `LR`   |      |
-| getSide   | 设置节点排布在根节点的左侧/右侧，如未设置，则算法自动分配左侧/右侧。注意：该参数仅在 `H` 布局方向上生效 | (d?: Node) => string                       |        |      |
-| getId     | 节点 id 的回调函数                                                                                      | (d?: Node) => string                       |        |      |
-| getWidth  | 计算每个节点的宽度                                                                                      | (d?: Node) => number                       |        |      |
-| getHeight | 计算每个节点的高度                                                                                      | (d?: Node) => number                       |        |      |
-| getHGap   | 计算每个节点的水平间隙                                                                                  | (d?: Node) => number                       |        |      |
-| getVGap   | 计算每个节点的垂直间隙                                                                                  | (d?: Node) => number                       |        |      |
-| radial    | 是否启用辐射状布局，[说明](#radial)                                                                     | boolean                                    | false  |      |
+| 属性      | 描述                                                                                                    | 类型                                                      | 默认值 | 必选 |
+| --------- | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------ | ---- |
+| type      | 布局类型                                                                                                | `compact-box`                                             | -      | ✓    |
+| direction | 布局方向，[可选值](#direction)                                                                          | `LR` \| `RL` \| `TB` \| `BT` \| `H` \| `V`                | `LR`   |      |
+| getSide   | 设置节点排布在根节点的左侧/右侧，如未设置，则算法自动分配左侧/右侧。注意：该参数仅在 `H` 布局方向上生效 | (d?: [NodeData](/manual/data#节点数据nodedata)) => string |        |      |
+| getId     | 节点 id 的回调函数                                                                                      | (d?: [NodeData](/manual/data#节点数据nodedata)) => string |        |      |
+| getWidth  | 计算每个节点的宽度                                                                                      | (d?: [NodeData](/manual/data#节点数据nodedata)) => number |        |      |
+| getHeight | 计算每个节点的高度                                                                                      | (d?: [NodeData](/manual/data#节点数据nodedata)) => number |        |      |
+| getHGap   | 计算每个节点的水平间隙                                                                                  | (d?: [NodeData](/manual/data#节点数据nodedata)) => number |        |      |
+| getVGap   | 计算每个节点的垂直间隙                                                                                  | (d?: [NodeData](/manual/data#节点数据nodedata)) => number |        |      |
+| radial    | 是否启用辐射状布局，[说明](#radial)                                                                     | boolean                                                   | false  |      |
 
 ### direction
 
@@ -69,7 +74,7 @@ const graph = new Graph({
 
 ### getSide
 
-> _(d?: Node) => string_
+> _(d?: [NodeData](/manual/data#节点数据nodedata)) => string_
 
 设置节点排布在根节点的左侧/右侧。注意：该参数仅在 `direction` 为 `H` 时生效。如未设置，会默认将子节点前半部分放置在右侧，后半部分放置在左侧，参考 [getSide自动计算逻辑](https://github.com/antvis/hierarchy/blob/d786901874f59d96c47e2a5dfe17b373eefd72e3/src/layout/separate-root.js#L11)。
 
@@ -85,7 +90,7 @@ const graph = new Graph({
 
 ### getId
 
-> _(d?: Node) => string_
+> _(d?: [NodeData](/manual/data#节点数据nodedata)) => string_
 
 节点 id 的回调函数
 
@@ -100,7 +105,7 @@ const graph = new Graph({
 
 ### getWidth
 
-> _(d?: Node) => number_
+> _(d?: [NodeData](/manual/data#节点数据nodedata)) => number_
 
 每个节点的宽度
 
@@ -116,7 +121,7 @@ const graph = new Graph({
 
 ### getHeight
 
-> _(d?: Node) => number_
+> _(d?: [NodeData](/manual/data#节点数据nodedata)) => number_
 
 每个节点的高度
 
@@ -132,7 +137,7 @@ const graph = new Graph({
 
 ### getHGap
 
-> _(d?: Node) => number_
+> _(d?: [NodeData](/manual/data#节点数据nodedata)) => number_
 
 每个节点的水平间隙
 
@@ -148,7 +153,7 @@ const graph = new Graph({
 
 ### getVGap
 
-> _(d?: Node) => number_
+> _(d?: [NodeData](/manual/data#节点数据nodedata)) => number_
 
 每个节点的垂直间隙
 
@@ -169,11 +174,6 @@ const graph = new Graph({
 是否按照辐射状布局。若 `radial` 为 `true`，建议 `direction` 设置为 `'LR'` 或 `'RL'`
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E0c8TIYRPYoAAAAAAAAAAABkARQnAQ' width=200 alt='img'/>
-
-## 使用场景
-
-- 决策树: 通过紧凑树布局可简单直观的图形化展示每个决策路径
-- 知识图谱: 展示概念之间的层级关系和连接，紧凑布局可以在有限空间内呈现复杂的知识网络
 
 ## 代码示例
 
