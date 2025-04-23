@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.js",
+      "title": {
+        "zh": "Fishbone 鱼骨布局",
+        "en": "Fishbone Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*CT60SrCib9QAAAAAAAAAAAAAemJ7AQ/original"
+    }
+  ]
+}

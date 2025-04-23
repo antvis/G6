@@ -1,97 +1,6 @@
----
-title: Fishbone 鱼骨布局
----
-
-## 概述
-
-鱼骨布局是一种专门用于表示层次结构数据的图形布局方式。它通过模拟鱼骨的形状，将数据节点按照层次结构排列，使得数据的层次关系更加清晰直观。鱼骨布局特别适用于需要展示因果关系、层次结构或分类信息的数据集。
-
-## 使用场景
-
-- 需要展示层次结构数据，如组织结构、分类体系
-- 需要展示问题分析过程，如故障分析、质量分析
-- 需要展示决策过程，如决策树、影响因素分析
-
-## 在线体验
-
-<embed src="@/common/api/layout/fishbone.md"></embed>
-
-## 基本用法
-
-```js
-const graph = new Graph({
-  layout: {
-    type: 'fishbone',
-    direction: 'LR',
-    hGap: 50,
-    vGap: 50,
-    getRibSep: () => 60,
-  },
-});
-```
-
-## 配置项
-
-| 属性                   | 描述                                                       | 类型                                                                                                                                   | 默认值   | 必选 |
-| ---------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- | ---- |
-| type                   | 布局类型                                                   | `fishbone`                                                                                                                             | -        | ✓    |
-| direction              | 排布方向，`RL` 从右到左，鱼头在右；`LR` 从左到右，鱼头在左 | `RL` \| `LR`                                                                                                                           | `RL`     |      |
-| hGap                   | 水平间距                                                   | number                                                                                                                                 | -        |      |
-| vGap                   | 垂直间距                                                   | number                                                                                                                                 | -        |      |
-| getRibSep              | 获取鱼骨间距                                               | (node: NodeData) => number                                                                                                             | () => 60 |      |
-| width                  | 布局宽度                                                   | number                                                                                                                                 | -        |      |
-| height                 | 布局高度                                                   | number                                                                                                                                 | -        |      |
-| nodeSize               | 节点大小                                                   | number \| [number, number] \| [number, number, number] \| ((node: NodeData) => number \| [number, number] \| [number, number, number]) | -        |      |
-| isLayoutInvisibleNodes | 不可见节点是否参与布局，当 preLayout 为 true 时生效        | boolean                                                                                                                                | -        |      |
-| nodeFilter             | 参与该布局的节点                                           | (node: NodeData) => boolean                                                                                                            | -        |      |
-| preLayout              | 使用前布局，在初始化元素前计算布局，不适用于流水线布局     | boolean                                                                                                                                | -        |      |
-
-## 代码示例
-
-### 基础用法
-
-最简单的配置方式：
-
-```js
-import { Graph, treeToGraphData } from '@antv/g6';
-
-const graph = new Graph({
-  layout: {
-    type: 'fishbone',
-  },
-  autoFit: 'view',
-  data: treeToGraphData({
-    nodes: [
-      { id: 'root', data: { label: 'Root' } },
-      { id: 'child1', data: { label: 'Child 1' } },
-      { id: 'child2', data: { label: 'Child 2' } },
-      { id: 'child3', data: { label: 'Child 3' } },
-    ],
-    edges: [
-      { id: 'e1', source: 'root', target: 'child1' },
-      { id: 'e2', source: 'root', target: 'child2' },
-      { id: 'e3', source: 'root', target: 'child3' },
-    ],
-  }),
-  edge: {
-    type: 'polyline',
-    style: {
-      lineWidth: 3,
-    },
-  },
-  behaviors: ['drag-canvas'],
-});
-```
-
-效果如下：
-
 ```js | ob { pin: false }
 createGraph(
   {
-    layout: {
-      type: 'fishbone',
-    },
-    autoFit: 'view',
     data: {
       nodes: [
         {
@@ -372,20 +281,66 @@ createGraph(
         },
       ],
     },
+    node: {
+      type: 'rect',
+      style: {
+        size: [32, 32],
+        // fill: () => randomColor(),
+        label: false,
+        labelFill: '#262626',
+        labelFontFamily: 'Gill Sans',
+        labelMaxLines: 2,
+        labelMaxWidth: '100%',
+        labelPlacement: 'center',
+        labelText: (d) => d.id,
+        labelWordWrap: true,
+      },
+    },
     edge: {
       type: 'polyline',
       style: {
         lineWidth: 3,
       },
     },
-    behaviors: ['drag-canvas'],
+    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
+    autoFit: 'view',
+    layout: {
+      type: 'fishbone',
+      direction: 'RL',
+      hGap: 50,
+      vGap: 50,
+      getRibSep: () => 60,
+    },
   },
   { width: 600, height: 400 },
+  (gui, graph) => {
+    const options = {
+      type: 'fishbone',
+      direction: 'RL',
+      hGap: 50,
+      vGap: 50,
+      getRibSep: 60,
+    };
+
+    const optionFolder = gui.addFolder('Fishbone Layout Options');
+    optionFolder.add(options, 'type').disable(true);
+    optionFolder.add(options, 'direction', ['RL', 'LR']);
+    optionFolder.add(options, 'hGap', 20, 100, 10);
+    optionFolder.add(options, 'vGap', 20, 100, 10);
+    optionFolder.add(options, 'getRibSep', 30, 100, 10);
+
+    optionFolder.onChange(async ({ property, value }) => {
+      graph.setLayout(
+        Object.assign({}, graph.getLayout(), {
+          [property]: property === 'getRibSep' ? () => value : value,
+        }),
+      );
+      await graph.layout();
+      // 调整 direction 后部分node可能会溢出屏幕，重新执行下fitView
+      if (property === 'direction') {
+        graph.fitView();
+      }
+    });
+  },
 );
 ```
-
-## 实际案例
-
-<Playground path="layout/fishbone/demo/basic.js" rid="fishbone-basic"></Playground>
-
-- [Fishbone布局](/examples/layout/fishbone/#basic)
