@@ -18,7 +18,7 @@ order: 3
 
 当内置插件无法完全满足业务需求时，用户也可以通过自定义插件（继承内置插件）进行调整和修改。
 
-*（如果需要内置插件支持的特性是较通用的，或者内置插件存在 Bug ，这种时候欢迎大家到 [Github](https://github.com/antvis/G6) 提 Issue 或者 PR ）*
+_（如果需要内置插件支持的特性是较通用的，或者内置插件存在 Bug ，这种时候欢迎大家到 [Github](https://github.com/antvis/G6) 提 Issue 或者 PR ）_
 
 ## 自定义插件示例
 
@@ -121,16 +121,17 @@ register(ExtensionCategory.PLUGIN, 'my-custom-plugin', MyCustomPlugin);
 ## 配置插件
 
 - 可在 `plugins` 中传入插件类型名称或配置参数对象，详见[配置插件](/manual/plugin/overview#配置方式)
+
 - 比如前面的[自动判断节点数量开启或关闭动画](#自动判断节点数量开启或关闭动画)，配置如下：
 
-```typescript
-const graph = new Graph({
-  // 其他配置
-  plugins: [
-    {
-      type: 'auto-switch-animation',
-      maxLength: 500,
-    },
-  ],
-});
-```
+  ```typescript
+  const graph = new Graph({
+    // 其他配置
+    plugins: [
+      {
+        type: 'auto-switch-animation',
+        maxLength: 500,
+      },
+    ],
+  });
+  ```
