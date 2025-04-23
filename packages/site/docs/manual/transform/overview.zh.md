@@ -69,7 +69,8 @@ export abstract class BaseTransform<T extends BaseTransformOptions = BaseTransfo
 
 - **主动：** 用户主动调用 `graph.render()` 、 `graph.draw()` 或者在自定义插件、交互等实例里面通过上下文拿到元素控制器（ [ElementController](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/element.ts) ）实例调用 `this.context.element.draw()`，等（ `graph.render()` 和 `graph.draw()` 也是调用元素控制器的 `draw` 方法）
 - **被动：** 部分内置交互和插件有触发渲染，布局执行后也有触发渲染更新元素位置，等
-  :::
+
+:::
 
 - **afterLayout**：在执行完布局计算并开始更新节点位置后，执行数据处理
 
