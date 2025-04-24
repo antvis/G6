@@ -41,8 +41,8 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    *
    * <en/> zoom center(viewport coordinates)
    * - by default , the center is the mouse position center
-  */
- origin?: Point;
+   */
+  origin?: Point;
   /**
    * <zh/> 触发缩放的方式
    * - ShortcutKey：组合快捷键，**默认使用滚轮缩放**，['Control'] 表示按住 Control 键滚动鼠标滚轮时触发缩放
