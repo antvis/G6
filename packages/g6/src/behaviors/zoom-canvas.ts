@@ -36,7 +36,7 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    */
   enable?: boolean | ((event: IWheelEvent | IKeyboardEvent | IPointerEvent) => boolean);
   /**
-   * <zh/> 缩放中心(视口坐标)
+   * <zh/> 缩放中心点(视口坐标)
    * - 默认情况下为鼠标位置中心
    *
    * <en/> zoom center(viewport coordinates)
