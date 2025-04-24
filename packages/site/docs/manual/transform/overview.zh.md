@@ -5,7 +5,7 @@ order: 1
 
 ## 什么是数据处理
 
-数据处理（ `transform` ），也叫数据转换器，是 G6 提供的支持在 **渲染前( beforeDraw )** 或者 **布局后( afterLayout )** 对绘制数据进行转化处理的机制，用户可以通过数据处理很方便地对数据处理逻辑进行封装解耦。
+数据处理（ `transform` ），也叫数据转换器，是 G6 提供的支持在 **渲染前( `beforeDraw` )** 或者 **布局后( `afterLayout` )** 对绘制数据进行转化处理的机制，用户可以通过数据处理很方便地对数据处理逻辑进行封装解耦。
 
 ## 实现原理
 
@@ -57,12 +57,20 @@ export abstract class BaseTransform<T extends BaseTransformOptions = BaseTransfo
 
   <img width="300px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Pb3kRI2yHo8AAAAAAAAAAAAAemJ7AQ/original"/>
 
-  说明：G6 在每次渲染前计算出 `add`、`update`、`remove`，分别对应为需要新增、更新、移除的元素，在执行数据处理后，执行对应的新增、更新、移除元素的操作。
+  **详细说明：**
 
-  触发渲染的场景分为主动和被动，列举如下：
+  1. G6 在每次渲染前计算出 `add`、`update`、`remove`，分别对应为需要新增、更新、移除的元素，以下简称为 `DrawData`
+  2. 此时数据处理介入，按配置顺序执行每个数据处理的 `beforeDraw` 方法，参数则为 `DrawData`
+  3. 数据处理器中，对 `DrawData` 里面的元素数据进行改动，即可以按需对 `add`、`update`、`remove` 里面的元素数据进行修改、移除或者插入元素数据等，最终把改动后的 `DrawData` 返回给渲染主体逻辑
+  4. 在执行数据处理后，执行对应的新增、更新、移除元素的操作，完成渲染
 
-  - **主动：**用户主动调用 `graph.render()` 、 `graph.draw()` 或者在自定义插件、交互等实例里面通过上下文拿到元素控制器（ [ElementController](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/element.ts) ）实例调用 `this.context.element.draw()`，等（ `graph.render()` 和 `graph.draw()` 也是调用元素控制器的 `draw` 方法）
-  - **被动：**部分内置交互和插件有触发渲染，布局执行后也有触发渲染更新元素位置，等
+:::info{title=提示}
+触发渲染的场景分为主动和被动，列举如下：
+
+- **主动：** 用户主动调用 `graph.render()` 、 `graph.draw()` 或者在自定义插件、交互等实例里面通过上下文拿到元素控制器（ [ElementController](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/element.ts) ）实例调用 `this.context.element.draw()`，等（ `graph.render()` 和 `graph.draw()` 也是调用元素控制器的 `draw` 方法）
+- **被动：** 部分内置交互和插件有触发渲染，布局执行后也有触发渲染更新元素位置，等
+
+:::
 
 - **afterLayout**：在执行完布局计算并开始更新节点位置后，执行数据处理
 
