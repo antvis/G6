@@ -226,6 +226,21 @@ describe('behavior zoom canvas', () => {
     expect(graph.getZoom()).toBe(currentZoom * 1.1);
   });
 
+  it('zoom to canvas center', async () => {
+    const center = graph.getCanvasCenter();
+
+    graph.setBehaviors([{ type: 'zoom-canvas', origin: center }]);
+
+    const currentZoom = graph.getZoom();
+    const targetZoom = currentZoom * 0.5;
+
+    graph.emit(CommonEvent.WHEEL, { deltaY: 50 });
+
+    expect(graph.getZoom()).toBe(targetZoom);
+
+    await expect(graph).toMatchSnapshot(__filename, 'zoom-to-canvas-center');
+  });
+
   it('canvas event', () => {
     const canvas = graph.getCanvas();
 

@@ -36,6 +36,14 @@ export interface ZoomCanvasOptions extends BaseBehaviorOptions {
    */
   enable?: boolean | ((event: IWheelEvent | IKeyboardEvent | IPointerEvent) => boolean);
   /**
+   * <zh/> 缩放中心点(视口坐标)
+   * - 默认情况下为鼠标位置中心
+   *
+   * <en/> zoom center(viewport coordinates)
+   * - by default , the center is the mouse position center
+   */
+  origin?: Point;
+  /**
    * <zh/> 触发缩放的方式
    * - ShortcutKey：组合快捷键，**默认使用滚轮缩放**，['Control'] 表示按住 Control 键滚动鼠标滚轮时触发缩放
    * - CombinationKey：缩放快捷键，例如 { zoomIn: ['Control', '+'], zoomOut: ['Control', '-'], reset: ['Control', '0'] }
@@ -160,8 +168,8 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     if (!this.validate(event)) return;
     const { graph } = this.context;
 
-    let origin: Point | undefined;
-    if ('viewport' in event) {
+    let origin: Point | undefined = this.options.origin;
+    if (!origin && 'viewport' in event) {
       origin = parsePoint(event.viewport as PointObject);
     }
 
