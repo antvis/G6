@@ -19,9 +19,9 @@ toDataURL(options?: Partial<DataURLOptions>): Promise<string>;
 
 **Parameters**
 
-| Parameter | Description                | Type                    | Default | Required |
-| --------- | -------------------------- | ----------------------- | ------- | -------- |
-| options   | Export image configuration | Partial<DataURLOptions> | -       |          |
+| Parameter | Description                | Type                      | Default | Required |
+| --------- | -------------------------- | ------------------------- | ------- | -------- |
+| options   | Export image configuration | Partial\<DataURLOptions\> | -       |          |
 
 **Return Value**
 
