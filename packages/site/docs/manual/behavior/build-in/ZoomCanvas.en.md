@@ -37,6 +37,12 @@ Whether to enable the animation of zooming
 
 Whether to enable the function of zooming the canvas
 
+### origin
+
+> [Point](/api/viewport#point)
+
+Zoom center point (viewport coordinates)
+
 ### onFinish
 
 > _() => void_

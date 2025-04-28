@@ -139,14 +139,10 @@ export class Minimap extends BasePlugin<MinimapOptions> {
   }
 
   private setOnRender() {
-    this.onRender = debounce(
-      () => {
-        this.renderMinimap();
-        this.renderMask();
-      },
-      this.options.delay,
-      true,
-    );
+    this.onRender = debounce(() => {
+      this.renderMinimap();
+      this.renderMask();
+    }, this.options.delay);
   }
 
   private bindEvents() {

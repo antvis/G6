@@ -1,5 +1,5 @@
 ---
-title: 数据 - Data
+title: 数据 Data
 order: 4
 ---
 

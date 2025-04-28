@@ -1,113 +1,91 @@
 ---
-title: Canvas
+title: Canvas Operations
 order: 1
 ---
 
-### Graph.clear()
+## Overview of Canvas Operations
 
-Clear canvas elements
+G6 provides a series of canvas operation APIs to control and obtain basic information about the canvas. With these APIs, you can:
 
-```typescript
-clear(): Promise<void>;
-```
+- Get the canvas instance
+- Get and set the canvas size
+- Operate the canvas renderer and layers
 
-<details><summary>View Parameters</summary>
-
-**Returns**:
-
-- **Type:** Promise&lt;void&gt;
-
-</details>
+## API Reference
 
 ### Graph.getCanvas()
 
-Get canvas instance
+Get the canvas instance, which can be used for low-level canvas operations.
 
 ```typescript
 getCanvas(): Canvas;
 ```
 
-<details><summary>View Parameters</summary>
+**Return Value Description**
 
-**Returns**:
+The Canvas instance includes the following main functions:
 
-- **Type:** Canvas
+- `getLayer(name?: string)`: Get the specified layer
+- `getLayers()`: Get all layers
+- `getCamera()`: Get the camera instance
+- `getRoot()`: Get the root node
+- `setCursor(cursor: string)`: Set the mouse cursor style
 
-- **Description:** 画布实例
+**Example**
 
-</details>
+```typescript
+// Get the canvas instance
+const canvas = graph.getCanvas();
+
+// Get the main layer
+const mainLayer = canvas.getLayer('main');
+
+// Set the mouse cursor style
+canvas.setCursor('pointer');
+
+// Get the root node of the canvas
+const root = canvas.getRoot();
+```
 
 ### Graph.getSize()
 
-Get the size of the current canvas container
+Get the size of the current canvas container. Returns an array containing the width and height.
 
 ```typescript
 getSize(): [number, number];
 ```
 
-<details><summary>View Parameters</summary>
+**Example**
 
-**Returns**:
+```typescript
+// Get the canvas size
+const [width, height] = graph.getSize();
+console.log('Canvas width:', width);
+console.log('Canvas height:', height);
 
-- **Type:** [number, number]
-
-- **Description:** 画布尺寸
-
-</details>
+// Use the size information for calculations
+const centerX = width / 2;
+const centerY = height / 2;
+```
 
 ### Graph.setSize(width, height)
 
-Set the size of the current canvas container
+Set the size of the canvas container. This method will update both the canvas and container size.
 
 ```typescript
 setSize(width: number, height: number): void;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**
 
-<table><thead><tr><th>
+| Parameter | Description            | Type   | Default | Required |
+| --------- | ---------------------- | ------ | ------- | -------- |
+| width     | Canvas width (pixels)  | number | -       | ✓        |
+| height    | Canvas height (pixels) | number | -       | ✓        |
 
-Parameter
+**Example**
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-width
-
-</td><td>
-
-number
-
-</td><td>
-
-画布宽度
-
-</td></tr>
-<tr><td>
-
-height
-
-</td><td>
-
-number
-
-</td><td>
-
-画布高度
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
+```typescript
+// Set a fixed size
+graph.setSize(800, 600);
+```

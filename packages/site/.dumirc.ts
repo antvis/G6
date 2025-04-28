@@ -3,13 +3,7 @@ import { version } from '../g6/package.json';
 import { homepage, repository } from './package.json';
 
 export default defineConfig({
-  ssr:
-    process.env.NODE_ENV === 'production'
-      ? {
-          builder: 'mako',
-        }
-      : false,
-  mako: {},
+  ...(process.env.NODE_ENV === 'production' ? { ssr: { builder: 'webpack', mako: false } } : { ssr: false, mako: {} }),
   locales: [
     { id: 'zh', name: '中文' },
     { id: 'en', name: 'English' },
@@ -133,7 +127,7 @@ export default defineConfig({
       {
         slug: 'manual/graph',
         title: {
-          zh: '图 - Graph',
+          zh: '图 Graph',
           en: 'Graph',
         },
         order: 3,
@@ -141,7 +135,7 @@ export default defineConfig({
       {
         slug: 'manual/element',
         title: {
-          zh: '元素 - Element',
+          zh: '元素 Element',
           en: 'Element',
         },
         order: 5,
@@ -149,7 +143,7 @@ export default defineConfig({
       {
         slug: 'manual/element/node',
         title: {
-          zh: '节点',
+          zh: '节点 Node',
           en: 'Node',
         },
         order: 3,
@@ -165,7 +159,7 @@ export default defineConfig({
       {
         slug: 'manual/element/edge',
         title: {
-          zh: '边',
+          zh: '边 Edge',
           en: 'Edge',
         },
         order: 4,
@@ -181,7 +175,7 @@ export default defineConfig({
       {
         slug: 'manual/element/combo',
         title: {
-          zh: '组合',
+          zh: '组合 Combo',
           en: 'Combo',
         },
         order: 5,
@@ -205,7 +199,7 @@ export default defineConfig({
       {
         slug: 'manual/layout',
         title: {
-          zh: '布局 - Layout',
+          zh: '布局 Layout',
           en: 'Layout',
         },
         order: 5,
@@ -221,7 +215,7 @@ export default defineConfig({
       {
         slug: 'manual/behavior',
         title: {
-          zh: '交互 - Behavior',
+          zh: '交互 Behavior',
           en: 'Behavior',
         },
         order: 6,
@@ -237,7 +231,7 @@ export default defineConfig({
       {
         slug: 'manual/plugin',
         title: {
-          zh: '插件 - Plugin',
+          zh: '插件 Plugin',
           en: 'Plugin',
         },
         order: 7,
@@ -253,7 +247,7 @@ export default defineConfig({
       {
         slug: 'manual/transform',
         title: {
-          zh: '数据处理 - Transform',
+          zh: '数据处理 Transform',
           en: 'Transform',
         },
         order: 8,
@@ -269,7 +263,7 @@ export default defineConfig({
       {
         slug: 'manual/theme',
         title: {
-          zh: '主题 - Theme',
+          zh: '主题 Theme',
           en: 'Theme',
         },
         order: 9,
@@ -277,7 +271,7 @@ export default defineConfig({
       {
         slug: 'manual/animation',
         title: {
-          zh: '动画 - Animation',
+          zh: '动画 Animation',
           en: 'Animation',
         },
         order: 10,
@@ -354,6 +348,14 @@ export default defineConfig({
         title: {
           zh: '插件',
           en: 'Plugin',
+        },
+      },
+      {
+        slug: 'transform',
+        icon: 'tag-flow',
+        title: {
+          zh: '数据处理',
+          en: 'Transform',
         },
       },
       {

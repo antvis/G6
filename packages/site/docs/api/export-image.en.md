@@ -3,48 +3,68 @@ title: Export Image
 order: 12
 ---
 
+## Overview of Image Export
+
+G6 provides the functionality to export the graph as an image, allowing you to export the current canvas content as a DataURL format. This is convenient for saving, sharing, or further processing. The exported image will retain all visible elements on the canvas, including nodes, edges, combos, and other custom graphics.
+
+## API Reference
+
 ### Graph.toDataURL(options)
 
-Export canvas content as DataURL
+Export the current canvas as an image in DataURL format.
 
 ```typescript
 toDataURL(options?: Partial<DataURLOptions>): Promise<string>;
 ```
 
-<details><summary>View Parameters</summary>
+**Parameters**
 
-<table><thead><tr><th>
+| Parameter | Description                | Type                      | Default | Required |
+| --------- | -------------------------- | ------------------------- | ------- | -------- |
+| options   | Export image configuration | Partial\<DataURLOptions\> | -       |          |
 
-Parameter
+**Return Value**
 
-</th><th>
+Returns a Promise that resolves to a DataURL string representing the image.
 
-Type
+**DataURLOptions Type Definition**
 
-</th><th>
+| Parameter      | Type                                        | Required | Description                                                                                              |
+| -------------- | ------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------- |
+| mode           | 'viewport' \| 'overall'                     | No       | Export mode <br/> - viewport: Export viewport content <br/> - overall: Export entire canvas              |
+| type           | 'image/png' \| 'image/jpeg' \| 'image/webp' | No       | Image type <br/> - image/png: PNG format <br/> - image/jpeg: JPEG format <br/> - image/webp: WebP format |
+| encoderOptions | number                                      | No       | Image quality, only effective for image/jpeg and image/webp, range 0 ~ 1                                 |
 
-Description
+## Download Image
 
-</th></tr></thead>
-<tbody><tr><td>
+G6 5.0 only provides an API to export the canvas as a Base64 image ([toDataURL](#graphtodataurloptions)). If you need to download the image, you can use the following method:
 
-options
+```typescript
+async function downloadImage() {
+  const dataURL = await graph.toDataURL();
+  const [head, content] = dataURL.split(',');
+  const contentType = head.match(/:(.*?);/)![1];
 
-</td><td>
+  const bstr = atob(content);
+  let length = bstr.length;
+  const u8arr = new Uint8Array(length);
 
-Partial&lt;[DataURLOptions]()&gt;
+  while (length--) {
+    u8arr[length] = bstr.charCodeAt(length);
+  }
 
-</td><td>
+  const blob = new Blob([u8arr], { type: contentType });
 
-导出配置
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'graph.png';
+  a.click();
+}
+```
 
-</td></tr>
-</tbody></table>
+<br />
 
-**Returns**:
-
-- **Type:** Promise&lt;string&gt;
-
-- **Description:** DataURL
-
-</details>
+:::warning{title=Note}
+The exported image content may not include the complete canvas content. The export range only includes the content within the Graph canvas. Some plugins use custom containers, canvases, etc., which will not appear in the exported image.
+:::

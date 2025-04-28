@@ -8,7 +8,7 @@
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-size="16" paint-order="stroke" text-anchor="middle">Text</text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-size="16" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">Text</text>
             </g>
           </g>
         </g>

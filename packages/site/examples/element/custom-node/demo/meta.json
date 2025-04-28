@@ -13,6 +13,14 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9oz-R7bIkd0AAAAAAAAAAAAADmJ7AQ/original"
     },
     {
+      "filename": "reactnode-idcard.jsx",
+      "title": {
+        "zh": "React 节点 身份证",
+        "en": "React node IDCard"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*nKs0R7O2njIAAAAAAAAAAAAAemJ7AQ/original"
+    },
+    {
       "filename": "g2-bar-chart.js",
       "title": {
         "zh": "G2 柱状图",

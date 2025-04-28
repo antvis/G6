@@ -21,21 +21,29 @@ ZoomCanvas 是 G6 中用于实现画布缩放功能的内置交互，支持通�
 
 在图配置中添加这一交互：
 
+**1. 快速配置（静态）**
+
+使用字符串形式直接声明，这种方式简洁但仅支持默认配置，且配置后不可动态修改：
+
 ```javascript
-// 使用默认配置
 const graph = new Graph({
   // 其他配置...
-  behaviors: ['zoom-canvas'], // 直接添加，使用默认配置
+  behaviors: ['zoom-canvas'],
 });
+```
 
-// 或使用自定义配置
+**2. 对象配置（推荐）**
+
+使用对象形式进行配置，支持自定义参数，且可以在运行时动态更新配置：
+
+```javascript
 const graph = new Graph({
   // 其他配置...
   behaviors: [
     {
       type: 'zoom-canvas',
+      key: 'zoom-canvas-1', // 为交互指定标识符，方便动态更新
       sensitivity: 1.5, // 设置灵敏度
-      key: 'zoom-behavior', // 为交互指定标识符，方便动态更新
     },
   ],
 });
@@ -48,6 +56,7 @@ const graph = new Graph({
 | type           | 交互类型名称                                             | string                                                                              | `zoom-canvas`       | ✓    |
 | animation      | 缩放动画效果设置                                         | [ViewportAnimationEffectTiming](/manual/graph/option#viewportanimationeffecttiming) | `{ duration: 200 }` |      |
 | enable         | 是否启用该交互                                           | boolean \| ((event: Event) => boolean)                                              | true                |      |
+| origin         | 缩放中心点(视口坐标)                                        | [Point](/api/viewport#point) | -                   |      |
 | onFinish       | 缩放完成时的回调函数                                     | () => void                                                                          | -                   |      |
 | preventDefault | 是否阻止浏览器默认事件                                   | boolean                                                                             | true                |      |
 | sensitivity    | 缩放灵敏度，值越大缩放速度越快                           | number                                                                              | 1                   |      |
@@ -99,6 +108,20 @@ const graph = new Graph({
   width: 800,
   height: 600,
   behaviors: ['zoom-canvas'],
+});
+```
+
+### 自定义缩放中心
+
+```javascript
+const graph = new Graph({
+  // 其他配置...
+  behaviors: [
+    {
+      type: 'zoom-canvas',
+      origin: graph.getCanvasCenter(), // 以视口中心为原点进行缩放
+    },
+  ],
 });
 ```
 

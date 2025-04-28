@@ -22,19 +22,28 @@ DragCanvas 是 G6 中用于实现画布拖拽功能的内置交互，支持通�
 
 在图配置中添加这一交互：
 
+**1. 快速配置（静态）**
+
+使用字符串形式直接声明，这种方式简洁但仅支持默认配置，且配置后不可动态修改：
+
 ```javascript
-// 使用默认配置
 const graph = new Graph({
   // 其他配置...
-  behaviors: ['drag-canvas'], // 直接添加，使用默认配置
+  behaviors: ['drag-canvas'],
 });
+```
 
-// 或使用自定义配置
+**2. 对象配置（推荐）**
+
+使用对象形式进行配置，支持自定义参数，且可以在运行时动态更新配置：
+
+```javascript
 const graph = new Graph({
   // 其他配置...
   behaviors: [
     {
       type: 'drag-canvas',
+      key: 'drag-canvas-1',
       direction: 'x', // 只允许水平方向拖拽
       key: 'drag-behavior', // 为交互指定标识符，方便动态更新
     },

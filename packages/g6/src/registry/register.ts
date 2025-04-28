@@ -19,10 +19,6 @@ import type { ExtensionRegistry } from './types';
  * @param Ctor
  * <zh/> 要注册的扩展类，在使用时创建实例
  *
- * <en/> The extension class to be registered. An instance will be created upon use
- * @param override
- * <zh/> 是否覆盖已注册的扩展
- *
  * <en/> Whether to override the registered extension
  * @remarks
  * <zh/> 内置扩展在项目导入时会自动注册。对于非内置扩展，可以通过 `register` 方法手动注册。扩展只需要注册一次，即可在项目的任何位置使用。
@@ -42,10 +38,11 @@ export function register<T extends ExtensionCategory>(
   category: Loosen<T>,
   type: string,
   Ctor: ExtensionRegistry[T][string],
-  override = false,
 ) {
   const ext = EXTENSION_REGISTRY[category][type];
-  if (!override && ext) {
-    if (ext !== Ctor) print.warn(`The extension ${type} of ${category} has been registered before.`);
-  } else Object.assign(EXTENSION_REGISTRY[category]!, { [type]: Ctor });
+  if (ext) {
+    print.warn(`The extension ${type} of ${category} has been registered before, and will be overridden.`);
+  }
+
+  Object.assign(EXTENSION_REGISTRY[category]!, { [type]: Ctor });
 }
