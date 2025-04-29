@@ -28,15 +28,26 @@ ComboCombined 复合布局适用于复合分组结构的图数据展示场景，
 
 > _`Layout<any>`_ **Default:** `ConcentricLayout`
 
-Combo 内部的布局算法，需要使用同步的布局算法，默认为 concentric
+Combo 内部的布局算法，需要使用同步的布局算法，默认为 [ConcentricLayout](https://github.com/antvis/layout/blob/v5/packages/layout/src/concentric.ts)，[更多布局算法](https://github.com/antvis/layout/tree/v5/packages/layout)
 
 **示例**:
 
 ```ts
 import { ConcentricLayout } from '@antv/layout';
 
-innerLayout: new ConcentricLayout({
-  sortBy: 'id',
+new Graph({
+  layout: {
+    type: 'combo-combined',
+    /**
+     * 查看更多 ConcentricLayout 配置参数:
+     * https://github.com/antvis/layout/blob/v5/packages/layout/src/types.ts#L397
+     */
+    innerLayout: new ConcentricLayout({
+      sortBy: 'id',
+      nodeSize: 20,
+      clockwise: true,
+    }),
+  },
 });
 ```
 
@@ -44,19 +55,29 @@ innerLayout: new ConcentricLayout({
 
 > _`Layout<any>`_ **Default:** `ForceLayout`
 
-最外层的布局算法，默认为 force
+最外层的布局算法，默认为 [ForceLayout](https://github.com/antvis/layout/blob/v5/packages/layout/src/force/index.ts)，[更多布局算法](https://github.com/antvis/layout/tree/v5/packages/layout)
 
 **示例**
 
 ```ts
 import { ForceLayout } from '@antv/layout';
 
-outerLayout: new ForceLayout({
-  gravity: 1,
-  factor: 2,
-  linkDistance: (edge: any, source: any, target: any) => {
-    const nodeSize = ((source.size?.[0] || 30) + (target.size?.[0] || 30)) / 2;
-    return Math.min(nodeSize * 1.5, 70
+new Graph({
+  layout: {
+    type: 'combo-combined',
+    /**
+     * 查看更多 ForceLayout 配置参数:
+     * https://github.com/antvis/layout/blob/v5/packages/layout/src/types.ts#L950
+     */
+    outerLayout: new ForceLayout({
+      gravity: 1,
+      factor: 2,
+      linkDistance: (edge: any, source: any, target: any) => {
+        const nodeSize = ((source.size?.[0] || 30) + (target.size?.[0] || 30)) / 2;
+        return Math.min(nodeSize * 1.5, 70);
+      },
+    }),
+  },
 });
 ```
 
