@@ -2,98 +2,95 @@
 title: Radial 径向布局
 ---
 
+## 概述
+
+径向（Radial）布局是一种将节点以同心圆方式分层排列的图布局算法，常用于展示层级关系、社群结构等。该布局支持节点防重叠、分组排序等高级特性，适用于多种网络结构的可视化。
+
+## 使用场景
+
+- 展示层级结构（如组织架构、家谱等）
+- 社群结构分析
+- 需要突出中心节点及其辐射关系的场景
+- 需要节点分组、排序的复杂网络
+
+## 在线体验
+
+<embed src="@/common/api/layouts/radial.md"></embed>
+
+## 配置方式
+
+```js
+const graph = new Graph({
+  layout: {
+    type: 'radial',
+    nodeSize: 32,
+    unitRadius: 100,
+    linkDistance: 200,
+  },
+  // 其他配置...
+});
+```
+
 ## 配置项
 
-### center
+| 属性                       | 描述                                         | 类型                                 | 默认值   | 必选 |
+| -------------------------- | -------------------------------------------- | ------------------------------------ | -------- | ---- |
+| type                       | 布局类型                                     | string                               | `radial` | ✓    |
+| center                     | 圆心坐标                                     | [number, number]                     | -        |      |
+| focusNode                  | 辐射中心节点                                 | string \| Node \| null               | null     |      |
+| height                     | 画布高度                                     | number                               | -        |      |
+| width                      | 画布宽度                                     | number                               | -        |      |
+| nodeSize                   | 节点大小（直径）                             | number                               | -        |      |
+| nodeSpacing                | 节点最小间距（防重叠时生效）                 | number \| (nodeData: Node) => number | 10       |      |
+| linkDistance               | 边长度                                       | number                               | 50       |      |
+| unitRadius                 | 每圈半径                                     | number \| null                       | 100      |      |
+| maxIteration               | 最大迭代次数                                 | number                               | 1000     |      |
+| maxPreventOverlapIteration | 防重叠最大迭代次数                           | number                               | 200      |      |
+| preventOverlap             | 是否防止节点重叠                             | boolean                              | false    |      |
+| sortBy                     | 同层节点排序字段                             | string                               | -        |      |
+| sortStrength               | 同层节点排序强度                             | number                               | 10       |      |
+| strictRadial               | 是否严格每层节点在同一圆环上（防重叠时生效） | boolean                              | true     |      |
 
-> _PointTuple_
+## 代码示例
 
-圆形布局的中心位置,默认为当前容器的中心位置
+### 基本用法
 
-### focusNode
+```js
+import { Graph } from '@antv/g6';
 
-> _string \|_ _Node_ _\| null_
+fetch('https://assets.antv.antgroup.com/g6/radial.json')
+  .then((res) => res.json())
+  .then((data) => {
+    const graph = new Graph({
+      container: 'container',
+      data,
+      autoFit: 'center',
+      layout: {
+        type: 'radial',
+        nodeSize: 32,
+        unitRadius: 100,
+        linkDistance: 200,
+      },
+      node: {
+        style: {
+          labelFill: '#fff',
+          labelPlacement: 'center',
+          labelText: (d) => d.id,
+        },
+      },
+      behaviors: ['drag-canvas', 'drag-element'],
+    });
+    graph.render();
+  });
+```
 
-辐射的中心点
+效果如下：
 
-- string: 节点 id
-- Node: 节点本身
-- null: 数据中第一个节点
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*d3P-RK4YCDYAAAAAAAAAAAAADmJ7AQ/original" alt="基本 Radial 辐射布局" style="max-width: 600px;" />
 
-### height
+## 实际案例
 
-> _number_
-
-布局的高度，默认使用容器高度
-
-### linkDistance
-
-> _number_ **Default:** `50`
-
-边长度
-
-### maxIteration
-
-> _number_ **Default:** `1000`
-
-停止迭代到最大迭代数
-
-### maxPreventOverlapIteration
-
-> _number_ **Default:** `200`
-
-防止重叠步骤的最大迭代次数
-
-### nodeSize
-
-> _Size_ _\| ((nodeData: Node) => Size)_
-
-节点大小（直径）。用于防止节点重叠时的碰撞检测
-
-### nodeSpacing
-
-> _number \| ((nodeData: Node) => number)_ **Default:** `10`
-
-preventOverlap 为 true 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距
-
-### preventOverlap
-
-> _boolean_ **Default:** `false`
-
-是否防止重叠
-
-必须配合下面属性 nodeSize 或节点数据中的 data.size 属性，只有在数据中设置了 data.size 或在该布局中配置了与当前图节点大小相同的 nodeSize 值，才能够进行节点重叠的碰撞检测
-
-### sortBy
-
-> _string_ **Default:** `undefined`
-
-同层节点布局后相距远近的依据
-
-默认 undefined ，表示根据数据的拓扑结构（节点间最短路径）排布，即关系越近/点对间最短路径越小的节点将会被尽可能排列在一起；'data' 表示按照节点在数据中的顺序排列，即在数据顺序上靠近的节点将会尽可能排列在一起；也可以指定为节点数据中的某个字段名，例如 'cluster'、'name' 等（必须在数据的 data 中存在）
-
-### sortStrength
-
-> _number_ **Default:** `10`
-
-同层节点根据 sortBy 排列的强度，数值越大，sortBy 指定的方式计算出距离越小的越靠近。sortBy 不为 undefined 时生效
-
-### strictRadial
-
-> _boolean_ **Default:** `true`
-
-是否必须是严格的 radial 布局，及每一层的节点严格布局在一个环上。preventOverlap 为 true 时生效。
-
-当 preventOverlap 为 true，且 strictRadial 为 false 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠 当 preventOverlap 为 true，且 strictRadial 为 true 时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠
-
-### unitRadius
-
-> _number \| null_ **Default:** `100`
-
-每一圈距离上一圈的距离。默认填充整个画布，即根据图的大小决定
-
-### width
-
-> _number_
-
-布局的宽度，默认使用容器宽度
+- [基本 Radial 辐射布局](/examples/layout/radial/#basic)
+- [防止节点重叠的严格辐射布局](/examples/layout/radial/#strict-prevent-overlap)
+- [防止节点重叠的非严格辐射布局](/examples/layout/radial/#non-strict-prevent-overlap)
+- [排序聚类](/examples/layout/radial/#cluster-sort)
