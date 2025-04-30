@@ -2,106 +2,95 @@
 title: Radial
 ---
 
+## Overview
+
+Radial layout arranges nodes in concentric circles by layers, which is suitable for visualizing hierarchical relationships, community structures, and more. It supports advanced features such as node overlap prevention and group sorting, making it ideal for various network visualizations.
+
+## Usage Scenarios
+
+- Displaying hierarchical structures (e.g., organization charts, family trees)
+- Community structure analysis
+- Highlighting a central node and its radiating relationships
+- Complex networks requiring node grouping and sorting
+
+## Online Demo
+
+<embed src="@/common/api/layouts/radial.md"></embed>
+
+## Configuration
+
+```js
+const graph = new Graph({
+  layout: {
+    type: 'radial',
+    nodeSize: 32,
+    unitRadius: 100,
+    linkDistance: 200,
+  },
+  // other configs ...
+});
+```
+
 ## Options
 
-### center
+| Property                   | Description                                                         | Type                                 | Default  | Required |
+| -------------------------- | ------------------------------------------------------------------- | ------------------------------------ | -------- | -------- |
+| type                       | Layout type                                                         | string                               | `radial` | ✓        |
+| center                     | Center of the layout                                                | [number, number]                     | -        |          |
+| focusNode                  | Center node of the radial layout                                    | string \| Node \| null               | null     |          |
+| height                     | Height of the layout                                                | number                               | -        |          |
+| width                      | Width of the layout                                                 | number                               | -        |          |
+| nodeSize                   | Node size (diameter)                                                | number                               | -        |          |
+| nodeSpacing                | Minimum spacing between nodes (when preventOverlap is true)         | number \| (nodeData: Node) => number | 10       |          |
+| linkDistance               | Edge length                                                         | number                               | 50       |          |
+| unitRadius                 | Radius of each ring                                                 | number \| null                       | 100      |          |
+| maxIteration               | Maximum number of iterations                                        | number                               | 1000     |          |
+| maxPreventOverlapIteration | Maximum iterations for overlap prevention                           | number                               | 200      |          |
+| preventOverlap             | Whether to prevent node overlap                                     | boolean                              | false    |          |
+| sortBy                     | Field for sorting nodes in the same layer                           | string                               | -        |          |
+| sortStrength               | Strength of sorting nodes in the same layer                         | number                               | 10       |          |
+| strictRadial               | Strictly place nodes on the same ring (when preventOverlap is true) | boolean                              | true     |          |
 
-> _PointTuple_
+## Code Example
 
-The center position of the circular layout, defaults to the center position of the current container
+### Basic Usage
 
-### focusNode
+```js
+import { Graph } from '@antv/g6';
 
-> _string \|_ _Node_ _\| null_
+fetch('https://assets.antv.antgroup.com/g6/radial.json')
+  .then((res) => res.json())
+  .then((data) => {
+    const graph = new Graph({
+      container: 'container',
+      data,
+      autoFit: 'center',
+      layout: {
+        type: 'radial',
+        nodeSize: 32,
+        unitRadius: 100,
+        linkDistance: 200,
+      },
+      node: {
+        style: {
+          labelFill: '#fff',
+          labelPlacement: 'center',
+          labelText: (d) => d.id,
+        },
+      },
+      behaviors: ['drag-canvas', 'drag-element'],
+    });
+    graph.render();
+  });
+```
 
-辐射的中心点
+The effect is as follows:
 
-- string: 节点 id
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*d3P-RK4YCDYAAAAAAAAAAAAADmJ7AQ/original" alt="Basic Radial Layout" style="max-width: 600px;" />
 
-- Node: 节点本身
+## Cases
 
-- null: 数据中第一个节点 The center point of the radiation
-
-- string: node id
-
-- Node: node itself
-
-- null: the first node in the data
-
-### height
-
-> _number_
-
-The height of the layout, defaults to the container height
-
-### linkDistance
-
-> _number_ **Default:** `50`
-
-Edge length
-
-### maxIteration
-
-> _number_ **Default:** `1000`
-
-Stop iterating until the maximum iteration number is reached
-
-### maxPreventOverlapIteration
-
-> _number_ **Default:** `200`
-
-Maximum iteration number of the prevent overlap step
-
-### nodeSize
-
-> _Size_ _\| ((nodeData:_ _Node\_\_) =>_ _Size\_\_)_
-
-Node size (diameter). Used for collision detection when preventing node overlap
-
-### nodeSpacing
-
-> _number \| ((nodeData:_ _Node\_\_) => number)_ **Default:** `10`
-
-Effective when preventOverlap is true. The minimum edge spacing when preventing node overlap. It can be a callback function, and set different minimum spacing for different nodes
-
-### preventOverlap
-
-> _boolean_ **Default:** `false`
-
-Whether to prevent overlap
-
-Must be used with the following properties: nodeSize or data.size in the node data. Only when data.size or nodeSize with the same value as the current graph node size is set in the layout configuration, can the collision detection of node overlap be performed
-
-### sortBy
-
-> _string_ **Default:** `undefined`
-
-The basis for the distance between nodes in the same layer after layout
-
-The default is undefined, which means arranging based on the topological structure of the data (the shortest path between nodes). Nodes that are closer in proximity or have a smaller shortest path between them will be arranged as close together as possible. 'data' indicates arranging based on the order of nodes in the data, so nodes that are closer in the data order will be arranged as close together as possible. You can also specify a field name in the node data, such as 'cluster' or 'name' (it must exist in the data of the graph)
-
-### sortStrength
-
-> _number_ **Default:** `10`
-
-The strength of arranging nodes according to sortBy. The larger the value, the closer the nodes that sortBy specifies are arranged. It takes effect when sortBy is not undefined
-
-### strictRadial
-
-> _boolean_ **Default:** `true`
-
-Whether it must be a strict radial layout, that is, each layer of nodes strictly layout on a ring. Effective when preventOverlap is true.
-
-When preventOverlap is true and strictRadial is false, overlapping nodes are strictly laid out along the ring they are in. However, if there are too many nodes on a ring, it may not be possible to completely avoid node overlap. When preventOverlap is true and strictRadial is true, overlapping nodes on the same ring are allowed to be laid out not strictly along the ring, and can be offset before and after the ring to avoid overlap
-
-### unitRadius
-
-> _number \| null_ **Default:** `100`
-
-The distance between each ring. Defaults to filling the entire canvas, i.e., determined by the size of the graph
-
-### width
-
-> _number_
-
-The width of the layout, defaults to the container width
+- [Basic Radial Layout](/en/examples/layout/radial/#basic)
+- [Strict Overlap Prevention](/en/examples/layout/radial/#strict-prevent-overlap)
+- [Non-strict Overlap Prevention](/en/examples/layout/radial/#non-strict-prevent-overlap)
+- [Cluster Sort](/en/examples/layout/radial/#cluster-sort)
