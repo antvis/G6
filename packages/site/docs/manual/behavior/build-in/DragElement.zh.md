@@ -61,7 +61,7 @@ const graph = new Graph({
 | state      | 节点选中状态的标识，启用多选时会基于该状态查找选中的节点                                   | string                                               | `selected`                                     |      |
 | dropEffect | 拖拽操作效果，[说明](#dropeffect-说明)                                                     | `link` \| `move` \| `none`                           | `move`                                         |
 | hideEdge   | 控制拖拽过程中边的显示状态，[说明](#hideedge-说明)                                         | `none` \| `all` \| `in` \| `out` \| `both`           | `none`                                         |      |
-| shadow     | 是否启用幽灵节点，即用一个图形代替节点跟随鼠标移动。[自定义幽灵节点样式](#shadow-样式配置) | boolean                                              | false                                          |      |
+| shadow     | 是否启用幽灵节点，即用一个图形代替节点跟随鼠标移动。[自定义幽灵节点样式](#shadow-样式配置) ⚠️注意：React 节点不支持启用 | boolean                                              | false                                          |      |
 | cursor     | 自定义鼠标样式，[说明](#cursor-说明)                                                       | { default?: Cursor; grab: Cursor; grabbing: Cursor } | -                                              |      |
 
 ### dropEffect 说明
