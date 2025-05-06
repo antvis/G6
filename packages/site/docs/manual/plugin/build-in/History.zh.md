@@ -48,28 +48,31 @@ const graph = new Graph({
 
 ## 配置项
 
-| 属性             | 描述                                                                                                                                                                | 类型                                               | 默认值      | 必选 |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- | ---- |
-| afterAddCommand  | 当一个命令被添加到 `Undo/Redo` 队列后被调用。`revert` 为 `true` 时表示撤销操作，为 `false` 时表示重做操作                                                           | (cmd: Command, revert: boolean) => void            | -           |      |
-| beforeAddCommand | 当一个命令被添加到 `Undo/Redo` 队列前被调用，如果该方法返回 `false`，那么这个命令将不会被添加到队列中。`revert` 为 `true` 时表示撤销操作，为 `false` 时表示重做操作 | (cmd: Command, revert: boolean) => boolean \| void | -           |      |
-| executeCommand   | 执行命令时的回调函数                                                                                                                                                | (cmd: Command) => void                             | -           |      |
-| stackSize        | 最多记录该数据长度的历史记录                                                                                                                                        | number                                             | 0（不限制） |      |
+| 属性             | 描述                                                                                                                                                                | 类型                                                           | 默认值      | 必选 |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ----------- | ---- |
+| afterAddCommand  | 当一个命令被添加到 `Undo/Redo` 队列后被调用。`revert` 为 `true` 时表示撤销操作，为 `false` 时表示重做操作                                                           | (cmd: [Command](#command), revert: boolean) => void            | -           |      |
+| beforeAddCommand | 当一个命令被添加到 `Undo/Redo` 队列前被调用，如果该方法返回 `false`，那么这个命令将不会被添加到队列中。`revert` 为 `true` 时表示撤销操作，为 `false` 时表示重做操作 | (cmd: [Command](#command), revert: boolean) => boolean \| void | -           |      |
+| executeCommand   | 执行命令时的回调函数                                                                                                                                                | (cmd: [Command](#command)) => void                             | -           |      |
+| stackSize        | 最多记录该数据长度的历史记录                                                                                                                                        | number                                                         | 0（不限制） |      |
 
 ### 参数类型说明
 
-`Command`：
+#### `Command`
 
 ```typescript
+// 单条历史记录命令
 interface Command {
   current: CommandData; // 当前数据
   original: CommandData; // 原始数据
   animation: boolean; // 是否开启动画
 }
+// 单条历史记录命令数据
 interface CommandData {
   add: GraphData; // 新增的数据
   update: GraphData; // 更新的数据
   remove: GraphData; // 移除的数据
 }
+// 图数据
 interface GraphData {
   nodes?: NodeData[]; // 节点数据
   edges?: EdgeData[]; // 边数据
@@ -77,58 +80,69 @@ interface GraphData {
 }
 ```
 
-## API 参考
+## API
 
-history 插件提供了以下 API 供用户按需使用，调用插件方法的方式请参考[插件总览文档](/manual/plugin/overview#调用插件方法)
+history 插件提供了以下 API 供用户按需使用，调用插件方法的方式请参考 [插件总览文档](/manual/plugin/overview#调用插件方法)
 
 ### History.canRedo()
 
-判断是否可以进行**重做**操作
+判断是否可以进行**重做**操作。如果重做堆栈中有记录，则返回 `true`，否则返回 `false`。
 
 ```typescript
 canRedo(): boolean;
 ```
 
-示例：
+**示例：**
 
 ```typescript
 const canRedo = historyInstance.canRedo();
+if (canRedo) {
+  console.log('可以进行重做操作');
+} else {
+  console.log('重做堆栈为空，无法重做');
+}
 ```
 
 ### History.canUndo()
 
-判断是否可以进行**撤销**操作
+判断是否可以进行**撤销**操作。如果撤销堆栈中有记录，则返回 `true`，否则返回 `false`。
 
 ```typescript
 canUndo(): boolean;
 ```
 
-示例：
+**示例：**
 
 ```typescript
 const canUndo = historyInstance.canUndo();
+if (canUndo) {
+  console.log('可以进行撤销操作');
+} else {
+  console.log('撤销堆栈为空，无法撤销');
+}
 ```
 
 ### History.clear()
 
-清空历史记录
+清空历史记录，包括撤销和重做堆栈。
 
 ```typescript
 clear(): void;
 ```
 
-示例：
+**示例：**
 
 ```typescript
 historyInstance.clear();
+console.log('历史记录已清空');
 ```
 
 ### History.on()
 
-监听历史记录事件
+监听历史记录事件，允许用户在特定事件发生时执行自定义逻辑。
 
 ```typescript
-on(event: Loosen<HistoryEvent>, handler: (e: { cmd?: Command | null }) => void): void;
+on(event: Loosen/<HistoryEvent/>, handler: (e: { cmd?: Command | null }) => void): void;
 ```
 
 参数类型说明：
@@ -154,50 +168,53 @@ on(event: Loosen<HistoryEvent>, handler: (e: { cmd?: Command | null }) => void):
 
 ```typescript
 historyInstance.on(HistoryEvent.UNDO, () => {
-  console.log('undo Command');
+  console.log('执行了撤销操作');
 });
 ```
 
 ### History.redo()
 
-执行**重做**操作（返回插件实例）
+执行**重做**操作，并返回插件实例。如果重做堆栈为空，则不执行任何操作。
 
 ```typescript
 redo(): History;
 ```
 
-示例：
+**示例：**
 
 ```typescript
 historyInstance.redo();
+console.log('执行了重做操作');
 ```
 
 ### History.undo()
 
-执行**撤销**操作（返回插件实例）
+执行**撤销**操作，并返回插件实例。如果撤销堆栈为空，则不执行任何操作。
 
 ```typescript
 undo(): History;
 ```
 
-示例：
+**示例：**
 
 ```typescript
 historyInstance.undo();
+console.log('执行了撤销操作');
 ```
 
 ### History.undoAndCancel()
 
-执行撤销且不计入历史记录（返回插件实例，注意，执行该操作会清空**重做**栈）
+执行撤销操作且不计入历史记录，并返回插件实例。注意，执行该操作会清空**重做**栈。
 
 ```typescript
 undoAndCancel(): History;
 ```
 
-示例：
+**示例：**
 
 ```typescript
 historyInstance.undoAndCancel();
+console.log('执行了撤销并取消操作');
 ```
 
 ## 历史记录模式
@@ -275,6 +292,7 @@ const graph = new Graph({
   ],
 });
 const historyInstance = graph.getPluginInstance('history');
+
 historyInstance.on(HistoryEvent.CHANGE, () => {
   canUndo = historyInstance.canUndo();
   canRedo = historyInstance.canRedo();

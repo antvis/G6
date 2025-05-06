@@ -13,6 +13,8 @@ title: Fisheye 鱼眼放大镜
 
 ## 基本用法
 
+以下是一个简单的 Fisheye 插件初始化示例：
+
 ```js
 const graph = new Graph({
   plugins: [
@@ -33,35 +35,36 @@ const graph = new Graph({
 
 ## 配置项
 
-| 属性           | 描述                               | 类型                                                                                                                                                                             | 默认值                 | 必选 |
-| -------------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---- |
-| type           | 插件类型                           | string                                                                                                                                                                           | `fisheye`              | ✓    |
-| trigger        | 移动鱼眼放大镜的方式               | `pointermove` \| `drag` \| `click`                                                                                                                                               | `pointermove`          |      |
-| r              | 鱼眼放大镜半径                     | number                                                                                                                                                                           | 120                    |      |
-| maxR           | 鱼眼放大镜可调整的最大半径         | number                                                                                                                                                                           | 画布宽高的最小值的一半 |      |
-| minR           | 鱼眼放大镜可调整的最小半径         | number                                                                                                                                                                           | 0                      |      |
-| d              | 畸变因子                           | number                                                                                                                                                                           | 1.5                    |      |
-| maxD           | 鱼眼放大镜可调整的最大畸变因子     | number                                                                                                                                                                           | 5                      |      |
-| minD           | 鱼眼放大镜可调整的最小畸变因子     | number                                                                                                                                                                           | 0                      |      |
-| scaleRBy       | 调整鱼眼放大镜范围半径的方式       | `wheel` \| `drag`                                                                                                                                                                | -                      |      |
-| scaleDBy       | 调整鱼眼放大镜畸变因子的方式       | `wheel` \| `drag`                                                                                                                                                                | -                      |      |
-| showDPercent   | 是否在鱼眼放大镜中显示畸变因子数值 | boolean                                                                                                                                                                          | true                   |      |
-| style          | 鱼眼放大镜样式                     | [CircleStyleProps](#circlestyleprops)                                                                                                                                            | -                      |      |
-| nodeStyle      | 在鱼眼放大镜中的节点样式           | [NodeStyle](/manual/element/node/build-in/base-node#style) \| ((datum: [NodeData](/manual/data#节点数据nodedata)) => [NodeStyle](/manual/element/node/build-in/base-node#style)) | `{ label: true }`      |      |
-| preventDefault | 是否阻止默认事件                   | boolean                                                                                                                                                                          | true                   |      |
+| 属性           | 描述                                                                                                                                                                                          | 类型                                                                                                                                                                             | 默认值                 | 必选 |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---- |
+| type           | 插件类型                                                                                                                                                                                      | string                                                                                                                                                                           | `fisheye`              | ✓    |
+| key            | 插件的唯一标识，可用于获取插件实例或更新插件选项                                                                                                                                              | string                                                                                                                                                                           | -                      |      |
+| trigger        | 用于控制鱼眼放大镜的移动方式，支持以下三种配置：<br/>- `pointermove`：鱼眼放大镜始终跟随鼠标移动 <br/>- `click`：点击画布时移动鱼眼放大镜到点击位置 <br/>- `drag`：通过拖拽方式移动鱼眼放大镜 | `pointermove` \| `drag` \| `click`                                                                                                                                               | `pointermove`          |      |
+| r              | 鱼眼放大镜半径                                                                                                                                                                                | number                                                                                                                                                                           | 120                    |      |
+| maxR           | 鱼眼放大镜可调整的最大半径                                                                                                                                                                    | number                                                                                                                                                                           | 画布宽高的最小值的一半 |      |
+| minR           | 鱼眼放大镜可调整的最小半径                                                                                                                                                                    | number                                                                                                                                                                           | 0                      |      |
+| d              | 畸变因子                                                                                                                                                                                      | number                                                                                                                                                                           | 1.5                    |      |
+| maxD           | 鱼眼放大镜可调整的最大畸变因子                                                                                                                                                                | number                                                                                                                                                                           | 5                      |      |
+| minD           | 鱼眼放大镜可调整的最小畸变因子                                                                                                                                                                | number                                                                                                                                                                           | 0                      |      |
+| scaleRBy       | 调整鱼眼放大镜范围半径的方式：<br/>- `'wheel'`：滚轮调整 <br/>- `'drag'`：拖拽调整                                                                                                            | `wheel` \| `drag`                                                                                                                                                                | -                      |      |
+| scaleDBy       | 调整鱼眼放大镜畸变因子的方式：<br/>- `'wheel'`：滚轮调整 <br/>- `'drag'`：拖拽调整                                                                                                            | `wheel` \| `drag`                                                                                                                                                                | -                      |      |
+| showDPercent   | 是否在鱼眼放大镜中显示畸变因子数值                                                                                                                                                            | boolean                                                                                                                                                                          | true                   |      |
+| style          | 鱼眼放大镜样式，[配置项](#style)                                                                                                                                                              | object                                                                                                                                                                           | -                      |      |
+| nodeStyle      | 在鱼眼放大镜中的节点样式                                                                                                                                                                      | [NodeStyle](/manual/element/node/build-in/base-node#style) \| ((datum: [NodeData](/manual/data#节点数据nodedata)) => [NodeStyle](/manual/element/node/build-in/base-node#style)) | `{ label: true }`      |      |
+| preventDefault | 是否阻止默认事件                                                                                                                                                                              | boolean                                                                                                                                                                          | true                   |      |
 
-### CircleStyleProps
+### style
 
 圆形样式属性，用于配置鱼眼放大镜的外观。
 
 | 属性          | 描述            | 类型                          | 默认值 |
 | ------------- | --------------- | ----------------------------- | ------ |
-| fill          | 填充颜色        | string \| Pattern \| null     | -      |
-| stroke        | 描边颜色        | string \| Pattern \| null     | -      |
+| fill          | 填充颜色        | string \| Pattern \| null     | `#ccc` |
+| stroke        | 描边颜色        | string \| Pattern \| null     | `#000` |
 | opacity       | 整体透明度      | number \| string              | -      |
-| fillOpacity   | 填充透明度      | number \| string              | -      |
+| fillOpacity   | 填充透明度      | number \| string              | 0.1    |
 | strokeOpacity | 描边透明度      | number \| string              | -      |
-| lineWidth     | 线宽度          | number \| string              | -      |
+| lineWidth     | 线宽度          | number \| string              | 2      |
 | lineCap       | 线段端点样式    | `butt` \| `round` \| `square` | -      |
 | lineJoin      | 线段连接处样式  | `miter` \| `round` \| `bevel` | -      |
 | shadowColor   | 阴影颜色        | string                        | -      |
@@ -69,26 +72,7 @@ const graph = new Graph({
 | shadowOffsetX | 阴影 X 方向偏移 | number                        | -      |
 | shadowOffsetY | 阴影 Y 方向偏移 | number                        | -      |
 
-### trigger
-
-`trigger` 属性用于控制鱼眼放大镜的移动方式，支持以下三种配置：
-
-- `'pointermove'`：鱼眼放大镜始终跟随鼠标移动
-- `'click'`：点击画布时移动鱼眼放大镜到点击位置
-- `'drag'`：通过拖拽方式移动鱼眼放大镜
-
-```js
-const graph = new Graph({
-  plugins: [
-    {
-      type: 'fisheye',
-      trigger: 'pointermove', // 跟随鼠标移动
-      //   trigger: 'click', // 点击移动
-      //   trigger: 'drag', // 拖拽移动
-    },
-  ],
-});
-```
+完整样式属性参考 [元素 -节点 - 内置节点 - 通用样式属性 - style](/manual/element/node/build-in/base-node#style)
 
 ### 缩放控制
 

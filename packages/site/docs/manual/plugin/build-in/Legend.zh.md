@@ -39,40 +39,33 @@ const graph = new Graph({
 
 ## 配置项
 
-| 属性              | 描述                                                 | 类型                                                                                        | 默认值       | 必选 |
-| ----------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------ | ---- |
-| type              | 插件类型                                             | string                                                                                      | `legend`     | ✓    |
-| key               | 插件唯一标识符，用于后续更新                         | string                                                                                      | -            |      |
-| trigger           | 图例项触发对应项高亮的方式，[可选值](#trigger-属性)  | 'hover' \| 'click'                                                                          | "hover"      |      |
-| position          | 图例在画布中的相对位置，[可选值](#cardinalplacement) | [CardinalPlacement](#cardinalplacement)                                                     | "bottom"     |      |
-| container         | 图例挂载的容器，无则挂载到 Graph 所在容器            | HTMLElement \| string                                                                       | -            |      |
-| className         | 图例画布类名，传入外置容器时不生效                   | string                                                                                      | -            |      |
-| containerStyle    | 图例的容器样式，传入外置容器时不生效                 | [CSSStyleDeclaration](https://developer.mozilla.org/zh-CN/docs/Web/API/CSSStyleDeclaration) | -            |      |
-| nodeField         | 节点分类标识                                         | string \| (item: ElementDatum) => string                                                    | -            |      |
-| edgeField         | 边分类标识                                           | string \| (item: ElementDatum) => string                                                    | -            |      |
-| comboField        | 组合分类标识                                         | string \| (item: ElementDatum) => string                                                    | -            |      |
-| orientation       | 图例项的布局方向，[可选值](#orientation-属性)        | "horizontal" \| "vertical"                                                                  | 'horizontal' |      |
-| layout            | 布局方式，[可选值](#layout-属性)                     | 'flex' \| 'grid'                                                                            | "flex"       |      |
-| showTitle         | 是否显示标题                                         | boolean                                                                                     | false        |
-| titleText         | 标题内容                                             | string                                                                                      | ""           |
-| x                 | 图例在画布中的相对的横向位置，优先级高于position     | number                                                                                      | -            |      |
-| y                 | 图例在画布中的相对的纵向位置，优先级高于position     | number                                                                                      | -            |      |
-| width             | 图例的宽度                                           | number                                                                                      | 240          |      |
-| height            | 图例的高度                                           | number                                                                                      | 160          |      |
-| itemSpacing       | 图例项的文本和对应标记之间的间距                     | number                                                                                      | 4            |      |
-| rowPadding        | 图例中每行之间的间距                                 | number                                                                                      | 10           |      |
-| colPadding        | 图例中每列之间的间距                                 | number                                                                                      | 10           |      |
-| itemMarkerSize    | 图例项标记的大小                                     | number                                                                                      | 16           |      |
-| itemLabelFontSize | 图例项文本的字体大小                                 | number                                                                                      | 16           |      |
-| gridCol           | 图例项在宽度允许情况下的最大列数                     | number                                                                                      | -            |      |
-| gridRow           | 图例项在高度允许情况下的最大行数                     | number                                                                                      | -            |      |
-
-### trigger 属性
-
-`trigger` 属性支持以下值：
-
-- 'hover'：：鼠标移入图例项时触发
-- 'click'：鼠标点击图例项时触发
+| 属性              | 描述                                                                                                  | 类型                                                                                        | 默认值       | 必选 |
+| ----------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------ | ---- |
+| type              | 插件类型                                                                                              | string                                                                                      | `legend`     | ✓    |
+| key               | 插件唯一标识符，用于后续更新                                                                          | string                                                                                      | -            |      |
+| trigger           | 图例项触发对应项高亮的方式：<br/>- `hover`：鼠标移入图例项时触发 <br/>- `click`：鼠标点击图例项时触发 | `hover` \| `click`                                                                          | `hover`      |      |
+| position          | 图例在画布中的相对位置，[可选值](#cardinalplacement)                                                  | [CardinalPlacement](#cardinalplacement)                                                     | `bottom`     |      |
+| container         | 图例挂载的容器，无则挂载到 Graph 所在容器                                                             | HTMLElement \| string                                                                       | -            |      |
+| className         | 图例画布类名，传入外置容器时不生效                                                                    | string                                                                                      | -            |      |
+| containerStyle    | 图例的容器样式，传入外置容器时不生效                                                                  | [CSSStyleDeclaration](https://developer.mozilla.org/zh-CN/docs/Web/API/CSSStyleDeclaration) | -            |      |
+| nodeField         | 节点分类标识                                                                                          | string \| (item: ElementDatum) => string                                                    | -            |      |
+| edgeField         | 边分类标识                                                                                            | string \| (item: ElementDatum) => string                                                    | -            |      |
+| comboField        | 组合分类标识                                                                                          | string \| (item: ElementDatum) => string                                                    | -            |      |
+| orientation       | 图例项的布局方向：<br/>- `horizontal`：水平方向 <br/>- `vertical`：垂直方向                           | `horizontal` \| `vertical`                                                                  | 'horizontal' |      |
+| layout            | 布局方式：<br/>- `flex`：弹性布局 <br/>- `grid`：网格布局                                             | `flex` \| `grid`                                                                            | `flex`       |      |
+| showTitle         | 是否显示标题                                                                                          | boolean                                                                                     | false        |
+| titleText         | 标题内容                                                                                              | string                                                                                      | ""           |
+| x                 | 图例在画布中的相对的横向位置，优先级高于position                                                      | number                                                                                      | -            |      |
+| y                 | 图例在画布中的相对的纵向位置，优先级高于position                                                      | number                                                                                      | -            |      |
+| width             | 图例的宽度                                                                                            | number                                                                                      | 240          |      |
+| height            | 图例的高度                                                                                            | number                                                                                      | 160          |      |
+| itemSpacing       | 图例项的文本和对应标记之间的间距                                                                      | number                                                                                      | 4            |      |
+| rowPadding        | 图例中每行之间的间距                                                                                  | number                                                                                      | 10           |      |
+| colPadding        | 图例中每列之间的间距                                                                                  | number                                                                                      | 10           |      |
+| itemMarkerSize    | 图例项标记的大小                                                                                      | number                                                                                      | 16           |      |
+| itemLabelFontSize | 图例项文本的字体大小                                                                                  | number                                                                                      | 16           |      |
+| gridCol           | 图例项在宽度允许情况下的最大列数                                                                      | number                                                                                      | -            |      |
+| gridRow           | 图例项在高度允许情况下的最大行数                                                                      | number                                                                                      | -            |      |
 
 ### CardinalPlacement
 
@@ -86,20 +79,6 @@ const graph = new Graph({
 - `'left-bottom'`：左侧靠下
 - `'right-top'`：右侧靠上
 - `'right-bottom'`：右侧靠下
-
-### orientation 属性
-
-`orientation` 属性支持以下值：
-
-- `horizontal`：水平方向
-- `vertical`：垂直方向
-
-### layout 属性
-
-`layout` 属性支持以下值：
-
-- `flex`：弹性布局
-- `grid`：网格布局
 
 ## 代码示例
 

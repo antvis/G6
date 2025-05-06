@@ -2,426 +2,727 @@
 title: BubbleSets
 ---
 
-BubbleSets was originally proposed by Christopher Collins in the 2009 paper "Bubble Sets: Revealing Set Relations with Isocontours over Existing Visualizations".
+## Overview
 
-The principle is to represent sets by creating a shape similar to a bubble. Each set is represented by a unique "bubble", and the elements in the set are contained within this bubble. If two sets have an intersection, then the two bubbles will have an overlapping part, which represents the intersection of the two sets.
+The BubbleSets plugin represents sets and their relationships by creating bubble shapes, helping users intuitively understand logical relationships such as intersections and unions between sets. It is a tool to enhance data visualization effects, especially suitable for displaying complex data set relationships.
+
+## Use Cases
+
+The BubbleSets plugin is mainly suitable for the following scenarios:
+
+- Displaying relationships between sets (e.g., intersections, unions)
+- Enhancing the expressive ability of data visualization
+- Identifying specific sets of nodes or edges in complex network graphs
+
+## Basic Usage
+
+Below is a simple example of initializing the BubbleSets plugin:
+
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'bubble-sets',
+      members: ['node1', 'node2'], // List of node IDs to be enclosed
+      label: true, // Whether to display labels
+    },
+  ],
+});
+```
+
+## Live Demo
 
 <embed src="@/common/api/plugins/bubble-sets.md"></embed>
 
-## Options
+## Configuration Options
 
-### <Badge type="success">Required</Badge> type
+| Property                 | Description                                                                              | Type                                                           | Default Value | Required |
+| ------------------------ | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------------- | -------- |
+| type                     | Plugin type                                                                              | string                                                         | `bubble-sets` | ✓        |
+| key                      | Unique identifier for the plugin for subsequent updates                                  | string                                                         | -             |          |
+| members                  | Member elements, including nodes and edges, [example](#members)                          | string[]                                                       | -             | ✓        |
+| avoidMembers             | Elements to avoid, not included when drawing contours (currently supports setting nodes) | string[]                                                       | -             |          |
+| label                    | Whether to display labels                                                                | boolean                                                        | true          |          |
+| labelPlacement           | Label position                                                                           | `left` \| `right` \| `top` \| `bottom` \| `center` \| `bottom` | `bottom`      |          |
+| labelBackground          | Whether to display background                                                            | boolean                                                        | false         |          |
+| labelPadding             | Label padding                                                                            | number \| number[]                                             | 0             |          |
+| labelCloseToPath         | Whether the label is close to the contour, [example](#labelclosetopath)                  | boolean                                                        | true          |          |
+| labelAutoRotate          | Whether the label rotates with the contour, [example](#labelautorotate)                  | boolean                                                        | true          |          |
+| labelOffsetX             | Label x-axis offset                                                                      | number                                                         | 0             |          |
+| labelOffsetY             | Label y-axis offset                                                                      | number                                                         | 0             |          |
+| labelMaxWidth            | Maximum width of the text, automatically ellipsized if exceeded                          | number                                                         | -             |          |
+| maxRoutingIterations     | Maximum number of iterations for calculating paths between members                       | number                                                         | 100           |          |
+| maxMarchingIterations    | Maximum number of iterations for calculating contours                                    | number                                                         | 20            |          |
+| pixelGroup               | Number of pixels per potential area group, used to improve speed                         | number                                                         | 4             |          |
+| edgeR0                   | Edge radius parameter R0                                                                 | number                                                         | -             |          |
+| edgeR1                   | Edge radius parameter R1                                                                 | number                                                         | -             |          |
+| nodeR0                   | Node radius parameter R0                                                                 | number                                                         | -             |          |
+| nodeR1                   | Node radius parameter R1                                                                 | number                                                         | -             |          |
+| morphBuffer              | Morph buffer size                                                                        | number                                                         |               |          |
+| threshold                | Threshold                                                                                | number                                                         | -             |          |
+| memberInfluenceFactor    | Member influence factor                                                                  | number                                                         | -             |          |
+| edgeInfluenceFactor      | Edge influence factor                                                                    | number                                                         | -             |          |
+| nonMemberInfluenceFactor | Non-member influence factor                                                              | number                                                         | -             |          |
+| virtualEdges             | Whether to use virtual edges                                                             | boolean                                                        | -             |          |
 
-> _`bubble-sets`_
+### members
 
-Plugin type
+Member elements, including nodes and edges.
 
-### label
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'bubble-sets',
+      members: ['node-0', 'node-1', 'node-2'],
+    },
+  ],
+});
+```
 
-> _boolean_ **Default:** `true`
+The effect is as follows:
 
-Whether to display the label
-
-### avoidMembers
-
-> _string[]_
-
-Elements to avoid, these elements will not be included when drawing the contour, currently only nodes are supported
-
-### <Badge type="success">Required</Badge> members
-
-> _string[]_
-
-Member elements, including nodes and edges
-
-### label{[TextStyleProps](https://g.antv.antgroup.com/api/basic/text)}
-
-<details><summary>An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.</summary>
-
-TextStyleProps includes the following properties:
-
-- fill
-- fontSize
-- fontWeight
-- ...
-
-icon{TextStyleProps} means you need to use the following property names:
-
-- iconFill
-- iconFontSize
-- iconFontWeight
-- ...
-
-</details>
-
-### labelAutoRotate
-
-> _boolean_ **Default:** `true`
-
-Whether the label rotates with the contour. Only effective when closeToPath is true
+```js | ob { pin: false }
+createGraph(
+  {
+    autoFit: 'view',
+    data: {
+      nodes: [
+        {
+          id: 'node-0',
+          data: { cluster: 'a' },
+          style: { x: 555, y: 151 },
+        },
+        {
+          id: 'node-1',
+          data: { cluster: 'a' },
+          style: { x: 532, y: 323 },
+        },
+        {
+          id: 'node-2',
+          data: { cluster: 'a' },
+          style: { x: 473, y: 227 },
+        },
+        {
+          id: 'node-3',
+          data: { cluster: 'a' },
+          style: { x: 349, y: 212 },
+        },
+        {
+          id: 'node-4',
+          data: { cluster: 'b' },
+          style: { x: 234, y: 201 },
+        },
+        {
+          id: 'node-5',
+          data: { cluster: 'b' },
+          style: { x: 338, y: 333 },
+        },
+        {
+          id: 'node-6',
+          data: { cluster: 'b' },
+          style: { x: 365, y: 91 },
+        },
+      ],
+      edges: [
+        {
+          id: 'edge-0',
+          source: 'node-0',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-1',
+          source: 'node-1',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-2',
+          source: 'node-2',
+          target: 'node-3',
+        },
+        {
+          id: 'edge-3',
+          source: 'node-3',
+          target: 'node-4',
+        },
+        {
+          id: 'edge-4',
+          source: 'node-3',
+          target: 'node-5',
+        },
+        {
+          id: 'edge-5',
+          source: 'node-3',
+          target: 'node-6',
+        },
+      ],
+    },
+    behaviors: ['drag-canvas', 'zoom-canvas'],
+    plugins: [
+      {
+        type: 'bubble-sets',
+        key: 'bubble-sets-a',
+        members: ['node-0', 'node-1', 'node-2'],
+      },
+    ],
+  },
+  { width: 300, height: 150 },
+);
+```
 
 ### labelCloseToPath
 
-> _boolean_ **Default:** `true`
+Example: Do not let the label stick to the contour
 
-Whether the label is close to the contour
-
-### labelMaxWidth
-
-> _number_
-
-The maximum width of the text, which will be automatically ellipsis if exceeded
-
-### labelOffsetX
-
-> _number_ **Default:** `0`
-
-Label x-axis offset
-
-### labelOffsetY
-
-> _number_ **Default:** `0`
-
-Label y-axis offset
-
-### labelPlacement
-
-> _'left' \| 'right' \| 'top' \| 'bottom'_ _\| 'center'_ **Default:** `'bottom'`
-
-Label position
-
-### labelBackground
-
-> _boolean_
-
-Whether to show background
-
-### labelPadding
-
-> _number \| number[]_ **Default:** `0`
-
-Label padding
-
-## Label Background Style
-
-### labelBackground{[RectStyleProps](https://g.antv.antgroup.com/api/basic/rect)}
-
-<details><summary>An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.</summary>
-
-TextStyleProps includes the following properties:
-
-- fill
-- fontSize
-- fontWeight
-- ...
-
-icon{TextStyleProps} means you need to use the following property names:
-
-- iconFill
-- iconFontSize
-- iconFontWeight
-- ...
-
-</details>
-
-## API
-
-### BubbleSets.addAvoidMember(avoidMembers)
-
-Add elements to avoid
-
-```typescript
-addAvoidMember(avoidMembers: ID | ID[]): void;
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'bubble-sets',
+      members: ['node-0', 'node-1', 'node-2', 'node-3'],
+      label: true, // Display label
+      labelText: 'cluster-a',
+      labelCloseToPath: false,
+    },
+  ],
+});
 ```
 
-<details><summary>View Parameters</summary>
+The effect is as follows:
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-avoidMembers
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-单个或多个
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### BubbleSets.addMember(members)
-
-Add member elements
-
-```typescript
-addMember(members: ID | ID[]): void;
+```js | ob { pin: false }
+createGraph(
+  {
+    autoFit: 'view',
+    data: {
+      nodes: [
+        {
+          id: 'node-0',
+          data: { cluster: 'a' },
+          style: { x: 555, y: 151 },
+        },
+        {
+          id: 'node-1',
+          data: { cluster: 'a' },
+          style: { x: 532, y: 323 },
+        },
+        {
+          id: 'node-2',
+          data: { cluster: 'a' },
+          style: { x: 473, y: 227 },
+        },
+        {
+          id: 'node-3',
+          data: { cluster: 'a' },
+          style: { x: 349, y: 212 },
+        },
+        {
+          id: 'node-4',
+          data: { cluster: 'b' },
+          style: { x: 234, y: 201 },
+        },
+        {
+          id: 'node-5',
+          data: { cluster: 'b' },
+          style: { x: 338, y: 333 },
+        },
+        {
+          id: 'node-6',
+          data: { cluster: 'b' },
+          style: { x: 365, y: 91 },
+        },
+      ],
+      edges: [
+        {
+          id: 'edge-0',
+          source: 'node-0',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-1',
+          source: 'node-1',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-2',
+          source: 'node-2',
+          target: 'node-3',
+        },
+        {
+          id: 'edge-3',
+          source: 'node-3',
+          target: 'node-4',
+        },
+        {
+          id: 'edge-4',
+          source: 'node-3',
+          target: 'node-5',
+        },
+        {
+          id: 'edge-5',
+          source: 'node-3',
+          target: 'node-6',
+        },
+      ],
+    },
+    plugins: [
+      {
+        key: 'bubble-sets-a',
+        type: 'bubble-sets',
+        members: ['node-0', 'node-1', 'node-2', 'node-3'],
+        label: true, // Display label
+        labelText: 'cluster-a',
+        labelCloseToPath: false,
+      },
+    ],
+    behaviors: ['drag-canvas', 'zoom-canvas'],
+  },
+  { width: 300, height: 150 },
+);
 ```
 
-<details><summary>View Parameters</summary>
+### labelAutoRotate
 
-<table><thead><tr><th>
+Example: Do not let the label rotate with the contour
 
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-members
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-单个或多个
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### BubbleSets.getAvoidMember()
-
-Get elements to avoid
-
-```typescript
-getAvoidMember(): string[];
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'bubble-sets',
+      members: ['node-0', 'node-1', 'node-2', 'node-3'],
+      label: true, // Display label
+      labelText: 'cluster-a',
+      labelAutoRotate: false,
+    },
+  ],
+});
 ```
 
-<details><summary>View Parameters</summary>
+The effect is as follows:
 
-**Returns**:
-
-- **Type:** string[]
-
-- **Description:** 成员元素数组
-
-</details>
-
-### BubbleSets.getMember()
-
-Get member elements
-
-```typescript
-getMember(): string[];
+```js | ob { pin: false }
+createGraph(
+  {
+    autoFit: 'view',
+    data: {
+      nodes: [
+        {
+          id: 'node-0',
+          data: { cluster: 'a' },
+          style: { x: 555, y: 151 },
+        },
+        {
+          id: 'node-1',
+          data: { cluster: 'a' },
+          style: { x: 532, y: 323 },
+        },
+        {
+          id: 'node-2',
+          data: { cluster: 'a' },
+          style: { x: 473, y: 227 },
+        },
+        {
+          id: 'node-3',
+          data: { cluster: 'a' },
+          style: { x: 349, y: 212 },
+        },
+        {
+          id: 'node-4',
+          data: { cluster: 'b' },
+          style: { x: 234, y: 201 },
+        },
+        {
+          id: 'node-5',
+          data: { cluster: 'b' },
+          style: { x: 338, y: 333 },
+        },
+        {
+          id: 'node-6',
+          data: { cluster: 'b' },
+          style: { x: 365, y: 91 },
+        },
+      ],
+      edges: [
+        {
+          id: 'edge-0',
+          source: 'node-0',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-1',
+          source: 'node-1',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-2',
+          source: 'node-2',
+          target: 'node-3',
+        },
+        {
+          id: 'edge-3',
+          source: 'node-3',
+          target: 'node-4',
+        },
+        {
+          id: 'edge-4',
+          source: 'node-3',
+          target: 'node-5',
+        },
+        {
+          id: 'edge-5',
+          source: 'node-3',
+          target: 'node-6',
+        },
+      ],
+    },
+    plugins: [
+      {
+        key: 'bubble-sets-a',
+        type: 'bubble-sets',
+        members: ['node-0', 'node-1', 'node-2', 'node-3'],
+        label: true, // Display label
+        labelText: 'cluster-a',
+        labelAutoRotate: false,
+      },
+    ],
+    behaviors: ['drag-canvas', 'zoom-canvas'],
+  },
+  { width: 300, height: 150 },
+);
 ```
 
-<details><summary>View Parameters</summary>
+## Usage Examples
 
-**Returns**:
+### Basic BubbleSets
 
-- **Type:** string[]
+The simplest way is to use the preset configuration directly:
 
-- **Description:** 成员元素数组
-
-</details>
-
-### BubbleSets.removeAvoidMember(avoidMembers)
-
-Remove elements to avoid
-
-```typescript
-removeAvoidMember(avoidMembers: ID | ID[]): void;
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'bubble-sets',
+      members: ['node-0', 'node-1', 'node-2', 'node-3'],
+    },
+  ],
+});
 ```
 
-<details><summary>View Parameters</summary>
+The effect is as follows:
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-avoidMembers
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-单个或多个
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### BubbleSets.removeMember(members)
-
-Remove member elements
-
-```typescript
-removeMember(members: ID | ID[]): void;
+```js | ob { pin: false }
+createGraph(
+  {
+    autoFit: 'center',
+    data: {
+      nodes: [
+        {
+          id: 'node-0',
+          data: { cluster: 'a' },
+          style: { x: 555, y: 151 },
+        },
+        {
+          id: 'node-1',
+          data: { cluster: 'a' },
+          style: { x: 532, y: 323 },
+        },
+        {
+          id: 'node-2',
+          data: { cluster: 'a' },
+          style: { x: 473, y: 227 },
+        },
+        {
+          id: 'node-3',
+          data: { cluster: 'a' },
+          style: { x: 349, y: 212 },
+        },
+        {
+          id: 'node-4',
+          data: { cluster: 'b' },
+          style: { x: 234, y: 201 },
+        },
+        {
+          id: 'node-5',
+          data: { cluster: 'b' },
+          style: { x: 338, y: 333 },
+        },
+        {
+          id: 'node-6',
+          data: { cluster: 'b' },
+          style: { x: 365, y: 91 },
+        },
+      ],
+      edges: [
+        {
+          id: 'edge-0',
+          source: 'node-0',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-1',
+          source: 'node-1',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-2',
+          source: 'node-2',
+          target: 'node-3',
+        },
+        {
+          id: 'edge-3',
+          source: 'node-3',
+          target: 'node-4',
+        },
+        {
+          id: 'edge-4',
+          source: 'node-3',
+          target: 'node-5',
+        },
+        {
+          id: 'edge-5',
+          source: 'node-3',
+          target: 'node-6',
+        },
+      ],
+    },
+    behaviors: ['drag-canvas', 'zoom-canvas'],
+    plugins: [
+      {
+        type: 'bubble-sets',
+        key: 'bubble-sets-a',
+        members: ['node-0', 'node-1', 'node-2', 'node-3'],
+      },
+    ],
+  },
+  { width: 300, height: 150 },
+);
 ```
 
-<details><summary>View Parameters</summary>
+### Custom BubbleSets Style
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-members
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-单个或多个
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### BubbleSets.updateAvoidMember(avoidMembers)
-
-Update elements to avoid
-
-```typescript
-updateAvoidMember(avoidMembers: ID | ID[]): void;
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'bubble-sets',
+      members: ['node-0', 'node-1', 'node-2', 'node-3'],
+      fill: '#7e3feb', // Bubble fill color
+      fillOpacity: 0.1, // Fill opacity
+      stroke: '#7e3feb', // Border color
+      strokeOpacity: 1, // Border opacity
+    },
+  ],
+});
 ```
 
-<details><summary>View Parameters</summary>
+The effect is as follows:
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-avoidMembers
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-单个或多个
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### BubbleSets.updateMember(members)
-
-Update member elements
-
-```typescript
-updateMember(members: ID[] | ((prev: ID[]) => ID[])): void;
+```js | ob { pin: false }
+createGraph(
+  {
+    autoFit: 'center',
+    data: {
+      nodes: [
+        {
+          id: 'node-0',
+          data: { cluster: 'a' },
+          style: { x: 555, y: 151 },
+        },
+        {
+          id: 'node-1',
+          data: { cluster: 'a' },
+          style: { x: 532, y: 323 },
+        },
+        {
+          id: 'node-2',
+          data: { cluster: 'a' },
+          style: { x: 473, y: 227 },
+        },
+        {
+          id: 'node-3',
+          data: { cluster: 'a' },
+          style: { x: 349, y: 212 },
+        },
+        {
+          id: 'node-4',
+          data: { cluster: 'b' },
+          style: { x: 234, y: 201 },
+        },
+        {
+          id: 'node-5',
+          data: { cluster: 'b' },
+          style: { x: 338, y: 333 },
+        },
+        {
+          id: 'node-6',
+          data: { cluster: 'b' },
+          style: { x: 365, y: 91 },
+        },
+      ],
+      edges: [
+        {
+          id: 'edge-0',
+          source: 'node-0',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-1',
+          source: 'node-1',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-2',
+          source: 'node-2',
+          target: 'node-3',
+        },
+        {
+          id: 'edge-3',
+          source: 'node-3',
+          target: 'node-4',
+        },
+        {
+          id: 'edge-4',
+          source: 'node-3',
+          target: 'node-5',
+        },
+        {
+          id: 'edge-5',
+          source: 'node-3',
+          target: 'node-6',
+        },
+      ],
+    },
+    plugins: [
+      {
+        type: 'bubble-sets',
+        members: ['node-0', 'node-1', 'node-2', 'node-3'],
+        fill: '#7e3feb', // Bubble fill color
+        fillOpacity: 0.1, // Fill opacity
+        stroke: '#7e3feb', // Border color
+        strokeOpacity: 1, // Border opacity
+      },
+    ],
+    behaviors: ['drag-canvas', 'zoom-canvas'],
+  },
+  { width: 300, height: 150 },
+);
 ```
 
-<details><summary>View Parameters</summary>
+### Label Configuration
 
-<table><thead><tr><th>
+You can configure the position, background, offset, and other properties of the label to enhance the visualization effect.
 
-Parameter
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'bubble-sets',
+      members: ['node-0', 'node-1', 'node-2', 'node-3'],
+      label: true, // Display label
+      labelPlacement: 'top', // Label position
+      labelBackground: true, // Display label background
+      labelPadding: 5, // Label padding
+    },
+  ],
+});
+```
 
-</th><th>
+The effect is as follows:
 
-Type
+```js | ob { pin: false }
+createGraph(
+  {
+    autoFit: 'center',
+    data: {
+      nodes: [
+        {
+          id: 'node-0',
+          data: { cluster: 'a' },
+          style: { x: 555, y: 151 },
+        },
+        {
+          id: 'node-1',
+          data: { cluster: 'a' },
+          style: { x: 532, y: 323 },
+        },
+        {
+          id: 'node-2',
+          data: { cluster: 'a' },
+          style: { x: 473, y: 227 },
+        },
+        {
+          id: 'node-3',
+          data: { cluster: 'a' },
+          style: { x: 349, y: 212 },
+        },
+        {
+          id: 'node-4',
+          data: { cluster: 'b' },
+          style: { x: 234, y: 201 },
+        },
+        {
+          id: 'node-5',
+          data: { cluster: 'b' },
+          style: { x: 338, y: 333 },
+        },
+        {
+          id: 'node-6',
+          data: { cluster: 'b' },
+          style: { x: 365, y: 91 },
+        },
+      ],
+      edges: [
+        {
+          id: 'edge-0',
+          source: 'node-0',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-1',
+          source: 'node-1',
+          target: 'node-2',
+        },
+        {
+          id: 'edge-2',
+          source: 'node-2',
+          target: 'node-3',
+        },
+        {
+          id: 'edge-3',
+          source: 'node-3',
+          target: 'node-4',
+        },
+        {
+          id: 'edge-4',
+          source: 'node-3',
+          target: 'node-5',
+        },
+        {
+          id: 'edge-5',
+          source: 'node-3',
+          target: 'node-6',
+        },
+      ],
+    },
+    plugins: [
+      {
+        key: 'bubble-sets-a',
+        type: 'bubble-sets',
+        members: ['node-0', 'node-1', 'node-2', 'node-3'],
+        label: true, // Display label
+        labelText: 'cluster-a',
+        labelPlacement: 'top', // Label position
+        labelBackground: true, // Display label background
+        labelPadding: 5, // Label padding
+      },
+    ],
+    behaviors: ['drag-canvas', 'zoom-canvas'],
+  },
+  { width: 300, height: 150 },
+);
+```
 
-</th><th>
+## Practical Examples
 
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-members
-
-</td><td>
-
-string[] \| ((prev: string[]) => string[])
-
-</td><td>
-
-值或者回调函数
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
+<Playground path="plugin/bubble-sets/demo/basic.js" rid="bubble-sets-basic"></Playground>

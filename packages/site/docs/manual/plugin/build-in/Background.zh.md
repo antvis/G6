@@ -16,6 +16,8 @@ title: Background 背景
 
 ## 基本用法
 
+以下是一个简单的 Background 插件初始化示例：
+
 ```js
 const graph = new Graph({
   plugins: [
@@ -33,20 +35,20 @@ const graph = new Graph({
 
 Background 插件的配置项继承了所有 CSS 样式属性（[CSSStyleDeclaration](https://developer.mozilla.org/zh-CN/docs/Web/API/CSSStyleDeclaration)），因此你可以使用任何合法的 CSS 属性来配置背景。以下是一些常用配置：
 
-| 属性               | 描述                         | 类型     | 默认值            | 必选 |
-| ------------------ | ---------------------------- | -------- | ----------------- | ---- |
-| type               | 插件类型                     | `string` | `background`      | ✓    |
-| key                | 插件唯一标识符，用于后续更新 | string   | -                 |      |
-| width              | 背景宽度                     | string   | `100%`            |      |
-| height             | 背景高度                     | string   | `100%`            |      |
-| backgroundColor    | 背景颜色                     | string   | -                 |      |
-| backgroundImage    | 背景图片                     | string   | -                 |      |
-| backgroundSize     | 背景尺寸                     | string   | `cover`           |      |
-| backgroundPosition | 背景位置                     | string   | -                 |      |
-| backgroundRepeat   | 背景重复方式                 | string   | -                 |      |
-| opacity            | 背景透明度                   | string   | -                 |      |
-| transition         | 过渡动画                     | string   | `background 0.5s` |      |
-| zIndex             | 层叠顺序                     | string   | -1                |      |
+| 属性               | 描述                         | 类型   | 默认值            | 必选 |
+| ------------------ | ---------------------------- | ------ | ----------------- | ---- |
+| type               | 插件类型                     | string | `background`      | ✓    |
+| key                | 插件唯一标识符，用于后续更新 | string | -                 |      |
+| width              | 背景宽度                     | string | `100%`            |      |
+| height             | 背景高度                     | string | `100%`            |      |
+| backgroundColor    | 背景颜色                     | string | -                 |      |
+| backgroundImage    | 背景图片                     | string | -                 |      |
+| backgroundSize     | 背景尺寸                     | string | `cover`           |      |
+| backgroundPosition | 背景位置                     | string | -                 |      |
+| backgroundRepeat   | 背景重复方式                 | string | -                 |      |
+| opacity            | 背景透明度                   | string | -                 |      |
+| transition         | 过渡动画                     | string | `background 0.5s` |      |
+| zIndex             | 层叠顺序                     | string | -1                |      |
 
 > 注意：`zIndex` 默认为 -1，这是为了避免背景覆盖其他插件的 DOM 元素，如网格线。
 

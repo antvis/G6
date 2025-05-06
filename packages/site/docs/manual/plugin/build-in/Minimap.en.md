@@ -2,126 +2,178 @@
 title: Minimap
 ---
 
-## Options
+## Overview
 
-### <Badge type="success">Required</Badge> type
+The main function of the Minimap is to provide users with an overall layout of the current graph content in the form of a thumbnail, allowing quick positioning of graph operation locations.
 
-> _string_
+## Usage Scenarios
 
-Plugin type
+The Minimap plugin is mainly applicable to the following scenarios:
 
-### className
+- Providing a global view for quick area positioning
+- Navigation and interaction assistance, allowing quick positioning to the target location through the minimap
 
-> _string_
+## Basic Usage
 
-The class name of the minimap canvas, which does not take effect when an external container is passed in
+Below is a simple example of initializing the Minimap plugin:
 
-### container
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      key: 'minimap',
+      type: 'minimap',
+      size: [240, 160],
+    },
+  ],
+});
+```
 
-> _HTMLElement_ _\| string_
+## Online Experience
 
-The container where the minimap is mounted, if not, it will be mounted to the container where the Graph is located
+<embed src="@/common/api/plugins/minimap.md"></embed>
+
+## Configuration Options
+
+| Property       | Description                                                                                                             | Type                                                                                                                                                                                                   | Default Value  | Required |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | -------- |
+| type           | Plugin type                                                                                                             | string                                                                                                                                                                                                 | `minimap`      | ✓        |
+| key            | Unique identifier for the plugin, used for subsequent updates                                                           | string                                                                                                                                                                                                 | -              |          |
+| className      | Class name of the thumbnail canvas, not effective when an external container is passed                                  | string                                                                                                                                                                                                 |                |          |
+| container      | Container to which the thumbnail is mounted, if not provided, it is mounted to the container where the Graph is located | HTMLElement \| string                                                                                                                                                                                  |                |          |
+| containerStyle | Style of the thumbnail container, not effective when an external container is passed                                    | Partial<CSSStyleDeclaration>                                                                                                                                                                           |                |          |
+| delay          | Delay update time (milliseconds) for performance optimization                                                           | number                                                                                                                                                                                                 | 128            |          |
+| filter         | Filter for filtering out elements that do not need to be displayed                                                      | (id: string, elementType: `node` \| `edge` \| `combo`) => boolean                                                                                                                                      |                |          |
+| maskStyle      | Style of the mask                                                                                                       | Partial<CSSStyleDeclaration>                                                                                                                                                                           |                |          |
+| padding        | Padding                                                                                                                 | number \| number[]                                                                                                                                                                                     | 10             |          |
+| position       | Position of the thumbnail relative to the canvas                                                                        | [number, number] \| `left` \| `right` \| `top` \| `bottom` \| `left-top` \| `left-bottom` \| `right-top` \| `right-bottom` \| `top-left` \| `top-right` \| `bottom-left` \| `bottom-right` \| `center` | `right-bottom` |          |
+| renderer       | Renderer, default is Canvas renderer                                                                                    | IRenderer                                                                                                                                                                                              |                |          |
+| shape          | Method for generating element thumbnails                                                                                | `key` \| ((id: string, elementType: `node` \| `edge` \| `combo`) => DisplayObject)                                                                                                                     | `key`          |          |
+| size           | Width and height                                                                                                        | [number, number]                                                                                                                                                                                       | [240, 160]     |          |
 
 ### containerStyle
 
-> _Partial**&lt;**CSSStyleDeclaration\_\_>_
+Set the style of the thumbnail container, not effective when an external container is passed. Inherits all CSS style properties (CSSStyleDeclaration), and you can use any valid CSS property to configure the style of the thumbnail container.
 
-The style of the minimap container, which does not take effect when an external container is passed in
+Below are some common configurations:
 
-### delay
-
-> _number_ **Default:** `128`
-
-Delay update time(ms), used for performance optimization
-
-### filter
-
-> _(id: string, elementType:_ _'node' \| 'edge' \| 'combo'\_\_) => boolean_
-
-Filter, used to filter elements that do not need to be displayed
+| Property     | Description                | Type   | Default Value    | Required |
+| ------------ | -------------------------- | ------ | ---------------- | -------- |
+| border       | Container border style     | string | `1px solid #ddd` | ✓        |
+| background   | Container background color | string | `#fff`           | ✓        |
+| borderRadius | Container border radius    | string | -                |          |
+| boxShadow    | Container shadow effect    | string | -                |          |
+| padding      | Container padding          | string | -                |          |
+| margin       | Container margin           | string | -                |          |
+| opacity      | Opacity                    | string | -                |          |
 
 ### maskStyle
 
-> _Partial**&lt;**CSSStyleDeclaration\_\_>_
+Specify the style of the mask. Inherits all CSS style properties (CSSStyleDeclaration), and you can use any valid CSS property to configure the style of the thumbnail container.
 
-The style of the mask
+Below are some common configurations:
 
-### padding
-
-> _number \| number[]_ **Default:** `10`
-
-Padding
+| Property     | Description                | Type   | Default Value        | Required |
+| ------------ | -------------------------- | ------ | -------------------- | -------- |
+| border       | Container border style     | string | `1px solid #ddd`     | ✓        |
+| background   | Container background color | string | `rgba(0, 0, 0, 0.1)` | ✓        |
+| borderRadius | Container border radius    | string | -                    | -        |
+| boxShadow    | Container shadow effect    | string | -                    | -        |
+| padding      | Container padding          | string | -                    | -        |
+| margin       | Container margin           | string | -                    | -        |
+| opacity      | Opacity                    | string | -                    | -        |
 
 ### position
 
-> _[number, number] \| 'left' \| 'right' \| 'top' \| 'bottom' \| 'left-top' \| 'left-bottom' \| 'right-top' \| 'right-bottom' \| 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right' \| 'center'_ **Default:** `'right-bottom'`
+Position of the thumbnail relative to the canvas, the thumbnail position configuration supports array form and preset value form.
 
-The position of the minimap relative to the canvas
+- Array form [number, number] represents relative position, with a value range of 0~1. For example: [0, 0] represents the top left corner of the canvas, [1, 1] represents the bottom right corner of the canvas.
+- Preset value form is used to set the fixed position of the thumbnail on the canvas, optional values are: `left` \| `right` \| `top` \| `bottom` \| `left-top` \| `left-bottom` \| `right-top` \| `right-bottom` \| `top-left` \| `top-right` \| `bottom-left` \| `bottom-right` \| `center`
 
-### renderer
+```js
+const graph = new Graph({
+  plugins:[
+    {
+      ... // Other configurations
+      key: 'minimap',
+      type: 'minimap',
+      position: 'right-bottom'  // Modify the position of the minimap here
+    }
+  ]
+})
+```
 
-> _IRenderer_
+The effect is as follows:
 
-Renderer, default to use Canvas renderer
-
-### shape
-
-> _'key' \| ((id: string, elementType:_ _'node' \| 'edge' \| 'combo'\_\_) =>_ _DisplayObject\_\_)_ **Default:** `'key'`
-
-The method of generating the thumbnail of the element
-
-- 'key' uses the key shape of the element as the thumbnail shape - You can also pass in a function that receives the id and type of the element and returns a shape
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      nodes: Array.from({ length: 50 }).map((_, i) => ({
+        id: `node-${i}`,
+        x: Math.random() * 500,
+        y: Math.random() * 300,
+      })),
+      edges: Array.from({ length: 100 }).map((_, i) => ({
+        id: `edge-${i}`,
+        source: `node-${Math.floor(Math.random() * 50)}`,
+        target: `node-${Math.floor(Math.random() * 50)}`,
+      })),
+    },
+    node: { style: { fill: '#7e3feb' } },
+    edge: { style: { stroke: '#8b9baf' } },
+    layout: { type: 'force' },
+    behaviors: ['drag-canvas'],
+    plugins: [{ type: 'minimap', key: 'minimap', size: [240, 160], position: 'right-bottom' }],
+  },
+  { width: 600, height: 300 },
+);
+```
 
 ### size
 
-> _[number, number]_ **Default:** `[240, 160]`
+Set the width and height of the minimap, default value is [240, 160]
 
-Width and height
-
-## API
-
-### Minimap.destroy()
-
-```typescript
-destroy(): void;
+```js
+const graph = new Graph({
+  plugins:[
+    {
+      ... // Other configurations
+      key: 'minimap',
+      type: 'minimap',
+      size: [200, 120]  // Set the width and height of the minimap
+    }
+  ]
+})
 ```
 
-### Minimap.update(options)
+The effect is as follows:
 
-```typescript
-update(options: Partial<MinimapOptions>): void;
+```js | ob { pin: false }
+createGraph(
+  {
+    data: {
+      nodes: Array.from({ length: 50 }).map((_, i) => ({
+        id: `node-${i}`,
+        x: Math.random() * 500,
+        y: Math.random() * 300,
+      })),
+      edges: Array.from({ length: 100 }).map((_, i) => ({
+        id: `edge-${i}`,
+        source: `node-${Math.floor(Math.random() * 50)}`,
+        target: `node-${Math.floor(Math.random() * 50)}`,
+      })),
+    },
+    node: { style: { fill: '#7e3feb' } },
+    edge: { style: { stroke: '#8b9baf' } },
+    layout: { type: 'force' },
+    behaviors: ['drag-canvas'],
+    plugins: [{ type: 'minimap', key: 'minimap', size: [200, 120], position: 'right-bottom' }],
+  },
+  { width: 600, height: 300 },
+);
 ```
 
-<details><summary>View Parameters</summary>
+## Practical Cases
 
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-options
-
-</td><td>
-
-Partial&lt;[MinimapOptions](#options)>
-
-</td><td>
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
+<Playground path="plugin/minimap/demo/basic.js" rid="minimap-basic"></Playground>

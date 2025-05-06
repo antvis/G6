@@ -13,6 +13,8 @@ title: EdgeFilterLens 边过滤镜
 
 ## 基本用法
 
+以下是一个简单的 EdgeFilterLens 插件初始化示例：
+
 ```js
 const graph = new Graph({
   plugins: [
@@ -32,33 +34,34 @@ const graph = new Graph({
 
 ## 配置项
 
-| 属性           | 描述                           | 类型                                                                                                                                                                             | 默认值                                                                                                 | 必选 |
-| -------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ---- |
-| type           | 插件类型                       | string                                                                                                                                                                           | `edge-filter-lens`                                                                                     | ✓    |
-| trigger        | 移动透镜的方式                 | `pointermove` \| `click` \| `drag`                                                                                                                                               | `pointermove`                                                                                          |      |
-| r              | 透镜的半径                     | number                                                                                                                                                                           | 60                                                                                                     |      |
-| maxR           | 透镜的最大半径                 | number                                                                                                                                                                           | 画布宽高最小值的一半                                                                                   |      |
-| minR           | 透镜的最小半径                 | number                                                                                                                                                                           | 0                                                                                                      |      |
-| scaleRBy       | 缩放透镜半径的方式             | `wheel`                                                                                                                                                                          | -                                                                                                      |      |
-| nodeType       | 边显示的条件                   | `both` \| `source` \| `target` \| `either`                                                                                                                                       | `both`                                                                                                 |      |
-| filter         | 过滤出始终不在透镜中显示的元素 | (id: string, elementType: 'node' \| 'edge' \| 'combo') => boolean                                                                                                                | () => true                                                                                             |      |
-| style          | 透镜的样式                     | [CircleStyleProps](#circlestyleprops)                                                                                                                                            | `{fill: '#fff', fillOpacity: 1, lineWidth: 1, stroke: '#000', strokeOpacity: 0.8, zIndex: -Infinity }` |      |
-| nodeStyle      | 在透镜中节点的样式             | [NodeStyle](/manual/element/node/build-in/base-node#style) \| ((datum: [NodeData](/manual/data#节点数据nodedata)) => [NodeStyle](/manual/element/node/build-in/base-node#style)) | `{ label: false }`                                                                                     |      |
-| edgeStyle      | 在透镜中边的样式               | [EdgeStyle](/manual/element/edge/build-in/base-edge#style) \| ((datum: [EdgeData](/manual/data#边数据edgedata)) => [EdgeStyle](/manual/element/edge/build-in/base-edge#style))   | `{ label: true }`                                                                                      |      |
-| preventDefault | 是否阻止默认事件               | boolean                                                                                                                                                                          | true                                                                                                   |      |
+| 属性           | 描述                                                                                                                                                                                                                                                       | 类型                                                                                                                                                                             | 默认值               | 必选 |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ---- |
+| type           | 插件类型                                                                                                                                                                                                                                                   | string                                                                                                                                                                           | `edge-filter-lens`   | ✓    |
+| key            | 插件的唯一标识，可用于获取插件实例或更新插件选项                                                                                                                                                                                                           | string                                                                                                                                                                           | -                    |      |
+| trigger        | 移动透镜的方式：<br/>- `pointermove`：透镜始终跟随鼠标移动 <br/>- `click`：点击画布时移动透镜到点击位置 <br/>- `drag`：通过拖拽方式移动透镜                                                                                                                | `pointermove` \| `click` \| `drag`                                                                                                                                               | `pointermove`        |      |
+| r              | 透镜的半径                                                                                                                                                                                                                                                 | number                                                                                                                                                                           | 60                   |      |
+| maxR           | 透镜的最大半径                                                                                                                                                                                                                                             | number                                                                                                                                                                           | 画布宽高最小值的一半 |      |
+| minR           | 透镜的最小半径                                                                                                                                                                                                                                             | number                                                                                                                                                                           | 0                    |      |
+| scaleRBy       | 缩放透镜半径的方式：`wheel`：通过滚轮缩放透镜的半径                                                                                                                                                                                                        | `wheel`                                                                                                                                                                          | -                    |      |
+| nodeType       | 边显示的条件：<br/> - `both`：只有起始节点和目标节点都在透镜中时，边才会显示 <br/> - `source`：只有起始节点在透镜中时，边才会显示<br/> - `target`：只有目标节点在透镜中时，边才会显示 <br/> - `either`：只要起始节点或目标节点有一个在透镜中时，边就会显示 | `both` \| `source` \| `target` \| `either`                                                                                                                                       | `both`               |      |
+| filter         | 过滤出始终不在透镜中显示的元素                                                                                                                                                                                                                             | (id: string, elementType: `node` \| `edge` \| `combo`) => boolean                                                                                                                | () => true           |      |
+| style          | 透镜的样式，[配置项](#style)                                                                                                                                                                                                                               | object                                                                                                                                                                           |                      |      |
+| nodeStyle      | 在透镜中节点的样式                                                                                                                                                                                                                                         | [NodeStyle](/manual/element/node/build-in/base-node#style) \| ((datum: [NodeData](/manual/data#节点数据nodedata)) => [NodeStyle](/manual/element/node/build-in/base-node#style)) | `{ label: false }`   |      |
+| edgeStyle      | 在透镜中边的样式                                                                                                                                                                                                                                           | [EdgeStyle](/manual/element/edge/build-in/base-edge#style) \| ((datum: [EdgeData](/manual/data#边数据edgedata)) => [EdgeStyle](/manual/element/edge/build-in/base-edge#style))   | `{ label: true }`    |      |
+| preventDefault | 是否阻止默认事件                                                                                                                                                                                                                                           | boolean                                                                                                                                                                          | true                 |      |
 
-### CircleStyleProps
+### style
 
 圆形透镜的样式属性。
 
 | 属性          | 描述            | 类型                          | 默认值 |
 | ------------- | --------------- | ----------------------------- | ------ |
-| fill          | 填充颜色        | string \| Pattern \| null     | -      |
-| stroke        | 描边颜色        | string \| Pattern \| null     | -      |
-| opacity       | 整体透明度      | number \| string              | -      |
-| fillOpacity   | 填充透明度      | number \| string              | -      |
+| fill          | 填充颜色        | string \| Pattern \| null     | `#fff` |
+| stroke        | 描边颜色        | string \| Pattern \| null     | `#000` |
+| opacity       | 整体透明度      | number \| string              | 1      |
+| fillOpacity   | 填充透明度      | number \| string              | 0.8    |
 | strokeOpacity | 描边透明度      | number \| string              | -      |
-| lineWidth     | 线宽度          | number \| string              | -      |
+| lineWidth     | 线宽度          | number \| string              | 2      |
 | lineCap       | 线段端点样式    | `butt` \| `round` \| `square` | -      |
 | lineJoin      | 线段连接处样式  | `miter` \| `round` \| `bevel` | -      |
 | shadowColor   | 阴影颜色        | string                        | -      |
@@ -67,69 +70,6 @@ const graph = new Graph({
 | shadowOffsetY | 阴影 Y 方向偏移 | number                        | -      |
 
 完整样式属性参考 [元素 -节点 - 内置节点 - 通用样式属性 - style](/manual/element/node/build-in/base-node#style)
-
-### trigger
-
-`trigger` 属性用于控制透镜的移动方式，支持以下三种配置：
-
-- `pointermove`：透镜始终跟随鼠标移动
-- `click`：点击画布时移动透镜到点击位置
-- `drag`：通过拖拽方式移动透镜
-
-```js
-const graph = new Graph({
-  plugins: [
-    {
-      type: 'edge-filter-lens',
-      trigger: 'pointermove', // 跟随鼠标移动
-      //   trigger: 'click', // 点击移动
-      //   trigger: 'drag', // 拖拽移动
-    },
-  ],
-});
-```
-
-### nodeType
-
-`nodeType` 属性用于控制边的显示条件：
-
-- `both`：只有起始节点和目标节点都在透镜中时，边才会显示
-- `source`：只有起始节点在透镜中时，边才会显示
-- `target`：只有目标节点在透镜中时，边才会显示
-- `either`：只要起始节点或目标节点有一个在透镜中时，边就会显示
-
-```js
-const graph = new Graph({
-  plugins: [
-    {
-      type: 'edge-filter-lens',
-      nodeType: 'both', // 起始和目标节点都在透镜中时显示边
-      // nodeType: 'source', // 起始节点在透镜中时显示边
-      // nodeType: 'target', // 目标节点在透镜中时显示边
-      // nodeType: 'either', // 起始或目标节点在透镜中时显示边
-    },
-  ],
-});
-```
-
-### 缩放控制
-
-通过 `scaleRBy` 可以控制透镜半径的调整方式：
-
-```js
-const graph = new Graph({
-  plugins: [
-    {
-      type: 'edge-filter-lens',
-      // 通过滚轮调整半径
-      scaleRBy: 'wheel',
-      // 设置半径范围
-      minR: 50,
-      maxR: 200,
-    },
-  ],
-});
-```
 
 ## 代码示例
 

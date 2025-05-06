@@ -14,6 +14,8 @@ Toolbar 是 G6 中用于提供操作按钮集合的插件，支持放大、缩�
 
 ## 基本用法
 
+以下是一个简单的 Toolbar 插件初始化示例：
+
 ```js
 const graph = new Graph({
   // 其他配置...
@@ -47,12 +49,12 @@ const graph = new Graph({
 | type      | 插件类型                                         | string                                                                                      | `toolbar`    | ✓    |
 | key       | 插件唯一标识符，用于后续更新                     | string                                                                                      | -            |      |
 | className | 工具栏DOM元素的额外CSS类名                       | string                                                                                      | -            |      |
-| position  | 工具栏位置，相对于画布，[可选值](#position-属性) | string                                                                                      | `'top-left'` |      |
+| position  | 工具栏位置，相对于画布，[可选值](#position)      | string                                                                                      | `'top-left'` |      |
 | style     | 工具栏DOM元素的自定义样式，[常用值](#style-属性) | [CSSStyleDeclaration](https://developer.mozilla.org/zh-CN/docs/Web/API/CSSStyleDeclaration) | -            |      |
 | getItems  | 返回工具栏项目列表                               | () => [ToolbarItem](#toolbaritem)[] \| Promise<[ToolbarItem](#toolbaritem)[]>               | -            | ✓    |
 | onClick   | 工具栏项目点击后的回调函数                       | (value: string, target: Element) => void                                                    | -            |      |
 
-### position 属性
+### position
 
 `position` 参数支持以下值：
 

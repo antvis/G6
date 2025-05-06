@@ -14,6 +14,8 @@ title: Timebar 时间条
 
 ## 基本用法
 
+以下是一个简单的 Timebar 插件初始化示例：
+
 ```js
 const graph = new Graph({
   plugins: [
@@ -35,45 +37,39 @@ const graph = new Graph({
 
 ## 配置项
 
-| 属性           | 描述                             | 类型                                               | 默认值       | 必选 |
-| -------------- | -------------------------------- | -------------------------------------------------- | ------------ | ---- |
-| type           | 插件类型                         | string                                             | `timebar`    | ✓    |
-| className      | 给工具栏的 DOM 追加的类名        | string                                             | `g6-timebar` |      |
-| x              | X 位置（设置后 position 会失效） | number                                             | -            |      |
-| y              | Y 位置（设置后 position 会失效） | number                                             | -            |      |
-| width          | 时间条宽度                       | number                                             | 450          |      |
-| height         | 时间条高度                       | number                                             | 60           |      |
-| position       | 时间条位置                       | `bottom` \| `top`                                  | `bottom`     |      |
-| padding        | 边距                             | number \| number[]                                 | 10           |      |
-| data           | 时间数据                         | number[] \| { time: number; value: number }[]      | -            | ✓    |
-| timebarType    | 时间条展示类型                   | `time` \| `chart`                                  | `time`       |      |
-| elementTypes   | 筛选元素类型                     | (`node` \| `edge` \| `combo`)[]                    | [`node`]     |      |
-| mode           | 筛选模式                         | `modify` \| `visibility`                           | `modify`     |      |
-| values         | 当前时间值                       | number \| [number, number] \| Date \| [Date, Date] | -            |      |
-| loop           | 是否循环播放                     | boolean                                            | false        |      |
-| getTime        | 获取元素时间的方法               | (datum: ElementDatum) => number                    | -            |      |
-| labelFormatter | 图表模式下自定义时间格式化       | (time: number \| Date) => string                   | -            |      |
-| onChange       | 时间区间变化时的回调             | (values: number \| [number, number]) => void       | -            |      |
-| onReset        | 重置时的回调                     | () => void                                         | -            |      |
-| onSpeedChange  | 播放速度变化时的回调             | (speed: number) => void                            | -            |      |
-| onPlay         | 开始播放时的回调                 | () => void                                         | -            |      |
-| onPause        | 暂停时的回调                     | () => void                                         | -            |      |
-| onBackward     | 后退时的回调                     | () => void                                         | -            |      |
-| onForward      | 前进时的回调                     | () => void                                         | -            |      |
+| 属性           | 描述                                                                                                                           | 类型                                               | 默认值       | 必选 |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------- | ------------ | ---- |
+| type           | 插件类型                                                                                                                       | string                                             | `timebar`    | ✓    |
+| key            | 插件的唯一标识，可用于获取插件实例或更新插件选项                                                                               | string                                             | -            |      |
+| className      | 给工具栏的 DOM 追加的类名                                                                                                      | string                                             | `g6-timebar` |      |
+| x              | X 位置（设置后 position 会失效）                                                                                               | number                                             | -            |      |
+| y              | Y 位置（设置后 position 会失效）                                                                                               | number                                             | -            |      |
+| width          | 时间条宽度                                                                                                                     | number                                             | 450          |      |
+| height         | 时间条高度                                                                                                                     | number                                             | 60           |      |
+| position       | 时间条位置                                                                                                                     | `bottom` \| `top`                                  | `bottom`     |      |
+| padding        | 边距                                                                                                                           | number \| number[]                                 | 10           |      |
+| data           | 时间数据                                                                                                                       | number[] \| { time: number; value: number }[]      | -            | ✓    |
+| timebarType    | 时间条展示类型                                                                                                                 | `time` \| `chart`                                  | `time`       |      |
+| elementTypes   | 筛选元素类型                                                                                                                   | (`node` \| `edge` \| `combo`)[]                    | [`node`]     |      |
+| mode           | 控制元素的筛选方式，支持以下两种配置： <br/>- `modify`：通过修改图数据进行筛选 <br/>- `visibility`：通过修改元素可见性进行筛选 | `modify` \| `visibility`                           | `modify`     |      |
+| values         | 当前时间值                                                                                                                     | number \| [number, number] \| Date \| [Date, Date] | -            |      |
+| loop           | 是否循环播放                                                                                                                   | boolean                                            | false        |      |
+| getTime        | 获取元素时间的方法                                                                                                             | (datum: ElementDatum) => number                    | -            |      |
+| labelFormatter | 图表模式下自定义时间格式化                                                                                                     | (time: number \| Date) => string                   | -            |      |
+| onChange       | 时间区间变化时的回调                                                                                                           | (values: number \| [number, number]) => void       | -            |      |
+| onReset        | 重置时的回调                                                                                                                   | () => void                                         | -            |      |
+| onSpeedChange  | 播放速度变化时的回调                                                                                                           | (speed: number) => void                            | -            |      |
+| onPlay         | 开始播放时的回调                                                                                                               | () => void                                         | -            |      |
+| onPause        | 暂停时的回调                                                                                                                   | () => void                                         | -            |      |
+| onBackward     | 后退时的回调                                                                                                                   | () => void                                         | -            |      |
+| onForward      | 前进时的回调                                                                                                                   | () => void                                         | -            |      |
 
 ### timebarType
 
 `timebarType` 属性用于控制时间条的展示类型，支持以下两种配置：
 
-- `time`：显示为时间轴形式，参考[时间模式示例](/examples/plugin/timebar/#timer)
-- `chart`：显示为趋势图形式，此时`timebar`下的`data`配置项，每个数组项需要额外传入 `value` 字段作为图表数据，参考[图表模式示例](/examples/plugin/timebar/#chart)
-
-### mode
-
-`mode` 属性用于控制元素的筛选方式，支持以下两种配置：
-
-- `modify`：通过修改图数据进行筛选
-- `visibility`：通过修改元素可见性进行筛选
+- `time`：显示为时间轴形式，参考 [时间模式示例](/examples/plugin/timebar/#timer)
+- `chart`：显示为趋势图形式，此时`timebar`下的`data`配置项，每个数组项需要额外传入 `value` 字段作为图表数据，参考 [图表模式示例](/examples/plugin/timebar/#chart)
 
 ## 代码示例
 
