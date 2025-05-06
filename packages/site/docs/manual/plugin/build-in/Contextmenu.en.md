@@ -2,76 +2,206 @@
 title: Contextmenu
 ---
 
-Contextmenu, also known as the right-click menu , is a menu that appears when a user clicks on a specific area. Supports triggering custom events before and after clicking.
+## Overview
 
-<embed src="@/common/api/plugins/contextmenu.md"></embed>
+The context menu, also known as the right-click menu, is a menu that appears when a user clicks on a specific area. It supports triggering custom events before and after clicking. Through the context menu, specific element operations can be integrated, making it convenient to control a particular item when needed.
 
-## Options
+## Use Cases
 
-### <Badge type="success">Required</Badge> type
+This plugin is mainly used for:
 
-> _string_
+- Various interactions with elements: viewing nodes, viewing edges, deleting nodes, etc.
 
-Plugin type
+## Basic Usage
 
-### className
+Below is a simple example of initializing the Contextmenu plugin:
 
-> _string_ **Default:** `'g6-contextmenu'`
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'contextmenu',
+      // Enable right-click menu only on nodes, by default all elements are enabled
+      enable: (e) => e.targetType === 'node',
+      getItems: () => {
+        return [{ name: 'View Details', value: 'detail' }];
+      },
+      onClick: (value) => {
+        if (value === 'detail') console.log('Display node details');
+      },
+    },
+  ],
+});
+```
 
-The class name appended to the menu DOM for custom styles
+## Configuration Options
 
-### enable
+| Property       | Description                                                                                                               | Type                                                                              | Default Value    | Required |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ---------------- | -------- |
+| className      | Additional class name for the menu DOM                                                                                    | string                                                                            | `g6-contextmenu` |          |
+| trigger        | How to trigger the right-click menu: `contextmenu` for right-click, `click` for click                                     | `click` \| `contextmenu`                                                          | `contextmenu`    |          |
+| offset         | Offset of the menu display in X and Y directions                                                                          | [number, number]                                                                  | [4, 4]           |          |
+| onClick        | Callback method triggered after the menu is clicked, [example](#onclick)                                                  | (value: string, target: HTMLElement, current: Element) => void                    | -                |          |
+| getItems       | Returns the list of menu items, supports `Promise` type return value. It is a shortcut configuration for `getContent`     | (event: IElementEvent) => [Item](#item)[] \| Promise<[Item](#item)[]>             | -                |          |
+| getContent     | Returns the content of the menu, supports `Promise` type return value, can also use `getItems` for shortcut configuration | (event: IElementEvent) => HTMLElement \| string \| Promise<HTMLElement \| string> | -                |          |
+| loadingContent | Menu content used when `getContent` returns a `Promise`                                                                   | HTMLElement \| string                                                             | -                |          |
+| enable         | Whether it is available, determines whether the right-click menu is supported by parameters, by default all are available | boolean \| (event: IElementEvent) => boolean                                      | true             |          |
 
-> _boolean \| ((event:_ [IElementEvent](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
+### Item
 
-Whether the plugin is available, determine whether the right-click menu is supported through parameters, The default is all available
+Each menu item (Item) contains the following properties:
 
-### getContent
-
-> _(event:_ [IElementEvent](/manual/graph-api/event#事件对象属性)_) =>_ _HTMLElement_ _\| string \|_ _Promise**&lt;**HTMLElement_ _\| string>_
-
-Return the content of menu, support the `Promise` type return value, you can also use `getItems` for shortcut configuration
-
-### getItems
-
-> _(event:_ [IElementEvent](/manual/graph-api/event#事件对象属性)_) =>_ _Item\_\_[] \|_ _Promise**&lt;**Item\_\_[]>_
-
-Return the list of menu items, support the `Promise` type return value. It is a shortcut configuration of `getContent`
-
-### loadingContent
-
-> _HTMLElement_ _\| string_
-
-The menu content when loading is used when getContent returns a Promise
-
-### offset
-
-> _[number, number]_ **Default:** `[4, 4]`
-
-The offset X, y direction of the menu
+| Property | Description                          | Type     | Required |
+| -------- | ------------------------------------ | -------- | -------- |
+| name     | Name displayed for the menu item     | `string` | ✓        |
+| value    | Value corresponding to the menu item | `string` | ✓        |
 
 ### onClick
 
-> _(value: string, target:_ _HTMLElement\_\_, current:_ _Node \| Edge \| Combo\_\_) => void_
+This function is triggered after clicking a menu item, and the function has three parameters:
 
-The callback method triggered when the menu is clicked
+- value: Corresponds to the value of the menu item
+- target: The DOM node of the menu item container
+- current: The element that triggered the menu item, for example, if it is a node, you can use `current` to get the node information (id), or to modify the element
 
-### trigger
+## Code Examples
 
-> _'click' \| 'contextmenu'_ **Default:** `'contextmenu'`
+### Basic Right-click Menu
 
-How to trigger the context menu
+```js
+const data = {
+  nodes: [
+    { id: 'node-1', type: 'circle', data: { cluster: 'node-type1' } },
+    { id: 'node-2', type: 'rect', data: { cluster: 'node-type2' } },
+  ],
+  edges: [{ source: 'node-1', target: 'node-2', data: { cluster: 'edge-type1' } }],
+};
 
-- `'click'` : Click trigger
-
-- `'contextmenu'` : Right-click trigger
-
-## API
-
-### Contextmenu.hide()
-
-Hide the contextmenu
-
-```typescript
-hide(): void;
+const graph = new Graph({
+  data,
+  layout: { type: 'grid' },
+  plugins: [
+    {
+      type: 'contextmenu',
+      trigger: 'contextmenu', // 'click' or 'contextmenu'
+      onClick: (value, target, current) => {
+        alert('You have clicked the「' + value + '」item');
+      },
+      getItems: () => {
+        return [
+          { name: 'View Details', value: 'detail' },
+          { name: 'Delete', value: 'delete' },
+        ];
+      },
+    },
+  ],
+});
 ```
+
+### Edge Right-click Menu
+
+```js
+const data = {
+  nodes: [
+    { id: 'node-1', type: 'circle', data: { cluster: 'node-type1' } },
+    { id: 'node-2', type: 'rect', data: { cluster: 'node-type2' } },
+  ],
+  edges: [{ source: 'node-1', target: 'node-2', data: { cluster: 'edge-type1' } }],
+};
+
+const graph = new Graph({
+  data,
+  layout: { type: 'grid' },
+  plugins: [
+    {
+      type: 'contextmenu',
+      trigger: 'contextmenu',
+      getItems: () => {
+        return [{ name: 'Change Start Point', value: 'change' }];
+      },
+      onClick: (value) => {
+        if (value === 'change') console.log('Execute change start point operation here');
+      },
+      // Enable right-click menu only on edges
+      enable: (e) => e.targetType === 'edge',
+    },
+  ],
+});
+```
+
+### Asynchronous Loading of Menu Items
+
+```js
+const data = {
+  nodes: [
+    { id: 'node-1', type: 'circle', data: { cluster: 'node-type1' } },
+    { id: 'node-2', type: 'rect', data: { cluster: 'node-type2' } },
+  ],
+  edges: [{ source: 'node-1', target: 'node-2', data: { cluster: 'edge-type1' } }],
+};
+
+const graph = new Graph({
+  data,
+  layout: { type: 'grid' },
+  plugins: [
+    {
+      type: 'contextmenu',
+      trigger: 'contextmenu',
+      getItems: async () => {
+        // Toolbar configuration can be obtained from the server or other asynchronous sources
+        const response = await fetch('/api/contextmenu-config');
+        const items = await response.json();
+        return items;
+      },
+      // Enable right-click menu only on nodes
+      enable: (e) => e.targetType === 'node',
+    },
+  ],
+});
+```
+
+### Dynamic Control of Menu Items
+
+```js
+const data = {
+  nodes: [
+    { id: 'node-1', type: 'circle', data: { cluster: 'node-type1' } },
+    { id: 'node-2', type: 'rect', data: { cluster: 'node-type2' } },
+  ],
+  edges: [{ source: 'node-1', target: 'node-2', data: { cluster: 'edge-type1' } }],
+};
+
+const graph = new Graph({
+  data,
+  layout: { type: 'grid' },
+  plugins: [
+    {
+      type: 'contextmenu',
+      trigger: 'contextmenu',
+      getItems: (e) => {
+        if (e.target.id === 'node-1') {
+          return [
+            {
+              name: 'Delete Node',
+              value: 'delete',
+            },
+          ];
+        }
+        if (e.target.type === 'edge') {
+          return [
+            {
+              name: 'Move Edge',
+              value: 'move',
+            },
+          ];
+        }
+        return [];
+      },
+    },
+  ],
+});
+```
+
+## Practical Examples
+
+<Playground path="plugin/contextMenu/demo/basic.js" rid="legend-basic"></Playground>

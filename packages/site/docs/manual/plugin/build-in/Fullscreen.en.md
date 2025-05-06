@@ -2,62 +2,153 @@
 title: Fullscreen
 ---
 
-## Options
+## Overview
 
-### <Badge type="success">Required</Badge> type
+The Fullscreen plugin allows users to expand the graph visualization content to the entire screen, providing a broader view and a better immersive experience.
 
-> _string_
+## Use Cases
 
-Plugin type
+The Fullscreen plugin is mainly suitable for the following scenarios:
 
-### autoFit
+- Provide a broader view for viewing complex graph data
+- Enhance immersive experience, focusing on graph visualization content
+- Display graph data in presentations or reports
 
-> _boolean_ **Default:** `true`
+## Basic Usage
 
-Whether to adapt the canvas size
+Below is a simple example of initializing the Fullscreen plugin:
 
-### onEnter
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'fullscreen',
+      autoFit: true,
+      trigger: {
+        request: 'F', // Use shortcut key F to enter fullscreen
+        exit: 'Esc', // Use shortcut key Esc to exit fullscreen
+      },
+      onEnter: () => {
+        console.log('Entered fullscreen mode');
+      },
+      onExit: () => {
+        console.log('Exited fullscreen mode');
+      },
+    },
+  ],
+});
+```
 
-> _() => void_
+## Configuration Options
 
-Callback after entering full screen
-
-### onExit
-
-> _() => void_
-
-Callback after exiting full screen
+| Property | Description                                                                                                      | Type                                 | Default Value | Required |
+| -------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------- | -------- |
+| type     | Plugin type                                                                                                      | string                               | `fullscreen`  | ✓        |
+| key      | Unique identifier for the plugin, can be used to get the plugin instance or update plugin options                | string                               | -             |          |
+| autoFit  | Whether to auto-fit the canvas size, the canvas size will automatically adapt to the screen size when fullscreen | boolean                              | true          |          |
+| trigger  | Method to trigger fullscreen, [example](#trigger)                                                                | { request?: string; exit?: string; } | -             |          |
+| onEnter  | Callback after entering fullscreen                                                                               | () => void                           | -             |          |
+| onExit   | Callback after exiting fullscreen                                                                                | () => void                           | -             |          |
 
 ### trigger
 
-> _{ request?:_ _string[]\_\_; exit?:_ _string[]\_\_; }_
+The trigger property is used to control the method of triggering fullscreen. It supports two configuration methods:
 
-The way to trigger full screen
+#### Shortcut Key Configuration
 
-- `request`: request full screen
+Use keyboard shortcuts to trigger fullscreen and exit fullscreen.
 
-- `exit`: exit full screen
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'fullscreen',
+      trigger: {
+        request: 'F', // Use shortcut key F to enter fullscreen
+        exit: 'Esc', // Use shortcut key Esc to exit fullscreen
+      },
+    },
+  ],
+});
+```
+
+#### Custom Trigger
+
+Control fullscreen by calling the request and exit methods.
+
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'fullscreen',
+      key: 'my-fullscreen',
+    },
+  ],
+});
+
+// Enter fullscreen
+graph.getPluginInstance('my-fullscreen').request();
+
+// Exit fullscreen
+graph.getPluginInstance('my-fullscreen').exit();
+```
+
+### autoFit
+
+Whether to auto-fit the canvas size, the canvas size will automatically adapt to the screen size when fullscreen.
+
+- When set to true, the canvas will automatically resize to fit the entire screen.
+- When set to false, the canvas size remains unchanged.
+
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'fullscreen',
+      autoFit: true,
+    },
+  ],
+});
+```
 
 ## API
 
-### Fullscreen.destroy()
+### Fullscreen.request()
 
-```typescript
-destroy(): void;
+This method is used to enter fullscreen mode programmatically. It can be called on the plugin instance to expand the graph visualization to the entire screen.
+
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'fullscreen',
+      key: 'my-fullscreen',
+    },
+  ],
+});
+
+// Enter fullscreen
+graph.getPluginInstance('my-fullscreen').request();
 ```
 
 ### Fullscreen.exit()
 
-Exit full screen
+This method is used to exit fullscreen mode programmatically. It can be called on the plugin instance to revert the graph visualization back to its original size.
 
-```typescript
-exit(): void;
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'fullscreen',
+      key: 'my-fullscreen',
+    },
+  ],
+});
+
+// Exit fullscreen
+graph.getPluginInstance('my-fullscreen').exit();
 ```
 
-### Fullscreen.request()
+## Practical Examples
 
-Request full screen
-
-```typescript
-request(): void;
-```
+<Playground path="plugin/fullscreen/demo/basic.js" rid="fullscreen-basic-rid"></Playground>

@@ -4,14 +4,16 @@ title: EdgeFilterLens
 
 ## Overview
 
-EdgeFilterLens can keep the focused edges within the lens range, while other edges will not be displayed within that range. This is an important visualization exploration tool that helps users focus on edge relationships in specific areas.
+The Edge Filter Lens plugin allows you to keep the edges of interest within the lens range, while other edges will not be displayed in that range. This is an important visualization exploration tool that can help users focus on edge relationships in specific areas.
 
 ## Use Cases
 
-- Need to focus on edge relationships in local areas
+- Need to focus on viewing edge relationships in local areas
 - Highlight connections between specific nodes in complex networks
 
 ## Basic Usage
+
+Below is a simple example of initializing the EdgeFilterLens plugin:
 
 ```js
 const graph = new Graph({
@@ -26,110 +28,54 @@ const graph = new Graph({
 });
 ```
 
-## Live Demo
+## Online Experience
 
 <embed src="@/common/api/plugins/edge-filter-lens.md"></embed>
 
-## Options
+## Configuration Options
 
-| Name           | Description                         | Type                                                                                                                                                                                                                       | Default                                                                                                 | Required |
-| -------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | -------- |
-| type           | Plugin type                         | string                                                                                                                                                                                                                     | `edge-filter-lens`                                                                                      | ✓        |
-| trigger        | The way to move the lens            | `pointermove` \| `click` \| `drag`                                                                                                                                                                                         | `pointermove`                                                                                           |          |
-| r              | The radius of the lens              | number                                                                                                                                                                                                                     | 60                                                                                                      |          |
-| maxR           | The maximum radius of the lens      | number                                                                                                                                                                                                                     | Half of the minimum canvas width/height                                                                 |          |
-| minR           | The minimum radius of the lens      | number                                                                                                                                                                                                                     | 0                                                                                                       |          |
-| scaleRBy       | The way to scale the radius         | `wheel`                                                                                                                                                                                                                    | -                                                                                                       |          |
-| nodeType       | The condition for displaying edges  | `both` \| `source` \| `target` \| `either`                                                                                                                                                                                 | `both`                                                                                                  |          |
-| filter         | Filter elements never shown in lens | (id: string, elementType: 'node' \| 'edge' \| 'combo') => boolean                                                                                                                                                          | () => true                                                                                              |          |
-| style          | The style of the lens               | [CircleStyleProps](#circlestyleprops)                                                                                                                                                                                      | `{ fill: '#fff', fillOpacity: 1, lineWidth: 1, stroke: '#000', strokeOpacity: 0.8, zIndex: -Infinity }` |          |
-| nodeStyle      | The style of nodes in lens          | [NodeStyle](/en/manual/element/node/build-in/base-node#stylestyle-property-style) \| ((datum: [NodeData](/en/manual/data#node-data)) => [NodeStyle](/en/manual/element/node/build-in/base-node#stylestyle-property-style)) | `{ label: false }`                                                                                      |          |
-| edgeStyle      | The style of edges in lens          | [EdgeStyle](/en/manual/element/edge/build-in/base-edge#edge-style-style) \| ((datum: [EdgeData](/en/manual/data#edge-data)) => [EdgeStyle](/en/manual/element/edge/build-in/base-edge#edge-style-style))                   | `{ label: true }`                                                                                       |          |
-| preventDefault | Whether to prevent default events   | boolean                                                                                                                                                                                                                    | true                                                                                                    |          |
+| Property       | Description                                                                                                                                                                                                                                                                                                                                                                                 | Type                                                                                                                                                                                      | Default Value                               | Required |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | -------- |
+| type           | Plugin type                                                                                                                                                                                                                                                                                                                                                                                 | string                                                                                                                                                                                    | `edge-filter-lens`                          | ✓        |
+| key            | Unique identifier for the plugin, can be used to get the plugin instance or update plugin options                                                                                                                                                                                                                                                                                           | string                                                                                                                                                                                    | -                                           |          |
+| trigger        | Method to move the lens:<br/>- `pointermove`: The lens always follows the mouse movement <br/>- `click`: Move the lens to the click position when clicking on the canvas <br/>- `drag`: Move the lens by dragging                                                                                                                                                                           | `pointermove` \| `click` \| `drag`                                                                                                                                                        | `pointermove`                               |          |
+| r              | Radius of the lens                                                                                                                                                                                                                                                                                                                                                                          | number                                                                                                                                                                                    | 60                                          |          |
+| maxR           | Maximum radius of the lens                                                                                                                                                                                                                                                                                                                                                                  | number                                                                                                                                                                                    | Half of the smaller dimension of the canvas |          |
+| minR           | Minimum radius of the lens                                                                                                                                                                                                                                                                                                                                                                  | number                                                                                                                                                                                    | 0                                           |          |
+| scaleRBy       | Method to scale the lens radius: `wheel`: Scale the lens radius by the wheel                                                                                                                                                                                                                                                                                                                | `wheel`                                                                                                                                                                                   | -                                           |          |
+| nodeType       | Edge display condition:<br/> - `both`: The edge is displayed only when both the source and target nodes are in the lens <br/> - `source`: The edge is displayed only when the source node is in the lens<br/> - `target`: The edge is displayed only when the target node is in the lens <br/> - `either`: The edge is displayed as long as either the source or target node is in the lens | `both` \| `source` \| `target` \| `either`                                                                                                                                                | `both`                                      |          |
+| filter         | Filter out elements that are never displayed in the lens                                                                                                                                                                                                                                                                                                                                    | (id: string, elementType: `node` \| `edge` \| `combo`) => boolean                                                                                                                         | () => true                                  |          |
+| style          | Style of the lens, [configuration options](#style)                                                                                                                                                                                                                                                                                                                                          | object                                                                                                                                                                                    |                                             |          |
+| nodeStyle      | Style of nodes in the lens                                                                                                                                                                                                                                                                                                                                                                  | [NodeStyle](/en/manual/element/node/build-in/base-node#style) \| ((datum: [NodeData](/en/manual/data#节点数据nodedata)) => [NodeStyle](/en/manual/element/node/build-in/base-node#style)) | `{ label: false }`                          |          |
+| edgeStyle      | Style of edges in the lens                                                                                                                                                                                                                                                                                                                                                                  | [EdgeStyle](/en/manual/element/edge/build-in/base-edge#style) \| ((datum: [EdgeData](/en/manual/data#边数据edgedata)) => [EdgeStyle](/en/manual/element/edge/build-in/base-edge#style))   | `{ label: true }`                           |          |
+| preventDefault | Whether to prevent default events                                                                                                                                                                                                                                                                                                                                                           | boolean                                                                                                                                                                                   | true                                        |          |
 
-### CircleStyleProps
+### style
 
-Style properties for the circular lens.
+Style properties of the circular lens.
 
-| Name          | Description    | Type   | Default   |
-| ------------- | -------------- | ------ | --------- |
-| fill          | Fill color     | string | `#fff`    |
-| fillOpacity   | Fill opacity   | number | 1         |
-| stroke        | Stroke color   | string | `#000`    |
-| strokeOpacity | Stroke opacity | number | 0.8       |
-| lineWidth     | Line width     | number | 1         |
-| zIndex        | Layer level    | number | -Infinity |
+| Property      | Description        | Type                          | Default Value |
+| ------------- | ------------------ | ----------------------------- | ------------- |
+| fill          | Fill color         | string \| Pattern \| null     | `#fff`        |
+| stroke        | Stroke color       | string \| Pattern \| null     | `#000`        |
+| opacity       | Overall opacity    | number \| string              | 1             |
+| fillOpacity   | Fill opacity       | number \| string              | 0.8           |
+| strokeOpacity | Stroke opacity     | number \| string              | -             |
+| lineWidth     | Line width         | number \| string              | 2             |
+| lineCap       | Line cap style     | `butt` \| `round` \| `square` | -             |
+| lineJoin      | Line join style    | `miter` \| `round` \| `bevel` | -             |
+| shadowColor   | Shadow color       | string                        | -             |
+| shadowBlur    | Shadow blur degree | number                        | -             |
+| shadowOffsetX | Shadow X offset    | number                        | -             |
+| shadowOffsetY | Shadow Y offset    | number                        | -             |
 
-For complete style properties, refer to [Element - Node - Built-in Node - Common Style Properties - style](/en/manual/element/node/build-in/base-node#styletype-property-type)
+For complete style properties, refer to [Element - Node - Built-in Node - General Style Properties - style](/en/manual/element/node/build-in/base-node#style)
 
-### trigger
-
-The `trigger` property controls how the lens moves, supporting three configurations:
-
-- `pointermove`: Lens always follows mouse movement
-- `click`: Move lens to clicked position
-- `drag`: Move lens by dragging
-
-```js
-const graph = new Graph({
-  plugins: [
-    {
-      type: 'edge-filter-lens',
-      trigger: 'pointermove', // Follow mouse movement
-      // trigger: 'click',    // Click to move
-      // trigger: 'drag',     // Drag to move
-    },
-  ],
-});
-```
-
-### nodeType
-
-The `nodeType` property controls edge display conditions:
-
-- `both`: Edge displays only when both source and target nodes are in lens
-- `source`: Edge displays only when source node is in lens
-- `target`: Edge displays only when target node is in lens
-- `either`: Edge displays when either source or target node is in lens
-
-```js
-const graph = new Graph({
-  plugins: [
-    {
-      type: 'edge-filter-lens',
-      nodeType: 'both', // Show edge when both nodes are in lens
-      // nodeType: 'source', // Show edge when source node is in lens
-      // nodeType: 'target', // Show edge when target node is in lens
-      // nodeType: 'either', // Show edge when either node is in lens
-    },
-  ],
-});
-```
-
-### Zoom Control
-
-Use `scaleRBy` to control lens radius adjustment:
-
-```js
-const graph = new Graph({
-  plugins: [
-    {
-      type: 'edge-filter-lens',
-      // Adjust radius by wheel
-      scaleRBy: 'wheel',
-      // Set radius range
-      minR: 50,
-      maxR: 200,
-    },
-  ],
-});
-```
-
-## Examples
+## Code Examples
 
 ### Basic Usage
 
-Simplest configuration:
+The simplest configuration method:
 
 ```js
 const graph = new Graph({
@@ -137,14 +83,14 @@ const graph = new Graph({
 });
 ```
 
-Effect:
+The effect is as follows:
 
 ```js | ob { pin: false }
 createGraph(
   {
     data: {
       nodes: [
-        // Upper scattered area
+        // Upper evacuation area
         { id: 'node1', style: { x: 150, y: 60, label: 'Node 1' } },
         { id: 'node2', style: { x: 100, y: 40, label: 'Node 2' } },
         { id: 'node3', style: { x: 200, y: 35, label: 'Node 3' } },
@@ -191,13 +137,6 @@ createGraph(
     node: {
       style: {
         size: 20,
-        label: true,
-      },
-    },
-    edge: {
-      style: {
-        stroke: '#91d5ff',
-        lineWidth: 1,
       },
     },
     plugins: ['edge-filter-lens'],
@@ -217,42 +156,42 @@ const graph = new Graph({
       type: 'edge-filter-lens',
       r: 80,
       style: {
-        fill: '#f0f5ff', // Lens area fill color
-        fillOpacity: 0.6, // Fill area opacity
-        stroke: '#7e3feb', // Lens border color (purple)
-        strokeOpacity: 0.8, // Border opacity
-        lineWidth: 1.5, // Border line width
+        fill: '#f0f5ff', // Fill color of the lens area
+        fillOpacity: 0.6, // Opacity of the fill area
+        stroke: '#7e3feb', // Change lens border to purple
+        strokeOpacity: 0.8, // Opacity of the border
+        lineWidth: 1.5, // Line width of the border
       },
       nodeStyle: {
-        size: 24, // Enlarged node
+        size: 24, // Enlarge nodes
         fill: '#7e3feb', // Purple fill
-        stroke: '#5719c9', // Deep purple stroke
+        stroke: '#5719c9', // Dark purple stroke
         lineWidth: 1, // Thin border
         label: true, // Show label
         labelFill: '#ffffff', // White text
-        labelFontSize: 14, // Enlarged text
+        labelFontSize: 14, // Enlarge text
         labelFontWeight: 'bold', // Bold text
       },
       edgeStyle: {
         stroke: '#8b9baf', // Gray edge
-        lineWidth: 2, // Thicker line
+        lineWidth: 2, // Thicken edge line
         label: true, // Show label
-        labelFill: '#5719c9', // Deep purple text
-        opacity: 0.8, // Proper opacity
+        labelFill: '#5719c9', // Dark purple text
+        opacity: 0.8, // Appropriate opacity
       },
     },
   ],
 });
 ```
 
-Effect:
+The effect is as follows:
 
 ```js | ob { pin: false }
 createGraph(
   {
     data: {
       nodes: [
-        // Upper scattered area
+        // Upper evacuation area
         { id: 'node1', style: { x: 150, y: 60, label: 'Node 1' } },
         { id: 'node2', style: { x: 100, y: 40, label: 'Node 2' } },
         { id: 'node3', style: { x: 200, y: 35, label: 'Node 3' } },
@@ -299,7 +238,6 @@ createGraph(
     node: {
       style: {
         size: 20,
-        label: true,
       },
     },
     edge: {
@@ -313,28 +251,28 @@ createGraph(
         type: 'edge-filter-lens',
         r: 80,
         style: {
-          fill: '#f0f5ff',
-          fillOpacity: 0.6,
-          stroke: '#7e3feb',
-          strokeOpacity: 0.8,
-          lineWidth: 1.5,
+          fill: '#f0f5ff', // Fill color of the lens area
+          fillOpacity: 0.6, // Opacity of the fill area
+          stroke: '#7e3feb', // Change lens border to purple
+          strokeOpacity: 0.8, // Opacity of the border
+          lineWidth: 1.5, // Line width of the border
         },
         nodeStyle: {
-          size: 24,
-          fill: '#7e3feb',
-          stroke: '#5719c9',
-          lineWidth: 1,
-          label: true,
-          labelFill: '#ffffff',
-          labelFontSize: 14,
-          labelFontWeight: 'bold',
+          size: 24, // Enlarge nodes
+          fill: '#7e3feb', // Purple fill
+          stroke: '#5719c9', // Dark purple stroke
+          lineWidth: 1, // Thin border
+          label: true, // Show label
+          labelFill: '#ffffff', // White text
+          labelFontSize: 14, // Enlarge text
+          labelFontWeight: 'bold', // Bold text
         },
         edgeStyle: {
-          stroke: '#8b9baf',
-          lineWidth: 2,
-          label: true,
-          labelFill: '#5719c9',
-          opacity: 0.8,
+          stroke: '#8b9baf', // Gray edge
+          lineWidth: 2, // Thicken edge line
+          label: true, // Show label
+          labelFill: '#5719c9', // Dark purple text
+          opacity: 0.8, // Appropriate opacity
         },
       },
     ],
@@ -343,6 +281,6 @@ createGraph(
 );
 ```
 
-## Live Examples
+## Practical Examples
 
 - [Edge Filter Lens](/en/examples/plugin/edge-filter-lens/#basic)

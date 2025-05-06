@@ -17,6 +17,8 @@ title: Snapline 对齐线
 
 ## 基本用法
 
+以下是一个简单的 Snapline 插件初始化示例：
+
 ```js
 const graph = new Graph({
   plugins: [

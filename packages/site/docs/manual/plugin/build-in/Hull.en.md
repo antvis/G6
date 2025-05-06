@@ -2,292 +2,408 @@
 title: Hull
 ---
 
-Hull is used to process and represent the convex polygon bounding box of a set of points. Hull has two forms: convex hull and concave hull.
+## Overview
 
-Convex Hull: This is a convex polygon that contains all points and has no concave. You can think of it as the smallest bounding box of a set of points, with no points outside the polygon.
+Hull is used to process and represent the convex or concave polygon bounding box of a set of points. It can wrap a set of nodes in a minimal geometric shape, helping users better understand and analyze datasets.
 
-Concave Hull: This is a concave polygon that also contains all points, but may have concave. The concavity of the concave hull is controlled by the concavity parameter. The larger the concavity, the smaller the concave. When concavity is Infinity, the concave hull becomes a convex hull.
+- **Convex Hull**: This is a convex polygon that contains all the points and has no indentations.
+- **Concave Hull**: This is a concave polygon that also contains all the points but may have indentations. The degree of indentation is controlled by the concavity parameter.
+
+## Usage Scenarios
+
+The hull plugin is mainly applicable to the following scenarios:
+
+- Wrapping node collections in data visualization
+- Providing visual references to enhance spatial awareness
+- Identifying the collection relationship of specific nodes in complex network graphs
+
+## Basic Usage
+
+Below is a simple example of initializing the Hull plugin:
+
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'hull',
+      key: 'my-hull', // Specify a unique identifier for subsequent dynamic updates
+      members: ['node-1', 'node-2'], // List of node IDs to be wrapped
+      concavity: Infinity, // Default to convex hull
+    },
+  ],
+});
+```
+
+## Online Experience
 
 <embed src="@/common/api/plugins/hull.md"></embed>
 
-## Options
+## Configuration Options
 
-### <Badge type="success">Required</Badge> type
+| Property         | Description                                                                                              | Type                                               | Default Value | Required |
+| ---------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------- | -------- |
+| type             | Plugin type                                                                                              | string                                             | `hull`        | ✓        |
+| key              | Unique identifier for the plugin, used for subsequent updates                                            | string                                             | -             |          |
+| members          | Elements within the Hull, including nodes and edges                                                      | string[]                                           | -             | ✓        |
+| concavity        | Concavity, the larger the value, the smaller the concavity; default is Infinity representing Convex Hull | number                                             | Infinity      |          |
+| corner           | Corner type, options are `rounded` \| `smooth` \| `sharp`                                                | string                                             | `rounded`     |          |
+| padding          | Padding                                                                                                  | number                                             | `10`          |          |
+| label            | Whether to display the label                                                                             | boolean                                            | true          |          |
+| labelPlacement   | Label position                                                                                           | `left` \| `right` \| `top` \| `bottom` \| `center` | `bottom`      |          |
+| labelBackground  | Whether to display the background                                                                        | boolean                                            | false         |          |
+| labelPadding     | Label padding                                                                                            | number \| number[]                                 | 0             |          |
+| labelCloseToPath | Whether the label is close to the hull                                                                   | boolean                                            | true          |          |
+| labelAutoRotate  | Whether the label rotates with the hull, effective only when closeToPath is true                         | boolean                                            | true          |          |
+| labelOffsetX     | X-axis offset                                                                                            | number                                             | 0             |          |
+| labelOffsetY     | Y-axis offset                                                                                            | number                                             | 0             |          |
+| labelMaxWidth    | Maximum width of the text, exceeding will automatically ellipsis                                         | number                                             | 0             |          |
 
-> _string_
-
-Plugin type
-
-### label
-
-> _boolean_ **Default:** `true`
-
-Whether to display the label
+For complete label styles, see [this link](https://g6.antv.antgroup.com/manual/element/node/build-in/base-node#%E6%A0%87%E7%AD%BE%E6%A0%B7%E5%BC%8F)
 
 ### concavity
 
-> _number_ **Default:** `Infinity`
+The concavity attribute is used to control the concavity of the Hull. When set to Infinity, a convex hull is generated; otherwise, a concave hull is generated.
 
-Concavity. Default is Infinity, which means Convex Hull
+```js
+// Convex hull example
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'hull',
+      concavity: Infinity, // Convex hull
+      members: ['node-1', 'node-2'],
+    },
+  ],
+});
 
-### corner
-
-> _'rounded' \| 'smooth' \| 'sharp'_ **Default:** `'rounded'`
-
-Corner type
-
-### members
-
-> _string\_\_[]_
-
-Elements in Hull
-
-### padding
-
-> _number_ **Default:** `10`
-
-Padding
-
-## Label Style
-
-### label{[TextStyleProps](https://g.antv.antgroup.com/api/basic/text)}
-
-<details><summary>An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.</summary>
-
-TextStyleProps includes the following properties:
-
-- fill
-- fontSize
-- fontWeight
-- ...
-
-icon{TextStyleProps} means you need to use the following property names:
-
-- iconFill
-- iconFontSize
-- iconFontWeight
-- ...
-
-</details>
-
-### labelAutoRotate
-
-> _boolean_ **Default:** `true`
-
-Whether the label rotates with the contour. Only effective when closeToPath is true
-
-### labelCloseToPath
-
-> _boolean_ **Default:** `true`
-
-Whether the label is close to the contour
-
-### labelMaxWidth
-
-> _number_
-
-The maximum width of the text, which will be automatically ellipsis if exceeded
-
-### labelOffsetX
-
-> _number_ **Default:** `0`
-
-Label x-axis offset
-
-### labelOffsetY
-
-> _number_ **Default:** `0`
-
-Label y-axis offset
-
-### labelPlacement
-
-> _'left' \| 'right' \| 'top' \| 'bottom'_ _\| 'center'_ **Default:** `'bottom'`
-
-Label position
-
-### labelBackground
-
-> _boolean_
-
-Whether to show background
-
-### labelPadding
-
-> _number \| number[]_ **Default:** `0`
-
-Label padding
-
-## Label Background Style
-
-### labelBackground{[RectStyleProps](https://g.antv.antgroup.com/api/basic/rect)}
-
-<details><summary>An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.</summary>
-
-TextStyleProps includes the following properties:
-
-- fill
-- fontSize
-- fontWeight
-- ...
-
-icon{TextStyleProps} means you need to use the following property names:
-
-- iconFill
-- iconFontSize
-- iconFontWeight
-- ...
-
-</details>
-
-## API
-
-### Hull.addMember(members)
-
-Add Hull member
-
-```typescript
-addMember(members: ID | ID[]): void;
+// Concave hull example
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'hull',
+      concavity: 50, // Concave hull
+      members: ['node-1', 'node-2'],
+    },
+  ],
+});
 ```
 
-<details><summary>View Parameters</summary>
+## Code Examples
 
-<table><thead><tr><th>
+### Basic Hull
 
-Parameter
+The simplest way is to use the preset configuration directly:
 
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-members
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-元素 Ids
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Hull.getMember()
-
-Get Hull member
-
-```typescript
-getMember(): string[];
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'hull',
+      members: ['node-1', 'node-2'], // List of node IDs to be wrapped
+    },
+  ],
+});
 ```
 
-<details><summary>View Parameters</summary>
+The effect is as follows:
 
-**Returns**:
-
-- **Type:** string[]
-
-- **Description:** 元素 Ids
-
-</details>
-
-### Hull.removeMember(members)
-
-Remove Hull member
-
-```typescript
-removeMember(members: ID | ID[]): void;
+```js | ob { pin: false }
+createGraph(
+  {
+    autoFit: 'view',
+    data: {
+      nodes: [
+        {
+          id: 'node-0',
+          data: { cluster: 'a' },
+          style: { x: 555, y: 151 },
+        },
+        {
+          id: 'node-1',
+          data: { cluster: 'a' },
+          style: { x: 532, y: 323 },
+        },
+        {
+          id: 'node-2',
+          data: { cluster: 'a' },
+          style: { x: 473, y: 227 },
+        },
+        {
+          id: 'node-3',
+          data: { cluster: 'a' },
+          style: { x: 349, y: 212 },
+        },
+        {
+          id: 'node-4',
+          data: { cluster: 'b' },
+          style: { x: 234, y: 201 },
+        },
+        {
+          id: 'node-5',
+          data: { cluster: 'b' },
+          style: { x: 338, y: 333 },
+        },
+        {
+          id: 'node-6',
+          data: { cluster: 'b' },
+          style: { x: 365, y: 91 },
+        },
+      ],
+      edges: [
+        {
+          source: 'node-0',
+          target: 'node-2',
+        },
+        {
+          source: 'node-1',
+          target: 'node-2',
+        },
+        {
+          source: 'node-2',
+          target: 'node-3',
+        },
+        {
+          source: 'node-3',
+          target: 'node-4',
+        },
+        {
+          source: 'node-3',
+          target: 'node-5',
+        },
+        {
+          source: 'node-3',
+          target: 'node-6',
+        },
+      ],
+    },
+    plugins: [
+      {
+        type: 'hull',
+        members: ['node-1', 'node-2'], // List of node IDs to be wrapped
+      },
+    ],
+    behaviors: ['zoom-canvas', 'drag-canvas'],
+  },
+  { width: 300, height: 150 },
+);
 ```
 
-<details><summary>View Parameters</summary>
+### Custom Styles
 
-<table><thead><tr><th>
+You can customize the style of the Hull as needed, such as adjusting color, transparency, and other properties.
 
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-members
-
-</td><td>
-
-string \| string[]
-
-</td><td>
-
-元素 Ids
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
-
-### Hull.updateMember(members)
-
-Update Hull member
-
-```typescript
-updateMember(members: ID[] | ((prev: ID[]) => ID[])): void;
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'hull',
+      members: ['node-1', 'node-2', 'node-3'],
+      stroke: '#ff000033', // Red semi-transparent border
+      fill: '#7e3feb', // Light purple fill
+      fillOpacity: 0.2,
+      lineWidth: 2,
+      padding: 15, // Larger padding
+    },
+  ],
+});
 ```
 
-<details><summary>View Parameters</summary>
+The effect is as follows:
 
-<table><thead><tr><th>
+```js | ob { pin: false }
+createGraph(
+  {
+    autoFit: 'view',
+    data: {
+      nodes: [
+        {
+          id: 'node-0',
+          data: { cluster: 'a' },
+          style: { x: 555, y: 151 },
+        },
+        {
+          id: 'node-1',
+          data: { cluster: 'a' },
+          style: { x: 532, y: 323 },
+        },
+        {
+          id: 'node-2',
+          data: { cluster: 'a' },
+          style: { x: 473, y: 227 },
+        },
+        {
+          id: 'node-3',
+          data: { cluster: 'a' },
+          style: { x: 349, y: 212 },
+        },
+        {
+          id: 'node-4',
+          data: { cluster: 'b' },
+          style: { x: 234, y: 201 },
+        },
+        {
+          id: 'node-5',
+          data: { cluster: 'b' },
+          style: { x: 338, y: 333 },
+        },
+        {
+          id: 'node-6',
+          data: { cluster: 'b' },
+          style: { x: 365, y: 91 },
+        },
+      ],
+      edges: [
+        {
+          source: 'node-0',
+          target: 'node-2',
+        },
+        {
+          source: 'node-1',
+          target: 'node-2',
+        },
+        {
+          source: 'node-2',
+          target: 'node-3',
+        },
+        {
+          source: 'node-3',
+          target: 'node-4',
+        },
+        {
+          source: 'node-3',
+          target: 'node-5',
+        },
+        {
+          source: 'node-3',
+          target: 'node-6',
+        },
+      ],
+    },
+    plugins: [
+      {
+        type: 'hull',
+        members: ['node-1', 'node-2', 'node-3'],
+        stroke: '#ff000033', // Red semi-transparent border
+        fill: '#7e3feb', // Light purple fill
+        fillOpacity: 0.2,
+        lineWidth: 2,
+        padding: 15, // Larger padding
+      },
+    ],
+    behaviors: ['zoom-canvas', 'drag-canvas'],
+  },
+  { width: 300, height: 150 },
+);
+```
 
-Parameter
+### Label Configuration
 
-</th><th>
+You can configure the position, background, offset, and other properties of the label to enhance the visual effect.
 
-Type
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'hull',
+      members: ['node-1', 'node-2'],
+      label: true, // Display label
+      labelText: 'hull-a',
+      labelPlacement: 'top', // Label position
+      labelBackground: true, // Display label background
+      labelPadding: 5, // Label padding
+    },
+  ],
+});
+```
 
-</th><th>
+The effect is as follows:
 
-Description
+```js | ob { pin: false }
+createGraph(
+  {
+    autoFit: 'center',
+    data: {
+      nodes: [
+        {
+          id: 'node-0',
+          data: { cluster: 'a' },
+          style: { x: 555, y: 151 },
+        },
+        {
+          id: 'node-1',
+          data: { cluster: 'a' },
+          style: { x: 532, y: 323 },
+        },
+        {
+          id: 'node-2',
+          data: { cluster: 'a' },
+          style: { x: 473, y: 227 },
+        },
+        {
+          id: 'node-3',
+          data: { cluster: 'a' },
+          style: { x: 349, y: 212 },
+        },
+        {
+          id: 'node-4',
+          data: { cluster: 'b' },
+          style: { x: 234, y: 201 },
+        },
+        {
+          id: 'node-5',
+          data: { cluster: 'b' },
+          style: { x: 338, y: 333 },
+        },
+        {
+          id: 'node-6',
+          data: { cluster: 'b' },
+          style: { x: 365, y: 91 },
+        },
+      ],
+      edges: [
+        {
+          source: 'node-0',
+          target: 'node-2',
+        },
+        {
+          source: 'node-1',
+          target: 'node-2',
+        },
+        {
+          source: 'node-2',
+          target: 'node-3',
+        },
+        {
+          source: 'node-3',
+          target: 'node-4',
+        },
+        {
+          source: 'node-3',
+          target: 'node-5',
+        },
+        {
+          source: 'node-3',
+          target: 'node-6',
+        },
+      ],
+    },
+    plugins: [
+      {
+        type: 'hull',
+        members: ['node-1', 'node-2'],
+        label: true, // Display label
+        labelText: 'hull-a',
+        labelPlacement: 'top', // Label position
+        labelBackground: true, // Display label background
+        labelPadding: 5, // Label padding
+      },
+    ],
+    behaviors: ['zoom-canvas', 'drag-canvas'],
+  },
+  { width: 300, height: 150 },
+);
+```
 
-</th></tr></thead>
-<tbody><tr><td>
+## Practical Cases
 
-members
-
-</td><td>
-
-string[] \| ((prev: string[]) => string[])
-
-</td><td>
-
-元素 Ids
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
+<Playground path="plugin/hull/demo/basic.js" rid="hull-basic"></Playground>

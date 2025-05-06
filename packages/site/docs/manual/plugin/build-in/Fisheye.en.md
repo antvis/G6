@@ -4,14 +4,16 @@ title: Fisheye
 
 ## Overview
 
-The Fisheye plugin is designed for focus+context exploration scenarios. It can magnify the focus area while maintaining the context and the relationships between the context and the focus center, making it an important visualization exploration tool.
+The Fisheye plugin is designed for focus+context exploration scenarios. It can magnify the area of interest while ensuring that the context and the relationship between the context and the focus center are not lost. It is an important visualization exploration tool.
 
 ## Use Cases
 
-- Need to highlight certain areas during presentations
-- Need to magnify local details while maintaining the overall view
+- Highlight certain areas during presentations
+- Magnify details locally without losing the overall view
 
 ## Basic Usage
+
+Below is a simple example of initializing the Fisheye plugin:
 
 ```js
 const graph = new Graph({
@@ -21,78 +23,60 @@ const graph = new Graph({
       trigger: 'drag', // Move fisheye by dragging
       d: 1.5, // Set distortion factor
       r: 120, // Set fisheye radius
-      showDPercent: true, // Show distortion percentage
+      showDPercent: true, // Show distortion degree
     },
   ],
 });
 ```
 
-## Live Demo
+## Online Experience
 
 <embed src="@/common/api/plugins/fisheye.md"></embed>
 
-## Options
+## Configuration Options
 
-| Property       | Description                                              | Type                                                                                                                                                                                                                       | Default                                 | Required |
-| -------------- | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | -------- |
-| type           | Plugin type                                              | string                                                                                                                                                                                                                     | `fisheye`                               | ✓        |
-| trigger        | The way to move the fisheye lens                         | `pointermove` \| `drag` \| `click`                                                                                                                                                                                         | `pointermove`                           |          |
-| r              | The radius of the fisheye lens                           | number                                                                                                                                                                                                                     | 120                                     |          |
-| maxR           | The maximum radius that the fisheye lens can be adjusted | number                                                                                                                                                                                                                     | half of the minimum canvas width/height |          |
-| minR           | The minimum radius that the fisheye lens can be adjusted | number                                                                                                                                                                                                                     | 0                                       |          |
-| d              | Distortion factor                                        | number                                                                                                                                                                                                                     | 1.5                                     |          |
-| maxD           | The maximum distortion factor that can be adjusted       | number                                                                                                                                                                                                                     | 5                                       |          |
-| minD           | The minimum distortion factor that can be adjusted       | number                                                                                                                                                                                                                     | 0                                       |          |
-| scaleRBy       | The way to adjust the range radius                       | `wheel` \| `drag`                                                                                                                                                                                                          | -                                       |          |
-| scaleDBy       | The way to adjust the distortion factor                  | `wheel` \| `drag`                                                                                                                                                                                                          | -                                       |          |
-| showDPercent   | Whether to display the distortion factor value           | boolean                                                                                                                                                                                                                    | true                                    |          |
-| style          | Fisheye lens style                                       | [CircleStyleProps](#circlestyleprops)                                                                                                                                                                                      | -                                       |          |
-| nodeStyle      | Node style in the fisheye lens                           | [NodeStyle](/en/manual/element/node/build-in/base-node#stylestyle-property-style) \| ((datum: [NodeData](/en/manual/data#node-data)) => [NodeStyle](/en/manual/element/node/build-in/base-node#stylestyle-property-style)) | `{ label: true }`                       |          |
-| preventDefault | Whether to prevent default events                        | boolean                                                                                                                                                                                                                    | true                                    |          |
+| Property       | Description                                                                                                                                                                                                                   | Type                                                                                                                                                                                      | Default Value                               | Required |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | -------- |
+| type           | Plugin type                                                                                                                                                                                                                   | string                                                                                                                                                                                    | `fisheye`                                   | ✓        |
+| key            | Unique identifier for the plugin, can be used to get the plugin instance or update plugin options                                                                                                                             | string                                                                                                                                                                                    | -                                           |          |
+| trigger        | Method to move the fisheye:<br/>- `pointermove`: The fisheye always follows the mouse movement <br/>- `click`: Move the fisheye to the click position when clicking on the canvas <br/>- `drag`: Move the fisheye by dragging | `pointermove` \| `drag` \| `click`                                                                                                                                                        | `pointermove`                               |          |
+| r              | Radius of the fisheye                                                                                                                                                                                                         | number                                                                                                                                                                                    | 120                                         |          |
+| maxR           | Maximum adjustable radius of the fisheye                                                                                                                                                                                      | number                                                                                                                                                                                    | Half of the smaller dimension of the canvas |          |
+| minR           | Minimum adjustable radius of the fisheye                                                                                                                                                                                      | number                                                                                                                                                                                    | 0                                           |          |
+| d              | Distortion factor                                                                                                                                                                                                             | number                                                                                                                                                                                    | 1.5                                         |          |
+| maxD           | Maximum adjustable distortion factor of the fisheye                                                                                                                                                                           | number                                                                                                                                                                                    | 5                                           |          |
+| minD           | Minimum adjustable distortion factor of the fisheye                                                                                                                                                                           | number                                                                                                                                                                                    | 0                                           |          |
+| scaleRBy       | Method to adjust the fisheye radius:<br/>- `'wheel'`: Adjust by wheel <br/>- `'drag'`: Adjust by dragging                                                                                                                     | `wheel` \| `drag`                                                                                                                                                                         | -                                           |          |
+| scaleDBy       | Method to adjust the fisheye distortion factor:<br/>- `'wheel'`: Adjust by wheel <br/>- `'drag'`: Adjust by dragging                                                                                                          | `wheel` \| `drag`                                                                                                                                                                         | -                                           |          |
+| showDPercent   | Whether to show the distortion factor value in the fisheye                                                                                                                                                                    | boolean                                                                                                                                                                                   | true                                        |          |
+| style          | Style of the fisheye, [configuration options](#style)                                                                                                                                                                         | object                                                                                                                                                                                    | -                                           |          |
+| nodeStyle      | Style of nodes in the fisheye                                                                                                                                                                                                 | [NodeStyle](/en/manual/element/node/build-in/base-node#style) \| ((datum: [NodeData](/en/manual/data#节点数据nodedata)) => [NodeStyle](/en/manual/element/node/build-in/base-node#style)) | `{ label: true }`                           |          |
+| preventDefault | Whether to prevent default events                                                                                                                                                                                             | boolean                                                                                                                                                                                   | true                                        |          |
 
-### CircleStyleProps
+### style
 
-Circle style properties, used to configure the appearance of the fisheye lens.
+Circular style properties for configuring the appearance of the fisheye.
 
-| Property      | Description     | Type                          | Default |
-| ------------- | --------------- | ----------------------------- | ------- |
-| fill          | Fill color      | string \| Pattern \| null     | -       |
-| stroke        | Stroke color    | string \| Pattern \| null     | -       |
-| opacity       | Overall opacity | number \| string              | -       |
-| fillOpacity   | Fill opacity    | number \| string              | -       |
-| strokeOpacity | Stroke opacity  | number \| string              | -       |
-| lineWidth     | Line width      | number \| string              | -       |
-| lineCap       | Line end style  | `butt` \| `round` \| `square` | -       |
-| lineJoin      | Line join style | `miter` \| `round` \| `bevel` | -       |
-| shadowColor   | Shadow color    | string                        | -       |
-| shadowBlur    | Shadow blur     | number                        | -       |
-| shadowOffsetX | Shadow X offset | number                        | -       |
-| shadowOffsetY | Shadow Y offset | number                        | -       |
+| Property      | Description        | Type                          | Default Value |
+| ------------- | ------------------ | ----------------------------- | ------------- |
+| fill          | Fill color         | string \| Pattern \| null     | `#ccc`        |
+| stroke        | Stroke color       | string \| Pattern \| null     | `#000`        |
+| opacity       | Overall opacity    | number \| string              | -             |
+| fillOpacity   | Fill opacity       | number \| string              | 0.1           |
+| strokeOpacity | Stroke opacity     | number \| string              | -             |
+| lineWidth     | Line width         | number \| string              | 2             |
+| lineCap       | Line cap style     | `butt` \| `round` \| `square` | -             |
+| lineJoin      | Line join style    | `miter` \| `round` \| `bevel` | -             |
+| shadowColor   | Shadow color       | string                        | -             |
+| shadowBlur    | Shadow blur degree | number                        | -             |
+| shadowOffsetX | Shadow X offset    | number                        | -             |
+| shadowOffsetY | Shadow Y offset    | number                        | -             |
 
-### trigger
-
-The `trigger` property controls how the fisheye lens moves, supporting three configurations:
-
-- `'pointermove'`: The fisheye lens always follows mouse movement
-- `'click'`: Move the fisheye lens to the clicked position
-- `'drag'`: Move the fisheye lens by dragging
-
-```js
-const graph = new Graph({
-  plugins: [
-    {
-      type: 'fisheye',
-      trigger: 'pointermove', // Follow mouse movement
-      //   trigger: 'click', // Move on click
-      //   trigger: 'drag', // Move by dragging
-    },
-  ],
-});
-```
+For complete style properties, refer to [Element - Node - Built-in Node - General Style Properties - style](/en/manual/element/node/build-in/base-node#style)
 
 ### Zoom Control
 
-Use `scaleRBy` and `scaleDBy` to control how to adjust the radius and distortion factor of the fisheye lens:
+`scaleRBy` and `scaleDBy` can be used to control the adjustment method of the fisheye's radius and distortion factor respectively:
 
 ```js
 const graph = new Graph({
@@ -113,13 +97,13 @@ const graph = new Graph({
 });
 ```
 
-Note: When `trigger`, `scaleRBy`, and `scaleDBy` are all set to `'drag'`, the priority order is `trigger` > `scaleRBy` > `scaleDBy`, and only the highest priority configuration will be bound to the drag event. Similarly, if both `scaleRBy` and `scaleDBy` are set to `'wheel'`, only `scaleRBy` will be bound to the wheel event.
+Note: When `trigger`, `scaleRBy`, and `scaleDBy` are all set to `'drag'`, the priority order is `trigger` > `scaleRBy` > `scaleDBy`, and only the highest priority configuration item will bind the drag event. Similarly, if `scaleRBy` and `scaleDBy` are both set to `'wheel'`, only `scaleRBy` will bind the wheel event.
 
 ## Code Examples
 
 ### Basic Usage
 
-The simplest configuration:
+The simplest configuration method:
 
 ```js
 const graph = new Graph({
@@ -129,7 +113,7 @@ const graph = new Graph({
 
 ### Custom Styles
 
-You can customize the appearance and behavior of the fisheye lens:
+You can customize the appearance and behavior of the fisheye:
 
 ```js
 const graph = new Graph({
@@ -140,40 +124,40 @@ const graph = new Graph({
       d: 2,
       style: {
         fill: '#2f54eb', // Fill color of the fisheye area
-        fillOpacity: 0.2, // Fill opacity
-        stroke: '#1d39c4', // Border color of the fisheye
-        strokeOpacity: 0.8, // Border opacity
-        lineWidth: 1.5, // Border width
+        fillOpacity: 0.2, // Opacity of the fill area
+        stroke: '#1d39c4', // Color of the fisheye border
+        strokeOpacity: 0.8, // Opacity of the border
+        lineWidth: 1.5, // Line width of the border
         shadowColor: '#1d39c4', // Shadow color
         shadowBlur: 10, // Shadow blur radius
-        shadowOffsetX: 0, // Shadow X offset
-        shadowOffsetY: 0, // Shadow Y offset
-        cursor: 'pointer', // Cursor style on hover
+        shadowOffsetX: 0, // Horizontal shadow offset
+        shadowOffsetY: 0, // Vertical shadow offset
+        cursor: 'pointer', // Cursor style when hovering
       },
       nodeStyle: {
-        // Basic node styles
+        // Basic node style
         size: 40, // Node size
         fill: '#d6e4ff', // Node fill color
         stroke: '#2f54eb', // Node border color
         lineWidth: 2, // Node border width
         shadowColor: '#2f54eb', // Node shadow color
         shadowBlur: 5, // Node shadow blur radius
-        cursor: 'pointer', // Cursor style on hover
+        cursor: 'pointer', // Cursor style when hovering
 
-        // Label styles
-        label: true, // Whether to show label
+        // Label style
+        label: true, // Show label
         labelFontSize: 14, // Label font size
         labelFontWeight: 'bold', // Label font weight
         labelFill: '#1d39c4', // Label text color
-        labelBackground: true, // Whether to show label background
+        labelBackground: true, // Show label background
         labelBackgroundFill: '#fff', // Label background fill color
         labelBackgroundStroke: '#1d39c4', // Label background border color
         labelBackgroundOpacity: 0.8, // Label background opacity
-        labelBackgroundPadding: [4, 8, 4, 8], // Label background padding [top,right,bottom,left]
+        labelBackgroundPadding: [4, 8, 4, 8], // Label background padding [top, right, bottom, left]
 
-        // Icon styles
-        icon: true, // Whether to show icon
-        iconFontFamily: 'iconfont', // Icon font family
+        // Icon style
+        icon: true, // Show icon
+        iconFontFamily: 'iconfont', // Icon font
         iconText: '\ue6f6', // Icon Unicode
         iconFill: '#1d39c4', // Icon color
         iconSize: 16, // Icon size
@@ -229,40 +213,40 @@ createGraph(
         d: 2,
         style: {
           fill: '#2f54eb', // Fill color of the fisheye area
-          fillOpacity: 0.2, // Fill opacity
-          stroke: '#1d39c4', // Border color of the fisheye
-          strokeOpacity: 0.8, // Border opacity
-          lineWidth: 1.5, // Border width
+          fillOpacity: 0.2, // Opacity of the fill area
+          stroke: '#1d39c4', // Color of the fisheye border
+          strokeOpacity: 0.8, // Opacity of the border
+          lineWidth: 1.5, // Line width of the border
           shadowColor: '#1d39c4', // Shadow color
           shadowBlur: 10, // Shadow blur radius
-          shadowOffsetX: 0, // Shadow X offset
-          shadowOffsetY: 0, // Shadow Y offset
-          cursor: 'pointer', // Cursor style on hover
+          shadowOffsetX: 0, // Horizontal shadow offset
+          shadowOffsetY: 0, // Vertical shadow offset
+          cursor: 'pointer', // Cursor style when hovering
         },
         nodeStyle: {
-          // Basic node styles
+          // Basic node style
           size: 40, // Node size
           fill: '#d6e4ff', // Node fill color
           stroke: '#2f54eb', // Node border color
           lineWidth: 2, // Node border width
           shadowColor: '#2f54eb', // Node shadow color
           shadowBlur: 5, // Node shadow blur radius
-          cursor: 'pointer', // Cursor style on hover
+          cursor: 'pointer', // Cursor style when hovering
 
-          // Label styles
-          label: true, // Whether to show label
+          // Label style
+          label: true, // Show label
           labelFontSize: 14, // Label font size
           labelFontWeight: 'bold', // Label font weight
           labelFill: '#1d39c4', // Label text color
-          labelBackground: true, // Whether to show label background
+          labelBackground: true, // Show label background
           labelBackgroundFill: '#fff', // Label background fill color
           labelBackgroundStroke: '#1d39c4', // Label background border color
           labelBackgroundOpacity: 0.8, // Label background opacity
-          labelBackgroundPadding: [4, 8, 4, 8], // Label background padding [top,right,bottom,left]
+          labelBackgroundPadding: [4, 8, 4, 8], // Label background padding [top, right, bottom, left]
 
-          // Icon styles
-          icon: true, // Whether to show icon
-          iconFontFamily: 'iconfont', // Icon font family
+          // Icon style
+          icon: true, // Show icon
+          iconFontFamily: 'iconfont', // Icon font
           iconText: '\ue6f6', // Icon Unicode
           iconFill: '#1d39c4', // Icon color
           iconSize: 16, // Icon size
@@ -275,6 +259,6 @@ createGraph(
 );
 ```
 
-## Examples
+## Practical Examples
 
 <Playground path="plugin/fisheye/demo/basic.js" rid="fisheye-basic"></Playground>

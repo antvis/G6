@@ -36,41 +36,38 @@ const graph = new Graph({
 
 ## 配置项
 
-## 配置项
-
 | 属性                     | 描述                                                             | 类型                                                           | 默认值        | 必选 |
-| ------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------- | ------------- | ---- | --- | --- | --- |
-| type                     | 插件类型                                                         | string                                                         | `bubble-sets` |      |
-| key                      | 插件唯一标识符，用于后续更新                                     | string                                                         | -             | ✓    |
-| members                  | 成员元素，包括节点和边                                           | ID[]                                                           | -             | ✓    |
-| avoidMembers             | 需要避开的元素，在绘制轮廓时不会包含这些元素（目前支持设置节点） | ID[]                                                           | -             |      |
+| ------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------- | ------------- | ---- |
+| type                     | 插件类型                                                         | string                                                         | `bubble-sets` | ✓    |
+| key                      | 插件唯一标识符，用于后续更新                                     | string                                                         | -             |      |
+| members                  | 成员元素，包括节点和边，[示例](#members)                         | string[]                                                       | -             | ✓    |
+| avoidMembers             | 需要避开的元素，在绘制轮廓时不会包含这些元素（目前支持设置节点） | string[]                                                       | -             |      |
 | label                    | 是否显示标签                                                     | boolean                                                        | true          |      |
 | labelPlacement           | 标签位置                                                         | `left` \| `right` \| `top` \| `bottom` \| `center` \| `bottom` | `bottom`      |      |
 | labelBackground          | 是否显示背景                                                     | boolean                                                        | false         |      |
 | labelPadding             | 标签内边距                                                       | number \| number[]                                             | 0             |      |
-| labelCloseToPath         | 标签是否贴合轮廓                                                 | boolean                                                        | true          |      |
-| labelAutoRotate          | 标签是否跟随轮廓旋转                                             | boolean                                                        | true          |      |
+| labelCloseToPath         | 标签是否贴合轮廓，[示例](#labelclosetopath)                      | boolean                                                        | true          |      |
+| labelAutoRotate          | 标签是否跟随轮廓旋转，[示例](#labelautorotate)                   | boolean                                                        | true          |      |
 | labelOffsetX             | 标签 x 轴偏移量                                                  | number                                                         | 0             |      |
 | labelOffsetY             | 标签 y 轴偏移量                                                  | number                                                         | 0             |      |
 | labelMaxWidth            | 文本的最大宽度，超出会自动省略                                   | number                                                         | -             |      |
-| maxRoutingIterations     | 计算成员之间路径的最大迭代次数                                   | number                                                         | 100           |      |     | -   |     |
+| maxRoutingIterations     | 计算成员之间路径的最大迭代次数                                   | number                                                         | 100           |      |
 | maxMarchingIterations    | 计算轮廓的最大迭代次数                                           | number                                                         | 20            |      |
 | pixelGroup               | 每个潜在区域组的像素数，用于提高速度                             | number                                                         | 4             |      |
 | edgeR0                   | 边的半径参数 R0                                                  | number                                                         | -             |      |
 | edgeR1                   | 边的半径参数 R1                                                  | number                                                         | -             |      |
 | nodeR0                   | 节点的半径参数 R0                                                | number                                                         | -             |      |
 | nodeR1                   | 节点的半径参数 R1                                                | number                                                         | -             |      |
-| morphBuffer              | 形态缓冲区大小                                                   | number                                                         |
+| morphBuffer              | 形态缓冲区大小                                                   | number                                                         |               |      |
 | threshold                | 阈值                                                             | number                                                         | -             |      |
 | memberInfluenceFactor    | 成员影响因子                                                     | number                                                         | -             |      |
 | edgeInfluenceFactor      | 边影响因子                                                       | number                                                         | -             |      |
 | nonMemberInfluenceFactor | 非成员影响因子                                                   | number                                                         | -             |      |
 | virtualEdges             | 是否使用虚拟边                                                   | boolean                                                        | -             |      |
 
-### <Badge type="success">Required</Badge> members
+### members
 
-> _ID[]_
-> 成员元素，包括节点和边
+成员元素，包括节点和边。
 
 ```js
 const graph = new Graph({
@@ -175,11 +172,7 @@ createGraph(
 
 ### labelCloseToPath
 
-> _boolean_ **Default:** `true`
-
-标签是否贴合轮廓
-
-示例：不让label贴合轮廓
+示例：不让 label 贴合轮廓
 
 ```js
 const graph = new Graph({
@@ -290,10 +283,6 @@ createGraph(
 
 ### labelAutoRotate
 
-> _boolean_ **Default:** `true`
-
-标签是否跟随轮廓旋转
-
 示例：不让label标签跟随轮廓旋转
 
 ```js
@@ -403,7 +392,7 @@ createGraph(
 );
 ```
 
-## 使用场景
+## 使用示例
 
 ### 基础 BubbleSets
 

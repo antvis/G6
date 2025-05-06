@@ -15,6 +15,8 @@ Minimap（小地图）插件主要适用于以下场景：
 
 ## 基本用法
 
+以下是一个简单的 Minimap 插件初始化示例：
+
 ```js
 const graph = new Graph({
   plugins: [
@@ -22,7 +24,6 @@ const graph = new Graph({
       key: 'minimap',
       type: 'minimap',
       size: [240, 160],
-      renderer: new Renderer(),
     },
   ],
 });
@@ -52,34 +53,30 @@ const graph = new Graph({
 
 ### containerStyle
 
-> _CSSStyleDeclaration_
+设置缩略图的容器样式，传入外置容器时不生效。继承了所有 CSS 样式属性（CSSStyleDeclaration），你可以使用任何合法的 CSS 属性来配置缩略图容器的样式。
 
-缩略图的容器样式，传入外置容器时不生效。
-containerStyle 配置项继承了所有 CSS 样式属性（CSSStyleDeclaration），你可以使用任何合法的 CSS 属性来配置缩略图容器的样式。
 以下是一些常用配置：
 
 | 属性         | 描述         | 类型   | 默认值           | 必选 |
 | ------------ | ------------ | ------ | ---------------- | ---- |
-| border       | 容器边框样式 | string | `1px solid #ddd` | 是   |
-| background   | 容器背景颜色 | string | `#fff`           | 是   |
-| borderRadius | 容器圆角大小 | string | -                | -    |
-| boxShadow    | 容器阴影效果 | string | -                | -    |
-| padding      | 容器内边距   | string | -                | -    |
-| margin       | 容器外边距   | string | -                | -    |
-| opacity      | 透明度       | string | -                | -    |
+| border       | 容器边框样式 | string | `1px solid #ddd` | ✓    |
+| background   | 容器背景颜色 | string | `#fff`           | ✓    |
+| borderRadius | 容器圆角大小 | string | -                |      |
+| boxShadow    | 容器阴影效果 | string | -                |      |
+| padding      | 容器内边距   | string | -                |      |
+| margin       | 容器外边距   | string | -                |      |
+| opacity      | 透明度       | string | -                |      |
 
 ### maskStyle
 
-> _CSSStyleDeclaration_
+指定遮罩的样式。继承了所有 CSS 样式属性（CSSStyleDeclaration），你可以使用任何合法的 CSS 属性来配置缩略图容器的样式。
 
-遮罩的样式。
-maskStyle 配置项继承了所有 CSS 样式属性（CSSStyleDeclaration），你可以使用任何合法的 CSS 属性来配置缩略图容器的样式。
 以下是一些常用配置：
 
 | 属性         | 描述         | 类型   | 默认值               | 必选 |
 | ------------ | ------------ | ------ | -------------------- | ---- |
-| border       | 容器边框样式 | string | `1px solid #ddd`     | 是   |
-| background   | 容器背景颜色 | string | `rgba(0, 0, 0, 0.1)` | 是   |
+| border       | 容器边框样式 | string | `1px solid #ddd`     | ✓    |
+| background   | 容器背景颜色 | string | `rgba(0, 0, 0, 0.1)` | ✓    |
 | borderRadius | 容器圆角大小 | string | -                    | -    |
 | boxShadow    | 容器阴影效果 | string | -                    | -    |
 | padding      | 容器内边距   | string | -                    | -    |
@@ -88,12 +85,10 @@ maskStyle 配置项继承了所有 CSS 样式属性（CSSStyleDeclaration），�
 
 ### position
 
-> _[number, number] \| `left` \| `right` \| `top` \| `bottom` \| `left-top` \| `left-bottom` \| `right-top` \| `right-bottom` \| `top-left` \| `top-right` \| `bottom-left` \| `bottom-right` \| `center`_ **Default:** `right-bottom`
-
 缩略图相对于画布的位置，缩略图位置配置支持数组形式和预设值形式。
 
 - 数组形式 [number, number] 表示相对位置，取值范围为 0~1。举例：[0, 0] 代表画布左上角，[1, 1] 代表画布右下角。
-- 预设值形式用于设定缩略图所在画布固定方位。举例：`left-top` 代表画布左上角，`right-bottom` 代表画布右下角。
+- 预设值形式用于设定缩略图所在画布固定方位，可选值有：`left` \| `right` \| `top` \| `bottom` \| `left-top` \| `left-bottom` \| `right-top` \| `right-bottom` \| `top-left` \| `top-right` \| `bottom-left` \| `bottom-right` \| `center`
 
 ```js
 const graph = new Graph({
@@ -137,9 +132,7 @@ createGraph(
 
 ### size
 
-> _[number, number]_ **Default:** `[240, 160]`
-
-宽度和高度
+设置小地图的宽度和高度，默认值为 [240, 160]
 
 ```js
 const graph = new Graph({

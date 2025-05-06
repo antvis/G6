@@ -12,7 +12,7 @@ When translating files under the `site/docs` directory, please adhere to the fol
    **Glossary**:
 
    - 画布 (Canvas)
-   - 元素 (Eleme)
+   - 元素 (Element)
    - 节点 (Node)
    - 边 (Edge)
    - 组合 (Combo)
@@ -52,5 +52,7 @@ When translating files under the `site/docs` directory, please adhere to the fol
 6. **Direct Modification**: Translations should be directly modified in the corresponding `.en.md` or `.zh.md` files without returning the translated content separately. Ensure that the changes are saved in the correct file and location.
 
 7. **Preserve Metadata Order**: Do not modify the `order` attribute in the page metadata during translation. This ensures that the document order remains consistent across different language versions.
+
+8. **Add '/en' Prefix to Internal Links**: Ensure that all internal links in English documentation have the '/en' prefix to maintain consistency and correct navigation.
 
 By following these guidelines, translations will be more accurate and consistent, facilitating easier review and integration into the documentation.

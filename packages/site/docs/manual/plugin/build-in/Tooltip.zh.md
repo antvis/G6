@@ -13,6 +13,8 @@ title: Tooltip 提示框
 
 ## 基本使用
 
+以下是一个简单的 Tooltip 插件初始化示例：
+
 ```js
 const graph = new Graph({
   // 其他配置...

@@ -3,98 +3,181 @@ title: Plugin Overview
 order: 1
 ---
 
-## Overview
+## What is a Plugin
 
-A plugin is the most flexible extension mechanism in G6, allowing users to extend G6's functionality through plugins. For example, you can mount additional graphical components on the canvas or implement features like undo and redo.
+<image width="200px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sa3jRqp83K4AAAAAAAAAAAAADmJ7AQ/original" />
 
-Most customization requirements can be met through plugins. G6 comes with some commonly used plugins, such as: [Tooltip](/en/api/plugins/tooltip), [Grid](/en/api/plugins/grid), [History](/en/api/plugins/history).
+A Plugin is the most flexible extension mechanism in G6, allowing users to extend G6's functionality, such as adding graphical components to the canvas or implementing undo/redo features.
 
-> For a list of built-in plugins, please refer to: [Plugin](/en/api/plugins/bubble-sets)
+Most customization needs can be achieved through plugins. G6 comes with some built-in plugins, such as: [Tooltip](/en/manual/plugin/build-in/tooltip), [Grid](/en/manual/plugin/build-in/grid-line), [History](/en/manual/plugin/build-in/history).
 
-## Register Plugin
+## Built-in Plugins
 
-You can use built-in plugins directly. If you want to use other plugins, you need to register them first:
+G6 provides a rich set of built-in plugins covering various common functional scenarios:
 
-```typescript
-import { register, ExtensionCategory } from '@antv/g6';
-import { CustomPlugin } from 'package-name/or/path-to-your-custom-plugin';
+| Category                     | Plugin Name                                                     | Registration Type  | Description                                                            |
+| ---------------------------- | --------------------------------------------------------------- | ------------------ | ---------------------------------------------------------------------- |
+| **Visual Style Enhancement** |                                                                 |                    |                                                                        |
+|                              | [Grid Line](/en/manual/plugin/build-in/grid-line)               | `grid-line`        | Displays grid reference lines on the canvas                            |
+|                              | [Background](/en/manual/plugin/build-in/background)             | `background`       | Adds background images or colors to the canvas                         |
+|                              | [Watermark](/en/manual/plugin/build-in/watermark)               | `watermark`        | Adds a watermark to the canvas to protect copyright                    |
+|                              | [Hull](/en/manual/plugin/build-in/hull)                         | `hull`             | Creates an outline for a specified set of nodes                        |
+|                              | [Bubble Sets](/en/manual/plugin/build-in/bubble-sets)           | `bubble-sets`      | Creates smooth bubble-like element outlines                            |
+|                              | [Snapline](/en/manual/plugin/build-in/snapline)                 | `snapline`         | Displays alignment reference lines when dragging elements              |
+| **Navigation and Overview**  |                                                                 |                    |                                                                        |
+|                              | [Minimap](/en/manual/plugin/build-in/minimap)                   | `minimap`          | Displays a thumbnail preview of the graph, supporting navigation       |
+|                              | [Fullscreen](/en/manual/plugin/build-in/fullscreen)             | `fullscreen`       | Supports full-screen display and exit for charts                       |
+|                              | [Timebar](/en/manual/plugin/build-in/timebar)                   | `timebar`          | Provides filtering and playback control for temporal data              |
+| **Interactive Controls**     |                                                                 |                    |                                                                        |
+|                              | [Toolbar](/en/manual/plugin/build-in/toolbar)                   | `toolbar`          | Provides a collection of common operation buttons                      |
+|                              | [Context Menu](/en/manual/plugin/build-in/contextmenu)          | `contextmenu`      | Displays a menu of selectable operations on right-click                |
+|                              | [Tooltip](/en/manual/plugin/build-in/tooltip)                   | `tooltip`          | Displays detailed information about elements on hover                  |
+|                              | [Legend](/en/manual/plugin/build-in/legend)                     | `legend`           | Displays categories and corresponding style descriptions of chart data |
+| **Data Exploration**         |                                                                 |                    |                                                                        |
+|                              | [Fisheye](/en/manual/plugin/build-in/fisheye)                   | `fisheye`          | Provides a focus + context exploration experience                      |
+|                              | [Edge Filter Lens](/en/manual/plugin/build-in/edge-filter-lens) | `edge-filter-lens` | Filters and displays edges within a specified area                     |
+|                              | [Edge Bundling](/en/manual/plugin/build-in/edge-bundling)       | `edge-bundling`    | Bundles edges with similar paths together to reduce visual clutter     |
+| **Advanced Features**        |                                                                 |                    |                                                                        |
+|                              | [History](/en/manual/plugin/build-in/history)                   | `history`          | Supports undo/redo operations                                          |
+|                              | [Camera Setting](/en/manual/plugin/build-in/camera-setting)     | `camera-setting`   | Configures camera parameters in a 3D scene                             |
 
-register(ExtensionCategory.PLUGIN, 'custom-plugin', CustomPlugin);
-```
+For detailed configuration of each plugin, refer to the [Built-in Plugin Documentation](/en/manual/plugin/build-in/grid-line).
 
-## Configure Plugin
+## Configuration Methods
 
-To enable and configure plugins, you need to pass the `plugins` option when instantiating the `Graph`. This option is an array that includes the plugins that need to be enabled:
+### Basic Configuration
 
-```typescript
-{
-  plugins: ['grid', 'tooltip', 'contextmenu'],
-}
-```
+Specify the required plugins through the `plugins` array when initializing the graph instance:
 
-Some plugins support property configuration in the form of an `object`, for example:
+```javascript {}5
+import { Graph } from '@antv/g6';
 
-```typescript
-{
-  plugins: [
-    {
-      type: 'bubble-sets',
-      members: ['node-1'],
-    },
-  ];
-}
-```
-
-### Update Plugin
-
-After the `Graph` is instantiated, you can adjust the plugins using the [setPlugins](/en/api/graph/method#graphsetpluginsplugins) method:
-
-```typescript
-// add minimap plugin
-graph.setPlugins((plugins) => [...plugins, 'minimap']);
-
-// remove tooltip plugin
-graph.setPlugins((plugins) => plugins.filter((plugin) => plugin !== 'tooltip'));
-```
-
-G6 Graph also provides the [updatePlugin](/en/api/graph/method#graphupdatepluginplugin) method for more conveniently updating plugin configurations:
-
-```typescript
-graph.updatePlugin({
-  key: 'grid',
-  follow: true,
+const graph = new Graph({
+  // Other configurations...
+  plugins: ['grid', 'minimap', 'tooltip'],
 });
 ```
 
-:::warning{title=note}
+### Configuring Plugin Parameters
 
-To use the `updatePlugin` method, you must configure the plugin as an `object` during initialization and pass in a `key` value.
+For plugins that require custom parameters, you can configure properties using the `object` form:
+
+```javascript {5-9}
+const graph = new Graph({
+  // Other configurations...
+  plugins: [
+    'grid',
+    {
+      type: 'tooltip',
+      key: 'my-tooltip', // Specify a key for the plugin for future updates
+      getContent: (e) => `<div>Node: ${e.target.id}</div>`,
+    },
+  ],
+});
+```
+
+### Dynamically Updating Plugins
+
+G6 supports dynamic management of plugins during the runtime of the graph instance to meet complex interaction needs:
+
+Use the [getPlugins](/en/api/plugin#graphgetplugins) method to get the current list of plugins:
+
+```javascript
+// Get the list of plugins
+const plugins = graph.getPlugins();
+// console.log(plugins) 👉 ['minimap', 'grid']
+```
+
+You can adjust plugins using the [setPlugins](/en/api/plugin#graphsetpluginsplugins) method:
+
+```javascript
+// Add a new plugin
+graph.setPlugins((plugins) => [...plugins, 'minimap']);
+
+// Remove a plugin
+graph.setPlugins((plugins) => plugins.filter((p) => p !== 'grid'));
+```
+
+You can update the configuration of a plugin using the [updatePlugin](/en/api/plugin#graphupdatepluginplugin) method:
+
+```javascript {6,14}
+const graph = new Graph({
+  // Other configurations...
+  plugins: [
+    {
+      type: 'tooltip',
+      key: 'my-tooltip',
+      getContent: (e) => `<div>Node: ${e.target.id}</div>`,
+    },
+  ],
+});
+
+// Update a single plugin
+graph.updatePlugin({
+  key: 'my-tooltip',
+  getContent: (e) => `<div>Updated content: ${e.target.id}</div>`,
+});
+```
+
+:::warning{title=Note}
+When using the `updatePlugin` method, you need to specify a unique `key` for the plugin during initialization.
 :::
 
-### Uninstall Plugin
+### Uninstalling Plugins
 
-The [setPlugins](/en/api/graph/method#graphsetpluginsplugins) method can also be used to uninstall plugins by setting the plugin configuration list to an empty array:
+Use the [setPlugins](/en/api/plugin#graphsetpluginsplugins) method to uninstall plugins by setting the plugin configuration list to empty:
 
-```typescript
+```javascript
 // Uninstall all plugins
 graph.setPlugins([]);
 ```
 
-## Invoking Plugin Methods
+### Calling Plugin Methods
 
-Some plugins provide API methods that can be invoked by users. For example, the `history` plugin provides `undo` and `redo` methods, which users can call to perform undo and redo operations.
+Some plugins provide API methods for users to call, such as the `history` plugin providing `undo` and `redo` methods, allowing users to implement undo and redo operations by calling these methods.
 
-To invoke these methods, you first need to obtain the plugin instance, which can be acquired through the `getPluginInstance` method:
+To call these methods, you need to first get the plugin instance, which can be obtained through the [getPluginInstance](/en/api/plugin#graphgetplugininstancekey) method:
 
-```js
-const history = graph.getPluginInstance('history');
+```javascript
+// Configure the plugin
+const graph = new Graph({
+  plugins: [{ type: 'history', key: 'my-history' }],
+});
+
+// Get the plugin instance
+const history = graph.getPluginInstance('my-history');
+
+// Call plugin methods
+history.undo();
+history.redo();
 ```
 
-:::warning{title=note}
-
-The `graph.getPluginInstance` method takes the plugin `key` value as a parameter. Therefore, to obtain a plugin instance, you must configure the corresponding plugin as an `object` and pass in the `key` value.
+:::warning{title=Note}
+The `graph.getPluginInstance` method takes the plugin key value as a parameter, so if you need to get the plugin instance, you need to configure the corresponding plugin in the form of an `object` and pass in the `key` value.
 :::
 
-## Custom Plugin
+For more plugin-related APIs, please refer to the [Plugin API Documentation](/en/api/plugin).
 
-If the built-in plugins do not meet your requirements, you can create custom plugins. For details, please refer to [Custom Plugin](/en/manual/custom-extension/plugin).
+## Custom Plugins
+
+When built-in plugins cannot meet your needs, you can:
+
+- Inherit and extend existing plugins
+- Create brand new custom plugins
+
+Custom plugins need to be registered before use. For detailed tutorials, please refer to the [Custom Plugin](/en/manual/plugin/custom-plugin) documentation.
+
+```javascript
+import { register, ExtensionCategory } from '@antv/g6';
+import { MyCustomPlugin } from './my-custom-plugin';
+
+// Register custom plugin
+register(ExtensionCategory.PLUGIN, 'my-custom-plugin', MyCustomPlugin);
+
+// Use custom plugin
+const graph = new Graph({
+  plugins: ['my-custom-plugin'],
+});
+```
+
+By reasonably combining and configuring plugins, you can build graph visualization applications with rich features and excellent interactive experiences.

@@ -49,7 +49,7 @@ G6 提供了丰富的内置插件，涵盖多种常见功能场景：
 
 在图实例初始化时，通过 `plugins` 数组指定需要的插件：
 
-```javascript
+```javascript {}5
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -62,15 +62,15 @@ const graph = new Graph({
 
 对于需要自定义参数的插件，可以使用 `object` 形式配置属性：
 
-```javascript
+```javascript {5-9}
 const graph = new Graph({
   // 其他配置...
   plugins: [
     'grid',
     {
       type: 'tooltip',
-      getContent: (e) => `<div>节点：${e.target.id}</div>`,
       key: 'my-tooltip', // 为插件指定key，便于后续更新
+      getContent: (e) => `<div>节点：${e.target.id}</div>`,
     },
   ],
 });
@@ -79,6 +79,14 @@ const graph = new Graph({
 ### 动态更新插件
 
 G6 支持在图实例运行期间动态管理插件，满足复杂交互需求：
+
+通过 [getPlugins](/api/plugin#graphgetplugins) 方法获取当前插件列表：
+
+```javascript
+// 获取插件列表
+const plugins = graph.getPlugins();
+// console.log(plugins) 👉 ['minimap', 'grid']
+```
 
 可以通过 [setPlugins](/api/plugin#graphsetpluginsplugins) 方法调整插件：
 
@@ -92,7 +100,18 @@ graph.setPlugins((plugins) => plugins.filter((p) => p !== 'grid'));
 
 可以通过 [updatePlugin](/api/plugin#graphupdatepluginplugin) 方法更新插件的配置：
 
-```javascript
+```javascript {6,14}
+const graph = new Graph({
+  // 其他配置...
+  plugins: [
+    {
+      type: 'tooltip',
+      key: 'my-tooltip',
+      getContent: (e) => `<div>节点：${e.target.id}</div>`,
+    },
+  ],
+});
+
 // 更新单个插件
 graph.updatePlugin({
   key: 'my-tooltip',
@@ -101,7 +120,7 @@ graph.updatePlugin({
 ```
 
 :::warning{title=注意}
-使用`updatePlugin`方法时，需要在初始化时为插件指定唯一的`key`。
+使用 `updatePlugin` 方法时，需要在初始化时为插件指定唯一的 `key`。
 :::
 
 ### 卸载插件
@@ -120,8 +139,13 @@ graph.setPlugins([]);
 要调用这些方法，需要先获取到插件实例，可通过 [getPluginInstance](/api/plugin#graphgetplugininstancekey) 方法获取：
 
 ```javascript
+// 配置插件
+const graph = new Graph({
+  plugins: [{ type: 'history', key: 'my-history' }],
+});
+
 // 获取插件实例
-const history = graph.getPluginInstance('history');
+const history = graph.getPluginInstance('my-history');
 
 // 调用插件方法
 history.undo();

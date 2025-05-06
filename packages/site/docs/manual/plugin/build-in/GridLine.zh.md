@@ -16,6 +16,8 @@ title: GridLine 网格线
 
 ## 基本用法
 
+以下是一个简单的 GridLine 插件初始化示例：
+
 ```js
 const graph = new Graph({
   plugins: [
@@ -39,7 +41,7 @@ const graph = new Graph({
 | 属性            | 描述                                                                                                     | 类型                                               | 默认值      | 必选 |
 | --------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- | ---- |
 | type            | 插件类型                                                                                                 | string                                             | `grid-line` | ✓    |
-| key             | 插件唯一标识符，用于后续更新                                                                             | string                                             | -           |      |
+| key             | 插件的唯一标识，可用于获取插件实例或更新插件选项                                                         | string                                             | -           |      |
 | border          | 是否显示边框                                                                                             | boolean                                            | true        |      |
 | borderLineWidth | 边框线宽                                                                                                 | number                                             | 1           |      |
 | borderStroke    | 边框颜色，详细属性参考 [CSS border-color](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-color) | string                                             | `#eee`      |      |
