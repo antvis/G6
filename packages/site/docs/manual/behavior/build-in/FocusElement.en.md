@@ -4,23 +4,23 @@ title: FocusElement
 
 ## Overview
 
-FocusElement is a built-in interaction in G6 that enables focusing elements by centering them in the viewport when clicked. This interaction helps users quickly locate and focus on specific graph elements.
+FocusElement is a built-in behavior in G6 used to implement the element focusing feature, allowing elements to be focused to the center of the view by clicking on them. This behavior helps users quickly locate and focus on specific graph elements.
 
 ## Use Cases
 
-- Quickly centering nodes or edges of interest
+- Quickly center the focused nodes or edges in the display
 
-## Live Demo
+## Online Experience
 
 <embed src="@/common/api/behaviors/focus-element.md"></embed>
 
 ## Basic Usage
 
-Add this interaction to the graph configuration:
+Add this behavior in the graph configuration:
 
 **1. Quick Configuration (Static)**
 
-Use string form for direct declaration:
+Declare directly using a string form:
 
 ```javascript
 const graph = new Graph({
@@ -31,7 +31,7 @@ const graph = new Graph({
 
 **2. Object Configuration (Recommended)**
 
-Use object form for configuration with custom parameters:
+Configure using an object form, supporting custom parameters:
 
 ```javascript
 const graph = new Graph({
@@ -48,13 +48,13 @@ const graph = new Graph({
 });
 ```
 
-## Options
+## Configuration Options
 
-| Option    | Description                                               | Type                                                            | Default                                | Required |
-| --------- | --------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------- | -------- |
-| type      | Behavior type                                             | string                                                          | `focus-element`                        | ✓        |
-| animation | Focus animation settings                                  | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | `{ duration: 500, easing: 'ease-in' }` |          |
-| enable    | Whether to enable the function of focusing on the element | boolean \| ((event: IElementEvent) => boolean)                  | true                                   |          |
+| Option    | Description                         | Type                                                            | Default                                | Required |
+| --------- | ----------------------------------- | --------------------------------------------------------------- | -------------------------------------- | -------- |
+| type      | Behavior type name                  | string                                                          | `focus-element`                        | ✓        |
+| animation | Focus animation settings            | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | `{ duration: 500, easing: 'ease-in' }` |          |
+| enable    | Whether to enable the focus feature | boolean \| ((event: IElementEvent) => boolean)                  | true                                   |          |
 
 ### ViewportAnimationEffectTiming
 
@@ -69,7 +69,7 @@ type ViewportAnimationEffectTiming =
 
 ## Code Examples
 
-### Basic Focus Functionality
+### Basic Focus Feature
 
 ```javascript
 const graph = new Graph({
@@ -97,7 +97,7 @@ const graph = new Graph({
 });
 ```
 
-### Conditional Focus Enable
+### Conditional Focus Enablement
 
 ```javascript
 const graph = new Graph({
@@ -106,7 +106,7 @@ const graph = new Graph({
     {
       type: 'focus-element',
       enable: (event) => {
-        // Only enable focus for nodes, not edges
+        // Enable focus only for nodes, not edges
         return event.target.type === 'node';
       },
     },
@@ -114,14 +114,6 @@ const graph = new Graph({
 });
 ```
 
-## Live Example
+## Practical Example
 
 <Playground path="behavior/focus/demo/basic.js" rid="focus-element"></Playground>
-
-## API
-
-### FocusElement.destroy()
-
-```typescript
-destroy(): void;
-```

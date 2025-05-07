@@ -66,6 +66,7 @@ const graph = new Graph({
 ### enable
 
 `enable` 用于控制是否开启元素的悬浮高亮，可接收一个函数来动态控制
+
 例如：只有节点开启悬浮高亮
 
 ```typescript

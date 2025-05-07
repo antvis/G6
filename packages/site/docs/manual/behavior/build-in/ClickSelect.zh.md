@@ -4,7 +4,7 @@ title: ClickSelect 点击选中
 
 ## 概述
 
-当鼠标点击元素时，会使元素 `点` `边` `Combo` 高亮。
+当鼠标点击元素时，会使元素高亮。
 
 ## 使用场景
 
@@ -55,22 +55,20 @@ const graph = new Graph({
 
 ## 配置项
 
-| 配置项                              | 说明                                                                                                                                                                                                         | 类型                                                                     | 默认值         | 必选 |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | -------------- | ---- |
-| type                                | 交互类型名称。此交互已内置，你可以通过 `type: 'click-select'` 来使用它。                                                                                                                                     | `click-select` \| string                                                 | `click-select` | ✓    |
-| animation                           | 是否在元素状态切换时启用动画效果                                                                                                                                                                             | boolean                                                                  | true           |      |
-| [degree](#degree)                   | 控制了高亮扩散范围                                                                                                                                                                                           | number \| (event:[Event](/api/event#事件对象属性)) => number             | 0              |      |
-| [enable](#enable)                   | 是否启用点击元素的功能（可以通过函数的方式动态控制是否启用，例如只有节点被选中时才启用。）                                                                                                                   | boolean \| ((event: [Event](/api/event#事件对象属性)) => boolean)        | true           |      |
-| multiple                            | 是否允许多选                                                                                                                                                                                                 | boolean                                                                  | false          |      |
-| state                               | 当元素被选中时应用的状态                                                                                                                                                                                     | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` | `selected`     |      |
-| [neighborState](#neighborstate)     | 当有元素选中时，其相邻 n 度关系的元素应用的状态。n 的值由属性 degree 控制，例如 degree 为 1 时表示直接相邻的元素                                                                                             | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` | `selected`     |      |
-| [unselectedState](#unselectedstate) | 当有元素被选中时，除了选中元素及其受影响的邻居元素外，其他所有元素应用的状态。                                                                                                                               | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` |                |      |
-| onClick                             | 点击元素时的回调                                                                                                                                                                                             | (event: [Event](/api/event#事件对象属性)) => void                        |                |      |
-| trigger                             | 按下该快捷键配合鼠标点击进行多选，**按键参考：** <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/UI_Events/Keyboard_event_key_values" target="_blank" rel="noopener noreferrer">MDN Key Values</a> | string[] \| (`Control` \| `Shift`\| `Alt` \| `......`)[]                 | `['shift']`    |      |
+| 配置项          | 说明                                                                                                                                                                                                       | 类型                                                                     | 默认值         | 必选 |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------- | ---- |
+| type            | 交互类型名称。此交互已内置，你可以通过 `type: 'click-select'` 来使用它。                                                                                                                                   | `click-select` \| string                                                 | `click-select` | ✓    |
+| animation       | 是否在元素状态切换时启用动画效果                                                                                                                                                                           | boolean                                                                  | true           |      |
+| degree          | 控制了高亮扩散范围，[示例](#degree)                                                                                                                                                                        | number \| (event:[Event](/api/event#事件对象属性)) => number             | 0              |      |
+| enable          | 是否启用点击元素的功能，支持通过函数的方式动态控制是否启用，[示例](#enable)                                                                                                                                | boolean \| ((event: [Event](/api/event#事件对象属性)) => boolean)        | true           |      |
+| multiple        | 是否允许多选                                                                                                                                                                                               | boolean                                                                  | false          |      |
+| state           | 当元素被选中时应用的状态                                                                                                                                                                                   | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` | `selected`     |      |
+| neighborState   | 当有元素选中时，其相邻 n 度关系的元素应用的状态。n 的值由属性 degree 控制，例如 degree 为 1 时表示直接相邻的元素，[示例](#neighborstate)                                                                   | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` | `selected`     |      |
+| unselectedState | 当有元素被选中时，除了选中元素及其受影响的邻居元素外，其他所有元素应用的状态，[示例](#unselectedState)                                                                                                     | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight` |                |      |
+| onClick         | 点击元素时的回调                                                                                                                                                                                           | (event: [Event](/api/event#事件对象属性)) => void                        |                |      |
+| trigger         | 按下该快捷键配合鼠标点击进行多选，按键参考： _<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/UI_Events/Keyboard_event_key_values" target="_blank" rel="noopener noreferrer">MDN Key Values</a>_ | string[] \| (`Control` \| `Shift`\| `Alt` \| `......`)[]                 | `['shift']`    |      |
 
 ### degree
-
-> _number \| ((event:_ [Event](/api/event#事件对象属性)_) => number)_ **Default:** `0`
 
 控制了高亮扩散范围
 
@@ -84,15 +82,13 @@ const graph = new Graph({
 
 ### enable
 
-> _boolean \| ((event:_ [Event](/api/event#事件对象属性)_) => boolean)_ **Default:** `true`
-
 是否启用点击元素的功能
 
 可以通过函数的方式动态控制是否启用，例如只有节点被选中时才启用。
 
-```typescript
+```js
 {
-  // ！！注意，如果不加上 canvas, 则点击画布时无法取消选中！！
+  //⚠️ 注意，这里需要同时设置节点和画布，否则用户点击画布时将不会监听到事件
   enable: (event) => ['node', 'canvas'].includes(event.targetType);
 }
 ```
@@ -138,13 +134,19 @@ createGraph(
 );
 ```
 
-### neighborState
+同理，如果只希望边能被选中：
 
-> _string_ **Default:** `'selected'`
+```js
+{
+  enable: (event) => ['edge', 'canvas'].includes(event.targetType);
+}
+```
+
+### neighborState
 
 当有元素选中时，其相邻 n 度关系的元素应用的状态。n 的值由属性 degree 控制，例如 degree 为 1 时表示直接相邻的元素
 
-```ts
+```js
 const graph = new Graph({
   behaviors: [
     {
@@ -203,13 +205,11 @@ createGraph(
 
 ### unselectedState
 
-> _string_
-
 当有元素被选中时，除了被选中元素和扩散的邻居元素外，其他所有元素应用的状态。
 
 内置状态： `selected` `active` `inactive` `disabled` `highlight`
 
-```ts
+```js
 const graph = new Graph({
   behaviors: [
     {
@@ -271,7 +271,7 @@ createGraph(
 <br>
 **相邻节点** 会从 <span style='color:#E4504D'>默认状态</span> 切换为 <span style='color:#FFC40C'>neighborActive</span>
 
-```ts
+```js
 const graph = new Graph({
   node: {
     style: {
@@ -344,67 +344,6 @@ createGraph(
 );
 ```
 
-### 只选中节点
-
-```typescript
-{
-  // ！！注意，如果不加上 canvas, 则点击画布时无法取消选中！！
-  enable: (event) => ['node', 'canvas'].includes(event.targetType);
-}
-```
-
-```js | ob { pin: false}
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 100, y: 60 } },
-        { id: 'node2', style: { x: 200, y: 60 } },
-        { id: 'node3', style: { x: 300, y: 60 } },
-      ],
-      edges: [
-        { source: 'node1', target: 'node2' },
-        { source: 'node2', target: 'node3' },
-      ],
-    },
-    node: {
-      style: {
-        fill: '#E4504D',
-      },
-      state: {
-        active: {
-          fill: '#0f0',
-        },
-        neighborActive: {
-          fill: '#FFC40C',
-        },
-      },
-    },
-    behaviors: [
-      {
-        type: 'click-select',
-        degree: 1,
-        state: 'active',
-        neighborState: 'neighborActive',
-        enable: (event) => ['node', 'canvas'].includes(event.targetType),
-      },
-    ],
-  },
-  { width: 400, height: 200 },
-);
-```
-
-### 只选中边
-
-```js
-const graph = new Graph({
-  behaviors: [{
-    type: 'click-select',
-    enable: (event) => ['edge', 'canvas'].includes(event.targetType);
-  }]
-})
-```
-
-### 自己定制尝试看看
+### 实际案例
 
 <Playground path="behavior/select/demo/click.js" rid="click-select"></Playground>

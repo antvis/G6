@@ -2,89 +2,189 @@
 title: OptimizeViewportTransform
 ---
 
-## Options
+## Overview
 
-### key
+OptimizeViewportTransform is a built-in behavior in G6 used to enhance the performance of large-scale graph behaviors.
 
-> _string_
+This behavior implements a **selective rendering strategy**, temporarily hiding non-critical visual elements during viewport transformations (such as dragging, zooming, scrolling, etc.) to significantly reduce rendering computation load, improve frame rate, and response speed. After the viewport transformation operation ends, the system automatically restores the visibility of all elements after a set delay to ensure complete visual presentation.
 
-Behavior key, that is, the unique identifier
+This behavior is implemented based on the [event system](/en/api/event) by listening to the `GraphEvent.BEFORE_TRANSFORM` and `GraphEvent.AFTER_TRANSFORM` events, precisely capturing the start and end timing of viewport transformations, and dynamically controlling element visibility. Therefore, it must be used in conjunction with viewport operation behaviors (such as `drag-canvas`, `zoom-canvas`, or `scroll-canvas`) to be effective.
 
-Used to identify the behavior for further operations
+## Use Cases
 
-```typescript
-// Update behavior options
-graph.updateBehavior({key: 'key', ...});
+This behavior is mainly used for:
+
+- Smooth behavior of large-scale graphs (thousands of nodes/edges)
+- Performance-sensitive application scenarios
+
+## Basic Usage
+
+Add this behavior in the graph configuration:
+
+**1. Quick Configuration (Static)**
+
+Declare directly using a string form. This method is simple but only supports default configuration and cannot be dynamically modified after configuration:
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['optimize-viewport-transform'],
+});
 ```
 
-### <Badge type="success">Required</Badge> type
+**2. Object Configuration (Recommended)**
 
-> _string_
+Configure using an object form, supporting custom parameters, and can dynamically update the configuration at runtime:
 
-Behavior type
-
-### debounce
-
-> _number_ **Default:** `200`
-
-Set debounce time
-
-### enable
-
-> _boolean \| ((event: IViewportEvent) => boolean)_ **Default:** `true`
-
-Whether to enable canvas optimization function
-
-### shapes
-
-> _{ node?: string[]; edge?: string[]; combo?: string[]; } \| ((type: 'node' \| 'edge' \| 'combo', shape: DisplayObject) => boolean)_
-
-Specify the shapes that are always visible. After applying this interaction, only the shapes specified by this property will remain visible during the canvas operation, and the rest of the shapes will be hidden to improve rendering performance. By default, nodes are always visible, while other shapes are automatically hidden during canvas operations
-
-## API
-
-### OptimizeViewportTransform.destroy()
-
-```typescript
-destroy(): void;
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'optimize-viewport-transform',
+      key: 'optimize-viewport-transform-1', // Specify an identifier for the behavior for dynamic updates
+      debounce: 300, // Set a longer debounce time
+    },
+  ],
+});
 ```
 
-### OptimizeViewportTransform.update(options)
+## Configuration Options
 
-```typescript
-update(options: Partial<OptimizeViewportTransformOptions>): void;
+| Option   | Description                                                                                                          | Type                                   | Default                       | Required |
+| -------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ----------------------------- | -------- |
+| type     | Behavior type name                                                                                                   | string                                 | `optimize-viewport-transform` | ✓        |
+| enable   | Whether to enable this behavior                                                                                      | boolean \| ((event: Event) => boolean) | true                          |          |
+| debounce | How long after the operation ends to restore the visibility of all elements (milliseconds)                           | number                                 | 200                           |          |
+| shapes   | Specify the graphical elements that should remain visible during canvas operations, [configuration options](#shapes) | function                               | `(type) => type === 'node'`   |          |
+
+### Shapes
+
+`shapes` is used to specify the graphical elements that need to remain visible during canvas operations. By default, nodes are always visible, while edges and combos are temporarily hidden during canvas operations to improve performance.
+
+```javascript
+{
+  shapes: (type, shape) => {
+    // Dynamically decide whether to remain visible based on element type and graphical object
+    if (type === 'node') return true; // All nodes remain visible
+    if (type === 'edge' && shape.get('importante')) return true; // Important edges remain visible
+    return false; // Other graphics are hidden
+  };
+}
 ```
 
-<details><summary>View Parameters</summary>
+[Example](#keep-specific-elements-visible)
 
-<table><thead><tr><th>
+## Code Examples
 
-Parameter
+### Basic Optimization Functionality
 
-</th><th>
+```javascript
+const graph = new Graph({
+  container: 'container',
+  width: 800,
+  height: 600,
+  behaviors: ['drag-canvas', 'zoom-canvas', 'optimize-viewport-transform'],
+});
+```
 
-Type
+### Custom Debounce Time
 
-</th><th>
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    'drag-canvas',
+    'zoom-canvas',
+    {
+      type: 'optimize-viewport-transform',
+      debounce: 500, // Set a longer debounce time, restoring visibility of all elements 0.5 seconds after the operation stops
+    },
+  ],
+});
+```
 
-Description
+### Keep Specific Elements Visible
 
-</th></tr></thead>
-<tbody><tr><td>
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  node: {
+    style: {
+      labelText: 'Drag Canvas!',
+    },
+  },
+  behaviors: [
+    'drag-canvas',
+    'zoom-canvas',
+    {
+      type: 'optimize-viewport-transform',
+      shapes: (type, shape) => {
+        if (type === 'node' && shape.className === 'key') return true;
+        return false;
+      },
+    },
+  ],
+});
+```
 
-options
+> 👇 Try dragging the canvas to see the effect
 
-</td><td>
+```js | ob { pin: false}
+createGraph(
+  {
+    data: {
+      nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
+    },
+    node: {
+      style: {
+        labelText: 'Drag Canvas!',
+      },
+    },
+    behaviors: [
+      'drag-canvas',
+      {
+        type: 'optimize-viewport-transform',
+        shapes: (type, shape) => {
+          if (type === 'node' && shape.className === 'key') return true;
+          return false;
+        },
+      },
+    ],
+  },
+  { width: 200, height: 200 },
+);
+```
 
-OptimizeViewportTransformOptions
+### Dynamically Enable/Disable Optimization Based on Graph Element Count
 
-</td><td>
+You can dynamically decide whether to enable optimization based on the number of graph elements:
 
-</td></tr>
-</tbody></table>
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    'drag-canvas',
+    'zoom-canvas',
+    function () {
+      // Enable optimization when exceeding 500 elements
+      const enable = graph.getNodeData().length + graph.getEdgeData().length > 500;
+      return {
+        type: 'optimize-viewport-transform',
+        key: 'optimize-behavior',
+        enable,
+      };
+    },
+  ],
+});
+```
 
-**Returns**:
+## FAQ
 
-- **Type:** void
+### 1. When should this behavior be used?
 
-</details>
+When the graph contains a large number of nodes and edges (usually more than 500 elements), using this behavior can significantly improve operational smoothness. It is especially useful in environments with high performance requirements or limited hardware performance.
+
+## Practical Example
+
+<Playground path="behavior/canvas/demo/optimize.js" rid="optimize-viewport-transform"></Playground>

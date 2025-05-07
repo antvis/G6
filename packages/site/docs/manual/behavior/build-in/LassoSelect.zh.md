@@ -4,7 +4,7 @@ title: LassoSelect 套索选择
 
 ## 概述
 
-鼠标点击拖出一个 _不规则的_ 框框笼罩元素，精准框选范围内的元素 `点` `边` `Combo` 会被选中。
+鼠标点击拖出一个 **不规则的** 框框笼罩元素，精准框选范围内的元素会被选中。
 
 ## 使用场景
 
@@ -67,11 +67,9 @@ const graph = new Graph({
 
 ### immediately
 
-> _boolean_ **Default:** `false`
-
 是否及时框选, 仅在框选模式为 `default` 时生效
 
-```tsx
+```js
 const graph = new Graph({
   behaviors: [
     {
@@ -121,19 +119,14 @@ createGraph(
 
 ### mode
 
-> _'union' \| 'intersect' \| 'diff' \| 'default'_ **Default:** `'default'`
-
 框选的选择模式
 
-- `'union'`：保持已选元素的当前状态，并添加指定的 state 状态。
+- `union`：保持已选元素的当前状态，并添加指定的 state 状态。
+- `intersect`：如果已选元素已有指定的 state 状态，则保留；否则清除该状态。
+- `diff`：对已选元素的指定 state 状态进行取反操作。
+- `default`：清除已选元素的当前状态，并添加指定的 state 状态。
 
-- `'intersect'`：如果已选元素已有指定的 state 状态，则保留；否则清除该状态。
-
-- `'diff'`：对已选元素的指定 state 状态进行取反操作。
-
-- `'default'`：清除已选元素的当前状态，并添加指定的 state 状态。
-
-```tsx
+```js
 const graph = new Graph({
   behaviors: [
     {
@@ -216,25 +209,32 @@ createGraph(
 
 ### style
 
-> _RectStyleProps_ <br> **Default:**
->
-> ```tsx
->   // 默认值
->   {
->    width: 0,
->    height: 0,
->    lineWidth: 1,
->    fill: '#1677FF',
->    stroke: '#1677FF',
->    fillOpacity: 0.1,
->    zIndex: 2,
->    pointerEvents: 'none',
->  }
-> ```
->
-> 框选时的 框样式
+| 属性              | 描述               | 类型                                     | 默认值    |
+| ----------------- | ------------------ | ---------------------------------------- | --------- |
+| cursor            | 鼠标样式           | string                                   |           |
+| fill              | 填充颜色           | string \| Pattern \| null                | `#1677FF` |
+| fillOpacity       | 填充透明度         | number \| string                         | 0.1       |
+| isBillboard       | 是否启用公告牌模式 | boolean                                  |           |
+| isSizeAttenuation | 是否启用大小衰减   | boolean                                  |           |
+| lineCap           | 线段端点样式       | `butt` \| `round` \| `square`            |           |
+| lineDash          | 虚线配置           | number \| string \| (string \| number)[] |           |
+| lineDashOffset    | 虚线偏移量         | number                                   |           |
+| lineJoin          | 线段连接处样式     | `miter` \| `round` \| `bevel`            |           |
+| lineWidth         | 线宽度             | number \| string                         | 1         |
+| opacity           | 整体透明度         | number \| string                         |           |
+| radius            | 矩形圆角半径       | number \| string \| number[]             |           |
+| shadowBlur        | 阴影模糊程度       | number                                   |           |
+| shadowColor       | 阴影颜色           | string                                   |           |
+| shadowOffsetX     | 阴影 X 方向偏移    | number                                   |           |
+| shadowOffsetY     | 阴影 Y 方向偏移    | number                                   |           |
+| stroke            | 描边颜色           | string \| Pattern \| null                | `#1677FF` |
+| strokeOpacity     | 描边透明度         | number \| string                         |           |
+| visibility        | 可见性             | `visible` \| `hidden`                    |           |
+| zIndex            | 渲染层级           | number                                   | 2         |
 
-```tsx
+**示例**：
+
+```js
 const graph = new Graph({
   behaviors: [
     {
@@ -307,12 +307,10 @@ createGraph(
 
 ### trigger
 
-> _string[]_ **Default:** `['shift']`
-
 按下该快捷键配合鼠标点击进行框选，若设为**空数组**时则表示鼠标点击进行框选，不需要按下其他按键配合。
 
 注意，`trigger` 设置为 `['drag']` 时会导致 `drag-canvas` 行为失效。两者不可同时配置。
 
-### 自己定制尝试看看
+### 实际案例
 
 <Playground path="behavior/select/demo/lasso.js" rid="lasso-select"></Playground>

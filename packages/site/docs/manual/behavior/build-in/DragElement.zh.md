@@ -52,39 +52,19 @@ const graph = new Graph({
 
 ## 配置项
 
-| 配置项     | 说明                                                                                       | 类型                                                 | 默认值                                         | 必选 |
-| ---------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------- | ---------------------------------------------- | ---- |
-| type       | 交互类型名称                                                                               | string                                               | `drag-element`                                 | ✓    |
-| key        | 交互唯一标识符，用于后续操作交互                                                           | string                                               | -                                              |      |
-| enable     | 是否启用拖拽功能，默认可以拖拽节点和 Combo                                                 | boolean \| ((event: IElementDragEvent) => boolean)   | `['node', 'combo'].includes(event.targetType)` |      |
-| animation  | 是否启用拖拽动画                                                                           | boolean                                              | true                                           |      |
-| state      | 节点选中状态的标识，启用多选时会基于该状态查找选中的节点                                   | string                                               | `selected`                                     |      |
-| dropEffect | 拖拽操作效果，[说明](#dropeffect-说明)                                                     | `link` \| `move` \| `none`                           | `move`                                         |
-| hideEdge   | 控制拖拽过程中边的显示状态，[说明](#hideedge-说明)                                         | `none` \| `all` \| `in` \| `out` \| `both`           | `none`                                         |      |
-| shadow     | 是否启用幽灵节点，即用一个图形代替节点跟随鼠标移动。[自定义幽灵节点样式](#shadow-样式配置) ⚠️注意：React 节点不支持启用 | boolean                                              | false                                          |      |
-| cursor     | 自定义鼠标样式，[说明](#cursor-说明)                                                       | { default?: Cursor; grab: Cursor; grabbing: Cursor } | -                                              |      |
+| 配置项     | 说明                                                                                                                                                                                                                                                                                                | 类型                                                 | 默认值                                         | 必选 |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------- | ---- |
+| type       | 交互类型名称                                                                                                                                                                                                                                                                                        | string                                               | `drag-element`                                 | ✓    |
+| key        | 交互唯一标识符，用于后续操作交互                                                                                                                                                                                                                                                                    | string                                               | -                                              |      |
+| enable     | 是否启用拖拽功能，默认可以拖拽节点和 Combo                                                                                                                                                                                                                                                          | boolean \| ((event: IElementDragEvent) => boolean)   | `['node', 'combo'].includes(event.targetType)` |      |
+| animation  | 是否启用拖拽动画                                                                                                                                                                                                                                                                                    | boolean                                              | true                                           |      |
+| state      | 节点选中状态的标识，启用多选时会基于该状态查找选中的节点                                                                                                                                                                                                                                            | string                                               | `selected`                                     |      |
+| dropEffect | 定义拖拽结束后的操作效果，可选值有：<br/>- `link`: 将拖拽元素设置为目标元素的子元素 <br/>- `move`: 移动元素并自动更新父元素（如 Combo）的尺寸 <br/>- `none`: 仅更新拖拽目标的位置，不执行其他操作                                                                                                   | `link` \| `move` \| `none`                           | `move`                                         |      |
+| hideEdge   | 控制拖拽过程中边的显示状态，可选值有： <br/>- `none`: 不隐藏任何边 <br/>- `out`: 隐藏以当前节点为源节点的边 <br/>- `in`: 隐藏以当前节点为目标节点的边 <br/>- `both`: 隐藏与当前节点相关的所有边 <br/>- `all`: 隐藏图中所有边 <br/>⚠️ 注意：当启用 `shadow`（幽灵节点）时，`hideEdge` 配置将不生效。 | `none` \| `all` \| `in` \| `out` \| `both`           | `none`                                         |      |
+| shadow     | 是否启用幽灵节点，即用一个图形代替节点跟随鼠标移动。[自定义幽灵节点样式](#shadow-样式配置) ⚠️注意：React 节点不支持启用                                                                                                                                                                             | boolean                                              | false                                          |      |
+| cursor     | 自定义鼠标样式，[配置项](#cursor)                                                                                                                                                                                                                                                                   | { default?: Cursor; grab: Cursor; grabbing: Cursor } | -                                              |      |
 
-### dropEffect 说明
-
-`dropEffect` 用于定义拖拽结束后的操作效果：
-
-- `link`: 将拖拽元素设置为目标元素的子元素
-- `move`: 移动元素并自动更新父元素（如 Combo）的尺寸
-- `none`: 仅更新拖拽目标的位置，不执行其他操作
-
-### hideEdge 说明
-
-`hideEdge` 控制拖拽过程中边的显示状态：
-
-- `none`: 不隐藏任何边
-- `out`: 隐藏以当前节点为源节点的边
-- `in`: 隐藏以当前节点为目标节点的边
-- `both`: 隐藏与当前节点相关的所有边
-- `all`: 隐藏图中所有边
-
-注意：当启用 `shadow`（幽灵节点）时，`hideEdge` 配置将不生效。
-
-### cursor 说明
+### cursor
 
 `cursor` 用于自定义拖拽过程中的鼠标指针样式：
 
@@ -142,7 +122,7 @@ cursor: {
 }
 ```
 
-> 注意：幽灵节点样式继承自 [BaseStyleProps](https://g.antv.antgroup.com/api/basic/display-object#绘图属性)，上述配置项是在属性名前添加 `shadow` 前缀得到的。
+> 注意：幽灵节点样式继承自 [BaseStyleProps](/manual/element/shape/properties#baseshapestyle)，上述配置项是在属性名前添加 `shadow` 前缀得到的。
 
 ## 代码示例
 
