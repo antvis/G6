@@ -1,5 +1,6 @@
 ---
 title: Circle 圆形
+order: 1
 ---
 
 ## 概述
@@ -18,7 +19,7 @@ title: Circle 圆形
 
 ## 样式配置
 
-> 如果元素有其特定的属性，我们将在下面列出。对于所有的通用样式属性，见[BaseNode](./BaseNode.zh.md)
+> 如果元素有其特定的属性，我们将在下面列出。对于所有的通用样式属性，见[BaseNode](/manual/element/node/build-in/base-node)
 
 ## 示例
 

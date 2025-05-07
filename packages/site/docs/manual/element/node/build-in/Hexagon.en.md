@@ -2,14 +2,32 @@
 title: Hexagon
 ---
 
-> Before reading this section, please first read the [API - Node Configuration chapter](/api/elements/nodes/base-node).
+## Overview
+
+A hexagon is a geometric shape with six equal sides, featuring a honeycomb structure.
+
+Applicable scenarios:
+
+- Used to represent honeycomb networks, molecular structures, or tightly packed nodes.
+
+- Suitable for representing network topology, molecular diagrams, or game maps.
+
+- Commonly used in network diagrams, topology diagrams, game design, etc.
+
+## Online Experience
 
 <embed src="@/common/api/elements/nodes/hexagon.md"></embed>
 
-> If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseNode](./BaseNode.en.md)
+## Style Configuration
 
-## style.outerR
+> If the element has specific attributes, we will list them below. For all general style attributes, see [BaseNode](/en/manual/element/node/build-in/base-node)
 
-> _number_
+| Attribute | Description                                                        | Type   | Default                                 | Required |
+| --------- | ------------------------------------------------------------------ | ------ | --------------------------------------- | -------- |
+| outerR    | Outer radius, the distance from the hexagon's center to any vertex | number | Half of the minimum of width and height |          |
 
-outer radius, default is half of the minimum value of width and height
+## Example
+
+### Built-in Hexagon Node Effect
+
+<Playground path="element/node/demo/hexagon.js" rid="default-hexagon-node"></Playground>

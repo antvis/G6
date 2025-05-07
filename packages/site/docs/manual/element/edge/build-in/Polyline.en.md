@@ -2,52 +2,52 @@
 title: Polyline
 ---
 
-> Before reading this section, please first read the [API - Edge Configuration chapter](/api/elements/edges/base-edge).
+## Overview
+
+A polyline is an edge composed of multiple straight line segments, suitable for connecting nodes by bypassing obstacles in complex layouts.
+
+Use cases:
+
+- Suitable for graphs with complex layouts, such as circuit diagrams and pipeline diagrams.
+
+- Use when you need to bypass other nodes or obstacles.
+
+## Online Experience
 
 <embed src="@/common/api/elements/edges/polyline.md"></embed>
 
-> If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseEdge](./BaseEdge.en.md)
+## Style Configuration
 
-## style.controlPoints
+> If the element has specific attributes, we will list them below. For all general style attributes, see [BaseEdge](/en/manual/element/build-in/base-edge)
 
-> _[number, number] \| [number, number, number] \| Float32Array\_\_[]_
-
-Control point array
-
-## style.radius
-
-> _number_ **Default:** `0`
-
-The radius of the rounded corner
-
-## style.router
-
-> _false \| [OrthRouter](#orthrouter) \| [ShortestPathRouter](#shortestpathrouter)_ **Default:** `false`
-
-Whether to enable routing, it is enabled by default and controlPoints will be automatically included
+| Attribute     | Description                                                                | Type                                                                                    | Default | Required |
+| ------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ------- | -------- |
+| controlPoints | Array of control points used to define the turning points of the polyline. | [Point](#point)[]                                                                       | []      |          |
+| radius        | Corner radius of the turning points.                                       | number                                                                                  | 0       |          |
+| router        | Whether to enable routing.                                                 | false &#124; [OrthRouter](#orthrouter) &#124; [ShortestPathRouter](#shortestpathrouter) | false   |          |
 
 ### OrthRouter
 
-| Property | Description                                                                                                                | Type                | Default |
-| -------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------- | ------- |
-| type     | Orthogonal router, adds extra control points to the path to ensure each segment of the edge remains horizontal or vertical | `'orth'`            | -       |
-| padding  | Minimum distance between node connection points and corners                                                                | [Padding](#padding) | `0`     |
+| Attribute | Description                                                                                              | Type                | Default |
+| --------- | -------------------------------------------------------------------------------------------------------- | ------------------- | ------- |
+| type      | Orthogonal routing, adding extra control points on the path to keep each segment horizontal or vertical. | `'orth'`            | -       |
+| padding   | Minimum distance between the node connection point and the corner.                                       | [Padding](#padding) | `0`     |
 
 ### ShortestPathRouter
 
-| Property                  | Description                                                                                                                                                                                                                                                                                 | Type                                                                   | Default |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------- |
-| type                      | Shortest path router, an intelligent version of the orthogonal router (`'orth'`). This router consists of horizontal or vertical orthogonal line segments. It uses the A\* algorithm to calculate the shortest path and supports automatically avoiding other nodes (obstacles) on the path | `'shortest-path'`                                                      | -       |
-| offset                    | Minimum distance between node anchor points and corners                                                                                                                                                                                                                                     | [Padding](#padding)                                                    | 0       |
-| gridSize                  | Size of the grid cells                                                                                                                                                                                                                                                                      | number                                                                 | 0       |
-| maxAllowedDirectionChange | Maximum allowed rotation angle (in radians)                                                                                                                                                                                                                                                 | number                                                                 | 0       |
-| startDirections           | Possible starting directions from the node                                                                                                                                                                                                                                                  | [Direction](#direction)[]                                              | 0       |
-| endDirections             | Possible ending directions to the node                                                                                                                                                                                                                                                      | [Direction](#direction)[]                                              | 0       |
-| directionMap              | Specifies the directions that can be moved                                                                                                                                                                                                                                                  | { [key in [Direction](#direction)]: { stepX: number; stepY: number } } | 0       |
-| penalties                 | Represents additional costs for certain paths during path search. Keys are radian values, values are costs                                                                                                                                                                                  | { [key: string]: number }                                              | 0       |
-| distFunc                  | Function that specifies how to calculate the distance between two points                                                                                                                                                                                                                    | (p1: [Point](#point), p2: [Point](#point)) => number                   | 0       |
-| maximumLoops              | Maximum number of iterations                                                                                                                                                                                                                                                                | number                                                                 | 0       |
-| enableObstacleAvoidance   | Whether to enable obstacle avoidance                                                                                                                                                                                                                                                        | boolean                                                                | false   |
+| Attribute                 | Description                                                                                                                                                                                                                                                                          | Type                                                                   | Default |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ------- |
+| type                      | Shortest path routing, an intelligent version of orthogonal routing `'orth'`. This routing consists of horizontal or vertical orthogonal segments. It uses the A\* algorithm to calculate the shortest path and supports automatic avoidance of other nodes (obstacles) on the path. | `'shortest-path'`                                                      | -       |
+| offset                    | Minimum distance between the node anchor point and the corner.                                                                                                                                                                                                                       | [Padding](#padding)                                                    | 0       |
+| gridSize                  | Grid cell size.                                                                                                                                                                                                                                                                      | number                                                                 | 0       |
+| maxAllowedDirectionChange | Maximum allowed rotation angle (radians).                                                                                                                                                                                                                                            | number                                                                 | 0       |
+| startDirections           | Possible starting directions of the node.                                                                                                                                                                                                                                            | [Direction](#direction)[]                                              | 0       |
+| endDirections             | Possible ending directions of the node.                                                                                                                                                                                                                                              | [Direction](#direction)[]                                              | 0       |
+| directionMap              | Specifies the movable directions.                                                                                                                                                                                                                                                    | { [key in [Direction](#direction)]: { stepX: number; stepY: number } } | 0       |
+| penalties                 | Represents additional costs for certain paths during path searching. The key is the radian value, and the value is the cost.                                                                                                                                                         | { [key: string]: number }                                              | 0       |
+| distFunc                  | Specifies the function to calculate the distance between two points.                                                                                                                                                                                                                 | (p1: [Point](#point), p2: [Point](#point)) => number                   | 0       |
+| maximumLoops              | Maximum number of iterations.                                                                                                                                                                                                                                                        | number                                                                 | 0       |
+| enableObstacleAvoidance   | Whether to enable obstacle avoidance.                                                                                                                                                                                                                                                | boolean                                                                | false   |
 
 #### Direction
 
@@ -66,3 +66,9 @@ type Point = [number, number] | [number, number, number] | Float32Array;
 ```typescript
 type Padding = number | [number, number] | [number, number, number, number];
 ```
+
+## Example
+
+### Built-in Polyline Edge Effect
+
+<Playground path="element/edge/demo/polyline.js" rid="default-polyline-edge" height='520px'></Playground>

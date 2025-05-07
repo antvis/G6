@@ -1,22 +1,22 @@
 ---
-title: CubicHorizontal Bezier Curve
+title: CubicVertical Bezier Curve
 ---
 
 ## Overview
 
-The horizontal cubic Bezier curve is a smooth curve with control points primarily distributed along the horizontal direction, suitable for connecting nodes horizontally.
+The vertical cubic Bezier curve is a smooth curve with control points primarily distributed along the vertical direction, suitable for connecting nodes vertically.
 
 Use cases:
 
-- Suitable for horizontally laid-out graphs, such as flowcharts and hierarchical diagrams.
+- Suitable for vertically laid-out graphs, such as organizational charts and tree diagrams.
 
-- Use when emphasizing horizontal connections is needed.
+- Use when emphasizing vertical connections is needed.
 
-> Note: When calculating control points, the distance on the x-axis is primarily considered, ignoring changes on the y-axis.
+**Note: When calculating control points, the distance on the y-axis is primarily considered, ignoring changes on the x-axis.**
 
 ## Online Experience
 
-<embed src="@/common/api/elements/edges/cubic-horizontal.md"></embed>
+<embed src="@/common/api/elements/edges/cubic-vertical.md"></embed>
 
 ## Style Configuration
 
@@ -29,6 +29,6 @@ Use cases:
 
 ## Example
 
-### Built-in Horizontal Cubic Bezier Curve Edge Effect
+### Built-in Vertical Cubic Bezier Curve Edge Effect
 
-<Playground path="element/edge/demo/horizontal-cubic.js" rid="default-cubic-horizontal-edge" height='520px'></Playground>
+<Playground path="element/edge/demo/vertical-cubic.js" rid="default-vertical-cubic-edge" height='520px'></Playground>

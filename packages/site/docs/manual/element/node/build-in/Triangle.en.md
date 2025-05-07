@@ -2,14 +2,32 @@
 title: Triangle
 ---
 
-> 阅读本节前，请先阅读 [API - 节点配置项](/api/elements/nodes/base-node) 章节。
+## Overview
+
+A triangle is a geometric shape with three sides, having a clear directionality.
+
+Applicable scenarios:
+
+- Used to represent directional nodes, warnings, or prompts.
+
+- Suitable for indicating direction or hierarchy in flowcharts.
+
+- Commonly used in flowcharts, network diagrams, topology diagrams, etc.
+
+## Online Experience
 
 <embed src="@/common/api/elements/nodes/triangle.md"></embed>
 
-> If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseNode](./BaseNode.en.md)
+## Style Configuration
 
-## style.direction
+> If the element has specific attributes, we will list them below. For all general style attributes, see [BaseNode](/en/manual/element/node/build-in/base-node)
 
-> _'up' \| 'left' \| 'right' \| 'down'_ **Default:** `'up'`
+| Attribute | Description               | Type                                | Default | Required |
+| --------- | ------------------------- | ----------------------------------- | ------- | -------- |
+| direction | Direction of the triangle | `up` \| `left` \| `right` \| `down` | `up`    |
 
-The direction of the triangle
+## Example
+
+### Built-in Triangle Node Effect
+
+<Playground path="element/node/demo/triangle.js" rid="default-triangle-node"></Playground>

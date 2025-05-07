@@ -344,7 +344,7 @@ createGraph(
 );
 ```
 
-### 动态配置enable只选中节点，不选中边
+### 只选中节点
 
 ```typescript
 {
@@ -392,6 +392,17 @@ createGraph(
   },
   { width: 400, height: 200 },
 );
+```
+
+### 只选中边
+
+```js
+const graph = new Graph({
+  behaviors: [{
+    type: 'click-select',
+    enable: (event) => ['edge', 'canvas'].includes(event.targetType);
+  }]
+})
 ```
 
 ### 自己定制尝试看看
