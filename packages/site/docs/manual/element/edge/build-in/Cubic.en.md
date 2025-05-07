@@ -1,27 +1,39 @@
 ---
-title: Cubic
+title: Cubic Bezier Curve
 ---
 
-> Before reading this section, please first read the [API - Edge Configuration chapter](/api/elements/edges/base-edge).
+## Overview
+
+A cubic Bezier curve is a versatile smooth curve with control points that can be freely distributed, suitable for connecting nodes in any direction.
+
+Use cases:
+
+- Suitable for graphs with any layout, such as network graphs and relationship graphs.
+
+- Use when smooth node connections are needed without specific directional requirements.
+
+## Online Experience
 
 <embed src="@/common/api/elements/edges/cubic.md"></embed>
 
-> If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseEdge](./BaseEdge.en.md)
+## Style Configuration
 
-## style.controlPoints
+> If the element has specific attributes, we will list them below. For all general style attributes, see [BaseEdge](/en/manual/element/build-in/base-edge)
 
-> _[**[number, number] \| [number, number, number] \| Float32Array**,_ _[number, number] \| [number, number, number] \| Float32Array\_\_]_
+| Attribute     | Description                                                                                                                                                 | Type                               | Default | Required |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------- | -------- |
+| controlPoints | Array of control points used to define the shape of the curve. If not specified, control points will be calculated using `curveOffset` and `curvePosition`. | [[Point](#point), [Point](#point)] | -       |          |
+| curvePosition | Relative position of the control point on the line connecting the two endpoints, ranging from `0-1`.                                                        | number &#124; number[]             | 0.5     |          |
+| curveOffset   | Distance of the control point from the line connecting the two endpoints, understood as the degree of curve bending.                                        | number &#124; number[]             | 20      |          |
 
-Control points. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.
+#### Point
 
-## style.curveOffset
+```typescript
+type Point = [number, number] | [number, number, number] | Float32Array;
+```
 
-> _number \| [number, number]_ **Default:** `20`
+## Example
 
-The distance of the control point from the line
+### Built-in Cubic Bezier Curve Edge Effect
 
-## style.curvePosition
-
-> _number \| [number, number]_ **Default:** `0.5`
-
-The relative position of the control point on the line, ranging from `0-1`
+<Playground path="element/edge/demo/cubic.js" rid="default-cubic-edge" height='520px'></Playground>

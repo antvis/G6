@@ -1,9 +1,28 @@
 ---
 title: Circle
+order: 1
 ---
 
-> Before reading this section, please first read the [API - Node Configuration chapter](/api/elements/nodes/base-node).
+## Overview
+
+A circle is a symmetrical geometric shape with a uniform radius.
+
+Applicable scenarios:
+
+- Used to represent the size or weight of a node (controlled by radius).
+- Suitable for representing non-directional relationships, such as user nodes in social networks.
+- Commonly used in flowcharts, network diagrams, topology diagrams, etc.
+
+## Online Experience
 
 <embed src="@/common/api/elements/nodes/circle.md"></embed>
 
-> If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseNode](./BaseNode.en.md)
+## Style Configuration
+
+> If the element has specific attributes, we will list them below. For all general style attributes, see [BaseNode](/en/manual/element/node/build-in/base-node))
+
+## Example
+
+### Built-in Circle Node Effect
+
+<Playground path="element/node/demo/circle.js" rid="default-circle-node"></Playground>

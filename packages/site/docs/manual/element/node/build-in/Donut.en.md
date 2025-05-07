@@ -2,46 +2,73 @@
 title: Donut
 ---
 
-> Before reading this section, please first read the [API - Node Configuration chapter](/api/elements/nodes/base-node).
+## Overview
+
+The donut node is a ring-shaped geometric figure composed of two concentric circles.
+
+Applicable scenarios:
+
+- Used to represent proportional data, such as completion progress and ratio analysis.
+
+- Suitable for representing multi-layered data, such as nested ring charts.
+
+- Commonly used in data visualization, dashboards, progress charts, etc.
+
+## Online Experience
 
 <embed src="@/common/api/elements/nodes/donut.md"></embed>
 
-> If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseNode](./BaseNode.en.md)
+## Style Configuration
 
-## style.donutPalette
+> If the element has specific attributes, we will list them below. For all general style attributes, see [BaseNode](/en/manual/element/node/build-in/base-node)
 
-> _string \|_ _string[]_ **Default:** `'tableau'`
+| Attribute           | Description                         | Type                                    | Default   | Required |
+| ------------------- | ----------------------------------- | --------------------------------------- | --------- | -------- |
+| donutFill           | Fill color                          | string                                  | `#1783FF` |          |
+| donutFillOpacity    | Fill color opacity                  | number \| string                        | 1         |          |
+| donutLineCap        | Stroke end style                    | `round` \| `square` \| `butt`           | `butt`    |          |
+| donutLineDash       | Stroke dash style                   | number[]                                | -         |          |
+| donutLineDashOffset | Stroke dash offset                  | number                                  | -         |          |
+| donutLineJoin       | Stroke join style                   | `round` \| `bevel` \| `miter`           | `miter`   |          |
+| donutLineWidth      | Stroke width                        | number                                  | 1         |          |
+| donutOpacity        | Opacity                             | number \| string                        | 1         |          |
+| donutPalette        | Color or palette name               | string \| string[]                      | `tableau` |          |
+| donuts              | Donut data                          | number[] \| [DonutRound](#donutround)[] | -         |          |
+| donutShadowBlur     | Shadow blur                         | number                                  | -         |          |
+| donutShadowColor    | Shadow color                        | string                                  | -         |          |
+| donutShadowOffsetX  | Shadow offset in x-axis direction   | number \| string                        | -         |          |
+| donutShadowOffsetY  | Shadow offset in y-axis direction   | number \| string                        | -         |          |
+| donutShadowType     | Shadow type                         | `inner` \| `outer`                      | `outer`   |          |
+| donutStroke         | Stroke color                        | string                                  | `#000`    |          |
+| donutStrokeOpacity  | Stroke color opacity                | number \| string                        | 1         |          |
+| donutVisibility     | Visibility of the shape             | `visible` \| `hidden`                   | `visible` |          |
+| innerR              | Inner ring radius, percentage or px | string \| number                        | 50%       |          |
 
-Color or palette.
+### DonutRound
 
-## style.donuts
+| Attribute      | Description                       | Type                          | Default   | Required |
+| -------------- | --------------------------------- | ----------------------------- | --------- | -------- |
+| color          | Color                             | string                        | -         |          |
+| fill           | Fill color                        | string                        | `#1783FF` |          |
+| fillOpacity    | Fill color opacity                | number \| string              | 1         |          |
+| lineCap        | Stroke end style                  | `round` \| `square` \| `butt` | `butt`    |          |
+| lineDash       | Stroke dash style                 | number[]                      | -         |          |
+| lineDashOffset | Stroke dash offset                | number                        | -         |          |
+| lineJoin       | Stroke join style                 | `round` \| `bevel` \| `miter` | `miter`   |          |
+| lineWidth      | Stroke width                      | number                        | 1         |          |
+| opacity        | Opacity                           | number \| string              | 1         |          |
+| shadowBlur     | Shadow blur                       | number                        | -         |          |
+| shadowColor    | Shadow color                      | string                        | -         |          |
+| shadowOffsetX  | Shadow offset in x-axis direction | number \| string              | -         |          |
+| shadowOffsetY  | Shadow offset in y-axis direction | number \| string              | -         |          |
+| shadowType     | Shadow type                       | `inner` \| `outer`            | `outer`   |          |
+| stroke         | Stroke color                      | string                        | `#000`    |          |
+| strokeOpacity  | Stroke color opacity              | number \| string              | 1         |          |
+| value          | Value for ratio calculation       | number                        | -         | ✓        |
+| visibility     | Visibility of the shape           | `visible` \| `hidden`         | `visible` |          |
 
-> _number[] \|_ _DonutRound\_\_[]_
+## Example
 
-Donut data.
+### Built-in Donut Node Effect
 
-## style.innerR
-
-> _string \| number_ **Default:** `'50%'`
-
-Inner ring radius, using percentage or pixel value.
-
-## style.donut{[BaseStyleProps](https://g.antv.antgroup.com/api/basic/display-object#%E7%BB%98%E5%9B%BE%E5%B1%9E%E6%80%A7)}
-
-<details><summary>An expression like icon{TextStyleProps} indicates that properties of the TextStyleProps type are prefixed with icon in camelCase format.</summary>
-
-TextStyleProps includes the following properties:
-
-- fill
-- fontSize
-- fontWeight
-- ...
-
-icon{TextStyleProps} means you need to use the following property names:
-
-- iconFill
-- iconFontSize
-- iconFontWeight
-- ...
-
-</details>
+<Playground path="element/node/demo/donut.js" rid="default-donut-node"></Playground>

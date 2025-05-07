@@ -1,27 +1,39 @@
 ---
-title: Quadratic
+title: Quadratic Bezier Curve
 ---
 
-> Before reading this section, please first read the [API - Edge Configuration chapter](/api/elements/edges/base-edge).
+## Overview
+
+A quadratic Bezier curve is a smooth curve whose shape is determined by a start point, an end point, and a control point.
+
+Use cases:
+
+- Suitable for moderately complex graphs, such as relationship graphs and network graphs.
+
+- Use when smooth node connections are needed with limited computational resources.
+
+## Online Experience
 
 <embed src="@/common/api/elements/edges/quadratic.md"></embed>
 
-> If the element has its specific properties, we will list them below. For all generic style attributes, see[BaseEdge](./BaseEdge.en.md)
+## Style Configuration
 
-## style.controlPoint
+> If the element has specific attributes, we will list them below. For all general style attributes, see [BaseEdge](/en/manual/element/build-in/base-edge)
 
-> _[number, number] \| [number, number, number] \| Float32Array_
+| Attribute     | Description                                                                                                                                                 | Type            | Default | Required |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ------- | -------- |
+| controlPoints | Array of control points used to define the shape of the curve. If not specified, control points will be calculated using `curveOffset` and `curvePosition`. | [Point](#point) | -       |          |
+| curvePosition | Relative position of the control point on the line connecting the two endpoints, ranging from `0-1`.                                                        | number          | 0.5     |          |
+| curveOffset   | Distance of the control point from the line connecting the two endpoints, understood as the degree of curve bending.                                        | number          | 30      |          |
 
-Control point. Used to define the shape of the curve. If not specified, it will be calculated using `curveOffset` and `curvePosition`.
+#### Point
 
-## style.curveOffset
+```typescript
+type Point = [number, number] | [number, number, number] | Float32Array;
+```
 
-> _number_ **Default:** `30`
+## Example
 
-The distance of the control point from the line
+### Built-in Quadratic Bezier Curve Edge Effect
 
-## style.curvePosition
-
-> _number_ **Default:** `0.5`
-
-The relative position of the control point on the line, ranging from `0-1`
+<Playground path="element/edge/demo/quadratic.js" rid="default-quadratic-edge" height='520px'></Playground>
