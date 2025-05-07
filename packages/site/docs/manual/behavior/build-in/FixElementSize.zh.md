@@ -52,30 +52,26 @@ const graph = new Graph({
 
 ## 配置项
 
-| 配置项            | 说明                                                                                                              | 类型                                                                         | 默认值                                                                                              | 必选 |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ---- | --- |
-| type              | 交互类型名称                                                                                                      | string                                                                       | `fix-element-size`                                                                                  | √    |
-| [enable](#enable) | 是否启用该交互                                                                                                    | boolean \| ((event:_ [Event](/api/event#事件对象属性)_) => boolean)          | true                                                                                                |      |
-| reset             | 元素重绘时是否还原样式                                                                                            | boolean                                                                      | `false`                                                                                             |      |
-| state             | 指定要固定大小的元素状态                                                                                          | string                                                                       | ""                                                                                                  |      |
-| [node](#node)     | 节点配置项，用于定义哪些属性在视觉上保持固定大小。若未指定（即为 undefined），则整个节点将被固定                  | [FixShapeConfig](#fixshapeconfig) _\|_ [FixShapeConfig](#fixshapeconfig)_[]_ |                                                                                                     |      |
-| nodeFilter        | 节点过滤器，用于过滤哪些节点在缩放过程中保持固定大小                                                              | _(datum:_ [NodeData](/manual/data#节点数据nodedata)_) => boolean_            | `() => true`                                                                                        |      |
-| edge              | 边配置项，用于定义哪些属性在视觉上保持固定大小。默认固定 lineWidth、labelFontSize 属性，用法同[node配置项](#node) | [FixShapeConfig](#fixshapeconfig) _\|_ [FixShapeConfig](#fixshapeconfig)_[]_ | `[ shape: 'key', fields: ['lineWidth'] ,  shape: 'halo', fields: ['lineWidth'] ,  shape: 'label' ]` |      |
-| edgeFilter        | 边过滤器，用于过滤哪些边在缩放过程中保持固定大小                                                                  | _(datum: [EdgeData](/manual/data#边数据edgedata)) => boolean_                | `() => true`                                                                                        |      |
-| combo             | Combo 配置项，用于定义哪些属性在视觉上保持固定大小。默认整个 Combo 将被固定，用法同[node配置项](#node)            | _[FixShapeConfig](#fixshapeconfig) \| FixShapeConfig[]_                      |                                                                                                     |      |
-| comboFilter       | Combo 过滤器，用于过滤哪些 Combo 在缩放过程中保持固定大小                                                         | _(datum: [ComboData](/manual/data#组合数据combodata)) => boolean_            | `() => true`                                                                                        |      |     |
+| 配置项      | 说明                                                                                                              | 类型                                                              | 默认值                                                                                              | 必选 |
+| ----------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ---- | --- |
+| type        | 交互类型名称                                                                                                      | string                                                            | `fix-element-size`                                                                                  | √    |
+| enable      | 是否启用该交互，[示例](#enable)                                                                                   | boolean \| ((event: [Event](/api/event#事件对象属性)) => boolean) | true                                                                                                |      |
+| reset       | 元素重绘时是否还原样式                                                                                            | boolean                                                           | `false`                                                                                             |      |
+| state       | 指定要固定大小的元素状态                                                                                          | string                                                            | ""                                                                                                  |      |
+| node        | 节点配置项，用于定义哪些属性在视觉上保持固定大小。若未指定（即为 undefined），则整个节点将被固定，[示例](#node)   | [FixShapeConfig](#fixshapeconfig) \| FixShapeConfig[]             |                                                                                                     |      |
+| nodeFilter  | 节点过滤器，用于过滤哪些节点在缩放过程中保持固定大小                                                              | (datum: [NodeData](/manual/data#节点数据nodedata)) => boolean     | `() => true`                                                                                        |      |
+| edge        | 边配置项，用于定义哪些属性在视觉上保持固定大小。默认固定 lineWidth、labelFontSize 属性，用法同[node配置项](#node) | [FixShapeConfig](#fixshapeconfig) \| FixShapeConfig[]             | `[ shape: 'key', fields: ['lineWidth'] ,  shape: 'halo', fields: ['lineWidth'] ,  shape: 'label' ]` |      |
+| edgeFilter  | 边过滤器，用于过滤哪些边在缩放过程中保持固定大小                                                                  | (datum: [EdgeData](/manual/data#边数据edgedata)) => boolean       | `() => true`                                                                                        |      |
+| combo       | Combo 配置项，用于定义哪些属性在视觉上保持固定大小。默认整个 Combo 将被固定，用法同[node配置项](#node)            | [FixShapeConfig](#fixshapeconfig) \| FixShapeConfig[]             |                                                                                                     |      |
+| comboFilter | Combo 过滤器，用于过滤哪些 Combo 在缩放过程中保持固定大小                                                         | (datum: [ComboData](/manual/data#组合数据combodata)) => boolean   | `() => true`                                                                                        |      |     |
 
 ### enable
-
-> _boolean \| ((event: Event) => boolean)_ **Default:** `(event) = Boolean(event.data.scale  1)`
 
 是否启用固定元素大小交互。默认在缩小画布时启用
 
 默认在缩小画布时启用，设置 `enable: (event) => event.data.scale < 1`；如果希望在放大画布时启用，设置 `enable: (event) => event.data.scale > 1`；如果希望在放大缩小画布时都启用，设置 `enable: true`
 
 ### node
-
-> [FixShapeConfig](#fixshapeconfig) _\|_ [FixShapeConfig](#fixshapeconfig)_[]_
 
 节点配置项，用于定义哪些属性在视觉上保持固定大小。若未指定（即为 undefined），则整个节点将被固定
 

@@ -2,98 +2,85 @@
 title: AutoAdaptLabel
 ---
 
-## Options
+## Overview
 
-### <Badge type="success">Required</Badge> type
+Auto-adapt label display is a dynamic label management strategy designed to intelligently adjust which labels should be displayed or hidden based on factors such as spatial allocation of the current visible range and node importance. By analyzing the visible area in real-time, it ensures that users receive the most relevant and clear information display in different interaction scenarios, while avoiding visual overload and information redundancy.
 
-> _`auto-adapt-label`_
+## Usage Scenarios
 
-Behavior type
+This interaction is mainly used for:
 
-### enable
+- Node size changes
+- Graph scaling
 
-> _boolean \| ((event:_ _IGraphLifeCycleEvent \| IAnimateEvent \| IElementLifeCycleEvent \| IViewportEvent \| IPointerEvent \| IWheelEvent \| IKeyboardEvent \| IDragEvent) => boolean)_ **Default:** ``
+## Online Experience
 
-Whether to enable
+<embed src="@/common/api/behaviors/auto-adapt-label.md"></embed>
 
-### padding
+## Basic Usage
 
-> _number \| number[]_ **Default:** `0`
+Add this interaction in the graph configuration
 
-Set the padding of the label to determine whether the label overlaps to avoid the label being displayed too densely
+**1. Quick Configuration (Static)**
 
-### sort
+Declare directly using a string form. This method is simple but only supports default configuration and cannot be dynamically modified after configuration:
 
-> _(elementA:_ _NodeData \| EdgeData \| ComboData, elementB:_ _NodeData \| EdgeData \| ComboData) => -1 \| 0 \| 1_
-
-Sort elements by their importance in descending order; elements with higher importance have higher label display priority; usually combo > node > edge
-
-### sortCombo
-
-> _(comboA:_ [ComboData](/api/graph/option#combodata)_, comboB:_ [ComboData](/api/graph/option#combodata)_) => -1 \| 0 \| 1_
-
-Sort combos by importance in descending order; combos with higher importance have higher label display priority. By default, they are sorted according to the data. It should be noted that if `sort` is set, `sortCombo` will not take effect
-
-### sortEdge
-
-> _(edgeA:_ [EdgeData](/api/graph/option#edgedata)_, edgeB:_ [EdgeData](/api/graph/option#edgedata)_) => -1 \| 0 \| 1_
-
-Sort edges by importance in descending order; edges with higher importance have higher label display priority. By default, they are sorted according to the data. It should be noted that if `sort` is set, `sortEdge` will not take effect
-
-### sortNode
-
-Sort nodes by importance in descending order; nodes with higher importance have higher label display priority. Several centrality algorithms are built in, and custom sorting functions can also be defined. It should be noted that if `sort` is set, `sortNode` will not take effect
-
-### throttle
-
-> _number_ **Default:** `32`
-
-Throttle time
-
-## API
-
-### AutoAdaptLabel.destroy()
-
-```typescript
-destroy(): void;
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['auto-adapt-label'],
+});
 ```
 
-### AutoAdaptLabel.update(options)
+**2. Object Configuration (Recommended)**
 
-```typescript
-update(options: Partial<AutoAdaptLabelOptions>): void;
+Configure using an object form, supporting custom parameters, and can dynamically update the configuration at runtime:
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'auto-adapt-label',
+      throttle: 200, // Throttle time
+      padding: 10, // Extra spacing when detecting overlap
+    },
+  ],
+});
 ```
 
-<details><summary>View Parameters</summary>
+## Configuration Options
 
-<table><thead><tr><th>
+| Option    | Description                                                                                                                                                                                                                                                                                      | Type                                                                                                                              | Default            | Required |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | ------------------ | -------- |
+| type      | Interaction type name                                                                                                                                                                                                                                                                            | string                                                                                                                            | `auto-adapt-label` | √        |
+| enable    | Whether to enable this interaction                                                                                                                                                                                                                                                               | boolean \| ((event: [Event](/en/api/event#event-object-properties)) => boolean)                                                   | true               |          |
+| throttle  | Label update throttle time (ms)                                                                                                                                                                                                                                                                  | number                                                                                                                            | 100                |          |
+| padding   | Extra spacing when detecting label overlap                                                                                                                                                                                                                                                       | number \| number[]                                                                                                                | 0                  |          |
+| sort      | Custom sorting function, sorting elements from high to low importance, with higher importance elements having higher label display priority. Generally, combo > node > edge                                                                                                                      | (a: ElementDatum, b: ElementDatum) => -1 \| 0 \| 1                                                                                |                    |          |
+| sortNode  | Sort nodes from high to low importance, with higher importance nodes having higher label display priority. Several built-in [centrality algorithms](#nodecentralityoptions) are available, or a custom sorting function can be used. Note that if `sort` is set, `sortNode` will not take effect | [NodeCentralityOptions](#nodecentralityoptions) \| (nodeA: [NodeData](/en/manual/data#nodedata), nodeB: NodeData => -1 \| 0 \| 1) | `type: 'degree'`   |          |
+| sortEdge  | Sort edges from high to low importance, with higher importance edges having higher label display priority. By default, it is sorted according to the order of data. Note that if `sort` is set, `sortEdge` will not take effect                                                                  | (edgeA: [EdgeData](/en/manual/data#edgedata), edgeB: EdgeData) => -1 \| 0 \| 1                                                    |                    |          |
+| sortCombo | Sort groups from high to low importance, with higher importance groups having higher label display priority. By default, it is sorted according to the order of data. Note that if `sort` is set, `sortCombo` will not take effect                                                               | (comboA: [ComboData](/en/manual/data#combodata), comboB: ComboData) => -1 \| 0 \| 1                                               |                    |          |
 
-Parameter
+### NodeCentralityOptions
 
-</th><th>
+Methods for measuring node centrality
 
-Type
+- `'degree'`: Degree centrality, measured by the degree of the node (number of connected edges). Nodes with high degree centrality usually have more direct connections and may play important roles in the network
+- `'betweenness'`: Betweenness centrality, measured by the number of times a node appears in all shortest paths. Nodes with high betweenness centrality usually act as bridges in the network, controlling the flow of information
+- `'closeness'`: Closeness centrality, measured by the reciprocal of the sum of the shortest path lengths from the node to all other nodes. Nodes with high closeness centrality can usually reach other nodes in the network more quickly
+- `'eigenvector'`: Eigenvector centrality, measured by the degree of connection of the node to other central nodes. Nodes with high eigenvector centrality are usually connected to other important nodes
+- `'pagerank'`: PageRank centrality, measured by the number of times a node is referenced by other nodes, commonly used in directed graphs. Nodes with high PageRank centrality usually have high influence in the network, similar to webpage ranking algorithms
 
-</th><th>
+```typescript
+type NodeCentralityOptions =
+  | { type: 'degree'; direction?: 'in' | 'out' | 'both' }
+  | { type: 'betweenness'; directed?: boolean; weightPropertyName?: string }
+  | { type: 'closeness'; directed?: boolean; weightPropertyName?: string }
+  | { type: 'eigenvector'; directed?: boolean }
+  | { type: 'pagerank'; epsilon?: number; linkProb?: number };
+```
 
-Description
+## Practical Example
 
-</th></tr></thead>
-<tbody><tr><td>
-
-options
-
-</td><td>
-
-Partial&lt;[AutoAdaptLabelOptions](#options)>
-
-</td><td>
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** void
-
-</details>
+<Playground path="behavior/auto-adapt-label/demo/basic.js" rid="default-auto-adapt-label"></Playground>

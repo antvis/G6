@@ -4,7 +4,7 @@ title: BrushSelect 框选
 
 ## 概述
 
-鼠标点击拖一个框笼罩元素，框选范围内的元素 `点` `边` `Combo` 会被选中。
+鼠标点击拖一个框笼罩元素，框选范围内的元素会被选中。
 
 ## 使用场景
 
@@ -52,26 +52,24 @@ const graph = new Graph({
 
 ## 配置项
 
-| 配置项                      | 说明                                                                                                                                                                                                          | 类型                                                                                                                           | 默认值                    | 必选 |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------- | ---- |
-| type                        | 交互类型名称。此插件已内置，你可以通过 `type: 'brush-select'` 来使用它。                                                                                                                                      | `brush-select` \| string                                                                                                       | `brush-select`            | ✓    |
-| animation                   | 是否启用动画                                                                                                                                                                                                  | boolean                                                                                                                        | false                     |      |
-| enable                      | 是否启用框选功能                                                                                                                                                                                              | boolean \| ((event: [Event](/api/event#事件对象属性)) => boolean)                                                              | true                      |      |
-| enableElements              | 可框选的元素类型                                                                                                                                                                                              | ( `node` \| `edge` \| `combo` )[]                                                                                              | [`node`, `combo`, `edge`] |      |
-| [immediately](#immediately) | 是否及时框选, 仅在[框选模式 mode](#mode)为 `default` 时生效                                                                                                                                                   | boolean                                                                                                                        | false                     |      |
-| [mode](#mode)               | 框选的选择模式                                                                                                                                                                                                | `union` \| `intersect` \| `diff` \| `default`                                                                                  | `default`                 |      |
-| onSelect                    | 框选元素状态回调                                                                                                                                                                                              | (states:Record&lt;string,string\|string[]>) =>Record&lt;string,string\|string[]>                                               |                           |      |
-| state                       | 被选中时切换到该状态                                                                                                                                                                                          | string \| `selected` \| `active` \| `inactive` \| `disabled` \| `highlight`                                                    | `selected`                |      |
-| [style](#style)             | 框选时的 框样式                                                                                                                                                                                               | <a href="/manual/element/shape/properties" target="_blank" rel="noopener noreferrer">RectStyleProps extends BaseStyleProps</a> | [默认值](#style)          |      |
-| trigger                     | 按下该快捷键配合鼠标点击进行框选 **按键参考：** _<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/UI_Events/Keyboard_event_key_values" target="_blank" rel="noopener noreferrer">MDN Key Values</a>_ | string[] \| (`Control` \| `Shift`\| `Alt` \| `......`)[]                                                                       | [`shift`]                 |      |
+| 配置项         | 说明                                                                                                                                                                                                                                                                                                                                                                            | 类型                                                                             | 默认值                    | 必选 |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------- | ---- |
+| type           | 交互类型名称。此插件已内置，你可以通过 `type: 'brush-select'` 来使用它。                                                                                                                                                                                                                                                                                                        | `brush-select` \| string                                                         | `brush-select`            | ✓    |
+| animation      | 是否启用动画                                                                                                                                                                                                                                                                                                                                                                    | boolean                                                                          | false                     |      |
+| enable         | 是否启用框选功能                                                                                                                                                                                                                                                                                                                                                                | boolean \| ((event: [Event](/api/event#事件对象属性)) => boolean)                | true                      |      |
+| enableElements | 可框选的元素类型                                                                                                                                                                                                                                                                                                                                                                | ( `node` \| `edge` \| `combo` )[]                                                | [`node`, `combo`, `edge`] |      |
+| immediately    | 是否及时框选, 仅在 [框选模式 mode](#mode) 为 `default` 时生效，[示例](#immediately)                                                                                                                                                                                                                                                                                             | boolean                                                                          | false                     |      |
+| mode           | 框选的选择模式，[示例](#mode)                                                                                                                                                                                                                                                                                                                                                   | `union` \| `intersect` \| `diff` \| `default`                                    | `default`                 |      |
+| onSelect       | 框选元素状态回调                                                                                                                                                                                                                                                                                                                                                                | (states:Record&lt;string,string\|string[]>) =>Record&lt;string,string\|string[]> |                           |      |
+| state          | 被选中时切换到该状态                                                                                                                                                                                                                                                                                                                                                            | string \| `selected` \| `active` \| `inactive` \| `disabled` \| `highlight`      | `selected`                |      |
+| style          | 指定框选时的框样式，[配置项](#style)                                                                                                                                                                                                                                                                                                                                            |                                                                                  | 见下文                    |      |
+| trigger        | 按下该快捷键配合鼠标点击进行框选 **按键参考：** _<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/UI_Events/Keyboard_event_key_values" target="_blank" rel="noopener noreferrer">MDN Key Values</a>_ 。若设为**空数组**时则表示鼠标点击进行框选，不需要按下其他按键配合 <br/> ⚠️ 注意，`trigger` 设置为 `['drag']` 时会导致 `drag-canvas` 行为失效。两者不可同时配置。 | string[] \| (`Control` \| `Shift`\| `Alt` \| `......`)[]                         | [`shift`]                 |      |
 
 ### immediately
 
-> _boolean_ **Default:** `false`
-
 是否及时框选, 仅在框选模式为 `default` 时生效
 
-```tsx
+```js
 const graph = new Graph({
   behaviors: [
     {
@@ -121,19 +119,14 @@ createGraph(
 
 ### mode
 
-> _'union' \| 'intersect' \| 'diff' \| 'default'_ **Default:** `'default'`
+内置支持四种框选的选择模式：
 
-框选的选择模式
+- `union`：保持已选元素的当前状态，并添加指定的 state 状态。
+- `intersect`：如果已选元素已有指定的 state 状态，则保留；否则清除该状态。
+- `diff`：对已选元素的指定 state 状态进行取反操作。
+- `default`：清除已选元素的当前状态，并添加指定的 state 状态。
 
-- `'union'`：保持已选元素的当前状态，并添加指定的 state 状态。
-
-- `'intersect'`：如果已选元素已有指定的 state 状态，则保留；否则清除该状态。
-
-- `'diff'`：对已选元素的指定 state 状态进行取反操作。
-
-- `'default'`：清除已选元素的当前状态，并添加指定的 state 状态。
-
-```tsx
+```js
 const graph = new Graph({
   behaviors: [
     {
@@ -216,25 +209,32 @@ createGraph(
 
 ### style
 
-> _RectStyleProps_ <br> **Default:**
->
-> ```tsx
->   // 默认值
->   {
->    width: 0,
->    height: 0,
->    lineWidth: 1,
->    fill: '#1677FF',
->    stroke: '#1677FF',
->    fillOpacity: 0.1,
->    zIndex: 2,
->    pointerEvents: 'none',
->  }
-> ```
->
-> 框选时的 框样式
+| 属性              | 描述               | 类型                                     | 默认值    |
+| ----------------- | ------------------ | ---------------------------------------- | --------- |
+| cursor            | 鼠标样式           | string                                   |           |
+| fill              | 填充颜色           | string \| Pattern \| null                | `#1677FF` |
+| fillOpacity       | 填充透明度         | number \| string                         | 0.1       |
+| isBillboard       | 是否启用公告牌模式 | boolean                                  |           |
+| isSizeAttenuation | 是否启用大小衰减   | boolean                                  |           |
+| lineCap           | 线段端点样式       | `butt` \| `round` \| `square`            |           |
+| lineDash          | 虚线配置           | number \| string \| (string \| number)[] |           |
+| lineDashOffset    | 虚线偏移量         | number                                   |           |
+| lineJoin          | 线段连接处样式     | `miter` \| `round` \| `bevel`            |           |
+| lineWidth         | 线宽度             | number \| string                         | 1         |
+| opacity           | 整体透明度         | number \| string                         |           |
+| radius            | 矩形圆角半径       | number \| string \| number[]             |           |
+| shadowBlur        | 阴影模糊程度       | number                                   |           |
+| shadowColor       | 阴影颜色           | string                                   |           |
+| shadowOffsetX     | 阴影 X 方向偏移    | number                                   |           |
+| shadowOffsetY     | 阴影 Y 方向偏移    | number                                   |           |
+| stroke            | 描边颜色           | string \| Pattern \| null                | `#1677FF` |
+| strokeOpacity     | 描边透明度         | number \| string                         |           |
+| visibility        | 可见性             | `visible` \| `hidden`                    |           |
+| zIndex            | 渲染层级           | number                                   | 2         |
 
-```tsx
+**示例**：
+
+```js
 const graph = new Graph({
   behaviors: [
     {
@@ -305,14 +305,6 @@ createGraph(
 );
 ```
 
-### trigger
-
-> _string[]_ **Default:** `['shift']`
-
-按下该快捷键配合鼠标点击进行框选，若设为**空数组**时则表示鼠标点击进行框选，不需要按下其他按键配合。
-
-注意，`trigger` 设置为 `['drag']` 时会导致 `drag-canvas` 行为失效。两者不可同时配置。
-
-### 自己定制尝试看看
+### 实际案例
 
 <Playground path="behavior/select/demo/brush.js" rid="brush-select"></Playground>

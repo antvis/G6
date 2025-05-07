@@ -2,99 +2,348 @@
 title: ClickSelect
 ---
 
-When the mouse clicks on an element, you can activate the state of the element, such as selecting nodes or edges. When the degree is 1, clicking on a node will highlight the current node and its directly adjacent nodes and edges.
+## Overview
 
-## Options
+When an element is clicked, it will be highlighted.
 
-### key
+## Usage Scenarios
 
-> _string_
+This behavior is mainly used for:
 
-Behavior key, that is, the unique identifier
+- Focusing on elements
+- Viewing element details
+- Viewing element relationships
 
-Used to identify the behavior for further operations
+## Online Experience
 
-```typescript
-// Update behavior options
-graph.updateBehavior({key: 'key', ...});
+<embed src="@/common/api/behaviors/click-element.md"></embed>
+
+## Basic Usage
+
+Add this behavior in the graph configuration:
+
+**1. Quick Configuration (Static)**
+
+Declare directly using a string form. This method is simple but only supports default configuration and cannot be dynamically modified after configuration:
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['click-select'],
+});
 ```
 
-### <Badge type="success">Required</Badge> type
+**2. Object Configuration (Recommended)**
 
-> _string_
+Configure using an object form, supporting custom parameters, and can dynamically update the configuration at runtime:
 
-Behavior type
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'click-select',
+      key: 'click-select-1',
+      degree: 2, // Selection spread range
+      state: 'active', // Selected state
+      neighborState: 'neighborActive', // Neighbor node attached state
+      unselectedState: 'inactive', // Unselected node state
+    },
+  ],
+});
+```
 
-### animation
+## Configuration Options
 
-> _boolean_ **Default:** `true`
-
-Whether to enable animation
+| Option          | Description                                                                                                                                                                                                                                                        | Type                                                                            | Default        | Required |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- | -------------- | -------- |
+| type            | Behavior type name. This behavior is built-in, and you can use it with `type: 'click-select'`.                                                                                                                                                                     | `click-select` \| string                                                        | `click-select` | ✓        |
+| animation       | Whether to enable animation effects when switching element states                                                                                                                                                                                                  | boolean                                                                         | true           |          |
+| degree          | Controls the highlight spread range, [example](#degree)                                                                                                                                                                                                            | number \| (event:[Event](/en/api/event#event-object-properties)) => number      | 0              |          |
+| enable          | Whether to enable the click element function, supports dynamic control through functions, [example](#enable)                                                                                                                                                       | boolean \| ((event: [Event](/en/api/event#event-object-properties)) => boolean) | true           |          |
+| multiple        | Whether to allow multiple selections                                                                                                                                                                                                                               | boolean                                                                         | false          |          |
+| state           | The state applied when an element is selected                                                                                                                                                                                                                      | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight`        | `selected`     |          |
+| neighborState   | The state applied to elements with n-degree relationships when an element is selected. The value of n is controlled by the degree attribute, for example, degree 1 means directly adjacent elements, [example](#neighborstate)                                     | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight`        | `selected`     |          |
+| unselectedState | The state applied to all other elements except the selected element and its affected neighbor elements when an element is selected, [example](#unselectedState)                                                                                                    | string \| `selected` \| `active`\| `inactive`\| `disabled`\| `highlight`        |                |          |
+| onClick         | Callback when an element is clicked                                                                                                                                                                                                                                | (event: [Event](/en/api/event#event-object-properties)) => void                 |                |          |
+| trigger         | Press this shortcut key in combination with a mouse click to perform multi-selection, key reference: _<a href="https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values" target="_blank" rel="noopener noreferrer">MDN Key Values</a>_ | string[] \| (`Control` \| `Shift`\| `Alt` \| `......`)[]                        | `['shift']`    |          |
 
 ### degree
 
-> _number \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => number)_ **Default:** `0`
+Controls the highlight spread range
 
-The degree to determine the scope of influence
+- For nodes, `0` means only the current node is selected, `1` means the current node and its directly adjacent nodes and edges are selected, and so on.
+- For edges, `0` means only the current edge is selected, `1` means the current edge and its directly adjacent nodes are selected, and so on.
 
-For nodes, `0` means only the current node is selected, `1` means the current node and its directly adjacent nodes and edges are selected, etc.
+> In the following example, when `degree: 0` only the <span style='color:#E4504D'>red</span> point is highlighted;
+> When `degree: 1` the <span style='color:#E4504D'>red</span> and <span style='color:#FFC40C'>orange</span> points are highlighted.
 
-For edges, `0 `means only the current edge is selected,`1` means the current edge and its directly adjacent nodes are selected, etc.
+<embed src="@/common/api/behaviors/click-element.md"></embed>
 
 ### enable
 
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
+Whether to enable the click element function
 
-Whether to enable the function of clicking the element
+It can be dynamically controlled through functions, for example, only enabled when a node is selected.
 
-Whether to enable can be dynamically controlled by functions, such as only when nodes are selected.
-
-```typescript
+```js
 {
-  enable: (event) => event.targetType === 'node';
+  //⚠️ Note, you need to set both the node and the canvas, otherwise the user will not listen to the event when clicking the canvas
+  enable: (event) => ['node', 'canvas'].includes(event.targetType);
 }
 ```
 
-### multiple
+```js | ob { pin: false}
+createGraph(
+  {
+    data: {
+      nodes: [
+        { id: 'node1', style: { x: 100, y: 60 } },
+        { id: 'node2', style: { x: 200, y: 60 } },
+        { id: 'node3', style: { x: 300, y: 60 } },
+      ],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node2', target: 'node3' },
+      ],
+    },
+    node: {
+      style: {
+        fill: '#E4504D',
+      },
+      state: {
+        active: {
+          fill: '#0f0',
+        },
+        neighborActive: {
+          fill: '#FFC40C',
+        },
+      },
+    },
+    behaviors: [
+      {
+        type: 'click-select',
+        degree: 1,
+        state: 'active',
+        neighborState: 'neighborActive',
+        enable: (event) => ['node', 'canvas'].includes(event.targetType),
+      },
+    ],
+  },
+  { width: 400, height: 200 },
+);
+```
 
-> _boolean_ **Default:** `false`
+Similarly, if you only want edges to be selected:
 
-Whether to allow multiple selection
+```js
+{
+  enable: (event) => ['edge', 'canvas'].includes(event.targetType);
+}
+```
 
 ### neighborState
 
-> _string_ **Default:** `'selected'`
+The state applied to elements with n-degree relationships when an element is selected. The value of n is controlled by the degree attribute, for example, degree 1 means directly adjacent elements
 
-The state to be applied to the neighboring elements within n degrees when an element is selected. The value of n is controlled by the degree property, for instance, a degree of 1 indicates direct neighbors
+```js
+const graph = new Graph({
+  behaviors: [
+    {
+      type: 'click-select',
+      degree: 1,
+      // State attached to the directly clicked node
+      state: 'active',
+      // State attached to adjacent nodes
+      neighborState: 'neighborActive',
+    },
+  ],
+});
+```
 
-### onClick
-
-> _(event:_ [Event](/manual/graph-api/event#事件对象属性)_) => void_
-
-Callback when the element is clicked
-
-### state
-
-> _string_ **Default:** `'selected'`
-
-The state to be applied when an element is selected
-
-### trigger
-
-> _string[]_ **Default:** `['shift']`
-
-Press this shortcut key to apply multiple selection with mouse click
+```js | ob { pin: false}
+createGraph(
+  {
+    layout: {
+      type: 'grid',
+    },
+    data: {
+      nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node2', target: 'node3' },
+        { source: 'node3', target: 'node4' },
+        { source: 'node4', target: 'node5' },
+      ],
+    },
+    node: {
+      style: {
+        fill: '#E4504D',
+      },
+      state: {
+        active: {
+          fill: '#0f0',
+        },
+        neighborActive: {
+          fill: '#FFC40C',
+          halo: true,
+        },
+      },
+    },
+    behaviors: [
+      {
+        type: 'click-select',
+        degree: 1,
+        state: 'active',
+        neighborState: 'neighborActive',
+      },
+    ],
+  },
+  { width: 400, height: 200 },
+);
+```
 
 ### unselectedState
 
-> _string_
+When an element is selected, the state applied to all other elements except the selected element and the spread neighbor elements.
 
-The state to be applied to all unselected elements when some elements are selected, excluding the selected element and its affected neighbors
+Built-in states: `selected` `active` `inactive` `disabled` `highlight`
 
-## API
-
-### ClickSelect.destroy()
-
-```typescript
-destroy(): void;
+```js
+const graph = new Graph({
+  behaviors: [
+    {
+      type: 'click-select',
+      degree: 1,
+      unselectedState: 'inactive',
+    },
+  ],
+});
 ```
+
+```js | ob { pin: false}
+createGraph(
+  {
+    layout: {
+      type: 'grid',
+    },
+    data: {
+      nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node2', target: 'node3' },
+        { source: 'node3', target: 'node4' },
+        { source: 'node4', target: 'node5' },
+      ],
+    },
+    node: {
+      style: {
+        fill: '#E4504D',
+      },
+      state: {
+        active: {
+          fill: '#0f0',
+        },
+        neighborActive: {
+          fill: '#FFC40C',
+        },
+      },
+    },
+    behaviors: [
+      {
+        type: 'click-select',
+        degree: 1,
+        state: 'active',
+        neighborState: 'neighborActive',
+        unselectedState: 'inactive',
+      },
+    ],
+  },
+  { width: 400, height: 200 },
+);
+```
+
+## Example
+
+### Click to select nodes and their directly connected nodes
+
+**Clicking a node** will switch from <span style='color:#E4504D'>default state</span> to <span style='color:#0f0'>active</span>
+<br>
+**Adjacent nodes** will switch from <span style='color:#E4504D'>default state</span> to <span style='color:#FFC40C'>neighborActive</span>
+
+```js
+const graph = new Graph({
+  node: {
+    style: {
+      fill: '#E4504D',
+    },
+    state: {
+      // Selected node state
+      active: {
+        fill: '#0f0',
+      },
+      // Adjacent node state
+      neighborActive: {
+        fill: '#FFC40C',
+      },
+    },
+  },
+  behaviors: [
+    {
+      type: 'click-select',
+      degree: 1,
+      state: 'active',
+      // State attached to adjacent nodes
+      neighborState: 'neighborActive',
+      // Unselected node state
+      unselectedState: 'inactive',
+    },
+  ],
+});
+```
+
+```js | ob { pin: false}
+createGraph(
+  {
+    layout: {
+      type: 'grid',
+    },
+    data: {
+      nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node2', target: 'node3' },
+        { source: 'node3', target: 'node4' },
+        { source: 'node4', target: 'node5' },
+      ],
+    },
+    node: {
+      style: {
+        fill: '#E4504D',
+      },
+      state: {
+        active: {
+          fill: '#0f0',
+        },
+        neighborActive: {
+          fill: '#FFC40C',
+        },
+      },
+    },
+    behaviors: [
+      {
+        type: 'click-select',
+        degree: 1,
+        state: 'active',
+        neighborState: 'neighborActive',
+        unselectedState: 'inactive',
+      },
+    ],
+  },
+  { width: 400, height: 200 },
+);
+```
+
+### Practical Example
+
+<Playground path="behavior/select/demo/click.js" rid="click-select"></Playground>

@@ -3,101 +3,157 @@ title: Behavior Overview
 order: 1
 ---
 
-## Overview
+## What is Behavior
 
 <image width="200px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sa3jRqp83K4AAAAAAAAAAAAADmJ7AQ/original" />
 
-Behavior refers to a series of operational behaviors between the user and the canvas or elements, such as dragging, scaling, panning, and selecting. Interactions help users to more intuitively obtain information from the graph.
+Behavior refers to the interactive operations between users and chart elements, such as dragging the canvas, selecting nodes, zooming the view, etc. Good behavior design allows users to explore and understand graph data more intuitively. **Proper configuration of behaviors is a key step in building efficient and usable charts**.
 
-:::warning{title=Note}
-In G6 5.x, the concept of "interaction mode" (Mode) has been removed. Users only need to manage the currently enabled behaviors.
+### Changes in G6 5.0 Behavior System
+
+G6 5.0 removed the concept of "Behavior Mode" (Mode), and directly lists the required behavior behaviors in `behaviors`, simplifying the configuration. This makes behavior configuration more intuitive and easier to get started with.
+
+```javascript {4}
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  behaviors: ['drag-canvas', 'zoom-canvas', 'click-select'],
+});
+```
+
+## Built-in Behaviors
+
+G6 provides a variety of built-in behaviors that are **ready to use without registration**:
+
+| Category            | Behavior Name                                                                           | Registration Type             | Function Description                                         |
+| ------------------- | --------------------------------------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------ |
+| Navigation          |                                                                                         |                               |                                                              |
+|                     | [Drag Canvas](/en/manual/behavior/build-in/drag-canvas)                                 | `drag-canvas`                 | Drag the entire canvas view                                  |
+|                     | [Zoom Canvas](/en/manual/behavior/build-in/zoom-canvas)                                 | `zoom-canvas`                 | Zoom the canvas view                                         |
+|                     | [Scroll Canvas](/en/manual/behavior/build-in/scroll-canvas)                             | `scroll-canvas`               | Scroll the canvas using the wheel                            |
+|                     | [Optimize Viewport Transform](/en/manual/behavior/build-in/optimize-viewport-transform) | `optimize-viewport-transform` | Optimize view transform performance                          |
+| Selection           |                                                                                         |                               |                                                              |
+|                     | [Click Select](/en/manual/behavior/build-in/click-select)                               | `click-select`                | Click to select graph elements                               |
+|                     | [Brush Select](/en/manual/behavior/build-in/brush-select)                               | `brush-select`                | Select elements by dragging a rectangular area               |
+|                     | [Lasso Select](/en/manual/behavior/build-in/lasso-select)                               | `lasso-select`                | Freely draw an area to select elements                       |
+| Editing             |                                                                                         |                               |                                                              |
+|                     | [Create Edge](/en/manual/behavior/build-in/create-edge)                                 | `create-edge`                 | Interactively create new edges                               |
+|                     | [Drag Element](/en/manual/behavior/build-in/drag-element)                               | `drag-element`                | Drag nodes or combos                                         |
+|                     | [Force-directed Drag](/en/manual/behavior/build-in/drag-element-force)                  | `drag-element-force`          | Drag nodes in force-directed layout                          |
+| Data Exploration    |                                                                                         |                               |                                                              |
+|                     | [Collapse/Expand](/en/manual/behavior/build-in/collapse-expand)                         | `collapse-expand`             | Expand or collapse subtree nodes                             |
+|                     | [Focus Element](/en/manual/behavior/build-in/focus-element)                             | `focus-element`               | Focus on specific elements and automatically adjust the view |
+|                     | [Hover Activate](/en/manual/behavior/build-in/hover-activate)                           | `hover-activate`              | Highlight elements when hovering                             |
+| Visual Optimization |                                                                                         |                               |                                                              |
+|                     | [Fix Element Size](/en/manual/behavior/build-in/fix-element-size)                       | `fix-element-size`            | Fix the element size to a specified value                    |
+|                     | [Auto-adapt Label](/en/manual/behavior/build-in/auto-adapt-label)                       | `auto-adapt-label`            | Automatically adjust label position                          |
+
+For detailed configuration of each behavior, refer to the [Built-in Behavior Documentation](/en/manual/behavior/build-in/drag-canvas).
+
+:::warning{title=Behavior Compatibility}
+Some behaviors may overlap in triggering mechanisms, such as `brush-select` and `drag-canvas` both using mouse dragging. In such cases, you can avoid conflicts by modifying the trigger key (e.g., hold `Shift` to drag and select).
 :::
 
-G6 provides a rich set of interactive features, and users can choose the appropriate interactive behaviors according to their needs, including:
+## Custom Behaviors
 
-- [Brush Select](/en/api/behaviors/brush-select): Box Selection
-- [Click Select](/en/api/behaviors/click-select): Single Click Selection
-- [Collapse Expand](/en/api/behaviors/collapse-expand): Expand and Collapse
-- [Create Edge](/en/api/behaviors/create-edge): Create an Edge
-- [Drag Canvas](/en/api/behaviors/drag-canvas): Drag the Canvas
-- [Drag Element](/en/api/behaviors/drag-element): Drag an Element
-- [Focus Element](/en/api/behaviors/focus-element): Focus on an Element
-- [Hover Element](/en/api/behaviors/hover-activate): Hover Over an Element
-- [Lasso Select](/en/api/behaviors/lasso-select): Lasso Selection
-- [Zoom Canvas](/en/api/behaviors/zoom-canvas): Zoom the Canvas
+When built-in behaviors cannot meet the requirements, G6 provides powerful customization capabilities:
 
-## Register Behavior
+- Extend by inheriting built-in behaviors
+- Create entirely new behavior behaviors
 
-You can directly use the built-in behaviors. If you want to use other behaviors, you need to register them first:
+Unlike built-in behaviors, **custom behaviors need to be registered before use**. For detailed tutorials, refer to the [Custom Behavior](/en/manual/behavior/custom-behavior) documentation.
 
-```typescript
-import { register, ExtensionCategory } from '@antv/g6';
-import { CustomBehavior } from 'package-name/or/path-to-your-custom-behavior';
+## Configuration and Usage
 
-register(ExtensionCategory.BEHAVIOR, 'custom-behavior', CustomBehavior);
+### Basic Configuration
+
+The simplest way is to directly specify the required behaviors through the `behaviors` array when initializing the graph instance:
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['drag-canvas', 'zoom-canvas', 'click-select'],
+});
 ```
 
-## Configure Behavior
+### Configure Behavior Parameters
 
-You can directly configure the names of behavior types in the `behaviors` array, for example:
+For behaviors that require custom parameters, you can configure properties using the `object` form:
 
-```typescript
-{
-  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element', 'click-select'],
-}
-```
-
-It also supports passing configuration parameters in the form of an `object`, for example:
-
-```typescript
-{
+```javascript
+const graph = new Graph({
+  // Other configurations...
   behaviors: [
+    'drag-canvas',
     {
       type: 'zoom-canvas',
-      sensitivity: 2,
+      sensitivity: 1.5, // Configure sensitivity
+      key: 'zoom-behavior', // Specify a key for the behavior for subsequent updates
     },
   ],
-}
+});
 ```
 
-> Different behaviors support different configuration parameters. For details, please refer to [behaviors](/en/api/behaviors/brush-select).
+### Dynamically Update Behaviors
 
-### Update Behavior
+G6 supports dynamically managing behavior behaviors during the runtime of the graph instance to meet complex behavior needs:
 
-If you need to update behaviors after initialization, for example, to temporarily disable a certain behavior, you can use the [updateBehavior](/en/api/graph/method#graphupdatebehaviorbehavior) method:
+You can adjust behaviors using the [setBehaviors](/en/api/behavior#graphsetbehaviorsbehaviors) method:
 
-```typescript
-// Disable the `zoom-canvas` behavior.
+```javascript
+// Add new behavior
+graph.setBehaviors((behaviors) => [...behaviors, 'lasso-select']);
+
+// Remove behavior
+graph.setBehaviors((behaviors) => behaviors.filter((b) => b !== 'click-select'));
+```
+
+You can update the configuration of behaviors using the [updateBehavior](/en/api/behavior#graphupdatebehaviorbehavior) method:
+
+```javascript
+// Update a single behavior
 graph.updateBehavior({
-  key: 'zoom-canvas',
-  enable: false,
+  key: 'zoom-behavior',
+  sensitivity: 2,
+  enable: false, // Disable the behavior
 });
 ```
 
 :::warning{title=Note}
-To use the `updateBehavior` method, you must configure the behavior as an `object` during initialization and provide a `key` value.
+When using the `updateBehavior` method, you need to specify a unique `key` for the behavior during initialization.
 :::
 
-You can also use the [setBehaviors](/en/api/graph/method#graphsetbehaviorsbehaviors) method to add, update, or remove current behavior behaviors at any time:
+### Uninstall Behaviors
 
-```typescript
-// Add the `lasso-select` behavior
-graph.setBehaviors((behaviors) => [...behaviors, 'lasso-select']);
+You can also uninstall behaviors using the [setBehaviors](/en/api/behavior#graphsetbehaviorsbehaviors) method by setting the behavior configuration list to empty:
 
-// Update the `zoom-canvas` behavior (requires configure the behavior as an `object` with a `key` during initialization)
-graph.setBehaviors((behaviors) =>
-  behaviors.map((behavior) => {
-    if (behavior.key === 'zoom-canvas') {
-      return { ...behavior, sensitivity: 2 };
-    }
-    return behavior;
-  }),
-);
-
-// Remove the `click-select` behavior
-graph.setBehaviors((behaviors) => behaviors.filter((behavior) => behavior !== 'click-select'));
+```javascript
+graph.setBehaviors([]);
 ```
 
-## Custom Behavior
+For more behavior-related APIs, refer to the [Behavior API Documentation](/en/api/behavior).
 
-If the built-in behaviors do not meet your requirements, you can create custom behaviors. For details, please refer to [Custom Behavior](/en/manual/custom-extension/behavior).
+## Behavior and Events
+
+Behaviors are essentially implemented through event listening and response. Although built-in behaviors have encapsulated common behavior behaviors, you can also directly implement custom behavior logic through the event API.
+
+### Event Listening Example
+
+```javascript
+// Use event constants (recommended)
+import { NodeEvent, EdgeEvent } from '@antv/g6';
+
+// Listen for node clicks
+graph.on(NodeEvent.CLICK, (evt) => {
+  const { target } = evt;
+  graph.setElementState(target.id, 'selected');
+});
+
+// Listen for edge hover
+graph.on(EdgeEvent.POINTER_OVER, (evt) => {
+  const { target } = evt;
+  graph.setElementState(target.id, 'highlight');
+});
+```
+
+The event system is the foundation for implementing behaviors. Mastering the event API is crucial for understanding and extending behavior behaviors. For more event-related information, refer to the [Event Documentation](/en/api/event).

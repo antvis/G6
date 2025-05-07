@@ -117,11 +117,3 @@ const graph = new Graph({
 ## 实际案例
 
 <Playground path="behavior/focus/demo/basic.js" rid="focus-element"></Playground>
-
-## API
-
-### FocusElement.destroy()
-
-```typescript
-destroy(): void;
-```

@@ -2,81 +2,200 @@
 title: ZoomCanvas
 ---
 
+## Overview
+
+ZoomCanvas is a built-in behavior in G6 used to implement the canvas zooming feature, supporting zooming in and out of the canvas using the mouse wheel or keyboard shortcuts. This is one of the most commonly used interactions in graph visualization, helping users view both the overall structure and local details of the graph.
+
+## Use Cases
+
+This behavior is mainly used for:
+
+- Browsing large-scale graph data, freely switching between the whole and details
+- Focusing on specific areas for detailed analysis
+
+## Online Experience
+
 <embed src="@/common/api/behaviors/zoom-canvas.md"></embed>
 
-## Options
+## Basic Usage
 
-### key
+Add this behavior in the graph configuration:
 
-> _string_
+**1. Quick Configuration (Static)**
 
-Behavior key, that is, the unique identifier
+Declare directly using a string form. This method is simple but only supports default configuration and cannot be dynamically modified after configuration:
 
-Used to identify the behavior for further operations
-
-```typescript
-// Update behavior options
-graph.updateBehavior({key: 'key', ...});
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['zoom-canvas'],
+});
 ```
 
-### <Badge type="success">Required</Badge> type
+**2. Object Configuration (Recommended)**
 
-> _string_
+Configure using an object form, supporting custom parameters, and can dynamically update the configuration at runtime:
 
-Behavior type
-
-### animation
-
-> [ViewportAnimationEffectTiming](/api/graph#viewportanimationeffecttiming) **Default:** `' duration: 200 '`
-
-Whether to enable the animation of zooming
-
-### enable
-
-> _boolean \| ((event: [Event](/manual/graph-api/event#事件对象属性)_) => boolean)\_ **Default:** `true`
-
-Whether to enable the function of zooming the canvas
-
-### origin
-
-> [Point](/api/viewport#point)
-
-Zoom center point (viewport coordinates)
-
-### onFinish
-
-> _() => void_
-
-Callback when zooming is completed
-
-### preventDefault
-
-> _boolean_ **Default:** `true`
-
-Whether to prevent the default event
-
-### sensitivity
-
-> _number_ **Default:** `1`
-
-Zoom sensitivity
-
-### trigger
-
-> _string[]_ _\| { zoomIn:_ _string[]; zoomOut:_ _string[]; reset:_ _string[]; }_
-
-The way to trigger zoom
-
-- ShortcutKey: Combination shortcut key, \*\*default to zoom with the mouse wheel\*\*, ['Control'] means zooming when holding down the Control key and scrolling the mouse wheel
-
-- CombinationKey: Zoom shortcut key, such as { zoomIn: ['Control', '+'], zoomOut: ['Control', '-'], reset: ['Control', '0'] }
-
-## API
-
-### ZoomCanvas.destroy()
-
-Destroy zoom canvas
-
-```typescript
-destroy(): void;
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'zoom-canvas',
+      key: 'zoom-canvas-1', // Specify an identifier for the behavior for dynamic updates
+      sensitivity: 1.5, // Set sensitivity
+    },
+  ],
+});
 ```
+
+## Configuration Options
+
+| Option         | Description                                                                                            | Type                                                                                | Default             | Required |
+| -------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ------------------- | -------- |
+| type           | Behavior type name                                                                                     | string                                                                              | `zoom-canvas`       | ✓        |
+| animation      | Zoom animation effect settings                                                                         | [ViewportAnimationEffectTiming](/manual/graph/option#viewportanimationeffecttiming) | `{ duration: 200 }` |          |
+| enable         | Whether to enable this behavior                                                                        | boolean \| ((event: Event) => boolean)                                              | true                |          |
+| origin         | Zoom center point (viewport coordinates)                                                               | [Point](/api/viewport#point)                                                        | -                   |          |
+| onFinish       | Callback function when zooming is finished                                                             | () => void                                                                          | -                   |          |
+| preventDefault | Whether to prevent the browser's default event                                                         | boolean                                                                             | true                |          |
+| sensitivity    | Zoom sensitivity, the larger the value, the faster the zoom                                            | number                                                                              | 1                   |          |
+| trigger        | How to trigger zooming, supports mouse wheel and keyboard shortcuts, [configuration options](#trigger) | object                                                                              | -                   |          |
+
+### Trigger
+
+`trigger` has two usage methods, suitable for different scenarios:
+
+#### Method 1: Modifier keys combined with the mouse wheel
+
+If you want to trigger zooming only when certain keys are pressed while scrolling the mouse wheel, you can configure it like this:
+
+```javascript
+{
+  trigger: ['Control']; // Hold down the Control key and scroll the mouse wheel to zoom
+}
+```
+
+Common modifier keys include:
+
+- `Control`
+- `Shift`
+- `Alt`
+
+> Not sure what value corresponds to a keyboard key? Refer to [MDN Key Values](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values).
+
+#### Method 2: Pure keyboard shortcuts
+
+If you want to control zooming entirely using the keyboard, you can set up key combinations:
+
+```javascript
+{
+  trigger: {
+    zoomIn: ['Control', '+'],  // Zoom in shortcut
+    zoomOut: ['Control', '-'], // Zoom out shortcut
+    reset: ['Control', '0']    // Reset zoom ratio shortcut
+  }
+}
+```
+
+## Code Examples
+
+### Basic Zoom Functionality
+
+```javascript
+const graph = new Graph({
+  container: 'container',
+  width: 800,
+  height: 600,
+  behaviors: ['zoom-canvas'],
+});
+```
+
+### Custom Zoom Center
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'zoom-canvas',
+      origin: graph.getCanvasCenter(), // Zoom with the viewport center as the origin
+    },
+  ],
+});
+```
+
+### Custom Zoom Sensitivity
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'zoom-canvas',
+      sensitivity: 0.8, // Lower sensitivity for smoother zoom changes
+    },
+  ],
+});
+```
+
+### Zoom with Shift + Mouse Wheel
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'zoom-canvas',
+      trigger: ['Shift'], // Hold down the Shift key and scroll to zoom
+    },
+  ],
+});
+```
+
+### Control Zoom with Keyboard Shortcuts
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'zoom-canvas',
+      trigger: {
+        zoomIn: ['Control', '='], // Ctrl + = to zoom in
+        zoomOut: ['Control', '-'], // Ctrl + - to zoom out
+        reset: ['Control', '0'], // Ctrl + 0 to reset
+      },
+    },
+  ],
+});
+```
+
+## FAQ
+
+### 1. What if the canvas zoom exceeds the expected range?
+
+To avoid excessive zooming in or out, you can set zoom limits:
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  zoomRange: [0.5, 3], // Allow zooming out to 50% and zooming in to 300%
+  behaviors: ['zoom-canvas'],
+});
+```
+
+### 2. How to use it with other interactions?
+
+Zooming and dragging are common combinations for a complete navigation experience:
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['drag-canvas', 'zoom-canvas'],
+});
+```
+
+## Practical Example
+
+<Playground path="behavior/canvas/demo/zoom.js" rid="default-zoom-canvas"></Playground>

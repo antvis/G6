@@ -2,131 +2,141 @@
 title: HoverActivate
 ---
 
-When the mouse hovers over an element, you can activate the state of the element, such as highlighting nodes or edges.
+## Overview
 
-## Options
+HoverActivate is a built-in behavior in G6 used to implement the hover activation effect on elements. When the mouse hovers over nodes or edges, it automatically triggers visual feedback such as highlighting and displaying. This behavior is an important means of enhancing data exploration in graph visualization, helping users quickly focus on target elements and obtain related information.
 
-### key
+## Use Cases
 
-> _string_
+This behavior is mainly used for:
 
-Behavior key, that is, the unique identifier
+- Quickly locating elements of interest in complex relationship graphs
+- Displaying additional information of nodes through hover
+- Highlighting connection paths by activating edges when analyzing relationships between nodes
 
-Used to identify the behavior for further operations
+## Online Experience
 
-```typescript
-// Update behavior options
-graph.updateBehavior({key: 'key', ...});
+<embed src="@/common/api/behaviors/hover-activate.md"></embed>
+
+## Basic Usage
+
+Add this behavior in the graph configuration:
+
+**1. Quick Configuration (Static)**
+
+Declare directly using a string form. This method is simple but only supports default configuration and cannot be dynamically modified after configuration:
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['hover-activate'],
+});
 ```
 
-### <Badge type="success">Required</Badge> type
+**2. Object Configuration (Recommended)**
 
-> _string_
+Configure using an object form, supporting custom parameters, and can dynamically update the configuration at runtime:
 
-Behavior type
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'hover-activate',
+      key: 'hover-activate-1', // Specify an identifier for the behavior for dynamic updates
+    },
+  ],
+});
+```
 
-### animation
+## Configuration Options
 
-> _boolean_ **Default:** `true`
-
-Whether to enable animation
-
-### degree
-
-> _number \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => number)_ **Default:** `0`
-
-N-degree relationship of the hovered element
-
-- default to `0`, which means only the current node is activated
-
-- `1` means the current node and its directly adjacent nodes and edges are activated, etc
-
-### direction
-
-> _'in' \| 'out' \| 'both'_ **Default:** `'both'`
-
-Specify the direction of the edge
-
-- `'both'`: Activate all relationships of the current node
-
-- `'in'`: Activate the incoming edges and nodes of the current node
-
-- `'out'`: Activate the outgoing edges and nodes of the current node
+| Option        | Description                                 | Type                                           | Default          | Required |
+| ------------- | ------------------------------------------- | ---------------------------------------------- | ---------------- | -------- |
+| type          | Behavior type name                          | string                                         | `hover-activate` | ✓        |
+| animation     | Whether to enable animation                 | boolean                                        | true             |          |
+| enable        | Whether to enable hover feature             | boolean \| ((event: IPointerEvent) => boolean) | true             |          |
+| degree        | Degree of relationship to activate elements | number \| ((event: IPointerEvent) => number);  | 0                |          |
+| direction     | Specify edge direction                      | `both` \| `in` \| `out`                        | `both`           |          |
+| state         | State of activated elements                 | string                                         | `active`         |          |
+| inactiveState | State of inactive elements                  | string                                         | -                |          |
+| onHover       | Callback when element is hovered            | (event: IPointerEvent) => void                 | -                |          |
+| onHoverEnd    | Callback when hover ends                    | (event: IPointerEvent) => void                 | -                |          |
 
 ### enable
 
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
+`enable` is used to control whether to enable hover highlighting of elements, and can receive a function for dynamic control
 
-Whether to enable hover element function
-
-### inactiveState
-
-> _string_
-
-Inactive element state, default to no change
-
-### onHover
-
-> _(event:_ [Event](/manual/graph-api/event#事件对象属性)_) => void_
-
-Callback when the element is hovered
-
-### onHoverEnd
-
-> _(event:_ [Event](/manual/graph-api/event#事件对象属性)_) => void_
-
-Callback when the hover ends
-
-### state
-
-> _string_ **Default:** `'active'`
-
-Active element state, default to`active`
-
-## API
-
-### HoverActivate.destroy()
+For example: Enable hover highlighting only for nodes
 
 ```typescript
-destroy(): void;
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'hover-activate',
+      enable: (e) => {
+        if (e.targetType === 'node') {
+          return true;
+        }
+        return false;
+      },
+    },
+  ],
+});
 ```
 
-### HoverActivate.getActiveIds(event)
+## Code Examples
+
+### Basic Hover Usage
 
 ```typescript
-protected getActiveIds(event: IPointerEvent<Element>): string[];
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['hover-activate'],
+});
 ```
 
-<details><summary>View Parameters</summary>
+### Node Trigger Highlight
 
-<table><thead><tr><th>
+```typescript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'hover-activate',
+      enable: (e) => {
+        if (e.targetType === 'node') {
+          return true;
+        }
+        return false;
+      },
+    },
+  ],
+});
+```
 
-Parameter
+### Flowchart Node Hover Next Node Highlight
 
-</th><th>
+```typescript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'hover-activate',
+      degree: 1,
+      direction: 'out',
+      enable: (e) => {
+        if (e.targetType === 'node') {
+          return true;
+        }
+        return false;
+      },
+    },
+  ],
+});
+```
 
-Type
+## Practical Example
 
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-event
-
-</td><td>
-
-[Event](/manual/graph-api/event#事件对象属性)&lt;Node \| Edge \| Combo>
-
-</td><td>
-
-</td></tr>
-</tbody></table>
-
-**Returns**:
-
-- **Type:** string[]
-
-</details>
+<Playground path="behavior/highlight-element/demo/basic.js" rid="default-hover-activate"></Playground>

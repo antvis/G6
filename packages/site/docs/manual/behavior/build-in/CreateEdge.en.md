@@ -2,65 +2,116 @@
 title: CreateEdge
 ---
 
-Create edges by dragging or clicking nodes, and support custom edge styles.
+## Overview
+
+CreateEdge is a built-in behavior in G6 for interactively creating edges on the canvas. After the user triggers the behavior (click or drag), the edge will follow the mouse movement and connect to the target node to complete the creation. If canceled, it will be automatically removed.
+
+Additionally, this behavior supports customizing the style of the edge, such as color, line style, arrow, etc., to meet different visualization needs.
+
+The elements that can be connected by this behavior are `node` and `combo`.
+
+## Usage Scenarios
+
+This behavior is mainly used for:
+
+- Visualization scenarios that require interactive creation of connections between nodes, such as flowcharts, knowledge graphs, etc.
+
+## Online Experience
 
 <embed src="@/common/api/behaviors/create-edge.md"></embed>
 
-## Options
+## Basic Usage
 
-### key
+Add this behavior in the graph configuration
 
-> _string_
+```javascript
+// Use default configuration
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['create-edge'], // Directly add, use default configuration
+});
 
-Behavior key, that is, the unique identifier
-
-Used to identify the behavior for further operations
-
-```typescript
-// Update behavior options
-graph.updateBehavior({key: 'key', ...});
+// Or use custom configuration
+const graph = new Graph({
+  // Other configurations
+  behaviors: [
+    {
+      type: 'create-edge',
+      trigger: 'click', // Behavior configuration, create edge by clicking
+      style: {}, // Custom edge style
+    },
+  ],
+});
 ```
 
-### <Badge type="success">Required</Badge> type
+## Configuration Options
 
-> _string_
-
-Behavior type
-
-### enable
-
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
-
-Whether to enable the function of creating edges
-
-### onCreate
-
-> _(edge:_ [EdgeData](/api/graph/option#edgedata)_) =>_ [EdgeData](/api/graph/option#edgedata)
-
-Callback when create edge, return EdgeData.
-
-### onFinish
-
-> _(edge:_ [EdgeData](/api/graph/option#edgedata)_) => void_
-
-Callback when create is completed.
+| Option   | Description                                                                                                 | Type                                                                                                     | Default       | Required |
+| -------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| type     | Behavior type name                                                                                          | string                                                                                                   | `create-edge` | √        |
+| trigger  | The way to trigger the creation of a new edge: `click` means click to trigger; `drag` means drag to trigger | `click` \| `drag`                                                                                        | `drag`        |          |
+| enable   | Whether to enable this behavior                                                                             | boolean \| ((event: [Event](/en/api/event#event-object-properties)) => boolean)                          | true          |          |
+| onCreate | Callback function for creating an edge, returns edge data                                                   | (edge: [EdgeData](/en/manual/data#edge-data-edgedata)) => [EdgeData](/en/manual/data#edge-data-edgedata) | -             |          |
+| onFinish | Callback function for successfully creating an edge                                                         | (edge: [EdgeData](/en/manual/data#edge-data-edgedata)) => void                                           | -             |          |
+| style    | Style of the newly created edge, [configuration options](#style)                                            | See below                                                                                                | -             |          |
 
 ### style
 
-> _EdgeStyle_
+Configure the style of the newly created edge, for detailed configuration options, please refer to [Element - Edge - General Edge Properties - Style](/en/manual/element/edge/build-in/base-edge#style)
 
-Style configs of the new edge
-
-### trigger
-
-> _'click' \| 'drag'_ **Default:** `'drag'`
-
-trigger click or drag.
-
-## API
-
-### CreateEdge.destroy()
-
-```typescript
-destroy(): void;
+```json
+{
+  "style": {
+    "stroke": "red",
+    "lineWidth": 2
+  }
+}
 ```
+
+## Code Examples
+
+### Basic Edge Creation Function
+
+```javascript
+const graph = new Graph({
+  container: 'container',
+  width: 800,
+  height: 600,
+  behaviors: ['create-edge'],
+});
+```
+
+### Custom Edge Creation Function
+
+```javascript
+const graph = new Graph({
+  // Other configurations,
+  behaviors: [
+    {
+      type: 'create-edge',
+      style: {
+        stroke: 'red',
+        lineWidth: 3,
+      },
+    },
+  ],
+});
+```
+
+### Create Edge by Clicking
+
+```javascript
+const graph = new Graph({
+  // Other configurations
+  behaviors: [
+    {
+      type: 'create-edge',
+      trigger: 'click',
+    },
+  ],
+});
+```
+
+## Practical Example
+
+<Playground path="behavior/create-edge/demo/by-drag.js" rid="default-create-edge"></Playground>

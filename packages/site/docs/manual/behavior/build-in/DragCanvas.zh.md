@@ -53,28 +53,18 @@ const graph = new Graph({
 
 ## 配置项
 
-| 配置项      | 说明                                                 | 类型                                                                                                                                                 | 默认值                                                                                      | 必选 |
-| ----------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ---- |
-| type        | 交互类型名称                                         | string                                                                                                                                               | `drag-canvas`                                                                               | ✓    |
-| enable      | 是否启用该交互                                       | boolean \| ((event: [Event](/api/event#事件对象属性) \| [KeyboardEvent](https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent)) => boolean) | `(event) => 'eventType' in event ? event.targetType === 'canvas': true`(仅在点击画布时启用) |      |
-| animation   | 拖拽动画配置，仅在使用按键移动时有效                 | [ViewportAnimationEffectTiming](/api/graph#viewportanimationeffecttiming)                                                                            | -                                                                                           |      |
-| direction   | 允许的拖拽方向，[配置项](#direction)                 | `'x'` \| `'y'` \| `'both'`                                                                                                                           | `'both'` (不限制方向)                                                                       |      |
-| range       | 可拖拽的视口范围(以视口大小为单位)，[配置项](#range) | number \| number[]                                                                                                                                   | Infinity                                                                                    |      |
-| sensitivity | 触发一次按键移动的距离                               | number                                                                                                                                               | 10                                                                                          |      |
-| trigger     | 触发拖拽的键盘按键，[配置项](#trigger)               | object                                                                                                                                               | -                                                                                           |      |
-| onFinish    | 拖拽完成时的回调函数                                 | () => void                                                                                                                                           | -                                                                                           |      |
+| 配置项      | 说明                                                                                                                                                   | 类型                                                                                                                                                 | 默认值                                                                                      | 必选 |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ---- |
+| type        | 交互类型名称                                                                                                                                           | string                                                                                                                                               | `drag-canvas`                                                                               | ✓    |
+| enable      | 是否启用该交互                                                                                                                                         | boolean \| ((event: [Event](/api/event#事件对象属性) \| [KeyboardEvent](https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent)) => boolean) | `(event) => 'eventType' in event ? event.targetType === 'canvas': true`(仅在点击画布时启用) |      |
+| animation   | 拖拽动画配置，仅在使用按键移动时有效                                                                                                                   | [ViewportAnimationEffectTiming](/api/graph#viewportanimationeffecttiming)                                                                            | -                                                                                           |      |
+| direction   | 允许的拖拽方向，可选值有：<br/>- 设为 `'both'`（默认）：允许在任意方向拖拽 <br/>- 设为 `'x'`：只允许水平方向拖拽 <br/>- 设为 `'y'`：只允许垂直方向拖拽 | `'x'` \| `'y'` \| `'both'`                                                                                                                           | `'both'` (不限制方向)                                                                       |      |
+| range       | 可拖拽的视口范围(以视口大小为单位)，[示例](#range)                                                                                                     | number \| number[]                                                                                                                                   | Infinity                                                                                    |      |
+| sensitivity | 触发一次按键移动的距离                                                                                                                                 | number                                                                                                                                               | 10                                                                                          |      |
+| trigger     | 触发拖拽的键盘按键，[示例](#trigger)                                                                                                                   | object                                                                                                                                               | -                                                                                           |      |
+| onFinish    | 拖拽完成时的回调函数                                                                                                                                   | () => void                                                                                                                                           | -                                                                                           |      |
 
-### Direction
-
-`direction` 用于限制拖拽的方向：
-
-- 设为 `'both'`（默认）：允许在任意方向拖拽
-- 设为 `'x'`：只允许水平方向拖拽
-- 设为 `'y'`：只允许垂直方向拖拽
-
-这在特定的可视化场景下很有用，例如在时间轴图表中可能只希望用户水平拖动。
-
-### Range
+### range
 
 `range` 用于控制画布可拖拽的范围：
 
@@ -90,7 +80,7 @@ range: [1, 2, 1, 2]; // 上下方向可拖拽1个视口，左右方向可拖拽2
 
 每个方向的取值范围是 [0, Infinity]，0表示不能拖拽，Infinity表示无限拖拽。
 
-### Trigger
+### trigger
 
 `trigger` 允许你配置键盘按键来控制画布移动：
 
