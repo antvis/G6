@@ -11,6 +11,14 @@
         "en": "Expand/Collapse"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Rvx9SYSHGsIAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "collapse-expand.js",
+      "title": {
+        "zh": "展开/收起的触发方式",
+        "en": "Trigger of Expand/Collapse"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*zrL2RJtAKkAAAAAAAAAAAAAAemJ7AQ/original"
     }
   ]
 }
