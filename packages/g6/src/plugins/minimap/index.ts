@@ -392,6 +392,8 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     if (!this.mask) {
       this.mask = document.createElement('div');
       this.mask.addEventListener('pointerdown', this.onMaskDragStart);
+      this.mask.draggable = true;
+      this.mask.addEventListener('dragstart', (event) => event.preventDefault && event.preventDefault());
     }
 
     this.container.appendChild(this.mask);
