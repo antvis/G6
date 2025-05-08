@@ -58,14 +58,26 @@ export class Image extends BaseNode<ImageStyleProps> {
     };
   }
 
+  public getBounds() {
+    return this.getShape('key').getBounds();
+  }
+
   protected getHaloStyle(attributes: Required<ImageStyleProps>): false | GRectStyleProps {
     if (attributes.halo === false) return false;
     const { fill: keyStyleFill, stroke: keyStyleStroke, ...keyStyle } = this.getShape<GRect>('key').attributes;
     const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo');
     const haloLineWidth = Number(haloStyle.lineWidth);
     const [width, height] = add(this.getSize(attributes), [haloLineWidth, haloLineWidth]);
-    const fill = 'transparent';
-    return { ...haloStyle, width, height, fill, x: -width / 2, y: -height / 2 };
+    const { lineWidth } = haloStyle;
+    const recalculate = {
+      fill: 'transparent',
+      lineWidth: lineWidth / 2,
+      width: width - lineWidth / 2,
+      height: height - lineWidth / 2,
+      x: -(width - lineWidth / 2) / 2,
+      y: -(height - lineWidth / 2) / 2,
+    };
+    return { ...haloStyle, ...recalculate };
   }
 
   protected getIconStyle(attributes: Required<ImageStyleProps>): false | IconStyleProps {
