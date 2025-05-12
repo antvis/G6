@@ -2,111 +2,170 @@
 title: CollapseExpand
 ---
 
-Expand/collapse elements by operation.
+## Overview
+
+CollapseExpand is a built-in behavior in G6 used to implement the expand/collapse functionality for nodes or combos. Through double-click (default) or single-click actions, users can flexibly control the expand and collapse states of graph elements, effectively managing the visualization hierarchy of the graph structure and reducing visual complexity.
+
+## Use Cases
+
+This behavior is mainly used for:
+
+- Managing large hierarchical graphs, enabling layered browsing of tree or network graphs
+- Simplifying the display of complex graphs, expanding areas of interest as needed
+- Hiding branch nodes that are temporarily not needed, focusing on important information
+
+## Online Experience
 
 <embed src="@/common/api/behaviors/collapse-expand.md"></embed>
 
-## Options
+## Basic Usage
 
-### key
+Add this behavior in the graph configuration:
 
-> _string_
+**1. Quick Configuration (Static)**
 
-Behavior key, that is, the unique identifier
+Declare directly using a string form. This method is simple but only supports default configurations and cannot be dynamically modified after configuration:
 
-Used to identify the behavior for further operations
-
-```typescript
-// Update behavior options
-graph.updateBehavior({key: 'key', ...});
+```javascript
+const graph = new Graph({
+  // other configurations...
+  behaviors: ['collapse-expand'],
+});
 ```
 
-### <Badge type="success">Required</Badge> type
+**2. Object Configuration (Recommended)**
 
-> _string_
+Configure using an object form, supporting custom parameters, and allowing dynamic updates to the configuration at runtime:
 
-Behavior type
-
-### align
-
-> _boolean_
-
-Whether to focus on the target element to avoid view offset
-
-### animation
-
-> _boolean_ **Default:** `true`
-
-Whether to enable animation
-
-### enable
-
-> _boolean \| ((event:_ [Event](/manual/graph-api/event#事件对象属性)_) => boolean)_ **Default:** `true`
-
-Whether to enable the expand/collapse function
-
-### onCollapse
-
-> _(id:_ _string) => void_
-
-Callback when collapse is completed
-
-### onExpand
-
-> _(id:_ _string) => void_
-
-Callback when expand is completed
-
-### trigger
-
-> [CommonEvent.CLICK](/manual/graph-api/event#通用事件-commonevent) _\|_ [CommonEvent.DBLCLICK](/manual/graph-api/event#通用事件-commonevent) **Default:** `'dblclick'`
-
-Trigger method
-
-## API
-
-### CollapseExpand.destroy()
-
-```typescript
-destroy(): void;
+```javascript
+const graph = new Graph({
+  // other configurations...
+  behaviors: [
+    {
+      type: 'collapse-expand',
+      key: 'collapse-expand-1',
+      trigger: 'click', // Change the trigger method to single-click
+      animation: true, // Enable animation effects
+    },
+  ],
+});
 ```
 
-### CollapseExpand.update(options)
+## Configuration Options
 
-```typescript
-update(options: Partial<CollapseExpandOptions>): void;
+| Option     | Description                                         | Type                                                                     | Default Value     | Required |
+| ---------- | --------------------------------------------------- | ------------------------------------------------------------------------ | ----------------- | -------- |
+| type       | Behavior type name                                  | `collapse-expand` \| string                                              | `collapse-expand` | ✓        |
+| animation  | Enable expand/collapse animation effects            | boolean                                                                  | true              |          |
+| enable     | Enable expand/collapse functionality                | boolean \| ((event: [/en/api/event#event-object-properties]) => boolean) | true              |          |
+| trigger    | Trigger method, can be single-click or double-click | `click` \| `dblclick`                                                    | `dblclick`        |          |
+| onCollapse | Callback function when collapse is completed        | (id: string) => void                                                     | -                 |          |
+| onExpand   | Callback function when expand is completed          | (id: string) => void                                                     | -                 |          |
+| align      | Align with the target element to avoid view offset  | boolean                                                                  | true              |          |
+
+## Code Examples
+
+### Basic Expand/Collapse Functionality
+
+```javascript
+const graph = new Graph({
+  container: 'container',
+  width: 800,
+  height: 600,
+  behaviors: ['collapse-expand'],
+  // other configurations...
+});
 ```
 
-<details><summary>View Parameters</summary>
+### Use Single-Click to Trigger Expand/Collapse
 
-<table><thead><tr><th>
+```javascript
+const graph = new Graph({
+  // other configurations...
+  behaviors: [
+    {
+      type: 'collapse-expand',
+      trigger: 'click', // Change the default double-click trigger to single-click
+    },
+  ],
+});
+```
 
-Parameter
+### Custom Expand/Collapse Callback
 
-</th><th>
+```javascript
+const graph = new Graph({
+  // other configurations...
+  behaviors: [
+    {
+      type: 'collapse-expand',
+      onCollapse: (id) => {
+        console.log(`Node ${id} has collapsed`);
+        // Execute custom logic
+      },
+      onExpand: (id) => {
+        console.log(`Node ${id} has expanded`);
+        // Execute custom logic
+      },
+    },
+  ],
+});
+```
 
-Type
+### Conditional Enablement of Expand/Collapse Functionality
 
-</th><th>
+```javascript
+const graph = new Graph({
+  // other configurations...
+  behaviors: [
+    {
+      type: 'collapse-expand',
+      // Enable expand/collapse functionality only when the target is a node type
+      enable: (event) => event.targetType === 'node',
+    },
+  ],
+});
+```
 
-Description
+### Disable Animation Effects
 
-</th></tr></thead>
-<tbody><tr><td>
+```javascript
+const graph = new Graph({
+  // other configurations...
+  behaviors: [
+    {
+      type: 'collapse-expand',
+      animation: false, // Disable expand/collapse animation effects
+    },
+  ],
+});
+```
 
-options
+## FAQ
 
-</td><td>
+### 1. How to determine if a node is collapsed?
 
-Partial&lt;[CollapseExpandOptions](#options)>
+You can check the `collapsed` property in the node data:
 
-</td><td>
+```javascript
+const isCollapsed = (nodeId) => {
+  const nodeData = graph.getNodeData(nodeId);
+  return nodeData?.style?.collapsed === true;
+};
+```
 
-</td></tr>
-</tbody></table>
+### 2. How to programmatically expand or collapse a node?
 
-**Returns**:
+In addition to being triggered by user interaction, you can also directly control using [collapseElement](/en/api/element#graphcollapseelementid-options) or [expandElement](/en/api/element#graphexpandelementid-options):
 
-- **Type:** void
+```javascript
+// Collapse node
+graph.collapseElement('nodeId', { animation: true });
 
-</details>
+// Expand node
+graph.expandElement('nodeId', { animation: true });
+```
+
+## Real Cases
+
+<Playground path="behavior/combo/demo/collapse-expand.js" rid="collapse-expand"></Playground>

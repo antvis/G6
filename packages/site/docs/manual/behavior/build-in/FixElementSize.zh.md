@@ -53,7 +53,7 @@ const graph = new Graph({
 ## 配置项
 
 | 配置项      | 说明                                                                                                              | 类型                                                              | 默认值                                                                                              | 必选 |
-| ----------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ---- | --- |
+| ----------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ---- |
 | type        | 交互类型名称                                                                                                      | string                                                            | `fix-element-size`                                                                                  | √    |
 | enable      | 是否启用该交互，[示例](#enable)                                                                                   | boolean \| ((event: [Event](/api/event#事件对象属性)) => boolean) | true                                                                                                |      |
 | reset       | 元素重绘时是否还原样式                                                                                            | boolean                                                           | `false`                                                                                             |      |
@@ -63,7 +63,7 @@ const graph = new Graph({
 | edge        | 边配置项，用于定义哪些属性在视觉上保持固定大小。默认固定 lineWidth、labelFontSize 属性，用法同[node配置项](#node) | [FixShapeConfig](#fixshapeconfig) \| FixShapeConfig[]             | `[ shape: 'key', fields: ['lineWidth'] ,  shape: 'halo', fields: ['lineWidth'] ,  shape: 'label' ]` |      |
 | edgeFilter  | 边过滤器，用于过滤哪些边在缩放过程中保持固定大小                                                                  | (datum: [EdgeData](/manual/data#边数据edgedata)) => boolean       | `() => true`                                                                                        |      |
 | combo       | Combo 配置项，用于定义哪些属性在视觉上保持固定大小。默认整个 Combo 将被固定，用法同[node配置项](#node)            | [FixShapeConfig](#fixshapeconfig) \| FixShapeConfig[]             |                                                                                                     |      |
-| comboFilter | Combo 过滤器，用于过滤哪些 Combo 在缩放过程中保持固定大小                                                         | (datum: [ComboData](/manual/data#组合数据combodata)) => boolean   | `() => true`                                                                                        |      |     |
+| comboFilter | Combo 过滤器，用于过滤哪些 Combo 在缩放过程中保持固定大小                                                         | (datum: [ComboData](/manual/data#组合数据combodata)) => boolean   | `() => true`                                                                                        |      |
 
 ### enable
 

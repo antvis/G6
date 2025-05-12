@@ -5,42 +5,40 @@ order: 1
 
 ## Overview
 
-Graph layout refers to the process of arranging the elements in a graph according to certain rules, such as force-directed layouts based on the electrostatic model, sequential arrangement in grid layouts, and tree layouts based on hierarchical structures, etc.
+Graph layout refers to the process of arranging elements in a graph according to certain rules, such as force-directed layout based on charge elasticity models, grid layout with sequential arrangement, and tree layout based on hierarchical structures.
 
 <image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WIhlToluHaEAAAAAAAAAAAAADmJ7AQ/original" />
 
-## Layout Type
+## Layout Types
 
-G6 provides a variety of layout algorithms, allowing users to select the appropriate layout algorithm based on their needs:
+G6 provides a variety of layout algorithms, allowing users to choose the appropriate one based on their needs:
 
-<!-- TODO to be verified if the links are correct -->
+- [AntVDagreLayout](/en/manual/layout/build-in/antv-dagre-layout): Custom layout based on dagre
+- [CircularLayout](/en/manual/layout/build-in/circular-layout): Circular layout
+- [ComboCombinedLayout](/en/manual/layout/build-in/combo-combined-layout): Layout suitable for combinations
+- [ConcentricLayout](/en/manual/layout/build-in/concentric-layout): Concentric layout
+- [D3Force3DLayout](/en/manual/layout/build-in/d3-force3-d-layout): [3D Force-directed](https://github.com/vasturiano/d3-force-3d) layout
+- [D3ForceLayout](/en/manual/layout/build-in/d3-force-layout): Force-directed layout based on [D3](https://d3js.org/d3-force)
+- [DagreLayout](/en/manual/layout/build-in/dagre-layout): [dagre](https://github.com/dagrejs/dagre) layout
+- [FishboneLayout](/en/manual/layout/build-in/fishbone): Fishbone layout
+- [ForceAtlas2Layout](/en/manual/layout/build-in/force-atlas2-layout): [ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) layout
+- [ForceLayout](/en/manual/layout/build-in/force-layout): Force-directed layout
+- [FruchtermanLayout](/en/manual/layout/build-in/fruchterman-layout): [Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) layout
+- [GridLayout](/en/manual/layout/build-in/grid-layout): Grid layout
+- [MDSLayout](/en/manual/layout/build-in/mds-layout): High-dimensional data dimensionality reduction layout
+- [RadialLayout](/en/manual/layout/build-in/radial-layout): Radial layout
+- [RandomLayout](/en/manual/layout/build-in/random-layout): Random layout
+- [SnakeLayout](/en/manual/layout/build-in/snake): Snake layout
+- [CompactBoxLayout](/en/manual/layout/build-in/compact-box-layout): Compact tree layout
+- [DendrogramLayout](/en/manual/layout/build-in/dendrogram-layout): Dendrogram layout
+- [MindmapLayout](/en/manual/layout/build-in/mindmap-layout): Mindmap layout
+- [IndentedLayout](/en/manual/layout/build-in/indented-layout): Indented tree layout
 
-- [AntVDagreLayout](/en/api/layouts/antv-dagre-layout): A layout based on dagre customization
-- [CircularLayout](/en/api/layouts/circular-layout): Circular layout
-- [ComboCombinedLayout](/en/api/layouts/combo-combined-layout): A layout suitable for scenarios with combos
-- [ConcentricLayout](/en/api/layouts/concentric-layout): Concentric circle layout
-- [D3Force3DLayout](/en/api/layouts/d3-force3-d-layout): A [3D force-directed](https://github.com/vasturiano/d3-force-3d) layout
-- [D3ForceLayout](/en/api/layouts/d3-force-layout): A force-directed layout based on [D3](https://d3js.org/d3-force)
-- [DagreLayout](/en/api/layouts/dagre-layout): A layout based on [dagre](https://github.com/dagrejs/dagre)
-- [FishboneLayout](/en/api/layouts/fishbone): Fishbone layout
-- [ForceAtlas2Layout](/en/api/layouts/force-atlas2-layout): A layout based on [ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679)
-- [ForceLayout](/en/api/layouts/force-layout): Force-directed layout
-- [FruchtermanLayout](/en/api/layouts/fruchterman-layout): A layout based on [Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout)
-- [GridLayout](/en/api/layouts/grid-layout): Grid layout
-- [MDSLayout](/en/api/layouts/mds-layout): A layout algorithm for high-dimensional data dimensionality reduction
-- [RadialLayout](/en/api/layouts/radial-layout): Radial layout
-- [RandomLayout](/en/api/layouts/random-layout): Random layout
-- [SnakeLayout](/en/api/layouts/snake): Snake layout
-- [CompactBoxLayout](/en/api/layouts/compact-box-layout): Compact tree layout
-- [DendrogramLayout](/en/api/layouts/dendrogram-layout): Dendrogram layout
-- [MindmapLayout](/en/api/layouts/mindmap-layout): Mind map layout
-- [IndentedLayout](/en/api/layouts/indented-layout): Indented tree layout
-
-Among them, `CompactBox Layout`, `Dendrogram Layout`, `Mindmap Layout`, and `Indented Layout` are types of tree layouts, suitable for graphs with tree-like structures.
+Among them, `CompactBox Layout`, `Dendrogram Layout`, `Mindmap Layout`, and `Indented Layout` are types of tree layouts suitable for tree-structured graphs.
 
 ## Register Layout
 
-You can directly use the built-in layouts, but if you want to use other layouts, you need to register them first:
+You can directly use built-in layouts, but if you want to use other layouts, you need to register them first:
 
 ```typescript
 import { register, ExtensionCategory } from '@antv/g6';
@@ -51,29 +49,29 @@ register(ExtensionCategory.LAYOUT, 'custom-layout', CustomLayout);
 
 ## Configure Layout
 
-You can specify the graph's layout algorithm through the `layout` option, for example:
+The `layout` configuration item can specify the graph's layout algorithm, for example:
 
 ```typescript
 {
   layout: {
-    // Specify the layout algorithm to be used
+    // Specify the layout algorithm to use
     type: 'force',
-    // Layout Algorithm Options
+    // Configuration items for the layout algorithm
     gravity: 10
     // ...
   }
 }
 ```
 
-You can also update the layout configuration after instantiating the graph using `graph.setLayout`.
+You can also use `graph.setLayout` to update the layout configuration after the graph is instantiated.
 
 ## Layout Acceleration
 
-G6 provides accelerated versions of some layout algorithms, including: executing layout algorithms in a Web Worker, providing [WASM](https://webassembly.org/) versions of layout algorithms, and GPU-accelerated layout algorithms. They can be used in the following ways:
+G6 provides accelerated versions for some layout algorithms, including executing layout algorithms in Web Workers, providing [WASM](https://webassembly.org/) versions of layout algorithms, and GPU-accelerated layout algorithms. They can be used as follows:
 
-### Executing Layout Algorithms in a Web Worker
+### Execute Layout Algorithms in Web Workers
 
-All built-in layout algorithms in G6, except for tree layouts, support execution in a Web Worker. Simply set `enableWorker` to `true`:
+Except for tree layouts, all built-in layout algorithms in G6 support execution in Web Workers. Simply set `enableWorker` to `true`:
 
 ```typescript
 {
@@ -87,7 +85,7 @@ All built-in layout algorithms in G6, except for tree layouts, support execution
 
 ### Use WASM Version Layout Algorithms
 
-The layout algorithms that currently support WASM versions are: `Fruchterman Layout`, `ForceAtlas Layout`, `Force Layout`, `Dagre Layout`.
+Currently supported WASM version layout algorithms include: `Fruchterman Layout`, `ForceAtlas Layout`, `Force Layout`, `Dagre Layout`.
 
 First, install `@antv/layout-wasm`:
 
@@ -95,7 +93,7 @@ First, install `@antv/layout-wasm`:
 npm install @antv/layout-wasm --save
 ```
 
-Import and Register the Layout Algorithm:
+Import and register the layout algorithm:
 
 ```typescript
 import { register, Graph, ExtensionCategory } from '@antv/g6';
@@ -104,14 +102,14 @@ import { FruchtermanLayout, initThreads, supportsThreads } from '@antv/layout-wa
 register(ExtensionCategory.LAYOUT, 'fruchterman-wasm', FruchtermanLayout);
 ```
 
-Initialize the Thread:
+Initialize threads:
 
 ```typescript
 const supported = await supportsThreads();
 const threads = await initThreads(supported);
 ```
 
-Initialize the Graph and Pass in Layout Configuration:
+Initialize the graph and pass in the layout configuration:
 
 ```typescript
 const graph = new Graph({
@@ -126,7 +124,7 @@ const graph = new Graph({
 
 ### Use GPU-Accelerated Layout
 
-The layout algorithms that currently support GPU acceleration are: `Fruchterman Layout` and `GForce Layout`.
+Currently supported GPU-accelerated layout algorithms include: `Fruchterman Layout`, `GForce Layout`.
 
 First, install `@antv/layout-gpu`:
 
@@ -134,7 +132,7 @@ First, install `@antv/layout-gpu`:
 npm install @antv/layout-gpu --save
 ```
 
-Import and Register the Layout Algorithm:
+Import and register the layout algorithm:
 
 ```typescript
 import { register, Graph, ExtensionCategory } from '@antv/g6';
@@ -143,7 +141,7 @@ import { FruchtermanLayout } from '@antv/layout-gpu';
 register(ExtensionCategory.LAYOUT, 'fruchterman-gpu', FruchtermanLayout);
 ```
 
-Initialize the Graph and Pass in Layout Configuration:
+Initialize the graph and pass in the layout configuration:
 
 ```typescript
 const graph = new Graph({
@@ -161,10 +159,10 @@ Usually, after calling `graph.render()`, G6 will automatically execute the layou
 
 If you need to manually execute the layout algorithm, G6 provides the following APIs:
 
-- [layout](/en/api/graph/method#graphlayout): Execute the layout algorithm
-- [setLayout](/en/api/graph/method#graphsetlayoutlayout): Set the layout algorithm
-- [stopLayout](/en/api/graph/method#graphstoplayout): Stop the layout algorithm
+- [layout](/api/layout#graphlayoutlayoutoptions): Execute layout algorithm
+- [setLayout](/api/layout#graphsetlayoutlayout): Set layout algorithm
+- [stopLayout](/api/layout#graphstoplayout): Stop layout algorithm
 
 ## Custom Layout
 
-If the built-in layout algorithms do not meet your requirements, you can create a custom layout algorithm. For details, please refer to [Custom Layout](/en/manual/custom-extension/layout).
+If the built-in layout algorithms cannot meet your needs, you can customize layout algorithms. For details, please refer to [Custom Layout](/manual/layout/custom-layout).
