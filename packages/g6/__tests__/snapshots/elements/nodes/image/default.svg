@@ -14,7 +14,7 @@
         </g>
         <g fill="none" transform="matrix(1 0 0 1 250 62.5)">
           <g>
-            <path width="52" height="52" x="-26" y="-26" fill="rgba(0,0,0,0)" stroke="rgba(34,126,255,1)" stroke-dasharray="0,0" stroke-opacity=".25" stroke-width="12" d="m-26-26 52 0 0 52-52 0z" class="halo" pointer-events="none"/>
+            <path width="46" height="46" x="-23" y="-23" fill="rgba(0,0,0,0)" stroke="rgba(34,126,255,1)" stroke-dasharray="0,0" stroke-opacity=".25" stroke-width="6" d="m-23-23 46 0 0 46-46 0z" class="halo" pointer-events="none"/>
           </g>
           <g>
             <image width="40" height="40" x="-20" y="-20" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" preserveAspectRatio="none"/>
@@ -99,7 +99,7 @@
         </g>
         <g fill="none" transform="matrix(1 0 0 1 416.6667 187.5)">
           <g>
-            <path width="52" height="52" x="-26" y="-26" fill="rgba(0,0,0,0)" stroke="rgba(34,126,255,1)" stroke-dasharray="0,0" stroke-opacity=".15" stroke-width="12" d="m-26-26 52 0 0 52-52 0z" class="halo" pointer-events="none"/>
+            <path width="46" height="46" x="-23" y="-23" fill="rgba(0,0,0,0)" stroke="rgba(34,126,255,1)" stroke-dasharray="0,0" stroke-opacity=".15" stroke-width="6" d="m-23-23 46 0 0 46-46 0z" class="halo" pointer-events="none"/>
           </g>
           <g>
             <image width="40" height="40" x="-20" y="-20" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" preserveAspectRatio="none"/>
@@ -112,7 +112,7 @@
         </g>
         <g fill="none" transform="matrix(1 0 0 1 83.3333 312.5)">
           <g>
-            <path width="64" height="64" x="-32" y="-32" fill="rgba(0,0,0,0)" stroke="rgba(34,126,255,1)" stroke-dasharray="0,0" stroke-opacity=".25" stroke-width="24" d="m-32-32 64 0 0 64-64 0z" class="halo" pointer-events="none"/>
+            <path width="52" height="52" x="-26" y="-26" fill="rgba(0,0,0,0)" stroke="rgba(34,126,255,1)" stroke-dasharray="0,0" stroke-opacity=".25" stroke-width="12" d="m-26-26 52 0 0 52-52 0z" class="halo" pointer-events="none"/>
           </g>
           <g>
             <image width="40" height="40" x="-20" y="-20" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="4" class="key" href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ" preserveAspectRatio="none"/>
