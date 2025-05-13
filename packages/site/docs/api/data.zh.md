@@ -327,7 +327,7 @@ const comboParent = graph.getParentData('node1', 'combo');
 获取节点或组合的子元素数据。
 
 ```typescript
-getChildrenData(id: ID): NodeLikeData[];
+getChildrenData(id: ID):(NodeData \| ComboData)[];
 ```
 
 **参数**:
@@ -338,8 +338,13 @@ getChildrenData(id: ID): NodeLikeData[];
 
 **返回值**:
 
-- **类型**: NodeData \| ComboData[]
+- **类型**: (NodeData \| ComboData)[]
 - **描述**: 返回子元素数据数组
+
+**注意**:
+
+- **查询 combo 的子元素**：如果 id 对应的是 combo 元素，可以直接通过此 API 获取其所有子元素。
+- **查询节点的子元素**：如果 id 对应的是节点，只有当图数据为树结构（即节点数据中维护有 `children` 字段，且 `children` 为该节点的子节点 ID 数组）时，才能通过此 API 获取到该节点的子元素。否则返回空数组。
 
 **示例**:
 

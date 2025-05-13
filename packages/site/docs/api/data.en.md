@@ -327,7 +327,7 @@ const comboParent = graph.getParentData('node1', 'combo');
 Get the data of child elements of a node or combo.
 
 ```typescript
-getChildrenData(id: ID): NodeLikeData[];
+getChildrenData(id: ID): (NodeData \| ComboData)[];
 ```
 
 **Parameters**:
@@ -338,8 +338,13 @@ getChildrenData(id: ID): NodeLikeData[];
 
 **Return Value**:
 
-- **Type**: NodeData \| ComboData[]
+- **Type**: (NodeData \| ComboData)[]
 - **Description**: Returns an array of child element data
+
+**Note**:
+
+- **Querying combo's child elements**: If the id corresponds to a combo element, you can directly use this API to get all its child elements.
+- **Querying node's child elements**: If the id corresponds to a node, only when the graph data is a tree structure (i.e., the node data maintains a `children` field, and `children` is an array of child node IDs for that node), can you use this API to get the child elements of that node. Otherwise, an empty array is returned.
 
 **Example**:
 
