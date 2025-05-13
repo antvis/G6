@@ -117,9 +117,11 @@ const graph = new Graph({
 const graph = new Graph({
   // Other configurations...
   behaviors: [
-    {
-      type: 'zoom-canvas',
-      origin: graph.getCanvasCenter(), // Zoom with the viewport center as the origin
+    function () {
+      return {
+        type: 'zoom-canvas',
+        origin: this.getCanvasCenter(), // Zoom with the viewport center as the origin
+      };
     },
   ],
 });

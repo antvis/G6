@@ -56,7 +56,7 @@ const graph = new Graph({
 | type           | 交互类型名称                                             | string                                                                              | `zoom-canvas`       | ✓    |
 | animation      | 缩放动画效果设置                                         | [ViewportAnimationEffectTiming](/manual/graph/option#viewportanimationeffecttiming) | `{ duration: 200 }` |      |
 | enable         | 是否启用该交互                                           | boolean \| ((event: Event) => boolean)                                              | true                |      |
-| origin         | 缩放中心点(视口坐标)                                        | [Point](/api/viewport#point) | -                   |      |
+| origin         | 缩放中心点(视口坐标)                                     | [Point](/api/viewport#point)                                                        | -                   |      |
 | onFinish       | 缩放完成时的回调函数                                     | () => void                                                                          | -                   |      |
 | preventDefault | 是否阻止浏览器默认事件                                   | boolean                                                                             | true                |      |
 | sensitivity    | 缩放灵敏度，值越大缩放速度越快                           | number                                                                              | 1                   |      |
@@ -117,9 +117,11 @@ const graph = new Graph({
 const graph = new Graph({
   // 其他配置...
   behaviors: [
-    {
-      type: 'zoom-canvas',
-      origin: graph.getCanvasCenter(), // 以视口中心为原点进行缩放
+    function () {
+      return {
+        type: 'zoom-canvas',
+        origin: this.getCanvasCenter(), // 以视口中心为原点进行缩放
+      };
     },
   ],
 });
