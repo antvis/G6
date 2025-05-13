@@ -2,97 +2,176 @@
 title: ForceAtlas2 力导向布局
 ---
 
+## 概述
+
+ForceAtlas2 是一种基于力导向的布局算法，它通过模拟物理系统中的力来优化节点位置。该布局特别适用于大规模网络数据的可视化，能够有效地展示节点之间的关系和聚类结构。
+
+## 使用场景
+
+- 社交网络分析：展示用户之间的关系网络，通过节点度数反映用户影响力
+- 知识图谱：展示概念之间的关联关系，通过聚类效果发现知识领域
+- 系统架构图：展示系统组件之间的依赖关系，通过 hub 模式突出核心组件
+
+## 在线体验
+
+<embed src="@/common/api/layout/force-atlas2.md"></embed>
+
+## 基本用法
+
+```js
+const graph = new Graph({
+  layout: {
+    type: 'force-atlas2',
+    preventOverlap: true,
+    kr: 20,
+    center: [250, 250],
+  },
+});
+```
+
 ## 配置项
 
-### barnesHut
+| 属性           | 描述                                                                                                                                                                 | 类型                            | 默认值   | 必选 |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | -------- | ---- |
+| type           | 布局类型，必须为 `force-atlas2`                                                                                                                                      | `force-atlas2`                  | -        | ✓    |
+| barnesHut      | 是否开启四叉树加速，开启后可以提升大规模图的布局性能，但可能会影响布局质量。默认情况下为 undefined，当节点数量大于 250 时它将会被激活。设置为 false 则不会自动被激活 | boolean                         | -        |      |
+| dissuadeHubs   | 是否开启 hub 模式。若为 true，相比与出度大的节点，入度大的节点将会有更高的优先级被放置在中心位置                                                                     | boolean                         | false    |      |
+| height         | 布局高度，默认使用容器高度                                                                                                                                           | number                          | -        |      |
+| kg             | 重力系数，`kg` 越大，布局越聚集在中心                                                                                                                                | number                          | 1        |      |
+| kr             | 斥力系数，可用于调整布局的紧凑程度。kr 越大，布局越松散                                                                                                              | number                          | 5        |      |
+| ks             | 控制迭代过程中，节点移动的速度                                                                                                                                       | number                          | 0.1      |      |
+| ksmax          | 迭代过程中，最大的节点移动的速度上限                                                                                                                                 | number                          | 10       |      |
+| mode           | 聚类模式，`linlog` 模式下，聚类将更加紧凑                                                                                                                            | `normal` \| `linlog`            | `normal` |      |
+| nodeSize       | 节点大小（直径）。当开启 `preventOverlap` 时，用于计算节点之间的斥力。如果不设置，则使用节点数据中的 data.size 属性                                                  | Size \| ((node?: Node) => Size) | -        |      |
+| onTick         | 每一次迭代的回调函数                                                                                                                                                 | (data: LayoutMapping) => void   | -        |      |
+| preventOverlap | 是否防止节点重叠。开启后，布局会考虑节点大小，避免节点重叠。节点大小通过 `nodeSize` 配置指定，如果没有设置 `nodeSize`，则通过节点数据中的 data.size 属性指定         | boolean                         | false    |      |
+| prune          | 是否开启自动剪枝模式。默认情况下为 undefined，当节点数量大于 100 时它将会被激活。注意，剪枝能够提高收敛速度，但可能会降低图的布局质量。设置为 false 则不会自动被激活 | boolean                         | -        |      |
+| tao            | 迭代接近收敛时停止震荡的容忍度                                                                                                                                       | number                          | 0.1      |      |
+| width          | 布局宽度，默认使用容器宽度                                                                                                                                           | number                          | -        |      |
+| center         | 布局中心点，用于指定重力的中心，格式为 [x, y]。每个节点都会受到一个指向该中心点的重力，重力大小由 `kg` 参数控制。如果不设置，则使用画布中心点                        | [number, number]                | -        |      |
 
-> _boolean_
+## 代码示例
 
-是否打开 barnes hut 加速，即四叉树加速
+### 基础用法
 
-由于每次迭代需要更新构建四叉树，建议在较大规模图上打开。默认情况下为 undefined，当节点数量大于 250 时它将会被激活。设置为 false 则不会自动被激活
+```js
+import { Graph } from '@antv/g6';
 
-### dissuadeHubs
+const graph = new Graph({
+  layout: {
+    type: 'force-atlas2',
+    preventOverlap: true,
+    kr: 20,
+  },
+  autoFit: 'view',
+  data: {
+    nodes: [
+      { id: 'node1' },
+      { id: 'node2' },
+      { id: 'node3' },
+      { id: 'node4' },
+      { id: 'node5' },
+      { id: 'node6' },
+      { id: 'node7' },
+      { id: 'node8' },
+      { id: 'node9' },
+      { id: 'node10' },
+      { id: 'node11' },
+      { id: 'node12' },
+      { id: 'node13' },
+      { id: 'node14' },
+      { id: 'node15' },
+    ],
+    edges: [
+      { source: 'node1', target: 'node2' },
+      { source: 'node2', target: 'node3' },
+      { source: 'node3', target: 'node4' },
+      { source: 'node4', target: 'node5' },
+      { source: 'node5', target: 'node6' },
+      { source: 'node6', target: 'node7' },
+      { source: 'node7', target: 'node8' },
+      { source: 'node8', target: 'node9' },
+      { source: 'node9', target: 'node10' },
+      { source: 'node10', target: 'node11' },
+      { source: 'node11', target: 'node12' },
+      { source: 'node12', target: 'node13' },
+      { source: 'node13', target: 'node14' },
+      { source: 'node14', target: 'node15' },
+      { source: 'node15', target: 'node1' },
+      { source: 'node1', target: 'node8' },
+      { source: 'node2', target: 'node9' },
+      { source: 'node3', target: 'node10' },
+      { source: 'node4', target: 'node11' },
+      { source: 'node5', target: 'node12' },
+      { source: 'node6', target: 'node13' },
+      { source: 'node7', target: 'node14' },
+    ],
+  },
+  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
+});
+```
 
-> _boolean_ **Default:** `false`
+效果如下：
 
-是否打开 hub 模式。若为 true，相比与出度大的节点，入度大的节点将会有更高的优先级被放置在中心位置
+```js | ob { pin: false }
+createGraph(
+  {
+    layout: {
+      type: 'force-atlas2',
+      preventOverlap: true,
+      kr: 20,
+    },
+    data: {
+      nodes: [
+        { id: 'node1' },
+        { id: 'node2' },
+        { id: 'node3' },
+        { id: 'node4' },
+        { id: 'node5' },
+        { id: 'node6' },
+        { id: 'node7' },
+        { id: 'node8' },
+        { id: 'node9' },
+        { id: 'node10' },
+        { id: 'node11' },
+        { id: 'node12' },
+        { id: 'node13' },
+        { id: 'node14' },
+        { id: 'node15' },
+      ],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node2', target: 'node3' },
+        { source: 'node3', target: 'node4' },
+        { source: 'node4', target: 'node5' },
+        { source: 'node5', target: 'node6' },
+        { source: 'node6', target: 'node7' },
+        { source: 'node7', target: 'node8' },
+        { source: 'node8', target: 'node9' },
+        { source: 'node9', target: 'node10' },
+        { source: 'node10', target: 'node11' },
+        { source: 'node11', target: 'node12' },
+        { source: 'node12', target: 'node13' },
+        { source: 'node13', target: 'node14' },
+        { source: 'node14', target: 'node15' },
+        { source: 'node15', target: 'node1' },
+        { source: 'node1', target: 'node8' },
+        { source: 'node2', target: 'node9' },
+        { source: 'node3', target: 'node10' },
+        { source: 'node4', target: 'node11' },
+        { source: 'node5', target: 'node12' },
+        { source: 'node6', target: 'node13' },
+        { source: 'node7', target: 'node14' },
+      ],
+    },
+    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
+  },
+  { width: 400, height: 300 },
+);
+```
 
-### height
+## 实际案例
 
-> _number_
+<Playground path="layout/force-directed/demo/atlas2.js" rid="force-atlas2-basic"></Playground>
 
-布局的高度，默认使用容器高度
-
-### kg
-
-> _number_ **Default:** `1`
-
-重力系数。kg 越大，布局越聚集在中心
-
-### kr
-
-> _number_ **Default:** `5`
-
-斥力系数，可用于调整布局的紧凑程度。kr 越大，布局越松散
-
-### ks
-
-> _number_ **Default:** `0.1`
-
-控制迭代过程中，节点移动的速度
-
-### ksmax
-
-> _number_ **Default:** `10`
-
-迭代过程中，最大的节点移动的速度上限
-
-### mode
-
-> _'normal' \| 'linlog'_ **Default:** `'normal'`
-
-聚类模式、'linlog' 模式下，聚类将更加紧凑
-
-- 'nornal'：普通模式
-- 'linlog'：linlog模式
-
-### nodeSize
-
-> _Size \| ((node?: Node) => Size)_
-
-节点大小（直径）。用于防止节点重叠时的碰撞检测
-
-### onTick
-
-> _(data: LayoutMapping) => void_
-
-每一次迭代的回调函数
-
-### preventOverlap
-
-> _boolean_ **Default:** `false`
-
-是否防止重叠
-
-必须配合下面属性 nodeSize 或节点数据中的 data.size 属性，只有在数据中设置了 data.size 或在该布局中配置了与当前图节点大小相同的 nodeSize 值，才能够进行节点重叠的碰撞检测
-
-### prune
-
-> _boolean_
-
-是否开启自动剪枝模式
-
-默认情况下为 undefined，当节点数量大于 100 时它将会被激活。注意，剪枝能够提高收敛速度，但可能会降低图的布局质量。设置为 false 则不会自动被激活
-
-### tao
-
-> _number_ **Default:** `0.1`
-
-迭代接近收敛时停止震荡的容忍度
-
-### width
-
-> _number_
-
-布局的宽度，默认使用容器宽度
+- [ForceAtlas2布局](/examples/layout/force-directed/#atlas2)
