@@ -1,5 +1,5 @@
 ---
-title: ComboCombined Composite Layout
+title: ComboCombined Layout
 ---
 
 ## Overview

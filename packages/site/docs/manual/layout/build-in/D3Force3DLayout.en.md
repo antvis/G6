@@ -1,5 +1,5 @@
 ---
-title: D3Force3D 3D Force-Directed Layout
+title: 3D Force-Directed Layout
 ---
 
 ## Overview

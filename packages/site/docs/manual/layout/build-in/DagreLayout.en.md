@@ -1,5 +1,5 @@
 ---
-title: Dagre
+title: Dagre Layout
 ---
 
 # Dagre Layout

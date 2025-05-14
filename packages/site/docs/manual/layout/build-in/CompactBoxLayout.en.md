@@ -1,5 +1,5 @@
 ---
-title: CompactBox Tidy Tree
+title: CompactBox
 ---
 
 ## Overview

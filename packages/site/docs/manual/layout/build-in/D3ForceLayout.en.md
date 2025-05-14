@@ -1,5 +1,5 @@
 ---
-title: D3Force Force-Directed Layout
+title: D3 Force-Directed Layout
 ---
 
 ## Overview

@@ -14,7 +14,7 @@ The concentric layout arranges nodes in layers according to a certain sorting ru
 ## Options
 
 | Property       | Description                                                                                                                                                                 | Type                                               | Default          | Required |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------- | -------- | --------- | --- |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------- | -------- |
 | type           | Layout type                                                                                                                                                                 | `concentric`                                       | -                | ✓        |
 | center         | Center position of the circular layout, defaults to the center of the container                                                                                             | [number, number] \| [number, number, number]       | -                |          |
 | clockwise      | Whether to arrange nodes clockwise                                                                                                                                          | boolean                                            | false            |          |
@@ -27,11 +27,11 @@ The concentric layout arranges nodes in layers according to a certain sorting ru
 | nodeSpacing    | Minimum spacing between rings, used to adjust the radius                                                                                                                    | number \| number[] \| ((node?: Node) => number)    | 10               |          |
 | preventOverlap | Whether to prevent overlap. Must be used with nodeSize or data.size. Only works if node size is set in data or in this layout config.                                       | boolean                                            | false            |          |
 | startAngle     | The angle (in radians) to start laying out nodes                                                                                                                            | number                                             | 3 / 2 \* Math.PI |          |
-| sweep          | The angle difference between the first and last node in the same layer. If undefined, set to 2 _ Math.PI _ (1 - 1 /                                                         | level.nodes                                        | )                | number   | undefined |     |
+| sweep          | The angle difference between the first and last node in the same layer. If undefined, set to 2 _Math.PI_ (1 - 1 / level.nodes )                                             | number                                             | undefined        |          |
 
 ## Example Code
 
-```js
+```js | ob
 createGraph(
   {
     autoFit: 'view',
