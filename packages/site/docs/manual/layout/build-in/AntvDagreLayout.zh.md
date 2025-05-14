@@ -4,7 +4,7 @@ title: AntvDagre 布局
 
 ## 概述
 
-AntvDagre 在原先[dagre](https://github.com/dagrejs/dagre/wiki)布局的基础上增加了更多有用的设置项，比如`nodeOrder`、`edgeLabelSpace`等等。 `dagre`布局本身一种层次化布局，适用于有向无环图（DAG）的布局场景，能够自动处理节点之间的方向和间距，支持水平和垂直布局。参考更多 Dagre 布局[样例](https://g6.antv.antgroup.com/examples#layout-dagre)或[源码](https://github.com/dagrejs/dagre/blob/master/lib/layout.js)以及[官方文档](https://github.com/dagrejs/dagre/wiki)。
+AntvDagre 在原先[dagre](https://github.com/dagrejs/dagre/wiki)布局的基础上增加了更多有用的设置项，比如`nodeOrder`、`edgeLabelSpace`等等。 `dagre`布局本身一种层次化布局，适用于有向无环图（DAG）的布局场景，能够自动处理节点之间的方向和间距，支持水平和垂直布局。参考更多 Dagre 布局[样例](/examples#layout-dagre)或[源码](https://github.com/dagrejs/dagre/blob/master/lib/layout.js)以及[官方文档](https://github.com/dagrejs/dagre/wiki)。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2uMmRo5wYPUAAAAAAAAAAABkARQnAQ' width=350 alt='Dagre布局'/>
 

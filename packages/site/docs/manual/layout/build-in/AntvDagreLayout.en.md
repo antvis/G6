@@ -1,165 +1,191 @@
 ---
-title: AntvDagre
+title: AntvDagre Layout
 ---
+
+## Overview
+
+AntvDagre builds upon the original [dagre](https://github.com/dagrejs/dagre/wiki) layout and adds more useful options, such as `nodeOrder`, `edgeLabelSpace`, and more. The `dagre` layout itself is a hierarchical layout suitable for directed acyclic graphs (DAGs), which can automatically handle node direction and spacing, and supports both horizontal and vertical layouts. See more Dagre layout [examples](/en/examples#layout-dagre), [source code](https://github.com/dagrejs/dagre/blob/master/lib/layout.js), and [official documentation](https://github.com/dagrejs/dagre/wiki).
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2uMmRo5wYPUAAAAAAAAAAABkARQnAQ' width=350 alt='Dagre Layout'/>
+
+## Configuration
+
+```js
+const graph = new Graph({
+  layout: {
+    type: 'antv-dagre',
+    rankdir: 'TB',
+    align: 'UL',
+    nodesep: 50,
+    ranksep: 50,
+    controlPoints: false,
+  },
+});
+```
 
 ## Options
 
+> For more native `dagre` options, refer to the [official documentation](https://github.com/dagrejs/dagre/wiki#configuring-the-layout). Here, only some core and new options are listed.
+
+<img src="https://img.alicdn.com/imgextra/i3/O1CN01OpQHBZ1HcpZuWZLS7_!!6000000000779-0-tps-1274-1234.jpg" width="400" alt="Dagre Layout Options Diagram" />
+
+| Property       | Description                                                                                                                                                                                                              | Type                                                | Default                    | Required |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- | -------------------------- | -------- |
+| type           | Layout type                                                                                                                                                                                                              | `antv-dagre`                                        | -                          | ✓        |
+| rankdir        | Layout direction, options                                                                                                                                                                                                | `TB` \| `BT` \| `LR` \| `RL`                        | `TB`                       |          |
+| align          | Node alignment, options                                                                                                                                                                                                  | `UL` \| `UR` \| `DL` \| `DR`                        | `UL`                       |          |
+| nodesep        | Node spacing (px). For `TB` or `BT`, it's horizontal spacing; for `LR` or `RL`, it's vertical spacing.                                                                                                                   | number                                              | 50                         |          |
+| nodesepFunc    | Callback for node spacing (px), allows different spacing for different nodes. For `TB` or `BT`, it's horizontal spacing; for `LR` or `RL`, it's vertical spacing. Takes precedence over nodesep.                         | (d?: Node) => number                                |                            |          |
+| ranksep        | Rank spacing (px). For `TB` or `BT`, it's vertical spacing between ranks; for `LR` or `RL`, it's horizontal spacing.                                                                                                     | number                                              | 100                        |          |
+| ranksepFunc    | Callback for rank spacing (px), allows different spacing for different ranks. For `TB` or `BT`, it's vertical spacing; for `LR` or `RL`, it's horizontal spacing. Takes precedence over ranksep.                         | (d?: Node) => number                                |                            |          |
+| ranker         | Algorithm for assigning ranks to nodes: `longest-path`, `tight-tree`, or `network-simplex`                                                                                                                               | `network-simplex` \| `tight-tree` \| `longest-path` | `network-simplex`          |          |
+| nodeSize       | Specify node size for all or each node, used for collision detection. If a single number is returned, width and height are the same; if an array, e.g. `[width, height]`.                                                | Size                                                | ((nodeData: Node) => Size) |          |
+| controlPoints  | Whether to keep edge control points. Only effective when using built-in polyline edges (`type: 'polyline-edge'`) or any edge that uses `style.controlPoints` as control points. Adds `style.controlPoints` to edge data. | boolean                                             | false                      |          |
+| begin          | Top-left alignment position of the layout                                                                                                                                                                                | [number, number] \| [number, number, number]        |                            |          |
+| sortByCombo    | Whether to sort nodes in the same rank by their parentId to prevent Combo overlap                                                                                                                                        | boolean                                             | false                      |          |
+| edgeLabelSpace | Whether to reserve space for edge labels                                                                                                                                                                                 | boolean                                             | true                       |          |
+| nodeOrder      | Reference array for node order in the same rank, stores node ids. If not specified, dagre's default order is used.                                                                                                       | string[]                                            |                            |          |
+| radial         | Whether to use radial layout based on `dagre`                                                                                                                                                                            | boolean                                             | false                      |          |
+| focusNode      | Focus node, only effective when `radial` is true                                                                                                                                                                         | ID \| Node \| null                                  |                            |          |
+| preset         | Reference node positions for layout calculation, usually for smooth transitions when switching data. In G6, if updating data, the existing layout result is used as input.                                               | OutNode[]                                           |                            |          |
+
 ### align
 
-> _DagreAlign_ **Default:** `'UL'`
+> _DagreAlign_ **Default:** `UL`
 
-节点对齐方式 U：upper（上）；D：down（下）；L：left（左）；R：right（右）
+Node alignment: U = upper, D = down, L = left, R = right
 
-- 'UL':对齐到左上角
+- `UL`: align to upper left
+- `UR`: align to upper right
+- `DL`: align to lower left
+- `DR`: align to lower right
 
-- 'UR':对齐到右上角
+### rankdir
 
-- 'DL':对齐到左下角
+> _DagreRankdir_ **Default:** `TB`
 
-- 'DR':对齐到右下角
+Layout direction. T = top, B = bottom, L = left, R = right
 
-- undefined:默认，中间对齐 The alignment of the nodes U: upper; D: down; L: left; R: right
+- `TB`: top to bottom
+- `BT`: bottom to top
+- `LR`: left to right
+- `RL`: right to left
 
-- 'UL':align to left top
+### ranker
 
-- 'UR':align to right top
+> _`network-simplex` \| `tight-tree` \| `longest-path`_
 
-- 'DL':align to left bottom
+Layout mode
 
-- 'DR':align to right bottom
+### ranksep
 
-- undefined:default, align to center
+> _number_ **Default:** 50
 
-### begin
+Rank spacing (px)
 
-> _PointTuple_ **Default:** `undefined`
+For 'TB' or 'BT', it's vertical spacing; for 'LR' or 'RL', it's horizontal spacing. `ranksepFunc` has higher priority.
 
-The position of the layout's top-left corner
+### ranksepFunc
 
-### controlPoints
+> _(d?: Node) => number_
 
-> _boolean_ **Default:** `false`
+Callback for rank spacing (px)
 
-Whether to calculate the control point position of the edge at the same time
-
-It only takes effect when the built-in polyline edge (type: 'polyline-edge') is used in the edge configuration, or any edge that consumes data.controlPoints as the control point position. In essence, it adds data.controlPoints to the edge data
-
-### edgeLabelSpace
-
-> _boolean_ **Default:** `true`
-
-Whether to leave space for the label of the edge
-
-It will affect whether to add a dummy node in the middle of the edge
-
-### focusNode
-
-> _ID_ _\|_ _Node_ _\| null_
-
-The focused node
-
-- ID: node id
-
-- Node: node instance
-
-- null: cancel focus
-
-It takes effect when radial is true
-
-### nodeOrder
-
-> _string[]_ **Default:** `false`
-
-The reference array of the order of the nodes in the same layer, storing the node id value
-
-If not specified, the same layer node order will be arranged according to the mechanism of dagre itself
+For 'TB' or 'BT', it's vertical spacing; for 'LR' or 'RL', it's horizontal spacing. Takes precedence over nodesep if set.
 
 ### nodesep
 
-> _number_ **Default:** `50`
+> _number_ **Default:** 50
 
-The horizontal gap between nodes (px)
+Node spacing (px)
 
-The horizontal gap between nodes (px) in the case of rankdir is 'TB' or 'BT'. The vertical gap between nodes (px) in the case of rankdir is 'LR' or 'RL'. nodesepFunc has a higher priority
+For 'TB' or 'BT', it's horizontal spacing; for 'LR' or 'RL', it's vertical spacing. `nodesepFunc` has higher priority.
 
 ### nodesepFunc
 
-> _(d?:_ _Node) => number_
+> _(d?: Node) => number_
 
-The callback function of the node spacing (px), which can be used to set different node spacing for different nodes
+Callback for node spacing (px), allows different spacing for different nodes
 
-The horizontal spacing of the node in the case of rankdir is 'TB' or 'BT', and the vertical spacing of the node in the case of rankdir is 'LR' or 'RL'. The priority is higher than nodesep, that is, if nodesepFunc is set, nodesep does not take effect
+For 'TB' or 'BT', it's horizontal spacing; for 'LR' or 'RL', it's vertical spacing. Takes precedence over nodesep if set.
+
+### begin
+
+> _[number, number] \| [number, number, number]_ **Default:** undefined
+
+Top-left alignment position of the layout
+
+### controlPoints
+
+> _boolean_ **Default:** false
+
+Whether to keep edge control points. Only effective when using built-in polyline edges (`type: 'polyline-edge'`) or any edge that uses `style.controlPoints` as control points. Adds `style.controlPoints` to edge data.
+
+### edgeLabelSpace
+
+> _boolean_ **Default:** true
+
+Whether to reserve space for edge labels
+
+This affects whether a dummy node is added in the middle of the edge.
+
+### focusNode
+
+> _ID \| Node \| null_
+
+Focus node, only effective when `radial` is true
+
+- ID: node id
+- Node: node instance
+- null: cancel focus
+
+### nodeOrder
+
+> _string[]_ **Default:** undefined
+
+Reference array for node order in the same rank, stores node ids
+
+If not specified, dagre's default order is used.
 
 ### nodeSize
 
-> _Size_ _\| ((nodeData:_ _Node) =>_ _Size)_ **Default:** `undefined`
+> _Size \| ((nodeData: Node) => Size)_ **Default:** undefined
 
-The diameter of the node
+Specify node size for all or each node.
 
-Used for collision detection when nodes overlap
+Used for collision detection to prevent node overlap
 
 ### preset
 
-> _OutNode[]_ **Default:** `undefined`
+> _OutNode[]_ **Default:** undefined
 
-The reference node position when calculating the layout
+Reference node positions for layout calculation
 
-It is generally used to ensure the continuity of the layout when switching data. In G6, if you update the data, the existing layout result data will be used as input automatically
+Usually for smooth transitions when switching data. In G6, if updating data, the existing layout result is used as input.
 
 ### radial
 
 > _boolean_
 
-Whether to use dagre for radial layout
-
-### rankdir
-
-> _DagreRankdir_ **Default:** `'TB'`
-
-布局的方向。T：top（上）；B：bottom（下）；L：left（左）；R：right（右）
-
-- 'TB':从上至下布局
-
-- 'BT':从下至上布局
-
-- 'LR':从左至右布局
-
-- 'RL':从右至左布局 The direction of the layout. T: top; B: bottom; L: left; R: right
-
-- 'TB':from top to bottom
-
-- 'BT':from bottom to top
-
-- 'LR':from left to right
-
-- 'RL':from right to left
-
-### ranker
-
-> _'network-simplex' \| 'tight-tree' \| 'longest-path'_
-
-The mode of the layout
-
-### ranksep
-
-> _number_ **Default:** `50`
-
-The vertical gap between levels (px)
-
-The vertical gap between levels (px) in the case of rankdir is 'TB' or 'BT'. The horizontal gap between levels (px) in the case of rankdir is 'LR' or 'RL'. ranksepFunc has a higher priority
-
-### ranksepFunc
-
-> _(d?:_ _Node) => number_
-
-The callback function of the layer spacing (px)
-
-The vertical spacing of adjacent layers in the case of rankdir is 'TB' or 'BT', and the horizontal spacing of adjacent layers in the case of rankdir is 'LR' or 'RL'. The priority is higher than nodesep, that is, if nodesepFunc is set, nodesep does not take effect
+Whether to use radial layout based on dagre
 
 ### sortByCombo
 
-> _boolean_ **Default:** `false`
+> _boolean_ **Default:** false
 
-Whether to sort nodes in the same layer according to the parentId in each node data to prevent Combo overlapping
+Whether to sort nodes in the same rank by their parentId to prevent Combo overlap
 
-It is recommended to configure when there is a Combo
+Recommended to enable when using Combo
+
+## Suitable Scenarios
+
+- **Flowcharts**: Suitable for displaying flowcharts, node direction and spacing are automatically handled
+- **Dependency Graphs**: Display dependencies between packages or modules
+- **Task Scheduling Graphs**: Show dependencies and execution order between tasks
+
+## Related Documentation
+
+> The following documents can help you better understand the Dagre layout
+
+- [Graph Layout Algorithms: In-depth Dagre Layout](https://mp.weixin.qq.com/s/EdyTfFUH7fyMefNSBXI2nA)
+- [In-depth Dagre Layout Algorithm](https://www.yuque.com/antv/g6-blog/xxp5nl)

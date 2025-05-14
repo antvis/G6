@@ -1,18 +1,18 @@
 ---
-title: Fishbone
+title: Fishbone Layout
 ---
 
 ## Overview
 
-The Fishbone layout is a graphical layout method specifically designed to represent hierarchical data. By simulating the shape of a fishbone, it arranges data nodes according to their hierarchical structure, making the hierarchical relationships of the data clearer and more intuitive. The fishbone layout is particularly suitable for datasets that need to display causal relationships, hierarchical structures, or classification information.
+Fishbone layout is a graphical layout specifically designed for representing hierarchical data. By simulating the shape of a fishbone, it arranges data nodes according to their hierarchy, making the hierarchical relationships of the data clearer and more intuitive. Fishbone layout is especially suitable for datasets that need to show causality, hierarchy, or classification information.
 
-## Usage Scenarios
+## Use Cases
 
-- Displaying hierarchical data, such as organizational structures and classification systems
-- Displaying problem analysis processes, such as fault analysis and quality analysis
-- Displaying decision-making processes, such as decision trees and factor analysis
+- Displaying hierarchical data, such as organizational structures or classification systems
+- Showing problem analysis processes, such as fault analysis or quality analysis
+- Displaying decision processes, such as decision trees or factor analysis
 
-## Online Experience
+## Online Demo
 
 <embed src="@/common/api/layout/fishbone.md"></embed>
 
@@ -30,27 +30,27 @@ const graph = new Graph({
 });
 ```
 
-## Configuration Options
+## Options
 
-| Property               | Description                                                                                                       | Type                                                                                                                                   | Default  | Required |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------- |
-| type                   | Layout type                                                                                                       | `fishbone`                                                                                                                             | -        | ✓        |
-| direction              | Layout direction, `RL` from right to left, fish head on the right; `LR` from left to right, fish head on the left | `RL` \| `LR`                                                                                                                           | `RL`     |          |
-| hGap                   | Horizontal spacing                                                                                                | number                                                                                                                                 | -        |          |
-| vGap                   | Vertical spacing                                                                                                  | number                                                                                                                                 | -        |          |
-| getRibSep              | Get fishbone spacing                                                                                              | (node: NodeData) => number                                                                                                             | () => 60 |          |
-| width                  | Layout width                                                                                                      | number                                                                                                                                 | -        |          |
-| height                 | Layout height                                                                                                     | number                                                                                                                                 | -        |          |
-| nodeSize               | Node size                                                                                                         | number \| [number, number] \| [number, number, number] \| ((node: NodeData) => number \| [number, number] \| [number, number, number]) | -        |          |
-| isLayoutInvisibleNodes | Whether invisible nodes participate in the layout, takes effect when preLayout is true                            | boolean                                                                                                                                | -        |          |
-| nodeFilter             | Nodes involved in this layout                                                                                     | (node: NodeData) => boolean                                                                                                            | -        |          |
-| preLayout              | Use pre-layout to calculate the layout before initializing elements, not applicable to pipeline layout            | boolean                                                                                                                                | -        |          |
+| Property               | Description                                                                                      | Type                                                                                                                                   | Default  | Required |
+| ---------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------- |
+| type                   | Layout type                                                                                      | `fishbone`                                                                                                                             | -        | ✓        |
+| direction              | Layout direction, `RL` (right to left, head on right), `LR` (left to right, head on left)        | `RL` \| `LR`                                                                                                                           | `RL`     |          |
+| hGap                   | Horizontal gap                                                                                   | number                                                                                                                                 | -        |          |
+| vGap                   | Vertical gap                                                                                     | number                                                                                                                                 | -        |          |
+| getRibSep              | Function to get rib gap                                                                          | (node: NodeData) => number                                                                                                             | () => 60 |          |
+| width                  | Layout width                                                                                     | number                                                                                                                                 | -        |          |
+| height                 | Layout height                                                                                    | number                                                                                                                                 | -        |          |
+| nodeSize               | Node size                                                                                        | number \| [number, number] \| [number, number, number] \| ((node: NodeData) => number \| [number, number] \| [number, number, number]) | -        |          |
+| isLayoutInvisibleNodes | Whether invisible nodes participate in layout (effective when preLayout is true)                 | boolean                                                                                                                                | -        |          |
+| nodeFilter             | Nodes to participate in this layout                                                              | (node: NodeData) => boolean                                                                                                            | -        |          |
+| preLayout              | Use pre-layout, calculate layout before initializing elements (not suitable for pipeline layout) | boolean                                                                                                                                | -        |          |
 
-## Code Examples
+## Code Example
 
 ### Basic Usage
 
-Simplest configuration:
+The simplest configuration:
 
 ```js
 import { Graph, treeToGraphData } from '@antv/g6';
@@ -83,7 +83,7 @@ const graph = new Graph({
 });
 ```
 
-The effect is as follows:
+Result:
 
 ```js | ob { pin: false }
 createGraph(
@@ -384,8 +384,8 @@ createGraph(
 );
 ```
 
-## Practical Examples
+## Real Case
 
 <Playground path="layout/fishbone/demo/basic.js" rid="fishbone-basic"></Playground>
 
-- [Fishbone Layout](/examples/layout/fishbone/#basic)
+- [Fishbone Layout](/en/examples/layout/fishbone/#basic)

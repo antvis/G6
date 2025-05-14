@@ -4,7 +4,7 @@ title: Concentric 同心圆布局
 
 ## 概述
 
-同心圆布局是一种将节点根据某种排序规则分层，并以圆心为中心、沿圆周排列每层节点的布局方式。参考更多同心圆布局[样例](https://g6.antv.antgroup.com/examples#layout-concentric)或[源码](https://github.com/antvis/layout/blob/v5/packages/layout/src/circular.ts)。
+同心圆布局是一种将节点根据某种排序规则分层，并以圆心为中心、沿圆周排列每层节点的布局方式。参考更多同心圆布局[样例](/examples#layout-concentric)或[源码](https://github.com/antvis/layout/blob/v5/packages/layout/src/circular.ts)。
 
 ## 使用场景
 

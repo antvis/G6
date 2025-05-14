@@ -1,59 +1,71 @@
 ---
-title: Dendrogram
+title: Dendrogram Layout
 ---
 
-<a href='https://en.wikipedia.org/wiki/Dendrogram' target='_blank'>Dendrogram</a> layout is characterized by placing all child nodes on the same level, regardless of node size, with each node treated as 1px in size. It is suitable for representing hierarchical clustering.
+## Overview
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
+The dendrogram layout is suitable for visualizing hierarchical clustering data. Its feature is that all child nodes are laid out on the same level, node size is not considered, and each node is treated as 1px.
 
-## Opeions
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zX7tSLqBvwcAAAAAAAAAAABkARQnAQ' width=400 alt='Dendrogram Layout Example'/>
+
+## Configuration
+
+```js
+const graph = new Graph({
+  layout: {
+    type: 'dendrogram',
+    direction: 'LR',
+    nodeSep: 30,
+    rankSep: 250,
+    radial: false,
+  },
+});
+```
+
+## Options
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tTShQLD_dGoAAAAAAAAAAAAAemJ7AQ/original" width="400" alt="Dendrogram Layout Options Illustration" />
+
+| Property  | Description                                            | Type                                       | Default | Required |
+| --------- | ------------------------------------------------------ | ------------------------------------------ | ------- | -------- |
+| type      | Layout type                                            | `dendrogram`                               | -       | ✓        |
+| direction | Layout direction, [options](#direction)                | `LR` \| `RL` \| `TB` \| `BT` \| `H` \| `V` | `LR`    |          |
+| nodeSep   | Node spacing, distance between nodes on the same level | number                                     | 20      |          |
+| rankSep   | Rank spacing, distance between different levels        | number                                     | 200     |          |
+| radial    | Whether to enable radial layout, [see below](#radial)  | boolean                                    | false   |          |
 
 ### direction
 
-> _'LR' \| 'RL' \| 'TB' \| 'BT' \| 'H' \| 'V'_ **Default:** `'LR'`
+Tree layout direction options:
 
-Tree Layout Direction
+- `TB`: Root at the top, layout downward
 
-- `'TB'`: The root node is at the top, with the layout oriented downwards
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*krAnRrLTEnEAAAAAAAAAAABkARQnAQ' width=115 alt='TB direction'/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*krAnRrLTEnEAAAAAAAAAAABkARQnAQ' width=115 alt='img'/>
+- `BT`: Root at the bottom, layout upward
 
-- `'BT'`: The root node is at the bottom, with the layout oriented upwards
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0HRyS64i7QoAAAAAAAAAAABkARQnAQ' width=115 alt='BT direction'/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0HRyS64i7QoAAAAAAAAAAABkARQnAQ' width=115 alt='img'/>
+- `LR`: Root at the left, layout to the right
 
-- `'LR'`: The root node is on the left, with the layout oriented to the right
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*T5KZTJdA2OUAAAAAAAAAAABkARQnAQ' width=55 alt='LR direction'/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*T5KZTJdA2OUAAAAAAAAAAABkARQnAQ' width=55 alt='img'/>
+- `RL`: Root at the right, layout to the left
 
-- `'RL'`: The root node is on the right, with the layout oriented to the left
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q7QJQ5RbQ5kAAAAAAAAAAABkARQnAQ' width=55 alt='RL direction'/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q7QJQ5RbQ5kAAAAAAAAAAABkARQnAQ' width=55 alt='img'/>
+- `H`: Root in the middle, horizontal symmetric layout
 
-- `'H'`: The root node is in the center, with a horizontally symmetrical layout
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tzIfRJ5CuR8AAAAAAAAAAABkARQnAQ' width=85 alt='H direction'/>
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*tzIfRJ5CuR8AAAAAAAAAAABkARQnAQ' width=85 alt='img'/>
+- `V`: Root in the middle, vertical symmetric layout
 
-- `'V'`: The root node is in the center, with a vertically symmetrical layout
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*B9sjToOzCiAAAAAAAAAAAABkARQnAQ' width=115 alt='img'/>
-
-### nodeSep
-
-> _Number_ **Default:** `20`
-
-Node spacing
-
-### rankSep
-
-> _Number_ **Default:** `200`
-
-The spacing between layers
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*B9sjToOzCiAAAAAAAAAAAABkARQnAQ' width=115 alt='V direction'/>
 
 ### radial
 
-> _Boolean_
+Whether to enable radial layout mode. When enabled, nodes are distributed radially around the root node.
 
-Whether to use a radial layout. If `radial` is set to `true`, it is recommended to set `direction` to `'LR'` or `'RL'`.
+If `radial` is set to `true`, it is recommended to set `direction` to `'LR'` or `'RL'` for best results.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AhopQI5j-bcAAAAAAAAAAABkARQnAQ' width=175 alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AhopQI5j-bcAAAAAAAAAAABkARQnAQ' width=175 alt='Radial Layout'/>

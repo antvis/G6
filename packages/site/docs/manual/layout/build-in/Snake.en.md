@@ -1,93 +1,49 @@
 ---
-title: Snake
+title: Snake Layout
 ---
 
-The Snake layout is a special way of graph layout that can more effectively display long chain structures in a smaller space. Note that the graph data needs to ensure that the nodes are linearly arranged in the order from the source node to the sink node to form a clear path.
+## Overview
 
-The nodes are arranged in an S-shaped pattern, with the first node at the beginning of the first row, and the following nodes arranged to the right until the end of the row. After reaching the end of the row, the nodes in the next row are arranged in reverse from right to left. This process is repeated until all nodes are arranged.
+Snake Layout is a special type of graph layout that can more efficiently display long chain structures in a limited space. Note that the graph data must ensure that nodes are linearly arranged from the source node to the sink node, forming a clear path.
+
+Nodes are arranged in an S-shape: the first node is at the start of the first row, subsequent nodes are arranged to the right in the first row until the end. At the end of the row, the next row's nodes are arranged from right to left. This process repeats until all nodes are placed.
+
+## Use Cases
+
+Suitable for scenarios that require compact presentation of linear relationships:
+
+- **Long process visualization**
+
+  Perfect for scenarios with many process steps, such as approval flows, production line procedures, logistics routes, etc.
+
+- **Hierarchical structures in limited space**
+
+  When the hierarchy is too long but the canvas is limited, rows can be folded to save space. For example, API call dependencies (client → gateway → serviceA → serviceB → database, snake layout compresses 5 layers into 2 rows), or file directory trees (deeply nested folder structures, e.g., src/components/utils/helpers/..., using snake layout to fold subdirectories horizontally).
+
+## Online Demo
+
+<embed src="@/common/api/layouts/snake.md"></embed>
 
 ## Options
 
-### isLayoutInvisibleNodes
+> If the layout has specific properties, they are listed below. For common layout options, see [Base Layout Options](/en/manual/layout/build-in/base-layout)
 
-> _boolean_
-
-Whether invisible nodes participate in the layout
-
-Takes effect when preLayout is true
-
-### nodeFilter
-
-> _(node:_ [NodeData](/api/graph/option#nodedata)_) => boolean_
-
-Nodes involved in the layout
-
-### preLayout
-
-> _boolean_
-
-Use pre-layout to calculate the layout before initializing the elements
-
-Not applicable to pipeline layout
-
-### <Badge type="success">Required</Badge> type
-
-> _string_
-
-Layout type
-
-### enableWorker
-
-> _boolean_
-
-Whether to run the layout in WebWorker
-
-### iterations
-
-> _number_
-
-Iterations for iterable layouts
+| Property                | Description                                                 | Type                                               | Default                                                    | Required |
+| ----------------------- | ----------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------- | -------- |
+| type                    | Layout type                                                 | snake                                              | -                                                          | ✓        |
+| [clockwise](#clockwise) | Whether nodes are arranged clockwise                        | boolean                                            | true                                                       |          |
+| colGap                  | Gap size between columns                                    | number                                             | Automatically calculated by canvas width and total columns |          |
+| cols                    | Number of columns                                           | number                                             | 5                                                          |          |
+| nodeSize                | Node size                                                   | Size \| ((node: NodeData) => Size)                 | -                                                          |          |
+| padding                 | Padding, i.e., distance from layout area to canvas boundary | number \| number[]                                 | 0                                                          |          |
+| rowGap                  | Gap size between rows                                       | number                                             | Automatically calculated by canvas height and total rows   |          |
+| sortBy                  | Node sorting method                                         | (nodeA: NodeData, nodeB: NodeData) => -1 \| 0 \| 1 | Default is the path order in the graph                     |          |
 
 ### clockwise
 
-> _boolean_ **Default:** `true`
+- When arranged clockwise, nodes start from the top left, the first row is arranged left to right, the second row right to left, and so on, forming an S-shaped path.
+- When arranged counterclockwise, nodes start from the top right, the first row is arranged right to left, the second row left to right, and so on, forming a reversed S-shaped path.
 
-Whether the node arrangement direction is clockwise
+## Real Cases
 
-When arranged clockwise, the nodes start from the upper left corner, the first row is arranged from left to right, the second row is arranged from right to left, and so on, forming an S-shaped path. When arranged counterclockwise, the nodes start from the upper right corner, the first row is arranged from right to left, the second row is arranged from left to right, and so on, forming a reverse S-shaped path.
-
-### colGap
-
-> _number_
-
-The size of the gap between a node's columns
-
-### cols
-
-> _number_ **Default:** `5`
-
-Number of node columns
-
-### nodeSize
-
-> _number \| [number, number] \| Float32Array \| [number, number, number]_ _\| ((node:_ [NodeData](/api/graph/option#nodedata)_) =>_ _number \| [number, number] \| Float32Array \| [number, number, number]_ _)_
-
-Node size
-
-### padding
-
-> _number \| number[]_ **Default:** `0`
-
-Padding, the distance between the layout area and the canvas boundary
-
-### rowGap
-
-> _number_
-
-The size of the gap between a node's rows
-
-### sortBy
-
-> _(nodeA:_ [NodeData](/api/graph/option#nodedata)_, nodeB:_ [NodeData](/api/graph/option#nodedata)_) => -1 \| 0 \| 1_
-
-Node sorting method
+- [Snake Layout](/en/examples/layout/snake/#basic)

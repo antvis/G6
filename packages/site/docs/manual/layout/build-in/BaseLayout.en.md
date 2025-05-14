@@ -7,14 +7,14 @@ This article introduces the common attribute configurations for built-in layouts
 
 ## General Configuration
 
-| Property               | Description                                                   | Type                        | Default    | Required |
-| ---------------------- | ------------------------------------------------------------- | --------------------------- | ---------- | -------- |
-| type                   | Layout type, name of built-in or custom layout                | [Type](#Type)               | -          | ✓        |
-| isLayoutInvisibleNodes | Whether invisible nodes participate in the layout             | boolean                     | false      |          |
-| nodeFilter             | Nodes participating in the layout                             | (node: NodeData) => boolean | () => true |          |
-| preLayout              | Use pre-layout, calculate layout before initializing elements | boolean                     | false      |          |
-| enableWorker           | Whether to run the layout in a WebWorker                      | boolean                     | -          |          |
-| iterations             | Number of iterations for iterative layout                     | number                      | -          |          |
+| Property               | Description                                                                             | Type                        | Default    | Required |
+| ---------------------- | --------------------------------------------------------------------------------------- | --------------------------- | ---------- | -------- |
+| type                   | Layout type, name of built-in or custom layout                                          | [Type](#Type)               | -          | ✓        |
+| isLayoutInvisibleNodes | Whether invisible nodes participate in the layout (takes effect when preLayout is true) | boolean                     | false      |          |
+| nodeFilter             | Nodes participating in the layout                                                       | (node: NodeData) => boolean | () => true |          |
+| preLayout              | Use pre-layout, calculate layout before initializing elements                           | boolean                     | false      |          |
+| enableWorker           | Whether to run the layout in a WebWorker                                                | boolean                     | -          |          |
+| iterations             | Number of iterations for iterative layout                                               | number                      | -          |          |
 
 ### Type
 
@@ -43,11 +43,11 @@ Optional values include:
 - `force-atlas2`: [ForceAtlas2 layout](/en/manual/layout/build-in/force-atlas2-layout)
 - `fruchterman`: [Fruchterman layout](/en/manual/layout/build-in/fruchterman-layout)
 - `grid`: [Grid layout](/en/manual/layout/build-in/grid-layout)
-- `mds`: [High-dimensional data dimensionality reduction layout](/en/manual/layout/build-in/mds-layout)
+- `mds`: [MDS layout for high-dimensional data](/en/manual/layout/build-in/mds-layout)
 - `radial`: [Radial layout](/en/manual/layout/build-in/radial-layout)
 - `random`: [Random layout](/en/manual/layout/build-in/random-layout)
 - `snake`: [Snake layout](/en/manual/layout/build-in/snake)
-- `compact-box`: [Compact tree layout](/en/manual/layout/build-in/compact-box-layout)
+- `compact-box`: [Compact box tree layout](/en/manual/layout/build-in/compact-box-layout)
 - `dendrogram`: [Dendrogram layout](/en/manual/layout/build-in/dendrogram-layout)
 - `mindmap`: [Mindmap layout](/en/manual/layout/build-in/mindmap-layout)
 - `indented`: [Indented tree layout](/en/manual/layout/build-in/indented-layout)

@@ -1,5 +1,5 @@
 ---
-title: Force
+title: Force Force-directed Layout
 ---
 
 ## Options
@@ -8,154 +8,149 @@ title: Force
 
 > _CentripetalOptions_
 
-Centripetal configuration, including the centripetal center of leaf nodes, discrete points, and the centripetal center of other nodes
+Centripetal force configuration, including the center and strength for leaf nodes, isolated nodes, and other nodes.
 
 ### clustering
 
 > _boolean_ **Default:** `false`
 
-Whether to cluster all nodes
+Whether to cluster all nodes.
 
-If it is true, the node data configured by nodeClusterBy will be used as the clustering basis. centripetalOptions.single, centripetalOptions.leaf, centripetalOptions.others will use the return value of getClusterNodeStrength; leaf、centripetalOptions.center will use the average center of all nodes in the current cluster
+If true, the field specified by nodeClusterBy in node data will be used for clustering. centripetalOptions.single, centripetalOptions.leaf, and centripetalOptions.others will use the value returned by getClusterNodeStrength; leaf and centripetalOptions.center will use the average center of all nodes in the current cluster.
 
 ### clusterNodeStrength
 
-> _number \| ((node:_ _Node\_\_) => number)_ **Default:** `20`
+> _number | ((node: Node) => number)_ **Default:** `20`
 
-Use it with clustering and nodeClusterBy to specify the size of the centripetal force of the cluster
+Used with clustering and nodeClusterBy to specify the strength of the cluster centripetal force.
 
 ### collideStrength
 
 > _number_ **Default:** `1`
 
-The strength of the force that prevents overlap, range [0, 1]
+Strength of anti-overlap force, range [0, 1].
 
 ### coulombDisScale
 
 > _number_ **Default:** `0.005`
 
-Coulomb's coefficient, a coefficient of repulsion, the larger the number, the larger the repulsion between nodes
+Coulomb coefficient, a factor for repulsion. The larger the value, the greater the repulsion between nodes.
 
 ### damping
 
 > _number_ **Default:** `0.9`
 
-Damping coefficient, the range of the value is [0, 1]. The larger the number, the slower the speed will decrease
+Damping coefficient, range [0, 1]. The larger the value, the slower the speed decreases.
 
 ### edgeStrength
 
-> _number \| ((d?:_ _Edge\_\_) => number)_ **Default:** `50`
+> _number | ((d?: Edge) => number)_ **Default:** `50`
 
-The size of the force of the edge (attraction)
+Strength of edge force (attraction).
 
 ### factor
 
 > _number_ **Default:** `1`
 
-The repulsion coefficient, the larger the number, the larger the repulsion
+Repulsion coefficient. The larger the value, the greater the repulsion.
 
 ### getCenter
 
-> _(node?:_ _Node\_\_, degree?: number) => number[]_
+> _(node?: Node, degree?: number) => number[]_
 
-The callback function for the center force of each node, if not specified, there will be no additional center force
+Callback for the x, y, and strength of the centripetal force for each node. If not specified, no extra centripetal force is applied.
 
 ### getMass
 
-> _(node?:_ _Node\_\_) => number_
+> _(node?: Node) => number_
 
-The callback function for the mass of each node, if the parameter is the internal circulation data of the node, the return value is the size of the mass
+Callback for the mass of each node. The parameter is the node's internal data, and the return value is the mass.
 
 ### gravity
 
 > _number_ **Default:** `10`
 
-The size of the center force, which attracts all nodes to the center. The larger the number, the more compact the layout
+Strength of the central force, i.e., the force attracting all nodes to the center. The larger the value, the more compact the layout.
 
 ### height
 
 > _number_
 
-The height of the layout, default to the height of the canvas
+Layout height, defaults to canvas height.
 
 ### interval
 
 > _number_ **Default:** `0.02`
 
-Control the movement speed of each iteration node
+Controls the movement speed of each node per iteration.
 
 ### leafCluster
 
 > _boolean_ **Default:** `false`
 
-Whether to cluster leaf nodes
+Whether to cluster leaf nodes.
 
-If it is true, centripetalOptions.single will be 100; centripetalOptions.leaf will use the return value of getClusterNodeStrength; getClusterNodeStrength.center will be the average center of all leaf nodes
+If true, centripetalOptions.single will be 100; centripetalOptions.leaf will use the value returned by getClusterNodeStrength; getClusterNodeStrength.center will return the average center of all leaf nodes.
 
 ### linkDistance
 
-> _number \| ((edge?:_ _Edge\_\_, source?: any, target?: any) => number)_ **Default:** `200`
+> _number | ((edge?: Edge, source?: any, target?: any) => number)_ **Default:** `200`
 
-边的长度
-
-- number: 固定长度
-
-- ((edge?: Edge, source?: any, target?: any) => number): 根据边的信息返回长度 The length of the edge
+Edge length.
 
 - number: fixed length
-
-- ((edge?: Edge, source?: any, target?: any) => number): return length according to the edge information
+- ((edge?: Edge, source?: any, target?: any) => number): returns length based on edge info
 
 ### maxSpeed
 
 > _number_ **Default:** `200`
 
-The maximum movement length of one iteration
+Maximum movement length per iteration.
 
 ### monitor
 
-> _(params: { energy: number; nodes:_ _Node\_\_[]; edges:_ _Edge\_\_[]; iterations: number; }) => void_
+> _(params: { energy: number; nodes: Node[]; edges: Edge[]; iterations: number; }) => void_
 
-The callback function for monitoring information of each iteration, energy indicates the convergence energy of the layout. If not configured, it will not calculate
+Callback for monitoring each iteration. energy indicates the convergence energy of the layout. May incur extra computation if configured; if not configured, no computation is performed.
 
 ### nodeClusterBy
 
 > _string_
 
-Specify the field name of the node data as the clustering basis for the node, and it takes effect when clustering is true. You can combine it with clusterNodeStrength to use it
+Specifies the field name in node data for clustering. Takes effect when clustering is true. Automatically generates centripetalOptions, can be used with clusterNodeStrength.
 
 ### nodeSize
 
-> _Size_ _\| ((d?:_ _Node\_\_) =>_ _Size\_\_)_
+> _Size | ((d?: Node) => Size)_
 
-The size of the node (diameter). Used for collision detection when preventing node overlap
+Node size (diameter). Used for collision detection to prevent node overlap.
 
 ### nodeSpacing
 
-> _number \| ((d?:_ _Node\_\_) => number)_
+> _number | ((d?: Node) => number)_
 
-It is effective when preventOverlap is true. The minimum spacing of the node edge when preventing overlap. It can be a callback function to set different minimum spacing for different nodes
+Takes effect when preventOverlap is true. Minimum spacing between node edges to prevent overlap. Can be a callback to set different spacing for different nodes.
 
 ### nodeStrength
 
-> _number \| ((d?:_ _Node\_\_) => number)_ **Default:** `1000`
+> _number | ((d?: Node) => number)_ **Default:** `1000`
 
-The force of the node, positive numbers represent the attraction force between nodes, and negative numbers represent the repulsion force between nodes
+Node force. Positive means attraction, negative means repulsion.
 
 ### onTick
 
-> _(data:_ _LayoutMapping\_\_) => void_
+> _(data: LayoutMapping) => void_
 
-The callback function for each iteration
+Callback for each iteration.
 
 ### preventOverlap
 
 > _boolean_ **Default:** `true`
 
-Whether to prevent overlap, must be used with the following properties nodeSize or data.size in the node data, and only when the data.size is set in the data or the nodeSize value is configured with the same value as the current graph node size in the layout configuration, can the node overlap collision detection be performed
+Whether to prevent overlap. Must be used with nodeSize or data.size in node data. Only when data.size is set in the data or nodeSize is configured in the layout with the same value as the node size in the graph, collision detection for node overlap can be performed.
 
 ### width
 
 > _number_
 
-The width of the layout, default to the width of the canvas
+Layout width, defaults to canvas width.

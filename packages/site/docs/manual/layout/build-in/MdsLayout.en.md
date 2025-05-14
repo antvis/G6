@@ -1,17 +1,79 @@
 ---
-title: Mds
+title: MDS High-dimensional Data Dimensionality Reduction Layout
 ---
+
+# MDS High-dimensional Data Dimensionality Reduction Layout
+
+## Overview
+
+MDS (Multidimensional Scaling) is a classic dimensionality reduction algorithm. In G6, the MDS layout constructs a distance matrix between nodes and restores their relative distances in high-dimensional space as much as possible in 2D space. It is suitable for graph visualization scenarios that show similarity, distance, or structural relationships between nodes.
+
+## Use Cases
+
+- Data dimensionality reduction visualization
+- Displaying distance relationships between nodes
+
+## Configuration
+
+```js
+const graph = new Graph({
+  layout: {
+    type: 'mds',
+    center: [300, 300],
+    linkDistance: 100,
+  },
+});
+```
 
 ## Options
 
-### center
+| Option           | Description                            | Type              | Default | Required |
+| :--------------- | :------------------------------------- | :---------------- | :------ | :------- |
+| **type**         | Layout type                            | `mds`             | -       | Yes      |
+| **center**       | Center position of the circular layout | `[number,number]` | [0,0]   | No       |
+| **linkDistance** | Ideal length of edges (spring length)  | `number`          | 50      | No       |
 
-> _PointTuple_
+**center**
 
-Center position of circular layout
+The center coordinates of the layout. All nodes will be symmetrically distributed around this point.
 
-### linkDistance
+**linkDistance**
 
-> _number_ **Default:** `200`
+> number Default: 50
 
-Ideal length of the edge, which can be understood as the length of the edge as a spring under no force
+The ideal distance between nodes. The larger the value, the more dispersed the nodes.
+
+## Code Example
+
+```js
+createGraph(
+  {
+    autoFit: 'view',
+    data: {
+      nodes: Array.from({ length: 25 }, (_, i) => ({
+        id: `node-${i}`,
+        data: {
+          value: Math.random() * 100,
+        },
+      })),
+      edges: Array.from({ length: 20 }, (_, i) => ({
+        id: `edge-${i}`,
+        source: `node-${Math.floor(Math.random() * 25)}`,
+        target: `node-${Math.floor(Math.random() * 25)}`,
+      })),
+    },
+    node: {
+      style: {
+        labelText: (d) => d.id,
+      },
+    },
+    layout: {
+      type: 'mds',
+      nodeSize: 32,
+      linkDistance: 100,
+    },
+    behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
+  },
+  { width: 600, height: 300 },
+);
+```
