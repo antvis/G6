@@ -30,16 +30,16 @@ abstract class BaseShape extends CustomElement {
 
 ```
 节点（Node）
-├── keyShape（主图形，交互/包围盒/样式主控）
+├── keyShape（主图形）
 ├── label（标签，辅助信息）
 │   ├── text（文本）
-│   └── background（背景）
+│   └── rect（背景）
 ├── icon（图标）
 │   ├── text（文本）
 │   └── image（图片）
 ├── badge（徽标）
 │   ├── text（文本）
-│   └── background（背景）
+│   └── rect（背景）
 └── port（锚点）
 │   ├── circle（圆形）
 ```

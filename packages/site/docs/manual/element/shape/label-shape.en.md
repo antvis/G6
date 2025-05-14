@@ -30,16 +30,16 @@ A node usually contains multiple child Shapes, for example:
 
 ```
 Node
-├── keyShape (main shape, controls interaction/bounding box/style)
+├── keyShape (main shape)
 ├── label (label, auxiliary information)
 │   ├── text
-│   └── background
+│   └── rect
 ├── icon
 │   ├── text
 │   └── image
 ├── badge
 │   ├── text
-│   └── background
+│   └── rect
 └── port
 │   ├── circle
 ```
