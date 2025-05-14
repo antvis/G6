@@ -1,16 +1,16 @@
 ---
-title: Radial
+title: Radial Layout
 ---
 
 ## Overview
 
-Radial layout arranges nodes in concentric circles by layers, which is suitable for visualizing hierarchical relationships, community structures, and more. It supports advanced features such as node overlap prevention and group sorting, making it ideal for various network visualizations.
+Radial layout is a graph layout algorithm that arranges nodes in concentric circles by layers. It is commonly used to display hierarchical relationships, community structures, and more. This layout supports advanced features such as node overlap prevention and group sorting, making it suitable for visualizing various network structures.
 
-## Usage Scenarios
+## Use Cases
 
-- Displaying hierarchical structures (e.g., organization charts, family trees)
+- Displaying hierarchical structures (e.g., organizational charts, family trees)
 - Community structure analysis
-- Highlighting a central node and its radiating relationships
+- Scenarios that need to highlight the central node and its radiating relationships
 - Complex networks requiring node grouping and sorting
 
 ## Online Demo
@@ -27,29 +27,29 @@ const graph = new Graph({
     unitRadius: 100,
     linkDistance: 200,
   },
-  // other configs ...
+  // other configurations...
 });
 ```
 
 ## Options
 
-| Property                   | Description                                                         | Type                                 | Default  | Required |
-| -------------------------- | ------------------------------------------------------------------- | ------------------------------------ | -------- | -------- |
-| type                       | Layout type                                                         | string                               | `radial` | ✓        |
-| center                     | Center of the layout                                                | [number, number]                     | -        |          |
-| focusNode                  | Center node of the radial layout                                    | string \| Node \| null               | null     |          |
-| height                     | Height of the layout                                                | number                               | -        |          |
-| width                      | Width of the layout                                                 | number                               | -        |          |
-| nodeSize                   | Node size (diameter)                                                | number                               | -        |          |
-| nodeSpacing                | Minimum spacing between nodes (when preventOverlap is true)         | number \| (nodeData: Node) => number | 10       |          |
-| linkDistance               | Edge length                                                         | number                               | 50       |          |
-| unitRadius                 | Radius of each ring                                                 | number \| null                       | 100      |          |
-| maxIteration               | Maximum number of iterations                                        | number                               | 1000     |          |
-| maxPreventOverlapIteration | Maximum iterations for overlap prevention                           | number                               | 200      |          |
-| preventOverlap             | Whether to prevent node overlap                                     | boolean                              | false    |          |
-| sortBy                     | Field for sorting nodes in the same layer                           | string                               | -        |          |
-| sortStrength               | Strength of sorting nodes in the same layer                         | number                               | 10       |          |
-| strictRadial               | Strictly place nodes on the same ring (when preventOverlap is true) | boolean                              | true     |          |
+| Property                   | Description                                              | Type                                 | Default  | Required |
+| -------------------------- | -------------------------------------------------------- | ------------------------------------ | -------- | -------- |
+| type                       | Layout type                                              | string                               | `radial` | ✓        |
+| center                     | Center coordinates                                       | [number, number]                     | -        |          |
+| focusNode                  | Radiating center node                                    | string \| Node \| null               | null     |          |
+| height                     | Canvas height                                            | number                               | -        |          |
+| width                      | Canvas width                                             | number                               | -        |          |
+| nodeSize                   | Node size (diameter)                                     | number                               | -        |          |
+| nodeSpacing                | Minimum node spacing (effective when preventing overlap) | number \| (nodeData: Node) => number | 10       |          |
+| linkDistance               | Edge length                                              | number                               | 50       |          |
+| unitRadius                 | Radius per circle                                        | number \| null                       | 100      |          |
+| maxIteration               | Maximum number of iterations                             | number                               | 1000     |          |
+| maxPreventOverlapIteration | Max iterations for overlap prevention                    | number                               | 200      |          |
+| preventOverlap             | Whether to prevent node overlap                          | boolean                              | false    |          |
+| sortBy                     | Field for sorting nodes in the same layer                | string                               | -        |          |
+| sortStrength               | Sorting strength for nodes in the same layer             | number                               | 10       |          |
+| strictRadial               | Strictly place nodes in the same layer on the same ring  | boolean                              | true     |          |
 
 ## Code Example
 
@@ -84,13 +84,13 @@ fetch('https://assets.antv.antgroup.com/g6/radial.json')
   });
 ```
 
-The effect is as follows:
+Result:
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*d3P-RK4YCDYAAAAAAAAAAAAADmJ7AQ/original" alt="Basic Radial Layout" style="max-width: 600px;" />
 
-## Cases
+## Real Cases
 
 - [Basic Radial Layout](/en/examples/layout/radial/#basic)
-- [Strict Overlap Prevention](/en/examples/layout/radial/#strict-prevent-overlap)
-- [Non-strict Overlap Prevention](/en/examples/layout/radial/#non-strict-prevent-overlap)
-- [Cluster Sort](/en/examples/layout/radial/#cluster-sort)
+- [Strict Overlap Prevention Radial Layout](/en/examples/layout/radial/#strict-prevent-overlap)
+- [Non-strict Overlap Prevention Radial Layout](/en/examples/layout/radial/#non-strict-prevent-overlap)
+- [Cluster Sorting](/en/examples/layout/radial/#cluster-sort)

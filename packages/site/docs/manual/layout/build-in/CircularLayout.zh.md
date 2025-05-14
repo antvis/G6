@@ -4,7 +4,7 @@ title: Circular 环形布局
 
 ## 概述
 
-环形布局是一种把节点均匀或者按间隔放置在圆上的布局，也支持通过配置 startRadius 和 endRadius 为不一样的值实现螺旋状布局。参考更多环形布局[样例](https://g6.antv.antgroup.com/examples#layout-circular)或[源码](https://github.com/antvis/layout/blob/v5/packages/layout/src/circular.ts)。
+环形布局是一种把节点均匀或者按间隔放置在圆上的布局，也支持通过配置 startRadius 和 endRadius 为不一样的值实现螺旋状布局。参考更多环形布局[样例](/examples#layout-circular)或[源码](https://github.com/antvis/layout/blob/v5/packages/layout/src/circular.ts)。
 
 ## 使用场景
 

@@ -4,7 +4,7 @@ title: Mindmap 脑图树
 
 ## 概述
 
-脑图树布局适用于树状结构的层次化布局，支持左右两侧展开，深度相同的节点将会被放置在同一层。需要注意：布局**会**考虑节点的大小。参考更多脑图布局[样例](https://g6.antv.antgroup.com/examples#layout-mindmap)或[源码](https://github.com/antvis/hierarchy/blob/master/src/mindmap.js)。
+脑图树布局适用于树状结构的层次化布局，支持左右两侧展开，深度相同的节点将会被放置在同一层。需要注意：布局**会**考虑节点的大小。参考更多脑图布局[样例](/examples#layout-mindmap)或[源码](https://github.com/antvis/hierarchy/blob/master/src/mindmap.js)。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width=350 alt='img'/>
 

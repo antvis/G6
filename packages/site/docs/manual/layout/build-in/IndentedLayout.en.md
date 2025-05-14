@@ -1,8 +1,8 @@
 ---
-title: Indented
+title: Indented Tree
 ---
 
-Indented tree layout. The hierarchy of tree nodes is represented by the amount of horizontal indentation. Each element occupies one row/column. Commonly used in scenarios such as file directory structures.
+Indented tree layout. The hierarchy of tree nodes is represented by the indentation in the horizontal direction. Each element occupies a row/column. Common use case: file directory structure.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NBUzRonaOYMAAAAAAAAAAABkARQnAQ' width=175 alt='img'/>
 
@@ -10,27 +10,27 @@ Indented tree layout. The hierarchy of tree nodes is represented by the amount o
 
 ### direction
 
-> _'LR' \| 'LR' \| 'H'_ **Default:** `'LR'`
+> _'LR' | 'RL' | 'H'_ **Default:** `'LR'`
 
-The direction of the tree layout
+Tree layout direction
 
-- `'LR'`：The root node is on the left, with the layout oriented to the right
+- `'LR'`: Root node on the left, layout to the right
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mq6YSIKrAt0AAAAAAAAAAABkARQnAQ' width=110 alt='img'/>
 
-- `'RL'`：The root node is on the right, with the layout oriented to the left
+- `'RL'`: Root node on the right, layout to the left
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VGEnRbpvxlUAAAAAAAAAAABkARQnAQ' width=90 alt='img'/>
 
-- `'H'`：The root node is in the center, with a horizontally symmetrical layout
+- `'H'`: Root node in the middle, horizontal symmetric layout
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vek6RqtUXNcAAAAAAAAAAABkARQnAQ' width=160 alt='img'/>
 
 ### indent
 
-> _Number \|_ _(d?:\_ \_Node\_\_) => string_ **Default:** `20`
+> _Number | ((d?: Node) => string)_ **Default:** `20`
 
-Inter-column spacing. When the type is Number, the inter-column spacing is a fixed value; when the type is Function, the spacing between the node and the root node is determined by the return value of the function.
+Column spacing. If type is Number, the column spacing is fixed; if type is Function, the spacing between the node and the root node is the return value of the function.
 
 Example:
 
@@ -44,9 +44,9 @@ Example:
 
 ### getWidth
 
-_(d?:\_ \_Node\_\_) => number_
+> _(d?: Node) => number_
 
-The width of each node, effective when `direction` is set to `'H'`
+Width of each node, effective when `direction` is `'H'`
 
 Example:
 
@@ -60,9 +60,9 @@ Example:
 
 ### getHeight
 
-_(d?:\_ \_Node\_\_) => number_
+> _(d?: Node) => number_
 
-The height of each node
+Height of each node
 
 Example:
 
@@ -76,9 +76,9 @@ Example:
 
 ### getSide
 
-> (d?:\_ _Node\_\_) => string_
+> _(d?: Node) => string_
 
-Node placement is to the left or right of the root node. If this value is set, all nodes will be on the same side of the root node, which means that `direction = 'H'` will no longer be effective. If this parameter is a callback function, it can specify the left or right side of the root node for each individual node.
+Whether the node is placed on the left or right side of the root node. If set, all nodes will be on the same side of the root node, i.e., direction = 'H' will not take effect. If this parameter is a callback function, you can specify the side for each node.
 
 Example:
 
@@ -94,4 +94,4 @@ Example:
 
 > _boolean_ **Default:** `true`
 
-Whether the first child node of each node is located on the next line
+Whether the first child of each node is placed on the next row

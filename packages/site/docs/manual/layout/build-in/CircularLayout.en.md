@@ -1,109 +1,94 @@
 ---
-title: Circular
+title: Circular Layout
 ---
+
+## Overview
+
+Circular layout arranges nodes evenly or at intervals on a circle, and also supports spiral layouts by configuring different startRadius and endRadius. See more circular layout [examples](en/examples#layout-circular) or [source code](https://github.com/antvis/layout/blob/v5/packages/layout/src/circular.ts).
+
+## Usage Scenarios
+
+**Circular layout**:
+
+- Suitable for networks with equal relationships and no hierarchical structure
+
+**Spiral layout**:
+
+- Suitable for implicit hierarchies or time series graphs (such as organizational charts, propagation networks)
+
+## Basic Usage
+
+Other settings use the default configuration (layout width and height default to the entire canvas container)
+
+```js
+const graph = new Graph({
+  // other configurations
+  layout: {
+    type: 'circular',
+  },
+});
+```
 
 ## Options
 
-### angleRatio
-
-> _number_ **Default:** `1`
-
-The distance between the first node and the last node is separated by how many 2\*PI
-
-### center
-
-> _PointTuple_
-
-Layout center
-
-### clockwise
-
-> _boolean_ **Default:** `true`
-
-Whether to arrange clockwise
-
-### divisions
-
-> _number_ **Default:** `1`
-
-Number of segments (how many segments will be evenly distributed)
-
-It takes effect when endRadius - startRadius != 0
-
-### endAngle
-
-> _number_
-
-End angle
-
-### endRadius
-
-> _number \| null_ **Default:** `null`
-
-Spiral layout end radius
-
-### height
-
-> _number_
-
-Layout height
-
-### nodeSize
-
-> _Size_ _\| ((nodeData:_ _Node) =>_ _Size)_
-
-Node size (diameter). Used for collision detection when nodes overlap
-
-### nodeSpacing
-
-> _((node?:_ _Node) => number) \| number_
-
-Minimum spacing between rings, used to adjust the radius
+| Property    | Description                                                                                                       | Type                                          | Default                                   | Required |
+| ----------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ----------------------------------------- | -------- |
+| type        | Layout type                                                                                                       | circular                                      | -                                         | ✓        |
+| angleRatio  | How many 2\*PI between the first and last node                                                                    | number                                        | 1                                         |          |
+| center      | Center of the layout                                                                                              | [number, number]\|[number, number, number]    | [`layout width` / 2, `layout height` / 2] |          |
+| clockwise   | Whether to arrange clockwise                                                                                      | boolean                                       | true                                      |          |
+| divisions   | Number of segments on the ring (segments will be evenly distributed, effective when endRadius - startRadius != 0) | number                                        | 1                                         |          |
+| nodeSize    | Node size (diameter), used for collision detection                                                                | Size \| ((nodeData: Node) => Size)            | 10                                        |          |
+| nodeSpacing | Minimum spacing between rings, used to adjust radius                                                              | number \| ((nodeData: Node) => number)        | 10                                        |          |
+| ordering    | Node ordering on the ring, [see details](#ordering)                                                               | `topology` \| `topology-directed` \| `degree` | -                                         |          |
+| radius      | Circle radius, if set, spiral layout configs `startRadius` and `endRadius` are ignored, [see details](#radius)    | number                                        | -                                         |          |
+| startAngle  | Start angle of the layout                                                                                         | number                                        | 0                                         |          |
+| endAngle    | End angle of the layout                                                                                           | number                                        | 2 \* Math.PI                              |          |
+| startRadius | Start radius for spiral layout, [usage](#spiral-layout)                                                           | number                                        | -                                         |          |
+| endRadius   | End radius for spiral layout                                                                                      | number                                        | -                                         |          |
+| width       | Layout width                                                                                                      | number                                        | canvas width                              |          |
+| height      | Layout height                                                                                                     | number                                        | canvas height                             |          |
 
 ### ordering
 
-> _'topology' \| 'topology-directed' \| 'degree' \| null_ **Default:** `null`
+Node ordering on the ring
 
-节点在环上排序的依据
+- `topology`: topological order
+- `topology-directed`: topological order (directed graph)
+- `degree`: order by degree
 
-- null: 直接使用数据中的顺序
-
-- 'topology': 按照拓扑排序
-
-- 'topology-directed': 按照拓扑排序（有向图）
-
-- 'degree': 按照度数大小排序 Sorting basis of nodes on the ring
-
-- null: Use the order in the data directly
-
-- 'topology': Sort according to topological order
-
-- 'topology-directed': Sort according to topological order (directed graph)
-
-- 'degree': Sort according to degree size
+If not set (`null`), the order in the array is used directly
 
 ### radius
 
-> _number \| null_ **Default:** `null`
+If radius, startRadius, and endRadius are not set, the default is `Math.min(layout width, layout height) / 2`, i.e., fills the entire layout area
 
-Circle radius
+## Code Examples
 
-If radius is set, startRadius and endRadius will not take effect
+### Basic Circular Layout
 
-### startAngle
+```javascript
+const graph = new Graph({
+  // other configurations
+  layout: {
+    type: 'circular',
+  },
+});
+```
 
-> _number_
+<Playground path="layout/circular/demo/basic.js" rid="circular-basic"></Playground>
 
-Start angle
+### Spiral Layout
 
-### startRadius
+```javascript
+const graph = new Graph({
+  // other configurations
+  layout: {
+    type: 'circular',
+    startRadius: 10,
+    endRadius: 300,
+  },
+});
+```
 
-> _number \| null_ **Default:** `null`
-
-Spiral layout start radius
-
-### width
-
-> _number_
-
-Layout width
+<Playground path="layout/circular/demo/spiral.js" rid="circular-spiral"></Playground>

@@ -1,131 +1,111 @@
 ---
-title: D3Force3D
+title: D3Force3D 3D Force-Directed Layout
 ---
+
+## Overview
+
+The D3Force3D layout is a 3D extension based on [d3-force](https://d3js.org/d3-force), which simulates physical forces in three-dimensional space to achieve automatic layout. Compared to 2D layouts, it adds force effects in the Z-axis direction, allowing richer data relationships to be displayed in 3D space.
+
+<img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*4mbSTJLOXkgAAAAAAAAAAAAADmJ7AQ/original" alt="3D Force-Directed Layout Illustration" />
+
+## Core Concepts
+
+### Force System
+
+D3Force3D extends the traditional 2D force-directed layout with the following forces:
+
+- **3D Centering Force**: Pulls nodes toward the center point in 3D space
+- **3D Collision Force**: Prevents node overlap in 3D space
+- **3D Radial Force**: Attracts nodes to a sphere in 3D space
+- **3D Axis Forces**: Applies forces along the X, Y, and Z axes
+
+### Iteration System
+
+The layout is computed through iterations, mainly involving the following parameters:
+
+- **alpha**: The current energy value of the iteration, controlling node movement speed
+- **alphaDecay**: The decay rate of the energy value
+- **alphaMin**: The minimum energy value; iteration stops below this value
+- **velocityDecay**: The velocity decay factor
 
 ## Options
 
-### alpha
+| Property        | Description                                                      | Type                                                                       | Default       | Required |
+| --------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------- | -------- |
+| type            | Layout type                                                      | string                                                                     | `d3-force-3d` | ✓        |
+| nodeSize        | Node size (diameter), used for collision detection               | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -             |          |
+| iterations      | Number of force iterations; higher means more precise but slower | number                                                                     | -             |          |
+| numDimensions   | Number of dimensions (2 or 3)                                    | number                                                                     | 3             |          |
+| forceSimulation | Custom force simulation method                                   | Simulation<NodeDatum, EdgeDatum>                                           | -             |          |
+| onTick          | Callback for each iteration                                      | (data: LayoutMapping) => void                                              | -             |          |
+| randomSource    | Random number generator                                          | () => number                                                               | -             |          |
 
-> _number_
+### Iteration Control
 
-Convergence threshold of the current iteration
+| Property      | Description                   | Type   | Default | Required |
+| ------------- | ----------------------------- | ------ | ------- | -------- |
+| alpha         | Current convergence threshold | number | 1       |          |
+| alphaDecay    | Convergence decay rate (0-1)  | number | 0.028   |          |
+| alphaMin      | Stop iteration threshold      | number | 0.001   |          |
+| alphaTarget   | Target convergence threshold  | number | 0       |          |
+| velocityDecay | Velocity decay factor         | number | 0.4     |          |
 
-### alphaDecay
+### Force Model Options
 
-> _number_
+#### Centering Force (center)
 
-Convergence threshold of the current iteration
+| Property        | Description         | Type   | Default | Required |
+| --------------- | ------------------- | ------ | ------- | -------- |
+| center.x        | Center x coordinate | number | 0       |          |
+| center.y        | Center y coordinate | number | 0       |          |
+| center.z        | Center z coordinate | number | 0       |          |
+| center.strength | Force strength      | number | 1       |          |
 
-### alphaMin
+#### Collision Force (collide)
 
-> _number_
+| Property           | Description          | Type                                                                       | Default | Required |
+| ------------------ | -------------------- | -------------------------------------------------------------------------- | ------- | -------- |
+| collide.radius     | Collision radius     | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | 10      |          |
+| collide.strength   | Force strength       | number                                                                     | 1       |          |
+| collide.iterations | Collision iterations | number                                                                     | 1       |          |
 
-Convergence threshold of the current iteration
+#### Link Force (link)
 
-### alphaTarget
+| Property        | Description           | Type                                                                       | Default | Required |
+| --------------- | --------------------- | -------------------------------------------------------------------------- | ------- | -------- |
+| link.id         | Edge id generator     | (edge: EdgeDatum, index: number, edges: EdgeDatum[]) => string             | edge.id |          |
+| link.distance   | Ideal edge length     | number \| ((edge: EdgeDatum, index: number, edges: EdgeDatum[]) => number) | 30      |          |
+| link.strength   | Force strength        | number \| ((edge: EdgeDatum, index: number, edges: EdgeDatum[]) => number) | 1       |          |
+| link.iterations | Link force iterations | number                                                                     | 1       |          |
 
-> _number_
+#### Many-Body Force (manyBody)
 
-Set the target convergence threshold of the current iteration
+| Property             | Description                  | Type                                                                       | Default  | Required |
+| -------------------- | ---------------------------- | -------------------------------------------------------------------------- | -------- | -------- |
+| manyBody.strength    | Force strength               | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -30      |          |
+| manyBody.theta       | Barnes-Hut accuracy          | number                                                                     | 0.9      |          |
+| manyBody.distanceMin | Minimum interaction distance | number                                                                     | 1        |          |
+| manyBody.distanceMax | Maximum interaction distance | number                                                                     | Infinity |          |
 
-### center
+#### Radial Force (radial)
 
-> _false \| { x?: number; y?: number; strength?: number; }_
+| Property        | Description     | Type                                                                       | Default | Required |
+| --------------- | --------------- | -------------------------------------------------------------------------- | ------- | -------- |
+| radial.strength | Force strength  | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | 0.1     |          |
+| radial.radius   | Target radius   | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | 100     |          |
+| radial.x        | Sphere center x | number                                                                     | 0       |          |
+| radial.y        | Sphere center y | number                                                                     | 0       |          |
+| radial.z        | Sphere center z | number                                                                     | 0       |          |
 
-Center force
+#### Axis Forces (x, y, z)
 
-### collide
+Each axis can be configured separately:
 
-> _false \| { radius?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); strength?: number; iterations?: number; }_
-
-Collision force
-
-### forceSimulation
-
-> _Simulation**&lt;**NodeDatum\_\_,_ _EdgeDatum\_\_>_
-
-Custom force method, if not specified, use d3.js method
-
-### iterations
-
-> _number_
-
-Number of iterations 设置的是力的迭代次数，而不是布局的迭代次数
-
-The number of iterations of the force, not the layout
-
-### link
-
-> _false \| { id?: (edge:_ _EdgeDatum\_\_, index: number, edges:_ _EdgeDatum\_\_[]) => string; distance?: number \| ((edge:_ _EdgeDatum\_\_, index: number, edges:_ _EdgeDatum\_\_[]) => number); strength?: number \| ((edge:_ _EdgeDatum\_\_, index: number, edges:_ _EdgeDatum\_\_[]) => number); iterations?: number; }_
-
-Link force
-
-### manyBody
-
-> _false \| { strength?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); theta?: number; distanceMin?: number; distanceMax?: number; }_
-
-Many body force
-
-### nodeSize
-
-> _number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number)_ **Default:** `10`
-
-Node size (diameter). Used for collision detection when nodes overlap
-
-### onTick
-
-> _(data:_ _LayoutMapping\_\_) => void_
-
-Callback executed on each tick
-
-### radial
-
-> _false \| { strength?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); radius?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); x?: number; y?: number; }_
-
-Radial force
-
-### randomSource
-
-> _() => number_
-
-Set the function for generating random numbers
-
-### velocityDecay
-
-> _number_
-
-Specify the decay factor
-
-### x
-
-> _false \| { strength?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); x?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); }_
-
-X axis force
-
-### y
-
-> _false \| { strength?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); y?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); }_
-
-Y axis force
-
-### center
-
-> _false \| { x?: number; y?: number; z?: number; strength?: number; }_
-
-中心力 Center force
-
-### numDimensions
-
-> _number_
-
-### radial
-
-> _false \| { strength?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); radius?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); x?: number; y?: number; z?: number; }_
-
-Radial force
-
-### z
-
-> _false \| { strength?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); z?: number \| ((node:_ _NodeDatum\_\_, index: number, nodes:_ _NodeDatum\_\_[]) => number); }_
-
-Z axis force
+| Property   | Description           | Type                                                                       | Default | Required |
+| ---------- | --------------------- | -------------------------------------------------------------------------- | ------- | -------- |
+| x.strength | X-axis force strength | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -       |          |
+| x.x        | Target x coordinate   | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -       |          |
+| y.strength | Y-axis force strength | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -       |          |
+| y.y        | Target y coordinate   | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -       |          |
+| z.strength | Z-axis force strength | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -       |          |
+| z.z        | Target z coordinate   | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -       |          |

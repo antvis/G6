@@ -4,7 +4,7 @@ title: CompactBox 紧凑树
 
 ## 概述
 
-紧凑树布局适用于结构化树形数据的展示，基于经典的 [Reingold–Tilford tidy 布局算法](http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf) 演进而来，通过布局时综合考虑每个树节点的包围盒，有效保持树结构的紧凑性与层次清晰。参考更多 CompactBox 布局[样例](https://g6.antv.antgroup.com/examples#layout-compact-box)和[源码](https://github.com/antvis/hierarchy/blob/master/src/compact-box.js)
+紧凑树布局适用于结构化树形数据的展示，基于经典的 [Reingold–Tilford tidy 布局算法](http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf) 演进而来，通过布局时综合考虑每个树节点的包围盒，有效保持树结构的紧凑性与层次清晰。参考更多 CompactBox 布局[样例](/examples#layout-compact-box)和[源码](https://github.com/antvis/hierarchy/blob/master/src/compact-box.js)
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width=650 alt='CompactBox 紧凑树布局示例'/>
 

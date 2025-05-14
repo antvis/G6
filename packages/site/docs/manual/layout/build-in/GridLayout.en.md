@@ -4,11 +4,11 @@ title: Grid Layout
 
 ## Overview
 
-The grid layout arranges nodes in a grid pattern, suitable for scenarios that require neat node arrangement. It supports automatic calculation of rows and columns, manual specification of rows and columns, and prevention of node overlap.
+The grid layout arranges nodes in a grid pattern, suitable for scenarios where nodes need to be arranged neatly. This layout supports automatic calculation of the number of rows and columns, or you can specify them manually. It also supports preventing node overlap.
 
 ## Use Cases
 
-- Need to display matrix or table-like data relationships in data visualization
+- Visualizing data in a matrix or table format
 
 ## Online Demo
 
@@ -114,21 +114,21 @@ const graph = new Graph({
 
 ## Options
 
-| Property              | Description                                                                                                                       | Type                                             | Default   | Required |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | --------- | -------- |
-| type                  | Layout type                                                                                                                       | `grid`                                           | -         | ✓        |
-| begin                 | Starting position of the grid (upper left corner), default is `[0, 0]`                                                            | [number, number]                                 | [0, 0]    |          |
-| cols                  | Number of columns in the grid, calculated automatically when undefined based on node count, layout space, and rows (if specified) | number                                           | undefined |          |
-| rows                  | Number of rows in the grid, calculated automatically when undefined based on node count, layout space, and cols (if specified)    | number                                           | 10        |          |
-| width                 | Layout area width, using container width as default in G6                                                                         | number                                           | 300       |          |
-| height                | Layout area height, using container height as default in G6                                                                       | number                                           | 300       |          |
-| condense              | When false, use all available canvas space; when true, use minimum canvas space                                                   | boolean                                          | false     |          |
-| nodeSize              | Node size (diameter), used for collision detection when preventing overlap                                                        | Size \| ((nodeData: Node) => Size)               | -         |          |
-| nodeSpacing           | Node spacing, used to adjust the interval between nodes                                                                           | ((node?: Node) => number) \| number              | -         |          |
-| position              | Specify the row and column for each node                                                                                          | (node?: Node) => { row?: number; col?: number; } | undefined |          |
-| preventOverlap        | Whether to prevent node overlap, requires nodeSize or size property in node data                                                  | boolean                                          | false     |          |
-| preventOverlapPadding | Padding between nodes when preventing overlap, takes effect when preventOverlap is true                                           | number                                           | 10        |          |
-| sortBy                | Sorting basis (node attribute name), higher values place nodes closer to center. If undefined, node degree is used                | string                                           | undefined |          |
+| Property              | Description                                                                                                                     | Type                                             | Default   | Required |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | --------- | -------- |
+| type                  | Layout type                                                                                                                     | `grid`                                           | -         | ✓        |
+| begin                 | Grid start position (top-left corner), default is `[0, 0]`                                                                      | [number, number]                                 | [0, 0]    |          |
+| cols                  | Number of columns. If undefined, the algorithm calculates it automatically based on node count, layout space, and rows (if set) | number                                           | undefined |          |
+| rows                  | Number of rows. If undefined, the algorithm calculates it automatically based on node count, layout space, and cols (if set)    | number                                           | 10        |          |
+| width                 | Layout area width. In G6, the container width is used as the default value                                                      | number                                           | 300       |          |
+| height                | Layout area height. In G6, the container height is used as the default value                                                    | number                                           | 300       |          |
+| condense              | If false, uses all available canvas space; if true, uses the minimum canvas space                                               | boolean                                          | false     |          |
+| nodeSize              | Node size (diameter), used for collision detection when preventing overlap                                                      | Size \| ((nodeData: Node) => Size)               | -         |          |
+| nodeSpacing           | Node spacing, used to adjust the gap between nodes                                                                              | ((node?: Node) => number) \| number              | -         |          |
+| position              | Specify the row and column for each node                                                                                        | (node?: Node) => { row?: number; col?: number; } | undefined |          |
+| preventOverlap        | Whether to prevent node overlap. Requires nodeSize or size property in node data                                                | boolean                                          | false     |          |
+| preventOverlapPadding | Padding when preventing overlap. Effective when preventOverlap is true                                                          | number                                           | 10        |          |
+| sortBy                | Sort basis (node property name). Higher values are placed more centrally. If undefined, degree is used for sorting              | string                                           | undefined |          |
 
 ### preventOverlap
 
@@ -136,19 +136,19 @@ const graph = new Graph({
 
 Whether to prevent overlap
 
-Must be used with the following properties: nodeSize or data.size in the data. When data.size is set or nodeSize is configured with the same value as the current graph node size in the layout, the collision detection of node overlap can be performed
+Must be used with nodeSize or the size property in node data. Only when data has data.size or nodeSize is set in the layout, collision detection for node overlap can be performed.
 
 ### preventOverlapPadding
 
 > _number_ **Default:** `10`
 
-Padding between nodes to prevent overlap. It takes effect when preventOverlap is true
+Padding when preventing overlap. Effective when preventOverlap is true.
 
 ### sortBy
 
 > _string_ **Default:** `undefined`
 
-Specify the basis for sorting (node attribute name). The higher the value, the more the node will be placed in the center. If it is undefined, the degree of the node will be calculated, and the higher the degree, the more the node will be placed in the center
+Sort basis (node property name). Higher values are placed more centrally. If undefined, degree is used for sorting. In G6, the container width is used as the default value for grid layout width. When used alone, the default is 300.
 
 ## Code Examples
 
@@ -179,7 +179,7 @@ const graph = new Graph({
 });
 ```
 
-Effect:
+Result:
 
 ```js | ob { pin: false }
 createGraph(
@@ -222,27 +222,27 @@ createGraph(
 
 ### Custom Configuration
 
-Various ways to customize the grid layout:
+You can customize the grid layout in various ways:
 
 ```js
 const graph = new Graph({
   layout: {
     type: 'grid',
-    begin: [50, 50], // Start layout from coordinate [50, 50]
-    cols: 4, // Specify 4 columns
-    rows: 6, // Specify 6 rows
+    begin: [50, 50], // Start layout from [50, 50]
+    cols: 4, // 4 columns
+    rows: 6, // 6 rows
     width: 400, // Layout area width
     height: 600, // Layout area height
     preventOverlap: true, // Prevent node overlap
     nodeSize: 30, // Node size
     condense: true, // Use minimum space
-    sortBy: 'value', // Sort by value attribute
+    sortBy: 'value', // Sort by value property
   },
   data: {
     nodes: Array.from({ length: 24 }, (_, i) => ({
       id: `node-${i}`,
       data: {
-        value: Math.random() * 100, // Attribute for sorting
+        value: Math.random() * 100, // Property for sorting
       },
     })),
     edges: Array.from({ length: 20 }, (_, i) => ({
@@ -254,7 +254,7 @@ const graph = new Graph({
 });
 ```
 
-Effect:
+Result:
 
 ```js | ob { pin: false }
 createGraph(
@@ -309,7 +309,7 @@ createGraph(
 
 ### Specify Node Position
 
-Specify positions for specific nodes using the `position` property:
+You can specify the position for specific nodes using the `position` property:
 
 ```js
 const graph = new Graph({
@@ -318,12 +318,12 @@ const graph = new Graph({
     cols: 5,
     rows: 5,
     position: (node) => {
-      // Specify positions for specific nodes
-      if (node.id === 'node-0') return { row: 0, col: 0 }; // Upper left corner
-      if (node.id === 'node-1') return { row: 0, col: 4 }; // Upper right corner
-      if (node.id === 'node-2') return { row: 4, col: 0 }; // Lower left corner
-      if (node.id === 'node-3') return { row: 4, col: 4 }; // Lower right corner
-      return undefined; // Other nodes are automatically laid out
+      // Specify position for specific nodes
+      if (node.id === 'node-0') return { row: 0, col: 0 }; // Top-left
+      if (node.id === 'node-1') return { row: 0, col: 4 }; // Top-right
+      if (node.id === 'node-2') return { row: 4, col: 0 }; // Bottom-left
+      if (node.id === 'node-3') return { row: 4, col: 4 }; // Bottom-right
+      return undefined; // Other nodes are auto-arranged
     },
   },
   data: {
@@ -339,7 +339,7 @@ const graph = new Graph({
 });
 ```
 
-Effect:
+Result:
 
 ```js | ob { pin: false }
 createGraph(
@@ -384,6 +384,6 @@ createGraph(
 );
 ```
 
-## Real-world Examples
+## Real Cases
 
 - [Grid Layout](/en/examples/layout/grid/#basic)

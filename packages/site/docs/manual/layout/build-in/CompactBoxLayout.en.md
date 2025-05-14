@@ -1,48 +1,65 @@
 ---
-title: CompactBox
+title: CompactBox Tidy Tree
 ---
 
-Compact Box Tree Layout. This is the default layout for tree diagrams,its characteristic is that during the layout process, it takes into account the bounding box of each tree node, derived from the classic <a href='http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf' target='_blank'>Reingold–Tilford tidy layout algorithm</a>suitable for applications such as mind maps.
+## Overview
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width=650 alt='img'/>
+The CompactBox layout is suitable for visualizing structured tree data. It is evolved from the classic [Reingold–Tilford tidy layout algorithm](http://emr.cs.iit.edu/~reingold/tidier-drawings.pdf), and considers the bounding box of each tree node during layout, effectively maintaining the compactness and hierarchical clarity of the tree structure. See more CompactBox layout [examples](/en/examples#layout-compact-box) and [source code](https://github.com/antvis/hierarchy/blob/master/src/compact-box.js).
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z-ESRoHTpvIAAAAAAAAAAABkARQnAQ' width=650 alt='CompactBox Tidy Tree Layout Example'/>
+
+## Usage Scenarios
+
+- Decision trees: The compact tree layout can visually and intuitively display each decision path.
+- Knowledge graphs: Show hierarchical relationships and connections between concepts. The compact layout can present complex knowledge networks in limited space.
+
+## Configuration
+
+```js
+const graph = new Graph({
+  layout: {
+    type: 'compact-box',
+    direction: 'LR',
+    getHeight: () => 16,
+    getWidth: () => 16,
+    getVGap: () => 16,
+    getHGap: () => 40,
+  },
+});
+```
 
 ## Options
 
+| Property  | Description                                                                                                   | Type                                                         | Default | Required |
+| --------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- | -------- |
+| type      | Layout type                                                                                                   | `compact-box`                                                | -       | ✓        |
+| direction | Layout direction, [options](#direction)                                                                       | `LR` \| `RL` \| `TB` \| `BT` \| `H` \| `V`                   | `LR`    |          |
+| getSide   | Set whether the node is on the left or right of the root. Only works for `H` direction. [See below](#getside) | (d?: [NodeData](/en/manual/data#节点数据nodedata)) => string |         |          |
+| getId     | Callback for node id                                                                                          | (d?: [NodeData](/en/manual/data#节点数据nodedata)) => string |         |          |
+| getWidth  | Callback for node width                                                                                       | (d?: [NodeData](/en/manual/data#节点数据nodedata)) => number |         |          |
+| getHeight | Callback for node height                                                                                      | (d?: [NodeData](/en/manual/data#节点数据nodedata)) => number |         |          |
+| getHGap   | Callback for horizontal gap                                                                                   | (d?: [NodeData](/en/manual/data#节点数据nodedata)) => number |         |          |
+| getVGap   | Callback for vertical gap                                                                                     | (d?: [NodeData](/en/manual/data#节点数据nodedata)) => number |         |          |
+| radial    | Whether to enable radial layout, [see below](#radial)                                                         | boolean                                                      | false   |          |
+
 ### direction
 
-> _'LR' \| 'RL' \| 'TB' \| 'BT' \| 'H' \| 'V'_ **Default:** `'LR'`
+> `LR` \| `RL` \| `TB` \| `BT` \| `H` \| `V` **Default:** `LR`
 
-Tree Layout Direction
+Tree layout direction
 
-- `'TB'`: The root node is at the top, with the layout oriented downwards
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KrAqTrFbNjMAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
-
-- `'BT'`: The root node is at the bottom, with the layout oriented upwards
-
- <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vNmOTJ4q0uwAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
-
-- `'LR'`: The root node is on the left, with the layout oriented to the right
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ffD6S74MXw4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
-
-- `'RL'`: The root node is on the right, with the layout oriented to the left
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*vTg2SJbtj_sAAAAAAAAAAABkARQnAQ' width=60 alt='img'/>
-
-- `'H'`: The root node is in the center, with a horizontally symmetrical layout
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0GsIQISvieYAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
-
-- `'V'`: The root node is in the center, with a vertically symmetrical layout
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E0c8TIYRPYoAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
+- `TB`: Root at the top, layout downwards
+- `BT`: Root at the bottom, layout upwards
+- `LR`: Root at the left, layout to the right
+- `RL`: Root at the right, layout to the left
+- `H`: Root in the middle, horizontal symmetric layout. You can use `getSide` to specify the left/right logic for each node
+- `V`: Root in the middle, vertical symmetric layout
 
 ### getSide
 
-> (d?:\_ _Node\_\_) => string_
+> _(d?: [NodeData](/en/manual/data#节点数据nodedata)) => string_
 
-Nodes are arranged to the left/right side of the root node. If this value is set, all nodes will be on the same side of the root node, which means the 'direction' = 'H' will no longer be effective. If this parameter is a callback function, it can specify the left/right side of the root node for each individual node.
+Set whether the node is on the left or right of the root. Only works for `H` direction. If not set, the algorithm will automatically assign left/right. See [getSide auto logic](https://github.com/antvis/hierarchy/blob/d786901874f59d96c47e2a5dfe17b373eefd72e3/src/layout/separate-root.js#L11).
 
 Example:
 
@@ -56,9 +73,9 @@ Example:
 
 ### getId
 
-> (d?:\_ _Node\_\_) => string_
+> _(d?: [NodeData](/en/manual/data#节点数据nodedata)) => string_
 
-Callback function for node id
+Callback for node id
 
 Example:
 
@@ -71,9 +88,9 @@ Example:
 
 ### getWidth
 
-> (d?:\_ _Node\_\_) => number_
+> _(d?: [NodeData](/en/manual/data#节点数据nodedata)) => number_
 
-The width of each node
+Callback for node width
 
 Example:
 
@@ -87,9 +104,9 @@ Example:
 
 ### getHeight
 
-> (d?:\_ _Node\_\_) => number_
+> _(d?: [NodeData](/en/manual/data#节点数据nodedata)) => number_
 
-The height of each node
+Callback for node height
 
 Example:
 
@@ -103,9 +120,9 @@ Example:
 
 ### getHGap
 
-> (d?:\_ _Node\_\_) => number_
+> _(d?: [NodeData](/en/manual/data#节点数据nodedata)) => number_
 
-The horizontal gap between each node
+Callback for horizontal gap
 
 Example:
 
@@ -119,9 +136,9 @@ Example:
 
 ### getVGap
 
-> (d?:\_ _Node\_\_) => number_
+> _(d?: [NodeData](/en/manual/data#节点数据nodedata)) => number_
 
-The vertical gap between each node
+Callback for vertical gap
 
 Example:
 
@@ -137,6 +154,10 @@ Example:
 
 > _boolean_
 
-Whether to use a radial layout. If `radial` is set to `true`, it is recommended to set `direction` to `'LR'` or `'RL'`.
+Whether to use radial layout. If `radial` is `true`, it is recommended to set `direction` to `'LR'` or `'RL'`.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E0c8TIYRPYoAAAAAAAAAAABkARQnAQ' width=200 alt='img'/>
+
+## Example Code
+
+<Playground path="layout/compact-box/demo/basic.js" rid="circular-basic"></Playground>
