@@ -1,49 +1,98 @@
 ---
-title: Shape 样式属性
+title: 原子 Shape 以及其属性
 order: 2
 ---
 
-G6 中支持以下的图形 Shape：
+G6 中的元素（节点/边）是由**一个或多个 [图形 Shape](/manual/element/shape/overview)** 组成，主要通过自定义节点或自定义边时在 `render` 方法中使用 `upsert` 添加，G6 中支持以下的图形 Shape：
 
-1. DisplayObject - 基础对象
-2. Circle - 圆形
-3. Ellipse - 椭圆
-4. Rect - 矩形
-5. HTML - HTML元素
-6. Image - 图片
-7. Line - 线
-8. Path - 路径
-9. Polygon - 多边形
-10. Polyline - 折线
-11. Text - 文本
+1. [Circle - 圆形](#circlestyleprops)
+2. [Ellipse - 椭圆](#ellipsestyleprops)
+3. [Rect - 矩形](#rectstyleprops)
+4. [HTML - HTML元素](#htmlstyleprops)
+5. [Image - 图片](#imagestyleprops)
+6. [Line - 线](#linestyleprops)
+7. [Path - 路径](#pathstyleprops)
+8. [Polygon - 多边形](#polygonstyleprops)
+9. [Polyline - 折线](#polylinestyleprops)
+10. [Text - 文本](#textstyleprops)
 
-## BaseShapeStyle
+## 各图形 Shape 的通用属性
 
-| 属性           | 描述            | 类型                                     | 必选 |
-| -------------- | --------------- | ---------------------------------------- | ---- |
-| x              | x 坐标          | number                                   | ✓    |
-| y              | y 坐标          | number                                   | ✓    |
-| width          | 宽度            | number                                   | ✓    |
-| height         | 高度            | number                                   | ✓    |
-| fill           | 填充颜色        | string \| Pattern \| null                |      |
-| stroke         | 描边颜色        | string \| Pattern \| null                |      |
-| opacity        | 整体透明度      | number \| string                         |      |
-| fillOpacity    | 填充透明度      | number \| string                         |      |
-| strokeOpacity  | 描边透明度      | number \| string                         |      |
-| lineWidth      | 线宽度          | number \| string                         |      |
-| lineCap        | 线段端点样式    | `butt` \| `round` \| `square`            |      |
-| lineJoin       | 线段连接处样式  | `miter` \| `round` \| `bevel`            |      |
-| lineDash       | 虚线配置        | number \| string \| (string \| number)[] |      |
-| lineDashOffset | 虚线偏移量      | number                                   |      |
-| shadowBlur     | 阴影模糊程度    | number                                   |      |
-| shadowColor    | 阴影颜色        | string                                   |      |
-| shadowOffsetX  | 阴影 X 方向偏移 | number                                   |      |
-| shadowOffsetY  | 阴影 Y 方向偏移 | number                                   |      |
-| cursor         | 鼠标样式        | string                                   |      |
-| zIndex         | 渲染层级        | number                                   |      |
-| visibility     | 可见性          | `visible` \| `hidden`                    |      |
+### BaseShapeStyle
 
-## CircleStyleProps
+| 属性           | 描述                                                                                          | 类型                                     | 必选 |
+| -------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------- | ---- |
+| x              | x 坐标                                                                                        | number                                   | ✓    |
+| y              | y 坐标                                                                                        | number                                   | ✓    |
+| width          | 宽度                                                                                          | number                                   | ✓    |
+| height         | 高度                                                                                          | number                                   | ✓    |
+| fill           | 填充颜色                                                                                      | string \| Pattern \| null                |      |
+| stroke         | 描边颜色                                                                                      | string \| Pattern \| null                |      |
+| opacity        | 整体透明度                                                                                    | number \| string                         |      |
+| fillOpacity    | 填充透明度                                                                                    | number \| string                         |      |
+| strokeOpacity  | 描边透明度                                                                                    | number \| string                         |      |
+| lineWidth      | 线宽度                                                                                        | number \| string                         |      |
+| lineCap        | 线段端点样式                                                                                  | `butt` \| `round` \| `square`            |      |
+| lineJoin       | 线段连接处样式                                                                                | `miter` \| `round` \| `bevel`            |      |
+| lineDash       | 虚线配置                                                                                      | number \| string \| (string \| number)[] |      |
+| lineDashOffset | 虚线偏移量                                                                                    | number                                   |      |
+| shadowBlur     | 阴影模糊程度                                                                                  | number                                   |      |
+| shadowColor    | 阴影颜色                                                                                      | string                                   |      |
+| shadowOffsetX  | 阴影 X 方向偏移                                                                               | number                                   |      |
+| shadowOffsetY  | 阴影 Y 方向偏移                                                                               | number                                   |      |
+| cursor         | 鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持 | string                                   |      |
+| zIndex         | 渲染层级                                                                                      | number                                   |      |
+| visibility     | 可见性                                                                                        | `visible` \| `hidden`                    |      |
+
+**示例：**
+
+```js
+const shape = BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'circle',
+  {
+    cx: 100,
+    cy: 100,
+    r: 50,
+    fill: 'blue',
+  },
+  container,
+);
+```
+
+## 各图形 Shape 的通用方法
+
+### attr()
+
+设置或获取实例的绘图属性。
+
+### attr(name)
+
+获取实例的属性值。
+
+```js
+const width = shape.attr('width');
+```
+
+### attr(name, value)
+
+更新实例的单个绘图属性。
+
+### attr({...})
+
+批量更新实例绘图属性。
+
+```js
+shape.attr({
+  fill: '#999',
+  stroke: '#666',
+});
+```
+
+## 圆图形 Circle
+
+### CircleStyleProps
 
 | 属性              | 描述                               | 类型             | 必选 |
 | ----------------- | ---------------------------------- | ---------------- | ---- |
@@ -54,7 +103,60 @@ G6 中支持以下的图形 Shape：
 | isBillboard       | 是否启用公告牌模式（始终面向相机） | boolean          |      |
 | isSizeAttenuation | 是否启用大小衰减（随视距变化大小） | boolean          |      |
 
-## EllipseStyleProps
+**示例：**
+
+```js
+BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'circle',
+  {
+    cx: 100,
+    cy: 100,
+    r: 50,
+    fill: 'blue',
+  },
+  container,
+);
+```
+
+## 矩形图形 Rect
+
+### RectStyleProps
+
+| 属性              | 描述               | 类型                         | 必选 |
+| ----------------- | ------------------ | ---------------------------- | ---- |
+| x                 | 矩形 x 坐标        | number \| string             |      |
+| y                 | 矩形 y 坐标        | number \| string             |      |
+| z                 | 矩形 z 坐标        | number                       |      |
+| width             | 矩形宽度           | number \| string             | ✓    |
+| height            | 矩形高度           | number \| string             | ✓    |
+| isBillboard       | 是否启用公告牌模式 | boolean                      |      |
+| isSizeAttenuation | 是否启用大小衰减   | boolean                      |      |
+| radius            | 矩形圆角半径       | number \| string \| number[] |      |
+
+**示例：**
+
+```js
+BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'rect',
+  {
+    x: 100,
+    y: 100,
+    width: 100,
+    height: 100,
+    radius: 8,
+    fill: 'blue',
+  },
+  container,
+);
+```
+
+## 椭圆图形 Ellipse
+
+### EllipseStyleProps
 
 | 属性              | 描述               | 类型             | 必选 |
 | ----------------- | ------------------ | ---------------- | ---- |
@@ -66,7 +168,27 @@ G6 中支持以下的图形 Shape：
 | isBillboard       | 是否启用公告牌模式 | boolean          |      |
 | isSizeAttenuation | 是否启用大小衰减   | boolean          |      |
 
-## HTMLStyleProps
+**示例：**
+
+```js
+BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'ellipse',
+  {
+    cx: 100,
+    cy: 100,
+    rx: 50,
+    ry: 80,
+    fill: 'blue',
+  },
+  container,
+);
+```
+
+## HTML DOM
+
+### HTMLStyleProps
 
 | 属性      | 描述             | 类型                  | 必选 |
 | --------- | ---------------- | --------------------- | ---- |
@@ -76,7 +198,25 @@ G6 中支持以下的图形 Shape：
 | width     | HTML 元素宽度    | number \| string      |      |
 | height    | HTML 元素高度    | number \| string      |      |
 
-## ImageStyleProps
+**示例：**
+
+```js
+BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'html',
+  {
+    x: 100,
+    y: 100,
+    innerHTML: <div>content</div>,
+  },
+  container,
+);
+```
+
+## 图片图形 Image
+
+### ImageStyleProps
 
 | 属性              | 描述                         | 类型                       | 必选 |
 | ----------------- | ---------------------------- | -------------------------- | ---- |
@@ -91,7 +231,25 @@ G6 中支持以下的图形 Shape：
 | billboardRotation | 公告牌模式下的旋转角度       | number                     |      |
 | keepAspectRatio   | 是否保持图片原有宽高比       | boolean                    |      |
 
-## LineStyleProps
+**示例：**
+
+```js
+BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'image',
+  {
+    x: 100,
+    y: 100,
+    src: 'http://',
+  },
+  container,
+);
+```
+
+## 直线 Line
+
+### LineStyleProps
 
 | 属性              | 描述               | 类型                  | 必选 |
 | ----------------- | ------------------ | --------------------- | ---- |
@@ -108,7 +266,27 @@ G6 中支持以下的图形 Shape：
 | markerStartOffset | 起点标记的偏移量   | number                |      |
 | markerEndOffset   | 终点标记的偏移量   | number                |      |
 
-## PathStyleProps
+**示例：**
+
+```js
+BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'line',
+  {
+    x1: 100,
+    y1: 100,
+    x2: 150,
+    y2: 150,
+    stroke: 'blue',
+  },
+  container,
+);
+```
+
+## 路径 Path
+
+### PathStyleProps
 
 | 属性              | 描述                 | 类型                   | 必选 |
 | ----------------- | -------------------- | ---------------------- | ---- |
@@ -122,7 +300,24 @@ G6 中支持以下的图形 Shape：
 | isSizeAttenuation | 是否启用大小衰减     | boolean                |      |
 | fillRule          | 填充规则             | `nonzero` \| `evenodd` |      |
 
-## PolygonStyleProps
+**示例：**
+
+```js
+BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'path',
+  {
+    d: 'M 0,0 L 20,10 L 20,-10 Z',
+    stroke: 'blue',
+  },
+  container,
+);
+```
+
+## 多边形图形 Polygon
+
+### PolygonStyleProps
 
 | 属性              | 描述               | 类型                                             | 必选 |
 | ----------------- | ------------------ | ------------------------------------------------ | ---- |
@@ -136,7 +331,29 @@ G6 中支持以下的图形 Shape：
 | isBillboard       | 是否启用公告牌模式 | boolean                                          |      |
 | isSizeAttenuation | 是否启用大小衰减   | boolean                                          |      |
 
-## PolylineStyleProps
+**示例：**
+
+```js
+BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'polygon',
+  {
+    points: [
+      [30, 30],
+      [40, 20],
+      [30, 50],
+      [60, 100],
+    ],
+    fill: 'red',
+  },
+  container,
+);
+```
+
+## 折线 Polyline
+
+### PolylineStyleProps
 
 | 属性              | 描述               | 类型                                             | 必选 |
 | ----------------- | ------------------ | ------------------------------------------------ | ---- |
@@ -149,20 +366,29 @@ G6 中支持以下的图形 Shape：
 | isBillboard       | 是否启用公告牌模式 | boolean                                          |      |
 | isSizeAttenuation | 是否启用大小衰减   | boolean                                          |      |
 
-## RectStyleProps
+**示例：**
 
-| 属性              | 描述               | 类型                         | 必选 |
-| ----------------- | ------------------ | ---------------------------- | ---- |
-| x                 | 矩形 x 坐标        | number \| string             |      |
-| y                 | 矩形 y 坐标        | number \| string             |      |
-| z                 | 矩形 z 坐标        | number                       |      |
-| width             | 矩形宽度           | number \| string             | ✓    |
-| height            | 矩形高度           | number \| string             | ✓    |
-| isBillboard       | 是否启用公告牌模式 | boolean                      |      |
-| isSizeAttenuation | 是否启用大小衰减   | boolean                      |      |
-| radius            | 矩形圆角半径       | number \| string \| number[] |      |
+```js
+BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'polyline',
+  {
+    points: [
+      [30, 30],
+      [40, 20],
+      [30, 50],
+      [60, 100],
+    ],
+    fill: 'red',
+  },
+  container,
+);
+```
 
-## TextStyleProps
+## 文字 Text
+
+### TextStyleProps
 
 | 属性                | 描述               | 类型                                                                        | 必选 |
 | ------------------- | ------------------ | --------------------------------------------------------------------------- | ---- |
@@ -194,3 +420,30 @@ G6 中支持以下的图形 Shape：
 | wordWrapWidth       | 自动换行宽度       | number                                                                      |      |
 | dx                  | X 方向偏移         | number \| string                                                            |      |
 | dy                  | Y 方向偏移         | number \| string                                                            |      |
+
+**示例：**
+
+```js
+BaseShape.upsert(
+  // 指定图形 key，需要保证在同一个自定义元素类型中保持唯一性
+  'shape',
+  'text',
+  {
+    x: 100,
+    y: 100,
+    text: 'text',
+  },
+  container,
+);
+```
+
+多行文字显示：
+
+```js
+{
+  wordWrap: true,
+  wordWrapWidth: 100,
+  maxLines: 4,
+  textOverflow: 'ellipsis',
+}
+```
