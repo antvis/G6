@@ -20,7 +20,7 @@ order: 6
 
 设置图的布局算法及配置。
 
-⚠️ **注意**: 调用此函数会自动重新布局，不需要单独调用 `graph.layout()`。
+⚠️ **注意**: 调用此函数不会自动重新布局，需要单独调用 `graph.layout()`。
 
 ```typescript
 setLayout(layout: LayoutOptions | ((prev: LayoutOptions) => LayoutOptions)): void;

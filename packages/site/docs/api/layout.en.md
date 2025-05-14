@@ -20,7 +20,7 @@ A suitable layout can clearly display the relationship patterns between nodes, e
 
 Set the graph's layout algorithm and configuration.
 
-⚠️ **Note**: Calling this function will automatically re-layout, so there's no need to call `graph.layout()` separately.
+⚠️ **Note**: Calling this function won't automatically re-layout, so there's need to call `graph.layout()` separately.
 
 ```typescript
 setLayout(layout: LayoutOptions | ((prev: LayoutOptions) => LayoutOptions)): void;
