@@ -60,7 +60,7 @@ const graph = new Graph({
 | onFinish       | Callback function when zooming is finished                                                             | () => void                                                                          | -                   |          |
 | preventDefault | Whether to prevent the browser's default event                                                         | boolean                                                                             | true                |          |
 | sensitivity    | Zoom sensitivity, the larger the value, the faster the zoom                                            | number                                                                              | 1                   |          |
-| trigger        | How to trigger zooming, supports mouse wheel and keyboard shortcuts, [configuration options](#trigger) | object                                                                              | -                   |          |
+| trigger        | How to trigger zooming, supports mouse wheel and keyboard shortcuts, [configuration options](#trigger) | string[] \| object                                                                  | -                   |          |
 
 ### Trigger
 
@@ -168,6 +168,28 @@ const graph = new Graph({
         zoomOut: ['Control', '-'], // Ctrl + - to zoom out
         reset: ['Control', '0'], // Ctrl + 0 to reset
       },
+    },
+  ],
+});
+```
+
+### Supports pinch-to-zoom on mobile devices
+
+```javascript
+const graph = new Graph({
+  // 其他配置...
+  behaviors: [
+    {
+      type: 'zoom-canvas',
+      // Other configurations for the PC side...
+    },
+    function () {
+      return {
+        type: 'zoom-canvas',
+        trigger: ['pinch'],
+        sensitivity: 0.8, // Lower sensitivity for smoother zoom changes
+        origin: this.getCanvasCenter(), // Zoom with the viewport center as the origin
+      };
     },
   ],
 });

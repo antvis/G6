@@ -60,7 +60,7 @@ const graph = new Graph({
 | onFinish       | 缩放完成时的回调函数                                     | () => void                                                                          | -                   |      |
 | preventDefault | 是否阻止浏览器默认事件                                   | boolean                                                                             | true                |      |
 | sensitivity    | 缩放灵敏度，值越大缩放速度越快                           | number                                                                              | 1                   |      |
-| trigger        | 触发缩放的方式，支持滚轮和键盘快捷键，[配置项](#trigger) | object                                                                              | -                   |      |
+| trigger        | 触发缩放的方式，支持滚轮和键盘快捷键，[配置项](#trigger) | string[] \| object                                                                  | -                   |      |
 
 ### Trigger
 
@@ -168,6 +168,28 @@ const graph = new Graph({
         zoomOut: ['Control', '-'], // Ctrl + - 缩小
         reset: ['Control', '0'], // Ctrl + 0 重置
       },
+    },
+  ],
+});
+```
+
+### 支持移动端双指缩放
+
+```javascript
+const graph = new Graph({
+  // 其他配置...
+  behaviors: [
+    {
+      type: 'zoom-canvas',
+      // PC 端其他配置...
+    },
+    function () {
+      return {
+        type: 'zoom-canvas',
+        trigger: ['pinch'],
+        sensitivity: 0.8, // 降低灵敏度，缩放变化更平缓
+        origin: this.getCanvasCenter(), // 以视口中心为原点进行缩放
+      };
     },
   ],
 });
