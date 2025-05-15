@@ -420,14 +420,20 @@ export default defineConfig({
             zh: '开始使用',
             en: 'Getting Started',
           },
-          link: `/manual/introduction`,
+          link: {
+            zh: '/manual/introduction',
+            en: '/en/manual/introduction',
+          },
         },
         {
           text: {
             zh: '图表示例',
             en: 'Playground',
           },
-          link: `/examples`,
+          link: {
+            zh: '/examples',
+            en: '/en/examples',
+          },
           type: 'primary',
         },
       ],
