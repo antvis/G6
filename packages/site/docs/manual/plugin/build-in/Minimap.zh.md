@@ -6,6 +6,8 @@ title: Minimap 小地图
 
 Minimap（小地图）的主要作用是为用户提供以缩略图形式展示当前图内容的整体布局，可以快速定位图操作位置。
 
+**⚠️ 需要注意**，Minimap 插件当前不兼容 React Node 渲染机制，在需要使用 Minimap 功能的场景中，建议通过 [内置节点](/manual/element/node/overview) 或者[自定义节点](/manual/element/node/custom-node) 实现节点渲染。
+
 ## 使用场景
 
 Minimap（小地图）插件主要适用于以下场景：
