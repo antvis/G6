@@ -6,6 +6,8 @@ title: Minimap
 
 The main function of the Minimap is to provide users with an overall layout of the current graph content in the form of a thumbnail, allowing quick positioning of graph operation locations.
 
+**⚠️ Note**, The Minimap plugin is currently incompatible with React Node rendering mechanism. When using Minimap functionality, it is recommended to implement node rendering through [built-in nodes](/en/manual/element/node/overview) or [custom nodes](/en/manual/element/node/custom-node).
+
 ## Usage Scenarios
 
 The Minimap plugin is mainly applicable to the following scenarios:
