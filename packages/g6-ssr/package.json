@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-ssr",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Support SSR for G6",
   "keywords": [
     "antv",
@@ -27,8 +27,8 @@
     "type-check": "tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
-    "@antv/g": "^6.1.14",
-    "@antv/g-canvas": "^2.0.32",
+    "@antv/g": "^6.1.24",
+    "@antv/g-canvas": "^2.0.43",
     "@antv/g6": "workspace:^",
     "cac": "^6.7.14",
     "canvas": "^2.11.2"

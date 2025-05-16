@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-extension-3d",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "description": "3D extension for G6",
   "keywords": [
     "antv",
@@ -34,16 +34,16 @@
   },
   "dependencies": {
     "@antv/g-device-api": "^1.6.13",
-    "@antv/g-plugin-3d": "2.0.42",
-    "@antv/g-plugin-device-renderer": "2.2.19",
-    "@antv/g-plugin-dragndrop": "2.0.32",
-    "@antv/g-webgl": "2.0.44",
+    "@antv/g-plugin-3d": "^2.0.45",
+    "@antv/g-plugin-device-renderer": "^2.2.22",
+    "@antv/g-plugin-dragndrop": "^2.0.35",
+    "@antv/g-webgl": "^2.0.47",
     "@antv/layout": "1.2.14-beta.8",
     "@antv/util": "^3.3.10"
   },
   "devDependencies": {
-    "@antv/g": "6.1.21",
-    "@antv/g-canvas": "2.0.40",
+    "@antv/g": "^6.1.24",
+    "@antv/g-canvas": "^2.0.43",
     "@antv/g6": "workspace:^"
   },
   "peerDependencies": {
