@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Scaffolding Your Extension for G6",
   "keywords": [
     "antv",
