@@ -43,11 +43,11 @@ export interface CreateEdgeOptions extends BaseBehaviorOptions {
    */
   onFinish?: (edge: EdgeData) => void;
   /**
-   * <zh/> 创建边回调，返回边数据
+   * <zh/> 创建边回调，返回边数据。如果返回 undefined，则不创建该边。
    *
-   * <en/> Callback when create edge, return EdgeData.
+   * <en/> Callback when create edge, return EdgeData. If returns undefined, the edge will not be created.
    */
-  onCreate?: (edge: EdgeData) => EdgeData;
+  onCreate?: (edge: EdgeData) => EdgeData | undefined;
 }
 
 /**
@@ -175,8 +175,10 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     const id = `${this.source}-${target}-${uniqueId()}`;
 
     const edgeData = onCreate({ id, source: this.source, target, style });
-    graph.addEdgeData([edgeData]);
-    onFinish(edgeData);
+    if (edgeData) {
+      graph.addEdgeData([edgeData]);
+      onFinish(edgeData);
+    }
   };
 
   private cancelEdge = async () => {
