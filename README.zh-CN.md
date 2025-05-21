@@ -102,6 +102,15 @@ graph.render();
 
 更多生态开源项目，欢迎 PR 收录进来。
 
+## 贡献
+
+感谢所有为这个项目做出贡献的人，感谢所有支持者！🙏
+
+<a href="https://openomy.app/github/antvis/G6" target="_blank" style="display: block; width: 100%;" align="center">
+  <img src="https://openomy.app/svg?repo=antvis/G6&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
+ </a>
+
+
 ## 📮 贡献
 
 - **问题反馈**：使用过程遇到的 G6 的问题，欢迎提交 Issue，并附上可以复现问题的最小案例代码。
