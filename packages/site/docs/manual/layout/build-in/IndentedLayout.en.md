@@ -2,96 +2,153 @@
 title: Indented Tree
 ---
 
-Indented tree layout. The hierarchy of tree nodes is represented by the indentation in the horizontal direction. Each element occupies a row/column. Common use case: file directory structure.
+# Indented Tree Layout
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NBUzRonaOYMAAAAAAAAAAABkARQnAQ' width=175 alt='img'/>
+## Overview
 
-## Options
+Indented tree layout represents the hierarchy of tree nodes through indentation in the horizontal direction. Each element occupies a row or column, commonly used in file directory structures, organizational charts, and other scenarios. This layout provides a clear structure for displaying hierarchical relationships.
 
-### direction
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NBUzRonaOYMAAAAAAAAAAABkARQnAQ' width=175 alt='Indented Tree Layout'/>
 
-> _'LR' | 'RL' | 'H'_ **Default:** `'LR'`
+## Use Cases
 
-Tree layout direction
+- File directory structure visualization
+- Organizational charts
+- Classification system display
+- Tree-like data where hierarchical relationships need to be emphasized
 
-- `'LR'`: Root node on the left, layout to the right
+## Configuration Items
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mq6YSIKrAt0AAAAAAAAAAABkARQnAQ' width=110 alt='img'/>
+> IndentedLayout supports common layout configuration items and specific configuration items, as shown below.
 
-- `'RL'`: Root node on the right, layout to the left
+| Property               | Description                                                         | Type                            | Default    | Required |
+| ---------------------- | ------------------------------------------------------------------- | ------------------------------- | ---------- | -------- |
+| type                   | Layout type, must be 'indented'                                     | 'indented'                      | -          | ✓        |
+| direction              | Layout direction, see details below                                 | 'LR' \| 'RL' \| 'H'             | 'LR'       |          |
+| indent                 | Column spacing, fixed value or function                             | number \| (d?: Node) => number  | 20         |          |
+| getWidth               | Get each node's width, effective when direction='H'                 | (d?: Node) => number            | -          |          |
+| getHeight              | Get each node's height                                              | (d?: Node) => number            | -          |          |
+| getSide                | Node placement on left/right side of root, overrides direction='H'  | (d?: Node) => 'left' \| 'right' | -          |          |
+| dropCap                | Whether the first child of each node starts on the next line        | boolean                         | true       |          |
+| isLayoutInvisibleNodes | Whether invisible nodes participate in layout (when preLayout=true) | boolean                         | false      |          |
+| nodeFilter             | Nodes participating in this layout                                  | (node: NodeData) => boolean     | () => true |          |
+| preLayout              | Use pre-layout, calculate layout before initializing elements       | boolean                         | false      |          |
+| enableWorker           | Whether to run layout in WebWorker                                  | boolean                         | -          |          |
+| iterations             | Number of iterations for iterative layout                           | number                          | -          |          |
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VGEnRbpvxlUAAAAAAAAAAABkARQnAQ' width=90 alt='img'/>
+### Complex Type Explanations
 
-- `'H'`: Root node in the middle, horizontal symmetric layout
+- **direction**
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vek6RqtUXNcAAAAAAAAAAABkARQnAQ' width=160 alt='img'/>
+  - `'LR'`: Root node on the left, layout to the right
+    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mq6YSIKrAt0AAAAAAAAAAABkARQnAQ' width=110 alt='LR'/>
+  - `'RL'`: Root node on the right, layout to the left
+    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VGEnRbpvxlUAAAAAAAAAAABkARQnAQ' width=90 alt='RL'/>
+  - `'H'`: Root node in the middle, horizontal symmetric layout
+    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Vek6RqtUXNcAAAAAAAAAAABkARQnAQ' width=160 alt='H'/>
 
-### indent
+- **indent**
 
-> _Number | ((d?: Node) => string)_ **Default:** `20`
+  - Fixed value: Consistent indentation for all levels
+  - Function: (d?: Node) => number, customize indentation based on node
+  - Example:
+    ```js
+    (d) => {
+      if (d.parent?.id === 'testId') return d.parent.x + 50;
+      return 100;
+    };
+    ```
 
-Column spacing. If type is Number, the column spacing is fixed; if type is Function, the spacing between the node and the root node is the return value of the function.
+- **getWidth/getHeight**
 
-Example:
+  - Used to customize each node's width/height, often for content adaptation
+  - Example:
+    ```js
+    (d) => (d.id === 'testId' ? 50 : 100);
+    ```
 
-```javascript
-(d) => {
-  // d is a node
-  if (d.parent?.id === 'testId') return d.parent.x + 50;
-  return 100;
-};
+- **getSide**
+  - Specifies which side of the root node a node should be placed, only effective when direction='H'
+  - Example:
+    ```js
+    (d) => (d.id === 'testId' ? 'left' : 'right');
+    ```
+
+## Example Code
+
+> For more examples, see [Online Demo](https://g6.antv.antgroup.com/en/examples/layout/indented)
+
+### Automatic Child Node Distribution
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Kc63QoxgLNYAAAAAAAAAAAAADmJ7AQ/original" width="300" />
+
+```js
+import { Graph, treeToGraphData } from '@antv/g6';
+
+fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
+  .then((res) => res.json())
+  .then((data) => {
+    const graph = new Graph({
+      container: 'container',
+      data: treeToGraphData(data),
+      autoFit: 'view',
+      layout: {
+        type: 'indented',
+        direction: 'H',
+        indent: 80,
+        getHeight: () => 16,
+        getWidth: () => 32,
+      },
+    });
+    graph.render();
+  });
 ```
 
-### getWidth
+### Right Side Child Node Distribution
 
-> _(d?: Node) => number_
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*3PioQ4TAMx8AAAAAAAAAAAAADmJ7AQ/original" width="300" />
 
-Width of each node, effective when `direction` is `'H'`
-
-Example:
-
-```javascript
-(d) => {
-  // d is a node
-  if (d.id === 'testId') return 50;
-  return 100;
-};
+```js
+// ... code as above, layout.direction: 'LR'
 ```
 
-### getHeight
+### Left Side Child Node Distribution
 
-> _(d?: Node) => number_
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*o6uzQ5nmXJkAAAAAAAAAAAAADmJ7AQ/original" width="300" />
 
-Height of each node
-
-Example:
-
-```javascript
-(d) => {
-  // d is a node
-  if (d.id === 'testId') return 50;
-  return 100;
-};
+```js
+// ... code as above, layout.direction: 'RL'
 ```
 
-### getSide
+### Custom Child Node Distribution
 
-> _(d?: Node) => string_
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Kc63QoxgLNYAAAAAAAAAAAAADmJ7AQ/original" width="300" />
 
-Whether the node is placed on the left or right side of the root node. If set, all nodes will be on the same side of the root node, i.e., direction = 'H' will not take effect. If this parameter is a callback function, you can specify the side for each node.
-
-Example:
-
-```javascript
-(d) => {
-  // d is a node
-  if (d.id === 'testId') return 'left';
-  return 'right';
-};
+```js
+layout: {
+  type: 'indented',
+  direction: 'H',
+  indent: 80,
+  getHeight: () => 16,
+  getWidth: () => 32,
+  getSide: (d) => {
+    if (d.id === 'Regression' || d.id === 'Classification') return 'left';
+    return 'right';
+  },
+}
 ```
 
-### dropCap
+### No Line Break for First Child Node
 
-> _boolean_ **Default:** `true`
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*bC-pRrO7srwAAAAAAAAAAAAADmJ7AQ/original" width="300" />
 
-Whether the first child of each node is placed on the next row
+```js
+layout: {
+  type: 'indented',
+  direction: 'LR',
+  indent: 80,
+  getHeight: () => 16,
+  getWidth: () => 32,
+  dropCap: false,
+}
+```
