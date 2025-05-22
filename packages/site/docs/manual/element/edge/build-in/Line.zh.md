@@ -18,7 +18,7 @@ title: Line 直线
 
 ## 样式配置
 
-> 如果元素有其特定的属性，我们将在下面列出。对于所有的通用样式属性，见 [BaseEdge](/manual/element/build-in/base-edge)
+> 如果元素有其特定的属性，我们将在下面列出。对于所有的通用样式属性，见 [BaseEdge](/manual/element/edge/build-in/base-edge)
 
 ## 示例
 

@@ -18,7 +18,7 @@ Use cases:
 
 ## Style Configuration
 
-> If the element has specific attributes, we will list them below. For all general style attributes, see [BaseEdge](/en/manual/element/build-in/base-edge)
+> If the element has specific attributes, we will list them below. For all general style attributes, see [BaseEdge](/en/manual/element/edge/build-in/base-edge)
 
 | Attribute     | Description                                                                                                                                                 | Type                               | Default | Required |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------- | -------- |

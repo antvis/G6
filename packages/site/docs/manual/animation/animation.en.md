@@ -91,10 +91,10 @@ If you wish to disable animations for an element, you can configure it as follow
 The animation configuration mentioned in the previous section actually used the built-in animation paradigm. This section introduces how to customize the animation paradigm.
 
 :::info{title=Tip}
-Before writing an animation paradigm, it is necessary to understand the compositional structure of an element. For details, please refer to the [Element](/en/manual/core-concept/element#composition-node) section.
+Before writing an animation paradigm, it is necessary to understand the compositional structure of an element. For details, please refer to the [Element](/en/manual/element/overview) section.
 :::
 
-The [Element](/en/manual/core-concept/element) section mentioned that elements in G6 are composed of one or more atomic graphics. Therefore, the animation of an element is essentially a combination of these atomic shape animations.
+The [Element](/en/manual/element/overview) section mentioned that elements in G6 are composed of one or more atomic graphics. Therefore, the animation of an element is essentially a combination of these atomic shape animations.
 
 Thus, the animation paradigm is an array that describes the animation effects of each atomic shape within the element. For the element itself, it is also a special composite shape and thus has basic shape attributes such as `x`, `y`, etc.
 
@@ -110,7 +110,7 @@ Therefore, you can directly write an animation paradigm for the element itself:
 
 ## Custom Animation
 
-If the built-in animations do not meet your requirements, you can create custom animations. For details, please refer to [Custom Animation](/en/manual/custom-extension/animation).
+If the built-in animations do not meet your requirements, you can create custom animations. For details, please refer to [Custom Animation](/en/manual/animation/custom-animation).
 
 ## Animation Priority
 

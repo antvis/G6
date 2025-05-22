@@ -35,8 +35,6 @@ The first parameter of the `register` function is the type of the extension, the
 
 Different types of extensions **can** use the same extension name, but when registering extensions of the same type, only the first registration will take effect.
 
-> For detailed parameter signatures, see: [API Documentation](/en/api/reference/g6/register)
-
 ```typescript
 // ✅
 register(ExtensionCategory.NODE, 'custom-name', CustomNode);

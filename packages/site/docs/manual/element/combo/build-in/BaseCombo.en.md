@@ -44,8 +44,8 @@ const graph = new Graph({
 
 Optional values are:
 
-- `circle`: [Circular Combo](/en/manual/element/combo/build-in/circle)
-- `rect`: [Rectangular Combo](/en/manual/element/combo/build-in/rect)
+- `circle`: [Circular Combo](/en/manual/element/combo/build-in/circle-combo)
+- `rect`: [Rectangular Combo](/en/manual/element/combo/build-in/rect-combo)
 
 ## Style
 
