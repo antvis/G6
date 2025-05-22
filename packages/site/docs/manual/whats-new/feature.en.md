@@ -7,7 +7,7 @@ order: 1
 
 G6 version 5.0 has redesigned the Options specification. While ensuring comprehensive capabilities, it optimizes the options structure to be more intuitive and easier to understand.
 
-You only need to quickly grasp the basic [core concepts](/en/manual/core-concept/graph) to get started with G6 quickly and achieve graph visualization without delay.
+You only need to quickly grasp the basic [core concepts](/en/manual/graph/graph) to get started with G6 quickly and achieve graph visualization without delay.
 
 **😰 The 4.0 Options** had a complex nested structure and was less semantically capable
 

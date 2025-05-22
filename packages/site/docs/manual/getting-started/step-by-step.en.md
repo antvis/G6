@@ -348,6 +348,6 @@ Try dragging the canvas in the example below, and you will see that the grid lin
 
 In this tutorial, we created a G6 chart from scratch and became acquainted with the main concepts of G6. We learned how to create a simple chart, how to configure the style and types of elements, how to add interactive behaviors, how to use layout algorithms, how to use palettes, and how to use plugins.
 
-For a more detailed introduction to the concepts of G6, you can refer to [Core Concepts](/en/manual/core-concept/graph).
+For a more detailed introduction to the concepts of G6, you can refer to [Core Concepts](/en/manual/graph/graph).
 
-Detailed explanations of options such as elements, layouts, and plugins can be found in the [API](/en/api).
+Detailed explanations of options such as elements, layouts, and plugins can be found in the [API](/en/api/data).

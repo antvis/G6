@@ -15,31 +15,31 @@ Most customization needs can be achieved through plugins. G6 comes with some bui
 
 G6 provides a rich set of built-in plugins covering various common functional scenarios:
 
-| Category                     | Plugin Name                                                     | Registration Type  | Description                                                            |
-| ---------------------------- | --------------------------------------------------------------- | ------------------ | ---------------------------------------------------------------------- |
-| **Visual Style Enhancement** |                                                                 |                    |                                                                        |
-|                              | [Grid Line](/en/manual/plugin/build-in/grid-line)               | `grid-line`        | Displays grid reference lines on the canvas                            |
-|                              | [Background](/en/manual/plugin/build-in/background)             | `background`       | Adds background images or colors to the canvas                         |
-|                              | [Watermark](/en/manual/plugin/build-in/watermark)               | `watermark`        | Adds a watermark to the canvas to protect copyright                    |
-|                              | [Hull](/en/manual/plugin/build-in/hull)                         | `hull`             | Creates an outline for a specified set of nodes                        |
-|                              | [Bubble Sets](/en/manual/plugin/build-in/bubble-sets)           | `bubble-sets`      | Creates smooth bubble-like element outlines                            |
-|                              | [Snapline](/en/manual/plugin/build-in/snapline)                 | `snapline`         | Displays alignment reference lines when dragging elements              |
-| **Navigation and Overview**  |                                                                 |                    |                                                                        |
-|                              | [Minimap](/en/manual/plugin/build-in/minimap)                   | `minimap`          | Displays a thumbnail preview of the graph, supporting navigation       |
-|                              | [Fullscreen](/en/manual/plugin/build-in/fullscreen)             | `fullscreen`       | Supports full-screen display and exit for charts                       |
-|                              | [Timebar](/en/manual/plugin/build-in/timebar)                   | `timebar`          | Provides filtering and playback control for temporal data              |
-| **Interactive Controls**     |                                                                 |                    |                                                                        |
-|                              | [Toolbar](/en/manual/plugin/build-in/toolbar)                   | `toolbar`          | Provides a collection of common operation buttons                      |
-|                              | [Context Menu](/en/manual/plugin/build-in/contextmenu)          | `contextmenu`      | Displays a menu of selectable operations on right-click                |
-|                              | [Tooltip](/en/manual/plugin/build-in/tooltip)                   | `tooltip`          | Displays detailed information about elements on hover                  |
-|                              | [Legend](/en/manual/plugin/build-in/legend)                     | `legend`           | Displays categories and corresponding style descriptions of chart data |
-| **Data Exploration**         |                                                                 |                    |                                                                        |
-|                              | [Fisheye](/en/manual/plugin/build-in/fisheye)                   | `fisheye`          | Provides a focus + context exploration experience                      |
-|                              | [Edge Filter Lens](/en/manual/plugin/build-in/edge-filter-lens) | `edge-filter-lens` | Filters and displays edges within a specified area                     |
-|                              | [Edge Bundling](/en/manual/plugin/build-in/edge-bundling)       | `edge-bundling`    | Bundles edges with similar paths together to reduce visual clutter     |
-| **Advanced Features**        |                                                                 |                    |                                                                        |
-|                              | [History](/en/manual/plugin/build-in/history)                   | `history`          | Supports undo/redo operations                                          |
-|                              | [Camera Setting](/en/manual/plugin/build-in/camera-setting)     | `camera-setting`   | Configures camera parameters in a 3D scene                             |
+| Category                     | Plugin Name                                                                                         | Registration Type  | Description                                                            |
+| ---------------------------- | --------------------------------------------------------------------------------------------------- | ------------------ | ---------------------------------------------------------------------- |
+| **Visual Style Enhancement** |                                                                                                     |                    |                                                                        |
+|                              | [Grid Line](/en/manual/plugin/build-in/grid-line)                                                   | `grid-line`        | Displays grid reference lines on the canvas                            |
+|                              | [Background](/en/manual/plugin/build-in/background)                                                 | `background`       | Adds background images or colors to the canvas                         |
+|                              | [Watermark](/en/manual/plugin/build-in/watermark)                                                   | `watermark`        | Adds a watermark to the canvas to protect copyright                    |
+|                              | [Hull](/en/manual/plugin/build-in/hull)                                                             | `hull`             | Creates an outline for a specified set of nodes                        |
+|                              | [Bubble Sets](/en/manual/plugin/build-in/bubble-sets)                                               | `bubble-sets`      | Creates smooth bubble-like element outlines                            |
+|                              | [Snapline](/en/manual/plugin/build-in/snapline)                                                     | `snapline`         | Displays alignment reference lines when dragging elements              |
+| **Navigation and Overview**  |                                                                                                     |                    |                                                                        |
+|                              | [Minimap](/en/manual/plugin/build-in/minimap)                                                       | `minimap`          | Displays a thumbnail preview of the graph, supporting navigation       |
+|                              | [Fullscreen](/en/manual/plugin/build-in/fullscreen)                                                 | `fullscreen`       | Supports full-screen display and exit for charts                       |
+|                              | [Timebar](/en/manual/plugin/build-in/timebar)                                                       | `timebar`          | Provides filtering and playback control for temporal data              |
+| **Interactive Controls**     |                                                                                                     |                    |                                                                        |
+|                              | [Toolbar](/en/manual/plugin/build-in/toolbar)                                                       | `toolbar`          | Provides a collection of common operation buttons                      |
+|                              | [Context Menu](/en/manual/plugin/build-in/contextmenu)                                              | `contextmenu`      | Displays a menu of selectable operations on right-click                |
+|                              | [Tooltip](/en/manual/plugin/build-in/tooltip)                                                       | `tooltip`          | Displays detailed information about elements on hover                  |
+|                              | [Legend](/en/manual/plugin/build-in/legend)                                                         | `legend`           | Displays categories and corresponding style descriptions of chart data |
+| **Data Exploration**         |                                                                                                     |                    |                                                                        |
+|                              | [Fisheye](/en/manual/plugin/build-in/fisheye)                                                       | `fisheye`          | Provides a focus + context exploration experience                      |
+|                              | [Edge Filter Lens](/en/manual/plugin/build-in/edge-filter-lens)                                     | `edge-filter-lens` | Filters and displays edges within a specified area                     |
+|                              | [Edge Bundling](/en/manual/plugin/build-in/edge-bundling)                                           | `edge-bundling`    | Bundles edges with similar paths together to reduce visual clutter     |
+| **Advanced Features**        |                                                                                                     |                    |                                                                        |
+|                              | [History](/en/manual/plugin/build-in/history)                                                       | `history`          | Supports undo/redo operations                                          |
+|                              | [Camera Setting](/enhttps://github.com/antvis/G6/blob/v5/packages/g6/src/plugins/camera-setting.ts) | `camera-setting`   | Configures camera parameters in a 3D scene                             |
 
 For detailed configuration of each plugin, refer to the [Built-in Plugin Documentation](/en/manual/plugin/build-in/grid-line).
 

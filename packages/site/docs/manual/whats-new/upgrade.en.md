@@ -236,7 +236,7 @@ The built-in undo and redo functionality has been removed in version 5.x. For re
 
 <Badge type="warning">Change</Badge> **data / save / read / changeData**
 
-Version 5.x offers a completely new data API. For details, see [Data API](/en/api/graph/method#data).
+Version 5.x offers a completely new data API. For details, see [Data API](/en/api/data).
 
 - The `data` and `changeData` methods from 4.x are replaced by `setData` in 5.x.
 - The `save` method from 4.x is replaced by `getData` in 5.x.

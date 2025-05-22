@@ -15,31 +15,31 @@ order: 1
 
 G6 提供了丰富的内置插件，涵盖多种常见功能场景：
 
-| 分类             | 插件名称                                             | 注册类型           | 功能描述                               |
-| ---------------- | ---------------------------------------------------- | ------------------ | -------------------------------------- |
-| **视觉样式增强** |                                                      |                    |                                        |
-|                  | [网格线](/manual/plugin/build-in/grid-line)          | `grid-line`        | 在画布上显示网格参考线                 |
-|                  | [背景](/manual/plugin/build-in/background)           | `background`       | 为画布添加背景图片或颜色               |
-|                  | [水印](/manual/plugin/build-in/watermark)            | `watermark`        | 为画布添加水印，保护版权               |
-|                  | [轮廓包围](/manual/plugin/build-in/hull)             | `hull`             | 为指定节点集合创建轮廓                 |
-|                  | [气泡集](/manual/plugin/build-in/bubble-sets)        | `bubble-sets`      | 创建平滑气泡状的元素集合轮廓           |
-|                  | [对齐线](/manual/plugin/build-in/snapline)           | `snapline`         | 拖动元素时显示对齐参考线               |
-| **导航与概览**   |                                                      |                    |                                        |
-|                  | [缩略图](/manual/plugin/build-in/minimap)            | `minimap`          | 显示图的缩略预览，支持导航             |
-|                  | [全屏](/manual/plugin/build-in/fullscreen)           | `fullscreen`       | 支持图表全屏显示和退出                 |
-|                  | [时间轴](/manual/plugin/build-in/timebar)            | `timebar`          | 提供时序数据的筛选和播放控制           |
-| **交互控件**     |                                                      |                    |                                        |
-|                  | [工具栏](/manual/plugin/build-in/toolbar)            | `toolbar`          | 提供常用操作按钮集合                   |
-|                  | [上下文菜单](/manual/plugin/build-in/contextmenu)    | `contextmenu`      | 右键点击时显示可选操作菜单             |
-|                  | [提示框](/manual/plugin/build-in/tooltip)            | `tooltip`          | 悬停时显示元素详细信息                 |
-|                  | [图例](/manual/plugin/build-in/legend)               | `legend`           | 显示图表数据的类别和对应样式说明       |
-| **数据探索**     |                                                      |                    |                                        |
-|                  | [鱼眼放大镜](/manual/plugin/build-in/fisheye)        | `fisheye`          | 提供焦点+上下文的探索体验              |
-|                  | [边过滤镜](/manual/plugin/build-in/edge-filter-lens) | `edge-filter-lens` | 在指定区域内筛选显示边                 |
-|                  | [边绑定](/manual/plugin/build-in/edge-bundling)      | `edge-bundling`    | 将相似路径的边捆绑在一起，减少视觉混乱 |
-| **高级功能**     |                                                      |                    |                                        |
-|                  | [历史记录](/manual/plugin/build-in/history)          | `history`          | 支持撤销/重做操作                      |
-|                  | [相机设置](/manual/plugin/build-in/camera-setting)   | `camera-setting`   | 配置3D场景下的相机参数                 |
+| 分类             | 插件名称                                                                                   | 注册类型           | 功能描述                               |
+| ---------------- | ------------------------------------------------------------------------------------------ | ------------------ | -------------------------------------- |
+| **视觉样式增强** |                                                                                            |                    |                                        |
+|                  | [网格线](/manual/plugin/build-in/grid-line)                                                | `grid-line`        | 在画布上显示网格参考线                 |
+|                  | [背景](/manual/plugin/build-in/background)                                                 | `background`       | 为画布添加背景图片或颜色               |
+|                  | [水印](/manual/plugin/build-in/watermark)                                                  | `watermark`        | 为画布添加水印，保护版权               |
+|                  | [轮廓包围](/manual/plugin/build-in/hull)                                                   | `hull`             | 为指定节点集合创建轮廓                 |
+|                  | [气泡集](/manual/plugin/build-in/bubble-sets)                                              | `bubble-sets`      | 创建平滑气泡状的元素集合轮廓           |
+|                  | [对齐线](/manual/plugin/build-in/snapline)                                                 | `snapline`         | 拖动元素时显示对齐参考线               |
+| **导航与概览**   |                                                                                            |                    |                                        |
+|                  | [缩略图](/manual/plugin/build-in/minimap)                                                  | `minimap`          | 显示图的缩略预览，支持导航             |
+|                  | [全屏](/manual/plugin/build-in/fullscreen)                                                 | `fullscreen`       | 支持图表全屏显示和退出                 |
+|                  | [时间轴](/manual/plugin/build-in/timebar)                                                  | `timebar`          | 提供时序数据的筛选和播放控制           |
+| **交互控件**     |                                                                                            |                    |                                        |
+|                  | [工具栏](/manual/plugin/build-in/toolbar)                                                  | `toolbar`          | 提供常用操作按钮集合                   |
+|                  | [上下文菜单](/manual/plugin/build-in/contextmenu)                                          | `contextmenu`      | 右键点击时显示可选操作菜单             |
+|                  | [提示框](/manual/plugin/build-in/tooltip)                                                  | `tooltip`          | 悬停时显示元素详细信息                 |
+|                  | [图例](/manual/plugin/build-in/legend)                                                     | `legend`           | 显示图表数据的类别和对应样式说明       |
+| **数据探索**     |                                                                                            |                    |                                        |
+|                  | [鱼眼放大镜](/manual/plugin/build-in/fisheye)                                              | `fisheye`          | 提供焦点+上下文的探索体验              |
+|                  | [边过滤镜](/manual/plugin/build-in/edge-filter-lens)                                       | `edge-filter-lens` | 在指定区域内筛选显示边                 |
+|                  | [边绑定](/manual/plugin/build-in/edge-bundling)                                            | `edge-bundling`    | 将相似路径的边捆绑在一起，减少视觉混乱 |
+| **高级功能**     |                                                                                            |                    |                                        |
+|                  | [历史记录](/manual/plugin/build-in/history)                                                | `history`          | 支持撤销/重做操作                      |
+|                  | [相机设置](https://github.com/antvis/G6/blob/v5/packages/g6/src/plugins/camera-setting.ts) | `camera-setting`   | 配置3D场景下的相机参数                 |
 
 各插件的详细配置可参考 [内置插件文档](/manual/plugin/build-in/grid-line)。
 

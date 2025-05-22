@@ -83,7 +83,7 @@ To enable and configure a theme, you need to pass the `theme` option when instan
 
 ### Switch Theme
 
-After the `Graph` instance is created, you can switch themes by using the [setTheme](/en/api/graph/method#setTheme) method:
+After the `Graph` instance is created, you can switch themes by using the [setTheme](/en/api/theme#graphsetthemetheme) method:
 
 ```typescript
 graph.setTheme('dark');

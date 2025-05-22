@@ -15,7 +15,7 @@ For example, in the images below: the node on the left contains a single circula
 
 G6 uses different combinations of shapes to design various built-in nodes/edges/combos. Built-in nodes include 'circle', 'rect', 'ellipse', ... (see [Built-in Nodes](/en/manual/element/node/build-in/base-node)); built-in edges include 'line', 'polyline', 'cubic', ... (see [Built-in Edges](/en/manual/element/edge/build-in/base-edge)); built-in combos include 'circle', 'rect', ... (see [Built-in Combos](/en/manual/element/combo/build-in/base-combo)).
 
-In addition to using built-in nodes/edges/combos, G6 also allows users to customize nodes/edges/combos by combining shapes as needed. See [Custom Node](/en/manual/element/node/custom-node), [Custom Edge](/en/manual/element/node/custom-edge), and [Custom Combo](/en/manual/element/node/custom-combo) for details.
+In addition to using built-in nodes/edges/combos, G6 also allows users to customize nodes/edges/combos by combining shapes as needed. See [Custom Node](/en/manual/element/node/custom-node), [Custom Edge](/en/manual/element/edge/custom-edge), and [Custom Combo](/en/manual/element/combo/custom-combo) for details.
 
 ## KeyShape
 
@@ -43,7 +43,7 @@ In this example, a node consists of a rect shape and a circle shape with a gray 
 
 ## Shape Lifecycle
 
-> If you need to [customize nodes](/en/manual/element/node/custom-node), [customize edges](/en/manual/element/node/custom-edge), or [customize combos](/en/manual/element/node/custom-combo), you need to understand the lifecycle of shapes. If you use built-in nodes/edges/combos, you can skip this section.
+> If you need to [customize nodes](/en/manual/element/node/custom-node), [customize edges](/en/manual/element/edge/custom-edge), or [customize combos](/en/manual/element/combo/custom-combo), you need to understand the lifecycle of shapes. If you use built-in nodes/edges/combos, you can skip this section.
 
 The shape lifecycle includes:
 

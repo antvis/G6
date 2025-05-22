@@ -72,5 +72,5 @@ The instantiation process only configures the basic information of the graph. To
 :::
 
 - To learn how to quickly create a graph, please refer to [Quick Start](/en/manual/getting-started/quick-start).
-- For more detailed information about the configuration options, please refer to [Method](/en/api/graph/method).
+- For more detailed information about the configuration options, please refer to [Options](/en/manual/graph/option).
 - To gain an in-depth understanding of the concepts within the configuration options, please read the rest of the content in this section.

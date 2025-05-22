@@ -33,13 +33,13 @@ The following figure describes the relationship between the viewport coordinate 
 
 G6 provides methods for coordinate system conversion, making it easy to convert between different coordinate systems.
 
-- Canvas coordinate system to viewport coordinate system: [getViewportByCanvas](/en/api/graph/method#graphgetviewportbycanvaspoint)
-- Client coordinate system to canvas coordinate system: [getCanvasByClient](/en/api/graph/method#graphgetcanvasbyclientpoint)
-- Viewport coordinate system to canvas coordinate system: [getCanvasByViewport](/en/api/graph/method#graphgetcanvasbyviewportpoint)
-- Canvas coordinate system to client coordinate system: [getClientByCanvas](/en/api/graph/method#graphgetclientbycanvaspoint)
+- Canvas coordinate system to viewport coordinate system: [getViewportByCanvas](/en/api/coordinate#graphgetviewportbycanvaspoint)
+- Client coordinate system to canvas coordinate system: [getCanvasByClient](/en/api/coordinate#graphgetcanvasbyclientpoint)
+- Viewport coordinate system to canvas coordinate system: [getCanvasByViewport](/en/api/coordinate#graphgetcanvasbyviewportpoint)
+- Canvas coordinate system to client coordinate system: [getClientByCanvas](/en/api/coordinate#graphgetclientbycanvaspoint)
 
 Other related APIs are also provided:
 
-- Get the viewport center in viewport coordinates: [getCanvasCenter](/en/api/graph/method#graphgetcanvascenter)
-- Get the viewport center in canvas coordinates: [getViewportCenter](/en/api/graph/method#graphgetviewportcenter)
-- Get the position of the graph origin in the viewport coordinate system: [getPosition](/en/api/graph/method#graphgetposition)
+- Get the viewport center in viewport coordinates: [getCanvasCenter](/en/api/viewport#graphgetcanvascenter)
+- Get the viewport center in canvas coordinates: [getViewportCenter](/en/api/viewport#graphgetviewportcenter)
+- Get the position of the graph origin in the viewport coordinate system: [getPosition](/en/api/viewport#graphgetposition)

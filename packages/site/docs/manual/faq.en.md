@@ -258,7 +258,7 @@ const graph = new G6.Graph({
 
 ### NodeEvent node event object type is not complete
 
-You can manually specify the `IPointerEvent` type. For details, see [#6346](<[2357515570](https://github.com/antvis/G6/issues/6346)>)
+You can manually specify the `IPointerEvent` type. For details, see [#6346](https://github.com/antvis/G6/issues/6346)
 
 ```typescript {4}
 import { NodeEvent } from '@antv/g6';
