@@ -34,6 +34,8 @@
     "doc:dev": "npm run doc && rm -rf ./docs/api/reference",
     "doc:sort": "ts-node ./scripts/sort-doc.ts",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "format:md": "prettier --write \"**/*.md\"",
     "lint": "eslint ./src  --quiet && prettier ./src  --check",
     "preview": "dumi preview"
   },

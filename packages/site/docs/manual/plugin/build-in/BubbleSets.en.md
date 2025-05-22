@@ -82,92 +82,96 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'view',
-    data: {
-      nodes: [
-        {
-          id: 'node-0',
-          data: { cluster: 'a' },
-          style: { x: 555, y: 151 },
-        },
-        {
-          id: 'node-1',
-          data: { cluster: 'a' },
-          style: { x: 532, y: 323 },
-        },
-        {
-          id: 'node-2',
-          data: { cluster: 'a' },
-          style: { x: 473, y: 227 },
-        },
-        {
-          id: 'node-3',
-          data: { cluster: 'a' },
-          style: { x: 349, y: 212 },
-        },
-        {
-          id: 'node-4',
-          data: { cluster: 'b' },
-          style: { x: 234, y: 201 },
-        },
-        {
-          id: 'node-5',
-          data: { cluster: 'b' },
-          style: { x: 338, y: 333 },
-        },
-        {
-          id: 'node-6',
-          data: { cluster: 'b' },
-          style: { x: 365, y: 91 },
-        },
-      ],
-      edges: [
-        {
-          id: 'edge-0',
-          source: 'node-0',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-1',
-          source: 'node-1',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-2',
-          source: 'node-2',
-          target: 'node-3',
-        },
-        {
-          id: 'edge-3',
-          source: 'node-3',
-          target: 'node-4',
-        },
-        {
-          id: 'edge-4',
-          source: 'node-3',
-          target: 'node-5',
-        },
-        {
-          id: 'edge-5',
-          source: 'node-3',
-          target: 'node-6',
-        },
-      ],
-    },
-    behaviors: ['drag-canvas', 'zoom-canvas'],
-    plugins: [
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  autoFit: 'view',
+  data: {
+    nodes: [
       {
-        type: 'bubble-sets',
-        key: 'bubble-sets-a',
-        members: ['node-0', 'node-1', 'node-2'],
+        id: 'node-0',
+        data: { cluster: 'a' },
+        style: { x: 555, y: 151 },
+      },
+      {
+        id: 'node-1',
+        data: { cluster: 'a' },
+        style: { x: 532, y: 323 },
+      },
+      {
+        id: 'node-2',
+        data: { cluster: 'a' },
+        style: { x: 473, y: 227 },
+      },
+      {
+        id: 'node-3',
+        data: { cluster: 'a' },
+        style: { x: 349, y: 212 },
+      },
+      {
+        id: 'node-4',
+        data: { cluster: 'b' },
+        style: { x: 234, y: 201 },
+      },
+      {
+        id: 'node-5',
+        data: { cluster: 'b' },
+        style: { x: 338, y: 333 },
+      },
+      {
+        id: 'node-6',
+        data: { cluster: 'b' },
+        style: { x: 365, y: 91 },
+      },
+    ],
+    edges: [
+      {
+        id: 'edge-0',
+        source: 'node-0',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-1',
+        source: 'node-1',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-2',
+        source: 'node-2',
+        target: 'node-3',
+      },
+      {
+        id: 'edge-3',
+        source: 'node-3',
+        target: 'node-4',
+      },
+      {
+        id: 'edge-4',
+        source: 'node-3',
+        target: 'node-5',
+      },
+      {
+        id: 'edge-5',
+        source: 'node-3',
+        target: 'node-6',
       },
     ],
   },
-  { width: 300, height: 150 },
-);
+  behaviors: ['drag-canvas', 'zoom-canvas'],
+  plugins: [
+    {
+      type: 'bubble-sets',
+      key: 'bubble-sets-a',
+      members: ['node-0', 'node-1', 'node-2'],
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ### labelCloseToPath
@@ -190,95 +194,99 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'view',
-    data: {
-      nodes: [
-        {
-          id: 'node-0',
-          data: { cluster: 'a' },
-          style: { x: 555, y: 151 },
-        },
-        {
-          id: 'node-1',
-          data: { cluster: 'a' },
-          style: { x: 532, y: 323 },
-        },
-        {
-          id: 'node-2',
-          data: { cluster: 'a' },
-          style: { x: 473, y: 227 },
-        },
-        {
-          id: 'node-3',
-          data: { cluster: 'a' },
-          style: { x: 349, y: 212 },
-        },
-        {
-          id: 'node-4',
-          data: { cluster: 'b' },
-          style: { x: 234, y: 201 },
-        },
-        {
-          id: 'node-5',
-          data: { cluster: 'b' },
-          style: { x: 338, y: 333 },
-        },
-        {
-          id: 'node-6',
-          data: { cluster: 'b' },
-          style: { x: 365, y: 91 },
-        },
-      ],
-      edges: [
-        {
-          id: 'edge-0',
-          source: 'node-0',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-1',
-          source: 'node-1',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-2',
-          source: 'node-2',
-          target: 'node-3',
-        },
-        {
-          id: 'edge-3',
-          source: 'node-3',
-          target: 'node-4',
-        },
-        {
-          id: 'edge-4',
-          source: 'node-3',
-          target: 'node-5',
-        },
-        {
-          id: 'edge-5',
-          source: 'node-3',
-          target: 'node-6',
-        },
-      ],
-    },
-    plugins: [
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  autoFit: 'view',
+  data: {
+    nodes: [
       {
-        key: 'bubble-sets-a',
-        type: 'bubble-sets',
-        members: ['node-0', 'node-1', 'node-2', 'node-3'],
-        label: true, // Display label
-        labelText: 'cluster-a',
-        labelCloseToPath: false,
+        id: 'node-0',
+        data: { cluster: 'a' },
+        style: { x: 555, y: 151 },
+      },
+      {
+        id: 'node-1',
+        data: { cluster: 'a' },
+        style: { x: 532, y: 323 },
+      },
+      {
+        id: 'node-2',
+        data: { cluster: 'a' },
+        style: { x: 473, y: 227 },
+      },
+      {
+        id: 'node-3',
+        data: { cluster: 'a' },
+        style: { x: 349, y: 212 },
+      },
+      {
+        id: 'node-4',
+        data: { cluster: 'b' },
+        style: { x: 234, y: 201 },
+      },
+      {
+        id: 'node-5',
+        data: { cluster: 'b' },
+        style: { x: 338, y: 333 },
+      },
+      {
+        id: 'node-6',
+        data: { cluster: 'b' },
+        style: { x: 365, y: 91 },
       },
     ],
-    behaviors: ['drag-canvas', 'zoom-canvas'],
+    edges: [
+      {
+        id: 'edge-0',
+        source: 'node-0',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-1',
+        source: 'node-1',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-2',
+        source: 'node-2',
+        target: 'node-3',
+      },
+      {
+        id: 'edge-3',
+        source: 'node-3',
+        target: 'node-4',
+      },
+      {
+        id: 'edge-4',
+        source: 'node-3',
+        target: 'node-5',
+      },
+      {
+        id: 'edge-5',
+        source: 'node-3',
+        target: 'node-6',
+      },
+    ],
   },
-  { width: 300, height: 150 },
-);
+  plugins: [
+    {
+      key: 'bubble-sets-a',
+      type: 'bubble-sets',
+      members: ['node-0', 'node-1', 'node-2', 'node-3'],
+      label: true, // Display label
+      labelText: 'cluster-a',
+      labelCloseToPath: false,
+    },
+  ],
+  behaviors: ['drag-canvas', 'zoom-canvas'],
+});
+
+graph.render();
 ```
 
 ### labelAutoRotate
@@ -301,95 +309,99 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'view',
-    data: {
-      nodes: [
-        {
-          id: 'node-0',
-          data: { cluster: 'a' },
-          style: { x: 555, y: 151 },
-        },
-        {
-          id: 'node-1',
-          data: { cluster: 'a' },
-          style: { x: 532, y: 323 },
-        },
-        {
-          id: 'node-2',
-          data: { cluster: 'a' },
-          style: { x: 473, y: 227 },
-        },
-        {
-          id: 'node-3',
-          data: { cluster: 'a' },
-          style: { x: 349, y: 212 },
-        },
-        {
-          id: 'node-4',
-          data: { cluster: 'b' },
-          style: { x: 234, y: 201 },
-        },
-        {
-          id: 'node-5',
-          data: { cluster: 'b' },
-          style: { x: 338, y: 333 },
-        },
-        {
-          id: 'node-6',
-          data: { cluster: 'b' },
-          style: { x: 365, y: 91 },
-        },
-      ],
-      edges: [
-        {
-          id: 'edge-0',
-          source: 'node-0',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-1',
-          source: 'node-1',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-2',
-          source: 'node-2',
-          target: 'node-3',
-        },
-        {
-          id: 'edge-3',
-          source: 'node-3',
-          target: 'node-4',
-        },
-        {
-          id: 'edge-4',
-          source: 'node-3',
-          target: 'node-5',
-        },
-        {
-          id: 'edge-5',
-          source: 'node-3',
-          target: 'node-6',
-        },
-      ],
-    },
-    plugins: [
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  autoFit: 'view',
+  data: {
+    nodes: [
       {
-        key: 'bubble-sets-a',
-        type: 'bubble-sets',
-        members: ['node-0', 'node-1', 'node-2', 'node-3'],
-        label: true, // Display label
-        labelText: 'cluster-a',
-        labelAutoRotate: false,
+        id: 'node-0',
+        data: { cluster: 'a' },
+        style: { x: 555, y: 151 },
+      },
+      {
+        id: 'node-1',
+        data: { cluster: 'a' },
+        style: { x: 532, y: 323 },
+      },
+      {
+        id: 'node-2',
+        data: { cluster: 'a' },
+        style: { x: 473, y: 227 },
+      },
+      {
+        id: 'node-3',
+        data: { cluster: 'a' },
+        style: { x: 349, y: 212 },
+      },
+      {
+        id: 'node-4',
+        data: { cluster: 'b' },
+        style: { x: 234, y: 201 },
+      },
+      {
+        id: 'node-5',
+        data: { cluster: 'b' },
+        style: { x: 338, y: 333 },
+      },
+      {
+        id: 'node-6',
+        data: { cluster: 'b' },
+        style: { x: 365, y: 91 },
       },
     ],
-    behaviors: ['drag-canvas', 'zoom-canvas'],
+    edges: [
+      {
+        id: 'edge-0',
+        source: 'node-0',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-1',
+        source: 'node-1',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-2',
+        source: 'node-2',
+        target: 'node-3',
+      },
+      {
+        id: 'edge-3',
+        source: 'node-3',
+        target: 'node-4',
+      },
+      {
+        id: 'edge-4',
+        source: 'node-3',
+        target: 'node-5',
+      },
+      {
+        id: 'edge-5',
+        source: 'node-3',
+        target: 'node-6',
+      },
+    ],
   },
-  { width: 300, height: 150 },
-);
+  plugins: [
+    {
+      key: 'bubble-sets-a',
+      type: 'bubble-sets',
+      members: ['node-0', 'node-1', 'node-2', 'node-3'],
+      label: true, // Display label
+      labelText: 'cluster-a',
+      labelAutoRotate: false,
+    },
+  ],
+  behaviors: ['drag-canvas', 'zoom-canvas'],
+});
+
+graph.render();
 ```
 
 ## Usage Examples
@@ -411,92 +423,96 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [
-        {
-          id: 'node-0',
-          data: { cluster: 'a' },
-          style: { x: 555, y: 151 },
-        },
-        {
-          id: 'node-1',
-          data: { cluster: 'a' },
-          style: { x: 532, y: 323 },
-        },
-        {
-          id: 'node-2',
-          data: { cluster: 'a' },
-          style: { x: 473, y: 227 },
-        },
-        {
-          id: 'node-3',
-          data: { cluster: 'a' },
-          style: { x: 349, y: 212 },
-        },
-        {
-          id: 'node-4',
-          data: { cluster: 'b' },
-          style: { x: 234, y: 201 },
-        },
-        {
-          id: 'node-5',
-          data: { cluster: 'b' },
-          style: { x: 338, y: 333 },
-        },
-        {
-          id: 'node-6',
-          data: { cluster: 'b' },
-          style: { x: 365, y: 91 },
-        },
-      ],
-      edges: [
-        {
-          id: 'edge-0',
-          source: 'node-0',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-1',
-          source: 'node-1',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-2',
-          source: 'node-2',
-          target: 'node-3',
-        },
-        {
-          id: 'edge-3',
-          source: 'node-3',
-          target: 'node-4',
-        },
-        {
-          id: 'edge-4',
-          source: 'node-3',
-          target: 'node-5',
-        },
-        {
-          id: 'edge-5',
-          source: 'node-3',
-          target: 'node-6',
-        },
-      ],
-    },
-    behaviors: ['drag-canvas', 'zoom-canvas'],
-    plugins: [
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  autoFit: 'center',
+  data: {
+    nodes: [
       {
-        type: 'bubble-sets',
-        key: 'bubble-sets-a',
-        members: ['node-0', 'node-1', 'node-2', 'node-3'],
+        id: 'node-0',
+        data: { cluster: 'a' },
+        style: { x: 555, y: 151 },
+      },
+      {
+        id: 'node-1',
+        data: { cluster: 'a' },
+        style: { x: 532, y: 323 },
+      },
+      {
+        id: 'node-2',
+        data: { cluster: 'a' },
+        style: { x: 473, y: 227 },
+      },
+      {
+        id: 'node-3',
+        data: { cluster: 'a' },
+        style: { x: 349, y: 212 },
+      },
+      {
+        id: 'node-4',
+        data: { cluster: 'b' },
+        style: { x: 234, y: 201 },
+      },
+      {
+        id: 'node-5',
+        data: { cluster: 'b' },
+        style: { x: 338, y: 333 },
+      },
+      {
+        id: 'node-6',
+        data: { cluster: 'b' },
+        style: { x: 365, y: 91 },
+      },
+    ],
+    edges: [
+      {
+        id: 'edge-0',
+        source: 'node-0',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-1',
+        source: 'node-1',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-2',
+        source: 'node-2',
+        target: 'node-3',
+      },
+      {
+        id: 'edge-3',
+        source: 'node-3',
+        target: 'node-4',
+      },
+      {
+        id: 'edge-4',
+        source: 'node-3',
+        target: 'node-5',
+      },
+      {
+        id: 'edge-5',
+        source: 'node-3',
+        target: 'node-6',
       },
     ],
   },
-  { width: 300, height: 150 },
-);
+  behaviors: ['drag-canvas', 'zoom-canvas'],
+  plugins: [
+    {
+      type: 'bubble-sets',
+      key: 'bubble-sets-a',
+      members: ['node-0', 'node-1', 'node-2', 'node-3'],
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ### Custom BubbleSets Style
@@ -518,95 +534,99 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [
-        {
-          id: 'node-0',
-          data: { cluster: 'a' },
-          style: { x: 555, y: 151 },
-        },
-        {
-          id: 'node-1',
-          data: { cluster: 'a' },
-          style: { x: 532, y: 323 },
-        },
-        {
-          id: 'node-2',
-          data: { cluster: 'a' },
-          style: { x: 473, y: 227 },
-        },
-        {
-          id: 'node-3',
-          data: { cluster: 'a' },
-          style: { x: 349, y: 212 },
-        },
-        {
-          id: 'node-4',
-          data: { cluster: 'b' },
-          style: { x: 234, y: 201 },
-        },
-        {
-          id: 'node-5',
-          data: { cluster: 'b' },
-          style: { x: 338, y: 333 },
-        },
-        {
-          id: 'node-6',
-          data: { cluster: 'b' },
-          style: { x: 365, y: 91 },
-        },
-      ],
-      edges: [
-        {
-          id: 'edge-0',
-          source: 'node-0',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-1',
-          source: 'node-1',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-2',
-          source: 'node-2',
-          target: 'node-3',
-        },
-        {
-          id: 'edge-3',
-          source: 'node-3',
-          target: 'node-4',
-        },
-        {
-          id: 'edge-4',
-          source: 'node-3',
-          target: 'node-5',
-        },
-        {
-          id: 'edge-5',
-          source: 'node-3',
-          target: 'node-6',
-        },
-      ],
-    },
-    plugins: [
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  autoFit: 'center',
+  data: {
+    nodes: [
       {
-        type: 'bubble-sets',
-        members: ['node-0', 'node-1', 'node-2', 'node-3'],
-        fill: '#7e3feb', // Bubble fill color
-        fillOpacity: 0.1, // Fill opacity
-        stroke: '#7e3feb', // Border color
-        strokeOpacity: 1, // Border opacity
+        id: 'node-0',
+        data: { cluster: 'a' },
+        style: { x: 555, y: 151 },
+      },
+      {
+        id: 'node-1',
+        data: { cluster: 'a' },
+        style: { x: 532, y: 323 },
+      },
+      {
+        id: 'node-2',
+        data: { cluster: 'a' },
+        style: { x: 473, y: 227 },
+      },
+      {
+        id: 'node-3',
+        data: { cluster: 'a' },
+        style: { x: 349, y: 212 },
+      },
+      {
+        id: 'node-4',
+        data: { cluster: 'b' },
+        style: { x: 234, y: 201 },
+      },
+      {
+        id: 'node-5',
+        data: { cluster: 'b' },
+        style: { x: 338, y: 333 },
+      },
+      {
+        id: 'node-6',
+        data: { cluster: 'b' },
+        style: { x: 365, y: 91 },
       },
     ],
-    behaviors: ['drag-canvas', 'zoom-canvas'],
+    edges: [
+      {
+        id: 'edge-0',
+        source: 'node-0',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-1',
+        source: 'node-1',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-2',
+        source: 'node-2',
+        target: 'node-3',
+      },
+      {
+        id: 'edge-3',
+        source: 'node-3',
+        target: 'node-4',
+      },
+      {
+        id: 'edge-4',
+        source: 'node-3',
+        target: 'node-5',
+      },
+      {
+        id: 'edge-5',
+        source: 'node-3',
+        target: 'node-6',
+      },
+    ],
   },
-  { width: 300, height: 150 },
-);
+  plugins: [
+    {
+      type: 'bubble-sets',
+      members: ['node-0', 'node-1', 'node-2', 'node-3'],
+      fill: '#7e3feb', // Bubble fill color
+      fillOpacity: 0.1, // Fill opacity
+      stroke: '#7e3feb', // Border color
+      strokeOpacity: 1, // Border opacity
+    },
+  ],
+  behaviors: ['drag-canvas', 'zoom-canvas'],
+});
+
+graph.render();
 ```
 
 ### Label Configuration
@@ -630,97 +650,101 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [
-        {
-          id: 'node-0',
-          data: { cluster: 'a' },
-          style: { x: 555, y: 151 },
-        },
-        {
-          id: 'node-1',
-          data: { cluster: 'a' },
-          style: { x: 532, y: 323 },
-        },
-        {
-          id: 'node-2',
-          data: { cluster: 'a' },
-          style: { x: 473, y: 227 },
-        },
-        {
-          id: 'node-3',
-          data: { cluster: 'a' },
-          style: { x: 349, y: 212 },
-        },
-        {
-          id: 'node-4',
-          data: { cluster: 'b' },
-          style: { x: 234, y: 201 },
-        },
-        {
-          id: 'node-5',
-          data: { cluster: 'b' },
-          style: { x: 338, y: 333 },
-        },
-        {
-          id: 'node-6',
-          data: { cluster: 'b' },
-          style: { x: 365, y: 91 },
-        },
-      ],
-      edges: [
-        {
-          id: 'edge-0',
-          source: 'node-0',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-1',
-          source: 'node-1',
-          target: 'node-2',
-        },
-        {
-          id: 'edge-2',
-          source: 'node-2',
-          target: 'node-3',
-        },
-        {
-          id: 'edge-3',
-          source: 'node-3',
-          target: 'node-4',
-        },
-        {
-          id: 'edge-4',
-          source: 'node-3',
-          target: 'node-5',
-        },
-        {
-          id: 'edge-5',
-          source: 'node-3',
-          target: 'node-6',
-        },
-      ],
-    },
-    plugins: [
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  autoFit: 'center',
+  data: {
+    nodes: [
       {
-        key: 'bubble-sets-a',
-        type: 'bubble-sets',
-        members: ['node-0', 'node-1', 'node-2', 'node-3'],
-        label: true, // Display label
-        labelText: 'cluster-a',
-        labelPlacement: 'top', // Label position
-        labelBackground: true, // Display label background
-        labelPadding: 5, // Label padding
+        id: 'node-0',
+        data: { cluster: 'a' },
+        style: { x: 555, y: 151 },
+      },
+      {
+        id: 'node-1',
+        data: { cluster: 'a' },
+        style: { x: 532, y: 323 },
+      },
+      {
+        id: 'node-2',
+        data: { cluster: 'a' },
+        style: { x: 473, y: 227 },
+      },
+      {
+        id: 'node-3',
+        data: { cluster: 'a' },
+        style: { x: 349, y: 212 },
+      },
+      {
+        id: 'node-4',
+        data: { cluster: 'b' },
+        style: { x: 234, y: 201 },
+      },
+      {
+        id: 'node-5',
+        data: { cluster: 'b' },
+        style: { x: 338, y: 333 },
+      },
+      {
+        id: 'node-6',
+        data: { cluster: 'b' },
+        style: { x: 365, y: 91 },
       },
     ],
-    behaviors: ['drag-canvas', 'zoom-canvas'],
+    edges: [
+      {
+        id: 'edge-0',
+        source: 'node-0',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-1',
+        source: 'node-1',
+        target: 'node-2',
+      },
+      {
+        id: 'edge-2',
+        source: 'node-2',
+        target: 'node-3',
+      },
+      {
+        id: 'edge-3',
+        source: 'node-3',
+        target: 'node-4',
+      },
+      {
+        id: 'edge-4',
+        source: 'node-3',
+        target: 'node-5',
+      },
+      {
+        id: 'edge-5',
+        source: 'node-3',
+        target: 'node-6',
+      },
+    ],
   },
-  { width: 300, height: 150 },
-);
+  plugins: [
+    {
+      key: 'bubble-sets-a',
+      type: 'bubble-sets',
+      members: ['node-0', 'node-1', 'node-2', 'node-3'],
+      label: true, // Display label
+      labelText: 'cluster-a',
+      labelPlacement: 'top', // Label position
+      labelBackground: true, // Display label background
+      labelPadding: 5, // Label padding
+    },
+  ],
+  behaviors: ['drag-canvas', 'zoom-canvas'],
+});
+
+graph.render();
 ```
 
 ## Practical Examples

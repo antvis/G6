@@ -56,7 +56,7 @@ G6 提供了多种[内置边](/manual/element/edge/build-in/base-edge)类型，�
 
 让我们从最基础的 `BaseEdge` 开始，实现一个自定义直线边：
 
-```js | ob {pin:false}
+```js | ob { pin:false, autoMount: true }
 (() => {
   const { Graph, register, BaseEdge, ExtensionCategory } = g6;
 
@@ -368,7 +368,7 @@ protected getKeyStyle(attributes: Required<BaseEdgeStyleProps>) {
 
 ### 自定义路径的折线边
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Graph, register, BaseEdge, ExtensionCategory } = g6;
 
@@ -417,7 +417,7 @@ protected getKeyStyle(attributes: Required<BaseEdgeStyleProps>) {
 
 ### 额外标签
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Graph, Line, register, BaseEdge, ExtensionCategory, subStyleProps } = g6;
 

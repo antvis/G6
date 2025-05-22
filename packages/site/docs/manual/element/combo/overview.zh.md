@@ -140,7 +140,7 @@ const graph = new Graph({
 
 ## 示例
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Graph, register, Rect, ExtensionCategory } = g6;
 

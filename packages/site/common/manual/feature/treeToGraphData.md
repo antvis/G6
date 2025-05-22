@@ -24,30 +24,34 @@ const graph = new Graph({
 graph.render();
 ```
 
-```js | ob { pin:false }
-createGraph(
-  {
-    autoFit: 'view',
-    data: g6.treeToGraphData({
-      id: 'root',
-      children: [
-        { id: 'node1', children: [{ id: 'node1-1' }, { id: 'node1-2' }] },
-        { id: 'node2', children: [{ id: 'node2-1' }, { id: 'node2-2' }] },
-      ],
-    }),
-    layout: {
-      type: 'compact-box',
-      direction: 'TB',
-    },
-    node: {
-      style: {
-        ports: [{ placement: 'center' }],
-      },
-    },
-    edge: {
-      type: 'cubic-vertical',
+```js | ob {  pin:false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 200,
+  autoFit: 'view',
+  data: g6.treeToGraphData({
+    id: 'root',
+    children: [
+      { id: 'node1', children: [{ id: 'node1-1' }, { id: 'node1-2' }] },
+      { id: 'node2', children: [{ id: 'node2-1' }, { id: 'node2-2' }] },
+    ],
+  }),
+  layout: {
+    type: 'compact-box',
+    direction: 'TB',
+  },
+  node: {
+    style: {
+      ports: [{ placement: 'center' }],
     },
   },
-  { width: 200, height: 200 },
-);
+  edge: {
+    type: 'cubic-vertical',
+  },
+});
+
+graph.render();
 ```

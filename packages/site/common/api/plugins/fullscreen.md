@@ -1,4 +1,4 @@
-```js | ob { pin: false }
+```js | ob {  pin: false , autoMount: true }
 createGraph(
   {
     data: { nodes: [{ id: 'node-1' }, { id: 'node-2' }], edges: [{ source: 'node-1', target: 'node-2' }] },

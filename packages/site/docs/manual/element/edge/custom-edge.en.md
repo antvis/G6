@@ -56,7 +56,7 @@ Custom edges developed from scratch need to handle all details by themselves, in
 
 Let's start with the most basic `BaseEdge` to implement a custom straight edge:
 
-```js | ob {pin:false}
+```js | ob { pin:false, autoMount: true }
 (() => {
   const { Graph, register, BaseEdge, ExtensionCategory } = g6;
 
@@ -368,7 +368,7 @@ protected getKeyStyle(attributes: Required<BaseEdgeStyleProps>) {
 
 ### Custom Polyline Edge with Custom Path
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Graph, register, BaseEdge, ExtensionCategory } = g6;
 
@@ -417,7 +417,7 @@ protected getKeyStyle(attributes: Required<BaseEdgeStyleProps>) {
 
 ### Extra Labels
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Graph, Line, register, BaseEdge, ExtensionCategory, subStyleProps } = g6;
 

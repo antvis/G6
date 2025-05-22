@@ -60,7 +60,7 @@ Developing custom combos from scratch requires handling all details yourself, in
 
 Let's start by inheriting `BaseCombo` to implement a custom hexagon combo:
 
-```js | ob {pin:false}
+```js | ob { pin:false, autoMount: true }
 (() => {
   const { Graph, register, BaseCombo, ExtensionCategory } = g6;
 

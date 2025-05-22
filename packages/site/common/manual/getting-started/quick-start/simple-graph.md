@@ -1,4 +1,4 @@
-```js | ob { pin: false }
+```js | ob {  pin: false , autoMount: true }
 fetch('https://assets.antv.antgroup.com/g6/graph.json')
   .then((res) => res.json())
   .then((data) =>

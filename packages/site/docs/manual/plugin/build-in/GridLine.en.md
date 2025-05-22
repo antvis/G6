@@ -116,15 +116,19 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
-    behaviors: ['drag-canvas'],
-    plugins: ['grid-line'],
-  },
-  { width: 300, height: 150 },
-);
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
+  behaviors: ['drag-canvas'],
+  plugins: ['grid-line'],
+});
+
+graph.render();
 ```
 
 ### Custom Style
@@ -149,24 +153,28 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
-    behaviors: ['drag-canvas'],
-    plugins: [
-      {
-        type: 'grid-line',
-        stroke: '#1890ff33', // Blue semi-transparent grid line
-        lineWidth: 2,
-        size: 40, // Larger grid
-        borderStroke: '#1890ff', // Blue border
-        borderLineWidth: 2,
-      },
-    ],
-  },
-  { width: 300, height: 150 },
-);
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
+  behaviors: ['drag-canvas'],
+  plugins: [
+    {
+      type: 'grid-line',
+      stroke: '#1890ff33', // Blue semi-transparent grid line
+      lineWidth: 2,
+      size: 40, // Larger grid
+      borderStroke: '#1890ff', // Blue border
+      borderLineWidth: 2,
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ### Follow Movement
@@ -188,20 +196,24 @@ const graph = new Graph({
 
 Try dragging/zooming the canvas to observe the grid following effect:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
-    behaviors: ['drag-canvas', 'zoom-canvas'],
-    plugins: [
-      {
-        type: 'grid-line',
-        follow: true, // Grid follows canvas movement
-      },
-    ],
-  },
-  { width: 300, height: 150 },
-);
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
+  behaviors: ['drag-canvas', 'zoom-canvas'],
+  plugins: [
+    {
+      type: 'grid-line',
+      follow: true, // Grid follows canvas movement
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ### Dynamic Grid Update

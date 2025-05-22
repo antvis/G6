@@ -1,4 +1,4 @@
-```js | ob { pin: false }
+```js | ob {  pin: false , autoMount: true }
 createGraph(
   {
     data: {
@@ -37,7 +37,7 @@ createGraph(
       animation: true,
       enable: true,
       throttle: 100,
-      padding: 0
+      padding: 0,
     };
     const optionFolder = gui.addFolder('CollapseExpand Options');
     optionFolder.add(options, 'type').disable(true);
@@ -52,6 +52,6 @@ createGraph(
       });
       graph.render();
     });
-  }
+  },
 );
 ```

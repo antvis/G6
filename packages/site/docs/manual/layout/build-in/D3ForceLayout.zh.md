@@ -160,107 +160,111 @@ D3Force 布局通过模拟五种不同的力来实现自动布局。想象一个
 
 该示例展示了如何使用力导向布局实现团队聚类效果，不同团队的节点会自动聚集在一起。
 
-```js | ob {pin: false}
-createGraph(
-  {
-    autoFit: 'view',
-    data: {
-      nodes: [
-        // 团队 A
-        { id: 'A1', team: 'A', label: 'A1', size: 30 },
-        { id: 'A2', team: 'A', label: 'A2', size: 20 },
-        { id: 'A3', team: 'A', label: 'A3', size: 20 },
-        { id: 'A4', team: 'A', label: 'A4', size: 20 },
-        // 团队 B
-        { id: 'B1', team: 'B', label: 'B1', size: 30 },
-        { id: 'B2', team: 'B', label: 'B2', size: 20 },
-        { id: 'B3', team: 'B', label: 'B3', size: 20 },
-        { id: 'B4', team: 'B', label: 'B4', size: 20 },
-        // 团队 C
-        { id: 'C1', team: 'C', label: 'C1', size: 30 },
-        { id: 'C2', team: 'C', label: 'C2', size: 20 },
-        { id: 'C3', team: 'C', label: 'C3', size: 20 },
-        { id: 'C4', team: 'C', label: 'C4', size: 20 },
-      ],
-      edges: [
-        // 团队 A 内部连接
-        { source: 'A1', target: 'A2' },
-        { source: 'A1', target: 'A3' },
-        { source: 'A1', target: 'A4' },
-        // 团队 B 内部连接
-        { source: 'B1', target: 'B2' },
-        { source: 'B1', target: 'B3' },
-        { source: 'B1', target: 'B4' },
-        // 团队 C 内部连接
-        { source: 'C1', target: 'C2' },
-        { source: 'C1', target: 'C3' },
-        { source: 'C1', target: 'C4' },
-        // 团队间的少量连接
-        { source: 'A1', target: 'B1' },
-        { source: 'B1', target: 'C1' },
-      ],
-    },
-    node: {
-      style: {
-        size: (d) => d.size,
-        fill: (d) => {
-          // 不同团队使用不同颜色
-          const colors = {
-            A: '#FF6B6B',
-            B: '#4ECDC4',
-            C: '#45B7D1',
-          };
-          return colors[d.team];
-        },
-        labelText: (d) => d.label,
-        labelPlacement: 'center',
-        labelFill: '#fff',
-      },
-    },
-    edge: {
-      style: {
-        stroke: '#aaa',
-      },
-    },
-    layout: {
-      type: 'd3-force',
-      // 配置链接力 - 团队内部节点更靠近
-      link: {
-        distance: (d) => {
-          // 同一团队内的连接距离更短
-          if (d.source.team === d.target.team) return 50;
-          // 不同团队间的连接距离更长
-          return 200;
-        },
-        strength: (d) => {
-          // 同一团队内的连接强度更大
-          if (d.source.team === d.target.team) return 0.7;
-          // 不同团队间的连接强度更小
-          return 0.1;
-        },
-      },
-      // 配置多体力 - 控制节点间的排斥力
-      manyBody: {
-        strength: (d) => {
-          // 团队领导节点（编号1）的排斥力更强
-          if (d.label.endsWith('1')) return -100;
-          return -30;
-        },
-      },
-      // 配置碰撞力 - 防止节点重叠
-      collide: {
-        radius: 35,
-        strength: 0.8,
-      },
-      // 配置中心力 - 保持图形在画布中心
-      center: {
-        strength: 0.05,
-      },
-    },
-    behaviors: ['drag-element-force'],
+```js | ob { pin: false, autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 500,
+  height: 250,
+  autoFit: 'view',
+  data: {
+    nodes: [
+      // 团队 A
+      { id: 'A1', team: 'A', label: 'A1', size: 30 },
+      { id: 'A2', team: 'A', label: 'A2', size: 20 },
+      { id: 'A3', team: 'A', label: 'A3', size: 20 },
+      { id: 'A4', team: 'A', label: 'A4', size: 20 },
+      // 团队 B
+      { id: 'B1', team: 'B', label: 'B1', size: 30 },
+      { id: 'B2', team: 'B', label: 'B2', size: 20 },
+      { id: 'B3', team: 'B', label: 'B3', size: 20 },
+      { id: 'B4', team: 'B', label: 'B4', size: 20 },
+      // 团队 C
+      { id: 'C1', team: 'C', label: 'C1', size: 30 },
+      { id: 'C2', team: 'C', label: 'C2', size: 20 },
+      { id: 'C3', team: 'C', label: 'C3', size: 20 },
+      { id: 'C4', team: 'C', label: 'C4', size: 20 },
+    ],
+    edges: [
+      // 团队 A 内部连接
+      { source: 'A1', target: 'A2' },
+      { source: 'A1', target: 'A3' },
+      { source: 'A1', target: 'A4' },
+      // 团队 B 内部连接
+      { source: 'B1', target: 'B2' },
+      { source: 'B1', target: 'B3' },
+      { source: 'B1', target: 'B4' },
+      // 团队 C 内部连接
+      { source: 'C1', target: 'C2' },
+      { source: 'C1', target: 'C3' },
+      { source: 'C1', target: 'C4' },
+      // 团队间的少量连接
+      { source: 'A1', target: 'B1' },
+      { source: 'B1', target: 'C1' },
+    ],
   },
-  { width: 500, height: 250 },
-);
+  node: {
+    style: {
+      size: (d) => d.size,
+      fill: (d) => {
+        // 不同团队使用不同颜色
+        const colors = {
+          A: '#FF6B6B',
+          B: '#4ECDC4',
+          C: '#45B7D1',
+        };
+        return colors[d.team];
+      },
+      labelText: (d) => d.label,
+      labelPlacement: 'center',
+      labelFill: '#fff',
+    },
+  },
+  edge: {
+    style: {
+      stroke: '#aaa',
+    },
+  },
+  layout: {
+    type: 'd3-force',
+    // 配置链接力 - 团队内部节点更靠近
+    link: {
+      distance: (d) => {
+        // 同一团队内的连接距离更短
+        if (d.source.team === d.target.team) return 50;
+        // 不同团队间的连接距离更长
+        return 200;
+      },
+      strength: (d) => {
+        // 同一团队内的连接强度更大
+        if (d.source.team === d.target.team) return 0.7;
+        // 不同团队间的连接强度更小
+        return 0.1;
+      },
+    },
+    // 配置多体力 - 控制节点间的排斥力
+    manyBody: {
+      strength: (d) => {
+        // 团队领导节点（编号1）的排斥力更强
+        if (d.label.endsWith('1')) return -100;
+        return -30;
+      },
+    },
+    // 配置碰撞力 - 防止节点重叠
+    collide: {
+      radius: 35,
+      strength: 0.8,
+    },
+    // 配置中心力 - 保持图形在画布中心
+    center: {
+      strength: 0.05,
+    },
+  },
+  behaviors: ['drag-element-force'],
+});
+
+graph.render();
 ```
 
 <details><summary>展开查看完整代码</summary>

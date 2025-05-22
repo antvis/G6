@@ -1,4 +1,4 @@
-```js | ob { pin: false }
+```js | ob {  pin: false , autoMount: true }
 createGraph(
   {
     autoFit: 'center',

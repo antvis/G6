@@ -107,85 +107,89 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'view',
-    data: {
-      nodes: [
-        {
-          id: 'node-0',
-          data: { cluster: 'a' },
-          style: { x: 555, y: 151 },
-        },
-        {
-          id: 'node-1',
-          data: { cluster: 'a' },
-          style: { x: 532, y: 323 },
-        },
-        {
-          id: 'node-2',
-          data: { cluster: 'a' },
-          style: { x: 473, y: 227 },
-        },
-        {
-          id: 'node-3',
-          data: { cluster: 'a' },
-          style: { x: 349, y: 212 },
-        },
-        {
-          id: 'node-4',
-          data: { cluster: 'b' },
-          style: { x: 234, y: 201 },
-        },
-        {
-          id: 'node-5',
-          data: { cluster: 'b' },
-          style: { x: 338, y: 333 },
-        },
-        {
-          id: 'node-6',
-          data: { cluster: 'b' },
-          style: { x: 365, y: 91 },
-        },
-      ],
-      edges: [
-        {
-          source: 'node-0',
-          target: 'node-2',
-        },
-        {
-          source: 'node-1',
-          target: 'node-2',
-        },
-        {
-          source: 'node-2',
-          target: 'node-3',
-        },
-        {
-          source: 'node-3',
-          target: 'node-4',
-        },
-        {
-          source: 'node-3',
-          target: 'node-5',
-        },
-        {
-          source: 'node-3',
-          target: 'node-6',
-        },
-      ],
-    },
-    plugins: [
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  autoFit: 'view',
+  data: {
+    nodes: [
       {
-        type: 'hull',
-        members: ['node-1', 'node-2'], // List of node IDs to be wrapped
+        id: 'node-0',
+        data: { cluster: 'a' },
+        style: { x: 555, y: 151 },
+      },
+      {
+        id: 'node-1',
+        data: { cluster: 'a' },
+        style: { x: 532, y: 323 },
+      },
+      {
+        id: 'node-2',
+        data: { cluster: 'a' },
+        style: { x: 473, y: 227 },
+      },
+      {
+        id: 'node-3',
+        data: { cluster: 'a' },
+        style: { x: 349, y: 212 },
+      },
+      {
+        id: 'node-4',
+        data: { cluster: 'b' },
+        style: { x: 234, y: 201 },
+      },
+      {
+        id: 'node-5',
+        data: { cluster: 'b' },
+        style: { x: 338, y: 333 },
+      },
+      {
+        id: 'node-6',
+        data: { cluster: 'b' },
+        style: { x: 365, y: 91 },
       },
     ],
-    behaviors: ['zoom-canvas', 'drag-canvas'],
+    edges: [
+      {
+        source: 'node-0',
+        target: 'node-2',
+      },
+      {
+        source: 'node-1',
+        target: 'node-2',
+      },
+      {
+        source: 'node-2',
+        target: 'node-3',
+      },
+      {
+        source: 'node-3',
+        target: 'node-4',
+      },
+      {
+        source: 'node-3',
+        target: 'node-5',
+      },
+      {
+        source: 'node-3',
+        target: 'node-6',
+      },
+    ],
   },
-  { width: 300, height: 150 },
-);
+  plugins: [
+    {
+      type: 'hull',
+      members: ['node-1', 'node-2'], // List of node IDs to be wrapped
+    },
+  ],
+  behaviors: ['zoom-canvas', 'drag-canvas'],
+});
+
+graph.render();
 ```
 
 ### Custom Styles
@@ -210,90 +214,94 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'view',
-    data: {
-      nodes: [
-        {
-          id: 'node-0',
-          data: { cluster: 'a' },
-          style: { x: 555, y: 151 },
-        },
-        {
-          id: 'node-1',
-          data: { cluster: 'a' },
-          style: { x: 532, y: 323 },
-        },
-        {
-          id: 'node-2',
-          data: { cluster: 'a' },
-          style: { x: 473, y: 227 },
-        },
-        {
-          id: 'node-3',
-          data: { cluster: 'a' },
-          style: { x: 349, y: 212 },
-        },
-        {
-          id: 'node-4',
-          data: { cluster: 'b' },
-          style: { x: 234, y: 201 },
-        },
-        {
-          id: 'node-5',
-          data: { cluster: 'b' },
-          style: { x: 338, y: 333 },
-        },
-        {
-          id: 'node-6',
-          data: { cluster: 'b' },
-          style: { x: 365, y: 91 },
-        },
-      ],
-      edges: [
-        {
-          source: 'node-0',
-          target: 'node-2',
-        },
-        {
-          source: 'node-1',
-          target: 'node-2',
-        },
-        {
-          source: 'node-2',
-          target: 'node-3',
-        },
-        {
-          source: 'node-3',
-          target: 'node-4',
-        },
-        {
-          source: 'node-3',
-          target: 'node-5',
-        },
-        {
-          source: 'node-3',
-          target: 'node-6',
-        },
-      ],
-    },
-    plugins: [
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  autoFit: 'view',
+  data: {
+    nodes: [
       {
-        type: 'hull',
-        members: ['node-1', 'node-2', 'node-3'],
-        stroke: '#ff000033', // Red semi-transparent border
-        fill: '#7e3feb', // Light purple fill
-        fillOpacity: 0.2,
-        lineWidth: 2,
-        padding: 15, // Larger padding
+        id: 'node-0',
+        data: { cluster: 'a' },
+        style: { x: 555, y: 151 },
+      },
+      {
+        id: 'node-1',
+        data: { cluster: 'a' },
+        style: { x: 532, y: 323 },
+      },
+      {
+        id: 'node-2',
+        data: { cluster: 'a' },
+        style: { x: 473, y: 227 },
+      },
+      {
+        id: 'node-3',
+        data: { cluster: 'a' },
+        style: { x: 349, y: 212 },
+      },
+      {
+        id: 'node-4',
+        data: { cluster: 'b' },
+        style: { x: 234, y: 201 },
+      },
+      {
+        id: 'node-5',
+        data: { cluster: 'b' },
+        style: { x: 338, y: 333 },
+      },
+      {
+        id: 'node-6',
+        data: { cluster: 'b' },
+        style: { x: 365, y: 91 },
       },
     ],
-    behaviors: ['zoom-canvas', 'drag-canvas'],
+    edges: [
+      {
+        source: 'node-0',
+        target: 'node-2',
+      },
+      {
+        source: 'node-1',
+        target: 'node-2',
+      },
+      {
+        source: 'node-2',
+        target: 'node-3',
+      },
+      {
+        source: 'node-3',
+        target: 'node-4',
+      },
+      {
+        source: 'node-3',
+        target: 'node-5',
+      },
+      {
+        source: 'node-3',
+        target: 'node-6',
+      },
+    ],
   },
-  { width: 300, height: 150 },
-);
+  plugins: [
+    {
+      type: 'hull',
+      members: ['node-1', 'node-2', 'node-3'],
+      stroke: '#ff000033', // Red semi-transparent border
+      fill: '#7e3feb', // Light purple fill
+      fillOpacity: 0.2,
+      lineWidth: 2,
+      padding: 15, // Larger padding
+    },
+  ],
+  behaviors: ['zoom-canvas', 'drag-canvas'],
+});
+
+graph.render();
 ```
 
 ### Label Configuration
@@ -318,90 +326,94 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [
-        {
-          id: 'node-0',
-          data: { cluster: 'a' },
-          style: { x: 555, y: 151 },
-        },
-        {
-          id: 'node-1',
-          data: { cluster: 'a' },
-          style: { x: 532, y: 323 },
-        },
-        {
-          id: 'node-2',
-          data: { cluster: 'a' },
-          style: { x: 473, y: 227 },
-        },
-        {
-          id: 'node-3',
-          data: { cluster: 'a' },
-          style: { x: 349, y: 212 },
-        },
-        {
-          id: 'node-4',
-          data: { cluster: 'b' },
-          style: { x: 234, y: 201 },
-        },
-        {
-          id: 'node-5',
-          data: { cluster: 'b' },
-          style: { x: 338, y: 333 },
-        },
-        {
-          id: 'node-6',
-          data: { cluster: 'b' },
-          style: { x: 365, y: 91 },
-        },
-      ],
-      edges: [
-        {
-          source: 'node-0',
-          target: 'node-2',
-        },
-        {
-          source: 'node-1',
-          target: 'node-2',
-        },
-        {
-          source: 'node-2',
-          target: 'node-3',
-        },
-        {
-          source: 'node-3',
-          target: 'node-4',
-        },
-        {
-          source: 'node-3',
-          target: 'node-5',
-        },
-        {
-          source: 'node-3',
-          target: 'node-6',
-        },
-      ],
-    },
-    plugins: [
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  autoFit: 'center',
+  data: {
+    nodes: [
       {
-        type: 'hull',
-        members: ['node-1', 'node-2'],
-        label: true, // Display label
-        labelText: 'hull-a',
-        labelPlacement: 'top', // Label position
-        labelBackground: true, // Display label background
-        labelPadding: 5, // Label padding
+        id: 'node-0',
+        data: { cluster: 'a' },
+        style: { x: 555, y: 151 },
+      },
+      {
+        id: 'node-1',
+        data: { cluster: 'a' },
+        style: { x: 532, y: 323 },
+      },
+      {
+        id: 'node-2',
+        data: { cluster: 'a' },
+        style: { x: 473, y: 227 },
+      },
+      {
+        id: 'node-3',
+        data: { cluster: 'a' },
+        style: { x: 349, y: 212 },
+      },
+      {
+        id: 'node-4',
+        data: { cluster: 'b' },
+        style: { x: 234, y: 201 },
+      },
+      {
+        id: 'node-5',
+        data: { cluster: 'b' },
+        style: { x: 338, y: 333 },
+      },
+      {
+        id: 'node-6',
+        data: { cluster: 'b' },
+        style: { x: 365, y: 91 },
       },
     ],
-    behaviors: ['zoom-canvas', 'drag-canvas'],
+    edges: [
+      {
+        source: 'node-0',
+        target: 'node-2',
+      },
+      {
+        source: 'node-1',
+        target: 'node-2',
+      },
+      {
+        source: 'node-2',
+        target: 'node-3',
+      },
+      {
+        source: 'node-3',
+        target: 'node-4',
+      },
+      {
+        source: 'node-3',
+        target: 'node-5',
+      },
+      {
+        source: 'node-3',
+        target: 'node-6',
+      },
+    ],
   },
-  { width: 300, height: 150 },
-);
+  plugins: [
+    {
+      type: 'hull',
+      members: ['node-1', 'node-2'],
+      label: true, // Display label
+      labelText: 'hull-a',
+      labelPlacement: 'top', // Label position
+      labelBackground: true, // Display label background
+      labelPadding: 5, // Label padding
+    },
+  ],
+  behaviors: ['zoom-canvas', 'drag-canvas'],
+});
+
+graph.render();
 ```
 
 ## Practical Cases

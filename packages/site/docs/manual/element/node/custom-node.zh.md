@@ -65,7 +65,7 @@ G6 提供了一系列 [内置节点](/manual/element/node/build-in/base-node)，
 
 让我们从一个简单的例子开始 - 创建一个 **带有主副标题的矩形节点**：
 
-```js | ob {pin:false}
+```js | ob { pin:false, autoMount: true }
 (() => {
   const { Graph, register, Rect, ExtensionCategory } = g6;
 
@@ -417,7 +417,7 @@ protected getKeyStyle(attributes: Required<BaseNodeStyleProps>) {
 > 2. 添加图标（image）
 > 3. 添加标签（text）
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Graph, register, Rect, ExtensionCategory } = g6;
 
@@ -520,7 +520,7 @@ protected getKeyStyle(attributes: Required<BaseNodeStyleProps>) {
 
 给节点加一个蓝色按钮，点击后触发事件（打印日志或执行回调）。
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Graph, register, Rect, ExtensionCategory } = g6;
 
@@ -615,7 +615,7 @@ protected getKeyStyle(attributes: Required<BaseNodeStyleProps>) {
 
 基于 rect 扩展出一个 hole 图形，默认填充色为白色，当鼠标点击时变成橙色，实现这一效果的示例代码如下：
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Rect, register, Graph, ExtensionCategory } = g6;
 

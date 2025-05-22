@@ -1,4 +1,4 @@
-```js | ob { pin: false }
+```js | ob {  pin: false , autoMount: true }
 (() => {
   const container = createContainer({ width: 200, height: 50 });
 

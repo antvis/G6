@@ -1,4 +1,4 @@
-```js | ob { pin: false }
+```js | ob {  pin: false , autoMount: true }
 (async () => {
   const { Graph, BaseTransform, register, ExtensionCategory } = window.g6;
 

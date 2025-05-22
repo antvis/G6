@@ -40,25 +40,29 @@ const graph = new Graph({
 
 ## Example
 
-```js | ob { pin: false}
-createGraph(
-  {
-    autoFit: 'view',
-    data: {
-      nodes: Array.from({ length: 50 }).map((_, i) => ({
-        id: `${i}`,
-      })),
-    },
-    node: {
-      style: {
-        labelText: (d) => d.id,
-      },
-    },
-    behaviors: ['drag-canvas', 'zoom-canvas'],
-    layout: {
-      type: 'random',
+```js | ob {  pin: false, autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 300,
+  autoFit: 'view',
+  data: {
+    nodes: Array.from({ length: 50 }).map((_, i) => ({
+      id: `${i}`,
+    })),
+  },
+  node: {
+    style: {
+      labelText: (d) => d.id,
     },
   },
-  { width: 600, height: 300 },
-);
+  behaviors: ['drag-canvas', 'zoom-canvas'],
+  layout: {
+    type: 'random',
+  },
+});
+
+graph.render();
 ```

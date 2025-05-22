@@ -170,93 +170,97 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node-1', style: { x: 150, y: 100 } },
-        { id: 'node-2', style: { x: 250, y: 100 } },
-        { id: 'node-3', style: { x: 200, y: 180 } },
-        { id: 'node-4', style: { x: 120, y: 180 } },
-        { id: 'node-5', style: { x: 280, y: 180 } },
-      ],
-      edges: [
-        { id: 'edge-1', source: 'node-1', target: 'node-2' },
-        { id: 'edge-2', source: 'node-1', target: 'node-3' },
-        { id: 'edge-3', source: 'node-2', target: 'node-3' },
-        { id: 'edge-4', source: 'node-3', target: 'node-4' },
-        { id: 'edge-5', source: 'node-3', target: 'node-5' },
-      ],
-    },
-    node: {
-      style: {
-        size: 30,
-        fill: '#e6f7ff',
-        stroke: '#1890ff',
-        lineWidth: 1,
-        label: false,
-        icon: false,
-      },
-    },
-    edge: {
-      style: {
-        stroke: '#91d5ff',
-        lineWidth: 1,
-      },
-    },
-    plugins: [
-      {
-        type: 'fisheye',
-        key: 'fisheye',
-        r: 100,
-        d: 2,
-        style: {
-          fill: '#2f54eb', // Fill color of the fisheye area
-          fillOpacity: 0.2, // Opacity of the fill area
-          stroke: '#1d39c4', // Color of the fisheye border
-          strokeOpacity: 0.8, // Opacity of the border
-          lineWidth: 1.5, // Line width of the border
-          shadowColor: '#1d39c4', // Shadow color
-          shadowBlur: 10, // Shadow blur radius
-          shadowOffsetX: 0, // Horizontal shadow offset
-          shadowOffsetY: 0, // Vertical shadow offset
-          cursor: 'pointer', // Cursor style when hovering
-        },
-        nodeStyle: {
-          // Basic node style
-          size: 40, // Node size
-          fill: '#d6e4ff', // Node fill color
-          stroke: '#2f54eb', // Node border color
-          lineWidth: 2, // Node border width
-          shadowColor: '#2f54eb', // Node shadow color
-          shadowBlur: 5, // Node shadow blur radius
-          cursor: 'pointer', // Cursor style when hovering
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
 
-          // Label style
-          label: true, // Show label
-          labelFontSize: 14, // Label font size
-          labelFontWeight: 'bold', // Label font weight
-          labelFill: '#1d39c4', // Label text color
-          labelBackground: true, // Show label background
-          labelBackgroundFill: '#fff', // Label background fill color
-          labelBackgroundStroke: '#1d39c4', // Label background border color
-          labelBackgroundOpacity: 0.8, // Label background opacity
-          labelBackgroundPadding: [4, 8, 4, 8], // Label background padding [top, right, bottom, left]
-
-          // Icon style
-          icon: true, // Show icon
-          iconFontFamily: 'iconfont', // Icon font
-          iconText: '\ue6f6', // Icon Unicode
-          iconFill: '#1d39c4', // Icon color
-          iconSize: 16, // Icon size
-          iconFontWeight: 'normal', // Icon font weight
-        },
-      },
+const graph = new Graph({
+  container: 'container',
+  width: 400,
+  height: 300,
+  data: {
+    nodes: [
+      { id: 'node-1', style: { x: 150, y: 100 } },
+      { id: 'node-2', style: { x: 250, y: 100 } },
+      { id: 'node-3', style: { x: 200, y: 180 } },
+      { id: 'node-4', style: { x: 120, y: 180 } },
+      { id: 'node-5', style: { x: 280, y: 180 } },
+    ],
+    edges: [
+      { id: 'edge-1', source: 'node-1', target: 'node-2' },
+      { id: 'edge-2', source: 'node-1', target: 'node-3' },
+      { id: 'edge-3', source: 'node-2', target: 'node-3' },
+      { id: 'edge-4', source: 'node-3', target: 'node-4' },
+      { id: 'edge-5', source: 'node-3', target: 'node-5' },
     ],
   },
-  { width: 400, height: 300 },
-);
+  node: {
+    style: {
+      size: 30,
+      fill: '#e6f7ff',
+      stroke: '#1890ff',
+      lineWidth: 1,
+      label: false,
+      icon: false,
+    },
+  },
+  edge: {
+    style: {
+      stroke: '#91d5ff',
+      lineWidth: 1,
+    },
+  },
+  plugins: [
+    {
+      type: 'fisheye',
+      key: 'fisheye',
+      r: 100,
+      d: 2,
+      style: {
+        fill: '#2f54eb', // Fill color of the fisheye area
+        fillOpacity: 0.2, // Opacity of the fill area
+        stroke: '#1d39c4', // Color of the fisheye border
+        strokeOpacity: 0.8, // Opacity of the border
+        lineWidth: 1.5, // Line width of the border
+        shadowColor: '#1d39c4', // Shadow color
+        shadowBlur: 10, // Shadow blur radius
+        shadowOffsetX: 0, // Horizontal shadow offset
+        shadowOffsetY: 0, // Vertical shadow offset
+        cursor: 'pointer', // Cursor style when hovering
+      },
+      nodeStyle: {
+        // Basic node style
+        size: 40, // Node size
+        fill: '#d6e4ff', // Node fill color
+        stroke: '#2f54eb', // Node border color
+        lineWidth: 2, // Node border width
+        shadowColor: '#2f54eb', // Node shadow color
+        shadowBlur: 5, // Node shadow blur radius
+        cursor: 'pointer', // Cursor style when hovering
+
+        // Label style
+        label: true, // Show label
+        labelFontSize: 14, // Label font size
+        labelFontWeight: 'bold', // Label font weight
+        labelFill: '#1d39c4', // Label text color
+        labelBackground: true, // Show label background
+        labelBackgroundFill: '#fff', // Label background fill color
+        labelBackgroundStroke: '#1d39c4', // Label background border color
+        labelBackgroundOpacity: 0.8, // Label background opacity
+        labelBackgroundPadding: [4, 8, 4, 8], // Label background padding [top, right, bottom, left]
+
+        // Icon style
+        icon: true, // Show icon
+        iconFontFamily: 'iconfont', // Icon font
+        iconText: '\ue6f6', // Icon Unicode
+        iconFill: '#1d39c4', // Icon color
+        iconSize: 16, // Icon size
+        iconFontWeight: 'normal', // Icon font weight
+      },
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ## Practical Examples

@@ -1,4 +1,4 @@
-```js | ob { pin: false }
+```js | ob {  pin: false , autoMount: true }
 (async () => {
   const { BaseBehavior, CanvasEvent, register, ExtensionCategory, Graph } = window.g6;
 
@@ -43,14 +43,7 @@
         fill: 'red',
       };
       const optionFolder = gui.addFolder('ClickAddNode Options');
-      optionFolder.add(options, 'fill', [
-        'red',
-        'black',
-        'blue',
-        'green',
-        'yellow',
-        'purple',
-      ]);
+      optionFolder.add(options, 'fill', ['red', 'black', 'blue', 'green', 'yellow', 'purple']);
 
       optionFolder.onChange(({ property, value }) => {
         graph.updateBehavior({

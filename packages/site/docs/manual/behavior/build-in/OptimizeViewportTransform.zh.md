@@ -130,30 +130,34 @@ const graph = new Graph({
 
 > 👇 试试拖拽一下画布，看看效果吧
 
-```js | ob { pin: false}
-createGraph(
-  {
-    data: {
-      nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
-    },
-    node: {
-      style: {
-        labelText: 'Drag Canvas!',
-      },
-    },
-    behaviors: [
-      'drag-canvas',
-      {
-        type: 'optimize-viewport-transform',
-        shapes: (type, shape) => {
-          if (type === 'node' && shape.className === 'key') return true;
-          return false;
-        },
-      },
-    ],
+```js | ob {  pin: false, autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 200,
+  data: {
+    nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
   },
-  { width: 200, height: 200 },
-);
+  node: {
+    style: {
+      labelText: 'Drag Canvas!',
+    },
+  },
+  behaviors: [
+    'drag-canvas',
+    {
+      type: 'optimize-viewport-transform',
+      shapes: (type, shape) => {
+        if (type === 'node' && shape.className === 'key') return true;
+        return false;
+      },
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ### 根据图表元素数量动态启用/禁用优化

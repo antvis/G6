@@ -140,18 +140,22 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [{ id: 'node1', style: { x: 120, y: 40 } }],
-    },
-    node: {
-      style: { fill: '#1783FF', stroke: '#000', lineWidth: 2 },
-    },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [{ id: 'node1', style: { x: 120, y: 40 } }],
   },
-  { width: 240, height: 100 },
-);
+  node: {
+    style: { fill: '#1783FF', stroke: '#000', lineWidth: 2 },
+  },
+});
+
+graph.render();
 ```
 
 ### 标签样式
@@ -228,29 +232,33 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          style: {
-            x: 120,
-            y: 40,
-            label: true,
-            labelText: '节点名称',
-            labelFill: '#000',
-            labelFontSize: 12,
-            labelFontWeight: 'normal',
-            labelPlacement: 'bottom',
-          },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: {
+          x: 120,
+          y: 40,
+          label: true,
+          labelText: '节点名称',
+          labelFill: '#000',
+          labelFontSize: 12,
+          labelFontWeight: 'normal',
+          labelPlacement: 'bottom',
         },
-      ],
-    },
+      },
+    ],
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 标签背景样式
@@ -294,33 +302,37 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          style: {
-            x: 120,
-            y: 40,
-            label: true,
-            labelText: '节点名称',
-            labelFill: '#000',
-            labelFontSize: 12,
-            labelFontWeight: 'normal',
-            labelPlacement: 'bottom',
-            labelBackground: true,
-            labelBackgroundFill: '#000',
-            labelBackgroundRadius: 10,
-            labelBackgroundFillOpacity: 0.5,
-          },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: {
+          x: 120,
+          y: 40,
+          label: true,
+          labelText: '节点名称',
+          labelFill: '#000',
+          labelFontSize: 12,
+          labelFontWeight: 'normal',
+          labelPlacement: 'bottom',
+          labelBackground: true,
+          labelBackgroundFill: '#000',
+          labelBackgroundRadius: 10,
+          labelBackgroundFillOpacity: 0.5,
         },
-      ],
-    },
+      },
+    ],
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 光晕样式
@@ -361,30 +373,34 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          style: {
-            x: 120,
-            y: 40,
-          },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: {
+          x: 120,
+          y: 40,
         },
-      ],
-    },
-    node: {
-      style: {
-        halo: true,
-        haloStroke: '#FF0000',
-        haloLineWidth: 10,
       },
+    ],
+  },
+  node: {
+    style: {
+      halo: true,
+      haloStroke: '#FF0000',
+      haloLineWidth: 10,
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 图标样式
@@ -432,32 +448,36 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          style: {
-            x: 120,
-            y: 40,
-          },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: {
+          x: 120,
+          y: 40,
         },
-      ],
-    },
-    node: {
-      style: {
-        iconText: '文本',
-        iconFill: '#FF0000',
-        iconFontSize: 14,
-        iconFontWeight: 'bold',
-        iconFontStyle: 'italic',
       },
+    ],
+  },
+  node: {
+    style: {
+      iconText: '文本',
+      iconFill: '#FF0000',
+      iconFontSize: 14,
+      iconFontWeight: 'bold',
+      iconFontStyle: 'italic',
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 徽标样式
@@ -535,28 +555,32 @@ const graph = new Graph({
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [{ id: 'node1', states: ['focus'] }],
-    },
-    node: {
-      style: {
-        badge: true,
-        badges: [
-          { text: 'A', placement: 'right-top' },
-          { text: 'Important', placement: 'right' },
-          { text: 'Notice', placement: 'right-bottom' },
-        ],
-        badgePalette: ['#7E92B5', '#F4664A', '#FFBE3A'],
-        badgeFontSize: 7,
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', states: ['focus'] }],
+  },
+  node: {
+    style: {
+      badge: true,
+      badges: [
+        { text: 'A', placement: 'right-top' },
+        { text: 'Important', placement: 'right' },
+        { text: 'Notice', placement: 'right-bottom' },
+      ],
+      badgePalette: ['#7E92B5', '#F4664A', '#FFBE3A'],
+      badgeFontSize: 7,
     },
   },
-  { width: 200, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 连接桩样式
@@ -614,30 +638,34 @@ const graph = new Graph({
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [{ id: 'node1', states: ['focus'] }],
-    },
-    node: {
-      style: {
-        port: true,
-        ports: [
-          { key: 'top', placement: 'top', fill: '#7E92B5' },
-          { key: 'right', placement: 'right', fill: '#F4664A' },
-          { key: 'bottom', placement: 'bottom', fill: '#FFBE3A' },
-          { key: 'left', placement: [0, 0.5], fill: '#D580FF' },
-        ],
-        portR: 3,
-        portLineWidth: 1,
-        portStroke: '#fff',
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', states: ['focus'] }],
+  },
+  node: {
+    style: {
+      port: true,
+      ports: [
+        { key: 'top', placement: 'top', fill: '#7E92B5' },
+        { key: 'right', placement: 'right', fill: '#F4664A' },
+        { key: 'bottom', placement: 'bottom', fill: '#FFBE3A' },
+        { key: 'left', placement: [0, 0.5], fill: '#D580FF' },
+      ],
+      portR: 3,
+      portLineWidth: 1,
+      portStroke: '#fff',
     },
   },
-  { width: 200, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ## State
@@ -673,24 +701,28 @@ const graph = new Graph({
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [{ id: 'node1', states: ['focus'] }],
-    },
-    node: {
-      state: {
-        focus: {
-          lineWidth: 3,
-          stroke: 'orange',
-        },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', states: ['focus'] }],
+  },
+  node: {
+    state: {
+      focus: {
+        lineWidth: 3,
+        stroke: 'orange',
       },
     },
   },
-  { width: 200, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ## Animation
@@ -791,25 +823,29 @@ createGraph(
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: new Array(10)
-        .fill(0)
-        .map((_, i) => ({ id: `node-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
-    },
-    layout: { type: 'grid', cols: 10 },
-    node: {
-      palette: {
-        type: 'group',
-        field: 'category',
-        color: ['#1783FF', '#F08F56', '#D580FF', '#00C9C9', '#7863FF'],
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 100,
+  data: {
+    nodes: new Array(10)
+      .fill(0)
+      .map((_, i) => ({ id: `node-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
+  },
+  layout: { type: 'grid', cols: 10 },
+  node: {
+    palette: {
+      type: 'group',
+      field: 'category',
+      color: ['#1783FF', '#F08F56', '#D580FF', '#00C9C9', '#7863FF'],
     },
   },
-  { width: 600, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 也可以使用默认配置：
@@ -824,19 +860,23 @@ createGraph(
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: new Array(10)
-        .fill(0)
-        .map((_, i) => ({ id: `node-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
-    },
-    layout: { type: 'grid', cols: 10 },
-    node: {
-      palette: 'tableau',
-    },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 100,
+  data: {
+    nodes: new Array(10)
+      .fill(0)
+      .map((_, i) => ({ id: `node-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
   },
-  { width: 600, height: 100 },
-);
+  layout: { type: 'grid', cols: 10 },
+  node: {
+    palette: 'tableau',
+  },
+});
+
+graph.render();
 ```

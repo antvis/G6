@@ -155,76 +155,80 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    width: 600,
-    height: 400,
-    layout: { type: 'grid', cols: 5 },
-    plugins: [
-      {
-        type: 'timebar',
-        data: [
-          {
-            time: new Date('2023-08-01').getTime(),
-            value: 5,
-          },
-          {
-            time: new Date('2023-08-02').getTime(),
-            value: 10,
-          },
-          {
-            time: new Date('2023-08-03').getTime(),
-            value: 15,
-          },
-        ],
-      },
-    ],
-    data: {
-      nodes: [
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 400,
+  width: 600,
+  height: 400,
+  layout: { type: 'grid', cols: 5 },
+  plugins: [
+    {
+      type: 'timebar',
+      data: [
         {
-          id: 'node1',
-          label: '节点1',
-          data: {
-            timestamp: new Date('2023-08-01').getTime(),
-          },
+          time: new Date('2023-08-01').getTime(),
+          value: 5,
         },
         {
-          id: 'node2',
-          label: '节点2',
-          data: {
-            timestamp: new Date('2023-08-02').getTime(),
-          },
+          time: new Date('2023-08-02').getTime(),
+          value: 10,
         },
         {
-          id: 'node3',
-          label: '节点3',
-          data: {
-            timestamp: new Date('2023-08-03').getTime(),
-          },
-        },
-      ],
-      edges: [
-        {
-          id: 'edge1',
-          source: 'node1',
-          target: 'node2',
-        },
-        {
-          id: 'edge2',
-          source: 'node2',
-          target: 'node3',
-        },
-        {
-          id: 'edge3',
-          source: 'node3',
-          target: 'node1',
+          time: new Date('2023-08-03').getTime(),
+          value: 15,
         },
       ],
     },
+  ],
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        label: '节点1',
+        data: {
+          timestamp: new Date('2023-08-01').getTime(),
+        },
+      },
+      {
+        id: 'node2',
+        label: '节点2',
+        data: {
+          timestamp: new Date('2023-08-02').getTime(),
+        },
+      },
+      {
+        id: 'node3',
+        label: '节点3',
+        data: {
+          timestamp: new Date('2023-08-03').getTime(),
+        },
+      },
+    ],
+    edges: [
+      {
+        id: 'edge1',
+        source: 'node1',
+        target: 'node2',
+      },
+      {
+        id: 'edge2',
+        source: 'node2',
+        target: 'node3',
+      },
+      {
+        id: 'edge3',
+        source: 'node3',
+        target: 'node1',
+      },
+    ],
   },
-  { width: 600, height: 400 },
-);
+});
+
+graph.render();
 ```
 
 ### 自定义样式
@@ -263,7 +267,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
+```js | ob {  pin: false , autoMount: true }
 createGraph(
   {
     data: () => {

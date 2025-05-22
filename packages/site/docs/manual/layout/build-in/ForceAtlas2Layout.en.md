@@ -113,61 +113,65 @@ const graph = new Graph({
 
 Result:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    layout: {
-      type: 'force-atlas2',
-      preventOverlap: true,
-      kr: 20,
-    },
-    data: {
-      nodes: [
-        { id: 'node1' },
-        { id: 'node2' },
-        { id: 'node3' },
-        { id: 'node4' },
-        { id: 'node5' },
-        { id: 'node6' },
-        { id: 'node7' },
-        { id: 'node8' },
-        { id: 'node9' },
-        { id: 'node10' },
-        { id: 'node11' },
-        { id: 'node12' },
-        { id: 'node13' },
-        { id: 'node14' },
-        { id: 'node15' },
-      ],
-      edges: [
-        { source: 'node1', target: 'node2' },
-        { source: 'node2', target: 'node3' },
-        { source: 'node3', target: 'node4' },
-        { source: 'node4', target: 'node5' },
-        { source: 'node5', target: 'node6' },
-        { source: 'node6', target: 'node7' },
-        { source: 'node7', target: 'node8' },
-        { source: 'node8', target: 'node9' },
-        { source: 'node9', target: 'node10' },
-        { source: 'node10', target: 'node11' },
-        { source: 'node11', target: 'node12' },
-        { source: 'node12', target: 'node13' },
-        { source: 'node13', target: 'node14' },
-        { source: 'node14', target: 'node15' },
-        { source: 'node15', target: 'node1' },
-        { source: 'node1', target: 'node8' },
-        { source: 'node2', target: 'node9' },
-        { source: 'node3', target: 'node10' },
-        { source: 'node4', target: 'node11' },
-        { source: 'node5', target: 'node12' },
-        { source: 'node6', target: 'node13' },
-        { source: 'node7', target: 'node14' },
-      ],
-    },
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 400,
+  height: 300,
+  layout: {
+    type: 'force-atlas2',
+    preventOverlap: true,
+    kr: 20,
   },
-  { width: 400, height: 300 },
-);
+  data: {
+    nodes: [
+      { id: 'node1' },
+      { id: 'node2' },
+      { id: 'node3' },
+      { id: 'node4' },
+      { id: 'node5' },
+      { id: 'node6' },
+      { id: 'node7' },
+      { id: 'node8' },
+      { id: 'node9' },
+      { id: 'node10' },
+      { id: 'node11' },
+      { id: 'node12' },
+      { id: 'node13' },
+      { id: 'node14' },
+      { id: 'node15' },
+    ],
+    edges: [
+      { source: 'node1', target: 'node2' },
+      { source: 'node2', target: 'node3' },
+      { source: 'node3', target: 'node4' },
+      { source: 'node4', target: 'node5' },
+      { source: 'node5', target: 'node6' },
+      { source: 'node6', target: 'node7' },
+      { source: 'node7', target: 'node8' },
+      { source: 'node8', target: 'node9' },
+      { source: 'node9', target: 'node10' },
+      { source: 'node10', target: 'node11' },
+      { source: 'node11', target: 'node12' },
+      { source: 'node12', target: 'node13' },
+      { source: 'node13', target: 'node14' },
+      { source: 'node14', target: 'node15' },
+      { source: 'node15', target: 'node1' },
+      { source: 'node1', target: 'node8' },
+      { source: 'node2', target: 'node9' },
+      { source: 'node3', target: 'node10' },
+      { source: 'node4', target: 'node11' },
+      { source: 'node5', target: 'node12' },
+      { source: 'node6', target: 'node13' },
+      { source: 'node7', target: 'node14' },
+    ],
+  },
+  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
+});
+
+graph.render();
 ```
 
 ## Real Example

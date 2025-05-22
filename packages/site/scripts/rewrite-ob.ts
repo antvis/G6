@@ -11,10 +11,12 @@ import path from 'path';
  * import { Graph } from "@antv/g6"
  * const graph = new Graph({ container:'container', width: $1, height: $2, ...options })
  * graph.render()
+ *
+ * Also ensures that ```js | ob {} includes autoMount: true
  */
 
 // Regular expression to match ob code blocks with createGraph
-const OB_CODE_BLOCK_REGEX = /```js\s*\|\s*ob.*?\n([\s\S]*?)```/g;
+const OB_CODE_BLOCK_REGEX = /```js\s*\|\s*ob(.*?)\n([\s\S]*?)```/g;
 const CREATE_GRAPH_REGEX =
   /createGraph\(\s*(\{[\s\S]*?\})\s*,\s*\{\s*width\s*:\s*(\d+)\s*,\s*height\s*:\s*(\d+)\s*\},\s*\);/g;
 
@@ -38,6 +40,48 @@ graph.render();`;
 }
 
 /**
+ * Ensure autoMount: true is included in ob options
+ * @param obOptions The options string like ' { pin: false }' or ''
+ * @returns Updated options string with autoMount: true
+ */
+function ensureAutoMount(obOptions: string): string {
+  // If there are no options, add them with autoMount: true
+  if (!obOptions || obOptions.trim() === '') {
+    return ' { autoMount: true }';
+  }
+
+  // Check if there are already options
+  const trimmed = obOptions.trim();
+  if (!trimmed.includes('{')) {
+    return ` { autoMount: true }`;
+  }
+
+  // Parse the options to see if autoMount already exists
+  const optionsMatch = trimmed.match(/\{(.*)\}/);
+  if (!optionsMatch) {
+    return ` { autoMount: true }`;
+  }
+
+  const optionsContent = optionsMatch[1].trim();
+  if (optionsContent === '') {
+    return ` { autoMount: true }`;
+  }
+
+  // Check if autoMount already exists
+  if (optionsContent.includes('autoMount:')) {
+    return obOptions;
+  }
+
+  // Add autoMount: true to existing options
+  const updatedOptions = trimmed.replace(/\{(.*)\}/, (match, content) => {
+    const separator = content.trim() ? ', ' : '';
+    return `{ ${content}${separator}autoMount: true }`;
+  });
+
+  return ` ${updatedOptions}`;
+}
+
+/**
  * Process a single file to rewrite ob code blocks
  * @param filePath
  */
@@ -48,14 +92,26 @@ function processFile(filePath: string): void {
     let modified = false;
 
     // Find ob code blocks and replace createGraph pattern
-    content = content.replace(OB_CODE_BLOCK_REGEX, (match) => {
-      // Replace createGraph with Graph instance in each ob code block
-      const newCodeBlock = match.replace(CREATE_GRAPH_REGEX, (createGraphMatch, options, width, height) => {
-        modified = true;
-        return transformCreateGraphToGraphInstance(createGraphMatch, options, width, height);
-      });
+    content = content.replace(OB_CODE_BLOCK_REGEX, (match, obOptions: string, codeContent: string) => {
+      // Ensure autoMount: true is included in ob options
+      const updatedObOptions = ensureAutoMount(obOptions);
 
-      return newCodeBlock;
+      // Replace createGraph with Graph instance in the code content
+      const updatedCodeContent = codeContent.replace(
+        CREATE_GRAPH_REGEX,
+        (createGraphMatch: string, options: string, width: string, height: string) => {
+          modified = true;
+          return transformCreateGraphToGraphInstance(createGraphMatch, options, width, height);
+        },
+      );
+
+      // If code was modified or options were updated, the file needs to be saved
+      if (updatedCodeContent !== codeContent || updatedObOptions !== obOptions) {
+        modified = true;
+      }
+
+      // Return the updated code block
+      return `\`\`\`js | ob${updatedObOptions}\n${updatedCodeContent}\`\`\``;
     });
 
     // Save changes if the file was modified

@@ -65,7 +65,7 @@ Custom nodes developed from scratch need to handle all details by themselves, in
 
 Let's start with a simple example - create a **rectangle node with a main and subtitle**:
 
-```js | ob {pin:false}
+```js | ob { pin:false, autoMount: true }
 (() => {
   const { Graph, register, Rect, ExtensionCategory } = g6;
 
@@ -417,7 +417,7 @@ Place an icon and label text in the upper left corner of the node.
 > 2. Add icon (image)
 > 3. Add label (text)
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Graph, register, Rect, ExtensionCategory } = g6;
 
@@ -520,7 +520,7 @@ Place an icon and label text in the upper left corner of the node.
 
 Add a blue button to the node, which triggers an event (logs or executes a callback) when clicked.
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Graph, register, Rect, ExtensionCategory } = g6;
 
@@ -615,7 +615,7 @@ We recommend users use the second method to achieve node state adjustment, which
 
 Extend a hole graphic based on rect, with a default fill color of white, which turns orange when clicked. The sample code to achieve this effect is as follows:
 
-```js | ob
+```js | ob { autoMount: true }
 (() => {
   const { Rect, register, Graph, ExtensionCategory } = g6;
 

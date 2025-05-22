@@ -1,4 +1,4 @@
-```js | ob { pin: false }
+```js | ob {  pin: false , autoMount: true }
 (() => {
   const { register, Circle, Graph } = window.g6;
 

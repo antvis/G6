@@ -124,28 +124,32 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // 边颜色
-        lineWidth: 2, // 边的宽度
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // 边颜色
+      lineWidth: 2, // 边的宽度
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 标签样式 label
@@ -223,33 +227,37 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // 边颜色
-        lineWidth: 2, // 边的宽度
-        label: true, // 开启边标签展示
-        labelText: 'labelText', // 边标签文字
-        labelPlacement: 'center', // 边标签相对于边的位置
-        labelFill: '#FF0000', // 边标签文字颜色
-        labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // 边颜色
+      lineWidth: 2, // 边的宽度
+      label: true, // 开启边标签展示
+      labelText: 'labelText', // 边标签文字
+      labelPlacement: 'center', // 边标签相对于边的位置
+      labelFill: '#FF0000', // 边标签文字颜色
+      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 光晕样式 halo
@@ -294,36 +302,40 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // 边颜色
-        lineWidth: 2, // 边的宽度
-        label: true, // 开启边标签展示
-        labelText: 'labelText', // 边标签文字
-        labelPlacement: 'center', // 边标签相对于边的位置
-        labelFill: '#FF0000', // 边标签文字颜色
-        labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-        halo: true, // 边光晕开启
-        haloStroke: '#000', // 边光晕颜色
-        haloStrokeOpacity: 0.2, // 边光晕透明度
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // 边颜色
+      lineWidth: 2, // 边的宽度
+      label: true, // 开启边标签展示
+      labelText: 'labelText', // 边标签文字
+      labelPlacement: 'center', // 边标签相对于边的位置
+      labelFill: '#FF0000', // 边标签文字颜色
+      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
+      halo: true, // 边光晕开启
+      haloStroke: '#000', // 边光晕颜色
+      haloStrokeOpacity: 0.2, // 边光晕透明度
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 徽标样式 badge
@@ -401,40 +413,44 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // 边颜色
-        lineWidth: 2, // 边的宽度
-        label: true, // 开启边标签展示
-        labelText: 'labelText', // 边标签文字
-        labelPlacement: 'center', // 边标签相对于边的位置
-        labelFill: '#FF0000', // 边标签文字颜色
-        labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-        halo: true, // 边光晕开启
-        haloStroke: '#000', // 边光晕颜色
-        haloStrokeOpacity: 0.2, // 边光晕透明度
-        badgeText: 'badge', // 边徽标文本
-        badgeFill: 'green', // 边徽标文本颜色
-        badgeOffsetX: -20, // 边徽标在x轴方向上的偏移量
-        badgeBackground: true, // 边徽标背景开启
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // 边颜色
+      lineWidth: 2, // 边的宽度
+      label: true, // 开启边标签展示
+      labelText: 'labelText', // 边标签文字
+      labelPlacement: 'center', // 边标签相对于边的位置
+      labelFill: '#FF0000', // 边标签文字颜色
+      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
+      halo: true, // 边光晕开启
+      haloStroke: '#000', // 边光晕颜色
+      haloStrokeOpacity: 0.2, // 边光晕透明度
+      badgeText: 'badge', // 边徽标文本
+      badgeFill: 'green', // 边徽标文本颜色
+      badgeOffsetX: -20, // 边徽标在x轴方向上的偏移量
+      badgeBackground: true, // 边徽标背景开启
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 起始箭头样式 startArrow
@@ -496,42 +512,46 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // 边颜色
-        lineWidth: 2, // 边的宽度
-        label: true, // 开启边标签展示
-        labelText: 'labelText', // 边标签文字
-        labelPlacement: 'center', // 边标签相对于边的位置
-        labelFill: '#FF0000', // 边标签文字颜色
-        labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-        halo: true, // 边光晕开启
-        haloStroke: '#000', // 边光晕颜色
-        haloStrokeOpacity: 0.2, // 边光晕透明度
-        badgeText: 'badge', // 边徽标文本
-        badgeFill: 'green', // 边徽标文本颜色
-        badgeOffsetX: -20, // 边徽标在x轴方向上的偏移量
-        badgeBackground: true, // 边徽标背景开启
-        startArrow: true, // 边起始箭头开启
-        startArrowFill: 'yellow', // 边起始箭头填充颜色
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // 边颜色
+      lineWidth: 2, // 边的宽度
+      label: true, // 开启边标签展示
+      labelText: 'labelText', // 边标签文字
+      labelPlacement: 'center', // 边标签相对于边的位置
+      labelFill: '#FF0000', // 边标签文字颜色
+      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
+      halo: true, // 边光晕开启
+      haloStroke: '#000', // 边光晕颜色
+      haloStrokeOpacity: 0.2, // 边光晕透明度
+      badgeText: 'badge', // 边徽标文本
+      badgeFill: 'green', // 边徽标文本颜色
+      badgeOffsetX: -20, // 边徽标在x轴方向上的偏移量
+      badgeBackground: true, // 边徽标背景开启
+      startArrow: true, // 边起始箭头开启
+      startArrowFill: 'yellow', // 边起始箭头填充颜色
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 终点箭头样式 endArrow
@@ -594,43 +614,47 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // 边颜色
-        lineWidth: 2, // 边的宽度
-        label: true, // 开启边标签展示
-        labelText: 'labelText', // 边标签文字
-        labelPlacement: 'center', // 边标签相对于边的位置
-        labelFill: '#FF0000', // 边标签文字颜色
-        labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-        halo: true, // 边光晕开启
-        haloStroke: '#000', // 边光晕颜色
-        haloStrokeOpacity: 0.2, // 边光晕透明度
-        badgeText: 'badge', // 边徽标文本
-        badgeFill: 'green', // 边徽标文本颜色
-        badgeOffsetX: 20, // 边徽标在x轴方向上的偏移量
-        badgePlacement: 'prefix', // 边徽标相对于边的位置
-        badgeBackground: true, // 边徽标背景开启
-        endArrow: true, // 边终点箭头开启
-        endArrowFill: 'yellow', // 边终点箭头填充颜色
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // 边颜色
+      lineWidth: 2, // 边的宽度
+      label: true, // 开启边标签展示
+      labelText: 'labelText', // 边标签文字
+      labelPlacement: 'center', // 边标签相对于边的位置
+      labelFill: '#FF0000', // 边标签文字颜色
+      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
+      halo: true, // 边光晕开启
+      haloStroke: '#000', // 边光晕颜色
+      haloStrokeOpacity: 0.2, // 边光晕透明度
+      badgeText: 'badge', // 边徽标文本
+      badgeFill: 'green', // 边徽标文本颜色
+      badgeOffsetX: 20, // 边徽标在x轴方向上的偏移量
+      badgePlacement: 'prefix', // 边徽标相对于边的位置
+      badgeBackground: true, // 边徽标背景开启
+      endArrow: true, // 边终点箭头开启
+      endArrowFill: 'yellow', // 边终点箭头填充颜色
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 自环边样式 loop
@@ -670,31 +694,35 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [
-        { source: 'node1', target: 'node1', id: 'left' },
-        { source: 'node2', target: 'node2', id: 'right' },
-      ],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        loopPlacement: (d) => d.id, // 根据边的 配置 设置自环的位置
-        endArrow: true, // 边终点箭头开启
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [
+      { source: 'node1', target: 'node1', id: 'left' },
+      { source: 'node2', target: 'node2', id: 'right' },
+    ],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      loopPlacement: (d) => d.id, // 根据边的 配置 设置自环的位置
+      endArrow: true, // 边终点箭头开启
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ## State
@@ -739,29 +767,33 @@ const graph = new Graph({
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [{ id: 'node1' }, { id: 'node2' }],
-      edges: [{ source: 'node1', target: 'node2', states: ['focus'] }],
-    },
-    edge: {
-      state: {
-        focus: {
-          halo: true,
-          haloLineWidth: 6,
-          haloStroke: 'yellow',
-        },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 100,
+  data: {
+    nodes: [{ id: 'node1' }, { id: 'node2' }],
+    edges: [{ source: 'node1', target: 'node2', states: ['focus'] }],
+  },
+  edge: {
+    state: {
+      focus: {
+        halo: true,
+        haloLineWidth: 6,
+        haloStroke: 'yellow',
       },
     },
-    layout: {
-      type: 'grid',
-      cols: 2,
-    },
   },
-  { width: 300, height: 100 },
-);
+  layout: {
+    type: 'grid',
+    cols: 2,
+  },
+});
+
+graph.render();
 ```
 
 ## Animation
@@ -879,37 +911,41 @@ const graph = new Graph({
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
-      edges: [
-        { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
-        { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
-        { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
-        { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
-        { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
-      ],
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 300,
+  data: {
+    nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
+    edges: [
+      { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
+      { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
+      { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
+      { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
+      { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
+    ],
+  },
+  layout: {
+    type: 'radial',
+    unitRadius: 120,
+    linkDistance: 120,
+  },
+  edge: {
+    style: {
+      endArrow: true,
     },
-    layout: {
-      type: 'radial',
-      unitRadius: 120,
-      linkDistance: 120,
-    },
-    edge: {
-      style: {
-        endArrow: true,
-      },
-      palette: {
-        type: 'group',
-        field: 'direction',
-        color: ['#F08F56', '#00C9C9'],
-      },
+    palette: {
+      type: 'group',
+      field: 'direction',
+      color: ['#F08F56', '#00C9C9'],
     },
   },
-  { width: 600, height: 300 },
-);
+});
+
+graph.render();
 ```
 
 也可以使用默认配置：
@@ -924,31 +960,35 @@ createGraph(
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
-      edges: [
-        { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
-        { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
-        { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
-        { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
-        { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
-      ],
-    },
-    layout: {
-      type: 'radial',
-      unitRadius: 120,
-      linkDistance: 120,
-    },
-    edge: {
-      style: {
-        endArrow: true,
-      },
-      palette: 'tableau',
-    },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 300,
+  data: {
+    nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
+    edges: [
+      { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
+      { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
+      { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
+      { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
+      { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
+    ],
   },
-  { width: 600, height: 300 },
-);
+  layout: {
+    type: 'radial',
+    unitRadius: 120,
+    linkDistance: 120,
+  },
+  edge: {
+    style: {
+      endArrow: true,
+    },
+    palette: 'tableau',
+  },
+});
+
+graph.render();
 ```

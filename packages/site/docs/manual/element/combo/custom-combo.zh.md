@@ -60,7 +60,7 @@ Combo 不同于普通节点，它具有以下特性：
 
 让我们从继承 `BaseCombo` 开始，实现一个自定义六边形 Combo ：
 
-```js | ob {pin:false}
+```js | ob { pin:false, autoMount: true }
 (() => {
   const { Graph, register, BaseCombo, ExtensionCategory } = g6;
 
