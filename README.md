@@ -102,16 +102,6 @@ All goes well, you can get the following lovely graph!
 
 For more ecosystem open-source projects, contributions are welcome. Please feel free to submit a PR for inclusion.
 
-## Contributors
-
-This project exists thanks to all the people who contribute.
-
-And thank you to all our backers! 🙏
-
-<a href="https://openomy.app/github/antvis/G6" target="_blank" style="display: block; width: 100%;" align="center">
-  <img src="https://openomy.app/svg?repo=antvis/G6&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
- </a>
-
 ## 📮 Contributing
 
 This project exists thanks to all the people who contribute.
