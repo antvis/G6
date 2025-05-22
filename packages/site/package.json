@@ -34,13 +34,15 @@
     "doc:dev": "npm run doc && rm -rf ./docs/api/reference",
     "doc:sort": "ts-node ./scripts/sort-doc.ts",
     "find-unused-demos": "node ./scripts/find-unused-demos.js",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "format:md": "prettier --write \"**/*.md\"",
     "lint": "eslint ./src  --quiet && prettier ./src  --check",
     "preview": "dumi preview"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
     "@antv/algorithm": "^0.1.26",
-    "@antv/dumi-theme-antv": "^0.7.4",
+    "@antv/dumi-theme-antv": "^0.7.5",
     "@antv/g": "^6.1.24",
     "@antv/g-svg": "^2.0.38",
     "@antv/g-webgl": "^2.0.47",

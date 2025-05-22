@@ -140,106 +140,101 @@ const graph = new Graph({
 
 ## 示例
 
-```js | ob
-(() => {
-  const { Graph, register, Rect, ExtensionCategory } = g6;
+```js | ob { autoMount: true }
+import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
-  const container = createContainer({ height: 450 });
-
-  const data = {
-    nodes: [
-      {
-        id: 'node1',
-        combo: 'combo1',
-        style: { x: 245, y: 200 },
-      },
-      {
-        id: 'node2',
-        combo: 'combo1',
-        style: { x: 210, y: 250 },
-      },
-      {
-        id: 'node3',
-        combo: 'combo1',
-        style: { x: 280, y: 245 },
-      },
-      {
-        id: 'node4',
-        combo: 'combo2',
-        style: { x: 400, y: 165 },
-      },
-      {
-        id: 'node5',
-        combo: 'combo2',
-        style: { x: 450, y: 162 },
-      },
-      {
-        id: 'node6',
-        combo: 'combo3',
-        style: { x: 425, y: 300 },
-      },
-      {
-        id: 'node7',
-        combo: 'combo3',
-        style: { x: 360, y: 332 },
-      },
-    ],
-    edges: [],
-    combos: [
-      {
-        id: 'combo1',
-        combo: 'combo3',
-        data: { label: 'Combo A' },
-      },
-      {
-        id: 'combo2',
-        combo: 'combo3',
-        data: { label: 'Combo B' },
-      },
-      {
-        id: 'combo3',
-        data: { label: 'Combo C' },
-      },
-      {
-        id: 'combo4',
-        data: { label: 'Combo D' },
-        style: { x: 58, y: 248 },
-      },
-    ],
-  };
-
-  const graph = new Graph({
-    container,
-    data,
-    node: {
-      style: {
-        labelText: (d) => d.id,
-        labelPlacement: 'center',
-        labelFill: '#fff',
-        labelFontSize: 10,
-      },
+const data = {
+  nodes: [
+    {
+      id: 'node1',
+      combo: 'combo1',
+      style: { x: 245, y: 200 },
     },
-    combo: {
-      type: 'circle',
-      style: {
-        padding: 2,
-        labelText: (d) => d.data.label,
-        labelPlacement: 'top',
-      },
+    {
+      id: 'node2',
+      combo: 'combo1',
+      style: { x: 210, y: 250 },
     },
-    behaviors: [
-      'collapse-expand',
-      {
-        type: 'drag-element',
-        dropEffect: 'link',
-      },
-    ],
-  });
+    {
+      id: 'node3',
+      combo: 'combo1',
+      style: { x: 280, y: 245 },
+    },
+    {
+      id: 'node4',
+      combo: 'combo2',
+      style: { x: 400, y: 165 },
+    },
+    {
+      id: 'node5',
+      combo: 'combo2',
+      style: { x: 450, y: 162 },
+    },
+    {
+      id: 'node6',
+      combo: 'combo3',
+      style: { x: 425, y: 300 },
+    },
+    {
+      id: 'node7',
+      combo: 'combo3',
+      style: { x: 360, y: 332 },
+    },
+  ],
+  edges: [],
+  combos: [
+    {
+      id: 'combo1',
+      combo: 'combo3',
+      data: { label: 'Combo A' },
+    },
+    {
+      id: 'combo2',
+      combo: 'combo3',
+      data: { label: 'Combo B' },
+    },
+    {
+      id: 'combo3',
+      data: { label: 'Combo C' },
+    },
+    {
+      id: 'combo4',
+      data: { label: 'Combo D' },
+      style: { x: 58, y: 248 },
+    },
+  ],
+};
 
-  graph.render();
+const graph = new Graph({
+  container: 'container',
+  height: 450,
+  data,
+  node: {
+    style: {
+      labelText: (d) => d.id,
+      labelPlacement: 'center',
+      labelFill: '#fff',
+      labelFontSize: 10,
+    },
+  },
+  combo: {
+    type: 'circle',
+    style: {
+      padding: 2,
+      labelText: (d) => d.data.label,
+      labelPlacement: 'top',
+    },
+  },
+  behaviors: [
+    'collapse-expand',
+    {
+      type: 'drag-element',
+      dropEffect: 'link',
+    },
+  ],
+});
 
-  return container;
-})();
+graph.render();
 ```
 
 ## Combo 交互

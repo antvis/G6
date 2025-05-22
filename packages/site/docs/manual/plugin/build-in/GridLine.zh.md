@@ -116,15 +116,19 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
-    behaviors: ['drag-canvas'],
-    plugins: ['grid-line'],
-  },
-  { width: 300, height: 150 },
-);
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
+  behaviors: ['drag-canvas'],
+  plugins: ['grid-line'],
+});
+
+graph.render();
 ```
 
 ### 自定义样式
@@ -149,24 +153,28 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
-    behaviors: ['drag-canvas'],
-    plugins: [
-      {
-        type: 'grid-line',
-        stroke: '#1890ff33', // 蓝色半透明网格线
-        lineWidth: 2,
-        size: 40, // 更大的网格
-        borderStroke: '#1890ff', // 蓝色边框
-        borderLineWidth: 2,
-      },
-    ],
-  },
-  { width: 300, height: 150 },
-);
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
+  behaviors: ['drag-canvas'],
+  plugins: [
+    {
+      type: 'grid-line',
+      stroke: '#1890ff33', // 蓝色半透明网格线
+      lineWidth: 2,
+      size: 40, // 更大的网格
+      borderStroke: '#1890ff', // 蓝色边框
+      borderLineWidth: 2,
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ### 跟随移动
@@ -188,20 +196,24 @@ const graph = new Graph({
 
 试着拖拽/缩放画布，观察网格的跟随效果：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
-    behaviors: ['drag-canvas', 'zoom-canvas'],
-    plugins: [
-      {
-        type: 'grid-line',
-        follow: true, // 网格跟随画布移动
-      },
-    ],
-  },
-  { width: 300, height: 150 },
-);
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 150,
+  data: { nodes: [{ id: 'node-1', style: { x: 150, y: 75 } }] },
+  behaviors: ['drag-canvas', 'zoom-canvas'],
+  plugins: [
+    {
+      type: 'grid-line',
+      follow: true, // 网格跟随画布移动
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ### 动态更新网格

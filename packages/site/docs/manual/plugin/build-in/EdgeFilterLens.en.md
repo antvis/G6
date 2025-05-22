@@ -85,64 +85,68 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        // Upper evacuation area
-        { id: 'node1', style: { x: 150, y: 60, label: 'Node 1' } },
-        { id: 'node2', style: { x: 100, y: 40, label: 'Node 2' } },
-        { id: 'node3', style: { x: 200, y: 35, label: 'Node 3' } },
-        { id: 'node4', style: { x: 150, y: 30, label: 'Node 4' } },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
 
-        // Middle area
-        { id: 'node5', style: { x: 220, y: 140, label: 'Node 5' } },
-        { id: 'node6', style: { x: 280, y: 160, label: 'Node 6' } },
-        { id: 'node7', style: { x: 220, y: 120, label: 'Node 7' } },
-        { id: 'node8', style: { x: 260, y: 100, label: 'Node 8' } },
-        { id: 'node9', style: { x: 240, y: 130, label: 'Node 9' } },
-        { id: 'node10', style: { x: 300, y: 110, label: 'Node 10' } },
+const graph = new Graph({
+  container: 'container',
+  width: 400,
+  height: 300,
+  data: {
+    nodes: [
+      // Upper evacuation area
+      { id: 'node1', style: { x: 150, y: 60, label: 'Node 1' } },
+      { id: 'node2', style: { x: 100, y: 40, label: 'Node 2' } },
+      { id: 'node3', style: { x: 200, y: 35, label: 'Node 3' } },
+      { id: 'node4', style: { x: 150, y: 30, label: 'Node 4' } },
 
-        // Lower area
-        { id: 'node11', style: { x: 240, y: 200, label: 'Node 11' } },
-        { id: 'node12', style: { x: 280, y: 220, label: 'Node 12' } },
-        { id: 'node13', style: { x: 300, y: 190, label: 'Node 13' } },
-        { id: 'node14', style: { x: 320, y: 210, label: 'Node 14' } },
-      ],
-      edges: [
-        // Upper connections
-        { id: 'edge1', source: 'node1', target: 'node2' },
-        { id: 'edge2', source: 'node2', target: 'node3' },
-        { id: 'edge3', source: 'node3', target: 'node4' },
+      // Middle area
+      { id: 'node5', style: { x: 220, y: 140, label: 'Node 5' } },
+      { id: 'node6', style: { x: 280, y: 160, label: 'Node 6' } },
+      { id: 'node7', style: { x: 220, y: 120, label: 'Node 7' } },
+      { id: 'node8', style: { x: 260, y: 100, label: 'Node 8' } },
+      { id: 'node9', style: { x: 240, y: 130, label: 'Node 9' } },
+      { id: 'node10', style: { x: 300, y: 110, label: 'Node 10' } },
 
-        // Middle connections
-        { id: 'edge4', source: 'node5', target: 'node6' },
-        { id: 'edge5', source: 'node6', target: 'node7' },
-        { id: 'edge6', source: 'node7', target: 'node8' },
-        { id: 'edge7', source: 'node8', target: 'node9' },
-        { id: 'edge8', source: 'node9', target: 'node10' },
+      // Lower area
+      { id: 'node11', style: { x: 240, y: 200, label: 'Node 11' } },
+      { id: 'node12', style: { x: 280, y: 220, label: 'Node 12' } },
+      { id: 'node13', style: { x: 300, y: 190, label: 'Node 13' } },
+      { id: 'node14', style: { x: 320, y: 210, label: 'Node 14' } },
+    ],
+    edges: [
+      // Upper connections
+      { id: 'edge1', source: 'node1', target: 'node2' },
+      { id: 'edge2', source: 'node2', target: 'node3' },
+      { id: 'edge3', source: 'node3', target: 'node4' },
 
-        // Lower connections
-        { id: 'edge9', source: 'node11', target: 'node12' },
-        { id: 'edge10', source: 'node12', target: 'node13' },
-        { id: 'edge11', source: 'node13', target: 'node14' },
+      // Middle connections
+      { id: 'edge4', source: 'node5', target: 'node6' },
+      { id: 'edge5', source: 'node6', target: 'node7' },
+      { id: 'edge6', source: 'node7', target: 'node8' },
+      { id: 'edge7', source: 'node8', target: 'node9' },
+      { id: 'edge8', source: 'node9', target: 'node10' },
 
-        // Cross-region connections
-        { id: 'edge12', source: 'node4', target: 'node8' },
-        { id: 'edge13', source: 'node7', target: 'node11' },
-        { id: 'edge14', source: 'node10', target: 'node13' },
-      ],
-    },
-    node: {
-      style: {
-        size: 20,
-      },
-    },
-    plugins: ['edge-filter-lens'],
+      // Lower connections
+      { id: 'edge9', source: 'node11', target: 'node12' },
+      { id: 'edge10', source: 'node12', target: 'node13' },
+      { id: 'edge11', source: 'node13', target: 'node14' },
+
+      // Cross-region connections
+      { id: 'edge12', source: 'node4', target: 'node8' },
+      { id: 'edge13', source: 'node7', target: 'node11' },
+      { id: 'edge14', source: 'node10', target: 'node13' },
+    ],
   },
-  { width: 400, height: 300 },
-);
+  node: {
+    style: {
+      size: 20,
+    },
+  },
+  plugins: ['edge-filter-lens'],
+});
+
+graph.render();
 ```
 
 ### Custom Styles
@@ -186,99 +190,103 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        // Upper evacuation area
-        { id: 'node1', style: { x: 150, y: 60, label: 'Node 1' } },
-        { id: 'node2', style: { x: 100, y: 40, label: 'Node 2' } },
-        { id: 'node3', style: { x: 200, y: 35, label: 'Node 3' } },
-        { id: 'node4', style: { x: 150, y: 30, label: 'Node 4' } },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
 
-        // Middle area
-        { id: 'node5', style: { x: 220, y: 140, label: 'Node 5' } },
-        { id: 'node6', style: { x: 280, y: 160, label: 'Node 6' } },
-        { id: 'node7', style: { x: 220, y: 120, label: 'Node 7' } },
-        { id: 'node8', style: { x: 260, y: 100, label: 'Node 8' } },
-        { id: 'node9', style: { x: 240, y: 130, label: 'Node 9' } },
-        { id: 'node10', style: { x: 300, y: 110, label: 'Node 10' } },
+const graph = new Graph({
+  container: 'container',
+  width: 400,
+  height: 300,
+  data: {
+    nodes: [
+      // Upper evacuation area
+      { id: 'node1', style: { x: 150, y: 60, label: 'Node 1' } },
+      { id: 'node2', style: { x: 100, y: 40, label: 'Node 2' } },
+      { id: 'node3', style: { x: 200, y: 35, label: 'Node 3' } },
+      { id: 'node4', style: { x: 150, y: 30, label: 'Node 4' } },
 
-        // Lower area
-        { id: 'node11', style: { x: 240, y: 200, label: 'Node 11' } },
-        { id: 'node12', style: { x: 280, y: 220, label: 'Node 12' } },
-        { id: 'node13', style: { x: 300, y: 190, label: 'Node 13' } },
-        { id: 'node14', style: { x: 320, y: 210, label: 'Node 14' } },
-      ],
-      edges: [
-        // Upper connections
-        { id: 'edge1', source: 'node1', target: 'node2' },
-        { id: 'edge2', source: 'node2', target: 'node3' },
-        { id: 'edge3', source: 'node3', target: 'node4' },
+      // Middle area
+      { id: 'node5', style: { x: 220, y: 140, label: 'Node 5' } },
+      { id: 'node6', style: { x: 280, y: 160, label: 'Node 6' } },
+      { id: 'node7', style: { x: 220, y: 120, label: 'Node 7' } },
+      { id: 'node8', style: { x: 260, y: 100, label: 'Node 8' } },
+      { id: 'node9', style: { x: 240, y: 130, label: 'Node 9' } },
+      { id: 'node10', style: { x: 300, y: 110, label: 'Node 10' } },
 
-        // Middle connections
-        { id: 'edge4', source: 'node5', target: 'node6' },
-        { id: 'edge5', source: 'node6', target: 'node7' },
-        { id: 'edge6', source: 'node7', target: 'node8' },
-        { id: 'edge7', source: 'node8', target: 'node9' },
-        { id: 'edge8', source: 'node9', target: 'node10' },
+      // Lower area
+      { id: 'node11', style: { x: 240, y: 200, label: 'Node 11' } },
+      { id: 'node12', style: { x: 280, y: 220, label: 'Node 12' } },
+      { id: 'node13', style: { x: 300, y: 190, label: 'Node 13' } },
+      { id: 'node14', style: { x: 320, y: 210, label: 'Node 14' } },
+    ],
+    edges: [
+      // Upper connections
+      { id: 'edge1', source: 'node1', target: 'node2' },
+      { id: 'edge2', source: 'node2', target: 'node3' },
+      { id: 'edge3', source: 'node3', target: 'node4' },
 
-        // Lower connections
-        { id: 'edge9', source: 'node11', target: 'node12' },
-        { id: 'edge10', source: 'node12', target: 'node13' },
-        { id: 'edge11', source: 'node13', target: 'node14' },
+      // Middle connections
+      { id: 'edge4', source: 'node5', target: 'node6' },
+      { id: 'edge5', source: 'node6', target: 'node7' },
+      { id: 'edge6', source: 'node7', target: 'node8' },
+      { id: 'edge7', source: 'node8', target: 'node9' },
+      { id: 'edge8', source: 'node9', target: 'node10' },
 
-        // Cross-region connections
-        { id: 'edge12', source: 'node4', target: 'node8' },
-        { id: 'edge13', source: 'node7', target: 'node11' },
-        { id: 'edge14', source: 'node10', target: 'node13' },
-      ],
-    },
-    node: {
-      style: {
-        size: 20,
-      },
-    },
-    edge: {
-      style: {
-        stroke: '#91d5ff',
-        lineWidth: 1,
-      },
-    },
-    plugins: [
-      {
-        type: 'edge-filter-lens',
-        r: 80,
-        style: {
-          fill: '#f0f5ff', // Fill color of the lens area
-          fillOpacity: 0.6, // Opacity of the fill area
-          stroke: '#7e3feb', // Change lens border to purple
-          strokeOpacity: 0.8, // Opacity of the border
-          lineWidth: 1.5, // Line width of the border
-        },
-        nodeStyle: {
-          size: 24, // Enlarge nodes
-          fill: '#7e3feb', // Purple fill
-          stroke: '#5719c9', // Dark purple stroke
-          lineWidth: 1, // Thin border
-          label: true, // Show label
-          labelFill: '#ffffff', // White text
-          labelFontSize: 14, // Enlarge text
-          labelFontWeight: 'bold', // Bold text
-        },
-        edgeStyle: {
-          stroke: '#8b9baf', // Gray edge
-          lineWidth: 2, // Thicken edge line
-          label: true, // Show label
-          labelFill: '#5719c9', // Dark purple text
-          opacity: 0.8, // Appropriate opacity
-        },
-      },
+      // Lower connections
+      { id: 'edge9', source: 'node11', target: 'node12' },
+      { id: 'edge10', source: 'node12', target: 'node13' },
+      { id: 'edge11', source: 'node13', target: 'node14' },
+
+      // Cross-region connections
+      { id: 'edge12', source: 'node4', target: 'node8' },
+      { id: 'edge13', source: 'node7', target: 'node11' },
+      { id: 'edge14', source: 'node10', target: 'node13' },
     ],
   },
-  { width: 400, height: 300 },
-);
+  node: {
+    style: {
+      size: 20,
+    },
+  },
+  edge: {
+    style: {
+      stroke: '#91d5ff',
+      lineWidth: 1,
+    },
+  },
+  plugins: [
+    {
+      type: 'edge-filter-lens',
+      r: 80,
+      style: {
+        fill: '#f0f5ff', // Fill color of the lens area
+        fillOpacity: 0.6, // Opacity of the fill area
+        stroke: '#7e3feb', // Change lens border to purple
+        strokeOpacity: 0.8, // Opacity of the border
+        lineWidth: 1.5, // Line width of the border
+      },
+      nodeStyle: {
+        size: 24, // Enlarge nodes
+        fill: '#7e3feb', // Purple fill
+        stroke: '#5719c9', // Dark purple stroke
+        lineWidth: 1, // Thin border
+        label: true, // Show label
+        labelFill: '#ffffff', // White text
+        labelFontSize: 14, // Enlarge text
+        labelFontWeight: 'bold', // Bold text
+      },
+      edgeStyle: {
+        stroke: '#8b9baf', // Gray edge
+        lineWidth: 2, // Thicken edge line
+        label: true, // Show label
+        labelFill: '#5719c9', // Dark purple text
+        opacity: 0.8, // Appropriate opacity
+      },
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ## Practical Examples

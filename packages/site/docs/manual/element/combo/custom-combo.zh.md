@@ -60,153 +60,148 @@ Combo 不同于普通节点，它具有以下特性：
 
 让我们从继承 `BaseCombo` 开始，实现一个自定义六边形 Combo ：
 
-```js | ob {pin:false}
-(() => {
-  const { Graph, register, BaseCombo, ExtensionCategory } = g6;
+```js | ob { pin:false, autoMount: true }
+import { Graph, register, BaseCombo, ExtensionCategory } from '@antv/g6';
 
-  // 定义收起状态的按钮路径
-  const collapse = (x, y, r) => {
-    return [
-      ['M', x - r, y],
-      ['a', r, r, 0, 1, 0, r * 2, 0],
-      ['a', r, r, 0, 1, 0, -r * 2, 0],
-      ['M', x - r + 4, y],
-      ['L', x + r - 4, y],
-    ];
-  };
+// 定义收起状态的按钮路径
+const collapse = (x, y, r) => {
+  return [
+    ['M', x - r, y],
+    ['a', r, r, 0, 1, 0, r * 2, 0],
+    ['a', r, r, 0, 1, 0, -r * 2, 0],
+    ['M', x - r + 4, y],
+    ['L', x + r - 4, y],
+  ];
+};
 
-  // 定义展开状态的按钮路径
-  const expand = (x, y, r) => {
-    return [
-      ['M', x - r, y],
-      ['a', r, r, 0, 1, 0, r * 2, 0],
-      ['a', r, r, 0, 1, 0, -r * 2, 0],
-      ['M', x - r + 4, y],
-      ['L', x - r + 2 * r - 4, y],
-      ['M', x - r + r, y - r + 4],
-      ['L', x, y + r - 4],
-    ];
-  };
+// 定义展开状态的按钮路径
+const expand = (x, y, r) => {
+  return [
+    ['M', x - r, y],
+    ['a', r, r, 0, 1, 0, r * 2, 0],
+    ['a', r, r, 0, 1, 0, -r * 2, 0],
+    ['M', x - r + 4, y],
+    ['L', x - r + 2 * r - 4, y],
+    ['M', x - r + r, y - r + 4],
+    ['L', x, y + r - 4],
+  ];
+};
 
-  class HexagonCombo extends BaseCombo {
-    // 获取六边形的路径
-    getKeyPath(attributes) {
-      const [width, height] = this.getKeySize(attributes);
-      const padding = 10;
-      const size = Math.min(width, height) + padding;
+class HexagonCombo extends BaseCombo {
+  // 获取六边形的路径
+  getKeyPath(attributes) {
+    const [width, height] = this.getKeySize(attributes);
+    const padding = 10;
+    const size = Math.min(width, height) + padding;
 
-      // 计算六边形的顶点
-      const points = [];
-      for (let i = 0; i < 6; i++) {
-        const angle = (Math.PI / 3) * i;
-        const x = (size / 2) * Math.cos(angle);
-        const y = (size / 2) * Math.sin(angle);
-        points.push([x, y]);
-      }
-
-      // 构建SVG路径
-      const path = [['M', points[0][0], points[0][1]]];
-      for (let i = 1; i < 6; i++) {
-        path.push(['L', points[i][0], points[i][1]]);
-      }
-      path.push(['Z']);
-
-      return path;
+    // 计算六边形的顶点
+    const points = [];
+    for (let i = 0; i < 6; i++) {
+      const angle = (Math.PI / 3) * i;
+      const x = (size / 2) * Math.cos(angle);
+      const y = (size / 2) * Math.sin(angle);
+      points.push([x, y]);
     }
 
-    // 获取主图形样式
-    getKeyStyle(attributes) {
-      const style = super.getKeyStyle(attributes);
-
-      return {
-        ...style,
-        d: this.getKeyPath(attributes),
-        fill: attributes.collapsed ? '#FF9900' : '#F04864',
-        fillOpacity: attributes.collapsed ? 0.5 : 0.2,
-        stroke: '#54BECC',
-        lineWidth: 2,
-      };
+    // 构建SVG路径
+    const path = [['M', points[0][0], points[0][1]]];
+    for (let i = 1; i < 6; i++) {
+      path.push(['L', points[i][0], points[i][1]]);
     }
+    path.push(['Z']);
 
-    // 绘制主图形
-    drawKeyShape(attributes, container) {
-      return this.upsert('key', 'path', this.getKeyStyle(attributes), container);
-    }
-
-    // 绘制展开/收起按钮，使用路径实现更精细的控制
-    drawCollapseButton(attributes) {
-      const { collapsed } = attributes;
-      const [width] = this.getKeySize(attributes);
-      const btnR = 8;
-      const x = width / 2 + btnR;
-      const d = collapsed ? expand(x, 0, btnR) : collapse(x, 0, btnR);
-
-      // 创建点击区域和按钮图形
-      const hitArea = this.upsert('hit-area', 'circle', { cx: x, r: 8, fill: '#fff', cursor: 'pointer' }, this);
-      this.upsert('button', 'path', { stroke: '#54BECC', d, cursor: 'pointer', lineWidth: 1.4 }, hitArea);
-    }
-
-    // 重写render方法，添加更多自定义图形
-    render(attributes, container) {
-      super.render(attributes, container);
-      this.drawCollapseButton(attributes, container);
-    }
-
-    // 使用生命周期钩子添加事件监听
-    onCreate() {
-      this.shapeMap['hit-area'].addEventListener('click', () => {
-        const id = this.id;
-        const collapsed = !this.attributes.collapsed;
-        const { graph } = this.context;
-        if (collapsed) graph.collapseElement(id);
-        else graph.expandElement(id);
-      });
-    }
+    return path;
   }
 
-  // 注册自定义 Combo
-  register(ExtensionCategory.COMBO, 'hexagon-combo', HexagonCombo);
+  // 获取主图形样式
+  getKeyStyle(attributes) {
+    const style = super.getKeyStyle(attributes);
 
-  // 创建图实例并使用自定义 Combo
-  const container = createContainer({ height: 250 });
+    return {
+      ...style,
+      d: this.getKeyPath(attributes),
+      fill: attributes.collapsed ? '#FF9900' : '#F04864',
+      fillOpacity: attributes.collapsed ? 0.5 : 0.2,
+      stroke: '#54BECC',
+      lineWidth: 2,
+    };
+  }
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [
-        { id: 'node1', combo: 'combo1', style: { x: 100, y: 100 } },
-        { id: 'node2', combo: 'combo1', style: { x: 150, y: 150 } },
-        { id: 'node3', combo: 'combo2', style: { x: 300, y: 100 } },
-        { id: 'node4', combo: 'combo2', style: { x: 350, y: 150 } },
-      ],
-      combos: [
-        { id: 'combo1', data: { label: 'Hexagon 1' } },
-        { id: 'combo2', data: { label: 'Hexagon 2' }, style: { collapsed: true } },
-      ],
+  // 绘制主图形
+  drawKeyShape(attributes, container) {
+    return this.upsert('key', 'path', this.getKeyStyle(attributes), container);
+  }
+
+  // 绘制展开/收起按钮，使用路径实现更精细的控制
+  drawCollapseButton(attributes) {
+    const { collapsed } = attributes;
+    const [width] = this.getKeySize(attributes);
+    const btnR = 8;
+    const x = width / 2 + btnR;
+    const d = collapsed ? expand(x, 0, btnR) : collapse(x, 0, btnR);
+
+    // 创建点击区域和按钮图形
+    const hitArea = this.upsert('hit-area', 'circle', { cx: x, r: 8, fill: '#fff', cursor: 'pointer' }, this);
+    this.upsert('button', 'path', { stroke: '#54BECC', d, cursor: 'pointer', lineWidth: 1.4 }, hitArea);
+  }
+
+  // 重写render方法，添加更多自定义图形
+  render(attributes, container) {
+    super.render(attributes, container);
+    this.drawCollapseButton(attributes, container);
+  }
+
+  // 使用生命周期钩子添加事件监听
+  onCreate() {
+    this.shapeMap['hit-area'].addEventListener('click', () => {
+      const id = this.id;
+      const collapsed = !this.attributes.collapsed;
+      const { graph } = this.context;
+      if (collapsed) graph.collapseElement(id);
+      else graph.expandElement(id);
+    });
+  }
+}
+
+// 注册自定义 Combo
+register(ExtensionCategory.COMBO, 'hexagon-combo', HexagonCombo);
+
+// 创建图实例并使用自定义 Combo
+const graph = new Graph({
+  container: 'container',
+  height: 250,
+  data: {
+    nodes: [
+      { id: 'node1', combo: 'combo1', style: { x: 100, y: 100 } },
+      { id: 'node2', combo: 'combo1', style: { x: 150, y: 150 } },
+      { id: 'node3', combo: 'combo2', style: { x: 300, y: 100 } },
+      { id: 'node4', combo: 'combo2', style: { x: 350, y: 150 } },
+    ],
+    combos: [
+      { id: 'combo1', data: { label: 'Hexagon 1' } },
+      { id: 'combo2', data: { label: 'Hexagon 2' }, style: { collapsed: true } },
+    ],
+  },
+  node: {
+    style: {
+      fill: '#91d5ff',
+      stroke: '#1890ff',
+      lineWidth: 1,
     },
-    node: {
-      style: {
-        fill: '#91d5ff',
-        stroke: '#1890ff',
-        lineWidth: 1,
-      },
+  },
+  combo: {
+    type: 'hexagon-combo',
+    style: {
+      padding: 20,
+      showCollapseButton: true,
+      labelText: (d) => d.data?.label,
+      labelPlacement: 'top',
     },
-    combo: {
-      type: 'hexagon-combo',
-      style: {
-        padding: 20,
-        showCollapseButton: true,
-        labelText: (d) => d.data?.label,
-        labelPlacement: 'top',
-      },
-    },
-    behaviors: ['drag-element'],
-  });
+  },
+  behaviors: ['drag-element'],
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```
 
 ### 第一步：编写自定义 Combo 类

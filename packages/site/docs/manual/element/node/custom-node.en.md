@@ -65,83 +65,78 @@ Custom nodes developed from scratch need to handle all details by themselves, in
 
 Let's start with a simple example - create a **rectangle node with a main and subtitle**:
 
-```js | ob {pin:false}
-(() => {
-  const { Graph, register, Rect, ExtensionCategory } = g6;
+```js | ob { pin:false, autoMount: true }
+import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
-  // Step 1: Create a custom node class
-  class DualLabelNode extends Rect {
-    // Subtitle style
-    getSubtitleStyle(attributes) {
-      return {
-        x: 0,
-        y: 45, // Placed below the main title
-        text: attributes.subtitle || '',
-        fontSize: 12,
-        fill: '#666',
-        textAlign: 'center',
-        textBaseline: 'middle',
-      };
-    }
-
-    // Draw subtitle
-    drawSubtitleShape(attributes, container) {
-      const subtitleStyle = this.getSubtitleStyle(attributes);
-      this.upsert('subtitle', 'text', subtitleStyle, container);
-    }
-
-    // Render method
-    render(attributes = this.parsedAttributes, container) {
-      // 1. Render the basic rectangle and main title
-      super.render(attributes, container);
-
-      // 2. Add subtitle
-      this.drawSubtitleShape(attributes, container);
-    }
+// Step 1: Create a custom node class
+class DualLabelNode extends Rect {
+  // Subtitle style
+  getSubtitleStyle(attributes) {
+    return {
+      x: 0,
+      y: 45, // Placed below the main title
+      text: attributes.subtitle || '',
+      fontSize: 12,
+      fill: '#666',
+      textAlign: 'center',
+      textBaseline: 'middle',
+    };
   }
 
-  // Step 2: Register custom node
-  register(ExtensionCategory.NODE, 'dual-label-node', DualLabelNode);
+  // Draw subtitle
+  drawSubtitleShape(attributes, container) {
+    const subtitleStyle = this.getSubtitleStyle(attributes);
+    this.upsert('subtitle', 'text', subtitleStyle, container);
+  }
 
-  // Step 3: Use custom node
-  const container = createContainer({ height: 200 });
+  // Render method
+  render(attributes = this.parsedAttributes, container) {
+    // 1. Render the basic rectangle and main title
+    super.render(attributes, container);
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          style: { x: 100, y: 100 },
-          data: {
-            title: 'Node A', // Main title
-            subtitle: 'Your first custom node', // Subtitle
-          },
+    // 2. Add subtitle
+    this.drawSubtitleShape(attributes, container);
+  }
+}
+
+// Step 2: Register custom node
+register(ExtensionCategory.NODE, 'dual-label-node', DualLabelNode);
+
+// Step 3: Use custom node
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: { x: 100, y: 100 },
+        data: {
+          title: 'Node A', // Main title
+          subtitle: 'Your first custom node', // Subtitle
         },
-      ],
-    },
-    node: {
-      type: 'dual-label-node',
-      style: {
-        fill: '#7FFFD4',
-        stroke: '#5CACEE',
-        lineWidth: 2,
-        radius: 5,
-        // Main title style
-        labelText: (d) => d.data.title,
-        labelFill: '#222',
-        labelFontSize: 14,
-        labelFontWeight: 500,
-        // Subtitle
-        subtitle: (d) => d.data.subtitle,
       },
+    ],
+  },
+  node: {
+    type: 'dual-label-node',
+    style: {
+      fill: '#7FFFD4',
+      stroke: '#5CACEE',
+      lineWidth: 2,
+      radius: 5,
+      // Main title style
+      labelText: (d) => d.data.title,
+      labelFill: '#222',
+      labelFontSize: 14,
+      labelFontWeight: 500,
+      // Subtitle
+      subtitle: (d) => d.data.subtitle,
     },
-  });
+  },
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```
 
 ### Step 1: Write Custom Node Class
@@ -417,187 +412,177 @@ Place an icon and label text in the upper left corner of the node.
 > 2. Add icon (image)
 > 3. Add label (text)
 
-```js | ob
-(() => {
-  const { Graph, register, Rect, ExtensionCategory } = g6;
+```js | ob { autoMount: true }
+import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
-  class IconNode extends Rect {
-    get data() {
-      return this.context.graph.getNodeData(this.id).data;
-    }
-
-    getCustomIconStyle(attributes) {
-      const [width, height] = this.getSize(attributes);
-      const { icon } = this.data;
-      return {
-        x: -width / 2 + 4, // 15px from the left
-        y: -height / 2 + 4,
-        width: 20,
-        height: 20,
-        src: icon,
-      };
-    }
-
-    drawCustomIconShape(attributes, container) {
-      const iconStyle = this.getCustomIconStyle(attributes);
-
-      this.upsert('custom-icon', 'image', iconStyle, container);
-    }
-
-    getCustomLabelStyle(attributes) {
-      const [width, height] = this.getSize(attributes);
-      const { label } = this.data;
-      return {
-        x: -width / 2 + 26, // 10px to the right of the icon
-        y: -height / 2 + 14,
-        text: label || '',
-        fontSize: 10,
-        fill: '#333',
-        textAlign: 'left',
-        textBaseline: 'middle',
-      };
-    }
-
-    drawCustomLabelShape(attributes, container) {
-      const labelStyle = this.getCustomLabelStyle(attributes);
-
-      this.upsert('custom-label', 'text', labelStyle, container);
-    }
-
-    render(attributes, container) {
-      // Render basic rectangle
-      super.render(attributes, container);
-
-      // Add icon
-      this.drawCustomIconShape(attributes, container);
-
-      // Add label (to the right of the icon)
-      this.drawCustomLabelShape(attributes, container);
-    }
+class IconNode extends Rect {
+  get data() {
+    return this.context.graph.getNodeData(this.id).data;
   }
 
-  register(ExtensionCategory.NODE, 'custom-icon-node', IconNode);
+  getCustomIconStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    const { icon } = this.data;
+    return {
+      x: -width / 2 + 4, // 15px from the left
+      y: -height / 2 + 4,
+      width: 20,
+      height: 20,
+      src: icon,
+    };
+  }
 
-  const container = createContainer({ height: 200 });
+  drawCustomIconShape(attributes, container) {
+    const iconStyle = this.getCustomIconStyle(attributes);
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          style: { x: 100, y: 100 },
-          data: {
-            icon: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
-            label: 'AntV',
-          },
+    this.upsert('custom-icon', 'image', iconStyle, container);
+  }
+
+  getCustomLabelStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    const { label } = this.data;
+    return {
+      x: -width / 2 + 26, // 10px to the right of the icon
+      y: -height / 2 + 14,
+      text: label || '',
+      fontSize: 10,
+      fill: '#333',
+      textAlign: 'left',
+      textBaseline: 'middle',
+    };
+  }
+
+  drawCustomLabelShape(attributes, container) {
+    const labelStyle = this.getCustomLabelStyle(attributes);
+
+    this.upsert('custom-label', 'text', labelStyle, container);
+  }
+
+  render(attributes, container) {
+    // Render basic rectangle
+    super.render(attributes, container);
+
+    // Add icon
+    this.drawCustomIconShape(attributes, container);
+
+    // Add label (to the right of the icon)
+    this.drawCustomLabelShape(attributes, container);
+  }
+}
+
+register(ExtensionCategory.NODE, 'custom-icon-node', IconNode);
+
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: { x: 100, y: 100 },
+        data: {
+          icon: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+          label: 'AntV',
         },
-      ],
-    },
-    node: {
-      type: 'custom-icon-node',
-      style: {
-        size: [120, 60],
-        fill: '#fff',
-        stroke: '#873bf4',
-        lineWidth: 2,
-        radius: 2,
-        labelText: 'G6',
-        labelPlacement: 'middle',
-        labelFontSize: 16,
-        labelOffsetY: 6,
       },
+    ],
+  },
+  node: {
+    type: 'custom-icon-node',
+    style: {
+      size: [120, 60],
+      fill: '#fff',
+      stroke: '#873bf4',
+      lineWidth: 2,
+      radius: 2,
+      labelText: 'G6',
+      labelPlacement: 'middle',
+      labelFontSize: 16,
+      labelOffsetY: 6,
     },
-  });
+  },
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```
 
 ### Node with Clickable Button
 
 Add a blue button to the node, which triggers an event (logs or executes a callback) when clicked.
 
-```js | ob
-(() => {
-  const { Graph, register, Rect, ExtensionCategory } = g6;
+```js | ob { autoMount: true }
+import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
-  class ClickableNode extends Rect {
-    getButtonStyle(attributes) {
-      return {
-        x: 40,
-        y: -10,
-        width: 20,
-        height: 20,
-        radius: 10,
-        fill: '#1890ff',
-        cursor: 'pointer', // Mouse pointer becomes a hand
-      };
-    }
+class ClickableNode extends Rect {
+  getButtonStyle(attributes) {
+    return {
+      x: 40,
+      y: -10,
+      width: 20,
+      height: 20,
+      radius: 10,
+      fill: '#1890ff',
+      cursor: 'pointer', // Mouse pointer becomes a hand
+    };
+  }
 
-    drawButtonShape(attributes, container) {
-      const btnStyle = this.getButtonStyle(attributes, container);
-      const btn = this.upsert('button', 'rect', btnStyle, container);
+  drawButtonShape(attributes, container) {
+    const btnStyle = this.getButtonStyle(attributes, container);
+    const btn = this.upsert('button', 'rect', btnStyle, container);
 
-      // Add click event to the button
-      if (!btn.__clickBound) {
-        btn.addEventListener('click', (e) => {
-          // Prevent event bubbling to avoid triggering the node's click event
-          e.stopPropagation();
+    // Add click event to the button
+    if (!btn.__clickBound) {
+      btn.addEventListener('click', (e) => {
+        // Prevent event bubbling to avoid triggering the node's click event
+        e.stopPropagation();
 
-          // Execute business logic
-          console.log('Button clicked on node:', this.id);
+        // Execute business logic
+        console.log('Button clicked on node:', this.id);
 
-          // If there is a callback function in the data, call it
-          if (typeof attributes.onButtonClick === 'function') {
-            attributes.onButtonClick(this.id, this.data);
-          }
-        });
-        btn.__clickBound = true; // Mark event as bound to avoid duplicate binding
-      }
-    }
-
-    render(attributes, container) {
-      super.render(attributes, container);
-
-      // Add a button
-      this.drawButtonShape(attributes, container);
+        // If there is a callback function in the data, call it
+        if (typeof attributes.onButtonClick === 'function') {
+          attributes.onButtonClick(this.id, this.data);
+        }
+      });
+      btn.__clickBound = true; // Mark event as bound to avoid duplicate binding
     }
   }
 
-  register(ExtensionCategory.NODE, 'clickable-node', ClickableNode);
+  render(attributes, container) {
+    super.render(attributes, container);
 
-  const container = createContainer({ height: 200 });
+    // Add a button
+    this.drawButtonShape(attributes, container);
+  }
+}
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          style: { x: 100, y: 100 },
-        },
-      ],
-    },
-    node: {
-      type: 'clickable-node', // Specify using our custom node
-      style: {
-        size: [60, 30],
-        fill: '#7FFFD4',
-        stroke: '#5CACEE',
-        lineWidth: 2,
-        radius: 5,
-        onButtonClick: (id, data) => {},
+register(ExtensionCategory.NODE, 'clickable-node', ClickableNode);
+
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: { x: 100, y: 100 },
       },
+    ],
+  },
+  node: {
+    type: 'clickable-node', // Specify using our custom node
+    style: {
+      size: [60, 30],
+      fill: '#7FFFD4',
+      stroke: '#5CACEE',
+      lineWidth: 2,
+      radius: 5,
+      onButtonClick: (id, data) => {},
     },
-  });
+  },
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```
 
 ### Node Responding to State Changes (Color Change on Click)
@@ -615,75 +600,70 @@ We recommend users use the second method to achieve node state adjustment, which
 
 Extend a hole graphic based on rect, with a default fill color of white, which turns orange when clicked. The sample code to achieve this effect is as follows:
 
-```js | ob
-(() => {
-  const { Rect, register, Graph, ExtensionCategory } = g6;
+```js | ob { autoMount: true }
+import { Rect, register, Graph, ExtensionCategory } from '@antv/g6';
 
-  // 1. Define node class
-  class SelectableNode extends Rect {
-    getHoleStyle(attributes) {
-      return {
-        x: 20,
-        y: -10,
-        radius: 10,
-        width: 20,
-        height: 20,
-        fill: attributes.holeFill,
-      };
-    }
-
-    drawHoleShape(attributes, container) {
-      const holeStyle = this.getHoleStyle(attributes, container);
-
-      this.upsert('hole', 'rect', holeStyle, container);
-    }
-
-    render(attributes, container) {
-      super.render(attributes, container);
-
-      this.drawHoleShape(attributes, container);
-    }
+// 1. Define node class
+class SelectableNode extends Rect {
+  getHoleStyle(attributes) {
+    return {
+      x: 20,
+      y: -10,
+      radius: 10,
+      width: 20,
+      height: 20,
+      fill: attributes.holeFill,
+    };
   }
 
-  // 2. Register node
-  register(ExtensionCategory.NODE, 'selectable-node', SelectableNode, true);
+  drawHoleShape(attributes, container) {
+    const holeStyle = this.getHoleStyle(attributes, container);
 
-  // 3. Create graph instance
-  const container = createContainer({ height: 200 });
+    this.upsert('hole', 'rect', holeStyle, container);
+  }
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
+  render(attributes, container) {
+    super.render(attributes, container);
+
+    this.drawHoleShape(attributes, container);
+  }
+}
+
+// 2. Register node
+register(ExtensionCategory.NODE, 'selectable-node', SelectableNode, true);
+
+// 3. Create graph instance
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
+  },
+  node: {
+    type: 'selectable-node',
+    style: {
+      size: [120, 60],
+      radius: 6,
+      fill: '#7FFFD4',
+      stroke: '#5CACEE',
+      lineWidth: 2,
+      holeFill: '#fff',
     },
-    node: {
-      type: 'selectable-node',
-      style: {
-        size: [120, 60],
-        radius: 6,
-        fill: '#7FFFD4',
-        stroke: '#5CACEE',
-        lineWidth: 2,
-        holeFill: '#fff',
-      },
-      state: {
-        // Mouse selected state
-        selected: {
-          holeFill: 'orange',
-        },
+    state: {
+      // Mouse selected state
+      selected: {
+        holeFill: 'orange',
       },
     },
-  });
+  },
+});
 
-  // 4. Add node interaction
-  graph.on('node:click', (evt) => {
-    const nodeId = evt.target.id;
+// 4. Add node interaction
+graph.on('node:click', (evt) => {
+  const nodeId = evt.target.id;
 
-    graph.setElementState(nodeId, ['selected']);
-  });
+  graph.setElementState(nodeId, ['selected']);
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```

@@ -181,43 +181,47 @@ const graph = new Graph({
 
 Result:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    layout: {
-      type: 'grid',
-      cols: 5,
-      rows: 5,
-    },
-    data: {
-      nodes: Array.from({ length: 25 }, (_, i) => ({
-        id: `node-${i}`,
-        data: {
-          value: Math.random() * 100,
-        },
-      })),
-      edges: Array.from({ length: 20 }, (_, i) => ({
-        id: `edge-${i}`,
-        source: `node-${Math.floor(Math.random() * 25)}`,
-        target: `node-${Math.floor(Math.random() * 25)}`,
-      })),
-    },
-    node: {
-      style: {
-        size: 20,
-        label: true,
-        labelText: (datum) => datum.id,
-        labelBackground: true,
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 400,
+  layout: {
+    type: 'grid',
+    cols: 5,
+    rows: 5,
+  },
+  data: {
+    nodes: Array.from({ length: 25 }, (_, i) => ({
+      id: `node-${i}`,
+      data: {
+        value: Math.random() * 100,
       },
-    },
-    edge: {
-      style: {
-        stroke: '#bfbfbf',
-      },
+    })),
+    edges: Array.from({ length: 20 }, (_, i) => ({
+      id: `edge-${i}`,
+      source: `node-${Math.floor(Math.random() * 25)}`,
+      target: `node-${Math.floor(Math.random() * 25)}`,
+    })),
+  },
+  node: {
+    style: {
+      size: 20,
+      label: true,
+      labelText: (datum) => datum.id,
+      labelBackground: true,
     },
   },
-  { width: 600, height: 400 },
-);
+  edge: {
+    style: {
+      stroke: '#bfbfbf',
+    },
+  },
+});
+
+graph.render();
 ```
 
 ### Custom Configuration
@@ -256,55 +260,59 @@ const graph = new Graph({
 
 Result:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    layout: {
-      type: 'grid',
-      begin: [50, 50],
-      cols: 4,
-      rows: 6,
-      width: 400,
-      height: 600,
-      preventOverlap: true,
-      nodeSize: 30,
-      condense: true,
-      sortBy: 'value',
-    },
-    data: {
-      nodes: Array.from({ length: 24 }, (_, i) => ({
-        id: `node-${i}`,
-        data: {
-          value: Math.random() * 100,
-        },
-      })),
-      edges: Array.from({ length: 20 }, (_, i) => ({
-        id: `edge-${i}`,
-        source: `node-${Math.floor(Math.random() * 24)}`,
-        target: `node-${Math.floor(Math.random() * 24)}`,
-      })),
-    },
-    node: {
-      style: {
-        size: 20,
-        label: true,
-        labelText: (datum) => datum.id,
-        labelBackground: true,
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 400,
+  layout: {
+    type: 'grid',
+    begin: [50, 50],
+    cols: 4,
+    rows: 6,
+    width: 400,
+    height: 600,
+    preventOverlap: true,
+    nodeSize: 30,
+    condense: true,
+    sortBy: 'value',
+  },
+  data: {
+    nodes: Array.from({ length: 24 }, (_, i) => ({
+      id: `node-${i}`,
+      data: {
+        value: Math.random() * 100,
       },
-      palette: {
-        type: 'group',
-        field: (datum) => datum.data.value,
-        color: ['#1783FF', '#00C9C9', '#F08F56', '#D580FF'],
-      },
+    })),
+    edges: Array.from({ length: 20 }, (_, i) => ({
+      id: `edge-${i}`,
+      source: `node-${Math.floor(Math.random() * 24)}`,
+      target: `node-${Math.floor(Math.random() * 24)}`,
+    })),
+  },
+  node: {
+    style: {
+      size: 20,
+      label: true,
+      labelText: (datum) => datum.id,
+      labelBackground: true,
     },
-    edge: {
-      style: {
-        stroke: '#bfbfbf',
-      },
+    palette: {
+      type: 'group',
+      field: (datum) => datum.data.value,
+      color: ['#1783FF', '#00C9C9', '#F08F56', '#D580FF'],
     },
   },
-  { width: 600, height: 400 },
-);
+  edge: {
+    style: {
+      stroke: '#bfbfbf',
+    },
+  },
+});
+
+graph.render();
 ```
 
 ### Specify Node Position
@@ -341,47 +349,51 @@ const graph = new Graph({
 
 Result:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    layout: {
-      type: 'grid',
-      cols: 5,
-      rows: 5,
-      position: (node) => {
-        if (node.id === 'node-0') return { row: 0, col: 0 };
-        if (node.id === 'node-1') return { row: 0, col: 4 };
-        if (node.id === 'node-2') return { row: 4, col: 0 };
-        if (node.id === 'node-3') return { row: 4, col: 4 };
-        return undefined;
-      },
-    },
-    data: {
-      nodes: Array.from({ length: 25 }, (_, i) => ({
-        id: `node-${i}`,
-      })),
-      edges: Array.from({ length: 20 }, (_, i) => ({
-        id: `edge-${i}`,
-        source: `node-${Math.floor(Math.random() * 25)}`,
-        target: `node-${Math.floor(Math.random() * 25)}`,
-      })),
-    },
-    node: {
-      style: {
-        size: 20,
-        label: true,
-        labelText: (datum) => datum.id,
-        labelBackground: true,
-      },
-    },
-    edge: {
-      style: {
-        stroke: '#bfbfbf',
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 400,
+  layout: {
+    type: 'grid',
+    cols: 5,
+    rows: 5,
+    position: (node) => {
+      if (node.id === 'node-0') return { row: 0, col: 0 };
+      if (node.id === 'node-1') return { row: 0, col: 4 };
+      if (node.id === 'node-2') return { row: 4, col: 0 };
+      if (node.id === 'node-3') return { row: 4, col: 4 };
+      return undefined;
     },
   },
-  { width: 600, height: 400 },
-);
+  data: {
+    nodes: Array.from({ length: 25 }, (_, i) => ({
+      id: `node-${i}`,
+    })),
+    edges: Array.from({ length: 20 }, (_, i) => ({
+      id: `edge-${i}`,
+      source: `node-${Math.floor(Math.random() * 25)}`,
+      target: `node-${Math.floor(Math.random() * 25)}`,
+    })),
+  },
+  node: {
+    style: {
+      size: 20,
+      label: true,
+      labelText: (datum) => datum.id,
+      labelBackground: true,
+    },
+  },
+  edge: {
+    style: {
+      stroke: '#bfbfbf',
+    },
+  },
+});
+
+graph.render();
 ```
 
 ## Real Cases

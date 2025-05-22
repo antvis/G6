@@ -91,61 +91,65 @@ const graph = new Graph({
 
 ### 完整的创建和配置示例
 
-```js | ob { pin: false }
-createGraph(
-  {
-    width: 300,
-    height: 200,
-    padding: 30,
-    autoResize: true,
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
 
-    // 视口配置
-    zoom: 0.8,
-    autoFit: 'view',
-    padding: 20,
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 200,
+  width: 300,
+  height: 200,
+  padding: 30,
+  autoResize: true,
 
-    // 主题配置
-    theme: 'dark',
+  // 视口配置
+  zoom: 0.8,
+  autoFit: 'view',
+  padding: 20,
 
-    // 节点配置
-    node: {
-      style: {
-        fill: '#7FFFD4',
-        stroke: '#5CACEE',
-        lineWidth: 2,
-      },
-    },
+  // 主题配置
+  theme: 'dark',
 
-    // 边配置
-    edge: {
-      style: {
-        stroke: '#A4D3EE',
-        lineWidth: 1.5,
-        endArrow: true,
-      },
-    },
-
-    // 布局配置
-    layout: {
-      type: 'force',
-      preventOverlap: true,
-      linkDistance: 100,
-    },
-
-    // 交互行为
-    behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
-
-    // 初始数据
-    data: {
-      nodes: [
-        { id: 'node1', data: { label: '节点1' } },
-        { id: 'node2', data: { label: '节点2' } },
-      ],
-      edges: [{ source: 'node1', target: 'node2', data: { label: '关系' } }],
+  // 节点配置
+  node: {
+    style: {
+      fill: '#7FFFD4',
+      stroke: '#5CACEE',
+      lineWidth: 2,
     },
   },
-  { width: 300, height: 200 },
-);
+
+  // 边配置
+  edge: {
+    style: {
+      stroke: '#A4D3EE',
+      lineWidth: 1.5,
+      endArrow: true,
+    },
+  },
+
+  // 布局配置
+  layout: {
+    type: 'force',
+    preventOverlap: true,
+    linkDistance: 100,
+  },
+
+  // 交互行为
+  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
+
+  // 初始数据
+  data: {
+    nodes: [
+      { id: 'node1', data: { label: '节点1' } },
+      { id: 'node2', data: { label: '节点2' } },
+    ],
+    edges: [{ source: 'node1', target: 'node2', data: { label: '关系' } }],
+  },
+});
+
+graph.render();
 ```
 
 ```typescript

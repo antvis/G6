@@ -93,45 +93,49 @@ It can be dynamically controlled through functions, for example, only enabled wh
 }
 ```
 
-```js | ob { pin: false}
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 100, y: 60 } },
-        { id: 'node2', style: { x: 200, y: 60 } },
-        { id: 'node3', style: { x: 300, y: 60 } },
-      ],
-      edges: [
-        { source: 'node1', target: 'node2' },
-        { source: 'node2', target: 'node3' },
-      ],
-    },
-    node: {
-      style: {
-        fill: '#E4504D',
-      },
-      state: {
-        active: {
-          fill: '#0f0',
-        },
-        neighborActive: {
-          fill: '#FFC40C',
-        },
-      },
-    },
-    behaviors: [
-      {
-        type: 'click-select',
-        degree: 1,
-        state: 'active',
-        neighborState: 'neighborActive',
-        enable: (event) => ['node', 'canvas'].includes(event.targetType),
-      },
+```js | ob {  pin: false, autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 400,
+  height: 200,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 100, y: 60 } },
+      { id: 'node2', style: { x: 200, y: 60 } },
+      { id: 'node3', style: { x: 300, y: 60 } },
+    ],
+    edges: [
+      { source: 'node1', target: 'node2' },
+      { source: 'node2', target: 'node3' },
     ],
   },
-  { width: 400, height: 200 },
-);
+  node: {
+    style: {
+      fill: '#E4504D',
+    },
+    state: {
+      active: {
+        fill: '#0f0',
+      },
+      neighborActive: {
+        fill: '#FFC40C',
+      },
+    },
+  },
+  behaviors: [
+    {
+      type: 'click-select',
+      degree: 1,
+      state: 'active',
+      neighborState: 'neighborActive',
+      enable: (event) => ['node', 'canvas'].includes(event.targetType),
+    },
+  ],
+});
+
+graph.render();
 ```
 
 Similarly, if you only want edges to be selected:
@@ -161,46 +165,50 @@ const graph = new Graph({
 });
 ```
 
-```js | ob { pin: false}
-createGraph(
-  {
-    layout: {
-      type: 'grid',
-    },
-    data: {
-      nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
-      edges: [
-        { source: 'node1', target: 'node2' },
-        { source: 'node2', target: 'node3' },
-        { source: 'node3', target: 'node4' },
-        { source: 'node4', target: 'node5' },
-      ],
-    },
-    node: {
-      style: {
-        fill: '#E4504D',
-      },
-      state: {
-        active: {
-          fill: '#0f0',
-        },
-        neighborActive: {
-          fill: '#FFC40C',
-          halo: true,
-        },
-      },
-    },
-    behaviors: [
-      {
-        type: 'click-select',
-        degree: 1,
-        state: 'active',
-        neighborState: 'neighborActive',
-      },
+```js | ob {  pin: false, autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 400,
+  height: 200,
+  layout: {
+    type: 'grid',
+  },
+  data: {
+    nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
+    edges: [
+      { source: 'node1', target: 'node2' },
+      { source: 'node2', target: 'node3' },
+      { source: 'node3', target: 'node4' },
+      { source: 'node4', target: 'node5' },
     ],
   },
-  { width: 400, height: 200 },
-);
+  node: {
+    style: {
+      fill: '#E4504D',
+    },
+    state: {
+      active: {
+        fill: '#0f0',
+      },
+      neighborActive: {
+        fill: '#FFC40C',
+        halo: true,
+      },
+    },
+  },
+  behaviors: [
+    {
+      type: 'click-select',
+      degree: 1,
+      state: 'active',
+      neighborState: 'neighborActive',
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ### unselectedState
@@ -221,46 +229,50 @@ const graph = new Graph({
 });
 ```
 
-```js | ob { pin: false}
-createGraph(
-  {
-    layout: {
-      type: 'grid',
-    },
-    data: {
-      nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
-      edges: [
-        { source: 'node1', target: 'node2' },
-        { source: 'node2', target: 'node3' },
-        { source: 'node3', target: 'node4' },
-        { source: 'node4', target: 'node5' },
-      ],
-    },
-    node: {
-      style: {
-        fill: '#E4504D',
-      },
-      state: {
-        active: {
-          fill: '#0f0',
-        },
-        neighborActive: {
-          fill: '#FFC40C',
-        },
-      },
-    },
-    behaviors: [
-      {
-        type: 'click-select',
-        degree: 1,
-        state: 'active',
-        neighborState: 'neighborActive',
-        unselectedState: 'inactive',
-      },
+```js | ob {  pin: false, autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 400,
+  height: 200,
+  layout: {
+    type: 'grid',
+  },
+  data: {
+    nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
+    edges: [
+      { source: 'node1', target: 'node2' },
+      { source: 'node2', target: 'node3' },
+      { source: 'node3', target: 'node4' },
+      { source: 'node4', target: 'node5' },
     ],
   },
-  { width: 400, height: 200 },
-);
+  node: {
+    style: {
+      fill: '#E4504D',
+    },
+    state: {
+      active: {
+        fill: '#0f0',
+      },
+      neighborActive: {
+        fill: '#FFC40C',
+      },
+    },
+  },
+  behaviors: [
+    {
+      type: 'click-select',
+      degree: 1,
+      state: 'active',
+      neighborState: 'neighborActive',
+      unselectedState: 'inactive',
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ## Example
@@ -302,46 +314,50 @@ const graph = new Graph({
 });
 ```
 
-```js | ob { pin: false}
-createGraph(
-  {
-    layout: {
-      type: 'grid',
-    },
-    data: {
-      nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
-      edges: [
-        { source: 'node1', target: 'node2' },
-        { source: 'node2', target: 'node3' },
-        { source: 'node3', target: 'node4' },
-        { source: 'node4', target: 'node5' },
-      ],
-    },
-    node: {
-      style: {
-        fill: '#E4504D',
-      },
-      state: {
-        active: {
-          fill: '#0f0',
-        },
-        neighborActive: {
-          fill: '#FFC40C',
-        },
-      },
-    },
-    behaviors: [
-      {
-        type: 'click-select',
-        degree: 1,
-        state: 'active',
-        neighborState: 'neighborActive',
-        unselectedState: 'inactive',
-      },
+```js | ob {  pin: false, autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 400,
+  height: 200,
+  layout: {
+    type: 'grid',
+  },
+  data: {
+    nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
+    edges: [
+      { source: 'node1', target: 'node2' },
+      { source: 'node2', target: 'node3' },
+      { source: 'node3', target: 'node4' },
+      { source: 'node4', target: 'node5' },
     ],
   },
-  { width: 400, height: 200 },
-);
+  node: {
+    style: {
+      fill: '#E4504D',
+    },
+    state: {
+      active: {
+        fill: '#0f0',
+      },
+      neighborActive: {
+        fill: '#FFC40C',
+      },
+    },
+  },
+  behaviors: [
+    {
+      type: 'click-select',
+      degree: 1,
+      state: 'active',
+      neighborState: 'neighborActive',
+      unselectedState: 'inactive',
+    },
+  ],
+});
+
+graph.render();
 ```
 
 ### Practical Example

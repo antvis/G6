@@ -107,29 +107,33 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: Array.from({ length: 50 }).map((_, i) => ({
-        id: `node-${i}`,
-        x: Math.random() * 500,
-        y: Math.random() * 300,
-      })),
-      edges: Array.from({ length: 100 }).map((_, i) => ({
-        id: `edge-${i}`,
-        source: `node-${Math.floor(Math.random() * 50)}`,
-        target: `node-${Math.floor(Math.random() * 50)}`,
-      })),
-    },
-    node: { style: { fill: '#7e3feb' } },
-    edge: { style: { stroke: '#8b9baf' } },
-    layout: { type: 'force' },
-    behaviors: ['drag-canvas'],
-    plugins: [{ type: 'minimap', key: 'minimap', size: [240, 160], position: 'right-bottom' }],
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 300,
+  data: {
+    nodes: Array.from({ length: 50 }).map((_, i) => ({
+      id: `node-${i}`,
+      x: Math.random() * 500,
+      y: Math.random() * 300,
+    })),
+    edges: Array.from({ length: 100 }).map((_, i) => ({
+      id: `edge-${i}`,
+      source: `node-${Math.floor(Math.random() * 50)}`,
+      target: `node-${Math.floor(Math.random() * 50)}`,
+    })),
   },
-  { width: 600, height: 300 },
-);
+  node: { style: { fill: '#7e3feb' } },
+  edge: { style: { stroke: '#8b9baf' } },
+  layout: { type: 'force' },
+  behaviors: ['drag-canvas'],
+  plugins: [{ type: 'minimap', key: 'minimap', size: [240, 160], position: 'right-bottom' }],
+});
+
+graph.render();
 ```
 
 ### size
@@ -151,29 +155,33 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: Array.from({ length: 50 }).map((_, i) => ({
-        id: `node-${i}`,
-        x: Math.random() * 500,
-        y: Math.random() * 300,
-      })),
-      edges: Array.from({ length: 100 }).map((_, i) => ({
-        id: `edge-${i}`,
-        source: `node-${Math.floor(Math.random() * 50)}`,
-        target: `node-${Math.floor(Math.random() * 50)}`,
-      })),
-    },
-    node: { style: { fill: '#7e3feb' } },
-    edge: { style: { stroke: '#8b9baf' } },
-    layout: { type: 'force' },
-    behaviors: ['drag-canvas'],
-    plugins: [{ type: 'minimap', key: 'minimap', size: [200, 120], position: 'right-bottom' }],
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 300,
+  data: {
+    nodes: Array.from({ length: 50 }).map((_, i) => ({
+      id: `node-${i}`,
+      x: Math.random() * 500,
+      y: Math.random() * 300,
+    })),
+    edges: Array.from({ length: 100 }).map((_, i) => ({
+      id: `edge-${i}`,
+      source: `node-${Math.floor(Math.random() * 50)}`,
+      target: `node-${Math.floor(Math.random() * 50)}`,
+    })),
   },
-  { width: 600, height: 300 },
-);
+  node: { style: { fill: '#7e3feb' } },
+  edge: { style: { stroke: '#8b9baf' } },
+  layout: { type: 'force' },
+  behaviors: ['drag-canvas'],
+  plugins: [{ type: 'minimap', key: 'minimap', size: [200, 120], position: 'right-bottom' }],
+});
+
+graph.render();
 ```
 
 ## 实际案例

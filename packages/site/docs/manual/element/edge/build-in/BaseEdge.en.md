@@ -124,28 +124,32 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // Edge color
-        lineWidth: 2, // Edge width
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // Edge color
+      lineWidth: 2, // Edge width
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### Label Style
@@ -223,33 +227,37 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // Edge color
-        lineWidth: 2, // Edge width
-        label: true, // Enable edge label display
-        labelText: 'labelText', // Edge label text
-        labelPlacement: 'center', // Position of the edge label relative to the edge
-        labelFill: '#FF0000', // Edge label text color
-        labelOffsetY: 20, // Edge label offset in the y-axis direction
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // Edge color
+      lineWidth: 2, // Edge width
+      label: true, // Enable edge label display
+      labelText: 'labelText', // Edge label text
+      labelPlacement: 'center', // Position of the edge label relative to the edge
+      labelFill: '#FF0000', // Edge label text color
+      labelOffsetY: 20, // Edge label offset in the y-axis direction
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### Halo Style
@@ -294,36 +302,40 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // Edge color
-        lineWidth: 2, // Edge width
-        label: true, // Enable edge label display
-        labelText: 'labelText', // Edge label text
-        labelPlacement: 'center', // Position of the edge label relative to the edge
-        labelFill: '#FF0000', // Edge label text color
-        labelOffsetY: 20, // Edge label offset in the y-axis direction
-        halo: true, // Enable edge halo
-        haloStroke: '#000', // Edge halo color
-        haloStrokeOpacity: 0.2, // Edge halo opacity
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // Edge color
+      lineWidth: 2, // Edge width
+      label: true, // Enable edge label display
+      labelText: 'labelText', // Edge label text
+      labelPlacement: 'center', // Position of the edge label relative to the edge
+      labelFill: '#FF0000', // Edge label text color
+      labelOffsetY: 20, // Edge label offset in the y-axis direction
+      halo: true, // Enable edge halo
+      haloStroke: '#000', // Edge halo color
+      haloStrokeOpacity: 0.2, // Edge halo opacity
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### Badge Style
@@ -401,40 +413,44 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // Edge color
-        lineWidth: 2, // Edge width
-        label: true, // Enable edge label display
-        labelText: 'labelText', // Edge label text
-        labelPlacement: 'center', // Position of the edge label relative to the edge
-        labelFill: '#FF0000', // Edge label text color
-        labelOffsetY: 20, // Edge label offset in the y-axis direction
-        halo: true, // Enable edge halo
-        haloStroke: '#000', // Edge halo color
-        haloStrokeOpacity: 0.2, // Edge halo opacity
-        badgeText: 'badge', // Edge badge text
-        badgeFill: 'green', // Edge badge text color
-        badgeOffsetX: -20, // Edge badge offset in the x-axis direction
-        badgeBackground: true, // Enable edge badge background
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // Edge color
+      lineWidth: 2, // Edge width
+      label: true, // Enable edge label display
+      labelText: 'labelText', // Edge label text
+      labelPlacement: 'center', // Position of the edge label relative to the edge
+      labelFill: '#FF0000', // Edge label text color
+      labelOffsetY: 20, // Edge label offset in the y-axis direction
+      halo: true, // Enable edge halo
+      haloStroke: '#000', // Edge halo color
+      haloStrokeOpacity: 0.2, // Edge halo opacity
+      badgeText: 'badge', // Edge badge text
+      badgeFill: 'green', // Edge badge text color
+      badgeOffsetX: -20, // Edge badge offset in the x-axis direction
+      badgeBackground: true, // Enable edge badge background
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### Start Arrow Style
@@ -496,42 +512,46 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // Edge color
-        lineWidth: 2, // Edge width
-        label: true, // Enable edge label display
-        labelText: 'labelText', // Edge label text
-        labelPlacement: 'center', // Position of the edge label relative to the edge
-        labelFill: '#FF0000', // Edge label text color
-        labelOffsetY: 20, // Edge label offset in the y-axis direction
-        halo: true, // Enable edge halo
-        haloStroke: '#000', // Edge halo color
-        haloStrokeOpacity: 0.2, // Edge halo opacity
-        badgeText: 'badge', // Edge badge text
-        badgeFill: 'green', // Edge badge text color
-        badgeOffsetX: -20, // Edge badge offset in the x-axis direction
-        badgeBackground: true, // Enable edge badge background
-        startArrow: true, // Enable edge start arrow
-        startArrowFill: 'yellow', // Edge start arrow fill color
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // Edge color
+      lineWidth: 2, // Edge width
+      label: true, // Enable edge label display
+      labelText: 'labelText', // Edge label text
+      labelPlacement: 'center', // Position of the edge label relative to the edge
+      labelFill: '#FF0000', // Edge label text color
+      labelOffsetY: 20, // Edge label offset in the y-axis direction
+      halo: true, // Enable edge halo
+      haloStroke: '#000', // Edge halo color
+      haloStrokeOpacity: 0.2, // Edge halo opacity
+      badgeText: 'badge', // Edge badge text
+      badgeFill: 'green', // Edge badge text color
+      badgeOffsetX: -20, // Edge badge offset in the x-axis direction
+      badgeBackground: true, // Enable edge badge background
+      startArrow: true, // Enable edge start arrow
+      startArrowFill: 'yellow', // Edge start arrow fill color
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### End Arrow Style
@@ -594,43 +614,47 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        stroke: '#FF0000', // Edge color
-        lineWidth: 2, // Edge width
-        label: true, // Enable edge label display
-        labelText: 'labelText', // Edge label text
-        labelPlacement: 'center', // Position of the edge label relative to the edge
-        labelFill: '#FF0000', // Edge label text color
-        labelOffsetY: 20, // Edge label offset in the y-axis direction
-        halo: true, // Enable edge halo
-        haloStroke: '#000', // Edge halo color
-        haloStrokeOpacity: 0.2, // Edge halo opacity
-        badgeText: 'badge', // Edge badge text
-        badgeFill: 'green', // Edge badge text color
-        badgeOffsetX: 20, // Edge badge offset in the x-axis direction
-        badgePlacement: 'prefix', // Position of the edge badge relative to the edge
-        badgeBackground: true, // Enable edge badge background
-        endArrow: true, // Enable edge end arrow
-        endArrowFill: 'yellow', // Edge end arrow fill color
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      stroke: '#FF0000', // Edge color
+      lineWidth: 2, // Edge width
+      label: true, // Enable edge label display
+      labelText: 'labelText', // Edge label text
+      labelPlacement: 'center', // Position of the edge label relative to the edge
+      labelFill: '#FF0000', // Edge label text color
+      labelOffsetY: 20, // Edge label offset in the y-axis direction
+      halo: true, // Enable edge halo
+      haloStroke: '#000', // Edge halo color
+      haloStrokeOpacity: 0.2, // Edge halo opacity
+      badgeText: 'badge', // Edge badge text
+      badgeFill: 'green', // Edge badge text color
+      badgeOffsetX: 20, // Edge badge offset in the x-axis direction
+      badgePlacement: 'prefix', // Position of the edge badge relative to the edge
+      badgeBackground: true, // Enable edge badge background
+      endArrow: true, // Enable edge end arrow
+      endArrowFill: 'yellow', // Edge end arrow fill color
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### Loop Edge Style
@@ -670,31 +694,35 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 60, y: 40 } },
-        { id: 'node2', style: { x: 180, y: 40 } },
-      ],
-      edges: [
-        { source: 'node1', target: 'node1', id: 'left' },
-        { source: 'node2', target: 'node2', id: 'right' },
-      ],
-    },
-    node: {
-      style: { fill: '#1783FF' },
-    },
-    edge: {
-      style: {
-        loopPlacement: (d) => d.id, // Set the position of the loop based on the edge configuration
-        endArrow: true, // Enable edge end arrow
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [
+      { source: 'node1', target: 'node1', id: 'left' },
+      { source: 'node2', target: 'node2', id: 'right' },
+    ],
+  },
+  node: {
+    style: { fill: '#1783FF' },
+  },
+  edge: {
+    style: {
+      loopPlacement: (d) => d.id, // Set the position of the loop based on the edge configuration
+      endArrow: true, // Enable edge end arrow
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ## State
@@ -739,29 +767,33 @@ const graph = new Graph({
 
 The effect is as shown below:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [{ id: 'node1' }, { id: 'node2' }],
-      edges: [{ source: 'node1', target: 'node2', states: ['focus'] }],
-    },
-    edge: {
-      state: {
-        focus: {
-          halo: true,
-          haloLineWidth: 6,
-          haloStroke: 'yellow',
-        },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 300,
+  height: 100,
+  data: {
+    nodes: [{ id: 'node1' }, { id: 'node2' }],
+    edges: [{ source: 'node1', target: 'node2', states: ['focus'] }],
+  },
+  edge: {
+    state: {
+      focus: {
+        halo: true,
+        haloLineWidth: 6,
+        haloStroke: 'yellow',
       },
     },
-    layout: {
-      type: 'grid',
-      cols: 2,
-    },
   },
-  { width: 300, height: 100 },
-);
+  layout: {
+    type: 'grid',
+    cols: 2,
+  },
+});
+
+graph.render();
 ```
 
 ## Animation
@@ -879,37 +911,41 @@ const graph = new Graph({
 
 The effect is as shown below:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
-      edges: [
-        { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
-        { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
-        { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
-        { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
-        { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
-      ],
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 300,
+  data: {
+    nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
+    edges: [
+      { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
+      { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
+      { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
+      { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
+      { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
+    ],
+  },
+  layout: {
+    type: 'radial',
+    unitRadius: 120,
+    linkDistance: 120,
+  },
+  edge: {
+    style: {
+      endArrow: true,
     },
-    layout: {
-      type: 'radial',
-      unitRadius: 120,
-      linkDistance: 120,
-    },
-    edge: {
-      style: {
-        endArrow: true,
-      },
-      palette: {
-        type: 'group',
-        field: 'direction',
-        color: ['#F08F56', '#00C9C9'],
-      },
+    palette: {
+      type: 'group',
+      field: 'direction',
+      color: ['#F08F56', '#00C9C9'],
     },
   },
-  { width: 600, height: 300 },
-);
+});
+
+graph.render();
 ```
 
 You can also use the default configuration:
@@ -924,31 +960,35 @@ You can also use the default configuration:
 
 The effect is as shown below:
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
-      edges: [
-        { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
-        { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
-        { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
-        { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
-        { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
-      ],
-    },
-    layout: {
-      type: 'radial',
-      unitRadius: 120,
-      linkDistance: 120,
-    },
-    edge: {
-      style: {
-        endArrow: true,
-      },
-      palette: 'tableau',
-    },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 300,
+  data: {
+    nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
+    edges: [
+      { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
+      { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
+      { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
+      { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
+      { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
+    ],
   },
-  { width: 600, height: 300 },
-);
+  layout: {
+    type: 'radial',
+    unitRadius: 120,
+    linkDistance: 120,
+  },
+  edge: {
+    style: {
+      endArrow: true,
+    },
+    palette: 'tableau',
+  },
+});
+
+graph.render();
 ```

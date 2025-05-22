@@ -160,107 +160,111 @@ See [Example - Prevent Node Overlap in Force-Directed Layout](/en/examples/layou
 
 This example shows how to use force-directed layout for team clustering, where nodes of different teams automatically cluster together.
 
-```js | ob {pin: false}
-createGraph(
-  {
-    autoFit: 'view',
-    data: {
-      nodes: [
-        // Team A
-        { id: 'A1', team: 'A', label: 'A1', size: 30 },
-        { id: 'A2', team: 'A', label: 'A2', size: 20 },
-        { id: 'A3', team: 'A', label: 'A3', size: 20 },
-        { id: 'A4', team: 'A', label: 'A4', size: 20 },
-        // Team B
-        { id: 'B1', team: 'B', label: 'B1', size: 30 },
-        { id: 'B2', team: 'B', label: 'B2', size: 20 },
-        { id: 'B3', team: 'B', label: 'B3', size: 20 },
-        { id: 'B4', team: 'B', label: 'B4', size: 20 },
-        // Team C
-        { id: 'C1', team: 'C', label: 'C1', size: 30 },
-        { id: 'C2', team: 'C', label: 'C2', size: 20 },
-        { id: 'C3', team: 'C', label: 'C3', size: 20 },
-        { id: 'C4', team: 'C', label: 'C4', size: 20 },
-      ],
-      edges: [
-        // Team A internal connections
-        { source: 'A1', target: 'A2' },
-        { source: 'A1', target: 'A3' },
-        { source: 'A1', target: 'A4' },
-        // Team B internal connections
-        { source: 'B1', target: 'B2' },
-        { source: 'B1', target: 'B3' },
-        { source: 'B1', target: 'B4' },
-        // Team C internal connections
-        { source: 'C1', target: 'C2' },
-        { source: 'C1', target: 'C3' },
-        { source: 'C1', target: 'C4' },
-        // Few connections between teams
-        { source: 'A1', target: 'B1' },
-        { source: 'B1', target: 'C1' },
-      ],
-    },
-    node: {
-      style: {
-        size: (d) => d.size,
-        fill: (d) => {
-          // Different colors for different teams
-          const colors = {
-            A: '#FF6B6B',
-            B: '#4ECDC4',
-            C: '#45B7D1',
-          };
-          return colors[d.team];
-        },
-        labelText: (d) => d.label,
-        labelPlacement: 'center',
-        labelFill: '#fff',
-      },
-    },
-    edge: {
-      style: {
-        stroke: '#aaa',
-      },
-    },
-    layout: {
-      type: 'd3-force',
-      // Configure link force - nodes within the same team are closer
-      link: {
-        distance: (d) => {
-          // Shorter distance within the same team
-          if (d.source.team === d.target.team) return 50;
-          // Longer distance between teams
-          return 200;
-        },
-        strength: (d) => {
-          // Stronger connection within the same team
-          if (d.source.team === d.target.team) return 0.7;
-          // Weaker connection between teams
-          return 0.1;
-        },
-      },
-      // Configure many-body force - control repulsion between nodes
-      manyBody: {
-        strength: (d) => {
-          // Team leader nodes (ending with 1) have stronger repulsion
-          if (d.label.endsWith('1')) return -100;
-          return -30;
-        },
-      },
-      // Configure collision force - prevent node overlap
-      collide: {
-        radius: 35,
-        strength: 0.8,
-      },
-      // Configure center force - keep the graph centered
-      center: {
-        strength: 0.05,
-      },
-    },
-    behaviors: ['drag-element-force'],
+```js | ob { pin: false, autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 500,
+  height: 250,
+  autoFit: 'view',
+  data: {
+    nodes: [
+      // Team A
+      { id: 'A1', team: 'A', label: 'A1', size: 30 },
+      { id: 'A2', team: 'A', label: 'A2', size: 20 },
+      { id: 'A3', team: 'A', label: 'A3', size: 20 },
+      { id: 'A4', team: 'A', label: 'A4', size: 20 },
+      // Team B
+      { id: 'B1', team: 'B', label: 'B1', size: 30 },
+      { id: 'B2', team: 'B', label: 'B2', size: 20 },
+      { id: 'B3', team: 'B', label: 'B3', size: 20 },
+      { id: 'B4', team: 'B', label: 'B4', size: 20 },
+      // Team C
+      { id: 'C1', team: 'C', label: 'C1', size: 30 },
+      { id: 'C2', team: 'C', label: 'C2', size: 20 },
+      { id: 'C3', team: 'C', label: 'C3', size: 20 },
+      { id: 'C4', team: 'C', label: 'C4', size: 20 },
+    ],
+    edges: [
+      // Team A internal connections
+      { source: 'A1', target: 'A2' },
+      { source: 'A1', target: 'A3' },
+      { source: 'A1', target: 'A4' },
+      // Team B internal connections
+      { source: 'B1', target: 'B2' },
+      { source: 'B1', target: 'B3' },
+      { source: 'B1', target: 'B4' },
+      // Team C internal connections
+      { source: 'C1', target: 'C2' },
+      { source: 'C1', target: 'C3' },
+      { source: 'C1', target: 'C4' },
+      // Few connections between teams
+      { source: 'A1', target: 'B1' },
+      { source: 'B1', target: 'C1' },
+    ],
   },
-  { width: 500, height: 250 },
-);
+  node: {
+    style: {
+      size: (d) => d.size,
+      fill: (d) => {
+        // Different colors for different teams
+        const colors = {
+          A: '#FF6B6B',
+          B: '#4ECDC4',
+          C: '#45B7D1',
+        };
+        return colors[d.team];
+      },
+      labelText: (d) => d.label,
+      labelPlacement: 'center',
+      labelFill: '#fff',
+    },
+  },
+  edge: {
+    style: {
+      stroke: '#aaa',
+    },
+  },
+  layout: {
+    type: 'd3-force',
+    // Configure link force - nodes within the same team are closer
+    link: {
+      distance: (d) => {
+        // Shorter distance within the same team
+        if (d.source.team === d.target.team) return 50;
+        // Longer distance between teams
+        return 200;
+      },
+      strength: (d) => {
+        // Stronger connection within the same team
+        if (d.source.team === d.target.team) return 0.7;
+        // Weaker connection between teams
+        return 0.1;
+      },
+    },
+    // Configure many-body force - control repulsion between nodes
+    manyBody: {
+      strength: (d) => {
+        // Team leader nodes (ending with 1) have stronger repulsion
+        if (d.label.endsWith('1')) return -100;
+        return -30;
+      },
+    },
+    // Configure collision force - prevent node overlap
+    collide: {
+      radius: 35,
+      strength: 0.8,
+    },
+    // Configure center force - keep the graph centered
+    center: {
+      strength: 0.05,
+    },
+  },
+  behaviors: ['drag-element-force'],
+});
+
+graph.render();
 ```
 
 <details><summary>Show full code</summary>

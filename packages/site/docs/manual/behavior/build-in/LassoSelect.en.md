@@ -82,39 +82,43 @@ const graph = new Graph({
 });
 ```
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node-1', style: { x: 100, y: 50 } },
-        { id: 'node-2', style: { x: 260, y: 50 } },
-        { id: 'node-3', style: { x: 280, y: 100 } },
-      ],
-      edges: [
-        { source: 'node-1', target: 'node-2' },
-        { source: 'node-1', target: 'node-3' },
-        { source: 'node-2', target: 'node-3' },
-      ],
-    },
-    node: {
-      style: { fill: '#7e3feb' },
-    },
-    edge: {
-      stroke: '#8b9baf',
-    },
-    behaviors: [
-      {
-        type: 'lasso-select',
-        key: 'lasso-select',
-        immediately: true, // Immediate selection
-        trigger: [],
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 400,
+  height: 200,
+  data: {
+    nodes: [
+      { id: 'node-1', style: { x: 100, y: 50 } },
+      { id: 'node-2', style: { x: 260, y: 50 } },
+      { id: 'node-3', style: { x: 280, y: 100 } },
     ],
-    plugins: [{ type: 'grid-line', size: 30 }],
+    edges: [
+      { source: 'node-1', target: 'node-2' },
+      { source: 'node-1', target: 'node-3' },
+      { source: 'node-2', target: 'node-3' },
+    ],
   },
-  { width: 400, height: 200 },
-);
+  node: {
+    style: { fill: '#7e3feb' },
+  },
+  edge: {
+    stroke: '#8b9baf',
+  },
+  behaviors: [
+    {
+      type: 'lasso-select',
+      key: 'lasso-select',
+      immediately: true, // Immediate selection
+      trigger: [],
+    },
+  ],
+  plugins: [{ type: 'grid-line', size: 30 }],
+});
+
+graph.render();
 ```
 
 ### mode
@@ -257,52 +261,56 @@ const graph = new Graph({
 });
 ```
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: 'node-1', style: { x: 200, y: 100 } },
-        { id: 'node-2', style: { x: 360, y: 100 } },
-        { id: 'node-3', style: { x: 280, y: 220 } },
-      ],
-      edges: [
-        { source: 'node-1', target: 'node-2' },
-        { source: 'node-1', target: 'node-3' },
-        { source: 'node-2', target: 'node-3' },
-      ],
-    },
-    node: {
-      style: { fill: '#7e3feb' },
-    },
-    edge: {
-      stroke: '#8b9baf',
-    },
-    behaviors: [
-      {
-        type: 'lasso-select',
-        key: 'lasso-select',
-        trigger: [],
-        immediately: true,
-        style: {
-          width: 0,
-          height: 0,
-          lineWidth: 4,
-          lineDash: [2, 2], // Dashed outline
-          // RGB super colorful box
-          fill: 'linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)',
-          stroke: 'pink',
-          fillOpacity: 0.2,
-          zIndex: 2,
-          pointerEvents: 'none',
-        },
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 300,
+  data: {
+    nodes: [
+      { id: 'node-1', style: { x: 200, y: 100 } },
+      { id: 'node-2', style: { x: 360, y: 100 } },
+      { id: 'node-3', style: { x: 280, y: 220 } },
     ],
-    plugins: [{ type: 'grid-line', size: 30 }],
-    animation: true,
+    edges: [
+      { source: 'node-1', target: 'node-2' },
+      { source: 'node-1', target: 'node-3' },
+      { source: 'node-2', target: 'node-3' },
+    ],
   },
-  { width: 600, height: 300 },
-);
+  node: {
+    style: { fill: '#7e3feb' },
+  },
+  edge: {
+    stroke: '#8b9baf',
+  },
+  behaviors: [
+    {
+      type: 'lasso-select',
+      key: 'lasso-select',
+      trigger: [],
+      immediately: true,
+      style: {
+        width: 0,
+        height: 0,
+        lineWidth: 4,
+        lineDash: [2, 2], // Dashed outline
+        // RGB super colorful box
+        fill: 'linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)',
+        stroke: 'pink',
+        fillOpacity: 0.2,
+        zIndex: 2,
+        pointerEvents: 'none',
+      },
+    },
+  ],
+  plugins: [{ type: 'grid-line', size: 30 }],
+  animation: true,
+});
+
+graph.render();
 ```
 
 ### trigger

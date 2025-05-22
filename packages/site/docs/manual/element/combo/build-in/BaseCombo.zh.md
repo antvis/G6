@@ -120,20 +120,24 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [{ id: 'node1', combo: 'combo1' }],
-      combos: [{ id: 'combo1' }],
-    },
-    combo: {
-      style: { fill: '#1783FF', stroke: '#000', lineWidth: 2 },
-    },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', combo: 'combo1' }],
+    combos: [{ id: 'combo1' }],
   },
-  { width: 240, height: 100 },
-);
+  combo: {
+    style: { fill: '#1783FF', stroke: '#000', lineWidth: 2 },
+  },
+});
+
+graph.render();
 ```
 
 ### 收起时样式
@@ -181,20 +185,24 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [{ id: 'node1', combo: 'combo1' }],
-      combos: [{ id: 'combo1', style: { collapsed: true } }],
-    },
-    combo: {
-      style: { collapsedFill: '#1783FF', collapsedStroke: '#000', collapsedLineWidth: 2 },
-    },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', combo: 'combo1' }],
+    combos: [{ id: 'combo1', style: { collapsed: true } }],
   },
-  { width: 240, height: 100 },
-);
+  combo: {
+    style: { collapsedFill: '#1783FF', collapsedStroke: '#000', collapsedLineWidth: 2 },
+  },
+});
+
+graph.render();
 ```
 
 ### 收起时标记样式
@@ -234,26 +242,30 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [
-        { id: 'node1', combo: 'combo1' },
-        { id: 'node2', combo: 'combo1' },
-      ],
-      combos: [{ id: 'combo1', style: { collapsed: true } }],
-    },
-    combo: {
-      style: {
-        collapsedMarkerFill: '#1783FF',
-        collapsedMarkerFontSize: 30,
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [
+      { id: 'node1', combo: 'combo1' },
+      { id: 'node2', combo: 'combo1' },
+    ],
+    combos: [{ id: 'combo1', style: { collapsed: true } }],
+  },
+  combo: {
+    style: {
+      collapsedMarkerFill: '#1783FF',
+      collapsedMarkerFontSize: 30,
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 标签样式
@@ -333,29 +345,33 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [{ id: 'node1', combo: 'combo1' }],
-      combos: [
-        {
-          id: 'combo1',
-          style: {
-            label: true,
-            labelText: '组合名称',
-            labelFill: '#000',
-            labelFontSize: 12,
-            labelFontWeight: 'normal',
-            labelPlacement: 'bottom',
-          },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', combo: 'combo1' }],
+    combos: [
+      {
+        id: 'combo1',
+        style: {
+          label: true,
+          labelText: '组合名称',
+          labelFill: '#000',
+          labelFontSize: 12,
+          labelFontWeight: 'normal',
+          labelPlacement: 'bottom',
         },
-      ],
-    },
+      },
+    ],
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 标签背景样式
@@ -402,33 +418,37 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [{ id: 'node1', combo: 'combo1' }],
-      combos: [
-        {
-          id: 'combo1',
-          style: {
-            label: true,
-            labelText: '组合名称',
-            labelFill: '#000',
-            labelFontSize: 12,
-            labelFontWeight: 'normal',
-            labelPlacement: 'bottom',
-            labelBackground: true,
-            labelBackgroundFill: '#000',
-            labelBackgroundRadius: 10,
-            labelBackgroundFillOpacity: 0.5,
-          },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', combo: 'combo1' }],
+    combos: [
+      {
+        id: 'combo1',
+        style: {
+          label: true,
+          labelText: '组合名称',
+          labelFill: '#000',
+          labelFontSize: 12,
+          labelFontWeight: 'normal',
+          labelPlacement: 'bottom',
+          labelBackground: true,
+          labelBackgroundFill: '#000',
+          labelBackgroundRadius: 10,
+          labelBackgroundFillOpacity: 0.5,
         },
-      ],
-    },
+      },
+    ],
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 光晕样式
@@ -472,24 +492,28 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [{ id: 'node1', combo: 'combo1' }],
-      combos: [{ id: 'combo1' }],
-    },
-    combo: {
-      style: {
-        halo: true,
-        haloStroke: '#FF0000',
-        haloLineWidth: 10,
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', combo: 'combo1' }],
+    combos: [{ id: 'combo1' }],
+  },
+  combo: {
+    style: {
+      halo: true,
+      haloStroke: '#FF0000',
+      haloLineWidth: 10,
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ### 图标样式
@@ -538,25 +562,29 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      combos: [{ id: 'combo1' }],
-    },
-    combo: {
-      style: {
-        iconText: '文本',
-        iconFill: '#FF0000',
-        iconFontSize: 14,
-        iconFontWeight: 'bold',
-        iconFontStyle: 'italic',
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    combos: [{ id: 'combo1' }],
+  },
+  combo: {
+    style: {
+      iconText: '文本',
+      iconFill: '#FF0000',
+      iconFontSize: 14,
+      iconFontWeight: 'bold',
+      iconFontStyle: 'italic',
     },
   },
-  { width: 240, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ## State
@@ -592,27 +620,31 @@ const graph = new Graph({
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    autoFit: 'center',
-    data: {
-      nodes: [{ id: 'node1', combo: 'combo1' }],
-      combos: [{ id: 'combo1', states: ['focus'] }],
-    },
-    combo: {
-      state: {
-        focus: {
-          lineWidth: 3,
-          stroke: 'orange',
-          fill: 'orange',
-          fillOpacity: 0.2,
-        },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', combo: 'combo1' }],
+    combos: [{ id: 'combo1', states: ['focus'] }],
+  },
+  combo: {
+    state: {
+      focus: {
+        lineWidth: 3,
+        stroke: 'orange',
+        fill: 'orange',
+        fillOpacity: 0.2,
       },
     },
   },
-  { width: 200, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 ## Animation
@@ -713,26 +745,30 @@ createGraph(
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      combos: new Array(8)
-        .fill(0)
-        .map((_, i) => ({ id: `combo-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
-    },
-    layout: { type: 'grid', cols: 8 },
-    combo: {
-      style: { fillOpacity: 0.4 },
-      palette: {
-        type: 'group',
-        field: 'category',
-        color: ['#1783FF', '#F08F56', '#D580FF', '#00C9C9', '#7863FF'],
-      },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 100,
+  data: {
+    combos: new Array(8)
+      .fill(0)
+      .map((_, i) => ({ id: `combo-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
+  },
+  layout: { type: 'grid', cols: 8 },
+  combo: {
+    style: { fillOpacity: 0.4 },
+    palette: {
+      type: 'group',
+      field: 'category',
+      color: ['#1783FF', '#F08F56', '#D580FF', '#00C9C9', '#7863FF'],
     },
   },
-  { width: 600, height: 100 },
-);
+});
+
+graph.render();
 ```
 
 也可以使用默认配置：
@@ -747,20 +783,24 @@ createGraph(
 
 效果如下图所示：
 
-```js | ob { pin: false }
-createGraph(
-  {
-    data: {
-      combos: new Array(8)
-        .fill(0)
-        .map((_, i) => ({ id: `combo-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
-    },
-    layout: { type: 'grid', cols: 8 },
-    combo: {
-      style: { fillOpacity: 0.4 },
-      palette: 'tableau',
-    },
+```js | ob {  pin: false , autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 100,
+  data: {
+    combos: new Array(8)
+      .fill(0)
+      .map((_, i) => ({ id: `combo-${i}`, data: { category: ['A', 'B', 'C', 'D', 'E'][i % 5] } })),
   },
-  { width: 600, height: 100 },
-);
+  layout: { type: 'grid', cols: 8 },
+  combo: {
+    style: { fillOpacity: 0.4 },
+    palette: 'tableau',
+  },
+});
+
+graph.render();
 ```

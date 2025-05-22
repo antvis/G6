@@ -34,55 +34,59 @@ Fruchterman 布局是基于 [Graph Drawing by Force-directed Placement](https://
 
 ### 基本布局
 
-```js | ob {pin: false}
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: '0' },
-        { id: '1' },
-        { id: '2' },
-        { id: '3' },
-        { id: '4' },
-        { id: '5' },
-        { id: '6' },
-        { id: '7' },
-        { id: '8' },
-        { id: '9' },
-        { id: '10' },
-      ],
-      edges: [
-        { source: '0', target: '1' },
-        { source: '0', target: '2' },
-        { source: '0', target: '3' },
-        { source: '0', target: '4' },
-        { source: '0', target: '7' },
-        { source: '0', target: '8' },
-        { source: '0', target: '9' },
-        { source: '0', target: '10' },
-        { source: '2', target: '3' },
-        { source: '4', target: '5' },
-        { source: '4', target: '6' },
-        { source: '5', target: '6' },
-        { source: '9', target: '10' },
-      ],
-    },
-    node: {
-      style: {
-        labelFill: '#fff',
-        labelPlacement: 'center',
-        labelText: (d) => d.id,
-      },
-    },
-    layout: {
-      type: 'fruchterman',
-      gravity: 5,
-      speed: 5,
-    },
-    behaviors: ['drag-canvas', 'drag-element'],
+```js | ob { pin: false, autoMount: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 500,
+  height: 250,
+  data: {
+    nodes: [
+      { id: '0' },
+      { id: '1' },
+      { id: '2' },
+      { id: '3' },
+      { id: '4' },
+      { id: '5' },
+      { id: '6' },
+      { id: '7' },
+      { id: '8' },
+      { id: '9' },
+      { id: '10' },
+    ],
+    edges: [
+      { source: '0', target: '1' },
+      { source: '0', target: '2' },
+      { source: '0', target: '3' },
+      { source: '0', target: '4' },
+      { source: '0', target: '7' },
+      { source: '0', target: '8' },
+      { source: '0', target: '9' },
+      { source: '0', target: '10' },
+      { source: '2', target: '3' },
+      { source: '4', target: '5' },
+      { source: '4', target: '6' },
+      { source: '5', target: '6' },
+      { source: '9', target: '10' },
+    ],
   },
-  { width: 500, height: 250 },
-);
+  node: {
+    style: {
+      labelFill: '#fff',
+      labelPlacement: 'center',
+      labelText: (d) => d.id,
+    },
+  },
+  layout: {
+    type: 'fruchterman',
+    gravity: 5,
+    speed: 5,
+  },
+  behaviors: ['drag-canvas', 'drag-element'],
+});
+
+graph.render();
 ```
 
 <details><summary>展开查看完整代码</summary>
@@ -146,68 +150,72 @@ graph.render();
 
 ### 聚类布局
 
-```js | ob {pin: false}
-createGraph(
-  {
-    data: {
-      nodes: [
-        { id: '0', data: { cluster: 'a' } },
-        { id: '1', data: { cluster: 'a' } },
-        { id: '2', data: { cluster: 'a' } },
-        { id: '3', data: { cluster: 'a' } },
-        { id: '4', data: { cluster: 'a' } },
-        { id: '5', data: { cluster: 'b' } },
-        { id: '6', data: { cluster: 'b' } },
-        { id: '7', data: { cluster: 'b' } },
-        { id: '8', data: { cluster: 'c' } },
-        { id: '9', data: { cluster: 'c' } },
-        { id: '10', data: { cluster: 'c' } },
-      ],
-      edges: [
-        { source: '0', target: '1' },
-        { source: '0', target: '2' },
-        { source: '0', target: '4' },
-        { source: '0', target: '6' },
-        { source: '2', target: '3' },
-        { source: '2', target: '4' },
-        { source: '3', target: '4' },
-        { source: '5', target: '6' },
-        { source: '6', target: '7' },
-        { source: '7', target: '8' },
-        { source: '8', target: '9' },
-        { source: '8', target: '10' },
-      ],
-    },
-    node: {
-      style: {
-        labelFill: '#fff',
-        labelPlacement: 'center',
-        labelText: (d) => `${d.data.cluster}-${d.id}`,
-      },
-      palette: {
-        type: 'group',
-        field: 'cluster',
-      },
-    },
-    edge: {
-      style: {
-        endArrow: true,
-      },
-    },
-    layout: {
-      type: 'fruchterman',
-      gravity: 6,
-      speed: 5,
+```js | ob { pin: false, autoMount: true }
+import { Graph } from '@antv/g6';
 
-      // 聚类布局参数
-      clustering: true,
-      nodeClusterBy: 'cluster',
-      clusterGravity: 3,
-    },
-    behaviors: ['drag-canvas', 'drag-element'],
+const graph = new Graph({
+  container: 'container',
+  width: 500,
+  height: 250,
+  data: {
+    nodes: [
+      { id: '0', data: { cluster: 'a' } },
+      { id: '1', data: { cluster: 'a' } },
+      { id: '2', data: { cluster: 'a' } },
+      { id: '3', data: { cluster: 'a' } },
+      { id: '4', data: { cluster: 'a' } },
+      { id: '5', data: { cluster: 'b' } },
+      { id: '6', data: { cluster: 'b' } },
+      { id: '7', data: { cluster: 'b' } },
+      { id: '8', data: { cluster: 'c' } },
+      { id: '9', data: { cluster: 'c' } },
+      { id: '10', data: { cluster: 'c' } },
+    ],
+    edges: [
+      { source: '0', target: '1' },
+      { source: '0', target: '2' },
+      { source: '0', target: '4' },
+      { source: '0', target: '6' },
+      { source: '2', target: '3' },
+      { source: '2', target: '4' },
+      { source: '3', target: '4' },
+      { source: '5', target: '6' },
+      { source: '6', target: '7' },
+      { source: '7', target: '8' },
+      { source: '8', target: '9' },
+      { source: '8', target: '10' },
+    ],
   },
-  { width: 500, height: 250 },
-);
+  node: {
+    style: {
+      labelFill: '#fff',
+      labelPlacement: 'center',
+      labelText: (d) => `${d.data.cluster}-${d.id}`,
+    },
+    palette: {
+      type: 'group',
+      field: 'cluster',
+    },
+  },
+  edge: {
+    style: {
+      endArrow: true,
+    },
+  },
+  layout: {
+    type: 'fruchterman',
+    gravity: 6,
+    speed: 5,
+
+    // 聚类布局参数
+    clustering: true,
+    nodeClusterBy: 'cluster',
+    clusterGravity: 3,
+  },
+  behaviors: ['drag-canvas', 'drag-element'],
+});
+
+graph.render();
 ```
 
 <details><summary>展开查看完整代码</summary>
