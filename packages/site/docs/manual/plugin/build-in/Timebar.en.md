@@ -267,7 +267,7 @@ CSS can only set the style of the timebar container:
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false }
 createGraph(
   {
     data: () => {

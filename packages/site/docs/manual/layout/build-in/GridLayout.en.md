@@ -12,7 +12,7 @@ The grid layout arranges nodes in a grid pattern, suitable for scenarios where n
 
 ## Online Demo
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false }
 createGraph(
   {
     data: {

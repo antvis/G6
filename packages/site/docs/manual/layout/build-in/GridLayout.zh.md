@@ -12,7 +12,7 @@ title: Grid 网格布局
 
 ## 在线体验
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false }
 createGraph(
   {
     data: {

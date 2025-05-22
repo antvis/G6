@@ -267,7 +267,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false }
 createGraph(
   {
     data: () => {

@@ -142,7 +142,7 @@ const graph = new Graph({
 });
 ```
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false }
 createGraph(
   {
     data: {
