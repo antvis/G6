@@ -1,69 +1,64 @@
-```js | ob {  pin: false , autoMount: true }
-(async () => {
-  const { Graph, BaseLayout, register, ExtensionCategory } = window.g6;
-  class TickTockLayout extends BaseLayout {
-    id = 'tick-tock-layout';
+```js | ob { pin: false , autoMount: true }
+import { Graph, BaseLayout, register, ExtensionCategory } from '@antv/g6';
 
-    async execute(data, options) {
-      const { onTick } = { ...this.options, ...options };
+class TickTockLayout extends BaseLayout {
+  id = 'tick-tock-layout';
 
-      this.tickCount = 0;
-      this.data = data;
+  async execute(data, options) {
+    const { onTick } = { ...this.options, ...options };
 
-      this.promise = new Promise((resolve) => {
-        this.resolve = resolve;
-      });
+    this.tickCount = 0;
+    this.data = data;
 
-      this.timer = window.setInterval(() => {
-        onTick(this.simulateTick());
-        if (this.tickCount === 10) this.stop();
-      }, 200);
+    this.promise = new Promise((resolve) => {
+      this.resolve = resolve;
+    });
 
-      await this.promise;
+    this.timer = window.setInterval(() => {
+      onTick(this.simulateTick());
+      if (this.tickCount === 10) this.stop();
+    }, 200);
 
-      return this.simulateTick();
-    }
+    await this.promise;
 
-    simulateTick = () => {
-      const x = this.tickCount++ % 2 === 0 ? 50 : 150;
-
-      return {
-        nodes: (this?.data?.nodes || []).map((node, index) => ({
-          id: node.id,
-          style: { x, y: (index + 1) * 30 },
-        })),
-      };
-    };
-
-    tick = () => {
-      return this.simulateTick();
-    };
-
-    stop = () => {
-      clearInterval(this.timer);
-      this.resolve?.();
-    };
+    return this.simulateTick();
   }
 
-  register(ExtensionCategory.LAYOUT, 'tick-tock', TickTockLayout);
+  simulateTick = () => {
+    const x = this.tickCount++ % 2 === 0 ? 50 : 150;
 
-  const container = createContainer({ width: 200, height: 200 });
+    return {
+      nodes: (this?.data?.nodes || []).map((node, index) => ({
+        id: node.id,
+        style: { x, y: (index + 1) * 30 },
+      })),
+    };
+  };
 
-  const graph = new Graph({
-    container,
-    width: 200,
-    height: 200,
-    animation: true,
-    data: {
-      nodes: [{ id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }, { id: 'node-4' }, { id: 'node-5' }],
-    },
-    layout: {
-      type: 'tick-tock',
-    },
-  });
+  tick = () => {
+    return this.simulateTick();
+  };
 
-  graph.render();
+  stop = () => {
+    clearInterval(this.timer);
+    this.resolve?.();
+  };
+}
 
-  return container;
-})();
+register(ExtensionCategory.LAYOUT, 'tick-tock', TickTockLayout);
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 200,
+  animation: true,
+  data: {
+    nodes: [{ id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }, { id: 'node-4' }, { id: 'node-5' }],
+  },
+  layout: {
+    type: 'tick-tock',
+  },
+});
+
+graph.render();
 ```

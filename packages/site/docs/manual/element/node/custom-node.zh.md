@@ -66,82 +66,77 @@ G6 提供了一系列 [内置节点](/manual/element/node/build-in/base-node)，
 让我们从一个简单的例子开始 - 创建一个 **带有主副标题的矩形节点**：
 
 ```js | ob { pin:false, autoMount: true }
-(() => {
-  const { Graph, register, Rect, ExtensionCategory } = g6;
+import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
-  // 第一步：创建自定义节点类
-  class DualLabelNode extends Rect {
-    // 副标题样式
-    getSubtitleStyle(attributes) {
-      return {
-        x: 0,
-        y: 45, // 放在主标题下方
-        text: attributes.subtitle || '',
-        fontSize: 12,
-        fill: '#666',
-        textAlign: 'center',
-        textBaseline: 'middle',
-      };
-    }
-
-    // 绘制副标题
-    drawSubtitleShape(attributes, container) {
-      const subtitleStyle = this.getSubtitleStyle(attributes);
-      this.upsert('subtitle', 'text', subtitleStyle, container);
-    }
-
-    // 渲染方法
-    render(attributes = this.parsedAttributes, container) {
-      // 1. 渲染基础矩形和主标题
-      super.render(attributes, container);
-
-      // 2. 添加副标题
-      this.drawSubtitleShape(attributes, container);
-    }
+// 第一步：创建自定义节点类
+class DualLabelNode extends Rect {
+  // 副标题样式
+  getSubtitleStyle(attributes) {
+    return {
+      x: 0,
+      y: 45, // 放在主标题下方
+      text: attributes.subtitle || '',
+      fontSize: 12,
+      fill: '#666',
+      textAlign: 'center',
+      textBaseline: 'middle',
+    };
   }
 
-  // 第二步：注册自定义节点
-  register(ExtensionCategory.NODE, 'dual-label-node', DualLabelNode);
+  // 绘制副标题
+  drawSubtitleShape(attributes, container) {
+    const subtitleStyle = this.getSubtitleStyle(attributes);
+    this.upsert('subtitle', 'text', subtitleStyle, container);
+  }
 
-  // 第三步：使用自定义节点
-  const container = createContainer({ height: 200 });
+  // 渲染方法
+  render(attributes = this.parsedAttributes, container) {
+    // 1. 渲染基础矩形和主标题
+    super.render(attributes, container);
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          style: { x: 100, y: 100 },
-          data: {
-            title: '节点 A', // 主标题
-            subtitle: '你的第一个自定义节点', // 副标题
-          },
+    // 2. 添加副标题
+    this.drawSubtitleShape(attributes, container);
+  }
+}
+
+// 第二步：注册自定义节点
+register(ExtensionCategory.NODE, 'dual-label-node', DualLabelNode);
+
+// 第三步：使用自定义节点
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: { x: 100, y: 100 },
+        data: {
+          title: '节点 A', // 主标题
+          subtitle: '你的第一个自定义节点', // 副标题
         },
-      ],
-    },
-    node: {
-      type: 'dual-label-node',
-      style: {
-        fill: '#7FFFD4',
-        stroke: '#5CACEE',
-        lineWidth: 2,
-        radius: 5,
-        // 主标题样式
-        labelText: (d) => d.data.title,
-        labelFill: '#222',
-        labelFontSize: 14,
-        labelFontWeight: 500,
-        // 副标题
-        subtitle: (d) => d.data.subtitle,
       },
+    ],
+  },
+  node: {
+    type: 'dual-label-node',
+    style: {
+      fill: '#7FFFD4',
+      stroke: '#5CACEE',
+      lineWidth: 2,
+      radius: 5,
+      // 主标题样式
+      labelText: (d) => d.data.title,
+      labelFill: '#222',
+      labelFontSize: 14,
+      labelFontWeight: 500,
+      // 副标题
+      subtitle: (d) => d.data.subtitle,
     },
-  });
+  },
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```
 
 ### 第一步：编写自定义节点类
@@ -418,102 +413,97 @@ protected getKeyStyle(attributes: Required<BaseNodeStyleProps>) {
 > 3. 添加标签（text）
 
 ```js | ob { autoMount: true }
-(() => {
-  const { Graph, register, Rect, ExtensionCategory } = g6;
+import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
-  class IconNode extends Rect {
-    get data() {
-      return this.context.graph.getNodeData(this.id).data;
-    }
-
-    getCustomIconStyle(attributes) {
-      const [width, height] = this.getSize(attributes);
-      const { icon } = this.data;
-      return {
-        x: -width / 2 + 4, // 左侧15px处
-        y: -height / 2 + 4,
-        width: 20,
-        height: 20,
-        src: icon,
-      };
-    }
-
-    drawCustomIconShape(attributes, container) {
-      const iconStyle = this.getCustomIconStyle(attributes);
-
-      this.upsert('custom-icon', 'image', iconStyle, container);
-    }
-
-    getCustomLabelStyle(attributes) {
-      const [width, height] = this.getSize(attributes);
-      const { label } = this.data;
-      return {
-        x: -width / 2 + 26, // 图标右侧10px处
-        y: -height / 2 + 14,
-        text: label || '',
-        fontSize: 10,
-        fill: '#333',
-        textAlign: 'left',
-        textBaseline: 'middle',
-      };
-    }
-
-    drawCustomLabelShape(attributes, container) {
-      const labelStyle = this.getCustomLabelStyle(attributes);
-
-      this.upsert('custom-label', 'text', labelStyle, container);
-    }
-
-    render(attributes, container) {
-      // 渲染基础矩形
-      super.render(attributes, container);
-
-      // 添加图标
-      this.drawCustomIconShape(attributes, container);
-
-      // 添加标签(在图标右侧)
-      this.drawCustomLabelShape(attributes, container);
-    }
+class IconNode extends Rect {
+  get data() {
+    return this.context.graph.getNodeData(this.id).data;
   }
 
-  register(ExtensionCategory.NODE, 'custom-icon-node', IconNode);
+  getCustomIconStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    const { icon } = this.data;
+    return {
+      x: -width / 2 + 4, // 左侧15px处
+      y: -height / 2 + 4,
+      width: 20,
+      height: 20,
+      src: icon,
+    };
+  }
 
-  const container = createContainer({ height: 200 });
+  drawCustomIconShape(attributes, container) {
+    const iconStyle = this.getCustomIconStyle(attributes);
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          style: { x: 100, y: 100 },
-          data: {
-            icon: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
-            label: 'AntV',
-          },
+    this.upsert('custom-icon', 'image', iconStyle, container);
+  }
+
+  getCustomLabelStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    const { label } = this.data;
+    return {
+      x: -width / 2 + 26, // 图标右侧10px处
+      y: -height / 2 + 14,
+      text: label || '',
+      fontSize: 10,
+      fill: '#333',
+      textAlign: 'left',
+      textBaseline: 'middle',
+    };
+  }
+
+  drawCustomLabelShape(attributes, container) {
+    const labelStyle = this.getCustomLabelStyle(attributes);
+
+    this.upsert('custom-label', 'text', labelStyle, container);
+  }
+
+  render(attributes, container) {
+    // 渲染基础矩形
+    super.render(attributes, container);
+
+    // 添加图标
+    this.drawCustomIconShape(attributes, container);
+
+    // 添加标签(在图标右侧)
+    this.drawCustomLabelShape(attributes, container);
+  }
+}
+
+register(ExtensionCategory.NODE, 'custom-icon-node', IconNode);
+
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: { x: 100, y: 100 },
+        data: {
+          icon: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+          label: 'AntV',
         },
-      ],
-    },
-    node: {
-      type: 'custom-icon-node',
-      style: {
-        size: [120, 60],
-        fill: '#fff',
-        stroke: '#873bf4',
-        lineWidth: 2,
-        radius: 2,
-        labelText: 'G6',
-        labelPlacement: 'middle',
-        labelFontSize: 16,
-        labelOffsetY: 6,
       },
+    ],
+  },
+  node: {
+    type: 'custom-icon-node',
+    style: {
+      size: [120, 60],
+      fill: '#fff',
+      stroke: '#873bf4',
+      lineWidth: 2,
+      radius: 2,
+      labelText: 'G6',
+      labelPlacement: 'middle',
+      labelFontSize: 16,
+      labelOffsetY: 6,
     },
-  });
+  },
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```
 
 ### 可点击按钮的节点
@@ -521,83 +511,78 @@ protected getKeyStyle(attributes: Required<BaseNodeStyleProps>) {
 给节点加一个蓝色按钮，点击后触发事件（打印日志或执行回调）。
 
 ```js | ob { autoMount: true }
-(() => {
-  const { Graph, register, Rect, ExtensionCategory } = g6;
+import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
-  class ClickableNode extends Rect {
-    getButtonStyle(attributes) {
-      return {
-        x: 40,
-        y: -10,
-        width: 20,
-        height: 20,
-        radius: 10,
-        fill: '#1890ff',
-        cursor: 'pointer', // 鼠标指针变为手型
-      };
-    }
+class ClickableNode extends Rect {
+  getButtonStyle(attributes) {
+    return {
+      x: 40,
+      y: -10,
+      width: 20,
+      height: 20,
+      radius: 10,
+      fill: '#1890ff',
+      cursor: 'pointer', // 鼠标指针变为手型
+    };
+  }
 
-    drawButtonShape(attributes, container) {
-      const btnStyle = this.getButtonStyle(attributes, container);
-      const btn = this.upsert('button', 'rect', btnStyle, container);
+  drawButtonShape(attributes, container) {
+    const btnStyle = this.getButtonStyle(attributes, container);
+    const btn = this.upsert('button', 'rect', btnStyle, container);
 
-      // 为按钮添加点击事件
-      if (!btn.__clickBound) {
-        btn.addEventListener('click', (e) => {
-          // 阻止事件冒泡，避免触发节点的点击事件
-          e.stopPropagation();
+    // 为按钮添加点击事件
+    if (!btn.__clickBound) {
+      btn.addEventListener('click', (e) => {
+        // 阻止事件冒泡，避免触发节点的点击事件
+        e.stopPropagation();
 
-          // 执行业务逻辑
-          console.log('Button clicked on node:', this.id);
+        // 执行业务逻辑
+        console.log('Button clicked on node:', this.id);
 
-          // 如果数据中有回调函数，则调用
-          if (typeof attributes.onButtonClick === 'function') {
-            attributes.onButtonClick(this.id, this.data);
-          }
-        });
-        btn.__clickBound = true; // 标记已绑定事件，避免重复绑定
-      }
-    }
-
-    render(attributes, container) {
-      super.render(attributes, container);
-
-      // 添加一个按钮
-      this.drawButtonShape(attributes, container);
+        // 如果数据中有回调函数，则调用
+        if (typeof attributes.onButtonClick === 'function') {
+          attributes.onButtonClick(this.id, this.data);
+        }
+      });
+      btn.__clickBound = true; // 标记已绑定事件，避免重复绑定
     }
   }
 
-  register(ExtensionCategory.NODE, 'clickable-node', ClickableNode);
+  render(attributes, container) {
+    super.render(attributes, container);
 
-  const container = createContainer({ height: 200 });
+    // 添加一个按钮
+    this.drawButtonShape(attributes, container);
+  }
+}
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          style: { x: 100, y: 100 },
-        },
-      ],
-    },
-    node: {
-      type: 'clickable-node', // 指定使用我们的自定义节点
-      style: {
-        size: [60, 30],
-        fill: '#7FFFD4',
-        stroke: '#5CACEE',
-        lineWidth: 2,
-        radius: 5,
-        onButtonClick: (id, data) => {},
+register(ExtensionCategory.NODE, 'clickable-node', ClickableNode);
+
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [
+      {
+        id: 'node1',
+        style: { x: 100, y: 100 },
       },
+    ],
+  },
+  node: {
+    type: 'clickable-node', // 指定使用我们的自定义节点
+    style: {
+      size: [60, 30],
+      fill: '#7FFFD4',
+      stroke: '#5CACEE',
+      lineWidth: 2,
+      radius: 5,
+      onButtonClick: (id, data) => {},
     },
-  });
+  },
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```
 
 ### 响应状态变化的节点（点击变色）
@@ -616,74 +601,69 @@ protected getKeyStyle(attributes: Required<BaseNodeStyleProps>) {
 基于 rect 扩展出一个 hole 图形，默认填充色为白色，当鼠标点击时变成橙色，实现这一效果的示例代码如下：
 
 ```js | ob { autoMount: true }
-(() => {
-  const { Rect, register, Graph, ExtensionCategory } = g6;
+import { Rect, register, Graph, ExtensionCategory } from '@antv/g6';
 
-  // 1. 定义节点类
-  class SelectableNode extends Rect {
-    getHoleStyle(attributes) {
-      return {
-        x: 20,
-        y: -10,
-        radius: 10,
-        width: 20,
-        height: 20,
-        fill: attributes.holeFill,
-      };
-    }
-
-    drawHoleShape(attributes, container) {
-      const holeStyle = this.getHoleStyle(attributes, container);
-
-      this.upsert('hole', 'rect', holeStyle, container);
-    }
-
-    render(attributes, container) {
-      super.render(attributes, container);
-
-      this.drawHoleShape(attributes, container);
-    }
+// 1. 定义节点类
+class SelectableNode extends Rect {
+  getHoleStyle(attributes) {
+    return {
+      x: 20,
+      y: -10,
+      radius: 10,
+      width: 20,
+      height: 20,
+      fill: attributes.holeFill,
+    };
   }
 
-  // 2. 注册节点
-  register(ExtensionCategory.NODE, 'selectable-node', SelectableNode, true);
+  drawHoleShape(attributes, container) {
+    const holeStyle = this.getHoleStyle(attributes, container);
 
-  // 3. 创建图实例
-  const container = createContainer({ height: 200 });
+    this.upsert('hole', 'rect', holeStyle, container);
+  }
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
+  render(attributes, container) {
+    super.render(attributes, container);
+
+    this.drawHoleShape(attributes, container);
+  }
+}
+
+// 2. 注册节点
+register(ExtensionCategory.NODE, 'selectable-node', SelectableNode, true);
+
+// 3. 创建图实例
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [{ id: 'node-1', style: { x: 100, y: 100 } }],
+  },
+  node: {
+    type: 'selectable-node',
+    style: {
+      size: [120, 60],
+      radius: 6,
+      fill: '#7FFFD4',
+      stroke: '#5CACEE',
+      lineWidth: 2,
+      holeFill: '#fff',
     },
-    node: {
-      type: 'selectable-node',
-      style: {
-        size: [120, 60],
-        radius: 6,
-        fill: '#7FFFD4',
-        stroke: '#5CACEE',
-        lineWidth: 2,
-        holeFill: '#fff',
-      },
-      state: {
-        // 鼠标选中状态
-        selected: {
-          holeFill: 'orange',
-        },
+    state: {
+      // 鼠标选中状态
+      selected: {
+        holeFill: 'orange',
       },
     },
-  });
+  },
+});
 
-  // 4. 添加节点交互
-  graph.on('node:click', (evt) => {
-    const nodeId = evt.target.id;
+// 4. 添加节点交互
+graph.on('node:click', (evt) => {
+  const nodeId = evt.target.id;
 
-    graph.setElementState(nodeId, ['selected']);
-  });
+  graph.setElementState(nodeId, ['selected']);
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```

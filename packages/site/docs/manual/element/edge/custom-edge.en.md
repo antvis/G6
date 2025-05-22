@@ -57,58 +57,53 @@ Custom edges developed from scratch need to handle all details by themselves, in
 Let's start with the most basic `BaseEdge` to implement a custom straight edge:
 
 ```js | ob { pin:false, autoMount: true }
-(() => {
-  const { Graph, register, BaseEdge, ExtensionCategory } = g6;
+import { Graph, register, BaseEdge, ExtensionCategory } from '@antv/g6';
 
-  class MyLineEdge extends BaseEdge {
-    getKeyStyle(attributes) {
-      return { ...super.getKeyStyle(attributes), lineWidth: 2, stroke: '#A4D3EE' };
-    }
-
-    getKeyPath(attributes) {
-      const { sourceNode, targetNode } = this;
-      const [x1, y1] = sourceNode.getPosition();
-      const [x2, y2] = targetNode.getPosition();
-
-      return [
-        ['M', x1, y1],
-        ['L', x2, y2],
-      ];
-    }
+class MyLineEdge extends BaseEdge {
+  getKeyStyle(attributes) {
+    return { ...super.getKeyStyle(attributes), lineWidth: 2, stroke: '#A4D3EE' };
   }
 
-  register(ExtensionCategory.EDGE, 'my-line-edge', MyLineEdge);
+  getKeyPath(attributes) {
+    const { sourceNode, targetNode } = this;
+    const [x1, y1] = sourceNode.getPosition();
+    const [x2, y2] = targetNode.getPosition();
 
-  const container = createContainer({ height: 200 });
+    return [
+      ['M', x1, y1],
+      ['L', x2, y2],
+    ];
+  }
+}
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [
-        { id: 'node1', style: { x: 100, y: 50 } },
-        { id: 'node2', style: { x: 300, y: 120 } },
-      ],
-      edges: [{ source: 'node1', target: 'node2' }],
+register(ExtensionCategory.EDGE, 'my-line-edge', MyLineEdge);
+
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 100, y: 50 } },
+      { id: 'node2', style: { x: 300, y: 120 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  node: {
+    style: {
+      fill: '#7FFFD4',
+      stroke: '#5CACEE',
+      lineWidth: 2,
     },
-    node: {
-      style: {
-        fill: '#7FFFD4',
-        stroke: '#5CACEE',
-        lineWidth: 2,
-      },
+  },
+  edge: {
+    type: 'my-line-edge',
+    style: {
+      zIndex: 3,
     },
-    edge: {
-      type: 'my-line-edge',
-      style: {
-        zIndex: 3,
-      },
-    },
-  });
+  },
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```
 
 ### Step 1: Write a Custom Edge Class
@@ -369,112 +364,102 @@ protected getKeyStyle(attributes: Required<BaseEdgeStyleProps>) {
 ### Custom Polyline Edge with Custom Path
 
 ```js | ob { autoMount: true }
-(() => {
-  const { Graph, register, BaseEdge, ExtensionCategory } = g6;
+import { Graph, register, BaseEdge, ExtensionCategory } from '@antv/g6';
 
-  class MyPolylineEdge extends BaseEdge {
-    getKeyPath(attributes) {
-      const [sourcePoint, targetPoint] = this.getEndpoints(attributes);
+class MyPolylineEdge extends BaseEdge {
+  getKeyPath(attributes) {
+    const [sourcePoint, targetPoint] = this.getEndpoints(attributes);
 
-      return [
-        ['M', sourcePoint[0], sourcePoint[1]],
-        ['L', targetPoint[0] / 2 + (1 / 2) * sourcePoint[0], sourcePoint[1]],
-        ['L', targetPoint[0] / 2 + (1 / 2) * sourcePoint[0], targetPoint[1]],
-        ['L', targetPoint[0], targetPoint[1]],
-      ];
-    }
+    return [
+      ['M', sourcePoint[0], sourcePoint[1]],
+      ['L', targetPoint[0] / 2 + (1 / 2) * sourcePoint[0], sourcePoint[1]],
+      ['L', targetPoint[0] / 2 + (1 / 2) * sourcePoint[0], targetPoint[1]],
+      ['L', targetPoint[0], targetPoint[1]],
+    ];
   }
+}
 
-  register(ExtensionCategory.EDGE, 'my-polyline-edge', MyPolylineEdge);
+register(ExtensionCategory.EDGE, 'my-polyline-edge', MyPolylineEdge);
 
-  const container = createContainer({ height: 200 });
-
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [
-        { id: 'node-0', style: { x: 100, y: 50, ports: [{ key: 'right', placement: [1, 0.5] }] } },
-        { id: 'node-1', style: { x: 250, y: 150, ports: [{ key: 'left', placement: [0, 0.5] }] } },
-      ],
-      edges: [{ source: 'node-0', target: 'node-1' }],
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [
+      { id: 'node-0', style: { x: 100, y: 50, ports: [{ key: 'right', placement: [1, 0.5] }] } },
+      { id: 'node-1', style: { x: 250, y: 150, ports: [{ key: 'left', placement: [0, 0.5] }] } },
+    ],
+    edges: [{ source: 'node-0', target: 'node-1' }],
+  },
+  edge: {
+    type: 'my-polyline-edge',
+    style: {
+      startArrow: true,
+      endArrow: true,
+      stroke: '#F6BD16',
     },
-    edge: {
-      type: 'my-polyline-edge',
-      style: {
-        startArrow: true,
-        endArrow: true,
-        stroke: '#F6BD16',
-      },
-    },
-    behaviors: ['drag-element'],
-  });
+  },
+  behaviors: ['drag-element'],
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```
 
 ### Extra Labels
 
 ```js | ob { autoMount: true }
-(() => {
-  const { Graph, Line, register, BaseEdge, ExtensionCategory, subStyleProps } = g6;
+import { Graph, Line, register, BaseEdge, ExtensionCategory, subStyleProps } from '@antv/g6';
 
-  class LabelEdge extends Line {
-    render(attributes, container) {
-      super.render(attributes);
-      this.drawEndLabel(attributes, container, 'start');
-      this.drawEndLabel(attributes, container, 'end');
-    }
-
-    drawEndLabel(attributes, container, type) {
-      const key = type === 'start' ? 'startLabel' : 'endLabel';
-      const [x, y] = this.getEndpoints(attributes)[type === 'start' ? 0 : 1];
-
-      const fontStyle = {
-        x,
-        y,
-        dx: type === 'start' ? 15 : -15,
-        fontSize: 16,
-        fill: 'gray',
-        textBaseline: 'middle',
-        textAlign: type,
-      };
-      const style = subStyleProps(attributes, key);
-      const text = style.text;
-      this.upsert(`label-${type}`, 'text', text ? { ...fontStyle, ...style } : false, container);
-    }
+class LabelEdge extends Line {
+  render(attributes, container) {
+    super.render(attributes);
+    this.drawEndLabel(attributes, container, 'start');
+    this.drawEndLabel(attributes, container, 'end');
   }
 
-  register(ExtensionCategory.EDGE, 'extra-label-edge', LabelEdge);
+  drawEndLabel(attributes, container, type) {
+    const key = type === 'start' ? 'startLabel' : 'endLabel';
+    const [x, y] = this.getEndpoints(attributes)[type === 'start' ? 0 : 1];
 
-  const container = createContainer({ height: 200 });
+    const fontStyle = {
+      x,
+      y,
+      dx: type === 'start' ? 15 : -15,
+      fontSize: 16,
+      fill: 'gray',
+      textBaseline: 'middle',
+      textAlign: type,
+    };
+    const style = subStyleProps(attributes, key);
+    const text = style.text;
+    this.upsert(`label-${type}`, 'text', text ? { ...fontStyle, ...style } : false, container);
+  }
+}
 
-  const graph = new Graph({
-    container,
-    data: {
-      nodes: [
-        { id: 'node-0', style: { x: 100, y: 100 } },
-        { id: 'node-1', style: { x: 300, y: 100 } },
-      ],
-      edges: [{ source: 'node-0', target: 'node-1' }],
+register(ExtensionCategory.EDGE, 'extra-label-edge', LabelEdge);
+
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [
+      { id: 'node-0', style: { x: 100, y: 100 } },
+      { id: 'node-1', style: { x: 300, y: 100 } },
+    ],
+    edges: [{ source: 'node-0', target: 'node-1' }],
+  },
+  edge: {
+    type: 'extra-label-edge',
+    style: {
+      startArrow: true,
+      endArrow: true,
+      stroke: '#F6BD16',
+      startLabelText: 'start',
+      endLabelText: 'end',
     },
-    edge: {
-      type: 'extra-label-edge',
-      style: {
-        startArrow: true,
-        endArrow: true,
-        stroke: '#F6BD16',
-        startLabelText: 'start',
-        endLabelText: 'end',
-      },
-    },
-    behaviors: ['drag-element'],
-  });
+  },
+  behaviors: ['drag-element'],
+});
 
-  graph.render();
-
-  return container;
-})();
+graph.render();
 ```
