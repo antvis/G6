@@ -1133,7 +1133,13 @@ export class Graph extends EventEmitter {
     // Wait for synchronous tasks to complete, to avoid problems caused by calling destroy immediately after render
     await Promise.resolve();
 
-    if (this.destroyed) throw new Error(format('The graph instance has been destroyed'));
+    if (this.destroyed) {
+      // 如果图实例已经被销毁，则不再执行任何操作
+      // If the graph instance has been destroyed, no further operations will be performed
+      // eslint-disable-next-line no-console
+      console.error(format('The graph instance has been destroyed'));
+      return;
+    }
 
     await this.initCanvas();
     this.initRuntime();
