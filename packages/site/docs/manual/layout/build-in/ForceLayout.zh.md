@@ -340,7 +340,7 @@ const graph = new Graph({
 graph.on(NodeEvent.CLICK, async (e) => {
   const nodeId = e.target.id;
   graph.updateNodeData([{ id: nodeId, size: 200 }]);
-  await graph.layout();
+  await graph.render();
 });
 
 graph.render();
