@@ -16,6 +16,8 @@ export function createCanvas(options: Options): [G6Canvas, NodeCanvas] {
   const nodeCanvas = createNodeCanvas(width, height, outputType as any);
   const offscreenNodeCanvas = createNodeCanvas(1, 1);
 
+  const renderPlugins = options.renderPlugins || [];
+
   const g6Canvas = new G6Canvas({
     width,
     height,
@@ -28,6 +30,12 @@ export function createCanvas(options: Options): [G6Canvas, NodeCanvas] {
     createImage: () => new NodeImage(),
     renderer: () => {
       const renderer = new Renderer();
+
+      // register render plugins
+      renderPlugins.forEach((plugin) => {
+        renderer.registerPlugin(plugin);
+      });
+
       const htmlRendererPlugin = renderer.getPlugin('html-renderer');
       const domInteractionPlugin = renderer.getPlugin('dom-interaction');
       renderer.unregisterPlugin(htmlRendererPlugin);
