@@ -1,3 +1,4 @@
+import { Plugin as RoughCanvasPlugin } from '@antv/g-plugin-rough-canvas-renderer';
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import type { Graph, MetaData } from '../src';
@@ -171,6 +172,29 @@ describe('createGraph', () => {
     expect(graph).toMatchFile('./assets/image.png');
 
     graph.exportToFile(join(__dirname, './assets/image'));
+
+    graph.destroy();
+  });
+
+  it('image png with render plugin', async () => {
+    const graph = await fn('image', 'png', {
+      renderPlugins: [new RoughCanvasPlugin()],
+      background: 'white',
+      node: {
+        style: {
+          labelText: (d: any) => d.id,
+          labelPlacement: 'center',
+          size: 40,
+          lineWidth: 2,
+          fill: '#b3de69',
+          stroke: '#b3de69',
+        },
+      },
+    });
+
+    expect(graph).toMatchFile('./assets/image-rough.png');
+
+    graph.exportToFile(join(__dirname, './assets/image-rough'));
 
     graph.destroy();
   });

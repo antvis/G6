@@ -33,6 +33,9 @@
     "cac": "^6.7.14",
     "canvas": "^2.11.2"
   },
+  "devDependencies": {
+    "@antv/g-plugin-rough-canvas-renderer": "^2.0.44"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
