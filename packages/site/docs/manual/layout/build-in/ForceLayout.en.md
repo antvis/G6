@@ -167,6 +167,21 @@ Force-directed layout is a graph layout algorithm based on physical simulation t
 
 ### Force Interaction Diagram
 
+```mermaid
+graph TD
+    A[Input] --> B[Initialize Parameters];
+    B --> C[Build Layout Calculation];
+    C --> D[Iterative Calculation];
+    D --> E{Converged?};
+    E -->|Yes| F[Output Layout];
+    E -->|No| G[Calculate Repulsion];
+    G --> H[Calculate Edge Attraction];
+    H --> I[Calculate Centripetal Force];
+    I --> J[Update Velocity];
+    J --> K[Update Position];
+    K --> D;
+```
+
 <img src='https://mdn.alipayobjects.com/huamei_4greni/afts/img/BOu7Rbuz4MoAAAAAQjAAAAgADpdRAQFr/original' alt='Force Simulation Diagram'/>
 
 ## Configuration Options
