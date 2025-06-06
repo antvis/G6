@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "outDir": "lib",
+    "paths": {
+      "@antv/g6": ["../g6/src/index.ts"],
+      "@antv/g6-extension-react": ["./src/index.ts"]
+    }
+  },
+  "extends": "../../tsconfig.json",
+  "include": ["src/**/*", "__tests__/**/*"]
+}

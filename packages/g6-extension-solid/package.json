@@ -1,0 +1,55 @@
+{
+  "name": "@antv/g6-extension-solid",
+  "version": "0.2.3",
+  "description": "Using SolidJS Component to Define Your G6 Graph Node",
+  "keywords": [
+    "antv",
+    "g6",
+    "extension",
+    "solid",
+    "solidjs",
+    "node"
+  ],
+  "repository": "https://github.com/antvis/G6.git",
+  "license": "MIT",
+  "author": "Aarebecca",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "src",
+    "esm",
+    "lib",
+    "dist",
+    "README"
+  ],
+  "scripts": {
+    "build": "run-p build:*",
+    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib -p tsconfig.build.json",
+    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm -p tsconfig.build.json",
+    "build:umd": "rimraf ./dist && rollup -c",
+    "ci": "run-s lint type-check test build",
+    "dev": "vite",
+    "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
+    "prepublishOnly": "npm run ci",
+    "test": "jest",
+    "type-check": "tsc --noEmit -p tsconfig.test.json"
+  },
+  "dependencies": {
+    "@antv/g": "^6.1.24",
+    "@antv/g-svg": "^2.0.38"
+  },
+  "devDependencies": {
+    "@antv/g6": "workspace:*",
+    "@solidjs/router": "^0.15.3",
+    "solid-js": "^1.8.0"
+  },
+  "peerDependencies": {
+    "@antv/g6": "workspace:^",
+    "solid-js": ">=1.8.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

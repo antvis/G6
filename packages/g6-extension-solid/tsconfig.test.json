@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@antv/g6": ["../g6/src/index.ts"],
+      "@antv/g6-extension-react": ["./src/index.ts"]
+    },
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*", "__tests__/**/*", "../g6/src/layouts/hierarchy.d.ts"],
+  "extends": "./tsconfig.json"
+}
