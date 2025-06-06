@@ -404,6 +404,8 @@ function configCanvasDom(layers: Record<CanvasLayer, GCanvas>) {
 
     if (domElement?.parentElement) {
       domElement.parentElement.style.display = 'grid';
+      // 给父元素设置独立的层叠上下文，避免外部元素影响内部的层叠逻辑
+      domElement.parentElement.style.isolation = 'isolate';
     }
   });
 }
