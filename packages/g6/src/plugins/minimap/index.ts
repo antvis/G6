@@ -149,6 +149,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const { graph } = this.context;
     graph.on(GraphEvent.AFTER_DRAW, this.onDraw);
     graph.on(GraphEvent.AFTER_RENDER, this.onRender);
+    graph.on(GraphEvent.AFTER_ANIMATE, this.onRender);
     graph.on(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
@@ -156,6 +157,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const { graph } = this.context;
     graph.off(GraphEvent.AFTER_DRAW, this.onDraw);
     graph.off(GraphEvent.AFTER_RENDER, this.onRender);
+    graph.on(GraphEvent.AFTER_ANIMATE, this.onRender);
     graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
@@ -181,8 +183,14 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
   private getElements(): Required<GraphData> {
     const { filter } = this.options;
-    const { model } = this.context;
-    const data = model.getData();
+    const { model, element } = this.context;
+    const originData = model.getData();
+    //过滤那些不存在于elementMap中的数据
+    const data = {
+      nodes: originData.nodes.filter((node) => element?.getElement(idOf(node))),
+      edges: originData.edges.filter((edge) => element?.getElement(idOf(edge))),
+      combos: originData.combos.filter((combo) => element?.getElement(idOf(combo))),
+    };
 
     if (!filter) return data;
 
