@@ -5,6 +5,7 @@ import { COMBO_KEY, CanvasEvent, ComboEvent, CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeDirection, ID, IElementDragEvent, IPointerEvent, Point, Prefix, State } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
+import { isToBeDestroyed } from '../utils/element';
 import { idOf } from '../utils/id';
 import { subStyleProps } from '../utils/prefix';
 import { divide, subtract } from '../utils/vector';
@@ -340,7 +341,14 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
    * @internal
    */
   protected validate(event: IElementDragEvent) {
-    if (this.destroyed) return false;
+    if (
+      this.destroyed ||
+      isToBeDestroyed(event.target) ||
+      // @ts-expect-error private property
+      // 避免动画冲突，在combo/node折叠展开过程中不触发
+      this.context.graph.isCollapsingExpanding
+    )
+      return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
