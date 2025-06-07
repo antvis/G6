@@ -157,7 +157,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const { graph } = this.context;
     graph.off(GraphEvent.AFTER_DRAW, this.onDraw);
     graph.off(GraphEvent.AFTER_RENDER, this.onRender);
-    graph.on(GraphEvent.AFTER_ANIMATE, this.onRender);
+    graph.off(GraphEvent.AFTER_ANIMATE, this.onRender);
     graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
