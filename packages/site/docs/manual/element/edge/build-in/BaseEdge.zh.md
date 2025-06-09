@@ -52,12 +52,14 @@ const graph = new Graph({
 
 ## Style
 
-定义边的样式，包括颜色、大小等。
+定义边的样式，包括颜色、大小、是否可拖拽等。
 
 ```js {3}
 const graph = new Graph({
   edge: {
-    style: {},
+    style: {
+      droppable: false, // 是否可拖拽，默认为false
+    },
   },
 });
 ```
