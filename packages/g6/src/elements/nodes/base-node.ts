@@ -29,13 +29,15 @@ import { BaseElement } from '../base-element';
 import type { BadgeStyleProps, BaseShapeStyleProps, IconStyleProps, LabelStyleProps } from '../shapes';
 import { Badge, Icon, Label } from '../shapes';
 import { connectImage, dispatchPositionChange } from '../shapes/image';
+import { UnknownStruct } from '../../types/utility';
 
 /**
  * <zh/> 节点通用样式配置项
  *
  * <en/> Base node style props
  */
-export interface BaseNodeStyleProps
+export interface BaseNodeStyleProps<
+  NodeType extends UnknownStruct = UnknownStruct>
   extends BaseShapeStyleProps,
     Prefix<'label', NodeLabelStyleProps>,
     Prefix<'halo', BaseStyleProps>,
@@ -97,7 +99,7 @@ export interface BaseNodeStyleProps
    * <en/> Only valid in the tree graph. If the current node is collapsed, children may be empty, and the complete child element data can be obtained through childrenData
    * @ignore
    */
-  childrenData?: NodeData[];
+  childrenData?: NodeData<NodeType>[];
   /**
    * <zh/> 是否显示节点标签
    *

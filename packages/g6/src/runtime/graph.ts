@@ -62,9 +62,10 @@ import { PluginController } from './plugin';
 import { TransformController } from './transform';
 import { RuntimeContext } from './types';
 import { ViewportController } from './viewport';
+import { InferGraphDataTypes } from '../spec/graph';
 
-export class Graph extends EventEmitter {
-  private options: GraphOptions = {};
+export class Graph<D extends GraphData = GraphData> extends EventEmitter {
+  private options: GraphOptions<D> = {};
 
   /**
    * @internal
@@ -96,7 +97,7 @@ export class Graph extends EventEmitter {
     model: new DataController(),
   };
 
-  constructor(options: GraphOptions) {
+  constructor(options: GraphOptions<D>) {
     super();
     this._setOptions(Object.assign({}, Graph.defaultOptions, options), true);
     this.context.graph = this;
@@ -112,7 +113,7 @@ export class Graph extends EventEmitter {
    * @returns <zh/> 配置项 | <en/> options
    * @apiCategory option
    */
-  public getOptions(): GraphOptions {
+  public getOptions(): GraphOptions<D> {
     return this.options;
   }
 
@@ -127,11 +128,11 @@ export class Graph extends EventEmitter {
    * <en/> To update devicePixelRatio and container properties, please destroy and recreate the instance
    * @apiCategory option
    */
-  public setOptions(options: GraphOptions): void {
+  public setOptions(options: GraphOptions<D>): void {
     this._setOptions(options, false);
   }
 
-  private _setOptions(options: GraphOptions, isInit: boolean) {
+  private _setOptions(options: GraphOptions<D>, isInit: boolean) {
     this.updateCanvas(options);
     Object.assign(this.options, inferOptions(options));
 
@@ -186,7 +187,7 @@ export class Graph extends EventEmitter {
    * @param zoomRange - <zh/> 缩放区间 | <en/> zoom range
    * @apiCategory viewport
    */
-  public setZoomRange(zoomRange: GraphOptions['zoomRange']): void {
+  public setZoomRange(zoomRange: GraphOptions<D>['zoomRange']): void {
     this.options.zoomRange = zoomRange;
   }
 
@@ -197,7 +198,7 @@ export class Graph extends EventEmitter {
    * @returns <zh/> 缩放区间 | <en/> zoom range
    * @apiCategory viewport
    */
-  public getZoomRange(): GraphOptions['zoomRange'] {
+  public getZoomRange(): GraphOptions<D>['zoomRange'] {
     return this.options.zoomRange;
   }
 
@@ -244,7 +245,7 @@ export class Graph extends EventEmitter {
    * <en/> The value of `options.combo`
    * @apiCategory element
    */
-  public setCombo(combo: ComboOptions): void {
+  public setCombo(combo: ComboOptions<InferGraphDataTypes<D>['node'], InferGraphDataTypes<D>['combo']>): void {
     this.options.combo = combo;
     this.context.model.refreshData();
   }

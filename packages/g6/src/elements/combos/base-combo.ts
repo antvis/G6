@@ -23,14 +23,15 @@ import type { BaseNodeStyleProps } from '../nodes';
 import { BaseNode } from '../nodes';
 import { Icon, IconStyleProps } from '../shapes';
 import { connectImage, dispatchPositionChange } from '../shapes/image';
+import { UnknownStruct } from '../../types/utility';
 
 /**
  * <zh/> 组合通用样式配置项
  *
  * <en/> Common style props for combo
  */
-export interface BaseComboStyleProps
-  extends BaseNodeStyleProps,
+export interface BaseComboStyleProps<NodeType extends UnknownStruct = UnknownStruct, ComboType extends UnknownStruct = UnknownStruct>
+  extends Omit<BaseNodeStyleProps<NodeType>, 'childrenData'>,
     Prefix<'collapsed', BaseStyleProps>,
     Prefix<'collapsedMarker', CollapsedMarkerStyleProps> {
   /**
@@ -60,7 +61,7 @@ export interface BaseComboStyleProps
    *
    * <en/> If the combo is collapsed, children may be empty, and the complete child element data can be obtained through childrenData
    */
-  childrenData?: NodeLikeData[];
+  childrenData?: NodeLikeData<NodeType, ComboType>[];
   /**
    * <zh/> 组合的内边距，只在展开状态下生效
    *

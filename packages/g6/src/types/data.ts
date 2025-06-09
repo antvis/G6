@@ -1,5 +1,6 @@
 import type { ComboData, EdgeData, NodeData } from '../spec/data';
 import type { ID } from '../types';
+import { UnknownStruct } from './utility';
 
 export type DataID = {
   nodes?: ID[];
@@ -7,7 +8,7 @@ export type DataID = {
   combos?: ID[];
 };
 
-export type NodeLikeData = NodeData | ComboData;
+export type NodeLikeData<NodeType extends UnknownStruct = UnknownStruct, ComboType extends UnknownStruct = UnknownStruct> = NodeData<NodeType> | ComboData<ComboType>;
 
 export type ElementDatum = NodeData | EdgeData | ComboData;
 
@@ -46,10 +47,14 @@ export type PartialEdgeData<T extends EdgeData> =
  *
  * <en/> G6 data update optional data
  */
-export type PartialGraphData = {
-  nodes?: PartialNodeLikeData<NodeData>[];
-  edges?: PartialEdgeData<EdgeData>[];
-  combos?: PartialNodeLikeData<ComboData>[];
+export type PartialGraphData<
+  N extends UnknownStruct = UnknownStruct,
+  E extends UnknownStruct = UnknownStruct,
+  C extends UnknownStruct = UnknownStruct,
+> = {
+  nodes?: PartialNodeLikeData<NodeData<N>>[];
+  edges?: PartialEdgeData<EdgeData<E>>[];
+  combos?: PartialNodeLikeData<ComboData<C>>[];
 };
 
 /**

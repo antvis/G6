@@ -1,7 +1,7 @@
 import type { AnimationEffectTiming } from '../animations/types';
 import type { BehaviorOptions } from './behavior';
 import type { CanvasOptions } from './canvas';
-import type { GraphData } from './data';
+import type { ComboData, EdgeData, GraphData, NodeData } from './data';
 import type { ComboOptions } from './element/combo';
 import type { EdgeOptions } from './element/edge';
 import type { NodeOptions } from './element/node';
@@ -10,6 +10,12 @@ import type { PluginOptions } from './plugin';
 import type { ThemeOptions } from './theme';
 import type { TransformOptions } from './transform';
 import type { ViewportOptions } from './viewport';
+
+export type InferGraphDataTypes<D extends GraphData = GraphData> = {
+  node: D['nodes'] extends NodeData<infer N>[] ? N : never;
+  edge: D['edges'] extends EdgeData<infer E>[] ? E : never;
+  combo: D['combos'] extends ComboData<infer C>[] ? C : never;
+};
 
 /**
  * <zh/> Graph 配置项
@@ -25,7 +31,7 @@ import type { ViewportOptions } from './viewport';
  * ```
  */
 
-export interface GraphOptions extends CanvasOptions, ViewportOptions {
+export interface GraphOptions<D extends GraphData = GraphData> extends CanvasOptions, ViewportOptions {
   /**
    * <zh/> 启用或关闭全局动画
    *
@@ -45,7 +51,7 @@ export interface GraphOptions extends CanvasOptions, ViewportOptions {
    *
    * <en/> See [Data](/en/api/data/graph-data)
    */
-  data?: GraphData;
+  data?: D;
   /**
    * <zh/> 布局配置项
    *
@@ -85,7 +91,7 @@ export interface GraphOptions extends CanvasOptions, ViewportOptions {
    *
    * <en/> See [Combo](/en/api/elements/combos/base-combo)
    */
-  combo?: ComboOptions;
+  combo?: ComboOptions<InferGraphDataTypes<D>['node'], InferGraphDataTypes<D>['combo']>;
   /**
    * <zh/> 主题
    *

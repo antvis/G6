@@ -1,4 +1,4 @@
-import type { GraphOptions } from '../spec';
+import type { GraphData, GraphOptions } from '../spec';
 
 /**
  * <zh/> 基于用户传入的配置，推断出最终的配置
@@ -7,7 +7,7 @@ import type { GraphOptions } from '../spec';
  * @param options - <zh/> 用户传入的配置 | <en/> Configuration passed by the user
  * @returns <zh/> 最终的配置 | <en/> Final configuration
  */
-export function inferOptions(options: GraphOptions): GraphOptions {
+export function inferOptions<D extends GraphData = GraphData>(options: GraphOptions<D>): GraphOptions<D> {
   const flow = [inferLayoutOptions];
   return flow.reduce((acc, infer) => infer(acc), options);
 }
@@ -19,7 +19,7 @@ export function inferOptions(options: GraphOptions): GraphOptions {
  * @param options - <zh/> 用户传入的配置 | <en/> Configuration passed by the user
  * @returns <zh/> 最终的配置 | <en/> Final configuration
  */
-function inferLayoutOptions(options: GraphOptions): GraphOptions {
+function inferLayoutOptions<D extends GraphData = GraphData>(options: GraphOptions<D>): GraphOptions<D> {
   if (!options.layout) return options;
   if (Array.isArray(options.layout)) return options;
   if ('preLayout' in options.layout) return options;

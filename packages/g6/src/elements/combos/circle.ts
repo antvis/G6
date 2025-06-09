@@ -7,29 +7,30 @@ import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
 import type { BaseComboStyleProps } from './base-combo';
 import { BaseCombo } from './base-combo';
+import { UnknownStruct } from '../../types/utility';
 
 /**
  * <zh/> 圆形组合样式配置项
  *
  * <en/> Circle combo style props
  */
-export interface CircleComboStyleProps extends BaseComboStyleProps {}
+export interface CircleComboStyleProps<NodeType extends UnknownStruct = UnknownStruct, ComboType extends UnknownStruct = UnknownStruct> extends BaseComboStyleProps<NodeType, ComboType> {}
 
 /**
  * <zh/> 圆形组合
  *
  * <en/> Circle combo
  */
-export class CircleCombo extends BaseCombo<CircleComboStyleProps> {
-  constructor(options: DisplayObjectConfig<CircleComboStyleProps>) {
+export class CircleCombo<NodeType extends UnknownStruct = UnknownStruct, ComboType extends UnknownStruct = UnknownStruct> extends BaseCombo<CircleComboStyleProps<NodeType, ComboType>> {
+  constructor(options: DisplayObjectConfig<CircleComboStyleProps<NodeType, ComboType>>) {
     super(options);
   }
 
-  protected drawKeyShape(attributes: Required<CircleComboStyleProps>, container: Group): GCircle | undefined {
+  protected drawKeyShape(attributes: Required<CircleComboStyleProps<NodeType, ComboType>>, container: Group): GCircle | undefined {
     return this.upsert('key', GCircle, this.getKeyStyle(attributes), container);
   }
 
-  protected getKeyStyle(attributes: Required<CircleComboStyleProps>): GCircleStyleProps {
+  protected getKeyStyle(attributes: Required<CircleComboStyleProps<NodeType, ComboType>>): GCircleStyleProps {
     const { collapsed } = attributes;
     const keyStyle = super.getKeyStyle(attributes);
 
@@ -41,13 +42,13 @@ export class CircleCombo extends BaseCombo<CircleComboStyleProps> {
     };
   }
 
-  protected getCollapsedKeySize(attributes: Required<CircleComboStyleProps>): STDSize {
+  protected getCollapsedKeySize(attributes: Required<CircleComboStyleProps<NodeType, ComboType>>): STDSize {
     const [collapsedWidth, collapsedHeight] = parseSize(attributes.collapsedSize);
     const collapsedR = Math.max(collapsedWidth, collapsedHeight) / 2;
     return [collapsedR * 2, collapsedR * 2, 0];
   }
 
-  protected getExpandedKeySize(attributes: Required<CircleComboStyleProps>): STDSize {
+  protected getExpandedKeySize(attributes: Required<CircleComboStyleProps<NodeType, ComboType>>): STDSize {
     const contentBBox = this.getContentBBox(attributes);
     const [width, height] = getBBoxSize(contentBBox);
     const expandedR = Math.sqrt(width ** 2 + height ** 2) / 2;

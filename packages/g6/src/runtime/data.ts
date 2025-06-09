@@ -29,9 +29,10 @@ import { positionOf } from '../utils/position';
 import { format, print } from '../utils/print';
 import { dfs } from '../utils/traverse';
 import { add } from '../utils/vector';
+import { InferGraphDataTypes } from '../spec/graph';
 
-export class DataController {
-  public model: GraphLib<NodeLikeData, EdgeData>;
+export class DataController<D extends GraphData = GraphData> {
+  public model: GraphLib<NodeLikeData<InferGraphDataTypes<D>['node'], InferGraphDataTypes<D>['combo']>, EdgeData<InferGraphDataTypes<D>['edge']>>;
 
   /**
    * <zh/> 最近一次删除的 combo 的 id
@@ -132,13 +133,13 @@ export class DataController {
   }
 
   public getNodeData(ids?: ID[]) {
-    return this.model.getAllNodes().reduce((acc, node) => {
-      const data = toG6Data(node);
+    return this.model.getAllNodes().reduce<NodeData<InferGraphDataTypes<D>['node']>[]>((acc, node) => {
+      const data = toG6Data(node) as NodeData<InferGraphDataTypes<D>['node']>;
       if (this.isCombo(idOf(data))) return acc;
       if (ids === undefined) acc.push(data);
       else ids.includes(idOf(data)) && acc.push(data);
       return acc;
-    }, [] as NodeData[]);
+    }, []);
   }
 
   public getEdgeDatum(id: ID) {
@@ -146,23 +147,23 @@ export class DataController {
   }
 
   public getEdgeData(ids?: ID[]) {
-    return this.model.getAllEdges().reduce((acc, edge) => {
+    return this.model.getAllEdges().reduce<EdgeData<InferGraphDataTypes<D>['edge']>[]>((acc, edge) => {
       const data = toG6Data(edge);
       if (ids === undefined) acc.push(data);
       else ids.includes(idOf(data)) && acc.push(data);
       return acc;
-    }, [] as EdgeData[]);
+    }, []);
   }
 
   public getComboData(ids?: ID[]) {
-    return this.model.getAllNodes().reduce((acc, combo) => {
+    return this.model.getAllNodes().reduce<ComboData<InferGraphDataTypes<D>['combo']>[]>((acc, combo) => {
       const data = toG6Data(combo);
       if (!this.isCombo(idOf(data))) return acc;
 
-      if (ids === undefined) acc.push(data as ComboData);
-      else ids.includes(idOf(data)) && acc.push(data as ComboData);
+      if (ids === undefined) acc.push(data);
+      else ids.includes(idOf(data)) && acc.push(data);
       return acc;
-    }, [] as ComboData[]);
+    }, []);
   }
 
   public getRootsData(hierarchyKey: HierarchyKey = TREE_KEY) {
@@ -200,11 +201,11 @@ export class DataController {
     return parent ? toG6Data(parent) : undefined;
   }
 
-  public getChildrenData(id: ID): NodeLikeData[] {
+  public getChildrenData(id: ID): NodeLikeData<InferGraphDataTypes<D>['node'], InferGraphDataTypes<D>['combo']>[] {
     const structureKey = this.getElementType(id) === 'node' ? TREE_KEY : COMBO_KEY;
     const { model } = this;
     if (!model.hasNode(id) || !model.hasTreeStructure(structureKey)) return [];
-    return model.getChildren(id, structureKey).map(toG6Data);
+    return model.getChildren(id, structureKey).map(toG6Data) as NodeLikeData<InferGraphDataTypes<D>['node'], InferGraphDataTypes<D>['combo']>[];
   }
 
   /**
@@ -336,7 +337,7 @@ export class DataController {
     this.computeZIndex(data, 'add');
   }
 
-  public addNodeData(nodes: NodeData[] = []) {
+  public addNodeData(nodes: NodeData<InferGraphDataTypes<D>['node']>[] = []) {
     if (!nodes.length) return;
     this.model.addNodes(
       nodes.map((node) => {
@@ -349,7 +350,7 @@ export class DataController {
     this.computeZIndex({ nodes }, 'add');
   }
 
-  public addEdgeData(edges: EdgeData[] = []) {
+  public addEdgeData(edges: EdgeData<InferGraphDataTypes<D>['edge']>[] = []) {
     if (!edges.length) return;
     this.model.addEdges(
       edges.map((edge) => {
@@ -361,7 +362,7 @@ export class DataController {
     this.computeZIndex({ edges }, 'add');
   }
 
-  public addComboData(combos: ComboData[] = []) {
+  public addComboData(combos: ComboData<InferGraphDataTypes<D>['combo']>[] = []) {
     if (!combos.length) return;
     const { model } = this;
 
@@ -382,8 +383,8 @@ export class DataController {
     this.computeZIndex({ combos }, 'add');
   }
 
-  public addChildrenData(parentId: ID, childrenData: NodeData[]) {
-    const parentData = this.getNodeLikeDatum(parentId) as NodeData;
+  public addChildrenData(parentId: ID, childrenData: NodeData<InferGraphDataTypes<D>['node']>[]) {
+    const parentData = this.getNodeLikeDatum(parentId) as NodeData<InferGraphDataTypes<D>['node']>;
     const childrenId = childrenData.map(idOf);
     this.addNodeData(childrenData);
     this.updateNodeData([{ id: parentId, children: [...(parentData.children || []), ...childrenId] }]);
@@ -562,17 +563,17 @@ export class DataController {
     this.computeZIndex(data, 'update');
   }
 
-  public updateNodeData(nodes: PartialNodeLikeData<NodeData>[] = []) {
+  public updateNodeData(nodes: PartialNodeLikeData<NodeData<InferGraphDataTypes<D>['node']>>[] = []) {
     if (!nodes.length) return;
     const { model } = this;
     this.batch(() => {
-      const modifiedNodes: NodeData[] = [];
+      const modifiedNodes: NodeData<InferGraphDataTypes<D>['node']>[] = [];
       nodes.forEach((modifiedNode) => {
         const id = idOf(modifiedNode);
-        const originalNode = toG6Data(model.getNode(id));
+        const originalNode = toG6Data(model.getNode(id)) as NodeData<InferGraphDataTypes<D>['node']>;
         if (isElementDataEqual(originalNode, modifiedNode)) return;
 
-        const value = mergeElementsData(originalNode, modifiedNode);
+        const value = mergeElementsData<D, NodeData<InferGraphDataTypes<D>['node']>>(originalNode, modifiedNode);
         this.pushChange({ value, original: originalNode, type: ChangeType.NodeUpdated });
         model.mergeNodeData(id, value);
         modifiedNodes.push(value);
@@ -787,12 +788,12 @@ export class DataController {
     const dy = ty - comboY;
     const dz = tz - comboZ;
 
-    dfs<NodeLikeData>(
+    dfs<NodeLikeData<InferGraphDataTypes<D>['node'], InferGraphDataTypes<D>['combo']>>(
       combo,
       (succeed) => {
         const succeedId = idOf(succeed);
         const [x, y, z] = positionOf(succeed);
-        const value = mergeElementsData(succeed, {
+        const value = mergeElementsData<D, NodeData<InferGraphDataTypes<D>['node']>>(succeed, {
           style: { x: x + dx, y: y + dy, z: z + dz },
         });
         this.pushChange({
@@ -875,7 +876,7 @@ export class DataController {
         const childData = toG6Data(child);
         const childId = idOf(childData);
         this.setParent(idOf(childData), grandParent, COMBO_KEY, false);
-        const value = mergeElementsData(childData, {
+        const value = mergeElementsData<D, NodeData<InferGraphDataTypes<D>['node']>>(childData, {
           id: idOf(childData),
           combo: grandParent,
         });

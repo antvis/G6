@@ -1,12 +1,13 @@
 import type { Edge, Graph as Graphlib, Node } from '@antv/graphlib';
 import { TREE_KEY } from '../constants';
-import type { ComboData, EdgeData, NodeData } from '../spec';
+import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import { NodeLikeData } from '../types/data';
 import { idOf } from './id';
 import { isEdgeData } from './is';
+import { InferGraphDataTypes } from '../spec/graph';
 
-export function toGraphlibData(datums: EdgeData): Edge<EdgeData>;
-export function toGraphlibData(datums: NodeLikeData): Node<NodeLikeData>;
+export function toGraphlibData<D extends GraphData = GraphData>(datums: EdgeData<InferGraphDataTypes<D>['edge']>): Edge<EdgeData<InferGraphDataTypes<D>['edge']>>;
+export function toGraphlibData<D extends GraphData = GraphData>(datums: NodeLikeData<InferGraphDataTypes<D>['node'], InferGraphDataTypes<D>['combo']>): Node<NodeLikeData<InferGraphDataTypes<D>['node'], InferGraphDataTypes<D>['combo']>>;
 /**
  * <zh/> 将 NodeData、EdgeData、ComboData 转换为 graphlib 的数据结构
  *
@@ -14,12 +15,12 @@ export function toGraphlibData(datums: NodeLikeData): Node<NodeLikeData>;
  * @param data - <zh/> 节点、边、combo 数据 | <en/> node, combo data
  * @returns <zh/> graphlib 数据 | <en/> graphlib data
  */
-export function toGraphlibData(data: NodeData | EdgeData | ComboData): Node<NodeLikeData> | Edge<EdgeData> {
+export function toGraphlibData<D extends GraphData = GraphData>(data: NodeData<InferGraphDataTypes<D>['node']> | EdgeData<InferGraphDataTypes<D>['edge']> | ComboData<InferGraphDataTypes<D>['combo']>): Node<NodeLikeData<InferGraphDataTypes<D>['node'], InferGraphDataTypes<D>['combo']>> | Edge<EdgeData<InferGraphDataTypes<D>['edge']>> {
   const { id = idOf(data), style, data: customData, ...rest } = data;
   const _data = { ...data, style: { ...style }, data: { ...customData } };
 
-  if (isEdgeData(data)) return { id, data: _data, ...rest } as Edge<EdgeData>;
-  return { id, data: _data } as Node<NodeLikeData>;
+  if (isEdgeData(data)) return { id, data: _data, ...rest } as Edge<EdgeData<InferGraphDataTypes<D>['edge']>>;
+  return { id, data: _data } as Node<NodeLikeData<InferGraphDataTypes<D>['node'], InferGraphDataTypes<D>['combo']>>;
 }
 
 export function toG6Data<T extends EdgeData>(data: Edge<T>): T;

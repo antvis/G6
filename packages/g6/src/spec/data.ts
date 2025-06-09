@@ -2,6 +2,8 @@ import type { ID, State } from '../types';
 import type { ComboStyle } from './element/combo';
 import type { EdgeStyle } from './element/edge';
 import type { NodeStyle } from './element/node';
+import type { UnknownStruct } from '../types/utility';
+
 /**
  * <zh/> 图数据
  *
@@ -26,25 +28,29 @@ import type { NodeStyle } from './element/node';
  * }
  * ```
  */
-export interface GraphData {
+export interface GraphData<
+  N extends UnknownStruct = UnknownStruct,
+  E extends UnknownStruct = UnknownStruct,
+  C extends UnknownStruct = UnknownStruct,
+> {
   /**
    * <zh/> 节点数据
    *
    * <en/> node data
    */
-  nodes?: NodeData[];
+  nodes?: NodeData<N>[];
   /**
    * <zh/> 边数据
    *
    * <en/> edge data
    */
-  edges?: EdgeData[];
+  edges?: EdgeData<E>[];
   /**
    * <zh/> Combo 数据
    *
    * <en/> combo data
    */
-  combos?: ComboData[];
+  combos?: ComboData<C>[];
 }
 
 /**
@@ -52,7 +58,7 @@ export interface GraphData {
  *
  * <en/> Node data
  */
-export interface NodeData {
+export interface NodeData<T extends UnknownStruct = UnknownStruct> {
   /**
    * <zh/> 节点 ID
    *
@@ -74,7 +80,7 @@ export interface NodeData {
    *
    * <en/> Used to store custom data of the node, which can be obtained through callback functions in the style mapping
    */
-  data?: Record<string, unknown>;
+  data?: T;
   /**
    * <zh/> 节点样式
    *
@@ -121,7 +127,7 @@ export interface NodeData {
  *
  * <en/> Combo data
  */
-export interface ComboData {
+export interface ComboData<T extends UnknownStruct = UnknownStruct> {
   /**
    * <zh/> Combo ID
    *
@@ -143,7 +149,7 @@ export interface ComboData {
    *
    * <en/> Used to store custom data of the Combo, which can be obtained through callback functions in the style mapping
    */
-  data?: Record<string, unknown>;
+  data?: T;
   /**
    * <zh/> Combo 样式
    *
@@ -170,7 +176,7 @@ export interface ComboData {
  *
  * <en/> Edge data
  */
-export interface EdgeData {
+export interface EdgeData<T extends UnknownStruct = UnknownStruct> {
   /**
    * <zh/> 边 ID
    *
@@ -204,7 +210,7 @@ export interface EdgeData {
    *
    * <en/> Used to store custom data of the edge, which can be obtained through callback functions in the style mapping
    */
-  data?: Record<string, unknown>;
+  data?: T;
   /**
    * <zh/> 边样式
    *
