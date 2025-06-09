@@ -52,12 +52,14 @@ const graph = new Graph({
 
 ## Style
 
-定义边的样式，包括颜色、大小等。
+定义边的样式，包括颜色、大小、是否可拖拽等。
 
 ```js {3}
 const graph = new Graph({
   edge: {
-    style: {},
+     style: {
+      droppable: false, // 是否可拖拽，默认为false
+    },
   },
 });
 ```
@@ -75,6 +77,7 @@ const graph = new Graph({
 | 属性                            | 描述                                                  | 默认值                               | 类型      |
 | ------------------------------- | ----------------------------------------------------- | ------------------------------------ | --------- |
 | class                           | 边的className                                         | string                               | -         |
+| droppable                       | 是否可推拽                                          | false                                 | boolean   |
 | cursor                          | 边的鼠标移入样式，[配置项](#cursor)                   | string                               | `default` |
 | fill                            | 边的区域填充色                                        | string                               | -         |
 | fillRule                        | 边的内部填充规则                                      | `nonzero` &#124; `evenodd`           | -         |
