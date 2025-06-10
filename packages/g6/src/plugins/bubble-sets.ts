@@ -63,6 +63,10 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
 
   private bubbleSetOptions: IBubbleSetOptions = {};
 
+  private shallRunUpdateBubbleSetsPath = false;
+
+  private pendingRunUpdateBubbleSetsPath = false;
+
   static defaultOptions: Partial<BubbleSetsOptions> = {
     members: [],
     avoidMembers: [],
@@ -125,6 +129,20 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
   };
 
   private updateBubbleSetsPath = (event: ElementLifeCycleEvent) => {
+    if (!this.shallRunUpdateBubbleSetsPath) {
+      if (!this.pendingRunUpdateBubbleSetsPath) {
+        this.pendingRunUpdateBubbleSetsPath = true;
+        setTimeout(() => {
+          this.shallRunUpdateBubbleSetsPath = true;
+          this.updateBubbleSetsPath(event);
+        });
+      }
+      return;
+    }
+
+    this.pendingRunUpdateBubbleSetsPath = false;
+    this.shallRunUpdateBubbleSetsPath = false;
+
     if (!this.shape) return;
     const id = idOf(event.data);
     if (![...this.options.members, ...this.options.avoidMembers].includes(id)) return;
