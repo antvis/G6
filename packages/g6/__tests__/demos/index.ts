@@ -137,6 +137,7 @@ export { pluginHistory } from './plugin-history';
 export { pluginHull } from './plugin-hull';
 export { pluginLegend } from './plugin-legend';
 export { pluginMinimap } from './plugin-minimap';
+export { pluginMiniMapEdgeArrow } from './plugin-minimap-edge-arrow';
 export { pluginSnapline } from './plugin-snapline';
 export { pluginTimebar } from './plugin-timebar';
 export { pluginToolbarBuildIn } from './plugin-toolbar-build-in';

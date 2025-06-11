@@ -4,6 +4,7 @@ import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
 import { GraphData } from '../../spec';
 import type { ElementDatum, ElementType, ID, IGraphLifeCycleEvent, Padding, Placement, Vector3 } from '../../types';
+import { isVisible } from '../../utils/element';
 import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
 import { toPointObject } from '../../utils/point';
@@ -188,7 +189,11 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     //过滤那些不存在于elementMap中的数据
     const data = {
       nodes: originData.nodes.filter((node) => element?.getElement(idOf(node))),
-      edges: originData.edges.filter((edge) => element?.getElement(idOf(edge))),
+      edges: originData.edges.filter((edge) => {
+        const edgeElement = element?.getElement(idOf(edge));
+        // 边数据存在且可见时才保留
+        return edgeElement && isVisible(edgeElement);
+      }),
       combos: originData.combos.filter((combo) => element?.getElement(idOf(combo))),
     };
 
