@@ -19,6 +19,7 @@ import type { NodeData } from '../spec/data';
 import type { BaseLayout } from './base-layout';
 import type { FishboneLayoutOptions } from './fishbone';
 import type { SnakeLayoutOptions } from './snake';
+import { UnknownStruct } from '../types/utility';
 
 export type BuiltInLayoutOptions =
   | AntVDagreLayout
@@ -34,10 +35,10 @@ export type BuiltInLayoutOptions =
   | MDSLayout
   | RadialLayout
   | RandomLayout
-  | SnakeLayoutOptions
-  | FishboneLayoutOptions;
+  | SnakeLayout
+  | FishboneLayout;
 
-export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOptions, Record<string, any> {
+export interface BaseLayoutOptions<T extends UnknownStruct = UnknownStruct> extends AnimationOptions, WebWorkerLayoutOptions {
   /**
    * <zh/> 布局类型
    *
@@ -51,7 +52,7 @@ export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOpti
    * @param node - <zh/> 节点数据 | <en/> node data
    * @returns <zh/> 是否参与布局 | <en/> Whether to participate in the layout
    */
-  nodeFilter?: (node: NodeData) => boolean;
+  nodeFilter?: (node: NodeData<T>) => boolean;
   /**
    * <zh/> 使用前布局，在初始化元素前计算布局
    *
@@ -72,6 +73,7 @@ export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOpti
    * <en/> Takes effect when preLayout is true
    */
   isLayoutInvisibleNodes?: boolean;
+  [key: string]: unknown;
 }
 
 interface CircularLayout extends BaseLayoutOptions, CircularLayoutOptions {
@@ -124,6 +126,14 @@ interface AntVDagreLayout extends BaseLayoutOptions, AntVDagreLayoutOptions {
 
 interface DagreLayout extends BaseLayoutOptions, DagreLayoutOptions {
   type: 'dagre';
+}
+
+interface SnakeLayout extends BaseLayoutOptions, SnakeLayoutOptions {
+  type: 'snake';
+}
+
+interface FishboneLayout extends BaseLayoutOptions, FishboneLayoutOptions {
+  type: 'fishbone';
 }
 
 interface AnimationOptions {
