@@ -34,10 +34,10 @@ export type BuiltInLayoutOptions =
   | MDSLayout
   | RadialLayout
   | RandomLayout
-  | SnakeLayoutOptions
-  | FishboneLayoutOptions;
+  | SnakeLayout
+  | FishboneLayout;
 
-export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOptions, Record<string, any> {
+export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOptions {
   /**
    * <zh/> 布局类型
    *
@@ -72,6 +72,19 @@ export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOpti
    * <en/> Takes effect when preLayout is true
    */
   isLayoutInvisibleNodes?: boolean;
+  /**
+   * <zh/> 布局区域宽度，默认为画布宽度
+   *
+   * <en/> Width of the layout area, default is the canvas width
+   */
+  width?: number;
+  /**
+   * <zh/> 布局区域高度，默认为画布高度
+   *
+   * <en/> Height of the layout area, default is the canvas height
+   */
+  height?: number;
+  [key: string]: unknown;
 }
 
 interface CircularLayout extends BaseLayoutOptions, CircularLayoutOptions {
@@ -124,6 +137,14 @@ interface AntVDagreLayout extends BaseLayoutOptions, AntVDagreLayoutOptions {
 
 interface DagreLayout extends BaseLayoutOptions, DagreLayoutOptions {
   type: 'dagre';
+}
+
+interface SnakeLayout extends BaseLayoutOptions, SnakeLayoutOptions {
+  type: 'snake';
+}
+
+interface FishboneLayout extends BaseLayoutOptions, FishboneLayoutOptions {
+  type: 'fishbone';
 }
 
 interface AnimationOptions {

@@ -87,6 +87,24 @@ const graph = await createGraph({
 });
 ```
 
+### Use Plugins
+
+When using G6-SSR, you can also use G render plugins. Here's how to use plugins in server-side rendering:
+
+```js
+import { createGraph } from '@antv/g6-ssr';
+import { Plugin as RoughCanvasPlugin } from '@antv/g-plugin-rough-canvas-renderer';
+
+const graph = await createGraph({
+  width: 500,
+  height: 500,
+  renderPlugins: [new RoughCanvasPlugin()],
+  data: {
+    // data
+  },
+});
+```
+
 ## License
 
 MIT
