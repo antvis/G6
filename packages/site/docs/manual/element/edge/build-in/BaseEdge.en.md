@@ -76,6 +76,8 @@ The following style configurations will be explained in sequence according to at
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------ | --------- |
 | class                           | Edge className                                                                                                | string                               | -         |
 | cursor                          | Edge mouse hover style, [configuration item](#cursor)                                                         | string                               | `default` |
+| draggable                       | Whether the edge is draggable                                                                                 | false                                | boolean   |
+| droppable                       | Whether the edge is droppable for dragged elements                                                            | false                                | boolean   |
 | fill                            | Edge area fill color                                                                                          | string                               | -         |
 | fillRule                        | Edge internal fill rule                                                                                       | `nonzero` &#124; `evenodd`           | -         |
 | filter                          | Edge shadow filter effect                                                                                     | string                               | -         |
