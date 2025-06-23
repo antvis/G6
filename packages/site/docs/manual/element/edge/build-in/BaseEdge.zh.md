@@ -76,8 +76,8 @@ const graph = new Graph({
 | ------------------------------- | ----------------------------------------------------- | ------------------------------------ | --------- |
 | class                           | 边的className                                         | string                               | -         |
 | cursor                          | 边的鼠标移入样式，[配置项](#cursor)                   | string                               | `default` |
-| draggable                       | 是否可拖动                                         | false                                 | boolean   |
-| droppable                       | 是否可放置拖动元素                                  | false                                 | boolean   |
+| draggable                       | 是否可拖动                                            | false                                | boolean   |
+| droppable                       | 是否可放置拖动元素                                    | false                                | boolean   |
 | fill                            | 边的区域填充色                                        | string                               | -         |
 | fillRule                        | 边的内部填充规则                                      | `nonzero` &#124; `evenodd`           | -         |
 | filter                          | 边的阴影的滤镜效果                                    | string                               | -         |
@@ -126,7 +126,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -229,7 +229,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -304,7 +304,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -415,7 +415,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -514,7 +514,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -616,7 +616,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -696,7 +696,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -769,7 +769,7 @@ const graph = new Graph({
 
 效果如下图所示：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -913,7 +913,7 @@ const graph = new Graph({
 
 效果如下图所示：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -962,7 +962,7 @@ graph.render();
 
 效果如下图所示：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

@@ -108,7 +108,58 @@ const graph = new Graph({
 
 ### 捆绑模式
 
-<Playground path="transform/process-parallel-edges/demo/bundle.js" rid="parallel-edge-bundle"></Playground>
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const data = {
+  nodes: [
+    { id: 'A', style: { x: 50, y: 350 } },
+    { id: 'B', style: { x: 250, y: 150 } },
+    { id: 'C', style: { x: 450, y: 350 } },
+  ],
+  edges: [
+    { source: 'A', target: 'C' },
+    { source: 'C', target: 'A' },
+    ...Array.from({ length: 10 }).map((_, i) => ({
+      id: `edge:A-B${i}`,
+      source: 'A',
+      target: 'B',
+      data: {
+        label: `A->B:${i}`,
+      },
+    })),
+    ...Array.from({ length: 5 }).map((_, i) => ({
+      id: `edge:B-C${i}`,
+      source: 'B',
+      target: 'C',
+      data: {
+        label: `B->C:${i}`,
+      },
+    })),
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  autoFit: 'center',
+  data,
+  node: {
+    style: {
+      ports: [{ placement: 'center' }],
+      labelText: (d) => d.id,
+    },
+  },
+  edge: {
+    style: {
+      labelText: (d) => d?.data?.label || `${d.source}->${d.target}`,
+    },
+  },
+  behaviors: ['drag-element'],
+  transforms: ['process-parallel-edges'],
+});
+
+graph.render();
+```
 
 ### 合并模式
 
@@ -117,4 +168,52 @@ const graph = new Graph({
 - 不需要合并（即两个节点间只有一条边）的边，合并样式不会在这条边上生效，比如例子中的 **A->C**
 - 合并样式实际上是赋值给 `datum.style` ，也就是优先级会比实例化 Graph 时配置的默认样式低（ `edge.style` ），所以例子中合并样式的 `startArrow` 没有生效
 
-<Playground path="transform/process-parallel-edges/demo/merge.js" rid="parallel-edge-merge"></Playground>
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const data = {
+  nodes: [
+    { id: 'A', style: { x: 50, y: 350 } },
+    { id: 'B', style: { x: 250, y: 150 } },
+    { id: 'C', style: { x: 450, y: 350 } },
+  ],
+  edges: [
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'A' },
+    { id: 'B-C:1', source: 'B', target: 'C' },
+    { id: 'B-C:2', source: 'B', target: 'C' },
+    { source: 'A', target: 'C' },
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  autoFit: 'center',
+  data,
+  node: {
+    style: {
+      labelText: (d) => d.id,
+    },
+  },
+  edge: {
+    style: {
+      labelText: (d) => d?.data?.label || `${d.source}->${d.target}`,
+      startArrow: false,
+    },
+  },
+  transforms: [
+    {
+      type: 'process-parallel-edges',
+      mode: 'merge',
+      style: {
+        halo: true,
+        haloOpacity: 0.2,
+        haloStroke: 'red',
+        startArrow: true,
+      },
+    },
+  ],
+});
+
+graph.render();
+```

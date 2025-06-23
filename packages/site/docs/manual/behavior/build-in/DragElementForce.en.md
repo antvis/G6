@@ -84,11 +84,108 @@ cursor: {
 
 ### Mesh Effect
 
-<Playground path="layout/force-directed/demo/mesh.js" rid="drag-element-force-mesh"></Playground>
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+function getData(size = 10) {
+  const nodes = Array.from({ length: size * size }, (_, i) => ({ id: `${i}` }));
+  const edges = [];
+  for (let y = 0; y < size; ++y) {
+    for (let x = 0; x < size; ++x) {
+      if (y > 0) edges.push({ source: `${(y - 1) * size + x}`, target: `${y * size + x}` });
+      if (x > 0) edges.push({ source: `${y * size + (x - 1)}`, target: `${y * size + x}` });
+    }
+  }
+  return { nodes, edges };
+}
+
+const graph = new Graph({
+  data: getData(),
+  layout: {
+    type: 'd3-force',
+    manyBody: {
+      strength: -30,
+    },
+    link: {
+      strength: 1,
+      distance: 20,
+      iterations: 10,
+    },
+  },
+  node: {
+    style: {
+      size: 10,
+      fill: '#000',
+    },
+  },
+  edge: {
+    style: {
+      stroke: '#000',
+    },
+  },
+  behaviors: [{ type: 'drag-element-force' }, 'zoom-canvas'],
+});
+
+graph.render();
+
+window.addPanel((gui) => {
+  gui.add({ msg: 'Try to drag nodes' }, 'msg').name('Tips').disable();
+});
+```
 
 ### Fix Dragged Nodes
 
-<Playground path="layout/force-directed/demo/drag-fixed.js" rid="drag-element-force-fixed"></Playground>
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const data = {
+  nodes: new Array(10).fill(0).map((_, i) => ({ id: `${i}`, label: `${i}` })),
+  edges: [
+    { source: '0', target: '1' },
+    { source: '0', target: '2' },
+    { source: '0', target: '3' },
+    { source: '0', target: '4' },
+    { source: '0', target: '5' },
+    { source: '0', target: '7' },
+    { source: '0', target: '8' },
+    { source: '0', target: '9' },
+    { source: '2', target: '3' },
+    { source: '4', target: '5' },
+    { source: '4', target: '6' },
+    { source: '5', target: '6' },
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data,
+  node: {
+    style: {
+      labelText: (d) => d.label,
+      labelPlacement: 'middle',
+      labelFill: '#fff',
+    },
+  },
+  layout: {
+    type: 'd3-force',
+    link: {
+      distance: 100,
+      strength: 2,
+    },
+    collide: {
+      radius: 40,
+    },
+  },
+  behaviors: [
+    {
+      type: 'drag-element-force',
+      fixed: true,
+    },
+  ],
+});
+
+graph.render();
+```
 
 ## Shadow Style
 

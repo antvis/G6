@@ -34,7 +34,7 @@ Fruchterman 布局是基于 [Graph Drawing by Force-directed Placement](https://
 
 ### 基本布局
 
-```js | ob { pin: false, autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -150,7 +150,7 @@ graph.render();
 
 ### 聚类布局
 
-```js | ob { pin: false, autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

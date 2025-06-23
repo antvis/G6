@@ -60,7 +60,7 @@ Combo 不同于普通节点，它具有以下特性：
 
 让我们从继承 `BaseCombo` 开始，实现一个自定义六边形 Combo ：
 
-```js | ob { pin:false, autoMount: true }
+```js | ob { pin:false, inject: true }
 import { Graph, register, BaseCombo, ExtensionCategory } from '@antv/g6';
 
 // 定义收起状态的按钮路径

@@ -116,7 +116,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -153,7 +153,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -196,7 +196,7 @@ const graph = new Graph({
 
 试着拖拽/缩放画布，观察网格的跟随效果：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -243,4 +243,43 @@ graph.updatePlugin({
 
 ## 实际案例
 
-<Playground path="plugin/grid-line/demo/basic.js" rid="grid-line-basic"></Playground>
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const data = {
+  nodes: [{ id: 'node-0' }, { id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }, { id: 'node-4' }, { id: 'node-5' }],
+  edges: [
+    { source: 'node-0', target: 'node-1' },
+    { source: 'node-0', target: 'node-2' },
+    { source: 'node-0', target: 'node-3' },
+    { source: 'node-0', target: 'node-4' },
+    { source: 'node-1', target: 'node-0' },
+    { source: 'node-2', target: 'node-0' },
+    { source: 'node-3', target: 'node-0' },
+    { source: 'node-4', target: 'node-0' },
+    { source: 'node-5', target: 'node-0' },
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data,
+  layout: { type: 'grid' },
+  behaviors: ['drag-canvas'],
+  plugins: [{ key: 'grid-line', type: 'grid-line', follow: false }],
+});
+
+graph.render();
+
+window.addPanel((gui) => {
+  gui
+    .add({ follow: false }, 'follow')
+    .name('Follow')
+    .onChange((value) => {
+      graph.updatePlugin({
+        key: 'grid-line',
+        follow: value,
+      });
+    });
+});
+```

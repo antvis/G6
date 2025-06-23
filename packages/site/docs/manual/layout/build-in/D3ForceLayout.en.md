@@ -160,7 +160,7 @@ See [Example - Prevent Node Overlap in Force-Directed Layout](/en/examples/layou
 
 This example shows how to use force-directed layout for team clustering, where nodes of different teams automatically cluster together.
 
-```js | ob { pin: false, autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

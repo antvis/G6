@@ -31,7 +31,7 @@ The concentric layout arranges nodes in layers according to a certain sorting ru
 
 ## Example Code
 
-```js | ob { autoMount: true }
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

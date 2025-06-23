@@ -56,7 +56,7 @@ Custom edges developed from scratch need to handle all details by themselves, in
 
 Let's start with the most basic `BaseEdge` to implement a custom straight edge:
 
-```js | ob { pin:false, autoMount: true }
+```js | ob { pin:false, inject: true }
 import { Graph, register, BaseEdge, ExtensionCategory } from '@antv/g6';
 
 class MyLineEdge extends BaseEdge {
@@ -363,7 +363,7 @@ protected getKeyStyle(attributes: Required<BaseEdgeStyleProps>) {
 
 ### Custom Polyline Edge with Custom Path
 
-```js | ob { autoMount: true }
+```js | ob { inject: true }
 import { Graph, register, BaseEdge, ExtensionCategory } from '@antv/g6';
 
 class MyPolylineEdge extends BaseEdge {
@@ -407,7 +407,7 @@ graph.render();
 
 ### Extra Labels
 
-```js | ob { autoMount: true }
+```js | ob { inject: true }
 import { Graph, Line, register, BaseEdge, ExtensionCategory, subStyleProps } from '@antv/g6';
 
 class LabelEdge extends Line {

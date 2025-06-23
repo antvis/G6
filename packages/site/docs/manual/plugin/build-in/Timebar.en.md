@@ -155,7 +155,7 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

@@ -2,8 +2,6 @@
 title: MDS 高维数据降维布局
 ---
 
-# MDS 高维数据降维布局
-
 ## 概述
 
 MDS（多维尺度分析，Multidimensional Scaling）是一种经典的降维算法。在 G6 中，MDS 布局通过构造节点间的距离矩阵，在二维空间中尽可能还原它们在高维空间中的相对距离。适用于展示节点之间相似度、距离或结构关系的图可视化场景。
@@ -45,36 +43,41 @@ const graph = new Graph({
 
 ## 代码示例
 
-```js
-createGraph(
-  {
-    autoFit: 'view',
-    data: {
-      nodes: Array.from({ length: 25 }, (_, i) => ({
-        id: `node-${i}`,
-        data: {
-          value: Math.random() * 100,
-        },
-      })),
-      edges: Array.from({ length: 20 }, (_, i) => ({
-        id: `edge-${i}`,
-        source: `node-${Math.floor(Math.random() * 25)}`,
-        target: `node-${Math.floor(Math.random() * 25)}`,
-      })),
-    }
-    node: {
-      style: {
-        labelText: (d) => d.id,
-      },
-    },
-    layout: {
-      type: 'mds',
-      nodeSize: 32,
-      linkDistance: 100,
-    },
-    behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
-  }
-  { width: 600, height: 300 },
-);
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
 
+const data = {
+  nodes: Array.from({ length: 25 }, (_, i) => ({
+    id: `node-${i}`,
+    data: {
+      value: Math.random() * 100,
+    },
+  })),
+  edges: Array.from({ length: 20 }, (_, i) => ({
+    id: `edge-${i}`,
+    source: `node-${Math.floor(Math.random() * 25)}`,
+    target: `node-${Math.floor(Math.random() * 25)}`,
+  })),
+};
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 300,
+  autoFit: 'view',
+  data,
+  node: {
+    style: {
+      labelText: (d) => d.id,
+    },
+  },
+  layout: {
+    type: 'mds',
+    nodeSize: 32,
+    linkDistance: 100,
+  },
+  behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
+});
+
+graph.render();
 ```

@@ -60,7 +60,7 @@ Developing custom combos from scratch requires handling all details yourself, in
 
 Let's start by inheriting `BaseCombo` to implement a custom hexagon combo:
 
-```js | ob { pin:false, autoMount: true }
+```js | ob { pin:false, inject: true }
 import { Graph, register, BaseCombo, ExtensionCategory } from '@antv/g6';
 
 // Define the path for the collapsed state button

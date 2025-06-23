@@ -113,7 +113,7 @@ const graph = new Graph({
 
 效果如下：
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -176,6 +176,29 @@ graph.render();
 
 ## 实际案例
 
-<Playground path="layout/force-directed/demo/atlas2.js" rid="force-atlas2-basic"></Playground>
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
+  .then((res) => res.json())
+  .then((data) => {
+    const graph = new Graph({
+      container: 'container',
+      data,
+      autoFit: 'view',
+      layout: {
+        type: 'force-atlas2',
+        preventOverlap: true,
+        kr: 20,
+        center: [250, 250],
+      },
+      behaviors: ['zoom-canvas', 'drag-canvas'],
+      autoResize: true,
+      zoomRange: [0.1, 5],
+    });
+
+    graph.render();
+  });
+```
 
 - [ForceAtlas2布局](/examples/layout/force-directed/#atlas2)

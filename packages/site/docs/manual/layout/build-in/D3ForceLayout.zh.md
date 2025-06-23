@@ -160,7 +160,7 @@ D3Force 布局通过模拟五种不同的力来实现自动布局。想象一个
 
 该示例展示了如何使用力导向布局实现团队聚类效果，不同团队的节点会自动聚集在一起。
 
-```js | ob { pin: false, autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

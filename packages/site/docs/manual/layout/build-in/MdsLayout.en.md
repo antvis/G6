@@ -45,35 +45,41 @@ The ideal distance between nodes. The larger the value, the more dispersed the n
 
 ## Code Example
 
-```js
-createGraph(
-  {
-    autoFit: 'view',
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const data = {
+  nodes: Array.from({ length: 25 }, (_, i) => ({
+    id: `node-${i}`,
     data: {
-      nodes: Array.from({ length: 25 }, (_, i) => ({
-        id: `node-${i}`,
-        data: {
-          value: Math.random() * 100,
-        },
-      })),
-      edges: Array.from({ length: 20 }, (_, i) => ({
-        id: `edge-${i}`,
-        source: `node-${Math.floor(Math.random() * 25)}`,
-        target: `node-${Math.floor(Math.random() * 25)}`,
-      })),
+      value: Math.random() * 100,
     },
-    node: {
-      style: {
-        labelText: (d) => d.id,
-      },
+  })),
+  edges: Array.from({ length: 20 }, (_, i) => ({
+    id: `edge-${i}`,
+    source: `node-${Math.floor(Math.random() * 25)}`,
+    target: `node-${Math.floor(Math.random() * 25)}`,
+  })),
+};
+
+const graph = new Graph({
+  container: 'container',
+  width: 600,
+  height: 300,
+  autoFit: 'view',
+  data,
+  node: {
+    style: {
+      labelText: (d) => d.id,
     },
-    layout: {
-      type: 'mds',
-      nodeSize: 32,
-      linkDistance: 100,
-    },
-    behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
   },
-  { width: 600, height: 300 },
-);
+  layout: {
+    type: 'mds',
+    nodeSize: 32,
+    linkDistance: 100,
+  },
+  behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
+});
+
+graph.render();
 ```

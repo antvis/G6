@@ -25,8 +25,8 @@ const graph = new Graph({
   edge: {
     type: 'path-in-line',
     animation: {
-      enter: false
-    }
+      enter: false,
+    },
   },
 });
 

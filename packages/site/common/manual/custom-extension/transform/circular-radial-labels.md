@@ -1,4 +1,4 @@
-```js | ob { pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph, BaseTransform, register, ExtensionCategory } from '@antv/g6';
 
 // 目前circular布局没有暴露方法可以获取布局中心，这里简单处理先固定一个

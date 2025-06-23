@@ -120,7 +120,7 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -185,7 +185,7 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -242,7 +242,7 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -345,7 +345,7 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -418,7 +418,7 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -492,7 +492,7 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -562,7 +562,7 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -620,7 +620,7 @@ const graph = new Graph({
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -745,7 +745,7 @@ For example, assign combo colors to a set of data based on the `category` field,
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -783,7 +783,7 @@ You can also use the default configuration:
 
 The effect is as follows:
 
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

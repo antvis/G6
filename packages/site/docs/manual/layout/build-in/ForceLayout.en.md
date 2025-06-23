@@ -190,71 +190,71 @@ Based on the physical characteristics of force-directed layout, the following co
 
 ### Basic Configuration
 
-| Property | Description | Default Value | Required |
-|----------|-------------|---------------|----------|
-| type | Layout type | `force` | ✓ |
-| dimensions | Layout dimensions, 2 for 2D layout, 3 for 3D layout | 2 | |
-| width | Layout width | Canvas width | |
-| height | Layout height | Canvas height | |
-| center | Layout center point | Graph center | |
-| maxIteration | Maximum iteration count, if 0 will auto-adjust | 0 | |
-| minMovement | Stop iteration when average movement distance is less than 0.4 | 0.4 | |
-| distanceThresholdMode | Movement distance calculation mode: mean: stop when average movement distance is less than `minMovement`; max: stop when maximum movement distance is less than `minMovement`; min: stop when minimum movement distance is less than `minMovement` | `mean` | |
-| maxDistance | Maximum distance | | |
+| Property              | Description                                                                                                                                                                                                                                        | Default Value | Required |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| type                  | Layout type                                                                                                                                                                                                                                        | `force`       | ✓        |
+| dimensions            | Layout dimensions, 2 for 2D layout, 3 for 3D layout                                                                                                                                                                                                | 2             |          |
+| width                 | Layout width                                                                                                                                                                                                                                       | Canvas width  |          |
+| height                | Layout height                                                                                                                                                                                                                                      | Canvas height |          |
+| center                | Layout center point                                                                                                                                                                                                                                | Graph center  |          |
+| maxIteration          | Maximum iteration count, if 0 will auto-adjust                                                                                                                                                                                                     | 0             |          |
+| minMovement           | Stop iteration when average movement distance is less than 0.4                                                                                                                                                                                     | 0.4           |          |
+| distanceThresholdMode | Movement distance calculation mode: mean: stop when average movement distance is less than `minMovement`; max: stop when maximum movement distance is less than `minMovement`; min: stop when minimum movement distance is less than `minMovement` | `mean`        |          |
+| maxDistance           | Maximum distance                                                                                                                                                                                                                                   |               |          |
 
 ### Force-related Configuration
 
 #### Repulsion Configuration
 
-| Property | Description | Default Value | Required |
-|----------|-------------|---------------|----------|
-| nodeStrength | Node force, positive values represent attraction between nodes, negative values represent repulsion | 1000 | |
-| factor | Repulsion coefficient, larger values mean stronger repulsion | 1 | |
-| coulombDisScale | Coulomb coefficient, a factor for repulsion, larger values mean stronger repulsion between nodes | 0.005 | |
+| Property        | Description                                                                                         | Default Value | Required |
+| --------------- | --------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| nodeStrength    | Node force, positive values represent attraction between nodes, negative values represent repulsion | 1000          |          |
+| factor          | Repulsion coefficient, larger values mean stronger repulsion                                        | 1             |          |
+| coulombDisScale | Coulomb coefficient, a factor for repulsion, larger values mean stronger repulsion between nodes    | 0.005         |          |
 
 #### Edge Attraction Configuration
 
-| Property | Description | Default Value | Required |
-|----------|-------------|---------------|----------|
-| edgeStrength | Edge force (attraction) strength, fixed force or callback function to dynamically return different edge forces | 500 | |
-| linkDistance | Edge length, fixed length or callback function to dynamically return different edge lengths | 200 | |
+| Property     | Description                                                                                                    | Default Value | Required |
+| ------------ | -------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| edgeStrength | Edge force (attraction) strength, fixed force or callback function to dynamically return different edge forces | 500           |          |
+| linkDistance | Edge length, fixed length or callback function to dynamically return different edge lengths                    | 200           |          |
 
 #### Centripetal Force Configuration
 
-| Property | Description | Default Value | Required |
-|----------|-------------|---------------|----------|
-| gravity | Center force strength, the force attracting all nodes to the center. Larger values mean more compact layout | 10 | |
-| centripetalOptions | Centripetal force configuration, including center and strength for leaf nodes, isolated nodes, and other nodes. leaf: leaf node centripetal force; single: single node centripetal force; others: other node centripetal force; center: custom center point function | [0, 0] | |
+| Property           | Description                                                                                                                                                                                                                                                          | Default Value | Required |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| gravity            | Center force strength, the force attracting all nodes to the center. Larger values mean more compact layout                                                                                                                                                          | 10            |          |
+| centripetalOptions | Centripetal force configuration, including center and strength for leaf nodes, isolated nodes, and other nodes. leaf: leaf node centripetal force; single: single node centripetal force; others: other node centripetal force; center: custom center point function | [0, 0]        |          |
 
 #### Clustering Configuration
 
-| Property | Description | Default Value | Required |
-|----------|-------------|---------------|----------|
-| clustering | Whether to cluster all nodes. If true, will use the field specified by nodeClusterBy in node data for clustering. centripetalOptions.single, centripetalOptions.leaf, and centripetalOptions.others will use the value returned by getClusterNodeStrength; leaf and centripetalOptions.center will use the average center of all nodes in the current cluster | `false` | |
-| nodeClusterBy | Specifies the field name in node data for clustering. Takes effect when clustering is true. Automatically generates centripetalOptions, can be used with clusterNodeStrength | | |
-| clusterNodeStrength | Used with clustering and nodeClusterBy to specify the strength of the cluster centripetal force | | |
-| leafCluster | Whether to cluster leaf nodes. If true, centripetalOptions.single will be 100; centripetalOptions.leaf will use the value returned by getClusterNodeStrength; getClusterNodeStrength.center will return the average center of all leaf nodes | false | |
+| Property            | Description                                                                                                                                                                                                                                                                                                                                                   | Default Value | Required |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| clustering          | Whether to cluster all nodes. If true, will use the field specified by nodeClusterBy in node data for clustering. centripetalOptions.single, centripetalOptions.leaf, and centripetalOptions.others will use the value returned by getClusterNodeStrength; leaf and centripetalOptions.center will use the average center of all nodes in the current cluster | `false`       |          |
+| nodeClusterBy       | Specifies the field name in node data for clustering. Takes effect when clustering is true. Automatically generates centripetalOptions, can be used with clusterNodeStrength                                                                                                                                                                                  |               |          |
+| clusterNodeStrength | Used with clustering and nodeClusterBy to specify the strength of the cluster centripetal force                                                                                                                                                                                                                                                               |               |          |
+| leafCluster         | Whether to cluster leaf nodes. If true, centripetalOptions.single will be 100; centripetalOptions.leaf will use the value returned by getClusterNodeStrength; getClusterNodeStrength.center will return the average center of all leaf nodes                                                                                                                  | false         |          |
 
 #### Performance and Optimization Configuration
 
-| Property | Description | Default Value | Required |
-|----------|-------------|---------------|----------|
-| damping | Damping coefficient, range [0, 1]. Larger values mean slower speed decrease | 0.9 | |
-| maxSpeed | Maximum movement length per iteration | 200 | |
-| interval | Controls the movement speed of each node per iteration | 0.02 | |
-| preventOverlap | Whether to prevent overlap. Must be used with nodeSize or data.size in node data. Only when data.size is set in the data or nodeSize is configured in the layout with the same value as the node size in the graph, collision detection for node overlap can be performed | true | |
-| nodeSize | Node size (diameter). Used for collision detection to prevent node overlap. Fixed size or callback function to dynamically return node size | | |
-| nodeSpacing | Takes effect when preventOverlap is true. Minimum spacing between node edges to prevent overlap. Can be a callback to set different spacing for different nodes | | |
-| collideStrength | Strength of anti-overlap force, range [0, 1] | 1 | |
+| Property        | Description                                                                                                                                                                                                                                                               | Default Value | Required |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| damping         | Damping coefficient, range [0, 1]. Larger values mean slower speed decrease                                                                                                                                                                                               | 0.9           |          |
+| maxSpeed        | Maximum movement length per iteration                                                                                                                                                                                                                                     | 200           |          |
+| interval        | Controls the movement speed of each node per iteration                                                                                                                                                                                                                    | 0.02          |          |
+| preventOverlap  | Whether to prevent overlap. Must be used with nodeSize or data.size in node data. Only when data.size is set in the data or nodeSize is configured in the layout with the same value as the node size in the graph, collision detection for node overlap can be performed | true          |          |
+| nodeSize        | Node size (diameter). Used for collision detection to prevent node overlap. Fixed size or callback function to dynamically return node size                                                                                                                               |               |          |
+| nodeSpacing     | Takes effect when preventOverlap is true. Minimum spacing between node edges to prevent overlap. Can be a callback to set different spacing for different nodes                                                                                                           |               |          |
+| collideStrength | Strength of anti-overlap force, range [0, 1]                                                                                                                                                                                                                              | 1             |          |
 
 #### Other Configuration
 
-| Property | Description | Default Value | Required |
-|----------|-------------|---------------|----------|
-| getMass | Callback for the mass of each node. The parameter is the node's internal data, and the return value is the mass | | |
-| getCenter | Callback for the x, y, and strength of the centripetal force for each node. If not specified, no extra centripetal force is applied | | |
-| onTick | Callback for each iteration | | |
-| monitor | Callback for monitoring each iteration. energy indicates the convergence energy of the layout. May incur extra computation if configured; if not configured, no computation is performed | | |
+| Property  | Description                                                                                                                                                                              | Default Value | Required |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| getMass   | Callback for the mass of each node. The parameter is the node's internal data, and the return value is the mass                                                                          |               |          |
+| getCenter | Callback for the x, y, and strength of the centripetal force for each node. If not specified, no extra centripetal force is applied                                                      |               |          |
+| onTick    | Callback for each iteration                                                                                                                                                              |               |          |
+| monitor   | Callback for monitoring each iteration. energy indicates the convergence energy of the layout. May incur extra computation if configured; if not configured, no computation is performed |               |          |
 
 ## Code Examples
 

@@ -32,16 +32,18 @@ const graph = new Graph({
     },
   },
   behaviors: ['drag-element'],
-  plugins: [{
-    type: 'tooltip',
-    getContent: (e, items) => {
-      let result = `<h4>Node Label:</h4>`;
-      items.forEach((item) => {
-        result += `<p>${item.data.label}</p>`;
-      });
-      return result;
+  plugins: [
+    {
+      type: 'tooltip',
+      getContent: (e, items) => {
+        let result = `<h4>Node Label:</h4>`;
+        items.forEach((item) => {
+          result += `<p>${item.data.label}</p>`;
+        });
+        return result;
+      },
     },
-  }]
+  ],
 });
 
 graph.render();

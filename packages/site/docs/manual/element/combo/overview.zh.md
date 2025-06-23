@@ -140,7 +140,7 @@ const graph = new Graph({
 
 ## 示例
 
-```js | ob { autoMount: true }
+```js | ob { inject: true }
 import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
 const data = {

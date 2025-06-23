@@ -40,7 +40,7 @@ const graph = new Graph({
 
 ## Example
 
-```js | ob {  pin: false, autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

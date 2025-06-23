@@ -34,7 +34,7 @@ The Fruchterman layout is a force-directed layout based on the algorithm from [G
 
 ### Basic Layout
 
-```js | ob { pin: false, autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -150,7 +150,7 @@ graph.render();
 
 ### Cluster Layout
 
-```js | ob { pin: false, autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

@@ -31,7 +31,7 @@ title: Concentric 同心圆布局
 
 ## 代码示例
 
-```js | ob { pin: false, autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({

@@ -39,8 +39,8 @@ const graph = new Graph({
         haloOpacity: 0.2,
         haloStroke: 'red',
         startArrow: true,
-      }
-    }
+      },
+    },
   ],
 });
 
