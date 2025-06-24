@@ -386,8 +386,14 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     let [x, y, width, height] = this.maskBBox;
 
     // clamp x, y, width, height
-    if (x < 0) (width = upper(width + x, minimapWidth)), (x = 0);
-    if (y < 0) (height = upper(height + y, minimapHeight)), (y = 0);
+    if (x < 0) {
+      width = upper(width + x, minimapWidth);
+      x = 0;
+    }
+    if (y < 0) {
+      height = upper(height + y, minimapHeight);
+      y = 0;
+    }
     if (x + width > minimapWidth) width = lower(minimapWidth - x, 0);
     if (y + height > minimapHeight) height = lower(minimapHeight - y, 0);
 
@@ -457,11 +463,11 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     // 当拖拽画布导致 mask 缩小时，拖拽 mask 时，能够恢复到实际大小
     // When dragging the canvas causes the mask to shrink, dragging the mask will restore it to its actual size
     if (width < fullWidth) {
-      if (movementX > 0) (x = lower(x - movementX, 0)), (width = upper(width + movementX, minimapWidth));
+      if (movementX > 0) ((x = lower(x - movementX, 0)), (width = upper(width + movementX, minimapWidth)));
       else if (movementX < 0) width = upper(width - movementX, minimapWidth);
     }
     if (height < fullHeight) {
-      if (movementY > 0) (y = lower(y - movementY, 0)), (height = upper(height + movementY, minimapHeight));
+      if (movementY > 0) ((y = lower(y - movementY, 0)), (height = upper(height + movementY, minimapHeight)));
       else if (movementY < 0) height = upper(height - movementY, minimapHeight);
     }
 

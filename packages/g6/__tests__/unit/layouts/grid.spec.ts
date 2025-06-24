@@ -18,7 +18,8 @@ describe('grid', () => {
   });
 
   it('sortBy id', async () => {
-    graph.setLayout({ type: 'grid', sortBy: 'id' }), await graph.layout();
+    graph.setLayout({ type: 'grid', sortBy: 'id' });
+    await graph.layout();
     await expect(graph).toMatchSnapshot(__filename, 'sortby-id');
   });
 });
