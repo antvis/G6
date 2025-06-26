@@ -526,6 +526,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     this.unbindEvents();
     this.canvas?.destroy();
     this.mask?.remove();
+    this.container?.remove();
     super.destroy();
   }
 }
