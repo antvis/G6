@@ -7,14 +7,15 @@ order: 1
 
 ## 通用配置
 
-| 属性                   | 描述                                                  | 类型                        | 默认值     | 必选 |
-| ---------------------- | ----------------------------------------------------- | --------------------------- | ---------- | ---- |
-| type                   | 布局类型，内置布局或自定义布局的名称                  | [Type](#Type)               | -          | ✓    |
-| isLayoutInvisibleNodes | 不可见节点是否参与布局（当 preLayout 为 true 时生效） | boolean                     | false      |      |
-| nodeFilter             | 参与该布局的节点                                      | (node: NodeData) => boolean | () => true |      |
-| preLayout              | 使用前布局，在初始化元素前计算布局                    | boolean                     | false      |      |
-| enableWorker           | 是否在 WebWorker 中运行布局                           | boolean                     | -          |      |
-| iterations             | 迭代布局的迭代次数                                    | number                      | -          |      |
+| 属性                   | 描述                                                  | 类型                          | 默认值     | 必选 |
+| ---------------------- | ----------------------------------------------------- | ----------------------------- | ---------- | ---- |
+| type                   | 布局类型，内置布局或自定义布局的名称                  | [Type](#Type)                 | -          | ✓    |
+| isLayoutInvisibleNodes | 不可见节点是否参与布局（当 preLayout 为 true 时生效） | boolean                       | false      |      |
+| nodeFilter             | 参与该布局的节点                                      | (node: NodeData) => boolean   | () => true |      |
+| comboFilter            | 参与该布局的combo元素                                 | (combo: ComboData) => boolean | () => true |      |
+| preLayout              | 使用前布局，在初始化元素前计算布局                    | boolean                       | false      |      |
+| enableWorker           | 是否在 WebWorker 中运行布局                           | boolean                       | -          |      |
+| iterations             | 迭代布局的迭代次数                                    | number                        | -          |      |
 
 ### Type
 

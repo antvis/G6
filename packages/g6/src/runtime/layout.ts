@@ -296,7 +296,12 @@ export class LayoutController {
   }
 
   public getLayoutData(options: STDLayoutOptions): GraphData {
-    const { nodeFilter = () => true, preLayout = false, isLayoutInvisibleNodes = false } = options;
+    const {
+      nodeFilter = () => true,
+      comboFilter = () => true,
+      preLayout = false,
+      isLayoutInvisibleNodes = false,
+    } = options;
     const { nodes, edges, combos } = this.context.model.getData();
 
     const { element, model } = this.context;
@@ -320,9 +325,10 @@ export class LayoutController {
         };
 
     const nodesToLayout = nodes.filter(filterFn);
+    const combosToLayout = combos.filter(comboFilter);
 
     const nodeLikeIdsMap = new Map<ID, NodeData>(nodesToLayout.map((node) => [idOf(node), node]));
-    combos.forEach((combo) => nodeLikeIdsMap.set(idOf(combo), combo));
+    combosToLayout.forEach((combo) => nodeLikeIdsMap.set(idOf(combo), combo));
 
     const edgesToLayout = edges.filter(({ source, target }) => {
       return nodeLikeIdsMap.has(source) && nodeLikeIdsMap.has(target);
@@ -331,7 +337,7 @@ export class LayoutController {
     return {
       nodes: nodesToLayout,
       edges: edgesToLayout,
-      combos,
+      combos: combosToLayout,
     };
   }
 
