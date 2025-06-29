@@ -135,7 +135,7 @@ class IndentedNode extends BaseNode {
 
     this.forwardEvent(btn, CommonEvent.CLICK, (event) => {
       event.stopPropagation();
-      attributes.context.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
+      this.context.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
         id: this.id,
         collapsed: false,
       });
@@ -172,7 +172,7 @@ class IndentedNode extends BaseNode {
 
     this.forwardEvent(btn, CommonEvent.CLICK, (event) => {
       event.stopPropagation();
-      attributes.context.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
+      this.context.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
         id: this.id,
         collapsed: !attributes.collapsed,
       });
@@ -209,7 +209,7 @@ class IndentedNode extends BaseNode {
 
     this.forwardEvent(btn, CommonEvent.CLICK, (event) => {
       event.stopPropagation();
-      attributes.context.graph.emit(TreeEvent.ADD_CHILD, { id: this.id });
+      this.context.graph.emit(TreeEvent.ADD_CHILD, { id: this.id });
     });
   }
 
