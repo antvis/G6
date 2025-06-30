@@ -181,8 +181,8 @@ graph.render();
 | labelOffsetY             | 节点标签在 y 轴方向上的偏移量                                                      | number                                                                      | 0         |      |
 | labelPadding             | 节点标签内边距                                                                     | number \| number[]                                                          | 0         |      |
 | labelPlacement           | 节点标签相对于节点主图形的位置，[配置项](#labelplacement)                          | string                                                                      | `bottom`  |      |
-| labelText                | 节点标签文字内容                                                                   | string                                                                      | -         |      |
-| labelTextAlign           | 节点标签文本水平对齐方式                                                           | `start` \| `center` \| `middle` \| `end` \| `left` \| `right'               | `left`    |      |
+| labelText                | 节点标签文字内容                                                                   | `string` \| `(datum) => string`                                             | -         |      |
+| labelTextAlign           | 节点标签文本水平对齐方式                                                           | `start` \| `center` \| `middle` \| `end` \| `left` \| `right`               | `left`    |      |
 | labelTextBaseline        | 节点标签文本基线                                                                   | `top` \| `hanging` \| `middle` \| `alphabetic` \| `ideographic` \| `bottom` | -         |      |
 | labelTextDecorationColor | 节点标签文本装饰线颜色                                                             | string                                                                      | -         |      |
 | labelTextDecorationLine  | 节点标签文本装饰线                                                                 | string                                                                      | -         |      |
