@@ -26,7 +26,7 @@ Applicable scenarios:
 | --------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ------- | -------- |
 | dx        | Horizontal offset. The HTML container defaults to the top-left corner as the origin, and dx is used for horizontal offset | number                  | 0       |          |
 | dy        | Vertical offset. The HTML container defaults to the top-left corner as the origin, and dy is used for vertical offset     | number                  | 0       |          |
-| innerHTML | HTML content, can be a string or `HTMLElement`                                                                            | string \| `HTMLElement` | 0       | ✓        |
+| innerHTML | HTML content, can be a string or `HTMLElement`                                                                            | string \| `HTMLElement` | -       | ✓        |
 
 ## Example
 
