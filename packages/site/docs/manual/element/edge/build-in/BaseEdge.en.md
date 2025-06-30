@@ -72,7 +72,7 @@ The following style configurations will be explained in sequence according to at
 
 ### Main Graphic Style Key
 
-| Attribute                       | Description                                                                                                   | Default                              | Type      |
+| Attribute                       | Description                                                                                                   | Type                                 | Default   |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------ | --------- |
 | class                           | Edge className                                                                                                | string                               | -         |
 | cursor                          | Edge mouse hover style, [configuration item](#cursor)                                                         | string                               | `default` |
