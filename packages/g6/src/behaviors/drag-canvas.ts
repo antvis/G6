@@ -183,8 +183,18 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   protected async translate(offset: Vector2, animation?: ViewportAnimationEffectTiming) {
     offset = this.clampByDirection(offset);
     offset = this.clampByRange(offset);
+    offset = this.clampByRotation(offset);
 
     await this.context.graph.translateBy(offset, animation);
+  }
+
+  private clampByRotation([dx, dy]: Vector2): Vector2 {
+    const rotation = this.context.graph.getRotation();
+    if (rotation % 360 === 0) return [dx, dy];
+    const rad = (rotation * Math.PI) / 180;
+    const cos = Math.cos(rad);
+    const sin = Math.sin(rad);
+    return [dx * cos - dy * sin, dx * sin + dy * cos];
   }
 
   private clampByDirection([dx, dy]: Vector2): Vector2 {

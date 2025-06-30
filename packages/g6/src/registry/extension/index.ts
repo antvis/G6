@@ -46,6 +46,7 @@ export abstract class ExtensionController<E extends BaseExtension<any>> {
     if (!Ctor) return print.warn(`The extension ${type} of ${category} is not registered.`);
 
     const instance = new Ctor(this.context, extension);
+    instance.initialized = true;
     this.extensionMap[key] = instance as E;
   }
 
@@ -67,10 +68,13 @@ export abstract class ExtensionController<E extends BaseExtension<any>> {
 
   protected destroyExtension(key: string) {
     const instance = this.extensionMap[key];
-    if (instance) {
+
+    if (!instance) return;
+    if (instance.initialized && !instance.destroyed) {
       instance.destroy();
-      delete this.extensionMap[key];
     }
+
+    delete this.extensionMap[key];
   }
 
   protected destroyExtensions(extensions: STDExtensionOption[]) {
@@ -78,7 +82,7 @@ export abstract class ExtensionController<E extends BaseExtension<any>> {
   }
 
   public destroy() {
-    Object.values(this.extensionMap).forEach((extension) => extension.destroy());
+    this.destroyExtensions(this.extensions);
     // @ts-expect-error force delete
     this.context = {};
     this.extensions = [];
@@ -97,6 +101,8 @@ export class BaseExtension<T extends { type: string; key?: string; [key: string]
   protected options: Required<T>;
 
   protected events: [EventEmitter | HTMLElement, string, (event: IEvent) => void][] = [];
+
+  public initialized = false;
 
   public destroyed = false;
 

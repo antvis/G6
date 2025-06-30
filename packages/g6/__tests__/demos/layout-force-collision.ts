@@ -84,8 +84,10 @@ function getData(width: number, size = 200) {
 function randomUniform(min: number, max: number) {
   min = min == null ? 0 : +min;
   max = max == null ? 1 : +max;
-  if (arguments.length === 1) (max = min), (min = 0);
-  else max -= min;
+  if (arguments.length === 1) {
+    max = min;
+    min = 0;
+  } else max -= min;
   return function () {
     return Math.random() * max + min;
   };

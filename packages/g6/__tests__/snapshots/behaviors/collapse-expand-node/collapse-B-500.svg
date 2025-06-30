@@ -4,25 +4,25 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M-18-54c50 0 50-17.8585 100-17.8585" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M-18-54c50 0 50-35 100-35" class="key"/>
             <path fill="none" stroke="transparent" stroke-width="3" d="M0 0c0 0 0 0 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M-18-54c61.4338 0 61.4338 17.8585 122.8676 17.8585" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M-18-54c50 0 50 35 100 35" class="key"/>
             <path fill="none" stroke="transparent" stroke-width="3" d="M0 0c0 0 0 0 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M82-71.8585c11.4338 0 11.4338-3.4301 22.8676-3.4301" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M82-89c11.4338 0 11.4338-3.4301 22.8676-3.4301" class="key"/>
             <path fill="none" stroke="transparent" stroke-width="3" d="M0 0c0 0 0 0 0 0" class="key"/>
           </g>
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M82-71.8585c11.4338 0 11.4338 3.4302 22.8676 3.4302" class="key"/>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M82-89c11.4338 0 11.4338 3.4301 22.8676 3.4301" class="key"/>
             <path fill="none" stroke="transparent" stroke-width="3" d="M0 0c0 0 0 0 0 0" class="key"/>
           </g>
         </g>
@@ -36,7 +36,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1 0 0 1 104.8676 -75.2886)">
+        <g fill="none" transform="matrix(1 0 0 1 104.8676 -92.4301)">
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
@@ -46,7 +46,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1 0 0 1 104.8676 -68.4283)">
+        <g fill="none" transform="matrix(1 0 0 1 104.8676 -85.5699)">
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
@@ -56,7 +56,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1 0 0 1 104.8676 -36.1415)">
+        <g fill="none" transform="matrix(1 0 0 1 82 -19)">
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>
@@ -66,7 +66,7 @@
             </g>
           </g>
         </g>
-        <g fill="none" transform="matrix(1 0 0 1 82 -71.8585)">
+        <g fill="none" transform="matrix(1 0 0 1 82 -89)">
           <g>
             <circle r="16" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key"/>
           </g>

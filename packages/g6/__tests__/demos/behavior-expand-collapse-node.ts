@@ -9,7 +9,7 @@ export const behaviorExpandCollapseNode: TestCase = async (context) => {
       id: 'A',
       children: [
         { id: 'B', children: [{ id: 'D' }, { id: 'E' }] },
-        { id: 'C', children: [{ id: 'F' }, { id: 'G' }], style: { collapsed: true } },
+        { id: 'C', children: [{ id: 'F' }, { id: 'G' }] },
       ],
     }),
     node: {
@@ -32,6 +32,7 @@ export const behaviorExpandCollapseNode: TestCase = async (context) => {
   });
 
   await graph.render();
+  graph.collapseElement('C', { animation: false });
 
   behaviorExpandCollapseNode.form = (panel) => {
     const config = {
