@@ -28,8 +28,9 @@ const graph = new Graph({
     {
       type: 'click-select',
       degree: 1,
-      state: 'active',
-      unselectedState: 'inactive',
+      state: 'selected', // 选中的状态
+      neighborState: 'active', // 相邻节点附着状态
+      unselectedState: 'inactive', // 未选中节点状态
       multiple: true,
       trigger: ['shift'],
     },
