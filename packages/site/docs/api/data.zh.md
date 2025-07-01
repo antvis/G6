@@ -766,9 +766,9 @@ updateEdgeData(data: (PartialEdgeData<EdgeData>[] | ((prev: EdgeData[]) => Parti
 
 **参数**:
 
-| 参数 | 描述 | 类型                             | 默认值                                                                                                                   | 必选 |
-| ---- | ---- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---- | --- | --- |
-| <!-- | data | 要更新的边数据或返回边数据的函数 | [PartialEdgeData<EdgeData>](#partialedgedata)[] \| (prev: EdgeData[]) => [PartialEdgeData<EdgeData>](#partialedgedata)[] | -    | ✓   | --> |
+| 参数 | 描述                             | 类型                                                                                                                         | 默认值 | 必选 |
+| ---- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------ | ---- |
+| data | 要更新的边数据或返回边数据的函数 | [PartialEdgeData\<EdgeData\>](#partialedgedata)[] \| (prev: EdgeData[]) => [PartialEdgeData\<EdgeData\>](#partialedgedata)[] | -      | ✓    |
 
 **返回值**:
 

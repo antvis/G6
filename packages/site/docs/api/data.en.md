@@ -766,9 +766,9 @@ updateEdgeData(data: (PartialEdgeData<EdgeData>[] | ((prev: EdgeData[]) => Parti
 
 **Parameters**:
 
-| Parameter | Description | Type                                                  | Default                                                                                                                  | Required |
-| --------- | ----------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------- | --- | --- |
-| <!--      | data        | Edge data to update or a function returning edge data | [PartialEdgeData<EdgeData>](#partialedgedata)[] \| (prev: EdgeData[]) => [PartialEdgeData<EdgeData>](#partialedgedata)[] | -        | ✓   | --> |
+| Parameter | Description                                           | Type                                                                                                                         | Default | Required |
+| --------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------- | -------- |
+| data      | Edge data to update or a function returning edge data | [PartialEdgeData\<EdgeData\>](#partialedgedata)[] \| (prev: EdgeData[]) => [PartialEdgeData\<EdgeData\>](#partialedgedata)[] | -       | ✓        |
 
 **Return Value**:
 

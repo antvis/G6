@@ -41,6 +41,26 @@ const graph = new Graph({
 });
 ```
 
+**⚠️ 动态配置说明**：`type` 属性同样支持动态配置，可以根据节点数据动态选择节点类型：
+
+```js
+const graph = new Graph({
+  node: {
+    // 静态配置
+    type: 'circle',
+
+    // 动态配置 - 箭头函数形式
+    type: (datum) => datum.data.nodeType || 'circle',
+
+    // 动态配置 - 普通函数形式（可访问 graph 实例）
+    type: function (datum) {
+      console.log(this); // graph 实例
+      return datum.data.category === 'important' ? 'diamond' : 'circle';
+    },
+  },
+});
+```
+
 可选值有：
 
 - `circle`：[圆形节点](/manual/element/node/circle)
@@ -66,6 +86,34 @@ const graph = new Graph({
 });
 ```
 
+**⚠️ 动态配置说明**：以下所有样式属性都支持动态配置，即可以传入函数来根据节点数据动态计算属性值：
+
+```js
+const graph = new Graph({
+  node: {
+    style: {
+      // 静态配置
+      fill: '#1783FF',
+
+      // 动态配置 - 箭头函数形式
+      stroke: (datum) => (datum.data.isActive ? '#FF0000' : '#000000'),
+
+      // 动态配置 - 普通函数形式（可访问 graph 实例）
+      lineWidth: function (datum) {
+        console.log(this); // graph 实例
+        return datum.data.importance > 5 ? 3 : 1;
+      },
+
+      // 嵌套属性也支持动态配置
+      labelText: (datum) => `节点: ${datum.id}`,
+      badges: (datum) => datum.data.tags.map((tag) => ({ text: tag })),
+    },
+  },
+});
+```
+
+其中 `datum` 参数为节点数据对象 (`NodeData`)，包含节点的所有数据信息。
+
 一个完整的节点由以下几部分构成：
 
 <img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Ot4bSbBx97EAAAAAAAAAAAAADmJ7AQ/original" />
@@ -81,7 +129,92 @@ const graph = new Graph({
 
 ### 主图形样式
 
-主图形是节点的核心部分，定义了节点的基本形状和外观：
+主图形是节点的核心部分，定义了节点的基本形状和外观。以下是常见的配置场景：
+
+#### 基础样式配置
+
+设置节点的基本外观：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      fill: '#5B8FF9', // 蓝色填充
+      stroke: '#1A1A1A', // 深色描边
+      lineWidth: 2,
+      size: 40,
+    },
+  },
+});
+
+graph.render();
+```
+
+#### 透明度和阴影效果
+
+为节点添加透明度和阴影效果：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      fill: '#61DDAA',
+      fillOpacity: 0.85,
+      shadowColor: 'rgba(97, 221, 170, 0.4)',
+      shadowBlur: 12,
+      shadowOffsetX: 2,
+      shadowOffsetY: 4,
+      stroke: '#F0F0F0',
+      lineWidth: 1,
+    },
+  },
+});
+
+graph.render();
+```
+
+#### 虚线边框样式
+
+创建带虚线边框的节点：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      fill: '#FFF1F0',
+      stroke: '#F5222D',
+      lineWidth: 2,
+      lineDash: [6, 4],
+      lineCap: 'round',
+    },
+  },
+});
+
+graph.render();
+```
+
+以下为完整的主图形样式配置：
 
 | 属性                            | 描述                                                                                      | 类型                          | 默认值    | 必选 |
 | ------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------- | --------- | ---- |
@@ -89,13 +222,14 @@ const graph = new Graph({
 | cursor                          | 节点鼠标移入样式，[配置项](#cursor)                                                       | string                        | default   |      |
 | fill                            | 节点填充色                                                                                | string                        | `#1783FF` |      |
 | fillOpacity                     | 节点填充色透明度                                                                          | number \| string              | 1         |      |
-| increasedLineWidthForHitTesting | 当 lineWidth 较小时，可交互区域也随之变小，有时我们想增大这个区域，让“细线”更容易被拾取到 | number                        | 0         |      |
+| increasedLineWidthForHitTesting | 当 lineWidth 较小时，可交互区域也随之变小，有时我们想增大这个区域，让"细线"更容易被拾取到 | number                        | 0         |      |
 | lineCap                         | 节点描边端点样式                                                                          | `round` \| `square` \| `butt` | `butt`    |      |
 | lineDash                        | 节点描边虚线样式                                                                          | number[]                      | -         |      |
 | lineDashOffset                  | 节点描边虚线偏移量                                                                        | number                        | -         |      |
 | lineJoin                        | 节点描边连接处样式                                                                        | `round` \| `bevel` \| `miter` | `miter`   |      |
 | lineWidth                       | 节点描边宽度                                                                              | number                        | 1         |      |
 | opacity                         | 节点透明度                                                                                | number \| string              | 1         |      |
+| pointerEvents                   | 节点如何响应指针事件，[配置项](#pointerevents)                                            | string                        | `auto`    |      |
 | shadowBlur                      | 节点阴影模糊度                                                                            | number                        | -         |      |
 | shadowColor                     | 节点阴影颜色                                                                              | string                        | -         |      |
 | shadowOffsetX                   | 节点阴影在 x 轴方向上的偏移量                                                             | number \| string              | -         |      |
@@ -120,47 +254,159 @@ const graph = new Graph({
 - [number, number]：表示节点宽高分别为数组元素依次表示节点的宽度、高度
 - [number, number, number]：表示节点宽高分别为数组元素依次表示节点的宽度、高度以及深度
 
-#### Cursor
+#### PointerEvents
 
-可选值有：`auto` | `default` | `none` | `context-menu` | `help` | `pointer` | `progress` | `wait` | `cell` | `crosshair` | `text` | `vertical-text` | `alias` | `copy` | `move` | `no-drop` | `not-allowed` | `grab` | `grabbing` | `all-scroll` | `col-resize` | `row-resize` | `n-resize` | `e-resize` | `s-resize` | `w-resize` | `ne-resize` | `nw-resize` | `se-resize` | `sw-resize` | `ew-resize` | `ns-resize` | `nesw-resize` | `nwse-resize` | `zoom-in` | `zoom-out`
+`pointerEvents` 属性控制图形如何响应交互事件，可参考 [MDN 文档](https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events)。
 
-**示例：**
+可选值有：`visible` | `visiblepainted` | `visiblestroke` | `non-transparent-pixel` | `visiblefill` | `visible` | `painted` | `fill` | `stroke` | `all` | `none` | `auto` | `inherit` | `initial` | `unset`
 
-```js {4-6}
+简而言之，`fill`、`stroke` 和 `visibility` 都可以独立或组合影响拾取判定行为。目前支持以下关键词：
+
+- **`auto`**：默认值，等同于 `visiblepainted`
+- **`none`**：永远不会成为响应事件的目标
+- **`visiblepainted`**：满足以下条件才会响应事件：
+  - `visibility` 设置为 `visible`，即图形为可见的
+  - 在图形填充区域触发同时 `fill` 取非 `none` 的值；或者在图形描边区域触发同时 `stroke` 取非 `none` 的值
+- **`visiblefill`**：满足以下条件才会响应事件：
+  - `visibility` 设置为 `visible`，即图形为可见的
+  - 在图形填充区域触发，不受 `fill` 取值的影响
+- **`visiblestroke`**：满足以下条件才会响应事件：
+  - `visibility` 设置为 `visible`，即图形为可见的
+  - 在图形描边区域触发，不受 `stroke` 取值的影响
+- **`visible`**：满足以下条件才会响应事件：
+  - `visibility` 设置为 `visible`，即图形为可见的
+  - 在图形填充或者描边区域触发，不受 `fill` 和 `stroke` 取值的影响
+- **`painted`**：满足以下条件才会响应事件：
+  - 在图形填充区域触发同时 `fill` 取非 `none` 的值；或者在图形描边区域触发同时 `stroke` 取非 `none` 的值
+  - 不受 `visibility` 取值的影响
+- **`fill`**：满足以下条件才会响应事件：
+  - 在图形填充区域触发，不受 `fill` 取值的影响
+  - 不受 `visibility` 取值的影响
+- **`stroke`**：满足以下条件才会响应事件：
+  - 在图形描边区域触发，不受 `stroke` 取值的影响
+  - 不受 `visibility` 取值的影响
+- **`all`**：只要进入图形的填充和描边区域就会响应事件，不会受 `fill`、`stroke`、`visibility` 的取值影响
+
+**使用示例：**
+
+```js
+// 示例1：只有描边区域响应事件
 const graph = new Graph({
   node: {
     style: {
-      fill: '#1783FF', // 填充色
-      stroke: '#000', // 描边色
-      lineWidth: 2, // 描边宽度
+      fill: 'none',
+      stroke: '#000',
+      lineWidth: 2,
+      pointerEvents: 'stroke', // 只有描边响应事件
+    },
+  },
+});
+
+// 示例2：完全不响应事件
+const graph = new Graph({
+  node: {
+    style: {
+      pointerEvents: 'none', // 节点不响应任何事件
     },
   },
 });
 ```
 
-效果如下：
+#### Cursor
 
-```js | ob { pin: false, inject: true }
+可选值有：`auto` | `default` | `none` | `context-menu` | `help` | `pointer` | `progress` | `wait` | `cell` | `crosshair` | `text` | `vertical-text` | `alias` | `copy` | `move` | `no-drop` | `not-allowed` | `grab` | `grabbing` | `all-scroll` | `col-resize` | `row-resize` | `n-resize` | `e-resize` | `s-resize` | `w-resize` | `ne-resize` | `nw-resize` | `se-resize` | `sw-resize` | `ew-resize` | `ns-resize` | `nesw-resize` | `nwse-resize` | `zoom-in` | `zoom-out`
+
+### 标签样式
+
+标签用于显示节点的文本信息，支持多种样式配置和布局方式。以下是常见的使用场景：
+
+#### 基础文本标签
+
+最简单的文本标签配置：
+
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
-  width: 240,
-  height: 100,
-  data: {
-    nodes: [{ id: 'node1', style: { x: 120, y: 40 } }],
-  },
+  width: 200,
+  height: 120,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
   node: {
-    style: { fill: '#1783FF', stroke: '#000', lineWidth: 2 },
+    style: {
+      labelText: '节点名称',
+      labelFill: '#262626',
+      labelFontSize: 12,
+      labelPlacement: 'bottom',
+    },
   },
 });
 
 graph.render();
 ```
 
-### 标签样式
+#### 多行文本标签
 
-标签用于显示节点的文本信息：
+当文本较长时，可以设置自动换行：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 120,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      labelText: '这是一个很长的节点名称需要换行显示',
+      labelWordWrap: true,
+      labelMaxWidth: '150%',
+      labelMaxLines: 3,
+      labelTextOverflow: 'ellipsis',
+      labelFill: '#434343',
+      labelPlacement: 'bottom',
+      labelTextAlign: 'center',
+    },
+  },
+});
+
+graph.render();
+```
+
+#### 带背景的标签
+
+为标签添加背景，提高可读性：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 120,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      labelText: '重要节点',
+      labelBackground: true,
+      labelBackgroundFill: 'rgba(250, 140, 22, 0.1)',
+      labelBackgroundRadius: 6,
+      labelPadding: [6, 12],
+      labelFill: '#D4380D',
+      labelFontWeight: 'bold',
+      labelPlacement: 'bottom',
+    },
+  },
+});
+
+graph.render();
+```
+
+以下为完整的标签样式配置：
 
 | 属性                     | 描述                                                                               | 类型                                                                        | 默认值    | 必选 |
 | ------------------------ | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------- | ---- |
@@ -213,54 +459,6 @@ graph.render();
 }
 ```
 
-**示例：**
-
-```js {4-10}
-const graph = new Graph({
-  node: {
-    style: {
-      label: true, // 是否显示节点标签
-      labelText: '节点名称', // 标签文字内容
-      labelFill: '#000', // 标签文字颜色
-      labelFontSize: 12, // 标签字体大小
-      labelFontWeight: 'normal', // 标签字体粗细
-      labelPlacement: 'bottom', // 标签相对于节点主图形的位置
-    },
-  },
-});
-```
-
-效果如下：
-
-```js | ob { pin: false, inject: true }
-import { Graph } from '@antv/g6';
-
-const graph = new Graph({
-  container: 'container',
-  width: 240,
-  height: 100,
-  data: {
-    nodes: [
-      {
-        id: 'node1',
-        style: {
-          x: 120,
-          y: 40,
-          label: true,
-          labelText: '节点名称',
-          labelFill: '#000',
-          labelFontSize: 12,
-          labelFontWeight: 'normal',
-          labelPlacement: 'bottom',
-        },
-      },
-    ],
-  },
-});
-
-graph.render();
-```
-
 ### 标签背景样式
 
 标签背景用于显示节点标签的背景：
@@ -285,57 +483,38 @@ graph.render();
 | labelBackgroundVisibility     | 节点标签背景是否可见                                                                                           | `visible` \| `hidden`                    | -         |
 | labelBackgroundZIndex         | 节点标签背景渲染层级                                                                                           | number                                   | 1         |
 
-**示例：**
+### 光晕样式
 
-```js {4-7}
-const graph = new Graph({
-  node: {
-    style: {
-      labelBackground: true, // 是否显示节点标签背景
-      labelBackgroundFill: '#000', // label背景填充
-      labelBackgroundRadius: 10, // label背景圆角
-      labelBackgroundFillOpacity: 0.5, // label背景透明度
-    },
-  },
-});
-```
+光晕是围绕节点主图形显示的效果，通常用于高亮显示或表示节点的特殊状态。
 
-效果如下：
+#### 基础光晕效果
 
-```js | ob { pin: false, inject: true }
+为节点添加基本的光晕效果：
+
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
-  width: 240,
+  width: 200,
   height: 100,
-  data: {
-    nodes: [
-      {
-        id: 'node1',
-        style: {
-          x: 120,
-          y: 40,
-          label: true,
-          labelText: '节点名称',
-          labelFill: '#000',
-          labelFontSize: 12,
-          labelFontWeight: 'normal',
-          labelPlacement: 'bottom',
-          labelBackground: true,
-          labelBackgroundFill: '#000',
-          labelBackgroundRadius: 10,
-          labelBackgroundFillOpacity: 0.5,
-        },
-      },
-    ],
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      lineWidth: 1.5,
+      halo: true,
+      haloStroke: '#1890FF',
+      haloLineWidth: 6,
+      haloStrokeOpacity: 0.3,
+    },
   },
 });
 
 graph.render();
 ```
 
-### 光晕样式
+以下为完整的光晕样式配置：
 
 | 属性              | 描述                                                                   | 类型                   | 默认值                       | 必选 |
 | ----------------- | ---------------------------------------------------------------------- | ---------------------- | ---------------------------- | ---- |
@@ -352,50 +531,32 @@ graph.render();
 | haloVisibility    | 节点光晕可见性                                                         | `visible` \| `hidden`  | `visible`                    |      |
 | haloZIndex        | 节点光晕渲染层级                                                       | number                 | -1                           |      |
 
-#### PointerEvents
+### 图标样式
 
-可选值有：
-`visible` | `visiblepainted` | `visiblestroke` | `non-transparent-pixel` | `visiblefill` | `visible` | `painted` | `fill` | `stroke` | `all` | `none` | `auto` | `inherit` | `initial` | `unset`
+节点图标支持三种常见的使用方式：文字图标、图片图标和 IconFont 图标。下面分别展示这三种方式的配置：
 
-**示例：**
+#### 1. 文字图标
 
-```js {4-6}
-const graph = new Graph({
-  node: {
-    style: {
-      halo: true, // 是否显示节点光晕
-      haloStroke: '#FF0000', // 节点光晕描边色
-      haloLineWidth: 10, // 节点光晕描边宽度
-    },
-  },
-});
-```
+直接使用文字作为图标，适合简单的标识：
 
-效果如下：
-
-```js | ob { pin: false, inject: true }
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
-  width: 240,
+  width: 200,
   height: 100,
-  data: {
-    nodes: [
-      {
-        id: 'node1',
-        style: {
-          x: 120,
-          y: 40,
-        },
-      },
-    ],
-  },
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
   node: {
     style: {
-      halo: true,
-      haloStroke: '#FF0000',
-      haloLineWidth: 10,
+      fill: '#FFF0F6',
+      stroke: '#EB2F96',
+      lineWidth: 1.5,
+      iconText: 'A', // 图标文字内容
+      iconFill: '#C41D7F', // 深粉色图标
+      iconFontSize: 16,
+      iconFontWeight: 'bold',
     },
   },
 });
@@ -403,7 +564,68 @@ const graph = new Graph({
 graph.render();
 ```
 
-### 图标样式
+#### 2. 图片图标
+
+使用图片作为图标，支持各种图片格式：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      fill: '#F6FFED',
+      stroke: '#52C41A',
+      lineWidth: 1.5,
+      iconSrc:
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMSA5TDEzLjA5IDE1Ljc4TDEyIDIyTDEwLjkxIDE1Ljc4TDMgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjNTJDNDFBIi8+Cjwvc3ZnPgo=',
+      iconWidth: 20,
+      iconHeight: 20,
+    },
+  },
+});
+
+graph.render();
+```
+
+#### 3. IconFont 图标
+
+使用 IconFont 字体图标，需要先引入相应的字体文件：
+
+```js | ob { inject: true }
+import { Graph, iconfont } from '@antv/g6';
+
+const style = document.createElement('style');
+style.innerHTML = `@import url('${iconfont.css}');`;
+document.head.appendChild(style);
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      fill: '#E6F7FF', // 淡蓝色背景
+      stroke: '#1890FF', // 蓝色边框
+      lineWidth: 1.5,
+      iconFontFamily: 'iconfont',
+      iconText: '\ue602',
+      iconFill: '#1890FF',
+    },
+  },
+});
+
+graph.render();
+```
+
+以下为完整的图标样式配置：
 
 | 属性                    | 描述                                | 类型                                                                        | 默认值           |
 | ----------------------- | ----------------------------------- | --------------------------------------------------------------------------- | ---------------- |
@@ -430,49 +652,28 @@ graph.render();
 | iconWidth               | 节点图标宽度                        | number                                                                      | 主图形宽度的一半 |
 | iconWordWrap            | 节点图标文本是否自动换行            | boolean                                                                     | -                |
 
-**示例：**
+### 徽标样式
 
-```js {4-8}
-const graph = new Graph({
-  node: {
-    style: {
-      iconText: '文本', // 图标文本
-      iconFill: '#FF0000', // 图标文本颜色
-      iconFontSize: 14, // 图标文本大小
-      iconFontWeight: 'bold', // 图标文本粗细
-      iconFontStyle: 'italic', // 图标文本样式
-    },
-  },
-});
-```
+徽标是节点上显示的小标记，通常用于展示状态、数量或其他辅助信息。支持多个徽标同时显示，并可自定义位置。
 
-效果如下：
+#### 单个徽标
 
-```js | ob { pin: false, inject: true }
+为节点添加一个简单的徽标：
+
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
-  width: 240,
+  width: 200,
   height: 100,
-  data: {
-    nodes: [
-      {
-        id: 'node1',
-        style: {
-          x: 120,
-          y: 40,
-        },
-      },
-    ],
-  },
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
   node: {
     style: {
-      iconText: '文本',
-      iconFill: '#FF0000',
-      iconFontSize: 14,
-      iconFontWeight: 'bold',
-      iconFontStyle: 'italic',
+      badges: [
+        { text: 'NEW' }, // 默认显示在上方
+      ],
     },
   },
 });
@@ -480,7 +681,70 @@ const graph = new Graph({
 graph.render();
 ```
 
-### 徽标样式
+#### 多个徽标
+
+为节点添加多个不同位置的徽标：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      badge: true, // 是否显示徽标
+      badges: [
+        { text: 'A', placement: 'right-top' },
+        { text: 'Important', placement: 'right' },
+        { text: 'Notice', placement: 'right-bottom' },
+      ],
+      badgePalette: ['#7E92B5', '#F4664A', '#FFBE3A'], // 徽标的背景色板
+      badgeFontSize: 7, // 徽标字体大小
+    },
+  },
+});
+
+graph.render();
+```
+
+#### 自定义徽标样式
+
+完全自定义徽标的外观：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      badges: [
+        {
+          text: '99+',
+          placement: 'right-top',
+          backgroundFill: '#FF4D4F', // 红色背景
+          fill: '#fff', // 白色文字
+          fontSize: 10,
+          padding: [2, 6],
+          backgroundRadius: 8,
+        },
+      ],
+    },
+  },
+});
+
+graph.render();
+```
+
+以下为完整的徽标样式配置：
 
 | 属性         | 描述               | 类型                                  | 默认值                            |
 | ------------ | ------------------ | ------------------------------------- | --------------------------------- |
@@ -534,28 +798,15 @@ graph.render();
 | wordWrap                 | 节点徽标文本是否自动换行                                                                                                                                                                                                          | boolean                                                                                                                                                                | -            |
 | zIndex                   | 节点徽标渲染层级                                                                                                                                                                                                                  | number                                                                                                                                                                 | 3            |
 
-例如，给一个节点添加三个不同含义的徽标：
+### 连接桩样式
 
-```js {6-8}
-const graph = new Graph({
-  node: {
-    style: {
-      badge: true, // 是否显示徽标
-      badges: [
-        { text: 'A', placement: 'right-top' },
-        { text: 'Important', placement: 'right' },
-        { text: 'Notice', placement: 'right-bottom' },
-      ],
-      badgePalette: ['#7E92B5', '#F4664A', '#FFBE3A'], // 徽标的背景色板
-      badgeFontSize: 7, // 徽标字体大小
-    },
-  },
-});
-```
+连接桩是节点上的连接点，用于连接边。支持在节点的不同位置添加多个连接桩，并可自定义样式。
 
-效果如下图所示：
+#### 基础连接桩
 
-```js | ob { pin: false, inject: true }
+为节点添加四个基本方向的连接桩：
+
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -563,19 +814,19 @@ const graph = new Graph({
   width: 200,
   height: 100,
   autoFit: 'center',
-  data: {
-    nodes: [{ id: 'node1', states: ['focus'] }],
-  },
+  data: { nodes: [{ id: 'node1' }] },
   node: {
     style: {
-      badge: true,
-      badges: [
-        { text: 'A', placement: 'right-top' },
-        { text: 'Important', placement: 'right' },
-        { text: 'Notice', placement: 'right-bottom' },
+      port: true,
+      ports: [
+        { key: 'top', placement: 'top', fill: '#7E92B5' },
+        { key: 'right', placement: 'right', fill: '#F4664A' },
+        { key: 'bottom', placement: 'bottom', fill: '#FFBE3A' },
+        { key: 'left', placement: 'left', fill: '#D580FF' },
       ],
-      badgePalette: ['#7E92B5', '#F4664A', '#FFBE3A'],
-      badgeFontSize: 7,
+      portR: 3,
+      portLineWidth: 1,
+      portStroke: '#fff',
     },
   },
 });
@@ -583,7 +834,75 @@ const graph = new Graph({
 graph.render();
 ```
 
-### 连接桩样式
+#### 自定义位置连接桩
+
+使用百分比或绝对坐标精确定位连接桩：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      ports: [
+        { key: 'custom1', placement: [0.2, 0] }, // 相对位置：左上角20%处
+        { key: 'custom2', placement: [0.8, 0] }, // 相对位置：右上角80%处
+        { key: 'custom3', placement: [1, 0.5] }, // 相对位置：右边中央
+      ],
+      portR: 4,
+      portLineWidth: 1,
+      portStroke: '#fff',
+    },
+  },
+});
+
+graph.render();
+```
+
+#### 差异化连接桩样式
+
+为不同的连接桩设置不同的样式：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: { nodes: [{ id: 'node1' }] },
+  node: {
+    style: {
+      ports: [
+        {
+          key: 'input',
+          placement: 'left',
+          fill: '#52C41A', // 绿色输入桩
+          r: 4,
+        },
+        {
+          key: 'output',
+          placement: 'right',
+          fill: '#FF4D4F', // 红色输出桩
+          r: 4,
+        },
+      ],
+      portStroke: '#fff', // 统一的描边颜色
+      portLineWidth: 2,
+    },
+  },
+});
+
+graph.render();
+```
+
+以下为完整的连接桩样式配置：
 
 | 属性  | 描述                                 | 类型                                | 默认值 | 必选 |
 | ----- | ------------------------------------ | ----------------------------------- | ------ | ---- |
@@ -603,7 +922,7 @@ graph.render();
 | fillOpacity       | 节点连接桩填充透明度                                                                                                                                                               | number                                                                                                                                                                                                 | 1         |      |
 | isBillboard       | 节点连接桩是否为Billboard 效果                                                                                                                                                     | boolean                                                                                                                                                                                                | -         |      |
 | isSizeAttenuation | 节点连接桩是否启用大小衰减                                                                                                                                                         | boolean                                                                                                                                                                                                | -         |      |
-| lineDash          | 节点连接桩描边虚线配置                                                                                                                                                             | number \| string \|(number \| string )[]                                                                                                                                                               | -         |
+| lineDash          | 节点连接桩描边虚线配置                                                                                                                                                             | number \| string \|(number \| string )[]                                                                                                                                                               | -         |      |
 | lineDashOffset    | 节点连接桩描边虚线偏移量                                                                                                                                                           | number                                                                                                                                                                                                 | -         |      |
 | lineWidth         | 节点连接桩描边线宽                                                                                                                                                                 | number                                                                                                                                                                                                 | -         |      |
 | shadowBlur        | 节点连接桩阴影模糊程度                                                                                                                                                             | number                                                                                                                                                                                                 | -         |      |
@@ -614,59 +933,6 @@ graph.render();
 | strokeOpacity     | 节点连接桩描边透明度                                                                                                                                                               | number \| string                                                                                                                                                                                       | 1         |      |
 | visibility        | 节点连接桩是否可见                                                                                                                                                                 | `visible` \| `hidden`                                                                                                                                                                                  | `visible` |      |
 | zIndex            | 节点连接桩渲染层级                                                                                                                                                                 | number                                                                                                                                                                                                 | 2         |      |
-
-例如，给一个节点显示添加四个连接桩：
-
-```js {6-9}
-const graph = new Graph({
-  node: {
-    style: {
-      port: true,
-      ports: [
-        { key: 'top', placement: 'top', fill: '#7E92B5' },
-        { key: 'right', placement: 'right', fill: '#F4664A' },
-        { key: 'bottom', placement: 'bottom', fill: '#FFBE3A' },
-        { key: 'left', placement: [0, 0.5], fill: '#D580FF' },
-      ],
-      portR: 3,
-      portLineWidth: 1,
-      portStroke: '#fff',
-    },
-  },
-});
-```
-
-效果如下图所示：
-
-```js | ob { pin: false, inject: true }
-import { Graph } from '@antv/g6';
-
-const graph = new Graph({
-  container: 'container',
-  width: 200,
-  height: 100,
-  autoFit: 'center',
-  data: {
-    nodes: [{ id: 'node1', states: ['focus'] }],
-  },
-  node: {
-    style: {
-      port: true,
-      ports: [
-        { key: 'top', placement: 'top', fill: '#7E92B5' },
-        { key: 'right', placement: 'right', fill: '#F4664A' },
-        { key: 'bottom', placement: 'bottom', fill: '#FFBE3A' },
-        { key: 'left', placement: [0, 0.5], fill: '#D580FF' },
-      ],
-      portR: 3,
-      portLineWidth: 1,
-      portStroke: '#fff',
-    },
-  },
-});
-
-graph.render();
-```
 
 ## State
 
