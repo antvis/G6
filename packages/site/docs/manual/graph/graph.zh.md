@@ -7,7 +7,7 @@ order: 0
 
 中文字“图”在大家的传统认知里指的是图画、图像，而图论与可视化中的“图”—— Graph 则有着更精确的定位：主体（objects）与关系（relationships）的组成。它甚至不局限于视觉，主体与关系的数据也可以称为图。
 
-> —— 摘自 [AntV 专栏](https://zhuanlan.zhihu.com/aiux-antv)文章：[Graph Visualization · 知多少 之 《HelloWorld 图可视化](https://zhuanlan.zhihu.com/p/83685690)。
+> —— 摘自 [AntV 专栏](https://zhuanlan.zhihu.com/aiux-antv) 文章：[Graph Visualization · 知多少 之 《HelloWorld 图可视化》](https://zhuanlan.zhihu.com/p/83685690)。
 
 在 G6 中，Graph 对象是图的载体，它包含了图上的所有元素（节点、边等），同时挂载了图的相关操作（如交互监听、元素操作、渲染等）。
 
