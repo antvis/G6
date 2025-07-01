@@ -1,9 +1,9 @@
 ---
 title: 自定义 Combo
-order: 3
+order: 4
 ---
 
-G6 提供了两种 [内置组合](/manual/element/combo/build-in/base-combo) 类型：圆形组合和矩形 Combo 。但在复杂的业务场景中，你可能需要创建具有特定样式、交互效果或行为逻辑的自定义 Combo 。
+G6 提供了两种 [内置组合](/manual/element/combo/base-combo) 类型：圆形组合和矩形 Combo 。但在复杂的业务场景中，你可能需要创建具有特定样式、交互效果或行为逻辑的自定义 Combo 。
 
 ## 开始之前：了解 Combo 的基本构成
 

@@ -1,9 +1,9 @@
 ---
 title: Custom Edge
-order: 10
+order: 7
 ---
 
-G6 provides various [built-in edge](/en/manual/element/edge/build-in/base-edge) types, such as straight edges, polyline edges, Bezier curve edges, etc. However, in actual projects, you may need to create custom edges with specific styles or interactive effects.
+G6 provides various [built-in edge](/en/manual/element/edge/base-edge) types, such as straight edges, polyline edges, Bezier curve edges, etc. However, in actual projects, you may need to create custom edges with specific styles or interactive effects.
 
 ## Before You Start: Understanding the Basic Composition of Edges
 

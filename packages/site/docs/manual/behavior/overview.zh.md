@@ -1,6 +1,6 @@
 ---
 title: 交互总览
-order: 1
+order: 0
 ---
 
 ## 什么是交互
@@ -25,30 +25,30 @@ const graph = new Graph({
 
 G6 提供了多种开箱即用的内置交互，**无需注册，直接配置即可使用**：
 
-| 分类     | 交互名称                                                              | 注册类型                      | 功能描述                   |
-| -------- | --------------------------------------------------------------------- | ----------------------------- | -------------------------- |
-| 导航     |                                                                       |                               |                            |
-|          | [拖拽画布](/manual/behavior/build-in/drag-canvas)                     | `drag-canvas`                 | 拖动整个画布视图           |
-|          | [缩放画布](/manual/behavior/build-in/zoom-canvas)                     | `zoom-canvas`                 | 缩放画布视图               |
-|          | [滚动画布](/manual/behavior/build-in/scroll-canvas)                   | `scroll-canvas`               | 使用滚轮滚动画布           |
-|          | [优化视口变换](/manual/behavior/build-in/optimize-viewport-transform) | `optimize-viewport-transform` | 优化视图变换性能           |
-| 选择     |                                                                       |                               |                            |
-|          | [点击选择](/manual/behavior/build-in/click-select)                    | `click-select`                | 点击选择图元素             |
-|          | [框选](/manual/behavior/build-in/brush-select)                        | `brush-select`                | 通过拖拽矩形区域选择元素   |
-|          | [套索选择](/manual/behavior/build-in/lasso-select)                    | `lasso-select`                | 自由绘制区域选择元素       |
-| 编辑     |                                                                       |                               |                            |
-|          | [创建边](/manual/behavior/build-in/create-edge)                       | `create-edge`                 | 交互式创建新的边           |
-|          | [拖拽元素](/manual/behavior/build-in/drag-element)                    | `drag-element`                | 拖动节点或组合             |
-|          | [力导向拖拽](/manual/behavior/build-in/drag-element-force)            | `drag-element-force`          | 力导向布局中拖动节点       |
-| 数据探索 |                                                                       |                               |                            |
-|          | [折叠/展开](/manual/behavior/build-in/collapse-expand)                | `collapse-expand`             | 展开或收起子树节点         |
-|          | [聚焦元素](/manual/behavior/build-in/focus-element)                   | `focus-element`               | 聚焦特定元素，自动调整视图 |
-|          | [悬停激活](/manual/behavior/build-in/hover-activate)                  | `hover-activate`              | 鼠标悬停时高亮元素         |
-| 视觉优化 |                                                                       |                               |                            |
-|          | [固定元素大小](/manual/behavior/build-in/fix-element-size)            | `fix-element-size`            | 将元素大小固定为指定值     |
-|          | [自适应标签](/manual/behavior/build-in/auto-adapt-label)              | `auto-adapt-label`            | 自动调整标签位置           |
+| 分类     | 交互名称                                                     | 注册类型                      | 功能描述                   |
+| -------- | ------------------------------------------------------------ | ----------------------------- | -------------------------- |
+| 导航     |                                                              |                               |                            |
+|          | [拖拽画布](/manual/behavior/drag-canvas)                     | `drag-canvas`                 | 拖动整个画布视图           |
+|          | [缩放画布](/manual/behavior/zoom-canvas)                     | `zoom-canvas`                 | 缩放画布视图               |
+|          | [滚动画布](/manual/behavior/scroll-canvas)                   | `scroll-canvas`               | 使用滚轮滚动画布           |
+|          | [优化视口变换](/manual/behavior/optimize-viewport-transform) | `optimize-viewport-transform` | 优化视图变换性能           |
+| 选择     |                                                              |                               |                            |
+|          | [点击选择](/manual/behavior/click-select)                    | `click-select`                | 点击选择图元素             |
+|          | [框选](/manual/behavior/brush-select)                        | `brush-select`                | 通过拖拽矩形区域选择元素   |
+|          | [套索选择](/manual/behavior/lasso-select)                    | `lasso-select`                | 自由绘制区域选择元素       |
+| 编辑     |                                                              |                               |                            |
+|          | [创建边](/manual/behavior/create-edge)                       | `create-edge`                 | 交互式创建新的边           |
+|          | [拖拽元素](/manual/behavior/drag-element)                    | `drag-element`                | 拖动节点或组合             |
+|          | [力导向拖拽](/manual/behavior/drag-element-force)            | `drag-element-force`          | 力导向布局中拖动节点       |
+| 数据探索 |                                                              |                               |                            |
+|          | [折叠/展开](/manual/behavior/collapse-expand)                | `collapse-expand`             | 展开或收起子树节点         |
+|          | [聚焦元素](/manual/behavior/focus-element)                   | `focus-element`               | 聚焦特定元素，自动调整视图 |
+|          | [悬停激活](/manual/behavior/hover-activate)                  | `hover-activate`              | 鼠标悬停时高亮元素         |
+| 视觉优化 |                                                              |                               |                            |
+|          | [固定元素大小](/manual/behavior/fix-element-size)            | `fix-element-size`            | 将元素大小固定为指定值     |
+|          | [自适应标签](/manual/behavior/auto-adapt-label)              | `auto-adapt-label`            | 自动调整标签位置           |
 
-各交互的详细配置可参考 [内置交互文档](/manual/behavior/build-in/drag-canvas)。
+各交互的详细配置可参考 [内置交互文档](/manual/behavior/drag-canvas)。
 
 :::warning{title=交互兼容性}
 某些交互在触发机制上可能存在重叠，如 `brush-select` 和 `drag-canvas` 都使用鼠标拖拽。这种情况下可以通过修改触发按键（如按住 `Shift` 拖拽选择）来避免冲突。

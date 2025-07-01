@@ -1,26 +1,11 @@
 ---
 title: Custom Node
-order: 3
+order: 12
 ---
 
-G6 provides a series of [built-in nodes](/en/manual/element/node/build-in/base-node), including [circle](/en/manual/element/node/build-in/circle), [diamond](/en/manual/element/node/build-in/diamond), [donut](/en/manual/element/node/build-in/donut), [ellipse](/en/manual/element/node/build-in/ellipse), [hexagon](/en/manual/element/node/build-in/hexagon), [html](/en/manual/element/node/build-in/html), [image](/en/manual/element/node/build-in/image), [rect](/en/manual/element/node/build-in/rect), [star](/en/manual/element/node/build-in/star), and [triangle](/en/manual/element/node/build-in/triangle). These built-in nodes can meet most basic scene requirements.
+G6 provides a series of [built-in nodes](/en/manual/element/node/base-node), including [circle](/en/manual/element/node/circle), [diamond](/en/manual/element/node/diamond), [donut](/en/manual/element/node/donut), [ellipse](/en/manual/element/node/ellipse), [hexagon](/en/manual/element/node/hexagon), [html](/en/manual/element/node/html), [image](/en/manual/element/node/image), [rect](/en/manual/element/node/rect), [star](/en/manual/element/node/star), and [triangle](/en/manual/element/node/triangle). These built-in nodes can meet most basic scene requirements.
 
 However, in actual projects, you may encounter needs that these basic nodes cannot meet. In this case, you need to create custom nodes. Don't worry, it's simpler than you think!
-
-## Before You Start: Understanding the Basic Composition of Nodes
-
-In G6, a complete node is usually composed of multiple parts, like building blocks, these parts are combined to form a feature-rich node.
-
-<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Ot4bSbBx97EAAAAAAAAAAAAADmJ7AQ/original" />
-
-Main components:
-
-- `key`: The main shape of the node, such as basic shapes like rectangles and circles
-- `label`: Text label, usually used to display the name or description of the node
-- `icon`: Icon, showing the type or status of the node
-- `badge`: Badge, a small mark located at the corner of the node
-- `halo`: Halo effect displayed around the main shape of the node
-- `port`: Connection point, a point where edges can connect
 
 ## Ways to Customize Nodes <Badge type="warning">Choose the Right Way</Badge>
 

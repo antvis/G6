@@ -1,6 +1,6 @@
 ---
 title: Node Overview
-order: 1
+order: 0
 ---
 
 ## What is a Node

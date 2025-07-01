@@ -1,6 +1,6 @@
 ---
 title: Define Nodes with React
-order: 5
+order: 13
 ---
 
 In G6, custom nodes typically require manipulating DOM or Canvas elements, but with the help of the `@antv/g6-extension-react` ecosystem library, you can directly use React components as node content, enhancing development efficiency and maintainability.

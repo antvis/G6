@@ -13,7 +13,7 @@ For example, in the images below: the node on the left contains a single circula
 
 > (Left) A node with only one circular shape, whose keyShape is the circle. (Middle) A node with a circle and a text shape, whose keyShape is the circle. (Right) A node with a main circle, text, and four small circles at the top, bottom, left, and right, whose keyShape is the main circle.
 
-G6 uses different combinations of shapes to design various built-in nodes/edges/combos. Built-in nodes include 'circle', 'rect', 'ellipse', ... (see [Built-in Nodes](/en/manual/element/node/build-in/base-node)); built-in edges include 'line', 'polyline', 'cubic', ... (see [Built-in Edges](/en/manual/element/edge/build-in/base-edge)); built-in combos include 'circle', 'rect', ... (see [Built-in Combos](/en/manual/element/combo/build-in/base-combo)).
+G6 uses different combinations of shapes to design various built-in nodes/edges/combos. Built-in nodes include 'circle', 'rect', 'ellipse', ... (see [Built-in Nodes](/en/manual/element/node/base-node)); built-in edges include 'line', 'polyline', 'cubic', ... (see [Built-in Edges](/en/manual/element/edge/base-edge)); built-in combos include 'circle', 'rect', ... (see [Built-in Combos](/en/manual/element/combo/base-combo)).
 
 In addition to using built-in nodes/edges/combos, G6 also allows users to customize nodes/edges/combos by combining shapes as needed. See [Custom Node](/en/manual/element/node/custom-node), [Custom Edge](/en/manual/element/edge/custom-edge), and [Custom Combo](/en/manual/element/combo/custom-combo) for details.
 

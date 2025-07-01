@@ -1,6 +1,6 @@
 ---
 title: Layout Overview
-order: 1
+order: 0
 ---
 
 ## Overview
@@ -13,26 +13,26 @@ Graph layout refers to the process of arranging elements in a graph according to
 
 G6 provides a variety of layout algorithms, allowing users to choose the appropriate one based on their needs:
 
-- [AntVDagreLayout](/en/manual/layout/build-in/antv-dagre-layout): Custom layout based on dagre
-- [CircularLayout](/en/manual/layout/build-in/circular-layout): Circular layout
-- [ComboCombinedLayout](/en/manual/layout/build-in/combo-combined-layout): Layout suitable for combinations
-- [ConcentricLayout](/en/manual/layout/build-in/concentric-layout): Concentric layout
-- [D3Force3DLayout](/en/manual/layout/build-in/d3-force3-d-layout): [3D Force-directed](https://github.com/vasturiano/d3-force-3d) layout
-- [D3ForceLayout](/en/manual/layout/build-in/d3-force-layout): Force-directed layout based on [D3](https://d3js.org/d3-force)
-- [DagreLayout](/en/manual/layout/build-in/dagre-layout): [dagre](https://github.com/dagrejs/dagre) layout
-- [FishboneLayout](/en/manual/layout/build-in/fishbone): Fishbone layout
-- [ForceAtlas2Layout](/en/manual/layout/build-in/force-atlas2-layout): [ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) layout
-- [ForceLayout](/en/manual/layout/build-in/force-layout): Force-directed layout
-- [FruchtermanLayout](/en/manual/layout/build-in/fruchterman-layout): [Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) layout
-- [GridLayout](/en/manual/layout/build-in/grid-layout): Grid layout
-- [MDSLayout](/en/manual/layout/build-in/mds-layout): High-dimensional data dimensionality reduction layout
-- [RadialLayout](/en/manual/layout/build-in/radial-layout): Radial layout
-- [RandomLayout](/en/manual/layout/build-in/random-layout): Random layout
-- [SnakeLayout](/en/manual/layout/build-in/snake): Snake layout
-- [CompactBoxLayout](/en/manual/layout/build-in/compact-box-layout): Compact tree layout
-- [DendrogramLayout](/en/manual/layout/build-in/dendrogram-layout): Dendrogram layout
-- [MindmapLayout](/en/manual/layout/build-in/mindmap-layout): Mindmap layout
-- [IndentedLayout](/en/manual/layout/build-in/indented-layout): Indented tree layout
+- [AntVDagreLayout](/en/manual/layout/antv-dagre-layout): Custom layout based on dagre
+- [CircularLayout](/en/manual/layout/circular-layout): Circular layout
+- [ComboCombinedLayout](/en/manual/layout/combo-combined-layout): Layout suitable for combinations
+- [ConcentricLayout](/en/manual/layout/concentric-layout): Concentric layout
+- [D3Force3DLayout](/en/manual/layout/d3-force3-d-layout): [3D Force-directed](https://github.com/vasturiano/d3-force-3d) layout
+- [D3ForceLayout](/en/manual/layout/d3-force-layout): Force-directed layout based on [D3](https://d3js.org/d3-force)
+- [DagreLayout](/en/manual/layout/dagre-layout): [dagre](https://github.com/dagrejs/dagre) layout
+- [FishboneLayout](/en/manual/layout/fishbone): Fishbone layout
+- [ForceAtlas2Layout](/en/manual/layout/force-atlas2-layout): [ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) layout
+- [ForceLayout](/en/manual/layout/force-layout): Force-directed layout
+- [FruchtermanLayout](/en/manual/layout/fruchterman-layout): [Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) layout
+- [GridLayout](/en/manual/layout/grid-layout): Grid layout
+- [MDSLayout](/en/manual/layout/mds-layout): High-dimensional data dimensionality reduction layout
+- [RadialLayout](/en/manual/layout/radial-layout): Radial layout
+- [RandomLayout](/en/manual/layout/random-layout): Random layout
+- [SnakeLayout](/en/manual/layout/snake): Snake layout
+- [CompactBoxLayout](/en/manual/layout/compact-box-layout): Compact tree layout
+- [DendrogramLayout](/en/manual/layout/dendrogram-layout): Dendrogram layout
+- [MindmapLayout](/en/manual/layout/mindmap-layout): Mindmap layout
+- [IndentedLayout](/en/manual/layout/indented-layout): Indented tree layout
 
 Among them, `CompactBox Layout`, `Dendrogram Layout`, `Mindmap Layout`, and `Indented Layout` are types of tree layouts suitable for tree-structured graphs.
 

@@ -1,6 +1,6 @@
 ---
 title: 使用 React 定义节点
-order: 5
+order: 13
 ---
 
 在 G6 中，自定义节点通常需要操作 DOM 或 Canvas 元素，但借助 `@antv/g6-extension-react` 一方生态库，可以直接使用 React 组件作为节点内容，提升开发效率与可维护性。

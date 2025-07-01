@@ -1,6 +1,6 @@
 ---
 title: 自定义数据处理
-order: 3
+order: 4
 ---
 
 ## 概述
@@ -59,7 +59,7 @@ order: 3
 
 - **需求**
 
-  使用 [环形布局](/manual/layout/build-in/circular-layout) 时，节点 label 的也需要像内置数据处理器 [PlaceRadialLabels](/manual/transform/build-in/place-radial-labels) 一样实现径向展示（但 PlaceRadialLabels 只支持径向布局，环形布局不是径向布局）
+  使用 [环形布局](/manual/layout/circular-layout) 时，节点 label 的也需要像内置数据处理器 [PlaceRadialLabels](/manual/transform/place-radial-labels) 一样实现径向展示（但 PlaceRadialLabels 只支持径向布局，环形布局不是径向布局）
 
 - **实现**
 
@@ -136,4 +136,4 @@ order: 3
   <embed src="@/common/manual/custom-extension/transform/circular-radial-labels.md"></embed>
 
 - **说明**
-  上面的实现基本是参考内置数据处理器 [PlaceRadialLabels](/manual/transform/build-in/place-radial-labels) 来实现的，区别是这里的实现是通过拿到布局中心来计算偏移和旋转，具体可参考 PlaceRadialLabels 的 [源码](https://github.com/antvis/G6/blob/v5/packages/g6/src/transforms/place-radial-labels.ts)
+  上面的实现基本是参考内置数据处理器 [PlaceRadialLabels](/manual/transform/place-radial-labels) 来实现的，区别是这里的实现是通过拿到布局中心来计算偏移和旋转，具体可参考 PlaceRadialLabels 的 [源码](https://github.com/antvis/G6/blob/v5/packages/g6/src/transforms/place-radial-labels.ts)

@@ -1,9 +1,9 @@
 ---
 title: Custom Combo
-order: 3
+order: 4
 ---
 
-G6 provides two types of [built-in combos](/en/manual/element/combo/build-in/base-combo): circular combos and rectangular combos. However, in complex business scenarios, you may need to create custom combos with specific styles, interactive effects, or behavior logic.
+G6 provides two types of [built-in combos](/en/manual/element/combo/base-combo): circular combos and rectangular combos. However, in complex business scenarios, you may need to create custom combos with specific styles, interactive effects, or behavior logic.
 
 ## Before You Start: Understanding the Basic Composition of Combos
 

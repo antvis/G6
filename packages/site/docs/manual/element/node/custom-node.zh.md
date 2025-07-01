@@ -1,26 +1,11 @@
 ---
 title: 自定义节点
-order: 3
+order: 12
 ---
 
-G6 提供了一系列 [内置节点](/manual/element/node/build-in/base-node)，包含 [circle（圆形节点）](/manual/element/node/build-in/circle)、[diamond（菱形节点）](/manual/element/node/build-in/diamond)、[donut（甜甜圈节点）](/manual/element/node/build-in/donut)、[ellipse（椭圆节点）](/manual/element/node/build-in/ellipse)、[hexagon（六边形节点）](/manual/element/node/build-in/hexagon)、[html（HTML节点）](/manual/element/node/build-in/html)、[image（图片节点）](/manual/element/node/build-in/image)、[rect（矩形节点）](/manual/element/node/build-in/rect)、[star（星形节点）](/manual/element/node/build-in/star) 和 [triangle（三角形节点）](/manual/element/node/build-in/triangle)。这些内置节点能够满足大部分基础场景需求。
+G6 提供了一系列 [内置节点](/manual/element/node/base-node)，包含 [circle（圆形节点）](/manual/element/node/circle)、[diamond（菱形节点）](/manual/element/node/diamond)、[donut（甜甜圈节点）](/manual/element/node/donut)、[ellipse（椭圆节点）](/manual/element/node/ellipse)、[hexagon（六边形节点）](/manual/element/node/hexagon)、[html（HTML节点）](/manual/element/node/html)、[image（图片节点）](/manual/element/node/image)、[rect（矩形节点）](/manual/element/node/rect)、[star（星形节点）](/manual/element/node/star) 和 [triangle（三角形节点）](/manual/element/node/triangle)。这些内置节点能够满足大部分基础场景需求。
 
 但在实际项目中，你可能会遇到这些基础节点无法满足的需求。这时，你需要创建自定义节点。别担心，这比你想象的要简单！
-
-## 开始之前：了解节点的基本构成
-
-在 G6 中，一个完整的节点通常由多个部分组成，就像搭积木一样，这些部分组合在一起形成一个功能丰富的节点。
-
-<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Ot4bSbBx97EAAAAAAAAAAAAADmJ7AQ/original" />
-
-主要组成部分：
-
-- `key` ：节点的主图形，如矩形、圆形等基本形状
-- `label` ：文本标签，通常用于展示节点的名称或描述
-- `icon` ：图标，展示节点的类型或状态
-- `badge` ：徽标，位于节点角落的小标记
-- `halo` ：节点主图形周围展示的光晕效果
-- `port` ：连接桩，边线可以连接的点
 
 ## 自定义节点的方式 <Badge type="warning">选择合适的方式</Badge>
 
