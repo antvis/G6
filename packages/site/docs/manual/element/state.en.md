@@ -3,47 +3,51 @@ title: Element State
 order: 2
 ---
 
-## Overview
+## What is Element State
 
 <image width="500px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yVbORYybrDQAAAAAAAAAAAAADmJ7AQ/original" />
 
-State refers to the condition in which an element exists, such as **selected, hovered, activated**, etc. States allow elements to display different styles in different conditions, helping users to understand the information in the graph more intuitively.
+Element State refers to the visual representation of elements (nodes, edges, combos) in a graph under different interaction scenarios. For example, when a user clicks on a node, the node might enter a "selected" state and change color; when the mouse hovers over an edge, the edge might enter a "highlight" state and become bold.
 
-Key features include:
+**Simply put, states allow elements to dynamically change their appearance based on user operations or business logic.**
 
-- **Multiple States Coexist**: An element can have multiple states simultaneously, such as being both "selected" and "highlighted"
-- **Style Cascading**: Styles of multiple states will overlay according to priority, with later applied state styles overriding earlier ones
-- **Flexible Customization**: In addition to preset states, users can define any custom states according to business needs
+### Characteristics of States
 
-## Preset State Types
+- **Multiple State Coexistence**: An element can have multiple states simultaneously, such as being both "selected" and "highlighted"
+- **Style Stacking**: Styles from multiple states are stacked together, with later-set state styles having higher priority
+- **Complete Customization**: Besides built-in states, you can create any custom states that meet your business requirements
 
-G6 provides several common state types:
+## Built-in State Types
 
-- `selected`: Selected state, usually used to indicate elements chosen by the user
-- `active`: Active state, usually used to indicate currently interactive active elements
-- `highlight`: Highlight state, usually used to emphasize specific elements
-- `inactive`: Inactive state, usually used to fade out non-focused elements
-- `disable`: Disabled state, usually used to indicate non-interactive elements
+G6 provides some commonly used built-in states that you can use directly:
 
-> **Note**: When an element has no state set, it is in the "default state". Preset states are not mandatory, and users can define their own state types as needed.
+| State Name  | Description     | Typical Use Cases                    |
+| ----------- | --------------- | ------------------------------------ |
+| `selected`  | Selected state  | When user clicks to select elements  |
+| `active`    | Active state    | Currently interacting element        |
+| `highlight` | Highlight state | Elements that need emphasis          |
+| `inactive`  | Inactive state  | Dimmed display of unfocused elements |
+| `disable`   | Disabled state  | Non-interactive elements             |
 
-## Configuration and Usage
+> 💡 **Tip**: These built-in states are not mandatory. You can completely define your own state names according to business requirements.
 
-### Configure State Styles
+## Configuring State Styles
 
-Currently, G6 supports configuring state styles in style mapping, for example:
+### Basic Configuration
+
+Configure corresponding styles for different states when creating a graph instance:
 
 ```javascript
 const graph = new Graph({
-  // Other configurations...
+  // Node state style configuration
   node: {
-    // Default state style
+    // Default style (style when no state is applied)
     style: {
       fill: '#C6E5FF',
       stroke: '#5B8FF9',
       lineWidth: 1,
     },
-    // Styles for each state
+    // Styles for various states
     state: {
       selected: {
         fill: '#95D6FB',
@@ -64,139 +68,75 @@ const graph = new Graph({
     },
   },
 
-  // Default styles and state styles for edges
+  // Edge state style configuration
   edge: {
     style: {
-      /* Default style */
+      stroke: '#E2E2E2',
+      lineWidth: 1,
     },
     state: {
       selected: {
-        /* Selected state style */
+        stroke: '#1890FF',
+        lineWidth: 2,
       },
       highlight: {
-        /* Highlight state style */
+        stroke: '#FF6A00',
+        lineWidth: 3,
       },
-      // Other states...
     },
   },
 
-  // Default styles and state styles for combos
+  // Combo state style configuration
   combo: {
     style: {
-      /* Default style */
+      fill: '#F0F0F0',
+      stroke: '#D9D9D9',
     },
     state: {
       selected: {
-        /* Selected state style */
+        stroke: '#1890FF',
+        lineWidth: 2,
       },
-      // Other states...
     },
   },
 });
 ```
 
-### Set Element State
+### Custom States
 
-Before rendering, you can configure the initial state of elements in the data:
-
-```javascript
-const data = {
-  nodes: [
-    {
-      id: 'node1',
-      states: ['selected'], // This node is initially in the selected state
-      // Other node attributes...
-    },
-    {
-      id: 'node2',
-      states: ['disabled'], // This node is initially in the disabled state
-      // Other node attributes...
-    },
-  ],
-  edges: [
-    {
-      source: 'node1',
-      target: 'node2',
-      states: ['highlight'], // This edge is initially in the highlight state
-      // Other edge attributes...
-    },
-  ],
-};
-```
-
-A more common scenario is dynamically changing the state of elements through user interaction:
-
-```javascript
-// Example 1: Set a single node to the selected state
-graph.setElementState('node1', 'selected');
-
-// Example 2: Set multiple states simultaneously
-graph.setElementState('node2', ['highlight', 'active']);
-
-// Example 3: Batch set states for multiple elements
-graph.setElementState({
-  node1: ['selected'],
-  node2: ['highlight'],
-  edge1: ['active'],
-});
-
-// Example 4: Remove states (revert to default state)
-graph.setElementState('node1', []);
-```
-
-### Query Element State
-
-G6 provides multiple APIs to get states or determine if an element is in a certain state:
-
-```javascript
-// Get all states of a specified element (returns an array of states)
-const states = graph.getElementState('node1');
-console.log(states); // Example: ['selected', 'highlight']
-```
-
-> When an element is only in the **default state**, the return value of `getElementState` is `[]`.
-
-```javascript
-// Get all node data in a specified state
-const selectedNodes = graph.getElementDataByState('node', 'selected');
-```
-
-## State Priority and Style Overlay
-
-When an element is in multiple states, the priority of the states is determined by the order in the state array. For example, if a node is in both `['selected', 'highlight']` states, the final state style is:
-
-> Final Style = Default State Style + Selected State Style + Highlight State Style
-
-If there is a conflict in styles of different states (e.g., both set the `fill` attribute), the style of the later state will override the earlier one.
-
-### Custom State
-
-You can create custom states according to business needs:
+You can create any custom states that meet your business requirements:
 
 ```javascript
 const graph = new Graph({
-  // Other configurations...
   node: {
     style: {
-      /* Default style */
+      fill: '#C6E5FF',
+      stroke: '#5B8FF9',
     },
     state: {
+      // Custom state: error
+      error: {
+        fill: '#FFEBE6',
+        stroke: '#FF4D4F',
+        lineWidth: 2,
+        lineDash: [4, 4], // Dashed border
+      },
+      // Custom state: success
+      success: {
+        fill: '#F6FFED',
+        stroke: '#52C41A',
+        lineWidth: 2,
+      },
       // Custom state: warning
       warning: {
-        fill: '#FFF7E6',
-        stroke: '#FA8C16',
+        fill: '#FFFBE6',
+        stroke: '#FAAD14',
         lineWidth: 2,
-        lineDash: [4, 4],
-      },
-      // Custom state: encrypted
-      encrypted: {
-        fill: '#E6F7FF',
-        stroke: '#1890FF',
+        // Add icon
         icon: {
           show: true,
-          img: 'https://path/to/lock-icon.png',
-          width: 16,
-          height: 16,
+          text: '⚠️',
+          fontSize: 16,
         },
       },
     },
@@ -204,9 +144,151 @@ const graph = new Graph({
 });
 ```
 
-Apply custom states:
+## Setting Element States
+
+### Setting Initial States in Data
+
+Set initial states for elements in data:
 
 ```javascript
-graph.setElementState('node1', 'warning');
-graph.setElementState('node2', 'encrypted');
+const data = {
+  nodes: [
+    {
+      id: 'node1',
+      states: ['selected'], // Initially in selected state
+    },
+    {
+      id: 'node2',
+      states: ['disabled'], // Initially in disabled state
+    },
+    {
+      id: 'node3',
+      states: ['highlight', 'active'], // Initially has multiple states
+    },
+  ],
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2',
+      states: ['highlight'], // Initial state of the edge
+    },
+  ],
+};
+
+graph.setData(data);
+```
+
+### Dynamic State Setting
+
+Dynamically change element states through API:
+
+```javascript
+// Set a single state for a single element
+graph.setElementState('node1', 'selected');
+
+// Set multiple states for a single element
+graph.setElementState('node2', ['highlight', 'active']);
+
+// Batch set states for multiple elements
+graph.setElementState({
+  node1: ['selected'],
+  node2: ['highlight'],
+  edge1: ['active'],
+});
+```
+
+### State Stacking Effect
+
+When an element has multiple states, styles are stacked in order:
+
+```javascript
+// Assume a node has both selected and highlight states
+graph.setElementState('node1', ['selected', 'highlight']);
+
+// Final style = default style + selected state style + highlight state style
+// If there are style conflicts, later state styles will override earlier ones
+```
+
+## Clearing Element States
+
+### Clear All States
+
+Restore elements to default state (no states):
+
+```javascript
+// Clear all states of a single element
+graph.setElementState('node1', []);
+
+// Batch clear states of multiple elements
+graph.setElementState({
+  node1: [],
+  node2: [],
+  edge1: [],
+});
+```
+
+### Clear Specific States
+
+If an element has multiple states, you can clear only some of them:
+
+```javascript
+// Assume node1 currently has ['selected', 'highlight', 'active'] three states
+// Now only want to keep 'selected' state, clear other states
+graph.setElementState('node1', ['selected']);
+
+// Or get current states, then filter out unwanted states
+const currentStates = graph.getElementState('node1');
+const newStates = currentStates.filter((state) => state !== 'highlight');
+graph.setElementState('node1', newStates);
+```
+
+### Clear Specific States from All Elements
+
+```javascript
+// Clear 'highlight' state from all nodes
+const allNodes = graph.getNodeData();
+const stateUpdates = {};
+
+allNodes.forEach((node) => {
+  const currentStates = graph.getElementState(node.id);
+  const newStates = currentStates.filter((state) => state !== 'highlight');
+  stateUpdates[node.id] = newStates;
+});
+
+graph.setElementState(stateUpdates);
+```
+
+## Querying Element States
+
+### Get Element States
+
+```javascript
+// Get all states of a specified element
+const states = graph.getElementState('node1');
+console.log(states); // For example: ['selected', 'highlight']
+
+// If element has no states, returns empty array
+console.log(states); // []
+```
+
+### Find Elements with Specific States
+
+```javascript
+// Get all node data in 'selected' state
+const selectedNodes = graph.getElementDataByState('node', 'selected');
+
+// Get all edge data in 'highlight' state
+const highlightEdges = graph.getElementDataByState('edge', 'highlight');
+```
+
+### Check if Element is in Specific State
+
+```javascript
+// Check if element is in specific state
+const states = graph.getElementState('node1');
+const isSelected = states.includes('selected');
+const isHighlight = states.includes('highlight');
+
+console.log('Is node selected:', isSelected);
+console.log('Is node highlighted:', isHighlight);
 ```
