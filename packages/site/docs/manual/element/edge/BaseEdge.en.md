@@ -1,58 +1,78 @@
 ---
-title: Common Edge Configurations
+title: Edge Common Configuration
 order: 1
 ---
 
-This article introduces edge property configuration, with configuration locations as follows:
+This document introduces the built-in edge common property configurations.
+
+## EdgeOptions
 
 ```js {5-9}
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   edge: {
-    type: 'line', // Edge type configuration
-    style: {}, // Edge style configuration
-    state: {}, // Edge state style
-    palette: {}, // Edge palette configuration
-    animation: {}, // Edge animation configuration
+    type: 'line', // Edge type
+    style: {}, // Edge style
+    state: {}, // State styles
+    palette: {}, // Palette configuration
+    animation: {}, // Animation configuration
   },
 });
 ```
 
-## EdgeOptions
-
-| Attribute | Description                                                             | Type                    | Default | Required |
-| --------- | ----------------------------------------------------------------------- | ----------------------- | ------- | -------- |
-| type      | Edge type, name of built-in edge type or custom edge                    | [Type](#type)           | `line`  |          |
-| style     | Edge style, including color, size, etc.                                 | [Style](#style)         | -       |          |
-| state     | Define styles of edges in different states                              | [State](#state)         | -       |          |
-| palette   | Define the palette of edges, used to map colors based on different data | [Palette](#palette)     | -       |          |
-| animation | Define the animation effects of edges                                   | [Animation](#animation) | -       |          |
+| Property  | Description                                                    | Type                    | Default | Required |
+| --------- | -------------------------------------------------------------- | ----------------------- | ------- | -------- |
+| type      | Edge type, built-in edge type name or custom edge name         | [Type](#type)           | `line`  |          |
+| style     | Edge style configuration, including color, thickness, etc.     | [Style](#style)         | -       |          |
+| state     | Style configuration for different states                       | [State](#state)         | -       |          |
+| palette   | Define edge palette for mapping colors based on different data | [Palette](#palette)     | -       |          |
+| animation | Define edge animation effects                                  | [Animation](#animation) | -       |          |
 
 ## Type
 
-Specify the edge type, name of built-in edge type or custom edge. The default is `line` (straight edge).
+Specify the edge type, built-in edge type name or custom edge name. Default is `line` (straight line edge). **⚠️ Note**: This determines the shape of the main graphic.
 
 ```js {3}
 const graph = new Graph({
   edge: {
-    type: 'polyline', // Edge type configuration
+    type: 'polyline',
   },
 });
 ```
 
-Optional values are:
+**⚠️ Dynamic Configuration Note**: The `type` property also supports dynamic configuration, allowing you to dynamically select edge types based on edge data:
 
-- `cubic-horizontal`: [Horizontal Cubic Bezier Curve](/en/manual/element/edge/cubic-horizontal)
-- `cubic-vertical`: [Vertical Cubic Bezier Curve](/en/manual/element/edge/cubic-vertical)
-- `cubic`: [Cubic Bezier Curve](/en/manual/element/edge/cubic)
-- `line`: [Straight Line](/en/manual/element/edge/line)
-- `polyline`: [Polyline](/en/manual/element/edge/polyline)
-- `quadratic`: [Quadratic Bezier Curve](/en/manual/element/edge/quadratic)
+```js
+const graph = new Graph({
+  edge: {
+    // Static configuration
+    type: 'line',
+
+    // Dynamic configuration - arrow function form
+    type: (datum) => datum.data.edgeType || 'line',
+
+    // Dynamic configuration - regular function form (can access graph instance)
+    type: function (datum) {
+      console.log(this); // graph instance
+      return datum.data.importance > 5 ? 'polyline' : 'line';
+    },
+  },
+});
+```
+
+Available values:
+
+- `line`: [Straight line edge](/en/manual/element/edge/line)
+- `polyline`: [Polyline edge](/en/manual/element/edge/polyline)
+- `cubic`: [Cubic Bezier curve edge](/en/manual/element/edge/cubic)
+- `cubic-horizontal`: [Horizontal cubic Bezier curve edge](/en/manual/element/edge/cubic-horizontal)
+- `cubic-vertical`: [Vertical cubic Bezier curve edge](/en/manual/element/edge/cubic-vertical)
+- `quadratic`: [Quadratic Bezier curve edge](/en/manual/element/edge/quadratic)
 
 ## Style
 
-Define the style of the edge, including color, size, etc.
+Define edge styles, including color, thickness, etc.
 
 ```js {3}
 const graph = new Graph({
@@ -62,91 +82,256 @@ const graph = new Graph({
 });
 ```
 
+**⚠️ Dynamic Configuration Note**: All the following style properties support dynamic configuration, meaning you can pass functions to dynamically calculate property values based on edge data:
+
+```js
+const graph = new Graph({
+  edge: {
+    style: {
+      // Static configuration
+      stroke: '#1783FF',
+
+      // Dynamic configuration - arrow function form
+      lineWidth: (datum) => (datum.data.isImportant ? 3 : 1),
+
+      // Dynamic configuration - regular function form (can access graph instance)
+      lineDash: function (datum) {
+        console.log(this); // graph instance
+        return datum.data.type === 'dashed' ? [5, 5] : [];
+      },
+
+      // Nested properties also support dynamic configuration
+      labelText: (datum) => `Edge: ${datum.id}`,
+      endArrow: (datum) => datum.data.hasArrow,
+    },
+  },
+});
+```
+
+Where the `datum` parameter is the edge data object (`EdgeData`), containing all data information of the edge.
+
 A complete edge consists of the following parts:
 
 <img width="320" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cVHVQJKLOlgAAAAAAAAAAAAADmJ7AQ/original" />
 
-> To understand the composition of edges, please read [Element - Edge](/en/manual/element/edge/overview#edge-composition).
+- `key`: The main graphic of the edge, representing the main path of the edge, such as straight lines, curves, etc.
+- `label`: Text label, usually used to display the name or description of the edge
+- `badge`: Badge on the edge
+- `halo`: The halo effect graphic displayed around the main graphic
+- `startArrow`: Arrow at the starting end of the edge
+- `endArrow`: Arrow at the ending end of the edge
 
-The following style configurations will be explained in sequence according to atomic graphics:
+The following style configurations will be explained by atomic graphics in order:
 
-### Main Graphic Style Key
+### Main Graphic Styles
 
-| Attribute                       | Description                                                                                                   | Type                                 | Default   |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------ | --------- |
-| class                           | Edge className                                                                                                | string                               | -         |
-| cursor                          | Edge mouse hover style, [configuration item](#cursor)                                                         | string                               | `default` |
-| draggable                       | Whether the edge is draggable                                                                                 | false                                | boolean   |
-| droppable                       | Whether the edge is droppable for dragged elements                                                            | false                                | boolean   |
-| fill                            | Edge area fill color                                                                                          | string                               | -         |
-| fillRule                        | Edge internal fill rule                                                                                       | `nonzero` &#124; `evenodd`           | -         |
-| filter                          | Edge shadow filter effect                                                                                     | string                               | -         |
-| increasedLineWidthForHitTesting | When the edge width is too small, it can be used to enlarge the interaction area                              | string &#124; number                 | -         |
-| isBillboard                     | Effective in 3D scenes, always facing the screen, so the line width is not affected by perspective projection | true                                 | boolean   |
-| lineDash                        | Edge dashed line style                                                                                        | 0                                    | number    |
-| lineDashOffset                  | Edge dashed line offset                                                                                       | number                               | 0         |
-| lineWidth                       | Edge width                                                                                                    | 1                                    | number    |
-| opacity                         | Overall opacity of the edge                                                                                   | number                               | 1         |
-| pointerEvents                   | Whether the edge responds to pointer events, [configuration item](#pointerevents)                             | string                               | -         |
-| shadowBlur                      | Edge shadow blur effect                                                                                       | number                               | -         |
-| shadowColor                     | Edge shadow color                                                                                             | string                               | -         |
-| shadowOffsetX                   | Edge shadow X-axis offset                                                                                     | number                               | -         |
-| shadowOffsetY                   | Edge shadow Y-axis offset                                                                                     | number                               | -         |
-| shadowType                      | Edge shadow type                                                                                              | `inner` &#124; `outer` &#124; `both` | -         |
-| sourcePort                      | Source port of the edge connection                                                                            | -                                    | string    |
-| stroke                          | Edge color                                                                                                    | `#000`                               | string    |
-| strokeOpacity                   | Edge color opacity                                                                                            | number                               | 1         |
-| targetPort                      | Target port of the edge connection                                                                            | -                                    | string    |
-| transform                       | The transform attribute allows you to rotate, scale, skew, or translate the given edge                        | string                               | -         |
-| transformOrigin                 | Rotation and scaling center, also known as the transformation center                                          | string                               | -         |
-| visibility                      | Whether the edge is visible                                                                                   | `visible` &#124; `hidden`            | `visible` |
-| zIndex                          | Edge rendering level                                                                                          | number                               | 1         |
+The main graphic is the core part of the edge, defining the basic path and appearance of the edge. Here are common configuration scenarios:
+
+#### Basic Style Configuration
+
+Set the basic appearance of the edge:
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      stroke: '#5B8FF9', // Blue edge
+      lineWidth: 2, // Edge width
+    },
+  },
+});
+
+graph.render();
+```
+
+#### Dashed Line Style
+
+Create edges with dashed line style:
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      stroke: '#F5222D',
+      lineWidth: 2,
+      lineDash: [6, 4], // Dashed line style
+      lineDashOffset: 0,
+    },
+  },
+});
+
+graph.render();
+```
+
+#### Shadow Effect
+
+Add shadow effect to edges:
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      stroke: '#722ED1',
+      lineWidth: 3,
+      shadowColor: 'rgba(114, 46, 209, 0.3)',
+      shadowBlur: 8,
+      shadowOffsetX: 2,
+      shadowOffsetY: 2,
+    },
+  },
+});
+
+graph.render();
+```
+
+The following is the complete main graphic style configuration:
+
+| Property                        | Description                                                                                                                        | Type                  | Default   | Required |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------- | --------- | -------- |
+| cursor                          | Mouse cursor style when hovering over edge, [options](#cursor)                                                                     | string                | `default` |          |
+| increasedLineWidthForHitTesting | When lineWidth is small, the interactive area also becomes small. We can increase this area to make "thin lines" easier to pick up | number                | 0         |          |
+| lineDash                        | Edge dash line style                                                                                                               | number[]              | -         |          |
+| lineDashOffset                  | Edge dash line offset                                                                                                              | number                | 0         |          |
+| lineWidth                       | Edge width                                                                                                                         | number                | 1         |          |
+| opacity                         | Edge opacity                                                                                                                       | number \| string      | 1         |          |
+| pointerEvents                   | How edge responds to pointer events, [options](#pointerevents)                                                                     | string                | `auto`    |          |
+| shadowBlur                      | Edge shadow blur                                                                                                                   | number                | -         |          |
+| shadowColor                     | Edge shadow color                                                                                                                  | string                | -         |          |
+| shadowOffsetX                   | Edge shadow offset in x direction                                                                                                  | number \| string      | -         |          |
+| shadowOffsetY                   | Edge shadow offset in y direction                                                                                                  | number \| string      | -         |          |
+| shadowType                      | Edge shadow type                                                                                                                   | `inner` \| `outer`    | `outer`   |          |
+| sourcePort                      | Connection port at the source end of the edge                                                                                      | string                | -         |          |
+| stroke                          | Edge color                                                                                                                         | string                | `#000`    |          |
+| strokeOpacity                   | Edge color opacity                                                                                                                 | number \| string      | 1         |          |
+| targetPort                      | Connection port at the target end of the edge                                                                                      | string                | -         |          |
+| transform                       | Transform property allows you to rotate, scale, skew, or translate the given edge                                                  | string                | -         |          |
+| transformOrigin                 | The center of rotation and scaling, also known as the transform center                                                             | string                | -         |          |
+| visibility                      | Whether the edge is visible                                                                                                        | `visible` \| `hidden` | `visible` |          |
+| zIndex                          | Edge rendering layer                                                                                                               | number                | 1         |          |
 
 #### PointerEvents
 
-Optional values are:
-`visible` | `visiblepainted` | `visiblestroke` | `non-transparent-pixel` | `visiblefill` | `visible` | `painted` | `fill` | `stroke` | `all` | `none` | `auto` | `inherit` | `initial` | `unset`
+The `pointerEvents` property controls how graphics respond to interaction events. Refer to [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events).
+
+Available values: `visible` | `visiblepainted` | `visiblestroke` | `non-transparent-pixel` | `visiblefill` | `visible` | `painted` | `fill` | `stroke` | `all` | `none` | `auto` | `inherit` | `initial` | `unset`
+
+In short, both `stroke` and `visibility` can independently or in combination affect hit testing behavior. Currently supports the following keywords:
+
+- **`auto`**: Default value, equivalent to `visiblepainted`
+- **`none`**: Never becomes a target for responding to events
+- **`visiblepainted`**: Responds to events only when the following conditions are met:
+  - `visibility` is set to `visible`, i.e., the graphic is visible
+  - Triggered in the graphic stroke area while `stroke` takes a non-`none` value
+- **`visiblestroke`**: Responds to events only when the following conditions are met:
+  - `visibility` is set to `visible`, i.e., the graphic is visible
+  - Triggered in the graphic stroke area, not affected by `stroke` value
+- **`visible`**: Responds to events only when the following conditions are met:
+  - `visibility` is set to `visible`, i.e., the graphic is visible
+  - Triggered in the graphic stroke area, not affected by `stroke` value
+- **`painted`**: Responds to events only when the following conditions are met:
+  - Triggered in the graphic stroke area while `stroke` takes a non-`none` value
+  - Not affected by `visibility` value
+- **`stroke`**: Responds to events only when the following conditions are met:
+  - Triggered in the graphic stroke area, not affected by `stroke` value
+  - Not affected by `visibility` value
+- **`all`**: Responds to events as long as entering the graphic stroke area, not affected by `stroke` or `visibility` values
+
+**Usage Examples:**
+
+```js
+// Example 1: Only stroke area responds to events
+const graph = new Graph({
+  edge: {
+    style: {
+      stroke: '#000',
+      lineWidth: 2,
+      pointerEvents: 'stroke', // Only stroke responds to events
+    },
+  },
+});
+
+// Example 2: Completely non-responsive to events
+const graph = new Graph({
+  edge: {
+    style: {
+      pointerEvents: 'none', // Edge does not respond to any events
+    },
+  },
+});
+```
 
 #### Cursor
 
-Optional values are: `auto` | `default` | `none` | `context-menu` | `help` | `pointer` | `progress` | `wait` | `cell` | `crosshair` | `text` | `vertical-text` | `alias` | `copy` | `move` | `no-drop` | `not-allowed` | `grab` | `grabbing` | `all-scroll` | `col-resize` | `row-resize` | `n-resize` | `e-resize` | `s-resize` | `w-resize` | `ne-resize` | `nw-resize` | `se-resize` | `sw-resize` | `ew-resize` | `ns-resize` | `nesw-resize` | `nwse-resize` | `zoom-in` | `zoom-out`
+Available values: `auto` | `default` | `none` | `context-menu` | `help` | `pointer` | `progress` | `wait` | `cell` | `crosshair` | `text` | `vertical-text` | `alias` | `copy` | `move` | `no-drop` | `not-allowed` | `grab` | `grabbing` | `all-scroll` | `col-resize` | `row-resize` | `n-resize` | `e-resize` | `s-resize` | `w-resize` | `ne-resize` | `nw-resize` | `se-resize` | `sw-resize` | `ew-resize` | `ns-resize` | `nesw-resize` | `nwse-resize` | `zoom-in` | `zoom-out`
 
-**Example:**
+### Label Styles
 
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // Edge color
-      lineWidth: 2, // Edge width
-    },
-  },
-});
-```
+Labels are used to display text information for edges, supporting various style configurations and layout options. Here are common usage scenarios:
 
-The effect is as follows:
+#### Basic Text Label
 
-```js | ob { pin: false, inject: true }
+The simplest text label configuration:
+
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
   width: 240,
-  height: 100,
+  height: 120,
+  autoFit: 'center',
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 60 } },
+      { id: 'node2', style: { x: 180, y: 60 } },
     ],
     edges: [{ source: 'node1', target: 'node2' }],
   },
-  node: {
-    style: { fill: '#1783FF' },
-  },
   edge: {
     style: {
-      stroke: '#FF0000', // Edge color
-      lineWidth: 2, // Edge width
+      labelText: 'Edge Label',
+      labelFill: '#262626',
+      labelFontSize: 12,
+      labelPlacement: 'center',
     },
   },
 });
@@ -154,107 +339,35 @@ const graph = new Graph({
 graph.render();
 ```
 
-### Label Style
+#### Multi-line Text Label
 
-| Attribute                     | Description                                                                                                                                                                                                                                                                                                                                                                      | Type                                                                              | Default    |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ---------- |
-| label                         | Whether the edge label is displayed                                                                                                                                                                                                                                                                                                                                              | boolean                                                                           | true       |
-| labelAutoRotate               | Whether the edge label auto-rotates to keep consistent with the edge direction                                                                                                                                                                                                                                                                                                   | boolean                                                                           | true       |
-| labelBackground               | Whether the edge label displays a background                                                                                                                                                                                                                                                                                                                                     | boolean                                                                           | false      |
-| labelBackgroundClass          | Edge label background className                                                                                                                                                                                                                                                                                                                                                  | string                                                                            | -          |
-| labelBackgroundCursor         | Edge label background mouse hover style, [configuration item](#cursor)                                                                                                                                                                                                                                                                                                           | string                                                                            | `default`  |
-| labelBackgroundFill           | Edge label background fill color                                                                                                                                                                                                                                                                                                                                                 | string                                                                            | -          |
-| labelBackgroundFillOpacity    | Edge label background opacity                                                                                                                                                                                                                                                                                                                                                    | number                                                                            | 1          |
-| labelBackgroundHeight         | Edge label background height                                                                                                                                                                                                                                                                                                                                                     | string &#124; number                                                              | -          |
-| labelBackgroundLineDash       | Edge label background dashed line configuration                                                                                                                                                                                                                                                                                                                                  | number &#124; string &#124;(number &#124; string )[]                              | -          |
-| labelBackgroundLineDashOffset | Edge label background dashed line offset                                                                                                                                                                                                                                                                                                                                         | number                                                                            | -          |
-| labelBackgroundLineWidth      | Edge label background stroke width                                                                                                                                                                                                                                                                                                                                               | number                                                                            | -          |
-| labelBackgroundRadius         | Edge label background corner radius <br> - number: Set four corner radii uniformly <br> - number[]: Set four corner radii separately, automatically supplementing missing parts                                                                                                                                                                                                  | number &#124; number[]                                                            | 0          |
-| labelBackgroundShadowBlur     | Edge label background shadow blur degree                                                                                                                                                                                                                                                                                                                                         | number                                                                            | -          |
-| labelBackgroundShadowColor    | Edge label background shadow color                                                                                                                                                                                                                                                                                                                                               | string                                                                            | -          |
-| labelBackgroundShadowOffsetX  | Edge label background shadow X direction offset                                                                                                                                                                                                                                                                                                                                  | number                                                                            | -          |
-| labelBackgroundShadowOffsetY  | Edge label background shadow Y direction offset                                                                                                                                                                                                                                                                                                                                  | number                                                                            | -          |
-| labelBackgroundStroke         | Edge label background stroke color                                                                                                                                                                                                                                                                                                                                               | string                                                                            | -          |
-| labelBackgroundStrokeOpacity  | Edge label background stroke opacity                                                                                                                                                                                                                                                                                                                                             | number &#124; string                                                              | 1          |
-| labelBackgroundVisibility     | Whether the edge label background is visible                                                                                                                                                                                                                                                                                                                                     | `visible` &#124; `hidden`                                                         | -          |
-| labelBackgroundZIndex         | Edge label background rendering level                                                                                                                                                                                                                                                                                                                                            | number                                                                            | -          |
-| labelClass                    | Edge label className                                                                                                                                                                                                                                                                                                                                                             | string                                                                            | -          |
-| labelCursor                   | Edge label mouse hover style, [configuration item](#cursor)                                                                                                                                                                                                                                                                                                                      | string                                                                            | `default`  |
-| labelFill                     | Edge label text color                                                                                                                                                                                                                                                                                                                                                            | string                                                                            | -          |
-| labelFillOpacity              | Edge label text color opacity                                                                                                                                                                                                                                                                                                                                                    | string                                                                            | 1          |
-| labelFillRule                 | Edge label text fill rule                                                                                                                                                                                                                                                                                                                                                        | `nonzero` &#124; `evenodd`                                                        | -          |
-| labelFilter                   | Edge label text filter                                                                                                                                                                                                                                                                                                                                                           | string                                                                            | -          |
-| labelFontFamily               | Edge label text font family                                                                                                                                                                                                                                                                                                                                                      | `system-ui, sans-serif`                                                           | -          |
-| labelFontSize                 | Edge label font size                                                                                                                                                                                                                                                                                                                                                             | number                                                                            | 12         |
-| labelFontStyle                | Edge label text font style                                                                                                                                                                                                                                                                                                                                                       | `normal` &#124; `italic` &#124; `oblique`                                         | -          |
-| labelFontVariant              | Edge label text font variant                                                                                                                                                                                                                                                                                                                                                     | `normal` &#124; `small-caps`                                                      | -          |
-| labelFontWeight               | Edge label font weight                                                                                                                                                                                                                                                                                                                                                           | number &#124; string                                                              | `normal`   |
-| labelLeading                  | Edge label text line spacing                                                                                                                                                                                                                                                                                                                                                     | number                                                                            | -          |
-| labelLetterSpacing            | Edge label text letter spacing                                                                                                                                                                                                                                                                                                                                                   | number                                                                            | -          |
-| labelMaxLines                 | Edge label text maximum number of lines                                                                                                                                                                                                                                                                                                                                          | number                                                                            | 1          |
-| labelMaxWidth                 | Edge label maximum width. When auto-wrapping is enabled, it will wrap if it exceeds this width <br> - string: Define the maximum width as a percentage of the edge width. For example, `50%` means the label width does not exceed half of the edge width <br> - number: Define the maximum width in pixels. For example, 100 means the maximum width of the label is 100 pixels | number &#124; string                                                              | `80%`      |
-| labelOffsetX                  | Label offset in the x-axis direction                                                                                                                                                                                                                                                                                                                                             | number                                                                            | 4          |
-| labelOffsetY                  | Edge label offset in the y-axis direction                                                                                                                                                                                                                                                                                                                                        | number                                                                            | 0          |
-| labelOpacity                  | Overall opacity of the edge label                                                                                                                                                                                                                                                                                                                                                | number                                                                            | 1          |
-| labelPadding                  | Edge label padding                                                                                                                                                                                                                                                                                                                                                               | number &#124; number[]                                                            | 0          |
-| labelPlacement                | Position of the edge label relative to the edge. The value range is `start`, `center`, `end`, or a specific ratio (number 0-1)                                                                                                                                                                                                                                                   | `start` &#124; `center` &#124; `end` &#124; number                                | `center`   |
-| labelText                     | Edge label text content                                                                                                                                                                                                                                                                                                                                                          | string                                                                            | -          |
-| labelTextAlign                | Edge label text alignment                                                                                                                                                                                                                                                                                                                                                        | `start` &#124; `center` &#124; `middle` &#124; `end` &#124; `left` &#124; `right` | `left`     |
-| labelTextBaseLine             | Edge label text baseline                                                                                                                                                                                                                                                                                                                                                         | `top` &#124; `hanging` &#124; `middle` &#124; `alphabetic` &#124; `ideographic`   | `middle`   |
-| labelTextDecorationColor      | Edge label text decoration line color                                                                                                                                                                                                                                                                                                                                            | string                                                                            | -          |
-| labelTextDecorationLine       | Edge label text decoration line                                                                                                                                                                                                                                                                                                                                                  | string                                                                            | -          |
-| labelTextDecorationStyle      | Edge label text decoration line style                                                                                                                                                                                                                                                                                                                                            | `solid` &#124; `double` &#124; `dotted` &#124; `dashed` &#124; `wavy`             | -          |
-| labelTextOverflow             | Edge label text overflow handling method                                                                                                                                                                                                                                                                                                                                         | `clip` &#124; `ellipsis` &#124; string                                            | `ellipsis` |
-| labelVisibility               | Whether the edge label is visible                                                                                                                                                                                                                                                                                                                                                | `visible` &#124; `hidden`                                                         | `visible`  |
-| labelWordWrap                 | Whether the edge label enables auto-wrapping. When labelWordWrap is enabled, it will wrap if it exceeds labelMaxWidth                                                                                                                                                                                                                                                            | boolean                                                                           | false      |
-| labelZIndex                   | Edge label rendering level                                                                                                                                                                                                                                                                                                                                                       | number                                                                            | -          |
+When text is long, you can set automatic line wrapping:
 
-**Example:**
-
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // Edge color
-      lineWidth: 2, // Edge width
-      label: true, // Enable edge label display
-      labelText: 'labelText', // Edge label text
-      labelPlacement: 'center', // Position of the edge label relative to the edge
-      labelFill: '#FF0000', // Edge label text color
-      labelOffsetY: 20, // Edge label offset in the y-axis direction
-    },
-  },
-});
-```
-
-The effect is as follows:
-
-```js | ob { pin: false, inject: true }
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
   width: 240,
-  height: 100,
+  height: 120,
+  autoFit: 'center',
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 60 } },
+      { id: 'node2', style: { x: 180, y: 60 } },
     ],
     edges: [{ source: 'node1', target: 'node2' }],
   },
-  node: {
-    style: { fill: '#1783FF' },
-  },
   edge: {
     style: {
-      stroke: '#FF0000', // Edge color
-      lineWidth: 2, // Edge width
-      label: true, // Enable edge label display
-      labelText: 'labelText', // Edge label text
-      labelPlacement: 'center', // Position of the edge label relative to the edge
-      labelFill: '#FF0000', // Edge label text color
-      labelOffsetY: 20, // Edge label offset in the y-axis direction
+      labelText: 'This is a very long edge label that needs line wrapping',
+      labelWordWrap: true,
+      labelMaxWidth: '200%',
+      labelMaxLines: 2,
+      labelTextOverflow: 'ellipsis',
+      labelFill: '#434343',
+      labelPlacement: 'center',
+      labelTextAlign: 'center',
     },
   },
 });
@@ -262,77 +375,35 @@ const graph = new Graph({
 graph.render();
 ```
 
-### Halo Style
+#### Label with Background
 
-| Attribute         | Description                                                                                   | Type                                                 | Default                                            |
-| ----------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------- | -------------------------------------------------- |
-| halo              | Whether the edge halo is displayed                                                            | boolean                                              | false                                              |
-| haloClass         | Edge halo className                                                                           | string                                               | -                                                  |
-| haloCursor        | Edge halo mouse hover style, [configuration item](#cursor)                                    | strig                                                | `default`                                          |
-| haloDraggable     | Whether the edge halo is draggable                                                            | boolean                                              | -                                                  |
-| haloDroppable     | Whether the edge halo can receive dragged elements                                            | boolean                                              | false                                              |
-| haloFillRule      | Edge halo fill rule                                                                           | `nonzero` &#124; `evenodd`                           | -                                                  |
-| haloFilter        | Edge halo filter                                                                              | string                                               | -                                                  |
-| haloLineDash      | Edge halo stroke dashed line style                                                            | number &#124; string &#124; (number &#124; string)[] | 0                                                  |
-| haloLineWidth     | Edge halo stroke width                                                                        | number                                               | 3                                                  |
-| haloPointerEvents | Whether the edge halo effect responds to pointer events, [configuration item](#pointerevents) | string                                               | `none`                                             |
-| haloStroke        | Edge halo stroke color                                                                        | string                                               | Consistent with the fill color of the main graphic |
-| haloStrokeOpacity | Edge halo stroke color opacity                                                                | number                                               | 0.25                                               |
-| haloVisibility    | Edge halo visibility                                                                          | `visible` &#124; `hidden`                            | `visible`                                          |
-| haloZIndex        | Edge halo rendering level                                                                     | number                                               | -1                                                 |
+Add background to labels for better readability:
 
-**Example:**
-
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // Edge color
-      lineWidth: 2, // Edge width
-      label: true, // Enable edge label display
-      labelText: 'labelText', // Edge label text
-      labelPlacement: 'center', // Position of the edge label relative to the edge
-      labelFill: '#FF0000', // Edge label text color
-      labelOffsetY: 20, // Edge label offset in the y-axis direction
-      halo: true, // Enable edge halo
-      haloStroke: '#000', // Edge halo color
-      haloStrokeOpacity: 0.2, // Edge halo opacity
-    },
-  },
-});
-```
-
-The effect is as follows:
-
-```js | ob { pin: false, inject: true }
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
   width: 240,
-  height: 100,
+  height: 120,
+  autoFit: 'center',
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 60 } },
+      { id: 'node2', style: { x: 180, y: 60 } },
     ],
     edges: [{ source: 'node1', target: 'node2' }],
   },
-  node: {
-    style: { fill: '#1783FF' },
-  },
   edge: {
     style: {
-      stroke: '#FF0000', // Edge color
-      lineWidth: 2, // Edge width
-      label: true, // Enable edge label display
-      labelText: 'labelText', // Edge label text
-      labelPlacement: 'center', // Position of the edge label relative to the edge
-      labelFill: '#FF0000', // Edge label text color
-      labelOffsetY: 20, // Edge label offset in the y-axis direction
-      halo: true, // Enable edge halo
-      haloStroke: '#000', // Edge halo color
-      haloStrokeOpacity: 0.2, // Edge halo opacity
+      labelText: 'Important Connection',
+      labelBackground: true,
+      labelBackgroundFill: 'rgba(250, 140, 22, 0.1)',
+      labelBackgroundRadius: 6,
+      labelPadding: [4, 8],
+      labelFill: '#D4380D',
+      labelFontWeight: 'bold',
+      labelPlacement: 'center',
     },
   },
 });
@@ -340,114 +411,32 @@ const graph = new Graph({
 graph.render();
 ```
 
-### Badge Style
+#### Auto-rotating Label
 
-| Attribute                     | Description                                                                                                                                                                                                                                                                                                | Type                                                                                            | Default      |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ------------ |
-| badge                         | Whether the edge badge is displayed                                                                                                                                                                                                                                                                        | boolean                                                                                         | true         |
-| badgeBackground               | Whether the edge badge displays a background                                                                                                                                                                                                                                                               | boolean                                                                                         | true         |
-| badgeBackgroundClass          | Edge badge background className                                                                                                                                                                                                                                                                            | string                                                                                          | -            |
-| badgeBackgroundCursor         | Edge badge background mouse hover style, [configuration item](#cursor)                                                                                                                                                                                                                                     | string                                                                                          | `default`    |
-| badgeBackgroundFill           | Edge badge background fill color. If not specified, badgePalette is preferred to be assigned in order                                                                                                                                                                                                      | string                                                                                          | -            |
-| badgeBackgroundFillOpacity    | Edge badge background fill opacity                                                                                                                                                                                                                                                                         | number                                                                                          | 1            |
-| badgeBackgroundFilter         | Edge badge background filter                                                                                                                                                                                                                                                                               | string                                                                                          | -            |
-| badgeBackgroundHeight         | Edge badge background height                                                                                                                                                                                                                                                                               | number &#124; string                                                                            | -            |
-| badgeBackgroundLineDash       | Edge badge background dashed line configuration                                                                                                                                                                                                                                                            | number &#124; string &#124;(number &#124; string )[]                                            | -            |
-| badgeBackgroundLineDashOffset | Edge badge background dashed line offset                                                                                                                                                                                                                                                                   | number                                                                                          | -            |
-| badgeBackgroundLineWidth      | Edge badge background stroke width                                                                                                                                                                                                                                                                         | number                                                                                          | -            |
-| badgeBackgroundOpacity        | Edge badge background opacity                                                                                                                                                                                                                                                                              | number                                                                                          | 1            |
-| badgeBackgroundRadius         | Edge badge background corner radius <br> - number: Set four corner radii uniformly <br> - number[]: Set four corner radii separately, supplementing missing parts <br> - string: Similar to the [CSS padding](https://developer.mozilla.org/en-US/docs/Web/CSS/padding) property, using spaces to separate | number &#124; number[] &#124; string                                                            | `50%`        |
-| badgeBackgroundShadowBlur     | Edge badge background shadow blur degree                                                                                                                                                                                                                                                                   | number                                                                                          | -            |
-| badgeBackgroundShadowColor    | Edge badge background shadow color                                                                                                                                                                                                                                                                         | string                                                                                          | -            |
-| badgeBackgroundShadowOffsetX  | Edge badge background shadow X direction offset                                                                                                                                                                                                                                                            | number                                                                                          | -            |
-| badgeBackgroundShadowOffsetY  | Edge badge background shadow Y direction offset                                                                                                                                                                                                                                                            | number                                                                                          | -            |
-| badgeBackgroundStroke         | Edge badge background stroke color                                                                                                                                                                                                                                                                         | string                                                                                          | -            |
-| badgeBackgroundStrokeOpacity  | Edge badge background stroke opacity                                                                                                                                                                                                                                                                       | number &#124; string                                                                            | 1            |
-| badgeBackgroundVisibility     | Whether the edge badge background is visible                                                                                                                                                                                                                                                               | `visible` &#124; `hidden`                                                                       | `visible`    |
-| badgeBackgroundZIndex         | Edge badge background rendering level                                                                                                                                                                                                                                                                      | number                                                                                          | -            |
-| badgeFill                     | Edge badge text color                                                                                                                                                                                                                                                                                      | string                                                                                          | -            |
-| badgeFontSize                 | Edge badge font size                                                                                                                                                                                                                                                                                       | number                                                                                          | 10           |
-| badgeFontVariant              | Edge badge font variant                                                                                                                                                                                                                                                                                    | `normal` &#124; `small-caps` &#124; string                                                      | `normal`     |
-| badgeFontWeight               | Edge badge font weight                                                                                                                                                                                                                                                                                     | number &#124; string                                                                            | `normal`     |
-| badgeLineHeight               | Edge badge line height                                                                                                                                                                                                                                                                                     | string &#124; number                                                                            | -            |
-| badgeLineWidth                | Edge badge line width                                                                                                                                                                                                                                                                                      | string &#124; number                                                                            | -            |
-| badgeMaxLines                 | Edge badge text maximum number of lines                                                                                                                                                                                                                                                                    | number                                                                                          | 1            |
-| badgeOffsetX                  | Edge badge offset in the x-axis direction                                                                                                                                                                                                                                                                  | number                                                                                          | 0            |
-| badgeOffsetY                  | Edge badge offset in the y-axis direction                                                                                                                                                                                                                                                                  | number                                                                                          | 0            |
-| badgePadding                  | Edge badge padding                                                                                                                                                                                                                                                                                         | number &#124; number[]                                                                          | [2, 4, 2, 4] |
-| badgePlacement                | Position of the edge badge relative to the main graphic of the edge                                                                                                                                                                                                                                        | `prefix` &#124; `suffix`                                                                        | `suffix`     |
-| badgeText                     | Edge badge text content                                                                                                                                                                                                                                                                                    | string                                                                                          | -            |
-| badgeTextAlign                | Edge badge text horizontal alignment                                                                                                                                                                                                                                                                       | `start` &#124; `center` &#124; `middle` &#124; `end` &#124; `left` &#124; `right`               | `left`       |
-| badgeTextBaseline             | Edge badge text baseline                                                                                                                                                                                                                                                                                   | `top` &#124; `hanging` &#124; `middle` &#124; `alphabetic` &#124; `ideographic` &#124; `bottom` | `alphabetic` |
-| badgeTextDecorationColor      | Edge badge text decoration line color                                                                                                                                                                                                                                                                      | string                                                                                          | -            |
-| badgeTextDecorationLine       | Edge badge text decoration line                                                                                                                                                                                                                                                                            | string                                                                                          | -            |
-| badgeTextDecorationStyle      | Edge badge text decoration line style                                                                                                                                                                                                                                                                      | `solid` &#124; `double` &#124; `dotted` &#124; `dashed` &#124; `wavy`                           | `solid`      |
-| badgeTextOverflow             | Edge badge text overflow handling method                                                                                                                                                                                                                                                                   | `clip` &#124; `ellipsis` &#124; string                                                          | `clip`       |
-| badgeVisibility               | Whether the edge badge is visible                                                                                                                                                                                                                                                                          | `visible` &#124; `hidden`                                                                       | -            |
-| badgeWordWrap                 | Whether the edge badge text automatically wraps, it will wrap if it exceeds badgeWordWrapWidth                                                                                                                                                                                                             | boolean                                                                                         | -            |
-| badgeWordWrapWidth            | Edge badge text wrap width                                                                                                                                                                                                                                                                                 | number                                                                                          | -            |
-| badgeZIndex                   | Edge badge rendering level                                                                                                                                                                                                                                                                                 | number                                                                                          | 1            |
+Labels can automatically rotate to align with edge direction:
 
-**Example:**
-
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // Edge color
-      lineWidth: 2, // Edge width
-      label: true, // Enable edge label display
-      labelText: 'labelText', // Edge label text
-      labelPlacement: 'center', // Position of the edge label relative to the edge
-      labelFill: '#FF0000', // Edge label text color
-      labelOffsetY: 20, // Edge label offset in the y-axis direction
-      halo: true, // Enable edge halo
-      haloStroke: '#000', // Edge halo color
-      haloStrokeOpacity: 0.2, // Edge halo opacity
-      badgeText: 'badge', // Edge badge text
-      badgeFill: 'green', // Edge badge text color
-      badgeOffsetX: -20, // Edge badge offset in the x-axis direction
-      badgeBackground: true, // Enable edge badge background
-    },
-  },
-});
-```
-
-The effect is as follows:
-
-```js | ob { pin: false, inject: true }
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
   width: 240,
-  height: 100,
+  height: 120,
+  autoFit: 'center',
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 30 } },
+      { id: 'node2', style: { x: 180, y: 90 } },
     ],
     edges: [{ source: 'node1', target: 'node2' }],
   },
-  node: {
-    style: { fill: '#1783FF' },
-  },
   edge: {
     style: {
-      stroke: '#FF0000', // Edge color
-      lineWidth: 2, // Edge width
-      label: true, // Enable edge label display
-      labelText: 'labelText', // Edge label text
-      labelPlacement: 'center', // Position of the edge label relative to the edge
-      labelFill: '#FF0000', // Edge label text color
-      labelOffsetY: 20, // Edge label offset in the y-axis direction
-      halo: true, // Enable edge halo
-      haloStroke: '#000', // Edge halo color
-      haloStrokeOpacity: 0.2, // Edge halo opacity
-      badgeText: 'badge', // Edge badge text
-      badgeFill: 'green', // Edge badge text color
-      badgeOffsetX: -20, // Edge badge offset in the x-axis direction
-      badgeBackground: true, // Enable edge badge background
+      labelText: 'Auto Rotate',
+      labelAutoRotate: true, // Auto rotate
+      labelFill: '#1890FF',
+      labelFontWeight: 'bold',
+      labelPlacement: 'center',
     },
   },
 });
@@ -455,100 +444,119 @@ const graph = new Graph({
 graph.render();
 ```
 
-### Start Arrow Style
+The following is the complete label style configuration:
 
-| Attribute                                 | Description                                                                                                                                      | Type                                                                                                                                                               | Default                                   |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------- |
-| startArrow                                | Whether the edge start arrow is displayed                                                                                                        | boolean                                                                                                                                                            | false                                     |
-| startArrowClass                           | Edge start arrow className                                                                                                                       | string                                                                                                                                                             | -                                         |
-| startArrowCursor                          | Edge start arrow mouse hover style, [configuration item](#cursor)                                                                                | string                                                                                                                                                             | `default`                                 |
-| startArrowFill                            | Edge start arrow fill color                                                                                                                      | string                                                                                                                                                             | Consistent with the edge color by default |
-| startArrowFillOpacity                     | Overall opacity of the edge start arrow                                                                                                          | number                                                                                                                                                             | 1                                         |
-| startArrowFillRule                        | Edge start arrow fill rule                                                                                                                       | `nonzero` &#124; `evenodd`                                                                                                                                         | -                                         |
-| startArrowFilter                          | Edge start arrow filter                                                                                                                          | string                                                                                                                                                             | -                                         |
-| startArrowIncreasedLineWidthForHitTesting | When the edge start arrow size is small, the interaction area also becomes smaller, we can enlarge this area to make the arrow easier to pick up | number                                                                                                                                                             | 0                                         |
-| startArrowLineDash                        | Edge start arrow stroke dashed line configuration                                                                                                | number                                                                                                                                                             | 0                                         |
-| startArrowLineDashOffset                  | Edge start arrow stroke dashed line offset                                                                                                       | number                                                                                                                                                             | 0                                         |
-| startArrowLineJoin                        | Edge start arrow stroke join style                                                                                                               | `round` &#124; `bevel` &#124; `miter`                                                                                                                              | `round`                                   |
-| startArrowOffset                          | Edge start arrow offset                                                                                                                          | number ｜0 ｜                                                                                                                                                      |
-| startArrowOpacity                         | Edge start arrow opacity                                                                                                                         | number                                                                                                                                                             | 1                                         |
-| startArrowShadowBlur                      | Edge start arrow shadow blur degree                                                                                                              | number                                                                                                                                                             | -                                         |
-| startArrowShadowColor                     | Edge start arrow shadow color                                                                                                                    | string                                                                                                                                                             | -                                         |
-| startArrowShadowOffsetX                   | Edge start arrow shadow X-axis offset                                                                                                            | number                                                                                                                                                             | 0                                         |
-| startArrowShadowOffsetY                   | Edge start arrow shadow Y-axis offset                                                                                                            | number                                                                                                                                                             | 0                                         |
-| startArrowSize                            | Edge start arrow size                                                                                                                            | number &#124; [number, number]                                                                                                                                     | -                                         |
-| startArrowSrc                             | Edge start arrow image address (passing in the image address can replace the arrow with an image)                                                | string                                                                                                                                                             | -                                         |
-| startArrowStroke                          | Edge start arrow stroke color                                                                                                                    | string                                                                                                                                                             | Consistent with the edge color by default |
-| startArrowStrokeOpacity                   | Edge start arrow stroke opacity                                                                                                                  | number                                                                                                                                                             | 1                                         |
-| startArrowTransform                       | Edge start arrow rotation, scaling, skewing, or translation configuration                                                                        | string                                                                                                                                                             | -                                         |
-| startArrowTransformOrigin                 | Edge start arrow rotation and scaling center, also known as the transformation center                                                            | string                                                                                                                                                             | center                                    |
-| startArrowType                            | Edge start arrow type                                                                                                                            | `triangle` &#124; `circle` &#124; `diamond` &#124; `vee` &#124; `rect` &#124; `triangleRect` &#124; `simple` &#124; ((width: number, height: number) => PathArray) | `vee`                                     |
-| startArrowZIndex                          | Edge start arrow rendering level                                                                                                                 | number                                                                                                                                                             | -                                         |
+| Property                 | Description                                                                                                     | Type                                                                        | Default   | Required |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------- | -------- |
+| label                    | Whether to show edge label                                                                                      | boolean                                                                     | true      |          |
+| labelAutoRotate          | Whether edge label automatically rotates to align with edge direction                                           | boolean                                                                     | true      |          |
+| labelCursor              | Mouse cursor style when hovering over edge label, [options](#cursor)                                            | string                                                                      | `default` |          |
+| labelFill                | Edge label text color                                                                                           | string                                                                      | -         |          |
+| labelFontFamily          | Edge label font family                                                                                          | string                                                                      | -         |          |
+| labelFontSize            | Edge label font size                                                                                            | number                                                                      | 12        |          |
+| labelFontStyle           | Edge label font style                                                                                           | `normal` \| `italic` \| `oblique`                                           | -         |          |
+| labelFontVariant         | Edge label font variant                                                                                         | `normal` \| `small-caps` \| string                                          | -         |          |
+| labelFontWeight          | Edge label font weight                                                                                          | `normal` \| `bold` \| `bolder` \| `lighter` \| number                       | -         |          |
+| labelLeading             | Line spacing                                                                                                    | number                                                                      | 0         |          |
+| labelLetterSpacing       | Edge label letter spacing                                                                                       | number \| string                                                            | -         |          |
+| labelLineHeight          | Edge label line height                                                                                          | number \| string                                                            | -         |          |
+| labelMaxLines            | Edge label maximum lines                                                                                        | number                                                                      | 1         |          |
+| labelMaxWidth            | Edge label maximum width, [options](#labelmaxwidth)                                                             | number \| string                                                            | `200%`    |          |
+| labelOffsetX             | Edge label offset in x direction                                                                                | number                                                                      | 0         |          |
+| labelOffsetY             | Edge label offset in y direction                                                                                | number                                                                      | 0         |          |
+| labelPadding             | Edge label padding                                                                                              | number \| number[]                                                          | 0         |          |
+| labelPlacement           | Edge label position relative to edge, [options](#labelplacement)                                                | string \| number                                                            | `center`  |          |
+| labelText                | Edge label text content                                                                                         | `string` \| `(datum) => string`                                             | -         |          |
+| labelTextAlign           | Edge label text horizontal alignment                                                                            | `start` \| `center` \| `middle` \| `end` \| `left` \| `right`               | `left`    |          |
+| labelTextBaseline        | Edge label text baseline                                                                                        | `top` \| `hanging` \| `middle` \| `alphabetic` \| `ideographic` \| `bottom` | -         |          |
+| labelTextDecorationColor | Edge label text decoration line color                                                                           | string                                                                      | -         |          |
+| labelTextDecorationLine  | Edge label text decoration line                                                                                 | string                                                                      | -         |          |
+| labelTextDecorationStyle | Edge label text decoration line style                                                                           | `solid` \| `double` \| `dotted` \| `dashed` \| `wavy`                       | -         |          |
+| labelTextOverflow        | Edge label text overflow handling                                                                               | `clip` \| `ellipsis` \| string                                              | -         |          |
+| labelTextPath            | Edge label text path                                                                                            | Path                                                                        | -         |          |
+| labelWordWrap            | Whether to enable automatic line wrapping for edge labels. When enabled, text exceeding labelMaxWidth will wrap | boolean                                                                     | false     |          |
+| labelZIndex              | Edge label rendering layer                                                                                      | number                                                                      | 0         |          |
 
-**Example:**
+#### LabelPlacement
 
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // Edge color
-      lineWidth: 2, // Edge width
-      label: true, // Enable edge label display
-      labelText: 'labelText', // Edge label text
-      labelPlacement: 'center', // Position of the edge label relative to the edge
-      labelFill: '#FF0000', // Edge label text color
-      labelOffsetY: 20, // Edge label offset in the y-axis direction
-      halo: true, // Enable edge halo
-      haloStroke: '#000', // Edge halo color
-      haloStrokeOpacity: 0.2, // Edge halo opacity
-      badgeText: 'badge', // Edge badge text
-      badgeFill: 'green', // Edge badge text color
-      badgeOffsetX: -20, // Edge badge offset in the x-axis direction
-      badgeBackground: true, // Enable edge badge background
-      startArrow: true, // Enable edge start arrow
-      startArrowFill: 'yellow', // Edge start arrow fill color
-    },
-  },
-});
+Edge label position relative to the edge, can be set to:
+
+- `start`: Label positioned at the starting point of the edge
+- `center`: Label positioned at the center of the edge (default)
+- `end`: Label positioned at the ending point of the edge
+- `number`: Value range 0-1, representing the specific position ratio of the label on the edge, 0 for start position, 1 for end position
+
+#### LabelMaxWidth
+
+After enabling automatic line wrapping `labelWordWrap`, text exceeding this width will wrap:
+
+- string: Represents the maximum width defined as a percentage relative to the edge length. For example, `50%` means the label width does not exceed half the edge length
+- number: Represents the maximum width defined in pixels. For example, 100 means the label's maximum width is 100 pixels
+
+For example, setting multi-line label text:
+
+```json
+{
+  "labelWordWrap": true,
+  "labelMaxWidth": 200,
+  "labelMaxLines": 3
+}
 ```
 
-The effect is as follows:
+### Label Background Styles
 
-```js | ob { pin: false, inject: true }
+Label background is used to display the background of edge labels:
+
+| Property                      | Description                                                                                                                                                       | Type                                     | Default   |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | --------- |
+| labelBackground               | Whether to show edge label background                                                                                                                             | boolean                                  | false     |
+| labelBackgroundCursor         | Edge label background mouse cursor style, [options](#cursor)                                                                                                      | string                                   | `default` |
+| labelBackgroundFill           | Edge label background fill color                                                                                                                                  | string                                   | -         |
+| labelBackgroundFillOpacity    | Edge label background opacity                                                                                                                                     | number                                   | 1         |
+| labelBackgroundHeight         | Edge label background height                                                                                                                                      | string \| number                         | -         |
+| labelBackgroundLineDash       | Edge label background dash line configuration                                                                                                                     | number \| string \|(number \| string )[] | -         |
+| labelBackgroundLineDashOffset | Edge label background dash line offset                                                                                                                            | number                                   | -         |
+| labelBackgroundLineWidth      | Edge label background stroke line width                                                                                                                           | number                                   | -         |
+| labelBackgroundRadius         | Edge label background border radius <br> - number: Uniform radius for all corners <br> - number[]: Individual radius for each corner, auto-filled if insufficient | number \| number[]                       | 0         |
+| labelBackgroundShadowBlur     | Edge label background shadow blur                                                                                                                                 | number                                   | -         |
+| labelBackgroundShadowColor    | Edge label background shadow color                                                                                                                                | string                                   | -         |
+| labelBackgroundShadowOffsetX  | Edge label background shadow X offset                                                                                                                             | number                                   | -         |
+| labelBackgroundShadowOffsetY  | Edge label background shadow Y offset                                                                                                                             | number                                   | -         |
+| labelBackgroundStroke         | Edge label background stroke color                                                                                                                                | string                                   | -         |
+| labelBackgroundStrokeOpacity  | Edge label background stroke opacity                                                                                                                              | number \| string                         | 1         |
+| labelBackgroundVisibility     | Edge label background visibility                                                                                                                                  | `visible` \| `hidden`                    | -         |
+| labelBackgroundZIndex         | Edge label background rendering layer                                                                                                                             | number                                   | 1         |
+
+### Halo Styles
+
+Halo is an effect displayed around the edge main graphic, usually used for highlighting or indicating special states of the edge.
+
+#### Basic Halo Effect
+
+Add basic halo effect to edges:
+
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
   width: 240,
   height: 100,
+  autoFit: 'center',
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 50 } },
+      { id: 'node2', style: { x: 180, y: 50 } },
     ],
     edges: [{ source: 'node1', target: 'node2' }],
   },
-  node: {
-    style: { fill: '#1783FF' },
-  },
   edge: {
     style: {
-      stroke: '#FF0000', // Edge color
-      lineWidth: 2, // Edge width
-      label: true, // Enable edge label display
-      labelText: 'labelText', // Edge label text
-      labelPlacement: 'center', // Position of the edge label relative to the edge
-      labelFill: '#FF0000', // Edge label text color
-      labelOffsetY: 20, // Edge label offset in the y-axis direction
-      halo: true, // Enable edge halo
-      haloStroke: '#000', // Edge halo color
-      haloStrokeOpacity: 0.2, // Edge halo opacity
-      badgeText: 'badge', // Edge badge text
-      badgeFill: 'green', // Edge badge text color
-      badgeOffsetX: -20, // Edge badge offset in the x-axis direction
-      badgeBackground: true, // Enable edge badge background
-      startArrow: true, // Enable edge start arrow
-      startArrowFill: 'yellow', // Edge start arrow fill color
+      lineWidth: 2,
+      halo: true,
+      haloStroke: '#1890FF',
+      haloLineWidth: 6,
+      haloStrokeOpacity: 0.3,
     },
   },
 });
@@ -556,102 +564,53 @@ const graph = new Graph({
 graph.render();
 ```
 
-### End Arrow Style
+The following is the complete halo style configuration:
 
-| Attribute                               | Description                                                                                                                                    | Type                                                                                                                                                               | Default                                   |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------- |
-| endArrow                                | Whether the edge end arrow is displayed                                                                                                        | boolean                                                                                                                                                            | false                                     |
-| endArrowClass                           | Edge end arrow className                                                                                                                       | string                                                                                                                                                             | -                                         |
-| endArrowCursor                          | Edge end arrow mouse hover style, [configuration item](#cursor)                                                                                | string                                                                                                                                                             | `default`                                 |
-| endArrowFill                            | Edge end arrow fill color                                                                                                                      | string                                                                                                                                                             | Consistent with the edge color by default |
-| endArrowFillOpacity                     | Overall opacity of the edge end arrow                                                                                                          | number                                                                                                                                                             | 1                                         |
-| endArrowFillRule                        | Edge end arrow fill rule                                                                                                                       | `nonzero` &#124; `evenodd`                                                                                                                                         | -                                         |
-| endArrowFilter                          | Edge end arrow filter                                                                                                                          | string                                                                                                                                                             | -                                         |
-| endArrowIncreasedLineWidthForHitTesting | When the edge end arrow size is small, the interaction area also becomes smaller, we can enlarge this area to make the arrow easier to pick up | number                                                                                                                                                             | 0                                         |
-| endArrowLineDash                        | Edge end arrow stroke dashed line configuration                                                                                                | number                                                                                                                                                             | 0                                         |
-| endArrowLineDashOffset                  | Edge end arrow stroke dashed line offset                                                                                                       | number                                                                                                                                                             | 0                                         |
-| endArrowLineJoin                        | Edge end arrow stroke join style                                                                                                               | `round` &#124; `bevel` &#124; `miter`                                                                                                                              | `round`                                   |
-| endArrowOffset                          | Edge end arrow offset                                                                                                                          | number                                                                                                                                                             | 0                                         |
-| endArrowOpacity                         | Edge end arrow opacity                                                                                                                         | number                                                                                                                                                             | 1                                         |
-| endArrowShadowBlur                      | Edge end arrow shadow blur degree                                                                                                              | number                                                                                                                                                             | -                                         |
-| endArrowShadowColor                     | Edge end arrow shadow color                                                                                                                    | string                                                                                                                                                             | -                                         |
-| endArrowShadowOffsetX                   | Edge end arrow shadow X-axis offset                                                                                                            | number                                                                                                                                                             | 0                                         |
-| endArrowShadowOffsetY                   | Edge end arrow shadow Y-axis offset                                                                                                            | number                                                                                                                                                             | 0                                         |
-| endArrowSize                            | Edge end arrow size                                                                                                                            | number &#124; [number, number]                                                                                                                                     | -                                         |
-| endArrowSrc                             | Edge end arrow image address (passing in the image address can replace the arrow with an image)                                                | string                                                                                                                                                             | -                                         |
-| endArrowStroke                          | Edge end arrow stroke color                                                                                                                    | string                                                                                                                                                             | Consistent with the edge color by default |
-| endArrowStrokeOpacity                   | Edge end arrow stroke opacity                                                                                                                  | number                                                                                                                                                             | 1                                         |
-| endArrowTransform                       | Edge end arrow rotation, scaling, skewing, or translation configuration                                                                        | string                                                                                                                                                             | -                                         |
-| endArrowTransformOrigin                 | Edge end arrow rotation and scaling center, also known as the transformation center                                                            | string                                                                                                                                                             | center                                    |
-| endArrowType                            | Edge end arrow type                                                                                                                            | `triangle` &#124; `circle` &#124; `diamond` &#124; `vee` &#124; `rect` &#124; `triangleRect` &#124; `simple` &#124; ((width: number, height: number) => PathArray) | `vee`                                     |
-| endArrowZIndex                          | Edge end arrow rendering level                                                                                                                 | number                                                                                                                                                             | -                                         |
+| Property          | Description                                                                          | Type                   | Default                                   | Required |
+| ----------------- | ------------------------------------------------------------------------------------ | ---------------------- | ----------------------------------------- | -------- |
+| halo              | Whether to show edge halo                                                            | boolean                | false                                     |          |
+| haloCursor        | Edge halo mouse cursor style, [options](#cursor)                                     | string                 | `default`                                 |          |
+| haloDraggable     | Whether edge halo allows dragging                                                    | boolean                | true                                      |          |
+| haloDroppable     | Whether edge halo allows receiving dragged elements                                  | boolean                | true                                      |          |
+| haloFillRule      | Edge halo fill rule                                                                  | `nonzero` \| `evenodd` | -                                         |          |
+| haloFilter        | Edge halo filter                                                                     | string                 | -                                         |          |
+| haloLineWidth     | Edge halo stroke width                                                               | number                 | 3                                         |          |
+| haloPointerEvents | Whether edge halo responds to pointer events, [options](#pointerevents)              | string                 | `none`                                    |          |
+| haloStroke        | Edge halo stroke color, **this property sets the color of the halo around the edge** | string                 | Consistent with main graphic stroke color |          |
+| haloStrokeOpacity | Edge halo stroke opacity                                                             | number                 | 0.25                                      |          |
+| haloVisibility    | Edge halo visibility                                                                 | `visible` \| `hidden`  | `visible`                                 |          |
+| haloZIndex        | Edge halo rendering layer                                                            | number                 | -1                                        |          |
 
-**Example:**
+### Arrow Styles
 
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // Edge color
-      lineWidth: 2, // Edge width
-      label: true, // Enable edge label display
-      labelText: 'labelText', // Edge label text
-      labelPlacement: 'center', // Position of the edge label relative to the edge
-      labelFill: '#FF0000', // Edge label text color
-      labelOffsetY: 20, // Edge label offset in the y-axis direction
-      halo: true, // Enable edge halo
-      haloStroke: '#000', // Edge halo color
-      haloStrokeOpacity: 0.2, // Edge halo opacity
-      badgeText: 'badge', // Edge badge text
-      badgeFill: 'green', // Edge badge text color
-      badgeOffsetX: 20, // Edge badge offset in the x-axis direction
-      badgePlacement: 'prefix', // Position of the edge badge relative to the edge
-      badgeBackground: true, // Enable edge badge background
-      endArrow: true, // Enable edge end arrow
-      endArrowFill: 'yellow', // Edge end arrow fill color
-    },
-  },
-});
-```
+Edges support adding arrows at the start and end points to indicate the directionality of the edge.
 
-The effect is as follows:
+#### Basic Arrow
 
-```js | ob { pin: false, inject: true }
+Add basic arrow to the end of the edge:
+
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
   width: 240,
   height: 100,
+  autoFit: 'center',
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 50 } },
+      { id: 'node2', style: { x: 180, y: 50 } },
     ],
     edges: [{ source: 'node1', target: 'node2' }],
   },
-  node: {
-    style: { fill: '#1783FF' },
-  },
   edge: {
     style: {
-      stroke: '#FF0000', // Edge color
-      lineWidth: 2, // Edge width
-      label: true, // Enable edge label display
-      labelText: 'labelText', // Edge label text
-      labelPlacement: 'center', // Position of the edge label relative to the edge
-      labelFill: '#FF0000', // Edge label text color
-      labelOffsetY: 20, // Edge label offset in the y-axis direction
-      halo: true, // Enable edge halo
-      haloStroke: '#000', // Edge halo color
-      haloStrokeOpacity: 0.2, // Edge halo opacity
-      badgeText: 'badge', // Edge badge text
-      badgeFill: 'green', // Edge badge text color
-      badgeOffsetX: 20, // Edge badge offset in the x-axis direction
-      badgePlacement: 'prefix', // Position of the edge badge relative to the edge
-      badgeBackground: true, // Enable edge badge background
-      endArrow: true, // Enable edge end arrow
-      endArrowFill: 'yellow', // Edge end arrow fill color
+      stroke: '#1890FF',
+      lineWidth: 2,
+      endArrow: true, // End arrow
+      endArrowType: 'vee', // Arrow type
+      endArrowSize: 10, // Arrow size
     },
   },
 });
@@ -659,79 +618,194 @@ const graph = new Graph({
 graph.render();
 ```
 
-### Loop Edge Style
+#### Bidirectional Arrows
 
-| Attribute     | Description                                                                                            | Type                                                                                                                                                                                                               | Default                                         |
-| ------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- |
-| loop          | Whether to enable loop edges                                                                           | boolean                                                                                                                                                                                                            | true                                            |
-| loopClockwise | Specify whether to draw the loop clockwise                                                             | boolean                                                                                                                                                                                                            | true                                            |
-| loopDist      | Distance from the node keyShape edge to the top of the loop, used to specify the curvature of the loop | number                                                                                                                                                                                                             | The maximum value of width or height by default |
-| loopPlacement | Position of the edge                                                                                   | 'left' &#124; 'right' &#124; 'top' &#124; 'bottom' &#124; 'left-top' &#124; 'left-bottom' &#124; 'right-top' &#124; 'right-bottom' &#124; 'top-left' &#124; 'top-right' &#124; 'bottom-left' &#124; 'bottom-right' | 'top'                                           |
+Add arrows to both ends of the edge:
 
-**Example:**
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
 
-```js {4-6}
 const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 50 } },
+      { id: 'node2', style: { x: 180, y: 50 } },
     ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      stroke: '#52C41A',
+      lineWidth: 2,
+      startArrow: true, // Start arrow
+      startArrowType: 'circle',
+      startArrowSize: 8,
+      endArrow: true, // End arrow
+      endArrowType: 'triangle',
+      endArrowSize: 10,
+    },
+  },
+});
+
+graph.render();
+```
+
+#### Custom Arrow Style
+
+Customize arrow color and type:
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 50 } },
+      { id: 'node2', style: { x: 180, y: 50 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      stroke: '#722ED1',
+      lineWidth: 3,
+      endArrow: true,
+      endArrowType: 'diamond', // Diamond arrow
+      endArrowSize: 12,
+      endArrowFill: '#FF4D4F', // Red arrow fill
+      endArrowStroke: '#722ED1', // Arrow stroke color
+      endArrowStrokeOpacity: 0.8,
+    },
+  },
+});
+
+graph.render();
+```
+
+#### Start Arrow Style Configuration
+
+| Property                | Description                                             | Type                                                                                 | Default                            | Required |
+| ----------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------- | -------- |
+| startArrow              | Whether to show edge start arrow                        | boolean                                                                              | false                              |          |
+| startArrowCursor        | Edge start arrow mouse cursor style, [options](#cursor) | string                                                                               | `default`                          |          |
+| startArrowFill          | Edge start arrow fill color                             | string                                                                               | Default consistent with edge color |          |
+| startArrowFillOpacity   | Edge start arrow fill opacity                           | number                                                                               | 1                                  |          |
+| startArrowOffset        | Edge start arrow offset                                 | number                                                                               | 0                                  |          |
+| startArrowSize          | Edge start arrow size                                   | number \| [number, number]                                                           | 10                                 |          |
+| startArrowStroke        | Edge start arrow stroke color                           | string                                                                               | Default consistent with edge color |          |
+| startArrowStrokeOpacity | Edge start arrow stroke opacity                         | number                                                                               | 1                                  |          |
+| startArrowType          | Edge start arrow type                                   | `triangle` \| `circle` \| `diamond` \| `vee` \| `rect` \| `triangleRect` \| `simple` | `vee`                              |          |
+
+#### End Arrow Style Configuration
+
+| Property              | Description                                           | Type                                                                                 | Default                            | Required |
+| --------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------- | -------- |
+| endArrow              | Whether to show edge end arrow                        | boolean                                                                              | false                              |          |
+| endArrowCursor        | Edge end arrow mouse cursor style, [options](#cursor) | string                                                                               | `default`                          |          |
+| endArrowFill          | Edge end arrow fill color                             | string                                                                               | Default consistent with edge color |          |
+| endArrowFillOpacity   | Edge end arrow fill opacity                           | number                                                                               | 1                                  |          |
+| endArrowOffset        | Edge end arrow offset                                 | number                                                                               | 0                                  |          |
+| endArrowSize          | Edge end arrow size                                   | number \| [number, number]                                                           | 10                                 |          |
+| endArrowStroke        | Edge end arrow stroke color                           | string                                                                               | Default consistent with edge color |          |
+| endArrowStrokeOpacity | Edge end arrow stroke opacity                         | number                                                                               | 1                                  |          |
+| endArrowType          | Edge end arrow type                                   | `triangle` \| `circle` \| `diamond` \| `vee` \| `rect` \| `triangleRect` \| `simple` | `vee`                              |          |
+
+### Loop Edge Styles
+
+Loop edges are special edges where the start and end nodes are the same node.
+
+#### Basic Loop Edge
+
+Create a basic loop edge:
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 100,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', style: { x: 100, y: 50 } }],
+    edges: [{ source: 'node1', target: 'node1' }],
+  },
+  edge: {
+    style: {
+      stroke: '#1890FF',
+      lineWidth: 2,
+      endArrow: true,
+      loopPlacement: 'top', // Loop position
+      loopDist: 30, // Loop size
+    },
+  },
+});
+
+graph.render();
+```
+
+#### Multiple Loop Edges
+
+Create multiple loop edges at different positions for the same node:
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 200,
+  height: 120,
+  autoFit: 'center',
+  data: {
+    nodes: [{ id: 'node1', style: { x: 100, y: 60 } }],
     edges: [
-      { source: 'node1', target: 'node1', id: 'left' },
-      { source: 'node2', target: 'node2', id: 'right' },
+      { id: 'edge1', source: 'node1', target: 'node1' },
+      { id: 'edge2', source: 'node1', target: 'node1' },
+      { id: 'edge3', source: 'node1', target: 'node1' },
     ],
-  },
-  node: {
-    style: { fill: '#1783FF' },
   },
   edge: {
     style: {
-      loopPlacement: (d) => d.id, // Set the position of the loop based on the edge configuration
-      endArrow: true, // Enable edge end arrow
-    },
-  },
-});
-```
-
-The effect is as follows:
-
-```js | ob { pin: false, inject: true }
-import { Graph } from '@antv/g6';
-
-const graph = new Graph({
-  container: 'container',
-  width: 240,
-  height: 100,
-  data: {
-    nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
-    ],
-    edges: [
-      { source: 'node1', target: 'node1', id: 'left' },
-      { source: 'node2', target: 'node2', id: 'right' },
-    ],
-  },
-  node: {
-    style: { fill: '#1783FF' },
-  },
-  edge: {
-    style: {
-      loopPlacement: (d) => d.id, // Set the position of the loop based on the edge configuration
-      endArrow: true, // Enable edge end arrow
+      lineWidth: 2,
+      endArrow: true,
+      loopPlacement: (datum) => {
+        const placements = ['top', 'right', 'bottom'];
+        return placements[parseInt(datum.id.slice(-1)) - 1];
+      },
+      loopDist: 25,
+      stroke: (datum) => {
+        const colors = ['#1890FF', '#52C41A', '#722ED1'];
+        return colors[parseInt(datum.id.slice(-1)) - 1];
+      },
     },
   },
 });
 
 graph.render();
 ```
+
+The following is the complete loop edge style configuration:
+
+| Property      | Description                                                         | Type                                                                                                                                                                   | Default                  | Required |
+| ------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | -------- |
+| loop          | Whether to enable loop edges                                        | boolean                                                                                                                                                                | true                     |          |
+| loopClockwise | Whether to draw the loop clockwise                                  | boolean                                                                                                                                                                | true                     |          |
+| loopDist      | Distance from node edge to loop top, used to specify loop curvature | number                                                                                                                                                                 | Default to max node size |          |
+| loopPlacement | Loop edge position                                                  | `left` \| `right` \| `top` \| `bottom` \| `left-top` \| `left-bottom` \| `right-top` \| `right-bottom` \| `top-left` \| `top-right` \| `bottom-left` \| `bottom-right` | `top`                    |          |
 
 ## State
 
-In some interactive behaviors, such as clicking to select an edge or hovering to activate an edge, it is merely marking certain states on the element. To reflect these states in the visual space seen by the end user, we need to set different graphic element styles for different states to respond to the changes in the element's state.
+In some interactive behaviors, such as clicking to select an edge or hovering to activate an edge, it's simply marking certain states on that element. To reflect these states in the visual space seen by end users, we need to set different graphic element styles for different states to respond to changes in the state of that graphic element.
 
-G6 provides several built-in states, including selected, highlight, active, inactive, and disabled. Additionally, it supports custom states to meet more specific needs. For each state, developers can define a set of style rules that will override the default styles of the element.
+G6 provides several built-in states, including selected, highlight, active, inactive, and disabled. Additionally, it supports custom states to meet more specific needs. For each state, developers can define a set of style rules that will override the element's default styles.
 
 <img width="520" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ebBlTpKu2WUAAAAAAAAAAAAADmJ7AQ/original" />
 
@@ -743,31 +817,24 @@ type EdgeState = {
 };
 ```
 
-For example, when an edge is in the `focus` state, you can add a halo with a width of 6 and a color of yellow.
+For example, when an edge is in the `focus` state, you can add a halo with a width of 6 and orange color.
 
-```js {8-11}
+```js {4-9}
 const graph = new Graph({
-  data: {
-    nodes: [{ id: 'node1' }, { id: 'node2' }],
-    edges: [{ source: 'node1', target: 'node2', states: ['focus'] }],
-  },
   edge: {
     state: {
       focus: {
         halo: true,
         haloLineWidth: 6,
-        haloStroke: 'yellow',
+        haloStroke: 'orange',
+        haloStrokeOpacity: 0.6,
       },
     },
-  },
-  layout: {
-    type: 'grid',
-    cols: 2,
   },
 });
 ```
 
-The effect is as shown below:
+The effect is shown in the following image:
 
 ```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
@@ -776,6 +843,7 @@ const graph = new Graph({
   container: 'container',
   width: 300,
   height: 100,
+  autoFit: 'center',
   data: {
     nodes: [{ id: 'node1' }, { id: 'node2' }],
     edges: [{ source: 'node1', target: 'node2', states: ['focus'] }],
@@ -785,7 +853,7 @@ const graph = new Graph({
       focus: {
         halo: true,
         haloLineWidth: 6,
-        haloStroke: 'yellow',
+        haloStroke: 'orange',
       },
     },
   },
@@ -800,9 +868,9 @@ graph.render();
 
 ## Animation
 
-Define the animation effects of edges, supporting the following two configuration methods:
+Define edge animation effects. Supports the following two configuration methods:
 
-1. Turn off all edge animations
+1. Disable all edge animations
 
 ```json
 {
@@ -814,29 +882,30 @@ Define the animation effects of edges, supporting the following two configuratio
 
 2. Configure stage animations
 
-Stage animations refer to the animation effects of edges when entering the canvas, updating, and leaving the canvas. The currently supported stages include:
+Stage animations refer to the animation effects when edges enter the canvas, update, or leave the canvas. Currently supported stages include:
 
-- `enter`: Animation when the edge enters the canvas
-- `update`: Animation when the edge is updated
-- `exit`: Animation when the edge leaves the canvas
-- `show`: Animation when the edge is displayed from a hidden state
-- `hide`: Animation when the edge is hidden
-- `collapse`: Animation when the edge is collapsed
-- `expand`: Animation when the edge is expanded
+- `enter`: Animation when edge enters the canvas
+- `update`: Animation when edge updates
+- `exit`: Animation when edge leaves the canvas
+- `show`: Animation when edge shows from hidden state
+- `hide`: Animation when edge hides
+- `collapse`: Animation when edge collapses
+- `expand`: Animation when edge expands
 
-You can refer to [Animation Paradigm](/en/manual/animation/animation#animation-paradigm) to use animation syntax to configure edges, such as:
+You can refer to [Animation Paradigm](/en/manual/animation/animation#动画范式) to use animation syntax to configure edges, such as:
 
 ```json
 {
-  "node": {
+  "edge": {
     "animation": {
       "update": [
         {
-          "fields": ["stroke"], // Only animate the stroke attribute during update
+          "fields": ["stroke"], // Only animate stroke property during update
           "duration": 1000, // Animation duration
           "easing": "linear" // Easing function
         }
-      ],
+      ]
+    }
   }
 }
 ```
@@ -845,22 +914,23 @@ You can also use built-in animation effects:
 
 ```json
 {
-  "node": {
+  "edge": {
     "animation": {
       "enter": "fade", // Use fade animation
+      "update": "path-in", // Use path animation
       "exit": "fade" // Use fade animation
     }
   }
 }
 ```
 
-You can pass in false to turn off animations for specific stages:
+You can pass false to disable specific stage animations:
 
 ```json
 {
-  "node": {
+  "edge": {
     "animation": {
-      "enter": false // Turn off edge entrance animation
+      "enter": false // Disable edge entrance animation
     }
   }
 }
@@ -868,50 +938,32 @@ You can pass in false to turn off animations for specific stages:
 
 ## Palette
 
-Define the palette of edges, which is a predefined color pool, and assign colors to the `stroke` attribute according to rules.
+Define the edge palette, which is a predefined edge color pool that is allocated according to rules and maps colors to the `stroke` property.
 
-> For the definition of palettes, please refer to [Palette](/en/manual/theme/palette).
+> For palette definitions, please refer to [Palette](/en/manual/theme/palette).
 
-| Attribute | Description                                                                                                                    | Type                              | Default |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- | ------- |
-| type      | Specify the current palette type. <br> - `group`: Discrete palette <br> - `value`: Continuous palette                          | `group` &#124; `value`            | `group` |
-| field     | Specify the grouping field in the element data. If not specified, the id is used as the grouping field by default              | string &#124; ((datum) => string) | `id`    |
-| color     | Palette color. If the palette is registered, you can directly specify its registration name, and it also accepts a color array | string &#124; string[]            | -       |
-| invert    | Whether to invert the palette                                                                                                  | boolean                           | false   |
+| Property | Description                                                                                                           | Type                          | Default |
+| -------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ------- |
+| color    | Palette colors. If the palette is registered, you can directly specify its registration name, or accept a color array | string \| string[]            | -       |
+| field    | Specify the grouping field in element data. If not specified, defaults to using id as grouping field                  | string \| ((datum) => string) | `id`    |
+| invert   | Whether to invert the palette                                                                                         | boolean                       | false   |
+| type     | Specify current palette type. <br> - `group`: Discrete palette <br> - `value`: Continuous palette                     | `group` \| `value`            | `group` |
 
-For example, assign node colors according to the `direction` field of a set of data, so that nodes of the same category have the same color:
+For example, to assign edge colors to a group of data by the `direction` field, making edges of the same category have the same color:
 
-```js {23}
-const graph = new Graph({
-  data: {
-    nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
-    edges: [
-      { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
-      { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
-      { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
-      { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
-      { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
-    ],
-  },
-  layout: {
-    type: 'radial',
-    unitRadius: 120,
-    linkDistance: 120,
-  },
-  edge: {
-    style: {
-      endArrow: true,
-    },
-    palette: {
-      type: 'group',
-      field: 'direction',
-      color: ['#F08F56', '#00C9C9'],
-    },
-  },
-});
+```json
+{
+  "edge": {
+    "palette": {
+      "type": "group",
+      "field": "direction",
+      "color": ["#F08F56", "#00C9C9", "#D580FF"]
+    }
+  }
+}
 ```
 
-The effect is as shown below:
+The effect is shown in the following image:
 
 ```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';
@@ -950,17 +1002,17 @@ const graph = new Graph({
 graph.render();
 ```
 
-You can also use the default configuration:
+You can also use default configuration:
 
 ```json
 {
   "edge": {
-    "palette": "tableau" // tableau is the palette name, colors are assigned based on ID by default
+    "palette": "tableau" // tableau is the palette name, colors assigned by ID by default
   }
 }
 ```
 
-The effect is as shown below:
+The effect is shown in the following image:
 
 ```js | ob { pin: false, inject: true }
 import { Graph } from '@antv/g6';

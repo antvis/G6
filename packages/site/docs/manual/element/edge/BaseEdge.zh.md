@@ -3,56 +3,76 @@ title: 边通用配置项
 order: 1
 ---
 
-本文介绍边属性配置，配置位置如下：
+本文介绍内置边通用属性配置。
+
+## EdgeOptions
 
 ```js {5-9}
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   edge: {
-    type: 'line', // 边类型配置
-    style: {}, // 边样式配置
-    state: {}, // 边状态样式
-    palette: {}, // 边色板配置
-    animation: {}, // 边动画配置
+    type: 'line', // 边类型
+    style: {}, // 边样式
+    state: {}, // 状态样式
+    palette: {}, // 色板配置
+    animation: {}, // 动画配置
   },
 });
 ```
 
-## EdgeOptions
-
 | 属性      | 描述                                   | 类型                    | 默认值 | 必选 |
 | --------- | -------------------------------------- | ----------------------- | ------ | ---- |
 | type      | 边类型，内置边类型名称或自定义边的名称 | [Type](#type)           | `line` |      |
-| style     | 边样式，包括颜色、大小等               | [Style](#style)         | -      |      |
-| state     | 定义边在不同状态下的样式               | [State](#state)         | -      |      |
+| style     | 边样式配置，包括颜色、粗细等           | [Style](#style)         | -      |      |
+| state     | 不同状态下的样式配置                   | [State](#state)         | -      |      |
 | palette   | 定义边的色板，用于根据不同数据映射颜色 | [Palette](#palette)     | -      |      |
 | animation | 定义边的动画效果                       | [Animation](#animation) | -      |      |
 
 ## Type
 
-指定边类型，内置边类型名称或自定义边的名称。默认为 `line`（直线边）。
+指定边类型，内置边类型名称或自定义边的名称。默认为 `line`（直线边）。**⚠️ 注意**：这里决定了主图形的形状。
 
 ```js {3}
 const graph = new Graph({
   edge: {
-    type: 'polyline', // 边类型配置
+    type: 'polyline',
+  },
+});
+```
+
+**⚠️ 动态配置说明**：`type` 属性同样支持动态配置，可以根据边数据动态选择边类型：
+
+```js
+const graph = new Graph({
+  edge: {
+    // 静态配置
+    type: 'line',
+
+    // 动态配置 - 箭头函数形式
+    type: (datum) => datum.data.edgeType || 'line',
+
+    // 动态配置 - 普通函数形式（可访问 graph 实例）
+    type: function (datum) {
+      console.log(this); // graph 实例
+      return datum.data.importance > 5 ? 'polyline' : 'line';
+    },
   },
 });
 ```
 
 可选值有：
 
-- `cubic-horizontal`：[水平三次贝塞尔曲线](/manual/element/edge/cubic-horizontal)
-- `cubic-vertical`：[垂直三次贝塞尔曲线](/manual/element/edge/cubic-vertical)
-- `cubic`：[三次贝塞尔曲线](/manual/element/edge/cubic)
-- `line`：[直线](/manual/element/edge/line)
-- `polyline`：[折线](/manual/element/edge/polyline)
-- `quadratic`：[二次贝塞尔曲线](/manual/element/edge/quadratic)
+- `line`：[直线边](/manual/element/edge/line)
+- `polyline`：[折线边](/manual/element/edge/polyline)
+- `cubic`：[三次贝塞尔曲线边](/manual/element/edge/cubic)
+- `cubic-horizontal`：[水平三次贝塞尔曲线边](/manual/element/edge/cubic-horizontal)
+- `cubic-vertical`：[垂直三次贝塞尔曲线边](/manual/element/edge/cubic-vertical)
+- `quadratic`：[二次贝塞尔曲线边](/manual/element/edge/quadratic)
 
 ## Style
 
-定义边的样式，包括颜色、大小等。
+定义边的样式，包括颜色、粗细等。
 
 ```js {3}
 const graph = new Graph({
@@ -62,71 +82,453 @@ const graph = new Graph({
 });
 ```
 
+**⚠️ 动态配置说明**：以下所有样式属性都支持动态配置，即可以传入函数来根据边数据动态计算属性值：
+
+```js
+const graph = new Graph({
+  edge: {
+    style: {
+      // 静态配置
+      stroke: '#1783FF',
+
+      // 动态配置 - 箭头函数形式
+      lineWidth: (datum) => (datum.data.isImportant ? 3 : 1),
+
+      // 动态配置 - 普通函数形式（可访问 graph 实例）
+      lineDash: function (datum) {
+        console.log(this); // graph 实例
+        return datum.data.type === 'dashed' ? [5, 5] : [];
+      },
+
+      // 嵌套属性也支持动态配置
+      labelText: (datum) => `边: ${datum.id}`,
+      endArrow: (datum) => datum.data.hasArrow,
+    },
+  },
+});
+```
+
+其中 `datum` 参数为边数据对象 (`EdgeData`)，包含边的所有数据信息。
+
 一个完整的边由以下几部分构成：
 
 <img width="320" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cVHVQJKLOlgAAAAAAAAAAAAADmJ7AQ/original" />
 
-> 了解边的构成，请阅读 [元素 - 边](/manual/element/edge/overview#边构成)。
+- `key` ：边的主图形，表示边的主要路径，例如直线、曲线等；
+- `label` ：文本标签，通常用于展示边的名称或描述；
+- `badge` ：边上的徽标；
+- `halo` ：主图形周围展示的光晕效果的图形；
+- `startArrow` ：边起始端的箭头；
+- `endArrow` ：边结束端的箭头。
 
 以下样式配置将按原子图形依次说明：
 
-### 主图形样式 key
+### 主图形样式
 
-| 属性                            | 描述                                                  | 类型                                 | 默认值    |
-| ------------------------------- | ----------------------------------------------------- | ------------------------------------ | --------- |
-| class                           | 边的className                                         | string                               | -         |
-| cursor                          | 边的鼠标移入样式，[配置项](#cursor)                   | string                               | `default` |
-| draggable                       | 是否可拖动                                            | false                                | boolean   |
-| droppable                       | 是否可放置拖动元素                                    | false                                | boolean   |
-| fill                            | 边的区域填充色                                        | string                               | -         |
-| fillRule                        | 边的内部填充规则                                      | `nonzero` &#124; `evenodd`           | -         |
-| filter                          | 边的阴影的滤镜效果                                    | string                               | -         |
-| increasedLineWidthForHitTesting | 边的宽度过小时，可以用来增大交互区域                  | string &#124; number                 | -         |
-| isBillboard                     | 3D 场景中生效，始终朝向屏幕，因此线宽不受透视投影影像 | true                                 | boolean   |
-| lineDash                        | 边虚线样式                                            | 0                                    | number    |
-| lineDashOffset                  | 边虚线偏移量                                          | number                               | 0         |
-| lineWidth                       | 边的宽度                                              | 1                                    | number    |
-| opacity                         | 边整体的透明度                                        | number                               | 1         |
-| pointerEvents                   | 边是否响应指针事件，[配置项](#pointerevents)          | string                               | -         |
-| shadowBlur                      | 边的阴影模糊效果                                      | number                               | -         |
-| shadowColor                     | 边的阴影颜色                                          | string                               | -         |
-| shadowOffsetX                   | 边的阴影X轴偏移                                       | number                               | -         |
-| shadowOffsetY                   | 边的阴影Y轴偏移                                       | number                               | -         |
-| shadowType                      | 边的阴影类型                                          | `inner` &#124; `outer` &#124; `both` | -         |
-| sourcePort                      | 边起始连接的连接桩                                    | -                                    | string    |
-| stroke                          | 边的颜色                                              | `#000`                               | string    |
-| strokeOpacity                   | 边的颜色透明度                                        | number                               | 1         |
-| targetPort                      | 边终点连接的连接桩                                    | -                                    | string    |
-| transform                       | transform 属性允许你旋转、缩放、倾斜或平移给定边      | string                               | -         |
-| transformOrigin                 | 旋转与缩放中心，也称作变换中心                        | string                               | -         |
-| visibility                      | 边是否可见                                            | `visible` &#124; `hidden`            | `visible` |
-| zIndex                          | 边的渲染层级                                          | number                               | 1         |
+主图形是边的核心部分，定义了边的基本路径和外观。以下是常见的配置场景：
+
+#### 基础样式配置
+
+设置边的基本外观：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      stroke: '#5B8FF9', // 蓝色边
+      lineWidth: 2, // 边宽度
+    },
+  },
+});
+
+graph.render();
+```
+
+#### 虚线样式
+
+创建带虚线样式的边：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      stroke: '#F5222D',
+      lineWidth: 2,
+      lineDash: [6, 4], // 虚线样式
+      lineDashOffset: 0,
+    },
+  },
+});
+
+graph.render();
+```
+
+#### 阴影效果
+
+为边添加阴影效果：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 100,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 40 } },
+      { id: 'node2', style: { x: 180, y: 40 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      stroke: '#722ED1',
+      lineWidth: 3,
+      shadowColor: 'rgba(114, 46, 209, 0.3)',
+      shadowBlur: 8,
+      shadowOffsetX: 2,
+      shadowOffsetY: 2,
+    },
+  },
+});
+
+graph.render();
+```
+
+以下为完整的主图形样式配置：
+
+| 属性                            | 描述                                                                                      | 类型                  | 默认值    | 必选 |
+| ------------------------------- | ----------------------------------------------------------------------------------------- | --------------------- | --------- | ---- |
+| cursor                          | 边鼠标移入样式，[配置项](#cursor)                                                         | string                | `default` |      |
+| increasedLineWidthForHitTesting | 当 lineWidth 较小时，可交互区域也随之变小，有时我们想增大这个区域，让"细线"更容易被拾取到 | number                | 0         |      |
+| lineDash                        | 边虚线样式                                                                                | number[]              | -         |      |
+| lineDashOffset                  | 边虚线偏移量                                                                              | number                | 0         |      |
+| lineWidth                       | 边宽度                                                                                    | number                | 1         |      |
+| opacity                         | 边透明度                                                                                  | number \| string      | 1         |      |
+| pointerEvents                   | 边如何响应指针事件，[配置项](#pointerevents)                                              | string                | `auto`    |      |
+| shadowBlur                      | 边阴影模糊度                                                                              | number                | -         |      |
+| shadowColor                     | 边阴影颜色                                                                                | string                | -         |      |
+| shadowOffsetX                   | 边阴影在 x 轴方向上的偏移量                                                               | number \| string      | -         |      |
+| shadowOffsetY                   | 边阴影在 y 轴方向上的偏移量                                                               | number \| string      | -         |      |
+| shadowType                      | 边阴影类型                                                                                | `inner` \| `outer`    | `outer`   |      |
+| sourcePort                      | 边起始连接的连接桩                                                                        | string                | -         |      |
+| stroke                          | 边颜色                                                                                    | string                | `#000`    |      |
+| strokeOpacity                   | 边颜色透明度                                                                              | number \| string      | 1         |      |
+| targetPort                      | 边终点连接的连接桩                                                                        | string                | -         |      |
+| transform                       | transform 属性允许你旋转、缩放、倾斜或平移给定边                                          | string                | -         |      |
+| transformOrigin                 | 旋转与缩放中心，也称作变换中心                                                            | string                | -         |      |
+| visibility                      | 边是否可见                                                                                | `visible` \| `hidden` | `visible` |      |
+| zIndex                          | 边渲染层级                                                                                | number                | 1         |      |
 
 #### PointerEvents
 
-可选值有：
-`visible` | `visiblepainted` | `visiblestroke` | `non-transparent-pixel` | `visiblefill` | `visible` | `painted` | `fill` | `stroke` | `all` | `none` | `auto` | `inherit` | `initial` | `unset`
+`pointerEvents` 属性控制图形如何响应交互事件，可参考 [MDN 文档](https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events)。
+
+可选值有：`visible` | `visiblepainted` | `visiblestroke` | `non-transparent-pixel` | `visiblefill` | `visible` | `painted` | `fill` | `stroke` | `all` | `none` | `auto` | `inherit` | `initial` | `unset`
+
+简而言之，`stroke` 和 `visibility` 都可以独立或组合影响拾取判定行为。目前支持以下关键词：
+
+- **`auto`**：默认值，等同于 `visiblepainted`
+- **`none`**：永远不会成为响应事件的目标
+- **`visiblepainted`**：满足以下条件才会响应事件：
+  - `visibility` 设置为 `visible`，即图形为可见的
+  - 在图形描边区域触发同时 `stroke` 取非 `none` 的值
+- **`visiblestroke`**：满足以下条件才会响应事件：
+  - `visibility` 设置为 `visible`，即图形为可见的
+  - 在图形描边区域触发，不受 `stroke` 取值的影响
+- **`visible`**：满足以下条件才会响应事件：
+  - `visibility` 设置为 `visible`，即图形为可见的
+  - 在图形描边区域触发，不受 `stroke` 取值的影响
+- **`painted`**：满足以下条件才会响应事件：
+  - 在图形描边区域触发同时 `stroke` 取非 `none` 的值
+  - 不受 `visibility` 取值的影响
+- **`stroke`**：满足以下条件才会响应事件：
+  - 在图形描边区域触发，不受 `stroke` 取值的影响
+  - 不受 `visibility` 取值的影响
+- **`all`**：只要进入图形的描边区域就会响应事件，不会受 `stroke`、`visibility` 的取值影响
+
+**使用示例：**
+
+```js
+// 示例1：只有描边区域响应事件
+const graph = new Graph({
+  edge: {
+    style: {
+      stroke: '#000',
+      lineWidth: 2,
+      pointerEvents: 'stroke', // 只有描边响应事件
+    },
+  },
+});
+
+// 示例2：完全不响应事件
+const graph = new Graph({
+  edge: {
+    style: {
+      pointerEvents: 'none', // 边不响应任何事件
+    },
+  },
+});
+```
 
 #### Cursor
 
 可选值有：`auto` | `default` | `none` | `context-menu` | `help` | `pointer` | `progress` | `wait` | `cell` | `crosshair` | `text` | `vertical-text` | `alias` | `copy` | `move` | `no-drop` | `not-allowed` | `grab` | `grabbing` | `all-scroll` | `col-resize` | `row-resize` | `n-resize` | `e-resize` | `s-resize` | `w-resize` | `ne-resize` | `nw-resize` | `se-resize` | `sw-resize` | `ew-resize` | `ns-resize` | `nesw-resize` | `nwse-resize` | `zoom-in` | `zoom-out`
 
-**示例：**
+### 标签样式
 
-```js {4-6}
+标签用于显示边的文本信息，支持多种样式配置和布局方式。以下是常见的使用场景：
+
+#### 基础文本标签
+
+最简单的文本标签配置：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
 const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 120,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 60 } },
+      { id: 'node2', style: { x: 180, y: 60 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
   edge: {
     style: {
-      stroke: '#1783F', // 边颜色
-      lineWidth: 2, // 边的宽度
+      labelText: '边标签',
+      labelFill: '#262626',
+      labelFontSize: 12,
+      labelPlacement: 'center',
     },
   },
 });
+
+graph.render();
 ```
 
-效果如下：
+#### 多行文本标签
 
-```js | ob { pin: false, inject: true }
+当文本较长时，可以设置自动换行：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 120,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 60 } },
+      { id: 'node2', style: { x: 180, y: 60 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      labelText: '这是一个很长的边标签需要换行显示',
+      labelWordWrap: true,
+      labelMaxWidth: '200%',
+      labelMaxLines: 2,
+      labelTextOverflow: 'ellipsis',
+      labelFill: '#434343',
+      labelPlacement: 'center',
+      labelTextAlign: 'center',
+    },
+  },
+});
+
+graph.render();
+```
+
+#### 带背景的标签
+
+为标签添加背景，提高可读性：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 120,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 60 } },
+      { id: 'node2', style: { x: 180, y: 60 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      labelText: '重要连接',
+      labelBackground: true,
+      labelBackgroundFill: 'rgba(250, 140, 22, 0.1)',
+      labelBackgroundRadius: 6,
+      labelPadding: [4, 8],
+      labelFill: '#D4380D',
+      labelFontWeight: 'bold',
+      labelPlacement: 'center',
+    },
+  },
+});
+
+graph.render();
+```
+
+#### 自动旋转标签
+
+标签可以自动旋转以保持与边方向一致：
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+
+const graph = new Graph({
+  container: 'container',
+  width: 240,
+  height: 120,
+  data: {
+    nodes: [
+      { id: 'node1', style: { x: 60, y: 30 } },
+      { id: 'node2', style: { x: 180, y: 90 } },
+    ],
+    edges: [{ source: 'node1', target: 'node2' }],
+  },
+  edge: {
+    style: {
+      labelText: '自动旋转',
+      labelAutoRotate: true, // 自动旋转
+      labelFill: '#1890FF',
+      labelFontWeight: 'bold',
+      labelPlacement: 'center',
+    },
+  },
+});
+
+graph.render();
+```
+
+以下为完整的标签样式配置：
+
+| 属性                     | 描述                                                                             | 类型                                                                        | 默认值    | 必选 |
+| ------------------------ | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------- | ---- |
+| label                    | 边标签是否显示                                                                   | boolean                                                                     | true      |      |
+| labelAutoRotate          | 边标签是否自动旋转，保持与边的方向一致                                           | boolean                                                                     | true      |      |
+| labelCursor              | 鼠标移入边标签时显示的样式，[配置项](#cursor)                                    | string                                                                      | `default` |      |
+| labelFill                | 边标签文字颜色                                                                   | string                                                                      | -         |      |
+| labelFontFamily          | 边标签字体族                                                                     | string                                                                      | -         |      |
+| labelFontSize            | 边标签字体大小                                                                   | number                                                                      | 12        |      |
+| labelFontStyle           | 边标签字体样式                                                                   | `normal` \| `italic` \| `oblique`                                           | -         |      |
+| labelFontVariant         | 边标签字体变种                                                                   | `normal` \| `small-caps` \| string                                          | -         |      |
+| labelFontWeight          | 边标签字体粗细                                                                   | `normal` \| `bold` \| `bolder` \| `lighter` \| number                       | -         |      |
+| labelLeading             | 行间距                                                                           | number                                                                      | 0         |      |
+| labelLetterSpacing       | 边标签字间距                                                                     | number \| string                                                            | -         |      |
+| labelLineHeight          | 边标签行高                                                                       | number \| string                                                            | -         |      |
+| labelMaxLines            | 边标签最大行数                                                                   | number                                                                      | 1         |      |
+| labelMaxWidth            | 边标签最大宽度，[配置项](#labelmaxwidth)                                         | number \| string                                                            | `200%`    |      |
+| labelOffsetX             | 边标签在 x 轴方向上的偏移量                                                      | number                                                                      | 0         |      |
+| labelOffsetY             | 边标签在 y 轴方向上的偏移量                                                      | number                                                                      | 0         |      |
+| labelPadding             | 边标签内边距                                                                     | number \| number[]                                                          | 0         |      |
+| labelPlacement           | 边标签相对于边的位置，[配置项](#labelplacement)                                  | string \| number                                                            | `center`  |      |
+| labelText                | 边标签文字内容                                                                   | `string` \| `(datum) => string`                                             | -         |      |
+| labelTextAlign           | 边标签文本水平对齐方式                                                           | `start` \| `center` \| `middle` \| `end` \| `left` \| `right`               | `left`    |      |
+| labelTextBaseline        | 边标签文本基线                                                                   | `top` \| `hanging` \| `middle` \| `alphabetic` \| `ideographic` \| `bottom` | -         |      |
+| labelTextDecorationColor | 边标签文本装饰线颜色                                                             | string                                                                      | -         |      |
+| labelTextDecorationLine  | 边标签文本装饰线                                                                 | string                                                                      | -         |      |
+| labelTextDecorationStyle | 边标签文本装饰线样式                                                             | `solid` \| `double` \| `dotted` \| `dashed` \| `wavy`                       | -         |      |
+| labelTextOverflow        | 边标签文本溢出处理方式                                                           | `clip` \| `ellipsis` \| string                                              | -         |      |
+| labelTextPath            | 边标签文本路径                                                                   | Path                                                                        | -         |      |
+| labelWordWrap            | 边标签是否开启自动折行。开启 labelWordWrap 后，超出 labelMaxWidth 的部分自动换行 | boolean                                                                     | false     |      |
+| labelZIndex              | 边标签渲染层级                                                                   | number                                                                      | 0         |      |
+
+#### LabelPlacement
+
+边标签相对于边的位置，可以设置为：
+
+- `start`：标签位于边的起始位置
+- `center`：标签位于边的中心位置（默认）
+- `end`：标签位于边的结束位置
+- `number`：取值范围为 0-1，表示标签在边上的具体位置比例，0 为起始位置，1 为结束位置
+
+#### LabelMaxWidth
+
+开启自动折行 `labelWordWrap` 后，超出该宽度则换行:
+
+- string: 表示以相对于边长度的百分比形式定义最大宽度。例如 `50%` 表示标签宽度不超过边长度的一半
+- number: 表示以像素值为单位定义最大宽度。例如 100 表示标签的最大宽度为 100 像素
+
+比如，设置多行标签文字：
+
+```json
+{
+  "labelWordWrap": true,
+  "labelMaxWidth": 200,
+  "labelMaxLines": 3
+}
+```
+
+### 标签背景样式
+
+标签背景用于显示边标签的背景：
+
+| 属性                          | 描述                                                                                                         | 类型                                     | 默认值    |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | --------- |
+| labelBackground               | 边标签背景是否显示                                                                                           | boolean                                  | false     |
+| labelBackgroundCursor         | 边标签背景鼠标移入样式，[配置项](#cursor)                                                                    | string                                   | `default` |
+| labelBackgroundFill           | 边标签背景填充色                                                                                             | string                                   | -         |
+| labelBackgroundFillOpacity    | 边标签背景透明度                                                                                             | number                                   | 1         |
+| labelBackgroundHeight         | 边标签背景高度                                                                                               | string \| number                         | -         |
+| labelBackgroundLineDash       | 边标签背景虚线配置                                                                                           | number \| string \|(number \| string )[] | -         |
+| labelBackgroundLineDashOffset | 边标签背景虚线偏移量                                                                                         | number                                   | -         |
+| labelBackgroundLineWidth      | 边标签背景描边线宽                                                                                           | number                                   | -         |
+| labelBackgroundRadius         | 边标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，不足则自动补充 | number \| number[]                       | 0         |
+| labelBackgroundShadowBlur     | 边标签背景阴影模糊程度                                                                                       | number                                   | -         |
+| labelBackgroundShadowColor    | 边标签背景阴影颜色                                                                                           | string                                   | -         |
+| labelBackgroundShadowOffsetX  | 边标签背景阴影 X 方向偏移                                                                                    | number                                   | -         |
+| labelBackgroundShadowOffsetY  | 边标签背景阴影 Y 方向偏移                                                                                    | number                                   | -         |
+| labelBackgroundStroke         | 边标签背景描边颜色                                                                                           | string                                   | -         |
+| labelBackgroundStrokeOpacity  | 边标签背景描边透明度                                                                                         | number \| string                         | 1         |
+| labelBackgroundVisibility     | 边标签背景是否可见                                                                                           | `visible` \| `hidden`                    | -         |
+| labelBackgroundZIndex         | 边标签背景渲染层级                                                                                           | number                                   | 1         |
+
+### 光晕样式
+
+光晕是围绕边主图形显示的效果，通常用于高亮显示或表示边的特殊状态。
+
+#### 基础光晕效果
+
+为边添加基本的光晕效果：
+
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -135,18 +537,18 @@ const graph = new Graph({
   height: 100,
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 50 } },
+      { id: 'node2', style: { x: 180, y: 50 } },
     ],
     edges: [{ source: 'node1', target: 'node2' }],
   },
-  node: {
-    style: { fill: '#1783FF' },
-  },
   edge: {
     style: {
-      stroke: '#FF0000', // 边颜色
-      lineWidth: 2, // 边的宽度
+      lineWidth: 2,
+      halo: true,
+      haloStroke: '#1890FF',
+      haloLineWidth: 6,
+      haloStrokeOpacity: 0.3,
     },
   },
 });
@@ -154,82 +556,32 @@ const graph = new Graph({
 graph.render();
 ```
 
-### 标签样式 label
+以下为完整的光晕样式配置：
 
-| 属性                          | 描述                                                                                                                                                                                                                                       | 类型                                                                              | 默认值     |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- | ---------- |
-| label                         | 边标签是否显示                                                                                                                                                                                                                             | boolean                                                                           | true       |
-| labelAutoRotate               | 边标签是否自动旋转，保持与边的方向一致                                                                                                                                                                                                     | boolean                                                                           | true       |
-| labelBackground               | 边标签是否显示背景                                                                                                                                                                                                                         | boolean                                                                           | false      |
-| labelBackgroundClass          | 边标签背景className                                                                                                                                                                                                                        | string                                                                            | -          |
-| labelBackgroundCursor         | 边标签背景鼠标移入样式，[配置项](#cursor)                                                                                                                                                                                                  | string                                                                            | `default`  |
-| labelBackgroundFill           | 边标签背景填充色                                                                                                                                                                                                                           | string                                                                            | -          |
-| labelBackgroundFillOpacity    | 边标签背景透明度                                                                                                                                                                                                                           | number                                                                            | 1          |
-| labelBackgroundHeight         | 边标签背景高度                                                                                                                                                                                                                             | string \| number                                                                  | -          |
-| labelBackgroundLineDash       | 边标签背景虚线配置                                                                                                                                                                                                                         | number &#124; string &#124;(number &#124; string )[]                              | -          |
-| labelBackgroundLineDashOffset | 边标签背景虚线偏移量                                                                                                                                                                                                                       | number                                                                            | -          |
-| labelBackgroundLineWidth      | 边标签背景描边线度                                                                                                                                                                                                                         | number                                                                            | -          |
-| labelBackgroundRadius         | 边标签背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，不足则自动补充                                                                                                                               | number &#124; number[]                                                            | 0          |
-| labelBackgroundShadowBlur     | 边标签背景阴影模糊程度                                                                                                                                                                                                                     | number                                                                            | -          |
-| labelBackgroundShadowColor    | 边标签背景阴影颜色                                                                                                                                                                                                                         | string                                                                            | -          |
-| labelBackgroundShadowOffsetX  | 边标签背景阴影 X 方向偏移                                                                                                                                                                                                                  | number                                                                            | -          |
-| labelBackgroundShadowOffsetY  | 边标签背景阴影 Y 方向偏移                                                                                                                                                                                                                  | number                                                                            | -          |
-| labelBackgroundStroke         | 边标签背景描边颜色                                                                                                                                                                                                                         | string                                                                            | -          |
-| labelBackgroundStrokeOpacity  | 边标签背景描边透明度                                                                                                                                                                                                                       | number &#124; string                                                              | 1          |
-| labelBackgroundVisibility     | 边标签背景是否可见                                                                                                                                                                                                                         | `visible` &#124; `hidden`                                                         | -          |
-| labelBackgroundZIndex         | 边标签背景渲染层级                                                                                                                                                                                                                         | number                                                                            | -          |
-| labelClass                    | 边标签className                                                                                                                                                                                                                            | string                                                                            | -          |
-| labelCursor                   | 边标签鼠标移入样式，[配置项](#cursor)                                                                                                                                                                                                      | string                                                                            | `default`  |
-| labelFill                     | 边标签文字颜色                                                                                                                                                                                                                             | string                                                                            | -          |
-| labelFillOpacity              | 边标签文字颜色透明度                                                                                                                                                                                                                       | string                                                                            | 1          |
-| labelFillRule                 | 边标签文字填充规则                                                                                                                                                                                                                         | `nonzero` &#124; `evenodd`                                                        | -          |
-| labelFilter                   | 边标签文字滤镜                                                                                                                                                                                                                             | string                                                                            | -          |
-| labelFontFamily               | 边标签文字字体族                                                                                                                                                                                                                           | `system-ui, sans-serif`                                                           | -          |
-| labelFontSize                 | 边标签字体大小                                                                                                                                                                                                                             | number                                                                            | 12         |
-| labelFontStyle                | 边标签文字字体样式                                                                                                                                                                                                                         | `normal` &#124; `italic` &#124; `oblique`                                         | -          |
-| labelFontVariant              | 边标签文字字体变种                                                                                                                                                                                                                         | `normal` &#124; `small-caps`                                                      | -          |
-| labelFontWeight               | 边标签字体粗细                                                                                                                                                                                                                             | number &#124; string                                                              | `normal`   |
-| labelLeading                  | 边标签文字行间距                                                                                                                                                                                                                           | number                                                                            | -          |
-| labelLetterSpacing            | 边标签文字字间距                                                                                                                                                                                                                           | number                                                                            | -          |
-| labelMaxLines                 | 边标签文字最大行数                                                                                                                                                                                                                         | number                                                                            | 1          |
-| labelMaxWidth                 | 边标签最大宽度。开启自动折行后，超出该宽度则换行<br> - string: 表示以相对于边宽度的百分比形式定义最大宽度。例如 `50%` 表示标签宽度不超过边宽度的一半 <br> - number: 表示以像素值为单位定义最大宽度。例如 100 表示标签的最大宽度为 100 像素 | number &#124; string                                                              | `80%`      |
-| labelOffsetX                  | 标签在 x 轴方向上的偏移量                                                                                                                                                                                                                  | number                                                                            | 4          |
-| labelOffsetY                  | 边标签在 y 轴方向上的偏移量                                                                                                                                                                                                                | number                                                                            | 0          |
-| labelOpacity                  | 边标签整体透明度                                                                                                                                                                                                                           | number                                                                            | 1          |
-| labelPadding                  | 边标签内边距                                                                                                                                                                                                                               | number &#124; number[]                                                            | 0          |
-| labelPlacement                | 边标签相对于边的位置。取值范围为 `start`、`center`、`end` 或特定比率（数字 0-1）                                                                                                                                                           | `start` &#124; `center` &#124; `end` &#124; number                                | `center`   |
-| labelText                     | 边标签文字内容                                                                                                                                                                                                                             | string                                                                            | -          |
-| labelTextAlign                | 边标签文字对齐方式                                                                                                                                                                                                                         | `start` &#124; `center` &#124; `middle` &#124; `end` &#124; `left` &#124; `right' | `left`     |
-| labelTextBaseLine             | 边标签文字基线                                                                                                                                                                                                                             | `top` &#124; `hanging` &#124; `middle` &#124; `alphabetic` &#124; `ideographic`   | `middle`   |
-| labelTextDecorationColor      | 边标签文字装饰线颜色                                                                                                                                                                                                                       | string                                                                            | -          |
-| labelTextDecorationLine       | 边标签文字装饰线                                                                                                                                                                                                                           | string                                                                            | -          |
-| labelTextDecorationStyle      | 边标签文字装饰线样式                                                                                                                                                                                                                       | `solid` &#124; `double` &#124; `dotted` &#124; `dashed` &#124; `wavy`             | -          |
-| labelTextOverflow             | 边标签文字溢出处理方式                                                                                                                                                                                                                     | `clip` &#124; `ellipsis` &#124; string                                            | `ellipsis` |
-| labelVisibility               | 边标签是否可见                                                                                                                                                                                                                             | `visible` &#124; `hidden`                                                         | `visible`  |
-| labelWordWrap                 | 边标签是否开启自动折行。开启 labelWordWrap 后，超出 labelMaxWidth 的部分自动换行                                                                                                                                                           | boolean                                                                           | false      |
-| labelZIndex                   | 边标签渲染层级                                                                                                                                                                                                                             | number                                                                            | -          |
+| 属性              | 描述                                                 | 类型                   | 默认值                         | 必选 |
+| ----------------- | ---------------------------------------------------- | ---------------------- | ------------------------------ | ---- |
+| halo              | 边光晕是否显示                                       | boolean                | false                          |      |
+| haloCursor        | 边光晕鼠标移入样式，[配置项](#cursor)                | string                 | `default`                      |      |
+| haloDraggable     | 边光晕是否允许拖拽                                   | boolean                | true                           |      |
+| haloDroppable     | 边光晕是否允许接收被拖拽的元素                       | boolean                | true                           |      |
+| haloFillRule      | 边光晕填充规则                                       | `nonzero` \| `evenodd` | -                              |      |
+| haloFilter        | 边光晕滤镜                                           | string                 | -                              |      |
+| haloLineWidth     | 边光晕描边宽度                                       | number                 | 3                              |      |
+| haloPointerEvents | 边光晕效果是否响应指针事件，[配置项](#pointerevents) | string                 | `none`                         |      |
+| haloStroke        | 边光晕描边色，**此属性用于设置边周围光晕的颜色**     | string                 | 与主图形的描边色 `stroke` 一致 |      |
+| haloStrokeOpacity | 边光晕描边色透明度                                   | number                 | 0.25                           |      |
+| haloVisibility    | 边光晕可见性                                         | `visible` \| `hidden`  | `visible`                      |      |
+| haloZIndex        | 边光晕渲染层级                                       | number                 | -1                             |      |
 
-**示例：**
+### 箭头样式
 
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // 边颜色
-      lineWidth: 2, // 边的宽度
-      label: true, // 开启边标签展示
-      labelText: 'labelText', // 边标签文字
-      labelPlacement: 'center', // 边标签相对于边的位置
-      labelFill: '#FF0000', // 边标签文字颜色
-      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-    },
-  },
-});
-```
+边支持在起始端和结束端添加箭头，用于表示边的方向性。
 
-效果如下：
+#### 基础箭头
 
-```js | ob { pin: false, inject: true }
+为边的结束端添加基本箭头：
+
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -238,23 +590,18 @@ const graph = new Graph({
   height: 100,
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 50 } },
+      { id: 'node2', style: { x: 180, y: 50 } },
     ],
     edges: [{ source: 'node1', target: 'node2' }],
   },
-  node: {
-    style: { fill: '#1783FF' },
-  },
   edge: {
     style: {
-      stroke: '#FF0000', // 边颜色
-      lineWidth: 2, // 边的宽度
-      label: true, // 开启边标签展示
-      labelText: 'labelText', // 边标签文字
-      labelPlacement: 'center', // 边标签相对于边的位置
-      labelFill: '#FF0000', // 边标签文字颜色
-      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
+      stroke: '#1890FF',
+      lineWidth: 2,
+      endArrow: true, // 结束端箭头
+      endArrowType: 'vee', // 箭头类型
+      endArrowSize: 10, // 箭头大小
     },
   },
 });
@@ -262,49 +609,11 @@ const graph = new Graph({
 graph.render();
 ```
 
-### 光晕样式 halo
+#### 双向箭头
 
-| 属性              | 描述                                                 | 类型                                                 | 默认值               |
-| ----------------- | ---------------------------------------------------- | ---------------------------------------------------- | -------------------- |
-| halo              | 边光晕是否显示                                       | boolean                                              | false                |
-| haloClass         | 边光晕className                                      | string                                               | -                    |
-| haloCursor        | 边光晕鼠标移入样式，[配置项](#cursor)                | strig                                                | `default`            |
-| haloDraggable     | 边光晕是否允许拖拽                                   | boolean                                              | -                    |
-| haloDroppable     | 边光晕是否允许接收被拖拽的元素                       | boolean                                              | false                |
-| haloFillRule      | 边光晕填充规则                                       | `nonzero` &#124; `evenodd`                           | -                    |
-| haloFilter        | 边光晕滤镜                                           | string                                               | -                    |
-| haloLineDash      | 边光晕描边虚线样式                                   | number &#124; string &#124; (number &#124; string)[] | 0                    |
-| haloLineWidth     | 边光晕描边宽度                                       | number                                               | 3                    |
-| haloPointerEvents | 边光晕效果是否响应指针事件，[配置项](#pointerevents) | string                                               | `none`               |
-| haloStroke        | 边光晕描边色                                         | string                                               | 与主图形的填充色一致 |
-| haloStrokeOpacity | 边光晕描边色透明度                                   | number                                               | 0.25                 |
-| haloVisibility    | 边光晕可见性                                         | `visible` &#124; `hidden`                            | `visible`            |
-| haloZIndex        | 边光晕渲染层级                                       | number                                               | -1                   |
+为边的两端都添加箭头：
 
-**示例：**
-
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // 边颜色
-      lineWidth: 2, // 边的宽度
-      label: true, // 开启边标签展示
-      labelText: 'labelText', // 边标签文字
-      labelPlacement: 'center', // 边标签相对于边的位置
-      labelFill: '#FF0000', // 边标签文字颜色
-      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-      halo: true, // 边光晕开启
-      haloStroke: '#000', // 边光晕颜色
-      haloStrokeOpacity: 0.2, // 边光晕透明度
-    },
-  },
-});
-```
-
-效果如下：
-
-```js | ob { pin: false, inject: true }
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -313,26 +622,21 @@ const graph = new Graph({
   height: 100,
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 50 } },
+      { id: 'node2', style: { x: 180, y: 50 } },
     ],
     edges: [{ source: 'node1', target: 'node2' }],
   },
-  node: {
-    style: { fill: '#1783FF' },
-  },
   edge: {
     style: {
-      stroke: '#FF0000', // 边颜色
-      lineWidth: 2, // 边的宽度
-      label: true, // 开启边标签展示
-      labelText: 'labelText', // 边标签文字
-      labelPlacement: 'center', // 边标签相对于边的位置
-      labelFill: '#FF0000', // 边标签文字颜色
-      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-      halo: true, // 边光晕开启
-      haloStroke: '#000', // 边光晕颜色
-      haloStrokeOpacity: 0.2, // 边光晕透明度
+      stroke: '#52C41A',
+      lineWidth: 2,
+      startArrow: true, // 起始端箭头
+      startArrowType: 'circle',
+      startArrowSize: 8,
+      endArrow: true, // 结束端箭头
+      endArrowType: 'triangle',
+      endArrowSize: 10,
     },
   },
 });
@@ -340,82 +644,11 @@ const graph = new Graph({
 graph.render();
 ```
 
-### 徽标样式 badge
+#### 自定义箭头样式
 
-| 属性                          | 描述                                                                                                                                                                                                                            | 类型                                                                                            | 默认值       |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ------------ |
-| badge                         | 边徽标是否显示                                                                                                                                                                                                                  | boolean                                                                                         | true         |
-| badgeBackground               | 边徽标是否显示背景                                                                                                                                                                                                              | boolean                                                                                         | true         |
-| badgeBackgroundClass          | 边徽标背景clssName                                                                                                                                                                                                              | string                                                                                          | -            |
-| badgeBackgroundCursor         | 边徽标背景鼠标移入样式，[配置项](#cursor)                                                                                                                                                                                       | string                                                                                          | `default`    |
-| badgeBackgroundFill           | 边徽标背景填充色。若不指定，优先考虑 badgePalette 按顺序分配                                                                                                                                                                    | string                                                                                          | -            |
-| badgeBackgroundFillOpacity    | 边徽标背景填充透明度                                                                                                                                                                                                            | number                                                                                          | 1            |
-| badgeBackgroundFilter         | 边徽标背景滤镜                                                                                                                                                                                                                  | string                                                                                          | -            |
-| badgeBackgroundHeight         | 边徽标背景高度                                                                                                                                                                                                                  | number &#124; string                                                                            | -            |
-| badgeBackgroundLineDash       | 边徽标背景虚线配置                                                                                                                                                                                                              | number &#124; string &#124;(number &#124; string )[]                                            | -            |
-| badgeBackgroundLineDashOffset | 边徽标背景虚线偏移量                                                                                                                                                                                                            | number                                                                                          | -            |
-| badgeBackgroundLineWidth      | 边徽标背景描边线宽                                                                                                                                                                                                              | number                                                                                          | -            |
-| badgeBackgroundOpacity        | 边徽标渲背景透明度                                                                                                                                                                                                              | number                                                                                          | 1            |
-| badgeBackgroundRadius         | 边徽标背景圆角半径 <br> - number: 统一设置四个圆角半径 <br> - number[]: 分别设置四个圆角半径，会补足缺省的分量 <br> - string: 与 [CSS padding](https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding) 属性类似，使用空格分隔 | number &#124; number[] &#124; string                                                            | `50%`        |
-| badgeBackgroundShadowBlur     | 边徽标背景阴影模糊程度                                                                                                                                                                                                          | number                                                                                          | -            |
-| badgeBackgroundShadowColor    | 边徽标背景阴影颜色                                                                                                                                                                                                              | string                                                                                          | -            |
-| badgeBackgroundShadowOffsetX  | 边徽标背景阴影 X 方向偏移                                                                                                                                                                                                       | number                                                                                          | -            |
-| badgeBackgroundShadowOffsetY  | 边徽标背景阴影 Y 方向偏移                                                                                                                                                                                                       | number                                                                                          | -            |
-| badgeBackgroundStroke         | 边徽标背景描边颜色                                                                                                                                                                                                              | string                                                                                          | -            |
-| badgeBackgroundStrokeOpacity  | 边徽标背景描边透明度                                                                                                                                                                                                            | number &#124; string                                                                            | 1            |
-| badgeBackgroundVisibility     | 边徽标背景是否可见                                                                                                                                                                                                              | `visible` &#124; `hidden`                                                                       | `visible`    |
-| badgeBackgroundZIndex         | 边徽标背景渲染层级                                                                                                                                                                                                              | number                                                                                          | -            |
-| badgeFill                     | 边徽标文字颜色                                                                                                                                                                                                                  | string                                                                                          | -            |
-| badgeFontSize                 | 边徽标字体大小                                                                                                                                                                                                                  | number                                                                                          | 10           |
-| badgeFontVariant              | 边徽标字体变种                                                                                                                                                                                                                  | `normal` &#124; `small-caps` &#124; string                                                      | `normal`     |
-| badgeFontWeight               | 边徽标字体粗细                                                                                                                                                                                                                  | number &#124; string                                                                            | `normal`     |
-| badgeLineHeight               | 边徽标行高                                                                                                                                                                                                                      | string &#124; number                                                                            | -            |
-| badgeLineWidth                | 边徽标行宽                                                                                                                                                                                                                      | string &#124; number                                                                            | -            |
-| badgeMaxLines                 | 边徽标文本最大行数                                                                                                                                                                                                              | number                                                                                          | 1            |
-| badgeOffsetX                  | 边徽标在 x 轴方向上的偏移量                                                                                                                                                                                                     | number                                                                                          | 0            |
-| badgeOffsetY                  | 边徽标在 y 轴方向上的偏移量                                                                                                                                                                                                     | number                                                                                          | 0            |
-| badgePadding                  | 边徽标内边距                                                                                                                                                                                                                    | number &#124; number[]                                                                          | [2, 4, 2, 4] |
-| badgePlacement                | 边徽标相对于边主图形的位置                                                                                                                                                                                                      | `prefix` &#124; `suffix`                                                                        | `suffix`     |
-| badgeText                     | 边徽标文字内容                                                                                                                                                                                                                  | string                                                                                          | -            |
-| badgeTextAlign                | 边徽标文本水平对齐方式                                                                                                                                                                                                          | `start` &#124; `center` &#124; `middle` &#124; `end` &#124; `left` &#124; `right`               | `left`       |
-| badgeTextBaseline             | 边徽标文本基线                                                                                                                                                                                                                  | `top` &#124; `hanging` &#124; `middle` &#124; `alphabetic` &#124; `ideographic` &#124; `bottom` | `alphabetic` |
-| badgeTextDecorationColor      | 边徽标文本装饰线颜色                                                                                                                                                                                                            | string                                                                                          | -            |
-| badgeTextDecorationLine       | 边徽标文本装饰线                                                                                                                                                                                                                | string                                                                                          | -            |
-| badgeTextDecorationStyle      | 边徽标文本装饰线样式                                                                                                                                                                                                            | `solid` &#124; `double` &#124; `dotted` &#124; `dashed` &#124; `wavy`                           | `solid`      |
-| badgeTextOverflow             | 边徽标文本溢出处理方式                                                                                                                                                                                                          | `clip` &#124; `ellipsis` &#124; string                                                          | `clip`       |
-| badgeVisibility               | 边徽标是否可见                                                                                                                                                                                                                  | `visible` &#124; `hidden`                                                                       | -            |
-| badgeWordWrap                 | 边徽标文本是否自动换行，开启后超过badgeWordWrapWidth即会换行                                                                                                                                                                    | boolean                                                                                         | -            |
-| badgeWordWrapWidth            | 边徽标文本换行宽度                                                                                                                                                                                                              | number                                                                                          | -            |
-| badgeZIndex                   | 边徽标渲染层级                                                                                                                                                                                                                  | number                                                                                          | 1            |
+自定义箭头的颜色和类型：
 
-**示例：**
-
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // 边颜色
-      lineWidth: 2, // 边的宽度
-      label: true, // 开启边标签展示
-      labelText: 'labelText', // 边标签文字
-      labelPlacement: 'center', // 边标签相对于边的位置
-      labelFill: '#FF0000', // 边标签文字颜色
-      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-      halo: true, // 边光晕开启
-      haloStroke: '#000', // 边光晕颜色
-      haloStrokeOpacity: 0.2, // 边光晕透明度
-      badgeText: 'badge', // 边徽标文本
-      badgeFill: 'green', // 边徽标文本颜色
-      badgeOffsetX: -20, // 边徽标在x轴方向上的偏移量
-      badgeBackground: true, // 边徽标背景开启
-    },
-  },
-});
-```
-
-效果如下：
-
-```js | ob { pin: false, inject: true }
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -424,30 +657,21 @@ const graph = new Graph({
   height: 100,
   data: {
     nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
+      { id: 'node1', style: { x: 60, y: 50 } },
+      { id: 'node2', style: { x: 180, y: 50 } },
     ],
     edges: [{ source: 'node1', target: 'node2' }],
   },
-  node: {
-    style: { fill: '#1783FF' },
-  },
   edge: {
     style: {
-      stroke: '#FF0000', // 边颜色
-      lineWidth: 2, // 边的宽度
-      label: true, // 开启边标签展示
-      labelText: 'labelText', // 边标签文字
-      labelPlacement: 'center', // 边标签相对于边的位置
-      labelFill: '#FF0000', // 边标签文字颜色
-      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-      halo: true, // 边光晕开启
-      haloStroke: '#000', // 边光晕颜色
-      haloStrokeOpacity: 0.2, // 边光晕透明度
-      badgeText: 'badge', // 边徽标文本
-      badgeFill: 'green', // 边徽标文本颜色
-      badgeOffsetX: -20, // 边徽标在x轴方向上的偏移量
-      badgeBackground: true, // 边徽标背景开启
+      stroke: '#722ED1',
+      lineWidth: 3,
+      endArrow: true,
+      endArrowType: 'diamond', // 菱形箭头
+      endArrowSize: 12,
+      endArrowFill: '#FF4D4F', // 红色箭头填充
+      endArrowStroke: '#722ED1', // 箭头描边颜色
+      endArrowStrokeOpacity: 0.8,
     },
   },
 });
@@ -455,100 +679,60 @@ const graph = new Graph({
 graph.render();
 ```
 
-### 起始箭头样式 startArrow
+#### 起始箭头样式配置
 
-| 属性                                      | 描述                                                                                   | 类型                                                                                                                                                               | 默认值             |
-| ----------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
-| startArrow                                | 边起始箭头是否显示                                                                     | boolean                                                                                                                                                            | false              |
-| startArrowClass                           | 边起始箭头className                                                                    | string                                                                                                                                                             | -                  |
-| startArrowCursor                          | 边起始箭头鼠标移入样式，[配置项](#cursor)                                              | string                                                                                                                                                             | `default`          |
-| startArrowFill                            | 边起始箭头填充颜色                                                                     | string                                                                                                                                                             | 默认与边的颜色一致 |
-| startArrowFillOpacity                     | 边起始箭头整体透明度                                                                   | number                                                                                                                                                             | 1                  |
-| startArrowFillRule                        | 边起始箭头填充规则                                                                     | `nonzero` &#124; `evenodd`                                                                                                                                         | -                  |
-| startArrowFilter                          | 边起始箭头滤镜                                                                         | string                                                                                                                                                             | -                  |
-| startArrowIncreasedLineWidthForHitTesting | 边起始箭头大小较小时，可交互区域也随之变小，我们可以增大这个区域，让箭头更容易被拾取到 | number                                                                                                                                                             | 0                  |
-| startArrowLineDash                        | 边起始箭头描边虚线配置                                                                 | number                                                                                                                                                             | 0                  |
-| startArrowLineDashOffset                  | 边起始箭头描边虚线偏移量                                                               | number                                                                                                                                                             | 0                  |
-| startArrowLineJoin                        | 边起始箭头描边连接处样式                                                               | `round` &#124; `bevel` &#124; `miter`                                                                                                                              | `round`            |
-| startArrowOffset                          | 边起始箭头的偏移量                                                                     | number ｜0 ｜                                                                                                                                                      |
-| startArrowOpacity                         | 边起始箭头透明度                                                                       | number                                                                                                                                                             | 1                  |
-| startArrowShadowBlur                      | 边起始箭头阴影模糊程度                                                                 | number                                                                                                                                                             | -                  |
-| startArrowShadowColor                     | 边起始箭头阴影颜色                                                                     | string                                                                                                                                                             | -                  |
-| startArrowShadowOffsetX                   | 边起始箭头阴影X轴偏移量                                                                | number                                                                                                                                                             | 0                  |
-| startArrowShadowOffsetY                   | 边起始箭头阴影Y轴偏移量                                                                | number                                                                                                                                                             | 0                  |
-| startArrowSize                            | 边起始箭头大小                                                                         | number &#124; [number, number]                                                                                                                                     | -                  |
-| startArrowSrc                             | 边起始箭头图片地址（传入图片地址即可以图片代替箭头）                                   | string                                                                                                                                                             | -                  |
-| startArrowStroke                          | 边起始箭头描边颜色                                                                     | string                                                                                                                                                             | 默认与边的颜色一致 |
-| startArrowStrokeOpacity                   | 边起始箭头描边透明度                                                                   | number                                                                                                                                                             | 1                  |
-| startArrowTransform                       | 边起始箭头的旋转、缩放、倾斜或平移配置                                                 | string                                                                                                                                                             | -                  |
-| startArrowTransformOrigin                 | 边起始箭头旋转与缩放中心，也称作变换中心                                               | string                                                                                                                                                             | center             |
-| startArrowType                            | 边起始箭头类型                                                                         | `triangle` &#124; `circle` &#124; `diamond` &#124; `vee` &#124; `rect` &#124; `triangleRect` &#124; `simple` &#124; ((width: number, height: number) => PathArray) | `vee`              |
-| startArrowZIndex                          | 边起始箭头渲染层级                                                                     | number                                                                                                                                                             | -                  |
+| 属性                    | 描述                                      | 类型                                                                                 | 默认值             | 必选 |
+| ----------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------ | ------------------ | ---- |
+| startArrow              | 边起始箭头是否显示                        | boolean                                                                              | false              |      |
+| startArrowCursor        | 边起始箭头鼠标移入样式，[配置项](#cursor) | string                                                                               | `default`          |      |
+| startArrowFill          | 边起始箭头填充颜色                        | string                                                                               | 默认与边的颜色一致 |      |
+| startArrowFillOpacity   | 边起始箭头填充透明度                      | number                                                                               | 1                  |      |
+| startArrowOffset        | 边起始箭头的偏移量                        | number                                                                               | 0                  |      |
+| startArrowSize          | 边起始箭头大小                            | number \| [number, number]                                                           | 10                 |      |
+| startArrowStroke        | 边起始箭头描边颜色                        | string                                                                               | 默认与边的颜色一致 |      |
+| startArrowStrokeOpacity | 边起始箭头描边透明度                      | number                                                                               | 1                  |      |
+| startArrowType          | 边起始箭头类型                            | `triangle` \| `circle` \| `diamond` \| `vee` \| `rect` \| `triangleRect` \| `simple` | `vee`              |      |
 
-**示例：**
+#### 结束箭头样式配置
 
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // 边颜色
-      lineWidth: 2, // 边的宽度
-      label: true, // 开启边标签展示
-      labelText: 'labelText', // 边标签文字
-      labelPlacement: 'center', // 边标签相对于边的位置
-      labelFill: '#FF0000', // 边标签文字颜色
-      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-      halo: true, // 边光晕开启
-      haloStroke: '#000', // 边光晕颜色
-      haloStrokeOpacity: 0.2, // 边光晕透明度
-      badgeText: 'badge', // 边徽标文本
-      badgeFill: 'green', // 边徽标文本颜色
-      badgeOffsetX: -20, // 边徽标在x轴方向上的偏移量
-      badgeBackground: true, // 边徽标背景开启
-      startArrow: true, // 边起始箭头开启
-      startArrowFill: 'yellow', // 边起始箭头填充颜色
-    },
-  },
-});
-```
+| 属性                  | 描述                                      | 类型                                                                                 | 默认值             | 必选 |
+| --------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------ | ------------------ | ---- |
+| endArrow              | 边结束箭头是否显示                        | boolean                                                                              | false              |      |
+| endArrowCursor        | 边结束箭头鼠标移入样式，[配置项](#cursor) | string                                                                               | `default`          |      |
+| endArrowFill          | 边结束箭头填充颜色                        | string                                                                               | 默认与边的颜色一致 |      |
+| endArrowFillOpacity   | 边结束箭头填充透明度                      | number                                                                               | 1                  |      |
+| endArrowOffset        | 边结束箭头的偏移量                        | number                                                                               | 0                  |      |
+| endArrowSize          | 边结束箭头大小                            | number \| [number, number]                                                           | 10                 |      |
+| endArrowStroke        | 边结束箭头描边颜色                        | string                                                                               | 默认与边的颜色一致 |      |
+| endArrowStrokeOpacity | 边结束箭头描边透明度                      | number                                                                               | 1                  |      |
+| endArrowType          | 边结束箭头类型                            | `triangle` \| `circle` \| `diamond` \| `vee` \| `rect` \| `triangleRect` \| `simple` | `vee`              |      |
 
-效果如下：
+### 自环边样式
 
-```js | ob { pin: false, inject: true }
+自环边是指起始节点和结束节点为同一个节点的特殊边。
+
+#### 基础自环边
+
+创建基本的自环边：
+
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
-  width: 240,
+  width: 200,
   height: 100,
   data: {
-    nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
-    ],
-    edges: [{ source: 'node1', target: 'node2' }],
-  },
-  node: {
-    style: { fill: '#1783FF' },
+    nodes: [{ id: 'node1', style: { x: 100, y: 50 } }],
+    edges: [{ source: 'node1', target: 'node1' }],
   },
   edge: {
     style: {
-      stroke: '#FF0000', // 边颜色
-      lineWidth: 2, // 边的宽度
-      label: true, // 开启边标签展示
-      labelText: 'labelText', // 边标签文字
-      labelPlacement: 'center', // 边标签相对于边的位置
-      labelFill: '#FF0000', // 边标签文字颜色
-      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-      halo: true, // 边光晕开启
-      haloStroke: '#000', // 边光晕颜色
-      haloStrokeOpacity: 0.2, // 边光晕透明度
-      badgeText: 'badge', // 边徽标文本
-      badgeFill: 'green', // 边徽标文本颜色
-      badgeOffsetX: -20, // 边徽标在x轴方向上的偏移量
-      badgeBackground: true, // 边徽标背景开启
-      startArrow: true, // 边起始箭头开启
-      startArrowFill: 'yellow', // 边起始箭头填充颜色
+      stroke: '#1890FF',
+      lineWidth: 2,
+      endArrow: true,
+      loopPlacement: 'top', // 自环位置
+      loopDist: 30, // 自环大小
     },
   },
 });
@@ -556,176 +740,53 @@ const graph = new Graph({
 graph.render();
 ```
 
-### 终点箭头样式 endArrow
+#### 多个自环边
 
-| 属性                                    | 描述                                                                                   | 类型                                                                                                                                                               | 默认值             |
-| --------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
-| endArrow                                | 边终点箭头是否显示                                                                     | boolean                                                                                                                                                            | false              |
-| endArrowClass                           | 边终点箭头className                                                                    | string                                                                                                                                                             | -                  |
-| endArrowCursor                          | 边终点箭头鼠标移入样式，[配置项](#cursor)                                              | string                                                                                                                                                             | `default`          |
-| endArrowFill                            | 边终点箭头填充颜色                                                                     | string                                                                                                                                                             | 默认与边的颜色一致 |
-| endArrowFillOpacity                     | 边终点箭头整体透明度                                                                   | number                                                                                                                                                             | 1                  |
-| endArrowFillRule                        | 边终点箭头填充规则                                                                     | `nonzero` &#124; `evenodd`                                                                                                                                         | -                  |
-| endArrowFilter                          | 边终点箭头滤镜                                                                         | string                                                                                                                                                             | -                  |
-| endArrowIncreasedLineWidthForHitTesting | 边终点箭头大小较小时，可交互区域也随之变小，我们可以增大这个区域，让箭头更容易被拾取到 | number                                                                                                                                                             | 0                  |
-| endArrowLineDash                        | 边终点箭头描边虚线配置                                                                 | number                                                                                                                                                             | 0                  |
-| endArrowLineDashOffset                  | 边终点箭头描边虚线偏移量                                                               | number                                                                                                                                                             | 0                  |
-| endArrowLineJoin                        | 边终点箭头描边连接处样式                                                               | `round` &#124; `bevel` &#124; `miter`                                                                                                                              | `round`            |
-| endArrowOffset                          | 边终点箭头的偏移量                                                                     | number                                                                                                                                                             | 0                  |
-| endArrowOpacity                         | 边终点箭头透明度                                                                       | number                                                                                                                                                             | 1                  |
-| endArrowShadowBlur                      | 边终点箭头阴影模糊程度                                                                 | number                                                                                                                                                             | -                  |
-| endArrowShadowColor                     | 边终点箭头阴影颜色                                                                     | string                                                                                                                                                             | -                  |
-| endArrowShadowOffsetX                   | 边终点箭头阴影X轴偏移量                                                                | number                                                                                                                                                             | 0                  |
-| endArrowShadowOffsetY                   | 边终点箭头阴影Y轴偏移量                                                                | number                                                                                                                                                             | 0                  |
-| endArrowSize                            | 边终点箭头大小                                                                         | number &#124; [number, number]                                                                                                                                     | -                  |
-| endArrowSrc                             | 边终点箭头图片地址（传入图片地址即可以图片代替箭头）                                   | string                                                                                                                                                             | -                  |
-| endArrowStroke                          | 边终点箭头描边颜色                                                                     | string                                                                                                                                                             | 默认与边的颜色一致 |
-| endArrowStrokeOpacity                   | 边终点箭头描边透明度                                                                   | number                                                                                                                                                             | 1                  |
-| endArrowTransform                       | 边终点箭头的旋转、缩放、倾斜或平移配置                                                 | string                                                                                                                                                             | -                  |
-| endArrowTransformOrigin                 | 边终点箭头旋转与缩放中心，也称作变换中心                                               | string                                                                                                                                                             | center             |
-| endArrowType                            | 边终点箭头类型                                                                         | `triangle` &#124; `circle` &#124; `diamond` &#124; `vee` &#124; `rect` &#124; `triangleRect` &#124; `simple` &#124; ((width: number, height: number) => PathArray) | `vee`              |
-| endArrowZIndex                          | 边终点箭头渲染曾经                                                                     | number                                                                                                                                                             | -                  |
+为同一节点创建多个不同位置的自环边：
 
-**示例：**
-
-```js {4-6}
-const graph = new Graph({
-  edge: {
-    style: {
-      stroke: '#1783F', // 边颜色
-      lineWidth: 2, // 边的宽度
-      label: true, // 开启边标签展示
-      labelText: 'labelText', // 边标签文字
-      labelPlacement: 'center', // 边标签相对于边的位置
-      labelFill: '#FF0000', // 边标签文字颜色
-      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-      halo: true, // 边光晕开启
-      haloStroke: '#000', // 边光晕颜色
-      haloStrokeOpacity: 0.2, // 边光晕透明度
-      badgeText: 'badge', // 边徽标文本
-      badgeFill: 'green', // 边徽标文本颜色
-      badgeOffsetX: 20, // 边徽标在x轴方向上的偏移量
-      badgePlacement: 'prefix', // 边徽标相对于边的位置
-      badgeBackground: true, // 边徽标背景开启
-      endArrow: true, // 边终点箭头开启
-      endArrowFill: 'yellow', // 边终点箭头填充颜色
-    },
-  },
-});
-```
-
-效果如下：
-
-```js | ob { pin: false, inject: true }
+```js | ob { inject: true }
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
   container: 'container',
-  width: 240,
-  height: 100,
+  width: 200,
+  height: 120,
   data: {
-    nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
-    ],
-    edges: [{ source: 'node1', target: 'node2' }],
-  },
-  node: {
-    style: { fill: '#1783FF' },
-  },
-  edge: {
-    style: {
-      stroke: '#FF0000', // 边颜色
-      lineWidth: 2, // 边的宽度
-      label: true, // 开启边标签展示
-      labelText: 'labelText', // 边标签文字
-      labelPlacement: 'center', // 边标签相对于边的位置
-      labelFill: '#FF0000', // 边标签文字颜色
-      labelOffsetY: 20, // 边标签在y轴方向上的偏移量
-      halo: true, // 边光晕开启
-      haloStroke: '#000', // 边光晕颜色
-      haloStrokeOpacity: 0.2, // 边光晕透明度
-      badgeText: 'badge', // 边徽标文本
-      badgeFill: 'green', // 边徽标文本颜色
-      badgeOffsetX: 20, // 边徽标在x轴方向上的偏移量
-      badgePlacement: 'prefix', // 边徽标相对于边的位置
-      badgeBackground: true, // 边徽标背景开启
-      endArrow: true, // 边终点箭头开启
-      endArrowFill: 'yellow', // 边终点箭头填充颜色
-    },
-  },
-});
-
-graph.render();
-```
-
-### 自环边样式 loop
-
-| 属性          | 描述                                                     | 类型                                                                                                                                                                                                               | 默认值                   |
-| ------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
-| loop          | 是否启用自环边                                           | boolean                                                                                                                                                                                                            | true                     |
-| loopClockwise | 指定是否顺时针绘制环                                     | boolean                                                                                                                                                                                                            | true                     |
-| loopDist      | 从节点 keyShape 边缘到自环顶部的距离，用于指定自环的曲率 | number                                                                                                                                                                                                             | 默认为宽度或高度的最大值 |
-| loopPlacement | 边的位置                                                 | 'left' &#124; 'right' &#124; 'top' &#124; 'bottom' &#124; 'left-top' &#124; 'left-bottom' &#124; 'right-top' &#124; 'right-bottom' &#124; 'top-left' &#124; 'top-right' &#124; 'bottom-left' &#124; 'bottom-right' | 'top'                    |
-
-**示例：**
-
-```js {4-6}
-const graph = new Graph({
-  data: {
-    nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
-    ],
+    nodes: [{ id: 'node1', style: { x: 100, y: 60 } }],
     edges: [
-      { source: 'node1', target: 'node1', id: 'left' },
-      { source: 'node2', target: 'node2', id: 'right' },
+      { id: 'edge1', source: 'node1', target: 'node1' },
+      { id: 'edge2', source: 'node1', target: 'node1' },
+      { id: 'edge3', source: 'node1', target: 'node1' },
     ],
-  },
-  node: {
-    style: { fill: '#1783FF' },
   },
   edge: {
     style: {
-      loopPlacement: (d) => d.id, // 根据边的 配置 设置自环的位置
-      endArrow: true, // 边终点箭头开启
-    },
-  },
-});
-```
-
-效果如下：
-
-```js | ob { pin: false, inject: true }
-import { Graph } from '@antv/g6';
-
-const graph = new Graph({
-  container: 'container',
-  width: 240,
-  height: 100,
-  data: {
-    nodes: [
-      { id: 'node1', style: { x: 60, y: 40 } },
-      { id: 'node2', style: { x: 180, y: 40 } },
-    ],
-    edges: [
-      { source: 'node1', target: 'node1', id: 'left' },
-      { source: 'node2', target: 'node2', id: 'right' },
-    ],
-  },
-  node: {
-    style: { fill: '#1783FF' },
-  },
-  edge: {
-    style: {
-      loopPlacement: (d) => d.id, // 根据边的 配置 设置自环的位置
-      endArrow: true, // 边终点箭头开启
+      lineWidth: 2,
+      endArrow: true,
+      loopPlacement: (datum) => {
+        const placements = ['top', 'right', 'bottom'];
+        return placements[parseInt(datum.id.slice(-1)) - 1];
+      },
+      loopDist: 25,
+      stroke: (datum) => {
+        const colors = ['#1890FF', '#52C41A', '#722ED1'];
+        return colors[parseInt(datum.id.slice(-1)) - 1];
+      },
     },
   },
 });
 
 graph.render();
 ```
+
+以下为完整的自环边样式配置：
+
+| 属性          | 描述                                           | 类型                                                                                                                                                                   | 默认值                 | 必选 |
+| ------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---- |
+| loop          | 是否启用自环边                                 | boolean                                                                                                                                                                | true                   |      |
+| loopClockwise | 指定是否顺时针绘制环                           | boolean                                                                                                                                                                | true                   |      |
+| loopDist      | 从节点边缘到自环顶部的距离，用于指定自环的曲率 | number                                                                                                                                                                 | 默认为节点尺寸的最大值 |      |
+| loopPlacement | 自环边的位置                                   | `left` \| `right` \| `top` \| `bottom` \| `left-top` \| `left-bottom` \| `right-top` \| `right-bottom` \| `top-left` \| `top-right` \| `bottom-left` \| `bottom-right` | `top`                  |      |
 
 ## State
 
@@ -743,26 +804,19 @@ type EdgeState = {
 };
 ```
 
-例如，当边处于 `focus` 状态时，可以为其添加一个宽度为 6 且颜色为黄色的光晕。
+例如，当边处于 `focus` 状态时，可以为其添加一个宽度为 6 且颜色为橙色的光晕。
 
-```js {8-11}
+```js {4-9}
 const graph = new Graph({
-  data: {
-    nodes: [{ id: 'node1' }, { id: 'node2' }],
-    edges: [{ source: 'node1', target: 'node2', states: ['focus'] }],
-  },
   edge: {
     state: {
       focus: {
         halo: true,
         haloLineWidth: 6,
-        haloStroke: 'yellow',
+        haloStroke: 'orange',
+        haloStrokeOpacity: 0.6,
       },
     },
-  },
-  layout: {
-    type: 'grid',
-    cols: 2,
   },
 });
 ```
@@ -785,7 +839,7 @@ const graph = new Graph({
       focus: {
         halo: true,
         haloLineWidth: 6,
-        haloStroke: 'yellow',
+        haloStroke: 'orange',
       },
     },
   },
@@ -828,7 +882,7 @@ graph.render();
 
 ```json
 {
-  "node": {
+  "edge": {
     "animation": {
       "update": [
         {
@@ -836,7 +890,8 @@ graph.render();
           "duration": 1000, // 动画持续时间
           "easing": "linear" // 缓动函数
         }
-      ],
+      ]
+    }
   }
 }
 ```
@@ -845,9 +900,10 @@ graph.render();
 
 ```json
 {
-  "node": {
+  "edge": {
     "animation": {
       "enter": "fade", // 使用渐变动画
+      "update": "path-in", // 使用路径动画
       "exit": "fade" // 使用渐变动画
     }
   }
@@ -858,7 +914,7 @@ graph.render();
 
 ```json
 {
-  "node": {
+  "edge": {
     "animation": {
       "enter": false // 关闭边入场动画
     }
@@ -868,47 +924,29 @@ graph.render();
 
 ## Palette
 
-定义边的色板，即预定义颜色池，并根据规则进行分配，将颜色映射到 `stroke` 属性。
+定义边的色板，即预定义边颜色池，并根据规则进行分配，将颜色映射到 `stroke` 属性。
 
 > 有关色板的定义，请参考 [色板](/manual/theme/palette)。
 
-| 属性   | 描述                                                                | 类型                              | 默认值  |
-| ------ | ------------------------------------------------------------------- | --------------------------------- | ------- |
-| type   | 指定当前色板类型。<br> - `group`: 离散色板 <br> - `value`: 连续色板 | `group` &#124; `value`            | `group` |
-| field  | 指定元素数据中的分组字段。若不指定，默认取 id 作为分组字段          | string &#124; ((datum) => string) | `id`    |
-| color  | 色板颜色。如果色板注册过，可以直接指定其注册名，也接受一个颜色数组  | string &#124; string[]            | -       |
-| invert | 是否反转色板                                                        | boolean                           | false   |
+| 属性   | 描述                                                                | 类型                          | 默认值  |
+| ------ | ------------------------------------------------------------------- | ----------------------------- | ------- |
+| color  | 色板颜色。如果色板注册过，可以直接指定其注册名，也接受一个颜色数组  | string \| string[]            | -       |
+| field  | 指定元素数据中的分组字段。若不指定，默认取 id 作为分组字段          | string \| ((datum) => string) | `id`    |
+| invert | 是否反转色板                                                        | boolean                       | false   |
+| type   | 指定当前色板类型。<br> - `group`: 离散色板 <br> - `value`: 连续色板 | `group` \| `value`            | `group` |
 
-如将一组数据按 `direction` 字段分配节点颜色，使得同类别的节点颜色相同：
+如将一组数据按 `direction` 字段分配边颜色，使得同类别的边颜色相同：
 
-```js {23}
-const graph = new Graph({
-  data: {
-    nodes: new Array(6).fill(0).map((_, i) => ({ id: `node-${i + 1}` })),
-    edges: [
-      { source: 'node-1', target: 'node-2', data: { direction: 'out' } },
-      { source: 'node-1', target: 'node-3', data: { direction: 'out' } },
-      { source: 'node-1', target: 'node-4', data: { direction: 'out' } },
-      { source: 'node-5', target: 'node-1', data: { direction: 'in' } },
-      { source: 'node-6', target: 'node-1', data: { direction: 'in' } },
-    ],
-  },
-  layout: {
-    type: 'radial',
-    unitRadius: 120,
-    linkDistance: 120,
-  },
-  edge: {
-    style: {
-      endArrow: true,
-    },
-    palette: {
-      type: 'group',
-      field: 'direction',
-      color: ['#F08F56', '#00C9C9'],
-    },
-  },
-});
+```json
+{
+  "edge": {
+    "palette": {
+      "type": "group",
+      "field": "direction",
+      "color": ["#F08F56", "#00C9C9", "#D580FF"]
+    }
+  }
+}
 ```
 
 效果如下图所示：
