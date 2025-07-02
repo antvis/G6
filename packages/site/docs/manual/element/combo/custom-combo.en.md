@@ -42,6 +42,10 @@ This is the most common way, and you can choose to inherit one of the following 
 - 📌 **Fast Development**: Suitable for most project needs, quickly achieving business goals.
 - 📌 **Easy Maintenance**: Clear code structure and clear inheritance relationships.
 
+:::tip{title=Get Started Now}
+If you choose to inherit from existing combo types (recommended), you can jump directly to [Create Your First Custom Combo in Three Steps](#create-your-first-custom-combo-in-three-steps) to start practicing. Most users will choose this approach!
+:::
+
 ### 2. Develop from Scratch Based on the G Graphics System <Badge>Advanced Usage</Badge>
 
 If existing combo types do not meet your needs, you can create combos from scratch based on the underlying graphics system of G.
@@ -56,7 +60,7 @@ If existing combo types do not meet your needs, you can create combos from scrat
 Developing custom combos from scratch requires handling all details yourself, including graphic drawing, event response, state changes, expand/collapse logic, etc., which is quite challenging. You can directly refer to the [source code](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/combos/base-combo.ts) for implementation.
 :::
 
-## Three Steps to Create Your First Custom Combo
+## Create Your First Custom Combo in Three Steps
 
 Let's start by inheriting `BaseCombo` to implement a custom hexagon combo:
 
