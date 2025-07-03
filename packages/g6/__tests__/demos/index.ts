@@ -21,6 +21,7 @@ export { behaviorOptimizeViewportTransform } from './behavior-optimize-viewport-
 export { behaviorScrollCanvas } from './behavior-scroll-canvas';
 export { behaviorZoomCanvas } from './behavior-zoom-canvas';
 export { bugDragRotatedCanvas } from './bug-drag-rotated-canvas';
+export { bugProcessParallelEdgesComboFixed } from './bug-process-parallel-edges-combo-fixed';
 export { bugTooltipResize } from './bug-tooltip-resize';
 export { canvasCursor } from './canvas-cursor';
 export { caseFishbone } from './case-fishbone';

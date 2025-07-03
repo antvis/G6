@@ -121,9 +121,23 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
     combosToUpdate.forEach(addRelatedEdges);
 
     const pushParallelEdges = (edge: EdgeData) => {
-      const edgeData = model.getEdgeData().map((edge) => getEdgeEndsContext(model, edge));
-      const parallelEdges = getParallelEdges(edge, edgeData, true);
-      parallelEdges.forEach((e) => !edges.has(idOf(e)) && edges.set(idOf(e), e));
+      // 获取已被标记删除的边ID集合
+      // Get the set of edge IDs that have been marked for removal
+      const removedEdgeIds = new Set(input.remove.edges.keys());
+
+      // 过滤掉已删除的边，避免重定向后重新添加（修复combo收起时内部边变成loop边的问题）
+      // Filter out removed edges to prevent them from being re-added after redirection (fixes the issue where internal edges become loop edges when combo collapses)
+      const validEdgeData = model
+        .getEdgeData()
+        .filter((edge) => !removedEdgeIds.has(idOf(edge)))
+        .map((edge) => getEdgeEndsContext(model, edge));
+
+      // 查找平行边并添加到处理列表，确保只处理有效的边
+      // Find parallel edges and add them to the processing list, ensuring only valid edges are processed
+      getParallelEdges(edge, validEdgeData, true).forEach((e) => {
+        const id = idOf(e);
+        if (!edges.has(id)) edges.set(id, e);
+      });
     };
 
     if (edgesToRemove.size) edgesToRemove.forEach(pushParallelEdges);
