@@ -69,8 +69,13 @@ export const bugProcessParallelEdgesComboFixed: TestCase = async (context) => {
         labelFill: '#666',
       },
     },
-    // 注意：这里没有 process-parallel-edges 变换
-    transforms: [],
+    // 注意：这里添加了 process-parallel-edges 变换来测试修复效果
+    transforms: [
+      {
+        type: 'process-parallel-edges',
+        distance: 60,
+      },
+    ],
     behaviors: [
       {
         type: 'drag-element',
