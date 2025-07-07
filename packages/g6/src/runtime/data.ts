@@ -56,6 +56,20 @@ export class DataController {
   private changes: DataChange[] = [];
 
   /**
+   * <zh/> 变更记录最大数量（防止内存泄漏）
+   *
+   * <en/> Maximum number of change records (prevent memory leaks)
+   */
+  private readonly MAX_CHANGES = 10000;
+
+  /**
+   * <zh/> 已删除combo ID的最大保留数量
+   *
+   * <en/> Maximum number of removed combo IDs to retain
+   */
+  private readonly MAX_REMOVED_COMBO_IDS = 1000;
+
+  /**
    * <zh/> 批处理计数器
    *
    * <en/> Batch processing counter
@@ -75,6 +89,13 @@ export class DataController {
 
   private pushChange(change: DataChange) {
     if (this.isTraceless) return;
+
+    // 防止变更记录过多导致内存泄漏
+    // Prevent memory leaks caused by too many change records
+    if (this.changes.length >= this.MAX_CHANGES) {
+      this.changes.splice(0, this.changes.length - this.MAX_CHANGES + 1000);
+    }
+
     const { type } = change;
 
     if (type === ChangeType.NodeUpdated || type === ChangeType.EdgeUpdated || type === ChangeType.ComboUpdated) {
@@ -95,8 +116,11 @@ export class DataController {
 
   public batch(callback: () => void) {
     this.batchCount++;
-    this.model.batch(callback);
-    this.batchCount--;
+    try {
+      this.model.batch(callback);
+    } finally {
+      this.batchCount--;
+    }
   }
 
   protected isBatching() {
@@ -115,8 +139,11 @@ export class DataController {
    */
   public silence(callback: () => void) {
     this.isTraceless = true;
-    callback();
-    this.isTraceless = false;
+    try {
+      callback();
+    } finally {
+      this.isTraceless = false;
+    }
   }
 
   public isCombo(id: ID) {
@@ -176,7 +203,14 @@ export class DataController {
   }
 
   public getDescendantsData(id: ID): NodeLikeData[] {
-    const root = this.getElementDataById(id) as NodeLikeData;
+    // 只有节点/combo才有后代概念，一次性检查
+    // Only nodes/combos have the concept of descendants, check once
+    if (!this.model.hasNode(id)) {
+      return [];
+    }
+    // 直接获取节点数据，避免getElementDataById的重复检查
+    // Get node data directly to avoid duplicate checks in getElementDataById
+    const root = this.getNodeLikeDatum(id);
     const data: NodeLikeData[] = [];
     dfs(
       root,
@@ -351,14 +385,53 @@ export class DataController {
 
   public addEdgeData(edges: EdgeData[] = []) {
     if (!edges.length) return;
-    this.model.addEdges(
-      edges.map((edge) => {
-        this.pushChange({ value: edge, type: ChangeType.EdgeAdded });
-        return toGraphlibData(edge);
-      }),
-    );
 
-    this.computeZIndex({ edges }, 'add');
+    // 批量验证边，收集错误信息
+    // Batch verify edges, collect error information
+    const validEdges: EdgeData[] = [];
+    const invalidEdges: string[] = [];
+    const duplicateEdges: string[] = [];
+
+    edges.forEach((edge) => {
+      const { source, target } = edge;
+      const edgeId = idOf(edge);
+
+      // 检查重复边
+      // Check for duplicate edges
+      if (this.model.hasEdge(edgeId)) {
+        duplicateEdges.push(edgeId);
+        return;
+      }
+
+      // 验证源节点和目标节点是否存在
+      // Verify that the source and target nodes exist
+      if (!this.model.hasNode(source) || !this.model.hasNode(target)) {
+        invalidEdges.push(`${edgeId} (${source} -> ${target})`);
+        return;
+      }
+
+      validEdges.push(edge);
+    });
+
+    // 批量输出警告信息
+    // Batch output warning information
+    if (invalidEdges.length > 0) {
+      print.warn(`Cannot add ${invalidEdges.length} edges due to missing nodes:\n${invalidEdges.join('\n')}`);
+    }
+    if (duplicateEdges.length > 0) {
+      print.warn(`Skipping ${duplicateEdges.length} duplicate edges: ${duplicateEdges.join(', ')}`);
+    }
+
+    if (validEdges.length === 0) return;
+
+    // 批量添加边并记录变更
+    // Batch add edges and record changes
+    validEdges.forEach((edge) => {
+      this.pushChange({ value: edge, type: ChangeType.EdgeAdded });
+    });
+
+    this.model.addEdges(validEdges.map((edge) => toGraphlibData(edge)));
+    this.computeZIndex({ edges: validEdges }, 'add');
   }
 
   public addComboData(combos: ComboData[] = []) {
@@ -385,9 +458,57 @@ export class DataController {
   public addChildrenData(parentId: ID, childrenData: NodeData[]) {
     const parentData = this.getNodeLikeDatum(parentId) as NodeData;
     const childrenId = childrenData.map(idOf);
-    this.addNodeData(childrenData);
-    this.updateNodeData([{ id: parentId, children: [...(parentData.children || []), ...childrenId] }]);
-    this.addEdgeData(childrenId.map((childId) => ({ source: parentId, target: childId })));
+
+    this.batch(() => {
+      // 添加子节点（不触发zIndex计算）
+      // Add child nodes (do not trigger zIndex calculation)
+      if (childrenData.length > 0) {
+        childrenData.forEach((node) => {
+          this.pushChange({ value: node, type: ChangeType.NodeAdded });
+        });
+        this.model.addNodes(childrenData.map(toGraphlibData));
+        this.updateNodeLikeHierarchy(childrenData);
+      }
+      // 更新父节点的children属性（不触发zIndex计算）
+      // Update the children property of the parent node (do not trigger zIndex calculation)
+      const updatedParent = { id: parentId, children: [...(parentData.children || []), ...childrenId] };
+      const originalParent = this.getNodeData([parentId])[0];
+      if (originalParent) {
+        const value = mergeElementsData(originalParent, updatedParent) as NodeData;
+        this.pushChange({ value, original: originalParent, type: ChangeType.NodeUpdated });
+        this.model.mergeNodeData(parentId, value);
+        this.updateNodeLikeHierarchy([value]);
+      }
+      // 添加边（不触发zIndex计算）
+      // Add edges (do not trigger zIndex calculation)
+      const edges: EdgeData[] = childrenId.map((childId) => ({
+        id: `${parentId}-${childId}`,
+        source: parentId,
+        target: childId,
+      }));
+      if (edges.length > 0) {
+        const validEdges = edges.filter((edge) => this.model.hasNode(edge.source) && this.model.hasNode(edge.target));
+        if (validEdges.length > 0) {
+          validEdges.forEach((edge) => {
+            this.pushChange({ value: edge, type: ChangeType.EdgeAdded });
+          });
+          this.model.addEdges(validEdges.map((edge) => toGraphlibData(edge)));
+        }
+      }
+    });
+
+    // 统一计算所有相关元素的zIndex
+    // Calculate the zIndex of all related elements
+    const allData = {
+      nodes: [...childrenData, parentData],
+      edges: childrenId.map((childId) => ({
+        id: `${parentId}-${childId}`,
+        source: parentId,
+        target: childId,
+      })),
+      combos: [],
+    };
+    this.computeZIndex(allData, 'add');
   }
 
   /**
@@ -413,6 +534,9 @@ export class DataController {
     this.batch(() => {
       const { nodes = [], edges = [], combos = [] } = data;
 
+      // 批量处理 combo zIndex
+      // Batch process combo zIndex
+      const comboUpdates: Array<{ id: ID; style: { zIndex: number } }> = [];
       combos.forEach((combo) => {
         const id = idOf(combo);
         if (type === 'add' && isNumber(combo.style?.zIndex)) return;
@@ -420,19 +544,18 @@ export class DataController {
 
         const parent = this.getParentData(id, COMBO_KEY);
         const zIndex = parent ? (parent.style?.zIndex ?? 0) + 1 : 0;
-
-        this.preventUpdateNodeLikeHierarchy(() => {
-          this.updateComboData([{ id, style: { zIndex } }]);
-        });
+        comboUpdates.push({ id, style: { zIndex } });
       });
 
+      // 批量处理 node zIndex
+      // Batch process node zIndex
+      const nodeUpdates: Array<{ id: ID; style: { zIndex: number } }> = [];
       nodes.forEach((node) => {
         const id = idOf(node);
         if (type === 'add' && isNumber(node.style?.zIndex)) return;
         if (type === 'update' && !('combo' in node) && !('children' in node)) return;
 
         let zIndex = 0;
-
         const comboParent = this.getParentData(id, COMBO_KEY);
         if (comboParent) {
           zIndex = (comboParent.style?.zIndex || 0) + 1;
@@ -440,12 +563,12 @@ export class DataController {
           const nodeParent = this.getParentData(id, TREE_KEY);
           if (nodeParent) zIndex = nodeParent?.style?.zIndex || 0;
         }
-
-        this.preventUpdateNodeLikeHierarchy(() => {
-          this.updateNodeData([{ id, style: { zIndex } }]);
-        });
+        nodeUpdates.push({ id, style: { zIndex } });
       });
 
+      // 批量处理 edge zIndex
+      // Batch process edge zIndex
+      const edgeUpdates: Array<{ id: ID; style: { zIndex: number } }> = [];
       edges.forEach((edge) => {
         if (isNumber(edge.style?.zIndex)) return;
 
@@ -461,9 +584,52 @@ export class DataController {
 
         const sourceZIndex = this.getNodeLikeDatum(source)?.style?.zIndex || 0;
         const targetZIndex = this.getNodeLikeDatum(target)?.style?.zIndex || 0;
-
-        this.updateEdgeData([{ id: idOf(edge), style: { zIndex: Math.max(sourceZIndex, targetZIndex) - 1 } }]);
+        const zIndex = Math.max(sourceZIndex, targetZIndex) - 1;
+        edgeUpdates.push({ id: idOf(edge), style: { zIndex } });
       });
+
+      // 批量执行更新（避免递归调用computeZIndex）
+      // Batch execute updates (avoid recursive call to computeZIndex)
+      if (comboUpdates.length > 0) {
+        this.preventUpdateNodeLikeHierarchy(() => {
+          this.silence(() => {
+            comboUpdates.forEach(({ id, style }) => {
+              const original = this.getComboData([id])[0];
+              if (original) {
+                const value = mergeElementsData(original, { style }) as ComboData;
+                this.pushChange({ value, original, type: ChangeType.ComboUpdated });
+                this.model.mergeNodeData(id, value);
+              }
+            });
+          });
+        });
+      }
+      if (nodeUpdates.length > 0) {
+        this.preventUpdateNodeLikeHierarchy(() => {
+          this.silence(() => {
+            nodeUpdates.forEach(({ id, style }) => {
+              const original = this.getNodeData([id])[0];
+              if (original) {
+                const value = mergeElementsData(original, { style }) as NodeData;
+                this.pushChange({ value, original, type: ChangeType.NodeUpdated });
+                this.model.mergeNodeData(id, value);
+              }
+            });
+          });
+        });
+      }
+      if (edgeUpdates.length > 0) {
+        this.silence(() => {
+          edgeUpdates.forEach(({ id, style }) => {
+            const original = this.getEdgeData([id])[0];
+            if (original) {
+              const value = mergeElementsData(original, { style }) as EdgeData;
+              this.pushChange({ value, original, type: ChangeType.EdgeUpdated });
+              this.model.mergeEdgeData(id, value);
+            }
+          });
+        });
+      }
     });
   }
 
@@ -565,23 +731,60 @@ export class DataController {
   public updateNodeData(nodes: PartialNodeLikeData<NodeData>[] = []) {
     if (!nodes.length) return;
     const { model } = this;
-    this.batch(() => {
-      const modifiedNodes: NodeData[] = [];
-      nodes.forEach((modifiedNode) => {
-        const id = idOf(modifiedNode);
-        const originalNode = toG6Data(model.getNode(id));
-        if (isElementDataEqual(originalNode, modifiedNode)) return;
 
-        const value = mergeElementsData(originalNode, modifiedNode);
-        this.pushChange({ value, original: originalNode, type: ChangeType.NodeUpdated });
-        model.mergeNodeData(id, value);
-        modifiedNodes.push(value);
-      });
+    // 分离新增和更新的节点，避免批处理嵌套
+    // Separate new and updated nodes to avoid nested batch processing
+    const nodesToAdd: NodeData[] = [];
+    const modifiedNodes: Array<{ originalNode: NodeData; value: NodeData }> = [];
 
-      this.updateNodeLikeHierarchy(modifiedNodes);
+    // 先处理所有节点分类
+    // First process all nodes classification
+    nodes.forEach((modifiedNode) => {
+      const id = idOf(modifiedNode);
+      if (!model.hasNode(id)) {
+        nodesToAdd.push(modifiedNode as NodeData);
+      } else {
+        const originalNode = toG6Data(model.getNode(id)) as NodeData;
+        if (!isElementDataEqual(originalNode, modifiedNode)) {
+          const value = mergeElementsData(originalNode, modifiedNode) as NodeData;
+          modifiedNodes.push({ originalNode, value });
+        }
+      }
     });
 
-    this.computeZIndex({ nodes }, 'update');
+    this.batch(() => {
+      // 批量处理更新节点
+      // Batch process updated nodes
+      const updatedNodes: NodeData[] = [];
+      modifiedNodes.forEach(({ originalNode, value }) => {
+        this.pushChange({ value, original: originalNode, type: ChangeType.NodeUpdated });
+        model.mergeNodeData(idOf(value), value);
+        updatedNodes.push(value);
+      });
+
+      // 批量处理新增节点（避免嵌套批处理）
+      // Batch process new nodes (avoid nested batch processing)
+      if (nodesToAdd.length > 0) {
+        nodesToAdd.forEach((node) => {
+          this.pushChange({ value: node, type: ChangeType.NodeAdded });
+        });
+        model.addNodes(nodesToAdd.map(toGraphlibData));
+      }
+
+      // 统一更新层级关系
+      // Update the hierarchy of all nodes
+      const allNodesToUpdateHierarchy = [...updatedNodes, ...nodesToAdd];
+      if (allNodesToUpdateHierarchy.length > 0) {
+        this.updateNodeLikeHierarchy(allNodesToUpdateHierarchy);
+      }
+    });
+
+    // 统一计算zIndex
+    // Calculate zIndex for all updated nodes
+    const allUpdatedNodes = [...modifiedNodes.map(({ value }) => value), ...nodesToAdd];
+    if (allUpdatedNodes.length > 0) {
+      this.computeZIndex({ nodes: allUpdatedNodes }, 'update');
+    }
   }
 
   /**
@@ -625,11 +828,44 @@ export class DataController {
   public updateEdgeData(edges: PartialEdgeData<EdgeData>[] = []) {
     if (!edges.length) return;
     const { model } = this;
+
+    // 分离新增和更新的边
+    // Separate new and updated edges
+    const edgesToAdd: EdgeData[] = [];
+    const invalidUpdates: string[] = [];
+    const validUpdates: Array<{ originalEdge: EdgeData; modifiedEdge: PartialEdgeData<EdgeData> }> = [];
+
+    // 先分类处理所有边
+    // First classify all edges
+    edges.forEach((modifiedEdge) => {
+      const id = idOf(modifiedEdge);
+      if (!model.hasEdge(id)) {
+        edgesToAdd.push({ ...(modifiedEdge as EdgeData) });
+        return;
+      }
+
+      const originalEdge = toG6Data(model.getEdge(id)) as EdgeData;
+      if (isElementDataEqual(originalEdge, modifiedEdge)) return;
+
+      // 验证source/target节点存在性
+      // Verify that the source/target nodes exist
+      if (modifiedEdge.source && !model.hasNode(modifiedEdge.source)) {
+        invalidUpdates.push(`${id}: source node "${modifiedEdge.source}" does not exist`);
+        return;
+      }
+      if (modifiedEdge.target && !model.hasNode(modifiedEdge.target)) {
+        invalidUpdates.push(`${id}: target node "${modifiedEdge.target}" does not exist`);
+        return;
+      }
+
+      validUpdates.push({ originalEdge, modifiedEdge });
+    });
+
     this.batch(() => {
-      edges.forEach((modifiedEdge) => {
+      // 批量处理有效更新
+      // Batch process valid updates
+      validUpdates.forEach(({ originalEdge, modifiedEdge }) => {
         const id = idOf(modifiedEdge);
-        const originalEdge = toG6Data(model.getEdge(id));
-        if (isElementDataEqual(originalEdge, modifiedEdge)) return;
 
         if (modifiedEdge.source && originalEdge.source !== modifiedEdge.source) {
           model.updateEdgeSource(id, modifiedEdge.source);
@@ -637,35 +873,95 @@ export class DataController {
         if (modifiedEdge.target && originalEdge.target !== modifiedEdge.target) {
           model.updateEdgeTarget(id, modifiedEdge.target);
         }
-        const updatedData = mergeElementsData(originalEdge, modifiedEdge);
+
+        const updatedData = mergeElementsData(originalEdge, modifiedEdge) as EdgeData;
         this.pushChange({ value: updatedData, original: originalEdge, type: ChangeType.EdgeUpdated });
         model.mergeEdgeData(id, updatedData);
       });
+
+      // 批量处理新增边（避免嵌套批处理）
+      // Batch process new edges (avoid nested batch processing)
+      if (edgesToAdd.length > 0) {
+        edgesToAdd.forEach((edge) => {
+          const { source, target } = edge;
+          if (model.hasNode(source) && model.hasNode(target)) {
+            this.pushChange({ value: edge, type: ChangeType.EdgeAdded });
+          } else {
+            invalidUpdates.push(`${idOf(edge)}: invalid source/target nodes`);
+          }
+        });
+
+        const validNewEdges = edgesToAdd.filter((edge) => model.hasNode(edge.source) && model.hasNode(edge.target));
+        if (validNewEdges.length > 0) {
+          model.addEdges(validNewEdges.map((edge) => toGraphlibData(edge)));
+        }
+      }
     });
 
-    this.computeZIndex({ edges }, 'update');
+    // 批量输出警告
+    // Batch output warning information
+    if (invalidUpdates.length > 0) {
+      print.warn(`Cannot update ${invalidUpdates.length} edges:\n${invalidUpdates.join('\n')}`);
+    }
+
+    // 只对实际更新的边计算zIndex
+    // Calculate zIndex for all updated edges
+    const updatedEdges = [
+      ...validUpdates.map(
+        ({ originalEdge, modifiedEdge }) => mergeElementsData(originalEdge, modifiedEdge) as EdgeData,
+      ),
+      ...edgesToAdd.filter((edge) => this.model.hasNode(edge.source) && this.model.hasNode(edge.target)),
+    ];
+    if (updatedEdges.length > 0) {
+      this.computeZIndex({ edges: updatedEdges }, 'update');
+    }
   }
 
   public updateComboData(combos: PartialNodeLikeData<ComboData>[] = []) {
     if (!combos.length) return;
     const { model } = this;
+
+    // 移到外面避免作用域问题
+    // Move outside to avoid scope issues
+    const modifiedCombos: ComboData[] = [];
+    const invalidCombos: string[] = [];
+
     model.batch(() => {
-      const modifiedCombos: ComboData[] = [];
       combos.forEach((modifiedCombo) => {
         const id = idOf(modifiedCombo);
+
+        // 检查combo是否存在
+        // Check if the combo exists
+        if (!model.hasNode(id) || !this.isCombo(id)) {
+          invalidCombos.push(id);
+          return;
+        }
+
         const originalCombo = toG6Data(model.getNode(id)) as ComboData;
         if (isElementDataEqual(originalCombo, modifiedCombo)) return;
 
-        const value = mergeElementsData(originalCombo, modifiedCombo);
+        const value = mergeElementsData(originalCombo, modifiedCombo) as ComboData;
         this.pushChange({ value, original: originalCombo, type: ChangeType.ComboUpdated });
         model.mergeNodeData(id, value);
         modifiedCombos.push(value);
       });
 
-      this.updateNodeLikeHierarchy(modifiedCombos);
+      if (modifiedCombos.length > 0) {
+        this.updateNodeLikeHierarchy(modifiedCombos);
+      }
     });
 
-    this.computeZIndex({ combos }, 'update');
+    // 批量输出警告
+    // Batch output warning information
+    if (invalidCombos.length > 0) {
+      print.warn(`Cannot update ${invalidCombos.length} non-existent combos: ${invalidCombos.join(', ')}`);
+    }
+
+    // 只对实际更新的combo计算zIndex
+    // Calculate zIndex for all updated combos
+    if (modifiedCombos.length > 0) {
+      this.computeZIndex({ combos: modifiedCombos }, 'update');
+    }
   }
 
   /**
@@ -816,41 +1112,100 @@ export class DataController {
       this.removeNodeData(nodes);
       this.removeComboData(combos);
 
-      this.latestRemovedComboIds = new Set(combos);
+      // 按需清理已删除的combo ID记录
+      // Clean up the deleted combo ID records as needed
+      if (combos && combos.length > 0) {
+        this.updateRemovedComboIds(combos);
+      }
     });
+  }
+
+  private updateRemovedComboIds(newRemovedComboIds: ID[]) {
+    // 添加新删除的combo ID
+    // Add new deleted combo ID
+    newRemovedComboIds.forEach((id) => this.latestRemovedComboIds.add(id));
+
+    // 如果超过阈值，保留最近的一半记录
+    // If the threshold is exceeded, keep the last half of the records
+    if (this.latestRemovedComboIds.size > this.MAX_REMOVED_COMBO_IDS) {
+      const idsArray = Array.from(this.latestRemovedComboIds);
+      const keepCount = Math.floor(this.MAX_REMOVED_COMBO_IDS / 2);
+
+      // 保留最近的记录（简单的FIFO策略）
+      // Keep the last half of the records (simple FIFO strategy)
+      this.latestRemovedComboIds.clear();
+      idsArray.slice(-keepCount).forEach((id) => this.latestRemovedComboIds.add(id));
+    }
   }
 
   public removeNodeData(ids: ID[] = []) {
     if (!ids.length) return;
     this.batch(() => {
+      const existingIds: ID[] = [];
       ids.forEach((id) => {
-        // 移除关联边、子节点
-        // remove related edges and child nodes
-        this.removeEdgeData(this.getRelatedEdgesData(id).map(idOf));
-        // TODO 树图情况下移除子节点
+        const nodeData = this.getNodeData([id])[0];
+        if (nodeData) {
+          // 移除关联边、子节点
+          // remove related edges and child nodes
+          this.removeEdgeData(this.getRelatedEdgesData(id).map(idOf));
+          // TODO 树图情况下移除子节点
 
-        this.pushChange({ value: this.getNodeData([id])[0], type: ChangeType.NodeRemoved });
-        this.removeNodeLikeHierarchy(id);
+          this.pushChange({ value: nodeData, type: ChangeType.NodeRemoved });
+          this.removeNodeLikeHierarchy(id);
+          existingIds.push(id);
+        }
       });
-      this.model.removeNodes(ids);
+      if (existingIds.length > 0) {
+        this.model.removeNodes(existingIds);
+      }
     });
   }
 
   public removeEdgeData(ids: ID[] = []) {
     if (!ids.length) return;
-    ids.forEach((id) => this.pushChange({ value: this.getEdgeData([id])[0], type: ChangeType.EdgeRemoved }));
-    this.model.removeEdges(ids);
+
+    this.batch(() => {
+      const existingIds: ID[] = [];
+      const nonExistentIds: ID[] = [];
+
+      ids.forEach((id) => {
+        const edgeData = this.getEdgeData([id])[0];
+        if (edgeData) {
+          this.pushChange({ value: edgeData, type: ChangeType.EdgeRemoved });
+          existingIds.push(id);
+        } else {
+          nonExistentIds.push(id);
+        }
+      });
+
+      // 批量输出警告
+      // Batch output warning information
+      if (nonExistentIds.length > 0) {
+        print.warn(`Cannot remove ${nonExistentIds.length} non-existent edges: ${nonExistentIds.join(', ')}`);
+      }
+
+      if (existingIds.length > 0) {
+        this.model.removeEdges(existingIds);
+      }
+    });
   }
 
   public removeComboData(ids: ID[] = []) {
     if (!ids.length) return;
     this.batch(() => {
+      const existingIds: ID[] = [];
       ids.forEach((id) => {
-        this.pushChange({ value: this.getComboData([id])[0], type: ChangeType.ComboRemoved });
-        this.removeNodeLikeHierarchy(id);
-        this.comboIds.delete(id);
+        const comboData = this.getComboData([id])[0];
+        if (comboData) {
+          this.pushChange({ value: comboData, type: ChangeType.ComboRemoved });
+          this.removeNodeLikeHierarchy(id);
+          this.comboIds.delete(id);
+          existingIds.push(id);
+        }
       });
-      this.model.removeNodes(ids);
+      if (existingIds.length > 0) {
+        this.model.removeNodes(existingIds);
+      }
     });
   }
 
@@ -910,6 +1265,12 @@ export class DataController {
   }
 
   public destroy() {
+    // 清理数据
+    // Clean up data
+    this.clearChanges();
+    this.latestRemovedComboIds.clear();
+    this.comboIds.clear();
+
     const { model } = this;
     const nodes = model.getAllNodes();
     const edges = model.getAllEdges();

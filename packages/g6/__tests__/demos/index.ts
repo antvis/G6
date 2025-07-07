@@ -52,6 +52,7 @@ export { elementEdgePolylineAstar } from './element-edge-polyline-astar';
 export { elementEdgePolylineOrth } from './element-edge-polyline-orth';
 export { elementEdgePort } from './element-edge-port';
 export { elementEdgeQuadratic } from './element-edge-quadratic';
+export { elementEdgeRemoveSafe } from './element-edge-remove-safe';
 export { elementEdgeSize } from './element-edge-size';
 export { elementHTMLSubGraph } from './element-html-sub-graph';
 export { elementLabelBackground } from './element-label-background';
