@@ -56,20 +56,6 @@ export class DataController {
   private changes: DataChange[] = [];
 
   /**
-   * <zh/> 变更记录最大数量（防止内存泄漏）
-   *
-   * <en/> Maximum number of change records (prevent memory leaks)
-   */
-  private readonly MAX_CHANGES = 10000;
-
-  /**
-   * <zh/> 已删除combo ID的最大保留数量
-   *
-   * <en/> Maximum number of removed combo IDs to retain
-   */
-  private readonly MAX_REMOVED_COMBO_IDS = 1000;
-
-  /**
    * <zh/> 批处理计数器
    *
    * <en/> Batch processing counter
@@ -89,12 +75,6 @@ export class DataController {
 
   private pushChange(change: DataChange) {
     if (this.isTraceless) return;
-
-    // 防止变更记录过多导致内存泄漏
-    // Prevent memory leaks caused by too many change records
-    if (this.changes.length >= this.MAX_CHANGES) {
-      this.changes.splice(0, this.changes.length - this.MAX_CHANGES + 1000);
-    }
 
     const { type } = change;
 
@@ -1124,18 +1104,6 @@ export class DataController {
     // 添加新删除的combo ID
     // Add new deleted combo ID
     newRemovedComboIds.forEach((id) => this.latestRemovedComboIds.add(id));
-
-    // 如果超过阈值，保留最近的一半记录
-    // If the threshold is exceeded, keep the last half of the records
-    if (this.latestRemovedComboIds.size > this.MAX_REMOVED_COMBO_IDS) {
-      const idsArray = Array.from(this.latestRemovedComboIds);
-      const keepCount = Math.floor(this.MAX_REMOVED_COMBO_IDS / 2);
-
-      // 保留最近的记录（简单的FIFO策略）
-      // Keep the last half of the records (simple FIFO strategy)
-      this.latestRemovedComboIds.clear();
-      idsArray.slice(-keepCount).forEach((id) => this.latestRemovedComboIds.add(id));
-    }
   }
 
   public removeNodeData(ids: ID[] = []) {
