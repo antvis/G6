@@ -1,0 +1,114 @@
+{
+  "nodes": [
+    {
+      "id": "50251337",
+      "x": 50,
+      "y": 68,
+      "isTeamA": "1",
+      "player_id": "50251337",
+      "player_shirtnumber": "19",
+      "player_enName": "Justin Kluivert",
+      "player_name": "尤斯廷-克鲁伊维特"
+    },
+    {
+      "id": "50436685",
+      "x": 25,
+      "y": 68,
+      "isTeamA": "1",
+      "player_id": "50436685",
+      "player_shirtnumber": "24",
+      "player_enName": "Antoine Semenyo",
+      "player_name": "塞门约"
+    },
+    {
+      "id": "50204813",
+      "x": 50,
+      "y": 89,
+      "isTeamA": "1",
+      "player_id": "50204813",
+      "player_shirtnumber": "9",
+      "player_enName": "Dominic Solanke",
+      "player_name": "索兰克"
+    },
+    {
+      "id": "50250175",
+      "x": 75,
+      "y": 68,
+      "isTeamA": "1",
+      "player_id": "50250175",
+      "player_shirtnumber": "16",
+      "player_enName": "Marcus Tavernier",
+      "player_name": "塔韦尼耶"
+    },
+    {
+      "id": "50213675",
+      "x": 65,
+      "y": 48,
+      "isTeamA": "1",
+      "player_id": "50213675",
+      "player_shirtnumber": "4",
+      "player_enName": "Lewis Cook",
+      "player_name": "刘易斯-库克"
+    },
+    {
+      "id": "50186648",
+      "x": 35,
+      "y": 48,
+      "isTeamA": "1",
+      "player_id": "50186648",
+      "player_shirtnumber": "10",
+      "player_enName": "Ryan Christie",
+      "player_name": "克里斯蒂"
+    },
+    {
+      "id": "50279448",
+      "x": 38,
+      "y": 28,
+      "isTeamA": "1",
+      "player_id": "50279448",
+      "player_shirtnumber": "6",
+      "player_enName": "Chris Mepham",
+      "player_name": "迈帕姆"
+    },
+    {
+      "id": "50061646",
+      "x": 15,
+      "y": 28,
+      "isTeamA": "1",
+      "player_id": "50061646",
+      "player_shirtnumber": "15",
+      "player_enName": "Adam Smith",
+      "player_name": "亚当-史密斯"
+    },
+    {
+      "id": "50472140",
+      "x": 62,
+      "y": 28,
+      "isTeamA": "1",
+      "player_id": "50472140",
+      "player_shirtnumber": "27",
+      "player_enName": "Ilya Zabarnyi",
+      "player_name": "扎巴尔尼"
+    },
+    {
+      "id": "50544346",
+      "x": 85,
+      "y": 28,
+      "isTeamA": "1",
+      "player_id": "50544346",
+      "player_shirtnumber": "3",
+      "player_enName": "Milos Kerkez",
+      "player_name": "科尔克兹"
+    },
+    {
+      "id": "50062598",
+      "x": 50,
+      "y": 7,
+      "isTeamA": "1",
+      "player_id": "50062598",
+      "player_shirtnumber": "1",
+      "player_enName": "Neto",
+      "player_name": "内托"
+    }
+  ]
+}

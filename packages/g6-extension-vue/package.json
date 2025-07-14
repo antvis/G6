@@ -1,0 +1,60 @@
+{
+  "name": "@antv/g6-extension-vue",
+  "version": "0.0.1",
+  "description": "Using Vue Component to Define Your G6 Graph Node",
+  "keywords": [
+    "antv",
+    "g6",
+    "extension",
+    "vue",
+    "vue2",
+    "node"
+  ],
+  "repository": "https://github.com/antvis/G6.git",
+  "license": "MIT",
+  "author": "Aarebecca",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "src",
+    "esm",
+    "lib",
+    "dist",
+    "README"
+  ],
+  "scripts": {
+    "build": "run-p build:*",
+    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib -p tsconfig.build.json",
+    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm -p tsconfig.build.json",
+    "build:umd": "rimraf ./dist && rollup -c",
+    "ci": "run-s lint type-check test build",
+    "dev": "vite",
+    "lint": "eslint ./src __tests__ --quiet && prettier ./src __tests__ --check",
+    "prepublishOnly": "npm run ci",
+    "test": "jest",
+    "type-check": "tsc --noEmit -p tsconfig.test.json"
+  },
+  "dependencies": {
+    "@antv/g": "^6.1.24",
+    "@antv/g-svg": "^2.0.38",
+    "vue-demi": "^0.14.10"
+  },
+  "devDependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
+    "@antv/g6": "workspace:*",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vitejs/plugin-vue-jsx": "^5.0.1",
+    "@vue-styled-components/core": "^1.12.0",
+    "ant-design-vue": "^4.2.6",
+    "vue": "^3.5.16",
+    "vue-router": "^4.5.1"
+  },
+  "peerDependencies": {
+    "@antv/g6": "workspace:^"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
