@@ -32,13 +32,13 @@ export class VueNode extends HTML {
     const { component } = this.attributes as unknown as VueNodeStyleProps;
     // component 已经被回调机制自动创建为 VueNode
     // component has been automatically created as VueNode by the callback mechanism
-    render(component, this.getDomElement(), true);
+    render(component, this.getDomElement(), false);
   }
 
   public attributeChangedCallback(name: any, oldValue: any, newValue: any) {
     super.attributeChangedCallback(name, oldValue, newValue);
     if (name === 'component' && oldValue !== newValue) {
-      render((this.attributes as unknown as VueNodeStyleProps).component, this.getDomElement(), false);
+      render((this.attributes as unknown as VueNodeStyleProps).component, this.getDomElement(), true);
     }
   }
 

@@ -13,9 +13,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      // component: <div></div>,
       children: Object.entries(demos).map(([key, Demo]) => {
-        console.log(key, Demo);
         return {
           path: `/${key}`,
           name: key,

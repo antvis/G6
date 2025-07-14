@@ -3,7 +3,7 @@ import type { Graph as G6Graph, GraphOptions, NodeData } from '@antv/g6';
 import { ExtensionCategory, register } from '@antv/g6';
 import { VueNode as VueNodeExtension } from '@antv/g6-extension-vue';
 import { Badge, Button, Flex, Form, Input, Layout, Select, Table, Tag, Typography } from 'ant-design-vue';
-import { defineComponent, onMounted, reactive, ref } from 'vue-demi';
+import { defineComponent, onMounted, reactive, ref, watch } from 'vue-demi';
 import { Graph } from '../graph';
 
 type Datum = {
@@ -29,7 +29,16 @@ const Node = defineComponent({
   emits: ['change'],
   setup(props, { emit }) {
     const { Text } = Typography;
-    const { status, type } = props.data as Datum;
+    const localData = ref(props.data);
+
+    watch(
+      () => props.data,
+      (newData) => {
+        if (newData) {
+          localData.value = newData;
+        }
+      },
+    );
 
     const onChange = (event: any) => {
       const url = event.target.value;
@@ -45,9 +54,9 @@ const Node = defineComponent({
             <Text>
               <DatabaseFilled />
               Server
-              <Tag>{type}</Tag>
+              <Tag>{localData.value.type}</Tag>
             </Text>
-            <Badge status={status} />
+            <Badge status={localData.value.status} />
           </Flex>
           <Text type="secondary">{props.data?.id}</Text>
           <Flex align="center">
