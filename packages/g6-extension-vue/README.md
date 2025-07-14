@@ -16,9 +16,9 @@ npm install @antv/g6-extension-vue
 
 ```js
 import { ExtensionCategory, register } from '@antv/g6';
-import { ReactNode } from '@antv/g6-extension-vue';
+import { VueNode } from '@antv/g6-extension-vue';
 
-register(ExtensionCategory.NODE, 'react', ReactNode);
+register(ExtensionCategory.NODE, 'vue', VueNode);
 ```
 
 3. Define Node
@@ -26,27 +26,14 @@ register(ExtensionCategory.NODE, 'react', ReactNode);
 React Node:
 
 ```jsx
-const ReactNode = () => {
+const VueNode = () => {
   return <div>node</div>;
-};
-```
-
-G Node:
-
-```jsx
-import { Group, Rect, Text } from '@antv/g6-extension-vue';
-
-const GNode = () => {
-  return <Group>
-    <Rect width={100} height={100}></Rect>
-    <Text text={"node"} />
-  <Group>
 };
 ```
 
 4. Use
 
-Use ReactNode:
+Use VueNode:
 
 ```jsx
 const graph = new Graph({
@@ -54,21 +41,7 @@ const graph = new Graph({
   node: {
     type: 'vue',
     style: {
-      component: () => <ReactNode />,
-    },
-  },
-});
-```
-
-Use GNode:
-
-```jsx
-const graph = new Graph({
-  // ... other options
-  node: {
-    type: 'g',
-    style: {
-      component: () => <GNode />,
+      component: (node:Datum) => <VueNode data={node.data}/>,// data is not reactivity
     },
   },
 });
@@ -76,11 +49,10 @@ const graph = new Graph({
 
 ## Q&A
 
-1. Difference between ReactNode and GNode
+1. Reactivity
 
-ReactNode is a React component, while GNode support jsx syntax but can only use G tag node.
+VueNode is a Vue component, so it can use Vue reactivity. but the component element can not be changed by reactivity.
 
 ## Resources
 
-- [React node](https://g6.antv.antgroup.com/examples/element/custom-node/#react-node)
-- [G node with JSX syntax](https://g6.antv.antgroup.com/en/examples/element/custom-node/#react-g)
+- [Vue node](https://g6.antv.antgroup.com/examples/element/custom-node/#vue-node)

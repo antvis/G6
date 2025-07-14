@@ -18,12 +18,12 @@ export async function render(component: VNode | (() => VNode), container: AppCon
   } else if (isVue2) {
     if (needsUpdate && container[vue_core_mark]) {
       const instance = container[vue_core_mark];
-      instance.$options.render = (h) => h(component);
+      instance.$options.render = (h: any) => h(component);
       instance.$forceUpdate();
       return;
     }
     const instance = new Vue2({
-      render: (h) => h(component),
+      render: (h: any) => h(component),
     });
     instance.$mount(container); // Mount to an in-memory element first
     // 存储实例引用

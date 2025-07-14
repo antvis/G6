@@ -12,7 +12,7 @@
   ],
   "repository": "https://github.com/antvis/G6.git",
   "license": "MIT",
-  "author": "Aarebecca",
+  "author": "Child-qjj",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
@@ -51,7 +51,9 @@
     "vue-router": "^4.5.1"
   },
   "peerDependencies": {
-    "@antv/g6": "workspace:^"
+    "@antv/g6": "workspace:^",
+    "@vue/composition-api": "^1.0.0-rc.1",
+    "vue": "^2.0.0 || >=3.0.0"
   },
   "publishConfig": {
     "access": "public",
