@@ -10,7 +10,7 @@ export interface VueNodeStyleProps extends BaseNodeStyleProps {
    *
    * <en/> Vue component
    */
-  component: VNode;
+  component: VNode | (() => VNode);
 }
 
 export class VueNode extends HTML {
@@ -28,7 +28,6 @@ export class VueNode extends HTML {
 
   public connectedCallback() {
     super.connectedCallback();
-    // this.root = createRoot(this.getDomElement());
     const { component } = this.attributes as unknown as VueNodeStyleProps;
     // component 已经被回调机制自动创建为 VueNode
     // component has been automatically created as VueNode by the callback mechanism
