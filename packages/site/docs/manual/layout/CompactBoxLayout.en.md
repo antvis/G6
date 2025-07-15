@@ -35,7 +35,7 @@ const graph = new Graph({
 | --------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- | -------- |
 | type      | Layout type                                                                                                   | `compact-box`                                                | -       | ✓        |
 | direction | Layout direction, [options](#direction)                                                                       | `LR` \| `RL` \| `TB` \| `BT` \| `H` \| `V`                   | `LR`    |          |
-| getSide   | Set whether the node is on the left or right of the root. Only works for `H` direction. [See below](#getside) | (d?: [NodeData](/en/manual/data#节点数据nodedata)) => string |         |          |
+| getSide   | Set whether the node is on the left or right of the root. Only works for `H` direction. [See below](#getside) | (d: { data?: [NodeData](/en/manual/data#节点数据nodedata) }) => string |         |          |
 | getId     | Callback for node id                                                                                          | (d?: [NodeData](/en/manual/data#节点数据nodedata)) => string |         |          |
 | getWidth  | Callback for node width                                                                                       | (d?: [NodeData](/en/manual/data#节点数据nodedata)) => number |         |          |
 | getHeight | Callback for node height                                                                                      | (d?: [NodeData](/en/manual/data#节点数据nodedata)) => number |         |          |
@@ -58,16 +58,16 @@ Tree layout direction
 
 ### getSide
 
-> _(d?: [NodeData](/en/manual/data#节点数据nodedata)) => string_
+> _(d: { data?: [NodeData](/en/manual/data#节点数据nodedata) }) => string_
 
 Set whether the node is on the left or right of the root. Only works for `H` direction. If not set, the algorithm will automatically assign left/right. See [getSide auto logic](https://github.com/antvis/hierarchy/blob/d786901874f59d96c47e2a5dfe17b373eefd72e3/src/layout/separate-root.js#L11).
 
 Example:
 
 ```javascript
-(d) => {
-  // d is a node
-  if (d.id === 'test-child-id') return 'right';
+({ data }) => {
+  // data is a node
+  if (data.id === 'test-child-id') return 'right';
   return 'left';
 };
 ```
