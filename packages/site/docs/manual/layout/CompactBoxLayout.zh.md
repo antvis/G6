@@ -35,7 +35,7 @@ const graph = new Graph({
 | --------- | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------ | ---- |
 | type      | 布局类型                                                                                                | `compact-box`                                             | -      | ✓    |
 | direction | 布局方向，[可选值](#direction)                                                                          | `LR` \| `RL` \| `TB` \| `BT` \| `H` \| `V`                | `LR`   |      |
-| getSide   | 设置节点排布在根节点的左侧/右侧，如未设置，则算法自动分配左侧/右侧。注意：该参数仅在 `H` 布局方向上生效 | (d?: [NodeData](/manual/data#节点数据nodedata)) => string |        |      |
+| getSide   | 设置节点排布在根节点的左侧/右侧，如未设置，则算法自动分配左侧/右侧。注意：该参数仅在 `H` 布局方向上生效 | (d: { data?: [NodeData](/manual/data#节点数据nodedata) }) => string |        |      |
 | getId     | 节点 id 的回调函数                                                                                      | (d?: [NodeData](/manual/data#节点数据nodedata)) => string |        |      |
 | getWidth  | 计算每个节点的宽度                                                                                      | (d?: [NodeData](/manual/data#节点数据nodedata)) => number |        |      |
 | getHeight | 计算每个节点的高度                                                                                      | (d?: [NodeData](/manual/data#节点数据nodedata)) => number |        |      |
@@ -75,16 +75,16 @@ const graph = new Graph({
 
 ### getSide
 
-> _(d?: [NodeData](/manual/data#节点数据nodedata)) => string_
+> _(d: { data?: [NodeData](/manual/data#节点数据nodedata) }) => string_
 
 设置节点排布在根节点的左侧/右侧。注意：该参数仅在 `direction` 为 `H` 时生效。如未设置，会默认将子节点前半部分放置在右侧，后半部分放置在左侧，参考 [getSide自动计算逻辑](https://github.com/antvis/hierarchy/blob/d786901874f59d96c47e2a5dfe17b373eefd72e3/src/layout/separate-root.js#L11)。
 
 示例：
 
 ```javascript
-(d) => {
-  // d 是一个节点
-  if (d.id === 'test-child-id') return 'right';
+({ data }) => {
+  // data 是一个节点
+  if (data.id === 'test-child-id') return 'right';
   return 'left';
 };
 ```
