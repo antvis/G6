@@ -56,13 +56,13 @@ export interface MinimapOptions extends BasePluginOptions {
    * @remarks
    * <zh/>
    * - 'key' 使用元素的主图形作为缩略图形
-   * - 也可以传入一个函数，接收元素的 id 和类型，返回一个图形
+   * - 也可以传入一个函数，接收元素的 [id, 类型, 完整图形]，返回一个自定义样式的图形
    *
    * <en/>
    * - 'key' uses the key shape of the element as the thumbnail shape
-   * - You can also pass in a function that receives the id and type of the element and returns a shape
+   * - You can also pass in a function that receives the [id, type of the element, full shape] and returns a custom shape
    */
-  shape?: 'key' | ((id: string, elementType: ElementType) => DisplayObject);
+  shape?: 'key' | ((id: string, elementType: ElementType, fullShape: DisplayObject) => DisplayObject);
   /**
    * <zh/> 缩略图画布类名，传入外置容器时不生效
    *
@@ -232,6 +232,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
         if (target.style.zIndex) cloneShape.style.zIndex = target.style.zIndex;
         cloneShape.id = target.id;
 
+        // 如果小地图里的元素尚未绘制过
         if (!this.shapes.has(id)) {
           canvas.appendChild(cloneShape);
           this.shapes.set(id, cloneShape);
@@ -247,6 +248,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       combos.forEach(iterate);
       nodes.forEach(iterate);
 
+      // 如果下一次绘制时，跟上一次对比，移除了某些元素，则从缓存中移除
       this.shapes.forEach((shape, id) => {
         if (!ids.has(id)) {
           canvas.removeChild(shape);
@@ -266,13 +268,27 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
     canvas.removeChildren();
 
-    edges.forEach((datum) => canvas.appendChild(shape(idOf(datum), 'edge')));
-    combos.forEach((datum) => {
-      canvas.appendChild(setPosition(idOf(datum), shape(idOf(datum), 'combo')));
-    });
-    nodes.forEach((datum) => {
-      canvas.appendChild(setPosition(idOf(datum), shape(idOf(datum), 'node')));
-    });
+    const handleCustomShape = (datum: ElementDatum, elType: ElementType) => {
+      const id = idOf(datum);
+      const target = element?.getElement(id);
+      if (!target) return;
+
+      const simpleShape = target.getShape('key');
+      const fullShape = target.cloneNode();
+      fullShape.setPosition(simpleShape.getPosition());
+      // keep zIndex / id
+      if (target.style.zIndex) fullShape.style.zIndex = target.style.zIndex;
+      fullShape.id = target.id;
+
+      // 用户传入了自定义shape的方法，每次都以用户的方法返回值为准，不需要缓存
+      const customShape = shape(idOf(datum), elType, fullShape);
+
+      canvas.appendChild(setPosition(idOf(datum), customShape));
+    };
+
+    edges.forEach((datum) => handleCustomShape(datum, 'edge'));
+    combos.forEach((datum) => handleCustomShape(datum, 'combo'));
+    nodes.forEach((datum) => handleCustomShape(datum, 'node'));
   }
 
   private container!: HTMLElement;
@@ -463,11 +479,11 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     // 当拖拽画布导致 mask 缩小时，拖拽 mask 时，能够恢复到实际大小
     // When dragging the canvas causes the mask to shrink, dragging the mask will restore it to its actual size
     if (width < fullWidth) {
-      if (movementX > 0) ((x = lower(x - movementX, 0)), (width = upper(width + movementX, minimapWidth)));
+      if (movementX > 0) (x = lower(x - movementX, 0)), (width = upper(width + movementX, minimapWidth));
       else if (movementX < 0) width = upper(width - movementX, minimapWidth);
     }
     if (height < fullHeight) {
-      if (movementY > 0) ((y = lower(y - movementY, 0)), (height = upper(height + movementY, minimapHeight)));
+      if (movementY > 0) (y = lower(y - movementY, 0)), (height = upper(height + movementY, minimapHeight));
       else if (movementY < 0) height = upper(height - movementY, minimapHeight);
     }
 
