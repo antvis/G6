@@ -174,16 +174,17 @@ export class GridLine extends BasePlugin<GridLineOptions> {
 
   private followZoom = (event: IViewportEvent) => {
     const {
-      data: { scale, origin },
+      data: { scale, origin: providedOrigin },
     } = event;
 
-    if (!scale) return;
+    if (!scale || (providedOrigin === undefined && this.context.viewport === undefined)) return;
 
+    const origin = providedOrigin || this.context.graph.getCanvasCenter();
     const prevScale = this.currentScale;
     this.currentScale = scale;
 
     const deltaScale = scale / prevScale;
-    const positionOffset = multiply(origin || this.context.graph.getCanvasCenter(), 1 - deltaScale);
+    const positionOffset = multiply(origin, 1 - deltaScale);
     const scaledSize = this.baseSize * scale;
 
     const scaledOffset = multiply(this.offset, deltaScale);
