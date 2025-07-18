@@ -225,6 +225,9 @@ export class ViewportController {
     const scale = direction === 'x' ? scaleX : direction === 'y' ? scaleY : Math.min(scaleX, scaleY);
 
     const _animation = this.getAnimation(animation);
+    if (!Number.isFinite(scale)) {
+      return;
+    }
     await this.transform(
       {
         mode: 'relative',
