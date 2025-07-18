@@ -56,13 +56,13 @@ export interface MinimapOptions extends BasePluginOptions {
    * @remarks
    * <zh/>
    * - 'key' 使用元素的主图形作为缩略图形
-   * - 也可以传入一个函数，接收元素的 [id, 类型, 完整图形]，返回一个自定义样式的图形
+   * - 也可以传入一个函数，接收元素的 [id, 类型, 元素节点]，返回一个自定义样式的图形
    *
    * <en/>
    * - 'key' uses the key shape of the element as the thumbnail shape
-   * - You can also pass in a function that receives the [id, type of the element, full shape] and returns a custom shape
+   * - You can also pass in a function that receives the [id, type of the element, element] and returns a custom shape
    */
-  shape?: 'key' | ((id: string, elementType: ElementType, fullShape: DisplayObject) => DisplayObject);
+  shape?: 'key' | ((id: string, elementType: ElementType, element: DisplayObject) => DisplayObject);
   /**
    * <zh/> 缩略图画布类名，传入外置容器时不生效
    *
@@ -274,16 +274,16 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       if (!target) return;
 
       const simpleShape = target.getShape('key');
-      const fullShape = target.cloneNode();
+      // 用户传入了自定义shape的方法，每次都以用户的方法返回值为准，不需要缓存
+      const customShape = shape(idOf(datum), elType, target);
+
+      const fullShape = customShape.cloneNode(true);
       fullShape.setPosition(simpleShape.getPosition());
       // keep zIndex / id
       if (target.style.zIndex) fullShape.style.zIndex = target.style.zIndex;
       fullShape.id = target.id;
 
-      // 用户传入了自定义shape的方法，每次都以用户的方法返回值为准，不需要缓存
-      const customShape = shape(idOf(datum), elType, fullShape);
-
-      canvas.appendChild(setPosition(idOf(datum), customShape));
+      canvas.appendChild(setPosition(idOf(datum), fullShape));
     };
 
     edges.forEach((datum) => handleCustomShape(datum, 'edge'));
@@ -479,12 +479,16 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     // 当拖拽画布导致 mask 缩小时，拖拽 mask 时，能够恢复到实际大小
     // When dragging the canvas causes the mask to shrink, dragging the mask will restore it to its actual size
     if (width < fullWidth) {
-      if (movementX > 0) (x = lower(x - movementX, 0)), (width = upper(width + movementX, minimapWidth));
-      else if (movementX < 0) width = upper(width - movementX, minimapWidth);
+      if (movementX > 0) {
+        x = lower(x - movementX, 0);
+        width = upper(width + movementX, minimapWidth);
+      } else if (movementX < 0) width = upper(width - movementX, minimapWidth);
     }
     if (height < fullHeight) {
-      if (movementY > 0) (y = lower(y - movementY, 0)), (height = upper(height + movementY, minimapHeight));
-      else if (movementY < 0) height = upper(height - movementY, minimapHeight);
+      if (movementY > 0) {
+        y = lower(y - movementY, 0);
+        height = upper(height + movementY, minimapHeight);
+      } else if (movementY < 0) height = upper(height - movementY, minimapHeight);
     }
 
     Object.assign(this.mask.style, {
