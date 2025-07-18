@@ -1,9 +1,9 @@
 ---
 title: 自定义 Combo
-order: 3
+order: 4
 ---
 
-G6 提供了两种 [内置组合](/manual/element/combo/build-in/base-combo) 类型：圆形组合和矩形 Combo 。但在复杂的业务场景中，你可能需要创建具有特定样式、交互效果或行为逻辑的自定义 Combo 。
+G6 提供了两种 [内置组合](/manual/element/combo/base-combo) 类型：圆形组合和矩形 Combo 。但在复杂的业务场景中，你可能需要创建具有特定样式、交互效果或行为逻辑的自定义 Combo 。
 
 ## 开始之前：了解 Combo 的基本构成
 
@@ -42,6 +42,10 @@ Combo 不同于普通节点，它具有以下特性：
 - 📌 **开发迅速**：适合大多数项目需求，快速实现业务目标
 - 📌 **易于维护**：代码结构清晰，继承关系明确
 
+:::tip{title=立即开始}
+如果你选择继承现有组合类型（推荐），可以直接跳到 [三步创建你的第一个自定义 Combo](#三步创建你的第一个自定义-combo) 开始实践。大部分用户都会选择这种方式！
+:::
+
 ### 2. 基于 G 图形系统从零开发 <Badge>高级用法</Badge>
 
 如果现有 Combo 类型都不满足需求，你可以基于 G 的底层图形系统从零创建 Combo。
@@ -60,7 +64,7 @@ Combo 不同于普通节点，它具有以下特性：
 
 让我们从继承 `BaseCombo` 开始，实现一个自定义六边形 Combo ：
 
-```js | ob { pin:false, autoMount: true }
+```js | ob { pin:false, inject: true }
 import { Graph, register, BaseCombo, ExtensionCategory } from '@antv/g6';
 
 // 定义收起状态的按钮路径

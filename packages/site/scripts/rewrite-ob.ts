@@ -12,7 +12,7 @@ import path from 'path';
  * const graph = new Graph({ container:'container', width: $1, height: $2, ...options })
  * graph.render()
  *
- * Also ensures that ```js | ob {} includes autoMount: true
+ * Also ensures that ```js | ob {} includes inject: true
  */
 
 // Regular expression to match ob code blocks with createGraph
@@ -40,42 +40,42 @@ graph.render();`;
 }
 
 /**
- * Ensure autoMount: true is included in ob options
+ * Ensure inject: true is included in ob options
  * @param obOptions The options string like ' { pin: false }' or ''
- * @returns Updated options string with autoMount: true
+ * @returns Updated options string with inject: true
  */
-function ensureAutoMount(obOptions: string): string {
-  // If there are no options, add them with autoMount: true
+function ensureinject(obOptions: string): string {
+  // If there are no options, add them with inject: true
   if (!obOptions || obOptions.trim() === '') {
-    return ' { autoMount: true }';
+    return ' { inject: true }';
   }
 
   // Check if there are already options
   const trimmed = obOptions.trim();
   if (!trimmed.includes('{')) {
-    return ` { autoMount: true }`;
+    return ` { inject: true }`;
   }
 
-  // Parse the options to see if autoMount already exists
+  // Parse the options to see if inject already exists
   const optionsMatch = trimmed.match(/\{(.*)\}/);
   if (!optionsMatch) {
-    return ` { autoMount: true }`;
+    return ` { inject: true }`;
   }
 
   const optionsContent = optionsMatch[1].trim();
   if (optionsContent === '') {
-    return ` { autoMount: true }`;
+    return ` { inject: true }`;
   }
 
-  // Check if autoMount already exists
-  if (optionsContent.includes('autoMount:')) {
+  // Check if inject already exists
+  if (optionsContent.includes('inject:')) {
     return obOptions;
   }
 
-  // Add autoMount: true to existing options
+  // Add inject: true to existing options
   const updatedOptions = trimmed.replace(/\{(.*)\}/, (match, content) => {
     const separator = content.trim() ? ', ' : '';
-    return `{ ${content}${separator}autoMount: true }`;
+    return `{ ${content}${separator}inject: true }`;
   });
 
   return ` ${updatedOptions}`;
@@ -93,8 +93,8 @@ function processFile(filePath: string): void {
 
     // Find ob code blocks and replace createGraph pattern
     content = content.replace(OB_CODE_BLOCK_REGEX, (match, obOptions: string, codeContent: string) => {
-      // Ensure autoMount: true is included in ob options
-      const updatedObOptions = ensureAutoMount(obOptions);
+      // Ensure inject: true is included in ob options
+      const updatedObOptions = ensureinject(obOptions);
 
       // Replace createGraph with Graph instance in the code content
       const updatedCodeContent = codeContent.replace(

@@ -1,6 +1,6 @@
 ---
 title: 数据处理总览
-order: 1
+order: 0
 ---
 
 ## 什么是数据处理
@@ -78,13 +78,13 @@ export abstract class BaseTransform<T extends BaseTransformOptions = BaseTransfo
 
 - **G6 提供给用户的内置数据处理如下：**
 
-各数据处理详细配置可参考 [内置数据处理文档](/manual/transform/build-in/map-node-size)。
+各数据处理详细配置可参考 [内置数据处理文档](/manual/transform/map-node-size)。
 
-| 数据处理名称                                                 | 注册类型                 | 功能描述                                             | 执行时机   |
-| ------------------------------------------------------------ | ------------------------ | ---------------------------------------------------- | ---------- |
-| [动态调整节点大小](/manual/transform/build-in/map-node-size) | `map-node-size`          | 根据节点中心性调整节点的大小                         | beforeDraw |
-| [径向标签](/manual/transform/build-in/place-radial-labels)   | `place-radial-labels`    | 根据径向布局自动调整节点标签样式，包括位置和旋转角度 | afterDraw  |
-| [平行边](/manual/transform/build-in/process-parallel-edges)  | `process-parallel-edges` | 处理平行边，即多条边共享同一源节点和目标节点         | beforeDraw |
+| 数据处理名称                                        | 注册类型                 | 功能描述                                             | 执行时机   |
+| --------------------------------------------------- | ------------------------ | ---------------------------------------------------- | ---------- |
+| [动态调整节点大小](/manual/transform/map-node-size) | `map-node-size`          | 根据节点中心性调整节点的大小                         | beforeDraw |
+| [径向标签](/manual/transform/place-radial-labels)   | `place-radial-labels`    | 根据径向布局自动调整节点标签样式，包括位置和旋转角度 | afterDraw  |
+| [平行边](/manual/transform/process-parallel-edges)  | `process-parallel-edges` | 处理平行边，即多条边共享同一源节点和目标节点         | beforeDraw |
 
 - **G6 内嵌的数据处理如下：**
 

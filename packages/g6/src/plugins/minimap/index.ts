@@ -4,6 +4,7 @@ import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
 import { GraphData } from '../../spec';
 import type { ElementDatum, ElementType, ID, IGraphLifeCycleEvent, Padding, Placement, Vector3 } from '../../types';
+import { isVisible } from '../../utils/element';
 import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
 import { toPointObject } from '../../utils/point';
@@ -149,6 +150,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const { graph } = this.context;
     graph.on(GraphEvent.AFTER_DRAW, this.onDraw);
     graph.on(GraphEvent.AFTER_RENDER, this.onRender);
+    graph.on(GraphEvent.AFTER_ANIMATE, this.onRender);
     graph.on(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
@@ -156,6 +158,7 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const { graph } = this.context;
     graph.off(GraphEvent.AFTER_DRAW, this.onDraw);
     graph.off(GraphEvent.AFTER_RENDER, this.onRender);
+    graph.off(GraphEvent.AFTER_ANIMATE, this.onRender);
     graph.off(GraphEvent.AFTER_TRANSFORM, this.onTransform);
   }
 
@@ -181,8 +184,18 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
   private getElements(): Required<GraphData> {
     const { filter } = this.options;
-    const { model } = this.context;
-    const data = model.getData();
+    const { model, element } = this.context;
+    const originData = model.getData();
+    //过滤那些不存在于elementMap中的数据
+    const data = {
+      nodes: originData.nodes.filter((node) => element?.getElement(idOf(node))),
+      edges: originData.edges.filter((edge) => {
+        const edgeElement = element?.getElement(idOf(edge));
+        // 边数据存在且可见时才保留
+        return edgeElement && isVisible(edgeElement);
+      }),
+      combos: originData.combos.filter((combo) => element?.getElement(idOf(combo))),
+    };
 
     if (!filter) return data;
 
@@ -373,8 +386,14 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     let [x, y, width, height] = this.maskBBox;
 
     // clamp x, y, width, height
-    if (x < 0) (width = upper(width + x, minimapWidth)), (x = 0);
-    if (y < 0) (height = upper(height + y, minimapHeight)), (y = 0);
+    if (x < 0) {
+      width = upper(width + x, minimapWidth);
+      x = 0;
+    }
+    if (y < 0) {
+      height = upper(height + y, minimapHeight);
+      y = 0;
+    }
     if (x + width > minimapWidth) width = lower(minimapWidth - x, 0);
     if (y + height > minimapHeight) height = lower(minimapHeight - y, 0);
 
@@ -444,11 +463,11 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     // 当拖拽画布导致 mask 缩小时，拖拽 mask 时，能够恢复到实际大小
     // When dragging the canvas causes the mask to shrink, dragging the mask will restore it to its actual size
     if (width < fullWidth) {
-      if (movementX > 0) (x = lower(x - movementX, 0)), (width = upper(width + movementX, minimapWidth));
+      if (movementX > 0) ((x = lower(x - movementX, 0)), (width = upper(width + movementX, minimapWidth)));
       else if (movementX < 0) width = upper(width - movementX, minimapWidth);
     }
     if (height < fullHeight) {
-      if (movementY > 0) (y = lower(y - movementY, 0)), (height = upper(height + movementY, minimapHeight));
+      if (movementY > 0) ((y = lower(y - movementY, 0)), (height = upper(height + movementY, minimapHeight)));
       else if (movementY < 0) height = upper(height - movementY, minimapHeight);
     }
 
@@ -505,8 +524,9 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
   public destroy(): void {
     this.unbindEvents();
-    this.canvas.destroy();
+    this.canvas?.destroy();
     this.mask?.remove();
+    this.container?.remove();
     super.destroy();
   }
 }

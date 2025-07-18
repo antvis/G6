@@ -179,6 +179,7 @@ export function create(tokens: ThemeTokens): Theme {
         badgeFill: '#fff',
         badgeFontSize: 8,
         badgeOffsetX: 10,
+        badgeBackgroundOpacity: 1,
         fillOpacity: 1,
         halo: false,
         haloLineWidth: 12,

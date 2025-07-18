@@ -124,12 +124,12 @@ G6 provides powerful extension capabilities to meet various customization needs:
 
 ### Node Types
 
-- [Built-in Node Library](/en/manual/element/node/build-in/base-node)
+- [Built-in Node Library](/en/manual/element/node/base-node)
 
 ### Edge Types
 
-- [Built-in Edge Library](/en/manual/element/edge/build-in/base-edge)
+- [Built-in Edge Library](/en/manual/element/edge/base-edge)
 
 ### Combo Types
 
-- [Built-in Combo Library](/en/manual/element/combo/build-in/base-combo)
+- [Built-in Combo Library](/en/manual/element/combo/base-combo)

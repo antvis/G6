@@ -308,15 +308,15 @@ Node configuration options.
 
 #### NodeOptions
 
-| Property  | Description                                                                      | Type                                                              | Default  | Required |
-| --------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- | -------- | -------- |
-| type      | Node type, built-in node type name or custom node name                           | [Type](/en/manual/element/node/build-in/base-node#type)           | `circle` |          |
-| style     | Node style, including color, size, etc.                                          | [Style](/en/manual/element/node/build-in/base-node#style)         | -        |          |
-| state     | Define the style of the node in different states                                 | [State](/en/manual/element/node/build-in/base-node#state)         | -        |          |
-| palette   | Define the color palette of the node, used to map colors based on different data | [Palette](/en/manual/element/node/build-in/base-node#palette)     | -        |          |
-| animation | Define the animation effect of the node                                          | [Animation](/en/manual/element/node/build-in/base-node#animation) | -        |          |
+| Property  | Description                                                                      | Type                                                     | Default  | Required |
+| --------- | -------------------------------------------------------------------------------- | -------------------------------------------------------- | -------- | -------- |
+| type      | Node type, built-in node type name or custom node name                           | [Type](/en/manual/element/node/base-node#type)           | `circle` |          |
+| style     | Node style, including color, size, etc.                                          | [Style](/en/manual/element/node/base-node#style)         | -        |          |
+| state     | Define the style of the node in different states                                 | [State](/en/manual/element/node/base-node#state)         | -        |          |
+| palette   | Define the color palette of the node, used to map colors based on different data | [Palette](/en/manual/element/node/base-node#palette)     | -        |          |
+| animation | Define the animation effect of the node                                          | [Animation](/en/manual/element/node/base-node#animation) | -        |          |
 
-See [Node](/en/manual/element/node/build-in/base-node) for details
+See [Node](/en/manual/element/node/base-node) for details
 
 **Example:**
 
@@ -355,15 +355,15 @@ Edge configuration options
 
 #### EdgeOptions
 
-| Property  | Description                                                                      | Type                                                              | Default | Required |
-| --------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------- | -------- |
-| type      | Edge type, built-in edge type name or custom edge name                           | [Type](/en/manual/element/edge/build-in/base-edge#type)           | `line`  |          |
-| style     | Edge style, including color, size, etc.                                          | [Style](/en/manual/element/edge/build-in/base-edge#style)         | -       |          |
-| state     | Define the style of the edge in different states                                 | [State](/en/manual/element/edge/build-in/base-edge#state)         | -       |          |
-| palette   | Define the color palette of the edge, used to map colors based on different data | [Palette](/en/manual/element/edge/build-in/base-edge#palette)     | -       |          |
-| animation | Define the animation effect of the edge                                          | [Animation](/en/manual/element/edge/build-in/base-edge#animation) | -       |          |
+| Property  | Description                                                                      | Type                                                     | Default | Required |
+| --------- | -------------------------------------------------------------------------------- | -------------------------------------------------------- | ------- | -------- |
+| type      | Edge type, built-in edge type name or custom edge name                           | [Type](/en/manual/element/edge/base-edge#type)           | `line`  |          |
+| style     | Edge style, including color, size, etc.                                          | [Style](/en/manual/element/edge/base-edge#style)         | -       |          |
+| state     | Define the style of the edge in different states                                 | [State](/en/manual/element/edge/base-edge#state)         | -       |          |
+| palette   | Define the color palette of the edge, used to map colors based on different data | [Palette](/en/manual/element/edge/base-edge#palette)     | -       |          |
+| animation | Define the animation effect of the edge                                          | [Animation](/en/manual/element/edge/base-edge#animation) | -       |          |
 
-See [Edge](/en/manual/element/edge/build-in/base-edge) for details
+See [Edge](/en/manual/element/edge/base-edge) for details
 
 **Example:**
 
@@ -393,15 +393,15 @@ const graph = new Graph({
 
 Combo configuration options
 
-| Property  | Description                                                                       | Type                                                                | Default  | Required |
-| --------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------- | -------- | -------- |
-| type      | Combo type, built-in combo type name or custom combo name                         | [Type](/en/manual/element/combo/build-in/base-combo#type)           | `circle` |          |
-| style     | Combo style, including color, size, etc.                                          | [Style](/en/manual/element/combo/build-in/base-combo#style)         | -        |          |
-| state     | Define the style of the combo in different states                                 | [State](/en/manual/element/combo/build-in/base-combo#state)         | -        |          |
-| palette   | Define the color palette of the combo, used to map colors based on different data | [Palette](/en/manual/element/combo/build-in/base-combo#palette)     | -        |          |
-| animation | Define the animation effect of the combo                                          | [Animation](/en/manual/element/combo/build-in/base-combo#animation) | -        |          |
+| Property  | Description                                                                       | Type                                                       | Default  | Required |
+| --------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------- | -------- | -------- |
+| type      | Combo type, built-in combo type name or custom combo name                         | [Type](/en/manual/element/combo/base-combo#type)           | `circle` |          |
+| style     | Combo style, including color, size, etc.                                          | [Style](/en/manual/element/combo/base-combo#style)         | -        |          |
+| state     | Define the style of the combo in different states                                 | [State](/en/manual/element/combo/base-combo#state)         | -        |          |
+| palette   | Define the color palette of the combo, used to map colors based on different data | [Palette](/en/manual/element/combo/base-combo#palette)     | -        |          |
+| animation | Define the animation effect of the combo                                          | [Animation](/en/manual/element/combo/base-combo#animation) | -        |          |
 
-See [Combo](/en/manual/element/combo/build-in/base-combo) for details
+See [Combo](/en/manual/element/combo/base-combo) for details
 
 **Example:**
 
@@ -482,7 +482,7 @@ const graph = new Graph({
 ```
 
 - View [Interaction Overview](/en/manual/behavior/overview) to learn more about interaction principles
-- Browse [Built-in Interactions](/en/manual/behavior/build-in/auto-adapt-label) to get a list of all built-in interactions and their configuration options
+- Browse [Built-in Interactions](/en/manual/behavior/auto-adapt-label) to get a list of all built-in interactions and their configuration options
 
 ## plugins
 
@@ -515,7 +515,7 @@ const graph = new Graph({
 ```
 
 - View [Plugin Overview](/en/manual/plugin/overview) to learn more about plugin principles
-- Browse [Built-in Plugins](/en/manual/plugin/build-in/background) to get a list of all built-in plugins and their configuration options
+- Browse [Built-in Plugins](/en/manual/plugin/background) to get a list of all built-in plugins and their configuration options
 
 ## transforms
 
@@ -540,7 +540,7 @@ const graph = new Graph({
 ```
 
 - View [Data Processing Overview](/en/manual/transform/overview) to learn more about data processing principles
-- Browse [Built-in Data Processing](/en/manual/transform/build-in/map-node-size) to get a list of all built-in data processing and their configuration options
+- Browse [Built-in Data Processing](/en/manual/transform/map-node-size) to get a list of all built-in data processing and their configuration options
 
 #### CustomExtensionOptions
 

@@ -308,15 +308,15 @@ const graph = new Graph({
 
 #### NodeOptions
 
-| 属性      | 描述                                         | 类型                                                           | 默认值   | 必选 |
-| --------- | -------------------------------------------- | -------------------------------------------------------------- | -------- | ---- |
-| type      | 节点类型，内置节点类型名称或自定义节点的名称 | [Type](/manual/element/node/build-in/base-node#type)           | `circle` |      |
-| style     | 节点样式，包括颜色、大小等                   | [Style](/manual/element/node/build-in/base-node#style)         | -        |      |
-| state     | 定义节点在不同状态下的样式                   | [State](/manual/element/node/build-in/base-node#state)         | -        |      |
-| palette   | 定义节点的色板，用于根据不同数据映射颜色     | [Palette](/manual/element/node/build-in/base-node#palette)     | -        |      |
-| animation | 定义节点的动画效果                           | [Animation](/manual/element/node/build-in/base-node#animation) | -        |      |
+| 属性      | 描述                                         | 类型                                                  | 默认值   | 必选 |
+| --------- | -------------------------------------------- | ----------------------------------------------------- | -------- | ---- |
+| type      | 节点类型，内置节点类型名称或自定义节点的名称 | [Type](/manual/element/node/base-node#type)           | `circle` |      |
+| style     | 节点样式，包括颜色、大小等                   | [Style](/manual/element/node/base-node#style)         | -        |      |
+| state     | 定义节点在不同状态下的样式                   | [State](/manual/element/node/base-node#state)         | -        |      |
+| palette   | 定义节点的色板，用于根据不同数据映射颜色     | [Palette](/manual/element/node/base-node#palette)     | -        |      |
+| animation | 定义节点的动画效果                           | [Animation](/manual/element/node/base-node#animation) | -        |      |
 
-详见 [Node](/manual/element/node/build-in/base-node)
+详见 [Node](/manual/element/node/base-node)
 
 **示例：**
 
@@ -355,15 +355,15 @@ const graph = new Graph({
 
 #### EdgeOptions
 
-| 属性      | 描述                                   | 类型                                                           | 默认值 | 必选 |
-| --------- | -------------------------------------- | -------------------------------------------------------------- | ------ | ---- |
-| type      | 边类型，内置边类型名称或自定义边的名称 | [Type](/manual/element/edge/build-in/base-edge#type)           | `line` |      |
-| style     | 边样式，包括颜色、大小等               | [Style](/manual/element/edge/build-in/base-edge#style)         | -      |      |
-| state     | 定义边在不同状态下的样式               | [State](/manual/element/edge/build-in/base-edge#state)         | -      |      |
-| palette   | 定义边的色板，用于根据不同数据映射颜色 | [Palette](/manual/element/edge/build-in/base-edge#palette)     | -      |      |
-| animation | 定义边的动画效果                       | [Animation](/manual/element/edge/build-in/base-edge#animation) | -      |      |
+| 属性      | 描述                                   | 类型                                                  | 默认值 | 必选 |
+| --------- | -------------------------------------- | ----------------------------------------------------- | ------ | ---- |
+| type      | 边类型，内置边类型名称或自定义边的名称 | [Type](/manual/element/edge/base-edge#type)           | `line` |      |
+| style     | 边样式，包括颜色、大小等               | [Style](/manual/element/edge/base-edge#style)         | -      |      |
+| state     | 定义边在不同状态下的样式               | [State](/manual/element/edge/base-edge#state)         | -      |      |
+| palette   | 定义边的色板，用于根据不同数据映射颜色 | [Palette](/manual/element/edge/base-edge#palette)     | -      |      |
+| animation | 定义边的动画效果                       | [Animation](/manual/element/edge/base-edge#animation) | -      |      |
 
-详见 [Edge](/manual/element/edge/build-in/base-edge)
+详见 [Edge](/manual/element/edge/base-edge)
 
 **示例：**
 
@@ -393,15 +393,15 @@ const graph = new Graph({
 
 组合配置项
 
-| 属性      | 描述                                         | 类型                                                             | 默认值   | 必选 |
-| --------- | -------------------------------------------- | ---------------------------------------------------------------- | -------- | ---- |
-| type      | 组合类型，内置组合类型名称或自定义组合的名称 | [Type](/manual/element/combo/build-in/base-combo#type)           | `circle` |      |
-| style     | 组合样式，包括颜色、大小等                   | [Style](/manual/element/combo/build-in/base-combo#style)         | -        |      |
-| state     | 定义组合在不同状态下的样式                   | [State](/manual/element/combo/build-in/base-combo#state)         | -        |      |
-| palette   | 定义组合的色板，用于根据不同数据映射颜色     | [Palette](/manual/element/combo/build-in/base-combo#palette)     | -        |      |
-| animation | 定义组合的动画效果                           | [Animation](/manual/element/combo/build-in/base-combo#animation) | -        |      |
+| 属性      | 描述                                         | 类型                                                    | 默认值   | 必选 |
+| --------- | -------------------------------------------- | ------------------------------------------------------- | -------- | ---- |
+| type      | 组合类型，内置组合类型名称或自定义组合的名称 | [Type](/manual/element/combo/base-combo#type)           | `circle` |      |
+| style     | 组合样式，包括颜色、大小等                   | [Style](/manual/element/combo/base-combo#style)         | -        |      |
+| state     | 定义组合在不同状态下的样式                   | [State](/manual/element/combo/base-combo#state)         | -        |      |
+| palette   | 定义组合的色板，用于根据不同数据映射颜色     | [Palette](/manual/element/combo/base-combo#palette)     | -        |      |
+| animation | 定义组合的动画效果                           | [Animation](/manual/element/combo/base-combo#animation) | -        |      |
 
-详见 [Combo](/manual/element/combo/build-in/base-combo)
+详见 [Combo](/manual/element/combo/base-combo)
 
 **示例：**
 
@@ -482,7 +482,7 @@ const graph = new Graph({
 ```
 
 - 查看 [交互总览](/manual/behavior/overview) 深入了解交互原理
-- 浏览 [内置交互](/manual/behavior/build-in/auto-adapt-label) 获取所有内置交互列表及其配置选项
+- 浏览 [内置交互](/manual/behavior/auto-adapt-label) 获取所有内置交互列表及其配置选项
 
 ## plugins
 
@@ -515,7 +515,7 @@ const graph = new Graph({
 ```
 
 - 查看 [插件总览](/manual/plugin/overview) 深入了解插件原理
-- 浏览 [内置插件](/manual/plugin/build-in/background) 获取所有内置插件列表及其配置项
+- 浏览 [内置插件](/manual/plugin/background) 获取所有内置插件列表及其配置项
 
 ## transforms
 
@@ -540,7 +540,7 @@ const graph = new Graph({
 ```
 
 - 查看 [数据处理总览](/manual/transform/overview) 深入了解数据处理原理
-- 浏览 [内置数据处理](/manual/transform/build-in/map-node-size) 获取所有内置数据处理列表及其配置项
+- 浏览 [内置数据处理](/manual/transform/map-node-size) 获取所有内置数据处理列表及其配置项
 
 #### CustomExtensionOptions
 

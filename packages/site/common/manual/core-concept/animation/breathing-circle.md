@@ -1,4 +1,4 @@
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { register, Circle, Graph } from '@antv/g6';
 
 class BreathingCircle extends Circle {

@@ -413,7 +413,7 @@ G6 5.x 采用了与 4.x 不同的坐标系，详见 [坐标系](/manual/further-
 
 <Badge type="error">移除</Badge> **setTextWaterMarker / setImageWaterMarker**
 
-要使用水印功能，请参考 [水印](/manual/plugin/build-in/watermark)插件。
+要使用水印功能，请参考 [水印](/manual/plugin/watermark)插件。
 
 <Badge type="warning">变更</Badge> **toFullDataURL**
 

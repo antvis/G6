@@ -1,9 +1,11 @@
 ---
 title: 自定义边
-order: 10
+order: 7
 ---
 
-G6 提供了多种[内置边](/manual/element/edge/build-in/base-edge)类型，例如直线边、折线边、贝塞尔曲线边等。但在实际项目中，你可能需要创建具有特定样式或交互效果的自定义边。
+G6 提供了多种[内置边](/manual/element/edge/base-edge)类型，包含 [line（直线边）](/manual/element/edge/line)、[polyline（折线边）](/manual/element/edge/polyline)、[quadratic（二次贝塞尔曲线边）](/manual/element/edge/quadratic)、[cubic（三次贝塞尔曲线边）](/manual/element/edge/cubic)、[cubic-horizontal（水平三次贝塞尔曲线边）](/manual/element/edge/cubic-horizontal)、[cubic-vertical（垂直三次贝塞尔曲线边）](/manual/element/edge/cubic-vertical) 等。这些内置边能够满足大部分基础场景需求。
+
+但在实际项目中，你可能会遇到这些基础边无法满足的需求。这时，你需要创建自定义边。别担心，这比你想象的要简单！
 
 ## 开始之前：了解边的基本构成
 
@@ -18,7 +20,7 @@ G6 提供了多种[内置边](/manual/element/edge/build-in/base-edge)类型，�
 
 ## 自定义边的方式 <Badge type="warning">选择合适的方式</Badge>
 
-创建自定义边的方式与自定义节点类似，主要有两种途径：
+创建自定义边的方式主要有两种途径：
 
 ### 1. 继承现有边类型 <Badge type="success">推荐</Badge>
 
@@ -34,9 +36,13 @@ G6 提供了多种[内置边](/manual/element/edge/build-in/base-edge)类型，�
 
 **为什么选择这种方式？**
 
-- 📌 **代码量少**：复用现有节点的属性和方法，只需专注于新增功能
+- 📌 **代码量少**：复用现有边的属性和方法，只需专注于新增功能
 - 📌 **开发迅速**：适合大多数项目需求，快速实现业务目标
 - 📌 **易于维护**：代码结构清晰，继承关系明确
+
+:::tip{title=立即开始}
+如果你选择继承现有边类型（推荐），可以直接跳到 [三步创建你的第一个自定义边](#三步创建你的第一个自定义边) 开始实践。大部分用户都会选择这种方式！
+:::
 
 ### 2. 基于 G 图形系统从零开发 <Badge>高级用法</Badge>
 
@@ -56,7 +62,7 @@ G6 提供了多种[内置边](/manual/element/edge/build-in/base-edge)类型，�
 
 让我们从最基础的 `BaseEdge` 开始，实现一个自定义直线边：
 
-```js | ob { pin:false, autoMount: true }
+```js | ob { pin:false, inject: true }
 import { Graph, register, BaseEdge, ExtensionCategory } from '@antv/g6';
 
 class MyLineEdge extends BaseEdge {
@@ -363,7 +369,7 @@ protected getKeyStyle(attributes: Required<BaseEdgeStyleProps>) {
 
 ### 自定义路径的折线边
 
-```js | ob { autoMount: true }
+```js | ob { inject: true }
 import { Graph, register, BaseEdge, ExtensionCategory } from '@antv/g6';
 
 class MyPolylineEdge extends BaseEdge {
@@ -407,7 +413,7 @@ graph.render();
 
 ### 额外标签
 
-```js | ob { autoMount: true }
+```js | ob { inject: true }
 import { Graph, Line, register, BaseEdge, ExtensionCategory, subStyleProps } from '@antv/g6';
 
 class LabelEdge extends Line {

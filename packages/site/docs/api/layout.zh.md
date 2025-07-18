@@ -257,4 +257,4 @@ interface BaseLayoutOptions {
 
 ### BuiltInLayoutOptions
 
-G6 内置的布局类型配置，具体请查看 [API - 内置布局](/manual/layout/build-in/antv-dagre-layout)。
+G6 内置的布局类型配置，具体请查看 [API - 内置布局](/manual/layout/antv-dagre-layout)。

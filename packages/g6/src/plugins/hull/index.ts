@@ -105,6 +105,11 @@ export class Hull extends BasePlugin<HullOptions> {
     this.context.graph.on(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateHullPath);
   }
 
+  private unbindEvents() {
+    this.context.graph.off(GraphEvent.AFTER_RENDER, this.drawHull);
+    this.context.graph.off(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateHullPath);
+  }
+
   private getHullStyle(forceUpdate?: boolean): ContourStyleProps {
     const { members, padding, corner, ...style } = this.options;
     return { ...style, d: this.getHullPath(forceUpdate) };
@@ -207,7 +212,7 @@ export class Hull extends BasePlugin<HullOptions> {
    * @internal
    */
   public destroy(): void {
-    this.context.graph.off(GraphEvent.AFTER_DRAW, this.drawHull);
+    this.unbindEvents();
     this.shape.destroy();
     this.hullMemberIds = [];
     super.destroy();

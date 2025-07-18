@@ -1,6 +1,6 @@
 ---
 title: Custom Plugin
-order: 3
+order: 20
 ---
 
 ## Overview

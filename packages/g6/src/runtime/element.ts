@@ -663,20 +663,8 @@ export class ElementController {
    * @param options - <zh/> 选项 | <en/> options
    */
   public async collapseNode(id: ID, options: CollapseExpandNodeOptions): Promise<void> {
-    const { animation, align } = options;
-
-    const { model, layout } = this.context;
-
-    const simulateLayoutData = this.computeChangesAndDrawData({ stage: 'collapse', animation });
-    if (!simulateLayoutData) return;
-
-    this.markDestroyElement(simulateLayoutData.drawData);
-
-    // 进行预布局，计算出所有元素的位置
-    // Perform pre-layout to calculate the position of all elements
-    const result = await layout!.simulate();
-    if (align) this.alignLayoutResultToElement(result, id);
-    model.updateData(result);
+    const { animation } = options;
+    const { model } = this.context;
 
     // 重新计算数据 / Recalculate data
     const data = this.computeChangesAndDrawData({ stage: 'collapse', animation });
@@ -718,31 +706,17 @@ export class ElementController {
   public async expandNode(id: ID, options: CollapseExpandNodeOptions): Promise<void> {
     const { model, layout } = this.context;
     const { animation, align } = options;
-
     const position = positionOf(model.getNodeData([id])[0]);
 
-    const preLayoutData = this.computeChangesAndDrawData({ stage: 'expand', animation });
-    if (!preLayoutData) return;
-
-    // 首先创建展开的元素，然后进行预布局
-    // First create the expanded element, then perform pre-layout
-    const {
-      drawData: { add },
-    } = preLayoutData;
-    this.createElements(add, { animation: false, stage: 'expand', target: id });
+    // 重新计算数据 / Recalculate data
+    const data = this.computeChangesAndDrawData({ stage: 'expand', animation });
+    this.createElements(data!.drawData.add, { animation: false, stage: 'expand', target: id });
     // 重置动画 / Reset animation
     this.context.animation!.clear();
-
-    const result = await layout!.simulate();
-    if (align) this.alignLayoutResultToElement(result, id);
-    model.updateData(result);
-
-    // 重新计算数据 / Recalculate data
     this.computeStyle('expand');
-    const data = this.computeChangesAndDrawData({ stage: 'collapse', animation });
     if (!data) return;
     const { drawData } = data;
-    const { update } = drawData;
+    const { update, add } = drawData;
 
     const context = { animation, stage: 'expand', data: drawData } as const;
 

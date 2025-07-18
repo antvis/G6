@@ -1845,7 +1845,18 @@ export class Graph extends EventEmitter {
 
     await this.frontElement(id);
     this.isCollapsingExpanding = true;
-    this.setElementCollapsibility(id, true);
+
+    // 更新折叠状态 / Update collapse style
+    model.updateData(
+      elementType === 'node'
+        ? {
+            nodes: [{ id, style: { collapsed: true } }],
+          }
+        : {
+            combos: [{ id, style: { collapsed: true } }],
+          },
+    );
+
     if (elementType === 'node') await element!.collapseNode(id, options);
     else if (elementType === 'combo') await element!.collapseCombo(id, !!options.animation);
 
@@ -1871,7 +1882,18 @@ export class Graph extends EventEmitter {
     const elementType = model.getElementType(id);
 
     this.isCollapsingExpanding = true;
-    this.setElementCollapsibility(id, false);
+
+    // 更新折叠状态 / Update collapse style
+    model.updateData(
+      elementType === 'node'
+        ? {
+            nodes: [{ id, style: { collapsed: false } }],
+          }
+        : {
+            combos: [{ id, style: { collapsed: false } }],
+          },
+    );
+
     if (elementType === 'node') await element!.expandNode(id, options);
     else if (elementType === 'combo') await element!.expandCombo(id, !!options.animation);
 

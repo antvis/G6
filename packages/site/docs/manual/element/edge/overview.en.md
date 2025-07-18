@@ -1,6 +1,6 @@
 ---
 title: Edge Overview
-order: 1
+order: 0
 ---
 
 ## What is an Edge

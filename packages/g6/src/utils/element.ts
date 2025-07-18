@@ -544,6 +544,6 @@ export function markToBeDestroyed(element: DisplayObject) {
  * @param element - <zh/> 图形 | <en/> element
  * @returns <zh/> 是否即将销毁 | <en/> whether the element is to be destroyed
  */
-export function isToBeDestroyed(element: DisplayObject) {
+export function isToBeDestroyed(element: DisplayObject | unknown) {
   return get(element, '__to_be_destroyed__', false);
 }

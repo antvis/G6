@@ -257,4 +257,4 @@ interface BaseLayoutOptions {
 
 ### BuiltInLayoutOptions
 
-Configuration for G6's built-in layout types, see [API - Built-in Layouts](/en/manual/layout/build-in/antv-dagre-layout) for details.
+Configuration for G6's built-in layout types, see [API - Built-in Layouts](/en/manual/layout/antv-dagre-layout) for details.

@@ -190,7 +190,7 @@ export class HoverActivate extends BaseBehavior<HoverActivateOptions> {
       this.isFrozen ||
       isToBeDestroyed(event.target) ||
       // @ts-expect-error private property
-      // 避免动画冲突，在combo折叠展开过程中不触发悬停事件 | To prevent animation conflicts, hover events are disabled during combo expand/collapse actions
+      // 避免动画冲突，在combo/node折叠展开过程中不触发
       this.context.graph.isCollapsingExpanding
     )
       return false;

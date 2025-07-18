@@ -34,7 +34,7 @@ export class CollapseExpandNode extends BaseTransform {
     const id = idOf(node);
     weakAssignTo(input, 'add', 'node', node);
 
-    const relatedEdges = this.context.model.getRelatedEdgesData(id, 'out');
+    const relatedEdges = this.context.model.getRelatedEdgesData(id);
     relatedEdges.forEach((edge) => {
       reassignTo(input, 'add', 'edge', edge);
     });

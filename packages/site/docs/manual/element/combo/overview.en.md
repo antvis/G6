@@ -1,6 +1,6 @@
 ---
 title: Combo Overview
-order: 1
+order: 0
 ---
 
 ## What is a Combo
@@ -140,7 +140,7 @@ const graph = new Graph({
 
 ## Example
 
-```js | ob { autoMount: true }
+```js | ob { inject: true }
 import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
 const data = {

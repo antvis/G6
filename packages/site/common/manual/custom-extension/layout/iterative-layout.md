@@ -1,4 +1,4 @@
-```js | ob { pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph, BaseLayout, register, ExtensionCategory } from '@antv/g6';
 
 class TickTockLayout extends BaseLayout {

@@ -1,4 +1,4 @@
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 import { Graph, BaseTransform, register, ExtensionCategory } from '@antv/g6';
 
 class HideFreeNode extends BaseTransform {

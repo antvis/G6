@@ -124,12 +124,12 @@ G6 提供了强大的扩展能力，满足各种自定义需求：
 
 ### 节点类型
 
-- [内置节点库](/manual/element/node/build-in/base-node)
+- [内置节点库](/manual/element/node/base-node)
 
 ### 边类型
 
-- [内置边库](/manual/element/edge/build-in/base-edge)
+- [内置边库](/manual/element/edge/base-edge)
 
 ### 组合类型
 
-- [内置组合库](/manual/element/combo/build-in/base-combo)
+- [内置组合库](/manual/element/combo/base-combo)

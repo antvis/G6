@@ -12,7 +12,7 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
         speed: 5,
         clustering: true,
         nodeClusterBy: 'cluster',
-        clusterGravity: 16
+        clusterGravity: 16,
       },
       node: {
         style: {

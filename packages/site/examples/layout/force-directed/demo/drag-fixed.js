@@ -32,7 +32,7 @@ const graph = new Graph({
     type: 'd3-force',
     link: {
       distance: 100,
-      strength: 2
+      strength: 2,
     },
     collide: {
       radius: 40,

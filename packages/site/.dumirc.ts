@@ -149,14 +149,6 @@ export default defineConfig({
         order: 3,
       },
       {
-        slug: 'manual/element/node/build-in',
-        title: {
-          zh: '内置节点',
-          en: 'Build-in Node',
-        },
-        order: 2,
-      },
-      {
         slug: 'manual/element/edge',
         title: {
           zh: '边 Edge',
@@ -165,28 +157,12 @@ export default defineConfig({
         order: 4,
       },
       {
-        slug: 'manual/element/edge/build-in',
-        title: {
-          zh: '内置边',
-          en: 'Build-in Edge',
-        },
-        order: 2,
-      },
-      {
         slug: 'manual/element/combo',
         title: {
           zh: '组合 Combo',
           en: 'Combo',
         },
         order: 5,
-      },
-      {
-        slug: 'manual/element/combo/build-in',
-        title: {
-          zh: '内置组合',
-          en: 'Build-in Combo',
-        },
-        order: 2,
       },
       {
         slug: 'manual/element/shape',
@@ -205,28 +181,12 @@ export default defineConfig({
         order: 5,
       },
       {
-        slug: 'manual/layout/build-in',
-        title: {
-          zh: '内置布局',
-          en: 'Build-in Layout',
-        },
-        order: 2,
-      },
-      {
         slug: 'manual/behavior',
         title: {
           zh: '交互 Behavior',
           en: 'Behavior',
         },
         order: 6,
-      },
-      {
-        slug: 'manual/behavior/build-in',
-        title: {
-          zh: '内置交互',
-          en: 'Build-in Behavior',
-        },
-        order: 2,
       },
       {
         slug: 'manual/plugin',
@@ -237,28 +197,12 @@ export default defineConfig({
         order: 7,
       },
       {
-        slug: 'manual/plugin/build-in',
-        title: {
-          zh: '内置插件',
-          en: 'Build-in Plugin',
-        },
-        order: 2,
-      },
-      {
         slug: 'manual/transform',
         title: {
           zh: '数据处理 Transform',
           en: 'Transform',
         },
         order: 8,
-      },
-      {
-        slug: 'manual/transform/build-in',
-        title: {
-          zh: '内置数据处理',
-          en: 'Build-in Transform',
-        },
-        order: 2,
       },
       {
         slug: 'manual/theme',

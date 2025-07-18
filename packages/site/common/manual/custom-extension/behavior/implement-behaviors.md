@@ -1,4 +1,4 @@
-```js | ob {  pin: false , autoMount: true }
+```js | ob { pin: false, inject: true }
 (async () => {
   const { BaseBehavior, CanvasEvent, register, ExtensionCategory, Graph } = window.g6;
 

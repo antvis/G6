@@ -94,12 +94,12 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
 
     return {
-      'node:pointerenter': this.onPointerEnter,
+      'node:pointerover': this.onPointerOver,
       'node:pointermove': this.onPointerMove,
       'canvas:pointermove': this.onCanvasMove,
-      'edge:pointerenter': this.onPointerEnter,
+      'edge:pointerover': this.onPointerOver,
       'edge:pointermove': this.onPointerMove,
-      'combo:pointerenter': this.onPointerEnter,
+      'combo:pointerover': this.onPointerOver,
       'combo:pointermove': this.onPointerMove,
       contextmenu: this.onPointerLeave,
       'node:drag': this.onPointerLeave,
@@ -205,7 +205,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.hide(event);
   };
 
-  private onPointerEnter = (event: IElementEvent) => {
+  private onPointerOver = (event: IElementEvent) => {
     this.show(event);
   };
 
