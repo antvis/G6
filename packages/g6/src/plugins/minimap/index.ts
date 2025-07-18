@@ -3,7 +3,7 @@ import { debounce, throttle } from '@antv/util';
 import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
 import { GraphData } from '../../spec';
-import type { ElementDatum, ElementType, ID, IGraphLifeCycleEvent, Padding, Placement, Vector3 } from '../../types';
+import type { ElementDatum, ElementType, IGraphLifeCycleEvent, Padding, Placement, Vector3 } from '../../types';
 import { isVisible } from '../../utils/element';
 import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
@@ -56,13 +56,17 @@ export interface MinimapOptions extends BasePluginOptions {
    * @remarks
    * <zh/>
    * - 'key' 使用元素的主图形作为缩略图形
+   * - 'icon' 使用元素中心的 icon 作为缩略图形
+   * - 更多图形名称可查阅 https://g6.antv.antgroup.com/manual/element/node/base-node#style
    * - 也可以传入一个函数，接收元素的 [id, 类型, 元素节点]，返回一个自定义样式的图形
    *
    * <en/>
    * - 'key' uses the key shape of the element as the thumbnail shape
+   * - 'icon' uses the icon shape of the element as the thumbnail shape
+   * - more shape name see https://g6.antv.antgroup.com/manual/element/node/base-node#style
    * - You can also pass in a function that receives the [id, type of the element, element] and returns a custom shape
    */
-  shape?: 'key' | ((id: string, elementType: ElementType, element: DisplayObject) => DisplayObject);
+  shape?: string | 'key' | 'icon' | ((id: string, elementType: ElementType, element: DisplayObject) => DisplayObject);
   /**
    * <zh/> 缩略图画布类名，传入外置容器时不生效
    *
@@ -169,8 +173,6 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
   private onRender!: () => void;
 
-  private shapes = new Map<ID, DisplayObject>();
-
   /**
    * <zh/> 创建或更新缩略图
    *
@@ -214,81 +216,46 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const { shape } = this.options;
     const { element } = this.context;
 
-    if (shape === 'key') {
-      const ids = new Set<ID>();
-
-      const iterate = (datum: ElementDatum) => {
-        const id = idOf(datum);
-        ids.add(id);
-
-        const target = element!.getElement(id);
-        if (!target) return;
-
-        const shape = target.getShape('key');
-        const cloneShape = this.shapes.get(id) || shape.cloneNode();
-
-        cloneShape.setPosition(shape.getPosition());
-        // keep zIndex / id
-        if (target.style.zIndex) cloneShape.style.zIndex = target.style.zIndex;
-        cloneShape.id = target.id;
-
-        // 如果小地图里的元素尚未绘制过
-        if (!this.shapes.has(id)) {
-          canvas.appendChild(cloneShape);
-          this.shapes.set(id, cloneShape);
-        } else {
-          Object.entries(shape.attributes).forEach(([key, value]) => {
-            if (cloneShape.style[key] !== value) cloneShape.style[key] = value;
-          });
-        }
-      };
-
-      // 注意执行顺序 / Note the execution order
-      edges.forEach(iterate);
-      combos.forEach(iterate);
-      nodes.forEach(iterate);
-
-      // 如果下一次绘制时，跟上一次对比，移除了某些元素，则从缓存中移除
-      this.shapes.forEach((shape, id) => {
-        if (!ids.has(id)) {
-          canvas.removeChild(shape);
-          this.shapes.delete(id);
-        }
-      });
-
-      return;
-    }
-
-    const setPosition = (id: ID, shape: DisplayObject) => {
-      const target = element!.getElement(id)!;
-      const position = target.getPosition();
-      shape.setPosition(position);
-      return shape;
-    };
-
-    canvas.removeChildren();
-
-    const handleCustomShape = (datum: ElementDatum, elType: ElementType) => {
+    const iterate = (datum: ElementDatum, elType: ElementType) => {
       const id = idOf(datum);
       const target = element?.getElement(id);
       if (!target) return;
 
-      const simpleShape = target.getShape('key');
-      // 用户传入了自定义shape的方法，每次都以用户的方法返回值为准，不需要缓存
-      const customShape = shape(idOf(datum), elType, target);
+      const keyShape = target.getShape('key');
+      let cloneShape: DisplayObject;
 
-      const fullShape = customShape.cloneNode(true);
-      fullShape.setPosition(simpleShape.getPosition());
+      if (typeof shape === 'string') {
+        const shapeName = shape;
+        const miniShape = target.getShape(shapeName);
+        cloneShape = miniShape.cloneNode();
+      } else {
+        const miniShape = shape(id, elType, target);
+        if (miniShape === target) {
+          cloneShape = miniShape.cloneNode(true);
+        } else {
+          cloneShape = miniShape;
+        }
+      }
+
+      /**
+       * 这里使用的是 keyShape 的位置
+       * 对于整个元素的位置而言，使用 keyShape 位置会比较准确
+       * 也比较合理
+       */
+      cloneShape.setPosition(keyShape.getPosition());
       // keep zIndex / id
-      if (target.style.zIndex) fullShape.style.zIndex = target.style.zIndex;
-      fullShape.id = target.id;
+      if (target.style.zIndex) cloneShape.style.zIndex = target.style.zIndex;
+      cloneShape.id = target.id;
 
-      canvas.appendChild(setPosition(idOf(datum), fullShape));
+      canvas.appendChild(cloneShape);
     };
 
-    edges.forEach((datum) => handleCustomShape(datum, 'edge'));
-    combos.forEach((datum) => handleCustomShape(datum, 'combo'));
-    nodes.forEach((datum) => handleCustomShape(datum, 'node'));
+    canvas.removeChildren();
+
+    // 注意执行顺序 / Note the execution order
+    edges.forEach((datum) => iterate(datum, 'edge'));
+    combos.forEach((datum) => iterate(datum, 'combo'));
+    nodes.forEach((datum) => iterate(datum, 'node'));
   }
 
   private container!: HTMLElement;
