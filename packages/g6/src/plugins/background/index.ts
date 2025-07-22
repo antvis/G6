@@ -2,7 +2,9 @@ import { omit } from '@antv/util';
 import type { RuntimeContext } from '../../runtime/types';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
+import type { ExportablePlugin, PluginExportContext } from '../types';
 import { createPluginContainer } from '../utils/dom';
+import { BackgroundExportRenderer } from './export-renderer';
 
 /**
  * <zh/> 背景配置项
@@ -20,7 +22,7 @@ export interface BackgroundOptions extends BasePluginOptions, CSSStyleDeclaratio
  *
  * <en/> Support setting a background image for the canvas to make the canvas more hierarchical and narrative.
  */
-export class Background extends BasePlugin<BackgroundOptions> {
+export class Background extends BasePlugin<BackgroundOptions> implements ExportablePlugin {
   static defaultOptions: Partial<BackgroundOptions> = {
     transition: 'background 0.5s',
     backgroundSize: 'cover',
@@ -28,6 +30,7 @@ export class Background extends BasePlugin<BackgroundOptions> {
   };
 
   private $element: HTMLElement = createPluginContainer('background');
+  private exportRenderer = new BackgroundExportRenderer();
 
   constructor(context: RuntimeContext, options: BackgroundOptions) {
     super(context, Object.assign({}, Background.defaultOptions, options));
@@ -50,6 +53,16 @@ export class Background extends BasePlugin<BackgroundOptions> {
 
     // Set the background style.
     Object.assign(this.$element.style, omit(this.options, ['key', 'type']));
+  }
+
+  /**
+   * <zh/> 将插件内容渲染到导出画布
+   *
+   * <en/> Render plugin content to export canvas
+   * @param context - <zh/> 导出上下文 | <en/> Export context
+   */
+  public async renderToExportCanvas(context: PluginExportContext): Promise<void> {
+    await this.exportRenderer.renderToCanvas(this.$element, context);
   }
 
   /**

@@ -78,6 +78,7 @@ export { elementState } from './element-state';
 export { elementVisibility } from './element-visibility';
 export { elementVisibilityPart } from './element-visibility-part';
 export { elementZIndex } from './element-z-index';
+export { exportImageWithBackground } from './export-image-with-background';
 export { graphToDataURL } from './graph-to-data-url';
 export { imageNodeHaloTest } from './image-node-halo-test';
 export { layoutAntVDagreFlow } from './layout-antv-dagre-flow';

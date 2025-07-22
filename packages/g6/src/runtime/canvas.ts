@@ -7,6 +7,8 @@ import type { CanvasOptions } from '../spec/canvas';
 import type { CanvasLayer, Point } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { parsePoint, toPointObject } from '../utils/point';
+import { ExportHelper } from './export-helper';
+import type { RuntimeContext } from './types';
 
 export interface CanvasConfig
   extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'cursor' | 'background'> {
@@ -227,7 +229,9 @@ export class Canvas {
   }
 
   public getSize(): [number, number] {
-    return [this.extends.config.width || 0, this.extends.config.height || 0];
+    const mainLayer = this.extends.layers.main;
+    const config = mainLayer.getConfig();
+    return [config.width || 0, config.height || 0];
   }
 
   public appendChild<T extends IChildNode>(child: T, index?: number): T {
@@ -332,10 +336,53 @@ export class Canvas {
       offscreenCanvas.addEventListener(CanvasEvent.RERENDER, async () => {
         // 等待图片渲染完成 / Wait for the image to render
         await new Promise((r) => setTimeout(r, 300));
+
+        // 使用导出辅助类处理插件导出
+        // Use export helper to handle plugin export
+        const runtimeContext = this.getRuntimeContextFromContainer();
+        if (runtimeContext) {
+          const exportHelper = new ExportHelper(runtimeContext);
+          await exportHelper.renderPluginsToCanvas(offscreenCanvas, {
+            mode,
+            devicePixelRatio,
+            transform: {
+              startX,
+              startY,
+              camera,
+              offscreenCamera,
+            },
+          });
+        }
+
         const url = await contextService.toDataURL(restOptions);
         resolve(url);
       });
     });
+  }
+
+  /**
+   * <zh/> 从容器中获取运行时上下文
+   *
+   * <en/> Get runtime context from container
+   * @remarks
+   * <zh/> 通过遍历DOM查找包含Graph实例的容器来获取RuntimeContext
+   *
+   * <en/> Get RuntimeContext by traversing DOM to find container with Graph instance
+   */
+  private getRuntimeContextFromContainer(): RuntimeContext | null {
+    const container = this.getContainer();
+    if (!container) return null;
+
+    // 尝试从容器的自定义属性中获取Graph实例
+    // Try to get Graph instance from container's custom property
+    const graph = (container as any).__g6_graph_instance__;
+    if (graph && graph.context) {
+      return graph.context;
+    }
+
+    // 如果没有找到，返回null，导出功能将跳过插件处理
+    // If not found, return null, export will skip plugin processing
+    return null;
   }
 
   public destroy() {

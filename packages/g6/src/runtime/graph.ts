@@ -1074,6 +1074,14 @@ export class Graph extends EventEmitter {
       this.context.canvas = container;
       if (cursor) container.setCursor(cursor);
       if (renderer) container.setRenderer(renderer);
+
+      // 为容器添加Graph实例引用，供Canvas导出功能使用
+      // Add Graph instance reference to container for Canvas export functionality
+      const $container = container.getContainer();
+      if ($container) {
+        ($container as any).__g6_graph_instance__ = this;
+      }
+
       await container.ready;
     } else {
       const $container = isString(container) ? document.getElementById(container!) : container;
@@ -1092,6 +1100,12 @@ export class Graph extends EventEmitter {
       };
 
       const canvas = new Canvas(options);
+
+      // 为容器添加Graph实例引用，供Canvas导出功能使用
+      // Add Graph instance reference to container for Canvas export functionality
+      if ($container) {
+        ($container as any).__g6_graph_instance__ = this;
+      }
 
       this.context.canvas = canvas;
       await canvas.ready;
@@ -1257,6 +1271,14 @@ export class Graph extends EventEmitter {
     animation?.destroy();
     element?.destroy();
     model.destroy();
+
+    // 清理容器中的Graph引用
+    // Clean up Graph reference in container
+    const container = canvas?.getContainer();
+    if (container) {
+      delete (container as any).__g6_graph_instance__;
+    }
+
     canvas?.destroy();
     this.options = {};
     // @ts-expect-error force delete
