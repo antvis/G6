@@ -25,4 +25,14 @@ export class PluginController extends ExtensionController<BasePlugin<CustomPlugi
     const fussily = this.extensions.find((extension) => extension.type === key);
     if (fussily) return this.extensionMap[fussily.key];
   }
+
+  /**
+   * <zh/> 获取所有插件实例
+   *
+   * <en/> Get all plugin instances
+   * @returns <zh/> 插件实例数组 | <en/> Array of plugin instances
+   */
+  public getPluginInstances(): BasePlugin<CustomPluginOption>[] {
+    return Object.values(this.extensionMap);
+  }
 }

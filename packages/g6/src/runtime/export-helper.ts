@@ -1,5 +1,6 @@
 import type { Canvas as GCanvas } from '@antv/g';
 import type { ExportablePlugin, PluginExportContext } from '../plugins/types';
+import { print } from '../utils/print';
 import type { RuntimeContext } from './types';
 
 /**
@@ -38,8 +39,14 @@ export class ExportHelper {
     // Process all exportable plugins in parallel
     const renderPromises = plugins.map((plugin) => {
       return plugin.renderToExportCanvas!(context).catch((error) => {
-        // 静默处理插件渲染错误
-        // Silently handle plugin rendering errors
+        // 记录插件渲染错误，便于调试
+        // Log plugin rendering errors for debugging
+        const pluginName = plugin.constructor.name || 'UnknownPlugin';
+        const errorMessage = error.message || String(error);
+        print.warn(`Plugin export rendering failed: ${pluginName} - ${errorMessage}`);
+        // 抛出错误以允许上层处理，但不会中断其他插件的渲染
+        // Throw error to allow upper layer handling, but won't interrupt other plugins' rendering
+        throw error;
       });
     });
 
@@ -57,10 +64,9 @@ export class ExportHelper {
       return [];
     }
 
-    // 从extensionMap获取插件实例，而不是从extensions获取配置
-    // Get plugin instances from extensionMap instead of configurations from extensions
-    const extensionMap = (pluginController as any).extensionMap;
-    const pluginInstances = Object.values(extensionMap);
+    // 使用公共API获取插件实例，而不是访问内部属性
+    // Use public API to get plugin instances instead of accessing internal properties
+    const pluginInstances = pluginController.getPluginInstances();
 
     const exportablePlugins: ExportablePlugin[] = [];
 

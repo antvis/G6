@@ -83,6 +83,8 @@ export class Canvas {
     enableMultiLayer: true,
   };
 
+  private runtimeContext: RuntimeContext | null = null;
+
   public getConfig() {
     return this.config;
   }
@@ -334,12 +336,13 @@ export class Canvas {
 
     return new Promise<string>((resolve) => {
       offscreenCanvas.addEventListener(CanvasEvent.RERENDER, async () => {
-        // 等待图片渲染完成 / Wait for the image to render
-        await new Promise((r) => setTimeout(r, 300));
+        // 等待所有异步渲染任务完成
+        // Wait for all asynchronous rendering tasks to complete
+        await this.waitForRenderingComplete(offscreenCanvas);
 
         // 使用导出辅助类处理插件导出
         // Use export helper to handle plugin export
-        const runtimeContext = this.getRuntimeContextFromContainer();
+        const runtimeContext = this.getRuntimeContext();
         if (runtimeContext) {
           const exportHelper = new ExportHelper(runtimeContext);
           await exportHelper.renderPluginsToCanvas(offscreenCanvas, {
@@ -361,28 +364,50 @@ export class Canvas {
   }
 
   /**
-   * <zh/> 从容器中获取运行时上下文
+   * <zh/> 设置运行时上下文
    *
-   * <en/> Get runtime context from container
-   * @remarks
-   * <zh/> 通过遍历DOM查找包含Graph实例的容器来获取RuntimeContext
-   *
-   * <en/> Get RuntimeContext by traversing DOM to find container with Graph instance
+   * <en/> Set runtime context
+   * @param context - <zh/> 运行时上下文 | <en/> Runtime context
    */
-  private getRuntimeContextFromContainer(): RuntimeContext | null {
-    const container = this.getContainer();
-    if (!container) return null;
+  public setRuntimeContext(context: RuntimeContext): void {
+    this.runtimeContext = context;
+  }
 
-    // 尝试从容器的自定义属性中获取Graph实例
-    // Try to get Graph instance from container's custom property
-    const graph = (container as any).__g6_graph_instance__;
-    if (graph && graph.context) {
-      return graph.context;
-    }
+  /**
+   * <zh/> 获取运行时上下文
+   *
+   * <en/> Get runtime context
+   * @returns <zh/> 运行时上下文 | <en/> Runtime context
+   */
+  public getRuntimeContext(): RuntimeContext | null {
+    return this.runtimeContext;
+  }
 
-    // 如果没有找到，返回null，导出功能将跳过插件处理
-    // If not found, return null, export will skip plugin processing
-    return null;
+  /**
+   * <zh/> 等待渲染完成
+   *
+   * <en/> Wait for rendering to complete
+   * @param canvas - <zh/> 画布实例 | <en/> Canvas instance
+   * @returns <zh/> Promise | <en/> Promise
+   */
+  private async waitForRenderingComplete(canvas: GCanvas): Promise<void> {
+    // 等待画布准备就绪
+    // Wait for canvas to be ready
+    await canvas.ready;
+
+    // 使用requestAnimationFrame确保当前帧渲染完成
+    // Use requestAnimationFrame to ensure current frame rendering is complete
+    await new Promise((resolve) => {
+      requestAnimationFrame(() => {
+        // 再等待一帧以确保所有异步操作完成
+        // Wait another frame to ensure all async operations are complete
+        requestAnimationFrame(resolve);
+      });
+    });
+
+    // 如果有图片或其他异步资源，给一个短暂的额外等待时间
+    // If there are images or other async resources, give a brief additional wait
+    await new Promise((resolve) => setTimeout(resolve, 16)); // ~1 frame at 60fps
   }
 
   public destroy() {

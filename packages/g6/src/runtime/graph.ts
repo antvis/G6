@@ -1075,12 +1075,9 @@ export class Graph extends EventEmitter {
       if (cursor) container.setCursor(cursor);
       if (renderer) container.setRenderer(renderer);
 
-      // 为容器添加Graph实例引用，供Canvas导出功能使用
-      // Add Graph instance reference to container for Canvas export functionality
-      const $container = container.getContainer();
-      if ($container) {
-        ($container as any).__g6_graph_instance__ = this;
-      }
+      // 设置运行时上下文，替代脆弱的DOM属性方式
+      // Set runtime context instead of fragile DOM property approach
+      container.setRuntimeContext(this.context);
 
       await container.ready;
     } else {
@@ -1101,11 +1098,9 @@ export class Graph extends EventEmitter {
 
       const canvas = new Canvas(options);
 
-      // 为容器添加Graph实例引用，供Canvas导出功能使用
-      // Add Graph instance reference to container for Canvas export functionality
-      if ($container) {
-        ($container as any).__g6_graph_instance__ = this;
-      }
+      // 设置运行时上下文，替代脆弱的DOM属性方式
+      // Set runtime context instead of fragile DOM property approach
+      canvas.setRuntimeContext(this.context);
 
       this.context.canvas = canvas;
       await canvas.ready;
@@ -1271,13 +1266,6 @@ export class Graph extends EventEmitter {
     animation?.destroy();
     element?.destroy();
     model.destroy();
-
-    // 清理容器中的Graph引用
-    // Clean up Graph reference in container
-    const container = canvas?.getContainer();
-    if (container) {
-      delete (container as any).__g6_graph_instance__;
-    }
 
     canvas?.destroy();
     this.options = {};

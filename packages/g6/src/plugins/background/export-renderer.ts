@@ -100,8 +100,9 @@ export class BackgroundExportRenderer {
     ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
     const opacity = parseFloat(computedStyle.opacity) || 1;
-    if (opacity < 1) {
-      ctx.fillStyle = 'white';
+    const backgroundColor = computedStyle.backgroundColor;
+    if (opacity < 1 && backgroundColor && backgroundColor !== 'transparent' && backgroundColor !== 'rgba(0, 0, 0, 0)') {
+      ctx.fillStyle = backgroundColor;
       ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
     }
 
@@ -317,18 +318,32 @@ export class BackgroundExportRenderer {
         // 处理自定义尺寸
         // Handle custom dimensions
         const sizes = backgroundSize.split(/\s+/);
+        let width: number | 'auto', height: number | 'auto';
+
+        const parseValue = (value: string, total: number): number | 'auto' => {
+          if (value === 'auto') return 'auto';
+          if (value.endsWith('%')) return (total * parseFloat(value)) / 100;
+          return parseFloat(value);
+        };
+
         if (sizes.length === 1) {
-          if (sizes[0].endsWith('%')) {
-            const scale = parseFloat(sizes[0]) / 100;
-            const width = containerWidth * scale;
-            return { width, height: img.height * (width / img.width) };
-          }
-          const width = parseFloat(sizes[0]);
-          return { width, height: img.height * (width / img.width) };
+          width = parseValue(sizes[0], containerWidth);
+          height = 'auto';
+        } else {
+          width = parseValue(sizes[0], containerWidth);
+          height = parseValue(sizes[1], containerHeight);
         }
-        const width = sizes[0].endsWith('%') ? (containerWidth * parseFloat(sizes[0])) / 100 : parseFloat(sizes[0]);
-        const height = sizes[1].endsWith('%') ? (containerHeight * parseFloat(sizes[1])) / 100 : parseFloat(sizes[1]);
-        return { width, height };
+
+        if (width === 'auto' && height === 'auto') {
+          return { width: img.width, height: img.height };
+        }
+        if (width === 'auto') {
+          width = img.width * ((height as number) / img.height);
+        } else if (height === 'auto') {
+          height = img.height * ((width as number) / img.width);
+        }
+
+        return { width: width as number, height: height as number };
       }
     }
   }
