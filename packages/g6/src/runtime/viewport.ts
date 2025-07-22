@@ -1,6 +1,7 @@
 import { AABB, ICamera } from '@antv/g';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
+import { Title } from '../plugins';
 import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
 import type { Element } from '../types/element';
 import { getAnimationOptions } from '../utils/animation';
@@ -19,7 +20,14 @@ export class ViewportController {
   }
 
   private get paddingOffset(): Point {
-    const [top, right, bottom, left] = this.padding;
+    let [top] = this.padding;
+    const [, right, bottom, left] = this.padding;
+
+    const pluginTitle = this.context.plugin?.getPluginInstance('title') as Title | undefined;
+    if (pluginTitle) {
+      top = Math.max(top, pluginTitle.height * 2);
+    }
+
     const [offsetX, offsetY, offsetZ] = [(left - right) / 2, (top - bottom) / 2, 0];
     return [offsetX, offsetY, offsetZ];
   }
