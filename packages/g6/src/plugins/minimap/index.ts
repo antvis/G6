@@ -3,7 +3,7 @@ import { debounce, throttle } from '@antv/util';
 import { GraphEvent } from '../../constants';
 import type { RuntimeContext } from '../../runtime/types';
 import { GraphData } from '../../spec';
-import type { ElementDatum, ElementType, ID, IGraphLifeCycleEvent, Padding, Placement, Vector3 } from '../../types';
+import type { ElementDatum, ElementType, IGraphLifeCycleEvent, Padding, Placement, Vector3 } from '../../types';
 import { isVisible } from '../../utils/element';
 import { idOf } from '../../utils/id';
 import { parsePadding } from '../../utils/padding';
@@ -56,13 +56,17 @@ export interface MinimapOptions extends BasePluginOptions {
    * @remarks
    * <zh/>
    * - 'key' 使用元素的主图形作为缩略图形
-   * - 也可以传入一个函数，接收元素的 id 和类型，返回一个图形
+   * - 'icon' 使用元素中心的 icon 作为缩略图形
+   * - 更多图形名称可查阅 https://g6.antv.antgroup.com/manual/element/node/base-node#style
+   * - 也可以传入一个函数，接收元素的 [id, 类型, 元素节点]，返回一个自定义样式的图形
    *
    * <en/>
    * - 'key' uses the key shape of the element as the thumbnail shape
-   * - You can also pass in a function that receives the id and type of the element and returns a shape
+   * - 'icon' uses the icon shape of the element as the thumbnail shape
+   * - more shape name see https://g6.antv.antgroup.com/manual/element/node/base-node#style
+   * - You can also pass in a function that receives the [id, type of the element, element] and returns a custom shape
    */
-  shape?: 'key' | ((id: string, elementType: ElementType) => DisplayObject);
+  shape?: string | 'key' | 'icon' | ((id: string, elementType: ElementType, element: DisplayObject) => DisplayObject);
   /**
    * <zh/> 缩略图画布类名，传入外置容器时不生效
    *
@@ -169,8 +173,6 @@ export class Minimap extends BasePlugin<MinimapOptions> {
 
   private onRender!: () => void;
 
-  private shapes = new Map<ID, DisplayObject>();
-
   /**
    * <zh/> 创建或更新缩略图
    *
@@ -214,65 +216,46 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     const { shape } = this.options;
     const { element } = this.context;
 
-    if (shape === 'key') {
-      const ids = new Set<ID>();
+    const iterate = (datum: ElementDatum, elType: ElementType) => {
+      const id = idOf(datum);
+      const target = element?.getElement(id);
+      if (!target) return;
 
-      const iterate = (datum: ElementDatum) => {
-        const id = idOf(datum);
-        ids.add(id);
+      const keyShape = target.getShape('key');
+      let cloneShape: DisplayObject;
 
-        const target = element!.getElement(id);
-        if (!target) return;
-
-        const shape = target.getShape('key');
-        const cloneShape = this.shapes.get(id) || shape.cloneNode();
-
-        cloneShape.setPosition(shape.getPosition());
-        // keep zIndex / id
-        if (target.style.zIndex) cloneShape.style.zIndex = target.style.zIndex;
-        cloneShape.id = target.id;
-
-        if (!this.shapes.has(id)) {
-          canvas.appendChild(cloneShape);
-          this.shapes.set(id, cloneShape);
+      if (typeof shape === 'string') {
+        const shapeName = shape;
+        const miniShape = target.getShape(shapeName);
+        cloneShape = miniShape.cloneNode();
+      } else {
+        const miniShape = shape(id, elType, target);
+        if (miniShape === target) {
+          cloneShape = miniShape.cloneNode(true);
         } else {
-          Object.entries(shape.attributes).forEach(([key, value]) => {
-            if (cloneShape.style[key] !== value) cloneShape.style[key] = value;
-          });
+          cloneShape = miniShape;
         }
-      };
+      }
 
-      // 注意执行顺序 / Note the execution order
-      edges.forEach(iterate);
-      combos.forEach(iterate);
-      nodes.forEach(iterate);
+      /**
+       * 这里使用的是 keyShape 的位置
+       * 对于整个元素的位置而言，使用 keyShape 位置会比较准确
+       * 也比较合理
+       */
+      cloneShape.setPosition(keyShape.getPosition());
+      // keep zIndex / id
+      if (target.style.zIndex) cloneShape.style.zIndex = target.style.zIndex;
+      cloneShape.id = target.id;
 
-      this.shapes.forEach((shape, id) => {
-        if (!ids.has(id)) {
-          canvas.removeChild(shape);
-          this.shapes.delete(id);
-        }
-      });
-
-      return;
-    }
-
-    const setPosition = (id: ID, shape: DisplayObject) => {
-      const target = element!.getElement(id)!;
-      const position = target.getPosition();
-      shape.setPosition(position);
-      return shape;
+      canvas.appendChild(cloneShape);
     };
 
     canvas.removeChildren();
 
-    edges.forEach((datum) => canvas.appendChild(shape(idOf(datum), 'edge')));
-    combos.forEach((datum) => {
-      canvas.appendChild(setPosition(idOf(datum), shape(idOf(datum), 'combo')));
-    });
-    nodes.forEach((datum) => {
-      canvas.appendChild(setPosition(idOf(datum), shape(idOf(datum), 'node')));
-    });
+    // 注意执行顺序 / Note the execution order
+    edges.forEach((datum) => iterate(datum, 'edge'));
+    combos.forEach((datum) => iterate(datum, 'combo'));
+    nodes.forEach((datum) => iterate(datum, 'node'));
   }
 
   private container!: HTMLElement;
@@ -463,12 +446,16 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     // 当拖拽画布导致 mask 缩小时，拖拽 mask 时，能够恢复到实际大小
     // When dragging the canvas causes the mask to shrink, dragging the mask will restore it to its actual size
     if (width < fullWidth) {
-      if (movementX > 0) ((x = lower(x - movementX, 0)), (width = upper(width + movementX, minimapWidth)));
-      else if (movementX < 0) width = upper(width - movementX, minimapWidth);
+      if (movementX > 0) {
+        x = lower(x - movementX, 0);
+        width = upper(width + movementX, minimapWidth);
+      } else if (movementX < 0) width = upper(width - movementX, minimapWidth);
     }
     if (height < fullHeight) {
-      if (movementY > 0) ((y = lower(y - movementY, 0)), (height = upper(height + movementY, minimapHeight)));
-      else if (movementY < 0) height = upper(height - movementY, minimapHeight);
+      if (movementY > 0) {
+        y = lower(y - movementY, 0);
+        height = upper(height + movementY, minimapHeight);
+      } else if (movementY < 0) height = upper(height - movementY, minimapHeight);
     }
 
     Object.assign(this.mask.style, {
