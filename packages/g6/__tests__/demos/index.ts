@@ -142,6 +142,7 @@ export { pluginMinimap } from './plugin-minimap';
 export { pluginMiniMapEdgeArrow } from './plugin-minimap-edge-arrow';
 export { pluginSnapline } from './plugin-snapline';
 export { pluginTimebar } from './plugin-timebar';
+export { pluginTitle } from './plugin-title';
 export { pluginToolbarBuildIn } from './plugin-toolbar-build-in';
 export { pluginToolbarIconfont } from './plugin-toolbar-iconfont';
 export { pluginTooltip } from './plugin-tooltip';
