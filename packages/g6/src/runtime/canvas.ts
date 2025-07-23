@@ -404,10 +404,6 @@ export class Canvas {
         requestAnimationFrame(resolve);
       });
     });
-
-    // 如果有图片或其他异步资源，给一个短暂的额外等待时间
-    // If there are images or other async resources, give a brief additional wait
-    await new Promise((resolve) => setTimeout(resolve, 16)); // ~1 frame at 60fps
   }
 
   public destroy() {
