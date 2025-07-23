@@ -35,7 +35,7 @@ export type { LegendOptions } from './legend';
 export type { MinimapOptions } from './minimap';
 export type { SnaplineOptions } from './snapline';
 export type { TimebarOptions } from './timebar';
-export type { TitleOptions } from './title';
+export type { SubTitleStyle, TitleOptions, TitleStyle } from './title';
 export type { ToolbarOptions } from './toolbar';
 export type { TooltipOptions } from './tooltip';
 export type { WatermarkOptions } from './watermark';
