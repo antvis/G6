@@ -56,9 +56,8 @@ export class DragElementForce extends DragElement {
     return super.validate(event);
   }
 
-  private clampByRotation([dx, dy]: Vector2): Vector2 {
+  private clampByRotation([dx, dy]: Point): Vector2 {
     const rotation = this.context.graph.getRotation();
-    if (rotation % 360 === 0) return [dx, dy];
     return rotate([dx, dy], rotation);
   }
 
