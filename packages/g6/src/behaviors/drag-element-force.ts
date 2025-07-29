@@ -1,8 +1,8 @@
-import type { ID, IElementDragEvent, Point } from '../types';
+import type { ID, IElementDragEvent, Point, Vector2 } from '../types';
 import { idOf } from '../utils/id';
 import { getLayoutProperty, invokeLayoutMethod } from '../utils/layout';
 import { print } from '../utils/print';
-import { add } from '../utils/vector';
+import { add, rotate } from '../utils/vector';
 import type { DragElementOptions } from './drag-element';
 import { DragElement } from './drag-element';
 
@@ -56,6 +56,12 @@ export class DragElementForce extends DragElement {
     return super.validate(event);
   }
 
+  private clampByRotation([dx, dy]: Vector2): Vector2 {
+    const rotation = this.context.graph.getRotation();
+    if (rotation % 360 === 0) return [dx, dy];
+    return rotate([dx, dy], rotation);
+  }
+
   /**
    * Move selected elements by offset
    * @param ids - The selected element IDs
@@ -66,7 +72,8 @@ export class DragElementForce extends DragElement {
     const layout = this.forceLayoutInstance;
     this.context.graph.getNodeData(ids).forEach((element, index) => {
       const { x = 0, y = 0 } = element.style || {};
-      if (layout) invokeLayoutMethod(layout, 'setFixedPosition', ids[index], [...add([+x, +y], offset)]);
+      if (layout)
+        invokeLayoutMethod(layout, 'setFixedPosition', ids[index], [...add([+x, +y], this.clampByRotation(offset))]);
     });
   }
 
