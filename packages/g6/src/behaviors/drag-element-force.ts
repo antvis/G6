@@ -1,8 +1,8 @@
-import type { ID, IElementDragEvent, Point, Vector2 } from '../types';
+import type { ID, IElementDragEvent, Point } from '../types';
 import { idOf } from '../utils/id';
 import { getLayoutProperty, invokeLayoutMethod } from '../utils/layout';
 import { print } from '../utils/print';
-import { add, rotate } from '../utils/vector';
+import { add } from '../utils/vector';
 import type { DragElementOptions } from './drag-element';
 import { DragElement } from './drag-element';
 
@@ -54,11 +54,6 @@ export class DragElementForce extends DragElement {
     }
 
     return super.validate(event);
-  }
-
-  private clampByRotation([dx, dy]: Point): Vector2 {
-    const rotation = this.context.graph.getRotation();
-    return rotate([dx, dy], rotation);
   }
 
   /**

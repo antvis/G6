@@ -354,7 +354,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     return !!enable;
   }
 
-  private clampByRotation([dx, dy]: Point): Vector2 {
+  protected clampByRotation([dx, dy]: Point): Vector2 {
     const rotation = this.context.graph.getRotation();
     return rotate([dx, dy], rotation);
   }
