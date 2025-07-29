@@ -267,3 +267,27 @@ describe('Viewport Fit with lineWidth', () => {
     await expect(graph).toMatchSnapshot(__filename, 'with-lineWidth');
   });
 });
+
+describe('Fit View with no data in graph', () => {
+  let graph: Graph;
+
+  beforeAll(async () => {
+    graph = await createDemoGraph(async (context) => {
+      const graph = new Graph(context);
+      await graph.render();
+      return graph;
+    });
+  });
+
+  afterAll(() => {
+    graph.destroy();
+  });
+
+  it('fitView with no contents in the graph is ignored', () => {
+    // @ts-expect-error context is private.
+    const zoomBeforeFitView = graph.context.viewport?.getZoom();
+    graph.fitView();
+    // @ts-expect-error context is private.
+    expect(graph.context.viewport?.getZoom()).toBe(zoomBeforeFitView);
+  });
+});
