@@ -397,8 +397,8 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
 }
 
 export const getCursorPoint = (event: IPointerEvent, graph: Graph): Point => {
-  // Fixed #7182: 判断html类型节点，并把html节点的浏览器坐标转换为canvas坐标
-  // （没有直接判断的方式，nativeEvent.target非canvas则表示html节点触发的）
+  // Fixed #7182: 判断 html 类型节点，并把 html 节点的浏览器坐标转换为 canvas 坐标。
+  // 没有直接判断的方式，nativeEvent.target 非 canvas 则表示 html 节点触发的。
   // Fixed #7182: Handles brush selection on HTML nodes by converting client coordinates to canvas coordinates.
   // An HTML node is identified if the event's targetType is 'node' but the nativeEvent.target is not the canvas element.
   if (
