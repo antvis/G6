@@ -12,6 +12,7 @@ import {
   normalize,
   perpendicular,
   rad,
+  rotate,
   scale,
   subtract,
   toVector2,
@@ -110,5 +111,12 @@ describe('Vector Functions', () => {
   it('rad', () => {
     expect(rad([1, 0])).toEqual(0);
     expect(rad([0, 1])).toEqual(Math.PI / 2);
+  });
+
+  it('rotate', () => {
+    expect(rotate([10, 10], 30)).toBeCloseTo([3.66, 13.66]);
+    expect(rotate([10, 20], 90)).toBeCloseTo([-20, 10]);
+    expect(rotate([10, 20], 180)).toBeCloseTo([-10, -20]);
+    expect(rotate([10, 20], 270)).toBeCloseTo([20, -10]);
   });
 });

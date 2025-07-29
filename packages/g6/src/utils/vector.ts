@@ -219,3 +219,20 @@ export function rad(a: Vector2 | Vector3): number {
   if (!x && !y) return 0;
   return Math.atan2(y, x);
 }
+
+/**
+ * <zh/> 旋转向量（角度制）
+ *
+ * <en/> Rotational vector (Angle system)
+ * @param a - <zh/> 向量 | <en/> The vector
+ * @param angle - <zh/> 旋转角度 | <en/> The rotation angle
+ * @returns <zh/> 向量 | <en/> The vector
+ */
+export function rotate(a: Vector2, angle: number): Vector2 {
+  const [dx, dy] = a;
+  if (angle % 360 === 0) return [dx, dy];
+  const rad = (angle * Math.PI) / 180;
+  const cos = Math.cos(rad);
+  const sin = Math.sin(rad);
+  return [dx * cos - dy * sin, dx * sin + dy * cos];
+}
