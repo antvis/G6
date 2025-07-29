@@ -4,7 +4,14 @@ export const bugDragRotatedCanvas: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: {
-      nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }, { id: 'node4' }, { id: 'node5' }],
+      nodes: [
+        { id: 'node1', combo: 'comboA' },
+        { id: 'node2', combo: 'comboA' },
+        { id: 'node3' },
+        { id: 'node4' },
+        { id: 'node5' },
+      ],
+      combos: [{ id: 'comboA' }],
       edges: [
         { source: 'node1', target: 'node2' },
         { source: 'node1', target: 'node3' },
@@ -17,7 +24,7 @@ export const bugDragRotatedCanvas: TestCase = async (context) => {
     layout: {
       type: 'grid',
     },
-    behaviors: ['drag-canvas'],
+    behaviors: ['drag-canvas', 'drag-element'],
   });
 
   await graph.render();

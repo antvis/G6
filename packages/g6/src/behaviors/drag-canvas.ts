@@ -8,7 +8,7 @@ import { parsePadding } from '../utils/padding';
 import { PinchHandler } from '../utils/pinch';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
-import { multiply, subtract } from '../utils/vector';
+import { multiply, rotate, subtract } from '../utils/vector';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -190,11 +190,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
 
   private clampByRotation([dx, dy]: Vector2): Vector2 {
     const rotation = this.context.graph.getRotation();
-    if (rotation % 360 === 0) return [dx, dy];
-    const rad = (rotation * Math.PI) / 180;
-    const cos = Math.cos(rad);
-    const sin = Math.sin(rad);
-    return [dx * cos - dy * sin, dx * sin + dy * cos];
+    return rotate([dx, dy], rotation);
   }
 
   private clampByDirection([dx, dy]: Vector2): Vector2 {

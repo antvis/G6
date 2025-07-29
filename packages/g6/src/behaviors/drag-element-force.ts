@@ -66,7 +66,8 @@ export class DragElementForce extends DragElement {
     const layout = this.forceLayoutInstance;
     this.context.graph.getNodeData(ids).forEach((element, index) => {
       const { x = 0, y = 0 } = element.style || {};
-      if (layout) invokeLayoutMethod(layout, 'setFixedPosition', ids[index], [...add([+x, +y], offset)]);
+      if (layout)
+        invokeLayoutMethod(layout, 'setFixedPosition', ids[index], [...add([+x, +y], this.clampByRotation(offset))]);
     });
   }
 
