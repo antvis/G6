@@ -10,6 +10,45 @@ import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
 import { createPluginCanvas } from '../utils/canvas';
 
+const commonStyle: Partial<LabelStyleProps> = {
+  fill: '#1D2129',
+  wordWrap: true, // 自动换行
+  maxLines: 1, // 最大行数
+  textOverflow: 'ellipsis', // 溢出隐藏省略号
+  textBaseline: 'top',
+
+  /**
+   * textAlign 需要和 x 结合使用
+   * 举例: 前提条件: 画布 width = 600
+   * - textAlign: 'start' | 'left
+   *    需要设 x = 0
+   * - textAlign: 'end' | 'right'
+   *    需要设 x = 600 (即画布的宽度)
+   * - textAlign: 'center'
+   *    需要设 x = 300 (即画布的宽度 / 2)
+   */
+  textAlign: 'start',
+  x: 0,
+};
+const defaultTitleStyle: Partial<LabelStyleProps> = {
+  ...commonStyle,
+  fillOpacity: 0.9,
+  fontSize: 16,
+  fontWeight: 'bold',
+};
+const defaultSubTitleStyle: Partial<LabelStyleProps> = {
+  ...commonStyle,
+  fillOpacity: 0.65,
+  fontSize: 12,
+  fontWeight: 'normal',
+};
+const defaultOptions: Partial<TitleOptions> = {
+  align: 'left',
+  spacing: 8,
+  size: 44,
+  padding: [16, 24, 0, 24],
+};
+
 const titleKey = 'title';
 const subtitleKey = 'subtitle';
 
@@ -81,45 +120,6 @@ export interface TitleOptions extends BasePluginOptions, TitleStyle, SubTitleSty
 }
 
 export class Title extends BasePlugin<TitleOptions> {
-  private static commonStyle: Partial<LabelStyleProps> = {
-    fill: '#1D2129',
-    wordWrap: true, // 自动换行
-    maxLines: 1, // 最大行数
-    textOverflow: 'ellipsis', // 溢出隐藏省略号
-    textBaseline: 'top',
-
-    /**
-     * textAlign 需要和 x 结合使用
-     * 举例: 前提条件: 画布 width = 600
-     * - textAlign: 'start' | 'left
-     *    需要设 x = 0
-     * - textAlign: 'end' | 'right'
-     *    需要设 x = 600 (即画布的宽度)
-     * - textAlign: 'center'
-     *    需要设 x = 300 (即画布的宽度 / 2)
-     */
-    textAlign: 'start',
-    x: 0,
-  };
-  public static defaultTitleStyle: Partial<LabelStyleProps> = {
-    ...this.commonStyle,
-    fillOpacity: 0.9,
-    fontSize: 16,
-    fontWeight: 'bold',
-  };
-  public static defaultSubTitleStyle: Partial<LabelStyleProps> = {
-    ...this.commonStyle,
-    fillOpacity: 0.65,
-    fontSize: 12,
-    fontWeight: 'normal',
-  };
-  private static defaultOptions: Partial<TitleOptions> = {
-    align: 'left',
-    spacing: 8,
-    size: 44,
-    padding: [16, 24, 0, 24],
-  };
-
   private canvas!: Canvas;
   private container!: HTMLElement;
 
@@ -127,13 +127,8 @@ export class Title extends BasePlugin<TitleOptions> {
     return parsePadding(this.options.padding);
   }
 
-  public get height() {
-    const [pt, , pb] = this.padding;
-    return this.options.size + pt + pb;
-  }
-
   constructor(context: RuntimeContext, options: TitleOptions) {
-    const combineOption = Object.assign({}, Title.defaultOptions, options);
+    const combineOption = Object.assign({}, defaultOptions, options);
     super(context, combineOption);
 
     this.bindEvents();
@@ -273,7 +268,7 @@ class TitleComponent {
     const title = new Label({
       className: titleKey,
       style: {
-        ...Title.defaultTitleStyle,
+        ...defaultTitleStyle,
         wordWrapWidth: textWidth - 5,
         x: alignX,
         y: pt,
@@ -289,7 +284,7 @@ class TitleComponent {
       subTitle = new Label({
         className: 'subTitle',
         style: {
-          ...Title.defaultSubTitleStyle,
+          ...defaultSubTitleStyle,
           wordWrapWidth: textWidth - 5,
           x: alignX,
           y: titleBBox.height + spacing + pt,

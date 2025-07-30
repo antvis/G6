@@ -47,9 +47,5 @@ export const pluginTitle: TestCase = async (context) => {
 
   await graph.render();
 
-  pluginTitle.form = (panel) => {
-    return [panel.add({}, 'autoSnap').name('Auto Snap')];
-  };
-
   return graph;
 };
