@@ -177,7 +177,7 @@ export class GridLine extends BasePlugin<GridLineOptions> {
       data: { scale, origin },
     } = event;
 
-    if (!scale) return;
+    if (!scale || (origin === undefined && this.context.viewport === undefined)) return;
 
     const prevScale = this.currentScale;
     this.currentScale = scale;

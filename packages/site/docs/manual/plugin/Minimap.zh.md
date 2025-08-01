@@ -51,7 +51,7 @@ const graph = new Graph({
 | padding        | 内边距                                      | number \| number[]                                                                                                                                                                                     | 10             |      |
 | position       | 缩略图相对于画布的位置                      | [number, number] \| `left` \| `right` \| `top` \| `bottom` \| `left-top` \| `left-bottom` \| `right-top` \| `right-bottom` \| `top-left` \| `top-right` \| `bottom-left` \| `bottom-right` \| `center` | `right-bottom` |      |
 | renderer       | 渲染器，默认使用 Canvas 渲染器              | IRenderer                                                                                                                                                                                              |                |      |
-| shape          | 元素缩略图形的生成方法                      | `key` \| ((id: string, elementType: `node` \| `edge` \| `combo`) => DisplayObject)                                                                                                                     | `key`          |      |
+| shape          | 元素缩略图形的生成方法                      | `key` \| ((id: string, elementType: `node` \| `edge` \| `combo`, element: DisplayObject) => DisplayObject)                                                                                             | `key`          |      |
 | size           | 宽度和高度                                  | [number, number]                                                                                                                                                                                       | [240, 160]     |      |
 
 ### containerStyle

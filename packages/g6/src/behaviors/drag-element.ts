@@ -3,12 +3,12 @@ import { Rect } from '@antv/g';
 import { isFunction } from '@antv/util';
 import { COMBO_KEY, CanvasEvent, ComboEvent, CommonEvent } from '../constants';
 import type { RuntimeContext } from '../runtime/types';
-import type { EdgeDirection, ID, IElementDragEvent, IPointerEvent, Point, Prefix, State } from '../types';
+import type { EdgeDirection, ID, IElementDragEvent, IPointerEvent, Point, Prefix, State, Vector2 } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { isToBeDestroyed } from '../utils/element';
 import { idOf } from '../utils/id';
 import { subStyleProps } from '../utils/prefix';
-import { divide, subtract } from '../utils/vector';
+import { divide, rotate, subtract } from '../utils/vector';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -354,6 +354,11 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     return !!enable;
   }
 
+  protected clampByRotation([dx, dy]: Point): Vector2 {
+    const rotation = this.context.graph.getRotation();
+    return rotate([dx, dy], rotation);
+  }
+
   /**
    * <zh/> 移动元素
    *
@@ -367,7 +372,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     const { dropEffect } = this.options;
 
     if (dropEffect === 'move') ids.forEach((id) => model.refreshComboData(id));
-    graph.translateElementBy(Object.fromEntries(ids.map((id) => [id, offset])), false);
+    graph.translateElementBy(Object.fromEntries(ids.map((id) => [id, this.clampByRotation(offset)])), false);
   }
 
   private moveShadow(offset: Point) {

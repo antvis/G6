@@ -21,6 +21,7 @@ export { behaviorOptimizeViewportTransform } from './behavior-optimize-viewport-
 export { behaviorScrollCanvas } from './behavior-scroll-canvas';
 export { behaviorZoomCanvas } from './behavior-zoom-canvas';
 export { bugDragRotatedCanvas } from './bug-drag-rotated-canvas';
+export { bugDragRotatedElementForce } from './bug-drag-rotated-element-force';
 export { bugProcessParallelEdgesComboFixed } from './bug-process-parallel-edges-combo-fixed';
 export { bugTooltipResize } from './bug-tooltip-resize';
 export { canvasCursor } from './canvas-cursor';
@@ -142,6 +143,7 @@ export { pluginMinimap } from './plugin-minimap';
 export { pluginMiniMapEdgeArrow } from './plugin-minimap-edge-arrow';
 export { pluginSnapline } from './plugin-snapline';
 export { pluginTimebar } from './plugin-timebar';
+export { pluginTitle } from './plugin-title';
 export { pluginToolbarBuildIn } from './plugin-toolbar-build-in';
 export { pluginToolbarIconfont } from './plugin-toolbar-iconfont';
 export { pluginTooltip } from './plugin-tooltip';
