@@ -181,7 +181,7 @@ When you need to manage business-related states (such as approval status, risk l
 ```jsx
 import { ExtensionCategory, register, Graph } from '@antv/g6';
 import { VueNode } from 'g6-extension-vue';
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 register(ExtensionCategory.NODE, 'vue-node', VueNode);
 
@@ -239,7 +239,11 @@ Achieve two-way communication between nodes and graph instances, allowing nodes 
 **Example**: Operate graph data through custom nodes and re-render the graph.
 
 ```jsx
-import { defineComponent } from 'vue';
+import { ExtensionCategory, register, Graph } from '@antv/g6';
+import { VueNode } from 'g6-extension-vue';
+import { defineComponent, computed } from 'vue';
+
+register(ExtensionCategory.NODE, 'vue-node', VueNode);
 
 const IDCardNode = defineComponent({
   setup(props, { attrs, slots, expose }) {

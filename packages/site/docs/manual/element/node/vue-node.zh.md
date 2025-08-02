@@ -179,7 +179,7 @@ graph.render();
 ```jsx
 import { ExtensionCategory, register, Graph } from '@antv/g6';
 import { VueNode } from 'g6-extension-vue';
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 register(ExtensionCategory.NODE, 'vue-node', VueNode);
 
@@ -237,7 +237,11 @@ graph.render();
 **示例**：通过自定义节点操作图数据，并重新渲染图形。
 
 ```jsx
-import { defineComponent } from 'vue';
+import { ExtensionCategory, register, Graph } from '@antv/g6';
+import { VueNode } from 'g6-extension-vue';
+import { defineComponent, computed } from 'vue';
+
+register(ExtensionCategory.NODE, 'vue-node', VueNode);
 
 const IDCardNode = defineComponent({
   setup(props, { attrs, slots, expose }) {
