@@ -508,7 +508,7 @@ export class Graph extends EventEmitter {
    * <zh/> 判断图中是否存在指定节点
    * <en/> Determine whether a specified node exists in the graph
    * @param {ID} id
-   * @returns {*}  {boolean}
+   * @returns {boolean}
    * @remarks <zh/> 判断图中是否存在指定节点,避免在不存在的节点上进行操作
    * <en/> Determine whether a specified node exists in the graph and avoid operating on non-existent nodes
    */
@@ -519,7 +519,7 @@ export class Graph extends EventEmitter {
    * <zh/> 判断图中是否存在指定边
    * <en/> Determine whether a specified edge exists in the graph
    * @param {ID} id
-   * @returns {*}  {boolean}
+   * @returns  {boolean}
    * @remarks <zh/> 判断图中是否存在指定边,避免在不存在的边上进行操作
    * <en/> Determine whether a specified edge exists in the graph and avoid operating on non-existent edges
    */
@@ -531,7 +531,7 @@ export class Graph extends EventEmitter {
    * <zh/> 判断图中是否存在指定组合
    * <en/> Determine whether a specified combo exists in the graph
    * @param {ID} id
-   * @returns {*}  {boolean}
+   * @returns  {boolean}
    * @remarks <zh/> 判断图中是否存在指定组合,避免在不存在的组合上进行操作
    * <en/> Determine whether a specified combo exists in the graph and avoid operating on non-existent combos
    */
