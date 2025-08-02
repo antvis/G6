@@ -258,7 +258,7 @@ const graph = new Graph({
   node: {
     type: 'vue-node',
     style: {
-      component: ({ id, data }) => <IDCardNode id={id} selected={data.selected} graph={graph} />,
+      component: ({ id, data }) => <IDCardNode id={id} selected={isSelected.value} graph={graph} />,
     },
   },
 });
