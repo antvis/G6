@@ -40,7 +40,7 @@ Before starting, please ensure you have:
 
 ### Install Dependencies
 
-To use `g6-extension-vue`, run the following command:
+To use [`g6-extension-vue`](https://github.com/Child-qjj/g6-extension-vue), run the following command:
 
 :::code-group
 

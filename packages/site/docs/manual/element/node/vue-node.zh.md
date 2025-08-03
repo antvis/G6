@@ -38,7 +38,7 @@ order: 14
 
 ### 安装依赖
 
-要使用 `g6-extension-vue`，请运行以下命令：
+要使用 [`g6-extension-vue`](https://github.com/Child-qjj/g6-extension-vue)，请运行以下命令：
 
 :::code-group
 
