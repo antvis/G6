@@ -3,7 +3,7 @@ title: 使用 Vue 定义节点
 order: 14
 ---
 
-在 G6 中，自定义节点通常需要操作 DOM 或 Canvas 元素，但借助 `g6-extension-vue` 一方生态库，可以直接使用 Vue 组件作为节点内容，提升开发效率与可维护性。
+在 G6 中，自定义节点通常需要操作 DOM 或 Canvas 元素，但借助 [`g6-extension-vue`](https://github.com/Child-qjj/g6-extension-vue) 社区生态库，可以直接使用 Vue 组件作为节点内容，提升开发效率与可维护性。
 
 ### G6 节点
 
