@@ -3,7 +3,7 @@ title: Define Nodes with Vue
 order: 14
 ---
 
-In G6, custom nodes typically require manipulating DOM or Canvas elements, but with the help of the `g6-extension-vue` ecosystem library, you can directly use Vue components as node content, enhancing development efficiency and maintainability.
+In G6, custom nodes typically require manipulating DOM or Canvas elements, but with the help of the [`g6-extension-vue`](https://github.com/Child-qjj/g6-extension-vue) ecosystem library, you can directly use Vue components as node content, enhancing development efficiency and maintainability.
 
 ## Choosing a Custom Node Solution
 
