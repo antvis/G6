@@ -806,6 +806,74 @@ updateComboData(data: (ComboData[] | ((prev: ComboData[]) => ComboData[]))): voi
 graph.updateComboData([{ id: 'combo-1', style: { x: 100, y: 100 } }]);
 ```
 
+### Graph.hasNode()
+
+Determine if an node exists
+
+```typescript
+hasNode(id:ID): boolean;
+```
+
+**参数**:
+| Parameter | Description | Type | Default | Required |
+| ---- | -------------------- | --------- | ------ | ---- |
+| id | Node ID to be judged | [ID](#id) | - | ✓ |
+
+**返回值**:
+
+- **类型**: boolean
+  **示例**:
+
+```typescript
+graph.hasNode('node-1');
+```
+
+### Graph.hasEdge()
+
+Determine if an edge exists
+
+```typescript
+hasEdge(id:ID): boolean;
+```
+
+**参数**:
+
+| Parameter | Description          | Type      | Default | Required |
+| --------- | -------------------- | --------- | ------- | -------- |
+| id        | Edge ID to be judged | [ID](#id) | -       | ✓        |
+
+**返回值**:
+
+- **类型**: boolean
+  **示例**:
+
+```typescript
+graph.hasEdge('edge-1');
+```
+
+### Graph.hasCombo()
+
+Determine if combo exists
+
+```typescript
+hasCombo(id:ID): boolean;
+```
+
+**参数**:
+
+| Parameter | Description           | Type      | Default | Required |
+| --------- | --------------------- | --------- | ------- | -------- |
+| id        | Combo ID to be judged | [ID](#id) | -       | ✓        |
+
+**返回值**:
+
+- **类型**: boolean
+  **示例**:
+
+```typescript
+graph.hasCombo('combo-1');
+```
+
 ## Type Definitions
 
 ### ID
