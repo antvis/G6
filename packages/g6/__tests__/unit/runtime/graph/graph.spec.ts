@@ -44,8 +44,8 @@ describe('Graph', () => {
   });
 
   it('hasNode', () => {
-    expect(graph.hasNode('node-1')).toBe(true);
-    expect(graph.hasNode('node-2')).toBe(true);
+    expect(graph.hasNode('0')).toBe(true);
+    expect(graph.hasNode('1')).toBe(true);
 
     expect(graph.hasNode('non-existent-node')).toBe(false);
     expect(graph.hasNode('node-999')).toBe(false);
@@ -56,7 +56,7 @@ describe('Graph', () => {
   });
 
   it('hasEdge', () => {
-    expect(graph.hasEdge('edge-1')).toBe(true);
+    expect(graph.hasEdge('0-1')).toBe(true);
 
     expect(graph.hasEdge('non-existent-edge')).toBe(false);
     expect(graph.hasEdge('edge-999')).toBe(false);
