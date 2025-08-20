@@ -90,9 +90,8 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when brush select elements.
    * @param states - 选中的元素状态
-   * @returns 选中的元素状态
    */
-  onSelect?: (states: Record<ID, State | State[]>) => Record<ID, State | State[]>;
+  onSelect?: (states: Record<ID, State | State[]>) => void;
 }
 /**
  * <zh/> 框选一组元素
@@ -246,7 +245,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
 
     const selectedIds = this.selector(graph, points, enableElements);
 
-    let states: Record<ID, State | State[]> = {};
+    const states: Record<ID, State | State[]> = {};
 
     switch (mode) {
       case 'union':
@@ -274,7 +273,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
         break;
     }
 
-    if (isFunction(onSelect)) states = onSelect(states);
+    if (isFunction(onSelect)) onSelect(states);
 
     graph.setElementState(states, this.options.animation);
   }
