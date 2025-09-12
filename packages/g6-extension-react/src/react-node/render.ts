@@ -26,7 +26,8 @@ async function initCreateRoot() {
   if (mainVersion >= 18) {
     try {
       /* @vite-ignore */
-      const client = await import('react-dom/client');
+      const moduleName = 'react-dom/client';
+      const client = await import(moduleName);
       if (client.createRoot) {
         createRoot = client.createRoot;
       }
