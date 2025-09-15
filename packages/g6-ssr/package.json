@@ -39,6 +39,5 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  },
-  "type11": "module"
+  }
 }
