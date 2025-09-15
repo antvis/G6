@@ -56,7 +56,7 @@ jobs:
             playwright-report/
           retention-days: 1
 
-      - name: 💡 Upload coverage to Codecov
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           files: ./packages/g6/coverage/coverage-final.json
