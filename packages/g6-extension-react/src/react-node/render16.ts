@@ -3,6 +3,8 @@ import * as ReactDOM from 'react-dom';
 
 type ContainerType = Element | DocumentFragment;
 
+const { render: reactRender, unmountComponentAtNode } = ReactDOM as any;
+
 /**
  * <zh/> 渲染 React 节点(React 16/17)
  *
@@ -11,7 +13,7 @@ type ContainerType = Element | DocumentFragment;
  * @param container - <zh/> 容器 | <en/> Container
  */
 export function render(node: React.ReactElement, container: ContainerType) {
-  ReactDOM.render(node, container);
+  reactRender(node, container);
 }
 
 /**
@@ -21,5 +23,5 @@ export function render(node: React.ReactElement, container: ContainerType) {
  * @param container - <zh/> 容器 | <en/> Container
  */
 export function unmount(container: ContainerType) {
-  ReactDOM.unmountComponentAtNode(container);
+  unmountComponentAtNode(container);
 }
