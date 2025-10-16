@@ -55,6 +55,7 @@ npm install babel-loader@8 @babel/preset-env @open-wc/webpack-import-meta-loader
 
 <embed src="@/common/manual/feature/webpack4.md"></embed>
 :::
+> 如果你使用的是vue-cli，上述webpack配置项mode: 'production'就不需要。
 
 ## 使用 Rollup 打包项目
 
