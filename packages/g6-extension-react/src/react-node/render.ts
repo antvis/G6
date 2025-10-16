@@ -15,6 +15,25 @@ function getReactMajorVersion(): number {
   return Number((version || '').split('.')[0]);
 }
 
+const getRenderer = (() => {
+  let rendererPromise: Promise<{
+    render: (node: React.ReactElement, container: ContainerType) => unknown;
+    unmount: (container: ContainerType) => unknown;
+  }>;
+
+  return () => {
+    if (!rendererPromise) {
+      const majorVersion = getReactMajorVersion();
+      if (majorVersion >= 18) {
+        rendererPromise = import('./render18');
+      } else {
+        rendererPromise = import('./render16');
+      }
+    }
+    return rendererPromise;
+  };
+})();
+
 /**
  * <zh/> 渲染 React 节点(兼容 React 16 ~ 19)
  *
@@ -24,17 +43,8 @@ function getReactMajorVersion(): number {
  * @returns <zh/> Promise | <en/> Promise
  */
 export async function render(node: React.ReactElement, container: ContainerType) {
-  const majorVersion = getReactMajorVersion();
-
-  if (majorVersion >= 18) {
-    // React 18/19
-    const { render: render18 } = await import('./render18');
-    return render18(node, container);
-  } else {
-    // React 16/17
-    const { render: render16 } = await import('./render16');
-    return render16(node, container);
-  }
+  const { render } = await getRenderer();
+  return render(node, container);
 }
 
 /**
@@ -45,15 +55,6 @@ export async function render(node: React.ReactElement, container: ContainerType)
  * @returns <zh/> Promise | <en/> Promise
  */
 export async function unmount(container: ContainerType) {
-  const majorVersion = getReactMajorVersion();
-
-  if (majorVersion >= 18) {
-    // React 18/19
-    const { unmount: unmount18 } = await import('./render18');
-    return unmount18(container);
-  } else {
-    // React 16/17
-    const { unmount: unmount16 } = await import('./render16');
-    return unmount16(container);
-  }
+  const { unmount } = await getRenderer();
+  return unmount(container);
 }

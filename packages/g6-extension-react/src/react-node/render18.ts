@@ -8,7 +8,7 @@ type ContainerType = (Element | DocumentFragment) & {
 
 const MARK = '__rc_react_root__';
 
-let ReactDOMClient: any = null;
+let ReactDOMClientPromise: Promise<typeof import('react-dom/client') | null> | null = null;
 
 /**
  * <zh/> 初始化 React 18+ 的 createRoot
@@ -16,15 +16,11 @@ let ReactDOMClient: any = null;
  * <en/> Initialize React 18+ createRoot
  * @returns ReactDOMClient
  */
-async function initReactDOMClient() {
-  if (ReactDOMClient) return ReactDOMClient;
-
-  try {
-    ReactDOMClient = await import('react-dom/client');
-    return ReactDOMClient;
-  } catch (error) {
-    return null;
+function initReactDOMClient() {
+  if (ReactDOMClientPromise === null) {
+    ReactDOMClientPromise = import('react-dom/client').catch(() => null);
   }
+  return ReactDOMClientPromise;
 }
 
 /**
