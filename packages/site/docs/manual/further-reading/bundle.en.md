@@ -55,6 +55,7 @@ npm install babel-loader@8 @babel/preset-env @open-wc/webpack-import-meta-loader
 
 <embed src="@/common/manual/feature/webpack4.md"></embed>
 :::
+> The above configuration works with original webpack project, if you using vue-cli and you should REMOVE the last config item `mode: 'production'` because of unnecessary.
 
 ## Bundle Project with Rollup
 
