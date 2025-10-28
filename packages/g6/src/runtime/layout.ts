@@ -179,6 +179,28 @@ export class LayoutController {
     this.simulationCache = undefined;
   }
 
+  /**
+   * <zh/> 获取有效的布局配置项
+   *
+   * <en/> Get effective layout options
+   * @returns <zh/> 布局配置项 | <en/> Layout options
+   */
+  public getEffectiveLayoutOptions(): STDLayoutOptions {
+    const options = this.options;
+    if (!options) {
+      return { type: 'grid', animation: false };
+    }
+
+    const baseOptions = Array.isArray(options) ? options[0] : options;
+
+    return {
+      ...this.presetOptions,
+      ...baseOptions,
+      type: baseOptions?.type || 'grid',
+      animation: false,
+    };
+  }
+
   public async stepLayout(data: GraphData, options: STDLayoutOptions, index: number): Promise<GraphData> {
     if (isTreeLayout(options)) return await this.treeLayout(data, options, index);
     return await this.graphLayout(data, options, index);

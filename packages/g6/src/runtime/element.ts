@@ -6,7 +6,7 @@ import { groupBy } from '@antv/util';
 import { AnimationType, COMBO_KEY, ChangeType, GraphEvent, TREE_KEY } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry/get';
-import type { ComboData, EdgeData, GraphData, LayoutOptions, NodeData } from '../spec';
+import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { STDLayoutOptions } from '../spec/layout';
 import type { DrawData, ProcedureData } from '../transforms/types';
@@ -32,6 +32,7 @@ import { markToBeDestroyed, updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '../utils/event';
 import { idOf } from '../utils/id';
+import { isTreeLayout } from '../utils/layout';
 import { assignColorByPalette, parsePalette } from '../utils/palette';
 import { positionOf } from '../utils/position';
 import { print } from '../utils/print';
@@ -322,7 +323,7 @@ export class ElementController {
     // <zh/> 对于树形布局，需要再次更新位置到最终位置以触发动画
     // For tree layout, need to update positions to final positions to trigger animation
     const { layout } = this.context;
-    if (layout) {
+    if (layout && this.isTreeLayoutType()) {
       // <zh/> 优先使用缓存的 simulate 结果，避免重复计算 | <en/> Prefer cached simulate result to avoid redundant calculation
       let finalPositions = layout.getCachedSimulation();
 
@@ -682,28 +683,31 @@ export class ElementController {
    *
    * <en/> Get layout options
    */
+  /**
+   * <zh/> 判断当前布局是否为树形布局
+   *
+   * <en/> Check if current layout is tree layout
+   * @returns <zh/> 是否为树形布局 | <en/> Whether it is tree layout
+   */
+  private isTreeLayoutType(): boolean {
+    const layoutOptions = this.getLayoutOptions();
+    return isTreeLayout(layoutOptions);
+  }
+
+  /**
+   * <zh/> 获取布局配置项
+   *
+   * <en/> Get layout options
+   * @returns <zh/> 布局配置项 | <en/> Layout options
+   */
   private getLayoutOptions(): STDLayoutOptions {
     const { layout } = this.context;
     if (!layout) {
       return { type: 'grid', animation: false };
     }
 
-    // <zh/> 安全访问 LayoutController 的配置 | <en/> Safely access LayoutController's configuration
-    const layoutController = layout as unknown as {
-      presetOptions?: Partial<STDLayoutOptions>;
-      options?: LayoutOptions;
-    };
-
-    const presetOptions = layoutController.presetOptions || {};
-    const options = layoutController.options;
-    const baseOptions = Array.isArray(options) ? options[0] : options;
-
-    return {
-      type: baseOptions?.type || 'grid',
-      ...presetOptions,
-      ...baseOptions,
-      animation: false,
-    };
+    // <zh/> 通过 LayoutController 的公共方法获取配置 | <en/> Get configuration through LayoutController's public method
+    return layout.getEffectiveLayoutOptions();
   }
 
   /**
