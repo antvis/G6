@@ -3,7 +3,7 @@
 import type { BaseStyleProps } from '@antv/g';
 import { Group } from '@antv/g';
 import { groupBy } from '@antv/util';
-import { AnimationType, COMBO_KEY, ChangeType, GraphEvent } from '../constants';
+import { AnimationType, COMBO_KEY, ChangeType, GraphEvent, TREE_KEY } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry/get';
 import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
@@ -316,6 +316,41 @@ export class ElementController {
     this.destroyElements(remove, context);
     this.createElements(add, context);
     this.updateElements(update, context);
+
+    // 对于树形布局，需要再次更新位置到最终位置以触发动画
+    // For tree layout, need to update positions to final positions to trigger animation
+    const { layout } = this.context;
+    if (layout) {
+      const simulate = await layout.simulate();
+      const finalPositions = simulate;
+
+      if (finalPositions?.nodes) {
+        const { model } = this.context;
+        // 更新模型数据到最终位置
+        // Update model data to final positions
+        model.updateData(finalPositions);
+
+        // 收集需要更新的节点
+        // Collect nodes that need to be updated
+        const nodesToUpdate = new Map();
+        finalPositions.nodes.forEach((node: any) => {
+          const id = idOf(node);
+          const element = this.getElement(id);
+          if (element) {
+            nodesToUpdate.set(id, node);
+          }
+        });
+
+        // 执行更新动画
+        // Execute update animation
+        if (nodesToUpdate.size > 0) {
+          this.updateElements(
+            { nodes: nodesToUpdate, edges: new Map(), combos: new Map() },
+            { ...context, stage: 'translate' },
+          );
+        }
+      }
+    }
 
     return this.setAnimationTask(context, preResult);
   }
@@ -634,9 +669,43 @@ export class ElementController {
   }
 
   /**
-   * <zh/> 将布局结果对齐到元素，避免视图偏移。会修改布局结果
+   * <zh/> 获取布局配置
    *
-   * <en/> Align the layout result to the element to avoid view offset. Will modify the layout result
+   * <en/> Get layout options
+   */
+  private getLayoutOptions() {
+    const { layout } = this.context;
+    const presetOptions = (layout as any).presetOptions || {};
+    const options = (layout as any).options || {};
+    return { ...presetOptions, ...options, animation: false };
+  }
+
+  /**
+   * <zh/> 设置节点位置
+   *
+   * <en/> Set node position
+   */
+  private setNodePosition(
+    element: Element,
+    position: { x: number; y: number; z?: number },
+    skipRender: boolean = false,
+    extraStyle?: Record<string, unknown>,
+  ): void {
+    const { x, y, z = 0 } = position;
+    const style = { x, y, z, ...extraStyle };
+
+    if (skipRender) {
+      // <zh/> 直接赋值避免触发渲染 | <en/> Assign directly to skip rendering
+      Object.assign(element.attributes, style);
+    } else {
+      element.update(style);
+    }
+  }
+
+  /**
+   * <zh/> 对齐布局结果，避免视图偏移
+   *
+   * <en/> Align layout result to avoid view offset
    * @param layoutResult - <zh/> 布局结果 | <en/> layout result
    * @param id - <zh/> 元素 ID | <en/> element ID
    */
@@ -656,6 +725,326 @@ export class ElementController {
   }
 
   /**
+   * <zh/> 合并布局结果与原始数据
+   *
+   * <en/> Merge layout result with original data
+   */
+  private mergeLayoutResult(layoutResult: GraphData, targetNodeId: ID, collapsedState: boolean): GraphData {
+    const { model } = this.context;
+
+    return {
+      nodes: layoutResult.nodes?.map((layoutNode) => {
+        const nodeId = idOf(layoutNode);
+        const originalNode = model.getNodeData([nodeId])[0];
+        const element = this.getElement(nodeId);
+
+        const isTargetNode = nodeId === targetNodeId;
+        const baseStyle = element ? { ...element.attributes } : { ...originalNode?.style };
+
+        return {
+          id: nodeId,
+          data: originalNode?.data,
+          style: {
+            ...baseStyle,
+            ...layoutNode.style,
+            collapsed: isTargetNode ? collapsedState : baseStyle.collapsed || false,
+          },
+        } as NodeData;
+      }),
+      edges: layoutResult.edges,
+      combos: layoutResult.combos,
+    };
+  }
+
+  /**
+   * <zh/> 计算布局偏移量
+   *
+   * <en/> Calculate layout offset
+   * @param layoutResult - <zh/> 布局结果 | <en/> layout result
+   * @param targetId - <zh/> 目标节点 | <en/> target node
+   * @param currentPosition - <zh/> 当前位置 | <en/> current position
+   * @returns <zh/> 偏移量 | <en/> offset
+   */
+  private calculateLayoutOffset(
+    layoutResult: GraphData,
+    targetId: ID,
+    currentPosition: [number, number, number],
+  ): [number, number, number] {
+    const targetNodeStyle = layoutResult.nodes?.find((n) => idOf(n) === targetId)?.style;
+    const layoutPosition: [number, number, number] = targetNodeStyle
+      ? [targetNodeStyle.x || 0, targetNodeStyle.y || 0, targetNodeStyle.z || 0]
+      : currentPosition;
+
+    return [
+      currentPosition[0] - layoutPosition[0],
+      currentPosition[1] - layoutPosition[1],
+      (currentPosition[2] || 0) - (layoutPosition[2] || 0),
+    ];
+  }
+
+  /**
+   * <zh/> 应用布局偏移量
+   *
+   * <en/> Apply layout offset
+   * @param layoutResult - <zh/> 布局结果 | <en/> layout result
+   * @param offset - <zh/> 偏移量 | <en/> offset
+   */
+  private applyLayoutOffset(layoutResult: GraphData, offset: [number, number, number]): void {
+    layoutResult.nodes?.forEach((node) => {
+      if (node.style) {
+        node.style.x = (node.style.x || 0) + offset[0];
+        node.style.y = (node.style.y || 0) + offset[1];
+        node.style.z = (node.style.z || 0) + offset[2];
+      }
+    });
+  }
+
+  /**
+   * <zh/> 边跟随节点动画
+   *
+   * <en/> Animate edges following nodes
+   */
+  private animateEdges(excludeEdges: Map<ID, EdgeData>, context: DrawContext): void {
+    const { model } = this.context;
+    const allEdges = model.getEdgeData();
+    const edgesToUpdate = new Map<ID, EdgeData>();
+
+    allEdges.forEach((edgeData) => {
+      const edgeId = idOf(edgeData);
+      if (excludeEdges.has(edgeId)) return;
+      edgesToUpdate.set(edgeId, edgeData);
+    });
+
+    this.updateElements({ nodes: new Map(), edges: edgesToUpdate, combos: new Map() }, context);
+  }
+
+  /**
+   * <zh/> 执行动画
+   *
+   * <en/> Execute animation
+   */
+  private async executeAnimation(
+    animation: boolean | undefined,
+    animationType: AnimationType,
+    drawData: DrawData,
+    context: DrawContext,
+    animationParams: Record<string, any>,
+  ): Promise<void> {
+    await this.context.animation!.animate(
+      animation,
+      {
+        beforeAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, animationType, animation, drawData), context),
+        afterAnimate: (animation) =>
+          this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, animationType, animation, drawData), context),
+      },
+      animationParams,
+    )?.finished;
+  }
+
+  /**
+   * <zh/> 过滤布局数据
+   *
+   * <en/> Filter layout data
+   */
+  private filterLayoutData(layoutData: GraphData, nodesToRemove: Set<ID>, edgesToRemove: Map<ID, EdgeData>): GraphData {
+    return {
+      ...layoutData,
+      nodes: layoutData.nodes?.filter((n) => !nodesToRemove.has(idOf(n))),
+      edges: layoutData.edges?.filter((e) => !edgesToRemove.has(idOf(e))),
+    };
+  }
+
+  /**
+   * <zh/> 收集待更新节点
+   *
+   * <en/> Collect nodes to update
+   */
+  private collectNodesToUpdate(layoutResult: GraphData, excludeIds: Set<ID> = new Set()): Map<ID, NodeData> {
+    const { model } = this.context;
+    const updateNodes = new Map<ID, NodeData>();
+
+    layoutResult.nodes?.forEach((node) => {
+      const nodeId = idOf(node);
+      if (excludeIds.has(nodeId)) return;
+
+      const existingNode = model.getNodeData([nodeId])[0];
+      if (existingNode) {
+        updateNodes.set(nodeId, {
+          ...existingNode,
+          style: { ...existingNode.style, ...node.style },
+        });
+      }
+    });
+
+    return updateNodes;
+  }
+
+  /**
+   * <zh/> 处理树布局收起
+   *
+   * <en/> Handle tree layout collapse
+   */
+  private async handleTreeLayoutCollapse(
+    id: ID,
+    animation: boolean | undefined,
+    drawData: DrawData,
+    remove: ProcedureData,
+  ): Promise<void> {
+    const { model, layout } = this.context;
+
+    // <zh/> 记录当前位置 | <en/> Record current position
+    const currentPosition = positionOf(model.getNodeData([id])[0]) as [number, number, number];
+
+    // <zh/> 过滤并重新计算布局 | <en/> Filter and recalculate layout
+    const removedNodeIds = new Set(remove.nodes.keys());
+    const layoutData = layout!.getLayoutData(this.getLayoutOptions());
+    const filteredLayoutData = this.filterLayoutData(layoutData, removedNodeIds, remove.edges);
+
+    const layoutResult = await layout!.stepLayout(filteredLayoutData, this.getLayoutOptions(), 0);
+
+    // <zh/> 应用偏移量保持位置 | <en/> Apply offset to keep position
+    const offset = this.calculateLayoutOffset(layoutResult, id, currentPosition);
+    this.applyLayoutOffset(layoutResult, offset);
+
+    // <zh/> 收集待更新节点 | <en/> Collect nodes to update
+    const updateNodes = this.collectNodesToUpdate(layoutResult);
+
+    // <zh/> 更新模型数据 | <en/> Update model data
+    const mergedLayoutResult = this.mergeLayoutResult(layoutResult, id, true);
+    model.updateData(mergedLayoutResult);
+
+    // <zh/> 执行动画 | <en/> Execute animation
+    this.markDestroyElement(drawData);
+    const context = { animation, stage: 'collapse', data: drawData } as const;
+
+    this.destroyElements(remove, context);
+    this.createElements(drawData.add, context);
+    this.updateElements({ nodes: updateNodes, edges: new Map(), combos: new Map() }, context);
+    this.animateEdges(remove.edges, context);
+
+    await this.executeAnimation(animation, AnimationType.COLLAPSE, drawData, context, {
+      collapse: {
+        target: id,
+        descendants: Array.from(remove.nodes).map(([, node]) => idOf(node)),
+        position: currentPosition as [number, number, number],
+      },
+    });
+  }
+
+  /**
+   * <zh/> 初始化新节点位置
+   *
+   * <en/> Initialize new node positions
+   */
+  private initializeNewNodePositions(nodeIds: Map<ID, NodeData>, originPosition: [number, number, number]): void {
+    nodeIds.forEach((node, nodeId) => {
+      const element = this.getElement(nodeId);
+      if (element) {
+        this.setNodePosition(element, {
+          x: originPosition[0],
+          y: originPosition[1],
+          z: originPosition[2],
+        });
+      }
+    });
+  }
+
+  /**
+   * <zh/> 应用布局到节点
+   *
+   * <en/> Apply layout to nodes
+   */
+  private applyLayoutToElements(layoutResult: GraphData, targetId: ID): void {
+    layoutResult.nodes?.forEach((node) => {
+      const nodeId = idOf(node);
+      const element = this.getElement(nodeId);
+      if (!element || !node.style) return;
+
+      const { x = 0, y = 0, z = 0 } = node.style;
+      const isTargetNode = nodeId === targetId;
+
+      // <zh/> 非目标节点跳过渲染 | <en/> Skip rendering for non-target nodes
+      this.setNodePosition(element, { x, y, z }, !isTargetNode, isTargetNode ? { collapsed: false } : undefined);
+    });
+  }
+
+  /**
+   * <zh/> 处理树布局展开
+   *
+   * <en/> Handle tree layout expand
+   */
+  private async handleTreeLayoutExpand(
+    id: ID,
+    animation: boolean | undefined,
+    drawData: DrawData,
+    add: ProcedureData,
+    position: [number, number, number],
+  ): Promise<void> {
+    const { model, layout } = this.context;
+
+    // <zh/> 创建新节点 | <en/> Create new nodes
+    const nodesToCreate = { nodes: add.nodes, edges: new Map(), combos: add.combos };
+    this.createElements(nodesToCreate, { animation: false, stage: 'expand', target: id, silence: true });
+
+    // <zh/> 重置动画队列 | <en/> Clear animation queue
+    this.context.animation!.clear();
+    this.computeStyle('expand');
+
+    // <zh/> 记录当前位置 | <en/> Record current position
+    const currentPosition = positionOf(model.getNodeData([id])[0]) as [number, number, number];
+
+    // <zh/> 计算新布局 | <en/> Calculate new layout
+    const layoutData = layout!.getLayoutData(this.getLayoutOptions());
+    const layoutResult = await layout!.stepLayout(layoutData, this.getLayoutOptions(), 0);
+
+    // <zh/> 应用偏移量保持位置 | <en/> Apply offset to keep position
+    const offset = this.calculateLayoutOffset(layoutResult, id, currentPosition);
+    this.applyLayoutOffset(layoutResult, offset);
+
+    // <zh/> 设置新节点初始位置 | <en/> Set initial position for new nodes
+    this.initializeNewNodePositions(add.nodes, currentPosition);
+
+    // <zh/> 收集待更新节点 | <en/> Collect nodes to update
+    const newNodeIds = new Set(add.nodes.keys());
+    const updateNodes = this.collectNodesToUpdate(layoutResult, newNodeIds);
+
+    // <zh/> 更新模型数据 | <en/> Update model data
+    const mergedLayoutResult = this.mergeLayoutResult(layoutResult, id, false);
+    model.updateData(mergedLayoutResult);
+
+    // <zh/> 更新节点到最终位置 | <en/> Update nodes to final position
+    this.applyLayoutToElements(layoutResult, id);
+
+    // <zh/> 创建新边 | <en/> Create new edges
+    const edgesToCreate = { nodes: new Map(), edges: add.edges, combos: new Map() };
+    this.createElements(edgesToCreate, { animation: false, stage: 'expand', target: id });
+
+    // <zh/> 执行动画 | <en/> Execute animation
+    const context = { animation, stage: 'expand', data: drawData } as const;
+
+    // <zh/> 收集待动画节点 | <en/> Collect nodes to animate
+    const nodesToAnimate = new Map<ID, NodeData>();
+    updateNodes.forEach((nodeData, nodeId) => {
+      if (nodeId !== id) nodesToAnimate.set(nodeId, nodeData);
+    });
+    add.nodes.forEach((nodeData, nodeId) => {
+      nodesToAnimate.set(nodeId, nodeData);
+    });
+
+    this.updateElements({ nodes: nodesToAnimate, edges: new Map(), combos: new Map() }, context);
+    this.animateEdges(new Map(), context);
+
+    await this.executeAnimation(animation, AnimationType.EXPAND, drawData, context, {
+      expand: {
+        target: id,
+        descendants: Array.from(add.nodes).map(([, node]) => idOf(node)),
+        position,
+      },
+    });
+  }
+
+  /**
    * <zh/> 收起节点
    *
    * <en/> collapse node
@@ -664,13 +1053,20 @@ export class ElementController {
    */
   public async collapseNode(id: ID, options: CollapseExpandNodeOptions): Promise<void> {
     const { animation } = options;
-    const { model } = this.context;
+    const { model, layout } = this.context;
 
-    // 重新计算数据 / Recalculate data
     const data = this.computeChangesAndDrawData({ stage: 'collapse', animation });
     if (!data) return;
     const { drawData } = data;
     const { add, remove, update } = drawData;
+
+    // 对于树形布局，先计算布局，然后执行动画收起
+    if (remove.nodes.size > 0 && layout && model.model.hasTreeStructure(TREE_KEY)) {
+      await this.handleTreeLayoutCollapse(id, animation, drawData, remove);
+      return;
+    }
+
+    // 非树形布局的默认逻辑
     this.markDestroyElement(drawData);
     const context = { animation, stage: 'collapse', data: drawData } as const;
 
@@ -678,22 +1074,13 @@ export class ElementController {
     this.createElements(add, context);
     this.updateElements(update, context);
 
-    await this.context.animation!.animate(
-      animation,
-      {
-        beforeAnimate: (animation) =>
-          this.emit(new AnimateEvent(GraphEvent.BEFORE_ANIMATE, AnimationType.COLLAPSE, animation, drawData), context),
-        afterAnimate: (animation) =>
-          this.emit(new AnimateEvent(GraphEvent.AFTER_ANIMATE, AnimationType.COLLAPSE, animation, drawData), context),
+    await this.executeAnimation(animation, AnimationType.COLLAPSE, drawData, context, {
+      collapse: {
+        target: id,
+        descendants: Array.from(remove.nodes).map(([, node]) => idOf(node)),
+        position: positionOf(update.nodes.get(id)!),
       },
-      {
-        collapse: {
-          target: id,
-          descendants: Array.from(remove.nodes).map(([, node]) => idOf(node)),
-          position: positionOf(update.nodes.get(id)!),
-        },
-      },
-    )?.finished;
+    });
   }
 
   /**
@@ -705,26 +1092,28 @@ export class ElementController {
    */
   public async expandNode(id: ID, options: CollapseExpandNodeOptions): Promise<void> {
     const { model, layout } = this.context;
-    const { animation, align } = options;
-    const position = positionOf(model.getNodeData([id])[0]);
+    const { animation } = options;
+    const position = positionOf(model.getNodeData([id])[0]) as [number, number, number];
 
     // 重新计算数据 / Recalculate data
     const data = this.computeChangesAndDrawData({ stage: 'expand', animation });
-    this.createElements(data!.drawData.add, { animation: false, stage: 'expand', target: id });
-    // 重置动画 / Reset animation
-    this.context.animation!.clear();
-    this.computeStyle('expand');
     if (!data) return;
     const { drawData } = data;
-    const { update, add } = drawData;
+    const { add } = drawData;
+
+    // 对于树形布局，先创建新节点，然后重新计算整体布局
+    if (add.nodes.size > 0 && layout && model.model.hasTreeStructure(TREE_KEY)) {
+      await this.handleTreeLayoutExpand(id, animation, drawData, add, position);
+      return;
+    }
+
+    // 非树形布局的默认逻辑
+    this.context.animation!.clear();
+    this.computeStyle('expand');
 
     const context = { animation, stage: 'expand', data: drawData } as const;
-
-    // 将新增节点/边添加到更新列表 / Add new nodes/edges to the update list
-    add.edges.forEach((edge) => update.edges.set(idOf(edge), edge));
-    add.nodes.forEach((node) => update.nodes.set(idOf(node), node));
-
-    this.updateElements(update, context);
+    this.createElements(add, context);
+    this.updateElements(drawData.update, context);
 
     await this.context.animation!.animate(
       animation,

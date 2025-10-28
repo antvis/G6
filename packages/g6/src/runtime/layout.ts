@@ -67,19 +67,25 @@ export class LayoutController {
     const { add } = data;
     emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT, { type: 'pre' }));
     const simulate = await this.context.layout?.simulate();
-    simulate?.nodes?.forEach((l) => {
+
+    // 对于树形布局，优先使用 layoutPreset（初始位置）而非最终位置
+    // For tree layout, prefer layoutPreset (initial position) over final position
+    const layoutPreset = (simulate as any)?.__layoutPreset;
+    const positionData = layoutPreset || simulate;
+
+    positionData?.nodes?.forEach((l: any) => {
       const id = idOf(l);
       const node = add.nodes.get(id);
       model.syncNodeLikeDatum(l);
       if (node) Object.assign(node.style!, l.style);
     });
-    simulate?.edges?.forEach((l) => {
+    positionData?.edges?.forEach((l: any) => {
       const id = idOf(l);
       const edge = add.edges.get(id);
       model.syncEdgeDatum(l);
       if (edge) Object.assign(edge.style!, l.style);
     });
-    simulate?.combos?.forEach((l) => {
+    positionData?.combos?.forEach((l: any) => {
       const id = idOf(l);
       const combo = add.combos.get(id);
       model.syncNodeLikeDatum(l);
@@ -249,6 +255,10 @@ export class LayoutController {
       const animationResult = this.updateElementPosition(layoutResult, animation);
       await animationResult?.finished;
     }
+
+    // 返回时附加 layoutPreset 信息，供 preLayout 使用
+    // Attach layoutPreset info for preLayout usage
+    (layoutResult as any).__layoutPreset = layoutPreset;
 
     return layoutResult;
   }
