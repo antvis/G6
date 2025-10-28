@@ -317,12 +317,17 @@ export class ElementController {
     this.createElements(add, context);
     this.updateElements(update, context);
 
-    // 对于树形布局，需要再次更新位置到最终位置以触发动画
+    // <zh/> 对于树形布局，需要再次更新位置到最终位置以触发动画
     // For tree layout, need to update positions to final positions to trigger animation
     const { layout } = this.context;
     if (layout) {
-      const simulate = await layout.simulate();
-      const finalPositions = simulate;
+      // <zh/> 优先使用缓存的 simulate 结果，避免重复计算 | <en/> Prefer cached simulate result to avoid redundant calculation
+      let finalPositions = layout.getCachedSimulation();
+
+      // <zh/> 如果没有缓存，则执行 simulate | <en/> Execute simulate if no cache available
+      if (!finalPositions) {
+        finalPositions = await layout.simulate();
+      }
 
       if (finalPositions?.nodes) {
         const { model } = this.context;
@@ -350,6 +355,9 @@ export class ElementController {
           );
         }
       }
+
+      // <zh/> 清除缓存，确保下次更新时重新计算 | <en/> Clear cache to ensure recalculation on next update
+      layout.clearSimulationCache();
     }
 
     return this.setAnimationTask(context, preResult);

@@ -32,6 +32,9 @@ export class LayoutController {
 
   private animationResult?: IAnimation | null;
 
+  // <zh/> 缓存布局模拟结果，避免重复计算 | <en/> Cache layout simulation result to avoid redundant calculation
+  private simulationCache?: GraphData;
+
   private get presetOptions() {
     return {
       animation: !!getAnimationOptions(this.context.options, true),
@@ -66,7 +69,10 @@ export class LayoutController {
 
     const { add } = data;
     emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT, { type: 'pre' }));
+
+    // <zh/> 执行布局模拟并缓存结果 | <en/> Execute layout simulation and cache result
     const simulate = await this.context.layout?.simulate();
+    this.simulationCache = simulate;
 
     // 对于树形布局，优先使用 layoutPreset（初始位置）而非最终位置
     // For tree layout, prefer layoutPreset (initial position) over final position
@@ -151,6 +157,25 @@ export class LayoutController {
     }
 
     return simulation;
+  }
+
+  /**
+   * <zh/> 获取缓存的布局模拟结果
+   *
+   * <en/> Get cached layout simulation result
+   * @returns <zh/> 缓存的模拟布局结果 | <en/> Cached simulated layout result
+   */
+  public getCachedSimulation(): GraphData | undefined {
+    return this.simulationCache;
+  }
+
+  /**
+   * <zh/> 清除布局模拟缓存
+   *
+   * <en/> Clear layout simulation cache
+   */
+  public clearSimulationCache(): void {
+    this.simulationCache = undefined;
   }
 
   public async stepLayout(data: GraphData, options: STDLayoutOptions, index: number): Promise<GraphData> {
@@ -409,6 +434,7 @@ export class LayoutController {
 
   public destroy() {
     this.stopLayout();
+    this.clearSimulationCache();
     // @ts-expect-error force delete
     this.context = {};
     this.supervisor?.kill();
