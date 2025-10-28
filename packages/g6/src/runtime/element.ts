@@ -6,8 +6,9 @@ import { groupBy } from '@antv/util';
 import { AnimationType, COMBO_KEY, ChangeType, GraphEvent, TREE_KEY } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry/get';
-import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
+import type { ComboData, EdgeData, GraphData, LayoutOptions, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
+import type { STDLayoutOptions } from '../spec/layout';
 import type { DrawData, ProcedureData } from '../transforms/types';
 import type {
   Combo,
@@ -20,6 +21,7 @@ import type {
   ID,
   Node,
   NodeLikeData,
+  Point,
   State,
   StyleIterationContext,
 } from '../types';
@@ -335,10 +337,9 @@ export class ElementController {
         // Update model data to final positions
         model.updateData(finalPositions);
 
-        // 收集需要更新的节点
-        // Collect nodes that need to be updated
-        const nodesToUpdate = new Map();
-        finalPositions.nodes.forEach((node: any) => {
+        // <zh/> 收集需要更新的节点 | <en/> Collect nodes that need to be updated
+        const nodesToUpdate = new Map<ID, NodeData>();
+        finalPositions.nodes.forEach((node) => {
           const id = idOf(node);
           const element = this.getElement(id);
           if (element) {
@@ -681,11 +682,28 @@ export class ElementController {
    *
    * <en/> Get layout options
    */
-  private getLayoutOptions() {
+  private getLayoutOptions(): STDLayoutOptions {
     const { layout } = this.context;
-    const presetOptions = (layout as any).presetOptions || {};
-    const options = (layout as any).options || {};
-    return { ...presetOptions, ...options, animation: false };
+    if (!layout) {
+      return { type: 'grid', animation: false };
+    }
+
+    // <zh/> 安全访问 LayoutController 的配置 | <en/> Safely access LayoutController's configuration
+    const layoutController = layout as unknown as {
+      presetOptions?: Partial<STDLayoutOptions>;
+      options?: LayoutOptions;
+    };
+
+    const presetOptions = layoutController.presetOptions || {};
+    const options = layoutController.options;
+    const baseOptions = Array.isArray(options) ? options[0] : options;
+
+    return {
+      type: baseOptions?.type || 'grid',
+      ...presetOptions,
+      ...baseOptions,
+      animation: false,
+    };
   }
 
   /**
@@ -836,7 +854,10 @@ export class ElementController {
     animationType: AnimationType,
     drawData: DrawData,
     context: DrawContext,
-    animationParams: Record<string, any>,
+    animationParams: {
+      expand?: { target: ID; descendants: ID[]; position: Point };
+      collapse?: { target: ID; descendants: ID[]; position: Point };
+    },
   ): Promise<void> {
     await this.context.animation!.animate(
       animation,

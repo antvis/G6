@@ -7,7 +7,7 @@ import { BaseLayout } from '../layouts';
 import type { AntVLayout } from '../layouts/types';
 import { getExtension } from '../registry/get';
 import type { GraphData, LayoutOptions, NodeData } from '../spec';
-import type { STDLayoutOptions } from '../spec/layout';
+import type { STDLayoutOptions, TreeLayoutResult } from '../spec/layout';
 import type { DrawData } from '../transforms/types';
 import type { AdaptiveLayout, ID, TreeData } from '../types';
 import { getAnimationOptions } from '../utils/animation';
@@ -74,28 +74,29 @@ export class LayoutController {
     const simulate = await this.context.layout?.simulate();
     this.simulationCache = simulate;
 
-    // 对于树形布局，优先使用 layoutPreset（初始位置）而非最终位置
+    // <zh/> 对于树形布局，优先使用 layoutPreset（初始位置）而非最终位置
     // For tree layout, prefer layoutPreset (initial position) over final position
-    const layoutPreset = (simulate as any)?.__layoutPreset;
+    const treeResult = simulate as TreeLayoutResult | undefined;
+    const layoutPreset = treeResult?.__layoutPreset;
     const positionData = layoutPreset || simulate;
 
-    positionData?.nodes?.forEach((l: any) => {
-      const id = idOf(l);
-      const node = add.nodes.get(id);
-      model.syncNodeLikeDatum(l);
-      if (node) Object.assign(node.style!, l.style);
+    positionData?.nodes?.forEach((node) => {
+      const id = idOf(node);
+      const addNode = add.nodes.get(id);
+      model.syncNodeLikeDatum(node);
+      if (addNode && node.style) Object.assign(addNode.style!, node.style);
     });
-    positionData?.edges?.forEach((l: any) => {
-      const id = idOf(l);
-      const edge = add.edges.get(id);
-      model.syncEdgeDatum(l);
-      if (edge) Object.assign(edge.style!, l.style);
+    positionData?.edges?.forEach((edge) => {
+      const id = idOf(edge);
+      const addEdge = add.edges.get(id);
+      model.syncEdgeDatum(edge);
+      if (addEdge && edge.style) Object.assign(addEdge.style!, edge.style);
     });
-    positionData?.combos?.forEach((l: any) => {
-      const id = idOf(l);
-      const combo = add.combos.get(id);
-      model.syncNodeLikeDatum(l);
-      if (combo) Object.assign(combo.style!, l.style);
+    positionData?.combos?.forEach((combo) => {
+      const id = idOf(combo);
+      const addCombo = add.combos.get(id);
+      model.syncNodeLikeDatum(combo);
+      if (addCombo && combo.style) Object.assign(addCombo.style!, combo.style);
     });
     emit(graph, new GraphLifeCycleEvent(GraphEvent.AFTER_LAYOUT, { type: 'pre' }));
     this.transformDataAfterLayout('pre', data);
@@ -281,11 +282,14 @@ export class LayoutController {
       await animationResult?.finished;
     }
 
-    // 返回时附加 layoutPreset 信息，供 preLayout 使用
+    // <zh/> 返回时附加 layoutPreset 信息，供 preLayout 使用
     // Attach layoutPreset info for preLayout usage
-    (layoutResult as any).__layoutPreset = layoutPreset;
+    const result: TreeLayoutResult = {
+      ...layoutResult,
+      __layoutPreset: layoutPreset,
+    };
 
-    return layoutResult;
+    return result;
   }
 
   private inferTreeLayoutOffset(data: GraphData) {
