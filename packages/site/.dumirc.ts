@@ -41,10 +41,6 @@ export default defineConfig({
     showAPIDoc: false, // 是否在 demo 页展示API文档
     feedback: true, // 是否显示反馈组件
     links: true, // 是否显示links答疑小蜜
-    petercat: {
-      show: true,
-      token: '4bd33b46-9b3c-4df1-be17-9206ea7c7e34',
-    },
     prefersColor: {
       default: 'light',
       switch: false,
