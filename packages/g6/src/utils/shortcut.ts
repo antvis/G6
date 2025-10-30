@@ -130,6 +130,6 @@ export class Shortcut {
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
     this.pinchHandler?.off('pinchmove', this.boundHandlePinch);
-    globalThis.removeEventListener?.('blur', this.onFocus);
+    globalThis.removeEventListener?.('focus', this.onFocus);
   }
 }
