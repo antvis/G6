@@ -1,7 +1,7 @@
 import type { IAnimation } from '@antv/g';
 import { Graph as Graphlib } from '@antv/graphlib';
 import { Supervisor, isLayoutWithIterations } from '@antv/layout';
-import { deepMix } from '@antv/util';
+import { deepMix, isFunction } from '@antv/util';
 import { COMBO_KEY, GraphEvent, TREE_KEY } from '../constants';
 import { BaseLayout } from '../layouts';
 import type { AntVLayout } from '../layouts/types';
@@ -17,6 +17,7 @@ import { GraphLifeCycleEvent, emit } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
 import { idOf } from '../utils/id';
 import { isTreeLayout, layoutAdapter, layoutMapping2GraphData } from '../utils/layout';
+import { omitBy } from '../utils/object';
 import { print } from '../utils/print';
 import { dfs } from '../utils/traverse';
 import type { RuntimeContext } from './types';
@@ -164,8 +165,10 @@ export class LayoutController {
     // 使用 web worker 执行布局 / Use web worker to execute layout
     if (enableWorker) {
       const rawLayout = layout as unknown as AdaptiveLayout;
-      this.supervisor = new Supervisor(rawLayout.graphData2LayoutModel(data), rawLayout.instance, { iterations });
-      return layoutMapping2GraphData(await this.supervisor.execute());
+      layout.options = omitBy(layout.options || {}, (value) => isFunction(value));
+      this.supervisor = new Supervisor(rawLayout.graphData2LayoutModel(data), rawLayout, { iterations });
+      const positions = await this.supervisor.execute();
+      return layoutMapping2GraphData(positions);
     }
 
     if (isLayoutWithIterations(layout)) {
