@@ -137,7 +137,7 @@ const graph = new Graph({
   },
 
   // 交互行为
-  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
+  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
 
   // 初始数据
   data: {
@@ -198,7 +198,7 @@ const graph = new Graph({
   },
 
   // 交互行为
-  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
+  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
 
   // 初始数据
   data: {

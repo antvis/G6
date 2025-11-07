@@ -59,7 +59,7 @@ const graph = new Graph({
 ```ts
 const graph = new Graph({
   // ... 其他配置
-  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
+  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
 });
 ```
 
