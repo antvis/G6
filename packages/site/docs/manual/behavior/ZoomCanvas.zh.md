@@ -223,11 +223,11 @@ const graph = new Graph({
 
 ### 3. 触控板双指操作下，与 scroll-canvas 同时使用时的冲突
 
-zoom-canvas 的默认操作为 双指捏合或扩张; scroll-canvas 的默认操作为 双指滑动
+在触控板上，双指滑动（用于滚动）和双指捏合（用于缩放）手势通常都会被解析为 `wheel` 事件。
 
-但当同时启用了 zoom-canvas scroll-canvas 时; 双指滑动操作会同时触发画布缩放和画布移动
+由于 `zoom-canvas` 和 `scroll-canvas` 默认都会响应 `wheel` 事件，当它们同时使用时会产生冲突，例如一个手势会同时触发滚动和缩放。
 
-可以通过判断 `event.ctrlKey` 来确定具体行为; 为 `true` 时**双指捏合或扩张操作**，`false` 时**双指滑动操作**
+你可以通过检查 `event.ctrlKey` 属性来解决这个问题。在多数平台上，捏合手势会使 `event.ctrlKey` 为 `true`，而滑动则不会。这允许你有条件地仅为捏合手势启用 `zoom-canvas`。
 
 ```js | ob { inject: true }
 import { Graph } from '@antv/g6';

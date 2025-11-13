@@ -223,11 +223,11 @@ const graph = new Graph({
 
 ### 3. Conflicts when using two-finger touchpad input and scroll-canvas simultaneously
 
-The default action for zoom-canvas is a pinch or expand with two fingers; the default action for scroll-canvas is a swipe with two fingers.
+On a touchpad, both two-finger swipe (for scrolling) and pinch (for zooming) gestures are often interpreted as `wheel` events.
 
-However, when zoom-canvas and scroll-canvas are enabled simultaneously, a swipe with two fingers will trigger both canvas zooming and canvas movement at the same time.
+Because both `zoom-canvas` and `scroll-canvas` respond to `wheel` events by default, using them together can cause conflicts, such as a single gesture triggering both scrolling and zooming.
 
-The specific behavior can be determined by checking `event.ctrlKey`; `true` indicates a **pinch or spread operation**, and `false` indicates a **swipe operation**.
+You can resolve this by checking the `event.ctrlKey` property. On most platforms, a pinch gesture sets `event.ctrlKey` to `true`, while a swipe does not. This allows you to conditionally enable `zoom-canvas` only for pinch gestures.
 
 ```js | ob { inject: true }
 import { Graph } from '@antv/g6';
