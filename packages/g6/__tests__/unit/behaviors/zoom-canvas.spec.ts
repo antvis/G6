@@ -21,7 +21,7 @@ describe('behavior zoom canvas', () => {
   });
 
   it('zoom in', async () => {
-    graph.emit(CommonEvent.WHEEL, { deltaY: -10, ctrlKey: true });
+    graph.emit(CommonEvent.WHEEL, { deltaY: -10 });
 
     expect(graph.getZoom()).toBe(1.1);
 
@@ -31,11 +31,11 @@ describe('behavior zoom canvas', () => {
   it('zoom out', () => {
     const currentZoom = graph.getZoom();
 
-    graph.emit(CommonEvent.WHEEL, { deltaY: 5, ctrlKey: true });
+    graph.emit(CommonEvent.WHEEL, { deltaY: 5 });
 
     expect(graph.getZoom()).toBe(currentZoom * 0.95);
 
-    graph.emit(CommonEvent.WHEEL, { deltaY: 5, ctrlKey: true });
+    graph.emit(CommonEvent.WHEEL, { deltaY: 5 });
 
     expect(graph.getZoom()).toBeCloseTo(currentZoom * 0.95 ** 2);
   });
@@ -218,11 +218,11 @@ describe('behavior zoom canvas', () => {
 
     const currentZoom = graph.getZoom();
 
-    graph.emit(CommonEvent.WHEEL, { deltaY: -10, ctrlKey: true });
+    graph.emit(CommonEvent.WHEEL, { deltaY: -10 });
     expect(graph.getZoom()).toBe(currentZoom);
 
     graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
-    graph.emit(CommonEvent.WHEEL, { deltaY: -10, ctrlKey: true });
+    graph.emit(CommonEvent.WHEEL, { deltaY: -10 });
     expect(graph.getZoom()).toBe(currentZoom * 1.1);
   });
 
@@ -234,7 +234,7 @@ describe('behavior zoom canvas', () => {
     const currentZoom = graph.getZoom();
     const targetZoom = currentZoom * 0.5;
 
-    graph.emit(CommonEvent.WHEEL, { deltaY: 50, ctrlKey: true });
+    graph.emit(CommonEvent.WHEEL, { deltaY: 50 });
 
     expect(graph.getZoom()).toBe(targetZoom);
 
