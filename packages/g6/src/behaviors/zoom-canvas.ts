@@ -146,8 +146,8 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
         zoomOut: ShortcutKey;
         reset: ShortcutKey;
       };
-      this.shortcut.bind(zoomIn, (event) => this.zoom(10, event, this.options.animation));
-      this.shortcut.bind(zoomOut, (event) => this.zoom(-10, event, this.options.animation));
+      this.shortcut.bind(zoomIn, (event) => this.zoom(10, event, this.options.animation, true));
+      this.shortcut.bind(zoomOut, (event) => this.zoom(-10, event, this.options.animation, true));
       this.shortcut.bind(reset, this.onReset);
     }
   }
@@ -159,14 +159,20 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
    * @param value - <zh/> 缩放值， > 0 放大， < 0 缩小 | <en/> Zoom value, > 0 zoom in, < 0 zoom out
    * @param event - <zh/> 事件对象 | <en/> Event object
    * @param animation - <zh/> 缩放动画配置 | <en/> Zoom animation configuration
+   * @param isShortCut
    */
   protected zoom = async (
     value: number,
     event: IWheelEvent | IKeyboardEvent | IPointerEvent,
     animation: ZoomCanvasOptions['animation'],
+    isShortCut = false,
   ) => {
     if (!this.validate(event)) return;
-    if (!event.ctrlKey) return; // when ctrl key is false, wheel event is scroll
+    /**
+     * 当带了双指操作时, ctrlKey 一定是 true, 无论有没有加上按下某按键
+     * isShortCut 主要是用于纯键盘组合按键
+     */
+    if (!event.ctrlKey && !isShortCut) return;
     const { graph } = this.context;
 
     let origin: Point | undefined = this.options.origin;

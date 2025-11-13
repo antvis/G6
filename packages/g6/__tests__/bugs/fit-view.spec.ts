@@ -19,8 +19,8 @@ describe('fit view', () => {
     await expect(graph).toMatchSnapshot(__filename);
 
     // wheel
-    graph.emit('wheel', { deltaY: 5 });
-    graph.emit('wheel', { deltaY: 5 });
+    graph.emit('wheel', { deltaY: 5, ctrlKey: true });
+    graph.emit('wheel', { deltaY: 5, ctrlKey: true });
 
     await expect(graph).toMatchSnapshot(__filename, 'after-wheel');
 
