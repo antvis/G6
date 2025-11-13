@@ -221,6 +221,38 @@ const graph = new Graph({
 });
 ```
 
+### 3. 触控板双指操作下，与 scroll-canvas 同时使用时的冲突
+
+zoom-canvas 的默认操作为 双指捏合或扩张; scroll-canvas 的默认操作为 双指滑动
+
+但当同时启用了 zoom-canvas scroll-canvas 时; 双指滑动操作会同时触发画布缩放和画布移动
+
+可以通过判断 `event.ctrlKey` 来确定具体行为; 为 `true` 时**双指捏合或扩张操作**，`false` 时**双指滑动操作**
+
+```js | ob { inject: true }
+import { Graph } from '@antv/g6';
+const graph = new Graph({
+  container: 'container',
+  layout: {
+    type: 'grid',
+  },
+  data: {
+    nodes: [{ id: 'node1' }, { id: 'node2' }, { id: 'node3' }],
+  },
+  behaviors: [
+    'scroll-canvas',
+    {
+      key: 'custom-zoom-canvas',
+      type: 'zoom-canvas',
+      enable: (event) => {
+        return event.ctrlKey; // ctrlKey 为 true 时，是双指捏合或扩张操作，false 时是双指滑动操作
+      },
+    },
+  ],
+});
+graph.render();
+```
+
 ## 实际案例
 
 ```js | ob { inject: true }
