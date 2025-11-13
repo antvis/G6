@@ -135,6 +135,8 @@ export class ScrollCanvas extends BaseBehavior<ScrollCanvasOptions> {
 
   private onWheel = async (event: WheelEvent) => {
     if (this.options.preventDefault) event.preventDefault();
+    if (event.ctrlKey) return; // when ctrlKey is true, wheel event is zoom;
+
     const diffX = event.deltaX;
     const diffY = event.deltaY;
 

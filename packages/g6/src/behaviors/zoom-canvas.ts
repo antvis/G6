@@ -166,6 +166,7 @@ export class ZoomCanvas extends BaseBehavior<ZoomCanvasOptions> {
     animation: ZoomCanvasOptions['animation'],
   ) => {
     if (!this.validate(event)) return;
+    if (!event.ctrlKey) return; // when ctrl key is false, wheel event is scroll
     const { graph } = this.context;
 
     let origin: Point | undefined = this.options.origin;
