@@ -355,8 +355,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
    */
   protected isKeydown(): boolean {
     const { trigger } = this.options;
-    const keys = Array.isArray(trigger) ? trigger : [];
-    return this.shortcut.match(keys);
+    if (!trigger?.length) return true;
+    return this.shortcut.match(trigger);
   }
 
   /**
