@@ -26,8 +26,8 @@ export default defineConfig({
       },
     },
     ai: {
-      // recommend: 'https://assets.antv.antgroup.com/g6/recommend.json',
-      recommend: 'https://site-data-pre.alipay.com/g6/recommend.json',
+      recommend: 'https://assets.antv.antgroup.com/g6/recommend.json',
+      // recommend: 'https://site-data-pre.alipay.com/g6/recommend.json',
     },
     defaultLanguage: 'zh', // 默认语言
     isAntVSite: false, // 是否是 AntV 的大官网
