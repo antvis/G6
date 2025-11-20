@@ -93,7 +93,7 @@ export class FocusElement extends BaseBehavior<FocusElementOptions> {
    * @returns <zh/> 是否一致 | <en/> Is consistent
    * @internal
    */
-  protected isKeydown(): boolean {
+  private isKeydown(): boolean {
     const { trigger } = this.options;
     if (!trigger?.length) return true;
     return this.shortcut.match(trigger);
@@ -109,6 +109,7 @@ export class FocusElement extends BaseBehavior<FocusElementOptions> {
 
   public destroy() {
     this.unbindEvents();
+    this.shortcut.destroy();
     super.destroy();
   }
 }
