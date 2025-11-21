@@ -8,6 +8,7 @@ import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { isToBeDestroyed } from '../utils/element';
 import { idOf } from '../utils/id';
 import { subStyleProps } from '../utils/prefix';
+import { Shortcut, ShortcutKey } from '../utils/shortcut';
 import { divide, rotate, subtract } from '../utils/vector';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
@@ -32,6 +33,14 @@ export interface DragElementOptions extends BaseBehaviorOptions, Prefix<'shadow'
    * @defaultValue ['node', 'combo'].includes(event.targetType)
    */
   enable?: boolean | ((event: IElementDragEvent) => boolean);
+  /**
+   * <zh/> 触发拖拽的方式
+   * 支持按下组合键才能触发拖拽元素
+   *
+   * <en/> The way to trigger drag element
+   * Support triggering by pressing a combination of keys
+   */
+  trigger?: ShortcutKey;
   /**
    * <zh/> 拖拽操作效果
    * - `'link'`: 将拖拽元素置入为目标元素的子元素
@@ -125,6 +134,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   static defaultOptions: Partial<DragElementOptions> = {
     animation: true,
     enable: (event) => ['node', 'combo'].includes(event.targetType),
+    trigger: [],
     dropEffect: 'move',
     state: 'selected',
     hideEdge: 'none',
@@ -156,8 +166,12 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
 
   private isDragging: boolean = false;
 
+  private shortcut: Shortcut;
+
   constructor(context: RuntimeContext, options: DragElementOptions) {
     super(context, Object.assign({}, DragElement.defaultOptions, options));
+    this.shortcut = new Shortcut(context.graph);
+
     this.onDragStart = this.onDragStart.bind(this);
     this.onDrag = this.onDrag.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
@@ -333,6 +347,19 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   };
 
   /**
+   * <zh/> 当前按键是否和 trigger 配置一致
+   *
+   * <en/> Is the current key consistent with the trigger configuration
+   * @returns <zh/> 是否一致 | <en/> Is consistent
+   * @internal
+   */
+  protected isKeydown(): boolean {
+    const { trigger } = this.options;
+    if (!trigger?.length) return true;
+    return this.shortcut.match(trigger);
+  }
+
+  /**
    * <zh/> 验证元素是否允许拖拽
    *
    * <en/> Verify if the element is allowed to be dragged
@@ -346,7 +373,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
       isToBeDestroyed(event.target) ||
       // @ts-expect-error private property
       // 避免动画冲突，在combo/node折叠展开过程中不触发
-      this.context.graph.isCollapsingExpanding
+      this.context.graph.isCollapsingExpanding ||
+      !this.isKeydown()
     )
       return false;
     const { enable } = this.options;
