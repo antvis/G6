@@ -43,6 +43,14 @@
         "en": "Hide Elements When Dragging and Zooming"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*AZ4IRJkIZr8AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "scroll-and-zoom.js",
+      "title": {
+        "zh": "滚动和缩放画布",
+        "en": "Scroll Canvas and Zoom Canvas"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VoBZR7Z62KEAAAAAAAAAAAAADmJ7AQ/original"
     }
   ]
 }

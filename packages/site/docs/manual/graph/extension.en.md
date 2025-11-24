@@ -31,7 +31,7 @@ import { CustomNode } from './my-custom-node';
 register(ExtensionCategory.NODE, 'custom-node', CustomNode);
 ```
 
-The first parameter of the `register` function is the type of the extension, the second parameter is the name of the extension, and the third parameter is the implementation of the extension.
+The first parameter of the `register` function is the type of the extension, the second parameter is the name of the extension, and the third parameter is the implementation of the extension(refer to the custom-related sections in the documentation for each extension type).
 
 Different types of extensions **can** use the same extension name, but when registering extensions of the same type, only the first registration will take effect.
 
