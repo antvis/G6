@@ -12,7 +12,7 @@ G6 provides a powerful event mechanism that allows you to respond to various int
 Events in G6 can be broadly categorized into the following types:
 
 1. **Element Events**: Events related to nodes, edges, and Combos, such as `node:click`, `edge:mouseenter`
-2. **Canvas Events**: Events related to the entire canvas, such as `canvas:drag`, `canvas:zoom`
+2. **Canvas Events**: Events related to the entire canvas, such as `canvas:drag`, `canvas:wheel`
 3. **Lifecycle Events**: Events related to the chart lifecycle, such as `beforerender`, `afterrender`
 
 ### Event Naming Convention
