@@ -8,7 +8,7 @@
 
 [![npm Version](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 [![Build Status](https://github.com/antvis/G6/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/G6/actions/workflows/build.yml)
-[![Coverage Status](https://coveralls.io/repos/github/antvis/G6/badge.svg)](https://coveralls.io/github/antvis/G6)
+[![codecov](https://codecov.io/gh/antvis/G6/graph/badge.svg?token=OvIk06tCPa)](https://codecov.io/gh/antvis/G6)
 [![npm Download](https://img.shields.io/npm/dm/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 ![typescript](https://img.shields.io/badge/language-typescript-blue.svg)
 [![npm License](https://img.shields.io/npm/l/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
@@ -103,6 +103,12 @@ graph.render();
 更多生态开源项目，欢迎 PR 收录进来。
 
 ## 📮 贡献
+
+感谢所有为这个项目做出贡献的人，感谢所有支持者！🙏
+
+<a href="https://openomy.app/github/antvis/G6" target="_blank" style="display: block; width: 100%;" align="center">
+  <img src="https://openomy.app/svg?repo=antvis/G6&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
+ </a>
 
 - **问题反馈**：使用过程遇到的 G6 的问题，欢迎提交 Issue，并附上可以复现问题的最小案例代码。
 - **贡献指南**：如何参与到 G6 的[开发和贡献](https://g6.antv.antgroup.com/manual/contribute)。

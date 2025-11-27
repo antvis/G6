@@ -1,29 +1,29 @@
 import { Graph } from '@antv/g6';
 
 function generateArray(groups = 10, itemsPerGroup = 6) {
-  const result = []
-  
+  const result = [];
+
   for (let i = 1; i <= groups; i++) {
     for (let j = 1; j <= itemsPerGroup; j++) {
-      const id = `${i}-${j}`
+      const id = `${i}-${j}`;
       result.push({
         id,
-        labelText: id
-      })
+        labelText: id,
+      });
     }
   }
-  
-  return result
+
+  return result;
 }
 
-const data = generateArray()
+const data = generateArray();
 
 const graph = new Graph({
   container: 'container',
-  data:{
-    nodes:data
+  data: {
+    nodes: data,
   },
-  animation:false,
+  animation: false,
   autoFit: 'view',
   autoResize: true,
   node: {
@@ -41,7 +41,7 @@ const graph = new Graph({
       i < 5 ? 100 : 1100, // y坐标
     ],
   })),
-  behaviors: ['drag-canvas', 'drag-element','zoom-canvas'],
+  behaviors: ['drag-canvas', 'drag-element', 'zoom-canvas'],
 });
 
 graph.render();

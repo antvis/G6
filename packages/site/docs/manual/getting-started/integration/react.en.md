@@ -5,7 +5,7 @@ order: 0
 
 ## Non-Strict Mode
 
-Refer to the example below, you can use G6 in React, and you can also view the [Live Example](https://codesandbox.io/p/sandbox/g6-react-gpcc43) 。
+Refer to the example below, you can use G6 in React, and you can also view the [Live Example](https://stackblitz.com/edit/g6-in-react?file=src/App.tsx) 。
 
 <embed src="@/common/react-snippet"></embed>
 

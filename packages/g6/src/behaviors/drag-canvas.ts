@@ -5,9 +5,10 @@ import type { RuntimeContext } from '../runtime/types';
 import type { IDragEvent, IKeyboardEvent, IPointerEvent, Vector2, ViewportAnimationEffectTiming } from '../types';
 import { getExpandedBBox, getPointBBox, isPointInBBox } from '../utils/bbox';
 import { parsePadding } from '../utils/padding';
+import { PinchHandler } from '../utils/pinch';
 import type { ShortcutKey } from '../utils/shortcut';
 import { Shortcut } from '../utils/shortcut';
-import { multiply, subtract } from '../utils/vector';
+import { multiply, rotate, subtract } from '../utils/vector';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -144,7 +145,7 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   };
 
   private onDrag = (event: IDragEvent) => {
-    if (!this.isDragging) return;
+    if (!this.isDragging || PinchHandler.isPinching) return;
     const x = event.movement?.x ?? event.dx;
     const y = event.movement?.y ?? event.dy;
     if ((x | y) !== 0) {
@@ -182,8 +183,14 @@ export class DragCanvas extends BaseBehavior<DragCanvasOptions> {
   protected async translate(offset: Vector2, animation?: ViewportAnimationEffectTiming) {
     offset = this.clampByDirection(offset);
     offset = this.clampByRange(offset);
+    offset = this.clampByRotation(offset);
 
     await this.context.graph.translateBy(offset, animation);
+  }
+
+  private clampByRotation([dx, dy]: Vector2): Vector2 {
+    const rotation = this.context.graph.getRotation();
+    return rotate([dx, dy], rotation);
   }
 
   private clampByDirection([dx, dy]: Vector2): Vector2 {

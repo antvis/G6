@@ -504,6 +504,40 @@ export class Graph extends EventEmitter {
   public getData(): Required<GraphData> {
     return this.context.model.getData();
   }
+  /**
+   * <zh/> 判断图中是否存在指定节点
+   * <en/> Determine whether a specified node exists in the graph
+   * @param {ID} id
+   * @returns {boolean}
+   * @remarks <zh/> 判断图中是否存在指定节点,避免在不存在的节点上进行操作
+   * <en/> Determine whether a specified node exists in the graph and avoid operating on non-existent nodes
+   */
+  public hasNode(id: ID): boolean {
+    return this.context.model.hasNode(id);
+  }
+  /**
+   * <zh/> 判断图中是否存在指定边
+   * <en/> Determine whether a specified edge exists in the graph
+   * @param {ID} id
+   * @returns  {boolean}
+   * @remarks <zh/> 判断图中是否存在指定边,避免在不存在的边上进行操作
+   * <en/> Determine whether a specified edge exists in the graph and avoid operating on non-existent edges
+   */
+  public hasEdge(id: ID): boolean {
+    return this.context.model.hasEdge(id);
+  }
+
+  /**
+   * <zh/> 判断图中是否存在指定组合
+   * <en/> Determine whether a specified combo exists in the graph
+   * @param {ID} id
+   * @returns  {boolean}
+   * @remarks <zh/> 判断图中是否存在指定组合,避免在不存在的组合上进行操作
+   * <en/> Determine whether a specified combo exists in the graph and avoid operating on non-existent combos
+   */
+  public hasCombo(id: ID): boolean {
+    return this.context.model.hasCombo(id);
+  }
 
   /**
    * <zh/> 获取单个元素数据
@@ -554,6 +588,10 @@ export class Graph extends EventEmitter {
    * const node1 = graph.getNodeData('node-1');
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 节点 id 必须存在，否则会抛出异常
+   *
+   * <en/> Node id must exist, otherwise an exception will be thrown
    */
   public getNodeData(id: ID): NodeData;
   /**
@@ -567,12 +605,16 @@ export class Graph extends EventEmitter {
    * const [node1, node2] = graph.getNodeData(['node-1', 'node-2']);
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 数组中的每个节点 id 必须存在，否则将抛出异常
+   *
+   * <en/> Each node id in the array must exist, otherwise an exception will be thrown
    */
   public getNodeData(ids: ID[]): NodeData[];
   public getNodeData(id?: ID | ID[]): NodeData | NodeData[] {
     if (id === undefined) return this.context.model.getNodeData();
     if (Array.isArray(id)) return this.context.model.getNodeData(id);
-    return this.context.model.getNodeData([id])?.[0];
+    return this.context.model.getNodeLikeDatum(id);
   }
 
   /**
@@ -594,6 +636,10 @@ export class Graph extends EventEmitter {
    * const edge1 = graph.getEdgeData('edge-1');
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 边 id 必须存在，否则会抛出异常
+   *
+   * <en/> Edge id must exist, otherwise an exception will be thrown
    */
   public getEdgeData(id: ID): EdgeData;
   /**
@@ -607,12 +653,16 @@ export class Graph extends EventEmitter {
    * const [edge1, edge2] = graph.getEdgeData(['edge-1', 'edge-2']);
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 数组中的每个边 id 必须存在，否则将抛出异常
+   *
+   * <en/> Each edge id in the array must exist, otherwise an exception will be thrown
    */
   public getEdgeData(ids: ID[]): EdgeData[];
   public getEdgeData(id?: ID | ID[]): EdgeData | EdgeData[] {
     if (id === undefined) return this.context.model.getEdgeData();
     if (Array.isArray(id)) return this.context.model.getEdgeData(id);
-    return this.context.model.getEdgeData([id])?.[0];
+    return this.context.model.getEdgeDatum(id);
   }
 
   /**
@@ -634,6 +684,10 @@ export class Graph extends EventEmitter {
    * const combo1 = graph.getComboData('combo-1');
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 组合 id 必须存在，否则会抛出异常
+   *
+   * <en/> Combo id must exist, otherwise an exception will be thrown
    */
   public getComboData(id: ID): ComboData;
   /**
@@ -647,12 +701,16 @@ export class Graph extends EventEmitter {
    * const [combo1, combo2] = graph.getComboData(['combo-1', 'combo-2']);
    * ```
    * @apiCategory data
+   * @remarks
+   * <zh/> 数组中的每个组合 id 必须存在，否则将抛出异常
+   *
+   * <en/> Each combo id in the array must exist, otherwise an exception will be thrown
    */
   public getComboData(ids: ID[]): ComboData[];
   public getComboData(id?: ID | ID[]): ComboData | ComboData[] {
     if (id === undefined) return this.context.model.getComboData();
     if (Array.isArray(id)) return this.context.model.getComboData(id);
-    return this.context.model.getComboData([id])?.[0];
+    return this.context.model.getNodeLikeDatum(id);
   }
 
   /**
@@ -1109,7 +1167,13 @@ export class Graph extends EventEmitter {
     // Wait for synchronous tasks to complete, to avoid problems caused by calling destroy immediately after render
     await Promise.resolve();
 
-    if (this.destroyed) throw new Error(format('The graph instance has been destroyed'));
+    if (this.destroyed) {
+      // 如果图实例已经被销毁，则不再执行任何操作
+      // If the graph instance has been destroyed, no further operations will be performed
+      // eslint-disable-next-line no-console
+      console.error(format('The graph instance has been destroyed'));
+      return;
+    }
 
     await this.initCanvas();
     this.initRuntime();
@@ -1375,7 +1439,7 @@ export class Graph extends EventEmitter {
    * @apiCategory viewport
    */
   public async zoomTo(zoom: number, animation?: ViewportAnimationEffectTiming, origin?: Point): Promise<void> {
-    this.context.viewport!.transform({ mode: 'absolute', scale: zoom, origin }, animation);
+    await this.context.viewport!.transform({ mode: 'absolute', scale: zoom, origin }, animation);
   }
 
   /**
@@ -1815,7 +1879,18 @@ export class Graph extends EventEmitter {
 
     await this.frontElement(id);
     this.isCollapsingExpanding = true;
-    this.setElementCollapsibility(id, true);
+
+    // 更新折叠状态 / Update collapse style
+    model.updateData(
+      elementType === 'node'
+        ? {
+            nodes: [{ id, style: { collapsed: true } }],
+          }
+        : {
+            combos: [{ id, style: { collapsed: true } }],
+          },
+    );
+
     if (elementType === 'node') await element!.collapseNode(id, options);
     else if (elementType === 'combo') await element!.collapseCombo(id, !!options.animation);
 
@@ -1841,7 +1916,18 @@ export class Graph extends EventEmitter {
     const elementType = model.getElementType(id);
 
     this.isCollapsingExpanding = true;
-    this.setElementCollapsibility(id, false);
+
+    // 更新折叠状态 / Update collapse style
+    model.updateData(
+      elementType === 'node'
+        ? {
+            nodes: [{ id, style: { collapsed: false } }],
+          }
+        : {
+            combos: [{ id, style: { collapsed: false } }],
+          },
+    );
+
     if (elementType === 'node') await element!.expandNode(id, options);
     else if (elementType === 'combo') await element!.expandCombo(id, !!options.animation);
 

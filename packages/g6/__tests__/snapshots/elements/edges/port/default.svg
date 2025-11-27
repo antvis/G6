@@ -12,7 +12,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 129 50)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort❓</tspan><tspan x="0" dx=".5" dy="23">targetPort❓</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort❓</tspan><tspan x="0" dx=".5" dy="23">targetPort❓</tspan></text>
             </g>
           </g>
         </g>
@@ -26,7 +26,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.98058 .19612 -.19612 .98058 391.4223 63.2845)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✅</tspan><tspan x="0" dx=".5" dy="23">targetPort✅</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✅</tspan><tspan x="0" dx=".5" dy="23">targetPort✅</tspan></text>
             </g>
           </g>
         </g>
@@ -40,7 +40,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.98058 -.19612 .19612 .98058 141.4223 136.7155)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✖️</tspan><tspan x="0" dx=".5" dy="23">targetPort✖️</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✖️</tspan><tspan x="0" dx=".5" dy="23">targetPort✖️</tspan></text>
             </g>
           </g>
         </g>
@@ -54,7 +54,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.98058 .19612 -.19612 .98058 391.4223 163.2845)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✖️</tspan><tspan x="0" dx=".5" dy="23">targetPort✅</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✖️</tspan><tspan x="0" dx=".5" dy="23">targetPort✅</tspan></text>
             </g>
           </g>
         </g>
@@ -68,7 +68,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.98995 -.14142 .14142 .98995 116.4598 236.9343)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✅</tspan><tspan x="0" dx=".5" dy="23">targetPort✖️</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✅</tspan><tspan x="0" dx=".5" dy="23">targetPort✖️</tspan></text>
             </g>
           </g>
         </g>
@@ -82,7 +82,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.9864 .1644 -.1644 .9864 389.3027 264.8838)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort❓</tspan><tspan x="0" dx=".5" dy="23">targetPort✖️</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort❓</tspan><tspan x="0" dx=".5" dy="23">targetPort✖️</tspan></text>
             </g>
           </g>
         </g>
@@ -96,7 +96,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 152 350)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort❓</tspan><tspan x="0" dx=".5" dy="23">targetPort✅</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort❓</tspan><tspan x="0" dx=".5" dy="23">targetPort✅</tspan></text>
             </g>
           </g>
         </g>
@@ -110,7 +110,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 381 350)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✖️</tspan><tspan x="0" dx=".5" dy="23">targetPort❓</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✖️</tspan><tspan x="0" dx=".5" dy="23">targetPort❓</tspan></text>
             </g>
           </g>
         </g>
@@ -124,7 +124,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.9864 -.1644 .1644 .9864 118.5884 463.5686)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✅</tspan><tspan x="0" dx=".5" dy="23">targetPort❓</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✅</tspan><tspan x="0" dx=".5" dy="23">targetPort❓</tspan></text>
             </g>
           </g>
         </g>
@@ -138,7 +138,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.99456 .1042 -.1042 .99456 375.6873 463.434)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✅</tspan><tspan x="0" dx=".5" dy="23">targetPort❓</tspan></text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle"><tspan x="0" dx=".5" dy="-11.5">sourcePort✅</tspan><tspan x="0" dx=".5" dy="23">targetPort❓</tspan></text>
             </g>
           </g>
         </g>

@@ -8,12 +8,12 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 18)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" opacity="0" paint-order="stroke" text-anchor="middle" visibility="hidden">label</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" opacity="0" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">label</text>
             </g>
           </g>
           <g fill="none" class="icon">
             <g>
-              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" font-size="16" opacity="0" paint-order="stroke" text-anchor="middle" visibility="hidden">icon</text>
+              <text fill="rgba(255,255,255,1)" class="icon" dominant-baseline="central" dx=".5" dy="0" font-size="16" opacity="0" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">icon</text>
             </g>
           </g>
           <g fill="none" class="badge-0" transform="matrix(1 0 0 1 16 -16)">
@@ -22,7 +22,7 @@
                 <path width="17.88" height="17" x="-4" y="0" fill="rgba(126,146,181,1)" stroke-width="0" d="m4.5 0 .88 0a8.5 8.5 0 0 1 8.5 8.5l0 0a8.5 8.5 0 0 1-8.5 8.5l-.88 0a8.5 8.5 0 0 1-8.5-8.5l0 0a8.5 8.5 0 0 1 8.5-8.5z" class="background" opacity="0" visibility="hidden"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx=".5" dy="8.5" font-family="system-ui, sans-serif" font-size="8" opacity="0" paint-order="stroke" text-anchor="left" visibility="hidden">b1</text>
+                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx=".5" dy="8.5" font-family="system-ui, sans-serif" font-size="8" opacity="0" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="hidden">b1</text>
               </g>
             </g>
           </g>

@@ -1,8 +1,5 @@
-<iframe src="https://codesandbox.io/embed/gpcc43?view=split&module=%2Fsrc%2FApp.tsx&hidenavigation=1&theme=light"
+<iframe src="https://stackblitz.com/edit/g6-in-react?embed=1&file=src/App.tsx&theme=light"
      style="width:100%; height: 500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="G6 React"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
 ```jsx

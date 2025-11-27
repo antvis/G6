@@ -4,28 +4,76 @@ const style = document.createElement('style');
 style.innerHTML = `@import url('${iconfont.css}');`;
 document.head.appendChild(style);
 
-fetch('https://assets.antv.antgroup.com/g6/element-nodes.json')
-  .then((res) => res.json())
-  .then((data) => {
-    const graph = new Graph({
-      container: 'container',
-      data,
-      node: {
-        type: 'rect',
-        style: {
-          radius: 4, // 👈🏻 Set the radius.
-          size: 40,
-          labelText: (d) => d.id,
-          iconWidth: 20,
-          iconHeight: 20,
-          iconFontFamily: 'iconfont',
-          iconText: '\ue602',
-        },
-      },
-      layout: {
-        type: 'grid',
-      },
-    });
+const data = {
+  nodes: [
+    { id: 'default' },
+    { id: 'halo' },
+    { id: 'badges' },
+    { id: 'ports' },
+    {
+      id: 'active',
+      states: ['active'],
+    },
+    {
+      id: 'selected',
+      states: ['selected'],
+    },
+    {
+      id: 'highlight',
+      states: ['highlight'],
+    },
+    {
+      id: 'inactive',
+      states: ['inactive'],
+    },
+    {
+      id: 'disabled',
+      states: ['disabled'],
+    },
+  ],
+};
 
-    graph.render();
-  });
+const graph = new Graph({
+  container: 'container',
+  data,
+  node: {
+    type: 'rect',
+    style: {
+      radius: 4, // 👈🏻 Set the radius.
+      size: 40,
+      labelText: (d) => d.id,
+      iconFontFamily: 'iconfont',
+      iconText: '\ue602',
+      halo: (d) => (d.id === 'halo' ? true : false),
+      badges: (d) =>
+        d.id === 'badges'
+          ? [
+              {
+                text: 'A',
+                placement: 'right-top',
+              },
+              {
+                text: 'Important',
+                placement: 'right',
+              },
+              {
+                text: 'Notice',
+                placement: 'right-bottom',
+              },
+            ]
+          : [],
+      badgeFontSize: 8,
+      badgePadding: [1, 4],
+      portR: 3,
+      ports: (d) =>
+        d.id === 'ports'
+          ? [{ placement: 'left' }, { placement: 'right' }, { placement: 'top' }, { placement: 'bottom' }]
+          : [],
+    },
+  },
+  layout: {
+    type: 'grid',
+  },
+});
+
+graph.render();

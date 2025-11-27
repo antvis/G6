@@ -47,7 +47,7 @@ const graph = new Graph({
       radius: 8,
       labelText: (d) => d.id,
       labelBackground: true,
-    }
+    },
   },
   edge: {
     type: 'polyline',

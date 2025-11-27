@@ -1127,7 +1127,7 @@
               <path width="55.28" height="23" x="-27.14" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-27.14 0 55.28 0 0 23-55.28 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Thracian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Thracian</text>
             </g>
           </g>
         </g>
@@ -1140,7 +1140,7 @@
               <path width="54.92" height="23" x="-26.96" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-26.96 0 54.92 0 0 23-54.92 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Albanian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Albanian</text>
             </g>
           </g>
         </g>
@@ -1153,7 +1153,7 @@
               <path width="74.24" height="23" x="-36.62" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-36.62 0 74.24 0 0 23-74.24 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Tocharian A</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Tocharian A</text>
             </g>
           </g>
         </g>
@@ -1166,7 +1166,7 @@
               <path width="39.32" height="23" x="-19.16" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-19.16 0 39.32 0 0 23-39.32 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Greek</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Greek</text>
             </g>
           </g>
         </g>
@@ -1179,7 +1179,7 @@
               <path width="50.96" height="23" x="-24.98" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-24.98 0 50.96 0 0 23-50.96 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Faroese</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Faroese</text>
             </g>
           </g>
         </g>
@@ -1192,7 +1192,7 @@
               <path width="66.8" height="23" x="-32.9" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-32.9 0 66.8 0 0 23-66.8 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Norwegian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Norwegian</text>
             </g>
           </g>
         </g>
@@ -1205,7 +1205,7 @@
               <path width="56.72" height="23" x="-27.86" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-27.86 0 56.72 0 0 23-56.72 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Icelandic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Icelandic</text>
             </g>
           </g>
         </g>
@@ -1218,7 +1218,7 @@
               <path width="39.92" height="23" x="-19.46" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-19.46 0 39.92 0 0 23-39.92 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Polish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Polish</text>
             </g>
           </g>
         </g>
@@ -1231,7 +1231,7 @@
               <path width="50.84" height="23" x="-24.92" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-24.92 0 50.84 0 0 23-50.84 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Slovene</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Slovene</text>
             </g>
           </g>
         </g>
@@ -1244,7 +1244,7 @@
               <path width="33.08" height="23" x="-16.04" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-16.04 0 33.08 0 0 23-33.08 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Indic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Indic</text>
             </g>
           </g>
         </g>
@@ -1257,7 +1257,7 @@
               <path width="42.8" height="23" x="-20.9" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-20.9 0 42.8 0 0 23-42.8 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Dardic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Dardic</text>
             </g>
           </g>
         </g>
@@ -1270,7 +1270,7 @@
               <path width="88.76" height="23" x="-43.88" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-43.88 0 88.76 0 0 23-88.76 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">East Germanic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">East Germanic</text>
             </g>
           </g>
         </g>
@@ -1283,7 +1283,7 @@
               <path width="87.08" height="23" x="-43.04" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-43.04 0 87.08 0 0 23-87.08 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Middle Danish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Middle Danish</text>
             </g>
           </g>
         </g>
@@ -1296,7 +1296,7 @@
               <path width="90.32" height="23" x="-44.66" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-44.66 0 90.32 0 0 23-90.32 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old Norwegian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old Norwegian</text>
             </g>
           </g>
         </g>
@@ -1309,7 +1309,7 @@
               <path width="80.24" height="23" x="-39.62" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-39.62 0 80.24 0 0 23-80.24 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old Icelandic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old Icelandic</text>
             </g>
           </g>
         </g>
@@ -1322,7 +1322,7 @@
               <path width="62.48" height="23" x="-30.74" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-30.74 0 62.48 0 0 23-62.48 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Tocharian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Tocharian</text>
             </g>
           </g>
         </g>
@@ -1335,7 +1335,7 @@
               <path width="93.68" height="23" x="-46.34" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-46.34 0 93.68 0 0 23-93.68 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Latino-Faliscan</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Latino-Faliscan</text>
             </g>
           </g>
         </g>
@@ -1348,7 +1348,7 @@
               <path width="89.48" height="23" x="-44.24" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-44.24 0 89.48 0 0 23-89.48 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Osco-Umbrian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Osco-Umbrian</text>
             </g>
           </g>
         </g>
@@ -1361,7 +1361,7 @@
               <path width="74.6" height="23" x="-36.8" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-36.8 0 74.6 0 0 23-74.6 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Balto-Slavic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Balto-Slavic</text>
             </g>
           </g>
         </g>
@@ -1374,7 +1374,7 @@
               <path width="100.4709" height="25" x="-49.7355" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-49.7355 0 100.471 0 0 25-100.471 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">North Germanic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">North Germanic</text>
             </g>
           </g>
         </g>
@@ -1387,7 +1387,7 @@
               <path width="40.7545" height="25" x="-19.8773" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-19.8773 0 40.7546 0 0 25-40.7546 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Slavic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Slavic</text>
             </g>
           </g>
         </g>
@@ -1400,7 +1400,7 @@
               <path width="306.8" height="55" x="-152.9" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-152.9 0 306.8 0 0 55-306.8 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="27.5" font-family="Gill Sans" font-size="30" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Proto Indo-European</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="27.5" font-family="Gill Sans" font-size="30" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Proto Indo-European</text>
             </g>
           </g>
         </g>
@@ -1413,7 +1413,7 @@
               <path width="122.9" height="55" x="-60.95" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-60.95 0 122.9 0 0 55-122.9 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="27.5" font-family="Gill Sans" font-size="30" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Sanskrit</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="27.5" font-family="Gill Sans" font-size="30" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Sanskrit</text>
             </g>
           </g>
         </g>
@@ -1426,7 +1426,7 @@
               <path width="60.8218" height="43" x="-29.9109" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-29.911 0 60.822 0 0 43-60.822 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="21.5" font-family="Gill Sans" font-size="23.4545" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Latin</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="21.5" font-family="Gill Sans" font-size="23.4545" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Latin</text>
             </g>
           </g>
         </g>
@@ -1439,7 +1439,7 @@
               <path width="127.7545" height="35" x="-63.3773" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-63.3773 0 127.7546 0 0 35-127.7546 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="17.5" font-family="Gill Sans" font-size="19.0909" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Middle Dutch</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="17.5" font-family="Gill Sans" font-size="19.0909" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Middle Dutch</text>
             </g>
           </g>
         </g>
@@ -1452,7 +1452,7 @@
               <path width="129.62" height="33" x="-64.31" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-64.31 0 129.62 0 0 33-129.62 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="16.5" font-family="Gill Sans" font-size="16.9091" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">West Germanic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="16.5" font-family="Gill Sans" font-size="16.9091" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">West Germanic</text>
             </g>
           </g>
         </g>
@@ -1465,7 +1465,7 @@
               <path width="59.9545" height="33" x="-29.4773" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-29.4773 0 59.9546 0 0 33-59.9546 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="16.5" font-family="Gill Sans" font-size="16.9091" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Iranian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="16.5" font-family="Gill Sans" font-size="16.9091" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Iranian</text>
             </g>
           </g>
         </g>
@@ -1478,7 +1478,7 @@
               <path width="92.9218" height="29" x="-45.9609" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-45.961 0 92.922 0 0 29-92.922 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="14.5" font-family="Gill Sans" font-size="14.7273" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">South Slavic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="14.5" font-family="Gill Sans" font-size="14.7273" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">South Slavic</text>
             </g>
           </g>
         </g>
@@ -1491,7 +1491,7 @@
               <path width="73.04" height="29" x="-36.02" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-36.02 0 73.04 0 0 29-73.04 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="14.5" font-family="Gill Sans" font-size="14.7273" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Brythonic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="14.5" font-family="Gill Sans" font-size="14.7273" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Brythonic</text>
             </g>
           </g>
         </g>
@@ -1504,7 +1504,7 @@
               <path width="71.42" height="29" x="-35.21" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-35.21 0 71.42 0 0 29-71.42 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="14.5" font-family="Gill Sans" font-size="14.7273" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Anatolian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="14.5" font-family="Gill Sans" font-size="14.7273" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Anatolian</text>
             </g>
           </g>
         </g>
@@ -1517,7 +1517,7 @@
               <path width="38.8727" height="25" x="-18.9364" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-18.9364 0 38.8728 0 0 25-38.8728 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Baltic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Baltic</text>
             </g>
           </g>
         </g>
@@ -1530,7 +1530,7 @@
               <path width="54.1782" height="25" x="-26.5891" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-26.589 0 54.178 0 0 25-54.178 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Goidelic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Goidelic</text>
             </g>
           </g>
         </g>
@@ -1543,7 +1543,7 @@
               <path width="122.96" height="23" x="-60.98" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-60.98 0 122.96 0 0 23-122.96 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Middle High German</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Middle High German</text>
             </g>
           </g>
         </g>
@@ -1556,7 +1556,7 @@
               <path width="38.36" height="23" x="-18.68" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-18.68 0 38.36 0 0 23-38.36 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Celtic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Celtic</text>
             </g>
           </g>
         </g>
@@ -1569,7 +1569,7 @@
               <path width="32.72" height="23" x="-15.86" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-15.86 0 32.72 0 0 23-32.72 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Italic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Italic</text>
             </g>
           </g>
         </g>
@@ -1582,7 +1582,7 @@
               <path width="71.48" height="23" x="-35.24" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-35.24 0 71.48 0 0 23-71.48 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old Persian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old Persian</text>
             </g>
           </g>
         </g>
@@ -1595,7 +1595,7 @@
               <path width="77.12" height="23" x="-38.06" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-38.06 0 77.12 0 0 23-77.12 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old Swedish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old Swedish</text>
             </g>
           </g>
         </g>
@@ -1608,7 +1608,7 @@
               <path width="96.08" height="23" x="-47.54" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-47.54 0 96.08 0 0 23-96.08 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Middle Swedish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Middle Swedish</text>
             </g>
           </g>
         </g>
@@ -1621,7 +1621,7 @@
               <path width="70.4" height="23" x="-34.7" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-34.7 0 70.4 0 0 23-70.4 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old English</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old English</text>
             </g>
           </g>
         </g>
@@ -1634,7 +1634,7 @@
               <path width="89.36" height="23" x="-44.18" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-44.18 0 89.36 0 0 23-89.36 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Middle English</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Middle English</text>
             </g>
           </g>
         </g>
@@ -1647,7 +1647,7 @@
               <path width="66.8" height="23" x="-32.9" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-32.9 0 66.8 0 0 23-66.8 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old Frisian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old Frisian</text>
             </g>
           </g>
         </g>
@@ -1660,7 +1660,7 @@
               <path width="63.2" height="23" x="-31.1" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-31.1 0 63.2 0 0 23-63.2 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old Dutch</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old Dutch</text>
             </g>
           </g>
         </g>
@@ -1673,7 +1673,7 @@
               <path width="100.88" height="23" x="-49.94" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-49.94 0 100.88 0 0 23-100.88 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old Low German</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old Low German</text>
             </g>
           </g>
         </g>
@@ -1686,7 +1686,7 @@
               <path width="119.84" height="23" x="-59.42" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-59.42 0 119.84 0 0 23-119.84 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Middle Low German</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Middle Low German</text>
             </g>
           </g>
         </g>
@@ -1699,7 +1699,7 @@
               <path width="104" height="23" x="-51.5" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-51.5 0 104 0 0 23-104 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old High German</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old High German</text>
             </g>
           </g>
         </g>
@@ -1712,7 +1712,7 @@
               <path width="90.44" height="23" x="-44.72" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-44.72 0 90.44 0 0 23-90.44 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Middle Persian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Middle Persian</text>
             </g>
           </g>
         </g>
@@ -1725,7 +1725,7 @@
               <path width="78.2" height="23" x="-38.6" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-38.6 0 78.2 0 0 23-78.2 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old Prussian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old Prussian</text>
             </g>
           </g>
         </g>
@@ -1738,7 +1738,7 @@
               <path width="65" height="23" x="-32" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-32 0 65 0 0 23-65 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Lithuanian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Lithuanian</text>
             </g>
           </g>
         </g>
@@ -1751,7 +1751,7 @@
               <path width="46.88" height="23" x="-22.94" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-22.94 0 46.88 0 0 23-46.88 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Latvian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Latvian</text>
             </g>
           </g>
         </g>
@@ -1764,7 +1764,7 @@
               <path width="59.24" height="23" x="-29.12" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-29.12 0 59.24 0 0 23-59.24 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Bulgarian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Bulgarian</text>
             </g>
           </g>
         </g>
@@ -1777,7 +1777,7 @@
               <path width="122.48" height="23" x="-60.74" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-60.74 0 122.48 0 0 23-122.48 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Old Church Slavonic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Old Church Slavonic</text>
             </g>
           </g>
         </g>
@@ -1790,7 +1790,7 @@
               <path width="75.2" height="23" x="-37.1" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-37.1 0 75.2 0 0 23-75.2 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Macedonian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Macedonian</text>
             </g>
           </g>
         </g>
@@ -1803,7 +1803,7 @@
               <path width="93.92" height="23" x="-46.46" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-46.46 0 93.92 0 0 23-93.92 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Serbo-Croatian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Serbo-Croatian</text>
             </g>
           </g>
         </g>
@@ -1816,7 +1816,7 @@
               <path width="43.04" height="23" x="-21.02" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-21.02 0 43.04 0 0 23-43.04 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Slovak</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Slovak</text>
             </g>
           </g>
         </g>
@@ -1829,7 +1829,7 @@
               <path width="41.36" height="23" x="-20.18" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-20.18 0 41.36 0 0 23-41.36 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Czech</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Czech</text>
             </g>
           </g>
         </g>
@@ -1842,7 +1842,7 @@
               <path width="55.28" height="23" x="-27.14" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-27.14 0 55.28 0 0 23-55.28 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Wendish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Wendish</text>
             </g>
           </g>
         </g>
@@ -1855,7 +1855,7 @@
               <path width="50.24" height="23" x="-24.62" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-24.62 0 50.24 0 0 23-50.24 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Russian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Russian</text>
             </g>
           </g>
         </g>
@@ -1868,7 +1868,7 @@
               <path width="59.36" height="23" x="-29.18" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-29.18 0 59.36 0 0 23-59.36 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Ukrainian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Ukrainian</text>
             </g>
           </g>
         </g>
@@ -1881,7 +1881,7 @@
               <path width="65.24" height="23" x="-32.12" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-32.12 0 65.24 0 0 23-65.24 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Belarusian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Belarusian</text>
             </g>
           </g>
         </g>
@@ -1894,7 +1894,7 @@
               <path width="40.52" height="23" x="-19.76" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-19.76 0 40.52 0 0 23-40.52 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Rusyn</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Rusyn</text>
             </g>
           </g>
         </g>
@@ -1907,7 +1907,7 @@
               <path width="53.6" height="23" x="-26.3" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-26.3 0 53.6 0 0 23-53.6 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Swedish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Swedish</text>
             </g>
           </g>
         </g>
@@ -1920,7 +1920,7 @@
               <path width="44.6" height="23" x="-21.8" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-21.8 0 44.6 0 0 23-44.6 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Danish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Danish</text>
             </g>
           </g>
         </g>
@@ -1933,7 +1933,7 @@
               <path width="46.88" height="23" x="-22.94" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-22.94 0 46.88 0 0 23-46.88 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">English</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">English</text>
             </g>
           </g>
         </g>
@@ -1946,7 +1946,7 @@
               <path width="43.28" height="23" x="-21.14" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-21.14 0 43.28 0 0 23-43.28 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Frisian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Frisian</text>
             </g>
           </g>
         </g>
@@ -1959,7 +1959,7 @@
               <path width="58.88" height="23" x="-28.94" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-28.94 0 58.88 0 0 23-58.88 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Hollandic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Hollandic</text>
             </g>
           </g>
         </g>
@@ -1972,7 +1972,7 @@
               <path width="49.4" height="23" x="-24.2" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-24.2 0 49.4 0 0 23-49.4 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Flemish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Flemish</text>
             </g>
           </g>
         </g>
@@ -1985,7 +1985,7 @@
               <path width="39.68" height="23" x="-19.34" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-19.34 0 39.68 0 0 23-39.68 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Dutch</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Dutch</text>
             </g>
           </g>
         </g>
@@ -1998,7 +1998,7 @@
               <path width="69.32" height="23" x="-34.16" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-34.16 0 69.32 0 0 23-69.32 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Limburgish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Limburgish</text>
             </g>
           </g>
         </g>
@@ -2011,7 +2011,7 @@
               <path width="67.52" height="23" x="-33.26" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-33.26 0 67.52 0 0 23-67.52 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Brabantian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Brabantian</text>
             </g>
           </g>
         </g>
@@ -2024,7 +2024,7 @@
               <path width="72.08" height="23" x="-35.54" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-35.54 0 72.08 0 0 23-72.08 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Rhinelandic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Rhinelandic</text>
             </g>
           </g>
         </g>
@@ -2037,7 +2037,7 @@
               <path width="77.36" height="23" x="-38.18" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-38.18 0 77.36 0 0 23-77.36 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Low German</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Low German</text>
             </g>
           </g>
         </g>
@@ -2050,7 +2050,7 @@
               <path width="89.84" height="23" x="-44.42" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-44.42 0 89.84 0 0 23-89.84 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">(High) German</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">(High) German</text>
             </g>
           </g>
         </g>
@@ -2063,7 +2063,7 @@
               <path width="48.08" height="23" x="-23.54" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-23.54 0 48.08 0 0 23-48.08 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Yiddish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Yiddish</text>
             </g>
           </g>
         </g>
@@ -2076,7 +2076,7 @@
               <path width="43.04" height="23" x="-21.02" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-21.02 0 43.04 0 0 23-43.04 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Gothic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Gothic</text>
             </g>
           </g>
         </g>
@@ -2089,7 +2089,7 @@
               <path width="40.52" height="23" x="-19.76" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-19.76 0 40.52 0 0 23-40.52 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Welsh</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Welsh</text>
             </g>
           </g>
         </g>
@@ -2102,7 +2102,7 @@
               <path width="43.64" height="23" x="-21.32" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-21.32 0 43.64 0 0 23-43.64 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Breton</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Breton</text>
             </g>
           </g>
         </g>
@@ -2115,7 +2115,7 @@
               <path width="49.64" height="23" x="-24.32" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-24.32 0 49.64 0 0 23-49.64 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Cornish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Cornish</text>
             </g>
           </g>
         </g>
@@ -2128,7 +2128,7 @@
               <path width="60.32" height="23" x="-29.66" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-29.66 0 60.32 0 0 23-60.32 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Cuymbric</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Cuymbric</text>
             </g>
           </g>
         </g>
@@ -2141,7 +2141,7 @@
               <path width="77.6" height="23" x="-38.3" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-38.3 0 77.6 0 0 23-77.6 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Modern Irish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Modern Irish</text>
             </g>
           </g>
         </g>
@@ -2154,7 +2154,7 @@
               <path width="92.12" height="23" x="-45.56" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-45.56 0 92.12 0 0 23-92.12 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Scottish Gaelic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Scottish Gaelic</text>
             </g>
           </g>
         </g>
@@ -2167,7 +2167,7 @@
               <path width="36.08" height="23" x="-17.54" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-17.54 0 36.08 0 0 23-36.08 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Manx</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Manx</text>
             </g>
           </g>
         </g>
@@ -2180,7 +2180,7 @@
               <path width="53.84" height="23" x="-26.42" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-26.42 0 53.84 0 0 23-53.84 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Umbrian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Umbrian</text>
             </g>
           </g>
         </g>
@@ -2193,7 +2193,7 @@
               <path width="41.6" height="23" x="-20.3" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-20.3 0 41.6 0 0 23-41.6 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Oscan</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Oscan</text>
             </g>
           </g>
         </g>
@@ -2206,7 +2206,7 @@
               <path width="64.28" height="23" x="-31.64" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-31.64 0 64.28 0 0 23-64.28 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Portugese</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Portugese</text>
             </g>
           </g>
         </g>
@@ -2219,7 +2219,7 @@
               <path width="50.96" height="23" x="-24.98" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-24.98 0 50.96 0 0 23-50.96 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Spanish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Spanish</text>
             </g>
           </g>
         </g>
@@ -2232,7 +2232,7 @@
               <path width="44.84" height="23" x="-21.92" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-21.92 0 44.84 0 0 23-44.84 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">French</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">French</text>
             </g>
           </g>
         </g>
@@ -2245,7 +2245,7 @@
               <path width="61.76" height="23" x="-30.38" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-30.38 0 61.76 0 0 23-61.76 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Romanian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Romanian</text>
             </g>
           </g>
         </g>
@@ -2258,7 +2258,7 @@
               <path width="39.8" height="23" x="-19.4" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-19.4 0 39.8 0 0 23-39.8 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Italian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Italian</text>
             </g>
           </g>
         </g>
@@ -2271,7 +2271,7 @@
               <path width="48.8" height="23" x="-23.9" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-23.9 0 48.8 0 0 23-48.8 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Catalan</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Catalan</text>
             </g>
           </g>
         </g>
@@ -2284,7 +2284,7 @@
               <path width="112.64" height="23" x="-55.82" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-55.82 0 112.64 0 0 23-112.64 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Franco-Provençal</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Franco-Provençal</text>
             </g>
           </g>
         </g>
@@ -2297,7 +2297,7 @@
               <path width="104.96" height="23" x="-51.98" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-51.98 0 104.96 0 0 23-104.96 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Rhaeto-Romance</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Rhaeto-Romance</text>
             </g>
           </g>
         </g>
@@ -2310,7 +2310,7 @@
               <path width="52.16" height="23" x="-25.58" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-25.58 0 52.16 0 0 23-52.16 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Faliscan</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Faliscan</text>
             </g>
           </g>
         </g>
@@ -2323,7 +2323,7 @@
               <path width="40.88" height="23" x="-19.94" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-19.94 0 40.88 0 0 23-40.88 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Hittite</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Hittite</text>
             </g>
           </g>
         </g>
@@ -2336,7 +2336,7 @@
               <path width="39.32" height="23" x="-19.16" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-19.16 0 39.32 0 0 23-39.32 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Palaic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Palaic</text>
             </g>
           </g>
         </g>
@@ -2349,7 +2349,7 @@
               <path width="38.6" height="23" x="-18.8" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-18.8 0 38.6 0 0 23-38.6 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Luwic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Luwic</text>
             </g>
           </g>
         </g>
@@ -2362,7 +2362,7 @@
               <path width="43.16" height="23" x="-21.08" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-21.08 0 43.16 0 0 23-43.16 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Lydian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Lydian</text>
             </g>
           </g>
         </g>
@@ -2375,7 +2375,7 @@
               <path width="32.84" height="23" x="-15.92" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-15.92 0 32.84 0 0 23-32.84 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Dard</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Dard</text>
             </g>
           </g>
         </g>
@@ -2388,7 +2388,7 @@
               <path width="41" height="23" x="-20" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-20 0 41 0 0 23-41 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Sindhi</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Sindhi</text>
             </g>
           </g>
         </g>
@@ -2401,7 +2401,7 @@
               <path width="47.84" height="23" x="-23.42" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-23.42 0 47.84 0 0 23-47.84 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Romani</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Romani</text>
             </g>
           </g>
         </g>
@@ -2414,7 +2414,7 @@
               <path width="33.44" height="23" x="-16.22" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-16.22 0 33.44 0 0 23-33.44 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Urdu</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Urdu</text>
             </g>
           </g>
         </g>
@@ -2427,7 +2427,7 @@
               <path width="35" height="23" x="-17" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-17 0 35 0 0 23-35 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Hindi</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Hindi</text>
             </g>
           </g>
         </g>
@@ -2440,7 +2440,7 @@
               <path width="37.88" height="23" x="-18.44" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-18.44 0 37.88 0 0 23-37.88 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Bihari</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Bihari</text>
             </g>
           </g>
         </g>
@@ -2453,7 +2453,7 @@
               <path width="63.92" height="23" x="-31.46" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-31.46 0 63.92 0 0 23-63.92 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Assamese</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Assamese</text>
             </g>
           </g>
         </g>
@@ -2466,7 +2466,7 @@
               <path width="47.6" height="23" x="-23.3" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-23.3 0 47.6 0 0 23-47.6 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Bengali</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Bengali</text>
             </g>
           </g>
         </g>
@@ -2479,7 +2479,7 @@
               <path width="48.68" height="23" x="-23.84" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-23.84 0 48.68 0 0 23-48.68 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Marathi</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Marathi</text>
             </g>
           </g>
         </g>
@@ -2492,7 +2492,7 @@
               <path width="50.24" height="23" x="-24.62" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-24.62 0 50.24 0 0 23-50.24 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Gujarati</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Gujarati</text>
             </g>
           </g>
         </g>
@@ -2505,7 +2505,7 @@
               <path width="47.72" height="23" x="-23.36" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-23.36 0 47.72 0 0 23-47.72 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Punjabi</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Punjabi</text>
             </g>
           </g>
         </g>
@@ -2518,7 +2518,7 @@
               <path width="60.56" height="23" x="-29.78" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-29.78 0 60.56 0 0 23-60.56 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Sinhalese</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Sinhalese</text>
             </g>
           </g>
         </g>
@@ -2531,7 +2531,7 @@
               <path width="47.96" height="23" x="-23.48" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-23.48 0 47.96 0 0 23-47.96 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Persian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Persian</text>
             </g>
           </g>
         </g>
@@ -2544,7 +2544,7 @@
               <path width="46.28" height="23" x="-22.64" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-22.64 0 46.28 0 0 23-46.28 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Pahlavi</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Pahlavi</text>
             </g>
           </g>
         </g>
@@ -2557,7 +2557,7 @@
               <path width="47.24" height="23" x="-23.12" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-23.12 0 47.24 0 0 23-47.24 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Balochi</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Balochi</text>
             </g>
           </g>
         </g>
@@ -2570,7 +2570,7 @@
               <path width="49.28" height="23" x="-24.14" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-24.14 0 49.28 0 0 23-49.28 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Kurdish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Kurdish</text>
             </g>
           </g>
         </g>
@@ -2583,7 +2583,7 @@
               <path width="44.96" height="23" x="-21.98" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-21.98 0 44.96 0 0 23-44.96 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Pashto</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Pashto</text>
             </g>
           </g>
         </g>
@@ -2596,7 +2596,7 @@
               <path width="52.04" height="23" x="-25.52" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-25.52 0 52.04 0 0 23-52.04 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Sogdian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Sogdian</text>
             </g>
           </g>
         </g>
@@ -2609,7 +2609,7 @@
               <path width="74" height="23" x="-36.5" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-36.5 0 74 0 0 23-74 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Tocharian B</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Tocharian B</text>
             </g>
           </g>
         </g>
@@ -2622,7 +2622,7 @@
               <path width="55.76" height="23" x="-27.38" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-27.38 0 55.76 0 0 23-55.76 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Phrygian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Phrygian</text>
             </g>
           </g>
         </g>
@@ -2635,7 +2635,7 @@
               <path width="59.72" height="23" x="-29.36" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-29.36 0 59.72 0 0 23-59.72 0z" class="background" opacity=".75" visibility="hidden"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="hidden">Armenian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">Armenian</text>
             </g>
           </g>
         </g>
@@ -2648,7 +2648,7 @@
               <path width="51.32" height="23" x="-25.16" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-25.16 0 51.32 0 0 23-51.32 0z" class="background" opacity=".75" visibility="visible"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="visible">Hellenic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">Hellenic</text>
             </g>
           </g>
         </g>
@@ -2661,7 +2661,7 @@
               <path width="68.12" height="23" x="-33.56" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-33.56 0 68.12 0 0 23-68.12 0z" class="background" opacity=".75" visibility="visible"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="visible">Old Danish</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">Old Danish</text>
             </g>
           </g>
         </g>
@@ -2674,7 +2674,7 @@
               <path width="109.28" height="23" x="-54.14" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-54.14 0 109.28 0 0 23-109.28 0z" class="background" opacity=".75" visibility="visible"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="visible">Middle Norwegian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="Gill Sans" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">Middle Norwegian</text>
             </g>
           </g>
         </g>
@@ -2687,7 +2687,7 @@
               <path width="78.2655" height="25" x="-38.6327" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-38.6327 0 78.2654 0 0 25-78.2654 0z" class="background" opacity=".75" visibility="visible"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="visible">Indo-Iranian</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">Indo-Iranian</text>
             </g>
           </g>
         </g>
@@ -2700,7 +2700,7 @@
               <path width="65.4691" height="25" x="-32.2345" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-32.2345 0 65.469 0 0 25-65.469 0z" class="background" opacity=".75" visibility="visible"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="visible">Old Norse</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">Old Norse</text>
             </g>
           </g>
         </g>
@@ -2713,7 +2713,7 @@
               <path width="62.7091" height="25" x="-30.8545" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-30.8545 0 62.709 0 0 25-62.709 0z" class="background" opacity=".75" visibility="visible"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="visible">Germanic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="12.5" font-family="Gill Sans" font-size="12.5455" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">Germanic</text>
             </g>
           </g>
         </g>
@@ -2726,7 +2726,7 @@
               <path width="87.7673" height="29" x="-43.3836" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-43.3836 0 87.7672 0 0 29-87.7672 0z" class="background" opacity=".75" visibility="visible"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="14.5" font-family="Gill Sans" font-size="14.7273" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="visible">West Slavic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="14.5" font-family="Gill Sans" font-size="14.7273" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">West Slavic</text>
             </g>
           </g>
         </g>
@@ -2739,7 +2739,7 @@
               <path width="93.4345" height="33" x="-46.2173" y="0" fill="rgba(255,255,255,1)" stroke-width="0" d="m-46.2173 0 93.4346 0 0 33-93.4346 0z" class="background" opacity=".75" visibility="visible"/>
             </g>
             <g>
-              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="16.5" font-family="Gill Sans" font-size="16.9091" font-weight="400" paint-order="stroke" text-anchor="middle" visibility="visible">East Slavic</text>
+              <text fill="rgba(51,51,51,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="16.5" font-family="Gill Sans" font-size="16.9091" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">East Slavic</text>
             </g>
           </g>
         </g>

@@ -35,3 +35,7 @@ stats.html
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# IDE
+.history/
+.lh/

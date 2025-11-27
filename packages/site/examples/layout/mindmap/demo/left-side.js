@@ -9,7 +9,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       data: treeToGraphData(data),
       node: {
         style: {
-          labelText: d => d.id,
+          labelText: (d) => d.id,
           labelPlacement: 'left',
           labelBackground: true,
           ports: [{ placement: 'right' }, { placement: 'left' }],

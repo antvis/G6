@@ -1,5 +1,5 @@
 // @ts-nocheck
-if (window) {
+if (typeof window !== 'undefined' && window) {
   window.d3Hierarchy = require('d3-hierarchy');
   window.gCanvas = require('@antv/g-canvas');
   window.gPluginRoughCanvasRenderer = require('@antv/g-plugin-rough-canvas-renderer');
@@ -25,7 +25,7 @@ if (window) {
 
   window.react = require('react');
   window.React = window.react;
-  window.client = require('react-dom');
+  window.client = require('react-dom/client');
   window.styledComponents = require('styled-components');
 
   window.addPanel = async (renderPanel: (gui) => void) => {
@@ -81,4 +81,8 @@ if (window) {
 
     return container;
   };
+
+  if (location.host === 'g6.antv.vision') {
+    (window as any).location.href = location.href.replace(location.origin, 'https://g6.antv.antgroup.com');
+  }
 }

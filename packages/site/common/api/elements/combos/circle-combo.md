@@ -13,7 +13,7 @@ createGraph(
       ],
     },
     node: { style: { fill: '#7e3feb' } },
-    behaviors: ['collapse-expand'],
+    behaviors: ['drag-element', 'collapse-expand'],
     plugins: ['grid-line'],
     animation: true,
   },

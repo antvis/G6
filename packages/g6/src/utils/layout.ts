@@ -151,9 +151,8 @@ export function layoutAdapter(
     }
 
     private transformOptions(options: STDLayoutOptions) {
-      const { onTick } = options;
-
-      if (!onTick) return options;
+      if (!('onTick' in options)) return options;
+      const onTick = options.onTick as (data: GraphData) => void;
       options.onTick = (data: LayoutMapping) => onTick(layoutMapping2GraphData(data));
       return options;
     }

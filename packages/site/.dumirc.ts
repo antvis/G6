@@ -3,27 +3,32 @@ import { version } from '../g6/package.json';
 import { homepage, repository } from './package.json';
 
 export default defineConfig({
+  ...(process.env.NODE_ENV === 'production' ? { ssr: { builder: 'webpack', mako: false } } : { ssr: false, mako: {} }),
   locales: [
     { id: 'zh', name: '中文' },
     { id: 'en', name: 'English' },
   ],
-  title: 'G6', // 网站header标题
   favicons: ['https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original'], // 网站 favicon
   metas: [
     // 自定义 meta 标签
-    { name: 'keywords', content: 'G6' },
     {
-      name: 'description',
-      content: 'A Graph Visualization Framework in JavaScript',
+      name: 'google-site-verification',
+      content: 'D2DFQzn8bn6vTvIqonu0FSFoF-y5ZihUR9WYteGI684',
     },
   ],
-  mako: {},
   themeConfig: {
-    title: 'G6',
-    description: 'A Graph Visualization Framework in JavaScript',
+    title: 'G6', // 网站header标题
+    metas: {
+      title: { zh: 'G6 图可视化引擎', en: 'G6 Graph Visualization Framework in JavaScript' },
+      description: {
+        zh: 'G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。',
+        en: 'G6 is a graph visualization framework with simplicity and convenience. Based on the ability of customization, it provides elegant graph visualization solutions, helping developers build applications for graph visualization, analysis, and editing.',
+      },
+    },
     defaultLanguage: 'zh', // 默认语言
     isAntVSite: false, // 是否是 AntV 的大官网
     siteUrl: homepage, // 官网地址
+    sitePackagePath: 'packages/site', // 站点包地址
     githubUrl: repository.url, // GitHub 地址
     footerTheme: 'light', // 白色 底部主题
     showSearch: true, // 是否显示搜索框
@@ -35,6 +40,7 @@ export default defineConfig({
     showChartResize: true, // 是否在 demo 页展示图表视图切换
     showAPIDoc: false, // 是否在 demo 页展示API文档
     feedback: true, // 是否显示反馈组件
+    links: true, // 是否显示links答疑小蜜
     prefersColor: {
       default: 'light',
       switch: false,
@@ -53,14 +59,14 @@ export default defineConfig({
     },
     navs: [
       {
-        slug: 'docs/manual/introduction',
+        slug: 'docs/manual',
         title: {
           zh: '文档',
           en: 'Docs',
         },
       },
       {
-        slug: 'docs/api/graph/option',
+        slug: 'docs/api',
         title: {
           zh: 'API',
           en: 'API',
@@ -115,20 +121,100 @@ export default defineConfig({
         order: 2,
       },
       {
-        slug: 'manual/core-concept',
+        slug: 'manual/graph',
         title: {
-          zh: '核心概念',
-          en: 'Concepts',
+          zh: '图 Graph',
+          en: 'Graph',
         },
         order: 3,
       },
       {
-        slug: 'manual/custom-extension',
+        slug: 'manual/element',
         title: {
-          zh: '自定义扩展',
-          en: 'Custom Extension',
+          zh: '元素 Element',
+          en: 'Element',
+        },
+        order: 5,
+      },
+      {
+        slug: 'manual/element/node',
+        title: {
+          zh: '节点 Node',
+          en: 'Node',
+        },
+        order: 3,
+      },
+      {
+        slug: 'manual/element/edge',
+        title: {
+          zh: '边 Edge',
+          en: 'Edge',
         },
         order: 4,
+      },
+      {
+        slug: 'manual/element/combo',
+        title: {
+          zh: '组合 Combo',
+          en: 'Combo',
+        },
+        order: 5,
+      },
+      {
+        slug: 'manual/element/shape',
+        title: {
+          zh: '图形 Shape',
+          en: 'Shape',
+        },
+        order: 6,
+      },
+      {
+        slug: 'manual/layout',
+        title: {
+          zh: '布局 Layout',
+          en: 'Layout',
+        },
+        order: 5,
+      },
+      {
+        slug: 'manual/behavior',
+        title: {
+          zh: '交互 Behavior',
+          en: 'Behavior',
+        },
+        order: 6,
+      },
+      {
+        slug: 'manual/plugin',
+        title: {
+          zh: '插件 Plugin',
+          en: 'Plugin',
+        },
+        order: 7,
+      },
+      {
+        slug: 'manual/transform',
+        title: {
+          zh: '数据处理 Transform',
+          en: 'Transform',
+        },
+        order: 8,
+      },
+      {
+        slug: 'manual/theme',
+        title: {
+          zh: '主题 Theme',
+          en: 'Theme',
+        },
+        order: 9,
+      },
+      {
+        slug: 'manual/animation',
+        title: {
+          zh: '动画 Animation',
+          en: 'Animation',
+        },
+        order: 10,
       },
       {
         slug: 'manual/further-reading',
@@ -136,92 +222,15 @@ export default defineConfig({
           zh: '扩展阅读',
           en: 'Further Reading',
         },
-        order: 5,
-      },
-      // API folder
-      {
-        slug: 'api/graph',
-        title: {
-          zh: 'Graph - 图',
-          en: 'Graph',
-        },
+        order: 11,
       },
       {
-        slug: 'api/data',
+        slug: 'manual/whats-new',
         title: {
-          zh: 'Data - 数据',
-          en: 'Data',
+          zh: '版本特性',
+          en: "What's new",
         },
-      },
-      {
-        slug: 'api/elements',
-        title: {
-          zh: 'Element - 元素',
-          en: 'Element',
-        },
-      },
-      {
-        slug: 'api/elements/nodes',
-        title: {
-          zh: 'Node - 节点',
-          en: 'Node',
-        },
-      },
-      {
-        slug: 'api/elements/edges',
-        title: {
-          zh: 'Edge - 边',
-          en: 'Edge',
-        },
-      },
-      {
-        slug: 'api/elements/combos',
-        title: {
-          zh: 'Combo - 组合',
-          en: 'Combo',
-        },
-      },
-      {
-        slug: 'api/layouts',
-        title: {
-          zh: 'Layout - 布局',
-          en: 'Layout',
-        },
-      },
-      {
-        slug: 'api/behaviors',
-        title: {
-          zh: 'Behavior - 交互',
-          en: 'Behavior',
-        },
-      },
-      {
-        slug: 'api/plugins',
-        title: {
-          zh: 'Plugin - 插件',
-          en: 'Plugin',
-        },
-      },
-      {
-        slug: 'api/transforms',
-        title: {
-          zh: 'Transform - 数据处理',
-          en: 'Transform',
-        },
-      },
-      {
-        slug: 'api/extension',
-        title: {
-          zh: 'Extension - 扩展',
-          en: 'Extension',
-        },
-      },
-      {
-        slug: 'api/reference',
-        title: {
-          zh: 'Export - 导出',
-          en: 'Export',
-        },
+        order: 12,
       },
     ],
     examples: [
@@ -282,6 +291,14 @@ export default defineConfig({
         },
       },
       {
+        slug: 'transform',
+        icon: 'tag-flow',
+        title: {
+          zh: '数据处理',
+          en: 'Transform',
+        },
+      },
+      {
         slug: 'algorithm',
         icon: 'gallery',
         title: {
@@ -306,14 +323,14 @@ export default defineConfig({
     /** 公告 */
     announcement: {
       title: {
-        zh: '参与 AntV 文档体验问卷，助力打造更友好的开发者文档，有机会赢取 AntV 限定周边！👉',
-        en: 'Join in the AntV Documentation Experience Survey to help us create more developer-friendly documentation, and stand a chance to win exclusive AntV merchandise! 👉',
+        zh: 'AntV 首个声明式信息图渲染框架正式开源，让数据叙事更简单、更优雅、更高效，现诚邀体验共建！',
+        en: "AntV's declarative infographic framework is now open source. Simpler, more elegant data storytelling!",
       },
       link: {
-        url: 'https://www.wjx.cn/vm/Pf0XYWM.aspx#',
+        url: 'https://infographic.antv.vision/',
         text: {
-          zh: '立即填写',
-          en: 'Fill in now',
+          zh: '点击了解详情',
+          en: 'Learn More',
         },
       },
     },
@@ -343,14 +360,20 @@ export default defineConfig({
             zh: '开始使用',
             en: 'Getting Started',
           },
-          link: `/manual/introduction`,
+          link: {
+            zh: '/manual/introduction',
+            en: '/en/manual/introduction',
+          },
         },
         {
           text: {
             zh: '图表示例',
             en: 'Playground',
           },
-          link: `/examples`,
+          link: {
+            zh: '/examples',
+            en: '/en/examples',
+          },
           type: 'primary',
         },
       ],
@@ -483,10 +506,12 @@ export default defineConfig({
         img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*TgV-RZDODJIAAAAAAAAAAABkARQnAQ',
       },
     ],
-    petercat: {
-      show: true,
-      token: '4bd33b46-9b3c-4df1-be17-9206ea7c7e34',
+    /** 死链检查配置  */
+    deadLinkChecker: {
+      checkExternalLinks: false, // 是否检查外部链接
     },
+    /** 站点地图配置 */
+    sitemap: {},
   },
   mfsu: false,
   alias: {

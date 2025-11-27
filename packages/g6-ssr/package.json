@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-ssr",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "description": "Support SSR for G6",
   "keywords": [
     "antv",
@@ -11,7 +11,7 @@
   "author": "Aarebecca",
   "main": "./dist/g6-ssr.cjs",
   "types": "./dist/lib/index.d.ts",
-  "bin": "./bin/g6-ssr.cjs",
+  "bin": "./bin/g6-ssr.js",
   "files": [
     "dist",
     "bin"
@@ -27,15 +27,17 @@
     "type-check": "tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
-    "@antv/g": "^6.1.14",
-    "@antv/g-canvas": "^2.0.32",
+    "@antv/g": "^6.1.24",
+    "@antv/g-canvas": "^2.0.43",
     "@antv/g6": "workspace:^",
     "cac": "^6.7.14",
-    "canvas": "^2.11.2"
+    "canvas": "^3"
+  },
+  "devDependencies": {
+    "@antv/g-plugin-rough-canvas-renderer": "^2.0.44"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  },
-  "type11": "module"
+  }
 }

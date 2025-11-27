@@ -43,6 +43,48 @@ describe('Graph', () => {
     });
   });
 
+  it('hasNode', () => {
+    expect(graph.hasNode('0')).toBe(true);
+    expect(graph.hasNode('1')).toBe(true);
+
+    expect(graph.hasNode('non-existent-node')).toBe(false);
+    expect(graph.hasNode('node-999')).toBe(false);
+
+    expect(graph.hasNode('')).toBe(false);
+    expect(graph.hasNode(null as any)).toBe(false);
+    expect(graph.hasNode(undefined as any)).toBe(false);
+  });
+
+  it('hasEdge', () => {
+    expect(graph.hasEdge('0-1')).toBe(true);
+
+    expect(graph.hasEdge('non-existent-edge')).toBe(false);
+    expect(graph.hasEdge('edge-999')).toBe(false);
+
+    expect(graph.hasEdge('')).toBe(false);
+    expect(graph.hasEdge(null as any)).toBe(false);
+    expect(graph.hasEdge(undefined as any)).toBe(false);
+  });
+
+  it('hasCombo', () => {
+    graph.addComboData([
+      { id: 'combo-test-1', style: {} },
+      { id: 'combo-test-2', style: {} },
+    ]);
+
+    expect(graph.hasCombo('combo-test-1')).toBe(true);
+    expect(graph.hasCombo('combo-test-2')).toBe(true);
+
+    expect(graph.hasCombo('non-existent-combo')).toBe(false);
+    expect(graph.hasCombo('combo-999')).toBe(false);
+
+    expect(graph.hasCombo('')).toBe(false);
+    expect(graph.hasCombo(null as any)).toBe(false);
+    expect(graph.hasCombo(undefined as any)).toBe(false);
+
+    graph.removeComboData(['combo-test-1', 'combo-test-2']);
+  });
+
   it('setSize/getSize', () => {
     expect(graph.getSize()).toEqual([500, 500]);
     expect(createGraph({}).getSize()).toEqual([0, 0]);

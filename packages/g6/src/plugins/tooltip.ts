@@ -94,12 +94,12 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     }
 
     return {
-      'node:pointerenter': this.onPointerEnter,
+      'node:pointerover': this.onPointerOver,
       'node:pointermove': this.onPointerMove,
       'canvas:pointermove': this.onCanvasMove,
-      'edge:pointerenter': this.onPointerEnter,
+      'edge:pointerover': this.onPointerOver,
       'edge:pointermove': this.onPointerMove,
-      'combo:pointerenter': this.onPointerEnter,
+      'combo:pointerover': this.onPointerOver,
       'combo:pointermove': this.onPointerMove,
       contextmenu: this.onPointerLeave,
       'node:drag': this.onPointerLeave,
@@ -205,7 +205,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     this.hide(event);
   };
 
-  private onPointerEnter = (event: IElementEvent) => {
+  private onPointerOver = (event: IElementEvent) => {
     this.show(event);
   };
 
@@ -254,7 +254,12 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     const { getContent, title } = this.options;
     const items: ElementDatum[] = this.getElementData(id, targetType as ElementType);
 
-    if (!this.tooltipElement || !this.isEnable(event, items)) return;
+    if (!this.tooltipElement) return;
+    // if shown, when is not enable, hide
+    if (!this.isEnable(event, items)) {
+      this.hide(event);
+      return;
+    }
 
     let tooltipContent: { [key: string]: unknown } = {};
     if (getContent) {

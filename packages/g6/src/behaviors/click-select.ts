@@ -152,7 +152,7 @@ export class ClickSelect extends BaseBehavior<ClickSelectOptions> {
     return multiple && this.shortcut.match(trigger);
   }
 
-  private getNeighborIds(event: IPointerEvent<Element>) {
+  protected getNeighborIds(event: IPointerEvent<Element>) {
     const { target, targetType } = event;
     const { graph } = this.context;
     const { degree } = this.options;

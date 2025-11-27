@@ -13,7 +13,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.61441 -1.54928 1.54928 .61441 298.4536 337.4648)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" paint-order="stroke" text-anchor="middle">0-1</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">0-1</text>
             </g>
           </g>
         </g>
@@ -24,7 +24,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.67341 .73927 -.73927 .67341 268.3277 204.6859)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">0-2</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">0-2</text>
             </g>
           </g>
         </g>
@@ -35,7 +35,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.54501 .83843 -.83843 .54501 367.9466 332.533)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">0-3</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">0-3</text>
             </g>
           </g>
         </g>
@@ -46,7 +46,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.89443 -.44721 .44721 .89443 400.5034 230.7483)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">0-4</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">0-4</text>
             </g>
           </g>
         </g>
@@ -57,7 +57,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.42422 -.90556 .90556 .42422 359.3532 196.8037)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">0-5</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">0-5</text>
             </g>
           </g>
         </g>
@@ -68,7 +68,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.95415 -.29933 .29933 .95415 242.3346 395.8166)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">1-6</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">1-6</text>
             </g>
           </g>
         </g>
@@ -79,7 +79,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.01791 .99984 -.99984 .01791 280.7279 424.748)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">1-7</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">1-7</text>
             </g>
           </g>
         </g>
@@ -90,7 +90,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.6919 .72199 -.72199 .6919 205.6377 137.4046)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">2-8</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">2-8</text>
             </g>
           </g>
         </g>
@@ -101,7 +101,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.98267 -.18536 .18536 .98267 268.1157 160.5633)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">2-9</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">2-9</text>
             </g>
           </g>
         </g>
@@ -112,7 +112,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.82945 -.55858 .55858 .82945 203.0718 187.829)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">2-10</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">2-10</text>
             </g>
           </g>
         </g>
@@ -123,7 +123,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.07 -.99755 .99755 .07 236.5425 130.769)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">2-11</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">2-11</text>
             </g>
           </g>
         </g>
@@ -134,7 +134,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.09218 .99574 -.99574 .09218 237.2145 201.717)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">2-12</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">2-12</text>
             </g>
           </g>
         </g>
@@ -145,7 +145,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.9928 .11983 -.11983 .9928 197.3058 162.5713)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">2-13</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">2-13</text>
             </g>
           </g>
         </g>
@@ -156,7 +156,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.0364 -.99934 .99934 .0364 389.7182 403.2449)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">3-14</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">3-14</text>
             </g>
           </g>
         </g>
@@ -167,7 +167,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.8799 -.47516 .47516 .8799 422.8192 350.8176)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">3-15</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">3-15</text>
             </g>
           </g>
         </g>
@@ -178,7 +178,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(.86195 .507 -.507 .86195 423.18 386.9293)">
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">3-16</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">3-16</text>
             </g>
           </g>
         </g>
@@ -191,7 +191,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 27)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" paint-order="stroke" text-anchor="middle">0</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">0</text>
             </g>
           </g>
         </g>
@@ -204,7 +204,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 17)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" paint-order="stroke" text-anchor="middle">1</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">1</text>
             </g>
           </g>
         </g>
@@ -214,7 +214,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 17)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">2</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">2</text>
             </g>
           </g>
         </g>
@@ -224,7 +224,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 17)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">3</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">3</text>
             </g>
           </g>
         </g>
@@ -234,7 +234,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 17)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">4</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">4</text>
             </g>
           </g>
         </g>
@@ -244,7 +244,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 17)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">5</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">5</text>
             </g>
           </g>
         </g>
@@ -254,7 +254,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">6</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">6</text>
             </g>
           </g>
         </g>
@@ -264,7 +264,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">7</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">7</text>
             </g>
           </g>
         </g>
@@ -274,7 +274,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">8</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">8</text>
             </g>
           </g>
         </g>
@@ -284,7 +284,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">9</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">9</text>
             </g>
           </g>
         </g>
@@ -294,7 +294,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">10</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">10</text>
             </g>
           </g>
         </g>
@@ -304,7 +304,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">11</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">11</text>
             </g>
           </g>
         </g>
@@ -314,7 +314,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">12</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">12</text>
             </g>
           </g>
         </g>
@@ -324,7 +324,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">13</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">13</text>
             </g>
           </g>
         </g>
@@ -334,7 +334,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">14</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">14</text>
             </g>
           </g>
         </g>
@@ -344,7 +344,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">15</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">15</text>
             </g>
           </g>
         </g>
@@ -354,7 +354,7 @@
           </g>
           <g fill="none" class="label" transform="matrix(1 0 0 1 0 9.5)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">16</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">16</text>
             </g>
           </g>
         </g>

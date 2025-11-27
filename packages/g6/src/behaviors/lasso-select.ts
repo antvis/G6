@@ -31,7 +31,7 @@ export class LassoSelect extends BrushSelect {
    */
   protected onPointerDown(event: IPointerEvent) {
     if (!super.validate(event) || !super.isKeydown() || this.points) return;
-    const { canvas } = this.context;
+    const { canvas, graph } = this.context;
 
     this.pathShape = new Path({
       id: 'g6-lasso-select',
@@ -40,7 +40,7 @@ export class LassoSelect extends BrushSelect {
 
     canvas.appendChild(this.pathShape);
 
-    this.points = [getCursorPoint(event)];
+    this.points = [getCursorPoint(event, graph)];
   }
 
   /**
@@ -52,7 +52,7 @@ export class LassoSelect extends BrushSelect {
     if (!this.points) return;
     const { immediately, mode } = this.options;
 
-    this.points.push(getCursorPoint(event));
+    this.points.push(getCursorPoint(event, this.context.graph));
 
     this.pathShape?.setAttribute('d', pointsToPath(this.points));
 

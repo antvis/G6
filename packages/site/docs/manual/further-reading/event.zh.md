@@ -17,7 +17,7 @@ G6 中的事件类型主要分为以下几类：
 
 ### 图事件
 
-图事件是指与整个图实例相关的事件，例如图的渲染完成事件、图的更新事件等。图事件的完整列表见[GraphEvent](/api/reference/g6/graphevent)。
+图事件是指与整个图实例相关的事件，例如图的渲染完成事件、图的更新事件等。图事件的完整列表见[GraphEvent](/api/event#图表生命周期事件-graphevent)。
 
 #### 监听图事件
 
@@ -37,7 +37,7 @@ graph.on(GraphEvent.AFTER_RENDER, () => {
 
 ### 画布事件
 
-画布事件是指与画布相关的事件，例如画布的点击事件、画布的拖拽事件等。画布事件的完整列表见[CanvasEvent](/api/reference/g6/canvasevent)。
+画布事件是指与画布相关的事件，例如画布的点击事件、画布的拖拽事件等。画布事件的完整列表见[CanvasEvent](/api/event#画布事件-canvasevent)。
 
 #### 监听画布事件
 
@@ -57,7 +57,7 @@ graph.on(CanvasEvent.CLICK, (event) => {
 
 ### 元素事件
 
-元素事件主要指在元素对象上触发的事件，例如节点的拖拽事件、边的点击事件等。元素分为节点(`node`)、边(`edge`)、组合(`combo`)三类，对应的事件完整列表分别见：[NodeEvent](/api/reference/g6/nodeevent) 、[EdgeEvent](/api/reference/g6/edgeevent)、[ComboEvent](/api/reference/g6/comboevent)。
+元素事件主要指在元素对象上触发的事件，例如节点的拖拽事件、边的点击事件等。元素分为节点(`node`)、边(`edge`)、组合(`combo`)三类，对应的事件完整列表分别见：[NodeEvent](/api/event#节点事件-nodeevent) 、[EdgeEvent](/api/event#边事件-edgeevent)、[ComboEvent](/api/event#combo事件-comboevent)。
 
 #### 监听元素事件
 

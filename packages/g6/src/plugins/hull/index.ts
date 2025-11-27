@@ -1,5 +1,4 @@
 import { PathArray, isEqual, isFunction } from '@antv/util';
-import hull from 'hull.js';
 import { GraphEvent } from '../../constants';
 import type { ContourStyleProps } from '../../elements/shapes';
 import { Contour } from '../../elements/shapes';
@@ -10,6 +9,7 @@ import { idOf } from '../../utils/id';
 import { positionOf } from '../../utils/position';
 import type { BasePluginOptions } from '../base-plugin';
 import { BasePlugin } from '../base-plugin';
+import { hull } from './hull';
 import { computeHullPath } from './util';
 
 /**
@@ -103,6 +103,11 @@ export class Hull extends BasePlugin<HullOptions> {
   private bindEvents() {
     this.context.graph.on(GraphEvent.AFTER_RENDER, this.drawHull);
     this.context.graph.on(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateHullPath);
+  }
+
+  private unbindEvents() {
+    this.context.graph.off(GraphEvent.AFTER_RENDER, this.drawHull);
+    this.context.graph.off(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateHullPath);
   }
 
   private getHullStyle(forceUpdate?: boolean): ContourStyleProps {
@@ -207,7 +212,7 @@ export class Hull extends BasePlugin<HullOptions> {
    * @internal
    */
   public destroy(): void {
-    this.context.graph.off(GraphEvent.AFTER_DRAW, this.drawHull);
+    this.unbindEvents();
     this.shape.destroy();
     this.hullMemberIds = [];
     super.destroy();

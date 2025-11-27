@@ -55,7 +55,7 @@ order: 0
 
 会得到如下所示的图：
 
-<embed src="@/docs/manual/getting-started-common/quick-start/simple-graph.md"></embed>
+<embed src="@/common/manual/getting-started/quick-start/simple-graph.md"></embed>
 
 下面分析一下这段代码：
 

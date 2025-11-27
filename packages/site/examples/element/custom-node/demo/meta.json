@@ -5,20 +5,20 @@
   },
   "demos": [
     {
-      "filename": "react-g.jsx",
-      "title": {
-        "zh": "采用 JSX 语法的 G 节点",
-        "en": "G node with JSX syntax"
-      },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b-g0RoOpI3sAAAAAAAAAAABkARQnAQ"
-    },
-    {
       "filename": "react-node.jsx",
       "title": {
         "zh": "React 节点",
         "en": "React node"
       },
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*9oz-R7bIkd0AAAAAAAAAAAAADmJ7AQ/original"
+    },
+    {
+      "filename": "reactnode-idcard.jsx",
+      "title": {
+        "zh": "React 节点 身份证",
+        "en": "React node IDCard"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*nKs0R7O2njIAAAAAAAAAAAAAemJ7AQ/original"
     },
     {
       "filename": "g2-bar-chart.js",

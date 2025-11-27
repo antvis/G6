@@ -2,8 +2,12 @@
 createGraph(
   {
     autoFit: 'center',
-    data: { nodes: [{ id: 'node1', style: { size: 40, fill: '#7e3feb' } }] },
-    node: { type: 'circle' },
+    data: {
+      nodes: [{ id: 'node1', style: { size: 40, fill: '#7e3feb' } }],
+    },
+    node: {
+      type: 'circle',
+    },
     plugins: [{ type: 'grid-line', size: 30 }],
   },
   { width: 600, height: 220 },
@@ -21,5 +25,3 @@ createGraph(
   },
 );
 ```
-
-设置 `node.type` 为 `circle` 以使用圆形节点。

@@ -44,7 +44,7 @@
               <path width="39.68" height="23" x="-19.34" y="0" fill="rgba(238,238,238,1)" stroke="rgba(158,201,255,1)" stroke-width="0" d="m-17.34 0 35.68 0a2 2 0 0 1 2 2l0 19a2 2 0 0 1-2 2l-35.68 0a2 2 0 0 1-2-2l0-19a2 2 0 0 1 2-2z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(230,100,101,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-style="italic" font-weight="400" paint-order="stroke" text-anchor="middle">node1</text>
+              <text fill="rgba(230,100,101,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-style="italic" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">node1</text>
             </g>
           </g>
         </g>
@@ -57,7 +57,7 @@
               <path width="41.36" height="23" x="-20.18" y="0" fill="rgba(238,238,238,1)" stroke="rgba(158,201,255,1)" stroke-width="0" d="m-18.18 0 37.36 0a2 2 0 0 1 2 2l0 19a2 2 0 0 1-2 2l-37.36 0a2 2 0 0 1-2-2l0-19a2 2 0 0 1 2-2z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(230,100,101,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-style="italic" font-weight="400" paint-order="stroke" text-anchor="middle">node2</text>
+              <text fill="rgba(230,100,101,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-style="italic" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">node2</text>
             </g>
           </g>
         </g>
@@ -70,7 +70,7 @@
               <path width="41.6" height="23" x="-20.3" y="0" fill="rgba(238,238,238,1)" stroke="rgba(158,201,255,1)" stroke-width="0" d="m-18.3 0 37.6 0a2 2 0 0 1 2 2l0 19a2 2 0 0 1-2 2l-37.6 0a2 2 0 0 1-2-2l0-19a2 2 0 0 1 2-2z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(230,100,101,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-style="italic" font-weight="400" paint-order="stroke" text-anchor="middle">node3</text>
+              <text fill="rgba(230,100,101,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="11.5" font-family="system-ui, sans-serif" font-size="12" font-style="italic" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">node3</text>
             </g>
           </g>
         </g>

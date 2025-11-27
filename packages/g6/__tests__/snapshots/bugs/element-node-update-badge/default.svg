@@ -12,7 +12,7 @@
                 <path width="12.84" height="17" x="-5.92" y="0" fill="rgba(255,0,0,1)" stroke-width="0" d="m.5 0 0 0a6.42 6.42 0 0 1 6.42 6.42l0 4.16a6.42 6.42 0 0 1-6.42 6.42l0 0a6.42 6.42 0 0 1-6.42-6.42l0-4.16a6.42 6.42 0 0 1 6.42-6.42z" class="background" opacity=".25"/>
               </g>
               <g>
-                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx=".5" dy="8.5" font-family="system-ui, sans-serif" font-size="8" paint-order="stroke" text-anchor="middle">1</text>
+                <text fill="rgba(255,255,255,1)" class="text" dominant-baseline="central" dx=".5" dy="8.5" font-family="system-ui, sans-serif" font-size="8" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">1</text>
               </g>
             </g>
           </g>

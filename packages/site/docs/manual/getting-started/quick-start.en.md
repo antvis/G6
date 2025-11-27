@@ -55,7 +55,7 @@ Copy the following code into an HTML file and then open this file in a browser:
 
 You will get a graph as shown below:
 
-<embed src="@/docs/manual/getting-started-common/quick-start/simple-graph.md"></embed>
+<embed src="@/common/manual/getting-started/quick-start/simple-graph.md"></embed>
 
 Let's analyze the following code snippet:
 

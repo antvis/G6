@@ -28,7 +28,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
         animation: false,
       },
     });
-    
+
     graph.render();
 
     window.addPanel((gui) => {

@@ -1,6 +1,5 @@
-import type { BaseStyleProps } from '@antv/g';
 import { CommonEvent } from '../../constants';
-import { Circle } from '../../elements';
+import { Circle, type CircleStyleProps } from '../../elements';
 import type { RuntimeContext } from '../../runtime/types';
 import type { EdgeData, GraphData, NodeData } from '../../spec';
 import type { EdgeStyle } from '../../spec/element/edge';
@@ -100,7 +99,7 @@ export interface EdgeFilterLensOptions extends BasePluginOptions {
    *
    * <en/> The style of the lens
    */
-  style?: BaseStyleProps;
+  style?: Partial<CircleStyleProps>;
   /**
    * <zh/> 在透镜中节点的样式
    *
@@ -122,7 +121,7 @@ export interface EdgeFilterLensOptions extends BasePluginOptions {
   preventDefault?: boolean;
 }
 
-const defaultLensStyle: BaseStyleProps = {
+const defaultLensStyle: Exclude<CircleStyleProps, 'r'> = {
   fill: '#fff',
   fillOpacity: 1,
   lineWidth: 1,
@@ -388,6 +387,7 @@ export class EdgeFilterLens extends BasePlugin<EdgeFilterLensOptions> {
   public update(options: Partial<EdgeFilterLensOptions>) {
     this.unbindEvents();
     super.update(options);
+    this.r = options.r ?? this.r;
     this.bindEvents();
   }
 

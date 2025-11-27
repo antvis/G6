@@ -20,22 +20,24 @@ const graph = new Graph({
     {
       key: 'lasso-select',
       type: 'lasso-select',
-      mode: 'diff',
-      trigger: 'shift',
+      enable: true,
+      animation: false,
+      mode: 'default', // union intersect diff default
+      state: 'selected', // 'active', 'selected', 'inactive', ...
+      trigger: [], // ['Shift', 'Alt', 'Control', 'Drag', 'Meta', ...]
       style: {
-        fill: '#00f',
-        fillOpacity: 0.1,
-        stroke: '#0ff',
-        lineWidth: 2,
+        width: 0,
+        height: 0,
+        lineWidth: 4,
+        lineDash: [2, 2],
+        fill: 'linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)',
+        stroke: 'pink',
+        fillOpacity: 0.2,
+        zIndex: 2,
+        pointerEvents: 'none',
       },
     },
   ],
 });
 
 graph.render();
-
-window.addPanel((gui) => {
-  gui.add({ trigger: 'shift' }, 'trigger', ['Shift', 'Alt', 'Control', 'Drag', 'Meta']).onChange((value) => {
-    graph.updateBehavior({ key: 'lasso-select', trigger: value });
-  });
-});

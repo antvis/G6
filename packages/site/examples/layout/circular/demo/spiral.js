@@ -9,10 +9,10 @@ fetch('https://assets.antv.antgroup.com/g6/circular.json')
       data,
       node: {
         style: {
-          labelText: d => d.id,
+          labelText: (d) => d.id,
           labelFill: '#fff',
-          labelPlacement: 'center'
-        }
+          labelPlacement: 'center',
+        },
       },
       layout: {
         type: 'circular',

@@ -241,9 +241,10 @@ export function getCubicPath(sourcePoint: Point, targetPoint: Point, controlPoin
  * @returns <zh/> 返回绘制折线的路径 | <en/> Returns the path for drawing a polyline
  */
 export function getPolylinePath(points: Point[], radius = 0, z = false): PathArray {
+  const targetIndex = points.length - 1;
   const sourcePoint = points[0];
-  const targetPoint = points[points.length - 1];
-  const controlPoints = points.slice(1, points.length - 1);
+  const targetPoint = points[targetIndex];
+  const controlPoints = points.slice(1, targetIndex);
   const pathArray: PathArray = [['M', sourcePoint[0], sourcePoint[1]]];
   controlPoints.forEach((midPoint, i) => {
     const prevPoint = controlPoints[i - 1] || sourcePoint;
@@ -390,7 +391,7 @@ export function getCubicLoopPath(
 
   // 3. 如果定义了连接桩，调整端点以与连接桩边界相交 | If the port is defined, adjust the endpoint to intersect with the port boundary
   if (sourcePort) sourcePoint = getPortConnectionPoint(sourcePort, controlPoints[0]);
-  if (targetPort) targetPoint = getPortConnectionPoint(targetPort, controlPoints[controlPoints.length - 1]);
+  if (targetPort) targetPoint = getPortConnectionPoint(targetPort, controlPoints.at(-1) as Point);
 
   return getCubicPath(sourcePoint, targetPoint, controlPoints);
 }
@@ -463,7 +464,7 @@ export function getPolylineLoopPath(
 
   // 3. 如果定义了连接桩，调整端点以与连接桩边界相交 | If the port is defined, adjust the endpoint to intersect with the port boundary
   if (sourcePort) sourcePoint = getPortConnectionPoint(sourcePort, controlPoints[0]);
-  if (targetPort) targetPoint = getPortConnectionPoint(targetPort, controlPoints[controlPoints.length - 1]);
+  if (targetPort) targetPoint = getPortConnectionPoint(targetPort, controlPoints.at(-1) as Point);
 
   return getPolylinePath([sourcePoint, ...controlPoints, targetPoint], radius);
 }

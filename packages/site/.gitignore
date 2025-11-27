@@ -5,3 +5,8 @@
 
 ## api doc
 docs/api/.gitignore
+
+/server
+
+# Dead links report
+dead-links-report.log

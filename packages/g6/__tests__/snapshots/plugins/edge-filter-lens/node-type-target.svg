@@ -1924,7 +1924,7 @@
         </g>
         <g fill="none" class="label" transform="matrix(.85214 .52331 -.52331 .85214 257.2483 209.7737)">
           <g>
-            <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">2</text>
+            <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">2</text>
           </g>
         </g>
       </g>

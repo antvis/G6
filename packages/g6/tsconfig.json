@@ -8,8 +8,7 @@
       "@/*": ["./*"],
       "@@/*": ["__tests__/*"],
       "@antv/g6": ["./src/index.ts"]
-    },
-    "sourceRoot": "src"
+    }
   },
   "exclude": ["node_modules", "dist", "lib", "esm"],
   "extends": "../../tsconfig.json",

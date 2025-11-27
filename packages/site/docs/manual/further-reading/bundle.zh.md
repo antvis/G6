@@ -53,8 +53,9 @@ npm install babel-loader@8 @babel/preset-env @open-wc/webpack-import-meta-loader
 
 2. 修改 `webpack.config.js` 配置：
 
-<embed src="../feature-common/webpack4.md"></embed>
+<embed src="@/common/manual/feature/webpack4.md"></embed>
 :::
+> 如果你使用的是 vue-cli，请移除 mode: 'production' 配置，否则可能会影响开发模式下的构建性能。
 
 ## 使用 Rollup 打包项目
 

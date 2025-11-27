@@ -15,7 +15,7 @@
               <path width="93.88" height="23" x="-46.44" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-46.44-11.5 93.88 0 0 23-93.88 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">custom-arrow-1</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">custom-arrow-1</text>
             </g>
           </g>
         </g>
@@ -32,7 +32,7 @@
               <path width="95.56" height="23" x="-47.28" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-47.28-11.5 95.56 0 0 23-95.56 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">custom-arrow-2</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">custom-arrow-2</text>
             </g>
           </g>
         </g>
@@ -49,7 +49,7 @@
               <path width="74.32" height="23" x="-36.66" y="-11.5" fill="rgba(255,255,255,1)" stroke-width="0" d="m-36.66-11.5 74.32 0 0 23-74.32 0z" class="background" opacity=".75"/>
             </g>
             <g>
-              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" text-anchor="middle">image-arrow</text>
+              <text fill="rgba(0,0,0,1)" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">image-arrow</text>
             </g>
           </g>
         </g>

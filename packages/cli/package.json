@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Scaffolding Your Extension for G6",
   "keywords": [
     "antv",
@@ -28,7 +28,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.13",
+    "@types/lodash": "^4.17.16",
     "@types/minimist": "^1.2.5",
     "@types/prompts": "^2.4.9",
     "kolorist": "^1.8.0",

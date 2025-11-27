@@ -15,6 +15,7 @@ export default [
       name: 'G6ExtensionReact',
       format: 'umd',
       sourcemap: false,
+      inlineDynamicImports: true,
     },
     plugins: [
       nodePolyfills(),

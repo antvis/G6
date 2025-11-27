@@ -1,6 +1,5 @@
 import { Graph, treeToGraphData } from '@antv/g6';
 
-
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
   .then((res) => res.json())
   .then((data) => {
@@ -11,7 +10,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
       node: {
         style: {
-          labelText: d => d.id,
+          labelText: (d) => d.id,
           labelBackground: true,
         },
         animation: {

@@ -248,7 +248,7 @@ export class Legend extends BasePlugin<LegendOptions> {
     };
   };
 
-  private getMarkerData = (field: string | ((item: ElementDatum) => string), elementType: ElementType) => {
+  protected getMarkerData = (field: string | ((item: ElementDatum) => string), elementType: ElementType) => {
     if (!field) return [];
     const { model, element } = this.context;
     const { nodes, edges, combos } = model.getData();

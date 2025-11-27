@@ -89,7 +89,7 @@ describe('registry', () => {
     class CircleNode {}
     class RectNode {}
     register(ExtensionCategory.NODE, 'circle-node', CircleNode as any);
-    register(ExtensionCategory.NODE, 'circle-node', RectNode as any, true);
+    register(ExtensionCategory.NODE, 'circle-node', RectNode as any);
     expect(getExtension(ExtensionCategory.NODE, 'circle-node')).toEqual(RectNode);
   });
 

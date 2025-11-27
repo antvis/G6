@@ -17,7 +17,7 @@ The event types in G6 are mainly divided into the following categories:
 
 ### Graph Events
 
-Graph events refer to events associated with the entire graph instance, such as the graph's rendering completion event, the graph's update event, etc. The complete list of graph events can be found at [GraphEvent](/en/api/reference/g6/graphevent).
+Graph events refer to events associated with the entire graph instance, such as the graph's rendering completion event, the graph's update event, etc. The complete list of graph events can be found at [GraphEvent](/en/api/event#graph-lifecycle-events-graphevent).
 
 #### Listening to Graph Events
 
@@ -37,7 +37,7 @@ graph.on(GraphEvent.AFTER_RENDER, () => {
 
 ### Canvas Events
 
-Canvas events refer to events associated with the canvas, such as the canvas's click event, the canvas's drag event, etc. The complete list of canvas events can be found at [CanvasEvent](/en/api/reference/g6/canvasevent).
+Canvas events refer to events associated with the canvas, such as the canvas's click event, the canvas's drag event, etc. The complete list of canvas events can be found at [CanvasEvent](/en/api/event#canvas-events-canvasevent).
 
 #### Listening to Canvas Events
 
@@ -57,7 +57,7 @@ graph.on(CanvasEvent.CLICK, (event) => {
 
 ### Element Events
 
-Element events primarily refer to events that are triggered on element objects, such as a node's drag event, an edge's click event, etc. Elements are categorized into three types: nodes (`node`), edges (`edge`), and combos (`combo`). The complete list of corresponding events can be found at: [NodeEvent](/en/api/reference/g6/nodeevent), [EdgeEvent](/en/api/reference/g6/edgeevent), [ComboEvent](/en/api/reference/g6/comboevent).
+Element events primarily refer to events that are triggered on element objects, such as a node's drag event, an edge's click event, etc. Elements are categorized into three types: nodes (`node`), edges (`edge`), and combos (`combo`). The complete list of corresponding events can be found at: [NodeEvent](/en/api/event#node-events-nodeevent), [EdgeEvent](/en/api/event#edge-events-edgeevent), [ComboEvent](/en/api/event#combo-events-comboevent).
 
 #### Listening to Element Events
 

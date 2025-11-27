@@ -20,7 +20,7 @@ class CustomCircle extends Circle {
 }
 
 export const elementVisibilityPart: TestCase = async (context) => {
-  register(ExtensionCategory.NODE, 'custom-circle', CustomCircle, true);
+  register(ExtensionCategory.NODE, 'custom-circle', CustomCircle);
 
   const graph = new Graph({
     ...context,

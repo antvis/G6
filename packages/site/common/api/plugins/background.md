@@ -30,10 +30,7 @@ createGraph(
       {
         type: 'background',
         key: 'background',
-        backgroundImage:
-          'url(https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*0Qq0ToQm1rEAAAAAAAAAAAAADmJ7AQ/original)',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'contain',
+        backgroundColor: '#f0f2f5',
       },
     ],
   },

@@ -92,6 +92,7 @@ export {
   Minimap,
   Snapline,
   Timebar,
+  Title,
   Toolbar,
   Tooltip,
   Watermark,

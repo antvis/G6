@@ -212,11 +212,12 @@ const graph = new Graph({
       type: 'background',
       width: '480px',
       height: '720px',
-      backgroundImage: 'url(https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EmPXQLrX2xIAAAAAAAAAAAAADmJ7AQ/original)',
+      backgroundImage:
+        'url(https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EmPXQLrX2xIAAAAAAAAAAAAADmJ7AQ/original)',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'contain',
       opacity: 1,
-    }
+    },
   ],
 });
 

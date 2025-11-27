@@ -8,7 +8,7 @@
 
 [![npm Version](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 [![Build Status](https://github.com/antvis/G6/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/G6/actions/workflows/build.yml)
-[![Coverage Status](https://coveralls.io/repos/github/antvis/G6/badge.svg)](https://coveralls.io/github/antvis/G6)
+[![codecov](https://codecov.io/gh/antvis/G6/graph/badge.svg?token=OvIk06tCPa)](https://codecov.io/gh/antvis/G6)
 [![npm Download](https://img.shields.io/npm/dm/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 ![typescript](https://img.shields.io/badge/language-typescript-blue.svg)
 [![npm License](https://img.shields.io/npm/l/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
@@ -103,6 +103,14 @@ All goes well, you can get the following lovely graph!
 For more ecosystem open-source projects, contributions are welcome. Please feel free to submit a PR for inclusion.
 
 ## 📮 Contributing
+
+This project exists thanks to all the people who contribute.
+
+And thank you to all our backers! 🙏
+
+<a href="https://openomy.app/github/antvis/G6" target="_blank" style="display: block; width: 100%;" align="center">
+  <img src="https://openomy.app/svg?repo=antvis/G6&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
+ </a>
 
 - **Issue Reporting**: If you encounter any issues with G6 during use, please feel free to submit an issue, along with the minimal sample code that can reproduce the problem.
 - **Contribution Guide**: Information on how to get involved in the [development and contribution](https://g6.antv.antgroup.com/en/manual/contribute) to G6.

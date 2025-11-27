@@ -90,9 +90,8 @@ export interface BrushSelectOptions extends BaseBehaviorOptions {
    *
    * <en/> Callback when brush select elements.
    * @param states - 选中的元素状态
-   * @returns 选中的元素状态
    */
-  onSelect?: (states: Record<ID, State | State[]>) => Record<ID, State | State[]>;
+  onSelect?: (states: Record<ID, State | State[]>) => void;
 }
 /**
  * <zh/> 框选一组元素
@@ -168,7 +167,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
     if (!this.startPoint) return;
     const { immediately, mode } = this.options;
 
-    this.endPoint = getCursorPoint(event);
+    this.endPoint = getCursorPoint(event, this.context.graph);
 
     this.rectShape?.attr({
       x: Math.min(this.endPoint[0], this.startPoint[0]),
@@ -192,7 +191,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
       return;
     }
 
-    this.endPoint = getCursorPoint(event);
+    this.endPoint = getCursorPoint(event, this.context.graph);
     this.updateElementsStates(getBoundingPoints(this.startPoint, this.endPoint));
 
     this.clearBrush();
@@ -222,8 +221,9 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
       return Object.assign(
         {},
         acc,
-        data.reduce((acc: Record<ID, []>, datum: ElementDatum) => {
-          acc[idOf(datum)] = [];
+        data.reduce((acc: Record<ID, State[]>, datum: ElementDatum) => {
+          const restStates = (datum.states || [])?.filter((state) => state !== this.options.state);
+          acc[idOf(datum)] = restStates;
           return acc;
         }, {}),
       );
@@ -245,7 +245,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
 
     const selectedIds = this.selector(graph, points, enableElements);
 
-    let states: Record<ID, State | State[]> = {};
+    const states: Record<ID, State | State[]> = {};
 
     switch (mode) {
       case 'union':
@@ -273,7 +273,7 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
         break;
     }
 
-    if (isFunction(onSelect)) states = onSelect(states);
+    if (isFunction(onSelect)) onSelect(states);
 
     graph.setElementState(states, this.options.animation);
   }
@@ -395,6 +395,17 @@ export class BrushSelect extends BaseBehavior<BrushSelectOptions> {
   }
 }
 
-export const getCursorPoint = (event: IPointerEvent): Point => {
+export const getCursorPoint = (event: IPointerEvent, graph: Graph): Point => {
+  // Fixed #7182: 判断 html 类型节点，并把 html 节点的浏览器坐标转换为 canvas 坐标。
+  // 没有直接判断的方式，nativeEvent.target 非 canvas 则表示 html 节点触发的。
+  // Fixed #7182: Handles brush selection on HTML nodes by converting client coordinates to canvas coordinates.
+  // An HTML node is identified if the event's targetType is 'node' but the nativeEvent.target is not the canvas element.
+  if (
+    (event.targetType === 'node' || event.targetType === 'combo') &&
+    !(event.nativeEvent.target instanceof HTMLCanvasElement)
+  ) {
+    const [x, y] = graph.getCanvasByClient([event.client.x, event.client.y]);
+    return [x, y];
+  }
   return [event.canvas.x, event.canvas.y];
 };

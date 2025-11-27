@@ -10,7 +10,7 @@ const data = {
       id: 'edge-1',
       source: 'node-1',
       target: 'node-2',
-      style: { controlPoints: [[300, 190]] },
+      controlPoints: [[300, 190]],
     },
   ],
 };
@@ -21,7 +21,7 @@ const graph = new Graph({
   edge: {
     type: 'polyline',
     style: {
-      controlPoints: (d) => d.style.controlPoints,
+      controlPoints: (d) => d.controlPoints,
     },
   },
   behaviors: [{ type: 'drag-element' }],
