@@ -1,9 +1,9 @@
-import { intro, outro, select, text, confirm, note, spinner, isCancel } from '@clack/prompts';
+import { confirm, intro, isCancel, note, outro, select, spinner, text } from '@clack/prompts';
 import chalk from 'chalk';
+import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -156,10 +156,7 @@ function addRemoteAndCheckoutBranch(username, repository, localBranch, remoteBra
 
   try {
     s.start('检查远程源...');
-    const remotes = execSync('git remote')
-      .toString()
-      .split('\n')
-      .filter(Boolean);
+    const remotes = execSync('git remote').toString().split('\n').filter(Boolean);
     if (remotes.includes(username)) {
       const existingUrl = execSync(`git remote get-url ${username}`).toString().trim();
       if (existingUrl !== remoteUrl) {
@@ -209,7 +206,7 @@ function addRemoteAndCheckoutBranch(username, repository, localBranch, remoteBra
     return { originalBranch, localBranch, remoteName: username };
   } catch (error) {
     s.stop(chalk.red('失败'));
-    console.error('执行 git 命令时出错:', error.message || error);
+    outro(chalk.red(`执行 git 命令时出错: ${error.message || error}`));
     process.exit(1);
   }
 }
@@ -373,7 +370,8 @@ async function main() {
       execSync(`git remote remove ${remoteName}`);
       note(`已移除远程源: ${remoteName}`, '清理');
     } catch (error) {
-      console.error('执行 git 命令时出错:', error);
+      outro(chalk.red(`移除远程源 ${remoteName} 失败`));
+      console.error(error.message || error);
       process.exit(1);
     }
   }
@@ -384,7 +382,8 @@ async function main() {
       execSync(`git branch -D ${localBranch}`);
       note(`已切回 ${originalBranch} 并删除本地分支 ${localBranch}`, '完成');
     } catch (error) {
-      console.error('执行 git 命令时出错:', error);
+      outro(chalk.red('分支清理失败'));
+      console.error(error.message || error);
       process.exit(1);
     }
   }
