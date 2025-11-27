@@ -44,6 +44,7 @@ const graph = new Graph({
 | enterable    | Whether pointer can enter | boolean                                                                                                                                       | false                                 |          |
 | title        | Title                     | string                                                                                                                                        | -                                     |
 | style        | Style object              | Record<string,any>                                                                                                                            | {'.tooltip': { visibility: 'hidden'}} |          |
+| prefixCls    | custom class name prefix  | string                                                                                                                                        | -                                     |          |
 
 ## Detailed Configuration
 

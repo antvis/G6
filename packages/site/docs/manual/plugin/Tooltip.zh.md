@@ -44,6 +44,7 @@ const graph = new Graph({
 | enterable    | 指针是否可以进入        | boolean                                                                                                                         | false                                 |      |
 | title        | 标题                    | string                                                                                                                          | -                                     |
 | style        | 样式对象                | Record<string,any>                                                                                                              | {'.tooltip': { visibility: 'hidden'}} |      |
+| prefixCls    | tooltip自定义类名前缀   | string                                                                                                                          | -                                     |      |
 
 ## 详细配置说明
 

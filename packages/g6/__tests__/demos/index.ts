@@ -149,7 +149,7 @@ export { pluginToolbarIconfont } from './plugin-toolbar-iconfont';
 export { pluginTooltip } from './plugin-tooltip';
 export { pluginTooltipAsync } from './plugin-tooltip-async';
 export { pluginTooltipDual } from './plugin-tooltip-dual';
-export { pluginTooltipEnable } from './plugin-tooltip-enable';
+export { pluginTooltipEnable, pluginTooltipPrefixClsEnable } from './plugin-tooltip-enable';
 export { pluginTooltipWithCustomNode } from './plugin-tooltip-with-custom-node';
 export { pluginWatermark } from './plugin-watermark';
 export { pluginWatermarkImage } from './plugin-watermark-image';
