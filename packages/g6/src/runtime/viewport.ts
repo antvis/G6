@@ -1,7 +1,15 @@
 import { AABB, ICamera } from '@antv/g';
 import { clamp, isNumber, pick } from '@antv/util';
 import { AnimationType, GraphEvent } from '../constants';
-import type { FitViewOptions, ID, Point, TransformOptions, Vector2, ViewportAnimationEffectTiming } from '../types';
+import type {
+  FitViewOptions,
+  ID,
+  Point,
+  TransformOptions,
+  Vector2,
+  Vector3,
+  ViewportAnimationEffectTiming,
+} from '../types';
 import type { Element } from '../types/element';
 import { getAnimationOptions } from '../utils/animation';
 import { getBBoxSize, getCombinedBBox, getExpandedBBox, isBBoxInside, isPointInBBox } from '../utils/bbox';
@@ -131,8 +139,8 @@ export class ViewportController {
 
     return mode === 'relative'
       ? {
-          position: add(position, delta),
-          focalPoint: add(focalPoint, delta),
+          position: add(position as Vector3, delta),
+          focalPoint: add(focalPoint as Vector3, delta),
         }
       : {
           position: add([cx, cy, position[2]], delta),

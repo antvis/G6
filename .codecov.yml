@@ -1,0 +1,31 @@
+# Setting coverage targets per flag
+coverage:
+  round: down
+  range: 60..90
+  precision: 2
+  status:
+    patch: off
+    project:
+      default: off
+      g6:
+        threshold: 1%
+        flags:
+          - g6
+
+flags:
+  g6:
+    paths:
+      # filter the folder(s) you wish to measure by that flag
+      - packages/g6
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: true # only post the comment if coverage changes
+
+github_checks:
+  annotations: false
+
+flag_management:
+  default_rules:
+    carryforward: false

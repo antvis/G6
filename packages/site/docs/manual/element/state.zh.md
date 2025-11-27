@@ -27,7 +27,7 @@ G6 提供了一些常用的内置状态，您可以直接使用：
 | `active`    | 激活状态   | 当前正在交互的元素 |
 | `highlight` | 高亮状态   | 需要强调显示的元素 |
 | `inactive`  | 非活跃状态 | 淡化显示非关注元素 |
-| `disable`   | 禁用状态   | 不可交互的元素     |
+| `disabled`   | 禁用状态   | 不可交互的元素     |
 
 > 💡 **提示**：这些内置状态并非必须使用，您完全可以根据业务需求定义自己的状态名称。
 
@@ -60,7 +60,7 @@ const graph = new Graph({
         stroke: '#FF6A00',
         lineWidth: 2,
       },
-      disable: {
+      disabled: {
         fill: '#ECECEC',
         stroke: '#BFBFBF',
         opacity: 0.5,

@@ -504,6 +504,40 @@ export class Graph extends EventEmitter {
   public getData(): Required<GraphData> {
     return this.context.model.getData();
   }
+  /**
+   * <zh/> 判断图中是否存在指定节点
+   * <en/> Determine whether a specified node exists in the graph
+   * @param {ID} id
+   * @returns {boolean}
+   * @remarks <zh/> 判断图中是否存在指定节点,避免在不存在的节点上进行操作
+   * <en/> Determine whether a specified node exists in the graph and avoid operating on non-existent nodes
+   */
+  public hasNode(id: ID): boolean {
+    return this.context.model.hasNode(id);
+  }
+  /**
+   * <zh/> 判断图中是否存在指定边
+   * <en/> Determine whether a specified edge exists in the graph
+   * @param {ID} id
+   * @returns  {boolean}
+   * @remarks <zh/> 判断图中是否存在指定边,避免在不存在的边上进行操作
+   * <en/> Determine whether a specified edge exists in the graph and avoid operating on non-existent edges
+   */
+  public hasEdge(id: ID): boolean {
+    return this.context.model.hasEdge(id);
+  }
+
+  /**
+   * <zh/> 判断图中是否存在指定组合
+   * <en/> Determine whether a specified combo exists in the graph
+   * @param {ID} id
+   * @returns  {boolean}
+   * @remarks <zh/> 判断图中是否存在指定组合,避免在不存在的组合上进行操作
+   * <en/> Determine whether a specified combo exists in the graph and avoid operating on non-existent combos
+   */
+  public hasCombo(id: ID): boolean {
+    return this.context.model.hasCombo(id);
+  }
 
   /**
    * <zh/> 获取单个元素数据

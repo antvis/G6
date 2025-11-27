@@ -27,7 +27,7 @@ G6 provides some commonly used built-in states that you can use directly:
 | `active`    | Active state    | Currently interacting element        |
 | `highlight` | Highlight state | Elements that need emphasis          |
 | `inactive`  | Inactive state  | Dimmed display of unfocused elements |
-| `disable`   | Disabled state  | Non-interactive elements             |
+| `disabled`   | Disabled state  | Non-interactive elements             |
 
 > 💡 **Tip**: These built-in states are not mandatory. You can completely define your own state names according to business requirements.
 
@@ -60,7 +60,7 @@ const graph = new Graph({
         stroke: '#FF6A00',
         lineWidth: 2,
       },
-      disable: {
+      disabled: {
         fill: '#ECECEC',
         stroke: '#BFBFBF',
         opacity: 0.5,

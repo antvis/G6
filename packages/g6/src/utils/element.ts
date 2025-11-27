@@ -148,7 +148,7 @@ export function isSimplePort(portStyle: NodePortStyleProps): boolean {
  * @returns <zh/> 连接桩的位置 | <en/> Port Position
  */
 export function getPortPosition(port: Port): Point {
-  return isPoint(port) ? port : port.getPosition();
+  return isPoint(port) ? port : (port.getPosition() as Point);
 }
 
 /**
@@ -246,7 +246,7 @@ export function getPortConnectionPoint(port: Port, opposite: Node | Port): Point
   if (isPoint(port)) return port;
 
   // 1. linkToCenter 为 true，则返回连接桩的中心 | If linkToCenter is true, return the center of the port
-  if (port.attributes.linkToCenter) return port.getPosition();
+  if (port.attributes.linkToCenter) return port.getPosition() as Point;
 
   // 2. 推导对端的具体点：如果是连接桩或节点，则返回它的中心；如果是具体点，则直接返回
   // 2. Get a specific opposite point: if it is a port or a node, return its center; if it is a specific point, return directly
@@ -257,7 +257,7 @@ export function getPortConnectionPoint(port: Port, opposite: Node | Port): Point
       : opposite.getPosition();
 
   // 3. 返回连接桩边界上的交点 | Return the intersection point on the port boundary
-  return getEllipseIntersectPoint(oppositePosition, port.getBounds());
+  return getEllipseIntersectPoint(oppositePosition as Point, port.getBounds());
 }
 
 /**
@@ -275,7 +275,7 @@ export function getNodeConnectionPoint(nodeLike: Node | Combo, opposite: Node | 
     ? opposite
     : isNode(opposite)
       ? opposite.getCenter()
-      : opposite.getPosition();
+      : (opposite.getPosition() as Point);
   return nodeLike.getIntersectPoint(oppositePosition) || nodeLike.getCenter();
 }
 

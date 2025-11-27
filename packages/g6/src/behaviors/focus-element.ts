@@ -3,6 +3,7 @@ import { CommonEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import type { RuntimeContext } from '../runtime/types';
 import type { IElementEvent, ViewportAnimationEffectTiming } from '../types';
+import { Shortcut, ShortcutKey } from '../utils/shortcut';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -25,6 +26,14 @@ export interface FocusElementOptions extends BaseBehaviorOptions {
    * @defaultValue true
    */
   enable?: boolean | ((event: IElementEvent) => boolean);
+  /**
+   * <zh/> 触发聚焦的组合键
+   * 支持按下组合键的同时点击元素才能触发聚焦
+   *
+   * <en/> The shortcut key to trigger focus
+   * Focus can only be triggered when the element is clicked while the key combination is pressed.
+   */
+  trigger?: ShortcutKey;
 }
 
 /**
@@ -43,10 +52,14 @@ export class FocusElement extends BaseBehavior<FocusElementOptions> {
       duration: 500,
     },
     enable: true,
+    trigger: [],
   };
+
+  private shortcut: Shortcut;
 
   constructor(context: RuntimeContext, options: FocusElementOptions) {
     super(context, Object.assign({}, FocusElement.defaultOptions, options));
+    this.shortcut = new Shortcut(context.graph);
     this.bindEvents();
   }
 
@@ -67,10 +80,23 @@ export class FocusElement extends BaseBehavior<FocusElementOptions> {
   };
 
   private validate(event: IElementEvent) {
-    if (this.destroyed) return false;
+    if (this.destroyed || !this.isKeydown()) return false;
     const { enable } = this.options;
     if (isFunction(enable)) return enable(event);
     return !!enable;
+  }
+
+  /**
+   * <zh/> 当前按键是否和 trigger 配置一致
+   *
+   * <en/> Is the current key consistent with the trigger configuration
+   * @returns <zh/> 是否一致 | <en/> Is consistent
+   * @internal
+   */
+  private isKeydown(): boolean {
+    const { trigger } = this.options;
+    if (!trigger?.length) return true;
+    return this.shortcut.match(trigger);
   }
 
   private unbindEvents() {
@@ -83,6 +109,7 @@ export class FocusElement extends BaseBehavior<FocusElementOptions> {
 
   public destroy() {
     this.unbindEvents();
+    this.shortcut.destroy();
     super.destroy();
   }
 }

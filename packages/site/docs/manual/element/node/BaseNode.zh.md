@@ -641,8 +641,8 @@ graph.render();
 | iconLineHeight          | 节点图标文本行高                    | number \| string                                                            | -                |
 | iconMaxLines            | 节点图标文本最大行数                | number                                                                      | 1                |
 | iconRadius              | 节点图标圆角半径                    | number                                                                      | 0                |
-| iconSrc                 | 节点图片来源。其优先级高于 iconText | string                                                                      | -                |
-| iconText                | 节点图标文字                        | string                                                                      | -                |
+| iconSrc                 | 节点图片来源。其优先级高于 iconText | string \| ((datum) => string)                                                | -                |
+| iconText                | 节点图标文字                        | string \| ((datum) => string)                                               | -                |
 | iconTextAlign           | 节点图标文本水平对齐方式            | `start` \| `center` \| `middle` \| `end` \| `left` \| `right`               | `left`           |
 | iconTextBaseline        | 节点图标文本基线                    | `top` \| `hanging` \| `middle` \| `alphabetic` \| `ideographic` \| `bottom` | `alphabetic`     |
 | iconTextDecorationColor | 节点图标文本装饰线颜色              | string                                                                      | -                |
