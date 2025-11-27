@@ -59,7 +59,7 @@ In `GraphOptions.behaviors`, for example:
 ```ts
 const graph = new Graph({
   // ... other options
-  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-node'],
+  behaviors: ['drag-canvas', 'zoom-canvas', 'drag-element'],
 });
 ```
 

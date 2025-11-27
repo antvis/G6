@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "5.0.49",
+  "version": "5.0.50",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -58,20 +58,20 @@
   },
   "dependencies": {
     "@antv/algorithm": "^0.1.26",
-    "@antv/component": "^2.1.3",
+    "@antv/component": "^2.1.7",
     "@antv/event-emitter": "^0.1.3",
-    "@antv/g": "^6.1.24",
-    "@antv/g-canvas": "^2.0.43",
-    "@antv/g-plugin-dragndrop": "^2.0.35",
+    "@antv/g": "^6.1.28",
+    "@antv/g-canvas": "^2.0.48",
+    "@antv/g-plugin-dragndrop": "^2.0.38",
     "@antv/graphlib": "^2.0.4",
     "@antv/hierarchy": "^0.6.14",
     "@antv/layout": "1.2.14-beta.9",
-    "@antv/util": "^3.3.10",
+    "@antv/util": "^3.3.11",
     "bubblesets-js": "^2.3.4"
   },
   "devDependencies": {
-    "@antv/g-svg": "^2.0.38",
-    "@antv/g-webgl": "^2.0.47",
+    "@antv/g-svg": "^2.0.42",
+    "@antv/g-webgl": "^2.0.52",
     "@antv/layout-gpu": "^1.1.7",
     "@antv/layout-wasm": "^1.4.2",
     "@antv/vendor": "^1.0.11",

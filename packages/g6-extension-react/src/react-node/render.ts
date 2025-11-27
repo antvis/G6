@@ -1,145 +1,60 @@
 import type * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import type { Root } from 'react-dom/client';
 
-// Let compiler not to search module usage
-const fullClone = {
-  ...ReactDOM,
-} as typeof ReactDOM & {
-  __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED?: {
-    usingClientEntryPoint?: boolean;
-  };
-  createRoot?: CreateRoot;
-};
+type ContainerType = Element | DocumentFragment;
 
-type CreateRoot = (container: ContainerType) => Root;
+const { version } = ReactDOM;
 
-const { version, render: reactRender, unmountComponentAtNode } = fullClone as any;
+/**
+ * <zh/> 获取 React 主版本号
+ *
+ * <en/> Get React major version
+ * @returns <zh/> 主版本号 | <en/> Major version
+ */
+function getReactMajorVersion(): number {
+  return Number((version || '').split('.')[0]);
+}
 
-let createRoot: CreateRoot | undefined;
+const getRenderer = (() => {
+  let rendererPromise: Promise<{
+    render: (node: React.ReactElement, container: ContainerType) => unknown;
+    unmount: (container: ContainerType) => unknown;
+  }>;
 
-async function initCreateRoot() {
-  if (createRoot) return;
-  const mainVersion = Number((version || '').split('.')[0]);
-
-  // React 18+ 使用 createRoot
-  if (mainVersion >= 18) {
-    try {
-      /* @vite-ignore */
-      const client = await import('react-dom/client');
-      if (client.createRoot) {
-        createRoot = client.createRoot;
+  return () => {
+    if (!rendererPromise) {
+      const majorVersion = getReactMajorVersion();
+      if (majorVersion >= 18) {
+        rendererPromise = import('./render18');
+      } else {
+        rendererPromise = import('./render16');
       }
-    } catch (error) {
-      // 如果动态导入失败，回退到旧版本渲染
-      // Silent error
     }
-  }
-}
+    return rendererPromise;
+  };
+})();
 
 /**
- * <zh/> 切换警告
+ * <zh/> 渲染 React 节点(兼容 React 16 ~ 19)
  *
- * <en/> Toggle warning
- * @param skip <zh/> 是否跳过警告 | <en/> Whether to skip the warning
- */
-function toggleWarning(skip: boolean) {
-  const { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } = fullClone;
-
-  if (
-    __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED &&
-    typeof __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED === 'object'
-  ) {
-    __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.usingClientEntryPoint = skip;
-  }
-}
-
-const MARK = '__rc_react_root__';
-
-// ========================== Render ==========================
-type ContainerType = (Element | DocumentFragment) & {
-  [MARK]?: Root;
-};
-
-/**
- * <zh/> 渲染 React 节点(React >= 18)
- *
- * <en/> Render React node(React >= 18)
+ * <en/> Render React node(Compatible with React 16 ~ 19)
  * @param node - <zh/> React 节点 | <en/> React node
- * @param container - <zh/> 容器 | <en/> Container
- */
-function modernRender(node: React.ReactNode, container: ContainerType) {
-  toggleWarning(true);
-  const root = container[MARK] || createRoot!(container);
-  toggleWarning(false);
-
-  root.render(node);
-
-  container[MARK] = root;
-}
-
-/**
- * <zh/> 使用旧的 React 渲染
- *
- * <en/> Use old React render
- * @param node - <zh/> React 节点 | <en/> React node
- * @param container - <zh/> 容器 | <en/> Container
- */
-function legacyRender(node: React.ReactElement, container: ContainerType) {
-  reactRender(node, container);
-}
-
-/**
- * <zh/> 渲染 React 节点(兼容 React 16 ~ 18)
- *
- * <en/> Render React node(Compatible with React 16 ~ 18)
- * @param node - <zh/> React 节点 | <en/> React node
- * @param container - <zh/> 容器 | <en/> Container
- */
-export async function render(node: React.ReactElement, container: ContainerType) {
-  await initCreateRoot();
-  if (createRoot) modernRender(node, container);
-  else legacyRender(node, container);
-}
-
-/**
- * <zh/> 卸载 React 节点(React >= 18)
- *
- * <en/> Unmount React node(React >= 18)
  * @param container - <zh/> 容器 | <en/> Container
  * @returns <zh/> Promise | <en/> Promise
  */
-async function modernUnmount(container: ContainerType) {
-  // Delay to unmount to avoid React 18 sync warning
-  return Promise.resolve().then(() => {
-    container[MARK]?.unmount();
-    delete container[MARK];
-  });
+export async function render(node: React.ReactElement, container: ContainerType) {
+  const { render } = await getRenderer();
+  return render(node, container);
 }
 
 /**
- * <zh/> 卸载 React 节点(React < 18)
+ * <zh/> 卸载 React 节点(兼容 React 16 ~ 19)
  *
- * <en/> Unmount React node(React < 18)
- * @param container - <zh/> 容器 | <en/> Container
- */
-function legacyUnmount(container: ContainerType) {
-  unmountComponentAtNode(container);
-}
-
-/**
- * <zh/> 卸载 React 节点(兼容 React 16 ~ 18)
- *
- * <en/> Unmount React node(Compatible with React 16 ~ 18)
+ * <en/> Unmount React node(Compatible with React 16 ~ 19)
  * @param container - <zh/> 容器 | <en/> Container
  * @returns <zh/> Promise | <en/> Promise
  */
 export async function unmount(container: ContainerType) {
-  await initCreateRoot();
-  if (createRoot) {
-    // Delay to unmount to avoid React 18 sync warning
-    return modernUnmount(container);
-  }
-
-  legacyUnmount(container);
+  const { unmount } = await getRenderer();
+  return unmount(container);
 }

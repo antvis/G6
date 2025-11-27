@@ -254,7 +254,12 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     const { getContent, title } = this.options;
     const items: ElementDatum[] = this.getElementData(id, targetType as ElementType);
 
-    if (!this.tooltipElement || !this.isEnable(event, items)) return;
+    if (!this.tooltipElement) return;
+    // if shown, when is not enable, hide
+    if (!this.isEnable(event, items)) {
+      this.hide(event);
+      return;
+    }
 
     let tooltipContent: { [key: string]: unknown } = {};
     if (getContent) {

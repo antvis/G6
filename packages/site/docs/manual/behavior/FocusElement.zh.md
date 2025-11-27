@@ -51,11 +51,12 @@ const graph = new Graph({
 
 ## 配置项
 
-| 配置项    | 说明             | 类型                                                            | 默认值                                 | 必选 |
-| --------- | ---------------- | --------------------------------------------------------------- | -------------------------------------- | ---- |
-| type      | 交互类型名称     | string                                                          | `focus-element`                        | ✓    |
-| animation | 聚焦动画效果设置 | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | `{ duration: 500, easing: 'ease-in' }` |      |
-| enable    | 是否启用聚焦功能 | boolean \| ((event: IElementEvent) => boolean)                  | true                                   |      |
+| 配置项    | 说明                                                                                                                                                                                                                                                           | 类型                                                            | 默认值                                 | 必选 |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------- | ---- |
+| type      | 交互类型名称                                                                                                                                                                                                                                                   | string                                                          | `focus-element`                        | ✓    |
+| animation | 聚焦动画效果设置                                                                                                                                                                                                                                               | [ViewportAnimationEffectTiming](#viewportanimationeffecttiming) | `{ duration: 500, easing: 'ease-in' }` |      |
+| enable    | 是否启用聚焦功能                                                                                                                                                                                                                                               | boolean \| ((event: IElementEvent) => boolean)                  | true                                   |      |
+| trigger   | 同时按下快捷键才能聚焦元素 **按键参考：** _<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/UI_Events/Keyboard_event_key_values" target="_blank" rel="noopener noreferrer">MDN Key Values</a>_ 。若设为**空数组**时则表示不需要按下其他按键配合 <br/> | string[] \| (`Control` \| `Shift`\| `Alt` \| `......`)[]        | []                                     |      |
 
 ### ViewportAnimationEffectTiming
 
