@@ -9,7 +9,7 @@ export const behaviorExpandCollapseNode: TestCase = async (context) => {
       id: 'A',
       children: [
         { id: 'B', children: [{ id: 'D' }, { id: 'E' }] },
-        { id: 'C', children: [{ id: 'F' }, { id: 'G' }] },
+        { id: 'C', children: [{ id: 'F' }, { id: 'G' },], style: { collapsed: true } },
       ],
     }),
     node: {
@@ -26,7 +26,8 @@ export const behaviorExpandCollapseNode: TestCase = async (context) => {
       type: 'dendrogram',
       nodeSep: 30,
       rankSep: 100,
-      preLayout: false,
+      preLayout: true,
+      isLayoutInvisibleNodes: true,
     },
     behaviors: [{ type: 'collapse-expand', trigger: 'click', align: false }, 'drag-element'],
   });

@@ -380,9 +380,7 @@ await graph.collapseElement('combo1');
 await graph.collapseElement('combo1', true);
 
 // 收起并保证展开/收起的节点位置不变
-await graph.collapseElement('combo1', {
-  align: true,
-});
+await graph.collapseElement('combo1', {});
 ```
 
 ### Graph.expandElement(id, options)
