@@ -51,11 +51,11 @@ export interface BubbleSetsOptions extends BasePluginOptions, IBubbleSetOptions,
  * <en/> The principle is to represent sets by creating a shape similar to a bubble. Each set is represented by a unique "bubble", and the elements in the set are contained within this bubble. If two sets have an intersection, then the two bubbles will have an overlapping part, which represents the intersection of the two sets.
  */
 export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
-  private shape!: Contour;
+  private shape?: Contour;
 
   private bubbleSets!: BubbleSetsJS;
 
-  private path!: PathArray;
+  private path: PathArray | null = null;
 
   private members: Map<ID, IRectangle | ILine> = new Map();
 
@@ -90,8 +90,9 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
 
   private init() {
     this.bubbleSets = new BubbleSetsJS(this.options);
-    this.members = new Map();
-    this.avoidMembers = new Map();
+    this.members.clear();
+    this.avoidMembers.clear();
+    this.path = null;
   }
 
   private parseOptions() {
@@ -139,8 +140,21 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
     const currAvoidMembers = this.options.avoidMembers;
     const prevAvoidMembers = [...this.avoidMembers.keys()];
 
-    if (!forceUpdateId && isEqual(currMembers, prevMembers) && isEqual(currAvoidMembers, prevAvoidMembers))
+    if (currMembers.length === 0 && currAvoidMembers.length === 0) {
+      this.members.clear();
+      this.avoidMembers.clear();
+      this.path = [] as unknown as PathArray;
       return this.path;
+    }
+
+    if (
+      !forceUpdateId &&
+      this.path &&
+      isEqual(currMembers, prevMembers) &&
+      isEqual(currAvoidMembers, prevAvoidMembers)
+    ) {
+      return this.path;
+    }
 
     const { enter: membersToEnter = [], exit: membersToExit = [] } = arrayDiff(prevMembers, currMembers, (d) => d);
     const { enter: avoidMembersToEnter = [], exit: avoidMembersToExit = [] } = arrayDiff(
@@ -150,8 +164,17 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
     );
 
     if (forceUpdateId) {
-      membersToExit.push(forceUpdateId);
-      membersToEnter.push(forceUpdateId);
+      const isMemberNow = currMembers.includes(forceUpdateId);
+      const isAvoidNow = currAvoidMembers.includes(forceUpdateId);
+
+      if (isMemberNow) {
+        membersToExit.push(forceUpdateId);
+        membersToEnter.push(forceUpdateId);
+      }
+      if (isAvoidNow) {
+        avoidMembersToExit.push(forceUpdateId);
+        avoidMembersToEnter.push(forceUpdateId);
+      }
     }
 
     const updateBubbleSets = (ids: ID[], isEntering: boolean, isMember: boolean) => {
@@ -247,7 +270,7 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
    */
   public addAvoidMember(avoidMembers: ID | ID[]) {
     const avoidMembersToAdd = Array.isArray(avoidMembers) ? avoidMembers : [avoidMembers];
-    if (avoidMembersToAdd.some((AvoidMember) => this.options.members.includes(AvoidMember))) {
+    if (avoidMembersToAdd.some((avoidMember) => this.options.members.includes(avoidMember))) {
       this.options.members = this.options.members.filter((id) => !avoidMembersToAdd.includes(id));
     }
     this.options.avoidMembers = [...new Set([...this.options.avoidMembers, ...avoidMembersToAdd])];
@@ -294,7 +317,12 @@ export class BubbleSets extends BasePlugin<BubbleSetsOptions> {
   public destroy(): void {
     this.context.graph.off(GraphEvent.AFTER_RENDER, this.drawBubbleSets);
     this.context.graph.off(GraphEvent.AFTER_ELEMENT_UPDATE, this.updateBubbleSetsPath);
-    this.shape.destroy();
+
+    if (this.shape) {
+      this.shape.destroy();
+      this.shape = undefined;
+    }
+
     super.destroy();
   }
 }
