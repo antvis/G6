@@ -14,7 +14,7 @@ describe('behavior create edge drag', () => {
     await expect(graph).toMatchSnapshot(__filename);
 
     graph.emit(NodeEvent.DRAG_START, { target: { id: 'node1' }, targetType: 'node' });
-    graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 100, y: 100 } });
+    graph.emit(CommonEvent.POINTER_MOVE, { client: { x: 100, y: 100 } });
 
     await expect(graph).toMatchSnapshot(__filename, 'drag-edge1-move');
 
