@@ -7,14 +7,15 @@ This article introduces the common attribute configurations for built-in layouts
 
 ## General Configuration
 
-| Property               | Description                                                                             | Type                        | Default    | Required |
-| ---------------------- | --------------------------------------------------------------------------------------- | --------------------------- | ---------- | -------- |
-| type                   | Layout type, name of built-in or custom layout                                          | [Type](#Type)               | -          | ✓        |
-| isLayoutInvisibleNodes | Whether invisible nodes participate in the layout (takes effect when preLayout is true) | boolean                     | false      |          |
-| nodeFilter             | Nodes participating in the layout                                                       | (node: NodeData) => boolean | () => true |          |
-| preLayout              | Use pre-layout, calculate layout before initializing elements                           | boolean                     | false      |          |
-| enableWorker           | Whether to run the layout in a WebWorker                                                | boolean                     | -          |          |
-| iterations             | Number of iterations for iterative layout                                               | number                      | -          |          |
+| Property               | Description                                                                             | Type                          | Default    | Required |
+| ---------------------- | --------------------------------------------------------------------------------------- | ----------------------------- | ---------- | -------- |
+| type                   | Layout type, name of built-in or custom layout                                          | [Type](#Type)                 | -          | ✓        |
+| isLayoutInvisibleNodes | Whether invisible nodes participate in the layout (takes effect when preLayout is true) | boolean                       | false      |          |
+| nodeFilter             | Nodes participating in the layout                                                       | (node: NodeData) => boolean   | () => true |          |
+| comboFilter            | Combos participating in the layout                                                      | (combo: ComboData) => boolean | () => true |          |
+| preLayout              | Use pre-layout, calculate layout before initializing elements                           | boolean                       | false      |          |
+| enableWorker           | Whether to run the layout in a WebWorker                                                | boolean                       | -          |          |
+| iterations             | Number of iterations for iterative layout                                               | number                        | -          |          |
 
 ### Type
 

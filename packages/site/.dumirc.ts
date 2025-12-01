@@ -41,10 +41,6 @@ export default defineConfig({
     showAPIDoc: false, // 是否在 demo 页展示API文档
     feedback: true, // 是否显示反馈组件
     links: true, // 是否显示links答疑小蜜
-    petercat: {
-      show: true,
-      token: '4bd33b46-9b3c-4df1-be17-9206ea7c7e34',
-    },
     prefersColor: {
       default: 'light',
       switch: false,
@@ -327,13 +323,13 @@ export default defineConfig({
     /** 公告 */
     announcement: {
       title: {
-        zh: 'AntV OSCP 文档季火热进行中！成为 Issue Hunter，赢限定周边 & 超市卡等好礼 🎁',
-        en: 'AntV OSCP Doc Season: Hunt Issues to Win Exclusive Merch & Gift Cards! 🎁',
+        zh: 'AntV 首个声明式信息图渲染框架正式开源，让数据叙事更简单、更优雅、更高效，现诚邀体验共建！',
+        en: "AntV's declarative infographic framework is now open source. Simpler, more elegant data storytelling!",
       },
       link: {
-        url: 'https://github.com/orgs/antvis/projects/31',
+        url: 'https://infographic.antv.vision/',
         text: {
-          zh: '点击了解活动',
+          zh: '点击了解详情',
           en: 'Learn More',
         },
       },

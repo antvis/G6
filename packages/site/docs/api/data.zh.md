@@ -806,6 +806,75 @@ updateComboData(data: (ComboData[] | ((prev: ComboData[]) => ComboData[]))): voi
 graph.updateComboData([{ id: 'combo-1', style: { x: 100, y: 100 } }]);
 ```
 
+### Graph.hasNode()
+
+判断节点是否存在
+
+```typescript
+hasNode(id:ID): boolean;
+```
+
+**参数**:
+
+| 参数 | 描述                 | 类型      | 默认值 | 必选 |
+| ---- | -------------------- | --------- | ------ | ---- |
+| id   | 需要进行判断的节点id | [ID](#id) | -      | ✓    |
+
+**返回值**:
+
+- **类型**: boolean
+  **示例**:
+
+```typescript
+graph.hasNode('node-1');
+```
+
+### Graph.hasEdge()
+
+判断边是否存在
+
+```typescript
+hasEdge(id:ID): boolean;
+```
+
+**参数**:
+
+| 参数 | 描述               | 类型      | 默认值 | 必选 |
+| ---- | ------------------ | --------- | ------ | ---- |
+| id   | 需要进行判断的边id | [ID](#id) | -      | ✓    |
+
+**返回值**:
+
+- **类型**: boolean
+  **示例**:
+
+```typescript
+graph.hasEdge('edge-1');
+```
+
+### Graph.hasCombo()
+
+判断combo是否存在
+
+```typescript
+hasCombo(id:ID): boolean;
+```
+
+**参数**:
+
+| 参数 | 描述                      | 类型      | 默认值 | 必选 |
+| ---- | ------------------------- | --------- | ------ | ---- |
+| id   | 需要进行判断的combo组合id | [ID](#id) | -      | ✓    |
+
+**返回值**:
+
+- **类型**: boolean
+  **示例**:
+
+```typescript
+graph.hasCombo('combo-1');
+```
+
 ## 类型定义
 
 ### ID

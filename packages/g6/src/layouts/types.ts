@@ -15,7 +15,7 @@ import type {
   RadialLayoutOptions,
   RandomLayoutOptions,
 } from '@antv/layout';
-import type { NodeData } from '../spec/data';
+import type { ComboData, NodeData } from '../spec/data';
 import type { BaseLayout } from './base-layout';
 import type { FishboneLayoutOptions } from './fishbone';
 import type { SnakeLayoutOptions } from './snake';
@@ -52,6 +52,14 @@ export interface BaseLayoutOptions extends AnimationOptions, WebWorkerLayoutOpti
    * @returns <zh/> 是否参与布局 | <en/> Whether to participate in the layout
    */
   nodeFilter?: (node: NodeData) => boolean;
+  /**
+   * <zh/> 参与该布局的combo元素
+   *
+   * <en/> Combos involved in the layout
+   * @param node - <zh/> combo数据 | <en/> combo data
+   * @returns <zh/> 是否参与布局 | <en/> Whether to participate in the layout
+   */
+  comboFilter?: (combo: ComboData) => boolean;
   /**
    * <zh/> 使用前布局，在初始化元素前计算布局
    *

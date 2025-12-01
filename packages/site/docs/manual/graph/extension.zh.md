@@ -31,7 +31,7 @@ import { CustomNode } from './my-custom-node';
 register(ExtensionCategory.NODE, 'custom-node', CustomNode);
 ```
 
-`register` 函数的第一个参数是扩展的类型，第二个参数是扩展的名称，第三个参数是扩展的实现。
+`register` 函数的第一个参数是扩展的类型，第二个参数是扩展的名称，第三个参数是扩展的实现(扩展实现参考各扩展类型所在文档的自定义相关章节)。
 
 不同的扩展类型之间**可以**使用相同的扩展名称，但同一类型的扩展重复注册时仅会在第一次注册时生效。
 

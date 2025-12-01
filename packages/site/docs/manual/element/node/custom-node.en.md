@@ -3,19 +3,19 @@ title: Custom Node
 order: 12
 ---
 
-G6 provides a series of [built-in nodes](/en/manual/element/node/base-node), including [circle](/en/manual/element/node/circle), [diamond](/en/manual/element/node/diamond), [donut](/en/manual/element/node/donut), [ellipse](/en/manual/element/node/ellipse), [hexagon](/en/manual/element/node/hexagon), [html](/en/manual/element/node/html), [image](/en/manual/element/node/image), [rect](/en/manual/element/node/rect), [star](/en/manual/element/node/star), and [triangle](/en/manual/element/node/triangle). These built-in nodes can meet most basic scene requirements.
+G6 provides a series of [built-in nodes](/en/manual/element/node/base-node), including [circle (Circle Node)](/en/manual/element/node/circle), [diamond (Diamond Node)](/en/manual/element/node/diamond), [donut (Donut Node)](/en/manual/element/node/donut), [ellipse (Ellipse Node)](/en/manual/element/node/ellipse), [hexagon (Hexagon Node)](/en/manual/element/node/hexagon), [html (HTML Node)](/en/manual/element/node/html), [image (Image Node)](/en/manual/element/node/image), [rect (Rectangle Node)](/en/manual/element/node/rect), [star (Star Node)](/en/manual/element/node/star), and [triangle (Triangle Node)](/en/manual/element/node/triangle). These built-in nodes can meet most basic scenario requirements.
 
-However, in actual projects, you may encounter needs that these basic nodes cannot meet. In this case, you need to create custom nodes. Don't worry, it's simpler than you think!
+However, in actual projects, you may encounter needs that these basic nodes cannot satisfy. In such cases, you need to create custom nodes. Don't worry, this is simpler than you might think!
 
-## Ways to Customize Nodes <Badge type="warning">Choose the Right Way</Badge>
+## Ways to Create Custom Nodes <Badge type="warning">Choose the Right Approach</Badge>
 
-There are mainly two ways to create custom nodes:
+There are mainly two approaches to creating custom nodes:
 
-### 1. Inherit Existing Node Types <Badge type="success">Recommended</Badge>
+### 1. Inherit from Existing Node Types <Badge type="success">Recommended</Badge>
 
-This is the most common way, you can choose to inherit one of the following types:
+This is the most commonly used approach, where you can choose to inherit from one of the following types:
 
-- [`BaseNode`](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/nodes/base-node.ts) - The most basic node class, providing core functions of nodes
+- [`BaseNode`](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/nodes/base-node.ts) - The most basic node class, providing core node functionality
 - [`Circle`](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/nodes/circle.ts) - Circle node
 - [`Rect`](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/nodes/rect.ts) - Rectangle node
 - [`Ellipse`](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/nodes/ellipse.ts) - Ellipse node
@@ -26,40 +26,44 @@ This is the most common way, you can choose to inherit one of the following type
 - [`Donut`](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/nodes/donut.ts) - Donut node
 - [`Hexagon`](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/nodes/hexagon.ts) - Hexagon node
 
-**Why choose this way?**
+**Why choose this approach?**
 
-- 📌 **Less code**: Reuse existing node properties and methods, just focus on adding new features
-- 📌 **Fast development**: Suitable for most project needs, quickly achieve business goals
-- 📌 **Easy to maintain**: Clear code structure, clear inheritance relationship
+- 📌 **Less Code**: Reuse properties and methods of existing nodes, only focus on new features
+- 📌 **Rapid Development**: Suitable for most project needs, quickly achieve business goals
+- 📌 **Easy Maintenance**: Clear code structure with well-defined inheritance relationships
 
-### 2. Develop from Scratch Based on G Graphics System <Badge>Advanced Usage</Badge>
-
-If existing node types do not meet the needs, you can create nodes from scratch based on the underlying graphics system of G.
-
-**Why choose this way?**
-
-- 📌 **Maximum freedom**: Fully control every detail of the node, achieve any complex effect
-- 📌 **Special needs**: Highly customized scenarios that existing node types cannot meet
-- 📌 **Performance optimization**: Performance optimization for specific scenarios
-
-:::warning{title=Note}
-Custom nodes developed from scratch need to handle all details by themselves, including graphic drawing, event response, state changes, etc., which is more difficult to develop. You can directly refer to the [source code](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/nodes/base-node.ts) for implementation.
+:::tip{title=Get Started Now}
+If you choose to inherit from existing node types (recommended), you can jump directly to [Create Your First Custom Node in Three Steps](#create-your-first-custom-node-in-three-steps) to start practicing. Most users will choose this approach!
 :::
 
-## Three Steps to Create Your First Custom Node
+### 2. Build from Scratch Based on G Graphics System <Badge>Advanced Usage</Badge>
 
-Let's start with a simple example - create a **rectangle node with a main and subtitle**:
+If existing node types don't meet your requirements, you can create nodes from scratch based on G's underlying graphics system.
+
+**Why choose this approach?**
+
+- 📌 **Maximum Freedom**: Complete control over every detail of the node, achieving any complex effects
+- 📌 **Special Requirements**: Highly customized scenarios that existing node types cannot satisfy
+- 📌 **Performance Optimization**: Performance optimization for specific scenarios
+
+:::warning{title=Important Notes}
+Custom nodes built from scratch require handling all details yourself, including graphics rendering, event response, state changes, etc., with higher development difficulty. You can refer directly to the [source code](https://github.com/antvis/G6/blob/v5/packages/g6/src/elements/nodes/base-node.ts) for implementation.
+:::
+
+## Create Your First Custom Node in Three Steps
+
+Let's start with a simple example - creating a **rectangle node with main and subtitle**:
 
 ```js | ob { pin:false, inject: true }
 import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
-// Step 1: Create a custom node class
+// Step 1: Create custom node class
 class DualLabelNode extends Rect {
   // Subtitle style
   getSubtitleStyle(attributes) {
     return {
       x: 0,
-      y: 45, // Placed below the main title
+      y: 45, // Place below the main title
       text: attributes.subtitle || '',
       fontSize: 12,
       fill: '#666',
@@ -76,7 +80,7 @@ class DualLabelNode extends Rect {
 
   // Render method
   render(attributes = this.parsedAttributes, container) {
-    // 1. Render the basic rectangle and main title
+    // 1. Render basic rectangle and main title
     super.render(attributes, container);
 
     // 2. Add subtitle
@@ -98,7 +102,7 @@ const graph = new Graph({
         style: { x: 100, y: 100 },
         data: {
           title: 'Node A', // Main title
-          subtitle: 'Your first custom node', // Subtitle
+          subtitle: 'Your First Custom Node', // Subtitle
         },
       },
     ],
@@ -126,7 +130,7 @@ graph.render();
 
 ### Step 1: Write Custom Node Class
 
-Inherit G6's `Rect` (rectangle node) and add a subtitle:
+Inherit from G6's `Rect` (rectangle node) and add a subtitle:
 
 ```js
 import { Rect, register, Graph, ExtensionCategory } from '@antv/g6';
@@ -137,7 +141,7 @@ class DualLabelNode extends Rect {
   getSubtitleStyle(attributes) {
     return {
       x: 0,
-      y: 45, // Placed below the main title
+      y: 45, // Place below the main title
       text: attributes.subtitle || '',
       fontSize: 12,
       fill: '#666',
@@ -154,7 +158,7 @@ class DualLabelNode extends Rect {
 
   // Render method
   render(attributes = this.parsedAttributes, container) {
-    // 1. Render the basic rectangle and main title
+    // 1. Render basic rectangle and main title
     super.render(attributes, container);
 
     // 2. Add subtitle
@@ -174,12 +178,12 @@ register(ExtensionCategory.NODE, 'dual-label-node', DualLabelNode);
 The `register` method requires three parameters:
 
 - Extension category: `ExtensionCategory.NODE` indicates this is a node type
-- Type name: `dual-label-node` is the name we give to this custom node, which will be used in the configuration later
+- Type name: `dual-label-node` is the name we give to this custom node, which will be used in configuration later
 - Class definition: `DualLabelNode` is the node class we just created
 
 ### Step 3: Apply Custom Node
 
-Use the custom node in the graph configuration:
+Use the custom node in graph configuration:
 
 ```js
 const graph = new Graph({
@@ -190,7 +194,7 @@ const graph = new Graph({
         style: { x: 100, y: 100 },
         data: {
           title: 'Node A', // Main title
-          subtitle: 'Your first custom node', // Subtitle
+          subtitle: 'Your First Custom Node', // Subtitle
         },
       },
     ],
@@ -216,246 +220,130 @@ const graph = new Graph({
 graph.render();
 ```
 
-🎉 Congratulations! You have created your first custom node. It looks simple, but this process contains the core idea of custom nodes: **inherit a basic node type**, then **override the `render` method** to add custom content.
+🎉 Congratulations! You have created your first custom node. It looks simple, but this process contains the core concept of custom nodes: **inherit from a basic node type**, then **override the `render` method** to add custom content.
 
-## Going Further: Understanding the Principles of Node Drawing
+## Understanding Data Flow: How to Access Data in Custom Nodes
 
-Creating custom nodes in G6 is essentially drawing various graphics on the Canvas. We use a series of "atomic graphics" as basic building blocks, like different shapes in Lego blocks.
+Before creating complex custom nodes, understanding how data flows into custom nodes is very important. G6 provides multiple ways to access data for custom nodes:
 
-### Atomic Graphics
+### Method 1: Through `attributes` Parameter (Recommended)
 
-G6 nodes are drawn using graphic atomic units provided by the [G Graphics System](https://g.antv.antgroup.com/). Here are common graphic elements and their uses:
-
-| Graphic Element | Type       | Description                                                                                                                                                                                                                                                      |
-| --------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Circle          | `circle`   | Suitable for representing states, avatars, circular buttons, etc. Refer to the SVG [<circle>](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle) element                                                                                           |
-| Ellipse         | `ellipse`  | Similar to circle, but supports different horizontal and vertical axes. Refer to the SVG [<ellipse>](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/ellipse) element                                                                                   |
-| Image           | `image`    | Used to display icons, user avatars, logos, etc. Refer to the SVG [<image>](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image) element                                                                                                              |
-| Line            | `line`     | Used for decoration, auxiliary connections, etc. Refer to the SVG [<line>](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/line) element                                                                                                                |
-| Path            | `path`     | Supports complex graphics such as arrows, arcs, curves, Bezier paths, etc. Paths contain a set of commands and parameters with different semantics, [usage details](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths)                             |
-| Polygon         | `polygon`  | Supports custom graphics such as stars, arrows. Refer to the SVG [<polygon>](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polygon) element                                                                                                           |
-| Polyline        | `polyline` | Multi-point polyline, suitable for complex connection structures. Refer to the SVG [<polyline>](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline) element                                                                                       |
-| Rectangle       | `rect`     | The most commonly used graphic, suitable as a container, card, button, etc. Refer to the SVG [<rect>](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/rect) element                                                                                     |
-| Text            | `text`     | Displays names, descriptions, labels, etc. Provides simple single-line/multi-line text layout capabilities, single-line supports horizontal alignment, character spacing; multi-line supports explicit line breaks and automatic line breaks, vertical alignment |
-
-> For more atomic graphics and detailed properties, please refer to [Element - Graphics (Optional)](/en/manual/element/shape/overview)
-
-All these graphics can be dynamically created or updated through `upsert()` and automatically manage graphic states and lifecycles.
-
-### Element Base Class
-
-Before customizing elements, you need to understand some important properties and methods in the G6 element base class:
-
-#### Properties
-
-| Property   | Type                          | Description                                               |
-| ---------- | ----------------------------- | --------------------------------------------------------- |
-| shapeMap   | Record<string, DisplayObject> | Mapping table of all graphics under the current element   |
-| animateMap | Record<string, IAnimation>    | Mapping table of all animations under the current element |
-
-#### Methods
-
-#### `upsert(name, Ctor, style, container, hooks)`: Graphic Creation/Update
-
-When creating custom elements, you will frequently use the `upsert` method. It is an abbreviation for "update or insert", responsible for adding or updating graphics in elements:
-
-```typescript
-upsert(key: string, Ctor: { new (...args: any[]): DisplayObject }, style: Record<string, any>, container: DisplayObject);
-```
-
-| Parameter | Type                                    | Description                                                                                                                                                                                                                                                                                                                     |
-| --------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| key       | string                                  | The key of the graphic, corresponding to the key in `shapeMap`. Built-in keys include `'key'` `'label'` `'halo'` `'icon'` `'port'` `'badge'`<br/> The key should not use special symbols, it will be converted to camel case to call `getXxxStyle` and `drawXxxShape` methods (see [Element Conventions](#element-conventions)) |
-| Ctor      | { new (...args: any[]): DisplayObject } | Graphic class                                                                                                                                                                                                                                                                                                                   |
-| style     | Record<string, any>                     | Graphic style                                                                                                                                                                                                                                                                                                                   |
-| container | DisplayObject                           | Container to mount the graphic                                                                                                                                                                                                                                                                                                  |
-
-For example, insert a fixed-position purple circle:
+The first parameter `attributes` of the `render` method contains processed style attributes, including data-driven styles:
 
 ```js
-this.upsert(
-  'element-key', // Unique identifier of the element
-  'circle', // Graphic type, such as 'rect', 'circle', etc.
-  { x: 100, y: 100, fill: '#a975f3' }, // Style configuration object
-  container, // Parent container
-);
-```
+class CustomNode extends Rect {
+  render(attributes, container) {
+    // attributes contains all style attributes, including data-driven styles
+    console.log('All properties of current node:', attributes);
 
-Why use `upsert` instead of directly creating graphics through `container.appendChild()`? Because:
+    // If customData: (d) => d.data.someValue is defined in style
+    // Then you can access it through attributes.customData
+    const customValue = attributes.customData;
 
-1. **Better performance**: When node states change or data updates, it intelligently reuses existing graphics instead of deleting and recreating, greatly improving rendering performance
-2. **Simpler code**: No need to manually determine whether the element exists
-3. **Easy to manage**: All graphics created through `upsert` will be recorded in the node's `shapeMap`, you can easily get it through `this.getShape(key)`
-
-#### `render(attributes, container)`: Main Entry for Rendering Nodes
-
-Each custom node class must implement the `render(attributes, container)` method, which defines how the node is "drawn". You can use various atomic graphics here to create the structure you want.
-
-```typescript
-render(style: Record<string, any>, container: Group): void;
-```
-
-| Parameter | Type                | Description   |
-| --------- | ------------------- | ------------- |
-| style     | Record<string, any> | Element style |
-| container | Group               | Container     |
-
-#### `getShape(name)`: Get Created Graphics
-
-Sometimes, you need to modify the properties of a sub-graphic after creation, or have interactions between sub-graphics. At this time, the `getShape` method can help you get any graphics previously created through `upsert`:
-
-**⚠️ Note**: The order of graphics is important, if graphic B depends on the position of graphic A, A must be created first
-
-### Element Conventions
-
-- **Use Convention Properties**
-
-Currently, the convention element properties include:
-
-- Get the size of the element through `this.getSize()`
-
-- **Use `getXxxStyle` and `drawXxxShape` pairing to draw graphics**
-
-`getXxxStyle` is used to get the graphic style, and `drawXxxShape` is used to draw the graphic. Graphics created in this way support automatic animation execution.
-
-> Where `Xxx` is the camel case form of the key passed when calling the [upsert](#methods) method.
-
-- **Access Graph Context through `this.context`**
-
-### Lifecycle Hooks
-
-The following lifecycle hook functions are provided, you can override these methods in custom nodes to execute specific logic at key moments:
-
-| Hook Function | Trigger Timing                                                    | Typical Use                                                                      |
-| ------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `onCreate`    | After the node is created and the entrance animation is completed | Bind interaction events, initialize node states, add external listeners          |
-| `onUpdate`    | After the node is updated and the update animation is completed   | Update dependent data, adjust related elements, trigger linkage effects          |
-| `onDestroy`   | After the node is destroyed and the exit animation is completed   | Clean up resources, remove external listeners, execute destruction notifications |
-
-### State Response
-
-The most powerful point in the design of G6 elements is the ability to separate **"state response"** from **"drawing logic"**.
-
-You can define styles for each state in the node configuration:
-
-```js
-node: {
-  type: 'custom-node',
-  style: { fill: '#fff' },
-  state: {
-    selected: {
-      fill: '#f00',
-    },
-    hover: {
-      lineWidth: 3,
-      stroke: '#1890ff',
-    },
-  },
+    super.render(attributes, container);
+  }
 }
 ```
 
-Method to switch states:
+### Method 2: Through `this.context.graph` to Access Raw Data
+
+When you need to access the node's raw data, you can get it through the graph instance:
 
 ```js
-graph.setElementState(nodeId, ['selected']);
-```
-
-This state will be passed into the `render()` method's `attributes`, and the result merged by the internal system will be automatically applied to the graphics.
-
-You can also customize the rendering logic based on the state:
-
-```typescript
-protected getKeyStyle(attributes: Required<BaseNodeStyleProps>) {
-  const style = super.getKeyStyle(attributes);
-
-  // Adjust style based on state
-  if (attributes.states?.includes('selected')) {
-    return {
-      ...style,
-      stroke: '#1890ff',
-      lineWidth: 2,
-      shadowColor: 'rgba(24,144,255,0.2)',
-      shadowBlur: 15,
-    };
+class CustomNode extends Rect {
+  // Convenient data access method
+  get nodeData() {
+    return this.context.graph.getNodeData(this.id);
   }
 
-  return style;
+  get data() {
+    return this.nodeData.data || {};
+  }
+
+  render(attributes, container) {
+    // Get complete node data
+    const nodeData = this.nodeData;
+    console.log('Complete node data:', nodeData);
+
+    // Get business data from data field
+    const businessData = this.data;
+    console.log('Business data:', businessData);
+
+    super.render(attributes, container);
+  }
 }
 ```
 
-## From Simple to Complex: Gradually Build Feature-Rich Nodes
+### Complete Data Flow Process
 
-Let's gradually increase the complexity and functionality of nodes through practical examples.
-
-### Node with Icon and Label
-
-Place an icon and label text in the upper left corner of the node.
-
-> 👇 Step Description:
->
-> 1. Inherit Rect node
-> 2. Add icon (image)
-> 3. Add label (text)
+Let's understand how data flows from graph data to custom nodes through a specific example:
 
 ```js | ob { inject: true }
 import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
 
-class IconNode extends Rect {
+class DataFlowNode extends Rect {
+  // Method 2: Get raw data through graph
+  get nodeData() {
+    return this.context.graph.getNodeData(this.id);
+  }
+
   get data() {
-    return this.context.graph.getNodeData(this.id).data;
-  }
-
-  getCustomIconStyle(attributes) {
-    const [width, height] = this.getSize(attributes);
-    const { icon } = this.data;
-    return {
-      x: -width / 2 + 4, // 15px from the left
-      y: -height / 2 + 4,
-      width: 20,
-      height: 20,
-      src: icon,
-    };
-  }
-
-  drawCustomIconShape(attributes, container) {
-    const iconStyle = this.getCustomIconStyle(attributes);
-
-    this.upsert('custom-icon', 'image', iconStyle, container);
-  }
-
-  getCustomLabelStyle(attributes) {
-    const [width, height] = this.getSize(attributes);
-    const { label } = this.data;
-    return {
-      x: -width / 2 + 26, // 10px to the right of the icon
-      y: -height / 2 + 14,
-      text: label || '',
-      fontSize: 10,
-      fill: '#333',
-      textAlign: 'left',
-      textBaseline: 'middle',
-    };
-  }
-
-  drawCustomLabelShape(attributes, container) {
-    const labelStyle = this.getCustomLabelStyle(attributes);
-
-    this.upsert('custom-label', 'text', labelStyle, container);
+    return this.nodeData.data || {};
   }
 
   render(attributes, container) {
+    // Method 1: Get processed styles from attributes
+    console.log('Get from attributes:', {
+      iconUrl: attributes.iconUrl,
+      userName: attributes.userName,
+    });
+
+    // Method 2: Get from raw data
+    console.log('Get from raw data:', {
+      icon: this.data.icon,
+      name: this.data.name,
+      role: this.data.role,
+    });
+
     // Render basic rectangle
     super.render(attributes, container);
 
-    // Add icon
-    this.drawCustomIconShape(attributes, container);
+    // Use data to render custom content
+    if (attributes.iconUrl) {
+      this.upsert(
+        'icon',
+        'image',
+        {
+          x: -25,
+          y: -12,
+          width: 20,
+          height: 20,
+          src: attributes.iconUrl,
+        },
+        container,
+      );
+    }
 
-    // Add label (to the right of the icon)
-    this.drawCustomLabelShape(attributes, container);
+    if (attributes.userName) {
+      this.upsert(
+        'username',
+        'text',
+        {
+          x: 10,
+          y: 0,
+          text: attributes.userName,
+          fontSize: 10,
+          fill: '#666',
+          textAlign: 'center',
+          textBaseline: 'middle',
+        },
+        container,
+      );
+    }
   }
 }
 
-register(ExtensionCategory.NODE, 'custom-icon-node', IconNode);
+register(ExtensionCategory.NODE, 'data-flow-node', DataFlowNode);
 
 const graph = new Graph({
   container: 'container',
@@ -463,27 +351,32 @@ const graph = new Graph({
   data: {
     nodes: [
       {
-        id: 'node1',
+        id: 'user1',
         style: { x: 100, y: 100 },
+        // This is the node's business data
         data: {
-          icon: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
-          label: 'AntV',
+          name: 'Zhang San',
+          role: 'Developer',
+          icon: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix',
         },
       },
     ],
   },
   node: {
-    type: 'custom-icon-node',
+    type: 'data-flow-node',
     style: {
-      size: [120, 60],
-      fill: '#fff',
-      stroke: '#873bf4',
-      lineWidth: 2,
-      radius: 2,
-      labelText: 'G6',
-      labelPlacement: 'middle',
-      labelFontSize: 16,
-      labelOffsetY: 6,
+      size: [80, 40],
+      fill: '#f0f9ff',
+      stroke: '#0ea5e9',
+      lineWidth: 1,
+      radius: 4,
+      // Map data from data field to style attributes
+      iconUrl: (d) => d.data.icon, // This becomes attributes.iconUrl
+      userName: (d) => d.data.name, // This becomes attributes.userName
+      // Main title uses role information
+      labelText: (d) => d.data.role,
+      labelFontSize: 12,
+      labelFill: '#0369a1',
     },
   },
 });
@@ -491,9 +384,175 @@ const graph = new Graph({
 graph.render();
 ```
 
-### Node with Clickable Button
+:::tip{title=Data Flow Summary}
 
-Add a blue button to the node, which triggers an event (logs or executes a callback) when clicked.
+1. **Graph Data Definition**: Define business data in `data.nodes[].data`
+2. **Style Mapping**: Use functions in `node.style` to map data to style attributes
+3. **Node Access**: Access data in custom nodes through `attributes` or `this.context.graph`
+4. **Rendering Usage**: Use the obtained data to render custom graphics
+   :::
+
+## From Simple to Complex: Gradually Building Feature-Rich Nodes
+
+Let's gradually increase the complexity and functionality of nodes through practical examples.
+
+### Example 1: User Card Node with Icon and Badge
+
+This example shows how to create a user card node containing avatar, name, and status badge:
+
+```js | ob { inject: true }
+import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
+
+class UserCardNode extends Rect {
+  get nodeData() {
+    return this.context.graph.getNodeData(this.id);
+  }
+
+  get data() {
+    return this.nodeData.data || {};
+  }
+
+  // Avatar style
+  getAvatarStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    return {
+      x: -width / 2 + 20,
+      y: -height / 2 + 15,
+      width: 30,
+      height: 30,
+      src: attributes.avatarUrl || '',
+      radius: 15, // Circular avatar
+    };
+  }
+
+  drawAvatarShape(attributes, container) {
+    if (!attributes.avatarUrl) return;
+
+    const avatarStyle = this.getAvatarStyle(attributes);
+    this.upsert('avatar', 'image', avatarStyle, container);
+  }
+
+  // Status badge style
+  getBadgeStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    const status = this.data.status || 'offline';
+    const colorMap = {
+      online: '#52c41a',
+      busy: '#faad14',
+      offline: '#8c8c8c',
+    };
+
+    return {
+      x: width / 2 - 8,
+      y: -height / 2 + 8,
+      r: 4,
+      fill: colorMap[status],
+      stroke: '#fff',
+      lineWidth: 2,
+    };
+  }
+
+  drawBadgeShape(attributes, container) {
+    const badgeStyle = this.getBadgeStyle(attributes);
+    this.upsert('badge', 'circle', badgeStyle, container);
+  }
+
+  // Username style
+  getUsernameStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    return {
+      x: -width / 2 + 55,
+      y: -height / 2 + 20,
+      text: attributes.username || '',
+      fontSize: 14,
+      fill: '#262626',
+      fontWeight: 'bold',
+      textAlign: 'left',
+      textBaseline: 'middle',
+    };
+  }
+
+  drawUsernameShape(attributes, container) {
+    if (!attributes.username) return;
+
+    const usernameStyle = this.getUsernameStyle(attributes);
+    this.upsert('username', 'text', usernameStyle, container);
+  }
+
+  // Role label style
+  getRoleStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    return {
+      x: -width / 2 + 55,
+      y: -height / 2 + 35,
+      text: attributes.userRole || '',
+      fontSize: 11,
+      fill: '#8c8c8c',
+      textAlign: 'left',
+      textBaseline: 'middle',
+    };
+  }
+
+  drawRoleShape(attributes, container) {
+    if (!attributes.userRole) return;
+
+    const roleStyle = this.getRoleStyle(attributes);
+    this.upsert('role', 'text', roleStyle, container);
+  }
+
+  render(attributes, container) {
+    // Render basic rectangle
+    super.render(attributes, container);
+
+    // Add various components
+    this.drawAvatarShape(attributes, container);
+    this.drawBadgeShape(attributes, container);
+    this.drawUsernameShape(attributes, container);
+    this.drawRoleShape(attributes, container);
+  }
+}
+
+register(ExtensionCategory.NODE, 'user-card-node', UserCardNode);
+
+const graph = new Graph({
+  container: 'container',
+  height: 200,
+  data: {
+    nodes: [
+      {
+        id: 'user1',
+        style: { x: 100, y: 100 },
+        data: {
+          name: 'Zhang Xiaoming',
+          role: 'Frontend Engineer',
+          status: 'online',
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Zhang',
+        },
+      },
+    ],
+  },
+  node: {
+    type: 'user-card-node',
+    style: {
+      size: [140, 50],
+      fill: '#ffffff',
+      stroke: '#d9d9d9',
+      lineWidth: 1,
+      radius: 6,
+      // Data mapping
+      avatarUrl: (d) => d.data.avatar,
+      username: (d) => d.data.name,
+      userRole: (d) => d.data.role,
+    },
+  },
+});
+
+graph.render();
+```
+
+### Example 2: Node with Clickable Action Button
+
+Add a blue button to the node that triggers events (prints logs or executes callbacks) when clicked.
 
 ```js | ob { inject: true }
 import { Graph, register, Rect, ExtensionCategory } from '@antv/g6';
@@ -507,7 +566,7 @@ class ClickableNode extends Rect {
       height: 20,
       radius: 10,
       fill: '#1890ff',
-      cursor: 'pointer', // Mouse pointer becomes a hand
+      cursor: 'pointer', // Mouse pointer becomes hand
     };
   }
 
@@ -515,21 +574,21 @@ class ClickableNode extends Rect {
     const btnStyle = this.getButtonStyle(attributes, container);
     const btn = this.upsert('button', 'rect', btnStyle, container);
 
-    // Add click event to the button
+    // Add click event to button
     if (!btn.__clickBound) {
       btn.addEventListener('click', (e) => {
-        // Prevent event bubbling to avoid triggering the node's click event
+        // Prevent event bubbling to avoid triggering node click event
         e.stopPropagation();
 
         // Execute business logic
         console.log('Button clicked on node:', this.id);
 
-        // If there is a callback function in the data, call it
+        // If there's a callback function in data, call it
         if (typeof attributes.onButtonClick === 'function') {
           attributes.onButtonClick(this.id, this.data);
         }
       });
-      btn.__clickBound = true; // Mark event as bound to avoid duplicate binding
+      btn.__clickBound = true; // Mark as bound to avoid duplicate binding
     }
   }
 
@@ -570,20 +629,20 @@ const graph = new Graph({
 graph.render();
 ```
 
-### Node Responding to State Changes (Color Change on Click)
+### Example 3: Node Responding to State Changes (Click to Change Color)
 
-Common interactions require nodes and edges to provide feedback through style changes, such as moving the mouse over a node, clicking to select a node/edge, activating interactions on the edge, etc., all require changing the style of nodes and edges. There are two ways to achieve this effect:
+Common interactions require nodes and edges to provide feedback through style changes, such as when the mouse moves over a node, clicking to select nodes/edges, or activating interactions on edges through interaction. All these require changing the styles of nodes and edges. There are two ways to achieve this effect:
 
 1. Get the current state from `data.states` and handle state changes in the custom node class;
-2. Separate interaction states from the original data and drawing node logic, only updating the node.
+2. Separate interaction state from raw data and node drawing logic, only update the node.
 
-We recommend users use the second method to achieve node state adjustment, which can be achieved in the following way:
+We recommend users use the second approach to implement node state adjustments, which can be achieved through the following steps:
 
-1. Implement custom nodes;
-2. Configure node state styles in the graph configuration;
-3. Use the `graph.setElementState()` method to set node states.
+1. Implement custom node;
+2. Configure node state styles in graph configuration;
+3. Set node state through the `graph.setElementState()` method.
 
-Extend a hole graphic based on rect, with a default fill color of white, which turns orange when clicked. The sample code to achieve this effect is as follows:
+Based on rect, extend a hole shape with default white fill color that turns orange when clicked. The sample code to achieve this effect is as follows:
 
 ```js | ob { inject: true }
 import { Rect, register, Graph, ExtensionCategory } from '@antv/g6';

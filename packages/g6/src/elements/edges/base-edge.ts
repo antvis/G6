@@ -33,7 +33,8 @@ import { Badge, Label } from '../shapes';
  * <en/> Base style properties of the edge
  */
 export interface BaseEdgeStyleProps
-  extends BaseShapeStyleProps,
+  extends
+    BaseShapeStyleProps,
     Prefix<'label', EdgeLabelStyleProps>,
     Prefix<'halo', PathStyleProps>,
     Prefix<'badge', EdgeBadgeStyleProps>,
