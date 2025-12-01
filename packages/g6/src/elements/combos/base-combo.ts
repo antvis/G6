@@ -30,7 +30,8 @@ import { connectImage, dispatchPositionChange } from '../shapes/image';
  * <en/> Common style props for combo
  */
 export interface BaseComboStyleProps
-  extends BaseNodeStyleProps,
+  extends
+    BaseNodeStyleProps,
     Prefix<'collapsed', BaseStyleProps>,
     Prefix<'collapsedMarker', CollapsedMarkerStyleProps> {
   /**

@@ -102,9 +102,7 @@ export interface EdgeBadgeStyleProps extends BadgeStyleProps {
  * <en/> Edge arrow style properties
  */
 export interface EdgeArrowStyleProps
-  extends PathStyleProps,
-    Omit<ImageStyleProps, 'width' | 'height'>,
-    Record<string, unknown> {
+  extends PathStyleProps, Omit<ImageStyleProps, 'width' | 'height'>, Record<string, unknown> {
   /**
    * <zh/> 箭头大小
    *
