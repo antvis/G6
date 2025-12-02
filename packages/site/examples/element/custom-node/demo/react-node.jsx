@@ -9,11 +9,26 @@ const { Text } = Typography;
 
 register(ExtensionCategory.NODE, 'react', ReactNode);
 
-const Node = ({ data, onChange }) => {
+const Node = ({ data, onChange, graph }) => {
   const { status, type } = data.data;
+  const ref = useRef();
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.parentNode.addEventListener('wheel', (e) => {
+        e.preventDefault();
+      });
+    }
+  }, []);
 
   return (
     <Flex
+      ref={ref}
+      onWheel={(e) => {
+        // 转发事件到画布Dom元素上
+        const canvas = graph.context.graph.getCanvas().getContextService().getDomElement();
+        const evt = new WheelEvent('wheel', e.nativeEvent);
+        canvas.dispatchEvent(evt);
+      }}
       style={{
         width: '100%',
         height: '100%',
@@ -76,10 +91,12 @@ export const ReactNodeDemo = () => {
         type: 'react',
         style: {
           size: [240, 100],
-          component: (data) => <Node data={data} />,
+          component: function (data) {
+            return <Node data={data} graph={this} />;
+          },
         },
       },
-      behaviors: ['drag-element', 'zoom-canvas', 'drag-canvas'],
+      behaviors: ['drag-element', 'scroll-canvas', 'drag-canvas'],
     });
 
     graph.render();
