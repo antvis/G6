@@ -707,8 +707,8 @@ export class ElementController {
    * @param animation - <zh/> 是否使用动画，默认为 true | <en/> Whether to use animation, default is true
    */
   public async expandNode(id: ID, options: CollapseExpandNodeOptions): Promise<void> {
-    const { model, layout } = this.context;
-    const { animation, align } = options;
+    const { model } = this.context;
+    const { animation } = options;
     const position = positionOf(model.getNodeData([id])[0]);
 
     // 重新计算数据 / Recalculate data
@@ -888,10 +888,4 @@ export interface CollapseExpandNodeOptions {
    * <en/> Whether to use animation
    */
   animation?: boolean;
-  /**
-   * <zh/> 保证展开/收起的节点位置不变
-   *
-   * <en/> Ensure that the position of the expanded/collapsed node remains unchanged
-   */
-  align?: boolean;
 }
