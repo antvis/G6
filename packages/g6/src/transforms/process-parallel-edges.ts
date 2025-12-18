@@ -178,7 +178,7 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
           style.loopPlacement = CUBIC_LOOP_PLACEMENTS[i % len];
           style.loopDist = Math.floor(i / len) * distance + 50;
         } else if (length === 1) {
-          style.curveOffset = 0;
+          return;
         } else {
           const sign = (i % 2 === 0 ? 1 : -1) * (reverses[`${edge.source}|${edge.target}|${i}`] ? -1 : 1);
           style.curveOffset =
