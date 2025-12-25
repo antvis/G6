@@ -12,6 +12,7 @@
 [![npm Download](https://img.shields.io/npm/dm/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 ![typescript](https://img.shields.io/badge/language-typescript-blue.svg)
 [![npm License](https://img.shields.io/npm/l/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/antvis/G6)
 
 <p align="center">
   <a href="https://g6.antv.antgroup.com/manual/introduction">简介</a> •

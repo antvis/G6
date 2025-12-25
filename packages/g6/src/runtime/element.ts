@@ -28,6 +28,7 @@ import type {
 import { cacheStyle, hasCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
 import { isCollapsed } from '../utils/collapsibility';
+import { isOverridable } from '../utils/data';
 import { markToBeDestroyed, updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '../utils/event';
@@ -80,7 +81,7 @@ export class ElementController {
 
   public getElementType(elementType: ElementType, datum: ElementDatum) {
     const { options, graph } = this.context;
-    const userDefinedType = options[elementType]?.type || datum.type;
+    const userDefinedType = isOverridable(datum) ? options[elementType]?.type || datum.type : datum.type;
 
     if (!userDefinedType) {
       if (elementType === 'edge') return 'line';
@@ -258,7 +259,9 @@ export class ElementController {
     const themeStateStyle = this.getThemeStateStyle(elementType, this.getElementState(id));
     const stateStyle = this.getStateStyle(id);
 
-    const style = Object.assign({}, themeStyle, paletteStyle, dataStyle, defaultStyle, themeStateStyle, stateStyle);
+    const style = isOverridable(datum)
+      ? Object.assign({}, themeStyle, paletteStyle, dataStyle, defaultStyle, themeStateStyle, stateStyle)
+      : Object.assign({}, dataStyle);
 
     if (elementType === 'combo') {
       const childrenData = this.context.model.getChildrenData(id);

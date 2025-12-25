@@ -14,7 +14,7 @@
         </g>
         <g fill="none" transform="matrix(1 0 0 1 100 100)">
           <g>
-            <circle r="10" fill="rgba(23,131,255,1)" stroke="rgba(0,0,0,1)" stroke-width="0" class="key" visibility="hidden"/>
+            <circle r=".5" fill="none" class="key" visibility="hidden"/>
           </g>
         </g>
         <g fill="none">

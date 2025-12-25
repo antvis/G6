@@ -4,6 +4,7 @@ import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
 import type { EdgeStyle } from '../spec/element/edge';
 import type { ID, IElementEvent, IPointerEvent, NodeLikeData } from '../types';
+import { OVERRIDE_KEY } from '../utils/data';
 import type { BaseBehaviorOptions } from './base-behavior';
 import { BaseBehavior } from './base-behavior';
 
@@ -133,7 +134,10 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
     graph.addNodeData([
       {
         id: ASSIST_NODE_ID,
+        type: 'circle',
+        [OVERRIDE_KEY]: false,
         style: {
+          size: 1,
           visibility: 'hidden',
           ports: [{ key: 'port-1', placement: [0.5, 0.5] }],
           x: sourceNode.style?.x,
@@ -159,9 +163,7 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
   private updateAssistEdge = async (event: IPointerEvent) => {
     if (!this.source) return;
     const { model, element } = this.context;
-
-    model.translateNodeTo(ASSIST_NODE_ID, [event.canvas.x, event.canvas.y]);
-
+    model.translateNodeTo(ASSIST_NODE_ID, [event.client.x, event.client.y]);
     await element!.draw({ animation: false, silence: true })?.finished;
   };
 
