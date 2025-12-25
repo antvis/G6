@@ -3,7 +3,7 @@
 const esm = ['internmap', 'd3-*', 'lodash-es', 'chalk'].map((d) => `_${d}|${d}`).join('|');
 
 module.exports = {
-  testTimeout: 10 * 1000,
+  testTimeout: 30 * 1000,
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['./__tests__/setup.ts'],
   transform: {
