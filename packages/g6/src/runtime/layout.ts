@@ -127,11 +127,12 @@ export class LayoutController {
    * <zh/> 模拟布局
    *
    * <en/> Simulate layout
+   * @param options - <zh/> 布局配置项 | <en/> Layout options
    * @returns <zh/> 模拟布局结果 | <en/> Simulated layout result
    */
-  public async simulate(): Promise<GraphData> {
-    if (!this.options) return {};
-    const pipeline = Array.isArray(this.options) ? this.options : [this.options];
+  public async simulate(options: LayoutOptions | undefined = this.options): Promise<GraphData> {
+    if (!options) return {};
+    const pipeline = Array.isArray(options) ? options : [options];
 
     let simulation: GraphData = {};
 
