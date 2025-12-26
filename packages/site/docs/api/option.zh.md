@@ -61,7 +61,7 @@ setOptions(options: GraphOptions): void;
 graph.setOptions({
   width: 1000, // 更新宽度
   height: 800, // 更新高度
-  autoFit: true, // 开启自适应
+  autoFit: 'view', // 开启自适应
   animation: true, // 启用动画
 });
 ```

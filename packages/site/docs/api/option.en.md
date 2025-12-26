@@ -61,7 +61,7 @@ setOptions(options: GraphOptions): void;
 graph.setOptions({
   width: 1000, // Update width
   height: 800, // Update height
-  autoFit: true, // Enable auto-fit
+  autoFit: 'view', // Enable auto-fit
   animation: true, // Enable animation
 });
 ```
