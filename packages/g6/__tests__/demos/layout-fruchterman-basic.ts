@@ -15,6 +15,7 @@ export const layoutFruchtermanBasic: TestCase = async (context) => {
       type: 'fruchterman',
       gravity: 5,
       speed: 5,
+      nodeClusterBy: 'data.cluster',
     },
     behaviors: ['drag-canvas', 'drag-element'],
   });

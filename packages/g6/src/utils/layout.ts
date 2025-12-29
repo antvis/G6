@@ -10,6 +10,7 @@ import type { EdgeData, GraphData, NodeData } from '../spec/data';
 import type { NodeStyle } from '../spec/element/node';
 import type { LayoutOptions, STDLayoutOptions } from '../spec/layout';
 import type { AdaptiveLayout, ID } from '../types';
+import { parsePoint } from './point';
 
 /**
  * <zh/> 判断是否是 combo 布局

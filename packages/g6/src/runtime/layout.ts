@@ -98,6 +98,7 @@ export class LayoutController {
     const pipeline = Array.isArray(layoutOptions) ? layoutOptions : [layoutOptions];
     const { graph } = this.context;
     emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT, { type: 'post' }));
+
     for (let index = 0; index < pipeline.length; index++) {
       const options = pipeline[index];
       const data = this.getLayoutData(options);
@@ -152,7 +153,7 @@ export class LayoutController {
   }
 
   private async graphLayout(data: GraphData, options: STDLayoutOptions, index: number): Promise<GraphData> {
-    const { animation } = options;
+    const { animation, iterations = 300 } = options;
 
     const layout = this.initGraphLayout(options);
     if (!layout) return {};
@@ -165,12 +166,15 @@ export class LayoutController {
       if (animation) {
         return await layout.execute(data, {
           animate: true,
+          maxIteration: iterations,
           onTick: (tickData: GraphData) => this.updateElementPosition(tickData, false),
         });
       }
 
       // 无动画，直接返回终态位置 / No animation, return final position directly
-      return await layout.execute(data, { animate: false });
+      layout.execute(data);
+      layout.stop();
+      return layout.tick(iterations);
     }
 
     // 无迭代的布局，直接返回终态位置 / Layout without iteration, return final position directly

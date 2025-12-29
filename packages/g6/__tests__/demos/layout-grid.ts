@@ -12,7 +12,7 @@ export const layoutGrid: TestCase = async (context) => {
     },
     layout: {
       type: 'grid',
-      sortBy: 'cluster',
+      sortBy: (d) => d.data.cluster,
     },
     behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element', 'click-select'],
   });

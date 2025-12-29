@@ -40,12 +40,14 @@ export const layoutForceCollision: TestCase = async (context) => {
       velocityDecay: 0.1,
       x: {
         strength: 0.01,
+        x: width / 2,
       },
       y: {
         strength: 0.01,
+        y: width / 2,
       },
+      nodeSize: (d) => (d.data.r as number) * 2,
       collide: {
-        radius: (d) => d.data.r,
         iterations: 3,
       },
       manyBody: {
