@@ -6,6 +6,10 @@
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
+<p align="center">
+<a href="https://trendshift.io/repositories/9709" target="_blank"><img src="https://trendshift.io/api/badge/repositories/9709" alt="antvis%2FG6 | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+</p>
+
 [![npm Version](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6)
 [![Build Status](https://github.com/antvis/G6/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/G6/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/antvis/G6/graph/badge.svg?token=OvIk06tCPa)](https://codecov.io/gh/antvis/G6)
