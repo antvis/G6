@@ -1,6 +1,6 @@
 import type { Tooltip } from '@/src';
 import { ComboEvent, EdgeEvent, NodeEvent, idOf } from '@/src';
-import { pluginTooltip, pluginTooltipAsync, pluginTooltipEnable } from '@@/demos';
+import { pluginTooltip, pluginTooltipAsync, pluginTooltipEnable, pluginTooltipPrefixClsEnable } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
 
 describe('plugin tooltip', () => {
@@ -62,6 +62,26 @@ describe('plugin tooltip', () => {
 
     await plugin.showById('node1');
     expect(el.style.visibility).toBe('visible');
+
+    graph.destroy();
+  });
+
+  it('enable-prefixCls', async () => {
+    const graph = await createDemoGraph(pluginTooltipPrefixClsEnable);
+    const container = graph.getCanvas().getContainer()!;
+    const el = container.querySelector('.tooltip');
+    expect(el).toBeNull();
+
+    const prefixEl = container.querySelector('.g6prefix-tooltip') as HTMLDivElement;
+    expect(prefixEl).not.toBeNull();
+
+    const plugin = graph.getPluginInstance<Tooltip>('tooltip');
+
+    await plugin.showById('node33');
+    expect(prefixEl.style.visibility).toBe('hidden');
+
+    await plugin.showById('node11');
+    expect(prefixEl.style.visibility).toBe('visible');
 
     graph.destroy();
   });

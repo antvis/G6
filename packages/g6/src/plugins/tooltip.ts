@@ -46,6 +46,12 @@ export interface TooltipOptions
    * <en/> Callback executed when visibility of the tooltip card is changed
    */
   onOpenChange: (open: boolean) => void;
+  /**
+   * <zh/> 自定义类名前缀
+   *
+   * <en/> Custom class name prefix
+   */
+  prefixCls?: string;
 }
 
 /**
@@ -60,18 +66,24 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
     enterable: false,
     enable: true,
     offset: [10, 10],
-    style: {
-      '.tooltip': {
-        visibility: 'hidden',
-      },
-    },
   };
   private currentTarget: string | null = null;
   private tooltipElement: TooltipComponent | null = null;
   private container: HTMLElement | null = null;
 
   constructor(context: RuntimeContext, options: TooltipOptions) {
-    super(context, Object.assign({}, Tooltip.defaultOptions, options));
+    const combineOptions = Object.assign(
+      {
+        style: {
+          [`.${options.prefixCls || ''}tooltip`]: {
+            visibility: 'hidden',
+          },
+        },
+      },
+      Tooltip.defaultOptions,
+      options,
+    );
+    super(context, combineOptions);
     this.render();
     this.bindEvents();
   }
@@ -300,7 +312,7 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
       x,
       y,
       style: {
-        '.tooltip': {
+        [`.${this.options.prefixCls || ''}tooltip`]: {
           visibility: 'visible',
         },
       },
@@ -351,12 +363,14 @@ export class Tooltip extends BasePlugin<TooltipOptions> {
       enterable,
       offset,
       style,
+      template: {
+        prefixCls: this.options.prefixCls || '',
+      },
     };
   }
 
   private initTooltip = () => {
     const tooltipElement = new TooltipComponent({
-      className: 'tooltip',
       style: this.tooltipStyleProps,
     });
     this.container?.appendChild(tooltipElement.HTMLTooltipElement);
