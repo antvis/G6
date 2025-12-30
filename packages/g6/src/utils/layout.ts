@@ -1,4 +1,4 @@
-import { Graph as Graphlib } from '@antv/graphlib';
+import { Edge, Graph as Graphlib, Node } from '@antv/graphlib';
 import { deepMix, isNumber } from '@antv/util';
 import { COMBO_KEY } from '../constants';
 import { BaseLayout } from '../layouts/base-layout';
@@ -277,7 +277,7 @@ export function legacyLayoutAdapter(
 
     private graphData2LayoutModel(data: GraphData): LegacyGraph {
       const { nodes = [], edges = [], combos = [] } = data;
-      const nodesToLayout = nodes.map((datum) => {
+      const nodesToLayout: Node<NodeData>[] = nodes.map((datum) => {
         const id = idOf(datum);
         const { data, style, combo, ...rest } = datum;
 
@@ -311,15 +311,25 @@ export function legacyLayoutAdapter(
         })
         .map((edge) => {
           const { source, target, data, style } = edge;
-          return { id: idOf(edge), source, target, data: { ...data }, style: { ...style } };
+          return {
+            id: idOf(edge),
+            source,
+            target,
+            data: { ...data },
+            style: { ...style },
+          } as unknown as Edge<EdgeData>;
         });
 
-      const combosToLayout = combos.map((combo) => {
-        return { id: idOf(combo), data: { _isCombo: true, ...combo.data }, style: { ...combo.style } };
+      const combosToLayout: Node<NodeData>[] = combos.map((combo) => {
+        return {
+          id: idOf(combo),
+          data: { _isCombo: true, ...combo.data },
+          style: { ...combo.style },
+        } as unknown as Node<NodeData>;
       });
 
-      const layoutModel = new Graphlib({
-        nodes: [...nodesToLayout, ...combosToLayout] as any[],
+      const layoutModel = new Graphlib<NodeData, EdgeData>({
+        nodes: [...nodesToLayout, ...combosToLayout],
         edges: edgesToLayout,
       });
 

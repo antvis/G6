@@ -1,4 +1,5 @@
 import type { GraphData } from '@/src';
+import { AntVGraphData } from '@/src/layouts/types';
 import {
   getLayoutProperty,
   invokeLayoutMethod,
@@ -9,7 +10,6 @@ import {
   layoutMapping2GraphData,
 } from '@/src/utils/layout';
 import dagreData from '@@/dataset/dagre.json';
-import type { LayoutMapping } from '@antv/layout';
 
 class MockLayout {
   public id = 'mock';
@@ -73,7 +73,7 @@ describe('layout', () => {
   });
 
   it('layoutMapping2GraphData', () => {
-    const layoutMapping: LayoutMapping = {
+    const layoutMapping: AntVGraphData = {
       nodes: [
         { id: 'node-1', data: { x: 0, y: 0 } },
         { id: 'node-2', data: { x: 100, y: 100 } },
@@ -95,7 +95,7 @@ describe('layout', () => {
   });
 
   it('layoutMapping2GraphData with controlPoints', () => {
-    const layoutMapping: LayoutMapping = {
+    const layoutMapping: AntVGraphData = {
       nodes: [
         { id: 'node-1', data: { x: 0, y: 0 } },
         { id: 'node-2', data: { x: 100, y: 100 } },

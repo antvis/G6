@@ -4,7 +4,7 @@ import { Graph, register } from '@antv/g6';
 
 export const layoutForceatlas2WASM: TestCase = async (context) => {
   const { ForceAtlas2Layout, initThreads, supportsThreads } = await import('@antv/layout-wasm');
-  register('layout', 'forceatlas2-wasm', ForceAtlas2Layout);
+  register('layout', 'forceatlas2-wasm', ForceAtlas2Layout as any);
 
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
