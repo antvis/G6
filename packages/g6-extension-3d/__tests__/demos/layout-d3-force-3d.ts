@@ -6,7 +6,7 @@ export const layoutD3Force3D: TestCase = async (context) => {
   register(ExtensionCategory.PLUGIN, '3d-light', Light);
   register(ExtensionCategory.NODE, 'sphere', Sphere);
   register(ExtensionCategory.EDGE, 'line3d', Line3D);
-  register(ExtensionCategory.LAYOUT, 'd3-force-3d', D3Force3DLayout);
+  register(ExtensionCategory.LAYOUT, 'd3-force-3d', D3Force3DLayout as any);
   register(ExtensionCategory.PLUGIN, 'camera-setting', CameraSetting);
   register(ExtensionCategory.BEHAVIOR, 'zoom-canvas-3d', ZoomCanvas3D);
   register(ExtensionCategory.BEHAVIOR, 'observe-canvas-3d', ObserveCanvas3D);
