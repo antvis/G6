@@ -5,7 +5,6 @@
   "scripts": {
     "build": "turbo build --filter=!@antv/g6-site",
     "ci": "turbo run ci --filter=!@antv/g6-site",
-    "contribute": "node ./scripts/contribute.mjs",
     "dev:g6": "cd ./packages/g6 && npm run dev",
     "postinstall": "husky install",
     "perf": "npm run perf",
