@@ -58,8 +58,8 @@ export class Shortcut {
   private bindEvents() {
     const { emitter } = this;
 
-    emitter.on(CommonEvent.KEY_DOWN, this.onKeyDown);
-    emitter.on(CommonEvent.KEY_UP, this.onKeyUp);
+    window.addEventListener(CommonEvent.KEY_DOWN, this.onKeyDown);
+    window.addEventListener(CommonEvent.KEY_UP, this.onKeyUp);
     emitter.on(CommonEvent.WHEEL, this.onWheel);
     emitter.on(CommonEvent.DRAG, this.onDrag);
 
@@ -125,8 +125,8 @@ export class Shortcut {
 
   public destroy() {
     this.unbindAll();
-    this.emitter.off(CommonEvent.KEY_DOWN, this.onKeyDown);
-    this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
+    window.removeEventListener(CommonEvent.KEY_DOWN, this.onKeyDown);
+    window.removeEventListener(CommonEvent.KEY_UP, this.onKeyUp);
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
     this.pinchHandler?.off('pinchmove', this.boundHandlePinch);
