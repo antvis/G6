@@ -11,9 +11,9 @@ export type ShortcutKey = string[];
 
 type Handler = (event: any) => void;
 
-const MODIFIER_KEYS = ['Control', 'Alt', 'Meta', 'Shift'];
+const MODIFIER_KEYS = new Set(['Control', 'Alt', 'Meta', 'Shift']);
 function isModifierKey(key: string) {
-  return MODIFIER_KEYS.includes(key);
+  return MODIFIER_KEYS.has(key);
 }
 
 const lowerCaseKeys = (keys: ShortcutKey) => keys.map((key) => (isString(key) ? key.toLocaleLowerCase() : key));
@@ -98,12 +98,12 @@ export class Shortcut {
   };
 
   private onKeyDownWindow = (event: KeyboardEvent) => {
-    if (!event?.key || !isModifierKey(event.key)) return;
+    if (!isModifierKey(event.key)) return;
     this.recordKey.add(event.key);
   };
 
   private onKeyUpWindow = (event: KeyboardEvent) => {
-    if (!event?.key || !isModifierKey(event.key)) return;
+    if (!isModifierKey(event.key)) return;
     this.recordKey.delete(event.key);
   };
 
