@@ -162,8 +162,9 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
   private updateAssistEdge = async (event: IPointerEvent) => {
     if (!this.source) return;
-    const { model, element } = this.context;
-    model.translateNodeTo(ASSIST_NODE_ID, [event.client.x, event.client.y]);
+    const { model, element, graph } = this.context;
+    const [x, y] = graph.getCanvasByClient([event.client.x, event.client.y]);
+    model.translateNodeTo(ASSIST_NODE_ID, [x, y]);
     await element!.draw({ animation: false, silence: true })?.finished;
   };
 
