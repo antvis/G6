@@ -10,7 +10,7 @@ export const layoutD3Force: TestCase = async (context) => {
     behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element', 'click-select'],
     layout: {
       type: 'd3-force',
-      nodeSize: (d) => (d!.style.size as number) * 2,
+      nodeSize: (d: { style: { size: number } }) => (d.style.size as number) * 2,
       collide: {
         strength: 0.5,
       },
