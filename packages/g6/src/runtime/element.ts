@@ -714,7 +714,7 @@ export class ElementController {
     // 重置动画 / Reset animation
     this.context.animation!.clear();
     this.computeStyle('collapse');
-    
+
     if (!data) return;
     const { drawData } = data;
     const { add, remove, update } = drawData;
