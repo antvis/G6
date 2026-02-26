@@ -259,8 +259,10 @@ export class LayoutController {
 
     if (animation) {
       // 先将所有节点移动到根节点位置 / Move all nodes to the root node position first
-      this.updateElementPosition(layoutPreset, false);
-
+      // this.updateElementPosition(layoutPreset, false);
+      // 直接从当前位置过渡到布局结果，跳过「先将所有节点移动到根节点位置」避免每次 layout 都从根节点位置重播展开动画
+      // Animate from current positions to layout result; skip "Move all nodes to the root node position first"
+      // to avoid re-expand
       const animationResult = this.updateElementPosition(layoutResult, animation);
       await animationResult?.finished;
     }

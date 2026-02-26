@@ -385,7 +385,16 @@ export class DataController {
   public addChildrenData(parentId: ID, childrenData: NodeData[]) {
     const parentData = this.getNodeLikeDatum(parentId) as NodeData;
     const childrenId = childrenData.map(idOf);
-    this.addNodeData(childrenData);
+    // 新子节点未设坐标时使用父节点位置，draw 时画在父节点下，layout 时再从父节点过渡到最终位置
+    const [parentX, parentY] = positionOf(parentData);
+    const nodesToAdd = childrenData.map((child) => {
+      const style = child.style ?? {};
+      if (style.x == null && style.y == null) {
+        return { ...child, style: { ...style, x: parentX, y: parentY } };
+      }
+      return child;
+    });
+    this.addNodeData(nodesToAdd);
     this.updateNodeData([{ id: parentId, children: [...(parentData.children || []), ...childrenId] }]);
     this.addEdgeData(childrenId.map((childId) => ({ source: parentId, target: childId })));
   }
