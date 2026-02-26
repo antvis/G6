@@ -219,25 +219,46 @@ export class LayoutController {
 
       const result = layout(root, options);
       const { x: rx, y: ry, z: rz = 0 } = result;
+
       // 将布局结果转化为 LayoutMapping 格式 / Convert the layout result to LayoutMapping format
+      const subtreeNodes: Array<{ id: ID; x: number; y: number; z: number }> = [];
       dfs(
         result,
         (node) => {
           const { id, x, y, z = 0 } = node;
-          layoutPreset.nodes!.push({ id, style: { x: rx, y: ry, z: rz } });
-          layoutResult.nodes!.push({ id, style: { x, y, z } });
+          subtreeNodes.push({ id, x, y, z });
         },
         (node) => node.children,
         'TB',
       );
-    });
 
-    const offset = this.inferTreeLayoutOffset(layoutResult);
-    applyTreeLayoutOffset(layoutResult, offset);
+      // 根节点已在画布上时，以其当前坐标为锚点计算偏移，避免布局后画布跳动（类 fitCenter 效果）；
+      // 首次布局时根节点尚未渲染，回退到视口居中逻辑。
+      // When the root is already on canvas, anchor offset to its current position to prevent
+      // the layout from causing a fitCenter-like jump; fall back to viewport centering on first layout.
+      const rootElement = this.context.element?.getElement(root.id);
+      let offset: [number, number];
+
+      if (rootElement) {
+        const rootNodeData = nodes.find((n) => idOf(n) === root.id);
+        const currentX = Number(rootNodeData?.style?.x ?? 0);
+        const currentY = Number(rootNodeData?.style?.y ?? 0);
+        offset = [currentX - rx, currentY - ry];
+      } else {
+        offset = this.inferTreeLayoutOffset({
+          nodes: subtreeNodes.map(({ id, x, y, z }) => ({ id, style: { x, y, z } })),
+        });
+      }
+
+      const [ox, oy] = offset;
+      subtreeNodes.forEach(({ id, x, y, z }) => {
+        layoutPreset.nodes!.push({ id, style: { x: rx + ox, y: ry + oy, z: rz } });
+        layoutResult.nodes!.push({ id, style: { x: x + ox, y: y + oy, z } });
+      });
+    });
 
     if (animation) {
       // 先将所有节点移动到根节点位置 / Move all nodes to the root node position first
-      applyTreeLayoutOffset(layoutPreset, offset);
       this.updateElementPosition(layoutPreset, false);
 
       const animationResult = this.updateElementPosition(layoutResult, animation);
