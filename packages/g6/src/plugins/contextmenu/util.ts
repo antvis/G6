@@ -36,7 +36,9 @@ export const CONTEXTMENU_CSS = `
     font-size: 12px;
     background-color: rgba(255, 255, 255, 0.96);
     border-radius: 4px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: calc(100% - 8px);
     box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 12px 0px;
     transition: visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
   }
