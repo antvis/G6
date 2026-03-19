@@ -162,8 +162,10 @@ export class CreateEdge extends BaseBehavior<CreateEdgeOptions> {
 
   private updateAssistEdge = async (event: IPointerEvent) => {
     if (!this.source) return;
-    const { model, element } = this.context;
-    model.translateNodeTo(ASSIST_NODE_ID, [event.client.x, event.client.y]);
+    const { graph, model, element } = this.context;
+    // 将客户端坐标转换为画布坐标，避免容器偏移导致的连线位置错误
+    const [x, y] = graph.getCanvasByClient([event.client.x, event.client.y]);
+    model.translateNodeTo(ASSIST_NODE_ID, [x, y]);
     await element!.draw({ animation: false, silence: true })?.finished;
   };
 
