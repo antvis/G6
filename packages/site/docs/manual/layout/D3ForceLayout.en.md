@@ -64,7 +64,11 @@ Controls the number of times forces are applied in each calculation:
 | Property        | Description                                        | Type                                       | Default    | Required |
 | --------------- | -------------------------------------------------- | ------------------------------------------ | ---------- | -------- |
 | type            | Layout type                                        | string                                     | 'd3-force' | ✓        |
-| nodeSize        | Node size (diameter), for collision detection      | number \| ((node, index, nodes) => number) | -          |          |
+| centerX         | Layout center x coordinate                         | number                                     | width / 2  |          |
+| centerY         | Layout center y coordinate                         | number                                     | height / 2 |          |
+| centerStrength  | Center force strength                              | number                                     | -          |          |
+| nodeSize        | Node size (diameter), for collision detection      | number \| ((node, index, nodes) => number) | 10         |          |
+| nodeSpacing     | Extra spacing between nodes                        | number \| ((node, index, nodes) => number) | 0          |          |
 | iterations      | Number of force iterations, higher is more precise | number                                     | -          |          |
 | onTick          | Callback for each iteration, for real-time results | (data: LayoutMapping) => void              | -          |          |
 | forceSimulation | Custom force simulation, defaults to d3.js method  | Simulation<NodeDatum, EdgeDatum>           | -          |          |
@@ -104,9 +108,11 @@ Controls the number of times forces are applied in each calculation:
 
 | Property        | Description                                   | Type   | Default | Required |
 | --------------- | --------------------------------------------- | ------ | ------- | -------- |
-| center.x        | Center x coordinate                           | number | 0       |          |
-| center.y        | Center y coordinate                           | number | 0       |          |
-| center.strength | Force strength, higher means closer to center | number | 1       |          |
+| center.x        | Center x coordinate                           | number | -       |          |
+| center.y        | Center y coordinate                           | number | -       |          |
+| center.strength | Force strength, higher means closer to center | number | -       |          |
+
+> Note: In `5.1`, `centerX` / `centerY` are the recommended shortcut fields. If you configure the `center` force directly, it follows the native `d3-force` style.
 
 #### Collision Force (collide)
 

@@ -14,70 +14,29 @@ ComboCombined composite layout is suitable for graph data with composite group s
 
 ## Options
 
-| Property     | Description                                                                                                                                        | Type                                                                                       | Default          | Required |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ---------------- | -------- |
-| type         | Layout type                                                                                                                                        | `combo-combined`                                                                           | -                | ✓        |
-| center       | Layout center                                                                                                                                      | [`PointTuple`](https://github.com/antvis/layout/blob/v5/packages/layout/src/types.ts#L829) | Graph center     |          |
-| comboPadding | Padding value inside the combo, used only for force calculation, not for rendering. It is recommended to set the same value as the visual padding. | `((d?: unknown) => number)` \| `number` \| `number[]` \| `undefined`                       | 10               |          |
-| innerLayout  | Layout algorithm for elements inside the combo, [see below](#innerlayout)                                                                          | [`Layout`](https://github.com/antvis/layout/blob/v5/packages/layout/src/types.ts#L881)     | ConcentricLayout |          |
-| nodeSize     | Node size (diameter), used for collision detection. If not specified, it is calculated from the node's size property, or defaults to 10.           | `number` \| `number[]` \| (d?: [NodeData](/en/manual/data#节点数据nodedata)) => number     | 10               |          |
-| outerLayout  | Layout algorithm for the outermost layer, [see below](#outerlayout)                                                                                | [`Layout`](https://github.com/antvis/layout/blob/v5/packages/layout/src/types.ts#L866)     | ForceLayout      |          |
-| spacing      | Minimum spacing between node/combo edges when preventNodeOverlap or preventOverlap is `true`. Can be a callback for different nodes.               | `number` \| (d?: [NodeData](/en/manual/data#节点数据nodedata)) => number                   | -                |          |
-| treeKey      | treeKey                                                                                                                                            | `string`                                                                                   | -                |          |
+| Property     | Description                                                                                                                                        | Type                                                                                       | Default      | Required |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------ | -------- |
+| type         | Layout type                                                                                                                                        | `combo-combined`                                                                           | -            | ✓        |
+| center       | Layout center                                                                                                                                      | [`PointTuple`](https://github.com/antvis/layout/blob/v5/packages/layout/src/types.ts#L829) | Graph center |          |
+| layout       | Layout configuration. Can be fixed, or returned dynamically based on `comboId`                                                                     | `string` \| `object` \| `(comboId?: string) => string \| object`                           | -            |          |
+| nodeSize     | Node size (diameter), used for collision detection                                                                                                 | `number` \| `number[]` \| (d?: [NodeData](/en/manual/data#节点数据nodedata)) => number     | -            |          |
+| nodeSpacing  | Spacing between nodes                                                                                                                              | `number` \| (d?: [NodeData](/en/manual/data#节点数据nodedata)) => number                   | -            |          |
+| comboSpacing | Spacing between combos                                                                                                                             | `number` \| (d?: unknown) => number                                                        | -            |          |
+| comboPadding | Padding value inside the combo, used only for force calculation, not for rendering. It is recommended to set the same value as the visual padding. | `((d?: unknown) => number)` \| `number` \| `number[]` \| `undefined`                       | -            |          |
 
-### innerLayout
+### layout
 
-> _`Layout<any>`_ **Default:** `ConcentricLayout`
+> _`string | object | (comboId?: string) => string | object`_
 
-The layout algorithm for elements inside the combo. Must use a synchronous layout algorithm. Default is [ConcentricLayout](https://github.com/antvis/layout/blob/v5/packages/layout/src/concentric.ts). [More layouts](https://github.com/antvis/layout/tree/v5/packages/layout)
+In `5.1`, it is recommended to use a single `layout` field to choose layouts for different levels, instead of configuring `innerLayout` and `outerLayout` separately.
 
 **Example**:
 
 ```ts
-import { ConcentricLayout } from '@antv/layout';
-
 new Graph({
   layout: {
     type: 'combo-combined',
-    /**
-     * See more ConcentricLayout options:
-     * https://github.com/antvis/layout/blob/v5/packages/layout/src/types.ts#L397
-     */
-    innerLayout: new ConcentricLayout({
-      sortBy: 'id',
-      nodeSize: 20,
-      clockwise: true,
-    }),
-  },
-});
-```
-
-### outerLayout
-
-> _`Layout<any>`_ **Default:** `ForceLayout`
-
-The layout algorithm for the outermost layer. Default is [ForceLayout](https://github.com/antvis/layout/blob/v5/packages/layout/src/force/index.ts). [More layouts](https://github.com/antvis/layout/tree/v5/packages/layout)
-
-**Example**
-
-```ts
-import { ForceLayout } from '@antv/layout';
-
-new Graph({
-  layout: {
-    type: 'combo-combined',
-    /**
-     * See more ForceLayout options:
-     * https://github.com/antvis/layout/blob/v5/packages/layout/src/types.ts#L950
-     */
-    outerLayout: new ForceLayout({
-      gravity: 1,
-      factor: 2,
-      linkDistance: (edge: any, source: any, target: any) => {
-        const nodeSize = ((source.size?.[0] || 30) + (target.size?.[0] || 30)) / 2;
-        return Math.min(nodeSize * 1.5, 70);
-      },
-    }),
+    layout: (comboId) => (comboId ? { type: 'grid' } : { type: 'force' }),
   },
 });
 ```

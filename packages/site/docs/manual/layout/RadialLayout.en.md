@@ -34,23 +34,23 @@ const graph = new Graph({
 
 ## Options
 
-| Property                   | Description                                              | Type                                 | Default  | Required |
-| -------------------------- | -------------------------------------------------------- | ------------------------------------ | -------- | -------- |
-| type                       | Layout type                                              | string                               | `radial` | ✓        |
-| center                     | Center coordinates                                       | [number, number]                     | -        |          |
-| focusNode                  | Radiating center node                                    | string \| Node \| null               | null     |          |
-| height                     | Canvas height                                            | number                               | -        |          |
-| width                      | Canvas width                                             | number                               | -        |          |
-| nodeSize                   | Node size (diameter)                                     | number                               | -        |          |
-| nodeSpacing                | Minimum node spacing (effective when preventing overlap) | number \| (nodeData: Node) => number | 10       |          |
-| linkDistance               | Edge length                                              | number                               | 50       |          |
-| unitRadius                 | Radius per circle                                        | number \| null                       | 100      |          |
-| maxIteration               | Maximum number of iterations                             | number                               | 1000     |          |
-| maxPreventOverlapIteration | Max iterations for overlap prevention                    | number                               | 200      |          |
-| preventOverlap             | Whether to prevent node overlap                          | boolean                              | false    |          |
-| sortBy                     | Field for sorting nodes in the same layer                | string                               | -        |          |
-| sortStrength               | Sorting strength for nodes in the same layer             | number                               | 10       |          |
-| strictRadial               | Strictly place nodes in the same layer on the same ring  | boolean                              | true     |          |
+| Property                   | Description                                                     | Type                                             | Default  | Required |
+| -------------------------- | --------------------------------------------------------------- | ------------------------------------------------ | -------- | -------- |
+| type                       | Layout type                                                     | string                                           | `radial` | ✓        |
+| center                     | Center coordinates                                              | [number, number]                                 | -        |          |
+| focusNode                  | Radiating center node                                           | string \| Node \| null                           | null     |          |
+| height                     | Canvas height                                                   | number                                           | -        |          |
+| width                      | Canvas width                                                    | number                                           | -        |          |
+| nodeSize                   | Node size (diameter)                                            | number \| number[] \| ((nodeData: Node) => Size) | -        |          |
+| nodeSpacing                | Minimum node spacing (effective when preventing overlap)        | number \| (nodeData: Node) => number             | 10       |          |
+| linkDistance               | Edge length                                                     | number                                           | 50       |          |
+| unitRadius                 | Radius per circle; when null, automatically computed from space | number \| null                                   | 100      |          |
+| maxIteration               | Maximum number of iterations                                    | number                                           | 1000     |          |
+| maxPreventOverlapIteration | Max iterations for overlap prevention                           | number                                           | 200      |          |
+| preventOverlap             | Whether to prevent node overlap                                 | boolean                                          | false    |          |
+| sortBy                     | Field or sorting function for nodes in the same layer           | string \| ((nodeData: Node) => number \| string) | -        |          |
+| sortStrength               | Sorting strength for nodes in the same layer                    | number                                           | 10       |          |
+| strictRadial               | Strictly place nodes in the same layer on the same ring         | boolean                                          | true     |          |
 
 ## Code Example
 
