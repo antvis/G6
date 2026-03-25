@@ -13,8 +13,7 @@ import { BasePlugin } from './base-plugin';
  * <en/> Tooltip plugin options
  */
 export interface TooltipOptions
-  extends
-    BasePluginOptions,
+  extends BasePluginOptions,
     Pick<TooltipStyleProps, 'position' | 'offset' | 'enterable' | 'style' | 'container' | 'title'> {
   /**
    *  <zh/> 触发行为，可选 hover | click
