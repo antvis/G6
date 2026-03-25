@@ -7,15 +7,27 @@ order: 1
 
 ## 通用配置
 
-| 属性                   | 描述                                                  | 类型                          | 默认值     | 必选 |
-| ---------------------- | ----------------------------------------------------- | ----------------------------- | ---------- | ---- |
-| type                   | 布局类型，内置布局或自定义布局的名称                  | [Type](#Type)                 | -          | ✓    |
-| isLayoutInvisibleNodes | 不可见节点是否参与布局（当 preLayout 为 true 时生效） | boolean                       | false      |      |
-| nodeFilter             | 参与该布局的节点                                      | (node: NodeData) => boolean   | () => true |      |
-| comboFilter            | 参与该布局的combo元素                                 | (combo: ComboData) => boolean | () => true |      |
-| preLayout              | 使用前布局，在初始化元素前计算布局                    | boolean                       | false      |      |
-| enableWorker           | 是否在 WebWorker 中运行布局                           | boolean                       | -          |      |
-| iterations             | 迭代布局的迭代次数                                    | number                        | -          |      |
+| 属性                   | 描述                                                  | 类型                                                  | 默认值     | 必选 |
+| ---------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ---------- | ---- |
+| type                   | 布局类型，内置布局或自定义布局的名称                  | [Type](#Type)                                         | -          | ✓    |
+| isLayoutInvisibleNodes | 不可见节点是否参与布局（当 preLayout 为 true 时生效） | boolean                                               | false      |      |
+| nodeFilter             | 参与该布局的节点                                      | (node: NodeData) => boolean                           | () => true |      |
+| comboFilter            | 参与该布局的combo元素                                 | (combo: ComboData) => boolean                         | () => true |      |
+| preLayout              | 使用前布局，在初始化元素前计算布局                    | boolean                                               | false      |      |
+| enableWorker           | 是否在 WebWorker 中运行布局                           | boolean                                               | -          |      |
+| iterations             | 迭代布局的迭代次数                                    | number                                                | -          |      |
+| animation              | 是否启用布局动画                                      | boolean                                               | false      |      |
+| width                  | 布局区域宽度，默认使用当前容器宽度                    | number                                                | -          |      |
+| height                 | 布局区域高度，默认使用当前容器高度                    | number                                                | -          |      |
+| center                 | 布局中心点                                            | [number, number] \| [number, number, number]          | -          |      |
+| node                   | 节点字段映射，用于把业务字段映射为布局字段            | (datum) => ({ id?, x?, y?, z?, parentId?, isCombo? }) | -          |      |
+| edge                   | 边字段映射，用于把业务字段映射为布局字段              | (datum) => ({ id?, source?, target? })                | -          |      |
+
+补充说明：
+
+- `width` / `height` / `center` 是 `@antvis/layout` 统一支持的通用布局字段。
+- `node` / `edge` 用于适配非标准 `id/source/target` 业务数据。
+- `iterations` 是 G6 运行时用于驱动迭代布局的步数，不等同于某些布局内部自己的算法参数。
 
 ### Type
 

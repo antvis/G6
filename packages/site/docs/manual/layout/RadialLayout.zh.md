@@ -34,23 +34,23 @@ const graph = new Graph({
 
 ## 配置项
 
-| 属性                       | 描述                                         | 类型                                 | 默认值   | 必选 |
-| -------------------------- | -------------------------------------------- | ------------------------------------ | -------- | ---- |
-| type                       | 布局类型                                     | string                               | `radial` | ✓    |
-| center                     | 圆心坐标                                     | [number, number]                     | -        |      |
-| focusNode                  | 辐射中心节点                                 | string \| Node \| null               | null     |      |
-| height                     | 画布高度                                     | number                               | -        |      |
-| width                      | 画布宽度                                     | number                               | -        |      |
-| nodeSize                   | 节点大小（直径）                             | number                               | -        |      |
-| nodeSpacing                | 节点最小间距（防重叠时生效）                 | number \| (nodeData: Node) => number | 10       |      |
-| linkDistance               | 边长度                                       | number                               | 50       |      |
-| unitRadius                 | 每圈半径                                     | number \| null                       | 100      |      |
-| maxIteration               | 最大迭代次数                                 | number                               | 1000     |      |
-| maxPreventOverlapIteration | 防重叠最大迭代次数                           | number                               | 200      |      |
-| preventOverlap             | 是否防止节点重叠                             | boolean                              | false    |      |
-| sortBy                     | 同层节点排序字段                             | string                               | -        |      |
-| sortStrength               | 同层节点排序强度                             | number                               | 10       |      |
-| strictRadial               | 是否严格每层节点在同一圆环上（防重叠时生效） | boolean                              | true     |      |
+| 属性                       | 描述                                         | 类型                                             | 默认值   | 必选 |
+| -------------------------- | -------------------------------------------- | ------------------------------------------------ | -------- | ---- |
+| type                       | 布局类型                                     | string                                           | `radial` | ✓    |
+| center                     | 圆心坐标                                     | [number, number]                                 | -        |      |
+| focusNode                  | 辐射中心节点                                 | string \| Node \| null                           | null     |      |
+| height                     | 画布高度                                     | number                                           | -        |      |
+| width                      | 画布宽度                                     | number                                           | -        |      |
+| nodeSize                   | 节点大小（直径）                             | number \| number[] \| ((nodeData: Node) => Size) | -        |      |
+| nodeSpacing                | 节点最小间距（防重叠时生效）                 | number \| (nodeData: Node) => number             | 10       |      |
+| linkDistance               | 边长度                                       | number                                           | 50       |      |
+| unitRadius                 | 每圈半径；为 null 时按布局空间自动计算       | number \| null                                   | 100      |      |
+| maxIteration               | 最大迭代次数                                 | number                                           | 1000     |      |
+| maxPreventOverlapIteration | 防重叠最大迭代次数                           | number                                           | 200      |      |
+| preventOverlap             | 是否防止节点重叠                             | boolean                                          | false    |      |
+| sortBy                     | 同层节点排序字段或排序函数                   | string \| ((nodeData: Node) => number \| string) | -        |      |
+| sortStrength               | 同层节点排序强度                             | number                                           | 10       |      |
+| strictRadial               | 是否严格每层节点在同一圆环上（防重叠时生效） | boolean                                          | true     |      |
 
 ## 代码示例
 

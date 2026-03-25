@@ -64,7 +64,11 @@ D3Force 布局通过模拟五种不同的力来实现自动布局。想象一个
 | 属性            | 描述                                          | 类型                                       | 默认值     | 必选 |
 | --------------- | --------------------------------------------- | ------------------------------------------ | ---------- | ---- |
 | type            | 布局类型                                      | string                                     | 'd3-force' | ✓    |
-| nodeSize        | 节点大小（直径），用于碰撞检测防止节点重叠    | number \| ((node, index, nodes) => number) | -          |      |
+| centerX         | 布局中心点 x 坐标                             | number                                     | width / 2  |      |
+| centerY         | 布局中心点 y 坐标                             | number                                     | height / 2 |      |
+| centerStrength  | 中心力强度                                    | number                                     | -          |      |
+| nodeSize        | 节点大小（直径），用于碰撞检测防止节点重叠    | number \| ((node, index, nodes) => number) | 10         |      |
+| nodeSpacing     | 节点间额外间距                                | number \| ((node, index, nodes) => number) | 0          |      |
 | iterations      | 力的迭代次数，值越大布局越精确但性能消耗越大  | number                                     | -          |      |
 | onTick          | 每次迭代的回调函数，用于实时获取布局结果      | (data: LayoutMapping) => void              | -          |      |
 | forceSimulation | 自定义力模拟方法，若不指定则使用 d3.js 的方法 | Simulation<NodeDatum, EdgeDatum>           | -          |      |
@@ -104,9 +108,11 @@ D3Force 布局通过模拟五种不同的力来实现自动布局。想象一个
 
 | 属性            | 描述                               | 类型   | 默认值 | 必选 |
 | --------------- | ---------------------------------- | ------ | ------ | ---- |
-| center.x        | 中心点 x 坐标                      | number | 0      |      |
-| center.y        | 中心点 y 坐标                      | number | 0      |      |
-| center.strength | 力的强度，值越大节点越趋向于中心点 | number | 1      |      |
+| center.x        | 中心点 x 坐标                      | number | -      |      |
+| center.y        | 中心点 y 坐标                      | number | -      |      |
+| center.strength | 力的强度，值越大节点越趋向于中心点 | number | -      |      |
+
+> 补充：5.1 中推荐优先使用 `centerX` / `centerY` 作为快捷配置；如果直接配置 `center` force，则按 d3-force 原生写法生效。
 
 #### 碰撞力（collide）
 

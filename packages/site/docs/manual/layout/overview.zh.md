@@ -65,6 +65,8 @@ register(ExtensionCategory.LAYOUT, 'custom-layout', CustomLayout);
 
 也可在图实例化之后使用 `graph.setLayout` 来更新布局配置。
 
+5.1 开始，布局文档中的通用字段已与 `@antvis/layout` 对齐。除了各布局自己的算法参数外，也建议同时关注 `width`、`height`、`center`、`enableWorker`、`node`、`edge` 等公共配置。
+
 ## 布局加速
 
 G6 对一些布局算法提供了加速版本，包括：在 Web Worker 中执行布局算法、提供 [WASM](https://webassembly.org/) 版本的布局算法、GPU 加速的布局算法等。可按照下列方式使用：
@@ -166,3 +168,5 @@ const graph = new Graph({
 ## 自定义布局
 
 如果内置布局算法无法满足需求，可以自定义布局算法，具体请参考[自定义布局](/manual/layout/custom-layout)。
+
+如果你正在从 G6 `5.0` 的布局配置迁移到 `5.1`，可继续阅读 [从 5.0 升级到 5.1（布局）](/manual/whats-new/upgrade-to-5-1)。
