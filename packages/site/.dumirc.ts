@@ -25,6 +25,9 @@ export default defineConfig({
         en: 'G6 is a graph visualization framework with simplicity and convenience. Based on the ability of customization, it provides elegant graph visualization solutions, helping developers build applications for graph visualization, analysis, and editing.',
       },
     },
+    ai: {
+      recommend: 'https://assets.antv.antgroup.com/g6/recommend.json',
+    },
     defaultLanguage: 'zh', // 默认语言
     isAntVSite: false, // 是否是 AntV 的大官网
     siteUrl: homepage, // 官网地址
