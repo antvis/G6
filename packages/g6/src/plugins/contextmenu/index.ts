@@ -92,6 +92,10 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
 
   private targetElement: Element | null = null;
 
+  private wheelHandler = (e: WheelEvent) => {
+    e.stopPropagation();
+  };
+
   constructor(context: RuntimeContext, options: ContextmenuOptions) {
     super(context, Object.assign({}, Contextmenu.defaultOptions, options));
 
@@ -105,13 +109,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     if (className) this.$element.classList.add(className);
 
     // 阻止滚轮事件冒泡，防止触发画布的 zoom-canvas 拦截逻辑
-    this.$element.addEventListener(
-      'wheel',
-      (e) => {
-        e.stopPropagation();
-      },
-      { passive: true },
-    );
+    this.$element.addEventListener('wheel', this.wheelHandler);
 
     const $container = this.context.canvas.getContainer();
     $container!.appendChild(this.$element);
@@ -159,18 +157,8 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     const containerHeight = clientRect.height;
     const padding = 4;
 
-    if (left + menuWidth > containerWidth - padding) {
-      left = containerWidth - menuWidth - padding;
-    }
-    if (left < padding) {
-      left = padding;
-    }
-    if (top + menuHeight > containerHeight - padding) {
-      top = containerHeight - menuHeight - padding;
-    }
-    if (top < padding) {
-      top = padding;
-    }
+    left = Math.max(padding, Math.min(left, containerWidth - menuWidth - padding));
+    top = Math.max(padding, Math.min(top, containerHeight - menuHeight - padding));
 
     this.$element.style.left = `${left}px`;
     this.$element.style.top = `${top}px`;
@@ -244,6 +232,7 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     graph.off(`combo:${trigger}`, this.onTriggerEvent);
 
     document.removeEventListener('click', this.onMenuItemClick);
+    this.$element.removeEventListener('wheel', this.wheelHandler);
   }
 
   private onTriggerEvent = (event: IElementEvent) => {

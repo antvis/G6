@@ -43,6 +43,19 @@ export const CONTEXTMENU_CSS = `
     transition: visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1) 0s, left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
   }
 
+  .g6-contextmenu::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .g6-contextmenu::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+
+  .g6-contextmenu::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
   .g6-contextmenu-ul {
     max-width: 256px;
     min-width: 96px;
