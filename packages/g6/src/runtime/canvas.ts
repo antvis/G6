@@ -8,10 +8,8 @@ import type { CanvasLayer, Point } from '../types';
 import { getBBoxSize, getCombinedBBox } from '../utils/bbox';
 import { parsePoint, toPointObject } from '../utils/point';
 
-export interface CanvasConfig extends Pick<
-  GCanvasConfig,
-  'container' | 'devicePixelRatio' | 'width' | 'height' | 'cursor' | 'background'
-> {
+export interface CanvasConfig
+  extends Pick<GCanvasConfig, 'container' | 'devicePixelRatio' | 'width' | 'height' | 'cursor' | 'background'> {
   /**
    * <zh/> 渲染器
    *

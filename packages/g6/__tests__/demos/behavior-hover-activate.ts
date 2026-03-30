@@ -5,10 +5,7 @@ export const behaviorHoverActivate: TestCase = async (context) => {
   const graph = new Graph({
     ...context,
     data: data,
-    layout: {
-      type: 'd3-force',
-      linkDistance: 150,
-    },
+    layout: { type: 'd3-force' },
     node: {
       style: {
         size: 20,

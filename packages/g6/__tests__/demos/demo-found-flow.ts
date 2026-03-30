@@ -1,20 +1,6 @@
 import { Rect as GRect, Text as GText } from '@antv/g';
-import {
-  Badge,
-  CommonEvent,
-  ExtensionCategory,
-  Graph,
-  GraphEvent,
-  iconfont,
-  Label,
-  Rect,
-  register,
-  treeToGraphData,
-} from '@antv/g6';
-
-const style = document.createElement('style');
-style.innerHTML = `@import url('${iconfont.css}');`;
-document.head.appendChild(style);
+import { Badge, CommonEvent, ExtensionCategory, Graph, Label, Rect, register, treeToGraphData } from '@antv/g6';
+import data from '../dataset/decision-tree.json';
 
 const COLORS = {
   B: '#1783FF',
@@ -34,111 +20,111 @@ class TreeNode extends Rect {
     return this.context.model.getChildrenData(this.id);
   }
 
-  getLabelStyle(attributes) {
+  getLabelStyle(attributes: any) {
     const [width, height] = this.getSize(attributes);
     return {
       x: -width / 2 + 8,
       y: -height / 2 + 16,
-      text: this.data.name,
+      text: (this.data.name || '') as string,
       fontSize: 12,
       opacity: 0.85,
       fill: '#000',
-      cursor: 'pointer',
+      cursor: 'pointer' as const,
     };
   }
 
-  getPriceStyle(attributes) {
+  getPriceStyle(attributes: any) {
     const [width, height] = this.getSize(attributes);
     return {
       x: -width / 2 + 8,
       y: height / 2 - 8,
-      text: this.data.label,
+      text: (this.data.label || '') as string,
       fontSize: 16,
       fill: '#000',
       opacity: 0.85,
     };
   }
 
-  drawPriceShape(attributes, container) {
+  drawPriceShape(attributes: any, container: any) {
     const priceStyle = this.getPriceStyle(attributes);
     this.upsert('price', GText, priceStyle, container);
   }
 
-  getCurrencyStyle(attributes) {
+  getCurrencyStyle(attributes: any) {
     const [, height] = this.getSize(attributes);
     return {
       x: this.shapeMap['price'].getLocalBounds().max[0] + 4,
       y: height / 2 - 8,
-      text: this.data.currency,
+      text: (this.data.currency || '') as string,
       fontSize: 12,
       fill: '#000',
       opacity: 0.75,
     };
   }
 
-  drawCurrencyShape(attributes, container) {
+  drawCurrencyShape(attributes: any, container: any) {
     const currencyStyle = this.getCurrencyStyle(attributes);
     this.upsert('currency', GText, currencyStyle, container);
   }
 
-  getPercentStyle(attributes) {
+  getPercentStyle(attributes: any) {
     const [width, height] = this.getSize(attributes);
     return {
       x: width / 2 - 4,
       y: height / 2 - 8,
       text: `${((Number(this.data.variableValue) || 0) * 100).toFixed(2)}%`,
       fontSize: 12,
-      textAlign: 'right',
-      fill: COLORS[this.data.status],
+      textAlign: 'right' as const,
+      fill: COLORS[this.data.status as keyof typeof COLORS],
     };
   }
 
-  drawPercentShape(attributes, container) {
+  drawPercentShape(attributes: any, container: any) {
     const percentStyle = this.getPercentStyle(attributes);
     this.upsert('percent', GText, percentStyle, container);
   }
 
-  getTriangleStyle(attributes) {
+  getTriangleStyle(attributes: any) {
     const percentMinX = this.shapeMap['percent'].getLocalBounds().min[0];
     const [, height] = this.getSize(attributes);
     return {
-      fill: COLORS[this.data.status],
+      fill: COLORS[this.data.status as keyof typeof COLORS],
       x: this.data.variableUp ? percentMinX - 18 : percentMinX,
       y: height / 2 - 16,
       fontFamily: 'iconfont',
       fontSize: 16,
       text: '\ue62d',
-      transform: this.data.variableUp ? [] : [['rotate', 180]],
+      transform: this.data.variableUp ? ('' as any) : ('rotate(180deg)' as any),
     };
   }
 
-  drawTriangleShape(attributes, container) {
+  drawTriangleShape(attributes: any, container: any) {
     const triangleStyle = this.getTriangleStyle(attributes);
     this.upsert('triangle', Label, triangleStyle, container);
   }
 
-  getVariableStyle(attributes) {
+  getVariableStyle(attributes: any) {
     const [, height] = this.getSize(attributes);
     return {
       fill: '#000',
       fontSize: 12,
       opacity: 0.45,
-      text: this.data.variableName,
-      textAlign: 'right',
+      text: (this.data.variableName || '') as string,
+      textAlign: 'right' as const,
       x: this.shapeMap['triangle'].getLocalBounds().min[0] - 4,
       y: height / 2 - 8,
     };
   }
 
-  drawVariableShape(attributes, container) {
+  drawVariableShape(attributes: any, container: any) {
     const variableStyle = this.getVariableStyle(attributes);
     this.upsert('variable', GText, variableStyle, container);
   }
 
-  getCollapseStyle(attributes) {
+  getCollapseStyle(attributes: any) {
     if (this.childrenData.length === 0) return false;
     const { collapsed } = attributes;
-    const [width, height] = this.getSize(attributes);
+    const [width] = this.getSize(attributes);
     return {
       backgroundFill: '#fff',
       backgroundHeight: 16,
@@ -146,18 +132,18 @@ class TreeNode extends Rect {
       backgroundRadius: 0,
       backgroundStroke: GREY_COLOR,
       backgroundWidth: 16,
-      cursor: 'pointer',
+      cursor: 'pointer' as const,
       fill: GREY_COLOR,
       fontSize: 16,
       text: collapsed ? '+' : '-',
-      textAlign: 'center',
-      textBaseline: 'middle',
+      textAlign: 'center' as const,
+      textBaseline: 'middle' as const,
       x: width / 2,
       y: 0,
     };
   }
 
-  drawCollapseShape(attributes, container) {
+  drawCollapseShape(attributes: any, container: any) {
     const collapseStyle = this.getCollapseStyle(attributes);
     const btn = this.upsert('collapse', Badge, collapseStyle, container);
 
@@ -172,10 +158,10 @@ class TreeNode extends Rect {
     }
   }
 
-  getProcessBarStyle(attributes) {
+  getProcessBarStyle(attributes: any) {
     const { rate, status } = this.data;
     const { radius } = attributes;
-    const color = COLORS[status];
+    const color = COLORS[status as keyof typeof COLORS];
     const percent = `${Number(rate) * 100}%`;
     const [width, height] = this.getSize(attributes);
     return {
@@ -188,12 +174,12 @@ class TreeNode extends Rect {
     };
   }
 
-  drawProcessBarShape(attributes, container) {
+  drawProcessBarShape(attributes: any, container: any) {
     const processBarStyle = this.getProcessBarStyle(attributes);
     this.upsert('process-bar', GRect, processBarStyle, container);
   }
 
-  getKeyStyle(attributes) {
+  getKeyStyle(attributes: any) {
     const keyStyle = super.getKeyStyle(attributes);
     return {
       ...keyStyle,
@@ -203,7 +189,7 @@ class TreeNode extends Rect {
     };
   }
 
-  render(attributes = this.parsedAttributes, container) {
+  render(attributes = this.parsedAttributes, container?: any) {
     super.render(attributes, container);
 
     this.drawPriceShape(attributes, container);
@@ -218,45 +204,45 @@ class TreeNode extends Rect {
 
 register(ExtensionCategory.NODE, 'tree-node', TreeNode);
 
-fetch('https://assets.antv.antgroup.com/g6/decision-tree.json')
-  .then((res) => res.json())
-  .then((data) => {
-    const graph = new Graph({
-      container: 'container',
-      autoFit: 'view',
-      data: treeToGraphData(data, {
-        getNodeData: (datum, depth) => {
-          if (!datum.style) datum.style = {};
-          datum.style.collapsed = depth >= 2;
-          if (!datum.children) return datum;
-          const { children, ...restDatum } = datum;
-          return { ...restDatum, children: children.map((child) => child.id) };
-        },
-      }),
-      node: {
-        type: 'tree-node',
-        style: {
-          size: [202, 60],
-          ports: [{ placement: 'left' }, { placement: 'right' }],
-          radius: 4,
-        },
+export const demoFoundFlow: TestCase = async (context) => {
+  const graph = new Graph({
+    ...context,
+    autoFit: 'view',
+    data: treeToGraphData(data, {
+      getNodeData: (datum: any, depth: number) => {
+        if (!datum.style) datum.style = {};
+        datum.style.collapsed = depth >= 2;
+        if (!datum.children) return datum;
+        const { children, ...restDatum } = datum;
+        return { ...restDatum, children: children.map((child: any) => child.id) };
       },
-      edge: {
-        type: 'cubic-horizontal',
-        style: {
-          stroke: GREY_COLOR,
-        },
+    }),
+    node: {
+      type: 'tree-node',
+      style: {
+        size: [202, 60],
+        ports: [{ placement: 'left' }, { placement: 'right' }],
+        radius: 4,
       },
-      layout: {
-        type: 'indented',
-        direction: 'LR',
-        dropCap: false,
-        indent: 300,
-        getHeight: () => 60,
-        preLayout: false,
+    },
+    edge: {
+      type: 'cubic-horizontal',
+      style: {
+        stroke: GREY_COLOR,
       },
-      behaviors: ['zoom-canvas', 'drag-canvas'],
-    });
-
-    graph.render();
+    },
+    layout: {
+      type: 'indented',
+      direction: 'LR',
+      dropCap: false,
+      indent: 300,
+      getHeight: () => 60,
+      preLayout: false,
+    },
+    behaviors: ['zoom-canvas', 'drag-canvas'],
   });
+
+  await graph.render();
+
+  return graph;
+};

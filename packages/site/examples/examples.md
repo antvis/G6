@@ -7232,7 +7232,7 @@ function getData(width, size = 200) {
 function randomUniform(min, max) {
   min = min == null ? 0 : +min;
   max = max == null ? 1 : +max;
-  if (arguments.length === 1) (max = min), (min = 0);
+  if (arguments.length === 1) ((max = min), (min = 0));
   else max -= min;
   return function () {
     return Math.random() * max + min;
@@ -10511,6 +10511,7 @@ fetch('https://assets.antv.antgroup.com/g6/decision-tree.json')
   .then((data) => {
     const graph = new Graph({
       container: 'container',
+      autoFit: 'view',
       data: treeToGraphData(data, {
         getNodeData: (datum, depth) => {
           if (!datum.style) datum.style = {};
@@ -10543,10 +10544,6 @@ fetch('https://assets.antv.antgroup.com/g6/decision-tree.json')
         preLayout: false,
       },
       behaviors: ['zoom-canvas', 'drag-canvas'],
-    });
-
-    graph.once(GraphEvent.AFTER_RENDER, () => {
-      graph.fitView();
     });
 
     graph.render();
@@ -12532,6 +12529,7 @@ fetch('https://assets.antv.antgroup.com/g6/algorithm-category.json')
     const rootId = data.id;
 
     const graph = new Graph({
+      autoFit: 'view',
       data: treeToGraphData(data),
       node: {
         type: 'mindmap',
@@ -12573,10 +12571,6 @@ fetch('https://assets.antv.antgroup.com/g6/algorithm-category.json')
       behaviors: ['drag-canvas', 'zoom-canvas', 'collapse-expand-tree'],
       transforms: ['assign-color-by-branch'],
       animation: false,
-    });
-
-    graph.once(GraphEvent.AFTER_RENDER, () => {
-      graph.fitView();
     });
 
     graph.render();

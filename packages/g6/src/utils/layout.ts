@@ -1,16 +1,16 @@
-import { Graph as Graphlib } from '@antv/graphlib';
+import { Edge, Graph as Graphlib, Node } from '@antv/graphlib';
 import { deepMix, isNumber } from '@antv/util';
 import { COMBO_KEY } from '../constants';
 import { BaseLayout } from '../layouts/base-layout';
 import { idOf } from './id';
-import { parsePoint } from './point';
 
-import type { LayoutMapping, Graph as LayoutModel, Node as LayoutNodeData } from '@antv/layout';
-import type { AntVLayout } from '../layouts/types';
+import type { AntVGraphData, AntVLayout, LegacyAntVLayout, LegacyGraph } from '../layouts/types';
 import type { RuntimeContext } from '../runtime/types';
-import type { GraphData } from '../spec/data';
+import type { EdgeData, GraphData, NodeData } from '../spec/data';
+import type { NodeStyle } from '../spec/element/node';
 import type { LayoutOptions, STDLayoutOptions } from '../spec/layout';
 import type { AdaptiveLayout, ID } from '../types';
+import { parsePoint } from './point';
 
 /**
  * <zh/> 判断是否是 combo 布局
@@ -65,14 +65,119 @@ export function isPreLayout(options?: LayoutOptions) {
 }
 
 /**
+ * <zh/> 将 @antv/layout 布局适配为 G6 布局
+ *
+ * <en/> Adapt @antv/layout layout to G6 layout
+ * @param Ctor - <zh/> 布局类 | <en/> Layout class
+ * @param context - <zh/> 运行时上下文 | <en/> Runtime context
+ * @returns <zh/> G6 布局类 | <en/> G6 layout class
+ */
+export function layoutAdapter(
+  Ctor: new (options: Record<string, unknown>) => AntVLayout,
+  context: RuntimeContext,
+): new (context: RuntimeContext, options?: Record<string, unknown>) => BaseLayout {
+  class AdaptLayout extends BaseLayout implements AdaptiveLayout {
+    public instance: AntVLayout;
+
+    public id: string;
+
+    constructor(context: RuntimeContext, options?: Record<string, unknown>) {
+      super(context, options);
+      this.instance = new Ctor({});
+      this.id = this.instance.id;
+
+      if ('stop' in this.instance && 'tick' in this.instance) {
+        const instance = this.instance;
+        this.stop = instance.stop.bind(instance);
+        this.tick = (iterations?: number) => {
+          instance.tick(iterations);
+          return this.getLayoutResult(instance);
+        };
+      }
+    }
+
+    public async execute(model: GraphData, options?: STDLayoutOptions): Promise<GraphData> {
+      await this.instance.execute(
+        this.graphData2LayoutModel(model),
+        this.transformOptions(deepMix({}, this.options, options)),
+      );
+      return this.getLayoutResult(this.instance);
+    }
+
+    private graphData2LayoutModel(data: GraphData): AntVGraphData {
+      const { nodes = [], edges = [], combos = [] } = data;
+
+      return {
+        nodes: [...nodes, ...combos],
+        edges,
+      };
+    }
+
+    private transformOptions(options: STDLayoutOptions) {
+      const isCombo = (id: string) => context.model.isCombo(id);
+
+      const defaultNode = (datum: NodeData) => {
+        const { style } = datum || {};
+        const parentId = 'combo' in (datum || {}) ? (datum.combo ?? null) : null;
+        const id = idOf(datum);
+
+        return {
+          id,
+          ...(isNumber(style?.x) ? { x: style.x } : {}),
+          ...(isNumber(style?.y) ? { y: style.y } : {}),
+          ...(isNumber(style?.z) ? { z: style.z } : {}),
+          parentId,
+          ...(isCombo(id) ? { isCombo: true } : {}),
+        };
+      };
+
+      const defaultEdge = (datum: EdgeData) => ({ id: idOf(datum), source: datum.source, target: datum.target });
+
+      options.node = defaultNode;
+      options.edge = defaultEdge;
+
+      if (!('onTick' in options)) return options;
+
+      const onTick = options.onTick as (data: GraphData) => void;
+      options.onTick = (layout: AntVLayout) => onTick(this.getLayoutResult(layout));
+      return options;
+    }
+
+    private getLayoutResult(layout: AntVLayout): GraphData {
+      const { model } = this.context;
+
+      const result: GraphData = { nodes: [], edges: [], combos: [] };
+
+      layout.forEachNode((node) => {
+        const nodeId = String(node.id);
+        const target = model.isCombo(nodeId) ? result.combos : result.nodes;
+
+        const style = { x: node.x, y: node.y, z: node.z ?? 0, ...(node.size ? { size: node.size } : {}) } as NodeStyle;
+
+        target?.push({ id: nodeId, style });
+      });
+
+      layout.forEachEdge((edge) => {
+        const style = { controlPoints: edge.points || [] };
+        result.edges!.push({ id: String(edge.id), source: String(edge.source), target: String(edge.target), style });
+      });
+
+      return result;
+    }
+  }
+
+  return AdaptLayout;
+}
+
+/**
  * <zh/> 将图布局结果转换为 G6 数据
  *
  * <en/> Convert the layout result to G6 data
  * @param layoutMapping - <zh/> 布局映射 | <en/> Layout mapping
  * @returns <zh/> G6 数据 | <en/> G6 data
  */
-export function layoutMapping2GraphData(layoutMapping: LayoutMapping): GraphData {
-  const { nodes, edges } = layoutMapping;
+export function layoutMapping2GraphData(layoutMapping: AntVGraphData): GraphData {
+  const { nodes, edges = [] } = layoutMapping;
   const data: GraphData = { nodes: [], edges: [], combos: [] };
 
   nodes.forEach((nodeLike) => {
@@ -110,6 +215,19 @@ export function layoutMapping2GraphData(layoutMapping: LayoutMapping): GraphData
 }
 
 /**
+ * <zh/> 判断是否为 AntV Layout 1.x
+ *
+ * <en/> Determine if it is AntV Layout 1.x
+ * @param Ctor - <zh/> 布局类 | <en/> Layout class
+ * @returns <zh/> 是否为 AntV Layout 1.x | <en/> Whether it is AntV Layout 1.x
+ */
+export function isLegacyAntVLayout(
+  Ctor: new (options: Record<string, unknown>) => unknown,
+): Ctor is new (options: Record<string, unknown>) => LegacyAntVLayout {
+  return !('forEachNode' in Ctor.prototype) && !('forEachEdge' in Ctor.prototype);
+}
+
+/**
  * <zh/> 将 @antv/layout 布局适配为 G6 布局
  *
  * <en/> Adapt @antv/layout layout to G6 layout
@@ -117,12 +235,12 @@ export function layoutMapping2GraphData(layoutMapping: LayoutMapping): GraphData
  * @param context - <zh/> 运行时上下文 | <en/> Runtime context
  * @returns <zh/> G6 布局类 | <en/> G6 layout class
  */
-export function layoutAdapter(
-  Ctor: new (options: Record<string, unknown>) => AntVLayout,
+export function legacyLayoutAdapter(
+  Ctor: new (options: Record<string, unknown>) => LegacyAntVLayout,
   context: RuntimeContext,
 ): new (context: RuntimeContext, options?: Record<string, unknown>) => BaseLayout {
   class AdaptLayout extends BaseLayout implements AdaptiveLayout {
-    public instance: AntVLayout;
+    public instance: LegacyAntVLayout;
 
     public id: string;
 
@@ -135,7 +253,7 @@ export function layoutAdapter(
         const instance = this.instance;
         this.stop = instance.stop.bind(instance);
         this.tick = (iterations?: number) => {
-          const tickResult = instance.tick(iterations);
+          const tickResult = instance.tick?.(iterations);
           return layoutMapping2GraphData(tickResult);
         };
       }
@@ -153,13 +271,13 @@ export function layoutAdapter(
     private transformOptions(options: STDLayoutOptions) {
       if (!('onTick' in options)) return options;
       const onTick = options.onTick as (data: GraphData) => void;
-      options.onTick = (data: LayoutMapping) => onTick(layoutMapping2GraphData(data));
+      options.onTick = (data: AntVGraphData) => onTick(layoutMapping2GraphData(data));
       return options;
     }
 
-    public graphData2LayoutModel(data: GraphData): LayoutModel {
+    private graphData2LayoutModel(data: GraphData): LegacyGraph {
       const { nodes = [], edges = [], combos = [] } = data;
-      const nodesToLayout: LayoutNodeData[] = nodes.map((datum) => {
+      const nodesToLayout: Node<NodeData>[] = nodes.map((datum) => {
         const id = idOf(datum);
         const { data, style, combo, ...rest } = datum;
 
@@ -193,14 +311,24 @@ export function layoutAdapter(
         })
         .map((edge) => {
           const { source, target, data, style } = edge;
-          return { id: idOf(edge), source, target, data: { ...data }, style: { ...style } };
+          return {
+            id: idOf(edge),
+            source,
+            target,
+            data: { ...data },
+            style: { ...style },
+          } as unknown as Edge<EdgeData>;
         });
 
-      const combosToLayout: LayoutNodeData[] = combos.map((combo) => {
-        return { id: idOf(combo), data: { _isCombo: true, ...combo.data }, style: { ...combo.style } };
+      const combosToLayout: Node<NodeData>[] = combos.map((combo) => {
+        return {
+          id: idOf(combo),
+          data: { _isCombo: true, ...combo.data },
+          style: { ...combo.style },
+        } as unknown as Node<NodeData>;
       });
 
-      const layoutModel = new Graphlib({
+      const layoutModel = new Graphlib<NodeData, EdgeData>({
         nodes: [...nodesToLayout, ...combosToLayout],
         edges: edgesToLayout,
       });

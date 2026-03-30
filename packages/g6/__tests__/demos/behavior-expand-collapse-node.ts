@@ -9,11 +9,12 @@ export const behaviorExpandCollapseNode: TestCase = async (context) => {
       id: 'A',
       children: [
         { id: 'B', children: [{ id: 'D' }, { id: 'E' }] },
-        { id: 'C', children: [{ id: 'F' }, { id: 'G' }] },
+        { id: 'C', style: { collapsed: true }, children: [{ id: 'F' }, { id: 'G' }] },
       ],
     }),
     node: {
       style: {
+        size: 32,
         labelText: (d) => d.id,
         labelPlacement: 'right',
         ports: [{ position: 'center' }],
@@ -24,7 +25,7 @@ export const behaviorExpandCollapseNode: TestCase = async (context) => {
     },
     layout: {
       type: 'dendrogram',
-      nodeSep: 30,
+      nodeSep: 40,
       rankSep: 100,
       preLayout: false,
     },
@@ -32,7 +33,6 @@ export const behaviorExpandCollapseNode: TestCase = async (context) => {
   });
 
   await graph.render();
-  graph.collapseElement('C', { animation: false });
 
   behaviorExpandCollapseNode.form = (panel) => {
     const config = {

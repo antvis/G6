@@ -35,6 +35,7 @@ export const elementEdgePolylineOrth: TestCase = async (context) => {
       type: 'antv-dagre',
       nodesep: 50,
       ranksep: 20,
+      controlPoints: true,
     },
     autoFit: 'view',
     node: {

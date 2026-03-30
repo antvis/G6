@@ -5,7 +5,7 @@ import { Graph, register } from '@antv/g6';
 export const layoutFruchtermanWASM: TestCase = async (context) => {
   const { FruchtermanLayout, initThreads, supportsThreads } = await import('@antv/layout-wasm');
 
-  register('layout', 'fruchterman-wasm', FruchtermanLayout);
+  register('layout', 'fruchterman-wasm', FruchtermanLayout as any);
 
   const supported = await supportsThreads();
   const threads = await initThreads(supported);

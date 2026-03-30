@@ -1,7 +1,27 @@
 import type { Vector2, Vector3 } from '../types';
-import { isVector2 } from './is';
+import { isVector2, isVector3 } from './is';
+import { format } from './print';
 
 const VECTOR_ZERO: Vector3 = [0, 0, 0];
+
+/**
+ * <zh/> 填充两个向量至相同维度
+ *
+ * <en/> Pads two vectors to the same dimension
+ * @param a - <zh/> 第一个向量 | <en/> The first vector
+ * @param b - <zh/> 第二个向量 | <en/> The second vector
+ * @returns <zh/> 两个向量填充后的结果 | <en/> The result of padded vectors
+ */
+function padVectors(a: Vector2 | Vector3, b: Vector2 | Vector3): [Vector2 | Vector3, Vector2 | Vector3] {
+  if (a.length == b.length) {
+    return [a, b];
+  } else {
+    if ((isVector3(a) && a[2] !== 0) || (isVector3(b) && b[2] !== 0)) {
+      throw new Error(format('Vectors could not operate due to different dimensions.'));
+    }
+    return [toVector2(a), toVector2(b)];
+  }
+}
 
 /**
  * <zh/> 两个向量求和
@@ -12,6 +32,7 @@ const VECTOR_ZERO: Vector3 = [0, 0, 0];
  * @returns <zh/> 两个向量的和 | <en/> The sum of the two vectors
  */
 export function add(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Vector3 {
+  [a, b] = padVectors(a, b);
   return a.map((v, i) => v + b[i]) as Vector2 | Vector3;
 }
 
@@ -24,6 +45,7 @@ export function add(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Vecto
  * @returns <zh/> 两个向量的差 | <en/> The difference of the two vectors
  */
 export function subtract(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | Vector3 {
+  [a, b] = padVectors(a, b);
   return a.map((v, i) => v - b[i]) as Vector2 | Vector3;
 }
 
@@ -36,7 +58,8 @@ export function subtract(a: Vector2 | Vector3, b: Vector2 | Vector3): Vector2 | 
  * @returns <zh/> 两个向量的积或者向量和标量的积 | <en/> The product of the two vectors or the product of the vector and scalar
  */
 export function multiply(a: Vector2 | Vector3, b: number | Vector2 | Vector3): Vector2 | Vector3 {
-  if (typeof b === 'number') return a.map((v) => v * b) as Vector2 | Vector3;
+  if (typeof b === 'number') return a.map((v) => v * (b as number)) as Vector2 | Vector3;
+  [a, b] = padVectors(a, b);
   return a.map((v, i) => v * b[i]) as Vector2 | Vector3;
 }
 
@@ -49,8 +72,14 @@ export function multiply(a: Vector2 | Vector3, b: number | Vector2 | Vector3): V
  * @returns <zh/> 两个向量的商或者向量和标量的商 | <en/> The quotient of the two vectors or the quotient of the vector and scalar
  */
 export function divide(a: Vector2 | Vector3, b: number | Vector2 | Vector3): Vector2 | Vector3 {
-  if (typeof b === 'number') return a.map((v) => v / b) as Vector2 | Vector3;
-  return a.map((v, i) => v / b[i]) as Vector2 | Vector3;
+  if (typeof b === 'number') return a.map((v) => v / (b as number)) as Vector2 | Vector3;
+  [a, b] = padVectors(a, b);
+  return a.map((v, i) => {
+    if (b[i] == 0) {
+      throw new Error(format('Vector could not be divided by zero'));
+    }
+    return v / b[i];
+  }) as Vector2 | Vector3;
 }
 
 /**
@@ -62,6 +91,7 @@ export function divide(a: Vector2 | Vector3, b: number | Vector2 | Vector3): Vec
  * @returns <zh/> 两个向量的点积 | <en/> The dot product of the two vectors
  */
 export function dot(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
+  [a, b] = padVectors(a, b);
   return (a as number[]).reduce((sum, v, i) => sum + v * b[i], 0);
 }
 
@@ -100,7 +130,8 @@ export function scale(a: Vector2 | Vector3, s: number): Vector2 | Vector3 {
  * @returns <zh/> 两个向量间的距离 | <en/> The distance between the two vectors
  */
 export function distance(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
-  return Math.sqrt((a as number[]).reduce((sum, v, i) => sum + (v - b[i] || 0) ** 2, 0));
+  [a, b] = padVectors(a, b);
+  return Math.sqrt((a as number[]).reduce((sum, v, i) => sum + (v - b[i]) ** 2, 0));
 }
 
 /**
@@ -112,6 +143,7 @@ export function distance(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
  * @returns <zh/> 两个向量间的距离 | <en/> The distance between the two vectors
  */
 export function manhattanDistance(a: Vector2 | Vector3, b: Vector2 | Vector3): number {
+  [a, b] = padVectors(a, b);
   return (a as number[]).reduce((sum, v, i) => sum + Math.abs(v - b[i]), 0);
 }
 
@@ -137,6 +169,7 @@ export function normalize(a: Vector2 | Vector3): Vector2 | Vector3 {
  * @returns  <zh/> 弧度值 | <en/> The angle in radians
  */
 export function angle(a: Vector2 | Vector3, b: Vector2 | Vector3, clockwise = false): number {
+  [a, b] = padVectors(a, b);
   const determinant = a[0] * b[1] - a[1] * b[0];
   let angle = Math.acos(
     (multiply(a, b) as number[]).reduce((sum: number, v: number) => sum + v, 0) /

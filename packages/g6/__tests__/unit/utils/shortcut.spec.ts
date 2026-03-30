@@ -44,6 +44,17 @@ describe('shortcut', () => {
     expect(controlEqual).toHaveBeenCalledTimes(2);
     expect(controlMinus).toHaveBeenCalledTimes(2);
 
+    // Test modifier key works at window level too
+    window.dispatchEvent(new KeyboardEvent(CommonEvent.KEY_DOWN, { key: 'Control' }));
+    emitter.emit(CommonEvent.KEY_DOWN, { key: '=' });
+    emitter.emit(CommonEvent.KEY_UP, { key: '=' });
+    emitter.emit(CommonEvent.KEY_DOWN, { key: '-' });
+    emitter.emit(CommonEvent.KEY_UP, { key: '-' });
+    window.dispatchEvent(new KeyboardEvent(CommonEvent.KEY_UP, { key: 'Control' }));
+
+    expect(controlEqual).toHaveBeenCalledTimes(3);
+    expect(controlMinus).toHaveBeenCalledTimes(3);
+
     shortcut.unbind(['Control', '='], controlEqual);
     shortcut.unbind(['Control', '-']);
 
@@ -54,8 +65,8 @@ describe('shortcut', () => {
     emitter.emit(CommonEvent.KEY_UP, { key: '-' });
     emitter.emit(CommonEvent.KEY_UP, { key: 'Control' });
 
-    expect(controlEqual).toHaveBeenCalledTimes(2);
-    expect(controlMinus).toHaveBeenCalledTimes(2);
+    expect(controlEqual).toHaveBeenCalledTimes(3);
+    expect(controlMinus).toHaveBeenCalledTimes(3);
   });
 
   it('wheel', () => {
