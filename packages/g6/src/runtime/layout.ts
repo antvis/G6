@@ -232,14 +232,13 @@ export class LayoutController {
         'TB',
       );
 
-      // 根节点已在画布上时，以其当前坐标为锚点计算偏移，避免布局后画布跳动（类 fitCenter 效果）；
-      // 首次布局时根节点尚未渲染，回退到视口居中逻辑。
-      // When the root is already on canvas, anchor offset to its current position to prevent
-      // the layout from causing a fitCenter-like jump; fall back to viewport centering on first layout.
-      const rootElement = this.context.element?.getElement(root.id);
+      // 重新布局时以根节点当前坐标为锚点计算偏移，避免布局后画布跳动；
+      // 首次布局（Graph.rendered === false）回退到视口居中逻辑。
+      // On re-layout, anchor offset to root's current position to prevent canvas jump;
+      // fall back to viewport centering on first layout (Graph.rendered === false).
       let offset: [number, number];
 
-      if (rootElement) {
+      if (this.context.graph.rendered) {
         const rootNodeData = nodes.find((n) => idOf(n) === root.id);
         const currentX = Number(rootNodeData?.style?.x ?? 0);
         const currentY = Number(rootNodeData?.style?.y ?? 0);
