@@ -25,7 +25,7 @@ import { cloneElementData, isElementDataEqual, mergeElementsData } from '../util
 import { arrayDiff } from '../utils/diff';
 import { toG6Data, toGraphlibData } from '../utils/graphlib';
 import { idOf, parentIdOf } from '../utils/id';
-import { positionOf } from '../utils/position';
+import { hasPosition, positionOf } from '../utils/position';
 import { format, print } from '../utils/print';
 import { dfs } from '../utils/traverse';
 import { add } from '../utils/vector';
@@ -389,7 +389,7 @@ export class DataController {
     const [parentX, parentY] = positionOf(parentData);
     const nodesToAdd = childrenData.map((child) => {
       const style = child.style ?? {};
-      if (style.x == null && style.y == null) {
+      if (!hasPosition(child)) {
         return { ...child, style: { ...style, x: parentX, y: parentY } };
       }
       return child;
