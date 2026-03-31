@@ -41,6 +41,17 @@ describe('behavior drag element', () => {
     await expect(graph).toMatchSnapshot(__filename, 'after-drag');
   });
 
+  it('restores zIndex after drag end', () => {
+    graph.setBehaviors(['drag-element']);
+    const originalZIndex = graph.getElementZIndex('node-4');
+
+    graph.emit(NodeEvent.DRAG_START, { target: { id: 'node-4' }, targetType: 'node' });
+    graph.emit(NodeEvent.DRAG, { dx: 10, dy: 10 });
+    graph.emit(NodeEvent.DRAG_END);
+
+    expect(graph.getElementZIndex('node-4')).toBe(originalZIndex);
+  });
+
   it('hide edges', async () => {
     graph.setBehaviors([{ type: 'drag-element', hideEdge: 'both' }]);
     graph.emit(NodeEvent.DRAG_START, { target: { id: 'node-4' }, targetType: 'node' });
