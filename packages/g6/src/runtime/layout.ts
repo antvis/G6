@@ -17,6 +17,7 @@ import { emit, GraphLifeCycleEvent } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
 import { idOf } from '../utils/id';
 import { isLegacyAntVLayout, isTreeLayout, layoutAdapter, legacyLayoutAdapter } from '../utils/layout';
+import { hasPosition, positionOf } from '../utils/position';
 import { print } from '../utils/print';
 import { dfs } from '../utils/traverse';
 import type { RuntimeContext } from './types';
@@ -232,17 +233,15 @@ export class LayoutController {
         'TB',
       );
 
-      // 重新布局时以根节点当前坐标为锚点计算偏移，避免布局后画布跳动；
-      // 首次布局（Graph.rendered === false）回退到视口居中逻辑。
-      // On re-layout, anchor offset to root's current position to prevent canvas jump;
-      // fall back to viewport centering on first layout (Graph.rendered === false).
+      // 布局时以根节点当前坐标为锚点计算偏移，避免布局后画布跳动；
+      // 根节点未设置位置（首次布局）时回退到视口居中逻辑。
+      // On layout, anchor offset to root's current position to prevent canvas jump;
+      // if root node has no position (first layout), fall back to viewport centering.
       let offset: [number, number];
-
-      if (this.context.graph.rendered) {
-        const rootNodeData = nodes.find((n) => idOf(n) === root.id);
-        const currentX = Number(rootNodeData?.style?.x ?? 0);
-        const currentY = Number(rootNodeData?.style?.y ?? 0);
-        offset = [currentX - rx, currentY - ry];
+      const rootNodeData = nodes.find((n) => idOf(n) === root.id);
+      if (rootNodeData && hasPosition(rootNodeData)) {
+        const [rootX, rootY] = positionOf(rootNodeData);
+        offset = [rootX - rx, rootY - ry];
       } else {
         offset = this.inferTreeLayoutOffset({
           nodes: subtreeNodes.map(({ id, x, y, z }) => ({ id, style: { x, y, z } })),
