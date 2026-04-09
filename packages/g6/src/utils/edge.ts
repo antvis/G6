@@ -24,6 +24,90 @@ import { freeJoin } from './router/orth';
 import { add, distance, manhattanDistance, multiply, normalize, perpendicular, subtract } from './vector';
 
 /**
+ * <zh/> 获取自环边顶点（凸起位置）的位置比率
+ *
+ * <en/> Get the ratio of the apex (protruding position) on a loop edge
+ * @param key - <zh/> 边对象 | <en/> The edge object
+ * @param loopPlacement - <zh/> 自环边的位置 | <en/> The loop placement
+ * @returns <zh/> 顶点位置的比率 | <en/> The ratio of the apex position
+ */
+function getLoopApexRatio(key: EdgeKey, loopPlacement: LoopPlacement): number {
+  // 采样路径上的点，根据 loopPlacement 找到对应方向的极值点（凸起位置）
+  // Sample points on the path to find the extreme point (protruding position) in the corresponding direction based on loopPlacement
+  const samples = 100;
+  let extremeValue: number;
+  let apexRatio = 0.5;
+
+  // 根据位置决定比较方向
+  // Determine comparison direction based on placement
+  const isTop = loopPlacement.includes('top');
+  const isBottom = loopPlacement.includes('bottom');
+  const isLeft = loopPlacement.includes('left');
+  const isRight = loopPlacement.includes('right');
+
+  // 初始化极值
+  // Initialize extreme value
+  if (isTop)
+    extremeValue = Infinity; // 找 Y 最小
+  else if (isBottom)
+    extremeValue = -Infinity; // 找 Y 最大
+  else if (isLeft)
+    extremeValue = Infinity; // 找 X 最小
+  else if (isRight)
+    extremeValue = -Infinity; // 找 X 最大
+  else extremeValue = Infinity; // 默认找 Y 最小
+
+  for (let i = 0; i <= samples; i++) {
+    const ratio = i / samples;
+    const point = parsePoint(key.getPoint(ratio));
+
+    let shouldUpdate = false;
+    if (isTop) {
+      // 找 Y 最小的点（最高点，向上凸起）
+      if (point[1] < extremeValue) {
+        extremeValue = point[1];
+        shouldUpdate = true;
+      }
+    } else if (isBottom) {
+      // 找 Y 最大的点（最低点，向下凸起）
+      if (point[1] > extremeValue) {
+        extremeValue = point[1];
+        shouldUpdate = true;
+      }
+    } else if (isLeft) {
+      // 找 X 最小的点（最左边，向左凸起）
+      if (point[0] < extremeValue) {
+        extremeValue = point[0];
+        shouldUpdate = true;
+      }
+    } else if (isRight) {
+      // 找 X 最大的点（最右边，向右凸起）
+      if (point[0] > extremeValue) {
+        extremeValue = point[0];
+        shouldUpdate = true;
+      }
+    }
+
+    if (shouldUpdate) {
+      apexRatio = ratio;
+    }
+  }
+
+  return apexRatio;
+}
+
+/**
+ * <zh/> 判断是否是主要方向（上、下、左、右）
+ *
+ * <en/> Check if it's a cardinal direction (top, bottom, left, right)
+ * @param loopPlacement - <zh/> 自环边的位置 | <en/> The loop placement
+ * @returns <zh/> 是否是主要方向 | <en/> Whether it's a cardinal direction
+ */
+function isCardinalDirection(loopPlacement: LoopPlacement): boolean {
+  return loopPlacement === 'top' || loopPlacement === 'bottom' || loopPlacement === 'left' || loopPlacement === 'right';
+}
+
+/**
  * <zh/> 获取标签的位置样式
  *
  * <en/> Get the style of the label's position
@@ -32,6 +116,8 @@ import { add, distance, manhattanDistance, multiply, normalize, perpendicular, s
  * @param autoRotate - <zh/> 是否自动旋转 | <en/> Whether to auto-rotate
  * @param offsetX - <zh/> 标签相对于边的水平偏移量 | <en/> Horizontal offset of the label relative to the edge
  * @param offsetY - <zh/> 标签相对于边的垂直偏移量 | <en/> Vertical offset of the label relative to the edge
+ * @param isLoop - <zh/> 是否是自环边 | <en/> Whether it is a loop edge
+ * @param loopPlacement - <zh/> 自环边的位置 | <en/> The loop placement
  * @returns <zh/> 标签的位置样式 | <en/> Returns the style of the label's position
  */
 export function getLabelPositionStyle(
@@ -40,6 +126,8 @@ export function getLabelPositionStyle(
   autoRotate: boolean,
   offsetX: number,
   offsetY: number,
+  isLoop?: boolean,
+  loopPlacement?: LoopPlacement,
 ): Partial<EdgeLabelStyleProps> {
   const START_RATIO = 0;
   const MIDDLE_RATIO = 0.5;
@@ -48,6 +136,45 @@ export function getLabelPositionStyle(
   let ratio = typeof placement === 'number' ? placement : MIDDLE_RATIO;
   if (placement === 'start') ratio = START_RATIO;
   if (placement === 'end') ratio = END_RATIO;
+
+  // 自环边：label 放在弧顶点（ratio=0.5），角度由 loopPlacement 精确计算
+  // Loop edge: place label at apex (ratio=0.5), compute exact angle from loopPlacement
+  if (isLoop && loopPlacement) {
+    ratio = 0.5;
+    offsetX = 0;
+    offsetY = 0;
+
+    // 凸起方向 = 两个端点弧度的中点角度，切线方向 = 凸起方向 + 90°
+    // Bulge direction = midpoint angle of the two endpoint radians, tangent = bulge + 90°
+    const loopTangentAngles: Record<string, number> = {
+      top: 0,
+      bottom: 0,
+      left: Math.PI / 2,
+      right: Math.PI / 2,
+    };
+
+    let angle: number;
+    if (loopPlacement in loopTangentAngles) {
+      angle = loopTangentAngles[loopPlacement];
+    } else {
+      // 对角方向：从路径采样获取切线 | Diagonal: sample tangent from path
+      const point = parsePoint(key.getPoint(0.5));
+      const pointOffset = parsePoint(key.getPoint(0.51));
+      angle = Math.atan2(pointOffset[1] - point[1], pointOffset[0] - point[0]);
+    }
+
+    // 确保文本从左到右可读 | Ensure text reads left-to-right
+    if (Math.cos(angle) < -1e-6) angle += Math.PI;
+
+    const [x, y] = getXYByPlacement(key, ratio, 0, 0, angle);
+    return {
+      textAlign: 'center' as const,
+      transform: [
+        ['translate', x, y],
+        ['rotate', (angle / Math.PI) * 180],
+      ] as TransformArray,
+    };
+  }
 
   const point = parsePoint(key.getPoint(ratio));
   const pointOffset = parsePoint(key.getPoint(ratio + 0.01));
@@ -379,21 +506,76 @@ export function getCubicLoopPath(
   dist: number,
   sourcePortKey?: string,
   targetPortKey?: string,
-) {
+): PathArray {
   const sourcePort = node.getPorts()[(sourcePortKey || targetPortKey)!];
   const targetPort = node.getPorts()[(targetPortKey || sourcePortKey)!];
 
-  // 1. 获取起点和终点 | Get the start and end points
   let [sourcePoint, targetPoint] = getLoopEndpoints(node, placement, clockwise, sourcePort, targetPort);
 
-  // 2. 获取控制点 | Get the control points
-  const controlPoints = getCubicLoopControlPoints(node, sourcePoint, targetPoint, dist);
+  // 退化情况：起点和终点相同（同一端口）| Degenerate case: same start and end point (same port)
+  if (isEqual(sourcePoint, targetPoint)) {
+    const controlPoints = getCubicLoopControlPoints(node, sourcePoint, targetPoint, dist);
+    if (sourcePort) sourcePoint = getPortConnectionPoint(sourcePort, controlPoints[0]);
+    if (targetPort) targetPoint = getPortConnectionPoint(targetPort, controlPoints.at(-1) as Point);
+    return getCubicPath(sourcePoint, targetPoint, controlPoints);
+  }
 
-  // 3. 如果定义了连接桩，调整端点以与连接桩边界相交 | If the port is defined, adjust the endpoint to intersect with the port boundary
-  if (sourcePort) sourcePoint = getPortConnectionPoint(sourcePort, controlPoints[0]);
-  if (targetPort) targetPoint = getPortConnectionPoint(targetPort, controlPoints.at(-1) as Point);
+  const center = node.getCenter();
 
-  return getCubicPath(sourcePoint, targetPoint, controlPoints);
+  // 弦中点和凸起方向 | Chord midpoint and bulge direction
+  const chordMid: Point = [(sourcePoint[0] + targetPoint[0]) / 2, (sourcePoint[1] + targetPoint[1]) / 2, 0];
+  const bulgeDirLen = distance(center, chordMid);
+  const bulgeDir: Point = bulgeDirLen > 1e-6 ? (normalize(subtract(chordMid, center)) as Point) : [0, -1, 0];
+
+  // 圆弧参数：R = (c² + 4h²) / (8h) | Circular arc parameters
+  const chordLen = distance(sourcePoint, targetPoint);
+  const h = dist;
+  const R = (chordLen * chordLen + 4 * h * h) / (8 * h);
+
+  // 弧顶点 | Apex point
+  const apex: Point = [chordMid[0] + bulgeDir[0] * h, chordMid[1] + bulgeDir[1] * h, 0];
+
+  // 圆弧中心 | Arc center
+  const arcCenterOffset = h > R ? h - R : -(R - h);
+  const arcCenter: Point = [
+    chordMid[0] + bulgeDir[0] * arcCenterOffset,
+    chordMid[1] + bulgeDir[1] * arcCenterOffset,
+    0,
+  ];
+
+  // 用 atan2 计算各点相对于圆弧中心的角度 | Compute angles from arc center
+  const twoPI = 2 * Math.PI;
+  const θs = Math.atan2(sourcePoint[1] - arcCenter[1], sourcePoint[0] - arcCenter[0]);
+  const θt = Math.atan2(targetPoint[1] - arcCenter[1], targetPoint[0] - arcCenter[0]);
+  const θa = Math.atan2(apex[1] - arcCenter[1], apex[0] - arcCenter[0]);
+
+  // 判断顺时针方向是否经过弧顶点 | Check if CW direction passes through apex
+  // SVG 坐标系 Y 轴向下，atan2 增大方向为顺时针 | In SVG coords (Y down), increasing atan2 = clockwise
+  const cwAngleToTarget = (((θt - θs) % twoPI) + twoPI) % twoPI;
+  const cwAngleToApex = (((θa - θs) % twoPI) + twoPI) % twoPI;
+  const cwPassesThroughApex = cwAngleToApex <= cwAngleToTarget + 1e-6;
+
+  const sweepFlag = cwPassesThroughApex ? 1 : 0;
+  const arcAngle = cwPassesThroughApex ? cwAngleToTarget : twoPI - cwAngleToTarget;
+  const largeArcFlag = arcAngle > Math.PI ? 1 : 0;
+
+  // 端口调整：用切线方向作为虚拟控制点 | Port adjustment using tangent direction
+  if (sourcePort) {
+    const srcR: Point = [sourcePoint[0] - arcCenter[0], sourcePoint[1] - arcCenter[1], 0];
+    const tangent: Point = sweepFlag === 1 ? [srcR[1], -srcR[0], 0] : [-srcR[1], srcR[0], 0];
+    sourcePoint = getPortConnectionPoint(sourcePort, add(sourcePoint, tangent));
+  }
+  if (targetPort) {
+    const tgtR: Point = [targetPoint[0] - arcCenter[0], targetPoint[1] - arcCenter[1], 0];
+    // 到达方向的切线（反向）| Tangent of arriving direction (reversed)
+    const tangent: Point = sweepFlag === 1 ? [-tgtR[1], tgtR[0], 0] : [tgtR[1], -tgtR[0], 0];
+    targetPoint = getPortConnectionPoint(targetPort, add(targetPoint, tangent));
+  }
+
+  return [
+    ['M', sourcePoint[0], sourcePoint[1]],
+    ['A', R, R, 0, largeArcFlag, sweepFlag, targetPoint[0], targetPoint[1]],
+  ] as unknown as PathArray;
 }
 
 /**
