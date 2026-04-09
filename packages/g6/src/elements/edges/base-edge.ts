@@ -16,7 +16,13 @@ import type {
   Prefix,
 } from '../../types';
 import { getBBoxHeight, getBBoxWidth, getNodeBBox } from '../../utils/bbox';
-import { getArrowSize, getBadgePositionStyle, getCubicLoopPath, getLabelPositionStyle } from '../../utils/edge';
+import {
+  getArcLoopPath,
+  getArrowSize,
+  getBadgePositionStyle,
+  getCubicLoopPath,
+  getLabelPositionStyle,
+} from '../../utils/edge';
 import { findPorts, getConnectionPoint, getPortPosition, isSameNode } from '../../utils/element';
 import { subStyleProps } from '../../utils/prefix';
 import { parseSize } from '../../utils/size';
@@ -252,12 +258,15 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
     const defaultDist = Math.max(getBBoxWidth(bbox), getBBoxHeight(bbox));
 
     const {
+      type: loopType,
       placement,
       clockwise,
       dist = defaultDist,
     } = subStyleProps<Required<LoopStyleProps>>(this.getGraphicStyle(attributes), 'loop');
 
-    return getCubicLoopPath(node, placement, clockwise, dist, sourcePort, targetPort);
+    return loopType === 'arc'
+      ? getArcLoopPath(node, placement, clockwise, dist, sourcePort, targetPort)
+      : getCubicLoopPath(node, placement, clockwise, dist, sourcePort, targetPort);
   }
 
   protected getEndpoints(
@@ -304,8 +313,8 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
     // 检测是否是自环边 | Check if it is a loop edge
     const isLoop = attributes.loop && isSameNode(this.sourceNode, this.targetNode);
 
-    // 获取自环边的位置 | Get the loop placement
-    const { placement: loopPlacement } = subStyleProps<Required<LoopStyleProps>>(
+    // 获取自环边的配置 | Get loop edge config
+    const { type: loopType, placement: loopPlacement } = subStyleProps<Required<LoopStyleProps>>(
       this.getGraphicStyle(attributes),
       'loop',
     );

@@ -506,6 +506,39 @@ export function getCubicLoopPath(
   dist: number,
   sourcePortKey?: string,
   targetPortKey?: string,
+) {
+  const sourcePort = node.getPorts()[(sourcePortKey || targetPortKey)!];
+  const targetPort = node.getPorts()[(targetPortKey || sourcePortKey)!];
+
+  let [sourcePoint, targetPoint] = getLoopEndpoints(node, placement, clockwise, sourcePort, targetPort);
+
+  const controlPoints = getCubicLoopControlPoints(node, sourcePoint, targetPoint, dist);
+
+  if (sourcePort) sourcePoint = getPortConnectionPoint(sourcePort, controlPoints[0]);
+  if (targetPort) targetPoint = getPortConnectionPoint(targetPort, controlPoints.at(-1) as Point);
+
+  return getCubicPath(sourcePoint, targetPoint, controlPoints);
+}
+
+/**
+ * <zh/> 获取圆弧自环边的绘制路径（使用 SVG Arc 命令绘制近似圆形）
+ *
+ * <en/> Get the arc loop edge path (using SVG Arc command for near-circular loops)
+ * @param node - <zh/> 节点实例 | <en/> Node instance
+ * @param placement - <zh/> 环形边相对于节点位置 | <en/> Loop position relative to the node
+ * @param clockwise - <zh/> 是否顺时针 | <en/> Whether to draw the loop clockwise
+ * @param dist - <zh/> 从节点 keyShape 边缘到自环顶部的距离 | <en/> The distance from the edge of the node keyShape to the top of the self-loop
+ * @param sourcePortKey - <zh/> 起点连接桩 key | <en/> Source port key
+ * @param targetPortKey - <zh/> 终点连接桩 key | <en/> Target port key
+ * @returns <zh/> 返回绘制圆弧环形边的路径 | <en/> Returns the arc loop edge path
+ */
+export function getArcLoopPath(
+  node: Node,
+  placement: LoopPlacement,
+  clockwise: boolean,
+  dist: number,
+  sourcePortKey?: string,
+  targetPortKey?: string,
 ): PathArray {
   const sourcePort = node.getPorts()[(sourcePortKey || targetPortKey)!];
   const targetPort = node.getPorts()[(targetPortKey || sourcePortKey)!];
@@ -550,7 +583,6 @@ export function getCubicLoopPath(
   const θa = Math.atan2(apex[1] - arcCenter[1], apex[0] - arcCenter[0]);
 
   // 判断顺时针方向是否经过弧顶点 | Check if CW direction passes through apex
-  // SVG 坐标系 Y 轴向下，atan2 增大方向为顺时针 | In SVG coords (Y down), increasing atan2 = clockwise
   const cwAngleToTarget = (((θt - θs) % twoPI) + twoPI) % twoPI;
   const cwAngleToApex = (((θa - θs) % twoPI) + twoPI) % twoPI;
   const cwPassesThroughApex = cwAngleToApex <= cwAngleToTarget + 1e-6;
@@ -567,7 +599,6 @@ export function getCubicLoopPath(
   }
   if (targetPort) {
     const tgtR: Point = [targetPoint[0] - arcCenter[0], targetPoint[1] - arcCenter[1], 0];
-    // 到达方向的切线（反向）| Tangent of arriving direction (reversed)
     const tangent: Point = sweepFlag === 1 ? [-tgtR[1], tgtR[0], 0] : [tgtR[1], -tgtR[0], 0];
     targetPoint = getPortConnectionPoint(targetPort, add(targetPoint, tangent));
   }

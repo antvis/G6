@@ -138,6 +138,17 @@ export type LoopPlacement = CardinalPlacement | CornerPlacement;
  */
 export interface LoopStyleProps {
   /**
+   * <zh/> 自环边的绘制类型
+   * - `'default'`: 使用三次贝塞尔曲线（默认，与 G6 原始行为一致）
+   * - `'arc'`: 使用 SVG 圆弧命令绘制近似圆形的自环
+   *
+   * <en/> Drawing type for self-loop edges
+   * - `'default'`: Use cubic Bezier curve (default, consistent with original G6 behavior)
+   * - `'arc'`: Use SVG arc command to draw a near-circular self-loop
+   * @defaultValue 'default'
+   */
+  type?: 'default' | 'arc';
+  /**
    * <zh/> 边的位置
    *
    * <en/> The position of the edge
