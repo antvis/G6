@@ -24,6 +24,26 @@ import { freeJoin } from './router/orth';
 import { add, distance, manhattanDistance, multiply, normalize, perpendicular, subtract } from './vector';
 
 /**
+ * <zh/> 自环边弧顶处的切线角度，每个方向的切线与凸起方向垂直
+ *
+ * <en/> Tangent angles at the apex of loop edges, perpendicular to bulge direction for each placement
+ */
+const LOOP_TANGENT_ANGLES: Record<string, number> = {
+  top: 0,
+  bottom: 0,
+  left: Math.PI / 2,
+  right: Math.PI / 2,
+  'top-right': Math.PI / 4,
+  'right-top': Math.PI / 4,
+  'bottom-left': Math.PI / 4,
+  'left-bottom': Math.PI / 4,
+  'right-bottom': -Math.PI / 4,
+  'bottom-right': -Math.PI / 4,
+  'left-top': -Math.PI / 4,
+  'top-left': -Math.PI / 4,
+};
+
+/**
  * <zh/> 获取标签的位置样式
  *
  * <en/> Get the style of the label's position
@@ -55,41 +75,25 @@ export function getLabelPositionStyle(
 
   // 自环边：label 放在弧顶点（ratio=0.5），角度由 loopPlacement 精确计算
   // Loop edge: place label at apex (ratio=0.5), compute exact angle from loopPlacement
+  // 自环边：label 居中在弧顶（ratio=0.5），旋转角度由 loopPlacement 决定
+  // Loop edge: center label at apex (ratio=0.5), rotation angle determined by loopPlacement
   if (isLoop && loopPlacement) {
     ratio = 0.5;
+    // 自环边默认居中在弧顶，清除默认偏移量
+    // Loop edges default to centering at the apex, clear default offsets
     offsetX = 0;
     offsetY = 0;
 
-    // 弧顶处的切线方向与凸起方向垂直，为所有 8 个方向提供精确角度
-    // Tangent at apex is perpendicular to bulge direction, exact angles for all 8 directions
-    const loopTangentAngles: Record<string, number> = {
-      top: 0,
-      bottom: 0,
-      left: Math.PI / 2,
-      right: Math.PI / 2,
-      'top-right': Math.PI / 4,
-      'right-top': Math.PI / 4,
-      'bottom-left': Math.PI / 4,
-      'left-bottom': Math.PI / 4,
-      'right-bottom': -Math.PI / 4,
-      'bottom-right': -Math.PI / 4,
-      'left-top': -Math.PI / 4,
-      'top-left': -Math.PI / 4,
-    };
-
-    let angle = loopTangentAngles[loopPlacement] ?? 0;
-
+    let angle = LOOP_TANGENT_ANGLES[loopPlacement] ?? 0;
     // 确保文本从左到右可读 | Ensure text reads left-to-right
     if (Math.cos(angle) < -1e-6) angle += Math.PI;
 
-    const [x, y] = getXYByPlacement(key, ratio, 0, 0, angle);
-    return {
-      textAlign: 'center' as const,
-      transform: [
-        ['translate', x, y],
-        ['rotate', (angle / Math.PI) * 180],
-      ] as TransformArray,
-    };
+    const shouldRotate = autoRotate && angle !== 0;
+    const [x, y] = getXYByPlacement(key, ratio, offsetX, offsetY, shouldRotate ? angle : undefined);
+    const transform: TransformArray = [['translate', x, y]];
+    if (shouldRotate) transform.push(['rotate', (angle / Math.PI) * 180]);
+
+    return { textAlign: 'center' as const, transform };
   }
 
   const point = parsePoint(key.getPoint(ratio));
@@ -478,19 +482,14 @@ export function getArcLoopPath(
 
   // 圆弧参数：R = (c² + 4h²) / (8h) | Circular arc parameters
   const chordLen = distance(sourcePoint, targetPoint);
-  const h = dist;
+  const h = Math.max(Math.abs(dist), 0.01);
   const R = (chordLen * chordLen + 4 * h * h) / (8 * h);
 
   // 弧顶点 | Apex point
   const apex: Point = [chordMid[0] + bulgeDir[0] * h, chordMid[1] + bulgeDir[1] * h, 0];
 
-  // 圆弧中心 | Arc center
-  const arcCenterOffset = h > R ? h - R : -(R - h);
-  const arcCenter: Point = [
-    chordMid[0] + bulgeDir[0] * arcCenterOffset,
-    chordMid[1] + bulgeDir[1] * arcCenterOffset,
-    0,
-  ];
+  // 圆弧中心（弧顶点沿凸起方向内缩 R）| Arc center (apex retreated by R along bulge direction)
+  const arcCenter: Point = [chordMid[0] + bulgeDir[0] * (h - R), chordMid[1] + bulgeDir[1] * (h - R), 0];
 
   // 用 atan2 计算各点相对于圆弧中心的角度 | Compute angles from arc center
   const twoPI = 2 * Math.PI;

@@ -8,18 +8,18 @@ const data = {
   ],
   edges: [
     // Node 1: 3 nested loops at 'top' position with different colors
-    { id: 'loop-1', source: 'node1', target: 'node1', style: { loopPlacement: 'top', stroke: '#5B8FF9', labelOffsetY: -15 } },
-    { id: 'loop-2', source: 'node1', target: 'node1', style: { loopPlacement: 'top', stroke: '#5AD8A6', labelOffsetY: -25 } },
-    { id: 'loop-3', source: 'node1', target: 'node1', style: { loopPlacement: 'top', stroke: '#F6BD16', labelOffsetY: -35 } },
+    { id: 'loop-1', source: 'node1', target: 'node1', style: { loopPlacement: 'top', stroke: '#5B8FF9' } },
+    { id: 'loop-2', source: 'node1', target: 'node1', style: { loopPlacement: 'top', stroke: '#5AD8A6' } },
+    { id: 'loop-3', source: 'node1', target: 'node1', style: { loopPlacement: 'top', stroke: '#F6BD16' } },
     // Node 2: nested loops at different positions
-    { id: 'loop-4', source: 'node2', target: 'node2', style: { loopPlacement: 'right', stroke: '#E86452', labelOffsetY: -15 } },
-    { id: 'loop-5', source: 'node2', target: 'node2', style: { loopPlacement: 'right', stroke: '#6DC8EC', labelOffsetY: -25 } },
-    { id: 'loop-6', source: 'node2', target: 'node2', style: { loopPlacement: 'bottom', stroke: '#945FB9', labelOffsetY: -15 } },
-    { id: 'loop-7', source: 'node2', target: 'node2', style: { loopPlacement: 'bottom', stroke: '#FF9C6E', labelOffsetY: -25 } },
+    { id: 'loop-4', source: 'node2', target: 'node2', style: { loopPlacement: 'right', stroke: '#E86452' } },
+    { id: 'loop-5', source: 'node2', target: 'node2', style: { loopPlacement: 'right', stroke: '#6DC8EC' } },
+    { id: 'loop-6', source: 'node2', target: 'node2', style: { loopPlacement: 'bottom', stroke: '#945FB9' } },
+    { id: 'loop-7', source: 'node2', target: 'node2', style: { loopPlacement: 'bottom', stroke: '#FF9C6E' } },
     // Node 3: mixed - some nested, some spread
-    { id: 'loop-8', source: 'node3', target: 'node3', style: { loopPlacement: 'left', stroke: '#5B8FF9', labelOffsetY: -15 } },
-    { id: 'loop-9', source: 'node3', target: 'node3', style: { loopPlacement: 'left', stroke: '#5AD8A6', labelOffsetY: -25 } },
-    { id: 'loop-10', source: 'node3', target: 'node3', style: { loopPlacement: 'top-right', stroke: '#F6BD16', labelOffsetY: -15 } },
+    { id: 'loop-8', source: 'node3', target: 'node3', style: { loopPlacement: 'left', stroke: '#5B8FF9' } },
+    { id: 'loop-9', source: 'node3', target: 'node3', style: { loopPlacement: 'left', stroke: '#5AD8A6' } },
+    { id: 'loop-10', source: 'node3', target: 'node3', style: { loopPlacement: 'top-right', stroke: '#F6BD16' } },
   ],
 };
 
@@ -41,7 +41,7 @@ const graph = new Graph({
       labelText: (d) => d.id,
       labelFill: '#333',
       labelFontSize: 12,
-      labelOffsetY: (d) => d.style.labelOffsetY || -10,
+      labelOffsetY: -10,
       labelBackground: true,
       labelBackgroundFill: '#fff',
       labelBackgroundOpacity: 0.9,

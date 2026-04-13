@@ -314,7 +314,7 @@ export abstract class BaseEdge extends BaseElement<BaseEdgeStyleProps> implement
     const isLoop = attributes.loop && isSameNode(this.sourceNode, this.targetNode);
 
     // 获取自环边的配置 | Get loop edge config
-    const { type: loopType, placement: loopPlacement } = subStyleProps<Required<LoopStyleProps>>(
+    const { placement: loopPlacement } = subStyleProps<Required<LoopStyleProps>>(
       this.getGraphicStyle(attributes),
       'loop',
     );

@@ -194,7 +194,7 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
     const loopMode = this.options.loopMode ?? 'spread';
     const loopDistance = this.options.loopDistance ?? distance;
 
-    // Track placement counts for nested mode: key = `${nodeId}-${placement}`
+    // 嵌套模式下的位置计数：key = `${nodeId}-${placement}` | Placement counts for nested mode
     const placementCounts = new Map<string, number>();
 
     edgeMap.forEach((arcEdges) => {
@@ -203,19 +203,20 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
         const style: EdgeStyle = edge.style || {};
         if (edge.source === edge.target) {
           if (loopMode === 'nested') {
-            // Nested mode: group by placement, increment distance within each group
+            // 嵌套模式：按位置分组，在每组内自动递增距离 | Nested mode: group by placement, auto-increment distance within each group
             const placement = style.loopPlacement || 'top';
             const key = `${edge.source}-${placement}`;
-            const count = placementCounts.get(key) || 0;
-            placementCounts.set(key, count + 1);
 
-            // Only set loopDist if not already set by user
+            style.loopPlacement = placement;
+
+            // 仅在用户未手动设置 loopDist 时自动分配 | Only auto-assign loopDist when not already set by user
             if (style.loopDist === undefined) {
-              style.loopPlacement = placement;
+              const count = placementCounts.get(key) ?? 0;
               style.loopDist = INITIAL_NESTED_LOOP_DIST + count * loopDistance;
+              placementCounts.set(key, count + 1);
             }
           } else {
-            // Spread mode (default): distribute loops across 8 positions
+            // 分散模式（默认）：将自环边分散到 8 个位置 | Spread mode (default): distribute loops across 8 positions
             const len = CUBIC_LOOP_PLACEMENTS.length;
             style.loopPlacement = CUBIC_LOOP_PLACEMENTS[i % len];
             style.loopDist = Math.floor(i / len) * distance + INITIAL_SPREAD_LOOP_DIST;
