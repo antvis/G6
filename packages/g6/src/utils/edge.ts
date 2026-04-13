@@ -24,90 +24,6 @@ import { freeJoin } from './router/orth';
 import { add, distance, manhattanDistance, multiply, normalize, perpendicular, subtract } from './vector';
 
 /**
- * <zh/> 获取自环边顶点（凸起位置）的位置比率
- *
- * <en/> Get the ratio of the apex (protruding position) on a loop edge
- * @param key - <zh/> 边对象 | <en/> The edge object
- * @param loopPlacement - <zh/> 自环边的位置 | <en/> The loop placement
- * @returns <zh/> 顶点位置的比率 | <en/> The ratio of the apex position
- */
-function getLoopApexRatio(key: EdgeKey, loopPlacement: LoopPlacement): number {
-  // 采样路径上的点，根据 loopPlacement 找到对应方向的极值点（凸起位置）
-  // Sample points on the path to find the extreme point (protruding position) in the corresponding direction based on loopPlacement
-  const samples = 100;
-  let extremeValue: number;
-  let apexRatio = 0.5;
-
-  // 根据位置决定比较方向
-  // Determine comparison direction based on placement
-  const isTop = loopPlacement.includes('top');
-  const isBottom = loopPlacement.includes('bottom');
-  const isLeft = loopPlacement.includes('left');
-  const isRight = loopPlacement.includes('right');
-
-  // 初始化极值
-  // Initialize extreme value
-  if (isTop)
-    extremeValue = Infinity; // 找 Y 最小
-  else if (isBottom)
-    extremeValue = -Infinity; // 找 Y 最大
-  else if (isLeft)
-    extremeValue = Infinity; // 找 X 最小
-  else if (isRight)
-    extremeValue = -Infinity; // 找 X 最大
-  else extremeValue = Infinity; // 默认找 Y 最小
-
-  for (let i = 0; i <= samples; i++) {
-    const ratio = i / samples;
-    const point = parsePoint(key.getPoint(ratio));
-
-    let shouldUpdate = false;
-    if (isTop) {
-      // 找 Y 最小的点（最高点，向上凸起）
-      if (point[1] < extremeValue) {
-        extremeValue = point[1];
-        shouldUpdate = true;
-      }
-    } else if (isBottom) {
-      // 找 Y 最大的点（最低点，向下凸起）
-      if (point[1] > extremeValue) {
-        extremeValue = point[1];
-        shouldUpdate = true;
-      }
-    } else if (isLeft) {
-      // 找 X 最小的点（最左边，向左凸起）
-      if (point[0] < extremeValue) {
-        extremeValue = point[0];
-        shouldUpdate = true;
-      }
-    } else if (isRight) {
-      // 找 X 最大的点（最右边，向右凸起）
-      if (point[0] > extremeValue) {
-        extremeValue = point[0];
-        shouldUpdate = true;
-      }
-    }
-
-    if (shouldUpdate) {
-      apexRatio = ratio;
-    }
-  }
-
-  return apexRatio;
-}
-
-/**
- * <zh/> 判断是否是主要方向（上、下、左、右）
- *
- * <en/> Check if it's a cardinal direction (top, bottom, left, right)
- * @param loopPlacement - <zh/> 自环边的位置 | <en/> The loop placement
- * @returns <zh/> 是否是主要方向 | <en/> Whether it's a cardinal direction
- */
-function isCardinalDirection(loopPlacement: LoopPlacement): boolean {
-  return loopPlacement === 'top' || loopPlacement === 'bottom' || loopPlacement === 'left' || loopPlacement === 'right';
-}
-
-/**
  * <zh/> 获取标签的位置样式
  *
  * <en/> Get the style of the label's position
@@ -144,24 +60,24 @@ export function getLabelPositionStyle(
     offsetX = 0;
     offsetY = 0;
 
-    // 凸起方向 = 两个端点弧度的中点角度，切线方向 = 凸起方向 + 90°
-    // Bulge direction = midpoint angle of the two endpoint radians, tangent = bulge + 90°
+    // 弧顶处的切线方向与凸起方向垂直，为所有 8 个方向提供精确角度
+    // Tangent at apex is perpendicular to bulge direction, exact angles for all 8 directions
     const loopTangentAngles: Record<string, number> = {
       top: 0,
       bottom: 0,
       left: Math.PI / 2,
       right: Math.PI / 2,
+      'top-right': Math.PI / 4,
+      'right-top': Math.PI / 4,
+      'bottom-left': Math.PI / 4,
+      'left-bottom': Math.PI / 4,
+      'right-bottom': -Math.PI / 4,
+      'bottom-right': -Math.PI / 4,
+      'left-top': -Math.PI / 4,
+      'top-left': -Math.PI / 4,
     };
 
-    let angle: number;
-    if (loopPlacement in loopTangentAngles) {
-      angle = loopTangentAngles[loopPlacement];
-    } else {
-      // 对角方向：从路径采样获取切线 | Diagonal: sample tangent from path
-      const point = parsePoint(key.getPoint(0.5));
-      const pointOffset = parsePoint(key.getPoint(0.51));
-      angle = Math.atan2(pointOffset[1] - point[1], pointOffset[0] - point[0]);
-    }
+    let angle = loopTangentAngles[loopPlacement] ?? 0;
 
     // 确保文本从左到右可读 | Ensure text reads left-to-right
     if (Math.cos(angle) < -1e-6) angle += Math.PI;

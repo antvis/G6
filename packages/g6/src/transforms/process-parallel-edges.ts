@@ -14,6 +14,9 @@ import { isStyleEqual, reassignTo } from './utils';
 
 const CUBIC_EDGE_TYPE = 'quadratic';
 
+const INITIAL_NESTED_LOOP_DIST = 35;
+const INITIAL_SPREAD_LOOP_DIST = 50;
+
 const CUBIC_LOOP_PLACEMENTS: LoopPlacement[] = [
   'top',
   'top-right',
@@ -209,13 +212,13 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
             // Only set loopDist if not already set by user
             if (style.loopDist === undefined) {
               style.loopPlacement = placement;
-              style.loopDist = 35 + count * loopDistance;
+              style.loopDist = INITIAL_NESTED_LOOP_DIST + count * loopDistance;
             }
           } else {
             // Spread mode (default): distribute loops across 8 positions
             const len = CUBIC_LOOP_PLACEMENTS.length;
             style.loopPlacement = CUBIC_LOOP_PLACEMENTS[i % len];
-            style.loopDist = Math.floor(i / len) * distance + 50;
+            style.loopDist = Math.floor(i / len) * distance + INITIAL_SPREAD_LOOP_DIST;
           }
         } else if (length === 1) {
           style.curveOffset = 0;
