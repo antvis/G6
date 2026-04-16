@@ -514,7 +514,7 @@ export function getArcLoopPath(
   }
   if (targetPort) {
     const tgtR: Point = [targetPoint[0] - arcCenter[0], targetPoint[1] - arcCenter[1], 0];
-    const tangent: Point = sweepFlag === 1 ? [-tgtR[1], tgtR[0], 0] : [tgtR[1], -tgtR[0], 0];
+    const tangent: Point = sweepFlag === 1 ? [tgtR[1], -tgtR[0], 0] : [-tgtR[1], tgtR[0], 0];
     targetPoint = getPortConnectionPoint(targetPort, add(targetPoint, tangent));
   }
 
