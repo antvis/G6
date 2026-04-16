@@ -509,7 +509,7 @@ export function getArcLoopPath(
   // 端口调整：用切线方向作为虚拟控制点 | Port adjustment using tangent direction
   if (sourcePort) {
     const srcR: Point = [sourcePoint[0] - arcCenter[0], sourcePoint[1] - arcCenter[1], 0];
-    const tangent: Point = sweepFlag === 1 ? [srcR[1], -srcR[0], 0] : [-srcR[1], srcR[0], 0];
+    const tangent: Point = sweepFlag === 1 ? [-srcR[1], srcR[0], 0] : [srcR[1], -srcR[0], 0];
     sourcePoint = getPortConnectionPoint(sourcePort, add(sourcePoint, tangent));
   }
   if (targetPort) {
