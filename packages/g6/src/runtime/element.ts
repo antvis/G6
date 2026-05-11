@@ -711,6 +711,10 @@ export class ElementController {
 
     // 重新计算数据 / Recalculate data
     const data = this.computeChangesAndDrawData({ stage: 'collapse', animation });
+    // 重置动画 / Reset animation
+    this.context.animation!.clear();
+    this.computeStyle('collapse');
+
     if (!data) return;
     const { drawData } = data;
     const { add, remove, update } = drawData;
