@@ -5,13 +5,8 @@ import { useEffect, useRef } from 'react';
 
 register(ExtensionCategory.NODE, 'react-node', ReactNode);
 
-const SelectableNode = (props: { id: string; selected: boolean; graph: G6Graph }) => {
-  const { id, selected, graph } = props;
-
-  const handleClick = () => {
-    graph.updateNodeData([{ id, data: { selected: !selected } }]);
-    graph.draw();
-  };
+const SelectableNode = (props: { selected: boolean; onToggle: () => void }) => {
+  const { selected, onToggle } = props;
 
   return (
     <button
@@ -23,7 +18,7 @@ const SelectableNode = (props: { id: string; selected: boolean; graph: G6Graph }
         background: '#fff',
         cursor: 'pointer',
       }}
-      onClick={handleClick}
+      onClick={onToggle}
     >
       {selected ? 'Selected' : 'Click to select'}
     </button>
@@ -37,6 +32,14 @@ export default function App() {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const handleToggle = (id: string, selected: boolean) => {
+      const graph = graphRef.current;
+      if (!graph) return;
+
+      graph.updateNodeData([{ id, data: { selected: !selected } }]);
+      graph.draw();
+    };
+
     const graph = new G6Graph({
       container: containerRef.current,
       width: 500,
@@ -48,7 +51,12 @@ export default function App() {
         type: 'react-node',
         style: {
           size: [160, 50],
-          component: (data) => <SelectableNode id={data.id} selected={Boolean(data.data?.selected)} graph={graph} />,
+          component: (data) => (
+            <SelectableNode
+              selected={Boolean(data.data?.selected)}
+              onToggle={() => handleToggle(data.id, Boolean(data.data?.selected))}
+            />
+          ),
         },
       },
     });
