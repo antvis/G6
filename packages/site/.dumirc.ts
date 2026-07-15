@@ -326,14 +326,14 @@ export default defineConfig({
     /** 公告 */
     announcement: {
       title: {
-        zh: 'AntV 首个声明式信息图渲染框架正式开源，让数据叙事更简单、更优雅、更高效，现诚邀体验共建！',
-        en: "AntV's declarative infographic framework is now open source. Simpler, more elegant data storytelling!",
+        zh: '🎉 AntV 推出新一代 AI 驱动的可视化创作平台 Sive，免费使用、更多图表模板，一句话生成可视化作品，现诚邀体验共建！',
+        en: '🎉 AntV launches Sive, a next-gen AI-driven visual creation platform with 5000+ chart inspirations, free to use. See it Live, Share it Real.',
       },
       link: {
-        url: 'https://infographic.antv.vision/',
+        url: 'https://sive.antv.antgroup.com',
         text: {
-          zh: '点击了解详情',
-          en: 'Learn More',
+          zh: '立即体验',
+          en: 'Try Now',
         },
       },
     },
