@@ -333,7 +333,7 @@ export default defineConfig({
         url: 'https://sive.antv.antgroup.com',
         text: {
           zh: '立即体验',
-          en: 'Learn More',
+          en: 'Try Now',
         },
       },
     },
