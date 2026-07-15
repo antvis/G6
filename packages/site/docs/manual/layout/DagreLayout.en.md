@@ -21,7 +21,6 @@ const graph = new Graph({
     align: 'UL',
     nodesep: 50,
     ranksep: 50,
-    controlPoints: false,
   },
 });
 ```
@@ -32,16 +31,25 @@ const graph = new Graph({
 
 <img src="https://img.alicdn.com/imgextra/i3/O1CN01OpQHBZ1HcpZuWZLS7_!!6000000000779-0-tps-1274-1234.jpg" width="400" alt="Dagre Layout Options Illustration" />
 
-| Property      | Description                                                                                                                                | Type                                                | Default           | Required |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- | ----------------- | -------- |
-| type          | Layout type                                                                                                                                | `dagre`                                             | -                 | ✓        |
-| rankdir       | Layout direction, options                                                                                                                  | `TB` \| `BT` \| `LR` \| `RL`                        | `TB`              |          |
-| align         | Node alignment, options                                                                                                                    | `UL` \| `UR` \| `DL` \| `DR`                        | `UL`              |          |
-| nodesep       | Node spacing (px). For `TB` or `BT`, it's the horizontal spacing; for `LR` or `RL`, it's the vertical spacing                              | number                                              | 50                |          |
-| ranksep       | Rank spacing (px). For `TB` or `BT`, it's the vertical spacing between ranks; for `LR` or `RL`, it's the horizontal spacing between ranks  | number                                              | 100               |          |
-| ranker        | Algorithm for assigning ranks to nodes: `longest-path`, `tight-tree`, or `network-simplex`                                                 | `network-simplex` \| `tight-tree` \| `longest-path` | `network-simplex` |          |
-| nodeSize      | G6 custom property, specify node size for all or each node. If a single number, width and height are the same; if array: `[width, height]` | number \| number[] \| () => (number \| number[])    |                   |          |
-| controlPoints | Whether to retain edge control points                                                                                                      | boolean                                             | false             |          |
+| Property        | Description                                                                                                                                | Type                                                | Default           | Required |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- | ----------------- | -------- |
+| type            | Layout type                                                                                                                                | `dagre`                                             | -                 | ✓        |
+| rankdir         | Layout direction, options                                                                                                                  | `TB` \| `BT` \| `LR` \| `RL`                        | `TB`              |          |
+| align           | Node alignment, options                                                                                                                    | `UL` \| `UR` \| `DL` \| `DR`                        | `UL`              |          |
+| nodesep         | Node spacing (px). For `TB` or `BT`, it is the horizontal spacing; for `LR` or `RL`, it is the vertical spacing                            | number                                              | 50                |          |
+| ranksep         | Rank spacing (px). For `TB` or `BT`, it is the vertical spacing between adjacent ranks; for `LR` or `RL`, it is the horizontal spacing     | number                                              | 100               |          |
+| ranker          | Algorithm for assigning ranks to nodes: `longest-path`, `tight-tree`, or `network-simplex`                                                 | `network-simplex` \| `tight-tree` \| `longest-path` | `network-simplex` |          |
+| directed        | Whether to treat the graph as directed                                                                                                     | boolean                                             | true              |          |
+| compound        | Whether to support nested structures                                                                                                       | boolean                                             | true              |          |
+| multigraph      | Whether to allow multi-edges                                                                                                               | boolean                                             | true              |          |
+| nodeSize        | G6 custom property, specify node size for all or each node. If a single number, width and height are the same; if array: `[width, height]` | number \| number[] \| () => (number \| number[])    | [0, 0]            |          |
+| edgeMinLen      | Minimum number of ranks crossed by an edge                                                                                                 | number \| (edge) => number                          | 1                 |          |
+| edgeWeight      | Edge weight, used to affect optimization priority                                                                                          | number \| (edge) => number                          |                   |          |
+| edgeLabelSize   | Edge label size, used to reserve layout space                                                                                              | number[] \| (edge) => number[]                      |                   |          |
+| edgeLabelPos    | Edge label position                                                                                                                        | string \| (edge) => string                          |                   |          |
+| edgeLabelOffset | Offset between the label and the edge                                                                                                      | number \| (edge) => number                          |                   |          |
+
+> Note: `dagre` does not require configuring `controlPoints` separately. G6 automatically converts the polyline points returned by the layout into `style.controlPoints` on the edge.
 
 ### rankdir
 
@@ -111,12 +119,6 @@ G6 custom property, specify node size for all or each node. If a single number, 
   return [10, 20];
 };
 ```
-
-### controlPoints
-
-> boolean, **Default**: false
-
-Whether to retain edge control points.
 
 ## Applicable Scenarios
 

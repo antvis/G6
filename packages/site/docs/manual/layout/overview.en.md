@@ -65,6 +65,8 @@ The `layout` configuration item can specify the graph's layout algorithm, for ex
 
 You can also use `graph.setLayout` to update the layout configuration after the graph is instantiated.
 
+Starting from `5.1`, layout docs align their shared fields with `@antv/layout`. Besides each layout's own algorithm parameters, you should also pay attention to common options such as `width`, `height`, `center`, `enableWorker`, `node`, and `edge`.
+
 ## Layout Acceleration
 
 G6 provides accelerated versions for some layout algorithms, including executing layout algorithms in Web Workers, providing [WASM](https://webassembly.org/) versions of layout algorithms, and GPU-accelerated layout algorithms. They can be used as follows:
@@ -166,3 +168,5 @@ If you need to manually execute the layout algorithm, G6 provides the following 
 ## Custom Layout
 
 If the built-in layout algorithms cannot meet your needs, you can customize layout algorithms. For details, please refer to [Custom Layout](/manual/layout/custom-layout).
+
+If you are migrating layout configuration from G6 `5.0` to `5.1`, see [Upgrade from 5.0 to 5.1 (Layout)](/en/manual/whats-new/upgrade-to-5-1).

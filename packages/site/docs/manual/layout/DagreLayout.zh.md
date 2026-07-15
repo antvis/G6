@@ -19,7 +19,6 @@ const graph = new Graph({
     align: 'UL',
     nodesep: 50,
     ranksep: 50,
-    controlPoints: false,
   },
 });
 ```
@@ -30,16 +29,25 @@ const graph = new Graph({
 
 <img src="https://img.alicdn.com/imgextra/i3/O1CN01OpQHBZ1HcpZuWZLS7_!!6000000000779-0-tps-1274-1234.jpg" width="400" alt="Dagre 布局配置项图解" />
 
-| 属性          | 描述                                                                                                                                          | 类型                                                | 默认值            | 必选 |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ----------------- | ---- |
-| type          | 布局类型                                                                                                                                      | `dagre`                                             | -                 | ✓    |
-| rankdir       | 布局方向，可选值                                                                                                                              | `TB` \| `BT` \| `LR` \| `RL`                        | `TB`              |      |
-| align         | 节点对齐方式，可选值                                                                                                                          | `UL` \| `UR` \| `DL` \| `DR`                        | `UL`              |      |
-| nodesep       | 节点间距（px）。在rankdir 为 `TB` 或 `BT` 时是节点的水平间距；在rankdir 为 `LR` 或 `RL` 时代表节点的竖直方向间距                              | number                                              | 50                |      |
-| ranksep       | 层间距（px）。在rankdir 为 `TB` 或 `BT` 时是竖直方向相邻层间距；在rankdir 为 `LR` 或 `RL` 时代表水平方向相邻层间距                            | number                                              | 100               |      |
-| ranker        | 为每个节点分配等级的算法，共支持三种算法，分别是：`longest-path` 最长路径算法、`tight-tree` 紧凑树算法、`network-simplex` 网络单形法          | `network-simplex` \| `tight-tree` \| `longest-path` | `network-simplex` |      |
-| nodeSize      | G6自定义属性，统一指定或为每个节点指定节点大小。如果仅返回单个number，则表示节点的宽度和高度相同；如果返回一个数组，则形如：`[width, height]` | number \| number[] \| () => (number \| number[])    |                   |      |
-| controlPoints | 是否保留边的控制点                                                                                                                            | boolean                                             | false             |      |
+| 属性            | 描述                                                                                                                                            | 类型                                                | 默认值            | 必选 |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ----------------- | ---- |
+| type            | 布局类型                                                                                                                                        | `dagre`                                             | -                 | ✓    |
+| rankdir         | 布局方向，可选值                                                                                                                                | `TB` \| `BT` \| `LR` \| `RL`                        | `TB`              |      |
+| align           | 节点对齐方式，可选值                                                                                                                            | `UL` \| `UR` \| `DL` \| `DR`                        | `UL`              |      |
+| nodesep         | 节点间距（px）。在 rankdir 为 `TB` 或 `BT` 时是节点的水平间距；在 rankdir 为 `LR` 或 `RL` 时代表节点的竖直方向间距                              | number                                              | 50                |      |
+| ranksep         | 层间距（px）。在 rankdir 为 `TB` 或 `BT` 时是竖直方向相邻层间距；在 rankdir 为 `LR` 或 `RL` 时代表水平方向相邻层间距                            | number                                              | 100               |      |
+| ranker          | 为每个节点分配等级的算法，共支持三种算法，分别是：`longest-path`、`tight-tree`、`network-simplex`                                               | `network-simplex` \| `tight-tree` \| `longest-path` | `network-simplex` |      |
+| directed        | 是否按有向图处理                                                                                                                                | boolean                                             | true              |      |
+| compound        | 是否支持嵌套结构                                                                                                                                | boolean                                             | true              |      |
+| multigraph      | 是否允许多重边                                                                                                                                  | boolean                                             | true              |      |
+| nodeSize        | G6 自定义属性，统一指定或为每个节点指定节点大小。如果仅返回单个 number，则表示节点的宽度和高度相同；如果返回一个数组，则形如：`[width, height]` | number \| number[] \| () => (number \| number[])    | [0, 0]            |      |
+| edgeMinLen      | 边跨越的最小层数                                                                                                                                | number \| (edge) => number                          | 1                 |      |
+| edgeWeight      | 边权重，用于影响优化优先级                                                                                                                      | number \| (edge) => number                          |                   |      |
+| edgeLabelSize   | 边标签尺寸，用于预留空间                                                                                                                        | number[] \| (edge) => number[]                      |                   |      |
+| edgeLabelPos    | 边标签位置                                                                                                                                      | string \| (edge) => string                          |                   |      |
+| edgeLabelOffset | 标签与边的偏移                                                                                                                                  | number \| (edge) => number                          |                   |      |
+
+> 补充：`dagre` 不需要单独配置 `controlPoints`，G6 会把布局输出的折线点自动转换为边的 `style.controlPoints`。
 
 ### rankdir
 
