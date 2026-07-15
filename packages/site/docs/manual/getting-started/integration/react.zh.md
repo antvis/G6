@@ -15,6 +15,6 @@ order: 0
 
 ## 严格模式
 
-在严格模式下，React 会二次更新导致 G6 重复创建 Graph 实例并销毁，可以参考如下示例解决：
+在严格模式下，React 会在开发环境中有意执行挂载、卸载、再挂载。请把 Graph 实例放在 effect 里创建，用 ref 保存，并在清理函数中销毁，这样第一次开发态挂载不会留下旧实例。下面的完整示例同时演示了如何注册和渲染 React 节点。
 
 <embed src="@/common/react-snippet-strict"></embed>
