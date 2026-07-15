@@ -326,13 +326,13 @@ export default defineConfig({
     /** 公告 */
     announcement: {
       title: {
-        zh: '🎉 AntV 推出新一代 AI 驱动的可视化创作平台 Sive，5000+ 图表灵感库，免费使用！用 Sive 让数据跃然眼前，让每一份洞察即刻可见、轻松分享',
+        zh: '🎉 AntV 推出新一代 AI 驱动的可视化创作平台 Sive，免费使用、更多图表模板，一句话生成可视化作品，现诚邀体验共建！',
         en: '🎉 AntV launches Sive, a next-gen AI-driven visual creation platform with 5000+ chart inspirations, free to use. See it Live, Share it Real.',
       },
       link: {
-        url: 'https://sive.antv.antgroup.com/inspiration',
+        url: 'https://sive.antv.antgroup.com',
         text: {
-          zh: '点击了解详情',
+          zh: '立即体验',
           en: 'Learn More',
         },
       },
