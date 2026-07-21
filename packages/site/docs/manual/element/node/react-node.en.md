@@ -243,6 +243,87 @@ const graph = new Graph({
 });
 ```
 
+## FAQ
+
+### 1. With scroll-canvas enabled, scrolling is not triggered when the cursor is on a custom React node.
+
+Simply add an `onWheel` event to your React custom node and forward it to the canvas DOM element.
+
+```js | ob { inject: true }
+import { DatabaseFilled } from '@ant-design/icons';
+import { ExtensionCategory, Graph, register } from '@antv/g6';
+import { ReactNode } from '@antv/g6-extension-react';
+import { Badge, Flex, Input, Tag, Typography } from 'antd';
+import { useEffect, useRef } from 'react';
+import { createRoot } from 'react-dom/client';
+
+const { Text } = Typography;
+register(ExtensionCategory.NODE, 'react', ReactNode);
+
+const Node = ({ data, onChange, graph }) => {
+  const { status, type } = data.data;
+  const ref = useRef();
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.parentNode.addEventListener('wheel', (e) => e.preventDefault());
+    }
+  }, []);
+
+  return (
+    <Flex
+      ref={ref}
+      onWheel={(e) => {
+        // Forward the event to the canvas DOM element
+        const canvas = graph.context.graph.getCanvas().getContextService().getDomElement();
+        const evt = new WheelEvent('wheel', e.nativeEvent);
+        canvas.dispatchEvent(evt);
+      }}
+      style={{ background: '#fff', padding: 10, borderRadius: 5, border: '1px solid gray' }}
+      vertical
+    >
+      <Flex align="center" justify="space-between">
+        <Text>
+          <DatabaseFilled />
+          Server
+          <Tag>{type}</Tag>
+        </Text>
+        <Badge status={status} />
+      </Flex>
+      <Text type="secondary">{data.id}</Text>
+    </Flex>
+  );
+};
+
+export const ReactNodeDemo = () => {
+  const containerRef = useRef();
+
+  useEffect(() => {
+    const graph = new Graph({
+      container: containerRef.current,
+      data: {
+        nodes: [{ id: 'remote-server-1', data: { status: 'warning', type: 'remote' }, style: { x: 150, y: 50 } }],
+      },
+      node: {
+        type: 'react',
+        style: {
+          size: [240, 75],
+          component: function (data) {
+            return <Node data={data} graph={this} />;
+          },
+        },
+      },
+      behaviors: ['drag-element', 'scroll-canvas', 'drag-canvas'],
+    });
+    graph.render();
+  }, []);
+
+  return <div style={{ width: '100%', height: 200 }} ref={containerRef}></div>;
+};
+
+const root = createRoot(document.getElementById('container'));
+root.render(<ReactNodeDemo />);
+```
+
 ## Real Cases
 
 ```js | ob { inject: true }
