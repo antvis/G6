@@ -99,11 +99,12 @@ const MyVueNode = defineComponent({
 - `style.component`：定义节点的 Vue 组件内容
 
 ```jsx
+import { h } from 'vue';
 const graph = new Graph({
   node: {
     type: 'vue-node',
     style: {
-      component: () => <MyVueNode />,
+      component: () => h(MyVueNode),
     },
   },
 });
@@ -126,7 +127,7 @@ G6 提供内置的交互状态管理状态，如 `hover-activate` 和 `click-sel
 ```jsx
 import { ExtensionCategory, register, Graph } from '@antv/g6';
 import { VueNode } from 'g6-extension-vue';
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, h } from 'vue';
 
 register(ExtensionCategory.NODE, 'vue-node', VueNode);
 
@@ -161,7 +162,7 @@ const graph = new Graph({
   node: {
     type: 'vue-node',
     style: {
-      component: (data) => <StatefulNode data={Object.assign({}, data)} />, // data是非响应式数据，需要通过改变引用来触发Vue的props副作用
+      component: (data) => h(StatefulNode, {data: Object.assign({}, data)}), // data是非响应式数据，需要通过改变引用来触发Vue的props副作用
     },
   },
   behaviors: ['hover-activate'],
@@ -179,7 +180,7 @@ graph.render();
 ```jsx
 import { ExtensionCategory, register, Graph } from '@antv/g6';
 import { VueNode } from 'g6-extension-vue';
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, h } from 'vue';
 
 register(ExtensionCategory.NODE, 'vue-node', VueNode);
 
@@ -222,7 +223,7 @@ const graph = new Graph({
   node: {
     type: 'vue-node',
     style: {
-      component: (data) => <MyVueNode data={Object.assign({}, data)} graph={graph} />, // data是非响应式数据，需要通过改变引用来触发Vue的props副作用
+      component: (data) => h(MyVueNode, {data: Object.assign({}, data), graph}), // data是非响应式数据，需要通过改变引用来触发Vue的props副作用
     },
   },
 });
@@ -239,7 +240,7 @@ graph.render();
 ```jsx
 import { ExtensionCategory, register, Graph } from '@antv/g6';
 import { VueNode } from 'g6-extension-vue';
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, h } from 'vue';
 
 register(ExtensionCategory.NODE, 'vue-node', VueNode);
 
@@ -260,7 +261,7 @@ const graph = new Graph({
   node: {
     type: 'vue-node',
     style: {
-      component: ({ id, data }) => <IDCardNode id={id} selected={isSelected.value} graph={graph} />,
+      component: ({ id, data }) => h(IDCardNode, {id, selected: selected.value, graph}),
     },
   },
 });
