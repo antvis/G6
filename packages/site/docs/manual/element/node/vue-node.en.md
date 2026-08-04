@@ -101,11 +101,12 @@ Use the custom Vue node in the graph configuration. Specify the node type and st
 - `style.component`: Define the Vue component content of the node
 
 ```jsx
+import { h } from 'vue';
 const graph = new Graph({
   node: {
     type: 'vue-node',
     style: {
-      component: () => <MyVueNode />,
+      component: () => h(MyVueNode),
     },
   },
 });
@@ -128,7 +129,7 @@ G6 provides built-in interaction state management states, such as `hover-activat
 ```jsx
 import { ExtensionCategory, register, Graph } from '@antv/g6';
 import { VueNode } from 'g6-extension-vue';
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, h } from 'vue';
 
 register(ExtensionCategory.NODE, 'vue-node', VueNode);
 
@@ -163,7 +164,7 @@ const graph = new Graph({
   node: {
     type: 'vue-node',
     style: {
-      component: (data) => <StatefulNode data={Object.assign({}, data)} />, // data is non-reactive, need to change reference to trigger Vue's props side effects
+      component: (data) => h(StatefulNode, {data: Object.assign({}, data)}), // data is non-reactive, need to change reference to trigger Vue's props side effects
     },
   },
   behaviors: ['hover-activate'],
@@ -181,7 +182,7 @@ When you need to manage business-related states (such as approval status, risk l
 ```jsx
 import { ExtensionCategory, register, Graph } from '@antv/g6';
 import { VueNode } from 'g6-extension-vue';
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, h } from 'vue';
 
 register(ExtensionCategory.NODE, 'vue-node', VueNode);
 
@@ -224,7 +225,7 @@ const graph = new Graph({
   node: {
     type: 'vue-node',
     style: {
-      component: (data) => <MyVueNode data={Object.assign({}, data)} graph={graph} />, // data is non-reactive, need to change reference to trigger Vue's props side effects
+      component: (data) => h(MyVueNode， {data: Object.assign({}, data), graph}), // data is non-reactive, need to change reference to trigger Vue's props side effects
     },
   },
 });
@@ -241,7 +242,7 @@ Achieve two-way communication between nodes and graph instances, allowing nodes 
 ```jsx
 import { ExtensionCategory, register, Graph } from '@antv/g6';
 import { VueNode } from 'g6-extension-vue';
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, h } from 'vue';
 
 register(ExtensionCategory.NODE, 'vue-node', VueNode);
 
@@ -262,7 +263,7 @@ const graph = new Graph({
   node: {
     type: 'vue-node',
     style: {
-      component: ({ id, data }) => <IDCardNode id={id} selected={isSelected.value} graph={graph} />,
+      component: ({ id, data }) => h(IDCardNode, {id, selected:isSelected.value, graph),
     },
   },
 });
