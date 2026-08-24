@@ -26,8 +26,8 @@ const graph = new Graph({
       type: 'fullscreen',
       autoFit: true,
       trigger: {
-        request: 'F', // 使用快捷键 F 进入全屏
-        exit: 'Esc', // 使用快捷键 Esc 退出全屏
+        request: ['F'], // 使用快捷键 F 进入全屏
+        exit: ['Esc'], // 使用快捷键 Esc 退出全屏
       },
       onEnter: () => {
         console.log('进入全屏模式');
@@ -47,7 +47,7 @@ const graph = new Graph({
 | type    | 插件类型                                             | string                               | `fullscreen` | ✓    |
 | key     | 插件的唯一标识，可用于获取插件实例或更新插件选项     | string                               | -            |      |
 | autoFit | 是否自适应画布尺寸，全屏后画布尺寸会自动适应屏幕尺寸 | boolean                              | true         |      |
-| trigger | 触发全屏的方式，[示例](#trigger)                     | { request?: string; exit?: string; } | -            |      |
+| trigger | 触发全屏的方式，[示例](#trigger)                     | { request?: string[]; exit?: string[]; } | -            |      |
 | onEnter | 进入全屏后的回调                                     | () => void                           | -            |      |
 | onExit  | 退出全屏后的回调                                     | () => void                           | -            |      |
 
@@ -65,8 +65,8 @@ const graph = new Graph({
     {
       type: 'fullscreen',
       trigger: {
-        request: 'F', // 使用快捷键 F 进入全屏
-        exit: 'Esc', // 使用快捷键 Esc 退出全屏
+        request: ['F'], // 使用快捷键 F 进入全屏
+        exit: ['Esc'], // 使用快捷键 Esc 退出全屏
       },
     },
   ],
