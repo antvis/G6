@@ -164,6 +164,8 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
 
   private hiddenEdges: ID[] = [];
 
+  private originalZIndices: Record<ID, number> = {};
+
   private isDragging: boolean = false;
 
   private shortcut: Shortcut;
@@ -270,6 +272,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
     else this.target = [id];
 
     this.hideEdge();
+    this.storeOriginalZIndices(this.target);
     this.context.graph.frontElement(this.target);
     if (this.options.shadow) this.createShadow(this.target);
   }
@@ -306,6 +309,7 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
       this.moveElement(this.target, [dx, dy]);
     }
     this.showEdges();
+    this.restoreOriginalZIndices();
     this.options.onFinish?.(this.target);
     const { batch, canvas } = this.context;
     batch!.endBatch();
@@ -385,6 +389,22 @@ export class DragElement extends BaseBehavior<DragElementOptions> {
   protected clampByRotation([dx, dy]: Point): Vector2 {
     const rotation = this.context.graph.getRotation();
     return rotate([dx, dy], rotation);
+  }
+
+  private storeOriginalZIndices(ids: ID[]) {
+    const { graph } = this.context;
+    this.originalZIndices = {};
+    ids.forEach((id) => {
+      this.originalZIndices[id] = graph.getElementZIndex(id);
+    });
+  }
+
+  private restoreOriginalZIndices() {
+    const { graph } = this.context;
+    if (Object.keys(this.originalZIndices).length > 0) {
+      graph.setElementZIndex(this.originalZIndices);
+      this.originalZIndices = {};
+    }
   }
 
   /**
