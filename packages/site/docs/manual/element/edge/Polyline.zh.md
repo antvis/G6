@@ -97,6 +97,13 @@ const graph = new Graph({
     type: 'polyline',
     style: {
       controlPoints: (d) => d.controlPoints,
+      router: {
+        type: 'shortest-path',      // 使用最短路径路由算法
+        enableObstacleAvoidance: true, // 开启避障
+        // 以下是可选参数，可根据需要调整
+        gridSize: 20,               // 网格大小，越小越精细但计算量越大
+        padding: 10,                // 节点周围的填充距离，避免贴边
+      },
     },
   },
   behaviors: [{ type: 'drag-element' }],
