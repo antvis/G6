@@ -130,22 +130,22 @@ export class Fullscreen extends BasePlugin<FullscreenOptions> {
    *
    * <en/> Request full screen
    */
-  public request() {
+  public request = () => {
     if (document.fullscreenElement || !isFullscreenEnabled()) return;
     this.$el.requestFullscreen().catch((err: Error) => {
       print.warn(`Error attempting to enable full-screen: ${err.message} (${err.name})`);
     });
-  }
+  };
 
   /**
    * <zh/> 退出全屏
    *
    * <en/> Exit full screen
    */
-  public exit() {
+  public exit = () => {
     if (!document.fullscreenElement) return;
     document.exitFullscreen();
-  }
+  };
 
   /**
    * <zh/> 更新配置
