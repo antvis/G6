@@ -5,7 +5,7 @@ order: 10
 
 ## Overview of Data Transformation
 
-[Data Transformation](/en/manual/transform/overview) is a powerful feature in G6 that allows for processing and transforming data during the graph rendering process. With data transformers, you can achieve various data processing needs, such as:
+[Data Transformation](/en/manual/transform/overview/) is a powerful feature in G6 that allows for processing and transforming data during the graph rendering process. With data transformers, you can achieve various data processing needs, such as:
 
 - Data Filtering: Filter nodes and edges to be displayed based on conditions
 - Data Calculation: Generate new attributes based on original data, such as calculating node size based on the number of connections, without polluting the original data

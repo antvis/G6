@@ -19,7 +19,7 @@ The distance between edges, only valid for bundling mode
 
 The edges to be handled, all edges by default
 
-### <Badge type="success">Required</Badge> mode
+### **Required** mode
 
 > _'bundle' \| 'merge'_ **Default:** `'bundle'`
 
@@ -31,6 +31,6 @@ Processing mode
 
 ### style
 
-> _PathStyleProps_ _\| ((prev:_ [EdgeData](/api/graph/option#edgedata)_[]) =>_ _PathStyleProps)_
+> _PathStyleProps_ _\| ((prev:_ [EdgeData](/en/api/graph/#edgedata)_[]) =>_ _PathStyleProps)_
 
 The style of the merged edge, only valid for merging mode

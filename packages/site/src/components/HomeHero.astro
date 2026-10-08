@@ -1,0 +1,153 @@
+---
+import type { HomeSlotProps } from '@antv/astro-theme-antv';
+import { QaEntry, Updates } from '@antv/astro-theme-antv/components';
+const recommendations = [
+  {
+    "query": {
+      "zh": "绘制一个哈利波特人物关系网络图，使用力导向布局以体现人物之间的互动关系。整体布局保持自然分布，确保人物节点之间距离适中、关系线条不重叠，整体视觉均衡。节点造型统一为圆形，大小为 40；描边宽度为 2。按人物阵营进行着色：霍格沃兹（#5B8FF9）、凤凰社（#5AD8A6）、食死徒（#F6BD16）、中立角色（#E8684A）。节点文本放置在节点下方 12px 处，文字颜色 #262626、字号 14px、字重 500。连线用于表达人物关系（如朋友、同学、敌对、导师等），统一采用曲线样式，颜色 #BFBFBF、宽度 1、透明度 0.6，并在关系较强的角色之间适当增强斥力，使网络结构更清晰。整体图形居中展示，确保主要角色（如哈利、赫敏、罗恩、伏地魔等）位于网络中心区域，其他相关角色根据关系远近自然分布，呈现清晰、直观且美观的人物关系网络。",
+      "en": "Draw a Harry Potter character relationship network using a force-directed layout. Use circular nodes of size 40, colored by faction, with labels below the nodes and curved edges showing their relationships."
+    },
+    "image": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*e-WuSJpP7IYAAAAAYQAAAAgAemJ7AQ/original",
+    "tag": "implement"
+  },
+  {
+    "query": {
+      "zh": "如何在 React 项目中使用 G6",
+      "en": "How can I use G6 in a React project?"
+    },
+    "image": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*Yg53TbPoQrwAAAAATgAAAAgAemJ7AQ/original",
+    "tag": "solve"
+  },
+  {
+    "query": {
+      "zh": "面对大数据量渲染导致的性能瓶颈，应采取哪些优化措施",
+      "en": "How can I optimize rendering performance for large graphs?"
+    },
+    "image": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*jCYaT7L2E7sAAAAAAAAAAAAADmJ7AQ/original",
+    "tag": "solve"
+  },
+  {
+    "query": {
+      "zh": "绘制一个组织架构图，用分层布局自上而下排布。节点间距为50、层级间距为100；所有节点为圆形，大小40、描边宽度2，按层级着色：第一层#5B8FF9、第二层#5AD8A6、第三层#F6BD16。节点文本放置在节点下方15px处，文字颜色#1890FF、字号14px、字重500。连线采用曲线样式，颜色#BFBFBF、宽度1、透明度0.6。整体图形水平居中、垂直自上而下，同层级节点等间距分布，确保视觉清晰、层次分明并保持整体美观。",
+      "en": "Draw an organization chart in a top-to-bottom hierarchical layout. Use 50px node spacing, 100px rank spacing, circular nodes of size 40 colored by level, labels below the nodes, and curved edges."
+    },
+    "image": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*6JNXS5KJgBAAAAAAQ2AAAAgAemJ7AQ/original",
+    "tag": "implement"
+  }
+];
+const { locale, config } = Astro.props as HomeSlotProps;
+const isZh = locale === 'zh';
+const cardColors = ['bg-[#edf1ff]', 'bg-[#eff7f7]', 'bg-[#f8f6f1]', 'bg-[#f2efff]'];
+const tagColors = ['bg-[#e0e7ff] text-[#526ed3]', 'bg-[#e1f3e8] text-[#438360]', 'bg-[#faebd7] text-[#ae702d]', 'bg-[#e5e0ff] text-[#7160c7]'];
+const title = typeof config.home.title === 'string' ? config.home.title : config.home.title[locale];
+---
+<section class="relative bg-white pt-16 pb-0 mobile:pt-10" aria-labelledby="g6-home-title">
+  <div aria-hidden="true" data-home-background class="pointer-events-none absolute inset-x-0 top-0 bottom-[135px] bg-[linear-gradient(120deg,#f5f7ff,#fff)]"></div>
+  <div class="relative mx-auto max-w-[1200px] px-5 mobile:px-4">
+    <div class="relative flex flex-wrap items-center justify-center gap-10 mobile:gap-4">
+      <h1 id="g6-home-title" class="m-0 text-center text-[47.6px] leading-[1.5715] font-normal [font-family:AlibabaPuHuiTiRHeavy] text-[#141414] [@media(768px<=width<=900px)]:text-[39.998px] [@media(width<768px)]:text-[28px]"><span class="text-[var(--brand)]">G6</span>·{title}</h1>
+      <g6-github-stars class="inline-flex" data-count-label={isZh ? 'G6 GitHub Star 数：{count}' : 'G6 GitHub stars: {count}'}>
+      <a href="https://github.com/antvis/G6/stargazers/" target="_blank" rel="noreferrer" aria-label={isZh ? '在 GitHub 上查看 G6' : 'G6 on GitHub'} class="inline-flex h-12 items-center gap-2 rounded-xl border border-[#e8e8ed] bg-white px-4 text-base text-[#333] no-underline shadow-sm hover:text-[var(--brand)] focus-visible:outline-2 focus-visible:outline-[var(--brand)] mobile:h-10">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.3c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.4-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.4c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z" /></svg>
+        <span data-star-count>GitHub</span>
+      </a>
+      </g6-github-stars>
+    </div>
+    <g6-home-prompt class="block">
+      <div class="relative mx-auto mt-10 flex max-w-[750px] [@media(width>1200px)]:max-w-[min(750px,calc(55.2vw_-_88px))] justify-center [&_antv-qa]:mt-0">
+        <QaEntry locale={locale} placeholder={isZh ? 'G6 是什么？怎样使用 G6 绘制关系图？' : 'What is G6? How can I visualize a graph with G6?'} />
+        <img src={config.home.image} alt="" aria-hidden="true" width="265" height="260" class="pointer-events-none absolute top-1/2 left-full ml-6 h-auto w-[22.4vw] max-w-[420px] -translate-y-1/2 object-contain [@media(width<=1200px)]:hidden" />
+      </div>
+      <h2 class="mt-8 mb-6 text-center text-xl leading-[30px] font-semibold text-[#333]">{isZh ? '精选案例' : 'Featured Cases'}</h2>
+      <div class="grid grid-cols-4 gap-4 mobile:grid-cols-2 mobile:gap-3">
+        {recommendations.map((item, index) => <button type="button" data-query={item.query[locale]} disabled class:list={[cardColors[index], 'group relative flex h-[194px] flex-col items-start cursor-pointer disabled:cursor-wait overflow-hidden rounded-2xl border-0 p-4 text-left transition-transform hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)] motion-reduce:transition-none mobile:h-[172px] mobile:p-3']}>
+          <span class:list={[tagColors[index], 'mb-3 inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs leading-5 font-normal']}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              {item.tag === 'implement' ? <path d="M4 3v17h17M8 15v-5m5 5V6m5 9V9" /> : <><circle cx="12" cy="12" r="9" /><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-1 .4-1 1-1 2.2m0 2v1" /></>}
+            </svg>
+            {item.tag === 'implement' ? (isZh ? '可视化研发' : 'Develop') : (isZh ? '可视化答疑' : 'Q&A')}
+          </span>
+          <span class="block w-full truncate text-sm font-medium text-[#333]" title={item.query[locale]}>{item.query[locale]}</span>
+          <img src={item.image} alt="" loading="lazy" width="240" height="150" class="absolute top-[90px] left-[10%] w-[80%] rotate-[-5deg] rounded-lg shadow-[12px_8px_0_#ffffffaa]" />
+        </button>)}
+      </div>
+    </g6-home-prompt>
+    <div class="mx-auto mt-36 max-w-[1080px] mobile:mt-16"><Updates locale={locale} /></div>
+  </div>
+</section>
+
+<script>
+  class G6GithubStars extends HTMLElement {
+    private request?: AbortController;
+
+    connectedCallback() {
+      this.request?.abort();
+      const request = new AbortController();
+      this.request = request;
+      const timeout = window.setTimeout(() => request.abort(), 8000);
+      fetch('https://api.github.com/repos/antvis/G6', { signal: request.signal })
+        .then(response => {
+          if (!response.ok) throw new Error('GitHub stars unavailable');
+          return response.json();
+        })
+        .then(data => {
+          const count = data.stargazers_count;
+          if (!this.isConnected || this.request !== request || !Number.isSafeInteger(count) || count < 0) return;
+          this.querySelector('[data-star-count]')!.textContent = String(count);
+          this.querySelector('a')!.setAttribute('aria-label', this.dataset.countLabel!.replace('{count}', String(count)));
+        })
+        // Keep a working GitHub link if the public API is unavailable or rate limited.
+        .catch(() => {})
+        .finally(() => window.clearTimeout(timeout));
+    }
+
+    disconnectedCallback() { this.request?.abort(); }
+  }
+  if (!customElements.get('g6-github-stars')) customElements.define('g6-github-stars', G6GithubStars);
+
+  // Let the theme own validation, prompt storage and local QA navigation.
+  class G6HomePrompt extends HTMLElement {
+    private listeners?: AbortController;
+    connectedCallback() {
+      this.listeners?.abort();
+      const listeners = new AbortController();
+      this.listeners = listeners;
+      customElements.whenDefined('antv-qa').then(() => {
+        if (listeners.signal.aborted || !this.isConnected) return;
+        const input = this.querySelector<HTMLTextAreaElement>('[data-qa-prompt]');
+        if (!input) return;
+        this.querySelectorAll<HTMLButtonElement>('[data-query]').forEach(button => {
+          button.disabled = false;
+          button.addEventListener('click', () => {
+            input.value = button.dataset.query!;
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            input.focus({ preventScroll: true });
+          }, { signal: listeners.signal });
+        });
+      });
+    }
+    disconnectedCallback() { this.listeners?.abort(); }
+  }
+  if (!customElements.get('g6-home-prompt')) customElements.define('g6-home-prompt', G6HomePrompt);
+</script>
+
+<style is:global>
+  /* Homepage-only typography; shared theme components retain their defaults elsewhere. */
+  .page-home {
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --navigation-font-family: Avenir, var(--font-sans);
+    --antv-copy-font: var(--font-sans);
+    --announcement-line-height: 22px;
+    --qa-prompt-font-weight: 400;
+    --qa-prompt-line-height: 1.5715;
+    --updates-title-font-family: PingFangSC;
+    --updates-title-font-size: 20px;
+    --updates-title-font-weight: 500;
+    --updates-title-line-height: 1.5715;
+    --updates-description-font-size: 14px;
+    --updates-description-font-weight: 400;
+    --updates-description-line-height: 1.5715;
+    --footer-heading-font-weight: 500;
+    font-family: var(--font-sans);
+  }
+</style>

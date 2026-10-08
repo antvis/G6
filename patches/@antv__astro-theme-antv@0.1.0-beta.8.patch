@@ -1,0 +1,370 @@
+diff --git a/dist/demo-source.d.ts b/dist/demo-source.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6ef9b4939b143b5f11b2d5c52063ed2be2591043
+--- /dev/null
++++ b/dist/demo-source.d.ts
+@@ -0,0 +1,2 @@
++/** Compile both initial previews and editor runs with the same JSX semantics. */
++export declare function compileDemoSource(source: string, filePath: string): string;
+diff --git a/dist/demo-source.js b/dist/demo-source.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..8cd73a794e50e1ea341807fead66a723ab10c1f9
+--- /dev/null
++++ b/dist/demo-source.js
+@@ -0,0 +1,27 @@
++import { transform } from "sucrase";
++/** Compile both initial previews and editor runs with the same JSX semantics. */
++export function compileDemoSource(source, filePath) {
++    // Plain TypeScript permits angle-bracket assertions, which conflict with JSX.
++    if (!/\.[jt]sx$/i.test(filePath)) {
++        try {
++            return transform(source, { transforms: ["typescript"], filePath }).code;
++        }
++        catch {
++            // Inline demos may contain JSX even when their synthetic path ends in .ts.
++        }
++    }
++    const comments = source.match(/^\s*(?:(?:\/\*[\s\S]*?\*\/|\/\/[^\n]*)\s*)*/)?.[0] ?? "";
++    const jsxPragma = comments.match(/@jsx\s+([\w$.]+)/)?.[1];
++    const jsxFragmentPragma = comments.match(/@jsxFrag\s+([\w$.]+)/)?.[1];
++    const runtime = comments.match(/@jsxRuntime\s+(classic|automatic)\b/)?.[1];
++    return transform(source, {
++        transforms: ["typescript", "jsx"],
++        jsxRuntime: runtime === "classic" || (!runtime && jsxPragma)
++            ? "classic"
++            : "automatic",
++        jsxPragma,
++        jsxFragmentPragma,
++        production: true,
++        filePath,
++    }).code;
++}
+diff --git a/dist/theme/components/Announcement.astro b/dist/theme/components/Announcement.astro
+index 232e5d6f096ffc619bf89296ffc04212fb850149..f233ec6ceff4204b37f8b56a4b4dd2c0b7e77155 100644
+--- a/dist/theme/components/Announcement.astro
++++ b/dist/theme/components/Announcement.astro
+@@ -10,7 +10,7 @@ const { locale } = Astro.props;
+   data-locale={locale}
+   data-site={import.meta.env.BASE_URL}
+   data-pagefind-ignore
+-  class="block [&[hidden]]:hidden relative w-full bg-[var(--announcement-background,#daf5eb)] px-12 py-3 text-center text-sm text-[#253858]"
++  class="block [&[hidden]]:hidden relative w-full bg-[var(--announcement-background,#daf5eb)] px-12 py-3 text-center text-sm [line-height:var(--announcement-line-height,20px)] text-[#253858]"
+ >
+   <aside aria-label={locale === 'zh' ? '公告' : 'Announcement'}>
+     <span data-announcement-title class="[overflow-wrap:anywhere]"></span>
+diff --git a/dist/theme/components/Demo.astro b/dist/theme/components/Demo.astro
+index 912041ce3a430be5e291022e313adefe509a9c88..07498ea5d582e3e74c3e9b882d001bef4ea8a5b3 100644
+--- a/dist/theme/components/Demo.astro
++++ b/dist/theme/components/Demo.astro
+@@ -3,6 +3,7 @@ import { localize } from '../../compiler/localization.js';
+ import type { DemoRecord } from '../../compiler/content.js';
+ import { withBase } from '../lib/paths';
+ import { demoDependencies } from '../lib/demo-dependencies';
++import Loading from './Loading.astro';
+ import reloadIcon from '@tabler/icons/outline/reload.svg?raw';
+ import stackblitzIcon from '@tabler/icons/outline/bolt.svg?raw';
+ import copyIcon from '@tabler/icons/outline/copy.svg?raw';
+@@ -33,7 +34,7 @@ const toolClass = [
+   'after:content-[attr(data-tooltip)] after:invisible after:opacity-0',
+   'hover:after:visible hover:after:opacity-100 focus-visible:after:visible focus-visible:after:opacity-100',
+ ].join(' ');
+-const exportHtml = '<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>html,body,#container{width:100%;height:100%;margin:0}body{font-family:sans-serif}</style></head><body><div id="container"></div></body></html>';
++const exportHtml = '<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>html,body,#container{width:100%;height:100%;margin:0}body{font-family:sans-serif}</style></head><body><div id="container"></div><script type="module" src="/index.tsx"></script></body></html>';
+ ---
+ 
+ <section class="grid h-full min-h-0 min-w-0 grid-cols-[minmax(0,3fr)_minmax(0,2fr)] [@media(width<=1080px)]:h-auto [@media(width<=1080px)]:grid-cols-1" aria-labelledby="demo-title" data-example-demo data-demo-path={`/${demo.relativeSourcePath}`}>
+@@ -41,6 +42,9 @@ const exportHtml = '<!doctype html><html><head><meta charset="UTF-8"><meta name=
+     <h1 id="demo-title" class="m-0 mb-4 text-[20px] font-semibold text-[var(--text-strong)]">{title}</h1>
+     <div data-demo-preview class="relative min-h-0 min-w-0 flex-1 overflow-hidden bg-white [@media(width<=1080px)]:min-h-80 [@media(width<=1080px)]:flex-none [@media(width<=1080px)]:h-[var(--demo-height)]" style={`--demo-height:${height}px`} aria-label={`${title} ${isZh ? '运行结果' : 'result'}`}>
+       <iframe title={`${title} ${isZh ? '运行结果' : 'result'}`} src={withBase(`/demos/${demo.key}/`)} class="absolute inset-0 block size-full border-0" loading="eager" data-demo-frame></iframe>
++      <div data-demo-loading class="absolute inset-0 z-1 grid place-items-center bg-white/90 [&[hidden]]:hidden">
++        <Loading locale={locale} label={isZh ? '示例加载中…' : 'Loading example…'} />
++      </div>
+       <pre data-demo-error role="alert" hidden class="absolute inset-x-3 top-3 z-1 m-0 max-h-full overflow-auto whitespace-pre-wrap bg-red-50 p-3 text-red-700 [&[hidden]]:hidden"></pre>
+     </div>
+   </div>
+@@ -49,13 +53,14 @@ const exportHtml = '<!doctype html><html><head><meta charset="UTF-8"><meta name=
+       <span class="text-sm leading-none font-medium text-[var(--text)]">{isZh ? '源码' : 'Source'}</span>
+       <div data-demo-toolbar hidden class="flex items-center gap-1 [&[hidden]]:hidden">
+         <button type="button" class={toolClass} data-demo-reset data-tooltip={isZh ? '还原源码' : 'Reset source'} aria-label={isZh ? '还原源码' : 'Reset source'} set:html={reloadIcon}></button>
+-        <form action="https://stackblitz.com/run?file=index.ts" method="post" target="_blank" rel="noopener noreferrer" data-demo-stackblitz class="m-0 flex items-center">
++        <form action="https://stackblitz.com/run?file=index.tsx" method="post" target="_blank" rel="noopener noreferrer" data-demo-stackblitz class="m-0 flex items-center">
+           <input type="hidden" name="project[title]" value={title} />
+           <input type="hidden" name="project[description]" value={demo.key} />
+-          <input type="hidden" name="project[template]" value="typescript" />
+-          <input type="hidden" name="project[dependencies]" value={JSON.stringify(demoDependencies)} />
++          <input type="hidden" name="project[template]" value="node" />
++          <input type="hidden" name="project[files][package.json]" value={JSON.stringify({ private: true, type: 'module', scripts: { dev: 'vite --host 0.0.0.0', start: 'vite --host 0.0.0.0' }, dependencies: demoDependencies, devDependencies: { vite: '^6.0.0', typescript: '^5.0.0' } })} />
++          <input type="hidden" name="project[files][tsconfig.json]" value={JSON.stringify({ compilerOptions: { jsx: 'react-jsx', target: 'ESNext', module: 'ESNext', moduleResolution: 'Bundler', esModuleInterop: true } })} />
+           <input type="hidden" name="project[files][index.html]" value={exportHtml} />
+-          <input type="hidden" name="project[files][index.ts]" data-demo-export-source />
++          <input type="hidden" name="project[files][index.tsx]" data-demo-export-source />
+           <button type="submit" class={toolClass} data-tooltip={isZh ? '在 StackBlitz 中打开' : 'Open in StackBlitz'} aria-label={isZh ? '在 StackBlitz 中打开' : 'Open in StackBlitz'} set:html={stackblitzIcon}></button>
+         </form>
+         <button type="button" class={`${toolClass} group/copy`} data-demo-copy data-copied={isZh ? '已复制' : 'Copied'} data-copy-error={isZh ? '复制失败' : 'Copy failed'} data-tooltip={copyLabel}>
+diff --git a/dist/theme/components/QaEntry.astro b/dist/theme/components/QaEntry.astro
+index 2066cfed600294aa37f358e77903734aa81ea8ce..8226182a2e703acbc1f0ce52bdab464076a75f72 100644
+--- a/dist/theme/components/QaEntry.astro
++++ b/dist/theme/components/QaEntry.astro
+@@ -222,8 +222,8 @@ const questions = [...new Set(suggestions.map((question) => question.trim()))]
+     font: inherit;
+     font-family: var(--antv-copy-font, var(--font-sans, sans-serif));
+     font-size: 16px;
+-    font-weight: 300;
+-    line-height: 24px;
++    font-weight: var(--qa-prompt-font-weight, 300);
++    line-height: var(--qa-prompt-line-height, 24px);
+     resize: none;
+     scrollbar-width: thin;
+   }
+diff --git a/dist/theme/components/SiteFooter.astro b/dist/theme/components/SiteFooter.astro
+index 5ccaec12521b4f9c527302f5cd988dc20d9e41d5..3c18bc07a634e9a26654bd39a166038a0e763bba 100644
+--- a/dist/theme/components/SiteFooter.astro
++++ b/dist/theme/components/SiteFooter.astro
+@@ -45,7 +45,7 @@ const isImageLink = (href: string) => /\.(?:avif|bmp|gif|ico|jpe?g|png|svg|webp)
+   <div class="flex justify-around gap-8 flex-wrap [@media(width<=767px)]:block [@media(width<=767px)]:text-center">
+     {groups.map((group) => (
+       <section class="min-w-0 mb-15 [@media(768px<=width<=1100px)]:basis-[calc(50%_-_32px)] [@media(width<=767px)]:mb-10 [@media(width<=767px)]:last:mb-0">
+-        <h2 class="flex items-center gap-2 m-0 text-[16px] font-bold leading-6 [@media(width<=767px)]:justify-center">
++        <h2 class="flex items-center gap-2 m-0 text-[16px] [font-weight:var(--footer-heading-font-weight,700)] leading-6 [@media(width<=767px)]:justify-center">
+           {group.icon && (icons.has(group.icon)
+             ? <span class={headingIconClass} aria-hidden="true" set:html={icons.get(group.icon)} />
+             : <img class={headingIconClass} src={group.icon} width="22" height="22" alt="" loading="lazy" />)}
+diff --git a/dist/theme/components/Updates.astro b/dist/theme/components/Updates.astro
+index cdc76f80a5ed21940d62aa336c4f718c69ee3104..8c7de31c3ebac2d21be5e4a4bcf19ec413a8c5f9 100644
+--- a/dist/theme/components/Updates.astro
++++ b/dist/theme/components/Updates.astro
+@@ -230,9 +230,10 @@ const isZh = locale === 'zh';
+     grid-row: 1;
+     align-self: center;
+     color: #1d2129;
+-    font-size: 18px;
+-    font-weight: 600;
+-    line-height: 26px;
++    font-family: var(--updates-title-font-family, inherit);
++    font-size: var(--updates-title-font-size, 18px);
++    font-weight: var(--updates-title-font-weight, 600);
++    line-height: var(--updates-title-line-height, 26px);
+   }
+ 
+   [data-update-description] {
+@@ -242,9 +243,9 @@ const isZh = locale === 'zh';
+     overflow: hidden;
+     color: #666;
+     font-family: var(--antv-copy-font, var(--font-sans, sans-serif));
+-    font-size: 16px;
+-    font-weight: 300;
+-    line-height: 26px;
++    font-size: var(--updates-description-font-size, 16px);
++    font-weight: var(--updates-description-font-weight, 300);
++    line-height: var(--updates-description-line-height, 26px);
+     -webkit-box-orient: vertical;
+     -webkit-line-clamp: 2;
+   }
+diff --git a/dist/theme/demos/client.ts b/dist/theme/demos/client.ts
+index 69684882b05438eb98407a89c60ff6013fb33b09..a7e29e07d92f43f603444e964e2472058408ab7e 100644
+--- a/dist/theme/demos/client.ts
++++ b/dist/theme/demos/client.ts
+@@ -18,8 +18,18 @@ for (const root of document.querySelectorAll<HTMLElement>('[data-document-demo],
+   let editor: EditorView | undefined;
+   let frame = root.querySelector<HTMLIFrameElement>('[data-demo-frame]') ?? undefined;
+   let pendingFrame: HTMLIFrameElement | undefined;
++  let frameSettled = Boolean(frame?.contentDocument?.documentElement.classList.contains('preview-ready'));
+   let timer: ReturnType<typeof setTimeout> | undefined;
+   let copyTimer: ReturnType<typeof setTimeout> | undefined;
++  let request: AbortController | undefined;
++  const loading = root.querySelector<HTMLElement>('[data-demo-loading]');
++  const setLoading = (busy: boolean) => {
++    if (loading) loading.hidden = !busy;
++    preview.setAttribute('aria-busy', String(busy));
++    if (busy) root.setAttribute('aria-busy', 'true');
++    else root.removeAttribute('aria-busy');
++  };
++  setLoading(Boolean(frame) && !frameSettled);
+ 
+   preview.hidden = false;
+   root.querySelector<HTMLElement>('[data-demo-toolbar]')!.hidden = false;
+@@ -41,20 +51,39 @@ for (const root of document.querySelectorAll<HTMLElement>('[data-document-demo],
+     const target = pendingFrame?.contentWindow === event.source ? pendingFrame
+       : frame?.contentWindow === event.source ? frame : undefined;
+     if (!target) return;
+-    if (event.data?.type === 'antv-demo:complete' && target === pendingFrame) {
+-      frame?.remove();
+-      frame = target;
+-      pendingFrame = undefined;
+-      frame.style.visibility = '';
++    if (target === frame && ['antv-demo:complete', 'antv-demo:error'].includes(event.data?.type)) frameSettled = true;
++    if (target === frame && (request || pendingFrame)) return;
++    if (event.data?.type === 'antv-demo:complete') {
++      if (target === pendingFrame) {
++        frame?.remove();
++        frame = target;
++        pendingFrame = undefined;
++        frame.style.visibility = '';
++      }
++      frameSettled = true;
++      setLoading(false);
+       errorTarget.hidden = true;
+     } else if (event.data?.type === 'antv-demo:error' && typeof event.data.error === 'string') {
+       if (target === pendingFrame) discardPending();
+       errorTarget.textContent = event.data.error;
+       errorTarget.hidden = false;
++      setLoading(false);
+     }
+   };
+   window.addEventListener('message', receive);
++  // The initial iframe may finish before the editor bundle attaches its listener.
++  const initialError = frame?.contentDocument?.querySelector<HTMLElement>('#demo-error');
++  if (initialError && !initialError.hidden) {
++    frameSettled = true;
++    errorTarget.textContent = initialError.textContent;
++    errorTarget.hidden = false;
++    setLoading(false);
++  }
+   const run = () => {
++    request?.abort();
++    request = undefined;
++    setLoading(true);
++    errorTarget.hidden = true;
+     observer.disconnect();
+     clearTimeout(timer);
+     discardPending();
+@@ -118,20 +147,22 @@ for (const root of document.querySelectorAll<HTMLElement>('[data-document-demo],
+   const sidebar = document.querySelector<HTMLElement>('[data-example-sidebar]');
+   if (!sidebar) continue;
+   const links = new Map([...sidebar.querySelectorAll<HTMLAnchorElement>('[data-demo-link]')].map((link) => [link.href, link]));
+-  let request: AbortController | undefined;
+   let currentUrl = location.href;
+ 
+   const navigate = async (url: string, push: boolean) => {
+     request?.abort();
+     request = undefined;
+-    root.removeAttribute('aria-busy');
+     if (url === currentUrl) {
++      setLoading(Boolean(pendingFrame) || !frameSettled);
+       // A pending popstate may already have changed the address without updating the view.
+       if (push && location.href !== url) history.pushState(null, '', url);
+       return;
+     }
++    clearTimeout(timer);
++    discardPending();
+     const controller = request = new AbortController();
+-    root.setAttribute('aria-busy', 'true');
++    setLoading(true);
++    errorTarget.hidden = true;
+     try {
+       const response = await fetch(url, { signal: controller.signal });
+       if (!response.ok) throw new Error(`Unable to load example: ${response.status}`);
+@@ -181,7 +212,7 @@ for (const root of document.querySelectorAll<HTMLElement>('[data-document-demo],
+     } catch {
+       if (!controller.signal.aborted) location.assign(url);
+     } finally {
+-      if (request === controller) root.removeAttribute('aria-busy');
++      if (request === controller) request = undefined;
+     }
+   };
+   sidebar.addEventListener('click', (event) => {
+diff --git a/dist/theme/demos/frame.ts b/dist/theme/demos/frame.ts
+index ff9de56c74258a454a8250084187deab8679091e..08f9f415212781781f07a9c015aa54d1c6b4ab56 100644
+--- a/dist/theme/demos/frame.ts
++++ b/dist/theme/demos/frame.ts
+@@ -1,4 +1,4 @@
+-import { transform } from 'sucrase';
++import { compileDemoSource } from '../../demo-source.js';
+ import { imports } from 'virtual:antv-demo-dependencies';
+ 
+ export function createFrameDocument(source: string, path: string, fitToFrame = false) {
+@@ -39,10 +39,7 @@ if (input) {
+   addEventListener('error', (event) => showError(event.error || event.message));
+   addEventListener('unhandledrejection', (event) => showError(event.reason));
+   try {
+-    const { code } = transform(source, {
+-      transforms: ['typescript'],
+-      filePath: path,
+-    });
++    const code = compileDemoSource(source, path);
+     const script = document.createElement('script');
+     script.type = 'module';
+     script.textContent = `${code}\n;globalThis.parent.postMessage({ type: 'antv-demo:complete' }, '*');`;
+diff --git a/dist/theme/layouts/BaseLayout.astro b/dist/theme/layouts/BaseLayout.astro
+index 923a790069e4dc9ca0e69e883e977703ce6c96f6..914b9a22b701ce3dca5f63b3acb120fcd34376bb 100644
+--- a/dist/theme/layouts/BaseLayout.astro
++++ b/dist/theme/layouts/BaseLayout.astro
+@@ -168,7 +168,7 @@ const navItemClass = [
+     <Loading locale={locale} page />
+     <div class:list={["site-canvas min-h-dvh", homeBackgroundClass || "bg-[var(--surface-raised)]", pageType === 'demo' && "[@media(width>1080px)]:flex [@media(width>1080px)]:h-dvh [@media(width>1080px)]:flex-col [@media(width>1080px)]:overflow-hidden [&>header]:shrink-0 [&>antv-announcement]:shrink-0"]}>
+     <Announcement locale={locale} />
+-    <header class:list={['site-header top-0 z-200 h-[var(--header-height)] [border-bottom:1px_solid_var(--border-soft)] [transition:background_0.3s,box-shadow_0.3s]', pageType === 'home' ? 'home-header shadow-none' : 'sticky bg-[color-mix(in_srgb,var(--surface-raised)_96%,transparent)] shadow-[var(--header-shadow,0_2px_8px_#f0f1f2)]', pageType === 'home' && (isAntVSite ? 'relative mb-[calc(-1*var(--header-height))] border-b-black/10 bg-transparent has-[[data-products-menu][open]]:bg-[var(--surface-raised)] has-[#primary-nav[data-open]]:bg-[var(--surface-raised)] has-[#primary-nav[data-open]]:sticky' : 'sticky bg-[var(--home-background)]'), isAntVSite && 'antv-site-header']} data-pagefind-ignore>
++    <header class:list={['site-header [font-family:var(--navigation-font-family,inherit)] top-0 z-200 h-[var(--header-height)] [border-bottom:1px_solid_var(--border-soft)] [transition:background_0.3s,box-shadow_0.3s]', pageType === 'home' ? 'home-header shadow-none' : 'sticky bg-[color-mix(in_srgb,var(--surface-raised)_96%,transparent)] shadow-[var(--header-shadow,0_2px_8px_#f0f1f2)]', pageType === 'home' && (isAntVSite ? 'relative mb-[calc(-1*var(--header-height))] border-b-black/10 bg-transparent has-[[data-products-menu][open]]:bg-[var(--surface-raised)] has-[#primary-nav[data-open]]:bg-[var(--surface-raised)] has-[#primary-nav[data-open]]:sticky' : 'sticky bg-[var(--home-background)]'), isAntVSite && 'antv-site-header']} data-pagefind-ignore>
+       <div class:list={["flex items-center justify-between h-full mx-auto py-0", isAntVSite && pageType === "home" ? "w-full px-5" : "w-[var(--content-width)] [@media(width<=900px)]:w-[calc(100%_-_32px)]", pageType !== "home" ? "px-10 [@media(width<=900px)]:px-0" : !isAntVSite && "px-6"]}>
+         <a class="brand inline-flex min-w-0 items-center h-full text-[var(--text-strong)] whitespace-nowrap" href={withBase(`/${locale}/`)} aria-label={`${config.site.title} home`}>
+           {config.site.logo ? (
+diff --git a/dist/theme/lib/agent-content.ts b/dist/theme/lib/agent-content.ts
+index d58e642ad44f384e495badfb29e51e94f8ca8ab1..321c554fb97fce556a56d669cc12ee6f90774903 100644
+--- a/dist/theme/lib/agent-content.ts
++++ b/dist/theme/lib/agent-content.ts
+@@ -121,7 +121,7 @@ export async function serializeAgentDocument(
+       ? [`version: ${JSON.stringify(currentSiteVersion)}`]
+       : []),
+   ];
+-  const body = await serializeAgentMarkdown(document.entry.body.trim(), {
++  const body = await serializeAgentMarkdown((document.entry.body ?? '').trim(), {
+     filePath: document.entry.filePath ?? '',
+     canonical: absoluteSiteUrl(document.route),
+     components: config.content.agentComponents,
+diff --git a/dist/theme/pages/demos/[...key].astro b/dist/theme/pages/demos/[...key].astro
+index 42050fa0b2a24294b8df8616f13de5605a59a39f..56e3512c9297a2d5fb92fe1d05b79a0d1d52aeb3 100644
+--- a/dist/theme/pages/demos/[...key].astro
++++ b/dist/theme/pages/demos/[...key].astro
+@@ -67,7 +67,9 @@ const { demo } = Astro.props;
+ 
+       const key = document.body.dataset.demoKey || '';
+       const errorTarget = document.querySelector('#demo-error');
++      let failed = false;
+       const showError = (error: unknown) => {
++        failed = true;
+         if (!(errorTarget instanceof HTMLElement)) return;
+         errorTarget.hidden = false;
+         errorTarget.textContent = error instanceof Error ? error.stack || error.message : String(error);
+@@ -82,6 +84,7 @@ const { demo } = Astro.props;
+       else load().then(() => {
+         // Allow the renderer's first layout to settle before revealing the preview.
+         requestAnimationFrame(() => requestAnimationFrame(() => {
++          if (failed) return;
+           document.documentElement.classList.add('preview-ready');
+           if (parent !== window) parent.postMessage({ type: 'antv-demo:complete' }, location.origin);
+         }));
+diff --git a/dist/vite/demo-plugin.js b/dist/vite/demo-plugin.js
+index bd92b6de3ae69db5d241413b757e62728273ef1b..df64129ac1a3e77d8de228e6f945103375e0a722 100644
+--- a/dist/vite/demo-plugin.js
++++ b/dist/vite/demo-plugin.js
+@@ -1,3 +1,4 @@
++import { compileDemoSource } from "../demo-source.js";
+ import { extname, resolve } from "node:path";
+ import { fileURLToPath } from "node:url";
+ import { isWithin } from "../util.js";
+@@ -72,6 +73,12 @@ export function createDemoPlugin(registry) {
+                         throw new Error(`Unable to resolve demo dependency: ${name}`);
+                     // URL-only entries bypass Vite's import analysis; allow the configured entry file.
+                     if (!isBuild) {
++                        // Import-map URLs bypass import analysis; use the optimizer's ESM wrappers for CommonJS.
++                        const optimizer = server.environments.client?.depsOptimizer;
++                        const optimized = optimizer?.metadata.optimized[source] ??
++                            optimizer?.metadata.discovered[source];
++                        if (optimizer && optimized)
++                            resolved.id = optimizer.getOptimizedDepId(optimized);
+                         const file = resolved.id.split("?")[0];
+                         if (!server.config.server.fs.allow.includes(file))
+                             server.config.server.fs.allow.push(file);
+@@ -107,10 +114,9 @@ export function createDemoPlugin(registry) {
+             if (!demo)
+                 throw new Error(`Unknown demo entry: ${key}`);
+             return {
+-                code: demo.source,
++                code: compileDemoSource(demo.source, demo.sourcePath),
+                 map: null,
+             };
+         },
+     };
+ }
+-//# sourceMappingURL=demo-plugin.js.map

@@ -45,7 +45,7 @@ order: 7
 - `center.y` 对应 `centerY`
 - `center.strength` 对应 `centerStrength`
 
-如果你需要继续对照完整字段说明，可查看 [D3Force 布局](/manual/layout/d3-force-layout)。
+如果你需要继续对照完整字段说明，可查看 [D3Force 布局](/zh/manual/layout/D3ForceLayout/)。
 
 ## ComboCombined：innerLayout / outerLayout 收敛为 layout
 
@@ -85,7 +85,7 @@ import { ConcentricLayout, ForceLayout } from '@antv/layout';
 - `comboId` 为空时，表示当前为最外层布局
 - 多层布局选择统一收敛到 `layout` 入口
 
-如果你需要查看 `5.1` 推荐写法，可查看 [ComboCombined 布局](/manual/layout/combo-combined-layout)。
+如果你需要查看 `5.1` 推荐写法，可查看 [ComboCombined 布局](/zh/manual/layout/ComboCombinedLayout/)。
 
 ## 迁移建议
 

@@ -1,3 +1,13 @@
+import GUI from 'lil-gui';
+
+function addPanel(renderPanel) {
+  const gui = new GUI({ container: document.body });
+  gui.title('Control');
+  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
+  renderPanel(gui);
+  addEventListener('pagehide', () => gui.destroy(), { once: true });
+}
+
 import { Graph } from '@antv/g6';
 
 const themes = {
@@ -74,7 +84,7 @@ fetch('https://assets.antv.antgroup.com/g6/20000.json')
 
     graph.render();
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui.add({ theme: '🌞 Light' }, 'theme', Object.keys(themes)).onChange((theme) => {
         graph.setOptions(themes[theme]);
         graph.draw();

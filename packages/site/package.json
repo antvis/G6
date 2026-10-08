@@ -24,43 +24,40 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
-    "build": "dumi build && cp ./CNAME ./dist/CNAME",
-    "build:memo": "node --expose-gc --max-old-space-size=32768 ./node_modules/dumi/bin/dumi build",
+    "build": "astro build",
     "deploy": "gh-pages -d dist",
-    "dev": "dumi dev",
-    "doc": "ts-node ./scripts/generate-api.ts && ts-node ./scripts/generate-doc.ts",
+    "dev": "astro dev",
+    "doc": "ts-node --project tsconfig.scripts.json ./scripts/generate-api.ts && ts-node --project tsconfig.scripts.json ./scripts/generate-doc.ts",
     "doc:add": "node ./scripts/doc-template.mjs",
-    "doc:clear": "ts-node ./scripts/clear-doc.ts",
+    "doc:clear": "ts-node --project tsconfig.scripts.json ./scripts/clear-doc.ts",
     "doc:dev": "npm run doc && rm -rf ./docs/api/reference",
-    "doc:sort": "ts-node ./scripts/sort-doc.ts",
-    "find-unused-demos": "node ./scripts/find-unused-demos.js",
+    "doc:sort": "ts-node --project tsconfig.scripts.json ./scripts/sort-doc.ts",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:md": "prettier --write \"**/*.md\"",
     "lint": "eslint ./src  --quiet && prettier ./src  --check",
-    "preview": "dumi preview"
+    "preview": "astro preview"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
     "@antv/algorithm": "^0.1.26",
-    "@antv/dumi-theme-antv": "^0.8.4",
+    "@antv/astro-theme-antv": "0.1.0-beta.8",
     "@antv/g": "^6.1.24",
+    "@antv/g-canvas": "^2.2.0",
+    "@antv/g-plugin-rough-canvas-renderer": "^2.1.1",
     "@antv/g-svg": "^2.0.38",
-    "@antv/g-webgl": "^2.0.47",
     "@antv/g2": "^5.3.2",
     "@antv/g6": "workspace:*",
     "@antv/g6-extension-3d": "workspace:*",
     "@antv/g6-extension-react": "workspace:*",
-    "@antv/layout": "1.2.14-beta.8",
     "@antv/layout-gpu": "^1.1.7",
-    "@antv/layout-wasm": "^1.4.2",
     "@antv/util": "^3.3.10",
+    "@antv/vendor": "^1.0.11",
     "antd": "^5.25.1",
-    "dumi": "2.4.17",
-    "insert-css": "^2.0.0",
+    "astro": "7.2.0",
+    "lil-gui": "^0.19.2",
     "lodash": "^4.17.21",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "stats.js": "^0.17.0",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
@@ -80,5 +77,8 @@
     "prettier": "^3.5.3",
     "resolve": "^1.22.10",
     "xmlbuilder": "^15.1.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

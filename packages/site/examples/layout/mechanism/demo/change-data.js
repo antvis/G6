@@ -1,3 +1,13 @@
+import GUI from 'lil-gui';
+
+function addPanel(renderPanel) {
+  const gui = new GUI({ container: document.body });
+  gui.title('Control');
+  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
+  renderPanel(gui);
+  addEventListener('pagehide', () => gui.destroy(), { once: true });
+}
+
 import { Graph } from '@antv/g6';
 
 const fetchData = async (type) => {
@@ -32,7 +42,7 @@ fetchData('small').then((data) => {
 
   graph.render();
 
-  window.addPanel((gui) => {
+  addPanel((gui) => {
     gui.add({ type: 'small' }, 'type', ['small', 'large']).onChange((type) => {
       fetchData(type).then((data) => {
         graph.setData(data);

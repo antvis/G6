@@ -1,3 +1,13 @@
+import GUI from 'lil-gui';
+
+function addPanel(renderPanel) {
+  const gui = new GUI({ container: document.body });
+  gui.title('Control');
+  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
+  renderPanel(gui);
+  addEventListener('pagehide', () => gui.destroy(), { once: true });
+}
+
 import { findShortestPath } from '@antv/algorithm';
 import { CanvasEvent, Graph } from '@antv/g6';
 
@@ -41,7 +51,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
       resetStates();
     });
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui.add(
         {
           Help: () => {

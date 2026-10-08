@@ -1,3 +1,13 @@
+import GUI from 'lil-gui';
+
+function addPanel(renderPanel) {
+  const gui = new GUI({ container: document.body });
+  gui.title('Control');
+  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
+  renderPanel(gui);
+  addEventListener('pagehide', () => gui.destroy(), { once: true });
+}
+
 import { Graph, iconfont } from '@antv/g6';
 
 const style = document.createElement('style');
@@ -55,7 +65,7 @@ fetch('https://assets.antv.antgroup.com/g6/relations.json')
       borderless: true,
     };
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui
         .add(config, 'trigger', ['pointermove', 'click', 'drag'])
         .name('Trigger')

@@ -9,7 +9,7 @@ If you want to fix a bug or add a new feature, you need to first fork a copy of 
 
 ## Project Structure
 
-<Tree>
+<div>
   <ul>
     <li>
       packages
@@ -202,7 +202,7 @@ If you want to fix a bug or add a new feature, you need to first fork a copy of 
               <small>Graph Examples</small>
             </li>
             <li>
-              .dumirc.ts
+              astro.config.mjs
               <small>Configuration File</small>
             </li>
           </ul>
@@ -211,7 +211,7 @@ If you want to fix a bug or add a new feature, you need to first fork a copy of 
     </li>
 
   </ul>
-</Tree>
+</div>
 
 ## Development Process
 
@@ -291,6 +291,19 @@ git push
 ```
 
 Submit a Pull Request (PR) to the G6 repository on GitHub.
+
+### Website development
+
+The website lives in `packages/site` and uses Astro with `@antv/astro-theme-antv`. It requires Node.js >= 22.12.0 and pnpm 10.34.5. From the repository root, run:
+
+```bash
+pnpm install
+pnpm site
+```
+
+Site configuration lives in `packages/site/site.config.mjs`, with homepage components in `src/components`. Keep ordinary documents as `.md`; use `.mdx` when importing components such as `Demo`. Localized routes use `/zh/` and `/en/`. Documents share source files in `docs/_demos`; `examples` contains standalone demos and their registry metadata.
+
+A full site build uses `pnpm --filter @antv/g6-site build` and writes `packages/site/dist`, including `public/CNAME`. Validate only the pages and demos affected by a change; do not run full builds or library tests by default. The pnpm theme patch covers Demo JSX/export and loading state, empty Markdown documents and optional typography variables. Remove the corresponding patches and run targeted checks when upgrading to a theme release that includes those capabilities.
 
 ## Testing and Coverage
 

@@ -5,7 +5,7 @@ order: 2
 
 ## Overview
 
-AntvDagre builds upon the original [dagre](https://github.com/dagrejs/dagre/wiki) layout and adds more useful options, such as `nodeOrder`, `edgeLabelSpace`, and more. The `dagre` layout itself is a hierarchical layout suitable for directed acyclic graphs (DAGs), which can automatically handle node direction and spacing, and supports both horizontal and vertical layouts. See more Dagre layout [examples](/en/examples#layout-dagre), [source code](https://github.com/dagrejs/dagre/blob/master/lib/layout.js), and [official documentation](https://github.com/dagrejs/dagre/wiki).
+AntvDagre builds upon the original [dagre](https://github.com/dagrejs/dagre/wiki) layout and adds more useful options, such as `nodeOrder`, `edgeLabelSpace`, and more. The `dagre` layout itself is a hierarchical layout suitable for directed acyclic graphs (DAGs), which can automatically handle node direction and spacing, and supports both horizontal and vertical layouts. See more Dagre layout [examples](/en/examples/layout/dagre/), [source code](https://github.com/dagrejs/dagre/blob/master/lib/layout.js), and [official documentation](https://github.com/dagrejs/dagre/wiki).
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2uMmRo5wYPUAAAAAAAAAAABkARQnAQ' width=350 alt='Dagre Layout'/>
 

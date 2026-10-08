@@ -7,6 +7,8 @@ on:
       - v5
     paths:
       - '**/*.md'
+      - '**/*.mdx'
+      - 'packages/site/docs/_demos/**'
 
 jobs:
   check-and-update:

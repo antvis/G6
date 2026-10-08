@@ -354,4 +354,4 @@ graph.render();
 - `gravity`: 设置节点向心力
 - `iterations`: 设置布局计算的精确程度
 
-还可以参考 [查看示例](https://g6.antv.antgroup.com/examples/layout/force-directed/#force) 获取更多用法。
+还可以参考 [查看示例](/zh/examples/layout/force-directed/force/) 获取更多用法。

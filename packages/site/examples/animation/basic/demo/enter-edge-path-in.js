@@ -1,3 +1,13 @@
+import GUI from 'lil-gui';
+
+function addPanel(renderPanel) {
+  const gui = new GUI({ container: document.body });
+  gui.title('Control');
+  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
+  renderPanel(gui);
+  addEventListener('pagehide', () => gui.destroy(), { once: true });
+}
+
 import { ExtensionCategory, Graph, Line, register } from '@antv/g6';
 
 class PathInLine extends Line {
@@ -33,7 +43,7 @@ const graph = new Graph({
 
 graph.render();
 
-window.addPanel((gui) => {
+addPanel((gui) => {
   const config = {
     connect: () => {
       const edge = graph.getEdgeData('edge-1');

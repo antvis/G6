@@ -1,6 +1,25 @@
 const fs = require('fs');
 const path = require('path');
 
+// The sync workflow runs without npm install. Demo sources stay static and
+// readable in Yuque, using the same source text as the theme's Markdown export.
+function markdownForSync(source, docsRoot) {
+  return source
+    .replace(/^import \{ Demo \} from ['"]@antv\/astro-theme-antv\/components['"];?\s*$/gm, '')
+    .replace(/<Demo\s+(?:code=\{`((?:\\[\s\S]|[^`])*)`\}|src="([^"]+)")[^>]*\/>/g, (_, inline, src) => {
+      let code;
+      if (src) {
+        const file = path.resolve(docsRoot, src);
+        if (!file.startsWith(path.resolve(docsRoot) + path.sep)) throw new Error('Demo source outside docs');
+        code = fs.readFileSync(file, 'utf8');
+      } else {
+        // The MDX sources escape backslashes, backticks and interpolation.
+        code = inline.replace(/\\([\\`$])/g, '$1');
+      }
+      return `\n\`\`\`tsx\n${code.trim()}\n\`\`\`\n`;
+    });
+}
+
 /**
  * @param {Object} param
  * @param {import('@actions/core')} param.core
@@ -163,7 +182,7 @@ module.exports = async ({ core, inputs }) => {
       }
     }
 
-    // 递归获取所有 .zh.md 文件并创建文档
+    // 递归获取所有 .zh.md/.zh.mdx 文件并创建文档
     async function processMarkdownFiles() {
       core.info('处理Markdown文档...');
 
@@ -181,7 +200,7 @@ module.exports = async ({ core, inputs }) => {
           const stat = fs.statSync(filePath);
           if (stat && stat.isDirectory()) {
             results = results.concat(getAllMarkdownFiles(filePath));
-          } else if (file.endsWith('.zh.md')) {
+          } else if (/\.zh\.mdx?$/.test(file)) {
             results.push(filePath);
           }
         });
@@ -198,8 +217,8 @@ module.exports = async ({ core, inputs }) => {
 
         // 为每个文件创建文档
         for (const file of files) {
-          let content = fs.readFileSync(file, 'utf-8');
-          const fileName = path.basename(file, '.zh.md');
+          const content = markdownForSync(fs.readFileSync(file, 'utf-8'), docsDir);
+          const fileName = path.basename(file).replace(/\.zh\.mdx?$/, '');
           const title = `教程-${fileName}`;
 
           await createDoc(title, content, 'tutorial');

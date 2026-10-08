@@ -5,7 +5,7 @@ order: 18
 
 ## Overview
 
-The mindmap tree layout is suitable for hierarchical layouts of tree structures, supporting expansion on both left and right sides. Nodes at the same depth will be placed on the same layer. Note: the layout **does** take node size into account. See more mindmap layout [examples](/en/examples#layout-mindmap) or [source code](https://github.com/antvis/hierarchy/blob/master/src/mindmap.js).
+The mindmap tree layout is suitable for hierarchical layouts of tree structures, supporting expansion on both left and right sides. Nodes at the same depth will be placed on the same layer. Note: the layout **does** take node size into account. See more mindmap layout [examples](/en/examples/layout/mindmap/) or [source code](https://github.com/antvis/hierarchy/blob/master/src/mindmap.js).
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*J1l5RofvbP0AAAAAAAAAAABkARQnAQ' width=350 alt='img'/>
 

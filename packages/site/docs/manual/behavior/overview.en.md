@@ -5,7 +5,7 @@ order: 0
 
 ## What is Behavior
 
-<image width="200px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sa3jRqp83K4AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sa3jRqp83K4AAAAAAAAAAAAADmJ7AQ/original" />
 
 Behavior refers to the interactive operations between users and chart elements, such as dragging the canvas, selecting nodes, zooming the view, etc. Good behavior design allows users to explore and understand graph data more intuitively. **Proper configuration of behaviors is a key step in building efficient and usable charts**.
 
@@ -28,27 +28,27 @@ G6 provides a variety of built-in behaviors that are **ready to use without regi
 | Category            | Behavior Name                                                                  | Registration Type             | Function Description                                         |
 | ------------------- | ------------------------------------------------------------------------------ | ----------------------------- | ------------------------------------------------------------ |
 | Navigation          |                                                                                |                               |                                                              |
-|                     | [Drag Canvas](/en/manual/behavior/drag-canvas)                                 | `drag-canvas`                 | Drag the entire canvas view                                  |
-|                     | [Zoom Canvas](/en/manual/behavior/zoom-canvas)                                 | `zoom-canvas`                 | Zoom the canvas view                                         |
-|                     | [Scroll Canvas](/en/manual/behavior/scroll-canvas)                             | `scroll-canvas`               | Scroll the canvas using the wheel                            |
-|                     | [Optimize Viewport Transform](/en/manual/behavior/optimize-viewport-transform) | `optimize-viewport-transform` | Optimize view transform performance                          |
+|                     | [Drag Canvas](/en/manual/behavior/DragCanvas/)                                 | `drag-canvas`                 | Drag the entire canvas view                                  |
+|                     | [Zoom Canvas](/en/manual/behavior/ZoomCanvas/)                                 | `zoom-canvas`                 | Zoom the canvas view                                         |
+|                     | [Scroll Canvas](/en/manual/behavior/ScrollCanvas/)                             | `scroll-canvas`               | Scroll the canvas using the wheel                            |
+|                     | [Optimize Viewport Transform](/en/manual/behavior/OptimizeViewportTransform/) | `optimize-viewport-transform` | Optimize view transform performance                          |
 | Selection           |                                                                                |                               |                                                              |
-|                     | [Click Select](/en/manual/behavior/click-select)                               | `click-select`                | Click to select graph elements                               |
-|                     | [Brush Select](/en/manual/behavior/brush-select)                               | `brush-select`                | Select elements by dragging a rectangular area               |
-|                     | [Lasso Select](/en/manual/behavior/lasso-select)                               | `lasso-select`                | Freely draw an area to select elements                       |
+|                     | [Click Select](/en/manual/behavior/ClickSelect/)                               | `click-select`                | Click to select graph elements                               |
+|                     | [Brush Select](/en/manual/behavior/BrushSelect/)                               | `brush-select`                | Select elements by dragging a rectangular area               |
+|                     | [Lasso Select](/en/manual/behavior/LassoSelect/)                               | `lasso-select`                | Freely draw an area to select elements                       |
 | Editing             |                                                                                |                               |                                                              |
-|                     | [Create Edge](/en/manual/behavior/create-edge)                                 | `create-edge`                 | Interactively create new edges                               |
-|                     | [Drag Element](/en/manual/behavior/drag-element)                               | `drag-element`                | Drag nodes or combos                                         |
-|                     | [Force-directed Drag](/en/manual/behavior/drag-element-force)                  | `drag-element-force`          | Drag nodes in force-directed layout                          |
+|                     | [Create Edge](/en/manual/behavior/CreateEdge/)                                 | `create-edge`                 | Interactively create new edges                               |
+|                     | [Drag Element](/en/manual/behavior/DragElement/)                               | `drag-element`                | Drag nodes or combos                                         |
+|                     | [Force-directed Drag](/en/manual/behavior/DragElementForce/)                  | `drag-element-force`          | Drag nodes in force-directed layout                          |
 | Data Exploration    |                                                                                |                               |                                                              |
-|                     | [Collapse/Expand](/en/manual/behavior/collapse-expand)                         | `collapse-expand`             | Expand or collapse subtree nodes                             |
-|                     | [Focus Element](/en/manual/behavior/focus-element)                             | `focus-element`               | Focus on specific elements and automatically adjust the view |
-|                     | [Hover Activate](/en/manual/behavior/hover-activate)                           | `hover-activate`              | Highlight elements when hovering                             |
+|                     | [Collapse/Expand](/en/manual/behavior/CollapseExpand/)                         | `collapse-expand`             | Expand or collapse subtree nodes                             |
+|                     | [Focus Element](/en/manual/behavior/FocusElement/)                             | `focus-element`               | Focus on specific elements and automatically adjust the view |
+|                     | [Hover Activate](/en/manual/behavior/HoverActivate/)                           | `hover-activate`              | Highlight elements when hovering                             |
 | Visual Optimization |                                                                                |                               |                                                              |
-|                     | [Fix Element Size](/en/manual/behavior/fix-element-size)                       | `fix-element-size`            | Fix the element size to a specified value                    |
-|                     | [Auto-adapt Label](/en/manual/behavior/auto-adapt-label)                       | `auto-adapt-label`            | Automatically adjust label position                          |
+|                     | [Fix Element Size](/en/manual/behavior/FixElementSize/)                       | `fix-element-size`            | Fix the element size to a specified value                    |
+|                     | [Auto-adapt Label](/en/manual/behavior/AutoAdaptLabel/)                       | `auto-adapt-label`            | Automatically adjust label position                          |
 
-For detailed configuration of each behavior, refer to the [Built-in Behavior Documentation](/en/manual/behavior/drag-canvas).
+For detailed configuration of each behavior, refer to the [Built-in Behavior Documentation](/en/manual/behavior/DragCanvas/).
 
 :::warning{title=Behavior Compatibility}
 Some behaviors may overlap in triggering mechanisms, such as `brush-select` and `drag-canvas` both using mouse dragging. In such cases, you can avoid conflicts by modifying the trigger key (e.g., hold `Shift` to drag and select).
@@ -61,7 +61,7 @@ When built-in behaviors cannot meet the requirements, G6 provides powerful custo
 - Extend by inheriting built-in behaviors
 - Create entirely new behavior behaviors
 
-Unlike built-in behaviors, **custom behaviors need to be registered before use**. For detailed tutorials, refer to the [Custom Behavior](/en/manual/behavior/custom-behavior) documentation.
+Unlike built-in behaviors, **custom behaviors need to be registered before use**. For detailed tutorials, refer to the [Custom Behavior](/en/manual/behavior/custom-behavior/) documentation.
 
 ## Configuration and Usage
 
@@ -98,7 +98,7 @@ const graph = new Graph({
 
 G6 supports dynamically managing behavior behaviors during the runtime of the graph instance to meet complex behavior needs:
 
-You can adjust behaviors using the [setBehaviors](/en/api/behavior#graphsetbehaviorsbehaviors) method:
+You can adjust behaviors using the [setBehaviors](/en/api/behavior/#graphsetbehaviorsbehaviors) method:
 
 ```javascript
 // Add new behavior
@@ -108,7 +108,7 @@ graph.setBehaviors((behaviors) => [...behaviors, 'lasso-select']);
 graph.setBehaviors((behaviors) => behaviors.filter((b) => b !== 'click-select'));
 ```
 
-You can update the configuration of behaviors using the [updateBehavior](/en/api/behavior#graphupdatebehaviorbehavior) method:
+You can update the configuration of behaviors using the [updateBehavior](/en/api/behavior/#graphupdatebehaviorbehavior) method:
 
 ```javascript
 // Update a single behavior
@@ -125,13 +125,13 @@ When using the `updateBehavior` method, you need to specify a unique `key` for t
 
 ### Uninstall Behaviors
 
-You can also uninstall behaviors using the [setBehaviors](/en/api/behavior#graphsetbehaviorsbehaviors) method by setting the behavior configuration list to empty:
+You can also uninstall behaviors using the [setBehaviors](/en/api/behavior/#graphsetbehaviorsbehaviors) method by setting the behavior configuration list to empty:
 
 ```javascript
 graph.setBehaviors([]);
 ```
 
-For more behavior-related APIs, refer to the [Behavior API Documentation](/en/api/behavior).
+For more behavior-related APIs, refer to the [Behavior API Documentation](/en/api/behavior/).
 
 ## Behavior and Events
 
@@ -156,4 +156,4 @@ graph.on(EdgeEvent.POINTER_OVER, (evt) => {
 });
 ```
 
-The event system is the foundation for implementing behaviors. Mastering the event API is crucial for understanding and extending behavior behaviors. For more event-related information, refer to the [Event Documentation](/en/api/event).
+The event system is the foundation for implementing behaviors. Mastering the event API is crucial for understanding and extending behavior behaviors. For more event-related information, refer to the [Event Documentation](/en/api/event/).

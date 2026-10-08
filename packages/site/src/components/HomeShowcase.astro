@@ -1,0 +1,215 @@
+---
+import type { HomeSlotProps } from '@antv/astro-theme-antv';
+const cases = [
+  {
+    "logo": "https://gw.alipayobjects.com/zos/antfincdn/0b4HzOcEJY/Graphin.svg",
+    "title": {
+      "zh": "Graphin 图可视分析组件",
+      "en": "Graphin: Graph Insight"
+    },
+    "description": {
+      "zh": "Graphin 是一款基于 G6 封装的 React 分析组件库，专注在关系可视分析领域，简单高效，开箱即用。",
+      "en": "Graphin stands for Graph Insight. It's a toolkit based on G6 and React, that focuses on relational visual analysis.It's simple, efficient, out of the box."
+    },
+    "link": "https://graphin.antv.vision",
+    "image": "https://gw.alipayobjects.com/mdn/rms_00edcb/afts/img/A*LKq7Q5wPA0AAAAAAAAAAAAAAARQnAQ"
+  },
+  {
+    "logo": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ch6rTrCxb6YAAAAAAAAAAABkARQnAQ",
+    "title": {
+      "zh": "基于 G6 的动态决策树",
+      "en": "Interactive Decision Graph Powered by G6"
+    },
+    "description": {
+      "zh": "基于 G6 实现的动态决策树，辅助用户寻找合适的可视化方式。它展示了 G6 强大的自定义节点和动画的能力。",
+      "en": "It is an interactive graph for users to find out an appropriate visualization method for their requirements. The demo shows the powerful custom node and animation ability of G6."
+    },
+    "link": "https://g6-v4.antv.vision/zh/examples/case/graphDemos/#decisionBubbles",
+    "image": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*10b6R5fkyJ4AAAAAAAAAAABkARQnAQ"
+  },
+  {
+    "logo": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*95GYRI0zPx8AAAAAAAAAAABkARQnAQ",
+    "title": {
+      "zh": "基于 G6 的图分析应用",
+      "en": "Graph Analysis App Powered by G6"
+    },
+    "description": {
+      "zh": "社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。",
+      "en": "Social network is an important scenario in graph visualization. The relationships become complicate with the development of social network. Graph visualization and analysis do well on these complex cases."
+    },
+    "link": "https://g6-v4.antv.vision/zh/docs/manual/cases/relations",
+    "image": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RYFQSZYewokAAAAAAAAAAABkARQnAQ"
+  },
+  {
+    "logo": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IEQFS5VtXX8AAAAAAAAAAABkARQnAQ",
+    "title": {
+      "zh": "基于 G6 的关系时序分析应用",
+      "en": "Dynamic Relationships Analysis Powered by G6"
+    },
+    "description": {
+      "zh": "基于 G6 的关系时序分析应用，解决应急过程中流程、影响面、应急预案等一系列应急决策辅助信息和手段，快速止血以减少和避免故障升级。",
+      "en": "This is an application for dynamic relationships analysis based on G6, which helps people deal with the flow, influence, and find out solutions to avoid losses and faults."
+    },
+    "link": "https://g6-v4.antv.vision/zh/docs/manual/cases/sequenceTime",
+    "image": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*m41kSpg17ZkAAAAAAAAAAABkARQnAQ"
+  }
+];
+const companies = [
+  {
+    "name": "阿里云",
+    "img": "https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*V_xMRIvw2iwAAAAAAAAAAABkARQnAQ"
+  },
+  {
+    "name": "支付宝",
+    "img": "https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*lYDrRZvcvD4AAAAAAAAAAABkARQnAQ"
+  },
+  {
+    "name": "天猫",
+    "img": "https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*BQrxRK6oemMAAAAAAAAAAABkARQnAQ"
+  },
+  {
+    "name": "淘宝网",
+    "img": "https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*1l8-TqUr7UcAAAAAAAAAAABkARQnAQ"
+  },
+  {
+    "name": "网商银行",
+    "img": "https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*ZAKFQJ5Bz4MAAAAAAAAAAABkARQnAQ"
+  },
+  {
+    "name": "京东",
+    "img": "https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*yh-HRr3hCpgAAAAAAAAAAABkARQnAQ"
+  },
+  {
+    "name": "yunos",
+    "img": "https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*_js7SaNosUwAAAAAAAAAAABkARQnAQ"
+  },
+  {
+    "name": "菜鸟",
+    "img": "https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*TgV-RZDODJIAAAAAAAAAAABkARQnAQ"
+  }
+];
+const { locale, config } = Astro.props as HomeSlotProps;
+const text = (value: string | { zh?: string; en?: string } | undefined) => typeof value === 'string' ? value : value?.[locale];
+---
+<section class="bg-white px-5 pt-12 pb-20 mobile:px-4 mobile:py-12" aria-label={locale === 'zh' ? 'G6 的优势' : 'G6 features'}>
+  <div class="mx-auto grid max-w-[1160px] grid-cols-3 gap-6 mobile:grid-cols-1">
+    {config.home.features.map(feature => <article class="rounded-2xl border border-[#e8e8ed] px-10 py-9 text-center shadow-[0_0_3px_#00000008] tablet:px-6">
+      <img src={feature.icon} alt="" loading="lazy" height="60" class="mx-auto h-[60px] max-w-full object-contain" />
+      <h2 class="mt-7 mb-6 text-[23.996px] leading-8 font-normal [font-family:AlibabaPuHuiTiM] text-[#262626]">{text(feature.title)}</h2>
+      <p class="mx-auto m-0 max-w-[245px] text-left text-sm leading-[1.8] font-normal text-[#777]">{text(feature.description)}</p>
+    </article>)}
+  </div>
+</section>
+<section class="bg-[#f8faff] px-5 py-20 mobile:px-4 mobile:py-10" aria-label={locale === 'zh' ? '基于 G6 构建' : 'Built with G6'}>
+  <g6-case-carousel class="mx-auto block max-w-[1200px] touch-pan-y" role="region" aria-roledescription={locale === 'zh' ? '轮播图' : 'carousel'} aria-label={locale === 'zh' ? 'G6 应用案例' : 'G6 applications'}>
+    <div class="relative">
+      <div data-case-slides class="grid">
+        {cases.map((item, index) => <article data-case-slide data-active={index === 0 ? 'true' : 'false'} aria-hidden={index !== 0 ? 'true' : undefined} inert={index !== 0} role="group" aria-roledescription={locale === 'zh' ? '幻灯片' : 'slide'} aria-label={`${index + 1} / ${cases.length}`} class="relative col-start-1 row-start-1 grid min-h-[560px] grid-cols-[1fr_2fr] items-center gap-12 px-5 opacity-0 transition-opacity duration-500 ease-linear data-[active=true]:z-1 data-[active=true]:opacity-100 motion-reduce:transition-none mobile:min-h-0 mobile:grid-cols-1 mobile:gap-6 mobile:px-1">
+          <div class="self-stretch pt-8 pb-28 mobile:pt-0 mobile:pb-0">
+            <img src={item.logo} alt="" loading="lazy" width="80" height="80" class="mb-8 h-20 w-20 object-contain object-left" />
+            <h2 class="m-0 mb-4 text-[17.9998px] leading-[1.5715] font-medium text-[#262626]">{item.title[locale]}</h2>
+            <p class="m-0 mb-5 text-sm leading-[1.5715] font-normal text-[#777]">{item.description[locale]}</p>
+            <a href={item.link} class="text-sm leading-[1.5715] font-normal text-[var(--brand)] no-underline hover:underline focus-visible:outline-2 focus-visible:outline-[var(--brand)]">{locale === 'zh' ? '查看详情' : 'Learn more'}</a>
+          </div>
+          <img src={item.image} alt={item.title[locale]} loading="lazy" class="aspect-[6/5] w-full object-contain" />
+        </article>)}
+      </div>
+      <div class="absolute bottom-20 left-5 z-2 flex mobile:static mobile:mt-6 mobile:justify-center" aria-label={locale === 'zh' ? '切换应用案例' : 'Change application'}>
+        <button data-case-prev type="button" aria-label={locale === 'zh' ? '上一个应用案例' : 'Previous application'} class="grid size-12 cursor-pointer place-items-center border border-[#a3b1bf] bg-transparent text-[#a3b1bf] transition-colors duration-300 hover:z-1 hover:border-[#ced4d9] hover:text-[#ced4d9] motion-reduce:transition-none focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-[var(--brand)]">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7" /></svg>
+        </button>
+        <button data-case-next type="button" aria-label={locale === 'zh' ? '下一个应用案例' : 'Next application'} class="-ml-px grid size-12 cursor-pointer place-items-center border border-[#a3b1bf] bg-transparent text-[#a3b1bf] transition-colors duration-300 hover:z-1 hover:border-[#ced4d9] hover:text-[#ced4d9] motion-reduce:transition-none focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-[var(--brand)]">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
+        </button>
+      </div>
+    </div>
+  </g6-case-carousel>
+</section>
+<section class="bg-white px-5 py-20 mobile:px-4 mobile:py-12" aria-labelledby="g6-companies">
+  <h2 id="g6-companies" class="m-0 mb-12 text-center text-[37.996px] leading-[1.5715] font-medium [@media(width<=768px)]:text-[30.4px] text-[#262626]">{locale === 'zh' ? '感谢信赖' : 'Trusted by'}</h2>
+  <ul class="mx-auto flex max-w-[1000px] list-none flex-wrap items-center justify-center gap-x-12 gap-y-8 p-0 mobile:gap-5">
+    {companies.map(company => <li><img src={company.img} alt={company.name} loading="lazy" width="165" height="57" class="h-[57px] w-[165px] object-contain mobile:w-[145px]" /></li>)}
+  </ul>
+</section>
+
+<script>
+  class G6CaseCarousel extends HTMLElement {
+    private dispose?: () => void;
+
+    connectedCallback() {
+      this.dispose?.();
+      const slides = [...this.querySelectorAll<HTMLElement>('[data-case-slide]')];
+      if (slides.length < 2) return;
+      const listeners = new AbortController();
+      const options = { signal: listeners.signal };
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let current = 0;
+      let timer: number | undefined;
+      let visible = false;
+      let hovered = this.matches(':hover');
+      let focused = this.matches(':focus-within');
+
+      const show = (index: number) => {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((slide, i) => {
+          const active = i === current;
+          slide.dataset.active = String(active);
+          slide.inert = !active;
+          if (active) slide.removeAttribute('aria-hidden');
+          else slide.setAttribute('aria-hidden', 'true');
+        });
+      };
+      const stop = () => { window.clearInterval(timer); timer = undefined; };
+      const resume = () => {
+        stop();
+        if (visible && !hovered && !focused && !document.hidden && !reducedMotion.matches) {
+          timer = window.setInterval(() => show(current + 1), 3000);
+        }
+      };
+      const navigate = (index: number) => { show(index); resume(); };
+      this.querySelector('[data-case-prev]')!.addEventListener('click', () => navigate(current - 1), options);
+      this.querySelector('[data-case-next]')!.addEventListener('click', () => navigate(current + 1), options);
+      this.addEventListener('keydown', event => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        // Keep focus on a persistent control when a focused slide becomes inert.
+        if (slides[current].contains(document.activeElement)) {
+          this.querySelector<HTMLButtonElement>(event.key === 'ArrowLeft' ? '[data-case-prev]' : '[data-case-next]')!.focus();
+        }
+        navigate(current + (event.key === 'ArrowLeft' ? -1 : 1));
+      }, options);
+      this.addEventListener('pointerenter', () => { hovered = true; stop(); }, options);
+      this.addEventListener('pointerleave', () => { hovered = false; resume(); }, options);
+      this.addEventListener('focusin', () => { focused = true; stop(); }, options);
+      this.addEventListener('focusout', event => {
+        if (event.relatedTarget instanceof Node && this.contains(event.relatedTarget)) return;
+        focused = false;
+        resume();
+      }, options);
+      let touchStart: { x: number; y: number } | undefined;
+      this.addEventListener('pointerdown', event => {
+        if (event.pointerType === 'mouse') return;
+        touchStart = { x: event.clientX, y: event.clientY };
+        stop();
+      }, options);
+      this.addEventListener('pointerup', event => {
+        if (!touchStart) return;
+        const dx = event.clientX - touchStart.x;
+        const dy = event.clientY - touchStart.y;
+        touchStart = undefined;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) navigate(current + (dx < 0 ? 1 : -1));
+        else resume();
+      }, options);
+      this.addEventListener('pointercancel', () => { touchStart = undefined; resume(); }, options);
+      reducedMotion.addEventListener('change', resume, options);
+      document.addEventListener('visibilitychange', resume, options);
+      const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; resume(); }, { threshold: 0.2 });
+      observer.observe(this);
+      show(0);
+      this.dispose = () => { listeners.abort(); observer.disconnect(); stop(); };
+    }
+
+    disconnectedCallback() { this.dispose?.(); }
+  }
+  if (!customElements.get('g6-case-carousel')) customElements.define('g6-case-carousel', G6CaseCarousel);
+</script>

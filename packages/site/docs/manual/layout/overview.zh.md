@@ -7,32 +7,32 @@ order: 0
 
 图布局是指将图中的元素按照一定的规则进行排列的过程，例如基于电荷弹性模型的力导向布局、逐次排布的网格布局、基于层次结构的树布局等。
 
-<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WIhlToluHaEAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WIhlToluHaEAAAAAAAAAAAAADmJ7AQ/original" />
 
 ## 布局类型
 
 G6 提供了多种布局算法，用户可以根据自己的需求选择合适的布局算法：
 
-- [AntVDagreLayout](/manual/layout/antv-dagre-layout)：基于 dagre 定制的布局
-- [CircularLayout](/manual/layout/circular-layout)：环形布局
-- [ComboCombinedLayout](/manual/layout/combo-combined-layout)：适用于存在组合的布局
-- [ConcentricLayout](/manual/layout/concentric-layout)：同心圆布局
-- [D3Force3DLayout](/manual/layout/d3-force3-d-layout)：[3D 力导向](https://github.com/vasturiano/d3-force-3d)布局
-- [D3ForceLayout](/manual/layout/d3-force-layout)：基于 [D3](https://d3js.org/d3-force) 的力导向布局
-- [DagreLayout](/manual/layout/dagre-layout)：[dagre](https://github.com/dagrejs/dagre) 布局
-- [FishboneLayout](/manual/layout/fishbone)：鱼骨布局
-- [ForceAtlas2Layout](/manual/layout/force-atlas2-layout)：[ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) 布局
-- [ForceLayout](/manual/layout/force-layout)：力导向布局
-- [FruchtermanLayout](/manual/layout/fruchterman-layout)：[Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) 布局
-- [GridLayout](/manual/layout/grid-layout)：网格布局
-- [MDSLayout](/manual/layout/mds-layout)：高维数据降维算法布局
-- [RadialLayout](/manual/layout/radial-layout)：径向布局
-- [RandomLayout](/manual/layout/random-layout)：随机布局
-- [SnakeLayout](/manual/layout/snake)：蛇形布局
-- [CompactBoxLayout](/manual/layout/compact-box-layout): 紧凑树布局
-- [DendrogramLayout](/manual/layout/dendrogram-layout): 树状布局
-- [MindmapLayout](/manual/layout/mindmap-layout): 思维导图布局
-- [IndentedLayout](/manual/layout/indented-layout): 缩进树布局
+- [AntVDagreLayout](/zh/manual/layout/AntvDagreLayout/)：基于 dagre 定制的布局
+- [CircularLayout](/zh/manual/layout/CircularLayout/)：环形布局
+- [ComboCombinedLayout](/zh/manual/layout/ComboCombinedLayout/)：适用于存在组合的布局
+- [ConcentricLayout](/zh/manual/layout/ConcentricLayout/)：同心圆布局
+- [D3Force3DLayout](/zh/manual/layout/D3Force3DLayout/)：[3D 力导向](https://github.com/vasturiano/d3-force-3d)布局
+- [D3ForceLayout](/zh/manual/layout/D3ForceLayout/)：基于 [D3](https://d3js.org/d3-force) 的力导向布局
+- [DagreLayout](/zh/manual/layout/DagreLayout/)：[dagre](https://github.com/dagrejs/dagre) 布局
+- [FishboneLayout](/zh/manual/layout/Fishbone/)：鱼骨布局
+- [ForceAtlas2Layout](/zh/manual/layout/ForceAtlas2Layout/)：[ForceAtlas2](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0098679) 布局
+- [ForceLayout](/zh/manual/layout/ForceLayout/)：力导向布局
+- [FruchtermanLayout](/zh/manual/layout/FruchtermanLayout/)：[Fruchterman](https://www.sciencedirect.com/topics/computer-science/reingold-layout) 布局
+- [GridLayout](/zh/manual/layout/GridLayout/)：网格布局
+- [MDSLayout](/zh/manual/layout/MdsLayout/)：高维数据降维算法布局
+- [RadialLayout](/zh/manual/layout/RadialLayout/)：径向布局
+- [RandomLayout](/zh/manual/layout/RandomLayout/)：随机布局
+- [SnakeLayout](/zh/manual/layout/Snake/)：蛇形布局
+- [CompactBoxLayout](/zh/manual/layout/CompactBoxLayout/): 紧凑树布局
+- [DendrogramLayout](/zh/manual/layout/DendrogramLayout/): 树状布局
+- [MindmapLayout](/zh/manual/layout/MindmapLayout/): 思维导图布局
+- [IndentedLayout](/zh/manual/layout/IndentedLayout/): 缩进树布局
 
 其中 `CompactBox Layout`、`Dendrogram Layout`、`Mindmap Layout`、`Indented Layout` 是树布局的一种，适用于树状结构的图。
 
@@ -161,12 +161,12 @@ const graph = new Graph({
 
 如果需要手动执行布局算法，G6 提供了以下 API：
 
-- [layout](/api/layout#graphlayoutlayoutoptions)：执行布局算法
-- [setLayout](/api/layout#graphsetlayoutlayout)：设置布局算法
-- [stopLayout](/api/layout#graphstoplayout)：停止布局算法
+- [layout](/zh/api/layout/#graphlayoutlayoutoptions)：执行布局算法
+- [setLayout](/zh/api/layout/#graphsetlayoutlayout)：设置布局算法
+- [stopLayout](/zh/api/layout/#graphstoplayout)：停止布局算法
 
 ## 自定义布局
 
-如果内置布局算法无法满足需求，可以自定义布局算法，具体请参考[自定义布局](/manual/layout/custom-layout)。
+如果内置布局算法无法满足需求，可以自定义布局算法，具体请参考[自定义布局](/zh/manual/layout/custom-layout/)。
 
-如果你正在从 G6 `5.0` 的布局配置迁移到 `5.1`，可继续阅读 [从 5.0 升级到 5.1（布局）](/manual/whats-new/upgrade-to-5-1)。
+如果你正在从 G6 `5.0` 的布局配置迁移到 `5.1`，可继续阅读 [从 5.0 升级到 5.1（布局）](/zh/manual/whats-new/upgrade-to-5-1/)。

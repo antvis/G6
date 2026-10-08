@@ -5,7 +5,7 @@ order: 2
 
 ## 什么是元素状态
 
-<image width="500px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yVbORYybrDQAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="500px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yVbORYybrDQAAAAAAAAAAAAADmJ7AQ/original" />
 
 元素状态(State)是指图中元素（节点、边、组合）在不同交互场景下的视觉表现形式。比如当用户点击一个节点时，节点可能会变成"选中"状态并改变颜色；当鼠标悬停在边上时，边可能会进入"高亮"状态并加粗显示。
 

@@ -1,3 +1,13 @@
+import GUI from 'lil-gui';
+
+function addPanel(renderPanel) {
+  const gui = new GUI({ container: document.body });
+  gui.title('Control');
+  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
+  renderPanel(gui);
+  addEventListener('pagehide', () => gui.destroy(), { once: true });
+}
+
 import { labelPropagation } from '@antv/algorithm';
 import { Graph } from '@antv/g6';
 
@@ -31,7 +41,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
 
     graph.render();
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui.add(
         {
           Cluster: () => {

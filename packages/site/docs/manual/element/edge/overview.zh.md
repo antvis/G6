@@ -9,7 +9,7 @@ order: 0
 
 你可以在任意两个节点、组合，或节点与组合之间创建边，还可以通过创建多条边来表达不同的关系类型。
 
-<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YKN7TasqOh4AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YKN7TasqOh4AAAAAAAAAAAAADmJ7AQ/original" />
 
 G6 提供了以下内置边：
 
@@ -140,4 +140,4 @@ const graph = new Graph({
 - 继承内置边进行扩展
 - 创建全新的边类型
 
-与组合不同，自定义边需要先注册后使用。详细教程请参考 [自定义边](/manual/element/edge/custom-edge) 文档。
+与组合不同，自定义边需要先注册后使用。详细教程请参考 [自定义边](/zh/manual/element/edge/custom-edge/) 文档。

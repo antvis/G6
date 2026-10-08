@@ -45,7 +45,7 @@ In `5.1` documentation, the recommended form is the shortcut fields:
 - `center.y` maps to `centerY`
 - `center.strength` maps to `centerStrength`
 
-For the full field description, see [D3Force Layout](/en/manual/layout/d3-force-layout).
+For the full field description, see [D3Force Layout](/en/manual/layout/D3ForceLayout/).
 
 ## ComboCombined: innerLayout / outerLayout to layout
 
@@ -85,7 +85,7 @@ In `5.1` documentation, the recommended form is a single `layout` entry that ret
 - When `comboId` is empty, it refers to the outermost layout
 - Multiple layout choices are unified under the `layout` entry
 
-For the `5.1` recommended form, see [ComboCombined Layout](/en/manual/layout/combo-combined-layout).
+For the `5.1` recommended form, see [ComboCombined Layout](/en/manual/layout/ComboCombinedLayout/).
 
 ## Migration Suggestion
 

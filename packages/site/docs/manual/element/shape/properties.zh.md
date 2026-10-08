@@ -3,7 +3,7 @@ title: 原子 Shape 以及其属性
 order: 2
 ---
 
-G6 中的元素（节点/边）是由**一个或多个 [图形 Shape](/manual/element/shape/overview)** 组成，主要通过自定义节点或自定义边时在 `render` 方法中使用 `upsert` 添加，G6 中支持以下的图形 Shape：
+G6 中的元素（节点/边）是由**一个或多个 [图形 Shape](/zh/manual/element/shape/overview/)** 组成，主要通过自定义节点或自定义边时在 `render` 方法中使用 `upsert` 添加，G6 中支持以下的图形 Shape：
 
 1. [Circle - 圆形](#circlestyleprops)
 2. [Ellipse - 椭圆](#ellipsestyleprops)
