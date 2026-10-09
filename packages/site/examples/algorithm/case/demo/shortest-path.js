@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { findShortestPath } from '@antv/algorithm';
 import { CanvasEvent, Graph } from '@antv/g6';
 
@@ -41,7 +43,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
       resetStates();
     });
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui.add(
         {
           Help: () => {

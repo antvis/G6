@@ -77,7 +77,7 @@ Indented tree layout represents the hierarchy of tree nodes through indentation 
 
 ## Example Code
 
-> For more examples, see [Online Demo](https://g6.antv.antgroup.com/en/examples/layout/indented)
+> For more examples, see [Online Demo](/en/examples/layout/indented/)
 
 ### Automatic Child Node Distribution
 

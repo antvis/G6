@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph, GraphEvent } from '@antv/g6';
 
 fetch('https://assets.antv.antgroup.com/g6/cluster.json')
@@ -34,7 +36,7 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
 
     graph.render();
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       const msg = gui.add({ msg: 'Running...' }, 'msg').name('Tips').disable();
       graph.on(GraphEvent.AFTER_LAYOUT, () => {
         msg.setValue('Layout Done!');

@@ -5,8 +5,8 @@ order: 2
 
 **参考示例**：
 
-- [径向生态树](/examples/scene-case/tree-graph/#radial-dendrogram)
-- [径向紧凑树](/examples/scene-case/tree-graph/#radial-compact-tree)
+- [径向生态树](/zh/examples/scene-case/tree-graph/radial-dendrogram/)
+- [径向紧凑树](/zh/examples/scene-case/tree-graph/radial-compact-tree/)
 
 ## 配置项
 

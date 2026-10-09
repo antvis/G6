@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -23,7 +25,7 @@ const graph = new Graph({
 
 graph.render();
 
-window.addPanel((gui) => {
+addPanel((gui) => {
   const colors = ['red', 'blue', 'green', 'yellow', 'black', 'purple', 'orange', 'gray'];
   let [nextOffsetY, nextSize, nextLineWidth] = [50, 50, 5];
   const config = {

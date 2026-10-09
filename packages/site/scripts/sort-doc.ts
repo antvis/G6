@@ -50,7 +50,7 @@ const docs: [number, string][] = [];
  */
 function sortDocs() {
   // list all files in the directory
-  const files = fs.readdirSync(path);
+  const files = fs.readdirSync(path).filter((name) => /\.(zh|en)\.mdx?$/.test(name));
 
   files.forEach((filename) => {
     const name = filename.split('.')[0];
@@ -117,7 +117,9 @@ rl.on('line', (input) => {
   if (input === 'y') {
     docs.forEach(([order, name], index) => {
       ['zh', 'en'].forEach((lang) => {
-        const filename = `${path}/${name}.${lang}.md`;
+        const filename = fs.existsSync(`${path}/${name}.${lang}.mdx`)
+          ? `${path}/${name}.${lang}.mdx`
+          : `${path}/${name}.${lang}.md`;
         if (!fs.existsSync(filename)) return;
         let content = fs.readFileSync(filename, 'utf-8');
 

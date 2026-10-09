@@ -5,7 +5,7 @@ order: 7
 
 ## Overview of Graph Options
 
-The [options](/en/manual/graph/option) of a G6 graph instance control various aspects of the graph, including canvas settings, viewport properties, data, layout, styles, interaction behaviors, plugins, and more. By configuring these options appropriately, you can flexibly customize the appearance and behavior of the graph.
+The [options](/en/manual/graph/option/) of a G6 graph instance control various aspects of the graph, including canvas settings, viewport properties, data, layout, styles, interaction behaviors, plugins, and more. By configuring these options appropriately, you can flexibly customize the appearance and behavior of the graph.
 
 Options can be specified when creating a graph instance or dynamically modified at runtime through the API. Some basic configurations (such as devicePixelRatio, container) require destroying and recreating the graph instance to take effect after modification.
 
@@ -21,7 +21,7 @@ getOptions(): GraphOptions;
 
 **Return Value**
 
-- **Type**: [GraphOptions](/en/manual/graph/option)
+- **Type**: [GraphOptions](/en/manual/graph/option/)
 - **Description**: Complete configuration options of the current graph
 
 **Example**
@@ -48,7 +48,7 @@ setOptions(options: GraphOptions): void;
 
 | Parameter | Description               | Type                                    | Default | Required |
 | --------- | ------------------------- | --------------------------------------- | ------- | -------- |
-| options   | New configuration options | [GraphOptions](/en/manual/graph/option) | -       | ✓        |
+| options   | New configuration options | [GraphOptions](/en/manual/graph/option/) | -       | ✓        |
 
 **Note**
 

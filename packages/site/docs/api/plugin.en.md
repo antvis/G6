@@ -5,7 +5,7 @@ order: 8
 
 ## Overview of Plugins
 
-[Plugins](/en/manual/plugin/overview) are an important mechanism in G6 for extending functionality and enhancing the interactive experience of graphs. Plugins typically provide independent functional modules, such as thumbnails, toolbars, context menus, etc. They integrate well with the main graph while maintaining modular and maintainable code.
+[Plugins](/en/manual/plugin/overview/) are an important mechanism in G6 for extending functionality and enhancing the interactive experience of graphs. Plugins typically provide independent functional modules, such as thumbnails, toolbars, context menus, etc. They integrate well with the main graph while maintaining modular and maintainable code.
 
 The plugin system is designed to follow the "plug and play" principle, allowing dynamic addition or removal as needed.
 

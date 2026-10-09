@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph } from '@antv/g6';
 
 const data = {
@@ -57,7 +59,7 @@ const graph = new Graph({
 
 graph.render();
 
-window.addPanel((gui) => {
+addPanel((gui) => {
   const config = { layout: 'default' };
   const layouts = {
     default: { type: 'antv-dagre', nodesep: 100, ranksep: 70, controlPoints: true },

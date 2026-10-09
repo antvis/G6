@@ -13,17 +13,15 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 22
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
       - uses: actions/checkout@v2
-      - run: pnpm install
-      - run: pnpm build
+      - run: pnpm install --no-frozen-lockfile
       - run: |
           cd ./packages/site
           pnpm run build
-      - run: cp ./packages/site/CNAME ./packages/site/dist/CNAME
       - run: |
           cd ./packages/site/dist
           git init

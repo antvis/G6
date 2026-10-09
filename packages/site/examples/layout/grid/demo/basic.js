@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph } from '@antv/g6';
 
 fetch('https://assets.antv.antgroup.com/g6/cluster.json')
@@ -26,7 +28,7 @@ fetch('https://assets.antv.antgroup.com/g6/cluster.json')
 
     graph.render();
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui.add({ sortBy: 'id' }, 'sortBy', ['id', 'cluster']).onChange((type) => {
         graph.setLayout({
           type: 'grid',

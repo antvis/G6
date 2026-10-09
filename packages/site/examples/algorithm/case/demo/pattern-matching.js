@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { GADDI } from '@antv/algorithm';
 import { Graph } from '@antv/g6';
 
@@ -74,7 +76,7 @@ fetch('https://assets.antv.antgroup.com/g6/gaddi.json')
     });
     graph.render();
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui.add(
         {
           match: () => {
