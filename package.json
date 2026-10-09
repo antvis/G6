@@ -87,9 +87,6 @@
     "overrides": {
       "prettier": "3.5.3"
     },
-    "patchedDependencies": {
-      "@antv/astro-theme-antv@0.1.0-beta.8": "patches/@antv__astro-theme-antv@0.1.0-beta.8.patch"
-    },
     "ignoredBuiltDependencies": [
       "@parcel/watcher",
       "@swc/core",

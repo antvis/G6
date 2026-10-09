@@ -301,7 +301,7 @@ pnpm install
 pnpm site
 ```
 
-Site configuration lives in `packages/site/site.config.mjs`, with homepage components in `src/components`. Keep ordinary documents as `.md`; use `.mdx` when importing components such as `Demo`. Localized routes use `/zh/` and `/en/`. Documents share source files in `docs/_demos`; `examples` contains standalone demos and their registry metadata.
+Site configuration lives in `packages/site/astro.config.mjs`, with homepage components in `src/components`. Keep ordinary documents as `.md`; use `.mdx` when importing components such as `Demo`. Localized routes use `/zh/` and `/en/`. Documents share source files in `docs/_demos`; `examples` contains standalone demos and their registry metadata.
 
 Document and gallery examples share `createGraph` and `addPanel` from `src/demo-runtime.ts`, imported as `/demo-runtime.ts`. Keep shared behavior in this module instead of copying it into examples; site configuration provides its module mapping.
 
