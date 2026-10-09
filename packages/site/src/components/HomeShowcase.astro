@@ -91,12 +91,12 @@ const companies = [
 const { locale, config } = Astro.props as HomeSlotProps;
 const text = (value: string | { zh?: string; en?: string } | undefined) => typeof value === 'string' ? value : value?.[locale];
 ---
-<section class="bg-white px-5 pt-12 pb-20 mobile:px-4 mobile:py-12" aria-label={locale === 'zh' ? 'G6 的优势' : 'G6 features'}>
-  <div class="mx-auto grid max-w-[1160px] grid-cols-3 gap-6 mobile:grid-cols-1">
-    {config.home.features.map(feature => <article class="rounded-2xl border border-[#e8e8ed] px-10 py-9 text-center shadow-[0_0_3px_#00000008] tablet:px-6">
+<section class="bg-white pt-12 pb-20 mobile:py-12" aria-label={locale === 'zh' ? 'G6 的优势' : 'G6 features'}>
+  <div class="mx-auto grid w-[calc(100%_-_80px)] max-w-[1440px] grid-cols-3 gap-6 mobile:w-[calc(100%_-_32px)] mobile:grid-cols-1">
+    {config.home.features.map(feature => <article class="rounded-2xl border border-[#e8e8ed] px-[70px] py-9 text-center shadow-[0_0_3px_#00000008] tablet:px-6">
       <img src={feature.icon} alt="" loading="lazy" height="60" class="mx-auto h-[60px] max-w-full object-contain" />
       <h2 class="mt-7 mb-6 text-[23.996px] leading-8 font-normal [font-family:AlibabaPuHuiTiM] text-[#262626]">{text(feature.title)}</h2>
-      <p class="mx-auto m-0 max-w-[245px] text-left text-sm leading-[1.8] font-normal text-[#777]">{text(feature.description)}</p>
+      <p class="mx-auto m-0 text-left text-sm leading-[1.8] font-normal text-[#777]">{text(feature.description)}</p>
     </article>)}
   </div>
 </section>
@@ -107,7 +107,7 @@ const text = (value: string | { zh?: string; en?: string } | undefined) => typeo
         {cases.map((item, index) => <article data-case-slide data-active={index === 0 ? 'true' : 'false'} aria-hidden={index !== 0 ? 'true' : undefined} inert={index !== 0} role="group" aria-roledescription={locale === 'zh' ? '幻灯片' : 'slide'} aria-label={`${index + 1} / ${cases.length}`} class="relative col-start-1 row-start-1 grid min-h-[560px] grid-cols-[1fr_2fr] items-center gap-12 px-5 opacity-0 transition-opacity duration-500 ease-linear data-[active=true]:z-1 data-[active=true]:opacity-100 motion-reduce:transition-none mobile:min-h-0 mobile:grid-cols-1 mobile:gap-6 mobile:px-1">
           <div class="self-stretch pt-8 pb-28 mobile:pt-0 mobile:pb-0">
             <img src={item.logo} alt="" loading="lazy" width="80" height="80" class="mb-8 h-20 w-20 object-contain object-left" />
-            <h2 class="m-0 mb-4 text-[17.9998px] leading-[1.5715] font-medium text-[#262626]">{item.title[locale]}</h2>
+            <h2 class="m-0 mb-4 text-[17.9998px] leading-[1.5715] font-bold text-[#262626]">{item.title[locale]}</h2>
             <p class="m-0 mb-5 text-sm leading-[1.5715] font-normal text-[#777]">{item.description[locale]}</p>
             <a href={item.link} class="text-sm leading-[1.5715] font-normal text-[var(--brand)] no-underline hover:underline focus-visible:outline-2 focus-visible:outline-[var(--brand)]">{locale === 'zh' ? '查看详情' : 'Learn more'}</a>
           </div>

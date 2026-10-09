@@ -43,7 +43,7 @@ const title = typeof config.home.title === 'string' ? config.home.title : config
 ---
 <section class="relative bg-white pt-16 pb-0 mobile:pt-10" aria-labelledby="g6-home-title">
   <div aria-hidden="true" data-home-background class="pointer-events-none absolute inset-x-0 top-0 bottom-[135px] bg-[linear-gradient(120deg,#f5f7ff,#fff)]"></div>
-  <div class="relative mx-auto max-w-[1200px] px-5 mobile:px-4">
+  <div class="relative mx-auto w-[calc(100%_-_80px)] max-w-[1440px] mobile:w-[calc(100%_-_32px)]">
     <div class="relative flex flex-wrap items-center justify-center gap-10 mobile:gap-4">
       <h1 id="g6-home-title" class="m-0 text-center text-[47.6px] leading-[1.5715] font-normal [font-family:AlibabaPuHuiTiRHeavy] text-[#141414] [@media(768px<=width<=900px)]:text-[39.998px] [@media(width<768px)]:text-[28px]"><span class="text-[var(--brand)]">G6</span>·{title}</h1>
       <g6-github-stars class="inline-flex" data-count-label={isZh ? 'G6 GitHub Star 数：{count}' : 'G6 GitHub stars: {count}'}>
@@ -60,19 +60,19 @@ const title = typeof config.home.title === 'string' ? config.home.title : config
       </div>
       <h2 class="mt-8 mb-6 text-center text-xl leading-[30px] font-semibold text-[#333]">{isZh ? '精选案例' : 'Featured Cases'}</h2>
       <div class="grid grid-cols-4 gap-4 mobile:grid-cols-2 mobile:gap-3">
-        {recommendations.map((item, index) => <button type="button" data-query={item.query[locale]} disabled class:list={[cardColors[index], 'group relative flex h-[194px] flex-col items-start cursor-pointer disabled:cursor-wait overflow-hidden rounded-2xl border-0 p-4 text-left transition-transform hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)] motion-reduce:transition-none mobile:h-[172px] mobile:p-3']}>
-          <span class:list={[tagColors[index], 'mb-3 inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs leading-5 font-normal']}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        {recommendations.map((item, index) => <button type="button" data-query={item.query[locale]} disabled class:list={[cardColors[index], 'group relative flex min-w-0 aspect-[292/208] flex-col items-start cursor-pointer disabled:cursor-wait overflow-hidden rounded-2xl border-0 p-4 text-left transition-transform hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)] motion-reduce:transition-none']}>
+          <span class:list={[tagColors[index], 'mb-3 inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md px-2 py-0.5 text-xs leading-5 font-normal']}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               {item.tag === 'implement' ? <path d="M4 3v17h17M8 15v-5m5 5V6m5 9V9" /> : <><circle cx="12" cy="12" r="9" /><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-1 .4-1 1-1 2.2m0 2v1" /></>}
             </svg>
             {item.tag === 'implement' ? (isZh ? '可视化研发' : 'Develop') : (isZh ? '可视化答疑' : 'Q&A')}
           </span>
-          <span class="block w-full truncate text-sm font-medium text-[#333]" title={item.query[locale]}>{item.query[locale]}</span>
+          <span class="block w-full shrink-0 truncate text-sm leading-5 font-medium text-[#333]" title={item.query[locale]}>{item.query[locale]}</span>
           <img src={item.image} alt="" loading="lazy" width="240" height="150" class="absolute top-[90px] left-[10%] w-[80%] rotate-[-5deg] rounded-lg shadow-[12px_8px_0_#ffffffaa]" />
         </button>)}
       </div>
     </g6-home-prompt>
-    <div class="mx-auto mt-36 max-w-[1080px] mobile:mt-16"><Updates locale={locale} /></div>
+    <div class="mx-auto mt-36 w-[91%] [@media(width>1000px)]:[&_antv-updates]:[--carousel-gap:2%] mobile:mt-16"><Updates locale={locale} /></div>
   </div>
 </section>
 
