@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/hover-element.ts" />
+<Demo src="demos/api/behaviors/hover-element.ts" />

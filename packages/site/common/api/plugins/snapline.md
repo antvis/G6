@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/snapline.ts" />
+<Demo src="demos/api/plugins/snapline.ts" />

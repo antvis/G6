@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/bubble-sets.ts" />
+<Demo src="demos/api/plugins/bubble-sets.ts" />

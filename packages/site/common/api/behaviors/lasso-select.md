@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/lasso-select.ts" />
+<Demo src="demos/api/behaviors/lasso-select.ts" />

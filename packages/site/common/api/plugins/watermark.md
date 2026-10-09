@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/watermark.ts" />
+<Demo src="demos/api/plugins/watermark.ts" />

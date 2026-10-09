@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/brush-select.ts" />
+<Demo src="demos/api/behaviors/brush-select.ts" />

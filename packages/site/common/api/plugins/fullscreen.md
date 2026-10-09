@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/fullscreen.ts" />
+<Demo src="demos/api/plugins/fullscreen.ts" />

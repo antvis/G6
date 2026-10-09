@@ -1,1 +1,1 @@
-<Demo src="_demos/api/transforms/map-node-size-scale.ts" />
+<Demo src="demos/api/transforms/map-node-size-scale.ts" />

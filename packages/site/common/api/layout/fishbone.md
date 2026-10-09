@@ -1,1 +1,1 @@
-<Demo src="_demos/api/layout/fishbone.ts" />
+<Demo src="demos/api/layout/fishbone.ts" />

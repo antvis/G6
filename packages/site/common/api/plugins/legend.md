@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/legend.ts" />
+<Demo src="demos/api/plugins/legend.ts" />

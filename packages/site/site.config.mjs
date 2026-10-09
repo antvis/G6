@@ -292,6 +292,7 @@ export default {
   demo: {
     height: 500,
     dependencies: {
+      '/demo-runtime.ts': './src/demo-runtime.ts',
       '@ant-design/icons': '@ant-design/icons',
       '@antv/algorithm': '@antv/algorithm',
       '@antv/g': '@antv/g',

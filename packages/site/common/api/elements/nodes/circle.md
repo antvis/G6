@@ -1,1 +1,1 @@
-<Demo src="_demos/api/elements/nodes/circle.ts" />
+<Demo src="demos/api/elements/nodes/circle.ts" />

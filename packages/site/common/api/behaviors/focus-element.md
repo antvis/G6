@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/focus-element.ts" />
+<Demo src="demos/api/behaviors/focus-element.ts" />

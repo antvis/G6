@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/edge-bundling.ts" />
+<Demo src="demos/api/plugins/edge-bundling.ts" />

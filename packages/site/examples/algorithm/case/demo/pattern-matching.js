@@ -1,12 +1,4 @@
-import GUI from 'lil-gui';
-
-function addPanel(renderPanel) {
-  const gui = new GUI({ container: document.body });
-  gui.title('Control');
-  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
-  renderPanel(gui);
-  addEventListener('pagehide', () => gui.destroy(), { once: true });
-}
+import { addPanel } from '/demo-runtime.ts';
 
 import { GADDI } from '@antv/algorithm';
 import { Graph } from '@antv/g6';

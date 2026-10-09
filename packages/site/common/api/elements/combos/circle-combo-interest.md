@@ -1,1 +1,1 @@
-<Demo src="_demos/api/elements/combos/circle-combo-interest.ts" />
+<Demo src="demos/api/elements/combos/circle-combo-interest.ts" />

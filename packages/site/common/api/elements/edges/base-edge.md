@@ -1,1 +1,1 @@
-<Demo src="_demos/api/elements/edges/base-edge.ts" />
+<Demo src="demos/api/elements/edges/base-edge.ts" />

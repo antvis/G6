@@ -303,6 +303,8 @@ pnpm site
 
 站点配置在 `packages/site/site.config.mjs`，首页组件在 `src/components`。纯文档保留 `.md`，需要 `Demo` 等组件时使用 `.mdx`；双语页面使用 `/zh/`、`/en/` 前缀。`docs/_demos` 中的源码供文档复用，`examples` 保留独立示例与注册元数据。
 
+文档和独立示例共用的 `createGraph`、`addPanel` 放在 `src/demo-runtime.ts`，通过 `/demo-runtime.ts` 导入。新增通用行为时修改此模块，不在各示例中复制；对应的模块映射由站点配置维护。
+
 完整站点构建使用 `pnpm --filter @antv/g6-site build`，产物位于 `packages/site/dist`，`public/CNAME` 随产物发布。只验证当前修改涉及的页面和示例；不要默认运行完整构建或库测试。主题兼容补丁通过 pnpm 安装，涵盖 Demo JSX/导出与加载状态、Markdown 空文档和可选字体变量；升级到包含这些能力的主题版本后移除相应补丁并定向验证。
 
 ## 测试与覆盖率

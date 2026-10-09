@@ -37,7 +37,7 @@ const graph = new Graph({
 
 ## Online Experience
 
-<Demo src="_demos/api/plugins/grid-line.ts" />
+<Demo src="demos/api/plugins/grid-line.ts" />
 
 ## Configuration Options
 
@@ -243,16 +243,7 @@ graph.updatePlugin({
 
 ## Cases
 
-<Demo code={`
-import GUI from 'lil-gui';
-
-function addPanel(renderPanel) {
-  const gui = new GUI({ container: document.body });
-  gui.title('Control');
-  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
-  renderPanel(gui);
-  addEventListener('pagehide', () => gui.destroy(), { once: true });
-}
+<Demo code={`import { addPanel } from '/demo-runtime.ts';
 
 import { Graph } from '@antv/g6';
 

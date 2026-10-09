@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/zoom-canvas.ts" />
+<Demo src="demos/api/behaviors/zoom-canvas.ts" />

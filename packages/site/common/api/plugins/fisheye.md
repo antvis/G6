@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/fisheye.ts" />
+<Demo src="demos/api/plugins/fisheye.ts" />

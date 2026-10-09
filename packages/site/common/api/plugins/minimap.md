@@ -1,3 +1,3 @@
 minimap.md
 
-<Demo src="_demos/api/plugins/minimap.ts" />
+<Demo src="demos/api/plugins/minimap.ts" />

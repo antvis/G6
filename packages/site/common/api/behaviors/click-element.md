@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/click-element.ts" />
+<Demo src="demos/api/behaviors/click-element.ts" />

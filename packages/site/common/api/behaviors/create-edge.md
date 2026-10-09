@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/create-edge.ts" />
+<Demo src="demos/api/behaviors/create-edge.ts" />

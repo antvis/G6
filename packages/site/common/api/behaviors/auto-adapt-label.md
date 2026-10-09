@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/auto-adapt-label.ts" />
+<Demo src="demos/api/behaviors/auto-adapt-label.ts" />

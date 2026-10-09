@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/history.ts" />
+<Demo src="demos/api/plugins/history.ts" />

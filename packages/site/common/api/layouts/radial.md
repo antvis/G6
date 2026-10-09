@@ -1,1 +1,1 @@
-<Demo src="_demos/api/layouts/radial.ts" />
+<Demo src="demos/api/layouts/radial.ts" />

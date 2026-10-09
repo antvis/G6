@@ -1,1 +1,1 @@
-<Demo src="_demos/api/elements/combos/rect-combo-architecture.ts" />
+<Demo src="demos/api/elements/combos/rect-combo-architecture.ts" />

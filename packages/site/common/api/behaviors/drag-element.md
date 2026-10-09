@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/drag-element.ts" />
+<Demo src="demos/api/behaviors/drag-element.ts" />

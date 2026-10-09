@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/scroll-canvas.ts" />
+<Demo src="demos/api/behaviors/scroll-canvas.ts" />

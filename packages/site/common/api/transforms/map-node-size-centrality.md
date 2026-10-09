@@ -1,1 +1,1 @@
-<Demo src="_demos/api/transforms/map-node-size-centrality.ts" />
+<Demo src="demos/api/transforms/map-node-size-centrality.ts" />

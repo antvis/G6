@@ -303,6 +303,8 @@ pnpm site
 
 Site configuration lives in `packages/site/site.config.mjs`, with homepage components in `src/components`. Keep ordinary documents as `.md`; use `.mdx` when importing components such as `Demo`. Localized routes use `/zh/` and `/en/`. Documents share source files in `docs/_demos`; `examples` contains standalone demos and their registry metadata.
 
+Document and gallery examples share `createGraph` and `addPanel` from `src/demo-runtime.ts`, imported as `/demo-runtime.ts`. Keep shared behavior in this module instead of copying it into examples; site configuration provides its module mapping.
+
 A full site build uses `pnpm --filter @antv/g6-site build` and writes `packages/site/dist`, including `public/CNAME`. Validate only the pages and demos affected by a change; do not run full builds or library tests by default. The pnpm theme patch covers Demo JSX/export and loading state, empty Markdown documents and optional typography variables. Remove the corresponding patches and run targeted checks when upgrading to a theme release that includes those capabilities.
 
 ## Testing and Coverage

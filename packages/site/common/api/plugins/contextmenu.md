@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/contextmenu.ts" />
+<Demo src="demos/api/plugins/contextmenu.ts" />

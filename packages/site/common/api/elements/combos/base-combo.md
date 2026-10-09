@@ -1,1 +1,1 @@
-<Demo src="_demos/api/elements/combos/base-combo.ts" />
+<Demo src="demos/api/elements/combos/base-combo.ts" />

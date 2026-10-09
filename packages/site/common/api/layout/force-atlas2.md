@@ -1,1 +1,1 @@
-<Demo src="_demos/api/layout/force-atlas2.ts" />
+<Demo src="demos/api/layout/force-atlas2.ts" />

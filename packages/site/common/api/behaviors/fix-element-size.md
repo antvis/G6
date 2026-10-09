@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/fix-element-size.ts" />
+<Demo src="demos/api/behaviors/fix-element-size.ts" />

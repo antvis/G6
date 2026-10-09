@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/background.ts" />
+<Demo src="demos/api/plugins/background.ts" />

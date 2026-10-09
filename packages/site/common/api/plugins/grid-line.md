@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/grid-line.ts" />
+<Demo src="demos/api/plugins/grid-line.ts" />

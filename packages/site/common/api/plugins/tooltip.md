@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/tooltip.ts" />
+<Demo src="demos/api/plugins/tooltip.ts" />

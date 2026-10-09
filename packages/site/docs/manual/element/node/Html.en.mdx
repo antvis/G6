@@ -26,7 +26,7 @@ Use Cases:
 
 ## Online Demo
 
-<Demo src="_demos/api/elements/nodes/html.ts" />
+<Demo src="demos/api/elements/nodes/html.ts" />
 设置 `node.type` 为 `html` 以使用 HTML 节点。
 
 ## Style Configuration
@@ -80,15 +80,15 @@ const graph = new Graph({
         const color = COLOR_MAP[status];
 
         return \`
-<div 
+<div
   style="
-    width:100%; 
-    height: 100%; 
+    width:100%;
+    height: 100%;
     background: \${color}bb;
     border: 1px solid \${color};
     color: #fff;
     user-select: none;
-    display: flex; 
+    display: flex;
     padding: 10px;
     border-radius: 8px;
     "
@@ -148,8 +148,8 @@ const graph = new Graph({
 
         return \`
 <div style="
-  width: 100%; 
-  height: 100%; 
+  width: 100%;
+  height: 100%;
   background: #fff;
   border: 2px solid \${statusColors[data.status]};
   border-radius: 12px;
@@ -168,7 +168,7 @@ const graph = new Graph({
       font-weight: bold;
     ">\${data.status.toUpperCase()}</span>
   </div>
-  
+
   <div style="margin-bottom: 12px;">
     <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
       <span style="font-size: 12px; color: #666;">CPU</span>
@@ -178,7 +178,7 @@ const graph = new Graph({
       <div style="background: \${data.cpu > 70 ? '#f5222d' : '#52c41a'}; height: 100%; width: \${data.cpu}%; transition: width 0.3s;"></div>
     </div>
   </div>
-  
+
   <div style="margin-bottom: 12px;">
     <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
       <span style="font-size: 12px; color: #666;">Memory</span>
@@ -188,9 +188,9 @@ const graph = new Graph({
       <div style="background: \${data.memory > 80 ? '#f5222d' : '#1890ff'}; height: 100%; width: \${data.memory}%; transition: width 0.3s;"></div>
     </div>
   </div>
-  
+
   <div style="display: flex; gap: 8px;">
-    <button 
+    <button
       onclick="handleRestart('\${d.id}')"
       style="
         flex: 1;
@@ -206,7 +206,7 @@ const graph = new Graph({
       onmouseover="this.style.background='#40a9ff'"
       onmouseout="this.style.background='#1890ff'"
     >Restart</button>
-    <button 
+    <button
       onclick="handleMonitor('\${d.id}')"
       style="
         flex: 1;
@@ -271,8 +271,8 @@ const graph = new Graph({
 
         return \`
 <div style="
-  width: 100%; 
-  height: 100%; 
+  width: 100%;
+  height: 100%;
   background: #fff;
   border: 1px solid #d9d9d9;
   border-radius: 8px;
@@ -281,11 +281,11 @@ const graph = new Graph({
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 ">
   <h3 style="margin: 0 0 16px 0; color: #333; font-size: 16px;">\${data.title}</h3>
-  
+
   <div style="margin-bottom: 12px;">
     <label style="display: block; margin-bottom: 4px; font-size: 14px; color: #666;">Name</label>
-    <input 
-      type="text" 
+    <input
+      type="text"
       placeholder="Enter name"
       style="
         width: 100%;
@@ -297,11 +297,11 @@ const graph = new Graph({
       "
     />
   </div>
-  
+
   <div style="margin-bottom: 12px;">
     <label style="display: block; margin-bottom: 4px; font-size: 14px; color: #666;">Email</label>
-    <input 
-      type="email" 
+    <input
+      type="email"
       placeholder="Enter email"
       style="
         width: 100%;
@@ -313,7 +313,7 @@ const graph = new Graph({
       "
     />
   </div>
-  
+
   <div style="margin-bottom: 16px;">
     <label style="display: block; margin-bottom: 4px; font-size: 14px; color: #666;">Role</label>
     <select style="
@@ -329,9 +329,9 @@ const graph = new Graph({
       <option>Guest</option>
     </select>
   </div>
-  
+
   <div style="display: flex; gap: 8px;">
-    <button 
+    <button
       onclick="handleSave('\${d.id}')"
       style="
         flex: 1;
@@ -344,7 +344,7 @@ const graph = new Graph({
         cursor: pointer;
       "
     >Save</button>
-    <button 
+    <button
       onclick="handleCancel('\${d.id}')"
       style="
         flex: 1;

@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/timebar.ts" />
+<Demo src="demos/api/plugins/timebar.ts" />

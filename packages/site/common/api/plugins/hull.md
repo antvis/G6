@@ -1,1 +1,1 @@
-<Demo src="_demos/api/plugins/hull.ts" />
+<Demo src="demos/api/plugins/hull.ts" />

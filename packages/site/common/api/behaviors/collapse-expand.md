@@ -1,1 +1,1 @@
-<Demo src="_demos/api/behaviors/collapse-expand.ts" />
+<Demo src="demos/api/behaviors/collapse-expand.ts" />
