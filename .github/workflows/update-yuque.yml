@@ -8,7 +8,7 @@ on:
     paths:
       - '**/*.md'
       - '**/*.mdx'
-      - 'packages/site/docs/_demos/**'
+      - 'packages/site/docs/demos/**'
 
 jobs:
   check-and-update:

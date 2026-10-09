@@ -301,7 +301,7 @@ pnpm install
 pnpm site
 ```
 
-站点配置在 `packages/site/astro.config.mjs`，首页组件在 `src/components`。纯文档保留 `.md`，需要 `Demo` 等组件时使用 `.mdx`；双语页面使用 `/zh/`、`/en/` 前缀。`docs/_demos` 中的源码供文档复用，`examples` 保留独立示例与注册元数据。
+站点配置在 `packages/site/astro.config.mjs`，首页组件在 `src/components`。纯文档保留 `.md`，需要 `Demo` 等组件时使用 `.mdx`；双语页面使用 `/zh/`、`/en/` 前缀。`docs/demos` 中的源码供文档复用，`examples` 保留独立示例与注册元数据。
 
 文档和独立示例共用的 `createGraph`、`addPanel` 放在 `src/demo-runtime.ts`，通过 `/demo-runtime.ts` 导入。新增通用行为时修改此模块，不在各示例中复制；对应的模块映射由站点配置维护。
 
