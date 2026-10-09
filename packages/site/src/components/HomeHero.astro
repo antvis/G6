@@ -130,24 +130,3 @@ const title = typeof config.home.title === 'string' ? config.home.title : config
   }
   if (!customElements.get('g6-home-prompt')) customElements.define('g6-home-prompt', G6HomePrompt);
 </script>
-
-<style is:global>
-  /* Homepage-only typography; shared theme components retain their defaults elsewhere. */
-  .page-home {
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --navigation-font-family: Avenir, var(--font-sans);
-    --antv-copy-font: var(--font-sans);
-    --announcement-line-height: 22px;
-    --qa-prompt-font-weight: 400;
-    --qa-prompt-line-height: 1.5715;
-    --updates-title-font-family: PingFangSC;
-    --updates-title-font-size: 20px;
-    --updates-title-font-weight: 500;
-    --updates-title-line-height: 1.5715;
-    --updates-description-font-size: 14px;
-    --updates-description-font-weight: 400;
-    --updates-description-line-height: 1.5715;
-    --footer-heading-font-weight: 500;
-    font-family: var(--font-sans);
-  }
-</style>
