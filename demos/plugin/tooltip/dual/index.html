@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>plugin/tooltip/dual</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/plugin/tooltip/dual/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="plugin/tooltip/dual" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>plugin/tooltip/dual</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/plugin/tooltip/dual/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: {
+    nodes: [
+      { id: &#39;0&#39;, data: { label: &#39;node-0&#39;, description: &#39;This is node-0.&#39; } },
+      { id: &#39;1&#39;, data: { label: &#39;node-1&#39;, description: &#39;This is node-1.&#39; } },
+      { id: &#39;2&#39;, data: { label: &#39;node-2&#39;, description: &#39;This is node-2.&#39; } },
+      { id: &#39;3&#39;, data: { label: &#39;node-3&#39;, description: &#39;This is node-3.&#39; } },
+      { id: &#39;4&#39;, data: { label: &#39;node-4&#39;, description: &#39;This is node-4.&#39; } },
+      { id: &#39;5&#39;, data: { label: &#39;node-5&#39;, description: &#39;This is node-5.&#39; } },
+    ],
+    edges: [
+      { source: &#39;0&#39;, target: &#39;1&#39;, data: { description: &#39;This is edge from node 0 to node 1.&#39; } },
+      { source: &#39;0&#39;, target: &#39;2&#39;, data: { description: &#39;This is edge from node 0 to node 2.&#39; } },
+      { source: &#39;0&#39;, target: &#39;3&#39;, data: { description: &#39;This is edge from node 0 to node 3.&#39; } },
+      { source: &#39;0&#39;, target: &#39;4&#39;, data: { description: &#39;This is edge from node 0 to node 4.&#39; } },
+      { source: &#39;0&#39;, target: &#39;5&#39;, data: { description: &#39;This is edge from node 0 to node 5.&#39; } },
+    ],
+  },
+  layout: {
+    type: &#39;grid&#39;,
+  },
+  plugins: [
+    function () {
+      return {
+        key: &#39;tooltip-click&#39;,
+        type: &#39;tooltip&#39;,
+        trigger: &#39;click&#39;,
+        getContent: (evt, items) =&gt; {
+          return `&lt;div&gt;click ${items[0].id}&lt;/div&gt;`;
+        },
+        onOpenChange: (open) =&gt; {
+          const tooltip = this.getPluginInstance(&#39;tooltip-hover&#39;);
+          if (tooltip &amp;&amp; open) tooltip.hide();
+        },
+      };
+    },
+    function () {
+      return {
+        key: &#39;tooltip-hover&#39;,
+        type: &#39;tooltip&#39;,
+        trigger: &#39;hover&#39;,
+        enable: (e) =&gt; {
+          const tooltip = this.getPluginInstance(&#39;tooltip-click&#39;);
+          return e.target.id !== tooltip.currentTarget;
+        },
+        getContent: (evt, items) =&gt; {
+          return `&lt;div&gt;hover ${items[0].id}&lt;/div&gt;`;
+        },
+        onOpenChange: (open) =&gt; {
+          const tooltip = this.getPluginInstance(&#39;tooltip-click&#39;);
+          if (tooltip &amp;&amp; open) {
+            tooltip.hide();
+          }
+        },
+      };
+    },
+  ],
+  behaviors: [&#39;drag-canvas&#39;, &#39;drag-element&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

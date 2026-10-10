@@ -1,0 +1,1 @@
+import{o as e}from"./src.RzVD1Zqa.js";fetch(`https://assets.antv.antgroup.com/g6/circular.json`).then(e=>e.json()).then(t=>{new e({container:`container`,autoFit:`view`,data:t,node:{style:{labelText:e=>e.id,labelFill:`#fff`,labelPlacement:`center`}},layout:{type:`circular`,ordering:`degree`},behaviors:[`drag-canvas`,`drag-element`]}).render()});

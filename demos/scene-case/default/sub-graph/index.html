@@ -1,0 +1,340 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/default/sub-graph</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/default/sub-graph/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/default/sub-graph" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/default/sub-graph</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/default/sub-graph/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { BaseCombo, ExtensionCategory, Graph, HTML, isCollapsed, register } from &#39;@antv/g6&#39;;
+import { isEqual } from &#39;@antv/util&#39;;
+
+class SubGraphNode extends HTML {
+  connectedCallback() {
+    super.connectedCallback();
+    this.drawSubGraph();
+  }
+
+  render(attributes, container) {
+    super.render(attributes, container);
+    this.drawSubGraph();
+  }
+
+  get data() {
+    return this.context.graph.getElementData(this.id).data;
+  }
+
+  drawSubGraph() {
+    if (!this.isConnected) return;
+    if (isEqual(this.previousData, this.data)) return;
+    this.previousData = this.data;
+
+    const data = this.data;
+    this.drawGraphNode(data.data);
+  }
+
+  drawGraphNode(data) {
+    const [width, height] = this.getSize();
+    const container = this.getDomElement();
+    container.innerHTML = &#39;&#39;;
+
+    const subGraph = new Graph({
+      container,
+      width,
+      height,
+      animation: false,
+      data: data,
+      node: {
+        style: {
+          labelText: (d) =&gt; d.id,
+          iconFontFamily: &#39;iconfont&#39;,
+          iconText: &#39;\ue6e5&#39;,
+        },
+      },
+      layout: {
+        type: &#39;force&#39;,
+        linkDistance: 50,
+      },
+      behaviors: [&#39;zoom-canvas&#39;, { type: &#39;drag-canvas&#39;, enable: (event) =&gt; event.shiftKey === true }],
+      autoFit: &#39;view&#39;,
+    });
+
+    subGraph.render();
+
+    this.graph = subGraph;
+  }
+
+  destroy() {
+    this.graph?.destroy();
+    super.destroy();
+  }
+}
+
+class CardCombo extends BaseCombo {
+  getKeyStyle(attributes) {
+    const keyStyle = super.getKeyStyle(attributes);
+    const [width, height] = this.getKeySize(attributes);
+    return {
+      ...keyStyle,
+      width,
+      height,
+      x: -width / 2,
+      y: -height / 2,
+    };
+  }
+
+  drawKeyShape(attributes, container) {
+    const { collapsed } = attributes;
+    const outer = this.upsert(&#39;key&#39;, &#39;rect&#39;, this.getKeyStyle(attributes), container);
+    if (!outer || !collapsed) {
+      this.removeCardShape();
+      return outer;
+    }
+
+    this.drawCardShape(attributes, container);
+
+    return outer;
+  }
+
+  drawCardShape(attributes, container) {
+    const [width, height] = this.getCollapsedKeySize(attributes);
+    const data = this.context.graph.getComboData(this.id).data;
+
+    const baseX = -width / 2;
+    const baseY = -height / 2;
+
+    this.upsert(
+      &#39;card-title&#39;,
+      &#39;text&#39;,
+      {
+        x: baseX,
+        y: baseY,
+        text: &#39;Group: &#39; + this.id,
+        textAlign: &#39;left&#39;,
+        textBaseline: &#39;top&#39;,
+        fontSize: 16,
+        fontWeight: &#39;bold&#39;,
+        fill: &#39;#4083f7&#39;,
+      },
+      container,
+    );
+
+    const gap = 10;
+    const sep = (width + gap) / data.data.length;
+    data.data.forEach(({ name, value }, index) =&gt; {
+      this.upsert(
+        `card-item-name-${index}`,
+        &#39;text&#39;,
+        {
+          x: baseX + index * sep,
+          y: baseY + 40,
+          text: name,
+          textAlign: &#39;left&#39;,
+          textBaseline: &#39;top&#39;,
+          fontSize: 12,
+          fill: &#39;gray&#39;,
+        },
+        container,
+      );
+      this.upsert(
+        `card-item-value-${index}`,
+        &#39;text&#39;,
+        {
+          x: baseX + index * sep,
+          y: baseY + 60,
+          text: value + &#39;%&#39;,
+          textAlign: &#39;left&#39;,
+          textBaseline: &#39;top&#39;,
+          fontSize: 24,
+        },
+        container,
+      );
+    });
+  }
+
+  removeCardShape() {
+    Object.entries(this.shapeMap).forEach(([key, shape]) =&gt; {
+      if (key.startsWith(&#39;card-&#39;)) {
+        delete this.shapeMap[key];
+        shape.destroy();
+      }
+    });
+  }
+}
+
+register(ExtensionCategory.NODE, &#39;sub-graph&#39;, SubGraphNode);
+register(ExtensionCategory.COMBO, &#39;card&#39;, CardCombo);
+
+const getSize = (d) =&gt; {
+  const data = d.data;
+  if (data.type === &#39;card&#39;) return data.status === &#39;expanded&#39; ? [200, 100 * data.children.length] : [200, 100];
+  else return [200, 200];
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  animation: false,
+  zoom: 0.8,
+  data: {
+    nodes: [
+      {
+        id: &#39;1&#39;,
+        combo: &#39;A&#39;,
+        style: { x: 120, y: 70 },
+        data: {
+          data: {
+            nodes: [
+              { id: &#39;node-1&#39; },
+              { id: &#39;node-2&#39; },
+              { id: &#39;node-3&#39; },
+              { id: &#39;node-4&#39; },
+              { id: &#39;node-5&#39; },
+              { id: &#39;node-6&#39; },
+              { id: &#39;node-7&#39; },
+              { id: &#39;node-8&#39; },
+            ],
+            edges: [
+              { source: &#39;node-1&#39;, target: &#39;node-2&#39; },
+              { source: &#39;node-1&#39;, target: &#39;node-3&#39; },
+              { source: &#39;node-1&#39;, target: &#39;node-4&#39; },
+              { source: &#39;node-1&#39;, target: &#39;node-5&#39; },
+              { source: &#39;node-1&#39;, target: &#39;node-6&#39; },
+              { source: &#39;node-1&#39;, target: &#39;node-7&#39; },
+              { source: &#39;node-1&#39;, target: &#39;node-8&#39; },
+            ],
+          },
+        },
+      },
+      {
+        id: &#39;2&#39;,
+        combo: &#39;C&#39;,
+        style: { x: 370, y: 70 },
+        data: {
+          data: {
+            nodes: [{ id: &#39;node-1&#39; }, { id: &#39;node-2&#39; }, { id: &#39;node-3&#39; }, { id: &#39;node-4&#39; }],
+            edges: [
+              { source: &#39;node-1&#39;, target: &#39;node-2&#39; },
+              { source: &#39;node-1&#39;, target: &#39;node-3&#39; },
+              { source: &#39;node-1&#39;, target: &#39;node-4&#39; },
+            ],
+          },
+        },
+      },
+      {
+        id: &#39;node-4&#39;,
+        combo: &#39;D&#39;,
+        style: { x: 370, y: 200 },
+        data: {
+          data: {
+            nodes: [{ id: &#39;node-1&#39; }, { id: &#39;node-2&#39; }, { id: &#39;node-3&#39; }, { id: &#39;node-4&#39; }],
+            edges: [
+              { source: &#39;node-1&#39;, target: &#39;node-2&#39; },
+              { source: &#39;node-1&#39;, target: &#39;node-3&#39; },
+              { source: &#39;node-1&#39;, target: &#39;node-4&#39; },
+            ],
+          },
+        },
+      },
+    ],
+    edges: [],
+    combos: [
+      {
+        id: &#39;root&#39;,
+        data: {
+          data: [
+            { name: &#39;percent&#39;, value: 50 },
+            { name: &#39;percent&#39;, value: 45 },
+            { name: &#39;percent&#39;, value: 70 },
+          ],
+        },
+      },
+      {
+        id: &#39;A&#39;,
+        combo: &#39;root&#39;,
+        data: {
+          data: [
+            { name: &#39;percent&#39;, value: 30 },
+            { name: &#39;percent&#39;, value: 90 },
+          ],
+        },
+      },
+      {
+        id: &#39;B&#39;,
+        combo: &#39;root&#39;,
+        style: { collapsed: true },
+        data: {
+          data: [
+            { name: &#39;percent&#39;, value: 60 },
+            { name: &#39;percent&#39;, value: 80 },
+          ],
+        },
+      },
+      {
+        id: &#39;C&#39;,
+        combo: &#39;B&#39;,
+        style: { collapsed: true },
+        data: {
+          data: [{ name: &#39;percent&#39;, value: 60 }],
+        },
+      },
+      {
+        id: &#39;D&#39;,
+        combo: &#39;B&#39;,
+        style: { collapsed: true },
+        data: {
+          data: [{ name: &#39;percent&#39;, value: 80 }],
+        },
+      },
+    ],
+  },
+  node: {
+    type: &#39;sub-graph&#39;,
+    style: {
+      dx: -100,
+      dy: -50,
+      size: getSize,
+    },
+  },
+  combo: {
+    type: &#39;card&#39;,
+    style: {
+      collapsedSize: [200, 100],
+      collapsedMarker: false,
+      radius: 10,
+    },
+  },
+  behaviors: [
+    { type: &#39;drag-element&#39;, enable: (event) =&gt; event.shiftKey !== true },
+    &#39;collapse-expand&#39;,
+    &#39;zoom-canvas&#39;,
+    &#39;drag-canvas&#39;,
+  ],
+  plugins: [
+    {
+      type: &#39;contextmenu&#39;,
+      getItems: (event) =&gt; {
+        const { targetType, target } = event;
+        if (![&#39;node&#39;, &#39;combo&#39;].includes(targetType)) return [];
+        const id = target.id;
+
+        if (targetType === &#39;combo&#39;) {
+          const data = graph.getComboData(id);
+          if (isCollapsed(data)) {
+            return [{ name: &#39;展开&#39;, value: &#39;expanded&#39; }];
+          } else return [{ name: &#39;收起&#39;, value: &#39;collapsed&#39; }];
+        }
+        return [{ name: &#39;收起&#39;, value: &#39;collapsed&#39; }];
+      },
+      onClick: (value, target, current) =&gt; {
+        const id = current.id;
+        const elementType = graph.getElementType(id);
+
+        if (elementType === &#39;node&#39;) {
+          const parent = graph.getParentData(id, &#39;combo&#39;);
+          if (parent) return graph.collapseElement(parent.id, false);
+        }
+
+        if (value === &#39;expanded&#39;) graph.expandElement(id, false);
+        else graph.collapseElement(id, false);
+      },
+    },
+  ],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

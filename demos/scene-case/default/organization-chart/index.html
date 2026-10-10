@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/default/organization-chart</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/default/organization-chart/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/default/organization-chart" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/default/organization-chart</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/default/organization-chart/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Badge, BaseBehavior, ExtensionCategory, Graph, GraphEvent, Label, Rect, register } from &#39;@antv/g6&#39;;
+
+const statusColors = {
+  online: &#39;#17BEBB&#39;,
+  busy: &#39;#E36397&#39;,
+  offline: &#39;#B7AD99&#39;,
+};
+
+const DEFAULT_LEVEL = &#39;detailed&#39;;
+
+/**
+ * Draw a chart node with different ui based on the zoom level.
+ */
+class ChartNode extends Rect {
+  get data() {
+    return this.context.model.getElementDataById(this.id).data;
+  }
+
+  get level() {
+    return this.data.level || DEFAULT_LEVEL;
+  }
+
+  getLabelStyle() {
+    const text = this.data.name;
+    const labelStyle =
+      this.level === &#39;overview&#39;
+        ? {
+            fill: &#39;#fff&#39;,
+            fontSize: 20,
+            fontWeight: 600,
+            textAlign: &#39;center&#39;,
+            transform: [[&#39;translate&#39;, 0, 0]],
+          }
+        : {
+            fill: &#39;#2078B4&#39;,
+            fontSize: 14,
+            fontWeight: 400,
+            textAlign: &#39;left&#39;,
+            transform: [[&#39;translate&#39;, -65, -15]],
+          };
+    return { text, ...labelStyle };
+  }
+
+  getKeyStyle(attributes) {
+    return {
+      ...super.getKeyStyle(attributes),
+      fill: this.level === &#39;overview&#39; ? statusColors[this.data.status] : &#39;#fff&#39;,
+    };
+  }
+
+  getPositionStyle(attributes) {
+    if (this.level === &#39;overview&#39;) return false;
+    return {
+      text: this.data.position,
+      fontSize: 8,
+      fontWeight: 400,
+      textTransform: &#39;uppercase&#39;,
+      fill: &#39;#343f4a&#39;,
+      textAlign: &#39;left&#39;,
+      transform: [[&#39;translate&#39;, -65, 0]],
+    };
+  }
+
+  drawPositionShape(attributes, container) {
+    const positionStyle = this.getPositionStyle(attributes);
+    this.upsert(&#39;position&#39;, Label, positionStyle, container);
+  }
+
+  getStatusStyle(attributes) {
+    if (this.level === &#39;overview&#39;) return false;
+    return {
+      text: this.data.status,
+      fontSize: 8,
+      textAlign: &#39;left&#39;,
+      transform: [[&#39;translate&#39;, 40, -16]],
+      padding: [0, 4],
+      fill: &#39;#fff&#39;,
+      backgroundFill: statusColors[this.data.status],
+    };
+  }
+
+  drawStatusShape(attributes, container) {
+    const statusStyle = this.getStatusStyle(attributes);
+    this.upsert(&#39;status&#39;, Badge, statusStyle, container);
+  }
+
+  getPhoneStyle(attributes) {
+    if (this.level === &#39;overview&#39;) return false;
+    return {
+      text: this.data.phone,
+      fontSize: 8,
+      fontWeight: 300,
+      textAlign: &#39;left&#39;,
+      transform: [[&#39;translate&#39;, -65, 20]],
+    };
+  }
+
+  drawPhoneShape(attributes, container) {
+    const style = this.getPhoneStyle(attributes);
+    this.upsert(&#39;phone&#39;, Label, style, container);
+  }
+
+  render(attributes = this.parsedAttributes, container = this) {
+    super.render(attributes, container);
+
+    this.drawPositionShape(attributes, container);
+
+    this.drawStatusShape(attributes, container);
+
+    this.drawPhoneShape(attributes, container);
+  }
+}
+
+/**
+ * Implement a level of detail rendering, which will show different details based on the zoom level.
+ */
+class LevelOfDetail extends BaseBehavior {
+  prevLevel = DEFAULT_LEVEL;
+  levels = {
+    [&#39;overview&#39;]: [0, 0.6],
+    [&#39;detailed&#39;]: [0.6, Infinity],
+  };
+
+  constructor(context, options) {
+    super(context, options);
+    this.bindEvents();
+  }
+
+  update(options) {
+    this.unbindEvents();
+    super.update(options);
+    this.bindEvents();
+  }
+
+  updateZoomLevel = async (e) =&gt; {
+    if (&#39;scale&#39; in e.data) {
+      const scale = e.data.scale;
+      const level = Object.entries(this.levels).find(([key, [min, max]]) =&gt; scale &gt; min &amp;&amp; scale &lt;= max)?.[0];
+      if (level &amp;&amp; this.prevLevel !== level) {
+        const { graph } = this.context;
+        graph.updateNodeData((prev) =&gt; prev.map((node) =&gt; ({ ...node, data: { ...node.data, level } })));
+        await graph.draw();
+        this.prevLevel = level;
+      }
+    }
+  };
+
+  bindEvents() {
+    const { graph } = this.context;
+    graph.on(GraphEvent.AFTER_TRANSFORM, this.updateZoomLevel);
+  }
+
+  unbindEvents() {
+    const { graph } = this.context;
+    graph.off(GraphEvent.AFTER_TRANSFORM, this.updateZoomLevel);
+  }
+
+  destroy() {
+    this.unbindEvents();
+    super.destroy();
+  }
+}
+
+register(ExtensionCategory.NODE, &#39;chart-node&#39;, ChartNode);
+register(ExtensionCategory.BEHAVIOR, &#39;level-of-detail&#39;, LevelOfDetail);
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/organization-chart.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      data,
+      node: {
+        type: &#39;chart-node&#39;,
+        style: {
+          labelPlacement: &#39;center&#39;,
+          lineWidth: 1,
+          ports: [{ placement: &#39;top&#39; }, { placement: &#39;bottom&#39; }],
+          radius: 2,
+          shadowBlur: 10,
+          shadowColor: &#39;#e0e0e0&#39;,
+          shadowOffsetX: 3,
+          size: [150, 60],
+          stroke: &#39;#C0C0C0&#39;,
+        },
+      },
+      edge: {
+        type: &#39;polyline&#39;,
+        style: {
+          router: {
+            type: &#39;orth&#39;,
+          },
+          stroke: &#39;#C0C0C0&#39;,
+        },
+      },
+      layout: {
+        type: &#39;dagre&#39;,
+      },
+      autoFit: &#39;view&#39;,
+      behaviors: [&#39;level-of-detail&#39;, &#39;zoom-canvas&#39;, &#39;drag-canvas&#39;],
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

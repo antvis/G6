@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/label/background</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/label/background/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/label/background" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/label/background</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/label/background/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    { id: &#39;node1&#39;, style: { x: 150, y: 100 } },
+    { id: &#39;node2&#39;, style: { x: 250, y: 200 } },
+    { id: &#39;node3&#39;, style: { x: 450, y: 200 } },
+  ],
+  edges: [
+    { source: &#39;node1&#39;, target: &#39;node2&#39; },
+    { source: &#39;node1&#39;, target: &#39;node3&#39; },
+    { source: &#39;node2&#39;, target: &#39;node3&#39; },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    style: {
+      labelText: (d) =&gt; d.id,
+      labelPosition: &#39;bottom&#39;,
+      labelFill: &#39;#e66465&#39;,
+      labelFontSize: 12,
+      labelFontStyle: &#39;italic&#39;,
+      labelBackground: true,
+      labelBackgroundFill: &#39;linear-gradient(#e66465, #9198e5)&#39;,
+      labelBackgroundStroke: &#39;#9ec9ff&#39;,
+      labelBackgroundRadius: 2,
+    },
+  },
+  edge: {
+    style: {
+      labelText: (d) =&gt; d.id,
+      labelPosition: &#39;center&#39;,
+      labelTextBaseline: &#39;top&#39;,
+      labelDy: 5,
+      labelFontSize: 12,
+      labelFontWeight: &#39;bold&#39;,
+      labelFill: &#39;#1890ff&#39;,
+      labelBackground: true,
+      labelBackgroundFill: &#39;linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)&#39;,
+      labelBackgroundStroke: &#39;#9ec9ff&#39;,
+      labelBackgroundRadius: 2,
+    },
+  },
+  layout: {
+    type: &#39;force&#39;,
+  },
+  behaviors: [&#39;drag-canvas&#39;, &#39;drag-element&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/tree-graph/anti-procrastination-fishbone</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/tree-graph/anti-procrastination-fishbone/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/tree-graph/anti-procrastination-fishbone" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/tree-graph/anti-procrastination-fishbone</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/tree-graph/anti-procrastination-fishbone/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Text } from &#39;@antv/g&#39;;
+import { BaseTransform, ExtensionCategory, Graph, register, treeToGraphData } from &#39;@antv/g6&#39;;
+
+const data = {
+  id: &#39;Overcome \n procrastination&#39;,
+  children: [
+    {
+      id: &#39;Perfectionism&#39;,
+      children: [
+        { id: &#39;Correctly assess the difficulty of things&#39; },
+        { id: &#39;Complete first, then improve&#39; },
+        { id: &#39;Just do it&#39; },
+      ],
+    },
+    {
+      id: &#39;Improve concentration&#39;,
+      children: [
+        { id: &#39;Pomodoro Technique&#39; },
+        { id: &#39;Limited time, limited quantity, only do one thing at a time&#39; },
+        { id: &#39;Improve anti-interference ability, reduce interruptions&#39; },
+      ],
+    },
+    {
+      id: &#39;Set a clear task management process&#39;,
+      children: [
+        { id: &#39;Set priorities for completed tasks&#39; },
+        { id: &#39;Break down specific executable goals&#39; },
+        { id: &#39;Collect-sort-sort-execute feedback-summary&#39; },
+      ],
+    },
+    {
+      id: &#39;Establish positive feedback&#39;,
+      children: [{ id: &#39;Do what you like&#39; }, { id: &#39;Spiritual motivation&#39; }, { id: &#39;Material motivation&#39; }],
+    },
+    {
+      id: &#39;Relax and enjoy&#39;,
+      children: [
+        { id: &#39;Focus on process rather than results&#39; },
+        { id: &#39;Driven by needs rather than anxiety&#39; },
+        { id: &#39;Accept and understand&#39; },
+      ],
+    },
+  ],
+};
+
+let textShape;
+const measureText = (style) =&gt; {
+  if (!textShape) textShape = new Text({ style });
+  textShape.attr(style);
+  return textShape.getBBox().width;
+};
+
+class AssignColorByBranch extends BaseTransform {
+  static defaultOptions = {
+    colors: [
+      &#39;#1783FF&#39;,
+      &#39;#F08F56&#39;,
+      &#39;#D580FF&#39;,
+      &#39;#00C9C9&#39;,
+      &#39;#7863FF&#39;,
+      &#39;#DB9D0D&#39;,
+      &#39;#60C42D&#39;,
+      &#39;#FF80CA&#39;,
+      &#39;#2491B3&#39;,
+      &#39;#17C76F&#39;,
+    ],
+  };
+
+  constructor(context, options) {
+    super(context, Object.assign({}, AssignColorByBranch.defaultOptions, options));
+  }
+
+  beforeDraw(input) {
+    const nodes = this.context.model.getNodeData();
+
+    if (nodes.length === 0) return input;
+
+    let colorIndex = 0;
+    const dfs = (nodeId, color) =&gt; {
+      const node = nodes.find((datum) =&gt; datum.id == nodeId);
+      if (!node) return;
+
+      node.style ||= {};
+      node.style.color = color || this.options.colors[colorIndex++ % this.options.colors.length];
+      node.children?.forEach((childId) =&gt; dfs(childId, node.style?.color));
+    };
+
+    nodes.filter((node) =&gt; node.depth === 1).forEach((rootNode) =&gt; dfs(rootNode.id));
+
+    return input;
+  }
+}
+
+class ArrangeEdgeZIndex extends BaseTransform {
+  beforeDraw(input) {
+    const { model } = this.context;
+    const { nodes, edges } = model.getData();
+
+    const oneLevelNodes = nodes.filter((node) =&gt; node.depth === 1);
+    const oneLevelNodeIds = oneLevelNodes.map((node) =&gt; node.id);
+
+    edges.forEach((edge) =&gt; {
+      if (oneLevelNodeIds.includes(edge.target)) {
+        edge.style ||= {};
+        edge.style.zIndex = oneLevelNodes.length - oneLevelNodes.findIndex((node) =&gt; node.id === edge.target);
+      }
+    });
+
+    return input;
+  }
+}
+
+register(ExtensionCategory.TRANSFORM, &#39;assign-color-by-branch&#39;, AssignColorByBranch);
+register(ExtensionCategory.TRANSFORM, &#39;arrange-edge-z-index&#39;, ArrangeEdgeZIndex);
+
+const getNodeSize = (id, depth) =&gt; {
+  const FONT_FAMILY = &#39;system-ui, sans-serif&#39;;
+  return depth === 0
+    ? [measureText({ text: id, fontSize: 24, fontWeight: &#39;bold&#39;, fontFamily: FONT_FAMILY }) + 80, 70]
+    : depth === 1
+      ? [measureText({ text: id, fontSize: 18, fontFamily: FONT_FAMILY }) + 50, 42]
+      : [2, 30];
+};
+
+const graph = new Graph({
+  autoFit: &#39;view&#39;,
+  padding: 10,
+  data: treeToGraphData(data),
+  node: {
+    type: &#39;rect&#39;,
+    style: (d) =&gt; {
+      const style = {
+        radius: 8,
+        size: getNodeSize(d.id, d.depth),
+        labelText: d.id,
+        labelPlacement: &#39;right&#39;,
+        labelFontFamily: &#39;Gill Sans&#39;,
+      };
+
+      if (d.depth === 0) {
+        Object.assign(style, {
+          fill: &#39;#EFF0F0&#39;,
+          labelFill: &#39;#262626&#39;,
+          labelFontWeight: &#39;bold&#39;,
+          labelFontSize: 24,
+          labelOffsetY: 4,
+          labelPlacement: &#39;center&#39;,
+          labelLineHeight: 24,
+        });
+      } else if (d.depth === 1) {
+        Object.assign(style, {
+          labelFontSize: 18,
+          labelFill: &#39;#fff&#39;,
+          labelFillOpacity: 0.9,
+          labelOffsetY: 5,
+          labelPlacement: &#39;center&#39;,
+          fill: d.style?.color,
+        });
+      } else {
+        Object.assign(style, {
+          fill: &#39;transparent&#39;,
+          labelFontSize: 16,
+          labeFill: &#39;#262626&#39;,
+        });
+      }
+      return style;
+    },
+  },
+  edge: {
+    type: &#39;polyline&#39;,
+    style: {
+      lineWidth: 3,
+      stroke: function (data) {
+        return this.getNodeData(data.target).style.color || &#39;#99ADD1&#39;;
+      },
+    },
+  },
+  layout: {
+    type: &#39;fishbone&#39;,
+    direction: &#39;LR&#39;,
+    hGap: 40,
+    vGap: 60,
+  },
+  behaviors: [&#39;zoom-canvas&#39;, &#39;drag-canvas&#39;],
+  transforms: [&#39;assign-color-by-branch&#39;, &#39;arrange-edge-z-index&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/force-directed/bubbles</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/force-directed/bubbles/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/force-directed/bubbles" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/force-directed/bubbles</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/force-directed/bubbles/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph, NodeEvent } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    {
+      id: &#39;0&#39;,
+      label: &#39;0&#39;,
+      value: 10,
+      cluster: &#39;a&#39;,
+      description: &#39;this is node 0, \nand the value of it is 10&#39;,
+    },
+    {
+      id: &#39;1&#39;,
+      label: &#39;1&#39;,
+      value: 20,
+      cluster: &#39;b&#39;,
+      description: &#39;this is node 1, \nand the value of it is 20&#39;,
+    },
+    {
+      id: &#39;2&#39;,
+      label: &#39;2&#39;,
+      value: 5,
+      cluster: &#39;a&#39;,
+      description: &#39;this is node 2, \nand the value of it is 5&#39;,
+    },
+    {
+      id: &#39;3&#39;,
+      label: &#39;3&#39;,
+      value: 10,
+      cluster: &#39;a&#39;,
+      description: &#39;this is node 3, \nand the value of it is 10&#39;,
+    },
+    {
+      id: &#39;4&#39;,
+      label: &#39;4&#39;,
+      value: 12,
+      cluster: &#39;c&#39;,
+      subCluster: &#39;sb&#39;,
+      description: &#39;this is node 4, \nand the value of it is 12&#39;,
+    },
+    {
+      id: &#39;5&#39;,
+      label: &#39;5&#39;,
+      value: 18,
+      cluster: &#39;c&#39;,
+      subCluster: &#39;sa&#39;,
+      description: &#39;this is node 5, \nand the value of it is 18&#39;,
+    },
+    {
+      id: &#39;6&#39;,
+      label: &#39;6&#39;,
+      value: 3,
+      cluster: &#39;c&#39;,
+      subCluster: &#39;sa&#39;,
+      description: &#39;this is node 6, \nand the value of it is 3&#39;,
+    },
+    {
+      id: &#39;7&#39;,
+      label: &#39;7&#39;,
+      value: 7,
+      cluster: &#39;b&#39;,
+      subCluster: &#39;sa&#39;,
+      description: &#39;this is node 7, \nand the value of it is 7&#39;,
+    },
+    {
+      id: &#39;8&#39;,
+      label: &#39;8&#39;,
+      value: 21,
+      cluster: &#39;d&#39;,
+      subCluster: &#39;sb&#39;,
+      description: &#39;this is node 8, \nand the value of it is 21&#39;,
+    },
+    {
+      id: &#39;9&#39;,
+      label: &#39;9&#39;,
+      value: 9,
+      cluster: &#39;d&#39;,
+      subCluster: &#39;sb&#39;,
+      description: &#39;this is node 9, \nand the value of it is 9&#39;,
+    },
+  ],
+  edges: [],
+};
+
+const oriSize = {};
+
+const nodes = data.nodes;
+// randomize the node size
+nodes.forEach((node) =&gt; {
+  node.size = Math.random() * 30 + 16;
+  oriSize[node.id] = node.size;
+});
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    style: {
+      size: (d) =&gt; d.size,
+      labelText: (d) =&gt; (d.size === 200 ? d.description : d.id),
+      labelPlacement: &#39;middle&#39;,
+      labelFill: &#39;#fff&#39;,
+    },
+    palette: {
+      field: (d) =&gt; d.cluster,
+    },
+  },
+  layout: {
+    type: &#39;d3-force&#39;,
+    collide: {
+      radius: (d) =&gt; d.size / 2,
+      strength: 0.7,
+    },
+    manyBody: {
+      strength: 30,
+    },
+  },
+  behaviors: [&#39;drag-element-force&#39;],
+});
+
+graph.on(NodeEvent.CLICK, async (e) =&gt; {
+  const nodeId = e.target.id;
+  const data = graph.getNodeData(nodeId);
+  const size = data.size === oriSize[nodeId] ? 200 : oriSize[nodeId];
+  graph.updateNodeData([{ id: nodeId, size }]);
+  await graph.layout();
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

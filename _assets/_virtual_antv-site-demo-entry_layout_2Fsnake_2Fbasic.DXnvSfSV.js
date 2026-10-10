@@ -1,0 +1,1 @@
+import{o as e}from"./src.RzVD1Zqa.js";var t={nodes:Array(16).fill(0).map((e,t)=>({id:`${t}`})),edges:Array(15).fill(0).map((e,t)=>({source:`${t}`,target:`${t+1}`}))};new e({container:`container`,data:t,node:{style:{labelFill:`#fff`,labelPlacement:`center`,labelText:e=>e.id}},layout:{type:`snake`,padding:50},behaviors:[`drag-canvas`,`drag-element`]}).render();

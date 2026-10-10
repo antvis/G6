@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/force-directed/3d-force</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/force-directed/3d-force/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/force-directed/3d-force" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/force-directed/3d-force</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/force-directed/3d-force/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { CameraSetting, ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+import { D3Force3DLayout, Light, Line3D, ObserveCanvas3D, Sphere, ZoomCanvas3D, renderer } from &#39;@antv/g6-extension-3d&#39;;
+
+register(ExtensionCategory.PLUGIN, &#39;3d-light&#39;, Light);
+register(ExtensionCategory.NODE, &#39;sphere&#39;, Sphere);
+register(ExtensionCategory.EDGE, &#39;line3d&#39;, Line3D);
+register(ExtensionCategory.LAYOUT, &#39;d3-force-3d&#39;, D3Force3DLayout);
+register(ExtensionCategory.PLUGIN, &#39;camera-setting&#39;, CameraSetting);
+register(ExtensionCategory.BEHAVIOR, &#39;zoom-canvas-3d&#39;, ZoomCanvas3D);
+register(ExtensionCategory.BEHAVIOR, &#39;observe-canvas-3d&#39;, ObserveCanvas3D);
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/d3-force-3d.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      renderer,
+      data,
+      layout: {
+        type: &#39;d3-force-3d&#39;,
+      },
+      node: {
+        type: &#39;sphere&#39;,
+        style: {
+          materialType: &#39;phong&#39;,
+        },
+        palette: {
+          color: &#39;tableau&#39;,
+          type: &#39;group&#39;,
+          field: &#39;group&#39;,
+        },
+      },
+      edge: {
+        type: &#39;line3d&#39;,
+      },
+      behaviors: [&#39;observe-canvas-3d&#39;, &#39;zoom-canvas-3d&#39;],
+      plugins: [
+        {
+          type: &#39;3d-light&#39;,
+          directional: {
+            direction: [0, 0, 1],
+          },
+        },
+      ],
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

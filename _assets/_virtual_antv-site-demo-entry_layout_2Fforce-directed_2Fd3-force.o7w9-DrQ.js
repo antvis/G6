@@ -1,0 +1,1 @@
+import{o as e}from"./src.RzVD1Zqa.js";fetch(`https://assets.antv.antgroup.com/g6/cluster.json`).then(e=>e.json()).then(t=>{new e({container:`container`,data:t,node:{style:{labelText:e=>e.id,ports:[]},palette:{type:`group`,field:`cluster`}},layout:{type:`d3-force`,collide:{strength:.5}},behaviors:[`zoom-canvas`,`drag-canvas`]}).render()});

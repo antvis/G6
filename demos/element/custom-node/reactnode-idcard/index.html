@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/custom-node/reactnode-idcard</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/custom-node/reactnode-idcard/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/custom-node/reactnode-idcard" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/custom-node/reactnode-idcard</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/custom-node/reactnode-idcard/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { UserOutlined } from &#39;@ant-design/icons&#39;;
+import { ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+import { ReactNode } from &#39;@antv/g6-extension-react&#39;;
+import { Avatar, Button, Card, Descriptions, Select, Space, Typography } from &#39;antd&#39;;
+import React, { useEffect, useRef } from &#39;react&#39;;
+import { createRoot } from &#39;react-dom/client&#39;;
+
+const { Title, Text } = Typography;
+const { Option } = Select;
+
+register(ExtensionCategory.NODE, &#39;react-node&#39;, ReactNode);
+
+const IDCardNode = ({ id, data }) =&gt; {
+  const { name, idNumber, address, expanded, selected, graph } = data;
+
+  const toggleExpand = (e) =&gt; {
+    e.stopPropagation();
+    graph.updateNodeData([
+      {
+        id,
+        data: { expanded: !expanded },
+      },
+    ]);
+    graph.render();
+  };
+
+  const handleSelect = (value) =&gt; {
+    graph.updateNodeData([
+      {
+        id,
+        data: { selected: value !== 0 },
+      },
+    ]);
+    if (value === 2) {
+      // 获取与当前节点相连的所有节点
+      const connectedNodes = graph.getNeighborNodesData(id);
+
+      connectedNodes.forEach((node) =&gt; {
+        graph.updateNodeData([
+          {
+            id: node.id,
+            data: { selected: true },
+          },
+        ]);
+      });
+    }
+    graph.render();
+  };
+
+  const CardTitle = (
+    &lt;div style={{ display: &#39;flex&#39;, justifyContent: &#39;space-between&#39;, alignItems: &#39;center&#39; }}&gt;
+      &lt;Space&gt;
+        &lt;Avatar shape=&quot;square&quot; size=&quot;small&quot; icon={&lt;UserOutlined /&gt;} /&gt;
+        &lt;Title level={5} style={{ margin: 0 }}&gt;
+          {name}
+        &lt;/Title&gt;
+
+        &lt;Select
+          value={selected ? data.selectedOption || 1 : 0}
+          style={{ width: 150, marginRight: 8 }}
+          onChange={handleSelect}
+        &gt;
+          &lt;Option value={0}&gt;None&lt;/Option&gt;
+          &lt;Option value={1}&gt;Node&lt;/Option&gt;
+          &lt;Option value={2}&gt;Connected&lt;/Option&gt;
+        &lt;/Select&gt;
+      &lt;/Space&gt;
+      &lt;Button type=&quot;link&quot; onClick={toggleExpand} style={{ padding: 0 }}&gt;
+        {expanded ? &#39;fold&#39; : &#39;expand&#39;}
+      &lt;/Button&gt;
+    &lt;/div&gt;
+  );
+
+  return (
+    &lt;Card
+      size=&quot;small&quot;
+      title={CardTitle}
+      style={{
+        width: 340,
+        padding: 10,
+        borderRadius: 8,
+        borderWidth: 2,
+        borderColor: selected ? &#39;orange&#39; : &#39;#eee&#39;, // 根据选中状态设置边框颜色
+        cursor: &#39;pointer&#39;,
+      }}
+    &gt;
+      {expanded ? (
+        &lt;Descriptions bordered column={1} style={{ width: &#39;100%&#39;, textAlign: &#39;center&#39; }}&gt;
+          &lt;Descriptions.Item label=&quot;ID Number&quot;&gt;{idNumber}&lt;/Descriptions.Item&gt;
+          &lt;Descriptions.Item label=&quot;Address&quot;&gt;{address}&lt;/Descriptions.Item&gt;
+        &lt;/Descriptions&gt;
+      ) : (
+        &lt;Text style={{ textAlign: &#39;center&#39; }}&gt;IDCard Information&lt;/Text&gt;
+      )}
+    &lt;/Card&gt;
+  );
+};
+
+// 定义 Graph 数据
+const data = {
+  nodes: [
+    {
+      id: &#39;node1&#39;,
+      data: {
+        name: &#39;Alice&#39;,
+        idNumber: &#39;IDUSAASD2131734&#39;,
+        address: &#39;1234 Broadway, Apt 5B, New York, NY 10001&#39;,
+        expanded: false, // 初始状态为收缩
+        selected: false, // 初始状态为未选中
+        selectedOption: 1, // 初始选择本节点
+      },
+      style: { x: 50, y: 50 },
+    },
+    {
+      id: &#39;node2&#39;,
+      data: {
+        name: &#39;Bob&#39;,
+        idNumber: &#39;IDUSAASD1431920&#39;,
+        address: &#39;3030 Chestnut St, Philadelphia, PA 19104&#39;,
+        expanded: false, // 初始状态为收缩
+        selected: false, // 初始状态为未选中
+        selectedOption: 0, // 初始不选择
+      },
+      style: { x: 700, y: 100 },
+    },
+    {
+      id: &#39;node3&#39;,
+      data: {
+        name: &#39;Charlie&#39;,
+        idNumber: &#39;IDUSAASD1431921&#39;,
+        address: &#39;4040 Elm St, Chicago, IL 60611&#39;,
+        expanded: false,
+        selected: true,
+        selectedOption: 0,
+      },
+    },
+    {
+      id: &#39;node4&#39;,
+      data: {
+        name: &#39;David&#39;,
+        idNumber: &#39;IDUSAASD1431922&#39;,
+        address: &#39;5050 Oak St, Houston, TX 77002&#39;,
+        expanded: false,
+        selected: false,
+        selectedOption: 0,
+      },
+    },
+    {
+      id: &#39;node5&#39;,
+      data: {
+        name: &#39;Eve&#39;,
+        idNumber: &#39;IDUSAASD1431923&#39;,
+        address: &#39;6060 Pine St, Phoenix, AZ 85001&#39;,
+        expanded: false,
+        selected: false,
+        selectedOption: 0,
+      },
+    },
+  ],
+  edges: [
+    { source: &#39;node1&#39;, target: &#39;node2&#39; },
+    { source: &#39;node2&#39;, target: &#39;node3&#39; },
+    { source: &#39;node3&#39;, target: &#39;node4&#39; },
+    { source: &#39;node4&#39;, target: &#39;node5&#39; },
+  ],
+};
+
+export const ReactNodeDemo = () =&gt; {
+  const containerRef = useRef();
+  const graphRef = useRef(null);
+
+  useEffect(() =&gt; {
+    // 创建 Graph 实例
+    const graph = new Graph({
+      autoFit: &#39;view&#39;,
+      container: containerRef.current,
+      data,
+      node: {
+        type: &#39;react-node&#39;,
+        style: {
+          size: (datum) =&gt; (datum.data.expanded ? [340, 236] : [340, 105]), // 调整大小以适应内容
+          component: (data) =&gt; &lt;IDCardNode id={data.id} data={{ ...data.data, graph: graph }} /&gt;,
+        },
+      },
+      behaviors: [&#39;drag-element&#39;, &#39;zoom-canvas&#39;, &#39;drag-canvas&#39;],
+      layout: {
+        type: &#39;snake&#39;,
+        cols: 2,
+        rowGap: 100,
+        colGap: 220,
+      },
+    });
+
+    // 渲染 Graph
+    graph.render();
+
+    // 保存 graph 实例
+    graphRef.current = graph;
+
+    return () =&gt; {
+      graph.destroy();
+    };
+  }, []);
+
+  return &lt;div style={{ width: &#39;100%&#39;, height: &#39;100%&#39; }} ref={containerRef}&gt;&lt;/div&gt;;
+};
+
+// 渲染 React 组件到 DOM
+const root = createRoot(document.getElementById(&#39;container&#39;));
+root.render(&lt;ReactNodeDemo /&gt;);
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

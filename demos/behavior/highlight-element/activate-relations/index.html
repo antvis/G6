@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>behavior/highlight-element/activate-relations</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/behavior/highlight-element/activate-relations/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="behavior/highlight-element/activate-relations" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>behavior/highlight-element/activate-relations</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/behavior/highlight-element/activate-relations/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const format = (data) =&gt; {
+  const { nodes, edges } = data;
+  return {
+    nodes: nodes.map(({ id, ...node }) =&gt; ({ id, data: node })),
+    edges: edges.map(({ id, source, target, ...edge }) =&gt; ({ id, source, target, data: edge })),
+  };
+};
+
+fetch(&#39;https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      autoFit: &#39;view&#39;,
+      data: format(data),
+      behaviors: [
+        {
+          type: &#39;hover-activate&#39;,
+          degree: 1, // 👈🏻 Activate relations.
+        },
+      ],
+      layout: {
+        type: &#39;force&#39;,
+        preventOverlap: true,
+        nodeSize: 24,
+      },
+      animation: false,
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

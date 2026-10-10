@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/force-directed/collision</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/force-directed/collision/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/force-directed/collision" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/force-directed/collision</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/force-directed/collision/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { BaseBehavior, ExtensionCategory, Graph, invokeLayoutMethod, register } from &#39;@antv/g6&#39;;
+
+function getData(width, size = 200) {
+  const k = width / 200;
+  const r = randomUniform(k * 2, k * 8);
+  const n = 4;
+  return {
+    nodes: Array.from({ length: size }, (_, i) =&gt; ({ id: `${i}`, data: { r: r(), group: i &amp;&amp; (i % n) + 1 } })),
+    edges: [],
+  };
+}
+
+function randomUniform(min, max) {
+  min = min == null ? 0 : +min;
+  max = max == null ? 1 : +max;
+  if (arguments.length === 1) (max = min), (min = 0);
+  else max -= min;
+  return function () {
+    return Math.random() * max + min;
+  };
+}
+
+class CollisionElement extends BaseBehavior {
+  constructor(context) {
+    super(context, {});
+    this.onPointerMove = this.onPointerMove.bind(this);
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    this.context.graph.on(&#39;pointermove&#39;, this.onPointerMove);
+  }
+
+  onPointerMove(event) {
+    const pos = this.context.graph.getCanvasByClient([event.client.x, event.client.y]);
+    const layoutInstance = this.context.layout
+      ?.getLayoutInstance()
+      .find((layout) =&gt; [&#39;d3-force&#39;, &#39;d3-force-3d&#39;].includes(layout?.id));
+
+    if (layoutInstance) {
+      invokeLayoutMethod(layoutInstance, &#39;setFixedPosition&#39;, &#39;0&#39;, [...pos]);
+    }
+  }
+}
+
+register(ExtensionCategory.BEHAVIOR, &#39;collision-element&#39;, CollisionElement);
+
+const container = document.getElementById(&#39;container&#39;);
+const width = container.scrollWidth;
+
+const graph = new Graph({
+  container,
+  data: getData(width),
+  layout: {
+    type: &#39;d3-force&#39;,
+    alphaTarget: 0.3,
+    velocityDecay: 0.1,
+    x: {
+      strength: 0.01,
+    },
+    y: {
+      strength: 0.01,
+    },
+    collide: {
+      radius: (d) =&gt; d.data.r,
+      iterations: 3,
+    },
+    manyBody: {
+      strength: (d, i) =&gt; (i ? 0 : (-width * 2) / 3),
+    },
+    link: false,
+  },
+  node: {
+    style: {
+      size: (d) =&gt; (d.id === &#39;0&#39; ? 0 : d.data.r * 2),
+    },
+    palette: {
+      color: &#39;tableau&#39;,
+      type: &#39;group&#39;,
+      field: (d) =&gt; d.data.group,
+    },
+  },
+  behaviors: [&#39;collision-element&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

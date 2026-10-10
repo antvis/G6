@@ -1,0 +1,1 @@
+import{o as e}from"./src.RzVD1Zqa.js";new e({container:`container`,data:{nodes:Array.from({length:20}).map((e,t)=>({id:`node${t}`}))},behaviors:[`drag-canvas`,`zoom-canvas`,`drag-element`],plugins:[{type:`minimap`,size:[240,160]}],node:{palette:`spectral`},layout:{type:`circular`},autoFit:`view`}).render();

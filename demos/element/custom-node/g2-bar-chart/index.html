@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/custom-node/g2-bar-chart</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/custom-node/g2-bar-chart/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/custom-node/g2-bar-chart" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/custom-node/g2-bar-chart</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/custom-node/g2-bar-chart/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Rect as RectGeometry } from &#39;@antv/g&#39;;
+import { renderToMountedElement, stdlib } from &#39;@antv/g2&#39;;
+import { ExtensionCategory, Graph, Rect, register } from &#39;@antv/g6&#39;;
+
+class BarChart extends Rect {
+  onCreate() {
+    const [width, height] = this.getSize();
+    const group = this.upsert(
+      &#39;chart-container&#39;,
+      RectGeometry,
+      {
+        transform: `translate(${-width / 2}, ${-height / 2})`,
+        width,
+        height,
+        fill: &#39;#fff&#39;,
+        stroke: &#39;#697b8c&#39;,
+        radius: 10,
+        shadowColor: &#39;#697b8c&#39;,
+        shadowBlur: 10,
+        shadowOffsetX: 5,
+        shadowOffsetY: 5,
+      },
+      this.shapeMap.key,
+    );
+
+    const { name, value } = this.attributes;
+    renderToMountedElement(
+      // @antv/g2 Specification
+      // https://g2.antv.antgroup.com/examples/general/interval/#column
+      {
+        width,
+        height,
+        data: { value },
+        title: name,
+        type: &#39;interval&#39;,
+        axis: {
+          x: { title: false },
+          y: { title: false },
+        },
+        scale: {
+          y: { domain: [0, 100] },
+        },
+        encode: {
+          x: &#39;subject&#39;,
+          y: &#39;score&#39;,
+          color: &#39;subject&#39;,
+        },
+        legend: { color: false },
+      },
+      {
+        group,
+        library: stdlib(),
+      },
+    );
+  }
+}
+
+register(ExtensionCategory.NODE, &#39;bar-chart&#39;, BarChart);
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: {
+    nodes: [
+      {
+        id: &#39;Jack&#39;,
+        data: {
+          value: [
+            { subject: &#39;Math&#39;, score: 95 },
+            { subject: &#39;Chinese&#39;, score: 70 },
+            { subject: &#39;English&#39;, score: 75 },
+            { subject: &#39;Geography&#39;, score: 80 },
+            { subject: &#39;Physics&#39;, score: 90 },
+            { subject: &#39;Chemistry&#39;, score: 85 },
+            { subject: &#39;Biology&#39;, score: 70 },
+          ],
+        },
+      },
+      {
+        id: &#39;Aaron&#39;,
+        data: {
+          value: [
+            { subject: &#39;Math&#39;, score: 70 },
+            { subject: &#39;Chinese&#39;, score: 90 },
+            { subject: &#39;English&#39;, score: 90 },
+            { subject: &#39;Geography&#39;, score: 60 },
+            { subject: &#39;Physics&#39;, score: 70 },
+            { subject: &#39;Chemistry&#39;, score: 65 },
+            { subject: &#39;Biology&#39;, score: 80 },
+          ],
+        },
+      },
+      {
+        id: &#39;Rebecca&#39;,
+        data: {
+          value: [
+            { subject: &#39;Math&#39;, score: 60 },
+            { subject: &#39;Chinese&#39;, score: 95 },
+            { subject: &#39;English&#39;, score: 100 },
+            { subject: &#39;Geography&#39;, score: 80 },
+            { subject: &#39;Physics&#39;, score: 60 },
+            { subject: &#39;Chemistry&#39;, score: 90 },
+            { subject: &#39;Biology&#39;, score: 85 },
+          ],
+        },
+      },
+    ],
+  },
+  node: {
+    type: &#39;bar-chart&#39;,
+    style: {
+      size: 250,
+      fillOpacity: 0,
+      name: (d) =&gt; d.id,
+      value: (d) =&gt; d.data.value,
+    },
+  },
+  layout: {
+    type: &#39;grid&#39;,
+  },
+  behaviors: [&#39;drag-element&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

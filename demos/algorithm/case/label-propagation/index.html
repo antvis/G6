@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>algorithm/case/label-propagation</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/algorithm/case/label-propagation/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="algorithm/case/label-propagation" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>algorithm/case/label-propagation</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/algorithm/case/label-propagation/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { labelPropagation } from &#39;@antv/algorithm&#39;;
+import { Graph } from &#39;@antv/g6&#39;;
+
+const colors = [
+  &#39;#5F95FF&#39;,
+  &#39;#61DDAA&#39;,
+  &#39;#65789B&#39;,
+  &#39;#F6BD16&#39;,
+  &#39;#7262FD&#39;,
+  &#39;#78D3F8&#39;,
+  &#39;#9661BC&#39;,
+  &#39;#F6903D&#39;,
+  &#39;#008685&#39;,
+  &#39;#F08BB4&#39;,
+];
+
+fetch(&#39;https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      data,
+      autoFit: &#39;view&#39;,
+      behaviors: [&#39;drag-canvas&#39;, &#39;zoom-canvas&#39;, &#39;drag-element&#39;],
+      layout: {
+        type: &#39;force&#39;,
+        linkDistance: 50,
+        animation: false,
+      },
+    });
+
+    graph.render();
+
+    addPanel((gui) =&gt; {
+      gui.add(
+        {
+          Cluster: () =&gt; {
+            const clusteredData = labelPropagation(data, false);
+            const result = clusteredData.clusters
+              .map((cluster, i) =&gt; {
+                const color = colors[i % colors.length];
+                const nodes = cluster.nodes.map((node) =&gt; ({
+                  id: node.id,
+                  style: {
+                    fill: color,
+                  },
+                }));
+                return nodes;
+              })
+              .flat();
+            graph.updateNodeData(result);
+            graph.draw();
+          },
+        },
+        &#39;Cluster&#39;,
+      );
+    });
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/dagre/antv-dagre</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/dagre/antv-dagre/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/dagre/antv-dagre" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/dagre/antv-dagre</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/dagre/antv-dagre/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    { id: &#39;0&#39; },
+    { id: &#39;1&#39; },
+    { id: &#39;2&#39; },
+    { id: &#39;3&#39; },
+    { id: &#39;4&#39; },
+    { id: &#39;5&#39; },
+    { id: &#39;6&#39; },
+    { id: &#39;7&#39; },
+    { id: &#39;8&#39; },
+    { id: &#39;9&#39; },
+  ],
+  edges: [
+    { source: &#39;0&#39;, target: &#39;1&#39; },
+    { source: &#39;0&#39;, target: &#39;2&#39; },
+    { source: &#39;1&#39;, target: &#39;4&#39; },
+    { source: &#39;0&#39;, target: &#39;3&#39; },
+    { source: &#39;3&#39;, target: &#39;4&#39; },
+    { source: &#39;4&#39;, target: &#39;5&#39; },
+    { source: &#39;4&#39;, target: &#39;6&#39; },
+    { source: &#39;5&#39;, target: &#39;7&#39; },
+    { source: &#39;5&#39;, target: &#39;8&#39; },
+    { source: &#39;8&#39;, target: &#39;9&#39; },
+    { source: &#39;2&#39;, target: &#39;9&#39; },
+    { source: &#39;3&#39;, target: &#39;9&#39; },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  autoFit: &#39;view&#39;,
+  data,
+  layout: {
+    type: &#39;antv-dagre&#39;,
+    nodeSize: [60, 30],
+    nodesep: 60,
+    ranksep: 40,
+    controlPoints: true,
+  },
+  node: {
+    type: &#39;rect&#39;,
+    style: {
+      size: [60, 30],
+      radius: 8,
+      labelText: (d) =&gt; d.id,
+      labelBackground: true,
+    },
+  },
+  edge: {
+    type: &#39;polyline&#39;,
+  },
+  behaviors: [&#39;drag-element&#39;, &#39;drag-canvas&#39;, &#39;zoom-canvas&#39;],
+});
+
+graph.render();
+
+addPanel((gui) =&gt; {
+  const config = { layout: &#39;default&#39; };
+  const layouts = {
+    default: { type: &#39;antv-dagre&#39;, nodesep: 100, ranksep: 70, controlPoints: true },
+    LR: { type: &#39;antv-dagre&#39;, rankdir: &#39;LR&#39;, align: &#39;DL&#39;, nodesep: 50, ranksep: 70, controlPoints: true },
+    &#39;LR&amp;UL&#39;: { type: &#39;antv-dagre&#39;, rankdir: &#39;LR&#39;, align: &#39;UL&#39;, controlPoints: true, nodesep: 50, ranksep: 70 },
+  };
+
+  gui.add(config, &#39;layout&#39;, Object.keys(layouts)).onChange(async (layout) =&gt; {
+    graph.setLayout(layouts[layout]);
+    await graph.layout();
+    graph.fitCenter();
+  });
+});
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

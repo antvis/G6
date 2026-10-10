@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/fruchterman/basic</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/fruchterman/basic/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/fruchterman/basic" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/fruchterman/basic</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/fruchterman/basic/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/cluster.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      data,
+      layout: {
+        type: &#39;fruchterman&#39;,
+        gravity: 5,
+        speed: 5,
+        animation: true,
+      },
+      node: {
+        style: {
+          labelFill: &#39;#fff&#39;,
+          labelPlacement: &#39;center&#39;,
+          labelText: (d) =&gt; d.id,
+        },
+      },
+      behaviors: [&#39;drag-canvas&#39;, &#39;drag-element&#39;],
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

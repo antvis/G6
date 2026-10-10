@@ -1,0 +1,275 @@
+---
+title: "FixElementSize"
+description: "FixElementSize"
+language: "en"
+canonical: "https://g6.antv.antgroup.com/en/manual/behavior/FixElementSize/"
+version: "5.1.1"
+---
+
+## Overview
+
+FixElementSize is a built-in interaction provided by G6, used to **maintain the size of certain elements within nodes unchanged during the zooming process.** It enhances visual consistency and operability during zooming.
+By listening to viewport changes, it automatically scales elements marked as "fixed size" to ensure they maintain a relatively constant display size at different zoom levels. It supports global enablement and also allows control over specific elements or nodes as needed.
+
+## Use Cases
+
+This interaction is mainly used for:
+
+- Graphical elements or embedded components (buttons, labels, etc.) that need to maintain a fixed visual size
+
+## Online Experience
+
+
+
+```ts
+import { createGraph } from '/demo-runtime.ts';
+
+createGraph(
+  {
+    data: {
+      nodes: [
+        { id: 'node1', style: { x: 200, y: 100, labelText: 'node1' } },
+        { id: 'node2', style: { x: 360, y: 100, labelText: 'node2' } },
+        { id: 'node3', style: { x: 280, y: 220, labelText: 'node3' } },
+      ],
+      edges: [
+        { source: 'node1', target: 'node2' },
+        { source: 'node1', target: 'node3' },
+        { source: 'node2', target: 'node3' },
+      ],
+    },
+    node: {
+      style: { label: true, labelFill: '#666', labelFontSize: 14, labelPlacement: 'bottom' },
+      state: {
+        custom: { fill: '#ffa940' },
+      },
+    },
+    edge: {
+      stroke: '#8b9baf',
+      state: {
+        custom: { stroke: '#ffa940' },
+      },
+    },
+    behaviors: ['zoom-canvas', 'drag-canvas', { key: 'fix-element-size', type: 'fix-element-size' }],
+    plugins: [{ type: 'grid-line', size: 30 }],
+    animation: true,
+  },
+  { width: 800, height: 400 },
+  (gui, graph) => {
+    const options = {
+      key: 'fix-element-size',
+      type: 'fix-element-size',
+      animation: true,
+      enable: true,
+      reset: true,
+    };
+    const optionFolder = gui.addFolder('CollapseExpand Options');
+    optionFolder.add(options, 'type').disable(true);
+    optionFolder.add(options, 'animation');
+    optionFolder.add(options, 'enable');
+    optionFolder.add(options, 'reset');
+    optionFolder.onChange(({ property, value }) => {
+      graph.updateBehavior({
+        key: 'fix-element-size',
+        [property]: value,
+      });
+      graph.render();
+    });
+  },
+);
+```
+
+
+
+## Basic Usage
+
+Add this interaction in the graph configuration
+
+**1. Quick Configuration (Static)**
+
+Declare directly using a string form. This method is simple but only supports default configuration and cannot be dynamically modified after configuration:
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: ['fix-element-size'],
+});
+```
+
+**2. Object Configuration (Recommended)**
+
+Configure using an object form, supporting custom parameters, and can dynamically update the configuration at runtime:
+
+```javascript
+const graph = new Graph({
+  // Other configurations...
+  behaviors: [
+    {
+      type: 'fix-element-size',
+      enable: true, // Enable this interaction
+      state: 'selected', // State of elements to fix size
+      reset: true, // Restore style when elements are redrawn
+    },
+  ],
+});
+```
+
+## Configuration Options
+
+| Option      | Description                                                                                                                                                                                                    | Type                                                                         | Default                                                                                             | Required |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | -------- |
+| type        | Interaction type name                                                                                                                                                                                          | string                                                                       | `fix-element-size`                                                                                  | ✓        |
+| enable      | Whether to enable this interaction, [example](#enable)                                                                                                                                                         | boolean \| ((event: [Event](/en/api/event/#event-object-properties)) => boolean) | true                                                                                                |          |
+| reset       | Whether to restore style when elements are redrawn                                                                                                                                                             | boolean                                                                      | `false`                                                                                             |          |
+| state       | Specify the state of elements to fix size                                                                                                                                                                      | string                                                                       | ""                                                                                                  |          |
+| node        | Node configuration item, used to define which attributes maintain a fixed visual size. If not specified (i.e., undefined), the entire node will be fixed, [example](#node)                                     | [FixShapeConfig](#fixshapeconfig) \| FixShapeConfig[]                        |                                                                                                     |          |
+| nodeFilter  | Node filter, used to filter which nodes maintain a fixed size during zooming                                                                                                                                   | (datum: [NodeData](/en/manual/data/#nodedata)) => boolean                        | `() => true`                                                                                        |          |
+| edge        | Edge configuration item, used to define which attributes maintain a fixed visual size. By default, the lineWidth and labelFontSize attributes are fixed, usage is the same as [node configuration item](#node) | [FixShapeConfig](#fixshapeconfig) \| FixShapeConfig[]                        | `[ shape: 'key', fields: ['lineWidth'] ,  shape: 'halo', fields: ['lineWidth'] ,  shape: 'label' ]` |          |
+| edgeFilter  | Edge filter, used to filter which edges maintain a fixed size during zooming                                                                                                                                   | (datum: [EdgeData](/en/manual/data/#edgedata)) => boolean                        | `() => true`                                                                                        |          |
+| combo       | Combo configuration item, used to define which attributes maintain a fixed visual size. By default, the entire Combo will be fixed, usage is the same as [node configuration item](#node)                      | [FixShapeConfig](#fixshapeconfig) \| FixShapeConfig[]                        |                                                                                                     |          |
+| comboFilter | Combo filter, used to filter which Combos maintain a fixed size during zooming                                                                                                                                 | (datum: [ComboData](/en/manual/data/#combodata)) => boolean                      | `() => true`                                                                                        |          |
+
+### enable
+
+Whether to enable the fixed element size interaction. By default, it is enabled when zooming out the canvas
+
+By default, it is enabled when zooming out the canvas, set `enable: (event) => event.data.scale < 1`; if you want to enable it when zooming in, set `enable: (event) => event.data.scale > 1`; if you want to enable it when both zooming in and out, set `enable: true`
+
+### node
+
+Node configuration item, used to define which attributes maintain a fixed visual size. If not specified (i.e., undefined), the entire node will be fixed
+
+**Example**
+
+If you want to fix the lineWidth of the main shape of the node during zooming, you can configure it like this:
+
+```ts
+{
+  node: [{ shape: 'key', fields: ['lineWidth'] }];
+}
+```
+
+If you want to keep the size of the element label unchanged during zooming, you can configure it like this:
+
+```ts
+{
+  shape: 'label';
+}
+```
+
+### FixShapeConfig
+
+| Parameter | Description                                                                                                                                                        | Type                                                   | Default | Required |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------ | ------- | -------- |
+| shape     | Specify the shape to fix size, it can be the class name of the shape, or a function that receives all shapes constituting the element and returns the target shape | string \| ((shapes: DisplayObject[]) => DisplayObject) | -       | ✓        |
+| fields    | Specify the fields of the shape to fix size. If not specified, the entire shape size is fixed by default                                                           | string[]                                               | -       | ✘        |
+
+## Practical Example
+
+
+
+```ts
+
+import { Graph } from '@antv/g6';
+
+const data = {
+  nodes: [
+    { id: 'node0', size: 50, label: '0', style: { x: 326, y: 268 }, states: ['selected'] },
+    { id: 'node1', size: 30, label: '1', style: { x: 280, y: 384 }, states: ['selected'] },
+    { id: 'node2', size: 30, label: '2', style: { x: 234, y: 167 } },
+    { id: 'node3', size: 30, label: '3', style: { x: 391, y: 368 } },
+    { id: 'node4', size: 30, label: '4', style: { x: 444, y: 209 } },
+    { id: 'node5', size: 30, label: '5', style: { x: 378, y: 157 } },
+    { id: 'node6', size: 15, label: '6', style: { x: 229, y: 400 } },
+    { id: 'node7', size: 15, label: '7', style: { x: 281, y: 440 } },
+    { id: 'node8', size: 15, label: '8', style: { x: 188, y: 119 } },
+    { id: 'node9', size: 15, label: '9', style: { x: 287, y: 157 } },
+    { id: 'node10', size: 15, label: '10', style: { x: 185, y: 200 } },
+    { id: 'node11', size: 15, label: '11', style: { x: 238, y: 110 } },
+    { id: 'node12', size: 15, label: '12', style: { x: 239, y: 221 } },
+    { id: 'node13', size: 15, label: '13', style: { x: 176, y: 160 } },
+    { id: 'node14', size: 15, label: '14', style: { x: 389, y: 423 } },
+    { id: 'node15', size: 15, label: '15', style: { x: 441, y: 341 } },
+    { id: 'node16', size: 15, label: '16', style: { x: 442, y: 398 } },
+  ],
+  edges: [
+    { source: 'node0', target: 'node1', label: '0-1', states: ['selected'] },
+    { source: 'node0', target: 'node2', label: '0-2' },
+    { source: 'node0', target: 'node3', label: '0-3' },
+    { source: 'node0', target: 'node4', label: '0-4' },
+    { source: 'node0', target: 'node5', label: '0-5' },
+    { source: 'node1', target: 'node6', label: '1-6' },
+    { source: 'node1', target: 'node7', label: '1-7' },
+    { source: 'node2', target: 'node8', label: '2-8' },
+    { source: 'node2', target: 'node9', label: '2-9' },
+    { source: 'node2', target: 'node10', label: '2-10' },
+    { source: 'node2', target: 'node11', label: '2-11' },
+    { source: 'node2', target: 'node12', label: '2-12' },
+    { source: 'node2', target: 'node13', label: '2-13' },
+    { source: 'node3', target: 'node14', label: '3-14' },
+    { source: 'node3', target: 'node15', label: '3-15' },
+    { source: 'node3', target: 'node16', label: '3-16' },
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data,
+  node: {
+    style: {
+      labelText: (d) => d.label,
+      size: (d) => d.size,
+      lineWidth: 1,
+    },
+  },
+  edge: { style: { labelText: (d) => d.label } },
+  behaviors: [
+    'zoom-canvas',
+    'drag-canvas',
+    {
+      key: 'fix-element-size',
+      type: 'fix-element-size',
+      enable: (event) => event.data.scale < 1,
+      state: 'selected',
+      reset: true,
+    },
+    { type: 'click-select', key: 'click-select', multiple: true },
+  ],
+  autoFit: 'center',
+});
+
+graph.render();
+```
+### demo-runtime.ts
+
+```ts
+import { Graph } from '@antv/g6';
+import GUI from 'lil-gui';
+
+export function addPanel(renderPanel: (gui: GUI) => void) {
+  const gui = new GUI({ container: document.body });
+  gui.title('Control');
+  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
+  renderPanel(gui);
+  addEventListener('pagehide', () => gui.destroy(), { once: true });
+}
+
+export async function createGraph(
+  options: ConstructorParameters<typeof Graph>[0],
+  size: { width?: number; height?: number } = {},
+  renderPanel?: (gui: GUI, graph: Graph) => void,
+) {
+  const container = document.createElement('div');
+  Object.assign(container.style, {
+    width: '100%',
+    maxWidth: `${size.width || 600}px`,
+    height: `${size.height || 400}px`,
+  });
+  document.getElementById('container')!.append(container);
+  const graph = new Graph({ ...size, ...options, width: container.clientWidth, container, autoResize: true });
+  addEventListener('pagehide', () => graph.destroy(), { once: true });
+  await graph.render();
+  if (renderPanel) addPanel((gui) => renderPanel(gui, graph));
+  return container;
+}
+```

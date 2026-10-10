@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/node/3d-node</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/node/3d-node/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/node/3d-node" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/node/3d-node</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/node/3d-node/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+import {
+  Capsule,
+  Cone,
+  Cube,
+  Cylinder,
+  Light,
+  ObserveCanvas3D,
+  Plane,
+  Sphere,
+  Torus,
+  renderer,
+} from &#39;@antv/g6-extension-3d&#39;;
+
+register(ExtensionCategory.PLUGIN, &#39;3d-light&#39;, Light);
+register(ExtensionCategory.NODE, &#39;sphere&#39;, Sphere);
+register(ExtensionCategory.NODE, &#39;plane&#39;, Plane);
+register(ExtensionCategory.NODE, &#39;cylinder&#39;, Cylinder);
+register(ExtensionCategory.NODE, &#39;cone&#39;, Cone);
+register(ExtensionCategory.NODE, &#39;cube&#39;, Cube);
+register(ExtensionCategory.NODE, &#39;capsule&#39;, Capsule);
+register(ExtensionCategory.NODE, &#39;torus&#39;, Torus);
+register(ExtensionCategory.BEHAVIOR, &#39;observe-canvas-3d&#39;, ObserveCanvas3D);
+
+const nodes = [
+  {
+    id: &#39;node-1&#39;,
+    type: &#39;sphere&#39;,
+    style: {
+      texture: &#39;https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cdTdTI2bNl8AAAAAAAAAAAAADmJ7AQ/original&#39;,
+    },
+  },
+  { id: &#39;node-2&#39;, type: &#39;plane&#39;, style: { size: 50 } },
+  { id: &#39;node-3&#39;, type: &#39;cylinder&#39; },
+  { id: &#39;node-4&#39;, type: &#39;cone&#39; },
+  {
+    id: &#39;node-5&#39;,
+    type: &#39;cube&#39;,
+    style: {
+      texture: &#39;https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*8TlCRIsKeUkAAAAAAAAAAAAAARQnAQ&#39;,
+    },
+  },
+  { id: &#39;node-6&#39;, type: &#39;capsule&#39; },
+  { id: &#39;node-7&#39;, type: &#39;torus&#39; },
+];
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  renderer,
+  data: {
+    nodes,
+  },
+  node: {
+    style: {
+      materialType: &#39;phong&#39;,
+      labelText: (d) =&gt; d.id,
+      x: (d) =&gt; 100 + (nodes.findIndex((n) =&gt; n.id === d.id) % 5) * 100,
+      y: (d) =&gt; 100 + Math.floor(nodes.findIndex((n) =&gt; n.id === d.id) / 5) * 100,
+    },
+  },
+  plugins: [
+    {
+      type: &#39;3d-light&#39;,
+      directional: {
+        direction: [0, 0, 1],
+      },
+    },
+  ],
+  behaviors: [&#39;observe-canvas-3d&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>algorithm/case/shortest-path</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/algorithm/case/shortest-path/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="algorithm/case/shortest-path" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>algorithm/case/shortest-path</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/algorithm/case/shortest-path/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { findShortestPath } from &#39;@antv/algorithm&#39;;
+import { CanvasEvent, Graph } from &#39;@antv/g6&#39;;
+
+const format = ({ nodes, edges }) =&gt; {
+  return {
+    nodes: nodes.map((node) =&gt; ({
+      ...node,
+      style: {
+        x: node.x,
+        y: node.y,
+      },
+    })),
+    edges,
+  };
+};
+
+fetch(&#39;https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a1d55.json&#39;)
+  .then((res) =&gt; res.json())
+  .then(format)
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      animation: false,
+      data,
+      node: {
+        style: {
+          size: 12,
+        },
+      },
+      behaviors: [&#39;drag-canvas&#39;, &#39;zoom-canvas&#39;, &#39;drag-element&#39;, { type: &#39;click-select&#39;, multiple: true }],
+      autoFit: &#39;view&#39;,
+    });
+
+    graph.render();
+
+    const resetStates = () =&gt; {
+      graph.setElementState(Object.fromEntries([...data.nodes, ...data.edges].map((element) =&gt; [element.id, []])));
+    };
+
+    graph.on(CanvasEvent.CLICK, () =&gt; {
+      resetStates();
+    });
+
+    addPanel((gui) =&gt; {
+      gui.add(
+        {
+          Help: () =&gt; {
+            alert(&quot;Press &#39;shift&#39; to select source and target nodes \n按住 &#39;shift&#39; 选取起点和终点&quot;);
+          },
+        },
+        &#39;Help&#39;,
+      );
+      gui.add(
+        {
+          Search: () =&gt; {
+            const nodes = graph.getElementDataByState(&#39;node&#39;, &#39;selected&#39;);
+            if (nodes.length !== 2) {
+              alert(&#39;Please select 2 nodes!\n请选择两个节点！&#39;);
+              return;
+            }
+            const [source, target] = nodes;
+            const { length, path } = findShortestPath(data, source.id, target.id);
+            if (length === Infinity) {
+              alert(&#39;No path found!\n未找到路径！&#39;);
+              return;
+            }
+
+            const states = {};
+            data.nodes.forEach(({ id }) =&gt; {
+              if (path.includes(id)) states[id] = &#39;highlight&#39;;
+              else states[id] = &#39;inactive&#39;;
+            });
+
+            data.edges.forEach(({ id, source, target }) =&gt; {
+              const sourceIndex = path.indexOf(source);
+              const targetIndex = path.indexOf(target);
+              if (sourceIndex === -1 || targetIndex === -1) return;
+              if (Math.abs(sourceIndex - targetIndex) === 1) states[id] = &#39;highlight&#39;;
+              else states[id] = &#39;inactive&#39;;
+            });
+
+            graph.setElementState(states);
+            graph.frontElement(path);
+          },
+        },
+        &#39;Search&#39;,
+      );
+    });
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

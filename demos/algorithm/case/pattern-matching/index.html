@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>algorithm/case/pattern-matching</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/algorithm/case/pattern-matching/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="algorithm/case/pattern-matching" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>algorithm/case/pattern-matching</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/algorithm/case/pattern-matching/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { GADDI } from &#39;@antv/algorithm&#39;;
+import { Graph } from &#39;@antv/g6&#39;;
+
+const pattern = {
+  nodes: [
+    {
+      id: &#39;pn0&#39;,
+      cluster: &#39;nodeType-0&#39;,
+    },
+    {
+      id: &#39;pn1&#39;,
+      cluster: &#39;nodeType-1&#39;,
+    },
+    {
+      id: &#39;pn2&#39;,
+      cluster: &#39;nodeType-2&#39;,
+    },
+  ],
+  edges: [
+    { source: &#39;pn1&#39;, target: &#39;pn0&#39;, cluster: &#39;edgeType-1&#39; },
+    { source: &#39;pn1&#39;, target: &#39;pn2&#39;, cluster: &#39;edgeType-0&#39; },
+    { source: &#39;pn2&#39;, target: &#39;pn0&#39;, cluster: &#39;edgeType-2&#39; },
+  ],
+};
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/gaddi.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      data,
+      autoFit: &#39;view&#39;,
+      behaviors: [&#39;drag-canvas&#39;, &#39;zoom-canvas&#39;, &#39;drag-element&#39;],
+      node: {
+        style: {
+          labelPlacement: &#39;center&#39;,
+          labelText: (d) =&gt; d.label,
+          stroke: &#39;#5F95FF&#39;,
+          lineWidth: 1,
+        },
+        palette: {
+          type: &#39;group&#39;,
+          field: &#39;cluster&#39;,
+          color: [&#39;#5F95FF&#39;, &#39;#61DDAA&#39;, &#39;#65789B&#39;],
+        },
+      },
+      edge: {
+        style: {
+          endArrow: true,
+        },
+        palette: {
+          type: &#39;group&#39;,
+          field: &#39;cluster&#39;,
+          color: [&#39;#5F95FF&#39;, &#39;#61DDAA&#39;, &#39;#65789B&#39;],
+        },
+      },
+      plugins: [
+        {
+          type: &#39;legend&#39;,
+          nodeField: &#39;cluster&#39;,
+          position: &#39;bottom&#39;,
+        },
+        {
+          key: &#39;hull-0&#39;,
+          type: &#39;hull&#39;,
+          members: [],
+        },
+        {
+          key: &#39;hull-1&#39;,
+          type: &#39;hull&#39;,
+          members: [],
+        },
+      ],
+    });
+    graph.render();
+
+    addPanel((gui) =&gt; {
+      gui.add(
+        {
+          match: () =&gt; {
+            const matches = GADDI(data, pattern, true, undefined, undefined, &#39;cluster&#39;, &#39;cluster&#39;);
+            matches.forEach((match, i) =&gt; {
+              graph.updatePlugin({
+                key: `hull-${i}`,
+                members: match.nodes.map((node) =&gt; node.id),
+              });
+            });
+            graph.render();
+          },
+        },
+        &#39;match&#39;,
+      );
+    });
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

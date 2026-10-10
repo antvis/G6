@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>feature/default/lite-solar-system</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/feature/default/lite-solar-system/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="feature/default/lite-solar-system" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>feature/default/lite-solar-system</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/feature/default/lite-solar-system/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+import { Light, Sphere, renderer } from &#39;@antv/g6-extension-3d&#39;;
+
+register(ExtensionCategory.PLUGIN, &#39;light&#39;, Light);
+register(ExtensionCategory.NODE, &#39;sphere&#39;, Sphere);
+
+const graph = new Graph({
+  renderer,
+  data: {
+    nodes: [
+      {
+        id: &#39;sum&#39;,
+        style: {
+          x: 300,
+          y: 300,
+          radius: 100,
+          texture: &#39;https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*-mZfQr8LtPUAAAAAAAAAAAAADmJ7AQ/original&#39;,
+        },
+      },
+      {
+        id: &#39;mars&#39;,
+        style: {
+          x: 430,
+          y: 300,
+          z: 0,
+          radius: 20,
+          texture: &#39;https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*mniGTZktpecAAAAAAAAAAAAADmJ7AQ/original&#39;,
+        },
+      },
+      {
+        id: &#39;earth&#39;,
+        style: {
+          x: 500,
+          y: 300,
+          z: 0,
+          radius: 30,
+          texture: &#39;https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*cdTdTI2bNl8AAAAAAAAAAAAADmJ7AQ/original&#39;,
+        },
+      },
+      {
+        id: &#39;jupiter&#39;,
+        style: {
+          x: 600,
+          y: 300,
+          z: 0,
+          radius: 50,
+          texture: &#39;https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*t_mQSZYAT70AAAAAAAAAAAAADmJ7AQ/original&#39;,
+        },
+      },
+    ],
+  },
+  node: {
+    type: &#39;sphere&#39;,
+    style: {
+      materialShininess: 0,
+      labelText: (d) =&gt; d.id,
+      labelFill: &#39;#fff&#39;,
+    },
+  },
+  plugins: [
+    {
+      type: &#39;3d-light&#39;,
+      directional: {
+        direction: [0, 0, 1],
+      },
+    },
+    {
+      type: &#39;background&#39;,
+      backgroundImage:
+        &#39;url(https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M_OaRrzIZOEAAAAAAAAAAAAADmJ7AQ/original)&#39;,
+      backgroundPosition: &#39;center&#39;,
+    },
+  ],
+});
+
+graph.draw().then(() =&gt; {
+  const element = graph.context.element;
+
+  const sum = element.getElement(&#39;sum&#39;);
+  const mars = element.getElement(&#39;mars&#39;);
+  const earth = element.getElement(&#39;earth&#39;);
+  const jupiter = element.getElement(&#39;jupiter&#39;);
+
+  const setRotation = (element, speed) =&gt; {
+    setInterval(() =&gt; {
+      element.rotate(0, -speed, 0);
+    }, 30);
+  };
+  setRotation(sum, 0.1);
+  setRotation(mars, 0.8);
+  setRotation(earth, 1);
+  setRotation(jupiter, 0.5);
+
+  const setRevolution = (element, center, speed) =&gt; {
+    setInterval(() =&gt; {
+      const [x, y, z] = element.getPosition();
+      const [cx, , cz] = center;
+      const angle = (speed * Math.PI) / 180;
+
+      const newX = (x - cx) * Math.cos(angle) + (z - cz) * Math.sin(angle) + cx;
+      const newZ = -(x - cx) * Math.sin(angle) + (z - cz) * Math.cos(angle) + cz;
+
+      element.setPosition(newX, y, newZ);
+    }, 30);
+  };
+
+  setRevolution(mars, [300, 300, 0], 1.5);
+  setRevolution(earth, [300, 300, 0], 1);
+  setRevolution(jupiter, [300, 300, 0], 0.5);
+});
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

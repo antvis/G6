@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>plugin/legend/style</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/plugin/legend/style/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="plugin/legend/style" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>plugin/legend/style</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/plugin/legend/style/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    {
+      id: &#39;1&#39;,
+      type: &#39;circle&#39;,
+      data: { cluster: &#39;node-type1&#39; },
+    },
+    {
+      id: &#39;2&#39;,
+      type: &#39;rect&#39;,
+      data: { cluster: &#39;node-type2&#39; },
+    },
+    {
+      id: &#39;3&#39;,
+      type: &#39;triangle&#39;,
+      data: { cluster: &#39;node-type3&#39; },
+    },
+    {
+      id: &#39;4&#39;,
+      type: &#39;diamond&#39;,
+      data: { cluster: &#39;node-type4&#39; },
+    },
+  ],
+  edges: [
+    {
+      id: &#39;1-2&#39;,
+      source: &#39;1&#39;,
+      target: &#39;2&#39;,
+      type: &#39;quadratic&#39;,
+      data: { cluster: &#39;edge-type1&#39; },
+    },
+    {
+      id: &#39;1-4&#39;,
+      source: &#39;1&#39;,
+      target: &#39;4&#39;,
+      data: { cluster: &#39;edge-type2&#39; },
+    },
+    {
+      id: &#39;3-4&#39;,
+      source: &#39;3&#39;,
+      target: &#39;4&#39;,
+    },
+    {
+      id: &#39;2-4&#39;,
+      source: &#39;2&#39;,
+      target: &#39;4&#39;,
+      data: { cluster: &#39;edge-type3&#39; },
+    },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    style: { size: 32 },
+    palette: { field: &#39;cluster&#39; },
+  },
+  edge: {
+    palette: { field: &#39;cluster&#39; },
+  },
+  layout: {
+    type: &#39;force&#39;,
+  },
+  plugins: [
+    {
+      type: &#39;legend&#39;,
+      nodeField: &#39;cluster&#39;,
+      edgeField: &#39;cluster&#39;,
+      titleText: &#39;Legend Title&#39;,
+      trigger: &#39;click&#39;,
+      position: &#39;top&#39;,
+      gridCol: 3,
+      itemLabelFontSize: 12,
+    },
+  ],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

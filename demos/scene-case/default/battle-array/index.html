@@ -1,0 +1,228 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/default/battle-array</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/default/battle-array/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/default/battle-array" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/default/battle-array</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/default/battle-array/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+import { ReactNode } from &#39;@antv/g6-extension-react&#39;;
+import styled from &#39;styled-components&#39;;
+
+const Player = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Shirt = styled.div`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  img {
+    width: 40px;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+`;
+
+const Number = styled.div`
+  color: #fff;
+  font-family: &#39;DingTalk-JinBuTi&#39;;
+  font-size: 10px;
+  top: 20px;
+  left: 15px;
+  z-index: 1;
+  margin-top: 16px;
+  margin-left: -2px;
+`;
+
+const Label = styled.div`
+  max-width: 120px;
+  padding: 0 8px;
+  color: #fff;
+  font-size: 10px;
+  background-image: url(&#39;https://mdn.alipayobjects.com/huamei_92awrc/afts/img/A*s2csQ48M0AkAAAAAAAAAAAAADsvfAQ/original&#39;);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const PlayerNode = ({ playerInfo }) =&gt; {
+  const { isTeamA, player_shirtnumber, player_name } = playerInfo;
+  return (
+    &lt;Player&gt;
+      &lt;Shirt&gt;
+        &lt;img
+          src={
+            isTeamA
+              ? &#39;https://mdn.alipayobjects.com/huamei_92awrc/afts/img/A*0oAaS42vqWcAAAAAAAAAAAAADsvfAQ/original&#39;
+              : &#39;https://mdn.alipayobjects.com/huamei_92awrc/afts/img/A*BYH5SauBNecAAAAAAAAAAAAADsvfAQ/original&#39;
+          }
+        /&gt;
+        &lt;Number&gt;{player_shirtnumber}&lt;/Number&gt;
+      &lt;/Shirt&gt;
+      &lt;Label&gt;{player_name}&lt;/Label&gt;
+    &lt;/Player&gt;
+  );
+};
+
+register(ExtensionCategory.NODE, &#39;react&#39;, ReactNode);
+
+const data = {
+  nodes: [
+    {
+      id: &#39;50251337&#39;,
+      x: 50,
+      y: 68,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50251337&#39;,
+      player_shirtnumber: &#39;19&#39;,
+      player_enName: &#39;Justin Kluivert&#39;,
+      player_name: &#39;尤斯廷-克鲁伊维特&#39;,
+    },
+    {
+      id: &#39;50436685&#39;,
+      x: 25,
+      y: 68,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50436685&#39;,
+      player_shirtnumber: &#39;24&#39;,
+      player_enName: &#39;Antoine Semenyo&#39;,
+      player_name: &#39;塞门约&#39;,
+    },
+    {
+      id: &#39;50204813&#39;,
+      x: 50,
+      y: 89,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50204813&#39;,
+      player_shirtnumber: &#39;9&#39;,
+      player_enName: &#39;Dominic Solanke&#39;,
+      player_name: &#39;索兰克&#39;,
+    },
+    {
+      id: &#39;50250175&#39;,
+      x: 75,
+      y: 68,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50250175&#39;,
+      player_shirtnumber: &#39;16&#39;,
+      player_enName: &#39;Marcus Tavernier&#39;,
+      player_name: &#39;塔韦尼耶&#39;,
+    },
+    {
+      id: &#39;50213675&#39;,
+      x: 65,
+      y: 48,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50213675&#39;,
+      player_shirtnumber: &#39;4&#39;,
+      player_enName: &#39;Lewis Cook&#39;,
+      player_name: &#39;刘易斯-库克&#39;,
+    },
+    {
+      id: &#39;50186648&#39;,
+      x: 35,
+      y: 48,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50186648&#39;,
+      player_shirtnumber: &#39;10&#39;,
+      player_enName: &#39;Ryan Christie&#39;,
+      player_name: &#39;克里斯蒂&#39;,
+    },
+    {
+      id: &#39;50279448&#39;,
+      x: 38,
+      y: 28,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50279448&#39;,
+      player_shirtnumber: &#39;6&#39;,
+      player_enName: &#39;Chris Mepham&#39;,
+      player_name: &#39;迈帕姆&#39;,
+    },
+    {
+      id: &#39;50061646&#39;,
+      x: 15,
+      y: 28,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50061646&#39;,
+      player_shirtnumber: &#39;15&#39;,
+      player_enName: &#39;Adam Smith&#39;,
+      player_name: &#39;亚当-史密斯&#39;,
+    },
+    {
+      id: &#39;50472140&#39;,
+      x: 62,
+      y: 28,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50472140&#39;,
+      player_shirtnumber: &#39;27&#39;,
+      player_enName: &#39;Ilya Zabarnyi&#39;,
+      player_name: &#39;扎巴尔尼&#39;,
+    },
+    {
+      id: &#39;50544346&#39;,
+      x: 85,
+      y: 28,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50544346&#39;,
+      player_shirtnumber: &#39;3&#39;,
+      player_enName: &#39;Milos Kerkez&#39;,
+      player_name: &#39;科尔克兹&#39;,
+    },
+    {
+      id: &#39;50062598&#39;,
+      x: 50,
+      y: 7,
+      isTeamA: &#39;1&#39;,
+      player_id: &#39;50062598&#39;,
+      player_shirtnumber: &#39;1&#39;,
+      player_enName: &#39;Neto&#39;,
+      player_name: &#39;内托&#39;,
+    },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  animation: false,
+  x: 10,
+  y: 50,
+  width: 480,
+  height: 720,
+  node: {
+    type: &#39;react&#39;,
+    style: {
+      size: [120, 60],
+      ports: [{ placement: &#39;center&#39; }],
+      x: (d) =&gt; d.x * 3.5,
+      y: (d) =&gt; d.y * 3.5,
+      fill: &#39;transparent&#39;,
+      component: (data) =&gt; &lt;PlayerNode playerInfo={data} /&gt;,
+    },
+  },
+  plugins: [
+    {
+      type: &#39;background&#39;,
+      width: &#39;480px&#39;,
+      height: &#39;720px&#39;,
+      backgroundImage:
+        &#39;url(https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*EmPXQLrX2xIAAAAAAAAAAAAADmJ7AQ/original)&#39;,
+      backgroundRepeat: &#39;no-repeat&#39;,
+      backgroundSize: &#39;contain&#39;,
+      opacity: 1,
+    },
+  ],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

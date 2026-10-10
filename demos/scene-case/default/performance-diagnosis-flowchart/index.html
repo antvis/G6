@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/default/performance-diagnosis-flowchart</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/default/performance-diagnosis-flowchart/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/default/performance-diagnosis-flowchart" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/default/performance-diagnosis-flowchart</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/default/performance-diagnosis-flowchart/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { BugOutlined } from &#39;@ant-design/icons&#39;;
+import { ExtensionCategory, Graph, HoverActivate, idOf, register } from &#39;@antv/g6&#39;;
+import { ReactNode } from &#39;@antv/g6-extension-react&#39;;
+import { Flex, Typography } from &#39;antd&#39;;
+import { useEffect, useRef } from &#39;react&#39;;
+import { createRoot } from &#39;react-dom/client&#39;;
+
+const { Text } = Typography;
+
+const ACTIVE_COLOR = &#39;#f6c523&#39;;
+const COLOR_MAP = {
+  &#39;pre-inspection&#39;: &#39;#3fc1c9&#39;,
+  problem: &#39;#8983f3&#39;,
+  inspection: &#39;#f48db4&#39;,
+  solution: &#39;#ffaa64&#39;,
+};
+
+class HoverElement extends HoverActivate {
+  getActiveIds(event) {
+    const { model, graph } = this.context;
+    const { targetType, target } = event;
+    const targetId = target.id;
+
+    const ids = [targetId];
+    if (targetType === &#39;edge&#39;) {
+      const edge = model.getEdgeDatum(targetId);
+      ids.push(edge.source, edge.target);
+    } else if (targetType === &#39;node&#39;) {
+      ids.push(...model.getRelatedEdgesData(targetId).map(idOf));
+    }
+
+    graph.frontElement(ids);
+
+    return ids;
+  }
+}
+
+register(ExtensionCategory.NODE, &#39;react&#39;, ReactNode);
+register(ExtensionCategory.BEHAVIOR, &#39;hover-element&#39;, HoverElement);
+
+const Node = ({ data }) =&gt; {
+  const { text, type } = data.data;
+
+  const isHovered = data.states?.includes(&#39;active&#39;);
+  const isSelected = data.states?.includes(&#39;selected&#39;);
+  const color = isHovered ? ACTIVE_COLOR : COLOR_MAP[type];
+
+  const containerStyle = {
+    width: &#39;100%&#39;,
+    height: &#39;100%&#39;,
+    background: color,
+    border: `3px solid ${color}`,
+    borderRadius: 16,
+    cursor: &#39;pointer&#39;,
+  };
+
+  if (isSelected) {
+    Object.assign(containerStyle, { border: `3px solid #000` });
+  }
+
+  return (
+    &lt;Flex style={containerStyle} align=&quot;center&quot; justify=&quot;center&quot;&gt;
+      &lt;Flex vertical style={{ padding: &#39;8px 16px&#39;, textAlign: &#39;center&#39; }} align=&quot;center&quot; justify=&quot;center&quot;&gt;
+        {type === &#39;problem&#39; &amp;&amp; &lt;BugOutlined style={{ color: &#39;#fff&#39;, fontSize: 24, marginBottom: 8 }} /&gt;}
+        &lt;Text style={{ color: &#39;#fff&#39;, fontWeight: 600, fontSize: 16 }}&gt;{text}&lt;/Text&gt;
+      &lt;/Flex&gt;
+    &lt;/Flex&gt;
+  );
+};
+
+export const PerformanceDiagnosisFlowchart = () =&gt; {
+  const containerRef = useRef();
+
+  useEffect(() =&gt; {
+    fetch(&#39;https://assets.antv.antgroup.com/g6/performance-diagnosis.json&#39;)
+      .then((res) =&gt; res.json())
+      .then((data) =&gt; {
+        const graph = new Graph({
+          container: containerRef.current,
+          data,
+          autoFit: &#39;view&#39;,
+          node: {
+            type: &#39;react&#39;,
+            style: (d) =&gt; {
+              const style = {
+                component: &lt;Node data={d} /&gt;,
+                ports: [{ placement: &#39;top&#39; }, { placement: &#39;bottom&#39; }],
+              };
+
+              const size = {
+                &#39;pre-inspection&#39;: [240, 120],
+                problem: [200, 120],
+                inspection: [330, 100],
+                solution: [200, 120],
+              }[d.data.type] || [200, 80];
+
+              Object.assign(style, {
+                size,
+                dx: -size[0] / 2,
+                dy: -size[1] / 2,
+              });
+              return style;
+            },
+            state: {
+              active: {
+                halo: false,
+              },
+              selected: {
+                halo: false,
+              },
+            },
+          },
+          edge: {
+            type: &#39;polyline&#39;,
+            style: {
+              lineWidth: 3,
+              radius: 20,
+              stroke: &#39;#8b9baf&#39;,
+              endArrow: true,
+              labelText: (d) =&gt; d.data.text,
+              labelFill: &#39;#8b9baf&#39;,
+              labelFontWeight: 600,
+              labelBackground: true,
+              labelBackgroundFill: &#39;#f8f8f8&#39;,
+              labelBackgroundOpacity: 1,
+              labelBackgroundLineWidth: 3,
+              labelBackgroundStroke: &#39;#8b9baf&#39;,
+              labelPadding: [1, 10],
+              labelBackgroundRadius: 4,
+              router: {
+                type: &#39;orth&#39;,
+              },
+            },
+            state: {
+              active: {
+                stroke: ACTIVE_COLOR,
+                labelBackgroundStroke: ACTIVE_COLOR,
+                halo: false,
+              },
+            },
+          },
+          layout: {
+            type: &#39;antv-dagre&#39;,
+          },
+          behaviors: [&#39;zoom-canvas&#39;, &#39;drag-canvas&#39;, &#39;hover-element&#39;, &#39;click-select&#39;],
+        });
+
+        graph.render();
+      });
+  }, []);
+
+  return &lt;div style={{ width: &#39;100%&#39;, height: &#39;100%&#39; }} ref={containerRef}&gt;&lt;/div&gt;;
+};
+
+const root = createRoot(document.getElementById(&#39;container&#39;));
+root.render(&lt;PerformanceDiagnosisFlowchart /&gt;);
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

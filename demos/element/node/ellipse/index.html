@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/node/ellipse</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/node/ellipse/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/node/ellipse" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/node/ellipse</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/node/ellipse/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph, iconfont } from &#39;@antv/g6&#39;;
+
+const style = document.createElement(&#39;style&#39;);
+style.innerHTML = `@import url(&#39;${iconfont.css}&#39;);`;
+document.head.appendChild(style);
+
+const data = {
+  nodes: [
+    { id: &#39;default&#39; },
+    { id: &#39;halo&#39; },
+    { id: &#39;badges&#39; },
+    { id: &#39;ports&#39; },
+    {
+      id: &#39;active&#39;,
+      states: [&#39;active&#39;],
+    },
+    {
+      id: &#39;selected&#39;,
+      states: [&#39;selected&#39;],
+    },
+    {
+      id: &#39;highlight&#39;,
+      states: [&#39;highlight&#39;],
+    },
+    {
+      id: &#39;inactive&#39;,
+      states: [&#39;inactive&#39;],
+    },
+    {
+      id: &#39;disabled&#39;,
+      states: [&#39;disabled&#39;],
+    },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    type: &#39;ellipse&#39;,
+    style: {
+      size: [45, 35],
+      labelText: (d) =&gt; d.id,
+      iconFontFamily: &#39;iconfont&#39;,
+      iconText: &#39;\ue602&#39;,
+      halo: (d) =&gt; (d.id === &#39;halo&#39; ? true : false),
+      badges: (d) =&gt;
+        d.id === &#39;badges&#39;
+          ? [
+              {
+                text: &#39;A&#39;,
+                placement: &#39;right-top&#39;,
+              },
+              {
+                text: &#39;Important&#39;,
+                placement: &#39;right&#39;,
+              },
+              {
+                text: &#39;Notice&#39;,
+                placement: &#39;right-bottom&#39;,
+              },
+            ]
+          : [],
+      badgeFontSize: 8,
+      badgePadding: [1, 4],
+      portR: 3,
+      ports: (d) =&gt;
+        d.id === &#39;ports&#39;
+          ? [{ placement: &#39;left&#39; }, { placement: &#39;right&#39; }, { placement: &#39;top&#39; }, { placement: &#39;bottom&#39; }]
+          : [],
+    },
+  },
+  layout: {
+    type: &#39;grid&#39;,
+  },
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

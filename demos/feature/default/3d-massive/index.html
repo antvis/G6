@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>feature/default/3d-massive</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/feature/default/3d-massive/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="feature/default/3d-massive" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>feature/default/3d-massive</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/feature/default/3d-massive/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { CameraSetting, ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+import { Light, Line3D, ObserveCanvas3D, Sphere, ZoomCanvas3D, renderer } from &#39;@antv/g6-extension-3d&#39;;
+
+register(ExtensionCategory.PLUGIN, &#39;3d-light&#39;, Light);
+register(ExtensionCategory.NODE, &#39;sphere&#39;, Sphere);
+register(ExtensionCategory.EDGE, &#39;line3d&#39;, Line3D);
+register(ExtensionCategory.PLUGIN, &#39;camera-setting&#39;, CameraSetting);
+register(ExtensionCategory.BEHAVIOR, &#39;zoom-canvas-3d&#39;, ZoomCanvas3D);
+register(ExtensionCategory.BEHAVIOR, &#39;observe-canvas-3d&#39;, ObserveCanvas3D);
+
+await fetch(&#39;https://assets.antv.antgroup.com/g6/eva-3d-data.json&#39;)
+  .then((res) =&gt; res.json())
+  .then(({ nodes, edges }) =&gt; {
+    const degree = new Map();
+    edges.forEach(({ source, target }) =&gt; {
+      if (!degree.has(source)) degree.set(source, 0);
+      if (!degree.has(target)) degree.set(target, 0);
+      degree.set(source, degree.get(source) + 1);
+      degree.set(target, degree.get(target) + 1);
+    });
+    nodes.forEach((node) =&gt; {
+      const { id } = node;
+      Object.assign(node.data, { degree: degree.get(id) ?? 0 });
+      return node;
+    });
+
+    return { nodes, edges };
+  })
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      renderer,
+      data,
+      animation: false,
+      node: {
+        type: &#39;sphere&#39;,
+        style: {
+          materialType: &#39;phong&#39;,
+          size: (d) =&gt; 50 + d.data.degree,
+          x: (d) =&gt; d.data.x,
+          y: (d) =&gt; d.data.y,
+          z: (d) =&gt; d.data.z,
+        },
+        palette: {
+          color: &#39;tableau&#39;,
+          type: &#39;group&#39;,
+          field: &#39;cluster&#39;,
+        },
+      },
+      edge: {
+        type: &#39;line3d&#39;,
+        style: {
+          // Line3D joins centers directly; its self-edges must not use the 2D loop path.
+          loop: false,
+          lineWidth: 0.4,
+          opacity: 0.4,
+          stroke: &#39;#fff&#39;,
+        },
+      },
+      behaviors: [&#39;observe-canvas-3d&#39;, &#39;zoom-canvas-3d&#39;],
+      plugins: [
+        {
+          type: &#39;camera-setting&#39;,
+          projectionMode: &#39;orthographic&#39;,
+          near: 1,
+          far: 10000,
+          fov: 45,
+          aspect: 1,
+        },
+        {
+          type: &#39;3d-light&#39;,
+          directional: {
+            direction: [0, 0, 1],
+          },
+        },
+        {
+          type: &#39;background&#39;,
+          background: &#39;#000&#39;,
+        },
+      ],
+    });
+
+    return graph.draw().then(() =&gt; {
+      const camera = graph.getCanvas().getCamera();
+      let frame;
+      let counter = 0;
+      const tick = () =&gt; {
+        if (counter &lt; 80) {
+          camera.dolly(4);
+        }
+        camera.rotate(0.4, 0);
+        counter++;
+
+        frame = requestAnimationFrame(tick);
+        if (counter &gt; 160 &amp;&amp; frame) {
+          cancelAnimationFrame(frame);
+        }
+      };
+
+      tick();
+    });
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

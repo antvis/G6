@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/node/html</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/node/html/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/node/html" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/node/html</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/node/html/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const ICON_MAP = {
+  error: &#39;&amp;#10060;&#39;,
+  overload: &#39;&amp;#9889;&#39;,
+  running: &#39;&amp;#9989;&#39;,
+};
+
+const COLOR_MAP = {
+  error: &#39;#f5222d&#39;,
+  overload: &#39;#faad14&#39;,
+  running: &#39;#52c41a&#39;,
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: {
+    nodes: [
+      { id: &#39;node-1&#39;, data: { location: &#39;East&#39;, status: &#39;error&#39;, ip: &#39;192.168.1.2&#39; } },
+      { id: &#39;node-2&#39;, data: { location: &#39;West&#39;, status: &#39;overload&#39;, ip: &#39;192.168.1.3&#39; } },
+      { id: &#39;node-3&#39;, data: { location: &#39;South&#39;, status: &#39;running&#39;, ip: &#39;192.168.1.4&#39; } },
+    ],
+  },
+  node: {
+    type: &#39;html&#39;,
+    style: {
+      size: [240, 80],
+      dx: -120,
+      dy: -40,
+      innerHTML: (d) =&gt; {
+        const {
+          data: { location, status, ip },
+        } = d;
+        const color = COLOR_MAP[status];
+
+        return `
+&lt;div 
+  style=&quot;
+    width:100%; 
+    height: 100%; 
+    background: ${color}bb; 
+    border: 1px solid ${color};
+    color: #fff;
+    user-select: none;
+    display: flex; 
+    padding: 10px;
+    &quot;
+&gt;
+  &lt;div style=&quot;display: flex;flex-direction: column;flex: 1;&quot;&gt;
+    &lt;div style=&quot;font-weight: bold;&quot;&gt;
+      ${location} Node
+    &lt;/div&gt;
+    &lt;div&gt;
+      status: ${status} ${ICON_MAP[status]}
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;span style=&quot;border: 1px solid white; padding: 2px;&quot;&gt;
+      ${ip}
+    &lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;`;
+      },
+    },
+  },
+  layout: {
+    type: &#39;grid&#39;,
+  },
+  behaviors: [&#39;drag-element&#39;, &#39;zoom-canvas&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/edge/quadratic</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/edge/quadratic/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/edge/quadratic" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/edge/quadratic</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/edge/quadratic/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph, iconfont } from &#39;@antv/g6&#39;;
+
+const style = document.createElement(&#39;style&#39;);
+style.innerHTML = `@import url(&#39;${iconfont.css}&#39;);`;
+document.head.appendChild(style);
+
+const data = {
+  nodes: [
+    {
+      id: &#39;node1&#39;,
+    },
+    {
+      id: &#39;node2&#39;,
+    },
+    {
+      id: &#39;node3&#39;,
+    },
+    {
+      id: &#39;node4&#39;,
+    },
+    {
+      id: &#39;node5&#39;,
+    },
+    {
+      id: &#39;node6&#39;,
+    },
+  ],
+  edges: [
+    {
+      id: &#39;line-default&#39;,
+      source: &#39;node1&#39;,
+      target: &#39;node2&#39;,
+    },
+    {
+      id: &#39;line-active&#39;,
+      source: &#39;node1&#39;,
+      target: &#39;node3&#39;,
+      states: [&#39;active&#39;],
+    },
+    {
+      id: &#39;line-selected&#39;,
+      source: &#39;node1&#39;,
+      target: &#39;node4&#39;,
+      states: [&#39;selected&#39;],
+    },
+    {
+      id: &#39;line-highlight&#39;,
+      source: &#39;node1&#39;,
+      target: &#39;node5&#39;,
+      states: [&#39;highlight&#39;],
+    },
+    {
+      id: &#39;line-inactive&#39;,
+      source: &#39;node1&#39;,
+      target: &#39;node6&#39;,
+      states: [&#39;inactive&#39;],
+    },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  edge: {
+    type: &#39;quadratic&#39;,
+    style: {
+      labelText: (d) =&gt; d.id,
+      labelBackground: true,
+      endArrow: true,
+      badge: true,
+      badgeText: &#39;\ue603&#39;,
+      badgeFontFamily: &#39;iconfont&#39;,
+      badgeBackgroundWidth: 12,
+      badgeBackgroundHeight: 12,
+    },
+  },
+  layout: {
+    type: &#39;radial&#39;,
+    unitRadius: 220,
+    linkDistance: 220,
+  },
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

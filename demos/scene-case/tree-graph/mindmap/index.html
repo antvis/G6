@@ -1,0 +1,458 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/tree-graph/mindmap</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/tree-graph/mindmap/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/tree-graph/mindmap" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/tree-graph/mindmap</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/tree-graph/mindmap/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Rect, Text } from &#39;@antv/g&#39;;
+import {
+  Badge,
+  BaseBehavior,
+  BaseNode,
+  BaseTransform,
+  CommonEvent,
+  CubicHorizontal,
+  ExtensionCategory,
+  Graph,
+  GraphEvent,
+  iconfont,
+  idOf,
+  NodeEvent,
+  positionOf,
+  register,
+  treeToGraphData,
+} from &#39;@antv/g6&#39;;
+
+const style = document.createElement(&#39;style&#39;);
+style.innerHTML = `@import url(&#39;${iconfont.css}&#39;);`;
+document.head.appendChild(style);
+
+const RootNodeStyle = {
+  fill: &#39;#EFF0F0&#39;,
+  labelFill: &#39;#262626&#39;,
+  labelFontSize: 24,
+  labelFontWeight: 600,
+  labelOffsetY: 8,
+  labelPlacement: &#39;center&#39;,
+  ports: [{ placement: &#39;right&#39; }, { placement: &#39;left&#39; }],
+  radius: 8,
+};
+
+const NodeStyle = {
+  fill: &#39;transparent&#39;,
+  labelPlacement: &#39;center&#39;,
+  labelFontSize: 16,
+  ports: [{ placement: &#39;right-bottom&#39; }, { placement: &#39;left-bottom&#39; }],
+};
+
+const TreeEvent = {
+  COLLAPSE_EXPAND: &#39;collapse-expand&#39;,
+  ADD_CHILD: &#39;add-child&#39;,
+};
+
+let textShape;
+const measureText = (text) =&gt; {
+  if (!textShape) textShape = new Text({ style: text });
+  textShape.attr(text);
+  return textShape.getBBox().width;
+};
+
+const getNodeWidth = (nodeId, isRoot) =&gt; {
+  const padding = isRoot ? 40 : 30;
+  const nodeStyle = isRoot ? RootNodeStyle : NodeStyle;
+  return measureText({ text: nodeId, fontSize: nodeStyle.labelFontSize, fontFamily: &#39;Gill Sans&#39; }) + padding;
+};
+
+const getNodeSize = (nodeId, isRoot) =&gt; {
+  const width = getNodeWidth(nodeId, isRoot);
+  const height = isRoot ? 48 : 32;
+  return [width, height];
+};
+
+class MindmapNode extends BaseNode {
+  static defaultStyleProps = {
+    showIcon: false,
+  };
+
+  constructor(options) {
+    Object.assign(options.style, MindmapNode.defaultStyleProps);
+    super(options);
+  }
+
+  get childrenData() {
+    return this.context.model.getChildrenData(this.id);
+  }
+
+  get rootId() {
+    return idOf(this.context.model.getRootsData()[0]);
+  }
+
+  isShowCollapse(attributes) {
+    const { collapsed, showIcon } = attributes;
+    return !collapsed &amp;&amp; showIcon &amp;&amp; this.childrenData.length &gt; 0;
+  }
+
+  getCollapseStyle(attributes) {
+    const { showIcon, color, direction } = attributes;
+    if (!this.isShowCollapse(attributes)) return false;
+    const [width, height] = this.getSize(attributes);
+
+    return {
+      backgroundFill: color,
+      backgroundHeight: 12,
+      backgroundWidth: 12,
+      cursor: &#39;pointer&#39;,
+      fill: &#39;#fff&#39;,
+      fontFamily: &#39;iconfont&#39;,
+      fontSize: 8,
+      text: &#39;\ue6e4&#39;,
+      textAlign: &#39;center&#39;,
+      transform: direction === &#39;left&#39; ? [[&#39;rotate&#39;, 90]] : [[&#39;rotate&#39;, -90]],
+      visibility: showIcon ? &#39;visible&#39; : &#39;hidden&#39;,
+      x: direction === &#39;left&#39; ? -6 : width + 6,
+      y: height,
+    };
+  }
+
+  drawCollapseShape(attributes, container) {
+    const iconStyle = this.getCollapseStyle(attributes);
+    const btn = this.upsert(&#39;collapse-expand&#39;, Badge, iconStyle, container);
+
+    this.forwardEvent(btn, CommonEvent.CLICK, (event) =&gt; {
+      event.stopPropagation();
+      this.context.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
+        id: this.id,
+        collapsed: !attributes.collapsed,
+      });
+    });
+  }
+
+  getCountStyle(attributes) {
+    const { collapsed, color, direction } = attributes;
+    const count = this.context.model.getDescendantsData(this.id).length;
+    if (!collapsed || count === 0) return false;
+    const [width, height] = this.getSize(attributes);
+    return {
+      backgroundFill: color,
+      backgroundHeight: 12,
+      backgroundWidth: 12,
+      cursor: &#39;pointer&#39;,
+      fill: &#39;#fff&#39;,
+      fontSize: 8,
+      text: count.toString(),
+      textAlign: &#39;center&#39;,
+      x: direction === &#39;left&#39; ? -6 : width + 6,
+      y: height,
+    };
+  }
+
+  drawCountShape(attributes, container) {
+    const countStyle = this.getCountStyle(attributes);
+    const btn = this.upsert(&#39;count&#39;, Badge, countStyle, container);
+
+    this.forwardEvent(btn, CommonEvent.CLICK, (event) =&gt; {
+      event.stopPropagation();
+      this.context.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
+        id: this.id,
+        collapsed: false,
+      });
+    });
+  }
+
+  getAddStyle(attributes) {
+    const { collapsed, showIcon, direction } = attributes;
+    if (collapsed || !showIcon) return false;
+    const [width, height] = this.getSize(attributes);
+    const color = &#39;#ddd&#39;;
+
+    const offsetX = this.isShowCollapse(attributes) ? 24 : 12;
+    const isRoot = this.id === this.rootId;
+
+    return {
+      backgroundFill: &#39;#fff&#39;,
+      backgroundHeight: 12,
+      backgroundLineWidth: 1,
+      backgroundStroke: color,
+      backgroundWidth: 12,
+      cursor: &#39;pointer&#39;,
+      fill: color,
+      fontFamily: &#39;iconfont&#39;,
+      fontSize: 8,
+      text: &#39;\ue664&#39;,
+      textAlign: &#39;center&#39;,
+      x: isRoot ? width + 12 : direction === &#39;left&#39; ? -offsetX : width + offsetX,
+      y: isRoot ? height / 2 : height,
+    };
+  }
+
+  getAddBarStyle(attributes) {
+    const { collapsed, showIcon, direction, color = &#39;#1783FF&#39; } = attributes;
+    if (collapsed || !showIcon) return false;
+    const [width, height] = this.getSize(attributes);
+
+    const offsetX = this.isShowCollapse(attributes) ? 12 : 0;
+    const isRoot = this.id === this.rootId;
+
+    const HEIGHT = 2;
+    const WIDTH = 6;
+
+    return {
+      cursor: &#39;pointer&#39;,
+      fill:
+        direction === &#39;left&#39;
+          ? `linear-gradient(180deg, #fff 20%, ${color})`
+          : `linear-gradient(0deg, #fff 20%, ${color})`,
+      height: HEIGHT,
+      width: WIDTH,
+      x: isRoot ? width : direction === &#39;left&#39; ? -offsetX - WIDTH : width + offsetX,
+      y: isRoot ? height / 2 - HEIGHT / 2 : height - HEIGHT / 2,
+      zIndex: -1,
+    };
+  }
+
+  drawAddShape(attributes, container) {
+    const addStyle = this.getAddStyle(attributes);
+    const addBarStyle = this.getAddBarStyle(attributes);
+    this.upsert(&#39;add-bar&#39;, Rect, addBarStyle, container);
+    const btn = this.upsert(&#39;add&#39;, Badge, addStyle, container);
+
+    this.forwardEvent(btn, CommonEvent.CLICK, (event) =&gt; {
+      event.stopPropagation();
+      this.context.graph.emit(TreeEvent.ADD_CHILD, { id: this.id, direction: attributes.direction });
+    });
+  }
+
+  forwardEvent(target, type, listener) {
+    if (target &amp;&amp; !Reflect.has(target, &#39;__bind__&#39;)) {
+      Reflect.set(target, &#39;__bind__&#39;, true);
+      target.addEventListener(type, listener);
+    }
+  }
+
+  getKeyStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    const keyShape = super.getKeyStyle(attributes);
+    return { width, height, ...keyShape };
+  }
+
+  drawKeyShape(attributes, container) {
+    const keyStyle = this.getKeyStyle(attributes);
+    return this.upsert(&#39;key&#39;, Rect, keyStyle, container);
+  }
+
+  render(attributes = this.parsedAttributes, container = this) {
+    super.render(attributes, container);
+
+    this.drawCollapseShape(attributes, container);
+    this.drawAddShape(attributes, container);
+
+    this.drawCountShape(attributes, container);
+  }
+}
+
+class MindmapEdge extends CubicHorizontal {
+  get rootId() {
+    return idOf(this.context.model.getRootsData()[0]);
+  }
+
+  getKeyPath(attributes) {
+    const path = super.getKeyPath(attributes);
+    const isRoot = this.targetNode.id === this.rootId;
+    const labelWidth = getNodeWidth(this.targetNode.id, isRoot);
+
+    const [, tp] = this.getEndpoints(attributes);
+    const sign = this.sourceNode.getCenter()[0] &lt; this.targetNode.getCenter()[0] ? 1 : -1;
+    return [...path, [&#39;L&#39;, tp[0] + labelWidth * sign, tp[1]]];
+  }
+}
+
+class CollapseExpandTree extends BaseBehavior {
+  constructor(context, options) {
+    super(context, options);
+    this.bindEvents();
+  }
+
+  update(options) {
+    this.unbindEvents();
+    super.update(options);
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    const { graph } = this.context;
+
+    graph.on(NodeEvent.POINTER_ENTER, this.showIcon);
+    graph.on(NodeEvent.POINTER_LEAVE, this.hideIcon);
+    graph.on(TreeEvent.COLLAPSE_EXPAND, this.onCollapseExpand);
+    graph.on(TreeEvent.ADD_CHILD, this.addChild);
+  }
+
+  unbindEvents() {
+    const { graph } = this.context;
+
+    graph.off(NodeEvent.POINTER_ENTER, this.showIcon);
+    graph.off(NodeEvent.POINTER_LEAVE, this.hideIcon);
+    graph.off(TreeEvent.COLLAPSE_EXPAND, this.onCollapseExpand);
+    graph.off(TreeEvent.ADD_CHILD, this.addChild);
+  }
+
+  status = &#39;idle&#39;;
+
+  showIcon = (event) =&gt; {
+    this.setIcon(event, true);
+  };
+
+  hideIcon = (event) =&gt; {
+    this.setIcon(event, false);
+  };
+
+  setIcon = (event, show) =&gt; {
+    if (this.status !== &#39;idle&#39;) return;
+    const { target } = event;
+    const id = target.id;
+    const { graph, element } = this.context;
+    graph.updateNodeData([{ id, style: { showIcon: show } }]);
+    element.draw({ animation: false, silence: true });
+  };
+
+  onCollapseExpand = async (event) =&gt; {
+    this.status = &#39;busy&#39;;
+    const { id, collapsed } = event;
+    const { graph } = this.context;
+    await graph.frontElement(id);
+    if (collapsed) await graph.collapseElement(id);
+    else await graph.expandElement(id);
+    this.status = &#39;idle&#39;;
+  };
+
+  addChild = async (event) =&gt; {
+    this.status = &#39;busy&#39;;
+    const {
+      onCreateChild = () =&gt; {
+        const currentTime = new Date(Date.now()).toLocaleString();
+        return { id: `New Node in ${currentTime}` };
+      },
+    } = this.options;
+    const { graph } = this.context;
+    const datum = onCreateChild(event.id);
+    const parent = graph.getNodeData(event.id);
+
+    graph.addNodeData([datum]);
+    graph.addEdgeData([{ source: event.id, target: datum.id }]);
+    graph.updateNodeData([
+      {
+        id: event.id,
+        children: [...(parent.children || []), datum.id],
+        style: { collapsed: false, showIcon: false },
+      },
+    ]);
+    await graph.render();
+    await graph.focusElement(datum.id);
+    this.status = &#39;idle&#39;;
+  };
+}
+
+class AssignColorByBranch extends BaseTransform {
+  static defaultOptions = {
+    colors: [
+      &#39;#1783FF&#39;,
+      &#39;#F08F56&#39;,
+      &#39;#D580FF&#39;,
+      &#39;#00C9C9&#39;,
+      &#39;#7863FF&#39;,
+      &#39;#DB9D0D&#39;,
+      &#39;#60C42D&#39;,
+      &#39;#FF80CA&#39;,
+      &#39;#2491B3&#39;,
+      &#39;#17C76F&#39;,
+    ],
+  };
+
+  constructor(context, options) {
+    super(context, Object.assign({}, AssignColorByBranch.defaultOptions, options));
+  }
+
+  beforeDraw(input) {
+    const nodes = this.context.model.getNodeData();
+
+    if (nodes.length === 0) return input;
+
+    let colorIndex = 0;
+    const dfs = (nodeId, color) =&gt; {
+      const node = nodes.find((datum) =&gt; datum.id == nodeId);
+      if (!node) return;
+
+      node.style ||= {};
+      node.style.color = color || this.options.colors[colorIndex++ % this.options.colors.length];
+      node.children?.forEach((childId) =&gt; dfs(childId, node.style?.color));
+    };
+
+    nodes.filter((node) =&gt; node.depth === 1).forEach((rootNode) =&gt; dfs(rootNode.id));
+
+    return input;
+  }
+}
+
+register(ExtensionCategory.NODE, &#39;mindmap&#39;, MindmapNode);
+register(ExtensionCategory.EDGE, &#39;mindmap&#39;, MindmapEdge);
+register(ExtensionCategory.BEHAVIOR, &#39;collapse-expand-tree&#39;, CollapseExpandTree);
+register(ExtensionCategory.TRANSFORM, &#39;assign-color-by-branch&#39;, AssignColorByBranch);
+
+const getNodeSide = (nodeData, parentData) =&gt; {
+  if (!parentData) return &#39;center&#39;;
+
+  const nodePositionX = positionOf(nodeData)[0];
+  const parentPositionX = positionOf(parentData)[0];
+  return parentPositionX &gt; nodePositionX ? &#39;left&#39; : &#39;right&#39;;
+};
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/algorithm-category.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const rootId = data.id;
+
+    const graph = new Graph({
+      autoFit: &#39;view&#39;,
+      data: treeToGraphData(data),
+      node: {
+        type: &#39;mindmap&#39;,
+        style: function (d) {
+          const direction = getNodeSide(d, this.getParentData(idOf(d), &#39;tree&#39;));
+          const isRoot = idOf(d) === rootId;
+
+          return {
+            direction,
+            labelText: idOf(d),
+            size: getNodeSize(idOf(d), isRoot),
+            labelFontFamily: &#39;Gill Sans&#39;,
+            // 通过设置节点标签背景来扩大交互区域 | Expand the interaction area by setting the node label background
+            labelBackground: true,
+            labelBackgroundFill: &#39;transparent&#39;,
+            labelPadding: direction === &#39;left&#39; ? [2, 0, 10, 40] : [2, 40, 10, 0],
+            ...(isRoot ? RootNodeStyle : NodeStyle),
+          };
+        },
+      },
+      edge: {
+        type: &#39;mindmap&#39;,
+        style: {
+          lineWidth: 3,
+          stroke: function (data) {
+            return this.getNodeData(data.target).style.color || &#39;#99ADD1&#39;;
+          },
+        },
+      },
+      layout: {
+        type: &#39;mindmap&#39;,
+        direction: &#39;H&#39;,
+        getHeight: () =&gt; 30,
+        getWidth: (node) =&gt; getNodeWidth(node.id, node.id === rootId),
+        getVGap: () =&gt; 6,
+        getHGap: () =&gt; 60,
+        animation: false,
+      },
+      behaviors: [&#39;drag-canvas&#39;, &#39;zoom-canvas&#39;, &#39;collapse-expand-tree&#39;],
+      transforms: [&#39;assign-color-by-branch&#39;],
+      animation: false,
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

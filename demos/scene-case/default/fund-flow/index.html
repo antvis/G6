@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/default/fund-flow</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/default/fund-flow/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/default/fund-flow" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/default/fund-flow</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/default/fund-flow/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Rect as GRect, Text as GText } from &#39;@antv/g&#39;;
+import {
+  Badge,
+  CommonEvent,
+  ExtensionCategory,
+  Graph,
+  GraphEvent,
+  iconfont,
+  Label,
+  Rect,
+  register,
+  treeToGraphData,
+} from &#39;@antv/g6&#39;;
+
+const style = document.createElement(&#39;style&#39;);
+style.innerHTML = `@import url(&#39;${iconfont.css}&#39;);`;
+document.head.appendChild(style);
+
+const COLORS = {
+  B: &#39;#1783FF&#39;,
+  R: &#39;#F46649&#39;,
+  Y: &#39;#DB9D0D&#39;,
+  G: &#39;#60C42D&#39;,
+  DI: &#39;#A7A7A7&#39;,
+};
+const GREY_COLOR = &#39;#CED4D9&#39;;
+
+class TreeNode extends Rect {
+  get data() {
+    return this.context.model.getNodeLikeDatum(this.id);
+  }
+
+  get childrenData() {
+    return this.context.model.getChildrenData(this.id);
+  }
+
+  getLabelStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    return {
+      x: -width / 2 + 8,
+      y: -height / 2 + 16,
+      text: this.data.name,
+      fontSize: 12,
+      opacity: 0.85,
+      fill: &#39;#000&#39;,
+      cursor: &#39;pointer&#39;,
+    };
+  }
+
+  getPriceStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    return {
+      x: -width / 2 + 8,
+      y: height / 2 - 8,
+      text: this.data.label,
+      fontSize: 16,
+      fill: &#39;#000&#39;,
+      opacity: 0.85,
+    };
+  }
+
+  drawPriceShape(attributes, container) {
+    const priceStyle = this.getPriceStyle(attributes);
+    this.upsert(&#39;price&#39;, GText, priceStyle, container);
+  }
+
+  getCurrencyStyle(attributes) {
+    const [, height] = this.getSize(attributes);
+    return {
+      x: this.shapeMap[&#39;price&#39;].getLocalBounds().max[0] + 4,
+      y: height / 2 - 8,
+      text: this.data.currency,
+      fontSize: 12,
+      fill: &#39;#000&#39;,
+      opacity: 0.75,
+    };
+  }
+
+  drawCurrencyShape(attributes, container) {
+    const currencyStyle = this.getCurrencyStyle(attributes);
+    this.upsert(&#39;currency&#39;, GText, currencyStyle, container);
+  }
+
+  getPercentStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    return {
+      x: width / 2 - 4,
+      y: height / 2 - 8,
+      text: `${((Number(this.data.variableValue) || 0) * 100).toFixed(2)}%`,
+      fontSize: 12,
+      textAlign: &#39;right&#39;,
+      fill: COLORS[this.data.status],
+    };
+  }
+
+  drawPercentShape(attributes, container) {
+    const percentStyle = this.getPercentStyle(attributes);
+    this.upsert(&#39;percent&#39;, GText, percentStyle, container);
+  }
+
+  getTriangleStyle(attributes) {
+    const percentMinX = this.shapeMap[&#39;percent&#39;].getLocalBounds().min[0];
+    const [, height] = this.getSize(attributes);
+    return {
+      fill: COLORS[this.data.status],
+      x: this.data.variableUp ? percentMinX - 18 : percentMinX,
+      y: height / 2 - 16,
+      fontFamily: &#39;iconfont&#39;,
+      fontSize: 16,
+      text: &#39;\ue62d&#39;,
+      transform: this.data.variableUp ? [] : [[&#39;rotate&#39;, 180]],
+    };
+  }
+
+  drawTriangleShape(attributes, container) {
+    const triangleStyle = this.getTriangleStyle(attributes);
+    this.upsert(&#39;triangle&#39;, Label, triangleStyle, container);
+  }
+
+  getVariableStyle(attributes) {
+    const [, height] = this.getSize(attributes);
+    return {
+      fill: &#39;#000&#39;,
+      fontSize: 12,
+      opacity: 0.45,
+      text: this.data.variableName,
+      textAlign: &#39;right&#39;,
+      x: this.shapeMap[&#39;triangle&#39;].getLocalBounds().min[0] - 4,
+      y: height / 2 - 8,
+    };
+  }
+
+  drawVariableShape(attributes, container) {
+    const variableStyle = this.getVariableStyle(attributes);
+    this.upsert(&#39;variable&#39;, GText, variableStyle, container);
+  }
+
+  getCollapseStyle(attributes) {
+    if (this.childrenData.length === 0) return false;
+    const { collapsed } = attributes;
+    const [width, height] = this.getSize(attributes);
+    return {
+      backgroundFill: &#39;#fff&#39;,
+      backgroundHeight: 16,
+      backgroundLineWidth: 1,
+      backgroundRadius: 0,
+      backgroundStroke: GREY_COLOR,
+      backgroundWidth: 16,
+      cursor: &#39;pointer&#39;,
+      fill: GREY_COLOR,
+      fontSize: 16,
+      text: collapsed ? &#39;+&#39; : &#39;-&#39;,
+      textAlign: &#39;center&#39;,
+      textBaseline: &#39;middle&#39;,
+      x: width / 2,
+      y: 0,
+    };
+  }
+
+  drawCollapseShape(attributes, container) {
+    const collapseStyle = this.getCollapseStyle(attributes);
+    const btn = this.upsert(&#39;collapse&#39;, Badge, collapseStyle, container);
+
+    if (btn &amp;&amp; !Reflect.has(btn, &#39;__bind__&#39;)) {
+      Reflect.set(btn, &#39;__bind__&#39;, true);
+      btn.addEventListener(CommonEvent.CLICK, () =&gt; {
+        const { collapsed } = this.attributes;
+        const graph = this.context.graph;
+        if (collapsed) graph.expandElement(this.id);
+        else graph.collapseElement(this.id);
+      });
+    }
+  }
+
+  getProcessBarStyle(attributes) {
+    const { rate, status } = this.data;
+    const { radius } = attributes;
+    const color = COLORS[status];
+    const percent = `${Number(rate) * 100}%`;
+    const [width, height] = this.getSize(attributes);
+    return {
+      x: -width / 2,
+      y: height / 2 - 4,
+      width: width,
+      height: 4,
+      radius: [0, 0, radius, radius],
+      fill: `linear-gradient(to right, ${color} ${percent}, ${GREY_COLOR} ${percent})`,
+    };
+  }
+
+  drawProcessBarShape(attributes, container) {
+    const processBarStyle = this.getProcessBarStyle(attributes);
+    this.upsert(&#39;process-bar&#39;, GRect, processBarStyle, container);
+  }
+
+  getKeyStyle(attributes) {
+    const keyStyle = super.getKeyStyle(attributes);
+    return {
+      ...keyStyle,
+      fill: &#39;#fff&#39;,
+      lineWidth: 1,
+      stroke: GREY_COLOR,
+    };
+  }
+
+  render(attributes = this.parsedAttributes, container) {
+    super.render(attributes, container);
+
+    this.drawPriceShape(attributes, container);
+    this.drawCurrencyShape(attributes, container);
+    this.drawPercentShape(attributes, container);
+    this.drawTriangleShape(attributes, container);
+    this.drawVariableShape(attributes, container);
+    this.drawProcessBarShape(attributes, container);
+    this.drawCollapseShape(attributes, container);
+  }
+}
+
+register(ExtensionCategory.NODE, &#39;tree-node&#39;, TreeNode);
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/decision-tree.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      autoFit: &#39;view&#39;,
+      data: treeToGraphData(data, {
+        getNodeData: (datum, depth) =&gt; {
+          if (!datum.style) datum.style = {};
+          datum.style.collapsed = depth &gt;= 2;
+          if (!datum.children) return datum;
+          const { children, ...restDatum } = datum;
+          return { ...restDatum, children: children.map((child) =&gt; child.id) };
+        },
+      }),
+      node: {
+        type: &#39;tree-node&#39;,
+        style: {
+          size: [202, 60],
+          ports: [{ placement: &#39;left&#39; }, { placement: &#39;right&#39; }],
+          radius: 4,
+        },
+      },
+      edge: {
+        type: &#39;cubic-horizontal&#39;,
+        style: {
+          stroke: GREY_COLOR,
+        },
+      },
+      layout: {
+        type: &#39;indented&#39;,
+        direction: &#39;LR&#39;,
+        dropCap: false,
+        indent: 300,
+        getHeight: () =&gt; 60,
+        preLayout: false,
+      },
+      behaviors: [&#39;zoom-canvas&#39;, &#39;drag-canvas&#39;],
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

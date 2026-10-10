@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>behavior/fix-element-size/fix-size</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/behavior/fix-element-size/fix-size/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="behavior/fix-element-size/fix-size" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>behavior/fix-element-size/fix-size</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/behavior/fix-element-size/fix-size/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    { id: &#39;node0&#39;, size: 50, label: &#39;0&#39;, style: { x: 326, y: 268 }, states: [&#39;selected&#39;] },
+    { id: &#39;node1&#39;, size: 30, label: &#39;1&#39;, style: { x: 280, y: 384 }, states: [&#39;selected&#39;] },
+    { id: &#39;node2&#39;, size: 30, label: &#39;2&#39;, style: { x: 234, y: 167 } },
+    { id: &#39;node3&#39;, size: 30, label: &#39;3&#39;, style: { x: 391, y: 368 } },
+    { id: &#39;node4&#39;, size: 30, label: &#39;4&#39;, style: { x: 444, y: 209 } },
+    { id: &#39;node5&#39;, size: 30, label: &#39;5&#39;, style: { x: 378, y: 157 } },
+    { id: &#39;node6&#39;, size: 15, label: &#39;6&#39;, style: { x: 229, y: 400 } },
+    { id: &#39;node7&#39;, size: 15, label: &#39;7&#39;, style: { x: 281, y: 440 } },
+    { id: &#39;node8&#39;, size: 15, label: &#39;8&#39;, style: { x: 188, y: 119 } },
+    { id: &#39;node9&#39;, size: 15, label: &#39;9&#39;, style: { x: 287, y: 157 } },
+    { id: &#39;node10&#39;, size: 15, label: &#39;10&#39;, style: { x: 185, y: 200 } },
+    { id: &#39;node11&#39;, size: 15, label: &#39;11&#39;, style: { x: 238, y: 110 } },
+    { id: &#39;node12&#39;, size: 15, label: &#39;12&#39;, style: { x: 239, y: 221 } },
+    { id: &#39;node13&#39;, size: 15, label: &#39;13&#39;, style: { x: 176, y: 160 } },
+    { id: &#39;node14&#39;, size: 15, label: &#39;14&#39;, style: { x: 389, y: 423 } },
+    { id: &#39;node15&#39;, size: 15, label: &#39;15&#39;, style: { x: 441, y: 341 } },
+    { id: &#39;node16&#39;, size: 15, label: &#39;16&#39;, style: { x: 442, y: 398 } },
+  ],
+  edges: [
+    { source: &#39;node0&#39;, target: &#39;node1&#39;, label: &#39;0-1&#39;, states: [&#39;selected&#39;] },
+    { source: &#39;node0&#39;, target: &#39;node2&#39;, label: &#39;0-2&#39; },
+    { source: &#39;node0&#39;, target: &#39;node3&#39;, label: &#39;0-3&#39; },
+    { source: &#39;node0&#39;, target: &#39;node4&#39;, label: &#39;0-4&#39; },
+    { source: &#39;node0&#39;, target: &#39;node5&#39;, label: &#39;0-5&#39; },
+    { source: &#39;node1&#39;, target: &#39;node6&#39;, label: &#39;1-6&#39; },
+    { source: &#39;node1&#39;, target: &#39;node7&#39;, label: &#39;1-7&#39; },
+    { source: &#39;node2&#39;, target: &#39;node8&#39;, label: &#39;2-8&#39; },
+    { source: &#39;node2&#39;, target: &#39;node9&#39;, label: &#39;2-9&#39; },
+    { source: &#39;node2&#39;, target: &#39;node10&#39;, label: &#39;2-10&#39; },
+    { source: &#39;node2&#39;, target: &#39;node11&#39;, label: &#39;2-11&#39; },
+    { source: &#39;node2&#39;, target: &#39;node12&#39;, label: &#39;2-12&#39; },
+    { source: &#39;node2&#39;, target: &#39;node13&#39;, label: &#39;2-13&#39; },
+    { source: &#39;node3&#39;, target: &#39;node14&#39;, label: &#39;3-14&#39; },
+    { source: &#39;node3&#39;, target: &#39;node15&#39;, label: &#39;3-15&#39; },
+    { source: &#39;node3&#39;, target: &#39;node16&#39;, label: &#39;3-16&#39; },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    style: {
+      labelText: (d) =&gt; d.label,
+      size: (d) =&gt; d.size,
+      lineWidth: 1,
+    },
+  },
+  edge: { style: { labelText: (d) =&gt; d.label } },
+  behaviors: [
+    &#39;zoom-canvas&#39;,
+    &#39;drag-canvas&#39;,
+    {
+      key: &#39;fix-element-size&#39;,
+      type: &#39;fix-element-size&#39;,
+      enable: (event) =&gt; event.data.scale &lt; 1,
+      state: &#39;selected&#39;,
+      reset: true,
+    },
+    { type: &#39;click-select&#39;, key: &#39;click-select&#39;, multiple: true },
+  ],
+  autoFit: &#39;center&#39;,
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

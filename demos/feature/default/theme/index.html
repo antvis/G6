@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>feature/default/theme</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/feature/default/theme/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="feature/default/theme" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>feature/default/theme</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/feature/default/theme/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { Graph } from &#39;@antv/g6&#39;;
+
+const themes = {
+  &#39;🌞 Light&#39;: {
+    theme: &#39;light&#39;,
+    node: {
+      style: { size: 4 },
+      palette: {
+        type: &#39;group&#39;,
+        field: &#39;cluster&#39;,
+      },
+    },
+    plugins: [{ type: &#39;background&#39;, background: &#39;#fff&#39; }],
+  },
+  &#39;🌚 Dark&#39;: {
+    theme: &#39;dark&#39;,
+    node: {
+      style: { size: 4 },
+      palette: {
+        type: &#39;group&#39;,
+        field: &#39;cluster&#39;,
+      },
+    },
+    plugins: [{ type: &#39;background&#39;, background: &#39;#000&#39; }],
+  },
+  &#39;🌎 Blue&#39;: {
+    theme: &#39;light&#39;,
+    node: {
+      style: { size: 4 },
+      palette: {
+        type: &#39;group&#39;,
+        field: &#39;cluster&#39;,
+        color: &#39;blues&#39;,
+        invert: true,
+      },
+    },
+    plugins: [{ type: &#39;background&#39;, background: &#39;#f3faff&#39; }],
+  },
+  &#39;🌕 Yellow&#39;: {
+    background: &#39;#fcf9f1&#39;,
+    theme: &#39;light&#39;,
+    node: {
+      style: { size: 4 },
+      palette: {
+        type: &#39;group&#39;,
+        field: &#39;cluster&#39;,
+        color: [&#39;#ffe7ba&#39;, &#39;#ffd591&#39;, &#39;#ffc069&#39;, &#39;#ffa940&#39;, &#39;#fa8c16&#39;, &#39;#d46b08&#39;, &#39;#ad4e00&#39;, &#39;#873800&#39;, &#39;#612500&#39;],
+      },
+    },
+    plugins: [{ type: &#39;background&#39;, background: &#39;#fcf9f1&#39; }],
+  },
+};
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/20000.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      animation: false,
+      padding: 20,
+      autoFit: &#39;view&#39;,
+      theme: &#39;light&#39;,
+      data,
+      node: {
+        style: { size: 4 },
+        palette: {
+          type: &#39;group&#39;,
+          field: &#39;cluster&#39;,
+        },
+      },
+      behaviors: [&#39;drag-canvas&#39;, &#39;zoom-canvas&#39;],
+      plugins: [{ type: &#39;background&#39;, background: &#39;#fff&#39; }],
+    });
+
+    graph.render();
+
+    addPanel((gui) =&gt; {
+      gui.add({ theme: &#39;🌞 Light&#39; }, &#39;theme&#39;, Object.keys(themes)).onChange((theme) =&gt; {
+        graph.setOptions(themes[theme]);
+        graph.draw();
+      });
+    });
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

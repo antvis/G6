@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/indented/custom-side</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/indented/custom-side/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/indented/custom-side" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/indented/custom-side</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/indented/custom-side/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph, treeToGraphData } from &#39;@antv/g6&#39;;
+
+const getNodeSide = (graph, datum) =&gt; {
+  const parentData = graph.getParentData(datum.id, &#39;tree&#39;);
+  if (!parentData) return &#39;center&#39;;
+  return datum.style.x &gt; parentData.style.x ? &#39;right&#39; : &#39;left&#39;;
+};
+
+fetch(&#39;https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      data: treeToGraphData(data),
+      autoFit: &#39;view&#39;,
+      node: {
+        style: function (d) {
+          const side = getNodeSide(this, d);
+          return {
+            labelText: d.id,
+            labelPlacement: side === &#39;center&#39; ? &#39;bottom&#39; : side,
+            labelBackground: true,
+            ports:
+              side === &#39;center&#39;
+                ? [{ placement: &#39;bottom&#39; }]
+                : side === &#39;right&#39;
+                  ? [{ placement: &#39;bottom&#39; }, { placement: &#39;left&#39; }]
+                  : [{ placement: &#39;bottom&#39; }, { placement: &#39;right&#39; }],
+          };
+        },
+        animation: {
+          enter: false,
+        },
+      },
+      edge: {
+        type: &#39;polyline&#39;,
+        style: {
+          radius: 4,
+          router: {
+            type: &#39;orth&#39;,
+          },
+        },
+        animation: {
+          enter: false,
+        },
+      },
+      layout: {
+        type: &#39;indented&#39;,
+        direction: &#39;H&#39;,
+        indent: 80,
+        preLayout: false,
+        getHeight: () =&gt; 16,
+        getWidth: () =&gt; 32,
+        getSide: (d) =&gt; {
+          if (d.id === &#39;Regression&#39; || d.id === &#39;Classification&#39;) return &#39;left&#39;;
+          return &#39;right&#39;;
+        },
+      },
+      behaviors: [&#39;drag-canvas&#39;, &#39;zoom-canvas&#39;, &#39;drag-element&#39;, &#39;collapse-expand&#39;],
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/custom-edge/custom-arrow</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/custom-edge/custom-arrow/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/custom-edge/custom-arrow" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/custom-edge/custom-arrow</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/custom-edge/custom-arrow/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: new Array(6).fill(0).map((_, i) =&gt; ({ id: `node${i + 1}` })),
+  edges: [
+    {
+      id: &#39;custom-arrow-1&#39;,
+      source: &#39;node1&#39;,
+      target: &#39;node2&#39;,
+      style: {
+        endArrowD: &#39;M-14,0 L-4,-4 L0,-14 L4,-4 L14,0 L4,4 L0,14 L-4,4 Z&#39;,
+        endArrowOffset: 14,
+      },
+    },
+    {
+      id: &#39;custom-arrow-2&#39;,
+      source: &#39;node3&#39;,
+      target: &#39;node4&#39;,
+      style: {
+        endArrowD: &#39;M 3,-5 L 3,5 L 15,10 L 15,-10 Z&#39;,
+        endArrowOffset: 10,
+      },
+    },
+    {
+      id: &#39;image-arrow&#39;,
+      source: &#39;node5&#39;,
+      target: &#39;node6&#39;,
+      style: {
+        endArrowSrc: &#39;https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ&#39;,
+        endArrowSize: 28,
+        endArrowTransform: [[&#39;rotate&#39;, 90]],
+      },
+    },
+  ],
+};
+
+const graph = new Graph({
+  data,
+  edge: {
+    style: {
+      stroke: &#39;#F6BD16&#39;,
+      labelText: (d) =&gt; d.id,
+      labelBackground: true,
+      endArrow: true,
+    },
+  },
+  layout: {
+    type: &#39;grid&#39;,
+    cols: 2,
+  },
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

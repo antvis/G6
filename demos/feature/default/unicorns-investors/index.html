@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>feature/default/unicorns-investors</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/feature/default/unicorns-investors/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="feature/default/unicorns-investors" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>feature/default/unicorns-investors</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/feature/default/unicorns-investors/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+/**
+ * Inspired by https://graphcommons.com/graphs/be8bc972-5b26-4f5c-837d-a34704f33a9e
+ */
+fetch(&#39;https://assets.antv.antgroup.com/g6/unicorns-investors.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const size = (node) =&gt; Math.max(...node.style.size);
+
+    const graph = new Graph({
+      data,
+      autoFit: &#39;view&#39;,
+      node: {
+        style: {
+          fillOpacity: 1,
+          label: true,
+          labelText: (d) =&gt; d.data?.name,
+          labelBackground: true,
+          icon: true,
+          iconText: (d) =&gt; (d.data?.type === &#39;Investor&#39; ? &#39;💰&#39; : &#39;🦄️&#39;),
+          fill: (d) =&gt; (d.data?.type === &#39;Investor&#39; ? &#39;#6495ED&#39; : &#39;#FFA07A&#39;),
+        },
+        state: {
+          inactive: {
+            fillOpacity: 0.3,
+            icon: false,
+            label: false,
+          },
+        },
+      },
+      edge: {
+        style: {
+          label: false,
+          labelText: (d) =&gt; d.data?.type,
+          labelBackground: true,
+        },
+        state: {
+          active: {
+            label: true,
+          },
+          inactive: {
+            strokeOpacity: 0,
+          },
+        },
+      },
+      layout: {
+        type: &#39;d3-force&#39;,
+        link: { distance: (edge) =&gt; size(edge.source) + size(edge.target) },
+        collide: { radius: (node) =&gt; size(node) },
+        manyBody: { strength: (node) =&gt; -4 * size(node) },
+        animation: false,
+      },
+      transforms: [
+        {
+          type: &#39;map-node-size&#39;,
+          scale: &#39;linear&#39;,
+          maxSize: 60,
+          minSize: 20,
+          mapLabelSize: [12, 24],
+        },
+      ],
+      behaviors: [
+        &#39;drag-canvas&#39;,
+        &#39;zoom-canvas&#39;,
+        function () {
+          return {
+            key: &#39;hover-activate&#39;,
+            type: &#39;hover-activate&#39;,
+            enable: (e) =&gt; e.targetType === &#39;node&#39;,
+            degree: 1,
+            inactiveState: &#39;inactive&#39;,
+            onHover: (e) =&gt; {
+              this.frontElement(e.target.id);
+              e.view.setCursor(&#39;pointer&#39;);
+            },
+            onHoverEnd: (e) =&gt; {
+              e.view.setCursor(&#39;default&#39;);
+            },
+          };
+        },
+        {
+          type: &#39;fix-element-size&#39;,
+          enable: true,
+        },
+        &#39;auto-adapt-label&#39;,
+      ],
+      animation: false,
+    });
+
+    graph.render();
+  });
+
+const container = document.getElementById(&#39;container&#39;);
+const descriptionDiv = document.createElement(&#39;div&#39;);
+descriptionDiv.innerHTML = &#39;Network Map of 🦄 Unicorns and Their 💰Investors - 1086 nodes, 1247 edges&#39;;
+container.appendChild(descriptionDiv);
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

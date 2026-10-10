@@ -1,0 +1,1 @@
+import{o as e}from"./src.RzVD1Zqa.js";fetch(`https://assets.antv.antgroup.com/g6/5000.json`).then(e=>e.json()).then(async t=>{await new e({container:`container`,animation:!1,data:t,behaviors:[`zoom-canvas`,`drag-canvas`,`drag-element`],autoFit:`view`}).render()});

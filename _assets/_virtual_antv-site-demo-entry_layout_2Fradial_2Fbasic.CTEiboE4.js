@@ -1,0 +1,1 @@
+import{o as e}from"./src.RzVD1Zqa.js";fetch(`https://assets.antv.antgroup.com/g6/radial.json`).then(e=>e.json()).then(t=>{new e({container:`container`,data:t,autoFit:`center`,layout:{type:`radial`,nodeSize:32,unitRadius:100,linkDistance:200},node:{style:{labelFill:`#fff`,labelPlacement:`center`,labelText:e=>e.id}},behaviors:[`drag-canvas`,`drag-element`]}).render()});

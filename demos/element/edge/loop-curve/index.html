@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/edge/loop-curve</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/edge/loop-curve/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/edge/loop-curve" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/edge/loop-curve</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/edge/loop-curve/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph, idOf } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [{ id: &#39;node1&#39; }, { id: &#39;node2&#39; }, { id: &#39;node3-ports&#39; }, { id: &#39;node4-ports&#39; }],
+  edges: [
+    {
+      id: &#39;loop-1&#39;,
+      source: &#39;node1&#39;,
+      target: &#39;node1&#39;,
+      style: { placement: &#39;top&#39; },
+    },
+    {
+      id: &#39;loop-2&#39;,
+      source: &#39;node1&#39;,
+      target: &#39;node1&#39;,
+      style: { placement: &#39;right&#39; },
+    },
+    {
+      id: &#39;loop-3&#39;,
+      source: &#39;node1&#39;,
+      target: &#39;node1&#39;,
+      style: { placement: &#39;bottom&#39; },
+    },
+    {
+      id: &#39;loop-4&#39;,
+      source: &#39;node1&#39;,
+      target: &#39;node1&#39;,
+      style: { placement: &#39;left&#39; },
+    },
+    {
+      id: &#39;loop-5&#39;,
+      source: &#39;node2&#39;,
+      target: &#39;node2&#39;,
+      style: { placement: &#39;top-right&#39; },
+    },
+    {
+      id: &#39;loop-6&#39;,
+      source: &#39;node2&#39;,
+      target: &#39;node2&#39;,
+      style: { placement: &#39;bottom-right&#39; },
+    },
+    {
+      id: &#39;loop-7&#39;,
+      source: &#39;node2&#39;,
+      target: &#39;node2&#39;,
+      style: { placement: &#39;bottom-left&#39; },
+    },
+    {
+      id: &#39;loop-8&#39;,
+      source: &#39;node2&#39;,
+      target: &#39;node2&#39;,
+      style: { placement: &#39;top-left&#39; },
+    },
+    {
+      id: &#39;loop-9&#39;,
+      source: &#39;node3-ports&#39;,
+      target: &#39;node3-ports&#39;,
+      style: { sourcePort: &#39;port1&#39;, targetPort: &#39;port2&#39; },
+    },
+    {
+      id: &#39;loop-10&#39;,
+      source: &#39;node4-ports&#39;,
+      target: &#39;node4-ports&#39;,
+      style: { sourcePort: &#39;port2&#39;, targetPort: &#39;port2&#39; },
+    },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    type: &#39;rect&#39;,
+    style: {
+      size: [80, 30],
+      port: (d) =&gt; idOf(d).includes(&#39;ports&#39;),
+      portR: 3,
+      ports: [
+        {
+          key: &#39;port1&#39;,
+          placement: [0.7, 0],
+        },
+        {
+          key: &#39;port2&#39;,
+          placement: &#39;right&#39;,
+        },
+      ],
+    },
+  },
+  edge: {
+    type: &#39;line&#39;,
+    style: {
+      sourcePort: (d) =&gt; d.style.sourcePort,
+      targetPort: (d) =&gt; d.style.targetPort,
+      endArrow: true,
+      loopPlacement: (d) =&gt; d.style.placement,
+    },
+  },
+  layout: {
+    type: &#39;grid&#39;,
+  },
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

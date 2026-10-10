@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>behavior/update-label/update</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/behavior/update-label/update/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="behavior/update-label/update" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>behavior/update-label/update</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/behavior/update-label/update/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { EdgeEvent, Graph, NodeEvent } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    {
+      id: &#39;node-1&#39;,
+      style: { x: 100, y: 150, labelText: &#39;Hover me!&#39; },
+    },
+    {
+      id: &#39;node-2&#39;,
+      style: { x: 300, y: 150, labelText: &#39;Hover me!&#39; },
+    },
+  ],
+  edges: [{ source: &#39;node-1&#39;, target: &#39;node-2&#39;, style: { labelText: &#39;Hover me!&#39; } }],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  behaviors: [&#39;drag-element&#39;],
+});
+
+graph.render();
+
+graph.on(NodeEvent.POINTER_ENTER, (event) =&gt; {
+  const { target } = event;
+  graph.updateNodeData([
+    { id: target.id, style: { labelText: &#39;Hovered&#39;, fill: &#39;lightgreen&#39;, labelFill: &#39;lightgreen&#39; } },
+  ]);
+  graph.draw();
+});
+
+graph.on(EdgeEvent.POINTER_ENTER, (event) =&gt; {
+  const { target } = event;
+  graph.updateEdgeData([
+    { id: target.id, style: { labelText: &#39;Hovered&#39;, stroke: &#39;lightgreen&#39;, labelFill: &#39;lightgreen&#39;, lineWidth: 3 } },
+  ]);
+  graph.draw();
+});
+
+graph.on(NodeEvent.POINTER_OUT, (event) =&gt; {
+  const { target } = event;
+  graph.updateNodeData([{ id: target.id, style: { labelText: &#39;Hover me!&#39;, fill: &#39;#5B8FF9&#39;, labelFill: &#39;black&#39; } }]);
+  graph.draw();
+});
+
+graph.on(EdgeEvent.POINTER_OUT, (event) =&gt; {
+  const { target } = event;
+  graph.updateEdgeData([
+    { id: target.id, style: { labelText: &#39;Hover me!&#39;, stroke: &#39;#5B8FF9&#39;, labelFill: &#39;black&#39;, lineWidth: 1 } },
+  ]);
+  graph.draw();
+});
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

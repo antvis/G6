@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/default/music-festival</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/default/music-festival/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/default/music-festival" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/default/music-festival</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/default/music-festival/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/music-festival.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const map = new Map();
+
+    data.forEach((datum) =&gt; {
+      const { actors, venuecity } = datum;
+      actors.forEach((actor) =&gt; {
+        if (!map.has(actor)) map.set(actor, new Set([venuecity]));
+        else map.get(actor).add(venuecity);
+      });
+    });
+
+    const nodes = Array.from(map)
+      .filter(([, city]) =&gt; city.size &gt;= 2)
+      .sort((a, b) =&gt; -a[1].size + b[1].size)
+      .map(([name, city]) =&gt; ({
+        id: name,
+        data: {
+          city: Array.from(city),
+          value: city.size,
+        },
+      }));
+
+    return { nodes };
+  })
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      data,
+      node: {
+        type: &#39;rect&#39;,
+        style: {
+          size: [100, 20],
+          radius: 5,
+          iconText: (d) =&gt; d.id,
+          iconFill: &#39;#000&#39;,
+          iconWordWrap: true,
+          iconWordWrapWidth: 80,
+          iconFontSize: 15,
+          iconTextOverflow: &#39;...&#39;,
+          iconMaxLines: 1,
+          labelText: (d) =&gt; d.data.city.join(&#39;\n&#39;),
+          labelFontSize: 12,
+          labelDy: 2,
+          labelFill: &#39;#fff&#39;,
+        },
+        palette: {
+          type: &#39;group&#39;,
+          field: &#39;value&#39;,
+          color: [
+            &#39;#FCE75A&#39;,
+            &#39;#F5DB75&#39;,
+            &#39;#EFCF90&#39;,
+            &#39;#E8C3AB&#39;,
+            &#39;#E1B7C6&#39;,
+            &#39;#DBABE0&#39;,
+            &#39;#D49FFB&#39;,
+            &#39;#CD93FF&#39;,
+            &#39;#B981F2&#39;,
+            &#39;#7E45E8&#39;,
+          ],
+        },
+      },
+      layout: {
+        type: &#39;grid&#39;,
+        nodeSize: [100, 120],
+        sortBy: &#39;order&#39;,
+        cols: 5,
+      },
+      behaviors: [{ type: &#39;scroll-canvas&#39;, direction: &#39;y&#39; }],
+      plugins: [
+        {
+          type: &#39;background&#39;,
+          background: &#39;#000&#39;,
+        },
+      ],
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

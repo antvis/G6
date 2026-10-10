@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/default/snake-flow-diagram</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/default/snake-flow-diagram/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/default/snake-flow-diagram" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/default/snake-flow-diagram</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/default/snake-flow-diagram/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { ExtensionCategory, Graph, Polyline, positionOf, register } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    { id: &#39;0&#39;, data: { label: &#39;开始流程&#39;, time: &#39;17:00:00&#39; } },
+    { id: &#39;1&#39;, data: { label: &#39;流程1&#39;, time: &#39;17:00:05&#39; } },
+    { id: &#39;2&#39;, data: { label: &#39;流程2&#39;, time: &#39;17:00:12&#39; } },
+    { id: &#39;3&#39;, data: { label: &#39;流程3&#39;, time: &#39;17:00:30&#39; } },
+    { id: &#39;4&#39;, data: { label: &#39;流程4&#39;, time: &#39;17:02:00&#39; } },
+    { id: &#39;5&#39;, data: { label: &#39;流程5&#39;, time: &#39;17:02:40&#39; } },
+    { id: &#39;6&#39;, data: { label: &#39;流程6&#39;, time: &#39;17:05:50&#39; } },
+    { id: &#39;7&#39;, data: { label: &#39;流程7&#39;, time: &#39;17:10:00&#39; } },
+    { id: &#39;8&#39;, data: { label: &#39;流程8&#39;, time: &#39;17:11:20&#39; } },
+    { id: &#39;9&#39;, data: { label: &#39;流程9&#39;, time: &#39;17:15:00&#39; } },
+    { id: &#39;10&#39;, data: { label: &#39;流程10&#39;, time: &#39;17:30:00&#39; } },
+    { id: &#39;11&#39;, data: { label: &#39;流程11&#39; } },
+    { id: &#39;12&#39;, data: { label: &#39;流程12&#39; } },
+    { id: &#39;13&#39;, data: { label: &#39;流程13&#39; } },
+    { id: &#39;14&#39;, data: { label: &#39;流程14&#39; } },
+    { id: &#39;15&#39;, data: { label: &#39;流程结束&#39; } },
+  ],
+  edges: [
+    { source: &#39;0&#39;, target: &#39;1&#39;, data: { done: true } },
+    { source: &#39;1&#39;, target: &#39;2&#39;, data: { done: true } },
+    { source: &#39;2&#39;, target: &#39;3&#39;, data: { done: true } },
+    { source: &#39;3&#39;, target: &#39;4&#39;, data: { done: true } },
+    { source: &#39;4&#39;, target: &#39;5&#39;, data: { done: true } },
+    { source: &#39;5&#39;, target: &#39;6&#39;, data: { done: true } },
+    { source: &#39;6&#39;, target: &#39;7&#39;, data: { done: true } },
+    { source: &#39;7&#39;, target: &#39;8&#39;, data: { done: true } },
+    { source: &#39;8&#39;, target: &#39;9&#39;, data: { done: true } },
+    { source: &#39;9&#39;, target: &#39;10&#39;, data: { done: true } },
+    { source: &#39;10&#39;, target: &#39;11&#39;, data: { done: false } },
+    { source: &#39;11&#39;, target: &#39;12&#39;, data: { done: false } },
+    { source: &#39;12&#39;, target: &#39;13&#39;, data: { done: false } },
+    { source: &#39;13&#39;, target: &#39;14&#39;, data: { done: false } },
+    { source: &#39;14&#39;, target: &#39;15&#39;, data: { done: false } },
+  ],
+};
+
+class SnakePolyline extends Polyline {
+  getPoints(attributes) {
+    const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false);
+
+    if (sourcePoint[1] === targetPoint[1]) return [sourcePoint, targetPoint];
+
+    const prevPointId = this.context.model
+      .getRelatedEdgesData(this.sourceNode.id)
+      .filter((edge) =&gt; edge.target === this.sourceNode.id)[0]?.source;
+    if (!prevPointId) return [sourcePoint, targetPoint];
+
+    const prevPoint = positionOf(this.context.model.getNodeLikeDatum(prevPointId));
+    const offset = -(prevPoint[0] - sourcePoint[0]) / 4;
+    return [
+      sourcePoint,
+      [sourcePoint[0] + offset, sourcePoint[1]],
+      [targetPoint[0] + offset, targetPoint[1]],
+      targetPoint,
+    ];
+  }
+}
+
+register(ExtensionCategory.EDGE, &#39;s-polyline&#39;, SnakePolyline);
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  background: &#39;#fafafa&#39;,
+  autoFit: &#39;center&#39;,
+  node: {
+    style: {
+      fill: (d) =&gt; (d.data.time ? &#39;#1783ff&#39; : &#39;#d9d9d9&#39;),
+      lineWidth: 2,
+      size: 8,
+      stroke: (d) =&gt; (d.data.time ? &#39;lightblue&#39; : &#39;&#39;),
+      labelFontWeight: 500,
+      labelOffsetY: 8,
+      labelText: (d) =&gt; d.data.label,
+      badge: true,
+      badges: (d) =&gt; [
+        {
+          background: false,
+          fill: &#39;#858ca6&#39;,
+          fontSize: 10,
+          offsetY: 39,
+          placement: &#39;bottom&#39;,
+          text: d.data.time || &#39;--&#39;,
+        },
+      ],
+    },
+  },
+  edge: {
+    type: &#39;s-polyline&#39;,
+    style: {
+      lineWidth: 2,
+      stroke: (d) =&gt; (d.data.done ? &#39;#1783ff&#39; : &#39;#d9d9d9&#39;),
+    },
+  },
+  layout: {
+    type: &#39;snake&#39;,
+    cols: 6,
+    rowGap: 200,
+    padding: [20, 140, 80],
+  },
+  behaviors: [&#39;drag-canvas&#39;, &#39;zoom-canvas&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

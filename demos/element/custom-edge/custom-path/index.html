@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/custom-edge/custom-path</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/custom-edge/custom-path/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/custom-edge/custom-path" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/custom-edge/custom-path</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/custom-edge/custom-path/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { BaseEdge, ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+
+class PolylineEdge extends BaseEdge {
+  getKeyPath(attributes) {
+    const [sourcePoint, targetPoint] = this.getEndpoints(attributes);
+
+    return [
+      [&#39;M&#39;, sourcePoint[0], sourcePoint[1]],
+      [&#39;L&#39;, targetPoint[0] / 2 + (1 / 2) * sourcePoint[0], sourcePoint[1]],
+      [&#39;L&#39;, targetPoint[0] / 2 + (1 / 2) * sourcePoint[0], targetPoint[1]],
+      [&#39;L&#39;, targetPoint[0], targetPoint[1]],
+    ];
+  }
+}
+
+register(ExtensionCategory.EDGE, &#39;custom-polyline&#39;, PolylineEdge);
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: {
+    nodes: [
+      { id: &#39;node-0&#39;, style: { x: 100, y: 100, ports: [{ key: &#39;right&#39;, placement: [1, 0.5] }] } },
+      { id: &#39;node-1&#39;, style: { x: 250, y: 200, ports: [{ key: &#39;left&#39;, placement: [0, 0.5] }] } },
+    ],
+    edges: [{ source: &#39;node-0&#39;, target: &#39;node-1&#39; }],
+  },
+  edge: {
+    type: &#39;custom-polyline&#39;,
+    style: {
+      startArrow: true,
+      endArrow: true,
+      stroke: &#39;#F6BD16&#39;,
+    },
+  },
+  behaviors: [&#39;drag-element&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

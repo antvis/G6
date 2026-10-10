@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/custom-combo/extra-button</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/custom-combo/extra-button/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/custom-combo/extra-button" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/custom-combo/extra-button</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/custom-combo/extra-button/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Circle, Path } from &#39;@antv/g&#39;;
+import { Renderer } from &#39;@antv/g-svg&#39;;
+import { CircleCombo, ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+
+const collapse = (x, y, r) =&gt; {
+  return [
+    [&#39;M&#39;, x - r, y],
+    [&#39;a&#39;, r, r, 0, 1, 0, r * 2, 0],
+    [&#39;a&#39;, r, r, 0, 1, 0, -r * 2, 0],
+    [&#39;M&#39;, x - r + 4, y],
+    [&#39;L&#39;, x + r - 4, y],
+  ];
+};
+
+const expand = (x, y, r) =&gt; {
+  return [
+    [&#39;M&#39;, x - r, y],
+    [&#39;a&#39;, r, r, 0, 1, 0, r * 2, 0],
+    [&#39;a&#39;, r, r, 0, 1, 0, -r * 2, 0],
+    [&#39;M&#39;, x - r + 4, y],
+    [&#39;L&#39;, x - r + 2 * r - 4, y],
+    [&#39;M&#39;, x - r + r, y - r + 4],
+    [&#39;L&#39;, x, y + r - 4],
+  ];
+};
+
+class CircleComboWithExtraButton extends CircleCombo {
+  render(attributes, container) {
+    super.render(attributes, container);
+    this.drawButton(attributes);
+  }
+
+  drawButton(attributes) {
+    const { collapsed } = attributes;
+    const [, height] = this.getKeySize(attributes);
+    const btnR = 8;
+    const y = height / 2 + btnR;
+    const d = collapsed ? expand(0, y, btnR) : collapse(0, y, btnR);
+
+    const hitArea = this.upsert(&#39;hit-area&#39;, Circle, { cy: y, r: 10, fill: &#39;#fff&#39;, cursor: &#39;pointer&#39; }, this);
+    this.upsert(&#39;button&#39;, Path, { stroke: &#39;#3d81f7&#39;, d, cursor: &#39;pointer&#39; }, hitArea);
+  }
+
+  onCreate() {
+    this.shapeMap[&#39;hit-area&#39;].addEventListener(&#39;click&#39;, () =&gt; {
+      const id = this.id;
+      const collapsed = !this.attributes.collapsed;
+      const { graph } = this.context;
+      if (collapsed) graph.collapseElement(id);
+      else graph.expandElement(id);
+    });
+  }
+}
+
+register(ExtensionCategory.COMBO, &#39;circle-combo-with-extra-button&#39;, CircleComboWithExtraButton);
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  renderer: () =&gt; new Renderer(),
+  data: {
+    nodes: [
+      { id: &#39;node-0&#39;, combo: &#39;combo-0&#39;, style: { x: 100, y: 100 } },
+      { id: &#39;node-1&#39;, combo: &#39;combo-0&#39;, style: { x: 150, y: 100 } },
+      { id: &#39;node-2&#39;, style: { x: 250, y: 100 } },
+    ],
+    edges: [{ source: &#39;node-1&#39;, target: &#39;node-2&#39; }],
+    combos: [{ id: &#39;combo-0&#39; }],
+  },
+  combo: {
+    type: &#39;circle-combo-with-extra-button&#39;,
+  },
+  behaviors: [&#39;drag-element&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

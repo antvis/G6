@@ -1,0 +1,695 @@
+# G6
+
+> G6 是一个简单、易用、完备的图可视化引擎，它在高定制能力的基础上，提供了一系列设计优雅、便于使用的图可视化解决方案。能帮助开发者搭建属于自己的图可视化、图分析、或图编辑器应用。
+
+Use the Markdown links below for machine-readable content; canonical page links are the authoritative human-facing URLs.
+
+## Agent resources
+
+- [Full documentation](https://g6.antv.antgroup.com/llms-full.txt): Combined Markdown content for all published documents.
+- [Canonical site](https://g6.antv.antgroup.com/zh/)
+- [Source repository](https://github.com/antvis/G6)
+- Languages: zh, en
+- Current version: 5.1.1
+
+## 中文文档
+
+### api
+
+- [数据](https://g6.antv.antgroup.com/zh/api/data.md): 数据 — [页面](https://g6.antv.antgroup.com/zh/api/data/)
+- [画布操作](https://g6.antv.antgroup.com/zh/api/canvas.md): 画布操作 — [页面](https://g6.antv.antgroup.com/zh/api/canvas/)
+- [元素操作](https://g6.antv.antgroup.com/zh/api/element.md): 元素操作 — [页面](https://g6.antv.antgroup.com/zh/api/element/)
+- [图实例](https://g6.antv.antgroup.com/zh/api/graph.md): 图实例 — [页面](https://g6.antv.antgroup.com/zh/api/graph/)
+- [绘制与渲染](https://g6.antv.antgroup.com/zh/api/render.md): 绘制与渲染 — [页面](https://g6.antv.antgroup.com/zh/api/render/)
+- [视口操作](https://g6.antv.antgroup.com/zh/api/viewport.md): 视口操作 — [页面](https://g6.antv.antgroup.com/zh/api/viewport/)
+- [布局](https://g6.antv.antgroup.com/zh/api/layout.md): 布局 — [页面](https://g6.antv.antgroup.com/zh/api/layout/)
+- [图配置项](https://g6.antv.antgroup.com/zh/api/option.md): 图配置项 — [页面](https://g6.antv.antgroup.com/zh/api/option/)
+- [交互](https://g6.antv.antgroup.com/zh/api/behavior.md): 交互 — [页面](https://g6.antv.antgroup.com/zh/api/behavior/)
+- [插件](https://g6.antv.antgroup.com/zh/api/plugin.md): 插件 — [页面](https://g6.antv.antgroup.com/zh/api/plugin/)
+- [主题](https://g6.antv.antgroup.com/zh/api/theme.md): 主题 — [页面](https://g6.antv.antgroup.com/zh/api/theme/)
+- [数据处理](https://g6.antv.antgroup.com/zh/api/transform.md): 数据处理 — [页面](https://g6.antv.antgroup.com/zh/api/transform/)
+- [事件监听](https://g6.antv.antgroup.com/zh/api/event.md): 事件监听 — [页面](https://g6.antv.antgroup.com/zh/api/event/)
+- [坐标转换](https://g6.antv.antgroup.com/zh/api/coordinate.md): 坐标转换 — [页面](https://g6.antv.antgroup.com/zh/api/coordinate/)
+- [导出图片](https://g6.antv.antgroup.com/zh/api/export-image.md): 导出图片 — [页面](https://g6.antv.antgroup.com/zh/api/export-image/)
+
+### backup
+
+- [CameraSetting 相机设置](https://g6.antv.antgroup.com/zh/backup/CameraSetting.md): CameraSetting 相机设置 — [页面](https://g6.antv.antgroup.com/zh/backup/CameraSetting/)
+
+### manual
+
+- [交互总览](https://g6.antv.antgroup.com/zh/manual/behavior/overview.md): 交互总览 — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/overview/)
+- [缩放画布 ZoomCanvas](https://g6.antv.antgroup.com/zh/manual/behavior/ZoomCanvas.md): 缩放画布 ZoomCanvas — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/ZoomCanvas/)
+- [组合总览](https://g6.antv.antgroup.com/zh/manual/element/combo/overview.md): 组合总览 — [页面](https://g6.antv.antgroup.com/zh/manual/element/combo/overview/)
+- [边总览](https://g6.antv.antgroup.com/zh/manual/element/edge/overview.md): 边总览 — [页面](https://g6.antv.antgroup.com/zh/manual/element/edge/overview/)
+- [节点总览](https://g6.antv.antgroup.com/zh/manual/element/node/overview.md): 节点总览 — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/overview/)
+- [事件](https://g6.antv.antgroup.com/zh/manual/further-reading/event.md): 事件 — [页面](https://g6.antv.antgroup.com/zh/manual/further-reading/event/)
+- [在 React 中使用](https://g6.antv.antgroup.com/zh/manual/getting-started/integration/react.md): 在 React 中使用 — [页面](https://g6.antv.antgroup.com/zh/manual/getting-started/integration/react/)
+- [快速开始](https://g6.antv.antgroup.com/zh/manual/getting-started/quick-start.md): 快速开始 — [页面](https://g6.antv.antgroup.com/zh/manual/getting-started/quick-start/)
+- [Graph - 图](https://g6.antv.antgroup.com/zh/manual/graph/graph.md): Graph - 图 — [页面](https://g6.antv.antgroup.com/zh/manual/graph/graph/)
+- [Options 配置项](https://g6.antv.antgroup.com/zh/manual/graph/option.md): Options 配置项 — [页面](https://g6.antv.antgroup.com/zh/manual/graph/option/)
+- [简介](https://g6.antv.antgroup.com/zh/manual/introduction.md): 简介 — [页面](https://g6.antv.antgroup.com/zh/manual/introduction/)
+- [布局总览](https://g6.antv.antgroup.com/zh/manual/layout/overview.md): 布局总览 — [页面](https://g6.antv.antgroup.com/zh/manual/layout/overview/)
+- [插件总览](https://g6.antv.antgroup.com/zh/manual/plugin/overview.md): 插件总览 — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/overview/)
+- [数据处理总览](https://g6.antv.antgroup.com/zh/manual/transform/overview.md): 数据处理总览 — [页面](https://g6.antv.antgroup.com/zh/manual/transform/overview/)
+- [动画总览](https://g6.antv.antgroup.com/zh/manual/animation/animation.md): 动画总览 — [页面](https://g6.antv.antgroup.com/zh/manual/animation/animation/)
+- [标签自适应显示 AutoAdaptLabel](https://g6.antv.antgroup.com/zh/manual/behavior/AutoAdaptLabel.md): 标签自适应显示 AutoAdaptLabel — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/AutoAdaptLabel/)
+- [组合通用配置项](https://g6.antv.antgroup.com/zh/manual/element/combo/BaseCombo.md): 组合通用配置项 — [页面](https://g6.antv.antgroup.com/zh/manual/element/combo/BaseCombo/)
+- [边通用配置项](https://g6.antv.antgroup.com/zh/manual/element/edge/BaseEdge.md): 边通用配置项 — [页面](https://g6.antv.antgroup.com/zh/manual/element/edge/BaseEdge/)
+- [节点通用配置项](https://g6.antv.antgroup.com/zh/manual/element/node/BaseNode.md): 节点通用配置项 — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/BaseNode/)
+- [元素总览](https://g6.antv.antgroup.com/zh/manual/element/overview.md): 元素总览 — [页面](https://g6.antv.antgroup.com/zh/manual/element/overview/)
+- [图形 Shape 与 KeyShape](https://g6.antv.antgroup.com/zh/manual/element/shape/overview.md): 图形 Shape 与 KeyShape — [页面](https://g6.antv.antgroup.com/zh/manual/element/shape/overview/)
+- [渲染器](https://g6.antv.antgroup.com/zh/manual/further-reading/renderer.md): 渲染器 — [页面](https://g6.antv.antgroup.com/zh/manual/further-reading/renderer/)
+- [安装](https://g6.antv.antgroup.com/zh/manual/getting-started/installation.md): 安装 — [页面](https://g6.antv.antgroup.com/zh/manual/getting-started/installation/)
+- [在 Vue 中使用](https://g6.antv.antgroup.com/zh/manual/getting-started/integration/vue.md): 在 Vue 中使用 — [页面](https://g6.antv.antgroup.com/zh/manual/getting-started/integration/vue/)
+- [布局通用配置项](https://g6.antv.antgroup.com/zh/manual/layout/BaseLayout.md): 布局通用配置项 — [页面](https://g6.antv.antgroup.com/zh/manual/layout/BaseLayout/)
+- [背景 Background](https://g6.antv.antgroup.com/zh/manual/plugin/Background.md): 背景 Background — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Background/)
+- [主题总览](https://g6.antv.antgroup.com/zh/manual/theme/overview.md): 主题总览 — [页面](https://g6.antv.antgroup.com/zh/manual/theme/overview/)
+- [动态调整节点大小 MapNodeSize](https://g6.antv.antgroup.com/zh/manual/transform/MapNodeSize.md): 动态调整节点大小 MapNodeSize — [页面](https://g6.antv.antgroup.com/zh/manual/transform/MapNodeSize/)
+- [新版本特性](https://g6.antv.antgroup.com/zh/manual/whats-new/feature.md): 新版本特性 — [页面](https://g6.antv.antgroup.com/zh/manual/whats-new/feature/)
+- [自定义动画](https://g6.antv.antgroup.com/zh/manual/animation/custom-animation.md): 自定义动画 — [页面](https://g6.antv.antgroup.com/zh/manual/animation/custom-animation/)
+- [框选 BrushSelect](https://g6.antv.antgroup.com/zh/manual/behavior/BrushSelect.md): 框选 BrushSelect — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/BrushSelect/)
+- [圆形组合 Circle](https://g6.antv.antgroup.com/zh/manual/element/combo/CircleCombo.md): 圆形组合 Circle — [页面](https://g6.antv.antgroup.com/zh/manual/element/combo/CircleCombo/)
+- [三次贝塞尔曲线边 Cubic](https://g6.antv.antgroup.com/zh/manual/element/edge/Cubic.md): 三次贝塞尔曲线边 Cubic — [页面](https://g6.antv.antgroup.com/zh/manual/element/edge/Cubic/)
+- [圆形节点 Circle](https://g6.antv.antgroup.com/zh/manual/element/node/Circle.md): 圆形节点 Circle — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/Circle/)
+- [原子 Shape 以及其属性](https://g6.antv.antgroup.com/zh/manual/element/shape/properties.md): 原子 Shape 以及其属性 — [页面](https://g6.antv.antgroup.com/zh/manual/element/shape/properties/)
+- [元素状态](https://g6.antv.antgroup.com/zh/manual/element/state.md): 元素状态 — [页面](https://g6.antv.antgroup.com/zh/manual/element/state/)
+- [坐标系](https://g6.antv.antgroup.com/zh/manual/further-reading/coordinate.md): 坐标系 — [页面](https://g6.antv.antgroup.com/zh/manual/further-reading/coordinate/)
+- [在 Angular 中使用](https://g6.antv.antgroup.com/zh/manual/getting-started/integration/angular.md): 在 Angular 中使用 — [页面](https://g6.antv.antgroup.com/zh/manual/getting-started/integration/angular/)
+- [AntV Dagre 布局 AntvDagre](https://g6.antv.antgroup.com/zh/manual/layout/AntvDagreLayout.md): AntV Dagre 布局 AntvDagre — [页面](https://g6.antv.antgroup.com/zh/manual/layout/AntvDagreLayout/)
+- [气泡集 BubbleSets](https://g6.antv.antgroup.com/zh/manual/plugin/BubbleSets.md): 气泡集 BubbleSets — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/BubbleSets/)
+- [自定义主题](https://g6.antv.antgroup.com/zh/manual/theme/custom-theme.md): 自定义主题 — [页面](https://g6.antv.antgroup.com/zh/manual/theme/custom-theme/)
+- [径向标签 PlaceRadialLabels](https://g6.antv.antgroup.com/zh/manual/transform/PlaceRadialLabels.md): 径向标签 PlaceRadialLabels — [页面](https://g6.antv.antgroup.com/zh/manual/transform/PlaceRadialLabels/)
+- [点击选中 ClickSelect](https://g6.antv.antgroup.com/zh/manual/behavior/ClickSelect.md): 点击选中 ClickSelect — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/ClickSelect/)
+- [矩形组合 Rect](https://g6.antv.antgroup.com/zh/manual/element/combo/RectCombo.md): 矩形组合 Rect — [页面](https://g6.antv.antgroup.com/zh/manual/element/combo/RectCombo/)
+- [水平三次贝塞尔曲线边 CubicHorizontal](https://g6.antv.antgroup.com/zh/manual/element/edge/CubicHorizontal.md): 水平三次贝塞尔曲线边 CubicHorizontal — [页面](https://g6.antv.antgroup.com/zh/manual/element/edge/CubicHorizontal/)
+- [菱形节点 Diamond](https://g6.antv.antgroup.com/zh/manual/element/node/Diamond.md): 菱形节点 Diamond — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/Diamond/)
+- [复合 Shape 的设计与实现](https://g6.antv.antgroup.com/zh/manual/element/shape/label-shape.md): 复合 Shape 的设计与实现 — [页面](https://g6.antv.antgroup.com/zh/manual/element/shape/label-shape/)
+- [下载图片](https://g6.antv.antgroup.com/zh/manual/further-reading/download-image.md): 下载图片 — [页面](https://g6.antv.antgroup.com/zh/manual/further-reading/download-image/)
+- [详细教程](https://g6.antv.antgroup.com/zh/manual/getting-started/step-by-step.md): 详细教程 — [页面](https://g6.antv.antgroup.com/zh/manual/getting-started/step-by-step/)
+- [环形布局 Circular](https://g6.antv.antgroup.com/zh/manual/layout/CircularLayout.md): 环形布局 Circular — [页面](https://g6.antv.antgroup.com/zh/manual/layout/CircularLayout/)
+- [上下文菜单 Contextmenu](https://g6.antv.antgroup.com/zh/manual/plugin/Contextmenu.md): 上下文菜单 Contextmenu — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Contextmenu/)
+- [色板](https://g6.antv.antgroup.com/zh/manual/theme/palette.md): 色板 — [页面](https://g6.antv.antgroup.com/zh/manual/theme/palette/)
+- [平行边 ProcessParallelEdges](https://g6.antv.antgroup.com/zh/manual/transform/ProcessParallelEdges.md): 平行边 ProcessParallelEdges — [页面](https://g6.antv.antgroup.com/zh/manual/transform/ProcessParallelEdges/)
+- [展开/收起元素 CollapseExpand](https://g6.antv.antgroup.com/zh/manual/behavior/CollapseExpand.md): 展开/收起元素 CollapseExpand — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/CollapseExpand/)
+- [数据 Data](https://g6.antv.antgroup.com/zh/manual/data.md): 数据 Data — [页面](https://g6.antv.antgroup.com/zh/manual/data/)
+- [自定义 Combo](https://g6.antv.antgroup.com/zh/manual/element/combo/custom-combo.md): 自定义 Combo — [页面](https://g6.antv.antgroup.com/zh/manual/element/combo/custom-combo/)
+- [垂直三次贝塞尔曲线边 CubicVertical](https://g6.antv.antgroup.com/zh/manual/element/edge/CubicVertical.md): 垂直三次贝塞尔曲线边 CubicVertical — [页面](https://g6.antv.antgroup.com/zh/manual/element/edge/CubicVertical/)
+- [甜甜圈节点 Donut](https://g6.antv.antgroup.com/zh/manual/element/node/Donut.md): 甜甜圈节点 Donut — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/Donut/)
+- [使用 iconfont](https://g6.antv.antgroup.com/zh/manual/further-reading/iconfont.md): 使用 iconfont — [页面](https://g6.antv.antgroup.com/zh/manual/further-reading/iconfont/)
+- [内置扩展](https://g6.antv.antgroup.com/zh/manual/graph/extensions.md): 内置扩展 — [页面](https://g6.antv.antgroup.com/zh/manual/graph/extensions/)
+- [复合布局 ComboCombined](https://g6.antv.antgroup.com/zh/manual/layout/ComboCombinedLayout.md): 复合布局 ComboCombined — [页面](https://g6.antv.antgroup.com/zh/manual/layout/ComboCombinedLayout/)
+- [边绑定 EdgeBundling](https://g6.antv.antgroup.com/zh/manual/plugin/EdgeBundling.md): 边绑定 EdgeBundling — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/EdgeBundling/)
+- [自定义色板](https://g6.antv.antgroup.com/zh/manual/theme/custom-palette.md): 自定义色板 — [页面](https://g6.antv.antgroup.com/zh/manual/theme/custom-palette/)
+- [自定义数据处理](https://g6.antv.antgroup.com/zh/manual/transform/custom-transform.md): 自定义数据处理 — [页面](https://g6.antv.antgroup.com/zh/manual/transform/custom-transform/)
+- [创建边 CreateEdge](https://g6.antv.antgroup.com/zh/manual/behavior/CreateEdge.md): 创建边 CreateEdge — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/CreateEdge/)
+- [直线边 Line](https://g6.antv.antgroup.com/zh/manual/element/edge/Line.md): 直线边 Line — [页面](https://g6.antv.antgroup.com/zh/manual/element/edge/Line/)
+- [椭圆形节点 Ellipse](https://g6.antv.antgroup.com/zh/manual/element/node/Ellipse.md): 椭圆形节点 Ellipse — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/Ellipse/)
+- [使用 3D](https://g6.antv.antgroup.com/zh/manual/further-reading/3d.md): 使用 3D — [页面](https://g6.antv.antgroup.com/zh/manual/further-reading/3d/)
+- [紧凑树布局 CompactBox](https://g6.antv.antgroup.com/zh/manual/layout/CompactBoxLayout.md): 紧凑树布局 CompactBox — [页面](https://g6.antv.antgroup.com/zh/manual/layout/CompactBoxLayout/)
+- [边过滤镜 EdgeFilterLens](https://g6.antv.antgroup.com/zh/manual/plugin/EdgeFilterLens.md): 边过滤镜 EdgeFilterLens — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/EdgeFilterLens/)
+- [拖拽画布 DragCanvas](https://g6.antv.antgroup.com/zh/manual/behavior/DragCanvas.md): 拖拽画布 DragCanvas — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/DragCanvas/)
+- [折线边 Polyline](https://g6.antv.antgroup.com/zh/manual/element/edge/Polyline.md): 折线边 Polyline — [页面](https://g6.antv.antgroup.com/zh/manual/element/edge/Polyline/)
+- [二次贝塞尔曲线边 Quadratic](https://g6.antv.antgroup.com/zh/manual/element/edge/Quadratic.md): 二次贝塞尔曲线边 Quadratic — [页面](https://g6.antv.antgroup.com/zh/manual/element/edge/Quadratic/)
+- [六边形节点 Hexagon](https://g6.antv.antgroup.com/zh/manual/element/node/Hexagon.md): 六边形节点 Hexagon — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/Hexagon/)
+- [项目打包](https://g6.antv.antgroup.com/zh/manual/further-reading/bundle.md): 项目打包 — [页面](https://g6.antv.antgroup.com/zh/manual/further-reading/bundle/)
+- [同心圆布局 Concentric](https://g6.antv.antgroup.com/zh/manual/layout/ConcentricLayout.md): 同心圆布局 Concentric — [页面](https://g6.antv.antgroup.com/zh/manual/layout/ConcentricLayout/)
+- [鱼眼放大镜 Fisheye](https://g6.antv.antgroup.com/zh/manual/plugin/Fisheye.md): 鱼眼放大镜 Fisheye — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Fisheye/)
+- [升级到 5.0](https://g6.antv.antgroup.com/zh/manual/whats-new/upgrade.md): 升级到 5.0 — [页面](https://g6.antv.antgroup.com/zh/manual/whats-new/upgrade/)
+- [拖拽元素 DragElement](https://g6.antv.antgroup.com/zh/manual/behavior/DragElement.md): 拖拽元素 DragElement — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/DragElement/)
+- [自定义边](https://g6.antv.antgroup.com/zh/manual/element/edge/custom-edge.md): 自定义边 — [页面](https://g6.antv.antgroup.com/zh/manual/element/edge/custom-edge/)
+- [HTML节点 Html](https://g6.antv.antgroup.com/zh/manual/element/node/Html.md): HTML节点 Html — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/Html/)
+- [3D D3力导向布局 D3Force3D](https://g6.antv.antgroup.com/zh/manual/layout/D3Force3DLayout.md): 3D D3力导向布局 D3Force3D — [页面](https://g6.antv.antgroup.com/zh/manual/layout/D3Force3DLayout/)
+- [全屏展示 Fullscreen](https://g6.antv.antgroup.com/zh/manual/plugin/Fullscreen.md): 全屏展示 Fullscreen — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Fullscreen/)
+- [从 5.0 升级到 5.1（布局）](https://g6.antv.antgroup.com/zh/manual/whats-new/upgrade-to-5-1.md): 从 5.0 升级到 5.1（布局） — [页面](https://g6.antv.antgroup.com/zh/manual/whats-new/upgrade-to-5-1/)
+- [力导向拖拽元素 DragElementForce](https://g6.antv.antgroup.com/zh/manual/behavior/DragElementForce.md): 力导向拖拽元素 DragElementForce — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/DragElementForce/)
+- [图片节点 Image](https://g6.antv.antgroup.com/zh/manual/element/node/Image.md): 图片节点 Image — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/Image/)
+- [D3力导向布局 D3Force](https://g6.antv.antgroup.com/zh/manual/layout/D3ForceLayout.md): D3力导向布局 D3Force — [页面](https://g6.antv.antgroup.com/zh/manual/layout/D3ForceLayout/)
+- [网格线 GridLine](https://g6.antv.antgroup.com/zh/manual/plugin/GridLine.md): 网格线 GridLine — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/GridLine/)
+- [缩放画布时固定元素大小 FixElementSize](https://g6.antv.antgroup.com/zh/manual/behavior/FixElementSize.md): 缩放画布时固定元素大小 FixElementSize — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/FixElementSize/)
+- [矩形节点 Rect](https://g6.antv.antgroup.com/zh/manual/element/node/Rect.md): 矩形节点 Rect — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/Rect/)
+- [Extension - 扩展](https://g6.antv.antgroup.com/zh/manual/graph/extension.md): Extension - 扩展 — [页面](https://g6.antv.antgroup.com/zh/manual/graph/extension/)
+- [Dagre 布局](https://g6.antv.antgroup.com/zh/manual/layout/DagreLayout.md): Dagre 布局 — [页面](https://g6.antv.antgroup.com/zh/manual/layout/DagreLayout/)
+- [历史记录 History](https://g6.antv.antgroup.com/zh/manual/plugin/History.md): 历史记录 History — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/History/)
+- [聚焦元素 FocusElement](https://g6.antv.antgroup.com/zh/manual/behavior/FocusElement.md): 聚焦元素 FocusElement — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/FocusElement/)
+- [五角形节点 Star](https://g6.antv.antgroup.com/zh/manual/element/node/Star.md): 五角形节点 Star — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/Star/)
+- [生态树 Dendrogram](https://g6.antv.antgroup.com/zh/manual/layout/DendrogramLayout.md): 生态树 Dendrogram — [页面](https://g6.antv.antgroup.com/zh/manual/layout/DendrogramLayout/)
+- [轮廓包围 Hull](https://g6.antv.antgroup.com/zh/manual/plugin/Hull.md): 轮廓包围 Hull — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Hull/)
+- [悬停激活 HoverActivate](https://g6.antv.antgroup.com/zh/manual/behavior/HoverActivate.md): 悬停激活 HoverActivate — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/HoverActivate/)
+- [三角形节点 Triangle](https://g6.antv.antgroup.com/zh/manual/element/node/Triangle.md): 三角形节点 Triangle — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/Triangle/)
+- [鱼骨布局 Fishbone](https://g6.antv.antgroup.com/zh/manual/layout/Fishbone.md): 鱼骨布局 Fishbone — [页面](https://g6.antv.antgroup.com/zh/manual/layout/Fishbone/)
+- [图例 Legend](https://g6.antv.antgroup.com/zh/manual/plugin/Legend.md): 图例 Legend — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Legend/)
+- [套索选择 LassoSelect](https://g6.antv.antgroup.com/zh/manual/behavior/LassoSelect.md): 套索选择 LassoSelect — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/LassoSelect/)
+- [自定义节点](https://g6.antv.antgroup.com/zh/manual/element/node/custom-node.md): 自定义节点 — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/custom-node/)
+- [ForceAtlas2 力导向布局](https://g6.antv.antgroup.com/zh/manual/layout/ForceAtlas2Layout.md): ForceAtlas2 力导向布局 — [页面](https://g6.antv.antgroup.com/zh/manual/layout/ForceAtlas2Layout/)
+- [小地图 Minimap](https://g6.antv.antgroup.com/zh/manual/plugin/Minimap.md): 小地图 Minimap — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Minimap/)
+- [优化视口变换 OptimizeViewportTransform](https://g6.antv.antgroup.com/zh/manual/behavior/OptimizeViewportTransform.md): 优化视口变换 OptimizeViewportTransform — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/OptimizeViewportTransform/)
+- [使用 React 定义节点](https://g6.antv.antgroup.com/zh/manual/element/node/react-node.md): 使用 React 定义节点 — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/react-node/)
+- [常见问题](https://g6.antv.antgroup.com/zh/manual/faq.md): 常见问题 — [页面](https://g6.antv.antgroup.com/zh/manual/faq/)
+- [Force 力导向布局](https://g6.antv.antgroup.com/zh/manual/layout/ForceLayout.md): Force 力导向布局 — [页面](https://g6.antv.antgroup.com/zh/manual/layout/ForceLayout/)
+- [对齐线 Snapline](https://g6.antv.antgroup.com/zh/manual/plugin/Snapline.md): 对齐线 Snapline — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Snapline/)
+- [滚动画布 ScrollCanvas](https://g6.antv.antgroup.com/zh/manual/behavior/ScrollCanvas.md): 滚动画布 ScrollCanvas — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/ScrollCanvas/)
+- [参与贡献](https://g6.antv.antgroup.com/zh/manual/contribute.md): 参与贡献 — [页面](https://g6.antv.antgroup.com/zh/manual/contribute/)
+- [使用 Vue 定义节点](https://g6.antv.antgroup.com/zh/manual/element/node/vue-node.md): 使用 Vue 定义节点 — [页面](https://g6.antv.antgroup.com/zh/manual/element/node/vue-node/)
+- [Fruchterman 力导向布局](https://g6.antv.antgroup.com/zh/manual/layout/FruchtermanLayout.md): Fruchterman 力导向布局 — [页面](https://g6.antv.antgroup.com/zh/manual/layout/FruchtermanLayout/)
+- [时间条 Timebar](https://g6.antv.antgroup.com/zh/manual/plugin/Timebar.md): 时间条 Timebar — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Timebar/)
+- [网格布局 Grid](https://g6.antv.antgroup.com/zh/manual/layout/GridLayout.md): 网格布局 Grid — [页面](https://g6.antv.antgroup.com/zh/manual/layout/GridLayout/)
+- [标题 Title](https://g6.antv.antgroup.com/zh/manual/plugin/Title.md): 标题 Title — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Title/)
+- [工具栏 Toolbar](https://g6.antv.antgroup.com/zh/manual/plugin/Toolbar.md): 工具栏 Toolbar — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Toolbar/)
+- [自定义交互](https://g6.antv.antgroup.com/zh/manual/behavior/custom-behavior.md): 自定义交互 — [页面](https://g6.antv.antgroup.com/zh/manual/behavior/custom-behavior/)
+- [缩进树 Indented](https://g6.antv.antgroup.com/zh/manual/layout/IndentedLayout.md): 缩进树 Indented — [页面](https://g6.antv.antgroup.com/zh/manual/layout/IndentedLayout/)
+- [提示框 Tooltip](https://g6.antv.antgroup.com/zh/manual/plugin/Tooltip.md): 提示框 Tooltip — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Tooltip/)
+- [高维数据降维布局 MDS](https://g6.antv.antgroup.com/zh/manual/layout/MdsLayout.md): 高维数据降维布局 MDS — [页面](https://g6.antv.antgroup.com/zh/manual/layout/MdsLayout/)
+- [水印 Watermark](https://g6.antv.antgroup.com/zh/manual/plugin/Watermark.md): 水印 Watermark — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/Watermark/)
+- [脑图树 Mindmap](https://g6.antv.antgroup.com/zh/manual/layout/MindmapLayout.md): 脑图树 Mindmap — [页面](https://g6.antv.antgroup.com/zh/manual/layout/MindmapLayout/)
+- [径向布局 Radial](https://g6.antv.antgroup.com/zh/manual/layout/RadialLayout.md): 径向布局 Radial — [页面](https://g6.antv.antgroup.com/zh/manual/layout/RadialLayout/)
+- [随机布局 Random](https://g6.antv.antgroup.com/zh/manual/layout/RandomLayout.md): 随机布局 Random — [页面](https://g6.antv.antgroup.com/zh/manual/layout/RandomLayout/)
+- [自定义插件](https://g6.antv.antgroup.com/zh/manual/plugin/custom-plugin.md): 自定义插件 — [页面](https://g6.antv.antgroup.com/zh/manual/plugin/custom-plugin/)
+- [蛇形布局 Snake](https://g6.antv.antgroup.com/zh/manual/layout/Snake.md): 蛇形布局 Snake — [页面](https://g6.antv.antgroup.com/zh/manual/layout/Snake/)
+- [自定义布局](https://g6.antv.antgroup.com/zh/manual/layout/custom-layout.md): 自定义布局 — [页面](https://g6.antv.antgroup.com/zh/manual/layout/custom-layout/)
+
+## English documentation
+
+### api
+
+- [Data](https://g6.antv.antgroup.com/en/api/data.md): Data — [Canonical page](https://g6.antv.antgroup.com/en/api/data/)
+- [Canvas Operations](https://g6.antv.antgroup.com/en/api/canvas.md): Canvas Operations — [Canonical page](https://g6.antv.antgroup.com/en/api/canvas/)
+- [Element Operations](https://g6.antv.antgroup.com/en/api/element.md): Element Operations — [Canonical page](https://g6.antv.antgroup.com/en/api/element/)
+- [Graph Instance](https://g6.antv.antgroup.com/en/api/graph.md): Graph Instance — [Canonical page](https://g6.antv.antgroup.com/en/api/graph/)
+- [Drawing and Rendering](https://g6.antv.antgroup.com/en/api/render.md): Drawing and Rendering — [Canonical page](https://g6.antv.antgroup.com/en/api/render/)
+- [Viewport Operations](https://g6.antv.antgroup.com/en/api/viewport.md): Viewport Operations — [Canonical page](https://g6.antv.antgroup.com/en/api/viewport/)
+- [Layout](https://g6.antv.antgroup.com/en/api/layout.md): Layout — [Canonical page](https://g6.antv.antgroup.com/en/api/layout/)
+- [Graph Options](https://g6.antv.antgroup.com/en/api/option.md): Graph Options — [Canonical page](https://g6.antv.antgroup.com/en/api/option/)
+- [Behavior](https://g6.antv.antgroup.com/en/api/behavior.md): Behavior — [Canonical page](https://g6.antv.antgroup.com/en/api/behavior/)
+- [Plugin](https://g6.antv.antgroup.com/en/api/plugin.md): Plugin — [Canonical page](https://g6.antv.antgroup.com/en/api/plugin/)
+- [Theme](https://g6.antv.antgroup.com/en/api/theme.md): Theme — [Canonical page](https://g6.antv.antgroup.com/en/api/theme/)
+- [Data Transformation](https://g6.antv.antgroup.com/en/api/transform.md): Data Transformation — [Canonical page](https://g6.antv.antgroup.com/en/api/transform/)
+- [Event Listening](https://g6.antv.antgroup.com/en/api/event.md): Event Listening — [Canonical page](https://g6.antv.antgroup.com/en/api/event/)
+- [Coordinate Transformation](https://g6.antv.antgroup.com/en/api/coordinate.md): Coordinate Transformation — [Canonical page](https://g6.antv.antgroup.com/en/api/coordinate/)
+- [Export Image](https://g6.antv.antgroup.com/en/api/export-image.md): Export Image — [Canonical page](https://g6.antv.antgroup.com/en/api/export-image/)
+
+### backup
+
+- [CameraSetting](https://g6.antv.antgroup.com/en/backup/CameraSetting.md): CameraSetting — [Canonical page](https://g6.antv.antgroup.com/en/backup/CameraSetting/)
+
+### manual
+
+- [Behavior Overview](https://g6.antv.antgroup.com/en/manual/behavior/overview.md): Behavior Overview — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/overview/)
+- [ZoomCanvas](https://g6.antv.antgroup.com/en/manual/behavior/ZoomCanvas.md): ZoomCanvas — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/ZoomCanvas/)
+- [Combo Overview](https://g6.antv.antgroup.com/en/manual/element/combo/overview.md): Combo Overview — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/combo/overview/)
+- [Edge Overview](https://g6.antv.antgroup.com/en/manual/element/edge/overview.md): Edge Overview — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/edge/overview/)
+- [Node Overview](https://g6.antv.antgroup.com/en/manual/element/node/overview.md): Node Overview — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/overview/)
+- [Event](https://g6.antv.antgroup.com/en/manual/further-reading/event.md): Event — [Canonical page](https://g6.antv.antgroup.com/en/manual/further-reading/event/)
+- [react](https://g6.antv.antgroup.com/en/manual/getting-started/integration/react.md): react — [Canonical page](https://g6.antv.antgroup.com/en/manual/getting-started/integration/react/)
+- [Quick Start](https://g6.antv.antgroup.com/en/manual/getting-started/quick-start.md): Quick Start — [Canonical page](https://g6.antv.antgroup.com/en/manual/getting-started/quick-start/)
+- [Graph](https://g6.antv.antgroup.com/en/manual/graph/graph.md): Graph — [Canonical page](https://g6.antv.antgroup.com/en/manual/graph/graph/)
+- [Options](https://g6.antv.antgroup.com/en/manual/graph/option.md): Options — [Canonical page](https://g6.antv.antgroup.com/en/manual/graph/option/)
+- [Introduction](https://g6.antv.antgroup.com/en/manual/introduction.md): Introduction — [Canonical page](https://g6.antv.antgroup.com/en/manual/introduction/)
+- [Layout Overview](https://g6.antv.antgroup.com/en/manual/layout/overview.md): Layout Overview — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/overview/)
+- [Plugin Overview](https://g6.antv.antgroup.com/en/manual/plugin/overview.md): Plugin Overview — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/overview/)
+- [Data Transformation Overview](https://g6.antv.antgroup.com/en/manual/transform/overview.md): Data Transformation Overview — [Canonical page](https://g6.antv.antgroup.com/en/manual/transform/overview/)
+- [Animation Overview](https://g6.antv.antgroup.com/en/manual/animation/animation.md): Animation Overview — [Canonical page](https://g6.antv.antgroup.com/en/manual/animation/animation/)
+- [AutoAdaptLabel](https://g6.antv.antgroup.com/en/manual/behavior/AutoAdaptLabel.md): AutoAdaptLabel — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/AutoAdaptLabel/)
+- [Data](https://g6.antv.antgroup.com/en/manual/data.md): Data — [Canonical page](https://g6.antv.antgroup.com/en/manual/data/)
+- [Combo Common Options](https://g6.antv.antgroup.com/en/manual/element/combo/BaseCombo.md): Combo Common Options — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/combo/BaseCombo/)
+- [Edge Common Configuration](https://g6.antv.antgroup.com/en/manual/element/edge/BaseEdge.md): Edge Common Configuration — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/edge/BaseEdge/)
+- [Common Node Configuration](https://g6.antv.antgroup.com/en/manual/element/node/BaseNode.md): Common Node Configuration — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/BaseNode/)
+- [Element Overview](https://g6.antv.antgroup.com/en/manual/element/overview.md): Element Overview — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/overview/)
+- [Shape and KeyShape](https://g6.antv.antgroup.com/en/manual/element/shape/overview.md): Shape and KeyShape — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/shape/overview/)
+- [renderer](https://g6.antv.antgroup.com/en/manual/further-reading/renderer.md): renderer — [Canonical page](https://g6.antv.antgroup.com/en/manual/further-reading/renderer/)
+- [Installation](https://g6.antv.antgroup.com/en/manual/getting-started/installation.md): Installation — [Canonical page](https://g6.antv.antgroup.com/en/manual/getting-started/installation/)
+- [vue](https://g6.antv.antgroup.com/en/manual/getting-started/integration/vue.md): vue — [Canonical page](https://g6.antv.antgroup.com/en/manual/getting-started/integration/vue/)
+- [Common Layout Configuration Options](https://g6.antv.antgroup.com/en/manual/layout/BaseLayout.md): Common Layout Configuration Options — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/BaseLayout/)
+- [Background](https://g6.antv.antgroup.com/en/manual/plugin/Background.md): Background — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Background/)
+- [Theme Overview](https://g6.antv.antgroup.com/en/manual/theme/overview.md): Theme Overview — [Canonical page](https://g6.antv.antgroup.com/en/manual/theme/overview/)
+- [MapNodeSize](https://g6.antv.antgroup.com/en/manual/transform/MapNodeSize.md): MapNodeSize — [Canonical page](https://g6.antv.antgroup.com/en/manual/transform/MapNodeSize/)
+- [Feature](https://g6.antv.antgroup.com/en/manual/whats-new/feature.md): Feature — [Canonical page](https://g6.antv.antgroup.com/en/manual/whats-new/feature/)
+- [Custom Animation](https://g6.antv.antgroup.com/en/manual/animation/custom-animation.md): Custom Animation — [Canonical page](https://g6.antv.antgroup.com/en/manual/animation/custom-animation/)
+- [BrushSelect](https://g6.antv.antgroup.com/en/manual/behavior/BrushSelect.md): BrushSelect — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/BrushSelect/)
+- [Circle Combo](https://g6.antv.antgroup.com/en/manual/element/combo/CircleCombo.md): Circle Combo — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/combo/CircleCombo/)
+- [Cubic Bezier Curve Edge](https://g6.antv.antgroup.com/en/manual/element/edge/Cubic.md): Cubic Bezier Curve Edge — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/edge/Cubic/)
+- [Circle Node](https://g6.antv.antgroup.com/en/manual/element/node/Circle.md): Circle Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/Circle/)
+- [Atomic Shapes and Their Properties](https://g6.antv.antgroup.com/en/manual/element/shape/properties.md): Atomic Shapes and Their Properties — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/shape/properties/)
+- [Element State](https://g6.antv.antgroup.com/en/manual/element/state.md): Element State — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/state/)
+- [coordinate](https://g6.antv.antgroup.com/en/manual/further-reading/coordinate.md): coordinate — [Canonical page](https://g6.antv.antgroup.com/en/manual/further-reading/coordinate/)
+- [angular](https://g6.antv.antgroup.com/en/manual/getting-started/integration/angular.md): angular — [Canonical page](https://g6.antv.antgroup.com/en/manual/getting-started/integration/angular/)
+- [AntvDagre Layout](https://g6.antv.antgroup.com/en/manual/layout/AntvDagreLayout.md): AntvDagre Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/AntvDagreLayout/)
+- [BubbleSets](https://g6.antv.antgroup.com/en/manual/plugin/BubbleSets.md): BubbleSets — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/BubbleSets/)
+- [Custom Theme](https://g6.antv.antgroup.com/en/manual/theme/custom-theme.md): Custom Theme — [Canonical page](https://g6.antv.antgroup.com/en/manual/theme/custom-theme/)
+- [ClickSelect](https://g6.antv.antgroup.com/en/manual/behavior/ClickSelect.md): ClickSelect — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/ClickSelect/)
+- [Rect Combo](https://g6.antv.antgroup.com/en/manual/element/combo/RectCombo.md): Rect Combo — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/combo/RectCombo/)
+- [CubicHorizontal Bezier Curve Edge](https://g6.antv.antgroup.com/en/manual/element/edge/CubicHorizontal.md): CubicHorizontal Bezier Curve Edge — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/edge/CubicHorizontal/)
+- [Diamond Node](https://g6.antv.antgroup.com/en/manual/element/node/Diamond.md): Diamond Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/Diamond/)
+- [Design and Implementation of Composite Shape](https://g6.antv.antgroup.com/en/manual/element/shape/label-shape.md): Design and Implementation of Composite Shape — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/shape/label-shape/)
+- [download-image](https://g6.antv.antgroup.com/en/manual/further-reading/download-image.md): download-image — [Canonical page](https://g6.antv.antgroup.com/en/manual/further-reading/download-image/)
+- [Step-by-step guide](https://g6.antv.antgroup.com/en/manual/getting-started/step-by-step.md): Step-by-step guide — [Canonical page](https://g6.antv.antgroup.com/en/manual/getting-started/step-by-step/)
+- [Circular Layout](https://g6.antv.antgroup.com/en/manual/layout/CircularLayout.md): Circular Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/CircularLayout/)
+- [Contextmenu](https://g6.antv.antgroup.com/en/manual/plugin/Contextmenu.md): Contextmenu — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Contextmenu/)
+- [Palette](https://g6.antv.antgroup.com/en/manual/theme/palette.md): Palette — [Canonical page](https://g6.antv.antgroup.com/en/manual/theme/palette/)
+- [PlaceRadialLabels](https://g6.antv.antgroup.com/en/manual/transform/PlaceRadialLabels.md): PlaceRadialLabels — [Canonical page](https://g6.antv.antgroup.com/en/manual/transform/PlaceRadialLabels/)
+- [ProcessParallelEdges](https://g6.antv.antgroup.com/en/manual/transform/ProcessParallelEdges.md): ProcessParallelEdges — [Canonical page](https://g6.antv.antgroup.com/en/manual/transform/ProcessParallelEdges/)
+- [CollapseExpand](https://g6.antv.antgroup.com/en/manual/behavior/CollapseExpand.md): CollapseExpand — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/CollapseExpand/)
+- [Custom Combo](https://g6.antv.antgroup.com/en/manual/element/combo/custom-combo.md): Custom Combo — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/combo/custom-combo/)
+- [CubicVertical Bezier Curve Edge](https://g6.antv.antgroup.com/en/manual/element/edge/CubicVertical.md): CubicVertical Bezier Curve Edge — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/edge/CubicVertical/)
+- [Donut Node](https://g6.antv.antgroup.com/en/manual/element/node/Donut.md): Donut Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/Donut/)
+- [Using Iconfont](https://g6.antv.antgroup.com/en/manual/further-reading/iconfont.md): Using Iconfont — [Canonical page](https://g6.antv.antgroup.com/en/manual/further-reading/iconfont/)
+- [Built-in Extensions](https://g6.antv.antgroup.com/en/manual/graph/extensions.md): Built-in Extensions — [Canonical page](https://g6.antv.antgroup.com/en/manual/graph/extensions/)
+- [ComboCombined Layout](https://g6.antv.antgroup.com/en/manual/layout/ComboCombinedLayout.md): ComboCombined Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/ComboCombinedLayout/)
+- [EdgeBundling](https://g6.antv.antgroup.com/en/manual/plugin/EdgeBundling.md): EdgeBundling — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/EdgeBundling/)
+- [Custom Palette](https://g6.antv.antgroup.com/en/manual/theme/custom-palette.md): Custom Palette — [Canonical page](https://g6.antv.antgroup.com/en/manual/theme/custom-palette/)
+- [Custom Transform](https://g6.antv.antgroup.com/en/manual/transform/custom-transform.md): Custom Transform — [Canonical page](https://g6.antv.antgroup.com/en/manual/transform/custom-transform/)
+- [CreateEdge](https://g6.antv.antgroup.com/en/manual/behavior/CreateEdge.md): CreateEdge — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/CreateEdge/)
+- [Line Edge](https://g6.antv.antgroup.com/en/manual/element/edge/Line.md): Line Edge — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/edge/Line/)
+- [Ellipse Node](https://g6.antv.antgroup.com/en/manual/element/node/Ellipse.md): Ellipse Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/Ellipse/)
+- [Use 3D](https://g6.antv.antgroup.com/en/manual/further-reading/3d.md): Use 3D — [Canonical page](https://g6.antv.antgroup.com/en/manual/further-reading/3d/)
+- [CompactBox Layout](https://g6.antv.antgroup.com/en/manual/layout/CompactBoxLayout.md): CompactBox Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/CompactBoxLayout/)
+- [EdgeFilterLens](https://g6.antv.antgroup.com/en/manual/plugin/EdgeFilterLens.md): EdgeFilterLens — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/EdgeFilterLens/)
+- [DragCanvas](https://g6.antv.antgroup.com/en/manual/behavior/DragCanvas.md): DragCanvas — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/DragCanvas/)
+- [Polyline Edge](https://g6.antv.antgroup.com/en/manual/element/edge/Polyline.md): Polyline Edge — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/edge/Polyline/)
+- [Quadratic Bezier Curve Edge](https://g6.antv.antgroup.com/en/manual/element/edge/Quadratic.md): Quadratic Bezier Curve Edge — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/edge/Quadratic/)
+- [Hexagon Node](https://g6.antv.antgroup.com/en/manual/element/node/Hexagon.md): Hexagon Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/Hexagon/)
+- [Bundle Project](https://g6.antv.antgroup.com/en/manual/further-reading/bundle.md): Bundle Project — [Canonical page](https://g6.antv.antgroup.com/en/manual/further-reading/bundle/)
+- [Concentric Layout](https://g6.antv.antgroup.com/en/manual/layout/ConcentricLayout.md): Concentric Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/ConcentricLayout/)
+- [Fisheye](https://g6.antv.antgroup.com/en/manual/plugin/Fisheye.md): Fisheye — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Fisheye/)
+- [Upgrade To 5.0](https://g6.antv.antgroup.com/en/manual/whats-new/upgrade.md): Upgrade To 5.0 — [Canonical page](https://g6.antv.antgroup.com/en/manual/whats-new/upgrade/)
+- [DragElement](https://g6.antv.antgroup.com/en/manual/behavior/DragElement.md): DragElement — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/DragElement/)
+- [Custom Edge](https://g6.antv.antgroup.com/en/manual/element/edge/custom-edge.md): Custom Edge — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/edge/custom-edge/)
+- [HTML Node](https://g6.antv.antgroup.com/en/manual/element/node/Html.md): HTML Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/Html/)
+- [3D Force-Directed Layout](https://g6.antv.antgroup.com/en/manual/layout/D3Force3DLayout.md): 3D Force-Directed Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/D3Force3DLayout/)
+- [Fullscreen](https://g6.antv.antgroup.com/en/manual/plugin/Fullscreen.md): Fullscreen — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Fullscreen/)
+- [Upgrade from 5.0 to 5.1 (Layout)](https://g6.antv.antgroup.com/en/manual/whats-new/upgrade-to-5-1.md): Upgrade from 5.0 to 5.1 (Layout) — [Canonical page](https://g6.antv.antgroup.com/en/manual/whats-new/upgrade-to-5-1/)
+- [DragElementForce](https://g6.antv.antgroup.com/en/manual/behavior/DragElementForce.md): DragElementForce — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/DragElementForce/)
+- [Image Node](https://g6.antv.antgroup.com/en/manual/element/node/Image.md): Image Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/Image/)
+- [D3 Force-Directed Layout](https://g6.antv.antgroup.com/en/manual/layout/D3ForceLayout.md): D3 Force-Directed Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/D3ForceLayout/)
+- [GridLine](https://g6.antv.antgroup.com/en/manual/plugin/GridLine.md): GridLine — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/GridLine/)
+- [FixElementSize](https://g6.antv.antgroup.com/en/manual/behavior/FixElementSize.md): FixElementSize — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/FixElementSize/)
+- [Rect Node](https://g6.antv.antgroup.com/en/manual/element/node/Rect.md): Rect Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/Rect/)
+- [extension](https://g6.antv.antgroup.com/en/manual/graph/extension.md): extension — [Canonical page](https://g6.antv.antgroup.com/en/manual/graph/extension/)
+- [Dagre Layout](https://g6.antv.antgroup.com/en/manual/layout/DagreLayout.md): Dagre Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/DagreLayout/)
+- [History](https://g6.antv.antgroup.com/en/manual/plugin/History.md): History — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/History/)
+- [FocusElement](https://g6.antv.antgroup.com/en/manual/behavior/FocusElement.md): FocusElement — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/FocusElement/)
+- [Star Node](https://g6.antv.antgroup.com/en/manual/element/node/Star.md): Star Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/Star/)
+- [Dendrogram Layout](https://g6.antv.antgroup.com/en/manual/layout/DendrogramLayout.md): Dendrogram Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/DendrogramLayout/)
+- [Hull](https://g6.antv.antgroup.com/en/manual/plugin/Hull.md): Hull — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Hull/)
+- [HoverActivate](https://g6.antv.antgroup.com/en/manual/behavior/HoverActivate.md): HoverActivate — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/HoverActivate/)
+- [Triangle Node](https://g6.antv.antgroup.com/en/manual/element/node/Triangle.md): Triangle Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/Triangle/)
+- [Fishbone Layout](https://g6.antv.antgroup.com/en/manual/layout/Fishbone.md): Fishbone Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/Fishbone/)
+- [Legend](https://g6.antv.antgroup.com/en/manual/plugin/Legend.md): Legend — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Legend/)
+- [LassoSelect](https://g6.antv.antgroup.com/en/manual/behavior/LassoSelect.md): LassoSelect — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/LassoSelect/)
+- [Custom Node](https://g6.antv.antgroup.com/en/manual/element/node/custom-node.md): Custom Node — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/custom-node/)
+- [ForceAtlas2 Force-directed Layout](https://g6.antv.antgroup.com/en/manual/layout/ForceAtlas2Layout.md): ForceAtlas2 Force-directed Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/ForceAtlas2Layout/)
+- [Minimap](https://g6.antv.antgroup.com/en/manual/plugin/Minimap.md): Minimap — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Minimap/)
+- [OptimizeViewportTransform](https://g6.antv.antgroup.com/en/manual/behavior/OptimizeViewportTransform.md): OptimizeViewportTransform — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/OptimizeViewportTransform/)
+- [Define Nodes with React](https://g6.antv.antgroup.com/en/manual/element/node/react-node.md): Define Nodes with React — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/react-node/)
+- [FAQ](https://g6.antv.antgroup.com/en/manual/faq.md): FAQ — [Canonical page](https://g6.antv.antgroup.com/en/manual/faq/)
+- [Force-directed Layout](https://g6.antv.antgroup.com/en/manual/layout/ForceLayout.md): Force-directed Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/ForceLayout/)
+- [Snapline](https://g6.antv.antgroup.com/en/manual/plugin/Snapline.md): Snapline — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Snapline/)
+- [ScrollCanvas](https://g6.antv.antgroup.com/en/manual/behavior/ScrollCanvas.md): ScrollCanvas — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/ScrollCanvas/)
+- [contribute](https://g6.antv.antgroup.com/en/manual/contribute.md): contribute — [Canonical page](https://g6.antv.antgroup.com/en/manual/contribute/)
+- [Define Nodes with Vue](https://g6.antv.antgroup.com/en/manual/element/node/vue-node.md): Define Nodes with Vue — [Canonical page](https://g6.antv.antgroup.com/en/manual/element/node/vue-node/)
+- [Fruchterman Force-directed Layout](https://g6.antv.antgroup.com/en/manual/layout/FruchtermanLayout.md): Fruchterman Force-directed Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/FruchtermanLayout/)
+- [Timebar](https://g6.antv.antgroup.com/en/manual/plugin/Timebar.md): Timebar — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Timebar/)
+- [Grid Layout](https://g6.antv.antgroup.com/en/manual/layout/GridLayout.md): Grid Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/GridLayout/)
+- [Title](https://g6.antv.antgroup.com/en/manual/plugin/Title.md): Title — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Title/)
+- [Toolbar](https://g6.antv.antgroup.com/en/manual/plugin/Toolbar.md): Toolbar — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Toolbar/)
+- [Custom Behavior](https://g6.antv.antgroup.com/en/manual/behavior/custom-behavior.md): Custom Behavior — [Canonical page](https://g6.antv.antgroup.com/en/manual/behavior/custom-behavior/)
+- [Indented Tree](https://g6.antv.antgroup.com/en/manual/layout/IndentedLayout.md): Indented Tree — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/IndentedLayout/)
+- [Tooltip](https://g6.antv.antgroup.com/en/manual/plugin/Tooltip.md): Tooltip — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Tooltip/)
+- [MDS High-dimensional Data Dimensionality Reduction Layout](https://g6.antv.antgroup.com/en/manual/layout/MdsLayout.md): MDS High-dimensional Data Dimensionality Reduction Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/MdsLayout/)
+- [Watermark](https://g6.antv.antgroup.com/en/manual/plugin/Watermark.md): Watermark — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/Watermark/)
+- [Mindmap Tree](https://g6.antv.antgroup.com/en/manual/layout/MindmapLayout.md): Mindmap Tree — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/MindmapLayout/)
+- [Radial Layout](https://g6.antv.antgroup.com/en/manual/layout/RadialLayout.md): Radial Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/RadialLayout/)
+- [Random Layout](https://g6.antv.antgroup.com/en/manual/layout/RandomLayout.md): Random Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/RandomLayout/)
+- [Custom Plugin](https://g6.antv.antgroup.com/en/manual/plugin/custom-plugin.md): Custom Plugin — [Canonical page](https://g6.antv.antgroup.com/en/manual/plugin/custom-plugin/)
+- [Snake Layout](https://g6.antv.antgroup.com/en/manual/layout/Snake.md): Snake Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/Snake/)
+- [Custom Layout](https://g6.antv.antgroup.com/en/manual/layout/custom-layout.md): Custom Layout — [Canonical page](https://g6.antv.antgroup.com/en/manual/layout/custom-layout/)
+
+## 中文示例
+
+- [LP 自动聚类](https://g6.antv.antgroup.com/zh/examples/algorithm/case/label-propagation/): 可运行示例及其源码。
+- [LOUVAIN 自动聚类](https://g6.antv.antgroup.com/zh/examples/algorithm/case/louvain/): 可运行示例及其源码。
+- [图模式匹配](https://g6.antv.antgroup.com/zh/examples/algorithm/case/pattern-matching/): 可运行示例及其源码。
+- [最短路径](https://g6.antv.antgroup.com/zh/examples/algorithm/case/shortest-path/): 可运行示例及其源码。
+- [组合展开/收起](https://g6.antv.antgroup.com/zh/examples/animation/basic/combo-collapse-expand/): 可运行示例及其源码。
+- [入场动画](https://g6.antv.antgroup.com/zh/examples/animation/basic/enter/): 可运行示例及其源码。
+- [边路径入场](https://g6.antv.antgroup.com/zh/examples/animation/basic/enter-edge-path-in/): 可运行示例及其源码。
+- [退场动画](https://g6.antv.antgroup.com/zh/examples/animation/basic/exit/): 可运行示例及其源码。
+- [更新动画](https://g6.antv.antgroup.com/zh/examples/animation/basic/update/): 可运行示例及其源码。
+- [蚂蚁线](https://g6.antv.antgroup.com/zh/examples/animation/persistence/ant-line/): 可运行示例及其源码。
+- [呼吸效果](https://g6.antv.antgroup.com/zh/examples/animation/persistence/breathing-circle/): 可运行示例及其源码。
+- [飞行标记](https://g6.antv.antgroup.com/zh/examples/animation/persistence/fly-marker/): 可运行示例及其源码。
+- [涟漪效果](https://g6.antv.antgroup.com/zh/examples/animation/persistence/ripple-circle/): 可运行示例及其源码。
+- [视口旋转](https://g6.antv.antgroup.com/zh/examples/animation/viewport/rotate/): 可运行示例及其源码。
+- [视口平移](https://g6.antv.antgroup.com/zh/examples/animation/viewport/translate/): 可运行示例及其源码。
+- [视口缩放](https://g6.antv.antgroup.com/zh/examples/animation/viewport/zoom/): 可运行示例及其源码。
+- [智能标签控制](https://g6.antv.antgroup.com/zh/examples/behavior/auto-adapt-label/basic/): 可运行示例及其源码。
+- [拖拽画布](https://g6.antv.antgroup.com/zh/examples/behavior/canvas/drag/): 可运行示例及其源码。
+- [拖拽缩放画布时隐藏元素](https://g6.antv.antgroup.com/zh/examples/behavior/canvas/optimize/): 可运行示例及其源码。
+- [滚动和缩放画布](https://g6.antv.antgroup.com/zh/examples/behavior/canvas/scroll-and-zoom/): 可运行示例及其源码。
+- [XY 轴滚动](https://g6.antv.antgroup.com/zh/examples/behavior/canvas/scroll-xy/): 可运行示例及其源码。
+- [Y 轴滚动](https://g6.antv.antgroup.com/zh/examples/behavior/canvas/scroll-y/): 可运行示例及其源码。
+- [缩放画布](https://g6.antv.antgroup.com/zh/examples/behavior/canvas/zoom/): 可运行示例及其源码。
+- [展开/收起](https://g6.antv.antgroup.com/zh/examples/behavior/combo/basic/): 可运行示例及其源码。
+- [展开/收起的触发方式](https://g6.antv.antgroup.com/zh/examples/behavior/combo/collapse-expand/): 可运行示例及其源码。
+- [创建组合间连边](https://g6.antv.antgroup.com/zh/examples/behavior/create-edge/between-combos/): 可运行示例及其源码。
+- [通过点击创建边](https://g6.antv.antgroup.com/zh/examples/behavior/create-edge/by-click/): 可运行示例及其源码。
+- [通过拖拽创建边](https://g6.antv.antgroup.com/zh/examples/behavior/create-edge/by-drag/): 可运行示例及其源码。
+- [自定义边样式](https://g6.antv.antgroup.com/zh/examples/behavior/create-edge/custom-edge-style/): 可运行示例及其源码。
+- [缩放过程中动态调整标签的最大长度](https://g6.antv.antgroup.com/zh/examples/behavior/fix-element-size/autosize-label/): 可运行示例及其源码。
+- [缩放过程中字号保持](https://g6.antv.antgroup.com/zh/examples/behavior/fix-element-size/fix-font-size/): 可运行示例及其源码。
+- [缩放过程中固定选中元素](https://g6.antv.antgroup.com/zh/examples/behavior/fix-element-size/fix-size/): 可运行示例及其源码。
+- [点击聚焦](https://g6.antv.antgroup.com/zh/examples/behavior/focus/basic/): 可运行示例及其源码。
+- [高亮相邻节点](https://g6.antv.antgroup.com/zh/examples/behavior/highlight-element/activate-relations/): 可运行示例及其源码。
+- [高亮元素](https://g6.antv.antgroup.com/zh/examples/behavior/highlight-element/basic/): 可运行示例及其源码。
+- [定制参数](https://g6.antv.antgroup.com/zh/examples/behavior/highlight-element/config-params/): 可运行示例及其源码。
+- [指定图形响应事件](https://g6.antv.antgroup.com/zh/examples/behavior/inner-event/basic/): 可运行示例及其源码。
+- [框选](https://g6.antv.antgroup.com/zh/examples/behavior/select/brush/): 可运行示例及其源码。
+- [框选组合](https://g6.antv.antgroup.com/zh/examples/behavior/select/brush-combo/): 可运行示例及其源码。
+- [点选](https://g6.antv.antgroup.com/zh/examples/behavior/select/click/): 可运行示例及其源码。
+- [拉索选择](https://g6.antv.antgroup.com/zh/examples/behavior/select/lasso/): 可运行示例及其源码。
+- [更新标签](https://g6.antv.antgroup.com/zh/examples/behavior/update-label/update/): 可运行示例及其源码。
+- [圆形](https://g6.antv.antgroup.com/zh/examples/element/combo/circle/): 可运行示例及其源码。
+- [矩形](https://g6.antv.antgroup.com/zh/examples/element/combo/rect/): 可运行示例及其源码。
+- [额外按钮](https://g6.antv.antgroup.com/zh/examples/element/custom-combo/extra-button/): 可运行示例及其源码。
+- [自定义箭头](https://g6.antv.antgroup.com/zh/examples/element/custom-edge/custom-arrow/): 可运行示例及其源码。
+- [自定义路径](https://g6.antv.antgroup.com/zh/examples/element/custom-edge/custom-path/): 可运行示例及其源码。
+- [额外标签](https://g6.antv.antgroup.com/zh/examples/element/custom-edge/extra-label/): 可运行示例及其源码。
+- [G2 活动图](https://g6.antv.antgroup.com/zh/examples/element/custom-node/g2-activity-chart/): 可运行示例及其源码。
+- [G2 柱状图](https://g6.antv.antgroup.com/zh/examples/element/custom-node/g2-bar-chart/): 可运行示例及其源码。
+- [React 节点](https://g6.antv.antgroup.com/zh/examples/element/custom-node/react-node/): 可运行示例及其源码。
+- [React 节点 身份证](https://g6.antv.antgroup.com/zh/examples/element/custom-node/reactnode-idcard/): 可运行示例及其源码。
+- [箭头](https://g6.antv.antgroup.com/zh/examples/element/edge/arrows/): 可运行示例及其源码。
+- [三次贝塞尔曲线](https://g6.antv.antgroup.com/zh/examples/element/edge/cubic/): 可运行示例及其源码。
+- [三次贝塞尔曲线-水平](https://g6.antv.antgroup.com/zh/examples/element/edge/horizontal-cubic/): 可运行示例及其源码。
+- [直线](https://g6.antv.antgroup.com/zh/examples/element/edge/line/): 可运行示例及其源码。
+- [曲线自环边](https://g6.antv.antgroup.com/zh/examples/element/edge/loop-curve/): 可运行示例及其源码。
+- [嵌套自环边](https://g6.antv.antgroup.com/zh/examples/element/edge/loop-nested/): 可运行示例及其源码。
+- [折线自环边](https://g6.antv.antgroup.com/zh/examples/element/edge/loop-polyline/): 可运行示例及其源码。
+- [折线-带控制点](https://g6.antv.antgroup.com/zh/examples/element/edge/polyline/): 可运行示例及其源码。
+- [正交线](https://g6.antv.antgroup.com/zh/examples/element/edge/polyline-orth/): 可运行示例及其源码。
+- [正交线-带控制点](https://g6.antv.antgroup.com/zh/examples/element/edge/polyline-orth-with-cps/): 可运行示例及其源码。
+- [二次贝塞尔曲线](https://g6.antv.antgroup.com/zh/examples/element/edge/quadratic/): 可运行示例及其源码。
+- [三次贝塞尔曲线-垂直](https://g6.antv.antgroup.com/zh/examples/element/edge/vertical-cubic/): 可运行示例及其源码。
+- [背景颜色](https://g6.antv.antgroup.com/zh/examples/element/label/background/): 可运行示例及其源码。
+- [复制](https://g6.antv.antgroup.com/zh/examples/element/label/copy/): 可运行示例及其源码。
+- [文本省略](https://g6.antv.antgroup.com/zh/examples/element/label/ellipsis/): 可运行示例及其源码。
+- [文本换行](https://g6.antv.antgroup.com/zh/examples/element/label/word-wrap/): 可运行示例及其源码。
+- [3D 节点](https://g6.antv.antgroup.com/zh/examples/element/node/3d-node/): 可运行示例及其源码。
+- [圆形](https://g6.antv.antgroup.com/zh/examples/element/node/circle/): 可运行示例及其源码。
+- [菱形](https://g6.antv.antgroup.com/zh/examples/element/node/diamond/): 可运行示例及其源码。
+- [甜甜圈](https://g6.antv.antgroup.com/zh/examples/element/node/donut/): 可运行示例及其源码。
+- [椭圆](https://g6.antv.antgroup.com/zh/examples/element/node/ellipse/): 可运行示例及其源码。
+- [六边形](https://g6.antv.antgroup.com/zh/examples/element/node/hexagon/): 可运行示例及其源码。
+- [HTML节点](https://g6.antv.antgroup.com/zh/examples/element/node/html/): 可运行示例及其源码。
+- [图片](https://g6.antv.antgroup.com/zh/examples/element/node/image/): 可运行示例及其源码。
+- [连接桩](https://g6.antv.antgroup.com/zh/examples/element/node/port/): 可运行示例及其源码。
+- [矩形](https://g6.antv.antgroup.com/zh/examples/element/node/rect/): 可运行示例及其源码。
+- [圆角矩形](https://g6.antv.antgroup.com/zh/examples/element/node/rounded-rect/): 可运行示例及其源码。
+- [星形](https://g6.antv.antgroup.com/zh/examples/element/node/star/): 可运行示例及其源码。
+- [三角形](https://g6.antv.antgroup.com/zh/examples/element/node/triangle/): 可运行示例及其源码。
+- [3D大数据](https://g6.antv.antgroup.com/zh/examples/feature/default/3d-massive/): 可运行示例及其源码。
+- [精简太阳系](https://g6.antv.antgroup.com/zh/examples/feature/default/lite-solar-system/): 可运行示例及其源码。
+- [主题切换](https://g6.antv.antgroup.com/zh/examples/feature/default/theme/): 可运行示例及其源码。
+- [信息密度](https://g6.antv.antgroup.com/zh/examples/feature/default/unicorns-investors/): 可运行示例及其源码。
+- [基本 Circular 布局](https://g6.antv.antgroup.com/zh/examples/layout/circular/basic/): 可运行示例及其源码。
+- [按照节点度数排序](https://g6.antv.antgroup.com/zh/examples/layout/circular/degree/): 可运行示例及其源码。
+- [分割环形布局](https://g6.antv.antgroup.com/zh/examples/layout/circular/division/): 可运行示例及其源码。
+- [螺旋线布局](https://g6.antv.antgroup.com/zh/examples/layout/circular/spiral/): 可运行示例及其源码。
+- [ComboCombined 组合布局](https://g6.antv.antgroup.com/zh/examples/layout/combo-layout/combo-combined/): 可运行示例及其源码。
+- [紧凑树](https://g6.antv.antgroup.com/zh/examples/layout/compact-box/basic/): 可运行示例及其源码。
+- [径向布局](https://g6.antv.antgroup.com/zh/examples/layout/compact-box/radial/): 可运行示例及其源码。
+- [从上向下布局](https://g6.antv.antgroup.com/zh/examples/layout/compact-box/vertical/): 可运行示例及其源码。
+- [Concentric 同心圆布局](https://g6.antv.antgroup.com/zh/examples/layout/concentric/basic/): 可运行示例及其源码。
+- [弧线图](https://g6.antv.antgroup.com/zh/examples/layout/custom/arc/): 可运行示例及其源码。
+- [二分图布局](https://g6.antv.antgroup.com/zh/examples/layout/custom/bi-graph/): 可运行示例及其源码。
+- [Dagre 流程图](https://g6.antv.antgroup.com/zh/examples/layout/dagre/antv-dagre/): 可运行示例及其源码。
+- [带有 Combo 的流程图](https://g6.antv.antgroup.com/zh/examples/layout/dagre/antv-dagre-combo/): 可运行示例及其源码。
+- [Dagre.js 布局](https://g6.antv.antgroup.com/zh/examples/layout/dagre/dagre/): 可运行示例及其源码。
+- [生态树](https://g6.antv.antgroup.com/zh/examples/layout/dendrogram/basic/): 可运行示例及其源码。
+- [径向布局](https://g6.antv.antgroup.com/zh/examples/layout/dendrogram/radial/): 可运行示例及其源码。
+- [垂直布局](https://g6.antv.antgroup.com/zh/examples/layout/dendrogram/vertical/): 可运行示例及其源码。
+- [Fishbone 鱼骨布局](https://g6.antv.antgroup.com/zh/examples/layout/fishbone/basic/): 可运行示例及其源码。
+- [3D 力导向布局](https://g6.antv.antgroup.com/zh/examples/layout/force-directed/3d-force/): 可运行示例及其源码。
+- [Force Atlas 2](https://g6.antv.antgroup.com/zh/examples/layout/force-directed/atlas2/): 可运行示例及其源码。
+- [力导向气泡图](https://g6.antv.antgroup.com/zh/examples/layout/force-directed/bubbles/): 可运行示例及其源码。
+- [弹性碰撞效果](https://g6.antv.antgroup.com/zh/examples/layout/force-directed/collision/): 可运行示例及其源码。
+- [D3 力导向布局](https://g6.antv.antgroup.com/zh/examples/layout/force-directed/d3-force/): 可运行示例及其源码。
+- [固定被做拽节点](https://g6.antv.antgroup.com/zh/examples/layout/force-directed/drag-fixed/): 可运行示例及其源码。
+- [Force 聚类](https://g6.antv.antgroup.com/zh/examples/layout/force-directed/force/): 可运行示例及其源码。
+- [定制不同节点的参数](https://g6.antv.antgroup.com/zh/examples/layout/force-directed/functional-params/): 可运行示例及其源码。
+- [网格效果](https://g6.antv.antgroup.com/zh/examples/layout/force-directed/mesh/): 可运行示例及其源码。
+- [力导向布局防止节点重叠](https://g6.antv.antgroup.com/zh/examples/layout/force-directed/prevent-overlap/): 可运行示例及其源码。
+- [基本 Fruchterman 布局](https://g6.antv.antgroup.com/zh/examples/layout/fruchterman/basic/): 可运行示例及其源码。
+- [Fruchterman 聚类布局](https://g6.antv.antgroup.com/zh/examples/layout/fruchterman/cluster/): 可运行示例及其源码。
+- [使用 GPU 加速](https://g6.antv.antgroup.com/zh/examples/layout/fruchterman/run-in-gpu/): 可运行示例及其源码。
+- [使用 Web-worker](https://g6.antv.antgroup.com/zh/examples/layout/fruchterman/run-in-web-worker/): 可运行示例及其源码。
+- [Grid 网格布局](https://g6.antv.antgroup.com/zh/examples/layout/grid/basic/): 可运行示例及其源码。
+- [子节点自动分布](https://g6.antv.antgroup.com/zh/examples/layout/indented/auto-side/): 可运行示例及其源码。
+- [自定义子节点分布](https://g6.antv.antgroup.com/zh/examples/layout/indented/custom-side/): 可运行示例及其源码。
+- [子节点左侧分布](https://g6.antv.antgroup.com/zh/examples/layout/indented/left-side/): 可运行示例及其源码。
+- [首子节点不换行](https://g6.antv.antgroup.com/zh/examples/layout/indented/no-drop-cap/): 可运行示例及其源码。
+- [子节点右侧分布](https://g6.antv.antgroup.com/zh/examples/layout/indented/right-side/): 可运行示例及其源码。
+- [基本 MDS 布局](https://g6.antv.antgroup.com/zh/examples/layout/mds/basic/): 可运行示例及其源码。
+- [数据动态切换](https://g6.antv.antgroup.com/zh/examples/layout/mechanism/change-data/): 可运行示例及其源码。
+- [布局切换](https://g6.antv.antgroup.com/zh/examples/layout/mechanism/switch/): 可运行示例及其源码。
+- [子节点自动分布](https://g6.antv.antgroup.com/zh/examples/layout/mindmap/auto-side/): 可运行示例及其源码。
+- [自定义子节点分布](https://g6.antv.antgroup.com/zh/examples/layout/mindmap/custom-side/): 可运行示例及其源码。
+- [子节点左侧分布](https://g6.antv.antgroup.com/zh/examples/layout/mindmap/left-side/): 可运行示例及其源码。
+- [子节点右侧分布](https://g6.antv.antgroup.com/zh/examples/layout/mindmap/right-side/): 可运行示例及其源码。
+- [基本 Radial 辐射布局](https://g6.antv.antgroup.com/zh/examples/layout/radial/basic/): 可运行示例及其源码。
+- [排序聚类](https://g6.antv.antgroup.com/zh/examples/layout/radial/cluster-sort/): 可运行示例及其源码。
+- [防止节点重叠的非严格辐射布局](https://g6.antv.antgroup.com/zh/examples/layout/radial/non-strict-prevent-overlap/): 可运行示例及其源码。
+- [防止节点重叠的严格辐射布局](https://g6.antv.antgroup.com/zh/examples/layout/radial/strict-prevent-overlap/): 可运行示例及其源码。
+- [基本 Snake 布局](https://g6.antv.antgroup.com/zh/examples/layout/snake/basic/): 可运行示例及其源码。
+- [自定义间距的 Snake 布局](https://g6.antv.antgroup.com/zh/examples/layout/snake/gutter/): 可运行示例及其源码。
+- [子图布局](https://g6.antv.antgroup.com/zh/examples/layout/sub-graph/basic/): 可运行示例及其源码。
+- [约 20000 元素](https://g6.antv.antgroup.com/zh/examples/performance/massive-data/20000/): 可运行示例及其源码。
+- [5000+ 元素](https://g6.antv.antgroup.com/zh/examples/performance/massive-data/5000/): 可运行示例及其源码。
+- [60000+ 元素](https://g6.antv.antgroup.com/zh/examples/performance/massive-data/60000/): 可运行示例及其源码。
+- [背景图片](https://g6.antv.antgroup.com/zh/examples/plugin/background/background/): 可运行示例及其源码。
+- [用气泡集包裹节点集](https://g6.antv.antgroup.com/zh/examples/plugin/bubble-sets/basic/): 可运行示例及其源码。
+- [上下文菜单](https://g6.antv.antgroup.com/zh/examples/plugin/contextmenu/basic/): 可运行示例及其源码。
+- [边绑定](https://g6.antv.antgroup.com/zh/examples/plugin/edge-bundling/basic/): 可运行示例及其源码。
+- [边过滤镜](https://g6.antv.antgroup.com/zh/examples/plugin/edge-filter-lens/basic/): 可运行示例及其源码。
+- [鱼眼放大镜](https://g6.antv.antgroup.com/zh/examples/plugin/fisheye/basic/): 可运行示例及其源码。
+- [自定义鱼眼放大镜](https://g6.antv.antgroup.com/zh/examples/plugin/fisheye/custom/): 可运行示例及其源码。
+- [全屏展示](https://g6.antv.antgroup.com/zh/examples/plugin/fullscreen/basic/): 可运行示例及其源码。
+- [画布网格](https://g6.antv.antgroup.com/zh/examples/plugin/grid-line/basic/): 可运行示例及其源码。
+- [撤销重做](https://g6.antv.antgroup.com/zh/examples/plugin/history/basic/): 可运行示例及其源码。
+- [用轮廓包裹节点集合](https://g6.antv.antgroup.com/zh/examples/plugin/hull/basic/): 可运行示例及其源码。
+- [默认图例](https://g6.antv.antgroup.com/zh/examples/plugin/legend/basic/): 可运行示例及其源码。
+- [点击图例](https://g6.antv.antgroup.com/zh/examples/plugin/legend/click/): 可运行示例及其源码。
+- [图例项样式](https://g6.antv.antgroup.com/zh/examples/plugin/legend/style/): 可运行示例及其源码。
+- [小地图](https://g6.antv.antgroup.com/zh/examples/plugin/minimap/basic/): 可运行示例及其源码。
+- [支持自动吸附](https://g6.antv.antgroup.com/zh/examples/plugin/snapline/autosnap/): 可运行示例及其源码。
+- [对齐线](https://g6.antv.antgroup.com/zh/examples/plugin/snapline/basic/): 可运行示例及其源码。
+- [图表模式](https://g6.antv.antgroup.com/zh/examples/plugin/timebar/chart/): 可运行示例及其源码。
+- [时间模式](https://g6.antv.antgroup.com/zh/examples/plugin/timebar/time/): 可运行示例及其源码。
+- [工具栏](https://g6.antv.antgroup.com/zh/examples/plugin/toolbar/basic/): 可运行示例及其源码。
+- [自定义工具栏](https://g6.antv.antgroup.com/zh/examples/plugin/toolbar/custom/): 可运行示例及其源码。
+- [提示框](https://g6.antv.antgroup.com/zh/examples/plugin/tooltip/basic/): 可运行示例及其源码。
+- [点击触发](https://g6.antv.antgroup.com/zh/examples/plugin/tooltip/click/): 可运行示例及其源码。
+- [鼠标移入和点击同一元素时显示不同的提示框](https://g6.antv.antgroup.com/zh/examples/plugin/tooltip/dual/): 可运行示例及其源码。
+- [重复图片](https://g6.antv.antgroup.com/zh/examples/plugin/watermark/repeat/): 可运行示例及其源码。
+- [文本水印](https://g6.antv.antgroup.com/zh/examples/plugin/watermark/text/): 可运行示例及其源码。
+- [英格兰阵容](https://g6.antv.antgroup.com/zh/examples/scene-case/default/battle-array/): 可运行示例及其源码。
+- [资金流向图](https://g6.antv.antgroup.com/zh/examples/scene-case/default/fund-flow/): 可运行示例及其源码。
+- [音乐节](https://g6.antv.antgroup.com/zh/examples/scene-case/default/music-festival/): 可运行示例及其源码。
+- [组织架构](https://g6.antv.antgroup.com/zh/examples/scene-case/default/organization-chart/): 可运行示例及其源码。
+- [系统性能诊断流程图](https://g6.antv.antgroup.com/zh/examples/scene-case/default/performance-diagnosis-flowchart/): 可运行示例及其源码。
+- [S 型流程图](https://g6.antv.antgroup.com/zh/examples/scene-case/default/snake-flow-diagram/): 可运行示例及其源码。
+- [子图](https://g6.antv.antgroup.com/zh/examples/scene-case/default/sub-graph/): 可运行示例及其源码。
+- [猫咪喜好](https://g6.antv.antgroup.com/zh/examples/scene-case/default/why-do-cats/): 可运行示例及其源码。
+- [克服拖延症（决策型鱼骨图）](https://g6.antv.antgroup.com/zh/examples/scene-case/tree-graph/anti-procrastination-fishbone/): 可运行示例及其源码。
+- [缩进树](https://g6.antv.antgroup.com/zh/examples/scene-case/tree-graph/indented-tree/): 可运行示例及其源码。
+- [思维导图](https://g6.antv.antgroup.com/zh/examples/scene-case/tree-graph/mindmap/): 可运行示例及其源码。
+- [分析产品收益（原因型鱼骨图）](https://g6.antv.antgroup.com/zh/examples/scene-case/tree-graph/product-fishbone/): 可运行示例及其源码。
+- [径向紧凑树](https://g6.antv.antgroup.com/zh/examples/scene-case/tree-graph/radial-compact-tree/): 可运行示例及其源码。
+- [径向生态树](https://g6.antv.antgroup.com/zh/examples/scene-case/tree-graph/radial-dendrogram/): 可运行示例及其源码。
+- [捆绑模式](https://g6.antv.antgroup.com/zh/examples/transform/process-parallel-edges/bundle/): 可运行示例及其源码。
+- [合并模式](https://g6.antv.antgroup.com/zh/examples/transform/process-parallel-edges/merge/): 可运行示例及其源码。
+
+## English examples
+
+- [LP automatic clustering](https://g6.antv.antgroup.com/en/examples/algorithm/case/label-propagation/): Runnable example with its source code.
+- [LOUVAIN automatic clustering](https://g6.antv.antgroup.com/en/examples/algorithm/case/louvain/): Runnable example with its source code.
+- [Graph pattern matching](https://g6.antv.antgroup.com/en/examples/algorithm/case/pattern-matching/): Runnable example with its source code.
+- [Shortest path](https://g6.antv.antgroup.com/en/examples/algorithm/case/shortest-path/): Runnable example with its source code.
+- [Combo Collapse/Expand](https://g6.antv.antgroup.com/en/examples/animation/basic/combo-collapse-expand/): Runnable example with its source code.
+- [Enter Animation](https://g6.antv.antgroup.com/en/examples/animation/basic/enter/): Runnable example with its source code.
+- [Edge Path In](https://g6.antv.antgroup.com/en/examples/animation/basic/enter-edge-path-in/): Runnable example with its source code.
+- [Exit Animation](https://g6.antv.antgroup.com/en/examples/animation/basic/exit/): Runnable example with its source code.
+- [Update Animation](https://g6.antv.antgroup.com/en/examples/animation/basic/update/): Runnable example with its source code.
+- [Ant Line](https://g6.antv.antgroup.com/en/examples/animation/persistence/ant-line/): Runnable example with its source code.
+- [Fly Marker](https://g6.antv.antgroup.com/en/examples/animation/persistence/breathing-circle/): Runnable example with its source code.
+- [Fly Marker](https://g6.antv.antgroup.com/en/examples/animation/persistence/fly-marker/): Runnable example with its source code.
+- [Ripple](https://g6.antv.antgroup.com/en/examples/animation/persistence/ripple-circle/): Runnable example with its source code.
+- [Rotate Viewport](https://g6.antv.antgroup.com/en/examples/animation/viewport/rotate/): Runnable example with its source code.
+- [Translate Viewport](https://g6.antv.antgroup.com/en/examples/animation/viewport/translate/): Runnable example with its source code.
+- [Zoom Viewport](https://g6.antv.antgroup.com/en/examples/animation/viewport/zoom/): Runnable example with its source code.
+- [智能标签控制](https://g6.antv.antgroup.com/en/examples/behavior/auto-adapt-label/basic/): Runnable example with its source code.
+- [Drag Canvas](https://g6.antv.antgroup.com/en/examples/behavior/canvas/drag/): Runnable example with its source code.
+- [Hide Elements When Dragging and Zooming](https://g6.antv.antgroup.com/en/examples/behavior/canvas/optimize/): Runnable example with its source code.
+- [Scroll Canvas and Zoom Canvas](https://g6.antv.antgroup.com/en/examples/behavior/canvas/scroll-and-zoom/): Runnable example with its source code.
+- [Scroll XY](https://g6.antv.antgroup.com/en/examples/behavior/canvas/scroll-xy/): Runnable example with its source code.
+- [Scroll Y](https://g6.antv.antgroup.com/en/examples/behavior/canvas/scroll-y/): Runnable example with its source code.
+- [Zoom Canvas](https://g6.antv.antgroup.com/en/examples/behavior/canvas/zoom/): Runnable example with its source code.
+- [Expand/Collapse](https://g6.antv.antgroup.com/en/examples/behavior/combo/basic/): Runnable example with its source code.
+- [Trigger of Expand/Collapse](https://g6.antv.antgroup.com/en/examples/behavior/combo/collapse-expand/): Runnable example with its source code.
+- [Create Edge Between Combos](https://g6.antv.antgroup.com/en/examples/behavior/create-edge/between-combos/): Runnable example with its source code.
+- [Create Edge by Click](https://g6.antv.antgroup.com/en/examples/behavior/create-edge/by-click/): Runnable example with its source code.
+- [Create Edge by Drag](https://g6.antv.antgroup.com/en/examples/behavior/create-edge/by-drag/): Runnable example with its source code.
+- [Custom Edge Style](https://g6.antv.antgroup.com/en/examples/behavior/create-edge/custom-edge-style/): Runnable example with its source code.
+- [Auto Size Label While Zooming](https://g6.antv.antgroup.com/en/examples/behavior/fix-element-size/autosize-label/): Runnable example with its source code.
+- [Fix Font Size While Zooming](https://g6.antv.antgroup.com/en/examples/behavior/fix-element-size/fix-font-size/): Runnable example with its source code.
+- [Fix Element Size While Zooming](https://g6.antv.antgroup.com/en/examples/behavior/fix-element-size/fix-size/): Runnable example with its source code.
+- [点击聚焦](https://g6.antv.antgroup.com/en/examples/behavior/focus/basic/): Runnable example with its source code.
+- [Activate Relations](https://g6.antv.antgroup.com/en/examples/behavior/highlight-element/activate-relations/): Runnable example with its source code.
+- [Hover Element](https://g6.antv.antgroup.com/en/examples/behavior/highlight-element/basic/): Runnable example with its source code.
+- [Configurations for Activate Relations](https://g6.antv.antgroup.com/en/examples/behavior/highlight-element/config-params/): Runnable example with its source code.
+- [Specify the shape response event](https://g6.antv.antgroup.com/en/examples/behavior/inner-event/basic/): Runnable example with its source code.
+- [Brush Select](https://g6.antv.antgroup.com/en/examples/behavior/select/brush/): Runnable example with its source code.
+- [Brush Combo](https://g6.antv.antgroup.com/en/examples/behavior/select/brush-combo/): Runnable example with its source code.
+- [Click Select](https://g6.antv.antgroup.com/en/examples/behavior/select/click/): Runnable example with its source code.
+- [Lasso Select](https://g6.antv.antgroup.com/en/examples/behavior/select/lasso/): Runnable example with its source code.
+- [Update Label](https://g6.antv.antgroup.com/en/examples/behavior/update-label/update/): Runnable example with its source code.
+- [圆形](https://g6.antv.antgroup.com/en/examples/element/combo/circle/): Runnable example with its source code.
+- [矩形](https://g6.antv.antgroup.com/en/examples/element/combo/rect/): Runnable example with its source code.
+- [Extra Button](https://g6.antv.antgroup.com/en/examples/element/custom-combo/extra-button/): Runnable example with its source code.
+- [Custom Arrow](https://g6.antv.antgroup.com/en/examples/element/custom-edge/custom-arrow/): Runnable example with its source code.
+- [Custom Path](https://g6.antv.antgroup.com/en/examples/element/custom-edge/custom-path/): Runnable example with its source code.
+- [Extra Label](https://g6.antv.antgroup.com/en/examples/element/custom-edge/extra-label/): Runnable example with its source code.
+- [G2 activity Chart](https://g6.antv.antgroup.com/en/examples/element/custom-node/g2-activity-chart/): Runnable example with its source code.
+- [G2 bar chart](https://g6.antv.antgroup.com/en/examples/element/custom-node/g2-bar-chart/): Runnable example with its source code.
+- [React node](https://g6.antv.antgroup.com/en/examples/element/custom-node/react-node/): Runnable example with its source code.
+- [React node IDCard](https://g6.antv.antgroup.com/en/examples/element/custom-node/reactnode-idcard/): Runnable example with its source code.
+- [Arrows](https://g6.antv.antgroup.com/en/examples/element/edge/arrows/): Runnable example with its source code.
+- [Cubic](https://g6.antv.antgroup.com/en/examples/element/edge/cubic/): Runnable example with its source code.
+- [Horizontal Cubic](https://g6.antv.antgroup.com/en/examples/element/edge/horizontal-cubic/): Runnable example with its source code.
+- [Line](https://g6.antv.antgroup.com/en/examples/element/edge/line/): Runnable example with its source code.
+- [Curve Loop](https://g6.antv.antgroup.com/en/examples/element/edge/loop-curve/): Runnable example with its source code.
+- [Nested Loop](https://g6.antv.antgroup.com/en/examples/element/edge/loop-nested/): Runnable example with its source code.
+- [Polyline Loop](https://g6.antv.antgroup.com/en/examples/element/edge/loop-polyline/): Runnable example with its source code.
+- [Polyline with Control Points](https://g6.antv.antgroup.com/en/examples/element/edge/polyline/): Runnable example with its source code.
+- [Orthogonal Line](https://g6.antv.antgroup.com/en/examples/element/edge/polyline-orth/): Runnable example with its source code.
+- [Orthogonal Line with Control Points](https://g6.antv.antgroup.com/en/examples/element/edge/polyline-orth-with-cps/): Runnable example with its source code.
+- [Quadratic](https://g6.antv.antgroup.com/en/examples/element/edge/quadratic/): Runnable example with its source code.
+- [Vertical Cubic](https://g6.antv.antgroup.com/en/examples/element/edge/vertical-cubic/): Runnable example with its source code.
+- [Background](https://g6.antv.antgroup.com/en/examples/element/label/background/): Runnable example with its source code.
+- [Copy Content](https://g6.antv.antgroup.com/en/examples/element/label/copy/): Runnable example with its source code.
+- [Text Ellipsis](https://g6.antv.antgroup.com/en/examples/element/label/ellipsis/): Runnable example with its source code.
+- [Word Wrap](https://g6.antv.antgroup.com/en/examples/element/label/word-wrap/): Runnable example with its source code.
+- [3D Node](https://g6.antv.antgroup.com/en/examples/element/node/3d-node/): Runnable example with its source code.
+- [Circle](https://g6.antv.antgroup.com/en/examples/element/node/circle/): Runnable example with its source code.
+- [Diamond](https://g6.antv.antgroup.com/en/examples/element/node/diamond/): Runnable example with its source code.
+- [Donut](https://g6.antv.antgroup.com/en/examples/element/node/donut/): Runnable example with its source code.
+- [Ellipse](https://g6.antv.antgroup.com/en/examples/element/node/ellipse/): Runnable example with its source code.
+- [Hexagon](https://g6.antv.antgroup.com/en/examples/element/node/hexagon/): Runnable example with its source code.
+- [HTML节点](https://g6.antv.antgroup.com/en/examples/element/node/html/): Runnable example with its source code.
+- [Image](https://g6.antv.antgroup.com/en/examples/element/node/image/): Runnable example with its source code.
+- [Port](https://g6.antv.antgroup.com/en/examples/element/node/port/): Runnable example with its source code.
+- [Rect](https://g6.antv.antgroup.com/en/examples/element/node/rect/): Runnable example with its source code.
+- [Radius Rect](https://g6.antv.antgroup.com/en/examples/element/node/rounded-rect/): Runnable example with its source code.
+- [Star](https://g6.antv.antgroup.com/en/examples/element/node/star/): Runnable example with its source code.
+- [Triangle](https://g6.antv.antgroup.com/en/examples/element/node/triangle/): Runnable example with its source code.
+- [3D Massive Data](https://g6.antv.antgroup.com/en/examples/feature/default/3d-massive/): Runnable example with its source code.
+- [Lite Solar System](https://g6.antv.antgroup.com/en/examples/feature/default/lite-solar-system/): Runnable example with its source code.
+- [Switch Theme](https://g6.antv.antgroup.com/en/examples/feature/default/theme/): Runnable example with its source code.
+- [Information Density](https://g6.antv.antgroup.com/en/examples/feature/default/unicorns-investors/): Runnable example with its source code.
+- [Basic Circular Layout](https://g6.antv.antgroup.com/en/examples/layout/circular/basic/): Runnable example with its source code.
+- [Degree Ordered](https://g6.antv.antgroup.com/en/examples/layout/circular/degree/): Runnable example with its source code.
+- [Divided Circular Layout](https://g6.antv.antgroup.com/en/examples/layout/circular/division/): Runnable example with its source code.
+- [Spiral Layout](https://g6.antv.antgroup.com/en/examples/layout/circular/spiral/): Runnable example with its source code.
+- [Combo Combined Layout](https://g6.antv.antgroup.com/en/examples/layout/combo-layout/combo-combined/): Runnable example with its source code.
+- [CompactBox Layout](https://g6.antv.antgroup.com/en/examples/layout/compact-box/basic/): Runnable example with its source code.
+- [Radial Layout](https://g6.antv.antgroup.com/en/examples/layout/compact-box/radial/): Runnable example with its source code.
+- [Top to Bottom CompactBox](https://g6.antv.antgroup.com/en/examples/layout/compact-box/vertical/): Runnable example with its source code.
+- [Concentric Layout](https://g6.antv.antgroup.com/en/examples/layout/concentric/basic/): Runnable example with its source code.
+- [Arc Diagram](https://g6.antv.antgroup.com/en/examples/layout/custom/arc/): Runnable example with its source code.
+- [Bi-graph Layout](https://g6.antv.antgroup.com/en/examples/layout/custom/bi-graph/): Runnable example with its source code.
+- [Dagre Layout](https://g6.antv.antgroup.com/en/examples/layout/dagre/antv-dagre/): Runnable example with its source code.
+- [Dagre with Combos](https://g6.antv.antgroup.com/en/examples/layout/dagre/antv-dagre-combo/): Runnable example with its source code.
+- [Dagre.js Layout](https://g6.antv.antgroup.com/en/examples/layout/dagre/dagre/): Runnable example with its source code.
+- [Dendrogram Layout](https://g6.antv.antgroup.com/en/examples/layout/dendrogram/basic/): Runnable example with its source code.
+- [Radial Layout](https://g6.antv.antgroup.com/en/examples/layout/dendrogram/radial/): Runnable example with its source code.
+- [Vertical Layout](https://g6.antv.antgroup.com/en/examples/layout/dendrogram/vertical/): Runnable example with its source code.
+- [Fishbone Layout](https://g6.antv.antgroup.com/en/examples/layout/fishbone/basic/): Runnable example with its source code.
+- [3D Force Layout](https://g6.antv.antgroup.com/en/examples/layout/force-directed/3d-force/): Runnable example with its source code.
+- [Force-Atlas 2 Layout](https://g6.antv.antgroup.com/en/examples/layout/force-directed/atlas2/): Runnable example with its source code.
+- [Force Directed Bubble Chart](https://g6.antv.antgroup.com/en/examples/layout/force-directed/bubbles/): Runnable example with its source code.
+- [Collision Layout](https://g6.antv.antgroup.com/en/examples/layout/force-directed/collision/): Runnable example with its source code.
+- [D3 Force Layout](https://g6.antv.antgroup.com/en/examples/layout/force-directed/d3-force/): Runnable example with its source code.
+- [Drag Fixed Nodes](https://g6.antv.antgroup.com/en/examples/layout/force-directed/drag-fixed/): Runnable example with its source code.
+- [Clustering Force Layout](https://g6.antv.antgroup.com/en/examples/layout/force-directed/force/): Runnable example with its source code.
+- [Customize Layout Parameters For Different Nodes](https://g6.antv.antgroup.com/en/examples/layout/force-directed/functional-params/): Runnable example with its source code.
+- [Mesh Layout](https://g6.antv.antgroup.com/en/examples/layout/force-directed/mesh/): Runnable example with its source code.
+- [Prevent Overlap in d3-force Layout](https://g6.antv.antgroup.com/en/examples/layout/force-directed/prevent-overlap/): Runnable example with its source code.
+- [Basic Fruchterman Layout](https://g6.antv.antgroup.com/en/examples/layout/fruchterman/basic/): Runnable example with its source code.
+- [Fruchterman Cluster Layout](https://g6.antv.antgroup.com/en/examples/layout/fruchterman/cluster/): Runnable example with its source code.
+- [Run in GPU](https://g6.antv.antgroup.com/en/examples/layout/fruchterman/run-in-gpu/): Runnable example with its source code.
+- [Run in Web-worker](https://g6.antv.antgroup.com/en/examples/layout/fruchterman/run-in-web-worker/): Runnable example with its source code.
+- [Grid Layout](https://g6.antv.antgroup.com/en/examples/layout/grid/basic/): Runnable example with its source code.
+- [Two Side Indented Layout](https://g6.antv.antgroup.com/en/examples/layout/indented/auto-side/): Runnable example with its source code.
+- [Custom Side Indented Layout](https://g6.antv.antgroup.com/en/examples/layout/indented/custom-side/): Runnable example with its source code.
+- [Left Side Indented Layout](https://g6.antv.antgroup.com/en/examples/layout/indented/left-side/): Runnable example with its source code.
+- [No Drop Cap Indented Layout](https://g6.antv.antgroup.com/en/examples/layout/indented/no-drop-cap/): Runnable example with its source code.
+- [Right Side Indented Layout](https://g6.antv.antgroup.com/en/examples/layout/indented/right-side/): Runnable example with its source code.
+- [Basic MDS Layout](https://g6.antv.antgroup.com/en/examples/layout/mds/basic/): Runnable example with its source code.
+- [Change Data](https://g6.antv.antgroup.com/en/examples/layout/mechanism/change-data/): Runnable example with its source code.
+- [Switch Layout](https://g6.antv.antgroup.com/en/examples/layout/mechanism/switch/): Runnable example with its source code.
+- [Auto Mindmap Layout](https://g6.antv.antgroup.com/en/examples/layout/mindmap/auto-side/): Runnable example with its source code.
+- [Custom Mindmap Layout](https://g6.antv.antgroup.com/en/examples/layout/mindmap/custom-side/): Runnable example with its source code.
+- [Left Side Mindmap Layout](https://g6.antv.antgroup.com/en/examples/layout/mindmap/left-side/): Runnable example with its source code.
+- [Right Side Mindmap Layout](https://g6.antv.antgroup.com/en/examples/layout/mindmap/right-side/): Runnable example with its source code.
+- [Basic Radial Layout](https://g6.antv.antgroup.com/en/examples/layout/radial/basic/): Runnable example with its source code.
+- [Cluster Sort](https://g6.antv.antgroup.com/en/examples/layout/radial/cluster-sort/): Runnable example with its source code.
+- [Non-strict Radial Layout with Overlap Prevention](https://g6.antv.antgroup.com/en/examples/layout/radial/non-strict-prevent-overlap/): Runnable example with its source code.
+- [Strict Radial Layout with Overlap Prevention](https://g6.antv.antgroup.com/en/examples/layout/radial/strict-prevent-overlap/): Runnable example with its source code.
+- [Basic Snake Layout](https://g6.antv.antgroup.com/en/examples/layout/snake/basic/): Runnable example with its source code.
+- [Snake Layout with Gutter](https://g6.antv.antgroup.com/en/examples/layout/snake/gutter/): Runnable example with its source code.
+- [SubGraph Layout](https://g6.antv.antgroup.com/en/examples/layout/sub-graph/basic/): Runnable example with its source code.
+- [About 20000 elements](https://g6.antv.antgroup.com/en/examples/performance/massive-data/20000/): Runnable example with its source code.
+- [More than 5000 elements](https://g6.antv.antgroup.com/en/examples/performance/massive-data/5000/): Runnable example with its source code.
+- [More than 60000 elements](https://g6.antv.antgroup.com/en/examples/performance/massive-data/60000/): Runnable example with its source code.
+- [Background Image](https://g6.antv.antgroup.com/en/examples/plugin/background/background/): Runnable example with its source code.
+- [Use Bubblesets to wrap the node sets.](https://g6.antv.antgroup.com/en/examples/plugin/bubble-sets/basic/): Runnable example with its source code.
+- [Context Menu](https://g6.antv.antgroup.com/en/examples/plugin/contextmenu/basic/): Runnable example with its source code.
+- [Edge Bundling](https://g6.antv.antgroup.com/en/examples/plugin/edge-bundling/basic/): Runnable example with its source code.
+- [Edge Filter Lens](https://g6.antv.antgroup.com/en/examples/plugin/edge-filter-lens/basic/): Runnable example with its source code.
+- [Fisheye](https://g6.antv.antgroup.com/en/examples/plugin/fisheye/basic/): Runnable example with its source code.
+- [Custom Fisheye](https://g6.antv.antgroup.com/en/examples/plugin/fisheye/custom/): Runnable example with its source code.
+- [Fullscreen](https://g6.antv.antgroup.com/en/examples/plugin/fullscreen/basic/): Runnable example with its source code.
+- [Grid Line](https://g6.antv.antgroup.com/en/examples/plugin/grid-line/basic/): Runnable example with its source code.
+- [Redo/Undo](https://g6.antv.antgroup.com/en/examples/plugin/history/basic/): Runnable example with its source code.
+- [Use hulls to wrap the node sets.](https://g6.antv.antgroup.com/en/examples/plugin/hull/basic/): Runnable example with its source code.
+- [Default legend](https://g6.antv.antgroup.com/en/examples/plugin/legend/basic/): Runnable example with its source code.
+- [Click legend](https://g6.antv.antgroup.com/en/examples/plugin/legend/click/): Runnable example with its source code.
+- [Item style](https://g6.antv.antgroup.com/en/examples/plugin/legend/style/): Runnable example with its source code.
+- [Minimap](https://g6.antv.antgroup.com/en/examples/plugin/minimap/basic/): Runnable example with its source code.
+- [Snapline with auto snap](https://g6.antv.antgroup.com/en/examples/plugin/snapline/autosnap/): Runnable example with its source code.
+- [Snapline](https://g6.antv.antgroup.com/en/examples/plugin/snapline/basic/): Runnable example with its source code.
+- [Chart Mode](https://g6.antv.antgroup.com/en/examples/plugin/timebar/chart/): Runnable example with its source code.
+- [Time Mode](https://g6.antv.antgroup.com/en/examples/plugin/timebar/time/): Runnable example with its source code.
+- [ToolBar](https://g6.antv.antgroup.com/en/examples/plugin/toolbar/basic/): Runnable example with its source code.
+- [ToolBar](https://g6.antv.antgroup.com/en/examples/plugin/toolbar/custom/): Runnable example with its source code.
+- [Tooltip](https://g6.antv.antgroup.com/en/examples/plugin/tooltip/basic/): Runnable example with its source code.
+- [Show on click](https://g6.antv.antgroup.com/en/examples/plugin/tooltip/click/): Runnable example with its source code.
+- [Dual tooltips](https://g6.antv.antgroup.com/en/examples/plugin/tooltip/dual/): Runnable example with its source code.
+- [Repeat Image](https://g6.antv.antgroup.com/en/examples/plugin/watermark/repeat/): Runnable example with its source code.
+- [Text Watermark](https://g6.antv.antgroup.com/en/examples/plugin/watermark/text/): Runnable example with its source code.
+- [England](https://g6.antv.antgroup.com/en/examples/scene-case/default/battle-array/): Runnable example with its source code.
+- [Fund Flow](https://g6.antv.antgroup.com/en/examples/scene-case/default/fund-flow/): Runnable example with its source code.
+- [Music Festival](https://g6.antv.antgroup.com/en/examples/scene-case/default/music-festival/): Runnable example with its source code.
+- [Organization Chart](https://g6.antv.antgroup.com/en/examples/scene-case/default/organization-chart/): Runnable example with its source code.
+- [System Performance Diagnosis Flowchart](https://g6.antv.antgroup.com/en/examples/scene-case/default/performance-diagnosis-flowchart/): Runnable example with its source code.
+- [Snake Flow Diagram](https://g6.antv.antgroup.com/en/examples/scene-case/default/snake-flow-diagram/): Runnable example with its source code.
+- [Sub Graph](https://g6.antv.antgroup.com/en/examples/scene-case/default/sub-graph/): Runnable example with its source code.
+- [Why Do Cats?](https://g6.antv.antgroup.com/en/examples/scene-case/default/why-do-cats/): Runnable example with its source code.
+- [Anti-Procrastination Fishbone Diagram](https://g6.antv.antgroup.com/en/examples/scene-case/tree-graph/anti-procrastination-fishbone/): Runnable example with its source code.
+- [Indented Tree](https://g6.antv.antgroup.com/en/examples/scene-case/tree-graph/indented-tree/): Runnable example with its source code.
+- [Mind Map](https://g6.antv.antgroup.com/en/examples/scene-case/tree-graph/mindmap/): Runnable example with its source code.
+- [Product Profitability Below Expectations](https://g6.antv.antgroup.com/en/examples/scene-case/tree-graph/product-fishbone/): Runnable example with its source code.
+- [Radial Compact Tree](https://g6.antv.antgroup.com/en/examples/scene-case/tree-graph/radial-compact-tree/): Runnable example with its source code.
+- [Radial Dendrogram](https://g6.antv.antgroup.com/en/examples/scene-case/tree-graph/radial-dendrogram/): Runnable example with its source code.
+- [Bundle Mode](https://g6.antv.antgroup.com/en/examples/transform/process-parallel-edges/bundle/): Runnable example with its source code.
+- [Merge Mode](https://g6.antv.antgroup.com/en/examples/transform/process-parallel-edges/merge/): Runnable example with its source code.

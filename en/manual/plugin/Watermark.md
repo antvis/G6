@@ -1,0 +1,296 @@
+---
+title: "Watermark"
+description: "Watermark"
+language: "en"
+canonical: "https://g6.antv.antgroup.com/en/manual/plugin/Watermark/"
+version: "5.1.1"
+---
+
+## Overview
+
+The watermark plugin supports using text and images as watermarks. The principle is to add a `background-image` attribute to the div of the Graph container, and then control the position and style of the watermark through CSS. For text watermarks, a hidden canvas is used to convert the text into an image.
+
+## Use Cases
+
+- Add copyright or ownership marks to charts
+- Mark the status of charts during presentations or previews
+- Add anti-leakage marks to sensitive data
+
+## Basic Usage
+
+Below is a simple example of initializing the Watermark plugin:
+
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'watermark',
+      text: 'G6 Graph', // Watermark text
+      opacity: 0.2, // Opacity
+      rotate: Math.PI / 12, // Rotation angle
+    },
+  ],
+});
+```
+
+## Online Experience
+
+
+
+```ts
+import { createGraph } from '/demo-runtime.ts';
+
+createGraph(
+  {
+    data: { nodes: [{ id: 'node-1' }] },
+    node: { style: { fill: '#7e3feb' } },
+    edge: { style: { stroke: '#8b9baf' } },
+    layout: { type: 'force' },
+    behaviors: ['drag-canvas'],
+    plugins: [{ type: 'watermark', key: 'watermark', text: 'G6: Graph Visualization' }],
+  },
+  { width: 600, height: 300 },
+  (gui, graph) => {
+    const options = {
+      type: 'watermark',
+      width: 200,
+      height: 100,
+      opacity: 0.2,
+      rotate: Math.PI / 12,
+      text: 'G6: Graph Visualization',
+    };
+    const optionFolder = gui.addFolder('Watermark Options');
+    optionFolder.add(options, 'type').disable(true);
+    optionFolder.add(options, 'width', 1, 1280, 1);
+    optionFolder.add(options, 'height', 1, 800, 1);
+    optionFolder.add(options, 'opacity', 0, 1, 0.1);
+    optionFolder.add(options, 'rotate', 0, 2 * Math.PI, Math.PI / 12);
+    optionFolder.add(options, 'text');
+
+    optionFolder.onChange(({ property, value }) => {
+      graph.updatePlugin({
+        key: 'watermark',
+        [property]: value,
+      });
+      graph.render();
+    });
+  },
+);
+```
+
+
+
+## Configuration Options
+
+| Property             | Description                                              | Type                                                                        | Default Value | Required |
+| -------------------- | -------------------------------------------------------- | --------------------------------------------------------------------------- | ------------- | -------- |
+| type                 | Plugin type                                              | string                                                                      | `watermark`   | ✓        |
+| width                | Width of a single watermark                              | number                                                                      | 200           |          |
+| height               | Height of a single watermark                             | number                                                                      | 100           |          |
+| opacity              | Opacity of the watermark                                 | number                                                                      | 0.2           |          |
+| rotate               | Rotation angle of the watermark                          | number                                                                      | Math.PI / 12  |          |
+| imageURL             | Image watermark URL, higher priority than text watermark | string                                                                      | -             |          |
+| text                 | Watermark text content                                   | string                                                                      | -             |          |
+| textFill             | Color of the text watermark                              | string                                                                      | `#000`        |          |
+| textFontSize         | Font size of the text watermark                          | number                                                                      | 16            |          |
+| textFontFamily       | Font of the text watermark                               | string                                                                      | -             |          |
+| textFontWeight       | Font weight of the text watermark                        | string                                                                      | -             |          |
+| textFontVariant      | Font variant of the text watermark                       | string                                                                      | -             |          |
+| textAlign            | Text alignment of the watermark                          | `center` \| `end` \| `left` \| `right` \| `start`                           | `center`      |          |
+| textBaseline         | Baseline alignment of the text watermark                 | `alphabetic` \| `bottom` \| `hanging` \| `ideographic` \| `middle` \| `top` | `middle`      |          |
+| backgroundRepeat     | Repeat mode of the watermark                             | string                                                                      | `repeat`      |          |
+| backgroundAttachment | Background attachment behavior of the watermark          | string                                                                      | -             |          |
+| backgroundBlendMode  | Background blend mode of the watermark                   | string                                                                      | -             |          |
+| backgroundClip       | Background clip of the watermark                         | string                                                                      | -             |          |
+| backgroundColor      | Background color of the watermark                        | string                                                                      | -             |          |
+| backgroundImage      | Background image of the watermark                        | string                                                                      | -             |          |
+| backgroundOrigin     | Background origin of the watermark                       | string                                                                      | -             |          |
+| backgroundPosition   | Background position of the watermark                     | string                                                                      | -             |          |
+| backgroundPositionX  | Horizontal position of the watermark background          | string                                                                      | -             |          |
+| backgroundPositionY  | Vertical position of the watermark background            | string                                                                      | -             |          |
+| backgroundSize       | Background size of the watermark                         | string                                                                      | -             |          |
+
+## Code Examples
+
+### Text Watermark
+
+The simplest text watermark configuration:
+
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'watermark',
+      text: 'G6 Graph',
+    },
+  ],
+});
+```
+
+
+
+```ts
+
+import { Graph } from '@antv/g6';
+
+const data = {
+  nodes: [{ id: 'node-0' }, { id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }, { id: 'node-4' }, { id: 'node-5' }],
+  edges: [
+    { source: 'node-0', target: 'node-1' },
+    { source: 'node-0', target: 'node-2' },
+    { source: 'node-0', target: 'node-3' },
+    { source: 'node-0', target: 'node-4' },
+    { source: 'node-1', target: 'node-0' },
+    { source: 'node-2', target: 'node-0' },
+    { source: 'node-3', target: 'node-0' },
+    { source: 'node-4', target: 'node-0' },
+    { source: 'node-5', target: 'node-0' },
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data,
+  layout: { type: 'grid' },
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
+  plugins: [
+    {
+      type: 'watermark',
+      text: 'G6: Graph Visualization',
+      textFontSize: 14,
+      textFontFamily: 'Microsoft YaHei',
+      fill: 'rgba(0, 0, 0, 0.1)',
+      rotate: Math.PI / 12,
+    },
+  ],
+});
+
+graph.render();
+```
+
+
+### Image Watermark
+
+Use an image as a watermark:
+
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'watermark',
+      imageURL: 'https://example.com/logo.png',
+      width: 100,
+      height: 50,
+      opacity: 0.1,
+    },
+  ],
+});
+```
+
+
+
+```ts
+
+import { Graph } from '@antv/g6';
+
+const data = {
+  nodes: [{ id: 'node-0' }, { id: 'node-1' }, { id: 'node-2' }, { id: 'node-3' }, { id: 'node-4' }, { id: 'node-5' }],
+  edges: [
+    { source: 'node-0', target: 'node-1' },
+    { source: 'node-0', target: 'node-2' },
+    { source: 'node-0', target: 'node-3' },
+    { source: 'node-0', target: 'node-4' },
+    { source: 'node-1', target: 'node-0' },
+    { source: 'node-2', target: 'node-0' },
+    { source: 'node-3', target: 'node-0' },
+    { source: 'node-4', target: 'node-0' },
+    { source: 'node-5', target: 'node-0' },
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data,
+  layout: {
+    type: 'grid',
+  },
+  behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
+  plugins: [
+    {
+      type: 'watermark',
+      width: 200,
+      height: 100,
+      rotate: Math.PI / 12,
+      imageURL: 'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
+    },
+  ],
+});
+
+graph.render();
+```
+
+
+### Custom Styles
+
+You can customize the style and position of the watermark:
+
+```js
+const graph = new Graph({
+  plugins: [
+    {
+      type: 'watermark',
+      text: 'G6 Graph',
+      textFontSize: 20, // Set font size
+      textFontFamily: 'Arial', // Set font
+      textFontWeight: 'bold', // Set font weight
+      textFill: '#1890ff', // Set text color
+      rotate: Math.PI / 6, // Set rotation angle
+      opacity: 0.15, // Set opacity
+      width: 180, // Set watermark width
+      height: 100, // Set watermark height
+      backgroundRepeat: 'space', // Set repeat mode
+      backgroundPosition: 'center', // Set position
+      textAlign: 'center', // Set text alignment
+      textBaseline: 'middle', // Set baseline alignment
+    },
+  ],
+});
+```
+
+## Real Cases
+
+- [Text Watermark](/en/examples/plugin/watermark/text/)
+- [Image Watermark](/en/examples/plugin/watermark/repeat/)
+### demo-runtime.ts
+
+```ts
+import { Graph } from '@antv/g6';
+import GUI from 'lil-gui';
+
+export function addPanel(renderPanel: (gui: GUI) => void) {
+  const gui = new GUI({ container: document.body });
+  gui.title('Control');
+  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
+  renderPanel(gui);
+  addEventListener('pagehide', () => gui.destroy(), { once: true });
+}
+
+export async function createGraph(
+  options: ConstructorParameters<typeof Graph>[0],
+  size: { width?: number; height?: number } = {},
+  renderPanel?: (gui: GUI, graph: Graph) => void,
+) {
+  const container = document.createElement('div');
+  Object.assign(container.style, {
+    width: '100%',
+    maxWidth: `${size.width || 600}px`,
+    height: `${size.height || 400}px`,
+  });
+  document.getElementById('container')!.append(container);
+  const graph = new Graph({ ...size, ...options, width: container.clientWidth, container, autoResize: true });
+  addEventListener('pagehide', () => graph.destroy(), { once: true });
+  await graph.render();
+  if (renderPanel) addPanel((gui) => renderPanel(gui, graph));
+  return container;
+}
+```

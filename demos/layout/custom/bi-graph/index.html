@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/custom/bi-graph</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/custom/bi-graph/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/custom/bi-graph" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/custom/bi-graph</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/custom/bi-graph/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { BaseLayout, ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    { id: &#39;0&#39;, data: { cluster: &#39;A&#39; } },
+    { id: &#39;1&#39;, data: { cluster: &#39;A&#39; } },
+    { id: &#39;2&#39;, data: { cluster: &#39;A&#39; } },
+    { id: &#39;3&#39;, data: { cluster: &#39;A&#39; } },
+    { id: &#39;4&#39;, data: { cluster: &#39;A&#39; } },
+    { id: &#39;5&#39;, data: { cluster: &#39;A&#39; } },
+    { id: &#39;6&#39;, data: { cluster: &#39;B&#39; } },
+    { id: &#39;7&#39;, data: { cluster: &#39;B&#39; } },
+    { id: &#39;8&#39;, data: { cluster: &#39;B&#39; } },
+    { id: &#39;9&#39;, data: { cluster: &#39;B&#39; } },
+  ],
+  edges: [
+    { source: &#39;0&#39;, target: &#39;6&#39; },
+    { source: &#39;0&#39;, target: &#39;7&#39; },
+    { source: &#39;0&#39;, target: &#39;9&#39; },
+    { source: &#39;1&#39;, target: &#39;6&#39; },
+    { source: &#39;1&#39;, target: &#39;9&#39; },
+    { source: &#39;1&#39;, target: &#39;7&#39; },
+    { source: &#39;2&#39;, target: &#39;8&#39; },
+    { source: &#39;2&#39;, target: &#39;9&#39; },
+    { source: &#39;2&#39;, target: &#39;6&#39; },
+    { source: &#39;3&#39;, target: &#39;8&#39; },
+    { source: &#39;4&#39;, target: &#39;6&#39; },
+    { source: &#39;4&#39;, target: &#39;7&#39; },
+    { source: &#39;5&#39;, target: &#39;9&#39; },
+  ],
+};
+
+class BiLayout extends BaseLayout {
+  id = &#39;bi-layout&#39;;
+
+  async execute(data, options) {
+    const { sep = 100, nodeSep = 20, nodeSize = 32 } = { ...this.options, ...options };
+
+    const [A, B] = data.nodes.reduce(
+      (acc, curr) =&gt; {
+        acc[curr.data.cluster === &#39;A&#39; ? 0 : 1].push(curr);
+        return acc;
+      },
+      [[], []],
+    );
+
+    return {
+      nodes: [
+        ...A.map((node, i) =&gt; ({
+          id: node.id,
+          style: {
+            x: i * (nodeSep + nodeSize),
+            y: 0,
+          },
+        })),
+        ...B.map((node, i) =&gt; ({
+          id: node.id,
+          style: {
+            x: i * (nodeSep + nodeSize),
+            y: sep,
+          },
+        })),
+      ],
+    };
+  }
+}
+
+register(ExtensionCategory.LAYOUT, &#39;bi&#39;, BiLayout);
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  autoFit: &#39;center&#39;,
+  node: {
+    style: {
+      labelFill: &#39;#fff&#39;,
+      labelPlacement: &#39;center&#39;,
+      labelText: (d) =&gt; d.id,
+    },
+    palette: {
+      type: &#39;group&#39;,
+      field: &#39;cluster&#39;,
+      color: [&#39;#1783FF&#39;, &#39;#D580FF&#39;],
+    },
+  },
+  layout: {
+    type: &#39;bi&#39;,
+    sep: 300,
+    nodeSep: 20,
+    nodeSize: 32,
+    preLayout: true,
+  },
+  behaviors: [&#39;drag-canvas&#39;, &#39;drag-element&#39;, &#39;zoom-canvas&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

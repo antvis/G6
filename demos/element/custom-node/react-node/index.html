@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/custom-node/react-node</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/custom-node/react-node/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/custom-node/react-node" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/custom-node/react-node</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/custom-node/react-node/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { DatabaseFilled } from &#39;@ant-design/icons&#39;;
+import { ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+import { ReactNode } from &#39;@antv/g6-extension-react&#39;;
+import { Badge, Flex, Input, Tag, Typography } from &#39;antd&#39;;
+import { useEffect, useRef } from &#39;react&#39;;
+import { createRoot } from &#39;react-dom/client&#39;;
+
+const { Text } = Typography;
+
+register(ExtensionCategory.NODE, &#39;react&#39;, ReactNode);
+
+const Node = ({ data, onChange }) =&gt; {
+  const { status, type } = data.data;
+
+  return (
+    &lt;Flex
+      style={{
+        width: &#39;100%&#39;,
+        height: &#39;100%&#39;,
+        background: &#39;#fff&#39;,
+        padding: 10,
+        borderRadius: 5,
+        border: &#39;1px solid gray&#39;,
+      }}
+      vertical
+    &gt;
+      &lt;Flex align=&quot;center&quot; justify=&quot;space-between&quot;&gt;
+        &lt;Text&gt;
+          &lt;DatabaseFilled /&gt;
+          Server
+          &lt;Tag&gt;{type}&lt;/Tag&gt;
+        &lt;/Text&gt;
+        &lt;Badge status={status} /&gt;
+      &lt;/Flex&gt;
+      &lt;Text type=&quot;secondary&quot;&gt;{data.id}&lt;/Text&gt;
+      &lt;Flex align=&quot;center&quot;&gt;
+        &lt;Text style={{ flexShrink: 0 }}&gt;
+          &lt;Text type=&quot;danger&quot;&gt;*&lt;/Text&gt;URL:
+        &lt;/Text&gt;
+        &lt;Input
+          style={{ borderRadius: 0, borderBottom: &#39;1px solid #d9d9d9&#39; }}
+          variant=&quot;borderless&quot;
+          value={data.data?.url}
+          onChange={(event) =&gt; {
+            const url = event.target.value;
+            onChange?.(url);
+          }}
+        /&gt;
+      &lt;/Flex&gt;
+    &lt;/Flex&gt;
+  );
+};
+
+export const ReactNodeDemo = () =&gt; {
+  const containerRef = useRef();
+
+  useEffect(() =&gt; {
+    const graph = new Graph({
+      container: containerRef.current,
+      data: {
+        nodes: [
+          {
+            id: &#39;local-server-1&#39;,
+            data: { status: &#39;success&#39;, type: &#39;local&#39;, url: &#39;http://localhost:3000&#39; },
+            style: { x: 50, y: 50 },
+          },
+          {
+            id: &#39;remote-server-1&#39;,
+            data: { status: &#39;warning&#39;, type: &#39;remote&#39; },
+            style: { x: 350, y: 50 },
+          },
+        ],
+        edges: [{ source: &#39;local-server-1&#39;, target: &#39;remote-server-1&#39; }],
+      },
+      node: {
+        type: &#39;react&#39;,
+        style: {
+          size: [240, 100],
+          component: (data) =&gt; &lt;Node data={data} /&gt;,
+        },
+      },
+      behaviors: [&#39;drag-element&#39;, &#39;zoom-canvas&#39;, &#39;drag-canvas&#39;],
+    });
+
+    graph.render();
+  }, []);
+
+  return &lt;div style={{ width: &#39;100%&#39;, height: &#39;100%&#39; }} ref={containerRef}&gt;&lt;/div&gt;;
+};
+
+const root = createRoot(document.getElementById(&#39;container&#39;));
+root.render(&lt;ReactNodeDemo /&gt;);
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

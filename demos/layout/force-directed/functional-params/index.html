@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/force-directed/functional-params</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/force-directed/functional-params/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/force-directed/functional-params" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/force-directed/functional-params</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/force-directed/functional-params/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    { id: &#39;node0&#39;, size: 50 },
+    { id: &#39;node1&#39;, size: 30 },
+    { id: &#39;node2&#39;, size: 30 },
+    { id: &#39;node3&#39;, size: 30 },
+    { id: &#39;node4&#39;, size: 30, isLeaf: true },
+    { id: &#39;node5&#39;, size: 30, isLeaf: true },
+    { id: &#39;node6&#39;, size: 15, isLeaf: true },
+    { id: &#39;node7&#39;, size: 15, isLeaf: true },
+    { id: &#39;node8&#39;, size: 15, isLeaf: true },
+    { id: &#39;node9&#39;, size: 15, isLeaf: true },
+    { id: &#39;node10&#39;, size: 15, isLeaf: true },
+    { id: &#39;node11&#39;, size: 15, isLeaf: true },
+    { id: &#39;node12&#39;, size: 15, isLeaf: true },
+    { id: &#39;node13&#39;, size: 15, isLeaf: true },
+    { id: &#39;node14&#39;, size: 15, isLeaf: true },
+    { id: &#39;node15&#39;, size: 15, isLeaf: true },
+    { id: &#39;node16&#39;, size: 15, isLeaf: true },
+  ],
+  edges: [
+    { source: &#39;node0&#39;, target: &#39;node1&#39; },
+    { source: &#39;node0&#39;, target: &#39;node2&#39; },
+    { source: &#39;node0&#39;, target: &#39;node3&#39; },
+    { source: &#39;node0&#39;, target: &#39;node4&#39; },
+    { source: &#39;node0&#39;, target: &#39;node5&#39; },
+    { source: &#39;node1&#39;, target: &#39;node6&#39; },
+    { source: &#39;node1&#39;, target: &#39;node7&#39; },
+    { source: &#39;node2&#39;, target: &#39;node8&#39; },
+    { source: &#39;node2&#39;, target: &#39;node9&#39; },
+    { source: &#39;node2&#39;, target: &#39;node10&#39; },
+    { source: &#39;node2&#39;, target: &#39;node11&#39; },
+    { source: &#39;node2&#39;, target: &#39;node12&#39; },
+    { source: &#39;node2&#39;, target: &#39;node13&#39; },
+    { source: &#39;node3&#39;, target: &#39;node14&#39; },
+    { source: &#39;node3&#39;, target: &#39;node15&#39; },
+    { source: &#39;node3&#39;, target: &#39;node16&#39; },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    style: {
+      size: (d) =&gt; d.size,
+    },
+  },
+  layout: {
+    type: &#39;d3-force&#39;,
+    link: {
+      distance: (d) =&gt; {
+        if (d.source.id === &#39;node0&#39;) {
+          return 100;
+        }
+        return 30;
+      },
+      strength: (d) =&gt; {
+        if (d.source.id === &#39;node1&#39; || d.source.id === &#39;node2&#39; || d.source.id === &#39;node3&#39;) {
+          return 0.7;
+        }
+        return 0.1;
+      },
+    },
+    manyBody: {
+      strength: (d) =&gt; {
+        if (d.isLeaf) {
+          return -50;
+        }
+        return -10;
+      },
+    },
+  },
+  behaviors: [&#39;drag-element-force&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

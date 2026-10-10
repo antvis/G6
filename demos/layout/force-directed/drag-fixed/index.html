@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/force-directed/drag-fixed</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/force-directed/drag-fixed/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/force-directed/drag-fixed" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/force-directed/drag-fixed</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/force-directed/drag-fixed/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: new Array(10).fill(0).map((_, i) =&gt; ({ id: `${i}`, label: `${i}` })),
+  edges: [
+    { source: &#39;0&#39;, target: &#39;1&#39; },
+    { source: &#39;0&#39;, target: &#39;2&#39; },
+    { source: &#39;0&#39;, target: &#39;3&#39; },
+    { source: &#39;0&#39;, target: &#39;4&#39; },
+    { source: &#39;0&#39;, target: &#39;5&#39; },
+    { source: &#39;0&#39;, target: &#39;7&#39; },
+    { source: &#39;0&#39;, target: &#39;8&#39; },
+    { source: &#39;0&#39;, target: &#39;9&#39; },
+    { source: &#39;2&#39;, target: &#39;3&#39; },
+    { source: &#39;4&#39;, target: &#39;5&#39; },
+    { source: &#39;4&#39;, target: &#39;6&#39; },
+    { source: &#39;5&#39;, target: &#39;6&#39; },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    style: {
+      labelText: (d) =&gt; d.label,
+      labelPlacement: &#39;middle&#39;,
+      labelFill: &#39;#fff&#39;,
+    },
+  },
+  layout: {
+    type: &#39;d3-force&#39;,
+    link: {
+      distance: 100,
+      strength: 2,
+    },
+    collide: {
+      radius: 40,
+    },
+  },
+  behaviors: [
+    {
+      type: &#39;drag-element-force&#39;,
+      fixed: true,
+    },
+  ],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

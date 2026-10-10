@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/tree-graph/radial-dendrogram</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/tree-graph/radial-dendrogram/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/tree-graph/radial-dendrogram" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/tree-graph/radial-dendrogram</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/tree-graph/radial-dendrogram/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph, treeToGraphData } from &#39;@antv/g6&#39;;
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/flare.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      autoFit: &#39;view&#39;,
+      padding: 50,
+      data: treeToGraphData(data),
+      node: {
+        style: {
+          size: 12,
+          labelText: (d) =&gt; d.id,
+          labelBackground: true,
+          labelFontSize: 14,
+          labelFontFamily: &#39;Gill Sans&#39;,
+        },
+      },
+      edge: {
+        type: &#39;cubic-radial&#39;,
+        style: {
+          lineWidth: 3,
+        },
+      },
+      layout: {
+        type: &#39;dendrogram&#39;,
+        radial: true,
+        preLayout: false,
+      },
+      behaviors: [
+        &#39;drag-canvas&#39;,
+        &#39;zoom-canvas&#39;,
+        &#39;drag-element&#39;,
+        {
+          key: &#39;hover-activate&#39;,
+          type: &#39;hover-activate&#39;,
+          degree: 5,
+          direction: &#39;in&#39;,
+          inactiveState: &#39;inactive&#39;,
+        },
+      ],
+      transforms: [&#39;place-radial-labels&#39;],
+      animation: false,
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

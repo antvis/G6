@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>behavior/select/brush</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/behavior/select/brush/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="behavior/select/brush" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>behavior/select/brush</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/behavior/select/brush/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: {
+    nodes: [
+      { id: &#39;node-1&#39;, style: { x: 200, y: 250 } },
+      { id: &#39;node-2&#39;, style: { x: 250, y: 200 } },
+      { id: &#39;node-3&#39;, style: { x: 300, y: 250 } },
+      { id: &#39;node-4&#39;, style: { x: 250, y: 300 } },
+    ],
+    edges: [
+      { source: &#39;node-1&#39;, target: &#39;node-2&#39; },
+      { source: &#39;node-2&#39;, target: &#39;node-3&#39; },
+      { source: &#39;node-3&#39;, target: &#39;node-4&#39; },
+      { source: &#39;node-4&#39;, target: &#39;node-1&#39; },
+    ],
+  },
+  behaviors: [
+    {
+      key: &#39;brush-select&#39;,
+      type: &#39;brush-select&#39;,
+      enable: true,
+      animation: false,
+      mode: &#39;default&#39;, // union intersect diff default
+      state: &#39;selected&#39;, // &#39;active&#39;, &#39;selected&#39;, &#39;inactive&#39;, ...
+      trigger: [], // [&#39;Shift&#39;, &#39;Alt&#39;, &#39;Control&#39;, &#39;Drag&#39;, &#39;Meta&#39;, ...]
+      style: {
+        width: 0,
+        height: 0,
+        lineWidth: 4,
+        lineDash: [2, 2],
+        fill: &#39;linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)&#39;,
+        stroke: &#39;pink&#39;,
+        fillOpacity: 0.2,
+        zIndex: 2,
+        pointerEvents: &#39;none&#39;,
+      },
+    },
+  ],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

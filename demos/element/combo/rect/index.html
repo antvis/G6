@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/combo/rect</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/combo/rect/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/combo/rect" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/combo/rect</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/combo/rect/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    { id: &#39;node1&#39;, combo: &#39;combo1&#39;, style: { x: 250, y: 150 } },
+    { id: &#39;node2&#39;, combo: &#39;combo1&#39;, style: { x: 350, y: 150 } },
+    { id: &#39;node3&#39;, combo: &#39;combo2&#39;, style: { x: 250, y: 300 } },
+  ],
+  edges: [],
+  combos: [{ id: &#39;combo1&#39;, combo: &#39;combo2&#39; }, { id: &#39;combo2&#39; }],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    style: {
+      labelText: (d) =&gt; d.id,
+    },
+  },
+  combo: {
+    type: &#39;rect&#39;,
+    style: {
+      padding: 20,
+    },
+  },
+  behaviors: [&#39;drag-element&#39;, &#39;collapse-expand&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

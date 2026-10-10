@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>animation/basic/update</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/animation/basic/update/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="animation/basic/update" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>animation/basic/update</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/animation/basic/update/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { Graph } from &#39;@antv/g6&#39;;
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: {
+    nodes: [
+      { id: &#39;node-0&#39;, style: { x: 50, y: 50 } },
+      { id: &#39;node-1&#39;, style: { x: 200, y: 50 } },
+    ],
+    edges: [{ source: &#39;node-0&#39;, target: &#39;node-1&#39; }],
+  },
+  node: {
+    animation: {
+      update: [{ fields: [&#39;x&#39;, &#39;y&#39;, &#39;size&#39;] }, { fields: [&#39;fill&#39;], shape: &#39;key&#39; }],
+    },
+  },
+  edge: {
+    animation: {
+      update: [{ fields: [&#39;sourceNode&#39;, &#39;targetNode&#39;] }, { fields: [&#39;stroke&#39;, &#39;lineWidth&#39;], shape: &#39;key&#39; }],
+    },
+  },
+});
+
+graph.render();
+
+addPanel((gui) =&gt; {
+  const colors = [&#39;red&#39;, &#39;blue&#39;, &#39;green&#39;, &#39;yellow&#39;, &#39;black&#39;, &#39;purple&#39;, &#39;orange&#39;, &#39;gray&#39;];
+  let [nextOffsetY, nextSize, nextLineWidth] = [50, 50, 5];
+  const config = {
+    color: () =&gt; {
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      graph.updateData({
+        nodes: [
+          { id: &#39;node-0&#39;, style: { fill: color } },
+          { id: &#39;node-1&#39;, style: { fill: color } },
+        ],
+        edges: [{ source: &#39;node-0&#39;, target: &#39;node-1&#39;, style: { stroke: color } }],
+      });
+      graph.draw();
+    },
+    position: () =&gt; {
+      const offsetY = nextOffsetY;
+      graph.translateElementBy({
+        &#39;node-0&#39;: [0, offsetY],
+        &#39;node-1&#39;: [0, offsetY],
+      });
+      nextOffsetY = -nextOffsetY;
+    },
+    size: () =&gt; {
+      const size = nextSize;
+      const lineWidth = nextLineWidth;
+      graph.updateData({
+        nodes: [
+          { id: &#39;node-0&#39;, style: { size } },
+          { id: &#39;node-1&#39;, style: { size } },
+        ],
+        edges: [{ source: &#39;node-0&#39;, target: &#39;node-1&#39;, style: { lineWidth } }],
+      });
+      graph.draw();
+      [nextSize, nextLineWidth] = [nextSize === 50 ? 16 : 50, nextLineWidth === 5 ? 1 : 5];
+    },
+  };
+  gui.add(config, &#39;color&#39;).name(&#39;fill &amp; stroke&#39;);
+  gui.add(config, &#39;position&#39;).name(&#39;position&#39;);
+  gui.add(config, &#39;size&#39;).name(&#39;size &amp; lineWidth&#39;);
+});
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

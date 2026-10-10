@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/edge/loop-nested</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/edge/loop-nested/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/edge/loop-nested" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/edge/loop-nested</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/edge/loop-nested/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    { id: &#39;node1&#39;, style: { x: 150, y: 150 } },
+    { id: &#39;node2&#39;, style: { x: 400, y: 150 } },
+    { id: &#39;node3&#39;, style: { x: 275, y: 300 } },
+  ],
+  edges: [
+    // Node 1: 3 nested loops at &#39;top&#39; position with different colors
+    { id: &#39;loop-1&#39;, source: &#39;node1&#39;, target: &#39;node1&#39;, style: { loopPlacement: &#39;top&#39;, stroke: &#39;#5B8FF9&#39; } },
+    { id: &#39;loop-2&#39;, source: &#39;node1&#39;, target: &#39;node1&#39;, style: { loopPlacement: &#39;top&#39;, stroke: &#39;#5AD8A6&#39; } },
+    { id: &#39;loop-3&#39;, source: &#39;node1&#39;, target: &#39;node1&#39;, style: { loopPlacement: &#39;top&#39;, stroke: &#39;#F6BD16&#39; } },
+    // Node 2: nested loops at different positions
+    { id: &#39;loop-4&#39;, source: &#39;node2&#39;, target: &#39;node2&#39;, style: { loopPlacement: &#39;right&#39;, stroke: &#39;#E86452&#39; } },
+    { id: &#39;loop-5&#39;, source: &#39;node2&#39;, target: &#39;node2&#39;, style: { loopPlacement: &#39;right&#39;, stroke: &#39;#6DC8EC&#39; } },
+    { id: &#39;loop-6&#39;, source: &#39;node2&#39;, target: &#39;node2&#39;, style: { loopPlacement: &#39;bottom&#39;, stroke: &#39;#945FB9&#39; } },
+    { id: &#39;loop-7&#39;, source: &#39;node2&#39;, target: &#39;node2&#39;, style: { loopPlacement: &#39;bottom&#39;, stroke: &#39;#FF9C6E&#39; } },
+    // Node 3: mixed - some nested, some spread
+    { id: &#39;loop-8&#39;, source: &#39;node3&#39;, target: &#39;node3&#39;, style: { loopPlacement: &#39;left&#39;, stroke: &#39;#5B8FF9&#39; } },
+    { id: &#39;loop-9&#39;, source: &#39;node3&#39;, target: &#39;node3&#39;, style: { loopPlacement: &#39;left&#39;, stroke: &#39;#5AD8A6&#39; } },
+    { id: &#39;loop-10&#39;, source: &#39;node3&#39;, target: &#39;node3&#39;, style: { loopPlacement: &#39;top-right&#39;, stroke: &#39;#F6BD16&#39; } },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    type: &#39;circle&#39;,
+    style: {
+      size: 60,
+      labelText: (d) =&gt; d.id,
+    },
+  },
+  edge: {
+    type: &#39;quadratic&#39;,
+    style: {
+      endArrow: true,
+      lineWidth: 2,
+      labelText: (d) =&gt; d.id,
+      labelFill: &#39;#333&#39;,
+      labelFontSize: 12,
+      labelOffsetY: -10,
+      labelBackground: true,
+      labelBackgroundFill: &#39;#fff&#39;,
+      labelBackgroundOpacity: 0.9,
+      labelBackgroundRadius: 4,
+      labelPadding: [2, 4],
+    },
+  },
+  transforms: [
+    {
+      type: &#39;process-parallel-edges&#39;,
+      loopMode: &#39;nested&#39;, // Enable nested mode for self-loops
+      loopDistance: 30, // Distance between nested loops
+    },
+  ],
+});
+
+graph.render();</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

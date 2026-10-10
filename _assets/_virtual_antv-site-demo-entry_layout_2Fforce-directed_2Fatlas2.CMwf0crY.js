@@ -1,0 +1,1 @@
+import{o as e}from"./src.RzVD1Zqa.js";fetch(`https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json`).then(e=>e.json()).then(t=>{new e({container:`container`,data:t,autoFit:`view`,layout:{type:`force-atlas2`,preventOverlap:!0,kr:20,center:[250,250]},behaviors:[`zoom-canvas`,`drag-canvas`],autoResize:!0,zoomRange:[.1,5]}).render()});

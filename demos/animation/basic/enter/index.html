@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>animation/basic/enter</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/animation/basic/enter/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="animation/basic/enter" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>animation/basic/enter</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/animation/basic/enter/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { Graph } from &#39;@antv/g6&#39;;
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: {
+    nodes: [
+      { id: &#39;node-0&#39;, style: { x: 50, y: 50 } },
+      { id: &#39;node-1&#39;, style: { x: 200, y: 50 } },
+    ],
+    edges: [{ source: &#39;node-0&#39;, target: &#39;node-1&#39; }],
+  },
+  node: {
+    animation: {
+      enter: [
+        {
+          fields: [&#39;opacity&#39;],
+          duration: 1000,
+          easing: &#39;linear&#39;,
+        },
+      ],
+    },
+  },
+  edge: {
+    animation: {
+      enter: [
+        {
+          fields: [&#39;opacity&#39;],
+          duration: 1000,
+          easing: &#39;linear&#39;,
+        },
+      ],
+    },
+  },
+});
+
+graph.render();
+
+addPanel((gui) =&gt; {
+  const config = {
+    index: 2,
+    duration: 1000,
+    easing: &#39;linear&#39;,
+    add: () =&gt; {
+      const { index } = config;
+      const y = 50 + 25 * index;
+      graph.addData({
+        nodes: [
+          { id: `node-${index + 1}`, style: { x: 50, y } },
+          { id: `node-${index + 2}`, style: { x: 200, y } },
+        ],
+        edges: [{ source: `node-${index + 1}`, target: `node-${index + 2}` }],
+      });
+      graph.draw();
+      config.index += 2;
+    },
+  };
+
+  const updateMapper = (key, value) =&gt; {
+    const { node, edge } = graph.getOptions();
+    node.animation.enter[0][key] = value;
+    edge.animation.enter[0][key] = value;
+    graph.setNode(node);
+    graph.setEdge(edge);
+  };
+
+  gui.add(config, &#39;duration&#39;, 500, 5000, 100).onChange((duration) =&gt; {
+    updateMapper(&#39;duration&#39;, duration);
+  });
+  // see: https://g.antv.antgroup.com/en/api/animation/waapi#easing-1
+  gui.add(config, &#39;easing&#39;, [&#39;linear&#39;, &#39;ease-in-sine&#39;, &#39;ease-in-cubic&#39;]).onChange((easing) =&gt; {
+    updateMapper(&#39;easing&#39;, easing);
+  });
+  gui.add(config, &#39;add&#39;).name(&#39;Add Element&#39;);
+});
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/custom/arc</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/custom/arc/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/custom/arc" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/custom/arc</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/custom/arc/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { BaseEdge, BaseLayout, ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+
+class ArcLayout extends BaseLayout {
+  async execute(data, options) {
+    const { nodeSep = 20, nodeSize } = { ...this.options, ...options };
+    const { nodes } = data;
+    return {
+      nodes: nodes.map((node, index) =&gt; ({
+        id: node.id,
+        style: {
+          x: index * (nodeSep + nodeSize),
+          y: 0,
+        },
+      })),
+    };
+  }
+}
+
+class ArcEdge extends BaseEdge {
+  getKeyPath(attributes) {
+    const [sourcePoint, targetPoint] = this.getEndpoints(attributes);
+    const [sx, sy] = sourcePoint;
+    const [tx] = targetPoint;
+    const r = Math.abs(tx - sx) / 2;
+
+    return [
+      [&#39;M&#39;, sx, sy],
+      [&#39;A&#39;, r, r, 0, 0, sx &lt; tx ? 1 : 0, tx, sy],
+    ];
+  }
+}
+
+register(ExtensionCategory.LAYOUT, &#39;arc&#39;, ArcLayout);
+register(ExtensionCategory.EDGE, &#39;arc&#39;, ArcEdge);
+
+const palette = {
+  analytics: &#39;rgb(158, 1, 66)&#39;,
+  data: &#39;rgb(213, 62, 79)&#39;,
+  animate: &#39;rgb(244, 109, 67)&#39;,
+  display: &#39;rgb(253, 174, 97)&#39;,
+  flex: &#39;rgb(254, 224, 139)&#39;,
+  physics: &#39;rgb(230, 245, 152)&#39;,
+  query: &#39;rgb(171, 221, 164)&#39;,
+  scale: &#39;rgb(102, 194, 165)&#39;,
+  util: &#39;rgb(50, 136, 189)&#39;,
+  vis: &#39;rgb(94, 79, 162)&#39;,
+};
+
+fetch(&#39;https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5a5b75b62f.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const getCluster = (id) =&gt; data.nodes.find((node) =&gt; node.id === id).cluster;
+
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      data,
+      autoFit: &#39;view&#39;,
+      node: {
+        style: {
+          size: 20,
+          fill: (d) =&gt; palette[d.cluster],
+          ports: [{ position: &#39;top&#39; }],
+          labelText: (d) =&gt; d.name,
+          labelTextAlign: &#39;start&#39;,
+          labelTextBaseline: &#39;middle&#39;,
+          labelTransform: [[&#39;rotate&#39;, 90]],
+        },
+      },
+      edge: {
+        type: &#39;arc&#39;,
+        style: {
+          stroke: (d) =&gt; `linear-gradient(${palette[getCluster(d.source)]}, ${palette[getCluster(d.source)]})`,
+          strokeOpacity: 0.5,
+        },
+      },
+      layout: {
+        type: &#39;arc&#39;,
+        nodeSize: 20,
+        preLayout: true,
+      },
+      behaviors: [&#39;zoom-canvas&#39;, &#39;drag-canvas&#39;],
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

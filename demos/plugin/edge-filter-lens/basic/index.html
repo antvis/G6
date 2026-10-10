@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>plugin/edge-filter-lens/basic</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/plugin/edge-filter-lens/basic/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="plugin/edge-filter-lens/basic" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>plugin/edge-filter-lens/basic</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/plugin/edge-filter-lens/basic/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { Graph } from &#39;@antv/g6&#39;;
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/relations.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      data,
+      autoFit: &#39;view&#39;,
+      node: {
+        style: { size: 16 },
+        palette: {
+          field: (datum) =&gt; Math.floor(datum.style?.y / 60),
+        },
+      },
+      edge: {
+        style: {
+          label: false,
+          labelText: (d) =&gt; d.data.value?.toString(),
+          stroke: &#39;#ccc&#39;,
+        },
+      },
+      plugins: [
+        {
+          key: &#39;edge-filter-lens&#39;,
+          type: &#39;edge-filter-lens&#39;,
+        },
+      ],
+    });
+    graph.render();
+
+    const config = {
+      trigger: &#39;pointermove&#39;,
+      scaleRBy: &#39;wheel&#39;,
+      nodeType: &#39;both&#39;,
+    };
+
+    addPanel((gui) =&gt; {
+      gui
+        .add(config, &#39;trigger&#39;, [&#39;pointermove&#39;, &#39;click&#39;, &#39;drag&#39;])
+        .name(&#39;Trigger&#39;)
+        .onChange((value) =&gt; {
+          graph.updatePlugin({
+            key: &#39;edge-filter-lens&#39;,
+            trigger: value,
+          });
+        });
+      gui
+        .add(config, &#39;scaleRBy&#39;, [&#39;wheel&#39;, &#39;unset&#39;])
+        .name(&#39;Scale R by&#39;)
+        .onChange((value) =&gt; {
+          graph.updatePlugin({
+            key: &#39;edge-filter-lens&#39;,
+            scaleRBy: value,
+          });
+        });
+      gui
+        .add(config, &#39;nodeType&#39;, [&#39;source&#39;, &#39;target&#39;, &#39;both&#39;, &#39;either&#39;])
+        .name(&#39;Node Type&#39;)
+        .onChange((value) =&gt; {
+          graph.updatePlugin({
+            key: &#39;edge-filter-lens&#39;,
+            nodeType: value,
+          });
+        });
+    });
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

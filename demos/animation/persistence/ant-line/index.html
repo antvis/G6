@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>animation/persistence/ant-line</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/animation/persistence/ant-line/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="animation/persistence/ant-line" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>animation/persistence/ant-line</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/animation/persistence/ant-line/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { ExtensionCategory, Graph, Line, register } from &#39;@antv/g6&#39;;
+
+class AntLine extends Line {
+  onCreate() {
+    const shape = this.shapeMap.key;
+    shape.animate([{ lineDashOffset: -20 }, { lineDashOffset: 0 }], {
+      duration: 500,
+      iterations: Infinity,
+    });
+  }
+}
+
+register(ExtensionCategory.EDGE, &#39;ant-line&#39;, AntLine);
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: {
+    nodes: [
+      { id: &#39;node-1&#39;, style: { x: 50, y: 50 } },
+      { id: &#39;node-2&#39;, style: { x: 200, y: 50 } },
+      { id: &#39;node-3&#39;, style: { x: 125, y: 150 } },
+    ],
+    edges: [
+      { source: &#39;node-1&#39;, target: &#39;node-2&#39; },
+      { source: &#39;node-2&#39;, target: &#39;node-3&#39; },
+      { source: &#39;node-3&#39;, target: &#39;node-1&#39; },
+    ],
+  },
+  edge: {
+    type: &#39;ant-line&#39;,
+    style: {
+      lineDash: [10, 10],
+    },
+  },
+});
+
+graph.render();
+
+addPanel((gui) =&gt; {
+  const config = {
+    lineDash: 10,
+  };
+  gui.add(config, &#39;lineDash&#39;, 1, 20, 1).onChange((lineDash) =&gt; {
+    graph.setEdge({
+      type: &#39;ant-line&#39;,
+      style: {
+        lineDash: [lineDash, lineDash],
+      },
+    });
+    graph.draw();
+  });
+});
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

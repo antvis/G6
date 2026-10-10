@@ -1,0 +1,11 @@
+import{Qt as e,o as t}from"./src.RzVD1Zqa.js";var n={nodes:[{id:`0`,label:`0`,value:10,cluster:`a`,description:`this is node 0, 
+and the value of it is 10`},{id:`1`,label:`1`,value:20,cluster:`b`,description:`this is node 1, 
+and the value of it is 20`},{id:`2`,label:`2`,value:5,cluster:`a`,description:`this is node 2, 
+and the value of it is 5`},{id:`3`,label:`3`,value:10,cluster:`a`,description:`this is node 3, 
+and the value of it is 10`},{id:`4`,label:`4`,value:12,cluster:`c`,subCluster:`sb`,description:`this is node 4, 
+and the value of it is 12`},{id:`5`,label:`5`,value:18,cluster:`c`,subCluster:`sa`,description:`this is node 5, 
+and the value of it is 18`},{id:`6`,label:`6`,value:3,cluster:`c`,subCluster:`sa`,description:`this is node 6, 
+and the value of it is 3`},{id:`7`,label:`7`,value:7,cluster:`b`,subCluster:`sa`,description:`this is node 7, 
+and the value of it is 7`},{id:`8`,label:`8`,value:21,cluster:`d`,subCluster:`sb`,description:`this is node 8, 
+and the value of it is 21`},{id:`9`,label:`9`,value:9,cluster:`d`,subCluster:`sb`,description:`this is node 9, 
+and the value of it is 9`}],edges:[]},r={};n.nodes.forEach(e=>{e.size=Math.random()*30+16,r[e.id]=e.size});var i=new t({container:`container`,data:n,node:{style:{size:e=>e.size,labelText:e=>e.size===200?e.description:e.id,labelPlacement:`middle`,labelFill:`#fff`},palette:{field:e=>e.cluster}},layout:{type:`d3-force`,collide:{radius:e=>e.size/2,strength:.7},manyBody:{strength:30}},behaviors:[`drag-element-force`]});i.on(e.CLICK,async e=>{let t=e.target.id,n=i.getNodeData(t).size===r[t]?200:r[t];i.updateNodeData([{id:t,size:n}]),await i.layout()}),i.render();

@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>animation/basic/enter-edge-path-in</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/animation/basic/enter-edge-path-in/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="animation/basic/enter-edge-path-in" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>animation/basic/enter-edge-path-in</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/animation/basic/enter-edge-path-in/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { ExtensionCategory, Graph, Line, register } from &#39;@antv/g6&#39;;
+
+class PathInLine extends Line {
+  onCreate() {
+    const shape = this.shapeMap.key;
+    const length = shape.getTotalLength();
+    shape.animate([{ lineDash: [0, length] }, { lineDash: [length, 0] }], {
+      duration: 500,
+      fill: &#39;both&#39;,
+    });
+  }
+}
+
+register(ExtensionCategory.EDGE, &#39;path-in-line&#39;, PathInLine);
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: {
+    nodes: [
+      { id: &#39;node-0&#39;, style: { x: 50, y: 50 } },
+      { id: &#39;node-1&#39;, style: { x: 200, y: 50 } },
+    ],
+  },
+  edge: {
+    type: &#39;path-in-line&#39;,
+    animation: {
+      // disable default enter and exit animation
+      enter: false,
+      exit: false,
+    },
+  },
+});
+
+graph.render();
+
+addPanel((gui) =&gt; {
+  const config = {
+    connect: () =&gt; {
+      const edge = graph.getEdgeData(&#39;edge-1&#39;);
+      if (edge) {
+        alert(&#39;The edge already exists.&#39;);
+        return;
+      }
+
+      graph.addEdgeData([{ id: &#39;edge-1&#39;, source: &#39;node-0&#39;, target: &#39;node-1&#39; }]);
+      graph.draw();
+    },
+    disconnect: () =&gt; {
+      const edge = graph.getEdgeData(&#39;edge-1&#39;);
+      if (edge) {
+        graph.removeEdgeData([&#39;edge-1&#39;]);
+        graph.draw();
+      }
+    },
+  };
+  gui.add(config, &#39;connect&#39;);
+  gui.add(config, &#39;disconnect&#39;);
+});
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>plugin/fisheye/custom</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/plugin/fisheye/custom/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="plugin/fisheye/custom" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>plugin/fisheye/custom</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/plugin/fisheye/custom/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { Graph, iconfont } from &#39;@antv/g6&#39;;
+
+const style = document.createElement(&#39;style&#39;);
+style.innerHTML = `@import url(&#39;${iconfont.css}&#39;);`;
+document.head.appendChild(style);
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/relations.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      autoFit: &#39;view&#39;,
+      data,
+      node: {
+        style: {
+          size: (datum) =&gt; datum.id.length * 2 + 10,
+          label: false,
+          labelText: (datum) =&gt; datum.id,
+          labelBackground: true,
+          icon: false,
+          iconFontFamily: &#39;iconfont&#39;,
+          iconText: &#39;\ue6f6&#39;,
+          iconFill: &#39;#fff&#39;,
+        },
+        palette: {
+          type: &#39;group&#39;,
+          field: (datum) =&gt; datum.id,
+          color: [&#39;#1783FF&#39;, &#39;#00C9C9&#39;, &#39;#F08F56&#39;, &#39;#D580FF&#39;],
+        },
+      },
+      edge: {
+        style: {
+          stroke: &#39;#e2e2e2&#39;,
+        },
+      },
+      plugins: [
+        {
+          key: &#39;fisheye&#39;,
+          type: &#39;fisheye&#39;,
+          trigger: &#39;click&#39;,
+          scaleRBy: &#39;wheel&#39;,
+          scaleDBy: &#39;drag&#39;,
+          style: { fill: &#39;#F08F56&#39;, stroke: &#39;#666&#39;, lineDash: [5, 5] },
+          nodeStyle: { label: true, icon: true },
+        },
+      ],
+    });
+    graph.render();
+
+    const config = {
+      trigger: &#39;click&#39;,
+      scaleRBy: &#39;wheel&#39;,
+      scaleDBy: &#39;drag&#39;,
+      showDPercent: true,
+      borderless: true,
+    };
+
+    addPanel((gui) =&gt; {
+      gui
+        .add(config, &#39;trigger&#39;, [&#39;pointermove&#39;, &#39;click&#39;, &#39;drag&#39;])
+        .name(&#39;Trigger&#39;)
+        .onChange((value) =&gt; {
+          graph.updatePlugin({
+            key: &#39;fisheye&#39;,
+            trigger: value,
+          });
+        });
+      gui
+        .add(config, &#39;scaleRBy&#39;, [&#39;wheel&#39;, &#39;drag&#39;, &#39;unset&#39;])
+        .name(&#39;Scale R by&#39;)
+        .onChange((value) =&gt; {
+          graph.updatePlugin({
+            key: &#39;fisheye&#39;,
+            scaleRBy: value,
+          });
+        });
+      gui
+        .add(config, &#39;scaleDBy&#39;, [&#39;wheel&#39;, &#39;drag&#39;, &#39;unset&#39;])
+        .name(&#39;Scale D by&#39;)
+        .onChange((value) =&gt; {
+          graph.updatePlugin({
+            key: &#39;fisheye&#39;,
+            scaleDBy: value,
+          });
+        });
+      gui
+        .add(config, &#39;showDPercent&#39;)
+        .name(&#39;Show D Percent&#39;)
+        .onChange((value) =&gt; {
+          graph.updatePlugin({
+            key: &#39;fisheye&#39;,
+            showDPercent: value,
+          });
+        });
+      gui
+        .add(config, &#39;borderless&#39;)
+        .name(&#39;Borderless&#39;)
+        .onChange((value) =&gt; {
+          const style = value
+            ? { fill: &#39;transparent&#39;, lineDash: 0, stroke: &#39;transparent&#39; }
+            : { fill: &#39;#F08F56&#39;, lineDash: [5, 5], stroke: &#39;#666&#39; };
+          graph.updatePlugin({
+            key: &#39;fisheye&#39;,
+            style,
+          });
+        });
+    });
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

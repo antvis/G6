@@ -1,0 +1,142 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/custom-node/g2-activity-chart</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/custom-node/g2-activity-chart/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="element/custom-node/g2-activity-chart" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>element/custom-node/g2-activity-chart</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/element/custom-node/g2-activity-chart/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Circle as CircleGeometry } from &#39;@antv/g&#39;;
+import { renderToMountedElement, stdlib } from &#39;@antv/g2&#39;;
+import { Circle, ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+
+class ActivityChart extends Circle {
+  onCreate() {
+    const { value } = this.attributes;
+    const radius = this.shapeMap.key.style.r;
+    const activeRadius = radius / 4;
+    const activeSize = radius / 2;
+
+    const group = this.upsert(
+      &#39;chart-container&#39;,
+      CircleGeometry,
+      {
+        r: radius,
+        fill: &#39;#fff&#39;,
+      },
+      this.shapeMap.key,
+    );
+
+    renderToMountedElement(
+      // @antv/g2 Specification
+      // https://g2.antv.antgroup.com/examples/general/radial/#apple-activity
+      {
+        x: -radius,
+        y: -radius,
+        width: radius * 2,
+        height: radius * 2,
+        type: &#39;view&#39;,
+        data: value,
+        margin: 0,
+        coordinate: { type: &#39;radial&#39;, innerRadius: 0.2 },
+        children: [
+          {
+            type: &#39;interval&#39;,
+            encode: { x: &#39;name&#39;, y: 1, size: activeSize, color: &#39;color&#39; },
+            scale: { color: { type: &#39;identity&#39; } },
+            style: { fillOpacity: 0.25 },
+            animate: false,
+            tooltip: false,
+          },
+          {
+            type: &#39;interval&#39;,
+            encode: { x: &#39;name&#39;, y: &#39;percent&#39;, color: &#39;color&#39;, size: activeSize },
+            style: {
+              radius: activeRadius,
+              shadowColor: &#39;rgba(0,0,0,0.45)&#39;,
+              shadowBlur: 20,
+              shadowOffsetX: -2,
+              shadowOffsetY: -5,
+            },
+            animate: {
+              enter: { type: &#39;fadeIn&#39;, duration: 1000 },
+            },
+            axis: false,
+            tooltip: false,
+          },
+          {
+            type: &#39;image&#39;,
+            encode: { x: &#39;name&#39;, y: 0, src: (d) =&gt; d.icon, size: 6 },
+            style: { transform: [[&#39;translateX&#39;, 6]] },
+          },
+        ],
+      },
+      {
+        group,
+        library: stdlib(),
+      },
+    );
+  }
+}
+
+const people = [&#39;Aaron&#39;, &#39;Rebecca&#39;, &#39;Emily&#39;, &#39;Liam&#39;, &#39;Olivia&#39;, &#39;Ethan&#39;, &#39;Sophia&#39;, &#39;Mason&#39;];
+
+const mockData = () =&gt; {
+  const getRandomPercent = () =&gt; +(Math.random() * 0.9 + 0.1).toFixed(1);
+
+  return [
+    {
+      name: &#39;activity1&#39;,
+      percent: getRandomPercent(),
+      color: &#39;#1ad5de&#39;,
+      icon: &#39;https://gw.alipayobjects.com/zos/antfincdn/ck11Y6aRrz/shangjiantou.png&#39;,
+    },
+    {
+      name: &#39;activity2&#39;,
+      percent: getRandomPercent(),
+      color: &#39;#a0ff03&#39;,
+      icon: &#39;https://gw.alipayobjects.com/zos/antfincdn/zY2JB7hhrO/shuangjiantou.png&#39;,
+    },
+    {
+      name: &#39;activity3&#39;,
+      percent: getRandomPercent(),
+      color: &#39;#e90b3a&#39;,
+      icon: &#39;https://gw.alipayobjects.com/zos/antfincdn/%24qBxSxdK05/jiantou.png&#39;,
+    },
+  ];
+};
+
+register(ExtensionCategory.NODE, &#39;activity-chart&#39;, ActivityChart);
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  autoFit: &#39;view&#39;,
+  data: {
+    nodes: people.map((name, i) =&gt; ({
+      id: name,
+      style: { value: mockData() },
+    })),
+    edges: people.map((_, i) =&gt; {
+      return {
+        id: `edge${i}`,
+        source: people[i],
+        target: people[(i + 1) % 5],
+      };
+    }),
+  },
+  node: {
+    type: &#39;activity-chart&#39;,
+    style: {
+      size: 50,
+      labelText: (d) =&gt; d.id,
+      fillOpacity: 0,
+    },
+    animation: {
+      enter: false,
+    },
+  },
+  layout: {
+    type: &#39;force&#39;,
+    preventOverlap: true,
+    animated: false,
+  },
+  behaviors: [&#39;zoom-canvas&#39;, &#39;drag-element&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

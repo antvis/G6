@@ -1,0 +1,534 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>scene-case/tree-graph/indented-tree</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/scene-case/tree-graph/indented-tree/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="scene-case/tree-graph/indented-tree" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>scene-case/tree-graph/indented-tree</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/scene-case/tree-graph/indented-tree/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Text as GText, Rect } from &#39;@antv/g&#39;;
+import {
+  Badge,
+  BaseBehavior,
+  BaseNode,
+  CommonEvent,
+  ExtensionCategory,
+  Graph,
+  NodeEvent,
+  Polyline,
+  iconfont,
+  idOf,
+  register,
+  subStyleProps,
+  treeToGraphData,
+} from &#39;@antv/g6&#39;;
+
+const style = document.createElement(&#39;style&#39;);
+style.innerHTML = `@import url(&#39;${iconfont.css}&#39;);`;
+document.head.appendChild(style);
+
+const rootId = &#39;Modeling Methods&#39;;
+
+const COLORS = [
+  &#39;#5B8FF9&#39;,
+  &#39;#F6BD16&#39;,
+  &#39;#5AD8A6&#39;,
+  &#39;#945FB9&#39;,
+  &#39;#E86452&#39;,
+  &#39;#6DC8EC&#39;,
+  &#39;#FF99C3&#39;,
+  &#39;#1E9493&#39;,
+  &#39;#FF9845&#39;,
+  &#39;#5D7092&#39;,
+];
+
+const TreeEvent = {
+  COLLAPSE_EXPAND: &#39;collapse-expand&#39;,
+  ADD_CHILD: &#39;add-child&#39;,
+};
+
+let textShape;
+const measureText = (text) =&gt; {
+  if (!textShape) textShape = new GText({ style: text });
+  textShape.attr(text);
+  return textShape.getBBox().width;
+};
+
+class IndentedNode extends BaseNode {
+  static defaultStyleProps = {
+    ports: [
+      {
+        key: &#39;in&#39;,
+        placement: &#39;right-bottom&#39;,
+      },
+      {
+        key: &#39;out&#39;,
+        placement: &#39;left-bottom&#39;,
+      },
+    ],
+  };
+
+  constructor(options) {
+    Object.assign(options.style, IndentedNode.defaultStyleProps);
+    super(options);
+  }
+
+  get childrenData() {
+    return this.context.model.getChildrenData(this.id);
+  }
+
+  getKeyStyle(attributes) {
+    const [width, height] = this.getSize(attributes);
+    const keyStyle = super.getKeyStyle(attributes);
+    return {
+      width,
+      height,
+      ...keyStyle,
+      fill: &#39;transparent&#39;,
+    };
+  }
+
+  drawKeyShape(attributes, container) {
+    const keyStyle = this.getKeyStyle(attributes);
+    return this.upsert(&#39;key&#39;, &#39;rect&#39;, keyStyle, container);
+  }
+
+  getLabelStyle(attributes) {
+    if (attributes.label === false || !attributes.labelText) return false;
+    return subStyleProps(this.getGraphicStyle(attributes), &#39;label&#39;);
+  }
+
+  drawIconArea(attributes, container) {
+    const [, h] = this.getSize(attributes);
+    const iconAreaStyle = {
+      fill: &#39;transparent&#39;,
+      height: 30,
+      width: 12,
+      x: -6,
+      y: h,
+      zIndex: -1,
+    };
+    this.upsert(&#39;icon-area&#39;, Rect, iconAreaStyle, container);
+  }
+
+  forwardEvent(target, type, listener) {
+    if (target &amp;&amp; !Reflect.has(target, &#39;__bind__&#39;)) {
+      Reflect.set(target, &#39;__bind__&#39;, true);
+      target.addEventListener(type, listener);
+    }
+  }
+
+  getCountStyle(attributes) {
+    const { collapsed, color } = attributes;
+    if (collapsed) {
+      const [, height] = this.getSize(attributes);
+      return {
+        backgroundFill: color,
+        cursor: &#39;pointer&#39;,
+        fill: &#39;#fff&#39;,
+        fontSize: 8,
+        padding: [0, 10],
+        text: `${this.childrenData.length}`,
+        textAlign: &#39;center&#39;,
+        y: height + 8,
+      };
+    }
+
+    return false;
+  }
+
+  drawCountShape(attributes, container) {
+    const countStyle = this.getCountStyle(attributes);
+    const btn = this.upsert(&#39;count&#39;, Badge, countStyle, container);
+
+    this.forwardEvent(btn, CommonEvent.CLICK, (event) =&gt; {
+      event.stopPropagation();
+      this.context.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
+        id: this.id,
+        collapsed: false,
+      });
+    });
+  }
+
+  isShowCollapse(attributes) {
+    return !attributes.collapsed &amp;&amp; this.childrenData.length &gt; 0;
+  }
+
+  getCollapseStyle(attributes) {
+    const { showIcon, color } = attributes;
+    if (!this.isShowCollapse(attributes)) return false;
+    const [, height] = this.getSize(attributes);
+    return {
+      visibility: showIcon ? &#39;visible&#39; : &#39;hidden&#39;,
+      backgroundFill: color,
+      backgroundHeight: 12,
+      backgroundWidth: 12,
+      cursor: &#39;pointer&#39;,
+      fill: &#39;#fff&#39;,
+      fontFamily: &#39;iconfont&#39;,
+      fontSize: 8,
+      text: &#39;\ue6e4&#39;,
+      textAlign: &#39;center&#39;,
+      x: -1, // half of edge line width
+      y: height + 8,
+    };
+  }
+
+  drawCollapseShape(attributes, container) {
+    const iconStyle = this.getCollapseStyle(attributes);
+    const btn = this.upsert(&#39;collapse-expand&#39;, Badge, iconStyle, container);
+
+    this.forwardEvent(btn, CommonEvent.CLICK, (event) =&gt; {
+      event.stopPropagation();
+      this.context.graph.emit(TreeEvent.COLLAPSE_EXPAND, {
+        id: this.id,
+        collapsed: !attributes.collapsed,
+      });
+    });
+  }
+
+  getAddStyle(attributes) {
+    const { collapsed, showIcon } = attributes;
+    if (collapsed) return false;
+    const [, height] = this.getSize(attributes);
+    const color = &#39;#ddd&#39;;
+    const lineWidth = 1;
+
+    return {
+      visibility: showIcon ? &#39;visible&#39; : &#39;hidden&#39;,
+      backgroundFill: &#39;#fff&#39;,
+      backgroundHeight: 12,
+      backgroundLineWidth: lineWidth,
+      backgroundStroke: color,
+      backgroundWidth: 12,
+      cursor: &#39;pointer&#39;,
+      fill: color,
+      fontFamily: &#39;iconfont&#39;,
+      text: &#39;\ue664&#39;,
+      textAlign: &#39;center&#39;,
+      x: -1,
+      y: height + (this.isShowCollapse(attributes) ? 22 : 8),
+    };
+  }
+
+  drawAddShape(attributes, container) {
+    const addStyle = this.getAddStyle(attributes);
+    const btn = this.upsert(&#39;add&#39;, Badge, addStyle, container);
+
+    this.forwardEvent(btn, CommonEvent.CLICK, (event) =&gt; {
+      event.stopPropagation();
+      this.context.graph.emit(TreeEvent.ADD_CHILD, { id: this.id });
+    });
+  }
+
+  render(attributes = this.parsedAttributes, container = this) {
+    super.render(attributes, container);
+
+    this.drawCountShape(attributes, container);
+
+    this.drawIconArea(attributes, container);
+    this.drawCollapseShape(attributes, container);
+    this.drawAddShape(attributes, container);
+  }
+}
+
+class IndentedEdge extends Polyline {
+  getControlPoints(attributes) {
+    const [sourcePoint, targetPoint] = this.getEndpoints(attributes, false);
+    const [sx] = sourcePoint;
+    const [, ty] = targetPoint;
+    return [[sx, ty]];
+  }
+}
+
+class CollapseExpandTree extends BaseBehavior {
+  constructor(context, options) {
+    super(context, options);
+    this.bindEvents();
+  }
+
+  update(options) {
+    this.unbindEvents();
+    super.update(options);
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    const { graph } = this.context;
+
+    graph.on(NodeEvent.POINTER_ENTER, this.showIcon);
+    graph.on(NodeEvent.POINTER_LEAVE, this.hideIcon);
+    graph.on(TreeEvent.COLLAPSE_EXPAND, this.onCollapseExpand);
+    graph.on(TreeEvent.ADD_CHILD, this.addChild);
+  }
+
+  unbindEvents() {
+    const { graph } = this.context;
+
+    graph.off(NodeEvent.POINTER_ENTER, this.showIcon);
+    graph.off(NodeEvent.POINTER_LEAVE, this.hideIcon);
+    graph.off(TreeEvent.COLLAPSE_EXPAND, this.onCollapseExpand);
+    graph.off(TreeEvent.ADD_CHILD, this.addChild);
+  }
+
+  status = &#39;idle&#39;;
+
+  showIcon = (event) =&gt; {
+    this.setIcon(event, true);
+  };
+
+  hideIcon = (event) =&gt; {
+    this.setIcon(event, false);
+  };
+
+  setIcon = (event, show) =&gt; {
+    if (this.status !== &#39;idle&#39;) return;
+    const { target } = event;
+    const id = target.id;
+    const { graph, element } = this.context;
+    graph.updateNodeData([{ id, style: { showIcon: show } }]);
+    element.draw({ animation: false, silence: true });
+  };
+
+  onCollapseExpand = async (event) =&gt; {
+    this.status = &#39;busy&#39;;
+    const { id, collapsed } = event;
+    const { graph } = this.context;
+    if (collapsed) await graph.collapseElement(id);
+    else await graph.expandElement(id);
+    this.status = &#39;idle&#39;;
+  };
+
+  addChild(event) {
+    const { onCreateChild = () =&gt; ({ id: `${Date.now()}`, style: { labelText: &#39;new node&#39; } }) } = this.options;
+    const { graph } = this.context;
+    const datum = onCreateChild(event.id);
+    graph.addNodeData([datum]);
+    graph.addEdgeData([{ source: event.id, target: datum.id }]);
+    const parent = graph.getNodeData(event.id);
+    graph.updateNodeData([
+      { id: event.id, children: [...(parent.children || []), datum.id], style: { collapsed: false } },
+    ]);
+    graph.render();
+  }
+}
+
+/**
+ * &lt;zh/&gt; 支持拖拽节点到其他节点下作为子节点
+ *
+ * &lt;en/&gt; Support dragging nodes to other nodes as child nodes
+ */
+class DragBranch extends BaseBehavior {
+  constructor(context, options) {
+    super(context, options);
+    this.bindEvents();
+  }
+
+  update(options) {
+    this.unbindEvents();
+    super.update(options);
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    const { graph } = this.context;
+
+    graph.on(NodeEvent.DRAG_START, this.onDragStart);
+    graph.on(NodeEvent.DRAG, this.onDrag);
+    graph.on(NodeEvent.DRAG_END, this.onDragEnd);
+    graph.on(NodeEvent.DRAG_ENTER, this.onDragEnter);
+    graph.on(NodeEvent.DRAG_LEAVE, this.onDragLeave);
+  }
+
+  unbindEvents() {
+    const { graph } = this.context;
+
+    graph.off(NodeEvent.DRAG_START, this.onDragStart);
+    graph.off(NodeEvent.DRAG, this.onDrag);
+    graph.off(NodeEvent.DRAG_END, this.onDragEnd);
+    graph.off(NodeEvent.DRAG_ENTER, this.onDragEnter);
+    graph.off(NodeEvent.DRAG_LEAVE, this.onDragLeave);
+  }
+
+  enable = true;
+
+  validate(event) {
+    if (this.destroyed) return false;
+    const { enable = (evt) =&gt; evt.target.id !== rootId } = this.options;
+    if (typeof enable === &#39;function&#39;) return enable(event);
+    return !!enable;
+  }
+
+  createShadow(target) {
+    const shadowStyle = subStyleProps(this.options, &#39;shadow&#39;);
+    const positionStyle = target.getShape(&#39;label&#39;).getBBox();
+
+    this.shadow = new Rect({
+      style: {
+        pointerEvents: &#39;none&#39;,
+        fill: &#39;#F3F9FF&#39;,
+        fillOpacity: 0.5,
+        stroke: &#39;#1890FF&#39;,
+        strokeOpacity: 0.9,
+        lineDash: [5, 5],
+        ...shadowStyle,
+        ...positionStyle,
+      },
+    });
+    this.context.canvas.appendChild(this.shadow);
+  }
+
+  moveShadow(offset) {
+    if (!this.shadow) return;
+    const [dx, dy] = offset;
+    this.shadow.translate(dx, dy);
+  }
+
+  destroyShadow() {
+    this.shadow?.remove();
+    this.shadow = undefined;
+  }
+
+  onDragStart = (event) =&gt; {
+    this.enable = this.validate(event);
+    if (!this.enable) return;
+
+    const { target } = event;
+    this.child = target;
+    this.createShadow(target);
+  };
+
+  getDelta(event) {
+    const zoom = this.context.graph.getZoom();
+    return [event.dx / zoom, event.dy / zoom];
+  }
+
+  onDrag = (event) =&gt; {
+    if (!this.enable) return;
+
+    const delta = this.getDelta(event);
+    this.moveShadow(delta);
+  };
+
+  onDragEnd = () =&gt; {
+    this.destroyShadow();
+    if (this.child === undefined || this.parent === undefined) return;
+
+    const { graph } = this.context;
+    const childId = this.child.id;
+    const parentId = this.parent.id;
+
+    const originalParent = graph.getParentData(childId, &#39;tree&#39;);
+
+    // 前后父节点不应该相同
+    // The previous and current parent nodes should not be the same
+    if (idOf(originalParent) === parentId) return;
+
+    // 新的父节点不应该是当前节点的子节点
+    // The new parent node should not be a child node of the current node
+    const ancestors = graph.getAncestorsData(parentId, &#39;tree&#39;);
+    if (ancestors.some((ancestor) =&gt; ancestor.id === childId)) return;
+
+    const edges = graph
+      .getEdgeData()
+      .filter((edge) =&gt; edge.target === childId)
+      .map(idOf);
+    graph.removeEdgeData(edges);
+    graph.updateNodeData([
+      { id: idOf(originalParent), children: originalParent?.children?.filter((child) =&gt; child !== childId) },
+    ]);
+    const modifiedParent = graph.getNodeData(parentId);
+    graph.updateNodeData([{ id: parentId, children: [...(modifiedParent.children || []), childId] }]);
+    graph.addEdgeData([{ source: parentId, target: childId }]);
+    graph.render();
+  };
+
+  onDragEnter = (event) =&gt; {
+    const { graph, element } = this.context;
+    const targetId = event.target.id;
+    if (targetId === this.child?.id || targetId === rootId) {
+      if (targetId === rootId) this.parent = event.target;
+      return;
+    }
+
+    this.parent = event.target;
+    graph.updateNodeData([{ id: targetId, states: [&#39;selected&#39;] }]);
+    element.draw({ animation: false, silence: true });
+  };
+
+  onDragLeave = (event) =&gt; {
+    const { graph, element } = this.context;
+    const targetId = event.target.id;
+
+    this.parent = undefined;
+    graph.updateNodeData([{ id: targetId, states: [] }]);
+    element.draw({ animation: false, silence: true });
+  };
+}
+
+register(ExtensionCategory.NODE, &#39;indented&#39;, IndentedNode);
+register(ExtensionCategory.EDGE, &#39;indented&#39;, IndentedEdge);
+register(ExtensionCategory.BEHAVIOR, &#39;collapse-expand-tree&#39;, CollapseExpandTree);
+register(ExtensionCategory.BEHAVIOR, &#39;drag-branch&#39;, DragBranch);
+
+fetch(&#39;https://assets.antv.antgroup.com/g6/algorithm-category.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((data) =&gt; {
+    const graph = new Graph({
+      container: &#39;container&#39;,
+      x: 60,
+      data: treeToGraphData(data),
+      node: {
+        type: &#39;indented&#39;,
+        style: {
+          size: (d) =&gt; [measureText({ text: d.id, fontSize: 12 }) + 6, 20],
+          labelBackground: (datum) =&gt; datum.id === rootId,
+          labelBackgroundRadius: 0,
+          labelBackgroundFill: &#39;#576286&#39;,
+          labelFill: (datum) =&gt; (datum.id === rootId ? &#39;#fff&#39; : &#39;#666&#39;),
+          labelText: (d) =&gt; d.style?.labelText || d.id,
+          labelTextAlign: (datum) =&gt; (datum.id === rootId ? &#39;center&#39; : &#39;left&#39;),
+          labelTextBaseline: &#39;top&#39;,
+          color: (datum) =&gt; {
+            const depth = graph.getAncestorsData(datum.id, &#39;tree&#39;).length - 1;
+            return COLORS[depth % COLORS.length] || &#39;#576286&#39;;
+          },
+        },
+        state: {
+          selected: {
+            lineWidth: 0,
+            labelFill: &#39;#40A8FF&#39;,
+            labelBackground: true,
+            labelFontWeight: &#39;normal&#39;,
+            labelBackgroundFill: &#39;#e8f7ff&#39;,
+            labelBackgroundRadius: 10,
+          },
+        },
+      },
+      edge: {
+        type: &#39;indented&#39;,
+        style: {
+          radius: 16,
+          lineWidth: 2,
+          sourcePort: &#39;out&#39;,
+          targetPort: &#39;in&#39;,
+          stroke: (datum) =&gt; {
+            const depth = graph.getAncestorsData(datum.source, &#39;tree&#39;).length;
+            return COLORS[depth % COLORS.length];
+          },
+        },
+      },
+      layout: {
+        type: &#39;indented&#39;,
+        direction: &#39;LR&#39;,
+        isHorizontal: true,
+        indent: 40,
+        getHeight: () =&gt; 20,
+        getVGap: () =&gt; 10,
+      },
+      behaviors: [
+        &#39;scroll-canvas&#39;,
+        &#39;drag-branch&#39;,
+        &#39;collapse-expand-tree&#39;,
+        { type: &#39;click-select&#39;, enable: (event) =&gt; event.targetType === &#39;node&#39; &amp;&amp; event.target.id !== rootId },
+      ],
+    });
+
+    graph.render();
+  });
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

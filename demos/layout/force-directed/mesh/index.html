@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/force-directed/mesh</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/force-directed/mesh/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/force-directed/mesh" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/force-directed/mesh</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/force-directed/mesh/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { Graph } from &#39;@antv/g6&#39;;
+
+function getData(size = 10) {
+  const nodes = Array.from({ length: size * size }, (_, i) =&gt; ({ id: `${i}` }));
+  const edges = [];
+  for (let y = 0; y &lt; size; ++y) {
+    for (let x = 0; x &lt; size; ++x) {
+      if (y &gt; 0) edges.push({ source: `${(y - 1) * size + x}`, target: `${y * size + x}` });
+      if (x &gt; 0) edges.push({ source: `${y * size + (x - 1)}`, target: `${y * size + x}` });
+    }
+  }
+  return { nodes, edges };
+}
+
+const graph = new Graph({
+  data: getData(),
+  layout: {
+    type: &#39;d3-force&#39;,
+    manyBody: {
+      strength: -30,
+    },
+    link: {
+      strength: 1,
+      distance: 20,
+      iterations: 10,
+    },
+  },
+  node: {
+    style: {
+      size: 10,
+      fill: &#39;#000&#39;,
+    },
+  },
+  edge: {
+    style: {
+      stroke: &#39;#000&#39;,
+    },
+  },
+  behaviors: [{ type: &#39;drag-element-force&#39; }, &#39;zoom-canvas&#39;],
+});
+
+graph.render();
+
+addPanel((gui) =&gt; {
+  gui.add({ msg: &#39;Try to drag nodes&#39; }, &#39;msg&#39;).name(&#39;Tips&#39;).disable();
+});
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

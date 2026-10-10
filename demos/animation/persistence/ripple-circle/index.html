@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>animation/persistence/ripple-circle</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/animation/persistence/ripple-circle/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="animation/persistence/ripple-circle" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>animation/persistence/ripple-circle</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/animation/persistence/ripple-circle/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Circle as CircleGeometry } from &#39;@antv/g&#39;;
+import { Renderer } from &#39;@antv/g-svg&#39;;
+import { Circle, ExtensionCategory, Graph, register } from &#39;@antv/g6&#39;;
+
+class RippleCircle extends Circle {
+  onCreate() {
+    const { fill } = this.attributes;
+    const r = this.shapeMap.key.style.r;
+    const length = 5;
+    const fillOpacity = 0.5;
+
+    Array.from({ length }).map((_, index) =&gt; {
+      const ripple = this.upsert(
+        `ripple-${index}`,
+        CircleGeometry,
+        {
+          r,
+          fill,
+          fillOpacity,
+        },
+        this,
+      );
+      ripple.animate(
+        [
+          { r, fillOpacity },
+          { r: r + length * 5, fillOpacity: 0 },
+        ],
+        {
+          duration: 1000 * length,
+          iterations: Infinity,
+          delay: 1000 * index,
+          easing: &#39;ease-cubic&#39;,
+        },
+      );
+    });
+  }
+}
+
+register(ExtensionCategory.NODE, &#39;ripple-circle&#39;, RippleCircle);
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  renderer: () =&gt; new Renderer(),
+  data: {
+    nodes: [{ id: &#39;node-0&#39; }, { id: &#39;node-1&#39; }, { id: &#39;node-2&#39; }, { id: &#39;node-3&#39; }],
+  },
+  node: {
+    type: &#39;ripple-circle&#39;,
+    animation: {
+      enter: false,
+    },
+    style: {
+      size: 50,
+    },
+    palette: [&#39;#3875f6&#39;, &#39;#efb041&#39;, &#39;#ec5b56&#39;, &#39;#72c240&#39;],
+  },
+  layout: {
+    type: &#39;grid&#39;,
+  },
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>

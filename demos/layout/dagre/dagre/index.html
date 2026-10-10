@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-qpis24jz><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>layout/dagre/dagre</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/layout/dagre/dagre/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><link rel="stylesheet" href="/_assets/_..BnAUWArh.css"></head><body data-demo-key="layout/dagre/dagre" data-astro-cid-qpis24jz><section id="demo-source" data-astro-cid-qpis24jz><h1 data-astro-cid-qpis24jz>layout/dagre/dagre</h1><p data-astro-cid-qpis24jz><a href="/zh/examples/layout/dagre/dagre/" data-astro-cid-qpis24jz>Example page</a></p><pre data-astro-cid-qpis24jz><code data-astro-cid-qpis24jz>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    { id: &#39;kspacey&#39;, data: { label: &#39;Kevin Spacey&#39;, width: 144, height: 100 } },
+    { id: &#39;swilliams&#39;, data: { label: &#39;Saul Williams&#39;, width: 160, height: 100 } },
+    { id: &#39;bpitt&#39;, data: { label: &#39;Brad Pitt&#39;, width: 108, height: 100 } },
+    { id: &#39;hford&#39;, data: { label: &#39;Harrison Ford&#39;, width: 168, height: 100 } },
+    { id: &#39;lwilson&#39;, data: { label: &#39;Luke Wilson&#39;, width: 144, height: 100 } },
+    { id: &#39;kbacon&#39;, data: { label: &#39;Kevin Bacon&#39;, width: 121, height: 100 } },
+  ],
+  edges: [
+    { id: &#39;kspacey-&gt;swilliams&#39;, source: &#39;kspacey&#39;, target: &#39;swilliams&#39; },
+    { id: &#39;swilliams-&gt;kbacon&#39;, source: &#39;swilliams&#39;, target: &#39;kbacon&#39; },
+    { id: &#39;bpitt-&gt;kbacon&#39;, source: &#39;bpitt&#39;, target: &#39;kbacon&#39; },
+    { id: &#39;hford-&gt;lwilson&#39;, source: &#39;hford&#39;, target: &#39;lwilson&#39; },
+    { id: &#39;lwilson-&gt;kbacon&#39;, source: &#39;lwilson&#39;, target: &#39;kbacon&#39; },
+  ],
+};
+
+const graph = new Graph({
+  autoFit: &#39;center&#39;,
+  data,
+  node: {
+    type: &#39;rect&#39;,
+    style: {
+      size: (d) =&gt; [d.data.width, d.data.height],
+      radius: 10,
+      iconText: (d) =&gt; d.data.label,
+      iconFontSize: 14,
+    },
+    palette: {
+      type: &#39;group&#39;,
+      field: &#39;label&#39;,
+    },
+  },
+  edge: {
+    type: &#39;polyline&#39;,
+    style: {
+      router: {
+        type: &#39;orth&#39;,
+      },
+    },
+  },
+  layout: {
+    type: &#39;dagre&#39;,
+  },
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-qpis24jz></div><pre id="demo-error" hidden data-astro-cid-qpis24jz></pre><script type="module" src="/_assets/_...key_.astro_astro_type_script_index_0_lang.Dk_YYNHQ.js"></script></body></html>
