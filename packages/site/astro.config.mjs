@@ -129,7 +129,7 @@ const site = {
         zh: 'API',
         en: 'API',
       },
-      href: '/api/graph/',
+      href: '/api/data/',
     },
     {
       text: {
