@@ -428,13 +428,13 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     } = this.options;
     const { movementX, movementY } = event;
 
-    const { left, top, width: w, height: h } = this.mask.style;
-    const [, , fullWidth, fullHeight] = this.maskBBox;
+    const [left, top, w, h] = this.calculateMaskBBox();
+    const [fullX, fullY, fullWidth, fullHeight] = this.maskBBox;
 
-    let x = parseInt(left) + movementX;
-    let y = parseInt(top) + movementY;
-    let width = parseInt(w);
-    let height = parseInt(h);
+    let x = left + movementX;
+    let y = top + movementY;
+    let width = w;
+    let height = h;
 
     // 确保 mask 在 minimap 内部
     // Ensure that the mask is inside the minimap
@@ -448,14 +448,14 @@ export class Minimap extends BasePlugin<MinimapOptions> {
     if (width < fullWidth) {
       if (movementX > 0) {
         x = lower(x - movementX, 0);
-        width = upper(width + movementX, minimapWidth);
-      } else if (movementX < 0) width = upper(width - movementX, minimapWidth);
+        width = upper(width + movementX, Math.min(fullWidth, minimapWidth));
+      } else if (movementX < 0) width = upper(width - movementX, Math.min(fullWidth, minimapWidth));
     }
     if (height < fullHeight) {
       if (movementY > 0) {
         y = lower(y - movementY, 0);
-        height = upper(height + movementY, minimapHeight);
-      } else if (movementY < 0) height = upper(height - movementY, minimapHeight);
+        height = upper(height + movementY, Math.min(fullHeight, minimapHeight));
+      } else if (movementY < 0) height = upper(height - movementY, Math.min(fullHeight, minimapHeight));
     }
 
     Object.assign(this.mask.style, {
@@ -465,10 +465,10 @@ export class Minimap extends BasePlugin<MinimapOptions> {
       height: height + 'px',
     });
 
-    // 基于 movement 进行相对移动
-    // Move relative to movement
-    const deltaX = parseInt(left) - x;
-    const deltaY = parseInt(top) - y;
+    // 左侧或顶部被裁剪时，恢复遮罩尺寸也会移动实际视口。
+    // Restoring a mask clipped at the left or top also moves the actual viewport.
+    const deltaX = left - x + (fullX < 0 ? w - width : 0);
+    const deltaY = top - y + (fullY < 0 ? h - height : 0);
     if (deltaX === 0 && deltaY === 0) return;
 
     const zoom1 = this.context.canvas.getCamera().getZoom();
