@@ -10,6 +10,7 @@ import {
   layoutMapping2GraphData,
 } from '@/src/utils/layout';
 import dagreData from '@@/dataset/dagre.json';
+import { AntVDagreLayout, DagreLayout, type GraphEdge } from '@antv/layout';
 
 class MockLayout {
   public id = 'mock';
@@ -152,6 +153,96 @@ describe('layout', () => {
         },
       ],
       combos: [{ id: 'combo-1', style: { x: 10, y: 20, z: 0 } }],
+    });
+  });
+
+  describe('layoutAdapter control points', () => {
+    const context = { model: { isCombo: () => false } } as any;
+    const createData = (): GraphData => ({
+      nodes: [
+        { id: 'source', style: { size: 32 } },
+        { id: 'target', style: { size: 32 } },
+      ],
+      edges: [{ id: 'edge', source: 'source', target: 'target' }],
+    });
+
+    it.each(['LR', 'RL', 'TB', 'BT'])('excludes Dagre endpoints for %s', async (rankdir) => {
+      const data = createData();
+      const original = JSON.parse(JSON.stringify(data));
+      const AdaptiveDagreLayout = layoutAdapter(DagreLayout, context);
+      const layout = new AdaptiveDagreLayout(context, { rankdir, nodeSize: 32, ranksep: 50, enableWorker: false });
+
+      const result = await layout.execute(data);
+      const rawEdges: GraphEdge[] = [];
+      invokeLayoutMethod(layout, 'forEachEdge', (edge: GraphEdge) => rawEdges.push(edge));
+
+      expect(rawEdges).toHaveLength(1);
+      const rawPoints = rawEdges[0].points;
+      const source = result.nodes!.find((node) => node.id === 'source')!.style!;
+      const target = result.nodes!.find((node) => node.id === 'target')!.style!;
+      const midpoint = [(Number(source.x) + Number(target.x)) / 2, (Number(source.y) + Number(target.y)) / 2, 0];
+      const direction = rankdir === 'LR' || rankdir === 'TB' ? 1 : -1;
+      const offset = rankdir === 'LR' || rankdir === 'RL' ? [direction * 16, 0] : [0, direction * 16];
+
+      expect(result.edges?.[0].style?.controlPoints).toEqual([midpoint]);
+      expect(result.edges?.[0].style?.controlPoints).not.toBe(rawPoints);
+      expect(rawPoints).toEqual([
+        [Number(source.x) + offset[0], Number(source.y) + offset[1], 0],
+        midpoint,
+        [Number(target.x) - offset[0], Number(target.y) - offset[1], 0],
+      ]);
+      expect(data).toEqual(original);
+    });
+
+    it('preserves AntVDagre control points', async () => {
+      const data = createData();
+      const original = JSON.parse(JSON.stringify(data));
+      const AdaptiveAntVDagreLayout = layoutAdapter(AntVDagreLayout, context);
+      const layout = new AdaptiveAntVDagreLayout(context, {
+        rankdir: 'LR',
+        nodeSize: 32,
+        ranksep: 50,
+        controlPoints: true,
+        edgeLabelSpace: true,
+        enableWorker: false,
+      });
+
+      const result = await layout.execute(data);
+      const rawEdges: GraphEdge[] = [];
+      invokeLayoutMethod(layout, 'forEachEdge', (edge: GraphEdge) => rawEdges.push(edge));
+
+      expect(rawEdges).toHaveLength(1);
+      expect(rawEdges[0].points).toBeDefined();
+      expect(rawEdges[0].points!.length).toBeGreaterThan(0);
+      expect(result.edges?.[0].style?.controlPoints).toEqual(rawEdges[0].points);
+      expect(data).toEqual(original);
+    });
+
+    it.each([
+      { id: 'dagre', points: undefined },
+      { id: 'dagre', points: [] },
+      { id: 'custom', points: undefined },
+      { id: 'custom', points: [] },
+    ])('handles $id with points=$points', async ({ id, points }) => {
+      class EmptyPointsLayout extends MockLayout {
+        public id = id;
+
+        public forEachEdge(callback: (edge: any) => void) {
+          super.forEachEdge((edge) => callback({ ...edge, points }));
+        }
+      }
+
+      const data = createData();
+      const original = JSON.parse(JSON.stringify(data));
+      const AdaptiveEmptyPointsLayout = layoutAdapter(EmptyPointsLayout as any, context);
+      const layout = new AdaptiveEmptyPointsLayout(context);
+
+      const result = await layout.execute(data);
+      expect(result.edges?.[0].style?.controlPoints).toEqual([]);
+      expect(data).toEqual(original);
+
+      const emptyResult = await layout.execute({ ...data, edges: [] });
+      expect(emptyResult.edges).toEqual([]);
     });
   });
 
