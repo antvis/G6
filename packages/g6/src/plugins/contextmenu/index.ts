@@ -108,9 +108,6 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     const { className } = this.options;
     if (className) this.$element.classList.add(className);
 
-    // 阻止滚轮事件冒泡，防止触发画布的 zoom-canvas 拦截逻辑
-    this.$element.addEventListener('wheel', this.wheelHandler);
-
     const $container = this.context.canvas.getContainer();
     $container!.appendChild(this.$element);
 
@@ -220,6 +217,8 @@ export class Contextmenu extends BasePlugin<ContextmenuOptions> {
     graph.on(`combo:${trigger}`, this.onTriggerEvent);
 
     document.addEventListener('click', this.onMenuItemClick);
+    // 阻止滚轮事件冒泡，防止触发画布的 zoom-canvas 拦截逻辑
+    this.$element.addEventListener('wheel', this.wheelHandler);
   }
 
   private unbindEvents() {
