@@ -22,7 +22,7 @@ const site = {
       'google-site-verification': 'D2DFQzn8bn6vTvIqonu0FSFoF-y5ZihUR9WYteGI684',
     },
     favicon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original',
-    logo: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original',
+    logo: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*A-lcQbVTpjwAAAAAAAAAAAAADmJ7AQ/original',
     locales: ['zh', 'en'],
     defaultLocale: 'zh',
   },
