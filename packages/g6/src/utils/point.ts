@@ -250,11 +250,12 @@ export function getEllipseIntersectPoint(p: Point, bbox: AABB, useExtendedLine =
   const center = bbox.center;
   const refP = useExtendedLine ? getSymmetricPoint(p, center) : p;
   const vec = subtract(refP, bbox.center);
-  const angle = Math.atan2(vec[1], vec[0]);
-  if (isNaN(angle)) return center;
-
   const rx = getBBoxWidth(bbox) / 2;
   const ry = getBBoxHeight(bbox) / 2;
+  // Convert the ray direction to the ellipse's parametric angle.
+  const angle = rx !== ry && rx !== 0 && ry !== 0 ? Math.atan2(vec[1] * rx, vec[0] * ry) : Math.atan2(vec[1], vec[0]);
+  if (isNaN(angle)) return center;
+
   const intersectX = center[0] + rx * Math.cos(angle);
   const intersectY = center[1] + ry * Math.sin(angle);
 
