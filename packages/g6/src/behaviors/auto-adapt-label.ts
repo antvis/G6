@@ -251,6 +251,7 @@ export class AutoAdaptLabel extends BaseBehavior<AutoAdaptLabelOptions> {
 
   private onAfterRender = (event: IEvent) => {
     this.onToggleVisibility(event);
+    this.isFirstRender = false;
     this.enableToggle = true;
   };
 
