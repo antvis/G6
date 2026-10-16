@@ -158,7 +158,10 @@ export function layoutAdapter(
       });
 
       layout.forEachEdge((edge) => {
-        const style = { controlPoints: edge.points || [] };
+        // Dagre includes the endpoints that G6 adds when rendering the edge.
+        const points = edge.points || [];
+        const controlPoints = layout.id === 'dagre' ? points.slice(1, -1) : points;
+        const style = { controlPoints };
         result.edges!.push({ id: String(edge.id), source: String(edge.source), target: String(edge.target), style });
       });
 
