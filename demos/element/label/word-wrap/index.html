@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-2uzjcaml><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/label/word-wrap</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/label/word-wrap/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><style>/* Shared by initial previews, edited previews and exported projects.
+ * Keep this unscoped: demo nodes are created after the Astro document renders. */
+:root { color-scheme: light; }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #fff;
+  color: #1d2129;
+  font: 14px/1.5715 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#container canvas, #container svg { display: block; }
+</style><link rel="stylesheet" href="/assets/_..CsMerd9I.css"></head><body data-demo-key="element/label/word-wrap" data-astro-cid-2uzjcaml><section id="demo-source" data-astro-cid-2uzjcaml><h1 data-astro-cid-2uzjcaml>element/label/word-wrap</h1><p data-astro-cid-2uzjcaml><a href="/zh/examples/element/label/word-wrap/" data-astro-cid-2uzjcaml>Example page</a></p><pre data-astro-cid-2uzjcaml><code data-astro-cid-2uzjcaml>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    { id: &#39;node-1&#39;, style: { x: 100, y: 150, size: 100 } },
+    { id: &#39;node-2&#39;, style: { x: 400, y: 150, size: 150 } },
+  ],
+  edges: [{ source: &#39;node-1&#39;, target: &#39;node-2&#39; }],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  fitCenter: true,
+  data,
+  node: {
+    type: &#39;rect&#39;,
+    style: {
+      labelPlacement: &#39;bottom&#39;,
+      labelText: &#39;This label is too long to be displayed&#39;,
+      labelMaxWidth: &#39;90%&#39;,
+      labelBackground: true,
+      labelBackgroundFill: &#39;#eee&#39;,
+      labelBackgroundFillOpacity: 0.5,
+      labelBackgroundRadius: 4,
+      labelWordWrap: true,
+      labelMaxLines: 4,
+    },
+  },
+  edge: {
+    style: {
+      labelOffsetY: -4,
+      labelTextBaseline: &#39;bottom&#39;,
+      labelText: &#39;This label is too long to be displayed&#39;,
+      labelMaxWidth: &#39;80%&#39;,
+      labelBackground: true,
+      labelBackgroundFill: &#39;red&#39;,
+      labelBackgroundFillOpacity: 0.5,
+      labelBackgroundRadius: 4,
+      labelWordWrap: true,
+      labelMaxLines: 4,
+    },
+  },
+  behaviors: [&#39;drag-element&#39;],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-2uzjcaml></div><pre id="demo-error" hidden data-astro-cid-2uzjcaml></pre><script type="module" src="/assets/_...key_.astro_astro_type_script_index_0_lang.BFKawiL6.js"></script></body></html>

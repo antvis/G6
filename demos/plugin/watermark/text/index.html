@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-2uzjcaml><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>plugin/watermark/text</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/plugin/watermark/text/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><style>/* Shared by initial previews, edited previews and exported projects.
+ * Keep this unscoped: demo nodes are created after the Astro document renders. */
+:root { color-scheme: light; }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #fff;
+  color: #1d2129;
+  font: 14px/1.5715 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#container canvas, #container svg { display: block; }
+</style><link rel="stylesheet" href="/assets/_..CsMerd9I.css"></head><body data-demo-key="plugin/watermark/text" data-astro-cid-2uzjcaml><section id="demo-source" data-astro-cid-2uzjcaml><h1 data-astro-cid-2uzjcaml>plugin/watermark/text</h1><p data-astro-cid-2uzjcaml><a href="/zh/examples/plugin/watermark/text/" data-astro-cid-2uzjcaml>Example page</a></p><pre data-astro-cid-2uzjcaml><code data-astro-cid-2uzjcaml>import { Graph } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [{ id: &#39;node-0&#39; }, { id: &#39;node-1&#39; }, { id: &#39;node-2&#39; }, { id: &#39;node-3&#39; }, { id: &#39;node-4&#39; }, { id: &#39;node-5&#39; }],
+  edges: [
+    { source: &#39;node-0&#39;, target: &#39;node-1&#39; },
+    { source: &#39;node-0&#39;, target: &#39;node-2&#39; },
+    { source: &#39;node-0&#39;, target: &#39;node-3&#39; },
+    { source: &#39;node-0&#39;, target: &#39;node-4&#39; },
+    { source: &#39;node-1&#39;, target: &#39;node-0&#39; },
+    { source: &#39;node-2&#39;, target: &#39;node-0&#39; },
+    { source: &#39;node-3&#39;, target: &#39;node-0&#39; },
+    { source: &#39;node-4&#39;, target: &#39;node-0&#39; },
+    { source: &#39;node-5&#39;, target: &#39;node-0&#39; },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  layout: { type: &#39;grid&#39; },
+  behaviors: [&#39;zoom-canvas&#39;, &#39;drag-canvas&#39;, &#39;drag-element&#39;],
+  plugins: [
+    {
+      type: &#39;watermark&#39;,
+      text: &#39;G6: Graph Visualization&#39;,
+      textFontSize: 14,
+      textFontFamily: &#39;Microsoft YaHei&#39;,
+      fill: &#39;rgba(0, 0, 0, 0.1)&#39;,
+      rotate: Math.PI / 12,
+    },
+  ],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-2uzjcaml></div><pre id="demo-error" hidden data-astro-cid-2uzjcaml></pre><script type="module" src="/assets/_...key_.astro_astro_type_script_index_0_lang.BFKawiL6.js"></script></body></html>
