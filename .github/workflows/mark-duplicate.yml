@@ -14,10 +14,21 @@ jobs:
       issues: write
     steps:
       - name: Mark duplicate issue
-        uses: actions-cool/issues-helper@v3.6.0
+        uses: actions/github-script@v7.0.1
         with:
-          actions: "mark-duplicate"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          duplicate-labels: "duplicate"
-          remove-labels: "waiting for maintainer"
-          close-issue: true
+          script: |
+            const comment = context.payload.comment;
+            const issue = context.payload.issue;
+            if (issue.pull_request) return;
+            const assoc = comment.author_association;
+            if (!['OWNER', 'MEMBER', 'COLLABORATOR'].includes(assoc)) return;
+            if (!/^\s*(?:\/|#)?duplicate of\s+#\d+/i.test(comment.body || '') && !/^\s*(?:这是)?重复(?:的)?\s*#\d+/.test(comment.body || '')) return;
+            const { owner, repo } = context.repo;
+            const issue_number = issue.number;
+            await github.rest.issues.addLabels({ owner, repo, issue_number, labels: ['duplicate'] });
+            try {
+              await github.rest.issues.removeLabel({ owner, repo, issue_number, name: 'waiting for maintainer' });
+            } catch (e) {
+              if (e.status !== 404) throw e;
+            }
+            await github.rest.issues.update({ owner, repo, issue_number, state: 'closed' });
