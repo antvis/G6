@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph } from '@antv/g6';
 
 const graph = new Graph({
@@ -41,7 +43,7 @@ const graph = new Graph({
 
 graph.render();
 
-window.addPanel((gui) => {
+addPanel((gui) => {
   const config = {
     collapse: () => {
       graph.collapseElement('combo-1');

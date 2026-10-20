@@ -223,6 +223,7 @@ fetch('https://assets.antv.antgroup.com/g6/decision-tree.json')
   .then((data) => {
     const graph = new Graph({
       container: 'container',
+      autoFit: 'view',
       data: treeToGraphData(data, {
         getNodeData: (datum, depth) => {
           if (!datum.style) datum.style = {};
@@ -255,10 +256,6 @@ fetch('https://assets.antv.antgroup.com/g6/decision-tree.json')
         preLayout: false,
       },
       behaviors: ['zoom-canvas', 'drag-canvas'],
-    });
-
-    graph.once(GraphEvent.AFTER_RENDER, () => {
-      graph.fitView();
     });
 
     graph.render();

@@ -2,17 +2,7 @@ import data from '@@/dataset/decision-tree.json';
 import type { RectStyleProps as GRectStyleProps, TextStyleProps as GTextStyleProps } from '@antv/g';
 import { Rect as GRect, Group, Text as GText } from '@antv/g';
 import type { BadgeStyleProps, LabelStyleProps, NodeData, RectStyleProps, TreeData } from '@antv/g6';
-import {
-  Badge,
-  CommonEvent,
-  ExtensionCategory,
-  Graph,
-  GraphEvent,
-  Label,
-  Rect,
-  register,
-  treeToGraphData,
-} from '@antv/g6';
+import { Badge, CommonEvent, ExtensionCategory, Graph, Label, Rect, register, treeToGraphData } from '@antv/g6';
 
 export const caseFundFlow: TestCase = async (context) => {
   const COLORS: Record<string, string> = {
@@ -220,6 +210,7 @@ export const caseFundFlow: TestCase = async (context) => {
 
   const graph = new Graph({
     ...context,
+    autoFit: 'view',
     data: treeToGraphData(data, {
       getNodeData: (datum: TreeData, depth: number) => {
         if (!datum.style) datum.style = {};
@@ -251,10 +242,6 @@ export const caseFundFlow: TestCase = async (context) => {
       getHeight: () => 60,
     },
     behaviors: ['zoom-canvas', 'drag-canvas'],
-  });
-
-  graph.once(GraphEvent.AFTER_RENDER, () => {
-    graph.fitView();
   });
 
   await graph.render();

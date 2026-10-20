@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph, iconfont } from '@antv/g6';
 
 const style = document.createElement('style');
@@ -55,7 +57,7 @@ fetch('https://assets.antv.antgroup.com/g6/relations.json')
       borderless: true,
     };
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui
         .add(config, 'trigger', ['pointermove', 'click', 'drag'])
         .name('Trigger')

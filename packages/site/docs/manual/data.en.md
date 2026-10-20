@@ -40,7 +40,7 @@ A node is the basic building block of a graph and represents an entity within th
 
 | Attribute                                 | Type               | Description                                                                                                        |
 | ----------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| <Badge type="success">Required</Badge> id | _string_           | Unique identifier for the node, used to distinguish different nodes                                                |
+| **Required** id | _string_           | Unique identifier for the node, used to distinguish different nodes                                                |
 | type                                      | _string_           | Node type. It can be the type of built-in Node, or the custom Node                                                 |
 | data                                      | _Object_           | Custom data for the node, such as name, description, etc. Can be accessed in style mappings via callback functions |
 | style                                     | _Object_           | Node style, including position, size, color, and other visual properties                                           |
@@ -67,8 +67,8 @@ An edge connects nodes and represents the relationship between them. Each edge i
 
 | Attribute                                     | Type       | Description                                                                                                             |
 | --------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
-| <Badge type="success">Required</Badge> source | _string_   | Source node ID                                                                                                          |
-| <Badge type="success">Required</Badge> target | _string_   | Target node ID                                                                                                          |
+| **Required** source | _string_   | Source node ID                                                                                                          |
+| **Required** target | _string_   | Target node ID                                                                                                          |
 | id                                            | _string_   | Unique identifier for the edge. If not specified, `id` is automatically generated with the format `${source}-${target}` |
 | type                                          | _string_   | Edge type.It can be the type of built-in Edge, or the custom Edge                                                       |
 | data                                          | _Object_   | Custom data for the edge, accessible in style mappings via callback functions                                           |
@@ -94,7 +94,7 @@ Combos allow you to create a logical unit for multiple nodes, used for layering,
 
 | Attribute                                 | Type               | Description                                                                    |
 | ----------------------------------------- | ------------------ | ------------------------------------------------------------------------------ |
-| <Badge type="success">Required</Badge> id | _string_           | Unique identifier for the combo                                                |
+| **Required** id | _string_           | Unique identifier for the combo                                                |
 | type                                      | _string_           | Combo type.It can be the type of built-in Combo, or the custom Combo           |
 | data                                      | _Object_           | Custom data for the combo, accessible in style mappings via callback functions |
 | style                                     | _Object_           | Combo style                                                                    |
@@ -149,23 +149,23 @@ To ensure correct rendering and interaction of the graph, it is recommended to o
 
 G6 provides a series of APIs to access and manipulate data, including:
 
-- [getData](/en/api/data#graphgetdata)
-- [setData](/en/api/data#graphsetdata)
-- [getNodeData](/en/api/data#graphgetnodedata)
-- [getEdgeData](/en/api/data#graphgetedgedata)
-- [getComboData](/en/api/data#graphgetcombodata)
-- [addData](/en/api/data#graphadddata)
-- [addNodeData](/en/api/data#graphaddnodedata)
-- [addEdgeData](/en/api/data#graphaddedgedata)
-- [addComboData](/en/api/data#graphaddcombodata)
-- [updateData](/en/api/data#graphupdatedata)
-- [updateNodeData](/en/api/data#graphupdatenodedata)
-- [updateEdgeData](/en/api/data#graphupdateedgedata)
-- [updateComboData](/en/api/data#graphupdatecombodata)
-- [removeData](/en/api/data#graphremovedata)
-- [removeNodeData](/en/api/data#graphremovenodedata)
-- [removeEdgeData](/en/api/data#graphremoveedgedata)
-- [removeComboData](/en/api/data#graphremovecombodata)
+- [getData](/en/api/data/#graphgetdata)
+- [setData](/en/api/data/#graphsetdata)
+- [getNodeData](/en/api/data/#graphgetnodedata)
+- [getEdgeData](/en/api/data/#graphgetedgedata)
+- [getComboData](/en/api/data/#graphgetcombodata)
+- [addData](/en/api/data/#graphadddata)
+- [addNodeData](/en/api/data/#graphaddnodedata)
+- [addEdgeData](/en/api/data/#graphaddedgedata)
+- [addComboData](/en/api/data/#graphaddcombodata)
+- [updateData](/en/api/data/#graphupdatedata)
+- [updateNodeData](/en/api/data/#graphupdatenodedata)
+- [updateEdgeData](/en/api/data/#graphupdateedgedata)
+- [updateComboData](/en/api/data/#graphupdatecombodata)
+- [removeData](/en/api/data/#graphremovedata)
+- [removeNodeData](/en/api/data/#graphremovenodedata)
+- [removeEdgeData](/en/api/data/#graphremoveedgedata)
+- [removeComboData](/en/api/data/#graphremovecombodata)
 
 Through different APIs, you can conveniently access and manipulate graph data, performing operations such as adding, deleting, modifying, and querying the graph.
 

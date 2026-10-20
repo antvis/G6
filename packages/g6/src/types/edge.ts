@@ -102,7 +102,9 @@ export interface EdgeBadgeStyleProps extends BadgeStyleProps {
  * <en/> Edge arrow style properties
  */
 export interface EdgeArrowStyleProps
-  extends PathStyleProps, Omit<ImageStyleProps, 'width' | 'height'>, Record<string, unknown> {
+  extends PathStyleProps,
+    Omit<ImageStyleProps, 'width' | 'height'>,
+    Record<string, unknown> {
   /**
    * <zh/> 箭头大小
    *
@@ -135,6 +137,17 @@ export type LoopPlacement = CardinalPlacement | CornerPlacement;
  * <en/> Loop style properties
  */
 export interface LoopStyleProps {
+  /**
+   * <zh/> 自环边的绘制类型
+   * - `'default'`: 使用三次贝塞尔曲线（默认，与 G6 原始行为一致）
+   * - `'arc'`: 使用 SVG 圆弧命令绘制近似圆形的自环
+   *
+   * <en/> Drawing type for self-loop edges
+   * - `'default'`: Use cubic Bezier curve (default, consistent with original G6 behavior)
+   * - `'arc'`: Use SVG arc command to draw a near-circular self-loop
+   * @defaultValue 'default'
+   */
+  type?: 'default' | 'arc';
   /**
    * <zh/> 边的位置
    *

@@ -5,7 +5,7 @@ order: 0
 
 ## 什么是交互
 
-<image width="200px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sa3jRqp83K4AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sa3jRqp83K4AAAAAAAAAAAAADmJ7AQ/original" />
 
 交互(Behavior)是指用户与图表元素之间的互动操作，如拖拽画布、选择节点、缩放视图等。良好的交互设计能让用户更直观地探索和理解图数据。**合理配置交互是构建高效可用图表的关键环节**。
 
@@ -28,27 +28,27 @@ G6 提供了多种开箱即用的内置交互，**无需注册，直接配置即
 | 分类     | 交互名称                                                     | 注册类型                      | 功能描述                   |
 | -------- | ------------------------------------------------------------ | ----------------------------- | -------------------------- |
 | 导航     |                                                              |                               |                            |
-|          | [拖拽画布](/manual/behavior/drag-canvas)                     | `drag-canvas`                 | 拖动整个画布视图           |
-|          | [缩放画布](/manual/behavior/zoom-canvas)                     | `zoom-canvas`                 | 缩放画布视图               |
-|          | [滚动画布](/manual/behavior/scroll-canvas)                   | `scroll-canvas`               | 使用滚轮滚动画布           |
-|          | [优化视口变换](/manual/behavior/optimize-viewport-transform) | `optimize-viewport-transform` | 优化视图变换性能           |
+|          | [拖拽画布](/zh/manual/behavior/DragCanvas/)                     | `drag-canvas`                 | 拖动整个画布视图           |
+|          | [缩放画布](/zh/manual/behavior/ZoomCanvas/)                     | `zoom-canvas`                 | 缩放画布视图               |
+|          | [滚动画布](/zh/manual/behavior/ScrollCanvas/)                   | `scroll-canvas`               | 使用滚轮滚动画布           |
+|          | [优化视口变换](/zh/manual/behavior/OptimizeViewportTransform/) | `optimize-viewport-transform` | 优化视图变换性能           |
 | 选择     |                                                              |                               |                            |
-|          | [点击选择](/manual/behavior/click-select)                    | `click-select`                | 点击选择图元素             |
-|          | [框选](/manual/behavior/brush-select)                        | `brush-select`                | 通过拖拽矩形区域选择元素   |
-|          | [套索选择](/manual/behavior/lasso-select)                    | `lasso-select`                | 自由绘制区域选择元素       |
+|          | [点击选择](/zh/manual/behavior/ClickSelect/)                    | `click-select`                | 点击选择图元素             |
+|          | [框选](/zh/manual/behavior/BrushSelect/)                        | `brush-select`                | 通过拖拽矩形区域选择元素   |
+|          | [套索选择](/zh/manual/behavior/LassoSelect/)                    | `lasso-select`                | 自由绘制区域选择元素       |
 | 编辑     |                                                              |                               |                            |
-|          | [创建边](/manual/behavior/create-edge)                       | `create-edge`                 | 交互式创建新的边           |
-|          | [拖拽元素](/manual/behavior/drag-element)                    | `drag-element`                | 拖动节点或组合             |
-|          | [力导向拖拽](/manual/behavior/drag-element-force)            | `drag-element-force`          | 力导向布局中拖动节点       |
+|          | [创建边](/zh/manual/behavior/CreateEdge/)                       | `create-edge`                 | 交互式创建新的边           |
+|          | [拖拽元素](/zh/manual/behavior/DragElement/)                    | `drag-element`                | 拖动节点或组合             |
+|          | [力导向拖拽](/zh/manual/behavior/DragElementForce/)            | `drag-element-force`          | 力导向布局中拖动节点       |
 | 数据探索 |                                                              |                               |                            |
-|          | [折叠/展开](/manual/behavior/collapse-expand)                | `collapse-expand`             | 展开或收起子树节点         |
-|          | [聚焦元素](/manual/behavior/focus-element)                   | `focus-element`               | 聚焦特定元素，自动调整视图 |
-|          | [悬停激活](/manual/behavior/hover-activate)                  | `hover-activate`              | 鼠标悬停时高亮元素         |
+|          | [折叠/展开](/zh/manual/behavior/CollapseExpand/)                | `collapse-expand`             | 展开或收起子树节点         |
+|          | [聚焦元素](/zh/manual/behavior/FocusElement/)                   | `focus-element`               | 聚焦特定元素，自动调整视图 |
+|          | [悬停激活](/zh/manual/behavior/HoverActivate/)                  | `hover-activate`              | 鼠标悬停时高亮元素         |
 | 视觉优化 |                                                              |                               |                            |
-|          | [固定元素大小](/manual/behavior/fix-element-size)            | `fix-element-size`            | 将元素大小固定为指定值     |
-|          | [自适应标签](/manual/behavior/auto-adapt-label)              | `auto-adapt-label`            | 自动调整标签位置           |
+|          | [固定元素大小](/zh/manual/behavior/FixElementSize/)            | `fix-element-size`            | 将元素大小固定为指定值     |
+|          | [自适应标签](/zh/manual/behavior/AutoAdaptLabel/)              | `auto-adapt-label`            | 自动调整标签位置           |
 
-各交互的详细配置可参考 [内置交互文档](/manual/behavior/drag-canvas)。
+各交互的详细配置可参考 [内置交互文档](/zh/manual/behavior/DragCanvas/)。
 
 :::warning{title=交互兼容性}
 某些交互在触发机制上可能存在重叠，如 `brush-select` 和 `drag-canvas` 都使用鼠标拖拽。这种情况下可以通过修改触发按键（如按住 `Shift` 拖拽选择）来避免冲突。
@@ -61,7 +61,7 @@ G6 提供了多种开箱即用的内置交互，**无需注册，直接配置即
 - 继承内置交互进行扩展
 - 创建全新的交互行为
 
-与内置交互不同，**自定义交互需要先注册后使用**。详细教程请参考 [自定义交互](/manual/behavior/custom-behavior) 文档。
+与内置交互不同，**自定义交互需要先注册后使用**。详细教程请参考 [自定义交互](/zh/manual/behavior/custom-behavior/) 文档。
 
 ## 配置和使用
 
@@ -98,7 +98,7 @@ const graph = new Graph({
 
 G6 支持在图实例运行期间动态管理交互行为，满足复杂交互需求：
 
-可以通过 [setBehaviors](/api/behavior#graphsetbehaviorsbehaviors) 方法调整交互：
+可以通过 [setBehaviors](/zh/api/behavior/#graphsetbehaviorsbehaviors) 方法调整交互：
 
 ```javascript
 // 添加新交互
@@ -108,7 +108,7 @@ graph.setBehaviors((behaviors) => [...behaviors, 'lasso-select']);
 graph.setBehaviors((behaviors) => behaviors.filter((b) => b !== 'click-select'));
 ```
 
-可以使用 [updateBehavior](/api/behavior#graphupdatebehaviorbehavior) 方法更新交互的配置：
+可以使用 [updateBehavior](/zh/api/behavior/#graphupdatebehaviorbehavior) 方法更新交互的配置：
 
 ```javascript
 // 更新单个交互
@@ -125,13 +125,13 @@ graph.updateBehavior({
 
 ### 卸载交互
 
-使用 [setBehaviors](/api/behavior#graphsetbehaviorsbehaviors) 方法同样可以卸载交互，将交互配置列表置为空即可：
+使用 [setBehaviors](/zh/api/behavior/#graphsetbehaviorsbehaviors) 方法同样可以卸载交互，将交互配置列表置为空即可：
 
 ```javascript
 graph.setBehaviors([]);
 ```
 
-更多与交互相关的 API 请参考 [交互 API 文档](/api/behavior)。
+更多与交互相关的 API 请参考 [交互 API 文档](/zh/api/behavior/)。
 
 ## 交互与事件
 
@@ -156,4 +156,4 @@ graph.on(EdgeEvent.POINTER_OVER, (evt) => {
 });
 ```
 
-事件系统是实现交互的基础，掌握事件 API 对于理解和扩展交互行为至关重要。更多事件相关信息，请参考 [事件文档](/api/event)。
+事件系统是实现交互的基础，掌握事件 API 对于理解和扩展交互行为至关重要。更多事件相关信息，请参考 [事件文档](/zh/api/event/)。

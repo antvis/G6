@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { ExtensionCategory, Graph, Line, register } from '@antv/g6';
 
 class PathInLine extends Line {
@@ -33,7 +35,7 @@ const graph = new Graph({
 
 graph.render();
 
-window.addPanel((gui) => {
+addPanel((gui) => {
   const config = {
     connect: () => {
       const edge = graph.getEdgeData('edge-1');

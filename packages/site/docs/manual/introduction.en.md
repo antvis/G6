@@ -15,7 +15,7 @@ order: 0
 
 <h3 style="text-align: center;">AntV G6</h3>
 
-<h3 style="text-align: center;"><image width="500" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ" /></h3>
+<h3 style="text-align: center;"><img width="500" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ" /></h3>
 
 <p style="text-align: center;">G6 is a graph visualization engine. It provides capabilities for graph drawing, layout, analysis, interaction, animation, and other aspects of graph visualization. It aims to offer developers a set of tools that are easy to use, professionally reliable, and highly customizable for graph visualization development.</p>
 
@@ -49,19 +49,19 @@ order: 0
 
 <h4 style="text-align: center; color: #678ff3;">Start Your G6 Journey in Just 3 Minutes</h4>
 
-<p style="text-align: center;">Click to enter 👉 <a href="/manual/getting-started/quick-start">Quick Start</a></p>
+<p style="text-align: center;">Click to enter 👉 <a href="/en/manual/getting-started/quick-start/">Quick Start</a></p>
 
 <div>
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YXHtRZUKAZcAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VChnTLySxScAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tqlbS7ukmYUAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*I5uDQZWTzMsAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*hnLoRJR8EvMAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8LqvQJ09-EEAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*UgMZS6vrUlgAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SDQKSb8gcxgAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ZC1CT7q0fM4AAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YMxxTZwt54UAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*h3eWT4loiTwAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*XTcoRKPMDloAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YXHtRZUKAZcAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VChnTLySxScAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tqlbS7ukmYUAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*I5uDQZWTzMsAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*hnLoRJR8EvMAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8LqvQJ09-EEAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*UgMZS6vrUlgAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SDQKSb8gcxgAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ZC1CT7q0fM4AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YMxxTZwt54UAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*h3eWT4loiTwAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*XTcoRKPMDloAAAAAAAAAAAAADmJ7AQ/original" />
 </div>

@@ -1873,7 +1873,7 @@ export class Graph extends EventEmitter {
     if (isCollapsed(model.getNodeLikeData([id])[0])) return;
     if (this.isCollapsingExpanding) return;
 
-    if (typeof options === 'boolean') options = { animation: options, align: true };
+    if (typeof options === 'boolean') options = { animation: options, align: false };
 
     const elementType = model.getElementType(id);
 
@@ -1911,7 +1911,7 @@ export class Graph extends EventEmitter {
     if (!isCollapsed(model.getNodeLikeData([id])[0])) return;
     if (this.isCollapsingExpanding) return;
 
-    if (typeof options === 'boolean') options = { animation: options, align: true };
+    if (typeof options === 'boolean') options = { animation: options, align: false };
 
     const elementType = model.getElementType(id);
 

@@ -5,11 +5,11 @@ order: 0
 
 ## 什么是插件
 
-<image width="200px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sa3jRqp83K4AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*sa3jRqp83K4AAAAAAAAAAAAADmJ7AQ/original" />
 
 插件(Plugin)是 G6 中最灵活的扩展机制，用户可以通过插件来扩展 G6 的功能，例如在画布中额外挂载图形组件、实现撤销重做等功能。
 
-绝大多数的定制需求都可以通过插件来实现，G6 内置了一些常用的插件，例如：[Tooltip](/manual/plugin/tooltip)、[Grid](/manual/plugin/grid-line)、[History](/manual/plugin/history)。
+绝大多数的定制需求都可以通过插件来实现，G6 内置了一些常用的插件，例如：[Tooltip](/zh/manual/plugin/Tooltip/)、[Grid](/zh/manual/plugin/GridLine/)、[History](/zh/manual/plugin/History/)。
 
 ## 内置插件
 
@@ -18,30 +18,30 @@ G6 提供了丰富的内置插件，涵盖多种常见功能场景：
 | 分类             | 插件名称                                                                                   | 注册类型           | 功能描述                               |
 | ---------------- | ------------------------------------------------------------------------------------------ | ------------------ | -------------------------------------- |
 | **视觉样式增强** |                                                                                            |                    |                                        |
-|                  | [网格线](/manual/plugin/grid-line)                                                         | `grid-line`        | 在画布上显示网格参考线                 |
-|                  | [背景](/manual/plugin/background)                                                          | `background`       | 为画布添加背景图片或颜色               |
-|                  | [水印](/manual/plugin/watermark)                                                           | `watermark`        | 为画布添加水印，保护版权               |
-|                  | [轮廓包围](/manual/plugin/hull)                                                            | `hull`             | 为指定节点集合创建轮廓                 |
-|                  | [气泡集](/manual/plugin/bubble-sets)                                                       | `bubble-sets`      | 创建平滑气泡状的元素集合轮廓           |
-|                  | [对齐线](/manual/plugin/snapline)                                                          | `snapline`         | 拖动元素时显示对齐参考线               |
+|                  | [网格线](/zh/manual/plugin/GridLine/)                                                         | `grid-line`        | 在画布上显示网格参考线                 |
+|                  | [背景](/zh/manual/plugin/Background/)                                                          | `background`       | 为画布添加背景图片或颜色               |
+|                  | [水印](/zh/manual/plugin/Watermark/)                                                           | `watermark`        | 为画布添加水印，保护版权               |
+|                  | [轮廓包围](/zh/manual/plugin/Hull/)                                                            | `hull`             | 为指定节点集合创建轮廓                 |
+|                  | [气泡集](/zh/manual/plugin/BubbleSets/)                                                       | `bubble-sets`      | 创建平滑气泡状的元素集合轮廓           |
+|                  | [对齐线](/zh/manual/plugin/Snapline/)                                                          | `snapline`         | 拖动元素时显示对齐参考线               |
 | **导航与概览**   |                                                                                            |                    |                                        |
-|                  | [缩略图](/manual/plugin/minimap)                                                           | `minimap`          | 显示图的缩略预览，支持导航             |
-|                  | [全屏](/manual/plugin/fullscreen)                                                          | `fullscreen`       | 支持图表全屏显示和退出                 |
-|                  | [时间轴](/manual/plugin/timebar)                                                           | `timebar`          | 提供时序数据的筛选和播放控制           |
+|                  | [缩略图](/zh/manual/plugin/Minimap/)                                                           | `minimap`          | 显示图的缩略预览，支持导航             |
+|                  | [全屏](/zh/manual/plugin/Fullscreen/)                                                          | `fullscreen`       | 支持图表全屏显示和退出                 |
+|                  | [时间轴](/zh/manual/plugin/Timebar/)                                                           | `timebar`          | 提供时序数据的筛选和播放控制           |
 | **交互控件**     |                                                                                            |                    |                                        |
-|                  | [工具栏](/manual/plugin/toolbar)                                                           | `toolbar`          | 提供常用操作按钮集合                   |
-|                  | [上下文菜单](/manual/plugin/contextmenu)                                                   | `contextmenu`      | 右键点击时显示可选操作菜单             |
-|                  | [提示框](/manual/plugin/tooltip)                                                           | `tooltip`          | 悬停时显示元素详细信息                 |
-|                  | [图例](/manual/plugin/legend)                                                              | `legend`           | 显示图表数据的类别和对应样式说明       |
+|                  | [工具栏](/zh/manual/plugin/Toolbar/)                                                           | `toolbar`          | 提供常用操作按钮集合                   |
+|                  | [上下文菜单](/zh/manual/plugin/Contextmenu/)                                                   | `contextmenu`      | 右键点击时显示可选操作菜单             |
+|                  | [提示框](/zh/manual/plugin/Tooltip/)                                                           | `tooltip`          | 悬停时显示元素详细信息                 |
+|                  | [图例](/zh/manual/plugin/Legend/)                                                              | `legend`           | 显示图表数据的类别和对应样式说明       |
 | **数据探索**     |                                                                                            |                    |                                        |
-|                  | [鱼眼放大镜](/manual/plugin/fisheye)                                                       | `fisheye`          | 提供焦点+上下文的探索体验              |
-|                  | [边过滤镜](/manual/plugin/edge-filter-lens)                                                | `edge-filter-lens` | 在指定区域内筛选显示边                 |
-|                  | [边绑定](/manual/plugin/edge-bundling)                                                     | `edge-bundling`    | 将相似路径的边捆绑在一起，减少视觉混乱 |
+|                  | [鱼眼放大镜](/zh/manual/plugin/Fisheye/)                                                       | `fisheye`          | 提供焦点+上下文的探索体验              |
+|                  | [边过滤镜](/zh/manual/plugin/EdgeFilterLens/)                                                | `edge-filter-lens` | 在指定区域内筛选显示边                 |
+|                  | [边绑定](/zh/manual/plugin/EdgeBundling/)                                                     | `edge-bundling`    | 将相似路径的边捆绑在一起，减少视觉混乱 |
 | **高级功能**     |                                                                                            |                    |                                        |
-|                  | [历史记录](/manual/plugin/history)                                                         | `history`          | 支持撤销/重做操作                      |
+|                  | [历史记录](/zh/manual/plugin/History/)                                                         | `history`          | 支持撤销/重做操作                      |
 |                  | [相机设置](https://github.com/antvis/G6/blob/v5/packages/g6/src/plugins/camera-setting.ts) | `camera-setting`   | 配置3D场景下的相机参数                 |
 
-各插件的详细配置可参考 [内置插件文档](/manual/plugin/grid-line)。
+各插件的详细配置可参考 [内置插件文档](/zh/manual/plugin/GridLine/)。
 
 ## 配置方式
 
@@ -80,7 +80,7 @@ const graph = new Graph({
 
 G6 支持在图实例运行期间动态管理插件，满足复杂交互需求：
 
-通过 [getPlugins](/api/plugin#graphgetplugins) 方法获取当前插件列表：
+通过 [getPlugins](/zh/api/plugin/#graphgetplugins) 方法获取当前插件列表：
 
 ```javascript
 // 获取插件列表
@@ -88,7 +88,7 @@ const plugins = graph.getPlugins();
 // console.log(plugins) 👉 ['minimap', 'grid']
 ```
 
-可以通过 [setPlugins](/api/plugin#graphsetpluginsplugins) 方法调整插件：
+可以通过 [setPlugins](/zh/api/plugin/#graphsetpluginsplugins) 方法调整插件：
 
 ```javascript
 // 添加新插件
@@ -98,7 +98,7 @@ graph.setPlugins((plugins) => [...plugins, 'minimap']);
 graph.setPlugins((plugins) => plugins.filter((p) => p !== 'grid'));
 ```
 
-可以通过 [updatePlugin](/api/plugin#graphupdatepluginplugin) 方法更新插件的配置：
+可以通过 [updatePlugin](/zh/api/plugin/#graphupdatepluginplugin) 方法更新插件的配置：
 
 ```javascript {6,14}
 const graph = new Graph({
@@ -125,7 +125,7 @@ graph.updatePlugin({
 
 ### 卸载插件
 
-使用 [setPlugins](/api/plugin#graphsetpluginsplugins) 方法同样可以卸载插件，将插件配置列表置为空即可：
+使用 [setPlugins](/zh/api/plugin/#graphsetpluginsplugins) 方法同样可以卸载插件，将插件配置列表置为空即可：
 
 ```javascript
 // 卸载所有插件
@@ -136,7 +136,7 @@ graph.setPlugins([]);
 
 一些插件提供了可供用户调用的 API 方法，例如 `history` 插件提供了 `undo` 和 `redo` 方法，用户可以通过调用这些方法来实现撤销和重做操作。
 
-要调用这些方法，需要先获取到插件实例，可通过 [getPluginInstance](/api/plugin#graphgetplugininstancekey) 方法获取：
+要调用这些方法，需要先获取到插件实例，可通过 [getPluginInstance](/zh/api/plugin/#graphgetplugininstancekey) 方法获取：
 
 ```javascript
 // 配置插件
@@ -156,7 +156,7 @@ history.redo();
 `graph.getPluginInstance` 方法接收插件 key 值作为参数，因此如果需要获取插件实例，需要将对应插件配置为 `object` 的形式，并传入 `key` 值。
 :::
 
-更多与插件相关的 API 请参考 [插件 API 文档](/api/plugin)。
+更多与插件相关的 API 请参考 [插件 API 文档](/zh/api/plugin/)。
 
 ## 自定义插件
 
@@ -165,7 +165,7 @@ history.redo();
 - 继承和扩展现有插件
 - 创建全新的自定义插件
 
-自定义插件需要先注册后使用。详细教程请参考 [自定义插件](/manual/plugin/custom-plugin) 文档。
+自定义插件需要先注册后使用。详细教程请参考 [自定义插件](/zh/manual/plugin/custom-plugin/) 文档。
 
 ```javascript
 import { register, ExtensionCategory } from '@antv/g6';

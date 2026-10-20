@@ -27,6 +27,7 @@ export const layoutAntVDagreFlow: TestCase = async (context) => {
     },
     layout: {
       type: 'antv-dagre',
+      controlPoints: true,
     },
     behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
   });

@@ -75,7 +75,7 @@ Indented（缩进树）布局是一种通过水平方向的缩进量来表示树
 
 ## 示例代码
 
-> 更多示例可参考 [在线 Demo](https://g6.antv.antgroup.com/examples/layout/indented)
+> 更多示例可参考 [在线 Demo](/zh/examples/layout/indented/)
 
 ### 子节点自动分布
 

@@ -4,7 +4,7 @@ title: CameraSetting
 
 ## Options
 
-### <Badge type="success">Required</Badge> type
+### **Required** type
 
 > _string_
 

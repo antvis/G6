@@ -15,7 +15,7 @@ order: 14
 - 需要高效渲染超过 2,000 个节点的场景
 - 需要直接操作图形实例进行精细控制
 
-> 有关如何使用 Canvas 图形自定义节点的详细信息，请参阅 [自定义节点](/manual/element/node/custom-node) 文档
+> 有关如何使用 Canvas 图形自定义节点的详细信息，请参阅 [自定义节点](/zh/manual/element/node/custom-node/) 文档
 
 ### Vue Node
 

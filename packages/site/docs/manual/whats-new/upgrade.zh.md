@@ -8,7 +8,7 @@ order: 6
 ## 升级前准备
 
 1. 请确保当前 git 分支是干净的，没有未提交的代码。
-2. 参考 [安装](/manual/getting-started/installation) 文档安装 `5.x` 版本，并移除 `4.x` 版本依赖。
+2. 参考 [安装](/zh/manual/getting-started/installation/) 文档安装 `5.x` 版本，并移除 `4.x` 版本依赖。
 
 ## 开始升级
 
@@ -42,9 +42,9 @@ const data = {
 
 由于我们重新设计实现了元素，新的元素配置项请参考相应文档进行修改：
 
-- [Node](/manual/element/node/overview)
-- [Edge](/manual/element/edge/overview)
-- [Combo](/manual/element/combo/overview)
+- [Node](/zh/manual/element/node/overview/)
+- [Edge](/zh/manual/element/edge/overview/)
+- [Combo](/zh/manual/element/combo/overview/)
 
 2. 如果要在数据中指定元素类型，可以使用 `type` 属性：
 
@@ -59,7 +59,7 @@ const data = {
 
 ### 配置项
 
-<Badge type="warning">变更</Badge> **fitView / fitCenter / fitViewPadding**
+**变更** **fitView / fitCenter / fitViewPadding**
 
 - `fitView` 和 `fitCenter` 配置项已经合并为 `autoFit`
 - 若要使用 `fitView`，可以配置为 `autoFit: 'view'`
@@ -77,7 +77,7 @@ autoFit: {
 
 - `fitViewPadding` 已变更为 `padding`
 
-<Badge type="error">移除</Badge> **linkCenter**
+**移除** **linkCenter**
 
 5.x 的边连接机制会按照如下顺序依次尝试连接到节点/Combo：
 
@@ -85,13 +85,13 @@ autoFit: {
 2. 轮廓
 3. 中心
 
-<Badge type="error">移除</Badge> **groupByTypes**
+**移除** **groupByTypes**
 
-<Badge type="error">移除</Badge> **autoPaint**
+**移除** **autoPaint**
 
 请手动调用 `render` 或 `draw` 方法进行绘制。
 
-<Badge type="warning">变更</Badge> **modes**
+**变更** **modes**
 
 5.x 已经移除交互模式，你可以通过设置 `behaviors` 来切换当前启用的交互行为。
 
@@ -118,7 +118,7 @@ graph.setBehaviors(['drag-canvas']);
 
 ```
 
-<Badge type="warning">变更</Badge> **defaultNode / defaultEdge / defaultCombo**
+**变更** **defaultNode / defaultEdge / defaultCombo**
 
 元素样式已移至 `[element].style` 中，如 `defaultNode` 变更为 `node.style`：
 
@@ -142,7 +142,7 @@ graph.setBehaviors(['drag-canvas']);
 }
 ```
 
-<Badge type="warning">变更</Badge> **nodeStateStyles / edgeStateStyles / comboStateStyle**
+**变更** **nodeStateStyles / edgeStateStyles / comboStateStyle**
 
 元素状态样式已移至 `[element].state` 中，如 `nodeStateStyles` 变更为 `node.stateStyles`：
 
@@ -168,7 +168,7 @@ graph.setBehaviors(['drag-canvas']);
 }
 ```
 
-<Badge type="warning">变更</Badge> **animate / animateCfg**
+**变更** **animate / animateCfg**
 
 - `animate` 配置项已变更为 `animation`
 - `animate` 和 `animateCfg` 已合并为 `animation`
@@ -191,7 +191,7 @@ graph.setBehaviors(['drag-canvas']);
 }
 ```
 
-<Badge type="warning">变更</Badge> **minZoom / maxZoom**
+**变更** **minZoom / maxZoom**
 
 `minZoom` 和 `maxZoom` 已合并为 `zoomRange`
 
@@ -208,7 +208,7 @@ graph.setBehaviors(['drag-canvas']);
 }
 ```
 
-<Badge type="warning">变更</Badge> **renderer**
+**变更** **renderer**
 
 G6 5.x 支持多层画布，默认使用 `canvas` 渲染。
 
@@ -228,87 +228,87 @@ import { Renderer } from '@antv/g-svg';
 }
 ```
 
-<Badge type="error">移除</Badge> **enabledStack / maxStep**
+**移除** **enabledStack / maxStep**
 
 5.x 已移除内置撤销重做功能，相关能力请使用插件实现。
 
 ### API
 
-<Badge type="warning">变更</Badge> **data / save / read / changeData**
+**变更** **data / save / read / changeData**
 
-5.x 提供了全新的数据 API，详见 [数据 API](/api/data)。
+5.x 提供了全新的数据 API，详见 [数据 API](/zh/api/data/)。
 
 - 4.x `data` `changeData` 方法使用 5.x `setData` 替代
 - 4.x `save` 方法使用 5.x `getData` 替代
 - 4.x `read` 方法使用 5.x `setData` + `render` 替代
 
-<Badge type="warning">变更</Badge> **get / set**
+**变更** **get / set**
 
 若要访问 Graph options，请使用 `getOptions` 或者 `getXxx` API，例如 `getZoomRange` `getBehaviors` 等。 `set` 同理。
 
-<Badge type="warning">变更</Badge> **getContainer**
+**变更** **getContainer**
 
 暂不支持直接获取容器的 API，但可以通过 `graph.getCanvas().getContainer()` 获取。
 
 > 绝大部分情况下，你都不需要直接操作容器。
 
-<Badge type="error">移除</Badge> **getGroup**
+**移除** **getGroup**
 
-<Badge type="warning">变更</Badge> **getMinZoom / getMaxZoom**
+**变更** **getMinZoom / getMaxZoom**
 
 使用 `getZoomRange` 获取。
 
-<Badge type="warning">变更</Badge> **setMinZoom / setMaxZoom**
+**变更** **setMinZoom / setMaxZoom**
 
 使用 `setZoomRange` 方法设置。
 
-<Badge type="warning">变更</Badge> **getWidth / getHeight**
+**变更** **getWidth / getHeight**
 
 使用 `getSize` 获取。
 
-<Badge type="warning">变更</Badge> **changeSize**
+**变更** **changeSize**
 
 使用 `setSize` 设置。
 
-<Badge type="warning">变更</Badge> **zoom**
+**变更** **zoom**
 
 变更为 `zoomBy`。
 
-<Badge type="warning">变更</Badge> **translate**
+**变更** **translate**
 
 变更为 `translateBy`。
 
-<Badge type="warning">变更</Badge> **moveTo**
+**变更** **moveTo**
 
 变更为 `translateTo`。
 
-<Badge type="warning">变更</Badge> **focusItem**
+**变更** **focusItem**
 
 变更为 `focusElement`。
 
-<Badge type="error">移除</Badge> **addItem / updateItem / removeItem**
+**移除** **addItem / updateItem / removeItem**
 
 通过 `addData` / `updateData` / `removeData` 方法操作数据来添加或删除元素。
 
-<Badge type="error">移除</Badge> **refreshItem**
+**移除** **refreshItem**
 
-<Badge type="error">移除</Badge> **refreshPositions**
+**移除** **refreshPositions**
 
-<Badge type="error">移除</Badge> **updateCombo**
+**移除** **updateCombo**
 
-<Badge type="error">移除</Badge> **updateCombos**
+**移除** **updateCombos**
 
-<Badge type="error">移除</Badge> **updateComboTree**
+**移除** **updateComboTree**
 
-<Badge type="warning">变更</Badge> **node / edge / combo**
+**变更** **node / edge / combo**
 
 使用 `setNode` / `setEdge` / `setCombo` 方法替代。
 
-<Badge type="warning">变更</Badge> **showItem / hideItem**
+**变更** **showItem / hideItem**
 
 使用 `setElementVisibility` 方法替代。
 
-<Badge type="error">移除</Badge> **getNodes / getEdges / getCombos / getComboChildren /getNeighbors /find /findById / findAll /findAllByState**
+**移除** **getNodes / getEdges / getCombos / getComboChildren /getNeighbors /find /findById / findAll /findAllByState**
 
 5.x 不支持直接获取元素实例。
 
@@ -317,54 +317,54 @@ import { Renderer } from '@antv/g-svg';
 - 获取邻居节点数据，使用 `getNeighborNodesData` 方法。
 - 基于状态查找元素数据，使用 `getElementDataByState`。
 
-<Badge type="warning">变更</Badge> **collapseCombo / expandCombo**
+**变更** **collapseCombo / expandCombo**
 
 使用 `collapseElement` / `expandElement` 方法替代。
 
-<Badge type="error">移除</Badge> **collapseExpandCombo**
+**移除** **collapseExpandCombo**
 
-<Badge type="error">移除</Badge> **createCombo**
+**移除** **createCombo**
 
 通过 `addData` / `addComboData` 方法添加 Combo。
 
-<Badge type="error">移除</Badge> **uncombo**
+**移除** **uncombo**
 
 通过 `removeData` / `removeComboData` 方法移除 Combo。
 
-<Badge type="warning">变更</Badge> **setItemState**
+**变更** **setItemState**
 
 使用 `setElementState` 方法替代。
 
-<Badge type="error">移除</Badge> **clearItemStates**
+**移除** **clearItemStates**
 
 - 清除单个元素所有状态：`graph.setElementState(id, [])`
 - 清除多个元素所有状态：`graph.setElementState({ id1: [], id2: [] })`
 
-<Badge type="error">移除</Badge> **priorityState**
+**移除** **priorityState**
 
 `setElementState` 时状态数组中靠后的状态优先级更高。
 
-<Badge type="error">移除</Badge> **setMode**
+**移除** **setMode**
 
 使用 `setBehaviors` 来设置当前交互。
 
-<Badge type="error">移除</Badge> **setCurrentMode**
+**移除** **setCurrentMode**
 
-<Badge type="warning">变更</Badge> **layout**
+**变更** **layout**
 
 不支持参数，如需配置布局，请使用 `setLayout`。
 
-<Badge type="warning">变更</Badge> **updateLayout**
+**变更** **updateLayout**
 
 变更为 `setLayout`。
 
-<Badge type="error">移除</Badge> **destroyLayout**
+**移除** **destroyLayout**
 
-<Badge type="warning">变更</Badge> **addBehaviors / removeBehaviors**
+**变更** **addBehaviors / removeBehaviors**
 
 使用 `setBehaviors` 替代。
 
-<Badge type="error">移除</Badge> **createHull / getHulls / removeHull / removeHulls**
+**移除** **createHull / getHulls / removeHull / removeHulls**
 
 - 多个 `Hull` 需在 `plugins` 中配置多个 `hull` 插件，如：
 
@@ -376,13 +376,13 @@ import { Renderer } from '@antv/g-svg';
 
 - `Hull` 的获取、更新、移除操作通过 `setPlugins`, `updatePlugin` 实现。
 
-<Badge>暂未提供</Badge> **getNodeDegree**
+**暂未提供** **getNodeDegree**
 
-<Badge>暂未提供</Badge> **getShortestPathMatrix**
+**暂未提供** **getShortestPathMatrix**
 
-<Badge>暂未提供</Badge> **getAdjMatrix**
+**暂未提供** **getAdjMatrix**
 
-<Badge type="error">移除</Badge> **pushStack / getUndoStack / getRedoStack / getStackData / clearStack**
+**移除** **pushStack / getUndoStack / getRedoStack / getStackData / clearStack**
 
 所有撤销重做相关 API 请获取到对应插件后调用 API，例：
 
@@ -393,7 +393,7 @@ const history = graph.getPluginInstance('history');
 history.redo();
 ```
 
-<Badge type="error">移除</Badge> **positionsAnimate / stopAnimate / isAnimating**
+**移除** **positionsAnimate / stopAnimate / isAnimating**
 
 动画相关信息通过事件抛出：
 
@@ -407,15 +407,15 @@ graph.on('beforeanimate', (event) => {
 });
 ```
 
-<Badge type="warning">变更</Badge> **getPointByClient / getClientByPoint / getPointByCanvas / getCanvasByPoint / getGraphCenterPoint / getViewPortCenterPoint**
+**变更** **getPointByClient / getClientByPoint / getPointByCanvas / getCanvasByPoint / getGraphCenterPoint / getViewPortCenterPoint**
 
-G6 5.x 采用了与 4.x 不同的坐标系，详见 [坐标系](/manual/further-reading/coordinate)。
+G6 5.x 采用了与 4.x 不同的坐标系，详见 [坐标系](/zh/manual/further-reading/coordinate/)。
 
-<Badge type="error">移除</Badge> **setTextWaterMarker / setImageWaterMarker**
+**移除** **setTextWaterMarker / setImageWaterMarker**
 
-要使用水印功能，请参考 [水印](/manual/plugin/watermark)插件。
+要使用水印功能，请参考 [水印](/zh/manual/plugin/Watermark/)插件。
 
-<Badge type="warning">变更</Badge> **toFullDataURL**
+**变更** **toFullDataURL**
 
 使用 `toDataURL` 替代，指定参数为：`mode: 'overall'`
 
@@ -423,7 +423,7 @@ G6 5.x 采用了与 4.x 不同的坐标系，详见 [坐标系](/manual/further-
 graph.toDataURL({ mode: 'overall' });
 ```
 
-<Badge type="error">移除</Badge> **downloadFullImage / downloadImage**
+**移除** **downloadFullImage / downloadImage**
 
 仅提供导出为 `DataURL` 的能力，如需下载图片，请参考如下实例代码：
 
@@ -451,13 +451,13 @@ async function downloadImage() {
 }
 ```
 
-<Badge type="error">移除</Badge> **clear**
+**移除** **clear**
 
 使用 `setData` + `draw` 清空数据和画布。
 
 ### 扩展注册
 
-与 G6 4.x 不同，G6 5.x 使用的统一的扩展注册函数(register)，你可以参考 [注册扩展](/manual/graph/extension#注册扩展) 来注册 G6 扩展。
+与 G6 4.x 不同，G6 5.x 使用的统一的扩展注册函数(register)，你可以参考 [注册扩展](/zh/manual/graph/extension/#注册扩展) 来注册 G6 扩展。
 
 下列 G6 4.x 的注册函数已经废除：
 
@@ -506,4 +506,4 @@ async function downloadImage() {
   - graphstatechange 事件变更为 beforeelementstatechange / afterelementstatechange
   - viewportchange 事件变更为 beforetransform / aftertransform
 
-完整的事件列表请参考 [事件](/api/event)。
+完整的事件列表请参考 [事件](/zh/api/event/)。

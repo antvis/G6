@@ -36,8 +36,7 @@ import { connectImage, dispatchPositionChange } from '../shapes/image';
  * <en/> Base node style props
  */
 export interface BaseNodeStyleProps
-  extends
-    BaseShapeStyleProps,
+  extends BaseShapeStyleProps,
     Prefix<'label', NodeLabelStyleProps>,
     Prefix<'halo', BaseStyleProps>,
     Prefix<'icon', IconStyleProps>,

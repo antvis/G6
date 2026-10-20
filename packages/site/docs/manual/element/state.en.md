@@ -5,7 +5,7 @@ order: 2
 
 ## What is Element State
 
-<image width="500px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yVbORYybrDQAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="500px" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*yVbORYybrDQAAAAAAAAAAAAADmJ7AQ/original" />
 
 Element State refers to the visual representation of elements (nodes, edges, combos) in a graph under different interaction scenarios. For example, when a user clicks on a node, the node might enter a "selected" state and change color; when the mouse hovers over an edge, the edge might enter a "highlight" state and become bold.
 

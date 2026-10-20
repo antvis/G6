@@ -17,7 +17,7 @@ G6 的节点体系包括三大类：内置节点、扩展节点和自定义节�
 
 G6 提供了丰富的内置节点类型，**无需注册，直接配置即可使用**：
 
-<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TZt2S7Z0d-8AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TZt2S7Z0d-8AAAAAAAAAAAAADmJ7AQ/original" />
 
 | 节点类型   | 注册名称   | 描述                     |
 | ---------- | ---------- | ------------------------ |
@@ -34,7 +34,7 @@ G6 提供了丰富的内置节点类型，**无需注册，直接配置即可使
 
 ### 3D 节点
 
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ShNXTp0u3vkAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ShNXTp0u3vkAAAAAAAAAAAAADmJ7AQ/original" />
 
 `@antv/g6-extension-3d` 提供了 3D 节点：
 
@@ -48,9 +48,9 @@ G6 提供了丰富的内置节点类型，**无需注册，直接配置即可使
 
 ### React 节点
 
-<image width="350" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7jypQbkp00wAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="350" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7jypQbkp00wAAAAAAAAAAAAADmJ7AQ/original" />
 
-`@antv/g6-extension-react` 提供了 React 节点，支持使用 React 组件作为节点的主体，详细教程请查看 [使用 React 定义节点](/manual/element/node/react-node) 文档。
+`@antv/g6-extension-react` 提供了 React 节点，支持使用 React 组件作为节点的主体，详细教程请查看 [使用 React 定义节点](/zh/manual/element/node/react-node/) 文档。
 
 ### 自定义节点
 
@@ -59,7 +59,7 @@ G6 提供了丰富的内置节点类型，**无需注册，直接配置即可使
 - 继承内置节点进行扩展
 - 创建全新的节点类型
 
-与内置节点不同，**自定义节点需要先注册后使用**。详细教程请参考 [自定义节点](/manual/element/node/custom-node) 文档。
+与内置节点不同，**自定义节点需要先注册后使用**。详细教程请参考 [自定义节点](/zh/manual/element/node/custom-node/) 文档。
 
 ## 数据结构
 
@@ -197,7 +197,7 @@ graph.setElementState('node-1', ['selected']);
 更新节点时，只有指定的属性会被更新，未指定的属性保持不变。
 :::
 
-更多与节点相关的 API 请参考 [API - 元素操作](/api/element)。
+更多与节点相关的 API 请参考 [API - 元素操作](/zh/api/element/)。
 
 ## 节点状态
 
@@ -226,4 +226,4 @@ const graph = new Graph({
 });
 ```
 
-状态系统是实现节点交互效果的基础，更多状态的介绍，请参考 [元素状态](/manual/element/state)。
+状态系统是实现节点交互效果的基础，更多状态的介绍，请参考 [元素状态](/zh/manual/element/state/)。

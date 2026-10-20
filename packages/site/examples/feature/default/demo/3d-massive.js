@@ -8,7 +8,7 @@ register(ExtensionCategory.PLUGIN, 'camera-setting', CameraSetting);
 register(ExtensionCategory.BEHAVIOR, 'zoom-canvas-3d', ZoomCanvas3D);
 register(ExtensionCategory.BEHAVIOR, 'observe-canvas-3d', ObserveCanvas3D);
 
-fetch('https://assets.antv.antgroup.com/g6/eva-3d-data.json')
+await fetch('https://assets.antv.antgroup.com/g6/eva-3d-data.json')
   .then((res) => res.json())
   .then(({ nodes, edges }) => {
     const degree = new Map();
@@ -50,6 +50,8 @@ fetch('https://assets.antv.antgroup.com/g6/eva-3d-data.json')
       edge: {
         type: 'line3d',
         style: {
+          // Line3D joins centers directly; its self-edges must not use the 2D loop path.
+          loop: false,
           lineWidth: 0.4,
           opacity: 0.4,
           stroke: '#fff',
@@ -78,7 +80,7 @@ fetch('https://assets.antv.antgroup.com/g6/eva-3d-data.json')
       ],
     });
 
-    graph.draw().then(() => {
+    return graph.draw().then(() => {
       const camera = graph.getCanvas().getCamera();
       let frame;
       let counter = 0;

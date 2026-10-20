@@ -53,7 +53,33 @@ npm install babel-loader@8 @babel/preset-env @open-wc/webpack-import-meta-loader
 
 2. Modify the `webpack.config.js` configuration:
 
-<embed src="@/common/manual/feature/webpack4.md"></embed>
+```js
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index.js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+      {
+        test: /\.js$/,
+        loader: '@open-wc/webpack-import-meta-loader',
+      },
+    ],
+  },
+  mode: 'production',
+};
+```
 :::
 > This configuration is for a standard webpack project. If you are using vue-cli, you should REMOVE the `mode: 'production'` option as it is unnecessary.
 

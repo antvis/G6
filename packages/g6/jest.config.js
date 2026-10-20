@@ -3,7 +3,7 @@
 const esm = ['internmap', 'd3-*', 'lodash-es', 'chalk'].map((d) => `_${d}|${d}`).join('|');
 
 module.exports = {
-  testTimeout: 100000,
+  testTimeout: 30 * 1000,
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['./__tests__/setup.ts'],
   transform: {
@@ -21,7 +21,11 @@ module.exports = {
     '^.+\\.svg$': ['<rootDir>/__tests__/utils/svg-transformer.js'],
   },
   collectCoverageFrom: ['src/**/*.ts'],
-  coveragePathIgnorePatterns: ['<rootDir>/src/elements/nodes/html.ts', '<rootDir>/src/plugins/minimap', '<rootDir>/src/plugins/hull/(?!index\\.ts$).*'],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/src/elements/nodes/html.ts',
+    '<rootDir>/src/plugins/minimap',
+    '<rootDir>/src/plugins/hull/(?!index\\.ts$).*',
+  ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   collectCoverage: true,
   testRegex: '(/__tests__/.*\\.(test|spec))\\.(ts|tsx|js)$',

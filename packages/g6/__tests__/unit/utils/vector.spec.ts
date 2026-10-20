@@ -23,16 +23,19 @@ describe('Vector Functions', () => {
   it('add', () => {
     expect(add([0, 1], [2, 3])).toEqual([2, 4]);
     expect(add([0, 1, 3], [2, 3, 4])).toEqual([2, 4, 7]);
+    expect(add([0, 1], [2, 3, 0])).toEqual([2, 4]);
   });
 
   it('subtract', () => {
     expect(subtract([0, 1], [2, 3])).toEqual([-2, -2]);
     expect(subtract([0, 1, 3], [2, 3, 4])).toEqual([-2, -2, -1]);
+    expect(subtract([0, 1], [2, 3, 0])).toEqual([-2, -2]);
   });
 
   it('multiply', () => {
     expect(multiply([0, 1], [2, 3])).toEqual([0, 3]);
     expect(multiply([0, 1, 3], [2, 3, 4])).toEqual([0, 3, 12]);
+    expect(multiply([0, 1], [2, 3, 0])).toEqual([0, 3]);
     expect(multiply([0, 1], 2)).toEqual([0, 2]);
     expect(multiply([0, 1, 3], 2)).toEqual([0, 2, 6]);
   });
@@ -46,6 +49,7 @@ describe('Vector Functions', () => {
 
   it('dot', () => {
     expect(dot([0, 1], [2, 3])).toEqual(3);
+    expect(dot([0, 1, 0], [2, 3])).toEqual(3);
     expect(dot([0, 1, 3], [2, 3, 4])).toEqual(15);
   });
 
@@ -62,11 +66,13 @@ describe('Vector Functions', () => {
 
   it('distance', () => {
     expect(distance([0, 0], [3, 4])).toEqual(5);
+    expect(distance([0, 0, 0], [3, 4])).toEqual(5);
     expect(distance([0, 0, 0], [3, 4, 0])).toEqual(5);
   });
 
   it('manhattanDistance', () => {
     expect(manhattanDistance([0, 0], [3, 4])).toEqual(7);
+    expect(manhattanDistance([0, 0, 0], [3, 4])).toEqual(7);
     expect(manhattanDistance([0, 0, 0], [3, 4, 0])).toEqual(7);
   });
 
@@ -77,6 +83,7 @@ describe('Vector Functions', () => {
 
   it('angle', () => {
     expect(angle([1, 0], [0, 1])).toEqual(Math.PI / 2);
+    expect(angle([1, 0, 0], [0, 1])).toEqual(Math.PI / 2);
     expect(angle([1, 0], [-1, 0], true)).toEqual(Math.PI);
     expect(angle([1, 0], [0, -1], true)).toEqual((Math.PI * 3) / 2);
   });

@@ -5,7 +5,7 @@ order: 1
 
 ## Overview of Element Operations
 
-The [Element](/en/manual/element/overview) operation API in G6 allows you to control the behavior and attributes of elements such as nodes, edges, and Combos in the graph. These APIs can be used for:
+The [Element](/en/manual/element/overview/) operation API in G6 allows you to control the behavior and attributes of elements such as nodes, edges, and Combos in the graph. These APIs can be used for:
 
 1. **Element State Management**: Set, update, or remove the state of elements
 2. **Element Display Control**: Control the z-index and visibility of elements
@@ -309,7 +309,7 @@ setNode(node: NodeOptions): void;
 
 | Parameter | Description        | Type                                            | Default | Required |
 | --------- | ------------------ | ----------------------------------------------- | ------- | -------- |
-| node      | Node configuration | [NodeOptions](/en/manual/element/node/overview) | -       | ✓        |
+| node      | Node configuration | [NodeOptions](/en/manual/element/node/overview/) | -       | ✓        |
 
 **Example**:
 
@@ -334,7 +334,7 @@ setEdge(edge: EdgeOptions): void;
 
 | Parameter | Description        | Type                                            | Default | Required |
 | --------- | ------------------ | ----------------------------------------------- | ------- | -------- |
-| edge      | Edge configuration | [EdgeOptions](/en/manual/element/edge/overview) | -       | ✓        |
+| edge      | Edge configuration | [EdgeOptions](/en/manual/element/edge/overview/) | -       | ✓        |
 
 ### Graph.setCombo(combo)
 
@@ -348,7 +348,7 @@ setCombo(combo: ComboOptions): void;
 
 | Parameter | Description         | Type                                              | Default | Required |
 | --------- | ------------------- | ------------------------------------------------- | ------- | -------- |
-| combo     | Combo configuration | [ComboOptions](/en/manual/element/combo/overview) | -       | ✓        |
+| combo     | Combo configuration | [ComboOptions](/en/manual/element/combo/overview/) | -       | ✓        |
 
 ### Graph.collapseElement(id, options)
 

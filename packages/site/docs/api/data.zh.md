@@ -5,7 +5,7 @@ order: 0
 
 ## 数据操作概述
 
-G6 提供了一套全面的 [数据](/manual/data) 操作 API，覆盖了图数据从查询、修改到更新的完整生命周期。
+G6 提供了一套全面的 [数据](/zh/manual/data/) 操作 API，覆盖了图数据从查询、修改到更新的完整生命周期。
 
 ## API 参考
 
@@ -925,7 +925,7 @@ interface NodeData {
 }
 ```
 
-详细类型定义请参考 [节点数据](/manual/data#节点数据nodedata)。
+详细类型定义请参考 [节点数据](/zh/manual/data/#节点数据nodedata)。
 
 ### EdgeData
 
@@ -943,7 +943,7 @@ interface EdgeData {
 }
 ```
 
-详细类型定义请参考 [边数据](/manual/data#边数据edgedata)。
+详细类型定义请参考 [边数据](/zh/manual/data/#边数据edgedata)。
 
 ### ComboData
 
@@ -960,4 +960,4 @@ interface ComboData {
 }
 ```
 
-详细类型定义请参考 [组合数据](/manual/data#组合数据combodata)。
+详细类型定义请参考 [组合数据](/zh/manual/data/#组合数据combodata)。

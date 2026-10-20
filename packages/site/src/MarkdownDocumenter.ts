@@ -534,7 +534,10 @@ export class MarkdownDocumenter {
       const quoteText =
         '> ' +
         this._intl('base-props-style-tip', LocaleType.HELPER) +
-        this._getLinkInMarkdownFormat(baseStyleFileName, `./${baseStyleFileName}.${this._getLang()}.md`);
+        this._getLinkInMarkdownFormat(
+          baseStyleFileName,
+          `/${this._getLang()}/api/${pageData.group}/${baseStyleFileName}/`,
+        );
       output.appendNodeInParagraph(new DocText({ configuration, text: quoteText }));
     }
 
@@ -630,7 +633,7 @@ export class MarkdownDocumenter {
         configuration,
         title,
         level: 2,
-        prefix: isRequired ? '<Badge type="success">Required</Badge>' : '',
+        prefix: isRequired ? '**Required**' : '',
       }),
     );
 
@@ -856,7 +859,7 @@ icon{TextStyleProps} ${this._intl('prefix-description-2', LocaleType.HELPER)}
                   configuration,
                   title: Utilities.getConciseSignature(apiMember, true),
                   level: 2,
-                  prefix: (apiMember as ApiMethod).overloadIndex > 1 ? '<Badge type="warning">Overload</Badge>' : '',
+                  prefix: (apiMember as ApiMethod).overloadIndex > 1 ? '**Overload**' : '',
                 }),
               );
 
@@ -961,7 +964,18 @@ icon{TextStyleProps} ${this._intl('prefix-description-2', LocaleType.HELPER)}
       },
     });
 
-    const pageContent: string = await prettier.format(stringBuilder.toString(), { parser: 'markdown' });
+    let source = stringBuilder.toString();
+    if (source.includes('<Demo ')) {
+      filename = filename.replace(/\.md$/, '.mdx');
+      source = source
+        .split(/(```[\s\S]*?```|`[^`\n]+`|<Demo\s[^>]*\/>)/g)
+        .map((part, index) => (index % 2 ? part : part.replace(/(?<!\\)([{}])/g, '\\$1')))
+        .join('')
+        .replace(/<details><summary>/g, '<details>\n<summary>');
+      const importDemo = "import { Demo } from '@antv/astro-theme-antv/components';";
+      source = source.replace(/^(---[\s\S]*?\n---)/, `$1\n\n${importDemo}\n\n`);
+    }
+    const pageContent = await prettier.format(source, { parser: filename.endsWith('.mdx') ? 'mdx' : 'markdown' });
 
     FileSystem.ensureFolder(path.dirname(filename));
 
@@ -969,6 +983,8 @@ icon{TextStyleProps} ${this._intl('prefix-description-2', LocaleType.HELPER)}
       convertLineEndings: NewlineKind.CrLf,
     });
 
+    const alternateFilename = filename.endsWith('.mdx') ? filename.slice(0, -1) : `${filename}x`;
+    if (FileSystem.exists(alternateFilename)) FileSystem.deleteFile(alternateFilename);
     syncToGitignore(this._outputFolder, filename);
   }
 
@@ -2311,13 +2327,8 @@ icon{TextStyleProps} ${this._intl('prefix-description-2', LocaleType.HELPER)}
   }
 
   private _getLinkFilenameForApiItem(apiItem: ApiItem): string {
-    const relativeUrl: Record<number, string> = {
-      0: './',
-      1: '../reference/',
-      2: '../../reference/',
-    };
-    const prefix = relativeUrl[this.referenceLevel];
-    return prefix + this._getFilenameForApiItem(apiItem);
+    const slug = this._getFilenameForApiItem(apiItem).replace(/\.(zh|en)\.md$/, '');
+    return `/${this._getLang()}/api/reference/${slug}/`;
   }
 
   private _localizeSection(section: DocSection, language: LocaleLanguage): DocSection {
@@ -2381,9 +2392,7 @@ icon{TextStyleProps} ${this._intl('prefix-description-2', LocaleType.HELPER)}
 
     if (FileSystem.exists(demoPath)) {
       output.appendNode(
-        new DocParagraph({ configuration }, [
-          new DocText({ configuration, text: `<embed src="@/${demoPath}"></embed>` }),
-        ]),
+        new DocParagraph({ configuration }, [new DocText({ configuration, text: FileSystem.readFile(demoPath) })]),
       );
     }
   }

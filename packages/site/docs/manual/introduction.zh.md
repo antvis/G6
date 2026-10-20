@@ -1,7 +1,6 @@
 ---
 title: 简介
 order: 0
-sidebar: false
 ---
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
@@ -16,7 +15,7 @@ sidebar: false
 
 <h3 style="text-align: center;">AntV G6</h3>
 
-<h3 style="text-align: center;"><image width="500" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ" /></h3>
+<h3 style="text-align: center;"><img width="500" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ" /></h3>
 
 <p style="text-align: center;">G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等图可视化能力。旨在为开发者提供一套简单易用、专业可靠、可高度定制的图可视化开发工具</p>
 
@@ -34,13 +33,13 @@ sidebar: false
 
 <h4 style="text-align: center; color: #678ff3;">多色主题，适用多种场景</h4>
 
-<p style="text-align: center;"><image height="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QjJoSbD7GTwAAAAAAAAAAAAADmJ7AQ/original"></p>
+<p style="text-align: center;"><img height="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QjJoSbD7GTwAAAAAAAAAAAAADmJ7AQ/original"></p>
 
 <h4 style="text-align: center; color: #678ff3;">3D 场景</h4>
 
-<p style="text-align: center;"><image width="400" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IUOnSbLisyoAAAAAAAAAAAAADmJ7AQ/original"></p>
+<p style="text-align: center;"><img width="400" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IUOnSbLisyoAAAAAAAAAAAAADmJ7AQ/original"></p>
 
-<p style="text-align: center;"><image width="400" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*BK0OSYplirUAAAAAAAAAAAAADmJ7AQ/original"></p>
+<p style="text-align: center;"><img width="400" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*BK0OSYplirUAAAAAAAAAAAAADmJ7AQ/original"></p>
 
 <p style="text-align: center;">支持 3D 元素、布局，打造沉浸式的图可视化场景</p>
 
@@ -50,19 +49,19 @@ sidebar: false
 
 <h4 style="text-align: center; color: #678ff3;">仅需 3 分钟，开启 G6 之旅</h4>
 
-<p style="text-align: center;">点击进入👉 <a href="/manual/getting-started/quick-start">快速开始</a></p>
+<p style="text-align: center;">点击进入👉 <a href="/zh/manual/getting-started/quick-start/">快速开始</a></p>
 
 <div>
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YXHtRZUKAZcAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VChnTLySxScAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tqlbS7ukmYUAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*I5uDQZWTzMsAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*hnLoRJR8EvMAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8LqvQJ09-EEAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*UgMZS6vrUlgAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SDQKSb8gcxgAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ZC1CT7q0fM4AAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YMxxTZwt54UAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*h3eWT4loiTwAAAAAAAAAAAAADmJ7AQ/original" />
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*XTcoRKPMDloAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YXHtRZUKAZcAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*VChnTLySxScAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tqlbS7ukmYUAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*I5uDQZWTzMsAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*hnLoRJR8EvMAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*8LqvQJ09-EEAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*UgMZS6vrUlgAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SDQKSb8gcxgAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ZC1CT7q0fM4AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YMxxTZwt54UAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*h3eWT4loiTwAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*XTcoRKPMDloAAAAAAAAAAAAADmJ7AQ/original" />
 </div>

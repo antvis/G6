@@ -4,7 +4,7 @@ title: CameraSetting 相机设置
 
 ## 配置项
 
-### <Badge type="success">Required</Badge> type
+### **Required** type
 
 > _`camera-setting` \| string_
 

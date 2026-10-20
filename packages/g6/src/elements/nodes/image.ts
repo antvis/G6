@@ -3,7 +3,7 @@ import { ImageStyleProps as GImageStyleProps, Rect as GRect } from '@antv/g';
 import { ICON_SIZE_RATIO } from '../../constants/element';
 import { subStyleProps } from '../../utils/prefix';
 import { mergeOptions } from '../../utils/style';
-import { add } from '../../utils/vector';
+import { add, toVector2 } from '../../utils/vector';
 import type { IconStyleProps } from '../shapes';
 import { Image as ImageShape } from '../shapes';
 import { connectImage, dispatchPositionChange } from '../shapes/image';
@@ -67,7 +67,7 @@ export class Image extends BaseNode<ImageStyleProps> {
     const { fill: keyStyleFill, stroke: keyStyleStroke, ...keyStyle } = this.getShape<GRect>('key').attributes;
     const haloStyle = subStyleProps(this.getGraphicStyle(attributes), 'halo');
     const haloLineWidth = Number(haloStyle.lineWidth);
-    const [width, height] = add(this.getSize(attributes), [haloLineWidth, haloLineWidth]);
+    const [width, height] = add(toVector2(this.getSize(attributes)), [haloLineWidth, haloLineWidth]);
     const { lineWidth } = haloStyle;
     const recalculate = {
       fill: 'transparent',
