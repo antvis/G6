@@ -1,5 +1,5 @@
 import type { PathStyleProps } from '@antv/g';
-import { isBoolean, isEmpty, isEqual, isFunction } from '@antv/util';
+import { isBoolean, isEmpty, isEqual, isFunction, isNumber } from '@antv/util';
 import type { RuntimeContext } from '../runtime/types';
 import type { EdgeData } from '../spec';
 import type { EdgeStyle } from '../spec/element/edge';
@@ -178,7 +178,8 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
           style.loopPlacement = CUBIC_LOOP_PLACEMENTS[i % len];
           style.loopDist = Math.floor(i / len) * distance + 50;
         } else if (length === 1) {
-          return;
+          if (!hasCurveOffset(style.curveOffset)) return;
+          style.curveOffset = 0;
         } else {
           const sign = (i % 2 === 0 ? 1 : -1) * (reverses[`${edge.source}|${edge.target}|${i}`] ? -1 : 1);
           style.curveOffset =
@@ -264,6 +265,19 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
     });
   };
 }
+
+/**
+ * <zh/> 判断 `curveOffset` 是否存在非零值（即边处于弯曲状态）
+ *
+ * <en/> Determine whether `curveOffset` has a non-zero value (i.e. the edge is curved)
+ * @param curveOffset - <zh/> 曲线偏移量 | <en/> curve offset
+ * @returns <zh/> 是否弯曲 | <en/> whether it is curved
+ */
+const hasCurveOffset = (curveOffset: EdgeStyle['curveOffset']): boolean => {
+  if (isNumber(curveOffset)) return curveOffset !== 0;
+  if (Array.isArray(curveOffset)) return curveOffset.some((offset) => offset !== 0);
+  return false;
+};
 
 /**
  * <zh/> 优化的按照端点分组方法，时间复杂度O(n)
