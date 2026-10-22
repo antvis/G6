@@ -1,0 +1,1 @@
+import{r as e}from"./rolldown-runtime.XKyaHtl9.js";import{t}from"./react-dom.c_sf7UW_.js";var{render:n,unmountComponentAtNode:r}=e(t());function i(e,t){n(e,t)}function a(e){r(e)}export{i as render,a as unmount};

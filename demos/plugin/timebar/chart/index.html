@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-ry57oypm><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>plugin/timebar/chart</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/plugin/timebar/chart/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><style>/* Shared by initial previews, edited previews and exported projects.
+ * Keep this unscoped: demo nodes are created after the Astro document renders. */
+:root { color-scheme: light; }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #fff;
+  color: #1d2129;
+  font: 14px/1.5715 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#container canvas, #container svg { display: block; }
+</style><link rel="stylesheet" href="/assets/_..3PS0-ulb.css"></head><body data-demo-key="plugin/timebar/chart" data-astro-cid-ry57oypm><section id="demo-source" data-astro-cid-ry57oypm><h1 data-astro-cid-ry57oypm>plugin/timebar/chart</h1><p data-astro-cid-ry57oypm><a href="/zh/examples/plugin/timebar/chart/" data-astro-cid-ry57oypm>Example page</a></p><pre data-astro-cid-ry57oypm><code data-astro-cid-ry57oypm>import { Graph } from &#39;@antv/g6&#39;;
+
+const startTime = new Date(&#39;2023-08-01&#39;).getTime();
+const diff = 3600 * 24 * 1000;
+const timebarData = [10, 2, 3, 4, 15, 10, 5, 0, 3, 1].map((value, index) =&gt; ({
+  time: new Date(startTime + index * diff),
+  value,
+  label: new Date(startTime + index * diff).toLocaleString(),
+}));
+const graphData = {
+  nodes: new Array(49).fill(0).map((_, index) =&gt; ({
+    id: `node-${index}`,
+    data: {
+      timestamp: startTime + (index % 10) * diff,
+      value: index % 20,
+      label: new Date(startTime + (index % 10) * diff).toLocaleString(),
+    },
+  })),
+  edges: new Array(49).fill(0).map((_, i) =&gt; ({
+    id: `edge-${i}`,
+    source: `node-${i % 30}`,
+    target: `node-${(i % 20) + 29}`,
+    data: {
+      edgeType: &#39;e1&#39;,
+    },
+  })),
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: graphData,
+  behaviors: [&#39;drag-canvas&#39;, &#39;drag-element&#39;, &#39;zoom-canvas&#39;],
+  layout: {
+    type: &#39;grid&#39;,
+    cols: 7,
+  },
+  plugins: [
+    {
+      type: &#39;timebar&#39;,
+      key: &#39;timebar&#39;,
+      data: timebarData,
+      width: 450,
+      height: 100,
+      loop: true,
+      timebarType: &#39;chart&#39;,
+    },
+  ],
+  autoFit: &#39;view&#39;,
+  padding: [10, 0, 160, 0],
+});
+
+graph.render();
+</code></pre></section><div id="container" data-astro-cid-ry57oypm></div><pre id="demo-error" hidden data-astro-cid-ry57oypm></pre><script type="module" src="/assets/_...key_.astro_astro_type_script_index_0_lang.CYRAD-8e.js"></script></body></html>
