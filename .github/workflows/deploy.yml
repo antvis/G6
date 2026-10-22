@@ -13,7 +13,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 22.23.4
       - uses: pnpm/action-setup@v4
         with:
           version: 10
