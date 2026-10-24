@@ -4,6 +4,18 @@
       <g fill="none" class="elements">
         <g fill="none">
           <g>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m244.3154 216.8388-97.6308-19.6776" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m244.3154 216.8388-97.6308-19.6776" class="key"/>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
+            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="m275.5155 216.0924 103.969-26.1848" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="3" d="m275.5155 216.0924 103.969-26.1848" class="key"/>
+          </g>
+        </g>
+        <g fill="none">
+          <g>
             <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M258.2285 95.9984q15.77 53.7873 3.0659 102.1997" class="key"/>
             <path fill="none" stroke="transparent" stroke-width="3" d="M258.2285 95.9984q15.77 53.7873 3.0659 102.1997" class="key"/>
             <g transform="matrix(.25382 -.96725 .96725 .25382 261.2944 198.1981)">
@@ -150,18 +162,6 @@
           <g>
             <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M251.7022 233.6802q-15.877 55.099-57.4044 94.6396" class="key"/>
             <path fill="none" stroke="transparent" stroke-width="3" d="M251.7022 233.6802q-15.877 55.099-57.4044 94.6396" class="key"/>
-          </g>
-        </g>
-        <g fill="none">
-          <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M244.3154 216.8388q-48.8154-9.8388-97.6308-19.6776" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M244.3154 216.8388q-48.8154-9.8388-97.6308-19.6776" class="key"/>
-          </g>
-        </g>
-        <g fill="none">
-          <g>
-            <path fill="none" stroke="rgba(153,173,209,1)" stroke-width="1" d="M275.5155 216.0924q51.9845-13.0924 103.969-26.1848" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="3" d="M275.5155 216.0924q51.9845-13.0924 103.969-26.1848" class="key"/>
           </g>
         </g>
         <g fill="none">
