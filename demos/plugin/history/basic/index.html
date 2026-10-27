@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-ry57oypm><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>plugin/history/basic</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/plugin/history/basic/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><style>/* Shared by initial previews, edited previews and exported projects.
+ * Keep this unscoped: demo nodes are created after the Astro document renders. */
+:root { color-scheme: light; }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #fff;
+  color: #1d2129;
+  font: 14px/1.5715 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#container canvas, #container svg { display: block; }
+</style><link rel="stylesheet" href="/assets/_..3PS0-ulb.css"></head><body data-demo-key="plugin/history/basic" data-astro-cid-ry57oypm><section id="demo-source" data-astro-cid-ry57oypm><h1 data-astro-cid-ry57oypm>plugin/history/basic</h1><p data-astro-cid-ry57oypm><a href="/zh/examples/plugin/history/basic/" data-astro-cid-ry57oypm>Example page</a></p><pre data-astro-cid-ry57oypm><code data-astro-cid-ry57oypm>import { addPanel } from &#39;/demo-runtime.ts&#39;;
+
+import { Graph } from &#39;@antv/g6&#39;;
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data: {
+    nodes: [{ id: &#39;node-0&#39;, style: { x: 200, y: 150 } }],
+  },
+  node: {
+    style: {
+      size: 60,
+      labelText: &#39;Drag Me!&#39;,
+      labelPlacement: &#39;middle&#39;,
+      labelFill: &#39;#fff&#39;,
+    },
+  },
+  behaviors: [&#39;drag-element&#39;],
+  plugins: [
+    {
+      type: &#39;history&#39;,
+      key: &#39;history&#39;,
+    },
+  ],
+});
+
+graph.render().then(() =&gt; {
+  addPanel((gui) =&gt; {
+    const history = graph.getPluginInstance(&#39;history&#39;);
+    const config = {
+      undo: () =&gt; {
+        if (history.canUndo()) history.undo();
+      },
+      redo: () =&gt; {
+        if (history.canRedo()) history.redo();
+      },
+    };
+    gui.add(config, &#39;undo&#39;).name(&#39;⬅️ undo&#39;);
+    gui.add(config, &#39;redo&#39;).name(&#39;➡️ redo&#39;);
+  });
+});
+</code></pre></section><div id="container" data-astro-cid-ry57oypm></div><pre id="demo-error" hidden data-astro-cid-ry57oypm></pre><script type="module" src="/assets/_...key_.astro_astro_type_script_index_0_lang.CYRAD-8e.js"></script></body></html>

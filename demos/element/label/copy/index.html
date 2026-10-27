@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-ry57oypm><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>element/label/copy</title><link rel="canonical" href="https://g6.antv.antgroup.com/zh/examples/element/label/copy/"><script>
+      // Set the embedded layout before parsing the readable source below.
+      if (window.parent !== window) document.documentElement.classList.add('embedded-demo');
+    </script><style>/* Shared by initial previews, edited previews and exported projects.
+ * Keep this unscoped: demo nodes are created after the Astro document renders. */
+:root { color-scheme: light; }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #fff;
+  color: #1d2129;
+  font: 14px/1.5715 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#container canvas, #container svg { display: block; }
+</style><link rel="stylesheet" href="/assets/_..3PS0-ulb.css"></head><body data-demo-key="element/label/copy" data-astro-cid-ry57oypm><section id="demo-source" data-astro-cid-ry57oypm><h1 data-astro-cid-ry57oypm>element/label/copy</h1><p data-astro-cid-ry57oypm><a href="/zh/examples/element/label/copy/" data-astro-cid-ry57oypm>Example page</a></p><pre data-astro-cid-ry57oypm><code data-astro-cid-ry57oypm>import { Graph, NodeEvent } from &#39;@antv/g6&#39;;
+
+const data = {
+  nodes: [
+    {
+      id: &#39;node1&#39;,
+      data: {
+        label: &#39;Click to copy this label which is too long to be displayed&#39;,
+      },
+    },
+  ],
+};
+
+const graph = new Graph({
+  container: &#39;container&#39;,
+  data,
+  node: {
+    style: {
+      x: 200,
+      y: 200,
+      size: 150,
+      labelPlacement: &#39;center&#39;,
+      labelText: (d) =&gt; d.data.label,
+      labelWordWrap: true,
+      labelMaxWidth: &#39;90%&#39;,
+      labelBackground: true,
+      labelBackgroundFill: &#39;#eee&#39;,
+      labelBackgroundFillOpacity: 0.5,
+      labelBackgroundRadius: 4,
+      labelPointerEvents: &#39;none&#39;,
+      labelBackgroundPointerEvents: &#39;none&#39;,
+    },
+  },
+  behaviors: [&#39;drag-element&#39;],
+  plugins: [
+    {
+      type: &#39;tooltip&#39;,
+      getContent: (e, items) =&gt; {
+        let result = `&lt;h4&gt;Node Label:&lt;/h4&gt;`;
+        items.forEach((item) =&gt; {
+          result += `&lt;p&gt;${item.data.label}&lt;/p&gt;`;
+        });
+        return result;
+      },
+    },
+  ],
+});
+
+graph.render();
+
+graph.on(&#39;node:click&#39;, (e) =&gt; {
+  const node = graph.getNodeData(e.target.id);
+  const label = node?.data?.label;
+
+  navigator.clipboard.writeText(label);
+  alert(&#39;copied to clipboard!&#39;);
+});
+
+graph.on(NodeEvent.POINTER_ENTER, (e) =&gt; {
+  graph.setElementState({ [e.target.id]: &#39;active&#39; });
+});
+
+graph.on(NodeEvent.POINTER_OUT, (e) =&gt; {
+  graph.setElementState({ [e.target.id]: [] });
+});
+</code></pre></section><div id="container" data-astro-cid-ry57oypm></div><pre id="demo-error" hidden data-astro-cid-ry57oypm></pre><script type="module" src="/assets/_...key_.astro_astro_type_script_index_0_lang.CYRAD-8e.js"></script></body></html>
