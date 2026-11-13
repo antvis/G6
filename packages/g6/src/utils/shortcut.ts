@@ -123,12 +123,7 @@ export class Shortcut {
   private triggerExtendKey(eventType: CommonEvent, event: unknown) {
     this.map.forEach((handler, key) => {
       if (key.includes(eventType)) {
-        if (
-          isEqual(
-            Array.from(this.recordKey),
-            key.filter((k) => k !== eventType),
-          )
-        ) {
+        if (this.match(key.filter((k) => k !== eventType))) {
           handler(event);
         }
       }

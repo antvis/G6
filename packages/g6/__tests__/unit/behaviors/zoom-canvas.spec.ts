@@ -2,7 +2,7 @@ import type { Graph } from '@/src';
 import { CommonEvent, ContainerEvent } from '@/src';
 import type { ZoomCanvasOptions } from '@/src/behaviors/zoom-canvas';
 import { behaviorZoomCanvas } from '@@/demos';
-import { createDemoGraph } from '@@/utils';
+import { createDemoGraph, createGraph } from '@@/utils';
 
 describe('behavior zoom canvas', () => {
   let graph: Graph;
@@ -224,6 +224,20 @@ describe('behavior zoom canvas', () => {
     graph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
     graph.emit(CommonEvent.WHEEL, { deltaY: -10 });
     expect(graph.getZoom()).toBe(currentZoom * 1.1);
+  });
+
+  it('matches wheel modifiers independently of case and press order', async () => {
+    const localGraph = createGraph({ behaviors: [{ type: 'zoom-canvas', trigger: ['control', 'shift'] }] });
+    try {
+      await localGraph.render();
+      const currentZoom = localGraph.getZoom();
+      localGraph.emit(CommonEvent.KEY_DOWN, { key: 'Shift' });
+      localGraph.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+      localGraph.emit(CommonEvent.WHEEL, { deltaY: -10 });
+      expect(localGraph.getZoom()).toBeCloseTo(currentZoom * 1.1);
+    } finally {
+      localGraph.destroy();
+    }
   });
 
   it('zoom to canvas center', async () => {
