@@ -22,7 +22,7 @@ import {
   sortByX,
   toPointObject,
 } from '@/src/utils/point';
-import { Circle, Rect } from '@antv/g';
+import { Circle, Ellipse, Rect } from '@antv/g';
 
 describe('Point Functions', () => {
   it('parsePoint', () => {
@@ -145,6 +145,43 @@ describe('Point Functions', () => {
       },
     });
     expect(getEllipseIntersectPoint([100, 100], circle3.getBounds())).toEqual([120, 100]);
+  });
+
+  describe.each([false, true])('getEllipseIntersectPoint with extended line %s', (useExtendedLine) => {
+    it.each([
+      [100, 50, 200, 150],
+      [100, 50, -200, 150],
+      [100, 50, -200, -150],
+      [100, 50, 200, -150],
+      [50, 100, 200, 150],
+      [50, 100, -200, 150],
+      [50, 100, -200, -150],
+      [50, 100, 200, -150],
+    ])('intersects ellipse (%s, %s) along direction (%s, %s)', (rx, ry, dx, dy) => {
+      const cx = 40;
+      const cy = -30;
+      const ellipse = new Ellipse({ style: { cx, cy, rx, ry } });
+      const [x, y] = getEllipseIntersectPoint([cx + dx, cy + dy], ellipse.getBounds(), useExtendedLine);
+      const scale = (useExtendedLine ? -1 : 1) / Math.hypot(dx / rx, dy / ry);
+
+      expect(x).toBeCloseTo(cx + scale * dx);
+      expect(y).toBeCloseTo(cy + scale * dy);
+      expect((x - cx) * dy - (y - cy) * dx).toBeCloseTo(0);
+      expect(((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2).toBeCloseTo(1);
+    });
+  });
+
+  it.each([
+    [0, 50, 0, 150, 0, 50],
+    [0, 50, 0, -150, 0, -50],
+    [100, 0, 200, 0, 100, 0],
+    [100, 0, -200, 0, -100, 0],
+    [0, 0, 200, 150, 0, 0],
+  ])('preserves degenerate ellipse (%s, %s) in direction (%s, %s)', (rx, ry, dx, dy, x, y) => {
+    const ellipse = new Ellipse({ style: { rx, ry } });
+    const actual = getEllipseIntersectPoint([dx, dy], ellipse.getBounds());
+    expect(actual[0]).toBeCloseTo(x);
+    expect(actual[1]).toBeCloseTo(y);
   });
 
   it('getDiamondIntersectPoint', () => {
