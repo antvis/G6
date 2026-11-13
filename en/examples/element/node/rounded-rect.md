@@ -1,0 +1,98 @@
+---
+title: "Radius Rect"
+language: "en"
+canonical: "https://g6.antv.antgroup.com/en/examples/element/node/rounded-rect/"
+version: "5.1.1"
+---
+
+# Radius Rect
+
+[Live example](https://g6.antv.antgroup.com/en/examples/element/node/rounded-rect/)
+
+[Resource index](/llms.txt)
+
+Provide a DOM element with `id="container"`. The original example source follows.
+
+## Source
+
+```js
+import { Graph, iconfont } from '@antv/g6';
+
+const style = document.createElement('style');
+style.innerHTML = `@import url('${iconfont.css}');`;
+document.head.appendChild(style);
+
+const data = {
+  nodes: [
+    { id: 'default' },
+    { id: 'halo' },
+    { id: 'badges' },
+    { id: 'ports' },
+    {
+      id: 'active',
+      states: ['active'],
+    },
+    {
+      id: 'selected',
+      states: ['selected'],
+    },
+    {
+      id: 'highlight',
+      states: ['highlight'],
+    },
+    {
+      id: 'inactive',
+      states: ['inactive'],
+    },
+    {
+      id: 'disabled',
+      states: ['disabled'],
+    },
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data,
+  node: {
+    type: 'rect',
+    style: {
+      radius: 4, // 👈🏻 Set the radius.
+      size: 40,
+      labelText: (d) => d.id,
+      iconFontFamily: 'iconfont',
+      iconText: '\ue602',
+      halo: (d) => (d.id === 'halo' ? true : false),
+      badges: (d) =>
+        d.id === 'badges'
+          ? [
+              {
+                text: 'A',
+                placement: 'right-top',
+              },
+              {
+                text: 'Important',
+                placement: 'right',
+              },
+              {
+                text: 'Notice',
+                placement: 'right-bottom',
+              },
+            ]
+          : [],
+      badgeFontSize: 8,
+      badgePadding: [1, 4],
+      portR: 3,
+      ports: (d) =>
+        d.id === 'ports'
+          ? [{ placement: 'left' }, { placement: 'right' }, { placement: 'top' }, { placement: 'bottom' }]
+          : [],
+    },
+  },
+  layout: {
+    type: 'grid',
+  },
+});
+
+graph.render();
+```

@@ -1,0 +1,103 @@
+---
+title: "二次贝塞尔曲线"
+language: "zh"
+canonical: "https://g6.antv.antgroup.com/zh/examples/element/edge/quadratic/"
+version: "5.1.1"
+---
+
+# 二次贝塞尔曲线
+
+[运行示例](https://g6.antv.antgroup.com/zh/examples/element/edge/quadratic/)
+
+[资料索引](/llms.txt)
+
+页面需要一个 `id="container"` 的 DOM 元素。以下为原始示例源码。
+
+## 源码
+
+```js
+import { Graph, iconfont } from '@antv/g6';
+
+const style = document.createElement('style');
+style.innerHTML = `@import url('${iconfont.css}');`;
+document.head.appendChild(style);
+
+const data = {
+  nodes: [
+    {
+      id: 'node1',
+    },
+    {
+      id: 'node2',
+    },
+    {
+      id: 'node3',
+    },
+    {
+      id: 'node4',
+    },
+    {
+      id: 'node5',
+    },
+    {
+      id: 'node6',
+    },
+  ],
+  edges: [
+    {
+      id: 'line-default',
+      source: 'node1',
+      target: 'node2',
+    },
+    {
+      id: 'line-active',
+      source: 'node1',
+      target: 'node3',
+      states: ['active'],
+    },
+    {
+      id: 'line-selected',
+      source: 'node1',
+      target: 'node4',
+      states: ['selected'],
+    },
+    {
+      id: 'line-highlight',
+      source: 'node1',
+      target: 'node5',
+      states: ['highlight'],
+    },
+    {
+      id: 'line-inactive',
+      source: 'node1',
+      target: 'node6',
+      states: ['inactive'],
+    },
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  data,
+  edge: {
+    type: 'quadratic',
+    style: {
+      labelText: (d) => d.id,
+      labelBackground: true,
+      endArrow: true,
+      badge: true,
+      badgeText: '\ue603',
+      badgeFontFamily: 'iconfont',
+      badgeBackgroundWidth: 12,
+      badgeBackgroundHeight: 12,
+    },
+  },
+  layout: {
+    type: 'radial',
+    unitRadius: 220,
+    linkDistance: 220,
+  },
+});
+
+graph.render();
+```

@@ -1,0 +1,128 @@
+---
+title: "Dagre Layout"
+language: "en"
+canonical: "https://g6.antv.antgroup.com/en/examples/layout/dagre/antv-dagre/"
+version: "5.1.1"
+---
+
+# Dagre Layout
+
+[Live example](https://g6.antv.antgroup.com/en/examples/layout/dagre/antv-dagre/)
+
+[Resource index](/llms.txt)
+
+Provide a DOM element with `id="container"`. The original example source follows.
+
+## Source
+
+```js
+import { addPanel } from '/demo-runtime.ts';
+
+import { Graph } from '@antv/g6';
+
+const data = {
+  nodes: [
+    { id: '0' },
+    { id: '1' },
+    { id: '2' },
+    { id: '3' },
+    { id: '4' },
+    { id: '5' },
+    { id: '6' },
+    { id: '7' },
+    { id: '8' },
+    { id: '9' },
+  ],
+  edges: [
+    { source: '0', target: '1' },
+    { source: '0', target: '2' },
+    { source: '1', target: '4' },
+    { source: '0', target: '3' },
+    { source: '3', target: '4' },
+    { source: '4', target: '5' },
+    { source: '4', target: '6' },
+    { source: '5', target: '7' },
+    { source: '5', target: '8' },
+    { source: '8', target: '9' },
+    { source: '2', target: '9' },
+    { source: '3', target: '9' },
+  ],
+};
+
+const graph = new Graph({
+  container: 'container',
+  autoFit: 'view',
+  data,
+  layout: {
+    type: 'antv-dagre',
+    nodeSize: [60, 30],
+    nodesep: 60,
+    ranksep: 40,
+    controlPoints: true,
+  },
+  node: {
+    type: 'rect',
+    style: {
+      size: [60, 30],
+      radius: 8,
+      labelText: (d) => d.id,
+      labelBackground: true,
+    },
+  },
+  edge: {
+    type: 'polyline',
+  },
+  behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],
+});
+
+graph.render();
+
+addPanel((gui) => {
+  const config = { layout: 'default' };
+  const layouts = {
+    default: { type: 'antv-dagre', nodesep: 100, ranksep: 70, controlPoints: true },
+    LR: { type: 'antv-dagre', rankdir: 'LR', align: 'DL', nodesep: 50, ranksep: 70, controlPoints: true },
+    'LR&UL': { type: 'antv-dagre', rankdir: 'LR', align: 'UL', controlPoints: true, nodesep: 50, ranksep: 70 },
+  };
+
+  gui.add(config, 'layout', Object.keys(layouts)).onChange(async (layout) => {
+    graph.setLayout(layouts[layout]);
+    await graph.layout();
+    graph.fitCenter();
+  });
+});
+```
+
+## src/demo-runtime.ts
+
+```ts
+import { Graph } from '@antv/g6';
+import GUI from 'lil-gui';
+
+export function addPanel(renderPanel: (gui: GUI) => void) {
+  const gui = new GUI({ container: document.body });
+  gui.title('Control');
+  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
+  renderPanel(gui);
+  addEventListener('pagehide', () => gui.destroy(), { once: true });
+}
+
+export async function createGraph(
+  options: ConstructorParameters<typeof Graph>[0],
+  size: { width?: number; height?: number } = {},
+  renderPanel?: (gui: GUI, graph: Graph) => void,
+) {
+  const container = document.createElement('div');
+  Object.assign(container.style, {
+    width: '100%',
+    maxWidth: `${size.width || 600}px`,
+    height: `${size.height || 400}px`,
+  });
+  document.getElementById('container')!.append(container);
+  const graph = new Graph({ ...size, ...options, width: container.clientWidth, container, autoResize: true });
+  addEventListener('pagehide', () => graph.destroy(), { once: true });
+  await graph.render();
+  if (renderPanel) addPanel((gui) => renderPanel(gui, graph));
+  return container;
+}
+```

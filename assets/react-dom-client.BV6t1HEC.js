@@ -1,0 +1,1 @@
+import{r as e}from"./rolldown-runtime.XKyaHtl9.js";import{t}from"./client.C5yqT35c.js";var{createRoot:n,hydrateRoot:r,version:i}=e(t()).default;export{n as createRoot,r as hydrateRoot,i as version};
