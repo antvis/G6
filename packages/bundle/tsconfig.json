@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "declaration": false,
+    "sourceMap": false,
     "strict": true,
     "outDir": "lib",
     "paths": {
