@@ -1,6 +1,7 @@
 import { Point, type Graph } from '@/src';
+import { AutoAdaptLabel } from '@/src/behaviors';
 import { behaviorAutoAdaptLabel } from '@@/demos';
-import { createDemoGraph } from '@@/utils';
+import { createDemoGraph, sleep } from '@@/utils';
 
 describe('behavior auto adapt label', () => {
   let graph: Graph;
@@ -33,5 +34,25 @@ describe('behavior auto adapt label', () => {
     graph.zoomTo(3, false, origin);
     await expect(graph).toMatchSnapshot(__filename, 'zoom-3');
     graph.zoomTo(1, false, origin);
+  });
+
+  it('uses viewport filtering after the first render', async () => {
+    const getLabelElements = jest.spyOn(AutoAdaptLabel.prototype as any, 'getLabelElements');
+    const getLabelElementsInView = jest.spyOn(AutoAdaptLabel.prototype as any, 'getLabelElementsInView');
+    const testGraph = await createDemoGraph(behaviorAutoAdaptLabel, { animation: false });
+
+    try {
+      expect(getLabelElements).toHaveBeenCalled();
+      const callsAfterInitialRender = getLabelElementsInView.mock.calls.length;
+
+      testGraph.zoomTo(3, false, [200, 200, 0]);
+      await sleep(150);
+
+      expect(getLabelElementsInView.mock.calls.length).toBeGreaterThan(callsAfterInitialRender);
+    } finally {
+      getLabelElements.mockRestore();
+      getLabelElementsInView.mockRestore();
+      testGraph.destroy();
+    }
   });
 });
