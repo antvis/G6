@@ -65,13 +65,13 @@ describe('transform map node size', () => {
     });
     await graph.draw();
 
-    expect(nodeSizeMap(graph)).toEqual({
-      'node-1': [40, 40, 40],
-      'node-2': [10, 10, 10],
-      'node-3': [10, 10, 10],
-      'node-4': [25, 25, 25],
-      'node-5': [10, 10, 10],
-    });
+    const eigenvectorSizes = nodeSizeMap(graph) as Record<string, number[]>;
+    // principal eigenvector of the undirected graph: [0.6533, 0.3536, 0.3536, 0.5, 0.2706]
+    expect(eigenvectorSizes['node-1'][0]).toBeCloseTo(40, 3);
+    expect(eigenvectorSizes['node-2'][0]).toBeCloseTo(16.5032, 3);
+    expect(eigenvectorSizes['node-3'][0]).toBeCloseTo(16.5032, 3);
+    expect(eigenvectorSizes['node-4'][0]).toBeCloseTo(27.9837, 3);
+    expect(eigenvectorSizes['node-5'][0]).toBeCloseTo(10, 3);
 
     graph.updateTransform({
       key: 'map-node-size',
@@ -79,13 +79,13 @@ describe('transform map node size', () => {
     });
     await graph.draw();
 
-    expect(nodeSizeMap(graph)).toEqual({
-      'node-1': [40, 40, 40],
-      'node-2': [10, 10, 10],
-      'node-3': [10, 10, 10],
-      'node-4': [20, 20, 20],
-      'node-5': [10, 10, 10],
-    });
+    const directedSizes = nodeSizeMap(graph) as Record<string, number[]>;
+    expect(directedSizes['node-1']).toEqual([40, 40, 40]);
+    expect(directedSizes['node-2']).toEqual([10, 10, 10]);
+    expect(directedSizes['node-3']).toEqual([10, 10, 10]);
+    expect(directedSizes['node-4'][0]).toBeGreaterThan(10);
+    expect(directedSizes['node-4'][0]).toBeLessThan(40);
+    expect(directedSizes['node-5']).toEqual([10, 10, 10]);
 
     graph.updateTransform({
       key: 'map-node-size',

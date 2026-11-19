@@ -190,7 +190,10 @@ const powerIteration = (matrix: number[][], numNodes: number, maxIterations = 10
   for (let iter = 0; iter < maxIterations && diff > tolerance; iter++) {
     const newEigenvector = Array(numNodes).fill(0);
 
+    // Iterate on (A + I): same principal eigenvector as A, but it does not
+    // oscillate on bipartite graphs such as trees and stars.
     for (let i = 0; i < numNodes; i++) {
+      newEigenvector[i] = eigenvector[i];
       for (let j = 0; j < numNodes; j++) {
         newEigenvector[i] += matrix[i][j] * eigenvector[j];
       }
@@ -201,7 +204,7 @@ const powerIteration = (matrix: number[][], numNodes: number, maxIterations = 10
       newEigenvector[i] /= norm;
     }
 
-    diff = Math.sqrt(newEigenvector.reduce((sum, val, index) => sum + (val - eigenvector[index]) * val, 0));
+    diff = Math.sqrt(newEigenvector.reduce((sum, val, index) => sum + (val - eigenvector[index]) ** 2, 0));
     eigenvector = newEigenvector;
   }
 
