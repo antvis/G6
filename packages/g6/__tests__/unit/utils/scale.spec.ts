@@ -26,4 +26,11 @@ describe('scale', () => {
     expect(sqrt(0.25, [0, 1], [0, 100])).toEqual(50);
     expect(sqrt(1, [0, 1], [0, 100])).toEqual(100);
   });
+
+  it('returns the range start when the domain is a single value', () => {
+    expect(linear(5, [5, 5], [10, 40])).toEqual(10);
+    expect(log(5, [5, 5], [10, 40])).toEqual(10);
+    expect(pow(5, [5, 5], [10, 40])).toEqual(10);
+    expect(sqrt(5, [5, 5], [10, 40])).toEqual(10);
+  });
 });
