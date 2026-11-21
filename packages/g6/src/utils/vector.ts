@@ -171,10 +171,12 @@ export function normalize(a: Vector2 | Vector3): Vector2 | Vector3 {
 export function angle(a: Vector2 | Vector3, b: Vector2 | Vector3, clockwise = false): number {
   [a, b] = padVectors(a, b);
   const determinant = a[0] * b[1] - a[1] * b[0];
-  let angle = Math.acos(
+  const cos =
     (multiply(a, b) as number[]).reduce((sum: number, v: number) => sum + v, 0) /
-      (distance(a, VECTOR_ZERO) * distance(b, VECTOR_ZERO)),
-  );
+    (distance(a, VECTOR_ZERO) * distance(b, VECTOR_ZERO));
+  // Rounding can push the cosine of parallel or opposite vectors just past 1 or -1,
+  // where Math.acos returns NaN
+  let angle = Math.acos(Math.min(1, Math.max(-1, cos)));
   // If clockwise is true and determinant is negative, adjust the angle
   if (clockwise && determinant < 0) {
     angle = 2 * Math.PI - angle;
