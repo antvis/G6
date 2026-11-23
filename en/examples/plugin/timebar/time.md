@@ -1,0 +1,69 @@
+---
+title: "Time Mode"
+language: "en"
+canonical: "https://g6.antv.antgroup.com/en/examples/plugin/timebar/time/"
+version: "5.1.1"
+---
+
+# Time Mode
+
+[Live example](https://g6.antv.antgroup.com/en/examples/plugin/timebar/time/)
+
+[Resource index](/llms.txt)
+
+Provide a DOM element with `id="container"`. The original example source follows.
+
+## Source
+
+```js
+import { Graph } from '@antv/g6';
+
+const startTime = new Date('2023-08-01').getTime();
+const diff = 3600 * 24 * 1000;
+const timebarData = [10, 2, 3, 4, 15, 10, 5, 0, 3, 1].map((value, index) => ({
+  time: new Date(startTime + index * diff),
+  value,
+  label: new Date(startTime + index * diff).toLocaleString(),
+}));
+const graphData = {
+  nodes: new Array(49).fill(0).map((_, index) => ({
+    id: `node-${index}`,
+    data: {
+      timestamp: startTime + (index % 10) * diff,
+      value: index % 20,
+      label: new Date(startTime + (index % 10) * diff).toLocaleString(),
+    },
+  })),
+  edges: new Array(49).fill(0).map((_, i) => ({
+    id: `edge-${i}`,
+    source: `node-${i % 30}`,
+    target: `node-${(i % 20) + 29}`,
+    data: {
+      edgeType: 'e1',
+    },
+  })),
+};
+
+const graph = new Graph({
+  container: 'container',
+  data: graphData,
+  behaviors: ['drag-canvas', 'drag-element', 'zoom-canvas'],
+  layout: {
+    type: 'grid',
+    cols: 7,
+  },
+  plugins: [
+    {
+      type: 'timebar',
+      key: 'timebar',
+      data: timebarData,
+      width: 450,
+      loop: true,
+    },
+  ],
+  autoFit: 'view',
+  padding: [10, 0, 65, 0],
+});
+
+graph.render();
+```

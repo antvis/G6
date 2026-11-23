@@ -1,0 +1,163 @@
+---
+title: "Custom Fisheye"
+language: "en"
+canonical: "https://g6.antv.antgroup.com/en/examples/plugin/fisheye/custom/"
+version: "5.1.1"
+---
+
+# Custom Fisheye
+
+[Live example](https://g6.antv.antgroup.com/en/examples/plugin/fisheye/custom/)
+
+[Resource index](/llms.txt)
+
+Provide a DOM element with `id="container"`. The original example source follows.
+
+## Source
+
+```js
+import { addPanel } from '/demo-runtime.ts';
+
+import { Graph, iconfont } from '@antv/g6';
+
+const style = document.createElement('style');
+style.innerHTML = `@import url('${iconfont.css}');`;
+document.head.appendChild(style);
+
+fetch('https://assets.antv.antgroup.com/g6/relations.json')
+  .then((res) => res.json())
+  .then((data) => {
+    const graph = new Graph({
+      container: 'container',
+      autoFit: 'view',
+      data,
+      node: {
+        style: {
+          size: (datum) => datum.id.length * 2 + 10,
+          label: false,
+          labelText: (datum) => datum.id,
+          labelBackground: true,
+          icon: false,
+          iconFontFamily: 'iconfont',
+          iconText: '\ue6f6',
+          iconFill: '#fff',
+        },
+        palette: {
+          type: 'group',
+          field: (datum) => datum.id,
+          color: ['#1783FF', '#00C9C9', '#F08F56', '#D580FF'],
+        },
+      },
+      edge: {
+        style: {
+          stroke: '#e2e2e2',
+        },
+      },
+      plugins: [
+        {
+          key: 'fisheye',
+          type: 'fisheye',
+          trigger: 'click',
+          scaleRBy: 'wheel',
+          scaleDBy: 'drag',
+          style: { fill: '#F08F56', stroke: '#666', lineDash: [5, 5] },
+          nodeStyle: { label: true, icon: true },
+        },
+      ],
+    });
+    graph.render();
+
+    const config = {
+      trigger: 'click',
+      scaleRBy: 'wheel',
+      scaleDBy: 'drag',
+      showDPercent: true,
+      borderless: true,
+    };
+
+    addPanel((gui) => {
+      gui
+        .add(config, 'trigger', ['pointermove', 'click', 'drag'])
+        .name('Trigger')
+        .onChange((value) => {
+          graph.updatePlugin({
+            key: 'fisheye',
+            trigger: value,
+          });
+        });
+      gui
+        .add(config, 'scaleRBy', ['wheel', 'drag', 'unset'])
+        .name('Scale R by')
+        .onChange((value) => {
+          graph.updatePlugin({
+            key: 'fisheye',
+            scaleRBy: value,
+          });
+        });
+      gui
+        .add(config, 'scaleDBy', ['wheel', 'drag', 'unset'])
+        .name('Scale D by')
+        .onChange((value) => {
+          graph.updatePlugin({
+            key: 'fisheye',
+            scaleDBy: value,
+          });
+        });
+      gui
+        .add(config, 'showDPercent')
+        .name('Show D Percent')
+        .onChange((value) => {
+          graph.updatePlugin({
+            key: 'fisheye',
+            showDPercent: value,
+          });
+        });
+      gui
+        .add(config, 'borderless')
+        .name('Borderless')
+        .onChange((value) => {
+          const style = value
+            ? { fill: 'transparent', lineDash: 0, stroke: 'transparent' }
+            : { fill: '#F08F56', lineDash: [5, 5], stroke: '#666' };
+          graph.updatePlugin({
+            key: 'fisheye',
+            style,
+          });
+        });
+    });
+  });
+```
+
+## src/demo-runtime.ts
+
+```ts
+import { Graph } from '@antv/g6';
+import GUI from 'lil-gui';
+
+export function addPanel(renderPanel: (gui: GUI) => void) {
+  const gui = new GUI({ container: document.body });
+  gui.title('Control');
+  Object.assign(gui.domElement.style, { position: 'absolute', top: '0', right: '0', zIndex: '10' });
+  renderPanel(gui);
+  addEventListener('pagehide', () => gui.destroy(), { once: true });
+}
+
+export async function createGraph(
+  options: ConstructorParameters<typeof Graph>[0],
+  size: { width?: number; height?: number } = {},
+  renderPanel?: (gui: GUI, graph: Graph) => void,
+) {
+  const container = document.createElement('div');
+  Object.assign(container.style, {
+    width: '100%',
+    maxWidth: `${size.width || 600}px`,
+    height: `${size.height || 400}px`,
+  });
+  document.getElementById('container')!.append(container);
+  const graph = new Graph({ ...size, ...options, width: container.clientWidth, container, autoResize: true });
+  addEventListener('pagehide', () => graph.destroy(), { once: true });
+  await graph.render();
+  if (renderPanel) addPanel((gui) => renderPanel(gui, graph));
+  return container;
+}
+```
