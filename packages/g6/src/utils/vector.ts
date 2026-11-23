@@ -173,7 +173,7 @@ export function angle(a: Vector2 | Vector3, b: Vector2 | Vector3, clockwise = fa
   const determinant = a[0] * b[1] - a[1] * b[0];
   const cos =
     (multiply(a, b) as number[]).reduce((sum: number, v: number) => sum + v, 0) /
-      (distance(a, VECTOR_ZERO) * distance(b, VECTOR_ZERO));
+    (distance(a, VECTOR_ZERO) * distance(b, VECTOR_ZERO));
   // Rounding can push the cosine of parallel or opposite vectors just past 1 or -1,
   // where Math.acos returns NaN
   let angle = Math.acos(Math.min(1, Math.max(-1, cos)));
