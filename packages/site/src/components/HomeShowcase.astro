@@ -125,11 +125,13 @@ const text = (value: string | { zh?: string; en?: string } | undefined) => typeo
     </div>
   </g6-case-carousel>
 </section>
-<section class="bg-white px-5 py-20 mobile:px-4 mobile:py-12" aria-labelledby="g6-companies">
-  <h2 id="g6-companies" class="m-0 mb-12 text-center text-[37.996px] leading-[1.5715] font-medium [@media(width<=768px)]:text-[30.4px] text-[#262626]">{locale === 'zh' ? '感谢信赖' : 'Trusted by'}</h2>
-  <ul class="mx-auto flex max-w-[1000px] list-none flex-wrap items-center justify-center gap-x-12 gap-y-8 p-0 mobile:gap-5">
-    {companies.map(company => <li><img src={company.img} alt={company.name} loading="lazy" width="165" height="57" class="h-[57px] w-[165px] object-contain mobile:w-[145px]" /></li>)}
-  </ul>
+<section class="bg-white px-10 pt-[118px] pb-[72px] max-[900px]:px-6 max-[900px]:py-14" aria-labelledby="g6-companies">
+  <div class="mx-auto max-w-[1440px]">
+    <h2 id="g6-companies" class="m-0 text-center text-[38px] leading-[1.5715] font-medium text-[#262626] max-[600px]:text-[28px]">{locale === 'zh' ? '感谢信赖' : 'Trusted by'}</h2>
+    <ul class="mt-[60px] mb-0 grid list-none grid-cols-4 items-center gap-x-12 gap-y-[34px] p-0 max-[900px]:grid-cols-2 max-[600px]:gap-6">
+      {companies.map(company => <li class="flex justify-center"><img src={company.img} alt={company.name} loading="lazy" width="165" height="57" class="h-auto w-[207px] max-w-full object-contain" /></li>)}
+    </ul>
+  </div>
 </section>
 
 <script>
