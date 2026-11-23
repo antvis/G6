@@ -129,4 +129,57 @@ describe('shortcut', () => {
     emitter.emit(CommonEvent.WHEEL, { deltaX: 0, deltaY: 10 });
     expect(wheel).toHaveBeenCalledTimes(2);
   });
+
+  describe.each([CommonEvent.WHEEL, CommonEvent.DRAG])('%s modifier matching', (eventType) => {
+    it.each([
+      ['Shift', 'Control'],
+      ['Control', 'Shift'],
+    ])('matches regardless of modifier press order: %s then %s', (first, second) => {
+      const localEmitter = new EventEmitter();
+      const localShortcut = new Shortcut(localEmitter);
+      const handler = jest.fn();
+      const keys = ['Control', 'Shift', eventType];
+      localShortcut.bind(keys, handler);
+
+      try {
+        localEmitter.emit(CommonEvent.KEY_DOWN, { key: first });
+        localEmitter.emit(CommonEvent.KEY_DOWN, { key: second });
+        localEmitter.emit(eventType, { type: eventType });
+        expect(handler).toHaveBeenCalledTimes(1);
+        expect(keys).toEqual(['Control', 'Shift', eventType]);
+      } finally {
+        localShortcut.destroy();
+        localEmitter.off();
+      }
+    });
+
+    it('matches lowercase modifiers and rejects missing or extra keys', () => {
+      const localEmitter = new EventEmitter();
+      const localShortcut = new Shortcut(localEmitter);
+      const handler = jest.fn();
+      localShortcut.bind(['control', 'shift', eventType], handler);
+
+      const emit = () => {
+        localEmitter.emit(eventType, { type: eventType });
+      };
+
+      try {
+        localEmitter.emit(CommonEvent.KEY_DOWN, { key: 'Control' });
+        emit();
+        expect(handler).not.toHaveBeenCalled();
+        localEmitter.emit(CommonEvent.KEY_DOWN, { key: 'Shift' });
+        emit();
+        expect(handler).toHaveBeenCalledTimes(1);
+        localEmitter.emit(CommonEvent.KEY_DOWN, { key: 'Alt' });
+        emit();
+        expect(handler).toHaveBeenCalledTimes(1);
+        localEmitter.emit(CommonEvent.KEY_UP, { key: 'Alt' });
+        emit();
+        expect(handler).toHaveBeenCalledTimes(2);
+      } finally {
+        localShortcut.destroy();
+        localEmitter.off();
+      }
+    });
+  });
 });
