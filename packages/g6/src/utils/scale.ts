@@ -30,6 +30,8 @@ export const log = (value: number, domain: [number, number], range: [number, num
   const [d0, d1] = domain;
   const [r0, r1] = range;
 
+  if (d1 === d0) return r0;
+
   const ratio = Math.log(value - d0 + 1) / Math.log(d1 - d0 + 1);
   return r0 + ratio * (r1 - r0);
 };
@@ -48,6 +50,8 @@ export const pow = (value: number, domain: [number, number], range: [number, num
   const [d0, d1] = domain;
   const [r0, r1] = range;
 
+  if (d1 === d0) return r0;
+
   const ratio = Math.pow((value - d0) / (d1 - d0), exponent);
   return r0 + ratio * (r1 - r0);
 };
@@ -64,6 +68,8 @@ export const pow = (value: number, domain: [number, number], range: [number, num
 export const sqrt = (value: number, domain: [number, number], range: [number, number]) => {
   const [d0, d1] = domain;
   const [r0, r1] = range;
+
+  if (d1 === d0) return r0;
 
   const ratio = Math.sqrt((value - d0) / (d1 - d0));
   return r0 + ratio * (r1 - r0);
