@@ -9,7 +9,7 @@ In graph visualization, the size of a node is usually used to convey the importa
 
 ### centrality
 
-> [NodeCentralityOptions](#nodecentralityoptions) _\| ((graphData:_ [GraphData](/manual/core-concept/data#图数据graphdata)_) =>_ _Map**&lt;**string, number>)_ **Default:** `type: 'eigenvector'`
+> [NodeCentralityOptions](#nodecentralityoptions) _\| ((graphData:_ [GraphData](/en/manual/data/#图数据graphdata)_) =>_ _Map**&lt;**string, number>)_ **Default:** `type: 'eigenvector'`
 
 The method of measuring the node centrality
 

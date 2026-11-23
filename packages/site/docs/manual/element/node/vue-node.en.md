@@ -17,7 +17,7 @@ In G6, custom nodes typically require manipulating DOM or Canvas elements, but w
 - Scenarios requiring efficient rendering of more than 2,000 nodes
 - Need to directly manipulate graphic instances for fine control
 
-> For detailed information on how to customize nodes using Canvas graphics, please refer to the [Custom Node](/en/manual/element/node/custom-node) documentation
+> For detailed information on how to customize nodes using Canvas graphics, please refer to the [Custom Node](/en/manual/element/node/custom-node/) documentation
 
 ### Vue Node
 

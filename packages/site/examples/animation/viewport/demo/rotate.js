@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph } from '@antv/g6';
 
 fetch('https://assets.antv.antgroup.com/g6/force.json')
@@ -13,7 +15,7 @@ fetch('https://assets.antv.antgroup.com/g6/force.json')
 
     graph.render();
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       const animation = {
         duration: 500,
         easing: 'linear',

@@ -3,7 +3,7 @@ title: Atomic Shapes and Their Properties
 order: 2
 ---
 
-Elements (nodes/edges) in G6 are composed of **one or more [shapes](/en/manual/element/shape/overview)**, mainly added via `upsert` in the `render` method when customizing nodes or edges. G6 supports the following shapes:
+Elements (nodes/edges) in G6 are composed of **one or more [shapes](/en/manual/element/shape/overview/)**, mainly added via `upsert` in the `render` method when customizing nodes or edges. G6 supports the following shapes:
 
 1. [Circle](#circlestyleprops)
 2. [Ellipse](#ellipsestyleprops)

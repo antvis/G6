@@ -7,7 +7,7 @@ order: 8
 
 Behavior is a core building block of G6, precisely defining the interaction between users and the graph. Each Behavior plugin is a highly encapsulated functional unit, integrating event listening, state management, and response handling logic for specific scenarios.
 
-G6's built-in Behaviors cover most common interaction needs and provide a flexible extension mechanism, allowing developers to create customized interaction experiences based on business scenarios. For a complete list of behavior types, configuration options, and development examples, please refer to the [Behavior Overview](/en/manual/behavior/overview) section.
+G6's built-in Behaviors cover most common interaction needs and provide a flexible extension mechanism, allowing developers to create customized interaction experiences based on business scenarios. For a complete list of behavior types, configuration options, and development examples, please refer to the [Behavior Overview](/en/manual/behavior/overview/) section.
 
 ## API Reference
 

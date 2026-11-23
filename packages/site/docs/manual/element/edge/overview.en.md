@@ -9,7 +9,7 @@ An edge is one of the basic elements in a graph, used to connect two nodes or co
 
 You can create edges between any two nodes, combos, or between a node and a combo, and you can express different types of relationships by creating multiple edges.
 
-<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YKN7TasqOh4AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*YKN7TasqOh4AAAAAAAAAAAAADmJ7AQ/original" />
 
 G6 provides the following built-in edges:
 
@@ -140,4 +140,4 @@ When built-in edges cannot meet the requirements, G6 provides powerful customiza
 - Extend built-in edges
 - Create entirely new edge types
 
-Unlike combos, custom edges need to be registered before use. For detailed tutorials, please refer to the [Custom Edge](/manual/element/edge/custom-edge) documentation.
+Unlike combos, custom edges need to be registered before use. For detailed tutorials, please refer to the [Custom Edge](/en/manual/element/edge/custom-edge/) documentation.

@@ -7,21 +7,21 @@ order: 1
 
 Shape 指 G6 中的图形、形状，可以是圆形、矩形、路径等。它一般与 G6 中的节点、边、Combo 相关。**💡 G6 中的每一种节点/边/Combo 都是由一个或多个 Shape 组合而成。节点、边、Combo 的样式配置都会被体现到对应的图形上。**
 
-例如下图（左）的节点包含了一个圆形图形；下图（中）的节点含有一个圆形和一个文本图形；下图（右）的节点中含有 5 个圆形（蓝绿色的圆和上下左右四个锚点）、一个文本图形。但每种节点/边/Combo 都会有自己的唯一关键图形 keyShape，下图中三个节点的 keyShape 都是蓝绿色的圆，keyShape 主要用于交互检测、样式随 [元素状态](/manual/element/state) 自动更新等，见 [keyShape](#keyshape)。
+例如下图（左）的节点包含了一个圆形图形；下图（中）的节点含有一个圆形和一个文本图形；下图（右）的节点中含有 5 个圆形（蓝绿色的圆和上下左右四个锚点）、一个文本图形。但每种节点/边/Combo 都会有自己的唯一关键图形 keyShape，下图中三个节点的 keyShape 都是蓝绿色的圆，keyShape 主要用于交互检测、样式随 [元素状态](/zh/manual/element/state/) 自动更新等，见 [keyShape](#keyshape)。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50 alt='img'/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50 alt='img'/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50 alt='img'/>
 
 > （左）只含有一个圆形图形的节点，keyShape 是该圆形。（中）含有圆形和文本图形的节点，keyShape 是圆形。（右）含有主要圆形、文本、上下左右四个小圆形的节点，keyShape 是圆形。
 
-G6 使用不同的 shape 组合，设计了多种内置的节点/边/ Combo 。G6 内置节点的有 'circle'， 'rect'，'ellipse'，...（详见 [内置节点](/manual/element/node/base-node)）；内置边的有 'line'，'polyline'，'cubic'，...（详见 [内置边](/manual/element/edge/base-edge)）；内置 Combo 有 'circle'，'rect'，（详见 [内置 Combo](/manual/element/combo/base-combo)）。
+G6 使用不同的 shape 组合，设计了多种内置的节点/边/ Combo 。G6 内置节点的有 'circle'， 'rect'，'ellipse'，...（详见 [内置节点](/zh/manual/element/node/BaseNode/)）；内置边的有 'line'，'polyline'，'cubic'，...（详见 [内置边](/zh/manual/element/edge/BaseEdge/)）；内置 Combo 有 'circle'，'rect'，（详见 [内置 Combo](/zh/manual/element/combo/BaseCombo/)）。
 
-除了使用内置的节点/边/ Combo 外，G6 还允许用户通过自己搭配和组合 shape 进行节点/边/ Combo 的自定义，详见 [自定义节点](/manual/element/node/custom-node)，[自定义边](/manual/element/edge/custom-edge)，[自定义 Combo](/manual/element/combo/custom-combo)。
+除了使用内置的节点/边/ Combo 外，G6 还允许用户通过自己搭配和组合 shape 进行节点/边/ Combo 的自定义，详见 [自定义节点](/zh/manual/element/node/custom-node/)，[自定义边](/zh/manual/element/edge/custom-edge/)，[自定义 Combo](/zh/manual/element/combo/custom-combo/)。
 
 ## KeyShape
 
 在 G6 中，每个节点、边、Combo 都由一个或多个 Shape 组成，但其中有一个 Shape 被称为 keyShape，它是该元素的“关键图形”：
 
-<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TZt2S7Z0d-8AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TZt2S7Z0d-8AAAAAAAAAAAAADmJ7AQ/original" />
 
 > 节点的关键图形就是上图的颜色区域
 
@@ -43,7 +43,7 @@ G6 使用不同的 shape 组合，设计了多种内置的节点/边/ Combo 。G
 
 ## Shape 的生命周期
 
-> 当用户需要 [自定义节点](/manual/element/node/custom-node)、[自定义边](/manual/element/edge/custom-edge)、[自定义 Combo](/manual/element/combo/custom-combo) 时，需要了解 Shape 的生命周期。使用内置节点/边/Combo 则可以跳过这一部分内容。
+> 当用户需要 [自定义节点](/zh/manual/element/node/custom-node/)、[自定义边](/zh/manual/element/edge/custom-edge/)、[自定义 Combo](/zh/manual/element/combo/custom-combo/) 时，需要了解 Shape 的生命周期。使用内置节点/边/Combo 则可以跳过这一部分内容。
 
 从整体来看，Shape 的生命周期分为：
 

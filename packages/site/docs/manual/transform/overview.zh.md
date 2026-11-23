@@ -78,13 +78,13 @@ export abstract class BaseTransform<T extends BaseTransformOptions = BaseTransfo
 
 - **G6 提供给用户的内置数据处理如下：**
 
-各数据处理详细配置可参考 [内置数据处理文档](/manual/transform/map-node-size)。
+各数据处理详细配置可参考 [内置数据处理文档](/zh/manual/transform/MapNodeSize/)。
 
 | 数据处理名称                                        | 注册类型                 | 功能描述                                             | 执行时机   |
 | --------------------------------------------------- | ------------------------ | ---------------------------------------------------- | ---------- |
-| [动态调整节点大小](/manual/transform/map-node-size) | `map-node-size`          | 根据节点中心性调整节点的大小                         | beforeDraw |
-| [径向标签](/manual/transform/place-radial-labels)   | `place-radial-labels`    | 根据径向布局自动调整节点标签样式，包括位置和旋转角度 | afterDraw  |
-| [平行边](/manual/transform/process-parallel-edges)  | `process-parallel-edges` | 处理平行边，即多条边共享同一源节点和目标节点         | beforeDraw |
+| [动态调整节点大小](/zh/manual/transform/MapNodeSize/) | `map-node-size`          | 根据节点中心性调整节点的大小                         | beforeDraw |
+| [径向标签](/zh/manual/transform/PlaceRadialLabels/)   | `place-radial-labels`    | 根据径向布局自动调整节点标签样式，包括位置和旋转角度 | afterDraw  |
+| [平行边](/zh/manual/transform/ProcessParallelEdges/)  | `process-parallel-edges` | 处理平行边，即多条边共享同一源节点和目标节点         | beforeDraw |
 
 - **G6 内嵌的数据处理如下：**
 
@@ -142,7 +142,7 @@ const graph = new Graph({
 
 G6 支持在图实例运行期间动态管理数据处理：
 
-- 可以通过 [setTransforms](/api/transform#graphsettransformstransforms) 方法调整数据处理器：
+- 可以通过 [setTransforms](/zh/api/transform/#graphsettransformstransforms) 方法调整数据处理器：
 
 ```javascript
 // 添加新的数据处理器
@@ -152,7 +152,7 @@ graph.setTransforms((transforms) => [...transforms, 'place-radial-labels']);
 graph.setTransforms((transforms) => transforms.filter((t) => t !== 'place-radial-labels'));
 ```
 
-- 可以通过 [updateTransform](/api/transform#graphupdatetransformtransform) 方法更新数据处理的配置：
+- 可以通过 [updateTransform](/zh/api/transform/#graphupdatetransformtransform) 方法更新数据处理的配置：
 
 ```javascript
 // 更新单个数据处理器
@@ -168,7 +168,7 @@ graph.updateTransform({
 
 ### 卸载数据处理
 
-使用 [setTransforms](/api/transform#graphsettransformstransforms) 方法同样可以卸载数据处理，将数据处理配置列表置为空即可：
+使用 [setTransforms](/zh/api/transform/#graphsettransformstransforms) 方法同样可以卸载数据处理，将数据处理配置列表置为空即可：
 
 ```javascript
 // 卸载所有数据处理器
@@ -182,7 +182,7 @@ graph.setTransforms([]);
 - 继承和扩展现有数据处理
 - 创建全新的自定义数据处理
 
-自定义数据处理需要先注册后使用。详细教程请参考 [自定义数据处理](/manual/transform/custom-transform) 文档。
+自定义数据处理需要先注册后使用。详细教程请参考 [自定义数据处理](/zh/manual/transform/custom-transform/) 文档。
 
 ```javascript
 import { register, ExtensionCategory } from '@antv/g6';

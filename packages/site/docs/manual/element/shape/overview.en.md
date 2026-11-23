@@ -7,21 +7,21 @@ order: 1
 
 A Shape in G6 refers to a graphical element, such as a circle, rectangle, or path. Shapes are generally associated with nodes, edges, or combos in G6. **💡 Every node/edge/combo in G6 is composed of one or more shapes. The style configuration of nodes, edges, and combos is reflected on their corresponding shapes.**
 
-For example, in the images below: the node on the left contains a single circular shape; the node in the middle contains a circle and a text shape; the node on the right contains five circles (the blue-green main circle and four anchor points at the top, bottom, left, and right) and a text shape. Each node/edge/combo has its unique key shape (keyShape). In the examples below, the keyShape for all three nodes is the blue-green circle. The keyShape is mainly used for interaction detection and automatic style updates with [element states](/en/manual/element/state), see [keyShape](#keyshape).
+For example, in the images below: the node on the left contains a single circular shape; the node in the middle contains a circle and a text shape; the node on the right contains five circles (the blue-green main circle and four anchor points at the top, bottom, left, and right) and a text shape. Each node/edge/combo has its unique key shape (keyShape). In the examples below, the keyShape for all three nodes is the blue-green circle. The keyShape is mainly used for interaction detection and automatic style updates with [element states](/en/manual/element/state/), see [keyShape](#keyshape).
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50 alt='img'/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50 alt='img'/><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50 alt='img'/>
 
 > (Left) A node with only one circular shape, whose keyShape is the circle. (Middle) A node with a circle and a text shape, whose keyShape is the circle. (Right) A node with a main circle, text, and four small circles at the top, bottom, left, and right, whose keyShape is the main circle.
 
-G6 uses different combinations of shapes to design various built-in nodes/edges/combos. Built-in nodes include 'circle', 'rect', 'ellipse', ... (see [Built-in Nodes](/en/manual/element/node/base-node)); built-in edges include 'line', 'polyline', 'cubic', ... (see [Built-in Edges](/en/manual/element/edge/base-edge)); built-in combos include 'circle', 'rect', ... (see [Built-in Combos](/en/manual/element/combo/base-combo)).
+G6 uses different combinations of shapes to design various built-in nodes/edges/combos. Built-in nodes include 'circle', 'rect', 'ellipse', ... (see [Built-in Nodes](/en/manual/element/node/BaseNode/)); built-in edges include 'line', 'polyline', 'cubic', ... (see [Built-in Edges](/en/manual/element/edge/BaseEdge/)); built-in combos include 'circle', 'rect', ... (see [Built-in Combos](/en/manual/element/combo/BaseCombo/)).
 
-In addition to using built-in nodes/edges/combos, G6 also allows users to customize nodes/edges/combos by combining shapes as needed. See [Custom Node](/en/manual/element/node/custom-node), [Custom Edge](/en/manual/element/edge/custom-edge), and [Custom Combo](/en/manual/element/combo/custom-combo) for details.
+In addition to using built-in nodes/edges/combos, G6 also allows users to customize nodes/edges/combos by combining shapes as needed. See [Custom Node](/en/manual/element/node/custom-node/), [Custom Edge](/en/manual/element/edge/custom-edge/), and [Custom Combo](/en/manual/element/combo/custom-combo/) for details.
 
 ## KeyShape
 
 In G6, each node, edge, or combo consists of one or more shapes, but one of them is called the keyShape, which is the "key graphical element" of the item:
 
-<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TZt2S7Z0d-8AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TZt2S7Z0d-8AAAAAAAAAAAAADmJ7AQ/original" />
 
 > The key graphical element of the node is the colored area in the image above.
 
@@ -43,7 +43,7 @@ In this example, a node consists of a rect shape and a circle shape with a gray 
 
 ## Shape Lifecycle
 
-> If you need to [customize nodes](/en/manual/element/node/custom-node), [customize edges](/en/manual/element/edge/custom-edge), or [customize combos](/en/manual/element/combo/custom-combo), you need to understand the lifecycle of shapes. If you use built-in nodes/edges/combos, you can skip this section.
+> If you need to [customize nodes](/en/manual/element/node/custom-node/), [customize edges](/en/manual/element/edge/custom-edge/), or [customize combos](/en/manual/element/combo/custom-combo/), you need to understand the lifecycle of shapes. If you use built-in nodes/edges/combos, you can skip this section.
 
 The shape lifecycle includes:
 

@@ -369,4 +369,4 @@ Key configuration explanations:
 - `gravity`: Set node centripetal force
 - `iterations`: Set layout calculation precision
 
-You can also refer to [View Examples](https://g6.antv.antgroup.com/examples/layout/force-directed/#force) for more usage examples.
+You can also refer to [View Examples](/en/examples/layout/force-directed/force/) for more usage examples.

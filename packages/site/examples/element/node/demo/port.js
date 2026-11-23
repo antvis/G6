@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph } from '@antv/g6';
 
 const data = {
@@ -37,7 +39,7 @@ const graph = new Graph({
 
 graph.render();
 
-window.addPanel((gui) => {
+addPanel((gui) => {
   const config = { show: false, position: 'outline' };
   gui.add(config, 'position', ['outline', 'center']).onChange((value) => {
     graph.updateNodeData([{ id: 'node-2', style: { portLinkToCenter: value === 'center' } }]);

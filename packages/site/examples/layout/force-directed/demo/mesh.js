@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph } from '@antv/g6';
 
 function getData(size = 10) {
@@ -41,6 +43,6 @@ const graph = new Graph({
 
 graph.render();
 
-window.addPanel((gui) => {
+addPanel((gui) => {
   gui.add({ msg: 'Try to drag nodes' }, 'msg').name('Tips').disable();
 });

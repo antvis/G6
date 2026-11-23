@@ -7,7 +7,7 @@ order: 9
 
 ## Overview
 
-Dagre is a hierarchical layout suitable for directed acyclic graphs (DAGs). It can automatically handle the direction and spacing between nodes and supports both horizontal and vertical layouts. See more Dagre layout [examples](/en/examples#layout-dagre), [source code](https://github.com/dagrejs/dagre/blob/master/lib/layout.js), and [official documentation](https://github.com/dagrejs/dagre/wiki).
+Dagre is a hierarchical layout suitable for directed acyclic graphs (DAGs). It can automatically handle the direction and spacing between nodes and supports both horizontal and vertical layouts. See more Dagre layout [examples](/en/examples/layout/dagre/), [source code](https://github.com/dagrejs/dagre/blob/master/lib/layout.js), and [official documentation](https://github.com/dagrejs/dagre/wiki).
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2uMmRo5wYPUAAAAAAAAAAABkARQnAQ' width=350 alt='Dagre Layout'/>
 
