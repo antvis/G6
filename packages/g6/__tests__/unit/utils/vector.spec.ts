@@ -86,6 +86,9 @@ describe('Vector Functions', () => {
     expect(angle([1, 0, 0], [0, 1])).toEqual(Math.PI / 2);
     expect(angle([1, 0], [-1, 0], true)).toEqual(Math.PI);
     expect(angle([1, 0], [0, -1], true)).toEqual((Math.PI * 3) / 2);
+    // the cosine of these parallel and opposite vectors rounds to just past 1 and -1
+    expect(angle([1, 5], [2, 10])).toEqual(0);
+    expect(angle([1, 5], [-1, -5])).toEqual(Math.PI);
   });
 
   it('exactEquals', () => {
