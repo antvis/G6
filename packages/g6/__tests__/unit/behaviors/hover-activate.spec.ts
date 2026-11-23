@@ -2,6 +2,7 @@ import type { Graph } from '@/src';
 import { CommonEvent, EdgeEvent, NodeEvent } from '@/src';
 import { behaviorHoverActivate } from '@@/demos';
 import { createDemoGraph } from '@@/utils';
+import { CustomEvent } from '@antv/g';
 
 describe('behavior hover-activate element', () => {
   let graph: Graph;
@@ -66,5 +67,26 @@ describe('behavior hover-activate element', () => {
     await expect(graph).toMatchSnapshot(__filename, '2-degree-edge');
 
     graph.emit(EdgeEvent.POINTER_LEAVE, { target: { id: '0-1' }, targetType: 'edge', type: CommonEvent.POINTER_LEAVE });
+  });
+});
+
+describe('behavior hover-activate after graph.clear()', () => {
+  it('keeps hovering working after the pointer leaves a cleared element', async () => {
+    const graph: Graph = await createDemoGraph(behaviorHoverActivate, { animation: false });
+    // @ts-expect-error private property
+    const { element, canvas } = graph.context;
+
+    element!.getElement('0')!.dispatchEvent(new CustomEvent('pointermove'));
+    await graph.clear();
+
+    expect(() => canvas.document.dispatchEvent(new CustomEvent('pointermove'))).not.toThrow();
+
+    graph.addData({ nodes: [{ id: 'new', style: { x: 100, y: 100 } }] });
+    await graph.draw();
+    element!.getElement('new')!.dispatchEvent(new CustomEvent('pointermove'));
+
+    expect(graph.getElementState('new')).toEqual(['active']);
+
+    graph.destroy();
   });
 });
