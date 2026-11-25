@@ -255,10 +255,14 @@ export function getEllipseIntersectPoint(p: Point, bbox: AABB, useExtendedLine =
 
   const rx = getBBoxWidth(bbox) / 2;
   const ry = getBBoxHeight(bbox) / 2;
-  const intersectX = center[0] + rx * Math.cos(angle);
-  const intersectY = center[1] + ry * Math.sin(angle);
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  // <zh/> 沿 angle 方向到椭圆边缘的距离。(rx * cos, ry * sin) 是参数角为 angle 的点，只有圆才在这条射线上
+  // <en/> Distance from the center to the edge in the direction of angle. (rx * cos, ry * sin), the point at the
+  // parametric angle, is only on that ray for a circle
+  const radius = rx && ry ? (rx * ry) / Math.hypot(ry * cos, rx * sin) : 0;
 
-  return [intersectX, intersectY];
+  return [center[0] + radius * cos, center[1] + radius * sin];
 }
 
 /**

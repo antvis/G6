@@ -1,3 +1,4 @@
+import type { Point } from '@/src/types';
 import { getDiamondPoints } from '@/src/utils/element';
 import {
   centerOf,
@@ -22,7 +23,7 @@ import {
   sortByX,
   toPointObject,
 } from '@/src/utils/point';
-import { Circle, Rect } from '@antv/g';
+import { Circle, Ellipse, Rect } from '@antv/g';
 
 describe('Point Functions', () => {
   it('parsePoint', () => {
@@ -145,6 +146,25 @@ describe('Point Functions', () => {
       },
     });
     expect(getEllipseIntersectPoint([100, 100], circle3.getBounds())).toEqual([120, 100]);
+
+    // the intersection is on the line from the center to the point, and on the ellipse
+    const ellipse = new Ellipse({ style: { cx: 0, cy: 0, rx: 100, ry: 20 } });
+    for (const p of [
+      [50, 50],
+      [-30, 80],
+      [200, -10],
+    ] as Point[]) {
+      for (const useExtendedLine of [false, true]) {
+        const [x, y] = getEllipseIntersectPoint(p, ellipse.getBounds(), useExtendedLine);
+        const sign = useExtendedLine ? -1 : 1;
+        expect(x * p[1] - y * p[0]).toBeCloseTo(0, 9);
+        expect(Math.sign(x)).toBe(sign * Math.sign(p[0]));
+        expect((x / 100) ** 2 + (y / 20) ** 2).toBeCloseTo(1, 9);
+      }
+    }
+    const [x, y] = getEllipseIntersectPoint([50, 50], ellipse.getBounds());
+    expect(x).toBeCloseTo(19.6116, 4);
+    expect(y).toBeCloseTo(19.6116, 4);
   });
 
   it('getDiamondIntersectPoint', () => {
