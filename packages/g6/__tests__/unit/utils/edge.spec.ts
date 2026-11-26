@@ -1,9 +1,11 @@
 import type { ID } from '@/src';
 import { Rect } from '@/src/elements';
 import { Badge, Label } from '@/src/elements/shapes';
+import type { Point } from '@/src/types';
 import {
   findActualConnectNodeData,
   getBadgePositionStyle,
+  getBorderRadiusPoints,
   getCubicPath,
   getCurveControlPoint,
   getLabelPositionStyle,
@@ -191,7 +193,23 @@ describe('edge', () => {
         ],
         10,
       )[1][1],
-    ).toBeCloseTo(13.33);
+    ).toBeCloseTo(11.06);
+  });
+
+  it('getBorderRadiusPoints', () => {
+    // A horizontal segment, then a diagonal one: both tangent points are `radius` away from the corner
+    const corner: Point = [100, 0];
+    const [ps, pt] = getBorderRadiusPoints([0, 0], corner, [200, 100], 10);
+    expect(ps[0]).toBeCloseTo(90);
+    expect(ps[1]).toBeCloseTo(0);
+    expect(Math.hypot(pt[0] - corner[0], pt[1] - corner[1])).toBeCloseTo(10);
+    expect(pt[0]).toBeCloseTo(100 + 10 / Math.SQRT2);
+    expect(pt[1]).toBeCloseTo(10 / Math.SQRT2);
+
+    // The radius is limited to half of the shorter segment
+    const [qs, qt] = getBorderRadiusPoints([0, 0], [30, 40], [130, 40], 100);
+    expect(Math.hypot(qs[0] - 30, qs[1] - 40)).toBeCloseTo(25);
+    expect(Math.hypot(qt[0] - 30, qt[1] - 40)).toBeCloseTo(25);
   });
 
   it('getRadians', () => {

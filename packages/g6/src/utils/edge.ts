@@ -21,7 +21,7 @@ import { getAllPorts, getNodeConnectionPoint, getPortConnectionPoint, getPortPos
 import { idOf } from './id';
 import { isCollinear, isHorizontal, moveTo, parsePoint } from './point';
 import { freeJoin } from './router/orth';
-import { add, distance, manhattanDistance, multiply, normalize, perpendicular, subtract } from './vector';
+import { add, distance, multiply, normalize, perpendicular, subtract } from './vector';
 
 /**
  * <zh/> 自环边弧顶处的切线角度，每个方向的切线与凸起方向垂直
@@ -324,8 +324,10 @@ export function getBorderRadiusPoints(
   nextPoint: Point,
   radius: number,
 ): [Point, Point] {
-  const d0 = manhattanDistance(prevPoint, midPoint);
-  const d1 = manhattanDistance(nextPoint, midPoint);
+  // The lengths of the two segments. The tangent points are moved r along each of them, which
+  // only works with their real length: the Manhattan distance is longer for a diagonal segment.
+  const d0 = distance(prevPoint, midPoint);
+  const d1 = distance(nextPoint, midPoint);
   // 取给定的半径和最小半径之间的较小值 | use the smaller value between the given radius and the minimum radius
   const r = Math.min(radius, Math.min(d0, d1) / 2);
   const ps: Point = [
