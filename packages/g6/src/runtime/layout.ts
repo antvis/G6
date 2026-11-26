@@ -17,6 +17,7 @@ import { emit, GraphLifeCycleEvent } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
 import { idOf } from '../utils/id';
 import { isLegacyAntVLayout, isTreeLayout, layoutAdapter, legacyLayoutAdapter } from '../utils/layout';
+import { hasPosition, positionOf } from '../utils/position';
 import { print } from '../utils/print';
 import { dfs } from '../utils/traverse';
 import type { RuntimeContext } from './types';
@@ -219,27 +220,47 @@ export class LayoutController {
 
       const result = layout(root, options);
       const { x: rx, y: ry, z: rz = 0 } = result;
+
       // 将布局结果转化为 LayoutMapping 格式 / Convert the layout result to LayoutMapping format
+      const subtreeNodes: Array<{ id: ID; x: number; y: number; z: number }> = [];
       dfs(
         result,
         (node) => {
           const { id, x, y, z = 0 } = node;
-          layoutPreset.nodes!.push({ id, style: { x: rx, y: ry, z: rz } });
-          layoutResult.nodes!.push({ id, style: { x, y, z } });
+          subtreeNodes.push({ id, x, y, z });
         },
         (node) => node.children,
         'TB',
       );
-    });
 
-    const offset = this.inferTreeLayoutOffset(layoutResult);
-    applyTreeLayoutOffset(layoutResult, offset);
+      // 布局时以根节点当前坐标为锚点计算偏移，避免布局后画布跳动；
+      // 根节点未设置位置（首次布局）时回退到视口居中逻辑。
+      // On layout, anchor offset to root's current position to prevent canvas jump;
+      // if root node has no position (first layout), fall back to viewport centering.
+      let offset: [number, number];
+      const rootNodeData = nodes.find((n) => idOf(n) === root.id);
+      if (rootNodeData && hasPosition(rootNodeData)) {
+        const [rootX, rootY] = positionOf(rootNodeData);
+        offset = [rootX - rx, rootY - ry];
+      } else {
+        offset = this.inferTreeLayoutOffset({
+          nodes: subtreeNodes.map(({ id, x, y, z }) => ({ id, style: { x, y, z } })),
+        });
+      }
+
+      const [ox, oy] = offset;
+      subtreeNodes.forEach(({ id, x, y, z }) => {
+        layoutPreset.nodes!.push({ id, style: { x: rx + ox, y: ry + oy, z: rz } });
+        layoutResult.nodes!.push({ id, style: { x: x + ox, y: y + oy, z } });
+      });
+    });
 
     if (animation) {
       // 先将所有节点移动到根节点位置 / Move all nodes to the root node position first
-      applyTreeLayoutOffset(layoutPreset, offset);
-      this.updateElementPosition(layoutPreset, false);
-
+      // this.updateElementPosition(layoutPreset, false);
+      // 直接从当前位置过渡到布局结果，跳过「先将所有节点移动到根节点位置」避免每次 layout 都从根节点位置重播展开动画
+      // Animate from current positions to layout result; skip "Move all nodes to the root node position first"
+      // to avoid re-expand
       const animationResult = this.updateElementPosition(layoutResult, animation);
       await animationResult?.finished;
     }
