@@ -65,7 +65,6 @@ export const behaviorAutoAdaptLabel: TestCase = async (context) => {
       },
     ],
     plugins: [{ type: 'background', background: '#fff' }],
-    animation: false,
   });
 
   await graph.render();

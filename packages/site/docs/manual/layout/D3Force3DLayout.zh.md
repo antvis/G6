@@ -34,9 +34,9 @@ D3Force3D 在传统二维力导向布局的基础上，扩展了以下力的作�
 | 属性            | 描述                                         | 类型                                                                       | 默认值        | 必选 |
 | --------------- | -------------------------------------------- | -------------------------------------------------------------------------- | ------------- | ---- |
 | type            | 布局类型                                     | string                                                                     | `d3-force-3d` | ✓    |
-| nodeSize        | 节点大小（直径），用于碰撞检测防止节点重叠   | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | -             |      |
+| nodeSize        | 节点大小（直径），用于碰撞检测防止节点重叠   | number \| ((node: NodeDatum, index: number, nodes: NodeDatum[]) => number) | 10            |      |
 | iterations      | 力的迭代次数，值越大布局越精确但性能消耗越大 | number                                                                     | -             |      |
-| numDimensions   | 维度数量（2 或 3）                           | number                                                                     | 3             |      |
+| numDimensions   | 维度数量，固定为 3                           | number                                                                     | 3             |      |
 | forceSimulation | 自定义力模拟方法                             | Simulation<NodeDatum, EdgeDatum>                                           | -             |      |
 | onTick          | 每次迭代的回调函数                           | (data: LayoutMapping) => void                                              | -             |      |
 | randomSource    | 随机数生成函数                               | () => number                                                               | -             |      |

@@ -1,30 +1,28 @@
 import type { IAnimation } from '@antv/g';
 import { Graph as Graphlib } from '@antv/graphlib';
-import { Supervisor, isLayoutWithIterations } from '@antv/layout';
+import { isLayoutWithIterations } from '@antv/layout';
 import { deepMix } from '@antv/util';
 import { COMBO_KEY, GraphEvent, TREE_KEY } from '../constants';
 import { BaseLayout } from '../layouts';
-import type { AntVLayout } from '../layouts/types';
+import { AntVLayout } from '../layouts/types';
 import { getExtension } from '../registry/get';
 import type { GraphData, LayoutOptions, NodeData } from '../spec';
 import type { STDLayoutOptions } from '../spec/layout';
 import type { DrawData } from '../transforms/types';
-import type { AdaptiveLayout, ID, TreeData } from '../types';
+import type { ID, TreeData } from '../types';
 import { getAnimationOptions } from '../utils/animation';
 import { isCollapsed } from '../utils/collapsibility';
 import { isToBeDestroyed } from '../utils/element';
-import { GraphLifeCycleEvent, emit } from '../utils/event';
+import { emit, GraphLifeCycleEvent } from '../utils/event';
 import { createTreeStructure } from '../utils/graphlib';
 import { idOf } from '../utils/id';
-import { isTreeLayout, layoutAdapter, layoutMapping2GraphData } from '../utils/layout';
+import { isLegacyAntVLayout, isTreeLayout, layoutAdapter, legacyLayoutAdapter } from '../utils/layout';
 import { print } from '../utils/print';
 import { dfs } from '../utils/traverse';
 import type { RuntimeContext } from './types';
 
 export class LayoutController {
   private context: RuntimeContext;
-
-  private supervisor?: Supervisor;
 
   private instance?: BaseLayout;
 
@@ -100,6 +98,7 @@ export class LayoutController {
     const pipeline = Array.isArray(layoutOptions) ? layoutOptions : [layoutOptions];
     const { graph } = this.context;
     emit(graph, new GraphLifeCycleEvent(GraphEvent.BEFORE_LAYOUT, { type: 'post' }));
+
     for (let index = 0; index < pipeline.length; index++) {
       const options = pipeline[index];
       const data = this.getLayoutData(options);
@@ -127,11 +126,12 @@ export class LayoutController {
    * <zh/> 模拟布局
    *
    * <en/> Simulate layout
+   * @param options - <zh/> 布局配置项 | <en/> Layout options
    * @returns <zh/> 模拟布局结果 | <en/> Simulated layout result
    */
-  public async simulate(): Promise<GraphData> {
-    if (!this.options) return {};
-    const pipeline = Array.isArray(this.options) ? this.options : [this.options];
+  public async simulate(options: LayoutOptions | undefined = this.options): Promise<GraphData> {
+    if (!options) return {};
+    const pipeline = Array.isArray(options) ? options : [options];
 
     let simulation: GraphData = {};
 
@@ -153,7 +153,7 @@ export class LayoutController {
   }
 
   private async graphLayout(data: GraphData, options: STDLayoutOptions, index: number): Promise<GraphData> {
-    const { animation, enableWorker, iterations = 300 } = options;
+    const { animation, iterations = 300 } = options;
 
     const layout = this.initGraphLayout(options);
     if (!layout) return {};
@@ -161,20 +161,13 @@ export class LayoutController {
     this.instances[index] = layout;
     this.instance = layout;
 
-    // 使用 web worker 执行布局 / Use web worker to execute layout
-    if (enableWorker) {
-      const rawLayout = layout as unknown as AdaptiveLayout;
-      this.supervisor = new Supervisor(rawLayout.graphData2LayoutModel(data), rawLayout.instance, { iterations });
-      return layoutMapping2GraphData(await this.supervisor.execute());
-    }
-
     if (isLayoutWithIterations(layout)) {
       // 有动画，基于布局迭代 tick 更新位置 / Update position based on layout iteration tick
       if (animation) {
         return await layout.execute(data, {
-          onTick: (tickData: GraphData) => {
-            this.updateElementPosition(tickData, false);
-          },
+          animate: true,
+          maxIteration: iterations,
+          onTick: (tickData: GraphData) => this.updateElementPosition(tickData, false),
         });
       }
 
@@ -186,6 +179,7 @@ export class LayoutController {
 
     // 无迭代的布局，直接返回终态位置 / Layout without iteration, return final position directly
     const layoutResult = await layout.execute(data);
+
     if (animation) {
       const animationResult = this.updateElementPosition(layoutResult, animation);
       await animationResult?.finished;
@@ -284,11 +278,6 @@ export class LayoutController {
       this.instance = undefined;
     }
 
-    if (this.supervisor) {
-      this.supervisor.stop();
-      this.supervisor = undefined;
-    }
-
     if (this.animationResult) {
       this.animationResult.finish();
       this.animationResult = undefined;
@@ -350,7 +339,7 @@ export class LayoutController {
    */
   private initGraphLayout(options: STDLayoutOptions) {
     const { element, viewport } = this.context;
-    const { type, enableWorker, animation, iterations, ...restOptions } = options;
+    const { type, animation, iterations, ...restOptions } = options;
 
     const [width, height] = viewport!.getCanvasSize();
     const center = [width / 2, height / 2];
@@ -369,9 +358,12 @@ export class LayoutController {
     const STDCtor =
       Object.getPrototypeOf(Ctor.prototype) === BaseLayout.prototype
         ? Ctor
-        : layoutAdapter(Ctor as new (options?: Record<string, unknown>) => AntVLayout, this.context);
+        : isLegacyAntVLayout(Ctor)
+          ? legacyLayoutAdapter(Ctor, this.context)
+          : layoutAdapter(Ctor as new (options?: Record<string, unknown>) => AntVLayout, this.context);
 
     const layout = new STDCtor(this.context);
+
     const config = { nodeSize, width, height, center };
 
     switch (layout.id) {
@@ -401,8 +393,6 @@ export class LayoutController {
     this.stopLayout();
     // @ts-expect-error force delete
     this.context = {};
-    this.supervisor?.kill();
-    this.supervisor = undefined;
     this.instance = undefined;
     this.instances = [];
     this.animationResult = undefined;

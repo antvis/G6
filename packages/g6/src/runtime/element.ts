@@ -6,7 +6,7 @@ import { groupBy } from '@antv/util';
 import { AnimationType, COMBO_KEY, ChangeType, GraphEvent } from '../constants';
 import { ELEMENT_TYPES } from '../constants/element';
 import { getExtension } from '../registry/get';
-import type { ComboData, EdgeData, GraphData, NodeData } from '../spec';
+import type { ComboData, EdgeData, GraphData, LayoutOptions, NodeData } from '../spec';
 import type { AnimationStage } from '../spec/element/animation';
 import type { DrawData, ProcedureData } from '../transforms/types';
 import type {
@@ -26,6 +26,7 @@ import type {
 import { cacheStyle, hasCachedStyle } from '../utils/cache';
 import { reduceDataChanges } from '../utils/change';
 import { isCollapsed } from '../utils/collapsibility';
+import { isOverridable } from '../utils/data';
 import { markToBeDestroyed, updateStyle } from '../utils/element';
 import type { BaseEvent } from '../utils/event';
 import { AnimateEvent, ElementLifeCycleEvent, GraphLifeCycleEvent, emit } from '../utils/event';
@@ -77,7 +78,7 @@ export class ElementController {
 
   public getElementType(elementType: ElementType, datum: ElementDatum) {
     const { options, graph } = this.context;
-    const userDefinedType = options[elementType]?.type || datum.type;
+    const userDefinedType = isOverridable(datum) ? options[elementType]?.type || datum.type : datum.type;
 
     if (!userDefinedType) {
       if (elementType === 'edge') return 'line';
@@ -255,7 +256,9 @@ export class ElementController {
     const themeStateStyle = this.getThemeStateStyle(elementType, this.getElementState(id));
     const stateStyle = this.getStateStyle(id);
 
-    const style = Object.assign({}, themeStyle, paletteStyle, dataStyle, defaultStyle, themeStateStyle, stateStyle);
+    const style = isOverridable(datum)
+      ? Object.assign({}, themeStyle, paletteStyle, dataStyle, defaultStyle, themeStateStyle, stateStyle)
+      : Object.assign({}, dataStyle);
 
     if (elementType === 'combo') {
       const childrenData = this.context.model.getChildrenData(id);
@@ -380,6 +383,23 @@ export class ElementController {
       ComboRemoved = [],
     } = groupBy(tasks, (change) => change.type) as unknown as Record<`${ChangeType}`, DataChange[]>;
 
+    const moveToAddedIfUnrendered = (updated: DataChange[], added: DataChange[]) => {
+      const keptUpdates: DataChange[] = [];
+      updated.forEach((change) => {
+        const id = idOf(change.value);
+        if (!this.getElement(id)) {
+          added.push(change);
+        } else {
+          keptUpdates.push(change);
+        }
+      });
+      return keptUpdates;
+    };
+
+    const finalNodeUpdated = moveToAddedIfUnrendered(NodeUpdated, NodeAdded);
+    const finalEdgeUpdated = moveToAddedIfUnrendered(EdgeUpdated, EdgeAdded);
+    const finalComboUpdated = moveToAddedIfUnrendered(ComboUpdated, ComboAdded);
+
     const dataOf = <T extends DataChange['value']>(data: DataChange[]) =>
       new Map(
         data.map((datum) => {
@@ -395,9 +415,9 @@ export class ElementController {
         combos: dataOf<ComboData>(ComboAdded),
       },
       update: {
-        nodes: dataOf<NodeData>(NodeUpdated),
-        edges: dataOf<EdgeData>(EdgeUpdated),
-        combos: dataOf<ComboData>(ComboUpdated),
+        nodes: dataOf<NodeData>(finalNodeUpdated),
+        edges: dataOf<EdgeData>(finalEdgeUpdated),
+        combos: dataOf<ComboData>(finalComboUpdated),
       },
       remove: {
         nodes: dataOf<NodeData>(NodeRemoved),
@@ -656,6 +676,29 @@ export class ElementController {
   }
 
   /**
+   * <zh/> 同步布局结果
+   *
+   * <en/> Sync layout result
+   * @param id - <zh/> 元素 ID | <en/> element ID
+   * @param align - <zh/> 是否对齐 | <en/> whether to align
+   */
+  private async syncLayoutResult(id: ID, align?: boolean) {
+    const { layout, model } = this.context;
+    if (!layout) return;
+
+    const layoutOptions = this.context.options.layout;
+    const forcePreLayout = (opts: LayoutOptions): LayoutOptions => {
+      if (Array.isArray(opts)) {
+        return opts.map((o) => ({ ...o, preLayout: true }));
+      }
+      return { ...opts, preLayout: true };
+    };
+    const layoutResult = await layout.simulate(layoutOptions ? forcePreLayout(layoutOptions) : undefined);
+    if (align) this.alignLayoutResultToElement(layoutResult, id);
+    model.updateData(layoutResult);
+  }
+
+  /**
    * <zh/> 收起节点
    *
    * <en/> collapse node
@@ -663,11 +706,15 @@ export class ElementController {
    * @param options - <zh/> 选项 | <en/> options
    */
   public async collapseNode(id: ID, options: CollapseExpandNodeOptions): Promise<void> {
-    const { animation } = options;
-    const { model } = this.context;
+    const { animation, align } = options;
+    await this.syncLayoutResult(id, align);
 
     // 重新计算数据 / Recalculate data
     const data = this.computeChangesAndDrawData({ stage: 'collapse', animation });
+    // 重置动画 / Reset animation
+    this.context.animation!.clear();
+    this.computeStyle('collapse');
+
     if (!data) return;
     const { drawData } = data;
     const { add, remove, update } = drawData;
@@ -705,8 +752,10 @@ export class ElementController {
    */
   public async expandNode(id: ID, options: CollapseExpandNodeOptions): Promise<void> {
     const { model } = this.context;
-    const { animation } = options;
+    const { animation, align } = options;
     const position = positionOf(model.getNodeData([id])[0]);
+
+    await this.syncLayoutResult(id, align);
 
     // 重新计算数据 / Recalculate data
     const data = this.computeChangesAndDrawData({ stage: 'expand', animation });
@@ -885,4 +934,10 @@ export interface CollapseExpandNodeOptions {
    * <en/> Whether to use animation
    */
   animation?: boolean;
+  /**
+   * <zh/> 保证展开/收起的节点位置不变
+   *
+   * <en/> Ensure that the position of the expanded/collapsed node remains unchanged
+   */
+  align?: boolean;
 }

@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { louvain } from '@antv/algorithm';
 import { Graph } from '@antv/g6';
 
@@ -30,7 +32,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
     });
     graph.render();
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui.add(
         {
           Cluster: () => {

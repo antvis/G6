@@ -7,7 +7,9 @@ export const layoutComboCombined: TestCase = async (context) => {
     data,
     layout: {
       type: 'combo-combined',
-      comboPadding: 2,
+      comboPadding: 10,
+      nodeSpacing: 20,
+      comboSpacing: 80,
     },
     node: {
       style: {
@@ -24,6 +26,7 @@ export const layoutComboCombined: TestCase = async (context) => {
     combo: {
       style: {
         labelText: (d) => d.id,
+        padding: 10,
       },
     },
     behaviors: ['drag-element', 'drag-canvas', 'zoom-canvas'],

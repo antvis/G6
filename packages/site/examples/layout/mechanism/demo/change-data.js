@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph } from '@antv/g6';
 
 const fetchData = async (type) => {
@@ -32,7 +34,7 @@ fetchData('small').then((data) => {
 
   graph.render();
 
-  window.addPanel((gui) => {
+  addPanel((gui) => {
     gui.add({ type: 'small' }, 'type', ['small', 'large']).onChange((type) => {
       fetchData(type).then((data) => {
         graph.setData(data);

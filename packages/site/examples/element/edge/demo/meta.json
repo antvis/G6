@@ -86,6 +86,14 @@
       "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*OReBSqIkp_cAAAAAAAAAAAAADmJ7AQ/original"
     },
     {
+      "filename": "loop-nested.js",
+      "title": {
+        "zh": "嵌套自环边",
+        "en": "Nested Loop"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*SMM3Q6cRakAAAAAAQNAAAAgAemJ7AQ/original"
+    },
+    {
       "filename": "arrows.js",
       "title": {
         "zh": "箭头",

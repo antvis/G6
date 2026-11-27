@@ -196,9 +196,9 @@
           <g>
             <circle r="13" fill="rgba(239,244,255,1)" stroke="rgba(95,149,255,1)" stroke-width="1" class="key"/>
           </g>
-          <g fill="none" class="label" transform="matrix(1 0 0 1 13 2)">
+          <g fill="none" class="label" transform="matrix(1 0 0 1 -13 2)">
             <g>
-              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">Classification</text>
+              <text fill="rgba(0,0,0,1)" fill-opacity=".85" class="text" dominant-baseline="central" dx=".5" dy="0" font-family="system-ui, sans-serif" font-size="12" font-weight="400" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="end">Classification</text>
             </g>
           </g>
         </g>

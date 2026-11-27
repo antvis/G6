@@ -406,6 +406,7 @@ fetch('https://assets.antv.antgroup.com/g6/algorithm-category.json')
     const rootId = data.id;
 
     const graph = new Graph({
+      autoFit: 'view',
       data: treeToGraphData(data),
       node: {
         type: 'mindmap',
@@ -447,10 +448,6 @@ fetch('https://assets.antv.antgroup.com/g6/algorithm-category.json')
       behaviors: ['drag-canvas', 'zoom-canvas', 'collapse-expand-tree'],
       transforms: ['assign-color-by-branch'],
       animation: false,
-    });
-
-    graph.once(GraphEvent.AFTER_RENDER, () => {
-      graph.fitView();
     });
 
     graph.render();

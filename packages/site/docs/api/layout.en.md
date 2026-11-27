@@ -5,7 +5,7 @@ order: 6
 
 ## Overview of Layout
 
-[Layout](/en/manual/layout/overview) is a crucial part of graph visualization, determining the positioning of nodes on the canvas. G6 offers a variety of layout algorithms to meet different data structures and visualization needs. Through the layout API, you can:
+[Layout](/en/manual/layout/overview/) is a crucial part of graph visualization, determining the positioning of nodes on the canvas. G6 offers a variety of layout algorithms to meet different data structures and visualization needs. Through the layout API, you can:
 
 - Set and update the graph's layout configuration
 - Execute or stop layout calculations
@@ -257,4 +257,4 @@ interface BaseLayoutOptions {
 
 ### BuiltInLayoutOptions
 
-Configuration for G6's built-in layout types, see [API - Built-in Layouts](/en/manual/layout/antv-dagre-layout) for details.
+Configuration for G6's built-in layout types, see [API - Built-in Layouts](/en/manual/layout/AntvDagreLayout/) for details.

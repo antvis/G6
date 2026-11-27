@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph } from '@antv/g6';
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
@@ -15,7 +17,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
 
     graph.render();
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui
         .add({ layout: 'circular' }, 'layout', ['circular', 'grid', 'force', 'radial', 'concentric', 'mds'])
         .onChange((layout) => {

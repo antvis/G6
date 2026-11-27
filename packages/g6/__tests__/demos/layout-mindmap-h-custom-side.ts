@@ -8,14 +8,16 @@ export const layoutMindmapHCustomSide: TestCase = async (context) => {
     data: treeToGraphData(data),
     autoFit: 'view',
     node: {
-      style: (model) => {
-        const x = +model.style!.x!;
+      style: function (this: Graph, model) {
+        const root = this.getNodeData().find((node) => node.depth === 0);
+        const rootX = Number(root?.style?.x ?? 0);
+        const x = Number(model.style?.x ?? 0) - rootX;
         return {
           labelText: model.id,
           size: 26,
-          labelPlacement: x > 0 ? 'right' : 'left',
+          labelPlacement: x >= 0 ? 'right' : 'left',
           labelMaxWidth: 200,
-          labelTextAlign: x > 0 ? 'start' : 'end',
+          labelTextAlign: x >= 0 ? 'start' : 'end',
           lineWidth: 1,
           stroke: '#5F95FF',
           fill: '#EFF4FF',

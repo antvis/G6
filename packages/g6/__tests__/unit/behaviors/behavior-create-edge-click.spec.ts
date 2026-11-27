@@ -15,7 +15,7 @@ describe('behavior create edge click', () => {
 
     graph.setBehaviors([{ type: 'create-edge', trigger: 'click' }]);
     graph.emit(NodeEvent.CLICK, { target: { id: 'node1' }, targetType: 'node' });
-    graph.emit(CommonEvent.POINTER_MOVE, { canvas: { x: 100, y: 100 } });
+    graph.emit(CommonEvent.POINTER_MOVE, { client: { x: 100, y: 100 } });
     await expect(graph).toMatchSnapshot(__filename, 'click-edge1-move');
 
     graph.emit(NodeEvent.CLICK, { target: { id: 'node2' }, targetType: 'node' });

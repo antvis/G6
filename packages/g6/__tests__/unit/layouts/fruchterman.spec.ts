@@ -3,11 +3,11 @@ import { createDemoGraph } from '@@/utils';
 import { clear as clearMockRandom, mock as mockRandom } from 'jest-random-mock';
 
 describe('layout fruchterman', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     mockRandom();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     clearMockRandom();
   });
 

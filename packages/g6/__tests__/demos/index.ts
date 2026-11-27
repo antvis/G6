@@ -37,6 +37,7 @@ export { caseWhyDoCats } from './case-why-do-cats';
 export { commonGraph } from './common-graph';
 export { controllerViewport } from './controller-viewport';
 export { demoAutosizeElementLabel } from './demo-autosize-element-label';
+export { demoFoundFlow } from './demo-found-flow';
 export { elementChangeType } from './element-change-type';
 export { elementCombo } from './element-combo';
 export { elementEdgeArrow } from './element-edge-arrow';

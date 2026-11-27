@@ -1,12 +1,6 @@
 /dist
-.dumi/tmp
-.dumi/tmp-production
+/.astro
 /support
 
-## api doc
+## API doc
 docs/api/.gitignore
-
-/server
-
-# Dead links report
-dead-links-report.log

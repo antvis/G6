@@ -23,7 +23,6 @@ import {
   CubicHorizontal,
   ExtensionCategory,
   Graph,
-  GraphEvent,
   idOf,
   NodeEvent,
   positionOf,
@@ -422,6 +421,7 @@ export const caseMindmap: TestCase = async (context) => {
 
   const graph = new Graph({
     ...context,
+    autoFit: 'view',
     data: treeToGraphData(data),
     node: {
       type: 'mindmap',
@@ -458,10 +458,6 @@ export const caseMindmap: TestCase = async (context) => {
     behaviors: ['drag-canvas', 'zoom-canvas', 'collapse-expand-tree'],
     transforms: ['assign-element-color'],
     animation: false,
-  });
-
-  graph.once(GraphEvent.AFTER_RENDER, () => {
-    graph.fitView();
   });
 
   await graph.render();

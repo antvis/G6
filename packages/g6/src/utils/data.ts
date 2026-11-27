@@ -111,3 +111,15 @@ export function isElementDataEqual(original: Partial<ElementDatum> = {}, modifie
 
   return true;
 }
+
+export const OVERRIDE_KEY = '__internal_override__';
+/**
+ * <zh/> 判断元素数据是否允许被覆盖
+ *
+ * <en/> Determine whether the element data can be overridden
+ * @param datum - <zh/> 元素数据 | <en/> element data
+ * @returns <zh/> 是否允许被覆盖 | <en/> is overridable
+ */
+export function isOverridable(datum: ElementDatum): boolean {
+  return datum[OVERRIDE_KEY] !== false;
+}

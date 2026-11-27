@@ -1,3 +1,4 @@
+import type { Graph as IGraph } from '@antv/graphlib';
 import type {
   AntVDagreLayoutOptions,
   LayoutWithIterations as AntVIterativeLayout,
@@ -10,12 +11,13 @@ import type {
   ForceAtlas2LayoutOptions,
   ForceLayoutOptions,
   FruchtermanLayoutOptions,
+  GraphData,
   GridLayoutOptions,
   MDSLayoutOptions,
   RadialLayoutOptions,
   RandomLayoutOptions,
 } from '@antv/layout';
-import type { ComboData, NodeData } from '../spec/data';
+import type { ComboData, EdgeData, NodeData } from '../spec/data';
 import type { BaseLayout } from './base-layout';
 import type { FishboneLayoutOptions } from './fishbone';
 import type { SnakeLayoutOptions } from './snake';
@@ -182,3 +184,16 @@ export interface WebWorkerLayoutOptions {
 export type AntVLayout = AntVNonIterativeLayout<any> | AntVIterativeLayout<any>;
 
 export type Layout = BaseLayout | AntVLayout;
+
+export type AntVGraphData = GraphData;
+
+/** Legacy AntV Layout 1.x */
+export type LegacyGraph = IGraph<NodeData, EdgeData>;
+export type LegacyAntVLayout<T = any> = {
+  id: string;
+  options: T;
+  assign(graph: LegacyGraph, options?: T): Promise<void>;
+  execute(graph: LegacyGraph, options?: T): Promise<AntVGraphData>;
+  tick(iterations?: number): AntVGraphData;
+  stop(): void;
+};

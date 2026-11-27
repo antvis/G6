@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { ExtensionCategory, Graph, Line, register } from '@antv/g6';
 
 class AntLine extends Line {
@@ -36,7 +38,7 @@ const graph = new Graph({
 
 graph.render();
 
-window.addPanel((gui) => {
+addPanel((gui) => {
   const config = {
     lineDash: 10,
   };

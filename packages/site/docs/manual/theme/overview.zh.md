@@ -7,7 +7,7 @@ order: 1
 
 G6 中的主题是 Graph Options 的子集，它包含了关于画布和元素样式的配置。多主题可以帮助你快速地切换不同的图样式。
 
-<image width="350" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gASzQbsbAaIAAAAAAAAAAAAADmJ7AQ/original"></image>
+<img width="350" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gASzQbsbAaIAAAAAAAAAAAAADmJ7AQ/original"></image>
 
 ## 主题结构
 
@@ -20,14 +20,14 @@ G6 中的主题是 Graph Options 的子集，它包含了关于画布和元素�
 2. **节点配置 (node)**
 
    - 基础样式：填充色、描边、标签等静态视觉属性
-   - [调色板](/manual/theme/palette)：用于节点分组的颜色配置
+   - [调色板](/zh/manual/theme/palette/)：用于节点分组的颜色配置
    - 状态样式：不同状态下的样式配置（选中、激活、禁用等）
    - 动画配置：节点的动画效果配置
 
 3. **边配置 (edge)**
 
    - 基础样式：线条样式、箭头、标签等静态视觉属性
-   - [调色板](/manual/theme/palette)：用于边分组的颜色配置
+   - [调色板](/zh/manual/theme/palette/)：用于边分组的颜色配置
    - 状态样式：不同状态下的样式配置
    - 动画配置：边的动画效果配置
 
@@ -618,4 +618,4 @@ const currentTheme = graph.getTheme(); // 'dark'
 5. **主题状态样式**：主题中定义的状态样式
 6. **图的状态样式**：通过图的配置项设置的状态样式
 
-更多关于自定义主题的内容，请参考[自定义主题](/manual/theme/custom-theme)。
+更多关于自定义主题的内容，请参考[自定义主题](/zh/manual/theme/custom-theme/)。

@@ -34,6 +34,7 @@ export const caseRadialDendrogram: TestCase = async (context) => {
       radial: true,
       nodeSep: 30,
       rankSep: 200,
+      preLayout: false,
     },
     behaviors: [
       'drag-canvas',

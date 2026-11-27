@@ -1,3 +1,5 @@
+import type { GraphData } from '@/src';
+import { AntVGraphData } from '@/src/layouts/types';
 import {
   getLayoutProperty,
   invokeLayoutMethod,
@@ -8,10 +10,45 @@ import {
   layoutMapping2GraphData,
 } from '@/src/utils/layout';
 import dagreData from '@@/dataset/dagre.json';
-import { D3ForceLayout, DagreLayout } from '@antv/layout';
+import { AntVDagreLayout, DagreLayout, type GraphEdge } from '@antv/layout';
 
-import type { GraphData } from '@/src';
-import type { LayoutMapping } from '@antv/layout';
+class MockLayout {
+  public id = 'mock';
+
+  private nodes: any[] = [];
+
+  private edges: any[] = [];
+
+  public async execute(model: any, options: any): Promise<void> {
+    this.nodes = (model.nodes ?? []).map((datum: any, index: number) => {
+      const node = typeof options?.node === 'function' ? options.node(datum) : datum;
+      return { ...node, x: index * 10, y: index * 20, z: node.z ?? 0 };
+    });
+
+    this.edges = (model.edges ?? []).map((datum: any, index: number) => {
+      const edge = typeof options?.edge === 'function' ? options.edge(datum) : datum;
+      return {
+        ...edge,
+        points: [
+          { x: index, y: index },
+          { x: index + 1, y: index + 1 },
+        ],
+      };
+    });
+
+    if (typeof options?.onTick === 'function') {
+      for (let i = 0; i < 3; i++) options.onTick(this);
+    }
+  }
+
+  public forEachNode(callback: (node: any) => void) {
+    this.nodes.forEach(callback);
+  }
+
+  public forEachEdge(callback: (edge: any) => void) {
+    this.edges.forEach(callback);
+  }
+}
 
 describe('layout', () => {
   it('isComboLayout', () => {
@@ -37,7 +74,7 @@ describe('layout', () => {
   });
 
   it('layoutMapping2GraphData', () => {
-    const layoutMapping: LayoutMapping = {
+    const layoutMapping: AntVGraphData = {
       nodes: [
         { id: 'node-1', data: { x: 0, y: 0 } },
         { id: 'node-2', data: { x: 100, y: 100 } },
@@ -59,7 +96,7 @@ describe('layout', () => {
   });
 
   it('layoutMapping2GraphData with controlPoints', () => {
-    const layoutMapping: LayoutMapping = {
+    const layoutMapping: AntVGraphData = {
       nodes: [
         { id: 'node-1', data: { x: 0, y: 0 } },
         { id: 'node-2', data: { x: 100, y: 100 } },
@@ -80,121 +117,184 @@ describe('layout', () => {
   });
 
   it('layoutAdapter', async () => {
+    const data: GraphData = {
+      nodes: [{ id: 'node-1', style: { x: 1, y: 2, z: 3 } }],
+      edges: [{ id: 'edge-1', source: 'node-1', target: 'combo-1' }],
+      combos: [{ id: 'combo-1' }],
+    };
+
     const context = {
       model: {
+        isCombo: (id: string) => id === 'combo-1',
         model: {
           hasTreeStructure: () => true,
           getParent: () => null,
         },
       },
     } as any;
-    const AdaptiveDagreLayout = layoutAdapter(DagreLayout, context);
+    const AdaptiveMockLayout = layoutAdapter(MockLayout as any, context);
 
-    const layout = new AdaptiveDagreLayout(context);
+    const layout = new AdaptiveMockLayout(context);
 
-    const result = await layout.execute(dagreData);
+    const result = await layout.execute(data);
     expect(result).toEqual({
-      nodes: [
-        { id: '0', style: { x: 82.5, y: 0, z: 0 } },
-        { id: '1', style: { x: 25, y: 50, z: 0 } },
-        { id: '2', style: { x: 117.5, y: 200, z: 0 } },
-        { id: '3', style: { x: 82.5, y: 50, z: 0 } },
-        { id: '4', style: { x: 50, y: 100, z: 0 } },
-        { id: '5', style: { x: 25, y: 150, z: 0 } },
-        { id: '6', style: { x: 82.5, y: 150, z: 0 } },
-        { id: '7', style: { x: 50, y: 200, z: 0 } },
-        { id: '8', style: { x: 0, y: 200, z: 0 } },
-        { id: '9', style: { x: 117.5, y: 250, z: 0 } },
-      ],
+      nodes: [{ id: 'node-1', style: { x: 0, y: 0, z: 3 } }],
       edges: [
-        { id: '0-1', source: '0', target: '1', style: { controlPoints: [[25, 25, 0]] } },
         {
-          id: '0-2',
-          source: '0',
-          target: '2',
+          id: 'edge-1',
+          source: 'node-1',
+          target: 'combo-1',
           style: {
             controlPoints: [
-              [117.5, 25, 0],
-              [117.5, 50, 0],
-              [117.5, 75, 0],
-              [117.5, 100, 0],
-              [117.5, 125, 0],
-              [117.5, 150, 0],
-              [117.5, 175, 0],
-            ],
-          },
-        },
-        { id: '1-4', source: '1', target: '4', style: { controlPoints: [[25, 75, 0]] } },
-        { id: '0-3', source: '0', target: '3', style: { controlPoints: [[82.5, 25, 0]] } },
-        { id: '3-4', source: '3', target: '4', style: { controlPoints: [[82.5, 75, 0]] } },
-        { id: '4-5', source: '4', target: '5', style: { controlPoints: [[25, 125, 0]] } },
-        { id: '4-6', source: '4', target: '6', style: { controlPoints: [[82.5, 125, 0]] } },
-        { id: '5-7', source: '5', target: '7', style: { controlPoints: [[50, 175, 0]] } },
-        { id: '5-8', source: '5', target: '8', style: { controlPoints: [[0, 175, 0]] } },
-        { id: '8-9', source: '8', target: '9', style: { controlPoints: [[0, 225, 0]] } },
-        { id: '2-9', source: '2', target: '9', style: { controlPoints: [[117.5, 225, 0]] } },
-        {
-          id: '3-9',
-          source: '3',
-          target: '9',
-          style: {
-            controlPoints: [
-              [152.5, 75, 0],
-              [152.5, 100, 0],
-              [152.5, 125, 0],
-              [152.5, 150, 0],
-              [152.5, 175, 0],
-              [152.5, 200, 0],
-              [152.5, 225, 0],
+              { x: 0, y: 0 },
+              { x: 1, y: 1 },
             ],
           },
         },
       ],
-      combos: [],
+      combos: [{ id: 'combo-1', style: { x: 10, y: 20, z: 0 } }],
+    });
+  });
+
+  describe('layoutAdapter control points', () => {
+    const context = { model: { isCombo: () => false } } as any;
+    const createData = (): GraphData => ({
+      nodes: [
+        { id: 'source', style: { size: 32 } },
+        { id: 'target', style: { size: 32 } },
+      ],
+      edges: [{ id: 'edge', source: 'source', target: 'target' }],
+    });
+
+    it.each(['LR', 'RL', 'TB', 'BT'])('excludes Dagre endpoints for %s', async (rankdir) => {
+      const data = createData();
+      const original = JSON.parse(JSON.stringify(data));
+      const AdaptiveDagreLayout = layoutAdapter(DagreLayout, context);
+      const layout = new AdaptiveDagreLayout(context, { rankdir, nodeSize: 32, ranksep: 50, enableWorker: false });
+
+      const result = await layout.execute(data);
+      const rawEdges: GraphEdge[] = [];
+      invokeLayoutMethod(layout, 'forEachEdge', (edge: GraphEdge) => rawEdges.push(edge));
+
+      expect(rawEdges).toHaveLength(1);
+      const rawPoints = rawEdges[0].points;
+      const source = result.nodes!.find((node) => node.id === 'source')!.style!;
+      const target = result.nodes!.find((node) => node.id === 'target')!.style!;
+      const midpoint = [(Number(source.x) + Number(target.x)) / 2, (Number(source.y) + Number(target.y)) / 2, 0];
+      const direction = rankdir === 'LR' || rankdir === 'TB' ? 1 : -1;
+      const offset = rankdir === 'LR' || rankdir === 'RL' ? [direction * 16, 0] : [0, direction * 16];
+
+      expect(result.edges?.[0].style?.controlPoints).toEqual([midpoint]);
+      expect(result.edges?.[0].style?.controlPoints).not.toBe(rawPoints);
+      expect(rawPoints).toEqual([
+        [Number(source.x) + offset[0], Number(source.y) + offset[1], 0],
+        midpoint,
+        [Number(target.x) - offset[0], Number(target.y) - offset[1], 0],
+      ]);
+      expect(data).toEqual(original);
+    });
+
+    it('preserves AntVDagre control points', async () => {
+      const data = createData();
+      const original = JSON.parse(JSON.stringify(data));
+      const AdaptiveAntVDagreLayout = layoutAdapter(AntVDagreLayout, context);
+      const layout = new AdaptiveAntVDagreLayout(context, {
+        rankdir: 'LR',
+        nodeSize: 32,
+        ranksep: 50,
+        controlPoints: true,
+        edgeLabelSpace: true,
+        enableWorker: false,
+      });
+
+      const result = await layout.execute(data);
+      const rawEdges: GraphEdge[] = [];
+      invokeLayoutMethod(layout, 'forEachEdge', (edge: GraphEdge) => rawEdges.push(edge));
+
+      expect(rawEdges).toHaveLength(1);
+      expect(rawEdges[0].points).toBeDefined();
+      expect(rawEdges[0].points!.length).toBeGreaterThan(0);
+      expect(result.edges?.[0].style?.controlPoints).toEqual(rawEdges[0].points);
+      expect(data).toEqual(original);
+    });
+
+    it.each([
+      { id: 'dagre', points: undefined },
+      { id: 'dagre', points: [] },
+      { id: 'custom', points: undefined },
+      { id: 'custom', points: [] },
+    ])('handles $id with points=$points', async ({ id, points }) => {
+      class EmptyPointsLayout extends MockLayout {
+        public id = id;
+
+        public forEachEdge(callback: (edge: any) => void) {
+          super.forEachEdge((edge) => callback({ ...edge, points }));
+        }
+      }
+
+      const data = createData();
+      const original = JSON.parse(JSON.stringify(data));
+      const AdaptiveEmptyPointsLayout = layoutAdapter(EmptyPointsLayout as any, context);
+      const layout = new AdaptiveEmptyPointsLayout(context);
+
+      const result = await layout.execute(data);
+      expect(result.edges?.[0].style?.controlPoints).toEqual([]);
+      expect(data).toEqual(original);
+
+      const emptyResult = await layout.execute({ ...data, edges: [] });
+      expect(emptyResult.edges).toEqual([]);
     });
   });
 
   it('layoutAdapter with onTick', async () => {
+    const data: GraphData = {
+      nodes: [{ id: 'node-1' }],
+      edges: [],
+      combos: [],
+    };
+
     const context = {
       model: {
+        isCombo: () => false,
         model: {
           hasTreeStructure: () => true,
           getParent: () => null,
         },
       },
     } as any;
-    const AdaptiveDagreLayout = layoutAdapter(D3ForceLayout, context);
+    const AdaptiveMockLayout = layoutAdapter(MockLayout as any, context);
 
     const onTick = jest.fn();
 
-    const layout = new AdaptiveDagreLayout(context, {
+    const layout = new AdaptiveMockLayout(context, {
       onTick,
     });
 
-    await layout.execute(dagreData);
+    await layout.execute(data);
 
     expect(onTick).toHaveBeenCalled();
-    expect(onTick).toHaveBeenCalledTimes(300);
+    expect(onTick).toHaveBeenCalledTimes(3);
   });
 
   it('invoke and get', async () => {
     const context = {
       model: {
+        isCombo: () => false,
         model: {
           hasTreeStructure: () => true,
           getParent: () => null,
         },
       },
     } as any;
-    const AdaptiveDagreLayout = layoutAdapter(DagreLayout, context);
+    const AdaptiveMockLayout = layoutAdapter(MockLayout as any, context);
 
-    const layout = new AdaptiveDagreLayout(context);
+    const layout = new AdaptiveMockLayout(context);
 
-    expect(invokeLayoutMethod(layout, 'execute', dagreData)).toBeTruthy();
+    expect(invokeLayoutMethod(layout, 'execute', dagreData)).toBeInstanceOf(Promise);
     expect(invokeLayoutMethod(layout, 'null')).toBe(null);
 
-    expect(typeof getLayoutProperty(layout, 'assign')).toBe('function');
-    expect(getLayoutProperty(layout, 'id')).toBe('dagre');
+    expect(typeof getLayoutProperty(layout, 'options')).toBe('object');
+    expect(getLayoutProperty(layout, 'id')).toBe('mock');
     expect(getLayoutProperty(layout, 'null')).toBe(null);
   });
 });

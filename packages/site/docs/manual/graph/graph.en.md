@@ -52,7 +52,7 @@ In G6, we provide a rich expression capability for graphs that can meet the need
 
 To create a Graph with G6, you first need to import the `@antv/g6` library, and then instantiate the Graph class.
 
-> For installation instructions, refer to: [Getting Started - Installation](/en/manual/getting-started/installation)
+> For installation instructions, refer to: [Getting Started - Installation](/en/manual/getting-started/installation/)
 
 The Graph class accepts an instantiation argument object, known as **options** (Options, in visualization theory it is referred to as: `Specification`), which is used to configure the graph's data, element styles, layout, interactions, etc.
 
@@ -71,6 +71,6 @@ const graph = new Graph({
 The instantiation process only configures the basic information of the graph. To render the graph onto the page, you still need to call the `render` method.
 :::
 
-- To learn how to quickly create a graph, please refer to [Quick Start](/en/manual/getting-started/quick-start).
-- For more detailed information about the configuration options, please refer to [Options](/en/manual/graph/option).
+- To learn how to quickly create a graph, please refer to [Quick Start](/en/manual/getting-started/quick-start/).
+- For more detailed information about the configuration options, please refer to [Options](/en/manual/graph/option/).
 - To gain an in-depth understanding of the concepts within the configuration options, please read the rest of the content in this section.

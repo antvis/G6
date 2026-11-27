@@ -17,7 +17,7 @@ The G6 node system includes three main categories: built-in nodes, extended node
 
 G6 provides a variety of built-in node types, **which can be used directly without registration**:
 
-<image width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TZt2S7Z0d-8AAAAAAAAAAAAADmJ7AQ/original" />
+<img width="300" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*TZt2S7Z0d-8AAAAAAAAAAAAADmJ7AQ/original" />
 
 | Node Type      | Registration Name | Description                                     |
 | -------------- | ----------------- | ----------------------------------------------- |
@@ -34,7 +34,7 @@ G6 provides a variety of built-in node types, **which can be used directly witho
 
 ### 3D Nodes
 
-<image width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ShNXTp0u3vkAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="200" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*ShNXTp0u3vkAAAAAAAAAAAAADmJ7AQ/original" />
 
 `@antv/g6-extension-3d` provides 3D nodes:
 
@@ -48,9 +48,9 @@ G6 provides a variety of built-in node types, **which can be used directly witho
 
 ### React Nodes
 
-<image width="350" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7jypQbkp00wAAAAAAAAAAAAADmJ7AQ/original" />
+<img width="350" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7jypQbkp00wAAAAAAAAAAAAADmJ7AQ/original" />
 
-`@antv/g6-extension-react` provides React nodes, supporting the use of React components as the node body. For detailed tutorials, please refer to the [Using React to Define Nodes](/en/manual/element/node/react-node) document.
+`@antv/g6-extension-react` provides React nodes, supporting the use of React components as the node body. For detailed tutorials, please refer to the [Using React to Define Nodes](/en/manual/element/node/react-node/) document.
 
 ### Custom Nodes
 
@@ -59,7 +59,7 @@ When built-in and extended nodes cannot meet the requirements, G6 offers powerfu
 - Extend built-in nodes
 - Create entirely new node types
 
-Unlike built-in nodes, **custom nodes need to be registered before use**. For detailed tutorials, please refer to the [Custom Nodes](/en/manual/element/node/custom-node) document.
+Unlike built-in nodes, **custom nodes need to be registered before use**. For detailed tutorials, please refer to the [Custom Nodes](/en/manual/element/node/custom-node/) document.
 
 ## Data Structure
 
@@ -197,7 +197,7 @@ graph.setElementState('node-1', ['selected']);
 When updating nodes, only the specified attributes will be updated, and unspecified attributes will remain unchanged.
 :::
 
-For more node-related APIs, please refer to [API - Element Operations](/en/api/element).
+For more node-related APIs, please refer to [API - Element Operations](/en/api/element/).
 
 ## Node States
 
@@ -226,4 +226,4 @@ const graph = new Graph({
 });
 ```
 
-The state system is the foundation for implementing node interaction effects. For more information on states, please refer to [Element States](/en/manual/element/state).
+The state system is the foundation for implementing node interaction effects. For more information on states, please refer to [Element States](/en/manual/element/state/).

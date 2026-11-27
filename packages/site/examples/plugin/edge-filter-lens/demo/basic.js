@@ -1,3 +1,5 @@
+import { addPanel } from '/demo-runtime.ts';
+
 import { Graph } from '@antv/g6';
 
 fetch('https://assets.antv.antgroup.com/g6/relations.json')
@@ -35,7 +37,7 @@ fetch('https://assets.antv.antgroup.com/g6/relations.json')
       nodeType: 'both',
     };
 
-    window.addPanel((gui) => {
+    addPanel((gui) => {
       gui
         .add(config, 'trigger', ['pointermove', 'click', 'drag'])
         .name('Trigger')

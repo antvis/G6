@@ -14,6 +14,9 @@ import { isStyleEqual, reassignTo } from './utils';
 
 const CUBIC_EDGE_TYPE = 'quadratic';
 
+const INITIAL_NESTED_LOOP_DIST = 35;
+const INITIAL_SPREAD_LOOP_DIST = 50;
+
 const CUBIC_LOOP_PLACEMENTS: LoopPlacement[] = [
   'top',
   'top-right',
@@ -55,6 +58,24 @@ export interface ProcessParallelEdgesOptions extends BaseTransformOptions {
    * <en/> The style of the merged edge, only valid for merging mode
    */
   style?: PathStyleProps | ((prev: EdgeData[]) => PathStyleProps);
+  /**
+   * <zh/> 自环边的处理模式
+   * - `'spread'`: 将多个自环边分散到节点的不同位置（上、右、下、左等8个方向）
+   * - `'nested'`: 将同一位置的多个自环边按不同距离嵌套排列
+   *
+   * <en/> The processing mode for self-loop edges
+   * - `'spread'`: Distribute multiple self-loop edges to different positions around the node (top, right, bottom, left, etc. - 8 directions)
+   * - `'nested'`: Arrange multiple self-loop edges at the same position with different distances (nested/concentric loops)
+   * @defaultValue 'spread'
+   */
+  loopMode?: 'spread' | 'nested';
+  /**
+   * <zh/> 嵌套自环边之间的距离，仅在 loopMode 为 'nested' 时有效
+   *
+   * <en/> The distance between nested self-loop edges, only valid when loopMode is 'nested'
+   * @defaultValue 15
+   */
+  loopDistance?: number;
 }
 
 /**
@@ -70,6 +91,8 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
   static defaultOptions: Partial<ProcessParallelEdgesOptions> = {
     mode: 'bundle',
     distance: 15, // only valid for bundling mode
+    loopMode: 'spread',
+    loopDistance: 15,
   };
 
   private cacheMergeStyle: Map<ID, PathStyleProps> = new Map();
@@ -168,15 +191,36 @@ export class ProcessParallelEdges extends BaseTransform<ProcessParallelEdgesOpti
 
   protected applyBundlingStyle = (input: DrawData, edges: Map<ID, EdgeData>, distance: number) => {
     const { edgeMap, reverses } = groupByEndpoints(edges);
+    const loopMode = this.options.loopMode ?? 'spread';
+    const loopDistance = this.options.loopDistance ?? distance;
+
+    // 嵌套模式下的位置计数：key = `${nodeId}-${placement}` | Placement counts for nested mode
+    const placementCounts = new Map<string, number>();
 
     edgeMap.forEach((arcEdges) => {
       arcEdges.forEach((edge, i, edgeArr) => {
         const length = edgeArr.length;
         const style: EdgeStyle = edge.style || {};
         if (edge.source === edge.target) {
-          const len = CUBIC_LOOP_PLACEMENTS.length;
-          style.loopPlacement = CUBIC_LOOP_PLACEMENTS[i % len];
-          style.loopDist = Math.floor(i / len) * distance + 50;
+          if (loopMode === 'nested') {
+            // 嵌套模式：按位置分组，在每组内自动递增距离 | Nested mode: group by placement, auto-increment distance within each group
+            const placement = style.loopPlacement || 'top';
+            const key = `${edge.source}-${placement}`;
+
+            style.loopPlacement = placement;
+
+            // 仅在用户未手动设置 loopDist 时自动分配 | Only auto-assign loopDist when not already set by user
+            if (style.loopDist === undefined) {
+              const count = placementCounts.get(key) ?? 0;
+              style.loopDist = INITIAL_NESTED_LOOP_DIST + count * loopDistance;
+              placementCounts.set(key, count + 1);
+            }
+          } else {
+            // 分散模式（默认）：将自环边分散到 8 个位置 | Spread mode (default): distribute loops across 8 positions
+            const len = CUBIC_LOOP_PLACEMENTS.length;
+            style.loopPlacement = CUBIC_LOOP_PLACEMENTS[i % len];
+            style.loopDist = Math.floor(i / len) * distance + INITIAL_SPREAD_LOOP_DIST;
+          }
         } else if (length === 1) {
           style.curveOffset = 0;
         } else {

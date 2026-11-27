@@ -5,7 +5,7 @@ order: 0
 
 ## Overview of Data Operations
 
-G6 provides a comprehensive [data](/en/manual/data) operation API, covering the complete lifecycle of graph data from query, modification to update.
+G6 provides a comprehensive [data](/en/manual/data/) operation API, covering the complete lifecycle of graph data from query, modification to update.
 
 ## API Reference
 
@@ -924,7 +924,7 @@ interface NodeData {
 }
 ```
 
-For detailed type definitions, please refer to [Node Data](/en/manual/data#nodedata).
+For detailed type definitions, please refer to [Node Data](/en/manual/data/#nodedata).
 
 ### EdgeData
 
@@ -942,7 +942,7 @@ interface EdgeData {
 }
 ```
 
-For detailed type definitions, please refer to [Edge Data](/en/manual/data#edgedata).
+For detailed type definitions, please refer to [Edge Data](/en/manual/data/#edgedata).
 
 ### ComboData
 
@@ -959,4 +959,4 @@ interface ComboData {
 }
 ```
 
-For detailed type definitions, please refer to [Combo Data](/en/manual/data#combodata).
+For detailed type definitions, please refer to [Combo Data](/en/manual/data/#combodata).

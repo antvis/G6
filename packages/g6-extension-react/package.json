@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-extension-react",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Using React Component to Define Your G6 Graph Node",
   "keywords": [
     "antv",

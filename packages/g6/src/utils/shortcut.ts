@@ -11,6 +11,11 @@ export type ShortcutKey = string[];
 
 type Handler = (event: any) => void;
 
+const MODIFIER_KEYS = new Set(['Control', 'Alt', 'Meta', 'Shift']);
+function isModifierKey(key: string) {
+  return MODIFIER_KEYS.has(key);
+}
+
 const lowerCaseKeys = (keys: ShortcutKey) => keys.map((key) => (isString(key) ? key.toLocaleLowerCase() : key));
 
 export class Shortcut {
@@ -48,6 +53,11 @@ export class Shortcut {
     this.map.clear();
   }
 
+  /**
+   * Check whether the given keys are being held down currently.
+   * @param key - array of keys to check
+   * @returns true if the given keys are being held down, false otherwise.
+   */
   public match(key: ShortcutKey) {
     // 排序
     const recordKeyList = lowerCaseKeys(Array.from(this.recordKey)).sort();
@@ -58,6 +68,14 @@ export class Shortcut {
   private bindEvents() {
     const { emitter } = this;
 
+    // These window listeners are added purely to listen to modifier keys at the window level,
+    // and the key presses are only recorded into this.recordKey for the purpose of matching
+    // in the match() function. This allows just these keypresses alone to be registered
+    // before the canvas is focused, which prevents a problem where when shortcuts involving
+    // a modifier and clicking on the canvas are bound, match() will return false for that
+    // modifier key because the canvas has not been clicked (and therefore focused) yet.
+    window.addEventListener(CommonEvent.KEY_DOWN, this.onKeyDownWindow);
+    window.addEventListener(CommonEvent.KEY_UP, this.onKeyUpWindow);
     emitter.on(CommonEvent.KEY_DOWN, this.onKeyDown);
     emitter.on(CommonEvent.KEY_UP, this.onKeyUp);
     emitter.on(CommonEvent.WHEEL, this.onWheel);
@@ -76,6 +94,16 @@ export class Shortcut {
 
   private onKeyUp = (event: KeyboardEvent) => {
     if (!event?.key) return;
+    this.recordKey.delete(event.key);
+  };
+
+  private onKeyDownWindow = (event: KeyboardEvent) => {
+    if (!isModifierKey(event.key)) return;
+    this.recordKey.add(event.key);
+  };
+
+  private onKeyUpWindow = (event: KeyboardEvent) => {
+    if (!isModifierKey(event.key)) return;
     this.recordKey.delete(event.key);
   };
 
@@ -127,6 +155,8 @@ export class Shortcut {
     this.unbindAll();
     this.emitter.off(CommonEvent.KEY_DOWN, this.onKeyDown);
     this.emitter.off(CommonEvent.KEY_UP, this.onKeyUp);
+    window.removeEventListener(CommonEvent.KEY_DOWN, this.onKeyDownWindow);
+    window.removeEventListener(CommonEvent.KEY_UP, this.onKeyUpWindow);
     this.emitter.off(CommonEvent.WHEEL, this.onWheel);
     this.emitter.off(CommonEvent.DRAG, this.onDrag);
     this.pinchHandler?.off('pinchmove', this.boundHandlePinch);

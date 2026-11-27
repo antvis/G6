@@ -13,8 +13,8 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(194,200,213,1)" stroke-width="2" d="m435 73.8636 174.5614 51.575q15.4386 4.5614 15.4386 24.5614l0 0 0 45 0 65 0 65 0 65 0 65 0 45q0 20 0 40l0 0 0 24" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="4" d="m435 73.8636 174.5614 51.575q15.4386 4.5614 15.4386 24.5614l0 0 0 45 0 65 0 65 0 65 0 65 0 45q0 20 0 40l0 0 0 24" class="key"/>
+            <path fill="none" stroke="rgba(194,200,213,1)" stroke-width="2" d="m435 73.8636 174.5614 51.575q15.4386 4.5614 15.4386 24.5614l0 0 0 45 0 65 0 65 0 65 0 65 0 65 0 44" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="m435 73.8636 174.5614 51.575q15.4386 4.5614 15.4386 24.5614l0 0 0 45 0 65 0 65 0 65 0 65 0 65 0 44" class="key"/>
             <g transform="matrix(0 -1 1 0 625 564)">
               <path fill="rgba(194,200,213,1)" stroke="rgba(194,200,213,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="m-5 0 10-5-2 5 2 5Z"/>
             </g>
@@ -103,8 +103,8 @@
         </g>
         <g fill="none">
           <g>
-            <path fill="none" stroke="rgba(194,200,213,1)" stroke-width="2" d="m502.3077 210 5.0256 32.6667q2.6667 17.3333 2.6667 37.3333l0 0 0 45 0 65 0 65 0 65 0 65 0 45q0 20 0 40l0 0 0 24" class="key"/>
-            <path fill="none" stroke="transparent" stroke-width="4" d="m502.3077 210 5.0256 32.6667q2.6667 17.3333 2.6667 37.3333l0 0 0 45 0 65 0 65 0 65 0 65 0 45q0 20 0 40l0 0 0 24" class="key"/>
+            <path fill="none" stroke="rgba(194,200,213,1)" stroke-width="2" d="m502.3077 210 5.0256 32.6667q2.6667 17.3333 2.6667 37.3333l0 0 0 45 0 65 0 65 0 65 0 65 0 65 0 44" class="key"/>
+            <path fill="none" stroke="transparent" stroke-width="4" d="m502.3077 210 5.0256 32.6667q2.6667 17.3333 2.6667 37.3333l0 0 0 45 0 65 0 65 0 65 0 65 0 65 0 44" class="key"/>
             <g transform="matrix(0 -1 1 0 510 694)">
               <path fill="rgba(194,200,213,1)" stroke="rgba(194,200,213,1)" stroke-dasharray="0,0" stroke-linejoin="round" stroke-width="1" d="m-5 0 10-5-2 5 2 5Z"/>
             </g>
