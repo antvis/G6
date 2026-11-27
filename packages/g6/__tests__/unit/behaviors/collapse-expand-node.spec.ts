@@ -1,7 +1,7 @@
 import type { Graph } from '@/src';
-import { NodeEvent } from '@/src';
+import { NodeEvent, treeToGraphData } from '@/src';
 import { behaviorExpandCollapseNode } from '@@/demos/behavior-expand-collapse-node';
-import { createDemoGraph } from '@@/utils';
+import { createDemoGraph, createGraph } from '@@/utils';
 
 describe('behavior node expand collapse', () => {
   let graph: Graph;
@@ -87,4 +87,37 @@ describe('behavior node expand collapse', () => {
       'expand-A',
     );
   });
+});
+
+it('expands an initially collapsed node whose children were pre-laid out', async () => {
+  const graph = createGraph({
+    data: treeToGraphData({
+      id: 'root',
+      style: { collapsed: true },
+      children: [{ id: 'child' }],
+    }),
+    layout: {
+      type: 'dendrogram',
+      preLayout: true,
+      isLayoutInvisibleNodes: true,
+    },
+  });
+
+  try {
+    await graph.render();
+
+    // @ts-expect-error access private property
+    const elements = graph.context.element!;
+    expect(elements.getElement('child')).toBeUndefined();
+    const { x, y } = graph.getNodeData('child').style ?? {};
+    expect(Number.isFinite(x)).toBe(true);
+    expect(Number.isFinite(y)).toBe(true);
+
+    await graph.expandElement('root', { animation: false });
+
+    expect(elements.getElement('child')).toBeDefined();
+    expect(graph.getElementPosition('child').slice(0, 2)).toEqual([x, y]);
+  } finally {
+    graph.destroy();
+  }
 });
