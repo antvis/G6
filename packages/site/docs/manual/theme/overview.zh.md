@@ -5,33 +5,31 @@ order: 1
 
 ## 概述
 
-G6 中的主题是 Graph Options 的子集，它包含了关于画布和元素样式的配置。多主题可以帮助你快速地切换不同的图样式。
+G6 的主题为节点、边和 Combo 提供默认样式。你可以切换主题来改变元素的外观。
+
+要设置画布的纯色背景，请在创建图时传入顶层选项 `new Graph({ theme: 'dark', background: '#202124' })`。图片背景或需要在运行时切换的背景可使用 [Background 插件](/zh/manual/plugin/Background/)。
 
 <img width="350" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*gASzQbsbAaIAAAAAAAAAAAAADmJ7AQ/original"></image>
 
 ## 主题结构
 
-一个主题由以下四个部分组成：
+主题包含以下元素配置：
 
-1. **画布背景色 (background)**
-
-   - 控制整个画布的背景颜色
-
-2. **节点配置 (node)**
+1. **节点配置 (node)**
 
    - 基础样式：填充色、描边、标签等静态视觉属性
    - [调色板](/zh/manual/theme/palette/)：用于节点分组的颜色配置
    - 状态样式：不同状态下的样式配置（选中、激活、禁用等）
    - 动画配置：节点的动画效果配置
 
-3. **边配置 (edge)**
+2. **边配置 (edge)**
 
    - 基础样式：线条样式、箭头、标签等静态视觉属性
    - [调色板](/zh/manual/theme/palette/)：用于边分组的颜色配置
    - 状态样式：不同状态下的样式配置
    - 动画配置：边的动画效果配置
 
-4. **Combo 配置 (combo)**
+3. **Combo 配置 (combo)**
    - 基础样式：填充、描边、折叠按钮等静态视觉属性
    - 状态样式：不同状态下的样式配置
    - 动画配置：Combo 的动画效果配置
@@ -50,7 +48,6 @@ G6 默认提供两种内置主题：
 
 ```js
 const lightTheme = {
-  background: '#ffffff',
   node: {
     palette: {
       type: 'group',
@@ -318,7 +315,6 @@ const lightTheme = {
 
 ```js
 const darkTheme = {
-  background: '#000000',
   node: {
     palette: {
       type: 'group',
