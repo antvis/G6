@@ -7,14 +7,11 @@ order: 2
 
 ## 创建自定义主题
 
-一个自定义主题需要遵循主题的基本结构，包含画布背景色和元素样式配置：
+自定义主题包含节点、边和 Combo 的样式配置：
 
 ```javascript
 const customTheme = {
-  // 1. 画布背景色
-  background: '#f0f0f0',
-
-  // 2. 节点配置
+  // 1. 节点配置
   node: {
     // 调色板配置
     palette: {
@@ -38,7 +35,7 @@ const customTheme = {
     },
   },
 
-  // 3. 边配置
+  // 2. 边配置
   edge: {
     style: {
       stroke: '#d9d9d9',
@@ -50,7 +47,7 @@ const customTheme = {
     },
   },
 
-  // 4. Combo 配置
+  // 3. Combo 配置
   combo: {
     style: {
       fill: '#f7f7f7',
@@ -120,12 +117,14 @@ const customTheme = {
 
 ```javascript
 // 1. 注册主题
-import { register, ExtensionCategory } from '@antv/g6';
+import { Graph, register, ExtensionCategory } from '@antv/g6';
 register(ExtensionCategory.THEME, 'custom-theme', customTheme);
 
 // 2. 使用主题
 const graph = new Graph({
+  container: 'container',
   theme: 'custom-theme',
+  background: '#f0f0f0', // 可选的画布背景色
   // ... 其他配置
 });
 ```

@@ -5,13 +5,12 @@ order: 2
 
 ## Overview
 
-In G6, the theme is a subset of Graph Options and includes configurations related to the canvas and element styles. A theme can help you quickly switch between different graph styles.
+In G6, themes provide default styles for nodes, edges, and combos.
 
 ## Custom Theme
 
 For element styles, the configurations within a theme are static and do not support the use of callback functions to dynamically calculate styles. Additionally, `type` is also not supported for configuration within a theme. A theme includes the following configurations:
 
-- `background`: Canvas background color
 - `node`: Node style
 - `edge`: Edge style
 - `combo`: Combo style
@@ -20,7 +19,6 @@ Below is a simple example of a theme configuration:
 
 ```typescript
 const theme = {
-  background: '#fff',
   node: {
     style: {
       fill: '#e1f3fe',
@@ -66,7 +64,7 @@ For element state styles, please ensure that every property in the state style h
 You can register a theme using the `register` method provided by G6. Here is an example:
 
 ```typescript
-import { register, ExtensionCategory } from '@antv/g6';
+import { Graph, register, ExtensionCategory } from '@antv/g6';
 
 register(ExtensionCategory.THEME, 'custom-theme', theme);
 ```
@@ -76,9 +74,11 @@ register(ExtensionCategory.THEME, 'custom-theme', theme);
 To enable and configure a theme, you need to pass the `theme` option when instantiating the `Graph`:
 
 ```typescript
-{
+const graph = new Graph({
+  container: 'container',
   theme: 'custom-theme',
-}
+  background: '#fff', // Optional canvas background color
+});
 ```
 
 ### Switch Theme
